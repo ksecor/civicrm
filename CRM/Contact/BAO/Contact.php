@@ -790,7 +790,10 @@ SELECT DISTINCT crm_contact.id as contact_id,
         $contact =& new CRM_Contact_BAO_Contact();
         
         $contact->copyValues($params);
-
+        
+        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
+        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
+        
         if ($contact->contact_type == 'Individual') {
             $sortName = "";
             $firstName  = CRM_Utils_Array::value('first_name', $params, '');
@@ -798,12 +801,27 @@ SELECT DISTINCT crm_contact.id as contact_id,
             $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
             $prefix     = CRM_Utils_Array::value('prefix'    , $params, '');
             $suffix     = CRM_Utils_Array::value('suffix'    , $params, '');
-
-            // a comma should only be present if both first_name and last name are present.            
+            
+            // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
-                $sortName = $lastName . $firstName;
+                $individual =& new CRM_Contact_BAO_Individual();
+                $individual->contact_id = $contact->id;
+                $individual->find();
+                while($individual->fetch()) {
+                    $individualLastName = $individual->last_name;
+                    $individualFirstName = $individual->first_name;
+                }
+                if (empty($lastName)) {
+                    $sortName = "$individualLastName, $firstName";
+                    $lastName = $individualLastName;
+                } else if (empty($firstName)) {
+                    $sortName = "$lastName, $individualFirstName";
+                    $firstName = $individualFirstName;
+                } else {
+                    $sortName = $lastName . $firstName;
+                }
             }
             $contact->sort_name    = trim($sortName);
             $contact->display_name =
@@ -821,8 +839,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
-        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
-        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
+        
         return $contact->save();
     }
 
