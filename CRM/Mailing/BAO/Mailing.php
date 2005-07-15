@@ -76,6 +76,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing    = CRM_Mailing_DAO_Mailing::tableName();
         $mg         = CRM_Mailing_DAO_MailingGroup::tableName();
         $eq         = CRM_Mailing_DAO_MailingEventQueue::tableName();
+        $ed         = CRM_Mailing_DAO_MailingEventDelivered::tableName();
+        $eb         = CRM_Mailing_DAO_MailingEventBounce::tableName();
         $job        = CRM_Mailing_DAO_Job::tableName();
         
         $email      = CRM_Contact_DAO_Email::tableName();
@@ -88,8 +90,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
        
         /* Get the contact ids to exclude */
-        /* TODO This should also factor in recipients of the same mailing when
-         * we're doing a retry */
         $excludeSubGroup =
                     "SELECT DISTINCT    $g2contact.contact_id
                     FROM                $g2contact
@@ -114,15 +114,31 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.entity_table '$mailing'
                         AND             $mg.group_type = 'Exclude'
                     ORDER BY            $eq.contact_id";
-       
-        $excludeSubQuery = 
-            "($excludeSubGroup) UNION DISTINCT ($excludeSubMailing)";
+                    
+        $excludeRetry =
+                    "SELECT DISTINCT    $eq.contact_id
+                    FROM                $eq
+                    INNER JOIN          $job
+                            ON          $eq.job_id = $job.id
+                    INNER JOIN          $ed
+                            ON          $eq.id = $ed.event_queue_id
+                    LEFT JOIN           $eb
+                            ON          $eq.id = $eb.event_queue_id
+                    WHERE
+                                        $job.mailing_id = " . $this->id . "
+                        AND             $eb.id is null
+                    ORDER BY            $eq.contact_id";
+
+                    
+        $excludeSubQuery =  "($excludeSubGroup) 
+                            UNION DISTINCT ($excludeSubMailing) 
+                            UNION DISTINCT ($excludeRetry)";
 
         /* Get all the group contacts we want to include */
+        /* TODO: support bounce status */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
-                                        $contact.display_name as display_name
                     FROM                $email
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
@@ -149,7 +165,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $queryMailing =
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
-                                        $contact.display_name as display_name
                     FROM                $email
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
@@ -186,7 +201,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $results[] =    
                 array(  'email_id'  => $mailingGroup->email_id,
                         'contact_id'=> $mailingGroup->contact_id
-                        'display_name' => $mailingGroup->display_name
                 );
         }
         return $results;
@@ -205,8 +219,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $this->header->find(true);
         
         $this->footer =& new CRM_Mailing_BAO_Component();
-        $this->footer->id = $ this->footer_id;
+        $this->footer->id = $this->footer_id;
         $this->footer->find(true);
+                        
+        /* TODO append canspam address to footer */
     }
 
 
@@ -215,12 +231,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      *
      * @param int $job_id           ID of the Job associated with this message
      * @param int $event_queue_id   ID of the EventQueue
-     * @param int $hash             Hash of the EventQueue
-     * @param int $email            Destination address
+     * @param string $hash          Hash of the EventQueue
+     * @param string $name          Display name of the recipient
+     * @param string $email         Destination address
      * @return object               The mail object
      * @access public
      */
-    public function &compose($job_id, $event_queue_id, $hash, $email) {
+    public function &compose($job_id, $event_queue_id, $hash, $name, $email) {
     
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
@@ -234,6 +251,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         . $this->footer->body_text;
         }
 
+        /* FIXME */
         $domain = "@FIXME.COM";
 
         foreach (array('reply', 'owner', 'unsubscribe') as $key) {
@@ -248,7 +266,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         $headers = array(
-            'To'        => $email,
+            'To'        => "$name <$email>",
             'Subject'   => $this->subject,
             'From'      => $this->from_name . ' <' . $this->from_email . '>',
             'Reply-To'  => CRM_Utils_Verp::encode($address['reply'], $email),
