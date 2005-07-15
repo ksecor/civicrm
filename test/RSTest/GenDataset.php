@@ -183,12 +183,12 @@ class test_RSTest_GenDataset
      *
      * @access  private
      */
-    private function _addLocation($locationType, $contactId)
+    private function _addLocation($locationType, $contactId, $setPrimary)
     {
         //print_r($locationType);
         //print_r($contactId);
         $locationDAO                   =& new CRM_Contact_DAO_Location();
-        $locationDAO->is_primary       = 1; // primary location for now
+        $locationDAO->is_primary       = $setPrimary; // primary location for now
         $locationDAO->location_type_id = $locationType;
         $locationDAO->contact_id       = $contactId;
         test_RSTest_Common::_insert($locationDAO);
@@ -388,40 +388,59 @@ class test_RSTest_GenDataset
         case 1:
             // add child_of relationship
             // 2 for each child
-            $dao->relationship_type_id = 1;
-            $dao->contact_id_a = $contactMember[2];
-            $dao->contact_id_b = $contactMember[0];
-            test_RSTest_Common::_insert($dao);
-            $dao->contact_id_a = $contactMember[3];
-            $dao->contact_id_b = $contactMember[0];
-            test_RSTest_Common::_insert($dao);
-            $dao->contact_id_a = $contactMember[1];
-            $dao->contact_id_b = $contactMember[2];
-            test_RSTest_Common::_insert($dao);
-            $dao->contact_id_a = $contactMember[1];
-            $dao->contact_id_b = $contactMember[3];
-            test_RSTest_Common::_insert($dao);
+            if ($contactID) {
+                $dao->relationship_type_id = 1;
+                $dao->contact_id_a = $contactMember[2];
+                $dao->contact_id_b = $contactMember[0];
+                test_RSTest_Common::_insert($dao);
+                $dao->contact_id_a = $contactMember[3];
+                $dao->contact_id_b = $contactMember[0];
+                test_RSTest_Common::_insert($dao);
+                $dao->contact_id_a = $contactMember[1];
+                $dao->contact_id_b = $contactMember[2];
+                test_RSTest_Common::_insert($dao);
+                $dao->contact_id_a = $contactMember[1];
+                $dao->contact_id_b = $contactMember[3];
+                test_RSTest_Common::_insert($dao);
+            } else {
+                $dao->relationship_type_id = 1;
+                $dao->contact_id_a = $contactMember;
+                $dao->contact_id_b = test_RSTest_Common::getRandomElement($this->individual, test_RSTest_Common::ARRAY_DIRECT_USE);;
+                test_RSTest_Common::_insert($dao);
+            }
             break;
             
         case 2: 
             // add spouse_of relationship 1 for both the spouses
-            $dao->relationship_type_id = 2;
-            $dao->contact_id_a = $contactMember[1];
-            $dao->contact_id_b = $contactMember[0];
-            test_RSTest_Common::_insert($dao);
+            if ($contactID) {
+                $dao->relationship_type_id = 2;
+                $dao->contact_id_a = $contactMember[1];
+                $dao->contact_id_b = $contactMember[0];
+                test_RSTest_Common::_insert($dao);
+            } else {
+                $dao->relationship_type_id = 2;
+                $dao->contact_id_a = $contactMember;
+                $dao->contact_id_b = test_RSTest_Common::getRandomElement($this->individual, test_RSTest_Common::ARRAY_DIRECT_USE);;
+                test_RSTest_Common::_insert($dao);
+            }
             break;
             
         case 3:
             // add sibling_of relationship 1 for both the siblings
-            $dao->relationship_type_id = 3;
-            $dao->contact_id_a = $contactMember[3];
-            $dao->contact_id_b = $contactMember[2];
-            test_RSTest_Common::_insert($dao);
+            if ($contactID) {
+                $dao->relationship_type_id = 3;
+                $dao->contact_id_a = $contactMember[3];
+                $dao->contact_id_b = $contactMember[2];
+                test_RSTest_Common::_insert($dao);
+            } else {
+                $dao->relationship_type_id = 3;
+                $dao->contact_id_a = $contactMember;
+                $dao->contact_id_b = test_RSTest_Common::getRandomElement($this->individual, test_RSTest_Common::ARRAY_DIRECT_USE);;
+                test_RSTest_Common::_insert($dao);
+            }
             break;
-
-        case 4:
-
             
+        case 4:
             $dao->relationship_type_id = 4;
             $dao->contact_id_a = test_RSTest_Common::getRandomElement($this->individual, test_RSTest_Common::ARRAY_DIRECT_USE);
             $dao->contact_id_b = $contactID;
@@ -429,7 +448,6 @@ class test_RSTest_GenDataset
             break;
             
         case 5:
-            
             $dao->relationship_type_id = 5;
             $dao->contact_id_b = $contactID;
             $firstIndividual  = test_RSTest_Common::getRandomElement($this->individual, test_RSTest_Common::ARRAY_DIRECT_USE);
@@ -454,7 +472,6 @@ class test_RSTest_GenDataset
 
         case 7:
             // add member_of_household relationship : 2 members as household members
-            
             $dao->relationship_type_id = 7;
             $dao->contact_id_b = $contactID;
             
@@ -656,7 +673,7 @@ class test_RSTest_GenDataset
      *  @return  none
      *  @access  public
      */
-    public function initID($startID=0)
+    public function initID($startID=0, $setDomain=false)
     {
         $this->_startID = $startID;
         //CRM_Core_Error::le_method();
@@ -665,13 +682,13 @@ class test_RSTest_GenDataset
         
         // get the domain and contact id arrays
         
-        shuffle($this->domain);
-        if ($this->_startID) {
-            $this->contact             = range($this->_startID + 1, $this->_startID + $this->numContact);
-        } else {
+        if ($setDomain) {
             $this->domain              = range(1, test_RSTest_Common::NUM_DOMAIN);
             $this->contact             = range(1, $this->numContact);
+        } else {
+            $this->contact             = range($this->_startID + 1, $this->_startID + $this->numContact);
         }
+        shuffle($this->domain);
         shuffle($this->contact);
 
         
@@ -865,13 +882,22 @@ class test_RSTest_GenDataset
     public function addRelationship()
     {
         $relationshipDAO            =& new CRM_Contact_DAO_Relationship();
-
+        
         $relationshipDAO->is_active = 1; // all active for now.
+        
+        foreach ($this->strictIndividual as $strictIndiID ) {
+            $relType = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('relationshipType'), test_RSTest_Common::ARRAY_DIRECT_USE);
+            if ($relType == 1 or $relType == 2 or $relType == 3) {
+                $this->_setRelationship($relationshipDAO, $relType, 0, $strictIndiID);
+            } else {
+                $this->_setRelationship($relationshipDAO, mt_rand(1, 3), 0, $strictIndiID); 
+            }
+        }
         
         foreach ($this->householdIndividual as $householdID => $householdMember) {
             $relType = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('relationshipType'), test_RSTest_Common::ARRAY_DIRECT_USE);
             if ($relType == 4 or $relType == 5) {
-                continue;
+                $this->_setRelationship($relationshipDAO, mt_rand(6, 7), $householdID, $householdMember);
             } else {
                 $this->_setRelationship($relationshipDAO, $relType, $householdID, $householdMember);
             }
@@ -882,7 +908,7 @@ class test_RSTest_GenDataset
             if ($relType == 4 or $relType == 5) {
                 $this->_setRelationship($relationshipDAO, $relType, $organizationID);
             } else {
-                continue;
+                $this->_setRelationship($relationshipDAO, mt_rand(4, 5), $organizationID);
             }
         }
     }
@@ -897,28 +923,28 @@ class test_RSTest_GenDataset
      *
      * @access none
      */
-    public function addLocation()
+    public function addLocation($setPrimary=0)
     {
         // strict individuals
         foreach ($this->strictIndividual as $contactId) {
-            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId);
+            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
         
         //household
         foreach ($this->household as $contactId) {
-            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId);
+            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
         
         //organization
         foreach ($this->organization as $contactId) {
-            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId);
+            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
 
         // some individuals
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75 * ($this->numIndividual - $this->numStrictIndividual) / 100));
         foreach ($someIndividual as $contactId) {
-            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId);
+            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
     }
 
@@ -1065,9 +1091,9 @@ class test_RSTest_GenDataset
      *
      * @access  public
      */
-    public function run($ID=0) 
+    public function run($ID=0, $setDomain) 
     {
-        $this->initID($ID);
+        $this->initID($ID, $setDomain);
         //echo "Hello 1 \n";
         $this->parseDataFile();
         //echo "Hello 2 \n";
@@ -1087,7 +1113,7 @@ class test_RSTest_GenDataset
         //echo "Hello 8 \n";
         $this->addRelationship();
         //echo "Hello 9 \n";
-        $this->addLocation();
+        $this->addLocation(1);
         //echo "Hello 10 \n";
         $this->addEntityTag();
         if ($ID) {

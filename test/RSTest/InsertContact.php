@@ -51,13 +51,13 @@ class test_RSTest_InsertContact extends test_RSTest_GenDataset
         parent::__construct($record);
     }
 
-    function run($recordSize=0, $ID=0)
+    function run($recordSize=0, $ID=0, $setDomain)
     {
         
         $this->_startID = $recordSize + $ID;
         //$this->_startID = $recordSize;
         //echo "Hello I 1 \n";
-        parent::initID($this->_startID);
+        parent::initID($this->_startID, $setDomain);
         //echo "Hello I 2 \n";
         parent::parseDataFile();
         //echo "Hello I 3 \n";
@@ -73,7 +73,7 @@ class test_RSTest_InsertContact extends test_RSTest_GenDataset
         //echo "Hello I 8 \n";
         parent::addRelationship();
         //echo "Hello I 9 \n";
-        parent::addLocation();
+        parent::addLocation(1);
         //echo "Hello I 10 \n";
         parent::addEntityTag();
         //echo "Hello I 11 \n";

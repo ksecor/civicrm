@@ -32,8 +32,18 @@
  *
  */
 
-class test_RSTest_InsertRel
-{
+require_once '../../modules/config.inc.php';
+require_once '../../CRM/Core/Config.php';
+require_once 'CRM/Core/Error.php';
+require_once 'CRM/Core/I18n.php';
+require_once 'test/RSTest/Common.php';
+require_once 'test/RSTest/GenDataset.php';
 
+class test_RSTest_InsertRel extends test_RSTest_GenDataset
+{
+    function run() 
+    {
+        parent::addRelationship();
+    }
 }
 ?>
