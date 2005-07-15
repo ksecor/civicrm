@@ -16,15 +16,28 @@ class TestOfUpdateContactAPI extends UnitTestCase
     {
     }
     
+//     function testCreateIndividual()
+//     {
+//         $params = array('first_name'    => 'manish',
+//                         'last_name'     => 'zope',
+//                         'location_type' => 'Home', 
+//                         'im'            => 'mlzope', 
+//                         'im_provider'   => 'AIM',
+//                         'phone'         => '123456', 
+//                         'phone_type'    => 'Phone', 
+//                         'email'         => 'manish@yahoo.com'
+//                         );
+//         $contact =& crm_create_contact($params, 'Individual');
+//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+//         $this->assertEqual($contact->contact_type, 'Individual');
+//         $this->_individual = $contact;
+//     }
+
     function testCreateIndividual()
     {
         $params = array('first_name'    => 'manish',
                         'last_name'     => 'zope',
                         'location_type' => 'Home', 
-                        'im'            => 'mlzope', 
-                        'im_provider'   => 'AIM',
-                        'phone'         => '123456', 
-                        'phone_type'    => 'Phone', 
                         'email'         => 'manish@yahoo.com'
                         );
         $contact =& crm_create_contact($params, 'Individual');
@@ -32,44 +45,56 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individual = $contact;
     }
-    
-    function testCreateHousehold() 
-    {
-        $params = array('household_name' => 'Jalmi House');
-        $contact =& crm_create_contact($params, 'Household');
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type, 'Household');
-        $this->_houseHold =  $contact;
-    }
 
-    function testCreateOrganization() 
-    {
-        $params = array('organization_name' => 'Jalmi House');
-        $contact =& crm_create_contact($params, 'Organization');
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type, 'Organization');
-        $this->_organization = $contact;
-    }
+//     function testCreateHousehold() 
+//     {
+//         $params = array('household_name' => 'Jalmi House');
+//         $contact =& crm_create_contact($params, 'Household');
+//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+//         $this->assertEqual($contact->contact_type, 'Household');
+//         $this->_houseHold =  $contact;
+//     }
+
+//     function testCreateOrganization() 
+//     {
+//         $params = array('organization_name' => 'Jalmi House');
+//         $contact =& crm_create_contact($params, 'Organization');
+//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+//         $this->assertEqual($contact->contact_type, 'Organization');
+//         $this->_organization = $contact;
+//     }
     
+//     function testUpdateContactIndividual() 
+//     {
+//         $params = array('contact_id'    => $this->_individual->id, 
+//                         'location_type' => 'Main', 
+//                         'im'            => 'kurundssyahoo', 
+//                         'im_provider'   => 'AIM',
+//                         'phone'         => '999999', 
+//                         'phone_type'    => 'Phone', 
+//                         'email'         => 'kurund@yahoo.com'
+//                         );
+//         $contact = $this->_individual;
+//         $contact = crm_update_contact($contact, $params);
+//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+//         $this->assertEqual($contact->contact_type_object->first_name, 'kurund');
+//         $this->assertEqual($contact->contact_type_object->last_name , 'jalmi');
+//         $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');
+//         $this->assertEqual($contact->location[1]->email[1]->email, 'kurund@yahoo.com');
+//     }
+
     function testUpdateContactIndividual() 
     {
-        $params = array('contact_id'    => $this->_individual->id, 
-                        'location_type' => 'Main', 
-                        'im'            => 'kurundssyahoo', 
-                        'im_provider'   => 'AIM',
-                        'phone'         => '999999', 
-                        'phone_type'    => 'Phone', 
+        $params = array('contact_id'    => $this->_individual->id,
+                        'location_type' => 'Home',
                         'email'         => 'kurund@yahoo.com'
                         );
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type_object->first_name, 'kurund');
-        $this->assertEqual($contact->contact_type_object->last_name , 'jalmi');
-        $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');
         $this->assertEqual($contact->location[1]->email[1]->email, 'kurund@yahoo.com');
     }
-       
+
 //     function testUpdateContactHousehold() 
 //     {
 //         $params = array('contact_id'    => $this->_houseHold->id, 
@@ -112,7 +137,6 @@ class TestOfUpdateContactAPI extends UnitTestCase
 //                         );
 //         $contact = $this->_individual;
 //         $contact = crm_update_contact($contact, $params);
-      
 //         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
 //     }
     
@@ -145,19 +169,19 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertNull($val);
     }
 
-    function testDeleteHousehold()
-    {
-        $contact = $this->_houseHold;
-        $val =& crm_delete_contact(& $contact);
-        $this->assertNull($val);
-    }
+//     function testDeleteHousehold()
+//     {
+//         $contact = $this->_houseHold;
+//         $val =& crm_delete_contact(& $contact);
+//         $this->assertNull($val);
+//     }
 
-    function testDeleteOrganization()
-    {
-        $contact = $this->_organization;
-        $val =& crm_delete_contact(& $contact);
-        $this->assertNull($val);
-    }
+//     function testDeleteOrganization()
+//     {
+//         $contact = $this->_organization;
+//         $val =& crm_delete_contact(& $contact);
+//         $this->assertNull($val);
+//     }
     
 }
 
