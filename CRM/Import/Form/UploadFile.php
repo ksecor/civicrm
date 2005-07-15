@@ -97,7 +97,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $seperator = ',';
         $mapper = array( );
 
-        $parser =& new CRM_Import_Parser_Contact( $mapper, null, null );
+        $parser =& new CRM_Import_Parser_Contact( $mapper );
         $parser->setMaxLinesToProcess( 100 );
         $parser->run( $fileName, $seperator,
                       $mapper,

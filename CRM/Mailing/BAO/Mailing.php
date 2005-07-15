@@ -137,6 +137,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get all the group contacts we want to include */
         /* TODO: support bounce status */
         /* TODO: support override emails from the g2c table */
+        /* TODO: support saved searches */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
@@ -197,7 +198,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $mailingGroup->query($query);
         $mailingGroup->find();
-
+    
         while ($mailingGroup->fetch()) {
             $results[] =    
                 array(  'email_id'  => $mailingGroup->email_id,

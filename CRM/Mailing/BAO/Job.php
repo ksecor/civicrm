@@ -55,7 +55,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
-        /* TODO include unfinished jobs */
+        /* TODO include unfinished jobs, status */
         $query = "  SELECT      *
                     FROM        $jobTable
                     WHERE       start_date IS null
@@ -144,6 +144,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         while ($eq->fetch()) {
             /* Compose the mailing */
+            $recipient = null;
             $message = $mailing->compose(   $this->id, $eq->id, $eq->hash,
                                             $eq->display_name, $eq->email,
                                             $recipient);
