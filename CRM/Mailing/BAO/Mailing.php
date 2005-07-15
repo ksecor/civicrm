@@ -136,6 +136,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Get all the group contacts we want to include */
         /* TODO: support bounce status */
+        /* TODO: support override emails from the g2c table */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
@@ -234,10 +235,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param string $hash          Hash of the EventQueue
      * @param string $name          Display name of the recipient
      * @param string $email         Destination address
+     * @param string $recipient     To: of the recipient
      * @return object               The mail object
      * @access public
      */
-    public function &compose($job_id, $event_queue_id, $hash, $name, $email) {
+    public function &compose($job_id, $event_queue_id, $hash, $name, $email,
+                            &$recipient) 
+    {
     
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
@@ -264,9 +268,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         )
                     ) . "@$domain";
         }
+        $recipient = "$name <$email>";
         
         $headers = array(
-            'To'        => "$name <$email>",
             'Subject'   => $this->subject,
             'From'      => $this->from_name . ' <' . $this->from_email . '>',
             'Reply-To'  => CRM_Utils_Verp::encode($address['reply'], $email),
@@ -280,6 +284,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $message->setTxtBody($this->text);
         $message->setHTMLBody($this->html);
+        $message->get();
         $message->headers($headers);
 
         return $message;
