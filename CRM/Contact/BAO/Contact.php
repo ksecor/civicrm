@@ -561,9 +561,9 @@ SELECT DISTINCT crm_contact.id as contact_id,
         foreach ( $fields as $field => $value ) {
             if ( CRM_Utils_Array::value( $field, $fv ) ) {
                 $tables['crm_location'] = 1;
+                $tables['crm_address'] = 1;
 
                 if ( $value == 1 ) {
-                    $tables['crm_address'] = 1;
                     $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
                 } else { 
                     $andArray[$field] = ' ( crm_address.' . $field .  '_id = ' . $fv[$field] . ') ';
