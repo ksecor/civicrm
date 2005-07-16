@@ -231,7 +231,7 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
  * Returns array of contacts who are members of the specified group.
  *
  * @param CRM_Contact $group                A valid group object (passed by reference)
- * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.
+ * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.Note:Do not inclue Id releted properties. 
  * @param text        $status               A valid status value ('In', 'Pending', 'Out').
  * @param text        $sort                 Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned.
  * @param Int         $offset               Starting row index.
@@ -251,10 +251,10 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
     }
    
 
-    $queryString = "SELECT";
     if ($returnProperties == null) {
-        $queryString .= "*";
+        $queryString = "SELECT * , crm_contact.id as crm_contact_id";
     } else {
+        $queryString = "SELECT crm_contact.id as crm_contact_id, crm_group_contact.contact_id,";
         $count = count($returnProperties);
         $counter = 1;
         foreach($returnProperties as $retProp) {
@@ -267,7 +267,10 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
         }
     }
 
-    $queryString .= " FROM crm_contact RIGHT JOIN  crm_group_contact ON (crm_contact.id =crm_group_contact.contact_id )";
+
+    $queryString .= " FROM crm_contact LEFT JOIN  crm_group_contact ON (crm_contact.id =crm_group_contact.contact_id )";
+    $queryString .= " LEFT JOIN  crm_location ON (crm_contact.id = crm_location.contact_id )";
+    $queryString .= " LEFT JOIN  crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)";
     $queryString .= " WHERE crm_group_contact.status = '$status' AND crm_group_contact.group_id = '$group->id' ";
     
     if($sort != null) {
@@ -288,42 +291,44 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
     $queryString.=" LIMIT $offset,$row_count";
     $crmDAO =& new CRM_Core_DAO();
     $crmDAO->query($queryString);
+
     $contactArray = array();
     while($crmDAO->fetch()) { 
+        
         if($returnProperties != null) {
             foreach($returnProperties as $retProp) {
                 $contactArray[$crmDAO->contact_id][$retProp]=$crmDAO->$retProp; 
-                    }
+            }
         }else{
-            $contactArray[$crmDAO->contact_id]['id'] = $crmDAO->id;
-            $contactArray[$crmDAO->contact_id]['domain_id'] = $crmDAO->domain_id;
-            $contactArray[$crmDAO->contact_id]['contact_type'] = $crmDAO->contact_type;
-            $contactArray[$crmDAO->contact_id]['legal_identifier'] = $crmDAO->legal_identifier;
-            $contactArray[$crmDAO->contact_id]['external_identifier'] = $crmDAO->external_identifier;
-            $contactArray[$crmDAO->contact_id]['sort_name'] = $crmDAO->sort_name;
-            $contactArray[$crmDAO->contact_id]['display_name'] = $crmDAO->display_name;
-            $contactArray[$crmDAO->contact_id]['home_URL'] = $crmDAO->home_URL ;
-            $contactArray[$crmDAO->contact_id]['image_URL'] = $crmDAO->image_URL ;
-            $contactArray[$crmDAO->contact_id]['source'] = $crmDAO->source;
-            $contactArray[$crmDAO->contact_id]['preferred_communication_method'] = $crmDAO->preferred_communication_method;
-            $contactArray[$crmDAO->contact_id]['preferred_mail_format'] = $crmDAO->preferred_mail_format;
-            $contactArray[$crmDAO->contact_id]['do_not_phone'] = $crmDAO->do_not_phone;
-            $contactArray[$crmDAO->contact_id]['do_not_email'] = $crmDAO->do_not_email;
-            $contactArray[$crmDAO->contact_id]['do_not_mail'] = $crmDAO->do_not_mail;
-            $contactArray[$crmDAO->contact_id]['do_not_trade'] = $crmDAO->do_not_trade;
-            $contactArray[$crmDAO->contact_id]['hash'] = $crmDAO->hash;
-            $contactArray[$crmDAO->contact_id]['group_id'] = $crmDAO->group_id;
-            $contactArray[$crmDAO->contact_id]['contact_id'] = $crmDAO->contact_id;
-            $contactArray[$crmDAO->contact_id]['status'] = $crmDAO->status;
-            $contactArray[$crmDAO->contact_id]['pending_date'] = $crmDAO->pending_date;
-            $contactArray[$crmDAO->contact_id]['in_date'] = $crmDAO->in_date;
-            $contactArray[$crmDAO->contact_id]['out_date'] = $crmDAO->out_date;
-            $contactArray[$crmDAO->contact_id]['pending_method'] = $crmDAO->pending_method;
-            $contactArray[$crmDAO->contact_id]['in_method'] = $crmDAO->in_method;
-            $contactArray[$crmDAO->contact_id]['out_method'] = $crmDAO->out_method;
+            $contactArray[$crmDAO->crm_contact_id]['id'] = $crmDAO->id;
+            $contactArray[$crmDAO->crm_contact_id]['domain_id'] = $crmDAO->domain_id;
+            $contactArray[$crmDAO->crm_contact_id]['contact_type'] = $crmDAO->contact_type;
+            $contactArray[$crmDAO->crm_contact_id]['legal_identifier'] = $crmDAO->legal_identifier;
+            $contactArray[$crmDAO->crm_contact_id]['external_identifier'] = $crmDAO->external_identifier;
+            $contactArray[$crmDAO->crm_contact_id]['sort_name'] = $crmDAO->sort_name;
+            $contactArray[$crmDAO->crm_contact_id]['display_name'] = $crmDAO->display_name;
+            $contactArray[$crmDAO->crm_contact_id]['home_URL'] = $crmDAO->home_URL ;
+            $contactArray[$crmDAO->crm_contact_id]['image_URL'] = $crmDAO->image_URL ;
+            $contactArray[$crmDAO->crm_contact_id]['source'] = $crmDAO->source;
+            $contactArray[$crmDAO->crm_contact_id]['preferred_communication_method'] = $crmDAO->preferred_communication_method;
+            $contactArray[$crmDAO->crm_contact_id]['preferred_mail_format'] = $crmDAO->preferred_mail_format;
+            $contactArray[$crmDAO->crm_contact_id]['do_not_phone'] = $crmDAO->do_not_phone;
+            $contactArray[$crmDAO->crm_contact_id]['do_not_email'] = $crmDAO->do_not_email;
+            $contactArray[$crmDAO->crm_contact_id]['do_not_mail'] = $crmDAO->do_not_mail;
+            $contactArray[$crmDAO->crm_contact_id]['do_not_trade'] = $crmDAO->do_not_trade;
+            $contactArray[$crmDAO->crm_contact_id]['hash'] = $crmDAO->hash;
+            $contactArray[$crmDAO->crm_contact_id]['group_id'] = $crmDAO->group_id;
+            $contactArray[$crmDAO->crm_contact_id]['contact_id'] = $crmDAO->contact_id;
+            $contactArray[$crmDAO->crm_contact_id]['status'] = $crmDAO->status;
+            $contactArray[$crmDAO->crm_contact_id]['pending_date'] = $crmDAO->pending_date;
+            $contactArray[$crmDAO->crm_contact_id]['in_date'] = $crmDAO->in_date;
+            $contactArray[$crmDAO->crm_contact_id]['out_date'] = $crmDAO->out_date;
+            $contactArray[$crmDAO->crm_contact_id]['pending_method'] = $crmDAO->pending_method;
+            $contactArray[$crmDAO->crm_contact_id]['in_method'] = $crmDAO->in_method;
+            $contactArray[$crmDAO->crm_contact_id]['out_method'] = $crmDAO->out_method;
+            $contactArray[$crmDAO->crm_contact_id]['email'] = $crmDAO->email;
         }
     }
-   
     return $contactArray;
     
 }
