@@ -113,7 +113,10 @@ SELECT DISTINCT
   crm_email.id                    as email_id      ,
   crm_phone.id                    as phone_id      ,
   crm_individual.first_name       as first_name    ,
+  crm_individual.middle_name      as middle_name   ,
   crm_individual.last_name        as last_name     ,
+  crm_individual.prefix           as prefix        ,
+  crm_individual.suffix           as suffix        ,
   crm_address.street_address      as street_address,
   crm_address.city                as city          ,
   crm_address.postal_code         as postal_code   ,
@@ -806,33 +809,41 @@ SELECT DISTINCT crm_contact.id as contact_id,
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
-
-                $individual =& new CRM_Contact_BAO_Individual();
-                $individual->contact_id = $contact->id;
-                $individual->find();
-                while($individual->fetch()) {
-                    $individualLastName = $individual->last_name;
-                    $individualFirstName = $individual->first_name;
-                    $individualPrefix = $individual->prefix;
-                    $individualSuffix = $individual->suffix;
-                }
-
-                if (empty($lastName)) {
-                    $sortName = "$individualLastName, $firstName";
-                    $lastName = $individualLastName;
-                } else if (empty($firstName)) {
-                    $sortName = "$lastName, $individualFirstName";
-                    $firstName = $individualFirstName;
-                } else {
+                if (empty($firstName) && empty($lastName)) {
                     $sortName = $lastName . $firstName;
-                }
-                
-                if (empty($prefix)) {
-                    $prefix = $individualPrefix;
-                }
-
-                if (empty($suffix)) {
-                    $suffix = $individualSuffix;
+                } else {
+                    $individual =& new CRM_Contact_BAO_Individual();
+                    $individual->contact_id = $contact->id;
+                    $individual->find();
+                    while($individual->fetch()) {
+                        $individualLastName = $individual->last_name;
+                        $individualFirstName = $individual->first_name;
+                        $individualPrefix = $individual->prefix;
+                        $individualSuffix = $individual->suffix;
+                        $individualMiddleName = $individual->middle_name;
+                    }
+                    
+                    if (empty($lastName)) {
+                        $lastName = $individualLastName;
+                    } 
+                    
+                    if (empty($firstName)) {
+                        $firstName = $individualFirstName;
+                    }
+                                                            
+                    if (empty($prefix)) {
+                        $prefix = $individualPrefix;
+                    }
+                    
+                    if (empty($middleName)) {
+                        $middleName = $individualMiddleName;
+                    }
+                    
+                    if (empty($suffix)) {
+                        $suffix = $individualSuffix;
+                    }
+                    
+                    $sortName = "$lastName, $firstName";
                 }
             }
             $contact->sort_name    = trim($sortName);

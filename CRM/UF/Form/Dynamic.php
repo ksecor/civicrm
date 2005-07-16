@@ -323,7 +323,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         if ( ! $edit ) {
             return;
         }
-
+        /*echo "<pre>";
+        print_r($edit);
+        echo "</pre>";*/
         $edit['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
         $edit['contact_id'] = $contact->id;
