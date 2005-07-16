@@ -131,13 +131,20 @@
 
     </fieldset>
     {/if}
+
+    <table class="form-layout">
+    <tr>
+    <td></td>
+    <td class="label">{$form.buttons.html}</td>
+    </tr>
+    </table>
     {/strip}
-	
+	{*
     <div class="element-right">{$form.buttons.html}</div>
     <div>&nbsp;</div>
     <div class="spacer"></div>
     </div>
-
+    *}
 </fieldset>
 
 <script type="text/javascript">
