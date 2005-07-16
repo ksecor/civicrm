@@ -225,7 +225,6 @@ function civicrm_exit($destination = null)
 
 function civicrm_invoke()
 {
-
     //CRM_Core_Error::le_method();
 
     // synchronize the drupal uid with the contacts db

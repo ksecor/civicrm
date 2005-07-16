@@ -49,6 +49,7 @@ class CRM_Core_Invoke {
      * @access public
      */    
     static function invoke( $args ) {
+
         if ( $args[0] !== 'civicrm' ) {
             return;
         }
@@ -90,6 +91,16 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
+        //code added for testing ajax
+        if ($args[2] == 'StateCountryServer') {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_StateCountryServer', ts('StateCountryServer Page'), $action );
+        }
+        //code added for testing ajax
+        if ($args[2] == 'test') {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Test', ts('Test Ajax Page'), $action );
+        }
 
         $session =& CRM_Core_Session::singleton();
         if ( $args[1] !== 'contact' ) {
