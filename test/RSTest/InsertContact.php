@@ -51,7 +51,7 @@ class test_RSTest_InsertContact extends test_RSTest_GenDataset
         parent::__construct($record);
     }
 
-    function run($recordSize=0, $ID=0, $setDomain)
+    function run($recordSize=0, $ID=0)
     {
         
         $this->_startID = $recordSize + $ID;

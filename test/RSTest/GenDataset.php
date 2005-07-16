@@ -673,7 +673,7 @@ class test_RSTest_GenDataset
      *  @return  none
      *  @access  public
      */
-    public function initID($startID=0, $setDomain=false)
+    public function initID($startID=0)
     {
         $this->_startID = $startID;
         //CRM_Core_Error::le_method();
@@ -682,11 +682,11 @@ class test_RSTest_GenDataset
         
         // get the domain and contact id arrays
         
-        if ($setDomain) {
+        if ($startID) {
+            $this->contact             = range($this->_startID + 1, $this->_startID + $this->numContact);
+        } else {
             $this->domain              = range(1, test_RSTest_Common::NUM_DOMAIN);
             $this->contact             = range(1, $this->numContact);
-        } else {
-            $this->contact             = range($this->_startID + 1, $this->_startID + $this->numContact);
         }
         shuffle($this->domain);
         shuffle($this->contact);
@@ -1091,9 +1091,9 @@ class test_RSTest_GenDataset
      *
      * @access  public
      */
-    public function run($ID=0, $setDomain) 
+    public function run($ID=0) 
     {
-        $this->initID($ID, $setDomain);
+        $this->initID($ID);
         //echo "Hello 1 \n";
         $this->parseDataFile();
         //echo "Hello 2 \n";

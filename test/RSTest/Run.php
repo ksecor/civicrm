@@ -51,12 +51,9 @@ class test_RSTest_Run
     {
         $startID = 0;
         for ($i=0; $i<($this->_recordSetSize / $this->_stepOfDS); $i++) {
-            if (!($i)) {
-                $setDomain = true;
-            }
             $objGenDataset       =& new test_RSTest_GenDataset($this->_stepOfDS);
             $this->_startTimeG   = microtime(true);
-            $objGenDataset->run($startID, $setDomain);
+            $objGenDataset->run($startID);
             $this->_endTimeG     = microtime(true);
             $this->_genDataset[$i] = $this->_endTimeG - $this->_startTimeG;
             $startID = $startID + $this->_stepOfDS;
@@ -72,7 +69,7 @@ class test_RSTest_Run
             }
             $objInsertContact  = new test_RSTest_InsertContact($this->_stepOfInsert);
             $this->_startTimeIC = microtime(true);
-            $objInsertContact->run($this->_recordSetSize, $startID, $setDomain);
+            $objInsertContact->run($this->_recordSetSize, $startID);
             $this->_endTimeIC   = microtime(true);
             $this->_insertContact[$i] = $this->_endTimeIC - $this->_startTimeIC;
             $startID = $startID + $this->_stepOfInsert;
@@ -89,14 +86,20 @@ class test_RSTest_Run
     */
     function callUpdateContact()
     {
-        $startID = $this->_startRecord;
-        for ($i=0; $i<($this->_updateRecord / $this->_stepOfUpdate); $i++) {
-            $objUpdateContact   = new test_RSTest_UpdateContact($this->_stepOfUpdate);
-            $this->_startTimeUC = microtime(true);
-            $objUpdateContact->run($startID);
-            $this->_endTimeUC   = microtime(true);
-            $this->_updateContact[$i] = $this->_endTimeUC - $this->_startTimeUC;
-            $startID = $startID + $this->_stepOfUpdate;
+        if (($this->_updateRecord + $this->_stepOfUpdate) <= ($this->_sizeOfDS * 1000)) {
+            $startID = $this->_startRecord;
+            for ($i=0; $i<($this->_updateRecord / $this->_stepOfUpdate); $i++) {
+                $objUpdateContact   = new test_RSTest_UpdateContact($this->_stepOfUpdate);
+                $this->_startTimeUC = microtime(true);
+                $objUpdateContact->run($startID, $this->_stepOfUpdate);
+                $this->_endTimeUC   = microtime(true);
+                $this->_updateContact[$i] = $this->_endTimeUC - $this->_startTimeUC;
+                $startID = $startID + $this->_stepOfUpdate;
+            }
+        } else {
+            echo "\n**********************************************************************************\n";
+            echo "Check the number of records asked to Update..!!! \n";
+            echo "**********************************************************************************\n";
         }
     }
 
@@ -122,13 +125,13 @@ class test_RSTest_Run
         echo "**********************************************************************************\n";
         */
         echo "\n**********************************************************************************\n";
-        echo $this->_updateRecord . " Contacts Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " contacts \n";
+        echo "Contact No. " . $this->_startRecord . "To Contact No. " . $this->_updateRecord . " Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " contacts \n";
         
         for ($iu=0; $iu<count($this->_updateContact); $iu++) {
             echo "Time taken for step " . ($ku = $iu + 1) . " : " . $this->_updateContact[$iu] . " seconds\n";
         }
         echo "**********************************************************************************\n";
-
+        
         echo "\n";
     }
 }
