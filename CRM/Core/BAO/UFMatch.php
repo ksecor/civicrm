@@ -203,6 +203,14 @@ WHERE     crm_contact.id = " . $contactId;
      * @static
      */
     static function getContactId( $ufID ) {
+
+        //CRM_Core_Error::le_method();
+        //CRM_Core_Error::debug_var( 'ufID', $ufID );
+        
+        if (!isset($ufID)) {
+            return null;
+        }
+
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
 
         $ufmatch->uf_id = $ufID;
