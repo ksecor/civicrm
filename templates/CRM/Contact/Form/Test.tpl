@@ -1,6 +1,6 @@
 {* test template for testing ajax *}
- <script type="text/javascript" src="{$config->resourceBase}js/Test.js"></script>
- <script type="text/javascript" src="{crmURL p='civicrm/contact/StateCountryServer' q='client'}">
+<script type="text/javascript" src="{crmURL p='civicrm/contact/StateCountryServer' q='client'}"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/Test.js"></script>
 
 <form id="autoCompleteForm" name="autoCompleteForm">
 Enter a State: <input type="text" id="state" name="state" value="" onkeyup="getWord(this,event);" autocomplete="off" onblur="getWord(this,event);">

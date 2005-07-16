@@ -19,7 +19,7 @@ class CRM_Contact_Form_StateCountryServer {
         $fraglen = strlen($fragment);
         
         //get the list of states
-        $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
+        $connect = mysql_connect('localhost', 'civicrm', 'MountEverest');
         mysql_select_db('civicrm');
         
         $strSql = "SELECT id, name FROM crm_state_province";  
@@ -54,7 +54,7 @@ class CRM_Contact_Form_StateCountryServer {
 
         unset($matches);
         
-        $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
+        $connect = mysql_connect('localhost', 'civicrm', 'MountEverest');
         mysql_select_db('civicrm');
         
         $strSql = "SELECT crm_country.id as crm_country_id, crm_country.name as crm_country_name 
@@ -82,6 +82,8 @@ class CRM_Contact_Form_StateCountryServer {
 
 }
 
+CRM_Core_Error::le_file();
+
 $S = & new JPSpan_Server_PostOffice();
 $S->addHandler(new CRM_Contact_Form_StateCountryServer());
 
@@ -92,15 +94,22 @@ if (isset($_SERVER['QUERY_STRING']) && strcasecmp($_SERVER['QUERY_STRING'], 'cli
     // Compress the Javascript
     // define('JPSPAN_INCLUDE_COMPRESS',TRUE);
 
+
     $S->displayClient();
      
 //-----------------------------------------------------------------------------------
 } else {
+
+    CRM_Core_Error::debug_log_message('breakpoint 20');
            
     // Include error handler - PHP errors, warnings and notices serialized to JS
     require_once 'packages/JPSpan/ErrorHandler.php';
+
+    CRM_Core_Error::debug_log_message('breakpoint 30');
+
     $S->serve();
 
+    CRM_Core_Error::debug_log_message('breakpoint 40');
 }
-
+CRM_Core_Error::ll_file();
 ?>
