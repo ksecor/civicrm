@@ -23,13 +23,20 @@
             {$form.suffix.html}
         </span>*}
 	
-	<table>
-	<tr>
+	<table class="form-layout">
+	{*<tr>
 		<th><label>{ts}Prefix{/ts}</label></th>
 		<th><label>{ts}First Name{/ts}</label></th>
 		<th><label>{ts}Middle Name{/ts}</label></th>
 		<th><label>{ts}Last Name{/ts}</label></th>
 		<th><label>{ts}Suffix{/ts}</label></th>
+	</tr>*}
+    <tr>
+		<td>{$form.prefix.label}</td>
+		<td>{$form.first_name.label}</td>
+		<td>{$form.middle_name.label}</td>
+		<td>{$form.last_name.label}</td>
+		<td>{$form.suffix.label}</td>
 	</tr>
 	<tr>
 		<td>{$form.prefix.html}</td>
@@ -38,7 +45,7 @@
 		<td>{$form.last_name.html}</td>
 		<td>{$form.suffix.html}</td>
 	</tr>
-	</table>
+    </table>
     </div>
     
     <div class="form-item">
