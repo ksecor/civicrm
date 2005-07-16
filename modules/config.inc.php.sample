@@ -24,7 +24,7 @@ define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
 define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 define( 'CRM_PHP_VERSION' , 5 );
-
+define( 'CRM_MAX_IMPORT_FILESIZE' , 1048576);
 define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
 // What version of MySQL are u using. CiviCRM has been designed for MySQL 4.1
