@@ -129,6 +129,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         //hidden field to catch the group id in profile
         $this->add('hidden', 'group_id', $this->_gid);
+        
+        //hidden field to catch the group id in profile
+        $this->add('hidden', 'field_id', $this->_id);
 
         // field name
         $this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
@@ -219,6 +222,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      * @access public
      */
     static function formRule( &$fields ) {
+        //echo "<pre>";
+        //print_r($fields);
+        //echo "</pre>";
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
         $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );     
@@ -231,7 +237,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
         
-        if (CRM_Core_Action::ADD) {
+        if (CRM_Core_Action::ADD && empty($fields['field_id'])) {
             $daoFieldName =& new CRM_Core_DAO_UFField();
             $fieldName = $fields['field_name'];
             $groupId = $fields['group_id'];
