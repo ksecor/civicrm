@@ -125,7 +125,7 @@ class test_RSTest_Run
         echo "**********************************************************************************\n";
         */
         echo "\n**********************************************************************************\n";
-        echo "Contact No. " . $this->_startRecord . "To Contact No. " . $this->_updateRecord . " Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " contacts \n";
+        echo "Contact No. " . $this->_startRecord . " To Contact No. " . ($this->_startRecord + $this->_updateRecord) . " Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " contacts \n";
         
         for ($iu=0; $iu<count($this->_updateContact); $iu++) {
             echo "Time taken for step " . ($ku = $iu + 1) . " : " . $this->_updateContact[$iu] . " seconds\n";
