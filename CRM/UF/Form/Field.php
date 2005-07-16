@@ -230,18 +230,20 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if ( $is_view && $is_required ) {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
+        
+        if (CRM_Core_Action::ADD) {
+            $daoFieldName =& new CRM_Core_DAO_UFField();
+            $fieldName = $fields['field_name'];
+            $groupId = $fields['group_id'];
+            $query = "SELECT * FROM crm_uf_field WHERE uf_group_id = '$groupId' AND field_name = '$fieldName'";
+            $daoFieldName->query($query);
+            $result = $daoFieldName->getDatabaseResult();
+            $row    = $result->fetchRow();
+            
+            if($row > 0)
+                $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
+        }
 
-        $daoFieldName =& new CRM_Core_DAO_UFField();
-        $fieldName = $fields['field_name'];
-        $groupId = $fields['group_id'];
-        $query = "SELECT * FROM crm_uf_field WHERE uf_group_id = '$groupId' AND field_name = '$fieldName'";
-        $daoFieldName->query($query);
-        $result = $daoFieldName->getDatabaseResult();
-        $row    = $result->fetchRow();
-        
-        if($row > 0)
-            $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
-        
         return empty($errors) ? true : $errors;
     }
 }
