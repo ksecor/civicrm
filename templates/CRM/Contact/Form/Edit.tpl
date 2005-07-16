@@ -15,13 +15,30 @@
  <div id="name">
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
     <div class="form-item">
-        <span class="labels"><label>{ts}First/Last{/ts}</label></span>
+        {*<span class="labels"><label>{ts}First/Last{/ts}</label></span>
         <span class="fields">
             {$form.prefix.html}
             {$form.first_name.html}
             {$form.last_name.html}
             {$form.suffix.html}
-        </span>
+        </span>*}
+	
+	<table>
+	<tr>
+		<th><label>{ts}Prefix{/ts}</label></th>
+		<th><label>{ts}First Name{/ts}</label></th>
+		<th><label>{ts}Middle Name{/ts}</label></th>
+		<th><label>{ts}Last Name{/ts}</label></th>
+		<th><label>{ts}Suffix{/ts}</label></th>
+	</tr>
+	<tr>
+		<td>{$form.prefix.html}</td>
+		<td>{$form.first_name.html}</td>
+		<td>{$form.middle_name.html}</td>
+		<td>{$form.last_name.html}</td>
+		<td>{$form.suffix.html}</td>
+	</tr>
+	</table>
     </div>
     
     <div class="form-item">

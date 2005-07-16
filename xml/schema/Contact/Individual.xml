@@ -40,6 +40,7 @@
        <name>middle_name</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Middle Name.</comment>
   </field>
   <field>

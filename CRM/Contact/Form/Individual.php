@@ -60,6 +60,9 @@ class CRM_Contact_Form_Individual {
         // first_name
         $form->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
         
+        //middle_name
+        $form->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name'] );
+        
         // last_name
         $form->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
         
