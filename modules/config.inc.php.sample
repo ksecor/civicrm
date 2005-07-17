@@ -23,11 +23,15 @@ define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
 define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
 define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
-define( 'CRM_PHP_VERSION' , 5 );
+
+// Default maximum Contact Import filesize is 1MB. You may increase this up to a hard-limit of 8MB.
+// However, imports above 1MB will take a 'long time' and are server resource intensive.
 define( 'CRM_MAX_IMPORT_FILESIZE' , 1048576);
+
+// If you are sending emails from CiviCRM, enter your smtp server address here (e.g.'smtp.example.com').
 define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
-// What version of MySQL are u using. CiviCRM has been designed for MySQL 4.1
+// What version of MySQL are you using. CiviCRM has been designed for MySQL 4.1
 // Change the version parameter to 4.0 if you are using MySQL 4.0
 define( 'CRM_MYSQL_VERSION', 4.1 );
 
