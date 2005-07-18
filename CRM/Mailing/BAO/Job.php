@@ -164,9 +164,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 CRM_Mailing_BAO_MailingEventBounce::create($params);
             } else {
                 /* Register the delivery event */
-                $ed =& new CRM_Mailing_DAO_MailingEventDelivered();
-                $ed->event_queue_id = $eq->id;
-                $ed->save();
+                $params = array('event_queue_id' => $eq->id);
+                CRM_Mailing_BAO_MailingEventDelivered::create($params);
             }
         }
     }
