@@ -3,7 +3,7 @@
 * This is a remote script to call from Javascript
 */
 
-require_once 'CRM/Contact/Page/View.php';
+require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contact/Server/StateCountryServer.php';
 
 define ('JPSPAN_ERROR_DEBUG',TRUE);
@@ -12,10 +12,13 @@ require_once 'JPSpan.php';
 //require_once JPSPAN . 'Server/PostOffice.php';
 require_once 'packages/JPSpan/Server/PostOffice.php';
 
-class CRM_Contact_Page_StateCountryServer { 
+class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page { 
 
     function run () 
     {
+          
+        CRM_Core_Error::le_function();
+        
         $S = & new JPSpan_Server_PostOffice();
         $S->addHandler(new CRM_Contact_Server_StateCountryServer());
         
@@ -42,6 +45,9 @@ class CRM_Contact_Page_StateCountryServer {
             
             CRM_Core_Error::debug_log_message('breakpoint 40');
         }
+
+        CRM_Core_Error::le_function();
+
     }
 }
 
