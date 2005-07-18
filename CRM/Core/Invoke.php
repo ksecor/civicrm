@@ -93,8 +93,8 @@ class CRM_Core_Invoke {
     static function contact( $args ) {
         //code added for testing ajax
         if ($args[2] == 'StateCountryServer') {
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_StateCountryServer', ts('StateCountryServer Page'), $action );
+            $server =& new CRM_Contact_Page_StateCountryServer( );
+            return $server->run( );
         }
         //code added for testing ajax
         if ($args[2] == 'test') {

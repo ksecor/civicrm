@@ -63,8 +63,11 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
     * @access public
     */
     function serve($sendHeaders = TRUE) {
+        CRM_Core_Error::debug_log_message('entering  serve');
         //require_once JPSPAN . 'Monitor.php';
         require_once 'packages/JPSpan/Monitor.php';
+
+        CRM_Core_Error::debug_log_message('========== 1 =============');
 
         $M = & JPSpan_Monitor::instance();
         
@@ -73,18 +76,28 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
         
         if ( $this->resolveCall() ) {
         
+            CRM_Core_Error::debug_log_message('========== 2 =============');
+        
             $M->setRequestInfo('class',$this->calledClass);
             $M->setRequestInfo('method',$this->calledMethod);
             
             if ( FALSE !== ($Handler = & $this->getHandler($this->calledClass) ) ) {
+
+                CRM_Core_Error::debug_log_message('========== 3 =============');
             
                 $args = array();
                 $M->setRequestInfo('args',$args);
                 
+                CRM_Core_Error::debug_log_message('========== 3.1 =============');
+
                 if ( $this->getArgs($args) ) {
                 
+                    CRM_Core_Error::debug_log_message('========== 4 =============');
+
                     $M->setRequestInfo('args',$args);
                     
+                    CRM_Core_Error::debug_log_message('========'.get_class($Handler). '========='.   $this->calledMethod  .'==========');
+
                     $response = call_user_func_array(
                         array(
                             & $Handler,
@@ -92,23 +105,32 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
                         ),
                         $args
                     );
-                    
+
                 } else {
                 
+                    CRM_Core_Error::debug_log_message('========== 5 =============');
+
                     $response = call_user_func(
                         array(
                             & $Handler,
                             $this->calledMethod
                         )
                     );
-                    
                 }
+
+                CRM_Core_Error::debug_var('response', $response, 1);
                 
+                CRM_Core_Error::debug_log_message('========== 6 =============');
+
                 //require_once JPSPAN . 'Serializer.php';
                 require_once 'packages/JPSpan/Serializer.php';
 
+                CRM_Core_Error::debug_log_message('========== 7 =============');
+
                 $M->setResponseInfo('payload',$response);
                 $M->announceSuccess();
+                
+                CRM_Core_Error::debug_log_message('========== 8 =============');
                 
                 $response = JPSpan_Serializer::serialize($response);
                 
@@ -119,8 +141,9 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
                     header('Cache-Control: no-cache, must-revalidate'); 
                     header('Pragma: no-cache');
                 }
+                
                 echo $response;
-
+                
                 return TRUE;
                 
             } else {
@@ -131,7 +154,11 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
             }
             
         }
+
+        CRM_Core_Error::debug_log_message('leaving  serve');
         return FALSE;
+
+
     }
 
     /**
@@ -141,8 +168,12 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
     * @access private
     */
     function resolveCall() {
+        CRM_Core_Error::debug_log_message('========== entering resolve call =============');
+        
         $uriPath = explode('/',JPSpan_Server::getUriPath());
-
+        
+        //CRM_Core_Error::debug_var('uriPath', $uriPath, 1);   
+        
         if ( count($uriPath) != 2 ) {
             trigger_error('Invalid call syntax',E_USER_ERROR);
             return FALSE;
@@ -170,6 +201,11 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
         
         $this->calledClass = $uriPath[0];
         $this->calledMethod = $uriPath[1];
+        
+        //$this->calledClass = 'crm_contact_form_statecountryserver';
+        //$this->calledMethod = 'getword';
+
+
         return TRUE;
         
     }
@@ -181,20 +217,41 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
     * @access private
     */
     function getArgs(& $args) {
+
+        CRM_Core_Error::debug_log_message(' entering getArgs');
+        
         //require_once JPSPAN . 'RequestData.php';
         require_once 'packages/JPSpan/RequestData.php';
 
-        
+        CRM_Core_Error::debug_var('request', $this->RequestEncoding);
+
         if ( $this->RequestEncoding == 'php' ) {
+
+            CRM_Core_Error::debug_log_message("============= 111 ==============");
+
             $args = JPSpan_RequestData_Post::fetch($this->RequestEncoding);
+
+            CRM_Core_Error::debug_log_message("============= 11111111 ==============");
+
         } else {
+
+            CRM_Core_Error::debug_log_message("============= 222 ==============");
+
             $args = JPSpan_RequestData_RawPost::fetch($this->RequestEncoding);
+
+            CRM_Core_Error::debug_log_message("============= 222222222 ==============");
+
         }
         
+        //$args[0] = 's';
+        CRM_Core_Error::debug_var('args', $args, 1);
+
+
         if ( is_array($args) ) {
             return TRUE;
         }
         
+        CRM_Core_Error::debug_log_message(' leaving getArgs');
         return FALSE;
     }
     

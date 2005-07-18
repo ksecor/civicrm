@@ -164,7 +164,6 @@ class JPSpan_Server {
     * @static
     */
     function getUriPath() {
-    
         $basePath = explode('/',$_SERVER['SCRIPT_NAME']);
         $script = array_pop($basePath);
         $basePath = implode('/',$basePath);
@@ -181,6 +180,7 @@ class JPSpan_Server {
             $uriPath = substr($uriPath,0,$pos);
         }
         $uriPath = preg_replace(array('/^\//','/\/$/'),'',$uriPath);
+
         return $uriPath;
         
     }

@@ -72,6 +72,9 @@ class CRM_Contact_Form_Test extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
+        header( "Cache-Control: no-cache, must-revalidate" ); 
+        header( "Pragma: no-cache" );
         
 
     }
@@ -85,7 +88,7 @@ class CRM_Contact_Form_Test extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        
+        echo "In post process";
     }
 }
 
