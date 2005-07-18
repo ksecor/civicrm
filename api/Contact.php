@@ -225,8 +225,23 @@ function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) 
  *
  */
 function &crm_get_contact( $params, $returnProperties = null ) {
-    if ( empty( $params ) || ! is_array( $params ) || ! array_key_exists( 'contact_id', $params ) ) {
-        return _crm_error( 'Contact ID not present in params' );
+    // empty parameters ?
+    if (empty($params)) {
+        return _crm_error('$params is empty');
+    }
+
+    // correct parameter format ?
+    if (!is_array($params)) {
+        return _crm_error('$params is not an array');
+    }
+
+    // if id is not present, get contact id first
+    if (!$params['id']) {
+        $contactId = _get_contact_id($params);
+        if(!$contactId) {
+            return _crm_error('contact id cannot be determined for $params');
+        }
+        $params['contact_id'] = $contactId;
     }
 
     $params['id'] = $params['contact_id'];
@@ -300,6 +315,56 @@ function &crm_update_contact( &$contact, $params ) {
 
 
 /**
+ * Get unique contact id for input parameters.
+ * Currently the parameters allowed are
+ *
+ * 1 - email
+ * 2 - phone number
+ * 3 - city
+ *
+ * @param array $param - array of input parameters
+ *
+ * @return $contactId|CRM_Error if unique id available
+ *
+ * @access public
+ *
+ */
+function _crm_get_contact_id($params) {
+    if (!isset($params['email']) || !$isset($params['phone']) || !$isset($params['city'])) {
+        return _crm_error( '$params must contain either email, phone or city to obtain contact id' );        
+    }
+
+    $queryString = $select = $from = $where = '';
+
+    $select = 'SELECT civicrm_contact.id';
+    $from   = ' FROM civicrm_contact, civicrm_location';
+    //$where = 'WHERE';
+    $andArray = array();
+
+    // is email present ?
+    if (isset($param['email'])) {
+        $from .= ', civicrm_email';
+        $andArray[] = "civicrm_location.id = civicrm_email.location_id";
+        $andArray[] = "civicrm_email.email = '" . $params['email'] . "'";
+    }
+        
+    // is phone present ?
+    if (isset($param['phone'])) {
+        $from .= ', civicrm_phone';
+        $andArray[] = 'civicrm_location.id = civicrm_phone.location_id';
+        $andArray[] = "civicrm_phone.phone = '" . $params['phone'] . "'";
+    }
+
+    // is city present ?
+    if (isset($param['city'])) {
+        $from .= ', civicrm_address';
+        $andArray[] = 'civicrm_location.id = civicrm_address.location_id';
+        $andArray[] = "civicrm_address.city = '" . $params['city'] . "'";
+    }
+}
+
+
+/**
  * Delete a specified contact.
  *
  * <b>Versioning and Un-delete</b>
@@ -326,5 +391,6 @@ function crm_delete_contact( &$contact ) {
     
     CRM_Contact_BAO_Contact::deleteContact( $contact->id );
 }
+
 
 ?>
