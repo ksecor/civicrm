@@ -85,12 +85,12 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
      * @access public
      * @static
      */
-    public static function &match($message) {
+    public static function &match(&$message) {
         if (self::$_patterns == null) {
             self::buildPatterns();
         }
         foreach (self::$_patterns as $type => $re) {
-            if (preg_match($re, $string, $matches) {
+            if (preg_match($re, $string, $matches)) {
                 return  array(   'bounce_type' => $type, 
                                 'bounce_reason' => $matches[0]
                         );
