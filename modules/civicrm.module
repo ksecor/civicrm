@@ -353,11 +353,12 @@ function civicrm_validate_data($edit, &$user, $title) {
     $register = ( $title == 'account' ) ? true : false;
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-    if ( $userID ) {
+    //if ( $userID ) {
         if ( ! CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register ) ) {
+            //CRM_Core_Error::debug( 'edit', $title );
             form_set_error( 'error', 'Please correct the errors in the form fields below' );
         }
-    }
+        //}
     return;
 }
 
