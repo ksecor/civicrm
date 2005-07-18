@@ -45,7 +45,7 @@ require_once 'CRM/Core/Error.php';
 require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
-require_once 'api/Groups.php';
+require_once 'api/Group.php';
 require_once 'api/History.php';
 require_once 'api/CustomGroup.php';
 require_once 'CRM/Contact/BAO/Group.php';
