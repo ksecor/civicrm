@@ -500,5 +500,23 @@ class HTML_QuickForm_Controller
         $data =& $this->container();
         return isset($data['values'][$pageName][$elementName])? $data['values'][$pageName][$elementName]: null;
     }
+
+    /**
+     * resets a specifc page in the container
+     *
+     * @access public
+     * @param  string    name of the page
+     * @return void
+     */
+    function resetPage($pageName)
+    {
+        $data =& $this->container();
+        if (isset($data['values'][$pageName]) ||
+            isset($data['valid'][$pageName])) {
+            $data['values'][$pageName] = array( );
+            $data['valid'][$pageName]  = null;
+        }
+    }
+
 }
 ?>
