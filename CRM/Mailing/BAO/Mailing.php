@@ -67,10 +67,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     /**
      * Find all intended recipients of a mailing
      *
-     * @param none
-     * @return array    Tuples of Contact IDs and Email IDs
+     * @param int $job_id       Job ID
+     * @return array            Tuples of Contact IDs and Email IDs
      */
-    function &getRecipients() {
+    function &getRecipients($job_id) {
         $mailingGroup =& new CRM_Mailing_DAO_MailingGroup();
         
         $mailing    = CRM_Mailing_DAO_Mailing::tableName();
@@ -85,13 +85,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $location   = CRM_Contact_DAO_Location::tableName();
         $group      = CRM_Contact_DAO_Group::tableName();
         $g2contact  = CRM_Contact_DAO_GroupContact::tableName();
-       
-        /* FIXME Make this mysql 4.0-friendly (no subselects) */
+      
+        /* Create a temp table for contact exclusion */
+        $mailingGroup->query(
+            "CREATE TEMPORARY TABLE X_$job_id (contact_id int) TYPE=HEAP"
+        );
 
-       
         /* Get the contact ids to exclude */
         $excludeSubGroup =
-                    "SELECT DISTINCT    $g2contact.contact_id
+                    "INSERT INTO        X_$job_id (contact_id)
+                    SELECT DISTINCT     $g2contact.contact_id
                     FROM                $g2contact
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id
@@ -101,9 +104,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.status = 'In'
                         AND             $mg.group_type = 'Exclude'
                     ORDER BY            $g2contact.contact_id";
-       
+        $mailingGroup->query($excludeSubGroup);
+        
         $excludeSubMailing = 
-                    "SELECT DISTINCT    $eq.contact_id
+                    "INSERT INTO        X_$job_id (contact_id)
+                    SELECT DISTINCT     $eq.contact_id
                     FROM                $eq
                     INNER JOIN          $job
                             ON          $eq.job_id = $job.id
@@ -114,9 +119,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.entity_table '$mailing'
                         AND             $mg.group_type = 'Exclude'
                     ORDER BY            $eq.contact_id";
-                    
+        $mailingGroup->query($excludeSubMailing);
+        
         $excludeRetry =
-                    "SELECT DISTINCT    $eq.contact_id
+                    "INSERT INTO        X_$job_id (contact_id)
+                    SELECT DISTINCT     $eq.contact_id
                     FROM                $eq
                     INNER JOIN          $job
                             ON          $eq.job_id = $job.id
@@ -128,16 +135,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $job.mailing_id = " . $this->id . "
                         AND             $eb.id is null
                     ORDER BY            $eq.contact_id";
+        $mailingGroup->query($excludeRetry);
 
-                    
-        $excludeSubQuery =  "               ($excludeSubGroup) 
-                            UNION DISTINCT  ($excludeSubMailing) 
-                            UNION DISTINCT  ($excludeRetry)";
+        /* TODO: exclusion of saved searches */
 
-        /* Get all the group contacts we want to include */
-        /* TODO: support bounce status */
-        /* TODO: support override emails from the g2c table */
-        /* TODO: support saved searches */
+//         /* Get all the group contacts we want to include */
+//         /* TODO: support bounce status */
+//         /* TODO: support override emails from the g2c table */
+//         /* TODO: support saved searches */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
@@ -146,23 +151,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
                             ON          $location.contact_id = $contact.id
-                            
-                            
-                        INNER JOIN          $g2contact
-                                ON          $contact.id = $g2contact.contact_id
-                        INNER JOIN          $mg
-                                ON          $g2contact.group_id = $mg.entity_id
-                                
+                    INNER JOIN          $g2contact
+                            ON          $contact.id = $g2contact.contact_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                            $mg.entity_table = '$group'
-                            AND             $mg.group_type = 'Include'
-                            AND             $g2contact.status = 'In'
+                                        X_$job_id.contact_id IS null
+                        AND             $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
                         
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $contact.id NOT IN ($excludeSubQuery)";
+                        AND             $mg.mailing_id = " . $this->id;
                         
         $queryMailing =
                     "SELECT DISTINCT    $email.id as email_id,
@@ -172,25 +176,23 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
                             ON          $location.contact_id = $contact.id
-                    
-                    
-                        INNER JOIN          $eq
-                                ON          $eq.contact_id = $contact.id
-                        INNER JOIN          $job
-                                ON          $eq.job_id = $job.id
-                        INNER JOIN          $mg
-                                ON          $job.mailing_id = $mg.mailing_id
-                    
-                    
+                    INNER JOIN          $eq
+                            ON          $eq.contact_id = $contact.id
+                    INNER JOIN          $job
+                            ON          $eq.job_id = $job.id
+                    INNER JOIN          $mg
+                            ON          $job.mailing_id = $mg.mailing_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id
                     WHERE
-                                            $mg.entity_table = '$mailing'
-                            AND             $mg.group_type = 'Include'
+                                        X_$job_id IS null
+                        AND             $mg.entity_table = '$mailing'
+                        AND             $mg.group_type = 'Include'
                         
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $contact.id NOT IN ($excludeSubQuery)";
+                        AND             $mg.mailing_id = " . $this->id;
 
         $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
         
@@ -205,6 +207,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         'contact_id'=> $mailingGroup->contact_id
                 );
         }
+        
+        /* Delete the temp table */
+        $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
+        
         return $results;
     }
 

@@ -55,11 +55,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
+        /* TODO allow for resuming jobs */
         $query = "  SELECT      *
                     FROM        $jobTable
                     WHERE       start_date IS null
                     AND         scheduled_date <= NOW()
-                    AND         status IN ('Scheduled', 'Running')
+                    AND         status IN ('Scheduled')
                     ORDER BY    scheduled_date";
 
         $job->query($query);
@@ -100,7 +101,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
         
-        $recipients =& $mailing->getRecipients();
+        $recipients =& $mailing->getRecipients($this->id);
 
         foreach ($recipients as $recipient) {
             $params = array(
