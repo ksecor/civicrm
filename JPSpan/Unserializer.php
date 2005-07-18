@@ -18,7 +18,7 @@ $GLOBALS['_JPSPAN_UNSERIALIZER_MAP'] = array();
 /**
 * Include the Script Server types for mapping JS <> PHP
 */
-require_once JPSPAN . 'Types.php';
+require_once 'packages/JPSpan/Types.php';
 
 /**
 * Register the allowed unserialization objects
@@ -46,12 +46,12 @@ class JPSpan_Unserializer {
     function unserialize($data, $encoding = 'xml') {
         switch ( $encoding ) {
             case 'php':
-                require_once JPSPAN . 'Unserializer/PHP.php';
+                require_once 'packages/JPSpan/Unserializer/PHP.php';
                 $U = & new JPSpan_Unserializer_PHP();
             break;
             case 'xml':
             default:
-                require_once JPSPAN . 'Unserializer/XML.php';
+                require_once 'packages/JPSpan/Unserializer/XML.php';
                 $U = & new JPSpan_Unserializer_XML();
             break;
         }
