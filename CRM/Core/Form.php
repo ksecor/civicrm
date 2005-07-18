@@ -322,7 +322,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @return object
      * @access public
      */     
-    function getState() {
+    function &getState() {
         return $this->_state;
     }
 

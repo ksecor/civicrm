@@ -387,7 +387,7 @@ class CRM_Core_PseudoConstant {
     public static function &allSavedSearch()
     {
         if (!self::$savedSearch) {
-            self::populate( self::$savedSearch, 'CRM_Contact_DAO_SavedSearch', true, 'name' );
+            self::populate( self::$savedSearch, 'CRM_Contact_DAO_SavedSearch', true, 'title' );
         }
         return self::$savedSearch;
     }

@@ -90,6 +90,12 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                                                        'qs'    => 'reset=1&force=1&ssID=%%ssid%%',
                                                        'title' => ts('Search')
                                                        ),
+                      CRM_Core_Action::UPDATE => array(
+                                                       'name'  => ts('Edit'),
+                                                       'url'   => 'civicrm/group',
+                                                       'qs'    => 'reset=1&action=update&id=%%id%%',
+                                                       'title' => ts('Edit Group')
+                                                       ),
                       CRM_Core_Action::DELETE => array(
                                                        'name'  => ts('Delete'),
                                                        'url'   => 'civicrm/contact/search/saved',

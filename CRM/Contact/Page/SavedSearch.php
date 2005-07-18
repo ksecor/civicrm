@@ -83,21 +83,36 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     function browse()
     {
         $rows = array();
-        
+
         $savedSearch =& new CRM_Contact_DAO_SavedSearch();
         $savedSearch->selectAdd();
-        $savedSearch->selectAdd('id, name, search_type, description, form_values');
+        $savedSearch->selectAdd('id, form_values');
         $savedSearch->find();
         $properties = array('id', 'name', 'description');
         while ($savedSearch->fetch()) {
-            $row = array();
-            foreach ($properties as $property) {
-                $row[$property] = $savedSearch->$property;
+            // get name and description from group object
+            $group =& new CRM_Contact_DAO_Group( );
+            $group->saved_search_id =  $savedSearch->id;
+            if ( $group->find( true ) ) {
+                $permission = CRM_Group_Page_Group::checkPermission( $group->id, $group->title );
+                if ( $permission ) {
+                    $row = array();
+                    
+                    $row['name']        = $group->title;
+                    $row['description'] = $group->description;
+
+                    $row['id']           = $savedSearch->id;
+                    $row['query_detail'] = CRM_Contact_Selector::getQILL( unserialize($savedSearch->form_values) );
+
+                    $action = array_sum( array_keys( self::links() ) );
+                    $action = $action & CRM_Core_Action::mask( $permission );
+                    $row['action']       = CRM_Core_Action::formLink( self::links(), $action, array( 'id' => $row['id'] ) );
+                    
+                    $rows[] = $row;
+                }
             }
-            $row['query_detail'] = CRM_Contact_Selector::getQILL(unserialize($savedSearch->form_values), $savedSearch->search_type);
-            $row['action']       = CRM_Core_Action::formLink( self::links(), null, array( 'id' => $row['id'] ) );
-            $rows[] = $row;
         }
+
         $this->assign('rows', $rows);
         return parent::run();
     }

@@ -38,6 +38,14 @@ require_once 'CRM/Contact/Task.php';
 class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
 
     /**
+     * The task that the wizard is currently processing
+     *
+     * @var string
+     * @protected
+     */
+    protected $_task;
+
+    /**
      * class constructor
      */
     function __construct( $controller, $action = CRM_Core_Action::NONE ) {
@@ -51,6 +59,7 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $this->_pages[] = 'CRM_Contact_Form_Search';
             list( $task, $result ) = $this->taskName( $controller, 'Search' );
         }
+        $this->_task    = $task;
         $this->_pages[] = $task;
 
         if ( $result ) {
@@ -82,11 +91,6 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $value = $this->_controller->get( 'task' );
         }
         $this->_controller->set( 'task', $value );
-
-        /**
-        CRM_Core_Error::debug( "POST", $_POST );
-        CRM_Core_Error::debug( "data: $value", $controller->container( ) );
-        **/
 
         $result = false;
         switch ( $value ) {
@@ -146,6 +150,17 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
 
         return array( $task, $result );
     }
+
+    /**
+     * return the form name of the task
+     *
+     * @return string
+     * @access public
+     */
+    function getTaskFormName( ) {
+        return CRM_Utils_String::getClassName( $this->_task );
+    }
+
 }
 
 ?>

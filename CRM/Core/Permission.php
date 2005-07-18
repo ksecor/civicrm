@@ -87,22 +87,6 @@ class CRM_Core_Permission {
         return eval( 'return ' . $config->userPermissionClass . '::group( );' );
     }
 
-    /**
-     * Get all saved searches from database, filtered by permissions
-     * for this user
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all filtered saved searches
-     *
-     */
-    public static function &savedSearch( ) {
-        $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userPermissionClass . '::savedSearch( );' );
-    }
-    
 }
 
 ?>

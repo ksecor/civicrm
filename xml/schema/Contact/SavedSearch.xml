@@ -27,29 +27,6 @@
        <key>id</key>
   </foreignKey>
   <field>
-       <name>name</name>
-       <title>Search Name</title>
-       <type>varchar</type>
-       <length>64</length>
-       <import>true</import>
-       <comment>search name (brief)</comment>
-  </field>
-  <field>
-       <name>search_type</name>
-       <title>Identify form associated with saved search</title>
-       <type>int unsigned</type>
-       <import>true</import>
-       <comment>used to identify the form associated with this saved search</comment>
-  </field>
-  <field>
-       <name>description</name>
-       <title>Description</title>
-       <type>varchar</type>
-       <length>255</length>
-       <import>true</import>
-       <comment>verbose description</comment>
-  </field>
-  <field>
        <name>query</name>
        <title>SQL Query</title>
        <type>text</type>

@@ -62,7 +62,6 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      */
     function getAll()
     {
-
         $savedSearch =& new CRM_Contact_DAO_SavedSearch ();
         $savedSearch->selectAdd();
         $savedSearch->selectAdd('id, name');
@@ -142,7 +141,12 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @static
      */
     static function getName( $id ) {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'name' );
+        $group                   =& new CRM_Contact_DAO_Group( );
+        $group->saved_search_id = $id;
+        if ( $group->find( true ) ) {
+            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $group->id, 'name' );
+        }
+        return null;
     }
 
 }

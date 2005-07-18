@@ -52,15 +52,12 @@ class CRM_Core_Permission_Drupal {
     static protected $_editPermission = false;
 
     /**
-     * the current set of permissioned groups and saved searches for the user
+     * the current set of permissioned groups for the user
      *
      * @var array
      */
     static protected $_viewPermissionedGroups;
     static protected $_editPermissionedGroups;
-
-    static protected $_viewPermissionedSavedSearches;
-    static protected $_editPermissionedSavedSearches;
 
     /**
      * Get all groups from database, filtered by permissions
@@ -93,65 +90,19 @@ class CRM_Core_Permission_Drupal {
                 self::$_viewPermissionedGroups = $groups;
             }
 
-            foreach ( $groups as $id => $name ) {
-                if ( CRM_Utils_System::checkPermission( 'edit ' . $name ) ) {
-                    self::$_editPermissionedGroups[$id] = $name;
-                    self::$_viewPermissionedGroups[$id] = $name;
+            foreach ( $groups as $id => $title ) {
+                if ( CRM_Utils_System::checkPermission( 'edit ' . $title ) ) {
+                    self::$_editPermissionedGroups[$id] = $title;
+                    self::$_viewPermissionedGroups[$id] = $title;
                     self::$_editPermission      = true;
-                } else if ( CRM_Utils_System::checkPermission( 'view ' . $name ) ) {
-                    self::$_viewPermissionedGroups[$id] = $name;
+                } else if ( CRM_Utils_System::checkPermission( 'view ' . $title ) ) {
+                    self::$_viewPermissionedGroups[$id] = $title;
                     self::$_viewPermission      = true;
                 } 
             }
         }
 
         return self::$_viewPermissionedGroups;
-    }
-
-    /**
-     * Get all saved searches from database, filtered by permissions
-     * for this user
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all filtered saved searches
-     *
-     */
-    public static function &savedSearch( ) {
-        if ( ! isset( self::$_viewPermissionedSavedSearches ) ) {
-            self::$_viewPermissionedSavedSearches = self::$_editPermissionedSavedSearches = array( );
-
-            $savedSearches =& CRM_Core_PseudoConstant::allSavedSearch( );
-
-            if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) ) {
-                // this is the most powerful permission, so we return
-                // immediately rather than dilute it further
-                self::$_editAdminUser          = self::$_viewAdminUser  = true;
-                self::$_editPermission         = self::$_viewPermission = true;
-                self::$_editPermissionedSavedSearches = $savedSearches;
-                self::$_viewPermissionedSavedSearches = $savedSearches;
-                return self::$_viewPermissionedSavedSearches;
-            } else if ( CRM_Utils_System::checkPermission( 'view all contacts' ) ) {
-                self::$_viewAdminUser                 = true;
-                self::$_viewPermission                = true;
-                self::$_viewPermissionedSavedSearches = $savedSearches;
-            }
-
-            foreach ( $savedSearches as $id => $name ) {
-                if ( CRM_Utils_System::checkPermission( 'edit ' . $name ) ) {
-                    self::$_editPermissionedSavedSearches[$id] = $name;
-                    self::$_viewPermissionedSavedSearches[$id] = $name;
-                    self::$_editPermission                     = true;
-                } else if ( CRM_Utils_System::checkPermission( 'view ' . $name ) ) {
-                    self::$_viewPermissionedSavedSearches[$id] = $name;
-                    self::$_viewPermission                     = true;
-                } 
-            }
-        }
-
-        return self::$_viewPermissionedSavedSearches;
     }
 
     /**
@@ -174,9 +125,20 @@ class CRM_Core_Permission_Drupal {
             } else if ( empty( self::$_editPermissionedGroups ) ) {
                 $clause = ' ( 0 ) ';
             } else {
+                $clauses = array( );
                 $groups = implode( ', ', self::$_editPermissionedGroups );
-                $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
+                $clauses[] = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
                 $tables['crm_group_contact'] = 1;
+                
+                // foreach group that is potentially a saved search, add the saved search clause
+                foreach ( array_keys( self::$_editPermissionedGroups ) as $id ) {
+                    $group     =& new CRM_Contact_DAO_Group( );
+                    $group->id = $id;
+                    if ( $group->find( true ) && $group->saved_search_id ) {
+                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
+                    }
+                }
+                $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         } else {
             if ( self::$_viewAdminUser ) {
@@ -184,50 +146,20 @@ class CRM_Core_Permission_Drupal {
             } else if ( empty( self::$_viewPermissionedGroups ) ) {
                 $clause = ' ( 0 ) ';
             } else {
+                $clauses = array( );
                 $groups = implode( ', ', self::$_viewPermissionedGroups );
-                $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+                $clauses[] = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
                 $tables['crm_group_contact'] = 1;
-            }
-        }
-        return $clause;
-    }
 
-    /**
-     * Get savedSearch clause for this user
-     *
-     * @param int $type the type of permission needed
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     *
-     * @return string the savedSearch where clause for this user
-     * @access public
-     */
-    public static function savedSearchClause( $type = CRM_Core_Permission::VIEW ) {
-        if (! isset( self::$_viewPermissionedSavedSearches ) ) {
-            self::savedSearch( );
-        }
+                // foreach group that is potentially a saved search, add the saved search clause
+                foreach ( array_keys( self::$_viewPermissionedGroups ) as $id ) {
+                    $group     =& new CRM_Contact_DAO_Group( );
+                    $group->id = $id;
+                    if ( $group->find( true ) && $group->saved_search_id ) {
+                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
+                    }
+                }
 
-        if ( $type == CRM_Core_Permission::EDIT ) {
-            if ( self::$_editAdminUser ) {
-                $clause = ' ( 1 ) ';
-            } else if ( empty( self::$_editPermissionedSearches ) ) {
-                $clause = ' ( 0 ) ';
-            } else {
-                $clauses = array( );
-                foreach ( self::$_editPermissionedSavedSearches as $savedSearchId => $dontCare ) {
-                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId, $tables );
-                }
-                $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
-            }
-        } else {
-            if ( self::$_viewAdminUser ) {
-                $clause = ' ( 1 ) ';
-            } else if ( empty( self::$_viewPermissionedSavedSearches ) ) {
-                $clause = ' ( 0 ) ';
-            } else {
-                $clauses = array( );
-                foreach ( self::$_viewPermissionedSavedSearches as $savedSearchId => $dontCare ) {
-                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId, $tables );
-                }
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         }
@@ -241,7 +173,6 @@ class CRM_Core_Permission_Drupal {
      */
     public static function getPermission( ) {
         self::group( );
-        self::savedSearch( );
 
         if ( self::$_editPermission ) {
             return CRM_Core_Permission::EDIT;
@@ -262,7 +193,6 @@ class CRM_Core_Permission_Drupal {
      */
     public static function whereClause( $type, &$tables ) {
         self::group( );
-        self::savedSearch( );
 
         /***
         CRM_Core_Error::debug( self::$_editAdminUser, self::$_viewAdminUser );
@@ -270,10 +200,7 @@ class CRM_Core_Permission_Drupal {
         CRM_Core_Error::debug( 'EG', self::$_editPermissionedGroups );
         CRM_Core_Error::debug( 'VG', self::$_viewPermissionedGroups );
         **/
-        $clauses = array( );
-        $clauses[] = self::groupClause( $type, $tables );
-        $clauses[] = self::savedSearchClause( $type, $tables );
-        return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+        return self::groupClause( $type, $tables );
     }
 
 

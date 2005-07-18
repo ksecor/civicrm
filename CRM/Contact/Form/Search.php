@@ -527,12 +527,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         //get the button name
         $buttonName = $this->controller->getButtonName( );
-        
 
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
-        //this filter is reset if we click on the search button
-
+        // this filter is reset if we click on the search button
         if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' && $buttonName != $this->_searchButtonName) {
             $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
         }
@@ -542,6 +540,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
+
+            // hack, make sure we reset the task values
+            $stateMachine =& $this->controller->getStateMachine( );
+            $formName     =  $stateMachine->getTaskFormName( );
+            $this->controller->resetPage( $formName );
             return;
         } else {
             // do export stuff

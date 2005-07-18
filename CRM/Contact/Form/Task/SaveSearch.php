@@ -75,9 +75,14 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // need to save qill for the smarty template
         $this->assign('qill', $qill);
 
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
-        $this->addElement('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_SavedSearch', $this->_id ) );
+        // the name and description are actually stored with the group and not the saved search
+        $this->add('text', 'name', ts('Name'),
+                   CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
+        $this->addElement('text', 'description', ts('Description'),
+                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
+        $this->addRule( 'name', ts('Name already exists in Database.'),
+                        'objectExists', array( 'CRM_Contact_DAO_SavedSearch', $this->_id ) );
+
         if ( isset( $this->_id ) ) {
             $this->addDefaultButtons( ts('Update Saved Search') );
         } else {
@@ -99,9 +104,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // save the search
         $savedSearch =& new CRM_Contact_BAO_SavedSearch();
         $savedSearch->id          = $this->_id;
-        $savedSearch->domain_id   = 1;   // hack for now
-        $savedSearch->name        = $formValues['name'];
-        $savedSearch->description = $formValues['description'];
+        $savedSearch->domain_id   = CRM_Core_Config::domainID( );
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
@@ -111,8 +114,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         if ( ! $this->_id ) {
             $group                  =& new CRM_Contact_DAO_Group( );
             $group->domain_id       =  CRM_Core_Config::domainID( );
-            $group->name            =  $formValues['name'];
             $group->title           =  $formValues['name'];
+            $group->name            =  CRM_Utils_String::titleToVar( $group->title );
             $group->description     =  $formValues['description'];
             $group->saved_search_id =  $savedSearch->id;
             $group->save( );
@@ -121,8 +124,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             $group                  =& new CRM_Contact_DAO_Group( );
             $group->saved_search_id =  $savedSearch->id;
             if ( $group->find( true ) ) {
-                $group->name            =  $formValues['name'];
                 $group->title           =  $formValues['name'];
+                $group->name            =  CRM_Utils_String::titleToVar( $group->title );
                 $group->description     =  $formValues['description'];
                 $group->save( );
             }
