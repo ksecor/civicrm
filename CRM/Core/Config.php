@@ -221,6 +221,11 @@ class CRM_Core_Config {
     private static $_singleton = null;
 
     /**
+     * the handle for import file size 
+     * @var object
+     */
+
+    /**
      * singleton function used to manage this object
      *
      * @param string the key in which to record session / log information
@@ -354,6 +359,9 @@ class CRM_Core_Config {
             $this->mysqlVersion = CRM_MYSQL_VERSION;
         }
 
+        if ( defined ( 'CRM_MAX_IMPORT_FILESIZE' ) ) {
+            $this->importFileSize = CRM_MAX_IMPORT_FILESIZE;
+        }
         // initialize the framework
         $this->initialize();
     }

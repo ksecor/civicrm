@@ -48,18 +48,21 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         //Setting Upload File Size
-        if (CRM_MAX_IMPORT_FILESIZE >= 8388608 ) {
+        $config =& new CRM_Core_Config();
+        if ($config->importFileSize >= 8388608 ) {
             $uploadFileSize = 8388608;
         } else {
-            $uploadFileSize = CRM_MAX_IMPORT_FILESIZE;
+            $uploadFileSize = $config->importFileSize;
         }
         $uploadSize = ($uploadFileSize / (1024*1024));
+                
+        //CRM_Core_Error::debug('uploadFileSize1',$config->importFileSize);
         
         $this->assign('uploadSize', $uploadSize );
-
+        
         $this->addElement( 'file', 'uploadFile', ts('Import Data File'), 'size=30 maxlength=60' );
 
-        $this->addRule( 'uploadFile', ts('File size should be less than '.$uploadSize.' MByte'), 'maxfilesize', $uploadFileSize );
+        $this->addRule( 'uploadFile', ts('File size should be less than '.$uploadSize.' MBytes ('.$uploadFileSize.' bytes)' ), 'maxfilesize', $uploadFileSize );
         $this->setMaxFileSize( $uploadFileSize );
         $this->addRule( 'uploadFile', ts('Input file must be in CSV format'), 'asciiFile' );
 
