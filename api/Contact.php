@@ -116,6 +116,8 @@ require_once 'CRM/Utils/Array.php';
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
+    echo "\nentering crm_create_contact\n";
+
     // return error if we do not get any params
     if ( empty( $params ) ) {
         return _crm_error( "Input Parameters empty" );
@@ -225,11 +227,16 @@ function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) 
  *
  */
 function &crm_get_contact( $params, $returnProperties = null ) {
+
+    echo "entering crm_get_contact\n";
+
     // empty parameters ?
     if (empty($params)) {
+        echo "breakpoint 10\n";
         return _crm_error('$params is empty');
     }
 
+    echo "breakpoint 20\n";
     // correct parameter format ?
     if (!is_array($params)) {
         return _crm_error('$params is not an array');
@@ -237,20 +244,34 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
     // if id is not present, get contact id first
     if (!$params['id']) {
-        $contactId = _get_contact_id($params);
-        if(!$contactId) {
-            return _crm_error('contact id cannot be determined for $params');
+
+        echo "breakpoint 40\n";
+
+        $contactId = _crm_get_contact_id($params);
+        if (is_a($contactId, CRM_Core_Error)) {
+            echo "breakpoint 60\n";
+            return $contactId;
         }
+
+        echo "breakpoint 70\n";
         $params['contact_id'] = $contactId;
     }
 
+    echo "breakpoint 80\n";
     $params['id'] = $params['contact_id'];
     $ids          = array( );
+
     $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+
+    echo "contact = ";
+    print_r($contact);
+
     if ( $contact == null || is_a($contact, CRM_Core_Error) || ! $contact->id ) {
+        echo "breakpoint 90\n";
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
     }
 
+    echo "breakpoint 100\n";
     unset($params['id']);
     
     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
@@ -259,8 +280,10 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
     $contact->location = CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 1 );
 
-    $contact->custom_values =
-                CRM_Core_BAO_CustomValue::getContactValues($contact->id);
+    $contact->custom_values = CRM_Core_BAO_CustomValue::getContactValues($contact->id);
+
+    echo "breakpoint 110\n";
+
     return $contact;
 }
 
@@ -313,57 +336,6 @@ function &crm_update_contact( &$contact, $params ) {
     return $contact;
 }
 
-
-/**
- * Get unique contact id for input parameters.
- * Currently the parameters allowed are
- *
- * 1 - email
- * 2 - phone number
- * 3 - city
- *
- * @param array $param - array of input parameters
- *
- * @return $contactId|CRM_Error if unique id available
- *
- * @access public
- *
- */
-function _crm_get_contact_id($params) {
-    if (!isset($params['email']) || !$isset($params['phone']) || !$isset($params['city'])) {
-        return _crm_error( '$params must contain either email, phone or city to obtain contact id' );        
-    }
-
-    $queryString = $select = $from = $where = '';
-
-    $select = 'SELECT civicrm_contact.id';
-    $from   = ' FROM civicrm_contact, civicrm_location';
-    //$where = 'WHERE';
-    $andArray = array();
-
-    // is email present ?
-    if (isset($param['email'])) {
-        $from .= ', civicrm_email';
-        $andArray[] = "civicrm_location.id = civicrm_email.location_id";
-        $andArray[] = "civicrm_email.email = '" . $params['email'] . "'";
-    }
-        
-    // is phone present ?
-    if (isset($param['phone'])) {
-        $from .= ', civicrm_phone';
-        $andArray[] = 'civicrm_location.id = civicrm_phone.location_id';
-        $andArray[] = "civicrm_phone.phone = '" . $params['phone'] . "'";
-    }
-
-    // is city present ?
-    if (isset($param['city'])) {
-        $from .= ', civicrm_address';
-        $andArray[] = 'civicrm_location.id = civicrm_address.location_id';
-        $andArray[] = "civicrm_address.city = '" . $params['city'] . "'";
-    }
-}
-
-
 /**
  * Delete a specified contact.
  *
@@ -392,5 +364,101 @@ function crm_delete_contact( &$contact ) {
     CRM_Contact_BAO_Contact::deleteContact( $contact->id );
 }
 
+
+/**
+ * Get unique contact id for input parameters.
+ * Currently the parameters allowed are
+ *
+ * 1 - email
+ * 2 - phone number
+ * 3 - city
+ *
+ * @param array $param - array of input parameters
+ *
+ * @return $contactId|CRM_Error if unique id available
+ *
+ * @access public
+ *
+ */
+function _crm_get_contact_id($params)
+{
+
+    echo "entering _crm_get_contact_id\n";
+    print_r($params);
+
+    echo "breakpoint 10\n";        
+
+    if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
+        echo "breakpoint 20\n";        
+        return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
+    }
+
+    echo "breakpoint 30\n";        
+
+
+    $queryString = $select = $from = $where = '';
+
+    $select = 'SELECT civicrm_contact.id';
+    $from   = ' FROM civicrm_contact, civicrm_location';
+    $andArray = array();
+
+    $andArray[] = "civicrm_contact.id = civicrm_location.contact_id";
+
+    if (isset($params['email'])) {// is email present ?
+
+        echo "breakpoint 40\n";        
+        $from .= ', civicrm_email';
+        $andArray[] = "civicrm_location.id = civicrm_email.location_id";
+        $andArray[] = "civicrm_email.email = '" . $params['email'] . "'";
+    }
+
+    if (isset($params['phone'])) { // is phone present ?
+
+        echo "breakpoint 50\n";        
+
+        $from .= ', civicrm_phone';
+        $andArray[] = 'civicrm_location.id = civicrm_phone.location_id';
+        $andArray[] = "civicrm_phone.phone = '" . $params['phone'] . "'";
+    }
+
+
+    if (isset($params['city'])) { // is city present ?
+
+        echo "breakpoint 60\n";        
+
+        $from .= ', civicrm_address';
+        $andArray[] = 'civicrm_location.id = civicrm_address.location_id';
+        $andArray[] = "civicrm_address.city = '" . $params['city'] . "'";
+    }
+
+    $where = " WHERE " . implode(" AND ", $andArray);
+
+    $queryString = $select . $from . $where;
+
+    echo "\nqueryString = $queryString\n";
+
+    $dao = new CRM_Core_DAO();
+
+    $dao->query($queryString);
+
+    $result = $dao->getDatabaseResult();
+    
+    //echo "result = \n";
+    //print_r($result);
+    
+    $numRow = $result->fetchRow();
+
+    //echo "numRow = \n";
+    //print_r($numRow);
+
+    if (count($numRow) > 1) {
+        echo "breakpoint 70\n";
+        return _crm_error( 'more than one contact id matches $params  email, phone or city to obtain contact id' );
+    }
+
+    echo "breakpoint 80\n";
+    return $row[0];
+
+}
 
 ?>
