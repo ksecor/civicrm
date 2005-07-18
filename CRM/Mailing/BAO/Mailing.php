@@ -90,6 +90,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE X_$job_id (contact_id int) TYPE=HEAP"
         );
+        $mailingGroup->find();
 
         /* Get the contact ids to exclude */
         $excludeSubGroup =
@@ -102,9 +103,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.mailing_id = " . $this->id . "
                         AND             $mg.entity_table = '$group'
                         AND             $g2contact.status = 'In'
-                        AND             $mg.group_type = 'Exclude'
-                    ORDER BY            $g2contact.contact_id";
+                        AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
+        $mailingGroup->find();
         
         $excludeSubMailing = 
                     "INSERT INTO        X_$job_id (contact_id)
@@ -117,9 +118,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE
                                         $mg.mailing_id = " . $this->id . "
                         AND             $mg.entity_table '$mailing'
-                        AND             $mg.group_type = 'Exclude'
-                    ORDER BY            $eq.contact_id";
+                        AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
+        $mailingGroup->find();
         
         $excludeRetry =
                     "INSERT INTO        X_$job_id (contact_id)
@@ -133,9 +134,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $eq.id = $eb.event_queue_id
                     WHERE
                                         $job.mailing_id = " . $this->id . "
-                        AND             $eb.id is null
-                    ORDER BY            $eq.contact_id";
+                        AND             $eb.id is null";
         $mailingGroup->query($excludeRetry);
+        $mailingGroup->find();
 
         /* TODO: exclusion of saved searches */
 
@@ -183,7 +184,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $job.mailing_id = $mg.mailing_id
                     LEFT JOIN           X_$job_id
-                            ON          $contact.id = X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
                     WHERE
                                         X_$job_id IS null
                         AND             $mg.entity_table = '$mailing'
@@ -211,6 +212,51 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Delete the temp table */
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
         
+        return $results;
+    }
+
+    /**
+     * Generate an event queue for a retry job (ie the contacts who bounced)
+     *
+     * @param int $job_id       The job marked retry
+     * @return array            Tuples of Email ID and Contact ID
+     * @access public
+     */
+    public function retryRecipients($job_id) {
+        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
+        $job        = CRM_Mailing_BAO_Job::tableName();
+        $queue      = CRM_Mailing_BAO_MailingEventQueue::tableName();
+        $bounce     = CRM_Mailing_BAO_MailingEventBounce::tableName();
+        $email      = CRM_Contact_BAO_Email::tableName();
+        $contact    = CRM_Contact_BAO_Contact::tableName();
+        
+        /* TODO support bounce hold */
+        $query = 
+                "SELECT             email_id, contact_id
+                FROM                $queue
+                INNER JOIN          $job
+                        ON          $queue.job_id = $job.id
+                INNER JOIN          $bounce
+                        ON          $bounce.event_queue_id = $queue.id
+                INNER JOIN          $contact
+                        ON          $queue.contact_id = $contact.id
+                WHERE               
+                                    $job.mailing_id = " . $this->id . "
+                    AND             $job.id <> $job_id
+                    AND             $contact.do_not_email = 0
+                GROUP BY            $queue.email_id";
+
+        $eq->query();
+        $eq->find();
+        
+        $results = array();
+        while ($eq->fetch()) {
+            $results[] = array(
+                'email_id' => $eq.email_id,
+                'contact_id' => $eq.contact_id,
+            );
+        }
+
         return $results;
     }
 

@@ -41,9 +41,14 @@
       <comment>date on which this job ended.</comment>
   </field>
   <field>
-       <name>status</name>
-       <type>enum</type>
-       <values>Scheduled, Running, Complete, Paused, Canceled</values>
-       <comment>The state of this job</comment>
+      <name>status</name>
+      <type>enum</type>
+      <values>Scheduled, Running, Complete, Paused, Canceled</values>
+      <comment>The state of this job</comment>
+  </field>
+  <field>
+      <name>is_retry</name>
+      <type>boolean</type>
+      <comment>Is this job a retry?</comment>
   </field>
 </table>

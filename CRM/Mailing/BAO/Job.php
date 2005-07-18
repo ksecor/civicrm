@@ -101,8 +101,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
         
-        $recipients =& $mailing->getRecipients($this->id);
-
+        if ($this->is_retry) {
+            $recipients =& $mailing->retryRecipients($this->id);
+        } else {
+            $recipients =& $mailing->getRecipients($this->id);
+        }
+        
         foreach ($recipients as $recipient) {
             $params = array(
                 'job_id'        => $this->id,
