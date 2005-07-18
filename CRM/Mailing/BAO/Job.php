@@ -55,11 +55,11 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
-        /* TODO include unfinished jobs, status */
         $query = "  SELECT      *
                     FROM        $jobTable
                     WHERE       start_date IS null
                     AND         scheduled_date <= NOW()
+                    AND         status IN ('Scheduled', 'Running')
                     ORDER BY    scheduled_date";
 
         $job->query($query);
@@ -69,13 +69,14 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-            /* TODO only queue if they haven't already been queued */
             /* Queue up recipients for all jobs being launched */
-            $job->queue();
+            if ($job->status != 'Running') {
+                $job->queue();
+            }
             
             /* Start the job */
             $job->start_date = time();
-            /* TODO set status */
+            $job->status = 'Running';
             $job->save();
         
             /* Compose and deliver */
@@ -83,7 +84,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
             /* Finish the job */
             $job->end_date = time();
-            /* TODO set status */
+            $job->status = 'Complete';
             $job->save();
         }
     }
@@ -155,11 +156,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $result = $mailer->send($recipient, $headers, $body);
             
             if (is_a($result, PEAR_Error)) {
-                $error = $result->getMessage();
                 /* Register the bounce event */
-                $params = array('event_queue_id' => $eq->id);
-                
-                /* TODO process the bounce message */
+                $params =&
+                    CRM_Mailing_BAO_BouncePattern::match($result->getMessage());
+                $params['event_queue_id'] = $eq->id;
                 
                 CRM_Mailing_BAO_MailingEventBounce::create($params);
             } else {
