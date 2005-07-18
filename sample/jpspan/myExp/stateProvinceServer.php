@@ -19,7 +19,7 @@ class Autocomplete {
         $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
         mysql_select_db('civicrm');
         
-        $strSql = "SELECT id, name FROM crm_state_province";  
+        $strSql = "SELECT id, name FROM civicrm_state_province";  
         
         if (!$rst = mysql_query($strSql)) {
             echo $strSql."<br>".mysql_error();
@@ -54,17 +54,17 @@ class Autocomplete {
         $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
         mysql_select_db('civicrm');
         
-        $strSql = "SELECT crm_country.id as crm_country_id, crm_country.name as crm_country_name 
-                   FROM crm_country , crm_state_province 
-                   WHERE crm_state_province.country_id = crm_country.id
-                      AND crm_state_province.id =".$stateId;  
+        $strSql = "SELECT civicrm_country.id as civicrm_country_id, civicrm_country.name as civicrm_country_name 
+                   FROM civicrm_country , civicrm_state_province 
+                   WHERE civicrm_state_province.country_id = civicrm_country.id
+                      AND civicrm_state_province.id =".$stateId;  
       
         if (!$rst = mysql_query($strSql)) {
             echo $strSql."<br>".mysql_error();
         } else {
             if (mysql_num_rows($rst)) {
                 while ($adata = mysql_fetch_assoc($rst)) {
-                    $matches[$adata['crm_country_id']] = $adata['crm_country_name'];
+                    $matches[$adata['civicrm_country_id']] = $adata['civicrm_country_name'];
                 }
                 $id = key($matches);
                 $value = current($matches);
