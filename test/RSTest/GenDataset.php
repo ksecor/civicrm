@@ -91,22 +91,6 @@ class test_RSTest_GenDataset
     // store strict individual id and household id to individual id mapping
     private $strictIndividual     = array();
     private $householdIndividual  = array();
-
-    // country and state province combo
-    private $CSC                  = array(
-                                          1228 => array( // united states
-                                                        1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
-                                                        1031 => array ('New York', 'Albany'), // new york
-                                                        ),
-                                          1101 => array( // india
-                                                        1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
-                                                        1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
-                                                        ),
-                                          1172 => array( // poland
-                                                        1115 => array ('Warszawa', 'Plock'), // Mazowieckie
-                                                        1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
-                                                        ),
-                                          );
     
     /*****************************
      *  Constructor of this class
@@ -119,36 +103,6 @@ class test_RSTest_GenDataset
         $this->numOrganization     = $this->numContact * 10 / 100;
         $this->numStrictIndividual = $this->numIndividual - ($this->numHousehold * test_RSTest_Common::NUM_INDIVIDUAL_PER_HOUSEHOLD); 
     }
-
-    /**
-     *  Getter for random country and state province.
-     *
-     *  This method is used for getting random country and state province 
-     *  from the array of country  and state province. 
-     *  This method can not be called statically.
-     *  
-     *  @return array
-     *  @access private
-     */
-    private function _getRandomCSC()
-    {
-        $array = array();
-
-        $c = array_rand($this->CSC);
-        
-        // the state array now
-        $s = array_rand($this->CSC[$c]);
-
-        // the city
-        $ci = array_rand($this->CSC[$c][$s]);
-        $city = $this->CSC[$c][$s][$ci];
-        
-        $array[] = $c;
-        $array[] = $s;
-        $array[] = $city;
-        
-        return $array;
-    }    
 
     /**
      * Insert a note 
@@ -244,7 +198,7 @@ class test_RSTest_GenDataset
         }
         // some more random skips
         if ($locationId) {
-            $array1                                    = $this->_getRandomCSC();
+            $array1                                    = test_RSTest_Common::getRandomCSC();
             $addressDAO->city                          = $array1[2];
             $addressDAO->state_province_id             = $array1[1];
             $addressDAO->country_id                    = $array1[0];

@@ -34,6 +34,98 @@
 
 class test_RSTest_AddContactToGroup
 {
+    private $_contactArray = array();
 
+    function __construct()
+    {
+
+    }
+    
+        /**
+     * Getter for the contacts.
+     *
+     * This method is used for getting the neccessary contacts 
+     * for the particular operation.
+     *
+     * @param   start        int    gives the id of the first contact from the group of contact 
+     * @param   noOfContact  int    gives the no of contacts required for the operations.
+     * 
+     * @access  private
+     * @return  contactArray array  gives the array of contacts on which the operations needs to be carried out. 
+     *
+     */
+    
+    private function _getContact($start, $noOfContact)
+    {
+        $contactDAO = new CRM_Contact_DAO_Contact();
+        $contactDAO->selectAdd();
+        $contactDAO->selectAdd('id');
+        $contactDAO->limit($start, $noOfContact);
+        $contactDAO->find();
+        
+        while ($contactDAO->fetch()) {
+            $this->_contactArray[]  = $contactDAO->id;
+        }
+    }
+    
+    /**
+     * Adding Group Contact Status Details. 
+     *
+     * This helper method is used to add details for group contact details.
+     * This method can not be called statically.
+     *
+     * @param   groupContactDAO    group Contact DAO object
+     *
+     * @return  none
+     *
+     * @access  private
+     */
+    private function _setGroupContactStatus($groupContactDAO)
+    {
+        switch ($groupContactDAO->status) {
+        case 'Pending':
+            $groupContactDAO->pending_date   = test_RSTest_Common::getRandomDate();
+            $groupContactDAO->pending_method = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
+            break;
+        case 'In':
+            $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate();
+            $groupContactDAO->in_method      = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
+            break;
+        case 'Out':
+            $groupContactDAO->out_date       = test_RSTest_Common::getRandomDate();
+            $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate(0, strtotime($groupContactDAO->out_date));
+            $groupContactDAO->out_method     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
+            break;
+        } 
+    }
+    
+    /** 
+     * Add contact to Group.
+     *
+     * This function is used for adding Contacts to a Group.
+     * 
+     * @access private
+     * @return none
+     *     
+     */
+    private function _addToGroup()
+    {
+        foreach ($this->_contactArray as $id) {
+            $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
+            $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
+            $groupContactDAO->contact_id = $id;
+            $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
+            $this->_setGroupContactStatus($groupContactDAO);
+            test_RSTest_Common::_insert($groupContactDAO);
+        }
+    }
+    
+    
+    function run($start, $noOfContact)
+    {
+        $this->_getContact($start, $noOfContact);
+        $this->_addToGroup();
+    }
+    
 }
 ?>

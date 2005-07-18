@@ -73,6 +73,23 @@ class test_RSTest_Common
                                         '3' => 'Web',
                                         '4' => 'API'
                                         );
+
+        // country and state province combo
+    public static $CSC                 = array(
+                                        1228 => array( // united states
+                                                      1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
+                                                      1031 => array ('New York', 'Albany'), // new york
+                                                      ),
+                                        1101 => array( // india
+                                                      1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
+                                                      1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
+                                                      ),
+                                        1172 => array( // poland
+                                                      1115 => array ('Warszawa', 'Plock'), // Mazowieckie
+                                                      1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
+                                                      ),
+                                        );
+    
     
     // constructor
     function __construct()
@@ -97,6 +114,37 @@ class test_RSTest_Common
     public function recordsetSize($multiple=1)
     {
         return self::INITIAL_DATASET_SIZE * $multiple;
+    }
+    
+    /**
+     *  Getter for random country and state province.
+     *
+     *  This method is used for getting random country and state province 
+     *  from the array of country  and state province. 
+     *  This method can be called statically.
+     *  
+     *  @return array
+     *  @access public
+     *  @static 
+     */
+    public static function getRandomCSC()
+    {
+        $array = array();
+
+        $c = array_rand(self::$CSC);
+        
+        // the state array now
+        $s = array_rand(self::$CSC[$c]);
+
+        // the city
+        $ci = array_rand(self::$CSC[$c][$s]);
+        $city = self::$CSC[$c][$s][$ci];
+        
+        $array[] = $c;
+        $array[] = $s;
+        $array[] = $city;
+        
+        return $array;
     }
 
     /**

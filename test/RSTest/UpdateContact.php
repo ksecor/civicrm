@@ -44,77 +44,37 @@ class test_RSTest_UpdateContact
     private $_startID;
     private $_contactArray = array();
     
-    // country and state province combo
-    private $CSC                  = array(
-                                          1228 => array( // united states
-                                                        1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
-                                                        1031 => array ('New York', 'Albany'), // new york
-                                                        ),
-                                          1101 => array( // india
-                                                        1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
-                                                        1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
-                                                        ),
-                                          1172 => array( // poland
-                                                        1115 => array ('Warszawa', 'Plock'), // Mazowieckie
-                                                        1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
-                                                        ),
-                                          );
-
-
     function __construct()
     {
     }
+    
+    /**
+     * Getter for the contacts.
+     *
+     * This method is used for getting the neccessary contacts 
+     * for the particular operation.
+     *
+     * @param   start        int    gives the id of the first contact from the group of contact 
+     * @param   noOfContact  int    gives the no of contacts required for the operations.
+     * 
+     * @access  private
+     * @return  contactArray array  gives the array of contacts on which the operations needs to be carried out. 
+     *
+     */
     
     private function _getContact($start, $noOfContact)
     {
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
-        $contactDAO->limit($start, ($start + $noOfContact));
+        $contactDAO->limit($start, $noOfContact);
         $contactDAO->find();
         
         while ($contactDAO->fetch()) {
-           $tmpArray[]  = $contactDAO->id;
+           $contactArray[]  = $contactDAO->id;
         }
-        /*
-        if (is_array($tmpArray)) {
-            echo "Array";
-        } else {
-            echo "Not an Array";
-        }
-        */
-        return $tmpArray;
+        return $contactArray;
     }
-    
-    /**
-     *  Getter for random country and state province.
-     *
-     *  This method is used for getting random country and state province 
-     *  from the array of country  and state province. 
-     *  This method can not be called statically.
-     *  
-     *  @return array
-     *  @access private
-     */
-    private function _getRandomCSC()
-    {
-        $array = array();
-
-        $c = array_rand($this->CSC);
-        
-        // the state array now
-        $s = array_rand($this->CSC[$c]);
-
-        // the city
-        $ci = array_rand($this->CSC[$c][$s]);
-        $city = $this->CSC[$c][$s][$ci];
-        
-        $array[] = $c;
-        $array[] = $s;
-        $array[] = $city;
-        
-        return $array;
-    }    
     
     function getZipCodeInfo( ) {
         $offset = mt_rand( 1, 43000 );
@@ -222,7 +182,7 @@ class test_RSTest_UpdateContact
         }
         // some more random skips
         if ($locationId) {
-            $array1                                    = $this->_getRandomCSC();
+            $array1                                    = test_RSTest_Common::getRandomCSC();
             $addressDAO->city                          = $array1[2];
             $addressDAO->state_province_id             = $array1[1];
             $addressDAO->country_id                    = $array1[0];
@@ -293,7 +253,7 @@ class test_RSTest_UpdateContact
         }
     }
 
-        /**
+    /**
      * 
      * 
      * 
