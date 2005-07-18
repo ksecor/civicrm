@@ -117,10 +117,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     static function getMember ($lngGroupId) {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         
-        $strSql = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as name  
-                   FROM crm_contact, crm_group_contact
-                   WHERE crm_contact.id = crm_group_contact.contact_id 
-                     AND crm_group_contact.group_id =".$lngGroupId;
+        $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
+                   FROM civicrm_contact, civicrm_group_contact
+                   WHERE civicrm_contact.id = civicrm_group_contact.contact_id 
+                     AND civicrm_group_contact.group_id =" . $lngGroupId;
 
         $groupContact->query($strSql);
 

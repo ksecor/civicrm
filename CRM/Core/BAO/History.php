@@ -162,7 +162,7 @@ class CRM_Core_BAO_History {
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
-        $historyDAO->entity_table = 'crm_contact';
+        $historyDAO->entity_table = 'civicrm_contact';
         $historyDAO->entity_id = $entityId;
         return $historyDAO->count();
     }

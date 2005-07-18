@@ -81,7 +81,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         
         $params['modified_date'] = date("Ymd");
         $params['entity_id']      = $params['contact_id'];
-        $params['entity_table']    = 'crm_contact';
+        $params['entity_table']    = 'civicrm_contact';
 
         $note->copyValues( $params );
 
@@ -131,7 +131,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note =& new CRM_Core_BAO_Note( );
        
         $note->entity_id    = $params['contact_id'] ;        
-        $note->entity_table = 'crm_contact';
+        $note->entity_table = 'civicrm_contact';
 
         // get the total count of notes
         $values['noteTotalCount'] = $note->count( );
@@ -190,7 +190,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     {
         // need to delete for both entity_id
         $dao = new CRM_Core_DAO_Note();
-        $dao->entity_table = 'crm_contact';
+        $dao->entity_table = 'civicrm_contact';
         $dao->entity_id   = $id;
         $dao->delete();
 

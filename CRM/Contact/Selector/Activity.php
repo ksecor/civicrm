@@ -199,7 +199,6 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        //$params = array('entity_table' => 'crm_phonecall', 'entity_id' => $this->_contactId);
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
         

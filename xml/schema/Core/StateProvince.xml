@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>StateProvince</class>
-  <name>crm_state_province</name>
+  <name>civicrm_state_province</name>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -39,7 +39,7 @@
   </field>
   <foreignKey>
        <name>country_id</name>
-       <table>crm_country</table>
+       <table>civicrm_country</table>
        <key>id</key>
   </foreignKey>
   <index>

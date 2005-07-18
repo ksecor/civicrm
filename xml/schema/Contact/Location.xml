@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Location</class>
-  <name>crm_location</name>
+  <name>civicrm_location</name>
   <comment>Define location specific properties</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -34,7 +34,7 @@
   </field>
   <foreignKey>
        <name>location_type_id</name>
-       <table>crm_location_type</table>
+       <table>civicrm_location_type</table>
        <key>id</key>
        <import>true</import>
   </foreignKey>

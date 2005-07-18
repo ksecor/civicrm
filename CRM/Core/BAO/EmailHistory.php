@@ -118,7 +118,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         }
         
         // we need to insert an activity history record here
-        $params = array('entity_table'     => 'crm_contact',
+        $params = array('entity_table'     => 'civicrm_contact',
                         'entity_id'        => $toID,
                         'activity_type'    => 'Email Sent',
                         'module'           => 'CiviCRM',

@@ -206,14 +206,14 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $select = $from = $where = '';
         
-        $select = 'SELECT crm_group.id, crm_group.title ';
-        $from   = ' FROM crm_group, crm_group_contact ';
-        $where  = " WHERE crm_group.group_type='static'";
+        $select = 'SELECT civicrm_group.id, civicrm_group.title ';
+        $from   = ' FROM civicrm_group, civicrm_group_contact ';
+        $where  = " WHERE civicrm_group.group_type='static'";
         if ($contactId) {
-            $where .= " AND crm_group.id = crm_group_contact.group_id AND crm_group_contact.contact_id = ".$contactId;
+            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id AND civicrm_group_contact.contact_id = ".$contactId;
         }
 
-        $orderby = " ORDER BY crm_group.name";
+        $orderby = " ORDER BY civicrm_group.name";
         $sql     = $select . $from . $where . $orderby;
 
         $group->query($sql);
@@ -243,22 +243,22 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
 
         if ( $count ) {
-            $select = 'SELECT count(DISTINCT crm_group_contact.id)';
+            $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
-            $select = 'SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as group_title,
-                             crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
-                             crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
-                             crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
-                             crm_group_contact.out_method as out_method, crm_group.id as group_id ';
+            $select = 'SELECT civicrm_group_contact.id as civicrm_group_contact_id, civicrm_group.title as group_title,
+                             civicrm_group_contact.in_date as in_date, civicrm_group_contact.out_date as out_date,
+                             civicrm_group_contact.pending_date as pending_date, civicrm_group_contact.status as status,
+                             civicrm_group_contact.pending_method as pending_method, civicrm_group_contact.in_method as in_method,
+                             civicrm_group_contact.out_method as out_method, civicrm_group.id as group_id ';
         }
 
-        $where  = ' WHERE crm_contact.id = ' . $contactId;
+        $where  = ' WHERE civicrm_contact.id = ' . $contactId;
         
         if ( ! empty( $status ) ) {
-            $where .= ' AND crm_group_contact.status = "' . $status . '"';
+            $where .= ' AND civicrm_group_contact.status = "' . $status . '"';
         }
-        $tables     = array( 'crm_group_contact' => 1,
-                             'crm_group'         => 1, );
+        $tables     = array( 'civicrm_group_contact' => 1,
+                             'civicrm_group'         => 1, );
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
         $where .= " AND $permission ";
         
@@ -266,7 +266,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $order = $limit = '';
         if (! $count ) {
-            $order = ' ORDER BY crm_group.title ';
+            $order = ' ORDER BY civicrm_group.title ';
 
             if ( $numGroupContact ) {
                 $limit = " LIMIT 0, $numGroupContact";
@@ -287,7 +287,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         } else {
             $values = array( );
             while ( $groupContact->fetch() ) {
-                $id                            = $groupContact->crm_group_contact_id;
+                $id                            = $groupContact->civicrm_group_contact_id;
                 $values[$id]['id']             = $id;
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;

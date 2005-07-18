@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>CustomValue</class>
-  <name>crm_custom_value</name>
+  <name>civicrm_custom_value</name>
   <comment>Data store for each extended properties.</comment>
   <field>
       <name>id</name>
@@ -19,18 +19,18 @@
       <name>custom_field_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Foreign key to crm_ext_property.</comment>
+      <comment>Foreign key to civicrm_ext_property.</comment>
   </field>
   <foreignKey>
        <name>custom_field_id</name>
-       <table>crm_custom_field</table>
+       <table>civicrm_custom_field</table>
        <key>id</key>
   </foreignKey>
   <field>
        <name>entity_table</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>physical tablename for entity being extended by this data, e.g. crm_contact</comment>
+       <comment>physical tablename for entity being extended by this data, e.g. civicrm_contact</comment>
   </field>
   <index>
        <name>index_entity_table</name>

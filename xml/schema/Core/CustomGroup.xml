@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>CustomGroup</class>
-  <name>crm_custom_group</name>
+  <name>civicrm_custom_group</name>
   <comment>All extended (custom) properties are associated with a group. These are logical sets of related data.</comment>
     <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

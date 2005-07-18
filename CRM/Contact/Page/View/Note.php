@@ -71,7 +71,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
      */
     function browse( ) {
         $note =& new CRM_Core_DAO_Note( );
-        $note->entity_table = 'crm_contact';
+        $note->entity_table = 'civicrm_contact';
         $note->entity_id    = $this->_contactId;
 
         $note->orderBy( 'modified_date desc' );
@@ -113,7 +113,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
         }
 
         $controller->reset( );
-        $controller->set( 'entityTable', 'crm_contact' );
+        $controller->set( 'entityTable', 'civicrm_contact' );
         $controller->set( 'entityId'   , $this->_contactId );
         $controller->set( 'id'         , $this->_id );
 

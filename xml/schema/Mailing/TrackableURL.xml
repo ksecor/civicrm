@@ -3,7 +3,7 @@
 <table>
     <base>CRM/Mailing</base>
     <class>TrackableURL</class>
-    <name>crm_mailing_trackable_url</name>
+    <name>civicrm_mailing_trackable_url</name>
     <comment>Stores URLs for which we should track click-throughs from mailings</comment>
     <field>
         <name>id</name>
@@ -29,7 +29,7 @@
     </field>
     <foreignKey>
         <name>mailing_id</name>
-        <table>crm_mailing</table>
+        <table>civicrm_mailing</table>
         <key>id</key>
     </foreignKey>
 </table>

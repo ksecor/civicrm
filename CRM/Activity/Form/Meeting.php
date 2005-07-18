@@ -142,7 +142,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         if($meeting->status=='Completed'){
             // we need to insert an activity history record here
-            $params = array('entity_table'     => 'crm_contact',
+            $params = array('entity_table'     => 'civicrm_contact',
                             'entity_id'        => $this->_contactId,
                             'activity_type'    => 'Meeting',
                             'module'           => 'CiviCRM',

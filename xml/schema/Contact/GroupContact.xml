@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>GroupContact</class>
-  <name>crm_group_contact</name>
+  <name>civicrm_group_contact</name>
   <comment>Join table sets membership for 'static' groups. Also used to store 'opt-out' entries for 'query' type groups (status = 'OUT')</comment>
   <field>
       <name>id</name>
@@ -19,22 +19,22 @@
       <name>group_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_group</comment>
+      <comment>FK to civicrm_group</comment>
   </field>
   <foreignKey>
        <name>group_id</name>
-       <table>crm_group</table>
+       <table>civicrm_group</table>
        <key>id</key>
   </foreignKey>
   <field>
       <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_contact</comment>
+      <comment>FK to civicrm_contact</comment>
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>

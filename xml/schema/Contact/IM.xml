@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>IM</class>
-  <name>crm_im</name>
+  <name>civicrm_im</name>
   <comment>IM information for a specific location.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>location_id</name>
-       <table>crm_location</table>
+       <table>civicrm_location</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -43,7 +43,7 @@
   </field>
   <foreignKey>
        <name>provider_id</name>
-       <table>crm_im_provider</table>
+       <table>civicrm_im_provider</table>
        <key>id</key>
   </foreignKey>
   <field>

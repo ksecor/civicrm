@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Group</class>
-  <name>crm_group</name>
+  <name>civicrm_group</name>
   <comment>Provide grouping of related contacts</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -64,7 +64,7 @@
   </field>
   <foreignKey>
        <name>saved_search_id</name>
-       <table>crm_saved_search</table>
+       <table>civicrm_saved_search</table>
        <key>id</key>
   </foreignKey>
   <index>

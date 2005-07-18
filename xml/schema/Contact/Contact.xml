@@ -3,8 +3,8 @@
 <table>
   <base>CRM/Contact</base>
   <class>Contact</class>
-  <name>crm_contact</name>
-  <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a crm_contact record plus a related crm_contact_type record.</comment>
+  <name>civicrm_contact</name>
+  <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

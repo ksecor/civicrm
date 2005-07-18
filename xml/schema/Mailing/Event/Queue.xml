@@ -3,7 +3,7 @@
 <table>
     <base>CRM/Mailing/Event</base>
     <class>Queue</class>
-    <name>crm_mailing_event_queue</name>
+    <name>civicrm_mailing_event_queue</name>
     <comment>A collection of all intended recipients of a job</comment>
     <field>
         <name>id</name>
@@ -22,7 +22,7 @@
     </field>
     <foreignKey>
         <name>job_id</name>
-        <table>crm_mailing_job</table>
+        <table>civicrm_mailing_job</table>
         <key>id</key>
     </foreignKey>
     <field>
@@ -33,7 +33,7 @@
     </field>
     <foreignKey>
         <name>email_id</name>
-        <table>crm_email</table>
+        <table>civicrm_email</table>
         <key>id</key>
     </foreignKey>
     <field>
@@ -44,7 +44,7 @@
     </field>
     <foreignKey>
         <name>contact_id</name>
-        <table>crm_contact</table>
+        <table>civicrm_contact</table>
         <key>id</key>
     </foreignKey>
     <field>

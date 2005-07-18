@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>MobileProvider</class>
-  <name>crm_mobile_provider</name>
+  <name>civicrm_mobile_provider</name>
   <comment>Mobile Provider catalogue.</comment>
   <field>
       <name>id</name>
@@ -29,7 +29,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

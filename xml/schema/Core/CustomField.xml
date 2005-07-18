@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>CustomField</class>
-  <name>crm_custom_field</name>
+  <name>civicrm_custom_field</name>
   <comment>Stores info about an extended (custom) property (data and form field info).</comment>
   <field>
       <name>id</name>
@@ -19,11 +19,11 @@
       <name>custom_group_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_custom_group.</comment>
+      <comment>FK to civicrm_custom_group.</comment>
   </field>
   <foreignKey>
        <name>custom_group_id</name>
-       <table>crm_custom_group</table>
+       <table>civicrm_custom_group</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -76,11 +76,11 @@
   <field>
       <name>validation_id</name>
       <type>int unsigned</type>
-      <comment>FK to crm_validation. Will be used for custom validation functions.</comment>
+      <comment>FK to civicrm_validation. Will be used for custom validation functions.</comment>
   </field>
   <foreignKey>
        <name>validation_id</name>
-       <table>crm_validation</table>
+       <table>civicrm_validation</table>
        <key>id</key>
   </foreignKey>
   <field>

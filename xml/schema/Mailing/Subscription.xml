@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Mailing</base>
   <class>Subscription</class>
-  <name>crm_mailing_subscription</name>
+  <name>civicrm_mailing_subscription</name>
   <comment>Stores information about the subscription details of a contact.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -33,7 +33,7 @@
   </field>
   <foreignKey>
        <name>group_contact_id</name>
-       <table>crm_group_contact</table>
+       <table>civicrm_group_contact</table>
        <key>id</key>
   </foreignKey>
   <field>

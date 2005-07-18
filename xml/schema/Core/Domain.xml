@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>Domain</class>
-  <name>crm_domain</name>
+  <name>civicrm_domain</name>
   <comment>Top-level hierarchy to support multi-org/domain installations. Define domains for multi-org installs, else all contacts belong to one domain.</comment>
   <field>
       <name>id</name>

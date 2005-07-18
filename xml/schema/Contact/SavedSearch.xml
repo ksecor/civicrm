@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>SavedSearch</class>
-  <name>crm_saved_search</name>
+  <name>civicrm_saved_search</name>
   <comment>User's can save their complex SQL queries and invoke them @ later stage</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

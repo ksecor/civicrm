@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>ActivityHistory</class>
-  <name>crm_activity_history</name>
+  <name>civicrm_activity_history</name>
   <comment>Record history for an entity in the crm module</comment>
   <field>
       <name>id</name>
@@ -19,7 +19,7 @@
       <name>entity_table</name>
       <type>varchar</type>
       <length>64</length>
-      <comment>physical tablename for entity being tagged, e.g. crm_contact</comment>
+      <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
   </field>
   <index>
        <name>index_entity_table</name>
@@ -74,21 +74,21 @@
   <field>
        <name>relationship_id</name>
        <type>int unsigned</type>
-       <comment>OPTIONAL FK to crm_relationship.id. Which relationship (of this contact) potentially triggered this activity, i.e. he donated because he was a Board Member of Org X / Employee of Org Y</comment>
+       <comment>OPTIONAL FK to civicrm_relationship.id. Which relationship (of this contact) potentially triggered this activity, i.e. he donated because he was a Board Member of Org X / Employee of Org Y</comment>
   </field>
   <foreignKey>
        <name>relationship_id</name>
-       <table>crm_relationship</table>
+       <table>civicrm_relationship</table>
        <key>id</key>
   </foreignKey>
   <field>
        <name>group_id</name>
        <type>int unsigned</type>
-       <comment>OPTIONAL FK to crm_group.id. Was this part of a group communication that triggered this activity?</comment>
+       <comment>OPTIONAL FK to civicrm_group.id. Was this part of a group communication that triggered this activity?</comment>
   </field>
   <foreignKey>
        <name>group_id</name>
-       <table>crm_group</table>
+       <table>civicrm_group</table>
        <key>id</key>
   </foreignKey>
 </table>

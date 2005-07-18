@@ -133,10 +133,10 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone
     {
         $phone =& new CRM_Core_DAO( );
         
-        $strQuery = "SELECT crm_phone.id as phone_id, crm_phone.phone as phone 
-                     FROM crm_phone, crm_location 
-                     WHERE crm_phone.location_id = crm_location.id 
-                       AND crm_location.contact_id =". $contactId;
+        $strQuery = "SELECT civicrm_phone.id as phone_id, civicrm_phone.phone as phone 
+                     FROM civicrm_phone, civicrm_location 
+                     WHERE civicrm_phone.location_id = civicrm_location.id 
+                       AND civicrm_location.contact_id =". $contactId;
         
         $phone->query($strQuery);
         

@@ -83,11 +83,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         $ufmatch->uf_id = $user->$key;
         if ( ! $ufmatch->find( true ) ) {
             $query = "
-SELECT    crm_contact.id as contact_id, crm_contact.domain_id as domain_id
-FROM      crm_contact
-LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
-LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
-WHERE     crm_email.email = '" . $user->$mail . "'";
+SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+WHERE     civicrm_email.email = '" . $user->$mail . "'";
   
             $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
@@ -125,10 +125,10 @@ WHERE     crm_email.email = '" . $user->$mail . "'";
                 $ufmatch->save( );
 
                 $query = "
-UPDATE  crm_contact
-LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
-LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
-SET crm_email.email = '" . $user->$mail . '" WHERE crm_contact.id = ' . $ufmatch->contact_id;
+UPDATE  civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+SET civicrm_email.email = '" . $user->$mail . '" WHERE civicrm_contact.id = ' . $ufmatch->contact_id;
                 
                 $dao =& new CRM_Core_DAO( );
                 $dao->query( $query );
@@ -148,11 +148,11 @@ SET crm_email.email = '" . $user->$mail . '" WHERE crm_contact.id = ' . $ufmatch
     static function updateUFEmail( $contactId ) {
         // fetch the primary email
         $query = "
-SELECT    crm_email.email as email
-FROM      crm_contact
-LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
-LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
-WHERE     crm_contact.id = " . $contactId;
+SELECT    civicrm_email.email as email
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+WHERE     civicrm_contact.id = " . $contactId;
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $query );

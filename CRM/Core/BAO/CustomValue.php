@@ -184,7 +184,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $customValue =& new CRM_Core_BAO_CustomValue();
 
         $customValue->entity_id = $contactId;
-        $customValue->entity_table = 'crm_contact';
+        $customValue->entity_table = 'civicrm_contact';
 
         $customValue->find();
         $values = array();
@@ -200,7 +200,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $customValue =& new CRM_Core_BAO_CustomValue();
 
         $customValue->custom_field_id = $cfId;
-        $customValue->entity_table = 'crm_contact';
+        $customValue->entity_table = 'civicrm_contact';
         $customValue->entity_id = $contactId;
         
         $customValue->find(true);

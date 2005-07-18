@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>Country</class>
-  <name>crm_country</name>
+  <name>civicrm_country</name>
   <field>
       <name>id</name>
       <type>int unsigned</type>

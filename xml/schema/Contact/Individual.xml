@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Individual</class>
-  <name>crm_individual</name>
+  <name>civicrm_individual</name>
   <comment>Define individual specific properties</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -105,16 +105,16 @@
   <field>
       <name>phone_to_household_id</name>
       <type>int unsigned</type>
-      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
+      <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
   </field>
   <field>
       <name>email_to_household_id</name>
       <type>int unsigned</type>
-      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
+      <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
   </field>
   <field>
       <name>mail_to_household_id</name>
       <type>int unsigned</type>
-      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
+      <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
   </field>
 </table>

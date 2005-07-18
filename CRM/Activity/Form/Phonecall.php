@@ -143,7 +143,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         //echo "+++++++++++++++++++++++++";
         if($call->status=='Completed'){
             // we need to insert an activity history record here
-            $params = array('entity_table'     => 'crm_contact',
+            $params = array('entity_table'     => 'civicrm_contact',
                             'entity_id'        => $this->_contactId,
                             'activity_type'    => 'Phone Call',
                             'module'           => 'CiviCRM',

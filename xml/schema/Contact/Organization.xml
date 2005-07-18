@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Organization</class>
-  <name>crm_organization</name>
+  <name>civicrm_organization</name>
   <comment>Define organization specific properties</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -60,7 +60,7 @@
   </field>
   <foreignKey>
        <name>primary_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
 </table>

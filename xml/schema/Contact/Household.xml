@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Household</class>
-  <name>crm_household</name>
+  <name>civicrm_household</name>
   <comment>Define household specific properties</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -47,7 +47,7 @@
   </field>
   <foreignKey>
        <name>primary_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
 </table>

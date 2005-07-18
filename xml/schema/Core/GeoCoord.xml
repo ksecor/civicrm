@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>GeoCoord</class>
-  <name>crm_geo_coord</name>
+  <name>civicrm_geo_coord</name>
   <comment>Geo code coordinate system info.</comment>
   <field>
       <name>id</name>

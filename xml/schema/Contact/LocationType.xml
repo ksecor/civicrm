@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>LocationType</class>
-  <name>crm_location_type</name>
+  <name>civicrm_location_type</name>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -22,7 +22,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

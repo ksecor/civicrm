@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Tag</class>
-  <name>crm_tag</name>
+  <name>civicrm_tag</name>
   <comment>Provides support for flat or hierarchical classification of various types of entities (contacts, groups, actions...).</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -46,7 +46,7 @@
   </field>
   <foreignKey>
        <name>parent_id</name>
-       <table>crm_tag</table>
+       <table>civicrm_tag</table>
        <key>id</key>
   </foreignKey>
   <index>

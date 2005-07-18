@@ -65,7 +65,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
         // get categories for the contact id
-        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('crm_contact', $this->_contactId);
+        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
 
         if ( $entityTag ) {
             $categories = array( );

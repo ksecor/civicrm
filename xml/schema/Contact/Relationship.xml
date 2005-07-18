@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Relationship</class>
-  <name>crm_relationship</name>
+  <name>civicrm_relationship</name>
   <comment>Relationship between any 2 types of contacts.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>contact_id_a</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -34,7 +34,7 @@
   </field>
   <foreignKey>
        <name>contact_id_b</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -45,7 +45,7 @@
   </field>
   <foreignKey>
        <name>relationship_type_id</name>
-       <table>crm_relationship_type</table>
+       <table>civicrm_relationship_type</table>
        <key>id</key>
   </foreignKey>
   <field>

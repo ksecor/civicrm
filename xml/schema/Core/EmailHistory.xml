@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>EmailHistory</class>
-  <name>crm_email_history</name>
+  <name>civicrm_email_history</name>
   <comment>Email History can be linked to any object in the application.</comment>
   <field>
       <name>id</name>
@@ -37,7 +37,7 @@
   </field>
   <foreignKey>
        <name>contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>

@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Mailing</base>
   <class>Group</class>
-  <name>crm_mailing_group</name>
+  <name>civicrm_mailing_group</name>
   <comment>Stores information about the groups that participate in this mailing..</comment>
   <field>
       <name>id</name>
@@ -22,7 +22,7 @@
   </field>
   <foreignKey>
        <name>mailing_id</name>
-       <table>crm_mailing</table>
+       <table>civicrm_mailing</table>
        <key>id</key>
   </foreignKey>
   <field>

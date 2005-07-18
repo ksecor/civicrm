@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>RelationshipType</class>
-  <name>crm_relationship_type</name>
+  <name>civicrm_relationship_type</name>
   <comment>Relationship types s/b structured with contact_a as the 'subject/child' contact and contact_b as the 'object/parent' contact (e.g. Individual A is Employee of Org B).</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

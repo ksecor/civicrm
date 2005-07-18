@@ -123,7 +123,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if ( $defaults['data_type'] == 'StateProvince' ) {
                 $daoState =& new CRM_Core_DAO();
                 $stateId = $defaults['default_value'];
-                $query = "SELECT * FROM crm_state_province WHERE id = $stateId";
+                $query = "SELECT * FROM civicrm_state_province WHERE id = $stateId";
                 $daoState->query($query);
                 $daoState->fetch();
                 
@@ -133,7 +133,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if ( $defaults['data_type'] == 'Country' ) {
                 $daoCountry =& new CRM_Core_DAO();
                 $countryId = $defaults['default_value'];
-                $query = "SELECT * FROM crm_country WHERE id = $countryId";
+                $query = "SELECT * FROM civicrm_country WHERE id = $countryId";
                 $daoCountry->query($query);
                 $daoCountry->fetch();
                 
@@ -304,7 +304,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 if( !empty($default) ) {
                     $fieldCountry = $fields['default_value'];
                     $daoCountry =& new CRM_Core_DAO();
-                    $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
+                    $query = "SELECT * FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
                     $daoCountry->query($query);
                     
                     $result = $daoCountry->getDatabaseResult();
@@ -317,7 +317,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 if( !empty($default) ) {
                     $fieldStateProvince = $fields['default_value'];
                     $daoState =& new CRM_Core_DAO();
-                    $query = "SELECT * FROM crm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                    $query = "SELECT * FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
                     //echo "$query";
                     $daoState->query($query);
                     
@@ -449,26 +449,26 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             
             if ($_rowError) {
                 $_showHide->addToTemplate();
-                CRM_CORE_Page::assign('optionRowError', $_rowError);
+                CRM_Core_Page::assign('optionRowError', $_rowError);
             } else {
                 switch (self::$_dataToHTML[$fields['data_type']][$fields['html_type']]) {
                 case 'Radio':
                     $_fieldError = 1;
-                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
                     break; 
                 
                 case 'Checkbox':
                     $_fieldError = 1;
-                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
                     break; 
                 
                 case 'Select':
                     $_fieldError = 1;
-                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
                     break;
                 default:
                     $_fieldError = 0;
-                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
                 }
                 
                 
@@ -486,7 +486,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             //Check for duplicate Field Label
             $fieldLabel = $fields['label'];
             $dao =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_field WHERE label = '$fieldLabel' AND custom_group_id = '$_gid'";
+            $query = "SELECT * FROM civicrm_custom_field WHERE label = '$fieldLabel' AND custom_group_id = '$_gid'";
             $dao->query($query);
             
             $result = $dao->getDatabaseResult();
@@ -525,7 +525,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             case 'StateProvince':
                 $daoState =& new CRM_Core_DAO();
                 $fieldStateProvince = $params['default_value'];
-                $query = "SELECT * FROM crm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                $query = "SELECT * FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
                 $daoState->query($query);
                 $daoState->fetch();
                 $customField->default_value = $daoState->id;
@@ -534,7 +534,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             case 'Country':                
                 $daoCountry =& new CRM_Core_DAO();
                 $fieldCountry = $params['default_value'];
-                $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
+                $query = "SELECT * FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
                 $daoCountry->query($query);
                 $daoCountry->fetch();
                 $customField->default_value = $daoCountry->id;            

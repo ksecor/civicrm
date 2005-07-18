@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Email</class>
-  <name>crm_email</name>
+  <name>civicrm_email</name>
   <comment>Email information for a specific location.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>location_id</name>
-       <table>crm_location</table>
+       <table>civicrm_location</table>
        <key>id</key>
   </foreignKey>
   <field>

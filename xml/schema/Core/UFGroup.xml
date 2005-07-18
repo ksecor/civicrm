@@ -3,8 +3,8 @@
 <table>
   <base>CRM/Core</base>
   <class>UFGroup</class>
-  <name>crm_uf_group</name>
-  <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in crm_uf_fields table. Initially will be used for CiviCRM Profile form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
+  <name>civicrm_uf_group</name>
+  <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in civicrm_uf_fields table. Initially will be used for CiviCRM Profile form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

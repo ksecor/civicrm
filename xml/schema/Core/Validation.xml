@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>Validation</class>
-  <name>crm_validation</name>
+  <name>civicrm_validation</name>
   <comment>Stores core info about an extended (custom) property. Input form-related info is kept separately (in contact_form_field), so a property may be 'presented' in multiple form fields.</comment>
     <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

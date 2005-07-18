@@ -174,7 +174,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             
             //check label duplicates within a custom field
             $daoLabel =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id = '$fieldId' AND label = '$optionLabel'";
+            $query = "SELECT * FROM civicrm_custom_option WHERE custom_field_id = '$fieldId' AND label = '$optionLabel'";
             $daoLabel->query($query);
                     
             $result = $daoLabel->getDatabaseResult();
@@ -186,7 +186,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             
             //check value duplicates within a custom field
             $daoValue =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id = '$fieldId' AND value = '$optionValue'";
+            $query = "SELECT * FROM civicrm_custom_option WHERE custom_field_id = '$fieldId' AND value = '$optionValue'";
             $daoValue->query($query);
                     
             $result = $daoValue->getDatabaseResult();
@@ -208,7 +208,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
             //check label duplicates within a custom field
             $daoLabel =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND label = '$optionLabel'";
+            $query = "SELECT * FROM civicrm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND label = '$optionLabel'";
             
             $daoLabel->query($query);
                     
@@ -222,7 +222,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             
             //check value duplicates within a custom field
             $daoValue =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND value = '$optionValue'";
+            $query = "SELECT * FROM civicrm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND value = '$optionValue'";
             $daoValue->query($query);
                     
             $resultValue = $daoValue->getDatabaseResult();

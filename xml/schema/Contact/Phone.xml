@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>Phone</class>
-  <name>crm_phone</name>
+  <name>civicrm_phone</name>
   <comment>Phone information for a specific location.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>location_id</name>
-       <table>crm_location</table>
+       <table>civicrm_location</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -56,7 +56,7 @@
   </field>
   <foreignKey>
        <name>mobile_provider_id</name>
-       <table>crm_mobile_provider</table>
+       <table>civicrm_mobile_provider</table>
        <key>id</key>
   </foreignKey>
 </table>

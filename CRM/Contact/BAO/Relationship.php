@@ -369,7 +369,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         list( $type, $first, $second ) = explode( '_' , $relationshipTypeId );
 
         $queryString = " SELECT id 
-                         FROM   crm_relationship 
+                         FROM   civicrm_relationship 
                          WHERE  relationship_type_id = $type
                                 AND ( ( contact_id_a = $id        AND contact_id_b = $contactId ) OR 
                                       ( contact_id_a = $contactId AND contact_id_b = $id        )
@@ -441,69 +441,69 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $select = '( ';
         if ( $count ) {
             if ( $direction == 'a_b' ) {
-                $select .= ' SELECT count(DISTINCT crm_relationship.id) as cnt1, 0 as cnt2 ';
+                $select .= ' SELECT count(DISTINCT civicrm_relationship.id) as cnt1, 0 as cnt2 ';
             } else {
-                $select .= ' SELECT 0 as cnt1, count(DISTINCT crm_relationship.id) as cnt2 ';
+                $select .= ' SELECT 0 as cnt1, count(DISTINCT civicrm_relationship.id) as cnt2 ';
             }
         } else {
-            $select .= ' SELECT crm_relationship.id as crm_relationship_id,
-                              crm_contact.sort_name as sort_name,
-                              crm_address.street_address as street_address,
-                              crm_address.city as city,
-                              crm_address.postal_code as postal_code,
-                              crm_state_province.abbreviation as state,
-                              crm_country.name as country,
-                              crm_email.email as email,
-                              crm_phone.phone as phone,
-                              crm_contact.id as crm_contact_id,
-                              crm_contact.contact_type as contact_type,
-                              crm_relationship.contact_id_b as contact_id_b,
-                              crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.id as crm_relationship_type_id,
-                              crm_relationship.start_date as start_date,
-                              crm_relationship.end_date as end_date,
-                              crm_relationship.is_active as is_active ';
+            $select .= ' SELECT civicrm_relationship.id as civicrm_relationship_id,
+                              civicrm_contact.sort_name as sort_name,
+                              civicrm_address.street_address as street_address,
+                              civicrm_address.city as city,
+                              civicrm_address.postal_code as postal_code,
+                              civicrm_state_province.abbreviation as state,
+                              civicrm_country.name as country,
+                              civicrm_email.email as email,
+                              civicrm_phone.phone as phone,
+                              civicrm_contact.id as civicrm_contact_id,
+                              civicrm_contact.contact_type as contact_type,
+                              civicrm_relationship.contact_id_b as contact_id_b,
+                              civicrm_relationship.contact_id_a as contact_id_a,
+                              civicrm_relationship_type.id as civicrm_relationship_type_id,
+                              civicrm_relationship.start_date as start_date,
+                              civicrm_relationship.end_date as end_date,
+                              civicrm_relationship.is_active as is_active ';
 
             if ( $direction == 'a_b' ) {
-                $select .= ', crm_relationship_type.name_a_b as name_a_b,
-                              crm_relationship_type.name_b_a as relation ';
+                $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
+                              civicrm_relationship_type.name_b_a as relation ';
             } else {
-                $select .= ', crm_relationship_type.name_a_b as name_a_b,
-                              crm_relationship_type.name_a_b as relation ';
+                $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
+                              civicrm_relationship_type.name_a_b as relation ';
             }
 
         }
 
-        $from = ' FROM crm_contact, crm_relationship, crm_relationship_type
-                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
-                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
-                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id) ';
+        $from = ' FROM civicrm_contact, civicrm_relationship, civicrm_relationship_type
+                        LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+                        LEFT OUTER JOIN civicrm_address ON (civicrm_location.id = civicrm_address.location_id )
+                        LEFT OUTER JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1)
+                        LEFT OUTER JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+                        LEFT OUTER JOIN civicrm_state_province ON (civicrm_address.state_province_id = civicrm_state_province.id)
+                        LEFT OUTER JOIN civicrm_country ON (civicrm_address.country_id = civicrm_country.id) ';
 
-        $where = ' WHERE crm_relationship.relationship_type_id = crm_relationship_type.id ';
+        $where = ' WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id ';
         if ( $direction == 'a_b' ) {
-            $where .= ' AND crm_relationship.contact_id_b = ' . $contactId . ' AND crm_relationship.contact_id_a = crm_contact.id ';
+            $where .= ' AND civicrm_relationship.contact_id_b = ' . $contactId . ' AND civicrm_relationship.contact_id_a = civicrm_contact.id ';
         } else {
-            $where .= ' AND crm_relationship.contact_id_a = ' . $contactId . ' AND crm_relationship.contact_id_b = crm_contact.id ';
+            $where .= ' AND civicrm_relationship.contact_id_a = ' . $contactId . ' AND civicrm_relationship.contact_id_b = civicrm_contact.id ';
         }
         if ( $relationshipId ) {
-            $where .= ' AND crm_relationship.id = ' . $relationshipId;
+            $where .= ' AND civicrm_relationship.id = ' . $relationshipId;
         }
 
         $date = date( 'Y-m-d' );
         if ( $status == self::PAST ) {
             //this case for showing past relationship
-            $where .= ' AND crm_relationship.is_active = 1 ';
-            $where .= " AND crm_relationship.end_date < '" . $date . "'";
+            $where .= ' AND civicrm_relationship.is_active = 1 ';
+            $where .= " AND civicrm_relationship.end_date < '" . $date . "'";
         } else if ( $status == self::DISABLED ) {
             // this case for showing disabled relationship
-            $where .= ' AND crm_relationship.is_active = 0 ';
+            $where .= ' AND civicrm_relationship.is_active = 0 ';
         } else if ( $status == self::CURRENT ) {
             //this case for showing current relationship
-            $where .= ' AND crm_relationship.is_active = 1 ';
-            $where .= " AND (crm_relationship.end_date >= '" . $date . "' OR crm_relationship.end_date IS NULL) ";
+            $where .= ' AND civicrm_relationship.is_active = 1 ';
+            $where .= " AND (civicrm_relationship.end_date >= '" . $date . "' OR civicrm_relationship.end_date IS NULL) ";
         }
         
         if ( $direction == 'a_b' ) {
@@ -534,7 +534,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $order = $limit = '';
         if (! $count ) {
-            $order = ' ORDER BY crm_relationship_type_id, sort_name ';
+            $order = ' ORDER BY civicrm_relationship_type_id, sort_name ';
 
             if ( $numRelationship) {
                 $limit = " LIMIT 0, $numRelationship";
@@ -567,10 +567,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
 
             while ( $relationship->fetch() ) {
-                $rid = $relationship->crm_relationship_id;
+                $rid = $relationship->civicrm_relationship_id;
 
                 $values[$rid]['id']         = $rid;
-                $values[$rid]['cid']        = $relationship->crm_contact_id;
+                $values[$rid]['cid']        = $relationship->civicrm_contact_id;
                 $values[$rid]['relation']   = $relationship->relation;
                 $values[$rid]['name']       = $relationship->sort_name;
                 $values[$rid]['email']      = $relationship->email;

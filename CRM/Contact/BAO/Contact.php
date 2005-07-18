@@ -75,16 +75,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $permission = CRM_Core_Permission::whereClause( $type, $tables );
         $from       = self::fromClause( $tables );
         $query = "
-SELECT count(DISTINCT crm_contact.id) 
+SELECT count(DISTINCT civicrm_contact.id) 
        $from
-WHERE crm_contact.id = $id AND $permission
+WHERE civicrm_contact.id = $id AND $permission
 ";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
         
-        // does not work for php4
-        // $row = $dao->getDatabaseResult()->fetchRow();
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
         return ( $row[0] > 0 ) ? true : false;
@@ -106,36 +104,36 @@ WHERE crm_contact.id = $id AND $permission
 
         $query = "
 SELECT DISTINCT
-  crm_contact.id as contact_id,
-  crm_individual.id               as individual_id ,
-  crm_location.id                 as location_id   ,
-  crm_address.id                  as address_id    ,
-  crm_email.id                    as email_id      ,
-  crm_phone.id                    as phone_id      ,
-  crm_individual.first_name       as first_name    ,
-  crm_individual.middle_name      as middle_name   ,
-  crm_individual.last_name        as last_name     ,
-  crm_individual.prefix           as prefix        ,
-  crm_individual.suffix           as suffix        ,
-  crm_address.street_address      as street_address,
-  crm_address.city                as city          ,
-  crm_address.postal_code         as postal_code   ,
-  crm_state_province.name         as state         ,
-  crm_country.name                as country       ,
-  crm_email.email                 as email         ,
-  crm_phone.phone                 as phone         ";
+  civicrm_contact.id as contact_id,
+  civicrm_individual.id               as individual_id ,
+  civicrm_location.id                 as location_id   ,
+  civicrm_address.id                  as address_id    ,
+  civicrm_email.id                    as email_id      ,
+  civicrm_phone.id                    as phone_id      ,
+  civicrm_individual.first_name       as first_name    ,
+  civicrm_individual.middle_name      as middle_name   ,
+  civicrm_individual.last_name        as last_name     ,
+  civicrm_individual.prefix           as prefix        ,
+  civicrm_individual.suffix           as suffix        ,
+  civicrm_address.street_address      as street_address,
+  civicrm_address.city                as city          ,
+  civicrm_address.postal_code         as postal_code   ,
+  civicrm_state_province.name         as state         ,
+  civicrm_country.name                as country       ,
+  civicrm_email.email                 as email         ,
+  civicrm_phone.phone                 as phone         ";
 
-        $tables = array( 'crm_individual'     => 1,
-                         'crm_location'       => 1,
-                         'crm_address'        => 1,
-                         'crm_email'          => 1,
-                         'crm_phone'          => 1,
-                         'crm_state_province' => 1,
-                         'crm_country'        => 1,
-                         'crm_custom_value'   => 1 );
+        $tables = array( 'civicrm_individual'     => 1,
+                         'civicrm_location'       => 1,
+                         'civicrm_address'        => 1,
+                         'civicrm_email'          => 1,
+                         'civicrm_phone'          => 1,
+                         'civicrm_state_province' => 1,
+                         'civicrm_country'        => 1,
+                         'civicrm_custom_value'   => 1 );
         $query .= self::fromClause( $tables );
 
-        $query .= " WHERE crm_contact.id = $id";
+        $query .= " WHERE civicrm_contact.id = $id";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -159,14 +157,14 @@ SELECT DISTINCT
     static function matchContact( $matchClause, &$tables, $id = null ) {
         $config =& CRM_Core_Config::singleton( );
         if ( $config->mysqlVersion >= 4.1 ) {
-            $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+            $query  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
         } else {
-            $query  = "SELECT DISTINCT crm_contact.id as id";
+            $query  = "SELECT DISTINCT civicrm_contact.id as id";
         }
         $query .= self::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
-            $query .= " AND crm_contact.id != $id ";
+            $query .= " AND civicrm_contact.id != $id ";
         }
 
         $dao =& new CRM_Core_DAO( );
@@ -204,15 +202,15 @@ SELECT DISTINCT
         }
 
         $query = "
-SELECT email, crm_location_type.name as locationType, crm_email.is_primary as is_primary
-FROM    crm_contact
-LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id)
-LEFT JOIN crm_location_type ON (crm_location.location_type_id = crm_location_type.id)
-LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id)
+SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary
+FROM    civicrm_contact
+LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
+LEFT JOIN civicrm_location_type ON (civicrm_location.location_type_id = civicrm_location_type.id)
+LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id)
 WHERE
-  crm_contact.id = $id
+  civicrm_contact.id = $id
 ORDER BY
-  crm_location.is_primary DESC, crm_email.is_primary DESC";
+  civicrm_location.is_primary DESC, civicrm_email.is_primary DESC";
         
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -249,13 +247,13 @@ ORDER BY
 
         $tables = array( );
         if( $count ) {
-            $select = "SELECT count(DISTINCT crm_contact.id) ";
+            $select = "SELECT count(DISTINCT civicrm_contact.id) ";
         } else if ( $sortByChar ) {
-            $select = "SELECT DISTINCT UPPER(LEFT(crm_contact.sort_name, 1)) as sort_name";
+            $select = "SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name";
         } else if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
-            $select  = "SELECT DISTINCT crm_contact.id as id";
+            $select  = "SELECT DISTINCT civicrm_contact.id as id";
         } else if ( $groupContacts ) {
-            $select  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+            $select  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
         } else {
             $select = self::selectClause( $tables );
         }
@@ -274,7 +272,7 @@ ORDER BY
             if ($sort) {
                 $order = " ORDER BY " . $sort->orderBy(); 
             } else if ($sortByChar) { 
-                $order = " ORDER BY LEFT(crm_contact.sort_name, 1) ";
+                $order = " ORDER BY LEFT(civicrm_contact.sort_name, 1) ";
             }
             if ( $rowCount > 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
@@ -312,28 +310,28 @@ ORDER BY
      * @static
      */
     static function selectClause( &$tables ) {
-        $tables['crm_location']       = 1;
-        $tables['crm_address']        = 1;
-        $tables['crm_phone']          = 1;
-        $tables['crm_email']          = 1;
-        $tables['crm_state_province'] = 1;
-        $tables['crm_country']        = 1;
-        $tables['crm_custom_value']    = 1;
+        $tables['civicrm_location']       = 1;
+        $tables['civicrm_address']        = 1;
+        $tables['civicrm_phone']          = 1;
+        $tables['civicrm_email']          = 1;
+        $tables['civicrm_state_province'] = 1;
+        $tables['civicrm_country']        = 1;
+        $tables['civicrm_custom_value']    = 1;
 
         return "
-SELECT DISTINCT crm_contact.id as contact_id,
-  crm_contact.sort_name as sort_name,
-  crm_contact.display_name as display_name,
-  crm_address.street_address as street_address,
-  crm_address.city as city,
-  crm_address.postal_code as postal_code,
-  crm_address.geo_code_1 as latitude,
-  crm_address.geo_code_2 as longitude,
-  crm_state_province.abbreviation as state,
-  crm_country.name as country,
-  crm_email.email as email,
-  crm_phone.phone as phone,
-  crm_contact.contact_type as contact_type
+SELECT DISTINCT civicrm_contact.id as contact_id,
+  civicrm_contact.sort_name as sort_name,
+  civicrm_contact.display_name as display_name,
+  civicrm_address.street_address as street_address,
+  civicrm_address.city as city,
+  civicrm_address.postal_code as postal_code,
+  civicrm_address.geo_code_1 as latitude,
+  civicrm_address.geo_code_2 as longitude,
+  civicrm_state_province.abbreviation as state,
+  civicrm_country.name as country,
+  civicrm_email.email as email,
+  civicrm_phone.phone as phone,
+  civicrm_contact.contact_type as contact_type
 ";
     }
 
@@ -341,27 +339,27 @@ SELECT DISTINCT crm_contact.id as contact_id,
      * create the from clause
      *
      * @param array $tables tables that need to be included in this from clause
-     *                      if null, return mimimal from clause (i.e. crm_contact)
+     *                      if null, return mimimal from clause (i.e. civicrm_contact)
      * @return string the from clause
      * @access public
      * @static
      */
     static function fromClause( &$tables ) {
-        $from = ' FROM crm_contact ';
+        $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
             return $from;
         }
 
         // add location table if address / phone / email is set
-        if ( CRM_Utils_Array::value( 'crm_address', $tables ) ||
-             CRM_Utils_Array::value( 'crm_phone'  , $tables ) ||
-             CRM_Utils_Array::value( 'crm_email'  , $tables ) ) {
-            $tables['crm_location'] = 1;
+        if ( CRM_Utils_Array::value( 'civicrm_address', $tables ) ||
+             CRM_Utils_Array::value( 'civicrm_phone'  , $tables ) ||
+             CRM_Utils_Array::value( 'civicrm_email'  , $tables ) ) {
+            $tables['civicrm_location'] = 1;
         }
 
         // add group_contact table if group table is present
-        if ( CRM_Utils_Array::value( 'crm_group', $tables ) ) {
-            $tables['crm_group_contact'] = 1;
+        if ( CRM_Utils_Array::value( 'civicrm_group', $tables ) ) {
+            $tables['civicrm_group_contact'] = 1;
         }
 
         foreach ( $tables as $name => $value ) {
@@ -370,55 +368,55 @@ SELECT DISTINCT crm_contact.id as contact_id,
             }
 
             switch ( $name ) {
-            case 'crm_individual':
-                $from .= ' LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id) ';
+            case 'civicrm_individual':
+                $from .= ' LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ';
                 continue;
 
-            case 'crm_location':
-                $from .= ' LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) ';
+            case 'civicrm_location':
+                $from .= ' LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1) ';
                 continue;
 
-            case 'crm_address':
-                $from .= ' LEFT JOIN crm_address ON crm_location.id = crm_address.location_id ';
+            case 'civicrm_address':
+                $from .= ' LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id ';
                 continue;
 
-            case 'crm_phone':
-                $from .= ' LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1) ';
+            case 'civicrm_phone':
+                $from .= ' LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) ';
                 continue;
 
-            case 'crm_email':
-                $from .= ' LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1) ';
+            case 'civicrm_email':
+                $from .= ' LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ';
                 continue;
 
-            case 'crm_state_province':
-                $from .= ' LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id ';
+            case 'civicrm_state_province':
+                $from .= ' LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ';
                 continue;
 
-            case 'crm_country':
-                $from .= ' LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ';
+            case 'civicrm_country':
+                $from .= ' LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ';
                 continue;
 
-            case 'crm_group':
-                $from .= ' LEFT JOIN crm_group ON crm_group.id =  crm_group_contact.group_id ';
+            case 'civicrm_group':
+                $from .= ' LEFT JOIN civicrm_group ON civicrm_group.id =  civicrm_group_contact.group_id ';
                 continue;
 
-            case 'crm_group_contact':
-                $from .= ' LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ';
+            case 'civicrm_group_contact':
+                $from .= ' LEFT JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ';
                 continue;
 
-            case 'crm_entity_tag':
-                $from .= " LEFT JOIN crm_entity_tag ON ( crm_entity_tag.entity_table = 'crm_contact' AND
-                                                         crm_contact.id = crm_entity_tag.entity_id ) ";
+            case 'civicrm_entity_tag':
+                $from .= " LEFT JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
+                                                         civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
                 continue;
 
-            case 'crm_activity_history':
-                $from .= " LEFT JOIN crm_activity_history ON ( crm_activity_history.entity_table = 'crm_contact' AND  
-                                                               crm_contact.id = crm_activity_history.entity_id ) ";
+            case 'civicrm_activity_history':
+                $from .= " LEFT JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
+                                                               civicrm_contact.id = civicrm_activity_history.entity_id ) ";
                 continue;
 
-            case 'crm_custom_value':
-                $from .= " LEFT JOIN crm_custom_value ON ( crm_custom_value.entity_table = 'crm_contact' AND
-                                                           crm_contact.id = crm_custom_value.entity_id ) ";
+            case 'civicrm_custom_value':
+                $from .= " LEFT JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
+                                                           civicrm_contact.id = civicrm_custom_value.entity_id ) ";
                 continue;
             }
         }
@@ -484,7 +482,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
         $andArray = array();
 
         $config =& CRM_Core_Config::singleton( );
-        $andArray['domain'] = 'crm_contact.domain_id = ' . $config->domainID( ) . ' ';
+        $andArray['domain'] = 'civicrm_contact.domain_id = ' . $config->domainID( ) . ' ';
 
         // check for contact type restriction
         if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
@@ -499,17 +497,17 @@ SELECT DISTINCT crm_contact.id as contact_id,
         
         // check for group restriction
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
-            $andArray['group'] = "(crm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
-            $andArray['groupStatus'] = '(crm_group_contact.status = "In")';
+            $andArray['group'] = "(civicrm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
+            $andArray['groupStatus'] = '(civicrm_group_contact.status = "In")';
             
-            $tables['crm_group_contact'] = 1;
+            $tables['civicrm_group_contact'] = 1;
         }
         
         // check for tag restriction
         if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
             $andArray['tag'] .= "(tag_id IN (" . implode( ',', array_keys($fv['cb_tag']) ) . '))';
 
-            $tables['crm_entity_tag'] = 1;
+            $tables['civicrm_entity_tag'] = 1;
         }
         
         // check for last name, as of now only working with sort name
@@ -517,7 +515,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
             $name = trim($fv['sort_name']);
             // if we have a comma in the string, search for the entire string
             if ( strpos( $name, ',' ) !== false ) {
-                $cond = " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
+                $cond = " LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
             } else {
                 // split the string into pieces
                 $pieces =  explode( ' ', $name );
@@ -529,7 +527,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     } else {
                         $first = false;
                     }
-                    $cond .= " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
+                    $cond .= " LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
                 }
                 $cond .= ' ) ';
             }
@@ -540,7 +538,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
         if ( CRM_Utils_Array::value( 'sortByCharacter', $fv ) ) {
             $name = trim($fv['sortByCharacter']);
 
-            $cond = " LOWER(crm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'";
+            $cond = " LOWER(civicrm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'";
             if ( CRM_Utils_Array::value( 'sort_name', $andArray ) ) {
                 $andArray['sort_name'] = '(' . $andArray['sort_name'] . "AND ( $cond ))";
             } else {
@@ -556,24 +554,24 @@ SELECT DISTINCT crm_contact.id as contact_id,
                 }
             }
             if ( ! empty( $contactIds ) ) {
-                $andArray['cid'] = " ( crm_contact.id in (" . implode( ',', $contactIds ) . " ) ) ";
+                $andArray['cid'] = " ( civicrm_contact.id in (" . implode( ',', $contactIds ) . " ) ) ";
             }
         }
         
         $fields = array( 'street_name'=> 1, 'city' => 1, 'state_province' => 2, 'country' => 3 );
         foreach ( $fields as $field => $value ) {
             if ( CRM_Utils_Array::value( $field, $fv ) ) {
-                $tables['crm_location'] = 1;
-                $tables['crm_address'] = 1;
+                $tables['civicrm_location'] = 1;
+                $tables['civicrm_address'] = 1;
 
                 if ( $value == 1 ) {
-                    $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
+                    $andArray[$field] = " ( LOWER(civicrm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
                 } else { 
-                    $andArray[$field] = ' ( crm_address.' . $field .  '_id = ' . $fv[$field] . ') ';
+                    $andArray[$field] = ' ( civicrm_address.' . $field .  '_id = ' . $fv[$field] . ') ';
                     if ( $value == 2 ) {
-                        $tables['crm_state_province'] = 1;
+                        $tables['civicrm_state_province'] = 1;
                     } else {
-                        $tables['crm_country'] = 1;
+                        $tables['civicrm_country'] = 1;
                     }
                 }
             }
@@ -583,21 +581,21 @@ SELECT DISTINCT crm_contact.id as contact_id,
         if ( CRM_Utils_Array::value( 'postal_code'     , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_low' , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_high', $fv ) ) {
-            $tables['crm_location'] = 1;
-            $tables['crm_address']   = 1;
+            $tables['civicrm_location'] = 1;
+            $tables['civicrm_address']   = 1;
 
             // we need to do postal code processing
             $pcORArray   = array();
             $pcANDArray  = array();
 
             if ($fv['postal_code']) {
-                $pcORArray[] = ' ( crm_address.postal_code = ' . $fv['postal_code'] . ' ) ';
+                $pcORArray[] = ' ( civicrm_address.postal_code = ' . $fv['postal_code'] . ' ) ';
             }
             if ($fv['postal_code_low']) {
-                $pcANDArray[] = ' ( crm_address.postal_code >= ' . $fv['postal_code_low'] . ' ) ';
+                $pcANDArray[] = ' ( civicrm_address.postal_code >= ' . $fv['postal_code_low'] . ' ) ';
             }
             if ($fv['postal_code_high']) {
-                $pcANDArray[] = ' ( crm_address.postal_code <= ' . $fv['postal_code_high'] . ' ) ';
+                $pcANDArray[] = ' ( civicrm_address.postal_code <= ' . $fv['postal_code_high'] . ' ) ';
             }            
 
             if ( ! empty( $pcANDArray ) ) {
@@ -610,14 +608,14 @@ SELECT DISTINCT crm_contact.id as contact_id,
         if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
             
             // processing for location type - check if any locations checked
-            $andArray['location_type'] = "(crm_location.location_type_id IN (" . implode( ',', array_keys($fv['cb_location_type']) ) . '))';
+            $andArray['location_type'] = "(civicrm_location.location_type_id IN (" . implode( ',', array_keys($fv['cb_location_type']) ) . '))';
         }
         
         // processing for primary location
         if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
-            $andArray['cb_primary_location'] = ' ( crm_location.is_primary = 1 ) ';
+            $andArray['cb_primary_location'] = ' ( civicrm_location.is_primary = 1 ) ';
             
-            $tables['crm_location'] = 1;
+            $tables['civicrm_location'] = 1;
         }
 
 
@@ -635,25 +633,25 @@ SELECT DISTINCT crm_contact.id as contact_id,
                 } else {
                     $first = false;
                 }
-                $cond .= " LOWER(crm_activity_history.activity_type) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
+                $cond .= " LOWER(civicrm_activity_history.activity_type) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
             }
             $cond .= ' ) ';
             $andArray['activity_type'] = "( $cond )";
 
-            $tables['crm_activity_history'] = 1;
+            $tables['civicrm_activity_history'] = 1;
         }
 
         // from date
 
         if ( isset($fv['activity_from_date']) &&
              ( $activityFromDate = CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv))))) {
-            $andArray['activity_from_date'] = " ( crm_activity_history.activity_date >= '$activityFromDate' ) ";
-            $tables['crm_activity_history'] = 1;
+            $andArray['activity_from_date'] = " ( civicrm_activity_history.activity_date >= '$activityFromDate' ) ";
+            $tables['civicrm_activity_history'] = 1;
         }
         if (isset($fv['activity_to_date']) &&
             ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)))))) {            
-            $andArray['activity_to_date'] = " ( crm_activity_history.activity_date <= '$activityToDate' ) ";
-            $tables['crm_activity_history'] = 1;
+            $andArray['activity_to_date'] = " ( civicrm_activity_history.activity_date <= '$activityToDate' ) ";
+            $tables['civicrm_activity_history'] = 1;
         }
         
         //Start Custom data Processing 
@@ -664,7 +662,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
                 if ( substr( $k, 0, 10 ) != 'customData' ) {
                     continue;
                 }
-                $tables['crm_custom_value'] = 1;
+                $tables['civicrm_custom_value'] = 1;
                 
                 list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                 
@@ -676,8 +674,8 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     
                     // using tableData to build the queryString 
                     $tableData = array(
-                                       'crm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
-                                       'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'),
+                                       'civicrm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
+                                       'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'),
                                        );
                     
                     // create select
@@ -691,11 +689,11 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     $strSelect = rtrim($strSelect, ',');
                     
                     // from, where, order by
-                    $strFrom = " FROM crm_custom_value, crm_custom_field ";
-                    $strWhere = " WHERE crm_custom_value.custom_field_id = $fieldId
-                              AND crm_custom_value.custom_field_id = crm_custom_field.id
-                              AND crm_custom_field.is_active = 1";
-                    $orderBy = " ORDER BY crm_custom_field.weight";
+                    $strFrom = " FROM civicrm_custom_value, civicrm_custom_field ";
+                    $strWhere = " WHERE civicrm_custom_value.custom_field_id = $fieldId
+                              AND civicrm_custom_value.custom_field_id = civicrm_custom_field.id
+                              AND civicrm_custom_field.is_active = 1";
+                    $orderBy = " ORDER BY civicrm_custom_field.weight";
                     
                     // final query string
                     $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
@@ -706,29 +704,29 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     
                     // process records
                     while($crmDAO->fetch()) {
-                        $dataType = $crmDAO->crm_custom_field_data_type;
-                        $htmlType = $crmDAO->crm_custom_field_html_type;
+                        $dataType = $crmDAO->civicrm_custom_field_data_type;
+                        $htmlType = $crmDAO->civicrm_custom_field_html_type;
                         switch ($dataType) {
                         case 'String':
                             if ( $htmlType == 'CheckBox' ) {
                                 
                                 $strChkBox = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                                 
-                                $cdANDArray[] = " ( crm_custom_value.char_data LIKE '". $strChkBox ."' )";                            
+                                $cdANDArray[] = " ( civicrm_custom_value.char_data LIKE '". $strChkBox ."' )";                            
                             } else {
-                                $cdANDArray[] = " ( crm_custom_value.char_data LIKE '%". $v ."%' )";
+                                $cdANDArray[] = " ( civicrm_custom_value.char_data LIKE '%". $v ."%' )";
                             }
                             break;
                         case 'Int':
                         case 'Boolean':
-                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";;
+                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";;
                             break;
                         case 'Float':
                         case 'Money':
-                            $cdANDArray[] = " ( crm_custom_value.float_data = '". $v . "' ) ";
+                            $cdANDArray[] = " ( civicrm_custom_value.float_data = '". $v . "' ) ";
                             break;
                         case 'Memo':
-                            $cdANDArray[] = " ( crm_custom_value.memo_data LIKE '%". $v . "%' )";
+                            $cdANDArray[] = " ( civicrm_custom_value.memo_data LIKE '%". $v . "%' )";
                             break;
                         case 'Date':
                             if ( !empty($v['d']) ) {
@@ -736,25 +734,25 @@ SELECT DISTINCT crm_contact.id as contact_id,
                                 if ( ! $date ) {
                                     $date = '';
                                 }
-                                $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";
+                                $cdANDArray[] = " ( civicrm_custom_value.date_data = '". $v . "' )";
                             }
                             
                             if ( !empty($v['M']) ) {
-                                $cdANDArray[] = " ( MONTH(crm_custom_value.date_data) = '". $v['M'] . "' AND YEAR(crm_custom_value.date_data) = '". $v['Y'] . "' )";
+                                $cdANDArray[] = " ( MONTH(civicrm_custom_value.date_data) = '". $v['M'] . "' AND YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
                             } else {
-                                $cdANDArray[] = " ( YEAR(crm_custom_value.date_data) = '". $v['Y'] . "' )";
+                                $cdANDArray[] = " ( YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
                             }
                             /*$date = CRM_Utils_Date::format( $v );
                             if ( ! $date ) {
                                 $date = '';
                             }
-                            $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";*/
+                            $cdANDArray[] = " ( civicrm_custom_value.date_data = '". $v . "' )";*/
                             break;
                         case 'StateProvince':
-                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
+                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";
                             break;
                         case 'Country':
-                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
+                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";
                             break;
                         }
                     }
@@ -956,7 +954,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
         if (is_array($params['custom'])) {  
             foreach ($params['custom'] as $customValue) {
                 $cvParams = array(
-                    'entity_table' => 'crm_contact',
+                    'entity_table' => 'civicrm_contact',
                     'entity_id' => $contact->id,
                     'value' => $customValue['value'],
                     'type' => $customValue['type'],
@@ -983,9 +981,9 @@ SELECT DISTINCT crm_contact.id as contact_id,
      */
     static function getDisplayAndImage( $id ) {
         $sql = "
-SELECT crm_contact.display_name as display_name, crm_contact.contact_type as contact_type
-FROM   crm_contact
-WHERE  crm_contact.id = $id
+SELECT civicrm_contact.display_name as display_name, civicrm_contact.contact_type as contact_type
+FROM   civicrm_contact
+WHERE  civicrm_contact.id = $id
 ";
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
@@ -1158,11 +1156,11 @@ WHERE  crm_contact.id = $id
      * @access public
      */
     static function getEmailDetails( $id ) {
-        $sql = ' SELECT    crm_contact.display_name, crm_email.email
-                 FROM      crm_contact
-                 LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                 LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                 WHERE     crm_contact.id = ' . $id;
+        $sql = ' SELECT    civicrm_contact.display_name, civicrm_email.email
+                 FROM      civicrm_contact
+                 LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+                 LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+                 WHERE     civicrm_contact.id = ' . $id;
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
@@ -1188,21 +1186,21 @@ WHERE  crm_contact.id = $id
         $idString = ' ( ' . implode( ',', $ids ) . ' ) ';
         $sql = "
 SELECT
-  crm_contact.id as contact_id,
-  crm_contact.display_name as display_name,
-  crm_address.street_address as street_address,
-  crm_address.city as city,
-  crm_address.postal_code as postal_code,
-  crm_address.geo_code_1 as latitude,
-  crm_address.geo_code_2 as longitude,
-  crm_state_province.abbreviation as state,
-  crm_country.name as country
-FROM      crm_contact
-LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
-WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.geo_code_1 is not null";
+  civicrm_contact.id as contact_id,
+  civicrm_contact.display_name as display_name,
+  civicrm_address.street_address as street_address,
+  civicrm_address.city as city,
+  civicrm_address.postal_code as postal_code,
+  civicrm_address.geo_code_1 as latitude,
+  civicrm_address.geo_code_2 as longitude,
+  civicrm_state_province.abbreviation as state,
+  civicrm_country.name as country
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
+LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
+LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
+WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civicrm_address.geo_code_1 is not null";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
@@ -1372,7 +1370,7 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
 
         // this is not sufficient way to do.
 
-        $query1 = "SELECT count(*) FROM crm_meeting WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query1 = "SELECT count(*) FROM civicrm_meeting WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao =& new CRM_Core_DAO();
         $dao->query($query1);
         $result = $dao->getDatabaseResult();
@@ -1380,7 +1378,7 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         
         $rowMeeting = $row[0];
         
-        $query2 = "SELECT count(*) FROM crm_phonecall WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query2 = "SELECT count(*) FROM civicrm_phonecall WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao->query($query2);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -1411,34 +1409,34 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         
         $query = "
 ( SELECT
-    crm_phonecall.id as id,
-    crm_phonecall.subject as subject,
-    crm_phonecall.scheduled_date_time as date,
-    crm_phonecall.status as status,
+    civicrm_phonecall.id as id,
+    civicrm_phonecall.subject as subject,
+    civicrm_phonecall.scheduled_date_time as date,
+    civicrm_phonecall.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
     1 as activity_type
-  FROM crm_phonecall, crm_contact source, crm_contact target
+  FROM civicrm_phonecall, civicrm_contact source, civicrm_contact target
   WHERE
-    crm_phonecall.source_contact_id = source.id AND
-    crm_phonecall.target_contact_id = target.id AND
-    ( crm_phonecall.source_contact_id = $contactId OR crm_phonecall.target_contact_id = $contactId ) AND
-    crm_phonecall.status != 'Completed'
+    civicrm_phonecall.source_contact_id = source.id AND
+    civicrm_phonecall.target_contact_id = target.id AND
+    ( civicrm_phonecall.source_contact_id = $contactId OR civicrm_phonecall.target_contact_id = $contactId ) AND
+    civicrm_phonecall.status != 'Completed'
 ) UNION
 ( SELECT   
-    crm_meeting.id as id,
-    crm_meeting.subject as subject,
-    crm_meeting.scheduled_date_time as date,
-    crm_meeting.status as status,
+    civicrm_meeting.id as id,
+    civicrm_meeting.subject as subject,
+    civicrm_meeting.scheduled_date_time as date,
+    civicrm_meeting.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
     0 as activity_type
-  FROM crm_meeting, crm_contact source, crm_contact target
+  FROM civicrm_meeting, civicrm_contact source, civicrm_contact target
   WHERE
-    crm_meeting.source_contact_id = source.id AND
-    crm_meeting.target_contact_id = target.id AND
-    ( crm_meeting.source_contact_id = $contactId OR crm_meeting.target_contact_id = $contactId ) AND
-    crm_meeting.status != 'Completed'
+    civicrm_meeting.source_contact_id = source.id AND
+    civicrm_meeting.target_contact_id = target.id AND
+    ( civicrm_meeting.source_contact_id = $contactId OR civicrm_meeting.target_contact_id = $contactId ) AND
+    civicrm_meeting.status != 'Completed'
 )";
         if ($sort) {
             $order = " ORDER BY " . $sort->orderBy(); 

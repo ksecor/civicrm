@@ -2,7 +2,7 @@
 <table>
   <base>CRM/Core</base>
   <class>Meeting</class>
-  <name>crm_meeting</name>
+  <name>civicrm_meeting</name>
   <comment>Meeting details stored here include contact, location, details.</comment>
   <field>
       <name>id</name>
@@ -22,7 +22,7 @@
   </field>
   <foreignKey>
        <name>source_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -33,7 +33,7 @@
   </field>
   <foreignKey>
        <name>target_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -81,7 +81,7 @@
   </field>
   <foreignKey>
        <name>parent_id</name>
-       <table>crm_meeting</table>
+       <table>civicrm_meeting</table>
        <key>id</key>
   </foreignKey>
 </table>

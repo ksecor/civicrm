@@ -2,7 +2,7 @@
 <table>
   <base>CRM/Core</base>
   <class>Phonecall</class>
-  <name>crm_phonecall</name>
+  <name>civicrm_phonecall</name>
   <comment>Record details regarding phone call to a contact</comment>
   <field>
       <name>id</name>
@@ -22,7 +22,7 @@
   </field>
   <foreignKey>
        <name>source_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -33,7 +33,7 @@
   </field>
   <foreignKey>
        <name>target_contact_id</name>
-       <table>crm_contact</table>
+       <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
@@ -64,14 +64,14 @@
   </field>
   <foreignKey>
        <name>phone_id</name>
-       <table>crm_phone</table>
+       <table>civicrm_phone</table>
        <key>id</key>
   </foreignKey>
   <field>
       <name>phone_number</name>
       <type>varchar</type>
       <length>64</length>
-      <comment>Phone number in case the number does not exist in the crm_phone table.</comment>
+      <comment>Phone number in case the number does not exist in the civicrm_phone table.</comment>
   </field>
   <field>
       <name>details</name>
@@ -91,7 +91,7 @@
   </field>
   <foreignKey>
        <name>parent_id</name>
-       <table>crm_phonecall</table>
+       <table>civicrm_phonecall</table>
        <key>id</key>
   </foreignKey>
 </table>

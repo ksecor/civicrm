@@ -127,8 +127,8 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $clauses = array( );
                 $groups = implode( ', ', self::$_editPermissionedGroups );
-                $clauses[] = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
-                $tables['crm_group_contact'] = 1;
+                $clauses[] = ' ( civicrm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
+                $tables['civicrm_group_contact'] = 1;
                 
                 // foreach group that is potentially a saved search, add the saved search clause
                 foreach ( array_keys( self::$_editPermissionedGroups ) as $id ) {
@@ -148,8 +148,8 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $clauses = array( );
                 $groups = implode( ', ', self::$_viewPermissionedGroups );
-                $clauses[] = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
-                $tables['crm_group_contact'] = 1;
+                $clauses[] = ' ( civicrm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+                $tables['civicrm_group_contact'] = 1;
 
                 // foreach group that is potentially a saved search, add the saved search clause
                 foreach ( array_keys( self::$_viewPermissionedGroups ) as $id ) {

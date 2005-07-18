@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>UFField</class>
-  <name>crm_uf_field</name>
+  <name>civicrm_uf_field</name>
   <comment>User Framework fields and their properties.</comment>
   <field>
       <name>id</name>
@@ -23,7 +23,7 @@
   </field>
   <foreignKey>
        <name>uf_group_id</name>
-       <table>crm_uf_group</table>
+       <table>civicrm_uf_group</table>
        <key>id</key>
   </foreignKey>
   <field>

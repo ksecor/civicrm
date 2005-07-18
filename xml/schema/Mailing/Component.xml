@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Mailing</base>
   <class>Component</class>
-  <name>crm_mailing_component</name>
+  <name>civicrm_mailing_component</name>
   <comment>Stores information about the mailing components (header/footer).</comment>
   <field>
       <name>id</name>
@@ -22,7 +22,7 @@
   </field>
   <foreignKey>
        <name>domain_id</name>
-       <table>crm_domain</table>
+       <table>civicrm_domain</table>
        <key>id</key>
   </foreignKey>
   <field>

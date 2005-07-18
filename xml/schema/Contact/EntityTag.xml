@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <class>EntityTag</class>
-  <name>crm_entity_tag</name>
+  <name>civicrm_entity_tag</name>
   <comment>Tag entities (Contacts, Groups, Actions) to categories.</comment>
   <field>
       <name>id</name>
@@ -19,7 +19,7 @@
        <name>entity_table</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>physical tablename for entity being tagged, e.g. crm_contact</comment>
+       <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
   </field>
   <index>
        <name>index_entity_table</name>
@@ -39,11 +39,11 @@
       <name>tag_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_tag</comment>
+      <comment>FK to civicrm_tag</comment>
   </field>
   <foreignKey>
        <name>tag_id</name>
-       <table>crm_tag</table>
+       <table>civicrm_tag</table>
        <key>id</key>
   </foreignKey>
 </table>

@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <class>CustomOption</class>
-  <name>crm_custom_option</name>
+  <name>civicrm_custom_option</name>
   <comment>Stores info about options for custom fields of type 'Select' and 'Radio'</comment>
     <field>
       <name>id</name>
@@ -19,11 +19,11 @@
       <name>custom_field_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_custom_field.</comment>
+      <comment>FK to civicrm_custom_field.</comment>
   </field>
   <foreignKey>
        <name>custom_field_id</name>
-       <table>crm_custom_field</table>
+       <table>civicrm_custom_field</table>
        <key>id</key>
   </foreignKey>
   <field>
