@@ -39,9 +39,14 @@
  * @return string human readable date format | invalid date message
  * @access public
  */
-function smarty_modifier_crmDate($dateString)
+function smarty_modifier_crmDate($dateString, $dateFormat = '')
 {
     if ($dateString) {
+
+        if ($dateFormat != '') {
+            return CRM_Utils_Date::customFormat($dateString, $dateFormat);
+        }
+        
         $config =& CRM_Core_Config::singleton();
 
         $month  = (int) substr($dateString,  5, 2);
