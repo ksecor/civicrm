@@ -283,9 +283,9 @@ abstract class CRM_Import_Parser {
                 $values[$k] = trim($v);
             }
             
-            if ( $mode != self::MODE_IMPORT ) {
+            //if ( $mode != self::MODE_IMPORT ) {
                 $this->_totalCount++;
-            }
+                //}
 
             if ( $mode == self::MODE_MAPFIELD ) {
                 $returnCode = $this->mapField( $values );
@@ -356,6 +356,7 @@ abstract class CRM_Import_Parser {
 
         fclose( $fd );
 
+        
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
             $customfields = CRM_Core_BAO_CustomField::getFields();
@@ -385,7 +386,7 @@ abstract class CRM_Import_Parser {
                 self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
             }
         }
-
+        //echo "$this->_totalCount,$this->_invalidRowCount,$this->_conflictCount,$this->_duplicateCount";
         return $this->fini();
     }
 
@@ -555,7 +556,8 @@ abstract class CRM_Import_Parser {
             $store->set( 'validRowCount'    , $this->_validCount     );
             $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
             $store->set( 'conflictRowCount', $this->_conflictCount );
-        
+            
+                            
             if ($this->_invalidRowCount) {
                 $store->set( 'errorsFileName', $this->_errorFileName );
             }
@@ -572,6 +574,7 @@ abstract class CRM_Import_Parser {
                 $store->set( 'duplicatesFileName', $this->_duplicateFileName );
             }
         }
+        //echo "$this->_totalCount,$this->_invalidRowCount,$this->_conflictCount,$this->_duplicateCount";
     }
 
     /**
