@@ -56,6 +56,11 @@ require_once 'CRM/Utils/Array.php';
  */
 
 
+
+
+
+
+
 function crm_create_group($params) {
 }
 
@@ -65,7 +70,7 @@ function crm_create_group($params) {
  *
  *
  * @param array       $param                 Array of one or more valid property_name=>value pairs. Limits the set of groups returned.
- * @param array       $returnProperties      Which properties should be included in the returned group objects. 
+ * @param array       $returnProperties      Which properties should be included in the returned group objects. (member_count should be last element.)
  *  
  * @return  An array of group objects.
  *
@@ -86,6 +91,9 @@ function crm_get_groups($params = null, $returnProperties = null) {
                 break;
             }
         }
+        if($count == 0) {
+            $queryString .= " *";
+        }
         foreach($returnProperties as $retProp) {
             if($counter < $count) {
                 if($retProp != 'member_count') {
@@ -99,7 +107,7 @@ function crm_get_groups($params = null, $returnProperties = null) {
             $counter++;
         }
     }
-    $queryString .= " FROM crm_group";
+    $queryString .= " FROM civicrm_group";
     if ($params != null) {
         $total = count($params);
         $counter = 1;
@@ -113,8 +121,10 @@ function crm_get_groups($params = null, $returnProperties = null) {
             $counter++;
         }
     }
+  
     $crmDAO =& new CRM_Contact_DAO_Group();
     $error = $crmDAO->query($queryString);
+    
     if($error) {
         return _crm_error($error);
     }
@@ -128,23 +138,43 @@ function crm_get_groups($params = null, $returnProperties = null) {
         }
 
     }
+    $groups =array();
     while($crmDAO->fetch()) { 
-        $rows = array();
+        //$rows = array();
         
-        CRM_Core_DAO::storeValues($crmDAO,$rows);
+        $group =new CRM_Contact_DAO_Group();
+        if($flag) {
+            $group->id = $crmDAO->id;
+            $count=count(crm_get_group_contacts(&$group));
+        $crmDAO->member_count = $count;
+        }
+        $group = clone($crmDAO);
+        $groups[$group->id] = $group;
+        if (version_compare(phpversion(), '5.0') < 0) {
+            eval('
+                  function clone($object) {
+                  return $object;
+                  }
+                 ');
+        }
+
+        /* CRM_Core_DAO::storeValues($crmDAO,$rows);
         if($flag) {
             $group =new CRM_Contact_DAO_Group();
             $group->id = $crmDAO->id;
             $count=count(crm_get_group_contacts(&$group));
             $rows['member_count']=$count;
         }
-        $groupArray[] = $rows;
+        $groupArray[] = $rows;*/
     }
     
-    return $groupArray;
+    return $groups;
 
 
 }
+
+
+
 
 function crm_update_group(&$group, $params) {
 }
@@ -194,90 +224,138 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
  */
 
 
-function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = 0, $row_count = 25 ) {
+function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = null, $row_count= null ) {
     
-    if ( ! isset( $group->id )) {
-        return _crm_error( 'Invalid group object passed in' );
-    }
-   
-
-    if ($returnProperties == null) {
-        $queryString = "SELECT * , crm_contact.id as crm_contact_id";
-    } else {
-        $queryString = "SELECT crm_contact.id as crm_contact_id, crm_group_contact.contact_id,";
-        $count = count($returnProperties);
+    $query = "SELECT * FROM civicrm_group WHERE id = '$group->id'";
+    $groupDAO = new CRM_Contact_DAO_Group();
+    $groupDAO->query($query);
+    $groupDAO->fetch();
+    if($groupDAO->saved_search_id !=NULL){
+        $formValues = CRM_Contact_BAO_SavedSearch::getFormValues($groupDAO->saved_search_id);
+        $result = CRM_Contact_BAO_Contact::searchQuery($formValues,0, 25, null,false,null,null,true);
+        $contacts = explode(",",$result);
+        
+           
+        if ($returnProperties == null) {
+            $queryString = "SELECT * , civicrm_contact.id as civicrm_contact_id";
+        } else {
+            
+            $queryString = "SELECT civicrm_contact.id as civicrm_contact_id ,";
+            $count = count($returnProperties);
+            $counter = 1;
+            foreach($returnProperties as $retProp) {
+                if($counter < $count) {
+                    $queryString .=" ".$retProp.",";
+                } else {
+                    $queryString .=" ".$retProp;
+                }
+                $counter++;
+            }
+        }
+        
+            
+        
+        
+        $queryString .= " FROM civicrm_contact 
+                          LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
+                          LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) WHERE ";
+        $count =count($contacts);
         $counter = 1;
-        foreach($returnProperties as $retProp) {
-            if($counter < $count) {
-                $queryString .=" ".$retProp.",";
+        foreach($contacts as $contactID) {           
+            if($counter < $count){
+                $queryString .=  "civicrm_contact.id = $contactID". " or ";
             } else {
-                $queryString .=" ".$retProp;
+                $queryString .=  "civicrm_contact.id = $contactID ";
             }
             $counter++;
         }
-    }
-
-
-    $queryString .= " FROM crm_contact LEFT JOIN  crm_group_contact ON (crm_contact.id =crm_group_contact.contact_id )";
-    $queryString .= " LEFT JOIN  crm_location ON (crm_contact.id = crm_location.contact_id )";
-    $queryString .= " LEFT JOIN  crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)";
-    $queryString .= " WHERE crm_group_contact.status = '$status' AND crm_group_contact.group_id = '$group->id' ";
-    
-    if($sort != null) {
-        $queryString .= " ORDER BY ";
-        $count = count($sort);
-        $counter = 1;
-        foreach($sort as $key=> $direction) {
-           if($counter < $count) {
-                
-                $queryString .= " ".$key." ".$direction. ",";
-            }else{
-                $queryString .= " ".$key." ".$direction;
+        
+        
+        if($sort != null) {
+            $queryString .= " ORDER BY ";
+            $count = count($sort);
+            $counter = 1;
+            foreach($sort as $key=> $direction) {
+                if($counter < $count) {
+                    $queryString .= " ".$key." ".$direction. ",";
+                }else{
+                    $queryString .= " ".$key." ".$direction;
+                }
+                $counter++; 
             }
-            $counter++; 
+            
         }
+        if($offset !=null && $row_coun!= null) {
+        $queryString.=" LIMIT $offset,$row_count";
+        }
+        $crmDAO =& new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+    
+    } else {
+        
+        if ( ! isset( $group->id )) {
+            return _crm_error( 'Invalid group object passed in' );
+        }
+   
 
+        if ($returnProperties == null) {
+            $queryString = "SELECT * , civicrm_contact.id as civicrm_contact_id";
+        } else {
+            $queryString = "SELECT civicrm_contact.id as civicrm_contact_id, civicrm_group_contact.contact_id,";
+            $count = count($returnProperties);
+            $counter = 1;
+            foreach($returnProperties as $retProp) {
+                if($counter < $count) {
+                    $queryString .=" ".$retProp.",";
+                } else {
+                    $queryString .=" ".$retProp;
+                }
+                $counter++;
+            }
+        }
+        
+        
+        $queryString .= " FROM civicrm_contact LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )";
+        $queryString .= " LEFT JOIN  civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id )";
+        $queryString .= " LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)";
+        $queryString .= " WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
+    
+        if($sort != null) {
+            $queryString .= " ORDER BY ";
+            $count = count($sort);
+            $counter = 1;
+            foreach($sort as $key=> $direction) {
+                if($counter < $count) {
+                    
+                    $queryString .= " ".$key." ".$direction. ",";
+                }else{
+                    $queryString .= " ".$key." ".$direction;
+                }
+                $counter++; 
+            }
+
+        }
+        if($offset !=null && $row_coun!= null) {
+            $queryString.=" LIMIT $offset,$row_count";
+        }
+        $crmDAO =& new CRM_Contact_DAO_Contact();
+        $crmDAO->query($queryString);
     }
-    $queryString.=" LIMIT $offset,$row_count";
-    $crmDAO =& new CRM_Core_DAO();
-    $crmDAO->query($queryString);
-
     $contactArray = array();
     while($crmDAO->fetch()) { 
         
-        if($returnProperties != null) {
-            foreach($returnProperties as $retProp) {
-                $contactArray[$crmDAO->contact_id][$retProp]=$crmDAO->$retProp; 
-            }
-        }else{
-            $contactArray[$crmDAO->crm_contact_id]['id'] = $crmDAO->id;
-            $contactArray[$crmDAO->crm_contact_id]['domain_id'] = $crmDAO->domain_id;
-            $contactArray[$crmDAO->crm_contact_id]['contact_type'] = $crmDAO->contact_type;
-            $contactArray[$crmDAO->crm_contact_id]['legal_identifier'] = $crmDAO->legal_identifier;
-            $contactArray[$crmDAO->crm_contact_id]['external_identifier'] = $crmDAO->external_identifier;
-            $contactArray[$crmDAO->crm_contact_id]['sort_name'] = $crmDAO->sort_name;
-            $contactArray[$crmDAO->crm_contact_id]['display_name'] = $crmDAO->display_name;
-            $contactArray[$crmDAO->crm_contact_id]['home_URL'] = $crmDAO->home_URL ;
-            $contactArray[$crmDAO->crm_contact_id]['image_URL'] = $crmDAO->image_URL ;
-            $contactArray[$crmDAO->crm_contact_id]['source'] = $crmDAO->source;
-            $contactArray[$crmDAO->crm_contact_id]['preferred_communication_method'] = $crmDAO->preferred_communication_method;
-            $contactArray[$crmDAO->crm_contact_id]['preferred_mail_format'] = $crmDAO->preferred_mail_format;
-            $contactArray[$crmDAO->crm_contact_id]['do_not_phone'] = $crmDAO->do_not_phone;
-            $contactArray[$crmDAO->crm_contact_id]['do_not_email'] = $crmDAO->do_not_email;
-            $contactArray[$crmDAO->crm_contact_id]['do_not_mail'] = $crmDAO->do_not_mail;
-            $contactArray[$crmDAO->crm_contact_id]['do_not_trade'] = $crmDAO->do_not_trade;
-            $contactArray[$crmDAO->crm_contact_id]['hash'] = $crmDAO->hash;
-            $contactArray[$crmDAO->crm_contact_id]['group_id'] = $crmDAO->group_id;
-            $contactArray[$crmDAO->crm_contact_id]['contact_id'] = $crmDAO->contact_id;
-            $contactArray[$crmDAO->crm_contact_id]['status'] = $crmDAO->status;
-            $contactArray[$crmDAO->crm_contact_id]['pending_date'] = $crmDAO->pending_date;
-            $contactArray[$crmDAO->crm_contact_id]['in_date'] = $crmDAO->in_date;
-            $contactArray[$crmDAO->crm_contact_id]['out_date'] = $crmDAO->out_date;
-            $contactArray[$crmDAO->crm_contact_id]['pending_method'] = $crmDAO->pending_method;
-            $contactArray[$crmDAO->crm_contact_id]['in_method'] = $crmDAO->in_method;
-            $contactArray[$crmDAO->crm_contact_id]['out_method'] = $crmDAO->out_method;
-            $contactArray[$crmDAO->crm_contact_id]['email'] = $crmDAO->email;
+        if (version_compare(phpversion(), '5.0') < 0) {
+            eval('
+                  function clone($object) {
+                  return $object;
+                  }
+                 ');
         }
+        
+        $contactDAO = new CRM_Contact_DAO_Contact();
+        $contactDAO = clone($crmDAO);
+        $contactArray[] = $contactDAO;
+       
     }
     return $contactArray;
     

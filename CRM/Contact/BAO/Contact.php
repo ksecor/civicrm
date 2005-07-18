@@ -281,23 +281,25 @@ ORDER BY
 
         // building the query string
         $queryString = $select . $from . $where . $order . $limit;
-        $this->query($queryString);
+        $crmDAO = new CRM_Core_DAO();
+
+        $crmDAO->query($queryString);
 
         if ($count || $groupContacts) {
             if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
                 $ids = array( );
-                while ( $this->fetch( ) ) {
-                    $ids[] = $this->id;
+                while ( $crmDAO->fetch( ) ) {
+                    $ids[] = $crmDAO->id;
                 }
                 return implode( ',', $ids );
             } else {
-                $result = $this->getDatabaseResult();
+                $result = $crmDAO->getDatabaseResult();
                 $row    = $result->fetchRow();
                 return $row[0];
             }
         }
 
-        return $this;
+        return $crmDAO;
     }
 
     /**
