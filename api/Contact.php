@@ -452,7 +452,7 @@ function _crm_get_contact_id($params)
     if (count($rows) > 1) {
         //CRM_Core_Error::debug_log_message('more than one contact id matches $params  email, phone or city to obtain contact id');
         //CRM_Core_Error::ll_function();
-        return _crm_error( 'more than one contact id matches $params  email, phone or city to obtain contact id' );
+        return _crm_error( 'more than one contact id matches $params' );
     }
 
     //CRM_Core_Error::debug_var('contactId', $rows[0]);
