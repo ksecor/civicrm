@@ -458,8 +458,8 @@ VALUES
     (1,'street_address',3,1,0,0,0,0,'User and User Admin Only','',''),
     (1,'city',4,1,0,0,0,0,'Public User Pages and Listings','','Your postal code and city of residence will be shared with others so folks can find others in their community.'),
     (1,'postal_code',5,1,0,0,0,0,'Public User Pages and Listings','',''),
-    (1,'state_province',6,1,0,0,0,0,'Public User Pages and Listings','','Your state/province and country of residence will be shared with others so folks can find others in their community.'),
-    (1,'country',7,1,0,0,0,0,'Public User Pages and Listings','',''),
+    (1,'crm_state_province',6,1,0,0,0,0,'Public User Pages and Listings','','Your state/province and country of residence will be shared with others so folks can find others in their community.'),
+    (1,'crm_country',7,1,0,0,0,0,'Public User Pages and Listings','',''),
     (1,'email',8,1,1,0,0,1,'Public User Pages and Listings','','');
 
 INSERT INTO civicrm_mailing_component
