@@ -5,6 +5,7 @@ require_once 'InsertContact.php';
 require_once 'InsertRel.php';
 require_once 'UpdateContact.php';
 require_once 'AddContactToGroup.php';
+require_once 'DelContact.php';
 
 class test_RSTest_Run
 {
@@ -21,38 +22,47 @@ class test_RSTest_Run
     
     // Following constant is used for setting the no of records to be inserted into the database.
     // Value should be multiple of 10.
-    private $_insertRecord  = 1000;
+    private $_insertRecord  = 300;
     // Following constant is used for setting the step for inserting the contact. 
     private $_stepOfInsert  = 10;
     // Following array is used to store the timings for all the steps of inserting the contact.
     private $_insertContact = array();
     
     // Following constant is used for setting the no of records to be updated from the database. 
-    private $_updateRecord  = 4000;
+    private $_updateRecord  = 4500;
     // Following constant is used for setting the starting record from which update should start. 
-    private $_startRecord   = 1000;
+    private $_startRecord   = 0;
     // Following constant is used for setting the step for updaing the contacts.
     private $_stepOfUpdate  = 500;
     // Following array is used to store the timings for all the steps of updations. 
     private $_updateContact = array();
     
     // Following constant is used for setting the no of contact for which relationships needs to be entered
-    private $_insertRel        = 3500;
+    private $_insertRel        = 4000;
     // Following constant is used for setting the starting contact from which the relationships needs to be entered.
-    private $_startRel         = 500;
+    private $_startRel         = 1000;
     // Following constant is used for setting the step for inserting relationships.
     private $_stepOfInsertRel  = 500;
     // Following array is used to store the timings for all the steps of updations. 
     private $_insertRelTime    = array();
     
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_addToGroup       = 4000;
+    private $_addToGroup       = 4500;
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
-    private $_startOfAdd       = 500;
+    private $_startOfAdd       = 0;
     // Following constant is used for setting the step for adding Contact to a Group.
     private $_stepOfAddToGroup = 500;
     // Following array is used to store the timings for all the steps of adding Contact to a Group. 
     private $_addToGroupTime   = array();
+
+    // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
+    private $_deleteContact       = 1000;
+    // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
+    private $_startOfDelete       = 2000;
+    // Following constant is used for setting the step for adding Contact to a Group.
+    private $_stepOfDeleteContact = 500;
+    // Following array is used to store the timings for all the steps of adding Contact to a Group. 
+    private $_deleteContactTime   = array();
     
     private $_startTimeG;
     private $_endTimeG;
@@ -68,6 +78,9 @@ class test_RSTest_Run
 
     private $_startTimeAG;
     private $_endTimeAG;
+
+    private $_startTimeDC;
+    private $_endTimeDC;
     
     function callCommon()
     {
@@ -78,6 +91,7 @@ class test_RSTest_Run
     function callGenDataset()
     {
         $startID = 0;
+        echo "\n Data Generation started. \n";
         for ($i=0; $i<($this->_recordSetSize / $this->_stepOfDS); $i++) {
             $objGenDataset       =& new test_RSTest_GenDataset($this->_stepOfDS);
             $this->_startTimeG   = microtime(true);
@@ -86,12 +100,19 @@ class test_RSTest_Run
             $this->_genDataset[$i] = $this->_endTimeG - $this->_startTimeG;
             $startID = $startID + $this->_stepOfDS;
         }
+        echo "\n Data Generation Successfully Completed.\n";
     }
     
     function callInsertContact()
     {
         $startID = 0;
+        echo "\n Contacts Insertion started. \n";
         for ($i=0; $i<($this->_insertRecord / $this->_stepOfInsert); $i++) {
+            for ($tmp=0; $tmp<$this->_stepOfInsert; $tmp++) {
+                echo ".";
+                ob_flush();
+                flush();
+            }
             if (!($i)) {
                 $setDomain = true;
             }
@@ -102,13 +123,20 @@ class test_RSTest_Run
             $this->_insertContact[$i] = $this->_endTimeIC - $this->_startTimeIC;
             $startID = $startID + $this->_stepOfInsert;
         }
+        echo "\n Contacts Successfully Inserted.\n";
     }
     
     function callInsertRel()
     {
         if (($this->_startRel + $this->_insertRel) <= ($this->_sizeOfDS * 1000)) {
+            echo "\n Relationships Insertion started. \n";
             $startID = $_startRel;
             for ($i=0; $i<($this->_insertRel / $this->_stepOfInsertRel); $i++) {
+                for ($tmp=0; $tmp<$this->_stepOfDS; $tmp++) {
+                    echo ".";
+                    ob_flush();
+                    flush();
+                }
                 $objInsertRel  = new test_RSTest_InsertRel();
                 $this->_startTimeIR = microtime(true);
                 $objInsertRel->run($startID, $this->_stepOfInsertRel);
@@ -116,6 +144,7 @@ class test_RSTest_Run
                 $this->_insertRelTime[$i] = $this->_endTimeIR - $this->_startTimeIR;
                 $startID = $startID + $this->_stepOfInsertRel;
             }
+            echo "\n Relationships Successfully Inserted.\n";
         } else {
             echo "\n**********************************************************************************\n";
             echo "Check the number of Contacts for which Relationships are to be inserted..!!! \n";
@@ -126,18 +155,20 @@ class test_RSTest_Run
     function callUpdateContact()
     {
         if (($this->_startRecord + $this->_updateRecord) <= ($this->_sizeOfDS * 1000)) {
+            echo "\n Updating Contacts . \n";
             $startID = $this->_startRecord;
             for ($i=0; $i<($this->_updateRecord / $this->_stepOfUpdate); $i++) {
-                $objUpdateContact   = new test_RSTest_UpdateContact($this->_stepOfUpdate);
+                $objUpdateContact   = new test_RSTest_UpdateContact();
                 $this->_startTimeUC = microtime(true);
                 $objUpdateContact->run($startID, $this->_stepOfUpdate);
                 $this->_endTimeUC   = microtime(true);
                 $this->_updateContact[$i] = $this->_endTimeUC - $this->_startTimeUC;
                 $startID = $startID + $this->_stepOfUpdate;
             }
+            echo "\n Contacts Successfully Updated.\n";
         } else {
             echo "\n**********************************************************************************\n";
-            echo "Check the number of records needs to be Updated..!!! \n";
+            echo "Check the number of records need to be Updated..!!! \n";
             echo "**********************************************************************************\n";
         }
     }
@@ -145,18 +176,41 @@ class test_RSTest_Run
     function callAddContactToGroup()
     {
         if (($this->_startOfAdd + $this->_addToGroup) <= ($this->_sizeOfDS * 1000)) {
+            echo "\n Adding Contacts to Group. \n";
             $startID = $this->_startOfAdd;
             for ($i=0; $i<($this->_addToGroup / $this->_stepOfAddToGroup); $i++) {
-                $objAddContactToGroup   = new test_RSTest_AddContactToGroup($this->_stepOfAddToGroup);
+                $objAddContactToGroup   = new test_RSTest_AddContactToGroup();
                 $this->_startTimeAG = microtime(true);
                 $objAddContactToGroup->run($startID, $this->_stepOfAddToGroup);
                 $this->_endTimeAG   = microtime(true);
                 $this->_addToGroupTime[$i] = $this->_endTimeAG - $this->_startTimeAG;
                 $startID = $startID + $this->_stepOfAddToGroup;
             }
+            echo "\n Contacts Successfully Added to Groups.\n";
         } else {
             echo "\n**********************************************************************************\n";
-            echo "Check the number of Contacts needs to be added to Groups..!!! \n";
+            echo "Check the number of Contacts need to be added to Groups..!!! \n";
+            echo "**********************************************************************************\n";
+        }
+    }
+    
+    function callDeleteContact()
+    {
+        if (($this->_startOfDelete + $this->_deleteContact) <= ($this->_sizeOfDS * 1000)) {
+            echo "\n Deleting Contacts . \n";
+            $startID = $this->_startOfDelete;
+            for ($i=0; $i<($this->_deleteContact / $this->_stepOfDeleteContact); $i++) {
+                $objDeleteContact   = new test_RSTest_DelContact();
+                $this->_startTimeDC = microtime(true);
+                $objDeleteContact->run($startID, $this->_stepOfDeleteContact);
+                $this->_endTimeDC   = microtime(true);
+                $this->_deleteContactTime[$i] = $this->_endTimeDC - $this->_startTimeDC;
+                $startID = $startID + $this->_stepOfDeleteContact;
+            } 
+            echo "\n Contacts Successfully Deleted.\n";
+        } else {
+            echo "\n**********************************************************************************\n";
+            echo "Check the number of Contacts need to be Deleted..!!! \n";
             echo "**********************************************************************************\n";
         }
     }
@@ -203,6 +257,14 @@ class test_RSTest_Run
         }
         echo "**********************************************************************************\n";
 
+        echo "\n**********************************************************************************\n";
+        echo "Contact No. " . $this->_startOfDelete . " To Contact No. " . ($this->_startOfDelete + $this->_deleteContact) . " Deleted from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfDeleteContact . " Contacts \n";
+        
+        for ($id=0; $id<count($this->_deleteContactTime); $id++) {
+            echo "Time taken for step " . ($kd = $id + 1) . " : " . $this->_deleteContactTime[$id] . " seconds\n";
+        }
+        echo "**********************************************************************************\n";
+
         echo "\n";
     }
 }
@@ -216,8 +278,8 @@ $objRun->callGenDataset();
 $objRun->callInsertContact();
 $objRun->callUpdateContact();
 $objRun->callInsertRel();
-$objRun->callUpdateContact();
 $objRun->callAddContactToGroup();
+$objRun->callDeleteContact();
 $objRun->printResult();
 
 ?>

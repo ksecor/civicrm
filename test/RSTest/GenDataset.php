@@ -702,6 +702,10 @@ class test_RSTest_GenDataset
         $contactDAO =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=$this->numContact; $id++) {
+            echo ".";
+            ob_flush();
+            flush();
+
             $contactDAO->domain_id                      = 1;
             $contactDAO->contact_type                   = $this->getContactType($this->_startID + $id);
             $contactDAO->do_not_phone                   = mt_rand(0, 1);
@@ -730,6 +734,10 @@ class test_RSTest_GenDataset
         $contactDAO    =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=$this->numIndividual; $id++) {
+            echo ".";
+            ob_flush();
+            flush();
+            
             $individualDAO->contact_id    = $this->individual[($id-1)];
             $individualDAO->first_name    = ucfirst(test_RSTest_Common::getRandomElement($this->firstName, test_RSTest_Common::ARRAY_DIRECT_USE));
             $individualDAO->middle_name   = ucfirst(test_RSTest_Common::getRandomChar());
@@ -768,6 +776,10 @@ class test_RSTest_GenDataset
         $contactDAO   =& new CRM_Contact_DAO_Contact();
         
         for ($id=1; $id<=$this->numHousehold; $id++) {
+            echo ".";
+            ob_flush();
+            flush();
+
             $householdDAO->contact_id         = $this->household[($id-1)];
             $householdDAO->primary_contact_id = $this->householdIndividual[$householdDAO->contact_id][0];
 
@@ -808,6 +820,10 @@ class test_RSTest_GenDataset
         $contactDAO      =& new CRM_Contact_DAO_Contact();       
 
         for ($id=1; $id<=$this->numOrganization; $id++) {
+            echo ".";
+            ob_flush();
+            flush();
+
             $organizationDAO->contact_id         = $this->organization[($id-1)];
             $name                                = test_RSTest_Common::getRandomElement($this->organizationName, test_RSTest_Common::ARRAY_DIRECT_USE) . " " . test_RSTest_Common::getRandomElement($this->organizationField, test_RSTest_Common::ARRAY_DIRECT_USE) . " " . test_RSTest_Common::getRandomElement($this->organizationType, test_RSTest_Common::ARRAY_DIRECT_USE);
             $organizationDAO->organization_name  = $name;
@@ -840,6 +856,10 @@ class test_RSTest_GenDataset
         $relationshipDAO->is_active = 1; // all active for now.
         
         foreach ($this->strictIndividual as $strictIndiID ) {
+            echo ".";
+            ob_flush();
+            flush();
+            
             $relType = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('relationshipType'), test_RSTest_Common::ARRAY_DIRECT_USE);
             if ($relType == 1 or $relType == 2 or $relType == 3) {
                 $this->_setRelationship($relationshipDAO, $relType, 0, $strictIndiID);
@@ -849,6 +869,10 @@ class test_RSTest_GenDataset
         }
         
         foreach ($this->householdIndividual as $householdID => $householdMember) {
+            echo ".";
+            ob_flush();
+            flush();
+
             $relType = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('relationshipType'), test_RSTest_Common::ARRAY_DIRECT_USE);
             if ($relType == 4 or $relType == 5) {
                 $this->_setRelationship($relationshipDAO, mt_rand(6, 7), $householdID, $householdMember);
@@ -858,6 +882,10 @@ class test_RSTest_GenDataset
         }
 
         foreach ($this->organization as $organizationID) {
+            echo ".";
+            ob_flush();
+            flush();
+
             $relType = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('relationshipType'), test_RSTest_Common::ARRAY_DIRECT_USE);
             if ($relType == 4 or $relType == 5) {
                 $this->_setRelationship($relationshipDAO, $relType, $organizationID);
@@ -881,16 +909,25 @@ class test_RSTest_GenDataset
     {
         // strict individuals
         foreach ($this->strictIndividual as $contactId) {
+            echo ".";
+            ob_flush();
+            flush();
             $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
         
         //household
         foreach ($this->household as $contactId) {
+            echo ".";
+            ob_flush();
+            flush();
             $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
         
         //organization
         foreach ($this->organization as $contactId) {
+            echo ".";
+            ob_flush();
+            flush();
             $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
 
@@ -898,6 +935,9 @@ class test_RSTest_GenDataset
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75 * ($this->numIndividual - $this->numStrictIndividual) / 100));
         foreach ($someIndividual as $contactId) {
+            echo ".";
+            ob_flush();
+            flush();
             $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
         }
     }
@@ -919,6 +959,9 @@ class test_RSTest_GenDataset
         $noteDAO->contact_id   = 1;
 
         for ($i=0; $i<$this->numContact; $i++) {
+            echo ".";
+            ob_flush();
+            flush();
             $noteDAO->entity_id  = $this->contact[$i];
             if ($this->contact[$i] % 5) {
                 $this->_insertNote($noteDAO);
@@ -954,6 +997,9 @@ class test_RSTest_GenDataset
         $count = 0;
 
         while($contactDAO->fetch()) {
+            echo ".";
+            ob_flush();
+            flush();
             if ($count++ > 2) {
                 break;
             }
@@ -986,6 +1032,9 @@ class test_RSTest_GenDataset
     {
         $entityTagDAO =& new CRM_Contact_DAO_EntityTag();
         for ($i=0; $i<$this->numContact; $i+=2) {
+            echo ".";
+            ob_flush();
+            flush();
             $entityTagDAO->entity_table = 'crm_contact';
             $entityTagDAO->entity_id    = $this->contact[$i];
             $entityTagDAO->tag_id       = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('tag'), test_RSTest_Common::ARRAY_DIRECT_USE);
@@ -1023,6 +1072,9 @@ class test_RSTest_GenDataset
         }
         
         for ($i=0; $i<$this->numContact; $i++) {
+            echo ".";
+            ob_flush();
+            flush();
             if (!($i % 3)) {
                 $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
                 $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);

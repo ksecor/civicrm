@@ -41,7 +41,7 @@ class test_RSTest_AddContactToGroup
 
     }
     
-        /**
+    /**
      * Getter for the contacts.
      *
      * This method is used for getting the neccessary contacts 
@@ -54,7 +54,6 @@ class test_RSTest_AddContactToGroup
      * @return  contactArray array  gives the array of contacts on which the operations needs to be carried out. 
      *
      */
-    
     private function _getContact($start, $noOfContact)
     {
         $contactDAO = new CRM_Contact_DAO_Contact();
@@ -111,6 +110,10 @@ class test_RSTest_AddContactToGroup
     private function _addToGroup()
     {
         foreach ($this->_contactArray as $id) {
+            echo ".";
+            ob_flush();
+            flush();
+            
             $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
             $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
             $groupContactDAO->contact_id = $id;

@@ -101,6 +101,10 @@ class test_RSTest_UpdateContact
         
         if (is_array($contactArray)) {
             foreach ($contactArray as $lngkey => $contactId) {
+                echo ".";
+                ob_flush();
+                flush();
+                
                 $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $contactId, $setPrimary);
             }
         } else {
