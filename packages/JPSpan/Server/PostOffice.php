@@ -370,7 +370,7 @@ function <?php echo $Description->Class; ?>() {
     }
     
     oParent.__serverurl = '<?php 
-        echo $this->serverUrl . '/' . $Description->Class; ?>';
+        echo $this->serverUrl . '?q=civicrm/contact/StateCountryServer/' . $Description->Class; ?>';
     
     oParent.__remoteClass = '<?php echo $Description->Class; ?>';
     

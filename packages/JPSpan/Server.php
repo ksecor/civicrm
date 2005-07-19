@@ -215,12 +215,12 @@ class JPSpan_Server {
         $I = & JPSpan_Include::instance();
 
         // HACK - this needs to change
-        $I->loadString(__FILE__,$G->getClient());
+        //$I->loadString(_FILE__,$G->getClient());
+        $I->loadString('packages/JPSpan/',$G->getClient());
         $client = $I->getCode();
         header('Content-Type: application/x-javascript');
         header('Content-Length: '.strlen($client));
         
-        CRM_Core_Error::debug_log_message($client);
         echo $client;
         exit();
     }
