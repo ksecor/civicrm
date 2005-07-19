@@ -41,6 +41,9 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/^middle|(m(iddle\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <fulltext/>
        <comment>Middle Name.</comment>
   </field>
   <field>
