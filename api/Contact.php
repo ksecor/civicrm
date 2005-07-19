@@ -448,14 +448,19 @@ function _crm_get_contact_id($params)
     $count = 0;
     while($dao->fetch()) {
         $count++;
+         if ($count > 1) {
+
+        return _crm_error( 'more than one contact id matches $params' );
+    }
+
     }
     //$result = $dao->getDatabaseResult();
     //$rows = $result->fetchRow();
     
-    if ($count > 1) {
+    if ($count == 0) {
         //CRM_Core_Error::debug_log_message('more than one contact id matches $params  email, phone or city to obtain contact id');
         //CRM_Core_Error::ll_function();
-        return _crm_error( 'more than one contact id matches $params' );
+        return _crm_error( 'No contact found for given $params ' );
     }
 
     //CRM_Core_Error::debug_var('contactId', $rows[0]);
