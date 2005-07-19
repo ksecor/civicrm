@@ -149,7 +149,7 @@ function crm_get_groups($params = null, $returnProperties = null) {
         $crmDAO->member_count = $count;
         }
         $group = clone($crmDAO);
-        $groups[$group->id] = $group;
+        $groups[] = $group;
         if (version_compare(phpversion(), '5.0') < 0) {
             eval('
                   function clone($object) {
