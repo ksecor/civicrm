@@ -91,10 +91,12 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
+
         //code added for testing ajax
         if ($args[2] == 'StateCountryServer') {
             $server =& new CRM_Contact_Page_StateCountryServer( );
-            return $server->run( );
+            $set = CRM_Utils_Request::retrieve('set', $form);
+            return $server->run($set);
         }
         //code added for testing ajax
         if ($args[2] == 'test') {

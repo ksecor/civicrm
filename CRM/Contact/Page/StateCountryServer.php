@@ -14,7 +14,7 @@ require_once 'packages/JPSpan/Server/PostOffice.php';
 
 class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page { 
 
-    function run () 
+    function run ($set) 
     {
           
         CRM_Core_Error::le_function();
@@ -25,15 +25,19 @@ class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page {
         //-----------------------------------------------------------------------------------
         // Generates the Javascript client by adding ?client to the server URL
         //-----------------------------------------------------------------------------------
-        if (isset($_SERVER['QUERY_STRING']) && strcasecmp($_SERVER['QUERY_STRING'], 'client')==0) {
+        //if (isset($_SERVER['QUERY_STRING']) && strcasecmp($_SERVER['QUERY_STRING'], 'client')==0) {
+        if ( $set ) {
             // Compress the Javascript
             // define('JPSPAN_INCLUDE_COMPRESS',TRUE);
-            
+            CRM_Core_Error::debug_log_message('set is set');          
+  
             $S->displayClient();
             
+          
             //-----------------------------------------------------------------------------------
         } else {
             
+            CRM_Core_Error::debug_log_message('set is not set ');
             CRM_Core_Error::debug_log_message('breakpoint 20');
             
             // Include error handler - PHP errors, warnings and notices serialized to JS
