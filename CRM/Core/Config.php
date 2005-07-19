@@ -195,9 +195,9 @@ class CRM_Core_Config {
 
     /**
      * the handle for import file size 
-     * @var object
+     * @var int
      */
-    public static $maxImportFileSize = 0;
+    public $maxImportFileSize = 1048576;
 
     /**
      * the domainID for this instance. 
