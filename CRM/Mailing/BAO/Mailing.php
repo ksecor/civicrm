@@ -92,7 +92,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         );
         $mailingGroup->find();
 
-        /* Get the contact ids to exclude */
+        /* Add all the members of groups excluded from this mailing to the temp
+         * table */
         $excludeSubGroup =
                     "INSERT INTO        X_$job_id (contact_id)
                     SELECT DISTINCT     $g2contact.contact_id
@@ -107,6 +108,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query($excludeSubGroup);
         $mailingGroup->find();
         
+        /* Add all the (intended) recipients of an excluded prior mailing to
+         * the temp table */
         $excludeSubMailing = 
                     "INSERT INTO        X_$job_id (contact_id)
                     SELECT DISTINCT     $eq.contact_id
@@ -122,6 +125,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query($excludeSubMailing);
         $mailingGroup->find();
         
+        /* Add all the succesful deliveries of this mailing (but any job/retry)
+         * to the exclude temp table */
         $excludeRetry =
                     "INSERT INTO        X_$job_id (contact_id)
                     SELECT DISTINCT     $eq.contact_id
@@ -144,6 +149,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 //         /* TODO: support bounce status */
 //         /* TODO: support override emails from the g2c table */
 //         /* TODO: support saved searches */
+
+        /* Get the group contacts, but only those which are not in the temp
+         * table */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,

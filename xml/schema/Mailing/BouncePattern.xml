@@ -15,12 +15,16 @@
         <autoincrement>true</autoincrement>
     </primaryKey>
     <field>
-        <name>bounce_type</name>
-        <type>enum</type>
-        <values>AOL, Away, DNS, Host, Inactive, Invalid, Loop, Quota, Relay, Spam, Syntax, Unknown</values>
+        <name>bounce_type_id</name>
+        <type>int unsigned</type>
         <required>true</required>
         <comment>Type of bounce</comment>
     </field>
+    <foreignKey>
+        <name>bounce_type_id</name>
+        <table>civicrm_mailing_bounce_type</table>
+        <key>id</key>
+    </foreignKey>
     <field>
         <name>pattern</name>
         <type>varchar</type>

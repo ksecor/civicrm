@@ -37,7 +37,12 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
      * Pseudo-constant pattern array
      */
     static $_patterns = null;
-    
+
+    /**
+     * The bounce type id of unknown
+     */
+    static $_unknown = null;
+
     /**
      * class constructor
      */
@@ -55,25 +60,30 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
      */
     public static function buildPatterns() {
         self::$_patterns = array();
-
+        $btTable = CRM_Mailing_DAO_BounceType::tableName();
         $bp =& new CRM_Mailing_BAO_BouncePattern();
         $bp->find();
         
         while ($bp->fetch()) {
-            if (! is_array(self::$_patterns[$bp->bounce_type])) {
-                self::$_patterns[$bp->bounce_type] = array();
+            if (! is_array(self::$_patterns[$bp->bounce_type_id])) {
+                self::$_patterns[$bp->bounce_type_id] = array();
             }
-            self::$_patterns[$bp->bounce_type][] = $bp->pattern;
+            self::$_patterns[$bp->bounce_type_id][] = $bp->pattern;
         }
 
         foreach (self::$_patterns as $type => $patterns) {
             if (count($patterns) == 1) {
                 self::$_patterns[$type] = '/' . $patterns[0] . '/';
             } else {
-                self::$_patterns[$type]     = '/(' 
-                                            . implode(')|(', $patterns) 
-                                            . ')/';
+                self::$_patterns[$type]
+                    = '/(' . implode(')|(', $patterns) . ')/';
             }
+        }
+        
+        $bt =& new CRM_Mailing_DAO_BounceType();
+        $bt->name = 'Unknown';
+        if ($bt->find(true)) {
+            self::$_unknown = $bt->id;
         }
     }
 
@@ -93,14 +103,14 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
         foreach (self::$_patterns as $type => $re) {
             if (preg_match($re, $string, $matches)) {
                 return  array(
-                            'bounce_type' => $type, 
+                            'bounce_type_id' => $type,
                             'bounce_reason' => $matches[0]
                         );
             }
         }
         
         return  array( 
-                    'bounce_type' => 'Unknown', 
+                    'bounce_type_id' => self::$_unknown, 
                     'bounce_reason' => null 
                 );
     }
