@@ -314,7 +314,6 @@ class JPSpan_Include_Manager {
             $this->code[$name] = $File->src;
             $this->resolveDependencies($File->includes);
         }
-
     }
     
     /**
@@ -327,11 +326,9 @@ class JPSpan_Include_Manager {
         global $user_home;
         
         foreach ( $includes as $include ) {
-            $config =& CRM_Core_Config::singleton( );
             $src = file_get_contents($user_home.'/'.$include);
             $this->load($include,$src);
         }
-
     }
     
     /**
