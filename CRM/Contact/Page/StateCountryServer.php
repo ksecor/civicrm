@@ -7,10 +7,10 @@ require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contact/Server/StateCountryServer.php';
 
 define ('JPSPAN_ERROR_DEBUG',TRUE);
+
 require_once 'JPSpan.php';
 
-//require_once JPSPAN . 'Server/PostOffice.php';
-require_once 'packages/JPSpan/Server/PostOffice.php';
+require_once JPSPAN . 'Server/PostOffice.php';
 
 class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page { 
 
