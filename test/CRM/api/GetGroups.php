@@ -16,43 +16,40 @@ class TestOfGetGroups extends UnitTestCase
 
     function testGetAllGroups()
     {
-        $group = crm_get_groups();
-        $this->assertNotA($group,'CRM_Core_Error');
-        $queryString = "SELECT * FROM crm_group";
-        $crmDAO =& new CRM_Contact_DAO_Group();
-        $error = $crmDAO->query($queryString);
-        while($crmDAO->fetch()) { 
-            $rows = array();
-            CRM_Core_DAO::storeValues($crmDAO,$rows);
-            $groupArray[] = $rows;
-            
+        $groups = crm_get_groups();
+        $this->assertNotA($groups,'CRM_Core_Error');
+        $numCount = count($group);
+        foreach($groups as  $group) {
+            $this->assertIsA($group,'CRM_Contact_DAO_Group');
+
         }
-        $this->assertEqual($group,$groupArray);
-        
     }
 
     function testGetFilterdGroup()
     {
         $params = array('name'=>'summer');
         $return_prop = array('name','title','group_type');
-        
         $groups = crm_get_groups($params,$return_prop);
-        
-       
         $this->assertNotA($group,'CRM_Core_Error');
-        
-        $queryString = "SELECT id,name,title,group_type FROM crm_group WHERE name LIKE '%summer%'";
-        $crmDAO =& new CRM_Contact_DAO_Group();
-        $error = $crmDAO->query($queryString);
-        while($crmDAO->fetch()) { 
-            $rows = array();
-            CRM_Core_DAO::storeValues($crmDAO,$rows);
-            $groupArray[] = $rows;
+        foreach($groups as  $group) {
+            $this->assertIsA($group,'CRM_Contact_DAO_Group');
 
         }
         
-        $this->assertEqual($groups,$groupArray);
+        
+    }
+    
+    function testGetFilterdGroupGroupCount()
+    {
        
+        $return_prop = array('name','title','group_type','member_count');
+        $groups = crm_get_groups($params);
+        $this->assertNotA($group,'CRM_Core_Error');
+        foreach($groups as  $group) {
+            $this->assertIsA($group,'CRM_Contact_DAO_Group');
+
+        }
+        
         
     }
 
