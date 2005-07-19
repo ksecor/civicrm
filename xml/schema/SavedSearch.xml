@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Contact</base>
   <name>crm_saved_search</name>
-  <comment>User's can save their complex SQL queries and invoke them @ later stage</comment>
+  <comment>Users can save their complex SQL queries and run them later.</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
