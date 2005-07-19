@@ -120,7 +120,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $job.mailing_id = $mg.entity_id
                     WHERE
                                         $mg.mailing_id = " . $this->id . "
-                        AND             $mg.entity_table '$mailing'
+                        AND             $mg.entity_table = '$mailing'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
         $mailingGroup->find();
@@ -143,13 +143,39 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query($excludeRetry);
         $mailingGroup->find();
 
-        /* TODO: exclusion of saved searches */
-
-//         /* Get all the group contacts we want to include */
-//         /* TODO: support bounce status */
-//         /* TODO: support override emails from the g2c table */
-//         /* TODO: support saved searches */
-
+        $mailingGroup->query(
+                    "SELECT             $group.saved_search_id as saved_search_id
+                    FROM                $group
+                    INNER JOIN          $mg
+                            ON          $mg.entity_id = $group.id
+                    WHERE               $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Exclude'
+                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $group.saved_search_id <> null");
+        $mailingGroup->find();
+        $ss =& new CRM_Contact_BAO_SavedSearch();
+        
+        while ($mailingGroup->fetch()) {
+            /* run the saved search query and dump result contacts into the temp
+             * table */
+            $tables = array($contact);
+            $where =
+            CRM_Contact_BAO_SavedSearch::whereClause(
+                $mailingGroup->saved_search_id, $tables);
+            $ss->query(
+                    "INSERT INTO        X_$job_id (contact id)
+                    SELECT              $contact.id
+                    FROM                $contact
+                    WHERE               $where");
+            $ss->find();
+            $ss->reset();
+        }
+        
+        /* Get all the group contacts we want to include */
+        /* TODO: support bounce status */
+        /* TODO: support override emails from the g2c table */
+        /* TODO: change how group membership (subscription) is handled */
+        
         /* Get the group contacts, but only those which are not in the temp
          * table */
         $queryGroup = 
@@ -204,6 +230,41 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.mailing_id = " . $this->id;
 
         $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
+
+        /* Construct the saved-search queries */
+        $mailingGroup->query(
+                    "SELECT             $group.saved_search_id as saved_search_id
+                    FROM                $group
+                    INNER JOIN          $mg
+                            ON          $mg.entity_id = $group.id
+                    WHERE               $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $group.saved_search_id <> null");
+        $mailingGroup->find();
+        while ($mailingGroup->fetch()) {
+            $tables = array($contact);
+            $where = CRM_Contact_BAO_SavedSearch::whereClause(
+                        $mailingGroup->saved_search_id, $tables);
+
+            $query .=   " 
+                        UNION DISTINCT
+                        (SELECT         $email.id as email_id,
+                                        $contact.id as contact_id 
+                        FROM            $contact
+                        INNER JOIN      $location
+                                ON      $location.contact_id = $contact.id
+                        INNER JOIN      $email
+                                ON      $email.location_id = $location.id
+                        LEFT JOIN       X_$job_id
+                                ON      $contact.id = X_$job_id.contact_id
+                        WHERE           
+                                        X_$job_id IS null
+                            AND         $contact.do_not_email = 0
+                            AND         $location.is_primary = 1
+                            AND         $email.is_primary = 1
+                            AND         $where) ";
+        }
         
         $results = array();
 
