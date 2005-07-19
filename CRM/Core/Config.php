@@ -194,6 +194,12 @@ class CRM_Core_Config {
     public $mysqlVersion = 4.1;
 
     /**
+     * the handle for import file size 
+     * @var object
+     */
+    public static $maxImportFileSize = 0;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -219,11 +225,6 @@ class CRM_Core_Config {
      * @static
      */
     private static $_singleton = null;
-
-    /**
-     * the handle for import file size 
-     * @var object
-     */
 
     /**
      * singleton function used to manage this object
@@ -360,7 +361,7 @@ class CRM_Core_Config {
         }
 
         if ( defined ( 'CRM_MAX_IMPORT_FILESIZE' ) ) {
-            $this->importFileSize = CRM_MAX_IMPORT_FILESIZE;
+            $this->maxImportFileSize = CRM_MAX_IMPORT_FILESIZE;
         }
         // initialize the framework
         $this->initialize();

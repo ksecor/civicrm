@@ -49,10 +49,10 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         //Setting Upload File Size
         $config =& new CRM_Core_Config();
-        if ($config->importFileSize >= 8388608 ) {
+        if ($config->maxImportFileSize >= 8388608 ) {
             $uploadFileSize = 8388608;
         } else {
-            $uploadFileSize = $config->importFileSize;
+            $uploadFileSize = $config->maxImportFileSize;
         }
         $uploadSize = ($uploadFileSize / (1024*1024));
                 
