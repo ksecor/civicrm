@@ -207,17 +207,20 @@ class JPSpan_Server {
     * @access public
     */
     function displayClient() {
+
         $G = & $this->getGenerator();
         //require_once JPSPAN . 'Include.php';
         require_once 'packages/JPSpan/Include.php';
 
         $I = & JPSpan_Include::instance();
-        echo $G->getClient();
+
         // HACK - this needs to change
         $I->loadString(__FILE__,$G->getClient());
         $client = $I->getCode();
         header('Content-Type: application/x-javascript');
         header('Content-Length: '.strlen($client));
+        
+        CRM_Core_Error::debug_log_message($client);
         echo $client;
         exit();
     }

@@ -216,7 +216,7 @@ class JPSpan_Include {
     * @access public
     */
     function loadFile($file) {
-        $file = JPSPAN . 'js/' . $file;
+        $file = 'packages/JPSpan/js/' . $file;
         $this->Manager->loadFile($file);
     }
     
@@ -307,7 +307,6 @@ class JPSpan_Include_Manager {
     * @access protected
     */
     function load($name, $src) {
-    
         if ( !in_array($name,$this->includes) ) {
             $this->includes[] = $name;
             $File = & new JPSpan_Include_File($this);
@@ -325,9 +324,11 @@ class JPSpan_Include_Manager {
     * @access private
     */
     function resolveDependencies($includes) {
-    
+        global $user_home;
+        
         foreach ( $includes as $include ) {
-            $src = file_get_contents($include);
+            $config =& CRM_Core_Config::singleton( );
+            $src = file_get_contents($user_home.'/'.$include);
             $this->load($include,$src);
         }
 
