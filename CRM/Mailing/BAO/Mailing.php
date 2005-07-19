@@ -159,13 +159,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact);
+            $from = CRM_Contact_BAO_Contact::fromClause($tables);
             $where =
             CRM_Contact_BAO_SavedSearch::whereClause(
                 $mailingGroup->saved_search_id, $tables);
             $ss->query(
                     "INSERT INTO        X_$job_id (contact id)
                     SELECT              $contact.id
-                    FROM                $contact
+                    FROM                $from
                     WHERE               $where");
             $ss->find();
             $ss->reset();
@@ -242,8 +243,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.mailing_id = " . $this->id . "
                         AND             $group.saved_search_id <> null");
         $mailingGroup->find();
+        /* FIXME: is it kosher to possibly multiple-inner-join? */
         while ($mailingGroup->fetch()) {
             $tables = array($contact);
+            $from = CRM_Contact_BAO_Contact::fromClause($tables);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
                         $mailingGroup->saved_search_id, $tables);
 
@@ -251,7 +254,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         UNION DISTINCT
                         (SELECT         $email.id as email_id,
                                         $contact.id as contact_id 
-                        FROM            $contact
+                        FROM            $from
                         INNER JOIN      $location
                                 ON      $location.contact_id = $contact.id
                         INNER JOIN      $email

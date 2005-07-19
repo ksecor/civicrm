@@ -157,7 +157,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             /* Send the mailing */
             $body = $message->get();
             $headers = $message->headers();
-
+            
+            /* TODO: when we separate the content generator from the delivery
+             * engine, maybe we should dump the messages into a table */
             $result = $mailer->send($recipient, $headers, $body);
             
             if (is_a($result, PEAR_Error)) {
