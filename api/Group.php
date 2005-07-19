@@ -83,6 +83,10 @@ function crm_get_groups($params = null, $returnProperties = null) {
     if ($returnProperties == null) {
     $queryString .= " *";
     } else {
+        
+        if (!is_array($returnProperties)) {
+            return _crm_error('$returnProperties is not an array');
+        }
         $count = count($returnProperties);
         $counter = 1;
         foreach($returnProperties as $retProp) {
@@ -109,6 +113,10 @@ function crm_get_groups($params = null, $returnProperties = null) {
     }
     $queryString .= " FROM civicrm_group";
     if ($params != null) {
+        if (!is_array($params)) {
+            return _crm_error('$params is not an array');
+        }
+        
         $total = count($params);
         $counter = 1;
         $queryString .= " WHERE";
@@ -301,6 +309,10 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
         if ($returnProperties == null) {
             $queryString = "SELECT * , civicrm_contact.id as civicrm_contact_id";
         } else {
+            
+            if (!is_array($returnProperties)) {
+                return _crm_error('$returnProperties is not an array');
+            }
             $queryString = "SELECT civicrm_contact.id as civicrm_contact_id, civicrm_group_contact.contact_id,";
             $count = count($returnProperties);
             $counter = 1;
@@ -321,6 +333,9 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
         $queryString .= " WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
     
         if($sort != null) {
+            if (!is_array($sort)) {
+                  return _crm_error('$sort is not an array');
+              }
             $queryString .= " ORDER BY ";
             $count = count($sort);
             $counter = 1;
