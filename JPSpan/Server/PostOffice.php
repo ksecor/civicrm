@@ -62,6 +62,7 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
     * @access public
     */
     function serve($sendHeaders = TRUE) {
+
         require_once JPSPAN . 'Monitor.php';
         $M = & JPSpan_Monitor::instance();
         
@@ -74,12 +75,10 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
             $M->setRequestInfo('method',$this->calledMethod);
             
             if ( FALSE !== ($Handler = & $this->getHandler($this->calledClass) ) ) {
-            
                 $args = array();
                 $M->setRequestInfo('args',$args);
                 
                 if ( $this->getArgs($args) ) {
-                
                     $M->setRequestInfo('args',$args);
                     
                     $response = call_user_func_array(
@@ -100,7 +99,7 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
                     );
                     
                 }
-                
+
                 require_once JPSPAN . 'Serializer.php';
 
                 $M->setResponseInfo('payload',$response);
@@ -137,6 +136,7 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
     * @access private
     */
     function resolveCall() {
+       
         $uriPath = explode('/',JPSpan_Server::getUriPath());
         
         if ( count($uriPath) != 2 ) {
@@ -166,7 +166,7 @@ class JPSpan_Server_PostOffice extends JPSpan_Server {
         
         $this->calledClass = $uriPath[0];
         $this->calledMethod = $uriPath[1];
-        
+  
         return TRUE;
         
     }
