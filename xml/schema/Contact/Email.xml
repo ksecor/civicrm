@@ -42,5 +42,21 @@
        <default>0</default>
        <comment>Is this the primary email for this contact and location.</comment>
   </field>
-
+  <field>
+    <name>on_hold</name>
+    <type>boolean</type>
+    <default>0</default>
+    <required>true</required>
+    <comment>Is this address on bounce hold?</comment>
+  </field>
+  <field>
+    <name>hold_date</name>
+    <type>date</type>
+    <comment>When the address went on bounce hold</comment>
+  </field>
+  <field>
+    <name>reset_date</name>
+    <type>date</type>
+    <comment>When the address' bounce status was last reset</comment>
+  </field>
 </table>
