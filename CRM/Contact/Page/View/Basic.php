@@ -78,7 +78,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
         // enum localisation hacks
         $t = CRM_Core_SelectValues::gender();
-        $defaults['gender']['gender'] = $t[$defaults['gender']['gender']];
+        $defaults['gender'] = $t[$defaults['gender']];
 
         $t = CRM_Core_SelectValues::pcm();
         if ($defaults['preferred_communication_method'] != '') {

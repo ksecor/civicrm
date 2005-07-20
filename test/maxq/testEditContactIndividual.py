@@ -141,7 +141,7 @@ class testEditContactIndividual(PyHttpTestCase):
                 ('''location[2][address][state_province_id]''', ''''''),
                 ('''location[2][address][postal_code]''', ''''''),
                 ('''location[2][address][country_id]''', ''''''),
-                ('''gender[gender]''', '''Male'''),
+                ('''gender''', '''Male'''),
                 ('''birth_date[d]''', '''24'''),
                 ('''birth_date[M]''', '''2'''),
                 ('''birth_date[Y]''', '''1979'''),
