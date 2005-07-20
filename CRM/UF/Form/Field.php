@@ -241,13 +241,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $daoFieldName =& new CRM_Core_DAO_UFField();
             $fieldName = $fields['field_name'];
             $groupId = $fields['group_id'];
-            $query = "SELECT * FROM crm_uf_field WHERE uf_group_id = '$groupId' AND field_name = '$fieldName'";
+            $query = "SELECT * FROM civicrm_uf_field WHERE uf_group_id = $groupId AND field_name = '$fieldName'";
             $daoFieldName->query($query);
             $result = $daoFieldName->getDatabaseResult();
             $row    = $result->fetchRow();
             
-            if($row > 0)
+            if($row > 0) {
                 $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
+            }
         }
 
         return empty($errors) ? true : $errors;
