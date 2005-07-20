@@ -1,37 +1,49 @@
 <?php
-/**
-* This is a remote script to call from Javascript
+/*
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
 */
 
-//-----------------------------------------------------------------------------------
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
+//require_once 'CRM/Core/Error.php'; 
+//require_once 'CRM/Core/DAO.php'; 
+require_once 'CRM/Core/PseudoConstant.php'; 
+
 class CRM_Contact_Server_StateCountryServer  
 {
     
     function getWord($fragment='') 
     {
-        
         $fraglen = strlen($fragment);
         
-        //get the list of states
-        $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
-        mysql_select_db('civicrm');
-        
-        $strSql = "SELECT id, name FROM crm_state_province";  
-        
-        if (!$rst = mysql_query($strSql)) {
-            echo $strSql."<br>".mysql_error();
-        } else {
-            if (mysql_num_rows($rst)) {
-                while ($adata = mysql_fetch_assoc($rst)) {
-                    $states[$adata['id']] = $adata['name'];
-                }
-            }
-        }
-        
-        
         for ( $i = $fraglen; $i > 0; $i-- ) {
-            
-            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i',$states);
+            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i', CRM_Core_PseudoConstant::stateProvince());
             
             if ( count($matches) > 0 ) {
                 $id = key($matches);
@@ -40,38 +52,30 @@ class CRM_Contact_Server_StateCountryServer
                 return $showState;
             }
         }
-
+        
         return '';
     }
 
-    function getCountry($stateId) {
-
+    function getCountry($stateProvinceId) {
         unset($matches);
-        
-        $connect = mysql_connect('localhost', 'civicrm', 'Mt!Everest');
-        mysql_select_db('civicrm');
-        
-        $strSql = "SELECT crm_country.id as crm_country_id, crm_country.name as crm_country_name 
-                   FROM crm_country , crm_state_province 
-                   WHERE crm_state_province.country_id = crm_country.id
-                      AND crm_state_province.id =".$stateId;  
-      
-        if (!$rst = mysql_query($strSql)) {
-            echo $strSql."<br>".mysql_error();
-        } else {
-            if (mysql_num_rows($rst)) {
-                while ($adata = mysql_fetch_assoc($rst)) {
-                    $matches[$adata['crm_country_id']] = $adata['crm_country_name'];
-                }
-                $id = key($matches);
-                $value = current($matches);
-                $showCountry[$id] = $value;
-                return $showCountry;
-            }
-        }
-        
-        return '';
+        $queryString = "SELECT civicrm_country.id as civicrm_country_id, civicrm_country.name as civicrm_country_name 
+                        FROM civicrm_country , civicrm_state_province 
+                        WHERE civicrm_state_province.country_id = civicrm_country.id
+                          AND civicrm_state_province.id =".$stateProvinceId;  
 
+        $DAOobj =& new CRM_Core_DAO();
+        
+        $DAOobj->query($queryString); 
+
+        if ($DAOobj->fetch()) { 
+            $matches[$DAOobj->civicrm_country_id] = $DAOobj->civicrm_country_name;
+               
+            $id = key($matches);
+            $value = current($matches);
+            $showCountry[$id] = $value;
+            return $showCountry;
+        }
+        return '';
     }
 
 }

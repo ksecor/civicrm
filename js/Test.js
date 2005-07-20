@@ -68,7 +68,7 @@ function getWord(input, evt) {
       
     /*Create the remote client*/
 
-    var a = new crm_contact_form_statecountryserver (CompletionHandler);
+    var a = new crm_contact_server_statecountryserver (CompletionHandler);
 
     /*Set a timeout for responses which take too long*/
     a.timeout = 3000;
@@ -103,7 +103,7 @@ var CompletionHandler = {
         var input1 = document.getElementById('state_id');
         input1.value = result.length;
 
-        var b = new crm_contact_form_statecountryserver (CompletionHandlerCountry);
+        var b = new crm_contact_server_statecountryserver (CompletionHandlerCountry);
         b.getcountry(input1.value);
 
         try {

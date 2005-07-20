@@ -4,6 +4,8 @@
 
 <form id="autoCompleteForm" name="autoCompleteForm">
 Enter a State: <input type="text" id="state" name="state" value="" onkeyup="getWord(this,event);" autocomplete="off" onblur="getWord(this,event);">
+<!--input type="text" id="state" name="state" value="" onkeyup="getWord(this,event);" autocomplete="off"-->
+
 <!-- Note the autocomplete="off": without it you get errors like;
 "Permission denied to get property XULElement.selectedIndex..."
 -->

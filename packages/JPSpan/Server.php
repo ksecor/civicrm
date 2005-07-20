@@ -162,16 +162,23 @@ class JPSpan_Server {
     * @static
     */
     function getUriPath() {
-    
+
         $basePath = explode('/',$_SERVER['SCRIPT_NAME']);
         $script = array_pop($basePath);
+
         $basePath = implode('/',$basePath);
         
         // Determine URI path - path variables to the right of the PHP script
         if ( false !== strpos ( $_SERVER['REQUEST_URI'], $script ) ) {
-            $uriPath = explode( $script,$_SERVER['REQUEST_URI'] );
+            //CRM_Core_Error::debug_log_message('========= if  ============');
+
+            //this code will be changed later to make it generic
+            $uriPath = explode( $script.'?q=civicrm/contact/StateCountryServer',$_SERVER['REQUEST_URI'] );
+
             $uriPath = $uriPath[1];
+            //CRM_Core_Error::debug_var('uripath', $uriPath, 1);
         } else {
+            //CRM_Core_Error::debug_log_message('========= else  ============');
             $pattern = '/^'.str_replace('/','\/',$basePath).'/';
             $uriPath = preg_replace($pattern,'',$_SERVER['REQUEST_URI']);
         }
@@ -179,8 +186,11 @@ class JPSpan_Server {
             $uriPath = substr($uriPath,0,$pos);
         }
         $uriPath = preg_replace(array('/^\//','/\/$/'),'',$uriPath);
-        return $uriPath;
         
+//         CRM_Core_Error::debug_var('uripath', $uriPath, 1);
+//         CRM_Core_Error::ll_function();
+
+        return $uriPath;
     }
     
     /**
@@ -213,7 +223,6 @@ class JPSpan_Server {
         $client = $I->getCode();
         header('Content-Type: application/x-javascript');
         header('Content-Length: '.strlen($client));
-        CRM_Core_Error::debug_log_message($client);
         echo $client;
         exit();
     }
