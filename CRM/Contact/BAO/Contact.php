@@ -1474,7 +1474,91 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
     }
 
+    /**
+     * Get unique contact id for input parameters.
+     * Currently the parameters allowed are
+     *
+     * 1 - email
+     * 2 - phone number
+     * 3 - city
+     *
+     * @param array $param - array of input parameters
+     *
+     * @return $contactId|CRM_Error if unique id available
+     *
+     * @access public
+     *
+     */
+    function _crm_get_contact_id($params)
+    {
+        //CRM_Core_Error::le_function();
+    //CRM_Core_Error::debug_var('params', $params);
+        
+        if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
+            //CRM_Core_Error::debug_log_message('$params must contain either email, phone or city to obtain contact id');
+            //CRM_Core_Error::ll_function();
+            return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
+        }
 
+        
+        $queryString = $select = $from = $where = '';
+        
+        $select = 'SELECT civicrm_contact.id';
+        $from   = ' FROM civicrm_contact, civicrm_location';
+        $andArray = array();
+        
+        $andArray[] = "civicrm_contact.id = civicrm_location.contact_id";
+
+        if (isset($params['email'])) {// is email present ?
+            $from .= ', civicrm_email';
+            $andArray[] = "civicrm_location.id = civicrm_email.location_id";
+            $andArray[] = "civicrm_email.email = '" . $params['email'] . "'";
+        }
+
+        if (isset($params['phone'])) { // is phone present ?
+            $from .= ', civicrm_phone';
+            $andArray[] = 'civicrm_location.id = civicrm_phone.location_id';
+            $andArray[] = "civicrm_phone.phone = '" . $params['phone'] . "'";
+        }
+        
+        if (isset($params['city'])) { // is city present ?
+            $from .= ', civicrm_address';
+            $andArray[] = 'civicrm_location.id = civicrm_address.location_id';
+            $andArray[] = "civicrm_address.city = '" . $params['city'] . "'";
+        }
+
+        $where = " WHERE " . implode(" AND ", $andArray);
+        
+        $queryString = $select . $from . $where;
+        //CRM_Core_Error::debug_var('queryString', $queryString);
+        
+        $dao = new CRM_Core_DAO();
+        
+        $dao->query($queryString);
+        $count = 0;
+        while($dao->fetch()) {
+            $count++;
+            if ($count > 1) {
+
+                return _crm_error( 'more than one contact id matches $params' );
+            }
+            
+        }
+        //$result = $dao->getDatabaseResult();
+        //$rows = $result->fetchRow();
+    
+        if ($count == 0) {
+            //CRM_Core_Error::debug_log_message('more than one contact id matches $params  email, phone or city to obtain contact id');
+            //CRM_Core_Error::ll_function();
+            return _crm_error( 'No contact found for given $params ' );
+        }
+        
+        //CRM_Core_Error::debug_var('contactId', $rows[0]);
+        //CRM_Core_Error::ll_function();
+        return $dao->id;
+    }
+    
+    
 }
 
 ?>

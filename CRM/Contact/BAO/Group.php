@@ -130,6 +130,109 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
        return $aMembers;
     }
+
+    /**
+     * Returns array of group object(s) matching a set of one or Group properties.
+     *
+     *
+     * @param array       $param                 Array of one or more valid property_name=>value pairs. Limits the set of groups returned.
+     * @param array       $returnProperties      Which properties should be included in the returned group objects. (member_count should be last element.)
+     *  
+     * @return  An array of group objects.
+     *
+     * @access public
+     */
+
+    static function getGroups($params = null, $returnProperties = null) 
+    {
+        $queryString = "SELECT";
+        if ($returnProperties == null) {
+            $queryString .= " *";
+        } else {
+            
+            if (!is_array($returnProperties)) {
+                return _crm_error('$returnProperties is not an array');
+            }
+            $count = count($returnProperties);
+            $counter = 1;
+            foreach($returnProperties as $retProp) {
+                if($retProp == 'member_count') {
+                    $count--;
+                    break;
+                }
+            }
+            if($count == 0) {
+                $queryString .= " *";
+            }
+            foreach($returnProperties as $retProp) {
+                if($counter < $count) {
+                    if($retProp != 'member_count') {
+                        $queryString .=" ".$retProp.",";
+                    }
+                } else {
+                    if($retProp != 'member_count') {
+                        $queryString .=" ".$retProp.',id';
+                    }
+                }
+                $counter++;
+            }
+        }
+        $queryString .= " FROM civicrm_group";
+        if ($params != null) {
+            if (!is_array($params)) {
+                return _crm_error('$params is not an array');
+            }
+            
+            $total = count($params);
+            $counter = 1;
+            $queryString .= " WHERE";
+            foreach($params as $key => $param) {
+                if($counter < $total) {
+                    $queryString .=" $key". " LIKE". " '%$param%' ,";
+                } else {
+                    $queryString .=" $key". " LIKE". " '%$param%' ";
+                }
+                $counter++;
+            }
+        }
+        
+        $crmDAO =& new CRM_Contact_DAO_Group();
+        $error = $crmDAO->query($queryString);
+        
+        if($error) {
+            return _crm_error($error);
+        }
+        $groupArray = array();
+        $flag = 0;
+        if($returnProperties != null) {
+            foreach($returnProperties as $ret) {
+                if($ret == 'member_count'){
+                    $flag = 1;
+                }
+            }
+            
+        }
+        $groups =array();
+        while($crmDAO->fetch()) { 
+            $group =new CRM_Contact_DAO_Group();
+            if($flag) {
+                $count=CRM_Contact_BAO_Group::memberCount($crmDAO->id);
+                $crmDAO->member_count = $count;
+            }
+            $group = clone($crmDAO);
+            $groups[] = $group;
+            if (version_compare(phpversion(), '5.0') < 0) {
+                eval('
+                  function clone($object) {
+                  return $object;
+                  }
+                 ');
+            }
+            
+        }
+        return $groups;
+    
+    }
     
 }
 
