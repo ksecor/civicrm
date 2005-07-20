@@ -226,6 +226,29 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return $groups;
     
     }
+
+    /**
+     * make sure that the user has permission to access this group
+     *
+     * @param int $id   the id of the object
+     * @param int $name the name or title of the object
+     *
+     * @return string   the permission that the user has (or null)
+     * @access public
+     * @static
+     */
+    static function checkPermission( $id, $title ) {
+        if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) || CRM_Utils_System::checkPermission( 'edit ' . $title ) ) {
+            return CRM_Core_Permission::EDIT;
+        }
+
+        if ( CRM_Utils_System::checkPermission( 'view all contacts' ) || CRM_Utils_System::checkPermission( 'view ' . $title ) ) {
+            return CRM_Core_Permission::VIEW;
+        }
+
+        return null;
+    }
+
     
 }
 

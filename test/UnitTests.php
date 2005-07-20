@@ -20,14 +20,14 @@ class UnitTests extends GroupTest {
 
         // contact api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         
         // group api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
 
@@ -48,6 +48,10 @@ class UnitTests extends GroupTest {
         
     }
 
+}
+
+function user_access( $str ) {
+    return true;
 }
 
 if ( TEST == __FILE__ ) {

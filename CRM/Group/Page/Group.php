@@ -141,15 +141,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
      * @access public
      */
     function checkPermission( $id, $title ) {
-        if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) || CRM_Utils_System::checkPermission( 'edit ' . $title ) ) {
-            return CRM_Core_Permission::EDIT;
-        }
-
-        if ( CRM_Utils_System::checkPermission( 'view all contacts' ) || CRM_Utils_System::checkPermission( 'view ' . $title ) ) {
-            return CRM_Core_Permission::VIEW;
-        } 
-        
-        return null;
+        return CRM_Contact_BAO_Group::checkPermission( $id, $title );
     }
 
     /**

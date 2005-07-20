@@ -320,9 +320,16 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * Returns array of contacts who are members of the specified group.
      *
      * @param CRM_Contact $group                A valid group object (passed by reference)
-     * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.Note:Do not inclue Id releted properties. 
+     * @param array       $returnProperties     Which properties
+     *                    should be included in the returned Contact object(s). If NULL,
+     *                    the default set of contact properties will be
+     *                    included. group_contact properties (such as 'status',
+     * '                  in_date', etc.) are included automatically.Note:Do not inclue
+     *                    Id releted properties.  
      * @param text        $status               A valid status value ('In', 'Pending', 'Out').
-     * @param text        $sort                 Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned.
+     * @param text        $sort                 Associative array of
+     *                    one or more "property_name"=>"sort direction"
+     *                    pairs which will control order of Contact objects returned.
      * @param Int         $offset               Starting row index.
      * @param Int         $row_count            Maximum number of rows to returns.
      *
@@ -337,121 +344,67 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     {
         $query = "SELECT * FROM civicrm_group WHERE id = '$group->id'";
         $groupDAO = new CRM_Contact_DAO_Group();
-        $groupDAO->query($query);
-        $groupDAO->fetch();
-        if($groupDAO->saved_search_id !=NULL){
-            $formValues = CRM_Contact_BAO_SavedSearch::getFormValues($groupDAO->saved_search_id);
-            $result = CRM_Contact_BAO_Contact::searchQuery($formValues,0, 25, null,false,null,null,true);
-            $contacts = explode(",",$result);
-            
-            
-            if ($returnProperties == null) {
-                $queryString = "SELECT * , civicrm_contact.id as civicrm_contact_id";
-            } else {
-                
-                $queryString = "SELECT civicrm_contact.id as civicrm_contact_id ,";
-                $count = count($returnProperties);
-                $counter = 1;
-                foreach($returnProperties as $retProp) {
-                    if($counter < $count) {
-                        $queryString .=" ".$retProp.",";
-                    } else {
-                        $queryString .=" ".$retProp;
-                    }
-                    $counter++;
-                }
-            }
-            
-            $queryString .= " FROM civicrm_contact 
-                          LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
-                          LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) WHERE ";
-            $count =count($contacts);
-            $counter = 1;
-            foreach($contacts as $contactID) {           
-                if($counter < $count){
-                    $queryString .=  "civicrm_contact.id = $contactID". " or ";
-                } else {
-                    $queryString .=  "civicrm_contact.id = $contactID ";
-                }
-                $counter++;
-            }
-            
-            
-            if($sort != null) {
-                $queryString .= " ORDER BY ";
-                $count = count($sort);
-                $counter = 1;
-                foreach($sort as $key=> $direction) {
-                    if($counter < $count) {
-                        $queryString .= " ".$key." ".$direction. ",";
-                    }else{
-                        $queryString .= " ".$key." ".$direction;
-                    }
-                    $counter++; 
-                }
-                
-            }
-            if($offset !=null && $row_coun!= null) {
-                $queryString.=" LIMIT $offset,$row_count";
-            }
-            $crmDAO =& new CRM_Core_DAO();
-            $crmDAO->query($queryString);
-            
-        } else {
-            
-            if ($returnProperties == null) {
-                $queryString = "SELECT * , civicrm_contact.id as civicrm_contact_id";
-            } else {
-                $queryString = "SELECT civicrm_contact.id as civicrm_contact_id, civicrm_group_contact.contact_id,";
-                $count = count($returnProperties);
-                $counter = 1;
-                foreach($returnProperties as $retProp) {
-                    if($counter < $count) {
-                        $queryString .=" ".$retProp.",";
-                    } else {
-                        $queryString .=" ".$retProp;
-                    }
-                $counter++;
-                }
-            }
-            
-            
-            $queryString .= " FROM civicrm_contact LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )";
-            $queryString .= " LEFT JOIN  civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id )";
-            $queryString .= " LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)";
-            $queryString .= " WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
-        
-            if($sort != null) {
-                
-                $queryString .= " ORDER BY ";
-                $count = count($sort);
-                $counter = 1;
-                foreach($sort as $key=> $direction) {
-                    if($counter < $count) {
-                        
-                        $queryString .= " ".$key." ".$direction. ",";
-                    }else{
-                        $queryString .= " ".$key." ".$direction;
-                    }
-                $counter++; 
-                }
-                
-            }
-            if($offset !=null && $row_coun!= null) {
-            $queryString.=" LIMIT $offset,$row_count";
-            }
-            $crmDAO =& new CRM_Contact_DAO_Contact();
-            $crmDAO->query($queryString);
+        $groupDAO->id = $group->id;
+        if ( ! $groupDAO->find( true ) ) {
+            return CRM_Core_Error::fatal( "Could not locate group with id: $id" );
         }
+
+        // make sure user has got permission to view this group
+        if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
+            return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
+        }
+
+        $query = '';
+        if ( $returnProperties == null ) {
+            $query = "SELECT * , civicrm_contact.id as civicrm_contact_id";
+        } else {
+            $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
+            $query .= implode( ',', $returnProperties );
+        }
+
+        if ( $groupDAO->saved_search_id != NULL ) {
+            $formValues =& CRM_Contact_BAO_SavedSearch::getFormValues( $groupDAO->saved_search_id );
+            $result     =  CRM_Contact_BAO_Contact::searchQuery($formValues, $offset, $row_count,
+                                                                null, false, null, null,
+                                                                true);
+
+            $query .= " 
+FROM civicrm_contact 
+LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
+LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND
+                                      civicrm_email.is_primary = 1)
+WHERE civicrm_contact.id IN ( $result )
+";
+
+        } else {
+            $query .= "
+FROM       civicrm_contact
+LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )
+LEFT JOIN  civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id )
+LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
+        }
+        
+        if ( $sort != null ) {
+            $order = array( );
+            foreach($sort as $key=> $direction) {
+                $order[] = " $key $direction ";
+            }
+            $query .= " ORDER BY " . implode( ',', $order );
+        }
+        
+        if ( $offset != null && $row_count != null ) {
+            $query .= " LIMIT $offset, $row_count";
+        }
+
+        $dao =& new CRM_Contact_DAO_Contact();
+        $dao->query($query);
+        
+        // this is quite inefficient, we need to change the return
+        // values in docs
         $contactArray = array();
-        while($crmDAO->fetch()) { 
-            
-            
-            
-            $contactDAO = new CRM_Contact_DAO_Contact();
-            $contactDAO = clone($crmDAO);
-            $contactArray[] = $contactDAO;
-            
+        while($dao->fetch()) { 
+            $contactArray[] = clone($dao);
         }
         return $contactArray;
     }
