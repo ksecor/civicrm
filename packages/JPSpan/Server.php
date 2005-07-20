@@ -170,7 +170,7 @@ class JPSpan_Server {
 
         $session =& new CRM_Core_Session();
         $path = $session->get('path');
-        CRM_Core_Error::debug_log_message($path);        
+        //CRM_Core_Error::debug_log_message($path);        
 
         // Determine URI path - path variables to the right of the PHP script
         if ( false !== strpos ( $_SERVER['REQUEST_URI'], $script ) ) {
