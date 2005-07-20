@@ -126,7 +126,6 @@
     <name>mail_preferences</name>
     <type>enum</type>
     <values>HTML, Text, Both</values>
-    <default>Both</default>
     <comment>Preferred format of email</comment>
   </field>
 </table>

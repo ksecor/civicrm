@@ -40,40 +40,29 @@
   <field>
        <name>status</name>
        <type>enum</type>
-       <values>Pending, In, Out</values>
+       <values>In, Out</values>
        <comment>status of contact relative to membership in group</comment>
   </field>
   <field>
-      <name>pending_date</name>
-      <type>date</type>
-      <comment>when was contact status for this group set to Pending</comment>
+       <name>location_id</name>
+       <type>int unsigned</type>
+       <required>false</required>
+       <comment>Optional location to associate with this membership</comment>
   </field>
+  <foreignKey>
+    <name>location_id</name>
+    <table>civicrm_location</table>
+    <key>id</key>
+  </foreignKey>
   <field>
-      <name>in_date</name>
-      <type>date</type>
-      <comment>when was contact status for this group set to In</comment>
+      <name>email_id</name>
+      <type>int unsigned</type>
+      <required>false</required>
+      <comment>Optional email to associate with this membership</comment>
   </field>
-  <field>
-      <name>out_date</name>
-      <type>date</type>
-      <comment>when was contact status for this group set to Out</comment>
-  </field>
-  <field>
-       <name>pending_method</name>
-       <type>enum</type>
-       <values>Admin, Email, Web, API</values>
-       <comment>Interface by which contact was set to status = Pending</comment>
-  </field>
-  <field>
-       <name>in_method</name>
-       <type>enum</type>
-       <values>Admin, Email, Web, API</values>
-       <comment>Interface by which contact was set to status = In</comment>
-  </field>
-  <field>
-       <name>out_method</name>
-       <type>enum</type>
-       <values>Admin, Email, Web, API</values>
-       <comment>Interface by which contact was set to status = Out</comment>
-  </field>
+  <foreignKey>
+    <name>email_id</name>
+    <table>civicrm_email</table>
+    <key>id</key>
+  </foreignKey>
 </table>

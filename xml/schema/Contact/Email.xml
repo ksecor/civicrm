@@ -57,6 +57,6 @@
   <field>
     <name>reset_date</name>
     <type>date</type>
-    <comment>When the address' bounce status was last reset</comment>
+    <comment>When the address bounce status was last reset</comment>
   </field>
 </table>
