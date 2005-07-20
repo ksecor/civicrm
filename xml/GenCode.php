@@ -204,7 +204,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'base'       => $base,
                     'fileName'   => $klass . '.php',
                     'objectName' => $klass,
-                    'labelName'  => substr($name, 4),
+                    'labelName'  => substr($name, 8),
                     'className'  => $classNames[$name],
                     'attributes' => trim($database['tableAttributes']),
                     'comment'    => value( 'comment', $tableXML ) );
