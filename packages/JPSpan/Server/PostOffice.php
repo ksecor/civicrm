@@ -294,7 +294,9 @@ if ( $this->RequestEncoding == 'xml' ) {
     */
     function generateHandleClient(& $Code, & $Description) {
         ob_start();
-?>
+        $session =& new CRM_Core_Session();
+        $path = $session->get('path');
+  ?>
 
 function <?php echo $Description->Class; ?>() {
     
@@ -305,7 +307,7 @@ function <?php echo $Description->Class; ?>() {
     }
     
     oParent.__serverurl = '<?php 
-        echo $this->serverUrl . '?q=civicrm/contact/StateCountryServer/' . $Description->Class; ?>';
+        echo $this->serverUrl .$path.'/'.$Description->Class; ?>';
     
     oParent.__remoteClass = '<?php echo $Description->Class; ?>';
     

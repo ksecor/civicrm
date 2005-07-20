@@ -167,13 +167,17 @@ class JPSpan_Server {
         $script = array_pop($basePath);
 
         $basePath = implode('/',$basePath);
-        
+
+        $session =& new CRM_Core_Session();
+        $path = $session->get('path');
+        CRM_Core_Error::debug_log_message($path);        
+
         // Determine URI path - path variables to the right of the PHP script
         if ( false !== strpos ( $_SERVER['REQUEST_URI'], $script ) ) {
             //CRM_Core_Error::debug_log_message('========= if  ============');
 
             //this code will be changed later to make it generic
-            $uriPath = explode( $script.'?q=civicrm/contact/StateCountryServer',$_SERVER['REQUEST_URI'] );
+            $uriPath = explode( $script.$path,$_SERVER['REQUEST_URI'] );
 
             $uriPath = $uriPath[1];
             //CRM_Core_Error::debug_var('uripath', $uriPath, 1);
@@ -224,6 +228,7 @@ class JPSpan_Server {
         header('Content-Type: application/x-javascript');
         header('Content-Length: '.strlen($client));
         echo $client;
+        //CRM_Core_Error::debug_log_message($client);
         exit();
     }
     

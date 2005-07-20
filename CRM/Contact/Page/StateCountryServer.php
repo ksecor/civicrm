@@ -50,8 +50,7 @@ class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page {
         if ( $set ) {
             // Compress the Javascript
             // define('JPSPAN_INCLUDE_COMPRESS',TRUE);
-            CRM_Core_Error::debug_log_message('set is set');          
-            
+                        
             $S->displayClient();
         } else {
             // Include error handler - PHP errors, warnings and notices serialized to JS

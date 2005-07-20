@@ -1,5 +1,5 @@
 {* test template for testing ajax *}
-<script type="text/javascript" src="{crmURL p='civicrm/contact/StateCountryServer' q='set=1'}"></script>
+<script type="text/javascript" src="{crmURL p='civicrm/contact/StateCountryServer' q="set=1&path=civicrm/contact/StateCountryServer"}"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/Test.js"></script>
 
 <form id="autoCompleteForm" name="autoCompleteForm">

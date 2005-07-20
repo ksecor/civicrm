@@ -96,7 +96,13 @@ class CRM_Core_Invoke {
         if ($args[2] == 'StateCountryServer') {
             $server =& new CRM_Contact_Page_StateCountryServer( );
             $set = CRM_Utils_Request::retrieve('set', $form);
-            return $server->run($set);
+            if ($set) {
+                $path = CRM_Utils_Request::retrieve('path', $form );
+                $path= '?q='.$path;
+                $session =& new CRM_Core_Session();
+                $session->set('path', $path);
+            }
+            return $server->run( $set );
         }
         //code added for testing ajax
         if ($args[2] == 'test') {
