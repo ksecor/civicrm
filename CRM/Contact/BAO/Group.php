@@ -221,14 +221,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             }
             $group = clone($crmDAO);
             $groups[] = $group;
-            if (version_compare(phpversion(), '5.0') < 0) {
-                eval('
-                  function clone($object) {
-                  return $object;
-                  }
-                 ');
-            }
-            
+                        
         }
         return $groups;
     

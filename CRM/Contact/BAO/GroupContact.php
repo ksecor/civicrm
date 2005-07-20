@@ -446,13 +446,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $contactArray = array();
         while($crmDAO->fetch()) { 
             
-            if (version_compare(phpversion(), '5.0') < 0) {
-                eval('
-                  function clone($object) {
-                  return $object;
-                  }
-                 ');
-            }
+            
             
             $contactDAO = new CRM_Contact_DAO_Contact();
             $contactDAO = clone($crmDAO);
