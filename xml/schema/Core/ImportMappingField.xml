@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>ImportMappingField</class>
+  <name>civicrm_import_mapping_field</name>
+  <comment>Individual field mappings for ImportMapping</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Import Mapping Field ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+        <name>import_mapping_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>ImportMapping to which this field belongs</comment>
+  </field>
+  <foreignKey>
+        <name>import_mapping_id</name>
+        <table>civicrm_import_mapping</table>
+        <key>id</key>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Importable field key</comment>
+  </field>
+  <field>
+       <name>location_type_id</name>
+       <type>int unsigned</type>
+       <comment>Location type of this mapping, if required</comment>
+  </field>
+  <foreignKey>
+       <name>location_type_id</name>
+       <table>civicrm_location_type</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>phone_type</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Phone type, if required</comment>
+  </field>
+</table>
