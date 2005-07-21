@@ -10,6 +10,7 @@ require_once 'DelContact.php';
 class test_RSTest_Run
 {
     private $_recordSetSize;
+    private $_flag;
 
     // This constant is used to set size fo dataset. 
     // The value entered is multiple of 1000 or 1k
@@ -217,6 +218,7 @@ class test_RSTest_Run
 
     function run()
     {
+        $this->_flag = 0;
         echo "\n**********************************************************************************\n";
         fwrite(STDOUT, "Options for Stress Testing \n");
         $options = array ('A' => 'All Operations will be done for Stress Test i.e. Inserting Contact, Updating Contact, Insert Relationship, Adding Contact to Group and Deleting Contacts',
@@ -233,10 +235,13 @@ class test_RSTest_Run
         
         do {
             fwrite(STDOUT, "Enter Your Option : \t");
+
             $selection = fgetc(STDIN);
+
         } while (trim ($selection == ''));
 
         if ((array_key_exists($selection, $options)) || (array_key_exists(strtolower($selection), array_change_key_case($options, CASE_LOWER))) ) {
+            $this->_flag = 1;
             echo "\nStress Test Started \n";
             $this->callCommon();
             $this->callGenDataset();
@@ -270,8 +275,44 @@ class test_RSTest_Run
             echo "**********************************************************************************\n";
         }
     }
-
-    function createLog()
+    /*
+    function result()
+    {
+        if ($this->_flag) {
+            echo "\n**********************************************************************************\n";
+            fwrite(STDOUT, "Options for Stress Testing Results\n");
+            $results = array ('C' => 'Create Log File of the Results from the Stress Test',
+                              'D' => 'Display the Results from the Stress Test on the Terminal'
+                              );
+            foreach ($results as $val => $desc) {
+                fwrite(STDOUT, "\n" . $val . " : " . $desc . "\n");
+            }
+            echo "\n**********************************************************************************\n";
+            
+            do {
+                fwrite(STDOUT, "Enter Your Option : \t");
+                $select = fgets(STDIN);
+                echo " You have selected $select \n";
+            } while (trim ($select == ''));
+            
+            if ((array_key_exists($select, $results)) || (array_key_exists(strtolower($select), array_change_key_case($results, CASE_LOWER))) ) {
+                switch (strtolower($select)) {
+                case 'c':
+                    $this->_createLog();
+                    break;
+                case 'd':
+                    $this->_printResult();
+                    break;
+                }
+            }
+        } else {
+            echo "flag not set";
+        }
+        
+        
+    }
+    */
+    function _createLog()
     {
         if (!(is_dir('./LOG'))) {
             mkdir('LOG');
@@ -344,9 +385,12 @@ class test_RSTest_Run
         fwrite($file_pointer, $string);
                 
         fclose($file_pointer);
+        echo "\n**********************************************************************************\n";
+        echo " Results Successfully written to the file : " . getcwd() . "/" .$file_name. "\n";
+        echo "**********************************************************************************\n";
     }
 
-    function printResult()
+    function _printResult()
     {
         if (!(empty($this->_genDataset))) {
             echo "\n**********************************************************************************\n";
@@ -412,8 +456,9 @@ class test_RSTest_Run
 }
 
 $objRun =& new test_RSTest_Run();
-$objRun->run();
-$objRun->createLog();
-$objRun->printResult();
 
+$objRun->run();
+//$objRun->result();
+$objRun->_createLog();
+$objRun->_printResult();
 ?>

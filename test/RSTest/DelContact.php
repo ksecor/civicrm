@@ -54,7 +54,7 @@ class test_RSTest_DelContact
      * for the particular operation.
      *
      * @param   start        int    gives the id of the first contact from the group of contact 
-     * @param   noOfContact  int    gives the no of contacts required for the operations.
+     * @param   noOfContact  int    gives the no of contacts required for the operation.
      * 
      * @access  private
      *
@@ -64,12 +64,13 @@ class test_RSTest_DelContact
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
-        $contactDAO->limit($start, $noOfContact);
+        $contactDAO->whereAdd('id > '. $start . ' AND id <='. ($start + $noOfContact));
         $contactDAO->find();
         
         while ($contactDAO->fetch()) {
             $this->_contactArray[]  = $contactDAO->id;
         }
+        print_r($this->_contactArray);
     }
     
     /**
@@ -127,7 +128,7 @@ class test_RSTest_DelContact
         // need to delete for both entity_id
         $noteDAO = new CRM_Core_DAO_Note();
         $noteDAO->entity_table = 'civicrm_contact';
-        $noteDAO->entity_id   = $id;
+        $noteDAO->entity_id   = $contactId;
         $noteDAO->delete();
         
         // and the creator contact id
@@ -179,7 +180,6 @@ class test_RSTest_DelContact
     {
         $blocks = array('Address', 'Phone', 'Email', 'IM');
         foreach ($blocks as $name) {
-            //require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
             eval('$object =& new CRM_Contact_DAO_' . $name . '();');
             $object->location_id = $locationId;
             $object->delete();
@@ -212,9 +212,8 @@ class test_RSTest_DelContact
             // fix household and org primary contact ids
             $misc = array('Household', 'Organization');
             foreach ($misc as $name) {
-                //require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
                 eval( '$object =& new CRM_Contact_DAO_' . $name . '();' );
-                $object->primary_contact_id = $contactId;
+                $object->primary_contact_id = $id;
                 $object->find();
                 while ($object->fetch()) {
                     // we need to set this to null explicitly
@@ -227,7 +226,6 @@ class test_RSTest_DelContact
             $contact =& new CRM_Contact_DAO_Contact();
             $contact->id = $id;
             if ($contact->find(true)) {
-                //require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
                 eval( '$object =& new CRM_Contact_DAO_' . $contact->contact_type . '();' );
                 $object->contact_id = $contact->id;
                 $object->delete();
@@ -237,8 +235,7 @@ class test_RSTest_DelContact
             CRM_Core_DAO::transaction('COMMIT');
         }
     }
-
-
+    
     function run($start, $noOfContact)
     {
         $this->_getContact($start, $noOfContact);
