@@ -70,6 +70,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $groupContact =& new CRM_Contact_BAO_GroupContact( );
         $groupContact->copyValues( $params );
+        CRM_Contact_BAO_SubscriptionHistory::create($params);
         $groupContact->save( );
         return $groupContact;
     }
@@ -259,8 +260,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
-            $select = 'SELECT civicrm_group_contact.id as civicrm_group_contact_id, civicrm_group.title as group_title,
-                             civicrm_group_contact.status as status, civicrm_group.id as group_id ';
+            $select = 'SELECT 
+                    civicrm_group_contact.id as civicrm_group_contact_id, 
+                    civicrm_group.title as group_title,
+                    civicrm_group_contact.status as status, 
+                    civicrm_group.id as group_id,
+                    civicrm_subscription_history.date as date,
+                    civicrm_subscription_history.method as method';
         }
 
         $where  = ' WHERE civicrm_contact.id = ' . $contactId;
@@ -273,8 +279,21 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
         $where .= " AND $permission ";
         
-        $from = CRM_Contact_BAO_Contact::fromClause( $tables );
-
+//         $from = CRM_Contact_BAO_Contact::fromClause( $tables );
+        $from = 
+            ' FROM      civicrm_group_contact 
+            INNER JOIN  civicrm_group
+                ON      civicrm_group_contact.group_id = civicrm_group.id
+            INNer JOIN  civicrm_contact
+                ON      civicrm_group_contact.contact_id = civicrm_contact.id
+            RIGHT JOIN  civicrm_subscription_history 
+                ON 
+                        civicrm_group_contact.contact_id = 
+                            civicrm_subscription_history.contact_id
+                AND
+                        civicrm_group_contact.group_id =
+                            civicrm_subscription_history.group_id';
+                
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_group.title ';
@@ -285,7 +304,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         $sql = $select . $from . $where . $order . $limit;
-        // CRM_Core_Error::debug( 'sql', $sql );
+//         CRM_Core_Error::debug( 'sql', $sql );
 
         $groupContact->query($sql);
 
@@ -302,11 +321,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $values[$id]['id']             = $id;
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;
-//                 $values[$id]['in_date']        = $groupContact->in_date;
-//                 $values[$id]['out_date']       = $groupContact->out_date;
-//                 $values[$id]['pending_method'] = $groupContact->pending_method;
-//                 $values[$id]['in_method']      = $groupContact->in_method;
-//                 $values[$id]['out_method']     = $groupContact->out_method;
+                switch($groupContact->status) {
+                    case 'In':
+                        $prefix = 'in_';
+                        break;
+                    case 'Out':
+                        $prefix = 'out_';
+                        break;
+                    default:
+                        $prefix = 'pending_';
+                }
+                $values[$id][$prefix . 'date']      = $groupContact->date;
+                $values[$id][$prefix . 'method']    = $groupContact->method;
             }
             return $values;
         }

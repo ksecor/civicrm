@@ -140,8 +140,8 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         
         $params['contact_id'] = $this->_contactId;
         $params['status']     = 'In';
-        $params['in_method']  = 'Admin';
-        $params['in_date']    = date('Ymd');
+        $params['method']  = 'Admin';
+        $params['date']    = date('Ymd');
         
         $groupContact = CRM_Contact_BAO_GroupContact::add($params);
         
