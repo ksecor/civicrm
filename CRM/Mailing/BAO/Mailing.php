@@ -354,8 +354,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $this->footer =& new CRM_Mailing_BAO_Component();
         $this->footer->id = $this->footer_id;
         $this->footer->find(true);
-                        
-        /* TODO append canspam address to footer */
     }
 
 
@@ -365,28 +363,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param int $job_id           ID of the Job associated with this message
      * @param int $event_queue_id   ID of the EventQueue
      * @param string $hash          Hash of the EventQueue
-     * @param string $name          Display name of the recipient
+     * @param string $contactId     ID of the Contact
      * @param string $email         Destination address
      * @param string $recipient     To: of the recipient
      * @return object               The mail object
      * @access public
      */
-    public function &compose($job_id, $event_queue_id, $hash, $name, $email,
-                            &$recipient) 
+    public function &compose($job_id, $event_queue_id, $hash, $contactId, 
+                                $email, &$recipient) 
     {
     
-        if ($this->html == null || $this->text == null) {
-            $this->getHeaderFooter();
-        
-            $this->html = $this->header->body_html 
-                        . $this->body_html 
-                        . $this->footer->body_html;
-                        
-            $this->text = $this->header->body_text
-                        . $this->body_text
-                        . $this->footer->body_text;
-        }
-
         $domain = $this->getDomain();
 
         foreach (array('reply', 'owner', 'unsubscribe') as $key) {
@@ -399,8 +385,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         )
                     ) . "@$domain";
         }
-        $recipient = "$name <$email>";
-        
         $headers = array(
             'Subject'   => $this->subject,
             'From'      => $this->from_name . ' <' . $this->from_email . '>',
@@ -408,16 +392,58 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'Return-path' => CRM_Utils_Verp::encode($address['owner'], $email),
         );
 
+        if ($this->html == null || $this->text == null) {
+            $this->getHeaderFooter();
         
-        /* TODO Token replacement */
+            $this->html = $this->header->body_html 
+                        . $this->body_html 
+                        . $this->footer->body_html;
+                        
+            $this->text = $this->header->body_text
+                        . $this->body_text
+                        . $this->footer->body_text;
+            /* TODO General Token replacement */
+        }
+
+        
+        $params = array('id' => $contactId);
+        $contact = array();
+        $ids    = array();
+        CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
 
         $message =& new Mail_Mime("\n");
 
-        $message->setTxtBody($this->text);
-        $message->setHTMLBody($this->html);
+
+        /* Do contact-specific token replacement in text mode, and add to the
+         * message if necessary */
+        if ($values['preferred_mail_format'] == 'Text' ||
+            $values['preferred_mail_format'] == 'Both') 
+        {
+            $text = CRM_Utils_Token::replaceContactTokens(
+                                        $this->text, $contact, false);
+            
+            $message->setTxtBody($text);
+        }
+
+
+        /* Do contact-specific token replacement in html mode, and add to the
+         * message if necessary */
+        if ($values['preferred_mail_format'] == 'HTML' ||
+            $values['preferred_mail_format'] == 'Both')
+        {
+            $text = CRM_Utils_Token::replaceContactTokens(
+                                        $this->html, $contact, true);
+            
+            $message->setHTMLBody($html);
+        }
+        
+
+
         $message->get();
         $message->headers($headers);
 
+        $recipient = $contact['display_name'] . " <$email>";
+        
         return $message;
     }
 

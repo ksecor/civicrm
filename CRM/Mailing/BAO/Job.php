@@ -137,12 +137,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         $query = "  SELECT      $eqTable.id,
                                 $emailTable.email as email,
-                                $contactTable.display_name as display_name
+                                $eqTable.contact_id
                     FROM        $eqTable
                     INNER JOIN  $emailTable
                             ON  $eqTable.email_id = $emailTable.id
-                    INNER JOIN  $contactTable
-                            ON  $eqTable.contact_id = $contactTable.id
                     WHERE       $eqTable.job_id = " . $this->id;
                     
         $eq->query($query);
@@ -152,7 +150,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             /* Compose the mailing */
             $recipient = null;
             $message = $mailing->compose(   $this->id, $eq->id, $eq->hash,
-                                            $eq->display_name, $eq->email,
+                                            $eq->contact_id, $eq->email,
                                             $recipient);
             /* Send the mailing */
             $body = $message->get();
