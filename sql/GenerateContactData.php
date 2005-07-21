@@ -958,7 +958,7 @@ class CRM_GCD {
         for ($i=0; $i<$this->numOrganization; $i+=2) {
             $org_id = $this->organization[$i];
             // echo "org_id = $org_id\n";
-            $entity_tag->entity_table = 'crm_contact';
+            $entity_tag->entity_table = 'civicrm_contact';
             $entity_tag->entity_id = $this->organization[$i];
             $entity_tag->tag_id = mt_rand(1, 3);
             $this->_insert($entity_tag);
@@ -966,7 +966,7 @@ class CRM_GCD {
 
         // add categories 4,5 for Individuals.        
         for ($i=0; $i<$this->numIndividual; $i+=2) {
-            $entity_tag->entity_table = 'crm_contact';
+            $entity_tag->entity_table = 'civicrm_contact';
             $entity_tag->entity_id = $this->individual[$i];
             if(($entity_tag->entity_id)%3) {
                 $entity_tag->tag_id = mt_rand(4, 5);
@@ -1077,7 +1077,7 @@ class CRM_GCD {
         // CRM_Core_Error::ll_method();
 
         $note =& new CRM_Core_DAO_Note();
-        $note->entity_table = 'crm_contact';
+        $note->entity_table = 'civicrm_contact';
         $note->contact_id   = 1;
 
         for ($i=0; $i<self::NUM_CONTACT; $i++) {
@@ -1119,7 +1119,7 @@ class CRM_GCD {
             }
             for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
                 $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
-                $activityHistoryDAO->entity_table  = 'crm_contact';
+                $activityHistoryDAO->entity_table  = 'civicrm_contact';
                 $activityHistoryDAO->entity_id     = $contactDAO->id;
                 $activityHistoryDAO->activity_type = $this->_getRandomElement($this->activity_type);
                 $activityHistoryDAO->module = $this->_getRandomElement($this->module);

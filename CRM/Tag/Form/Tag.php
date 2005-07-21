@@ -63,7 +63,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // get categories for the contact id
-        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('crm_contact', $this->_contactId);
+        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
         
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
@@ -110,7 +110,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         $data = $this->exportValues();
 
         // get categories for the contact id
-        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('crm_contact', $this->_contactId);
+        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
 
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
@@ -134,7 +134,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         // check which values has to be inserted/deleted for contact
         foreach ($allTag as $key => $varValue) {
             $params['entity_id'] = $this->_contactId;
-            $params['entity_table'] = 'crm_contact';
+            $params['entity_table'] = 'civicrm_contact';
             $params['tag_id'] = $key;
             
             if (array_key_exists($key, $contactTag) && !array_key_exists($key, $entityTag) ) {
