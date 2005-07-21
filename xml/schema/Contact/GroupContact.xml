@@ -46,23 +46,21 @@
   <field>
        <name>location_id</name>
        <type>int unsigned</type>
-       <required>false</required>
        <comment>Optional location to associate with this membership</comment>
   </field>
-<!--   <foreignKey> -->
-<!--     <name>location_id</name> -->
-<!--     <table>civicrm_location</table> -->
-<!--     <key>id</key> -->
-<!--   </foreignKey> -->
+  <foreignKey>
+    <name>location_id</name>
+    <table>civicrm_location</table>
+    <key>id</key>
+  </foreignKey>
   <field>
       <name>email_id</name>
       <type>int unsigned</type>
-      <required>false</required>
       <comment>Optional email to associate with this membership</comment>
   </field>
-<!--   <foreignKey> -->
-<!--     <name>email_id</name> -->
-<!--     <table>civicrm_email</table> -->
-<!--     <key>id</key> -->
-<!--   </foreignKey> -->
+  <foreignKey>
+    <name>email_id</name>
+    <table>civicrm_email</table>
+    <key>id</key>
+  </foreignKey>
 </table>

@@ -140,9 +140,17 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             // if not a member add to groupContact else keep the count of contacts that are not added
             if ( ! $groupContact->find( ) ) {
                 // add the contact to group
+                $historyParams = array(
+                    'contact_id' => $contactId, 
+                    'group_id' => $groupId, 
+                    'method' => 'Admin',
+                    'status' => 'In',
+                    'date' => $date,
+                );
+                CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 $groupContact->status    = 'In';
-                $groupContact->in_method = 'Admin';
-                $groupContact->in_date   = $date;
+//                 $groupContact->in_method = 'Admin';
+//                 $groupContact->in_date   = $date;
                 $groupContact->save( );
                 $numContactsAdded++;
             } else {
@@ -177,10 +185,16 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             // check if the selected contact id already a member
             // if not a member remove to groupContact else keep the count of contacts that are not removed
             if ( $groupContact->find( true ) ) {
+                $historyParams = array( 'group_id' => $groupId,
+                                        'contact_id' => $contactId,
+                                        'status' => 'Out',
+                                        'method' => 'Admin',
+                                        'date' => $date);
+                CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
                 $groupContact->status     = 'Out';
-                $groupContact->out_method = 'Admin';
-                $groupContact->out_date   = $date;
+//                 $groupContact->out_method = 'Admin';
+//                 $groupContact->out_date   = $date;
                 $groupContact->save( );
                 $numContactsRemoved++;
             } else {
@@ -246,10 +260,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
             $select = 'SELECT civicrm_group_contact.id as civicrm_group_contact_id, civicrm_group.title as group_title,
-                             civicrm_group_contact.in_date as in_date, civicrm_group_contact.out_date as out_date,
-                             civicrm_group_contact.pending_date as pending_date, civicrm_group_contact.status as status,
-                             civicrm_group_contact.pending_method as pending_method, civicrm_group_contact.in_method as in_method,
-                             civicrm_group_contact.out_method as out_method, civicrm_group.id as group_id ';
+                             civicrm_group_contact.status as status, civicrm_group.id as group_id ';
         }
 
         $where  = ' WHERE civicrm_contact.id = ' . $contactId;
@@ -291,11 +302,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $values[$id]['id']             = $id;
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;
-                $values[$id]['in_date']        = $groupContact->in_date;
-                $values[$id]['out_date']       = $groupContact->out_date;
-                $values[$id]['pending_method'] = $groupContact->pending_method;
-                $values[$id]['in_method']      = $groupContact->in_method;
-                $values[$id]['out_method']     = $groupContact->out_method;
+//                 $values[$id]['in_date']        = $groupContact->in_date;
+//                 $values[$id]['out_date']       = $groupContact->out_date;
+//                 $values[$id]['pending_method'] = $groupContact->pending_method;
+//                 $values[$id]['in_method']      = $groupContact->in_method;
+//                 $values[$id]['out_method']     = $groupContact->out_method;
             }
             return $values;
         }

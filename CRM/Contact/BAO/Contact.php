@@ -966,6 +966,11 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
+        
+        $subscriptionParams = array('contact_id' => $contact->id,
+                                    'status' => 'In',
+                                    'method' => 'Admin');
+        CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
 
         CRM_Core_DAO::transaction('COMMIT');
 
@@ -1237,7 +1242,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
         // do a top down deletion
         CRM_Contact_BAO_GroupContact::deleteContact( $id );
-
+        CRM_Contact_BAO_SubscriptionHistory::deleteContact($id);
+        
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
         // cannot use this one since we need to also delete note creator contact_id
