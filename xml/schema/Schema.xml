@@ -7,9 +7,10 @@
 <table_type>InnoDB</table_type>
 <comment>Schema for the CRM Module</comment>
 
-<xi:include href="Core/files.xml"          parse="xml" />
-<xi:include href="Contact/files.xml"       parse="xml" />
-<xi:include href="Mailing/files.xml"       parse="xml" />
-<xi:include href="Mailing/Event/files.xml" parse="xml" />  
+<xi:include href="Core/files.xml"                     parse="xml" />
+<xi:include href="Contact/files.xml"                  parse="xml" />
+<xi:include href="Mailing/files.xml"                  parse="xml" />
+<xi:include href="Mailing/Event/files.xml"            parse="xml" />  
+<xi:include href="Commercial/Donation/files.xml"      parse="xml" />  
 
 </database>

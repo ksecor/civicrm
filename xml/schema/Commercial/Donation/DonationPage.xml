@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Commercial/Donation</base>
+  <class>DonationPage</class>
+  <name>civicrm_donation_page</name>
+  <comment>Donation Pages store meta information about a single customized donation page</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Donation Page Id</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Donation Page Name</comment>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>256</length>
+       <comment>Description</comment>
+  </field>
+  <field>
+       <name>intro_title</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Introduction Title</comment>
+  </field>
+  <field>
+       <name>intro_description</name>
+       <type>varchar</type>
+       <length>256</length>
+       <comment>Introduction Description</comment>
+  </field>
+  <field>
+       <name>anonymous</name>
+       <type>boolean</type>
+       <comment>Allow anonymous donations for this page ?</comment>
+  </field>
+  <index>
+    <name>index_name</name>
+    <fieldName>name</fieldName>
+  </index>
+</table>
