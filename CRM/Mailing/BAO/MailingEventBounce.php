@@ -74,8 +74,9 @@ class CRM_Mailing_BAO_MailingEventBounce extends CRM_Mailing_DAO_MailingEventBou
         $bounce->find();
 
         while ($bounce->fetch()) {
-            if ($bounce->bounces >= $bounces->threshold) {
+            if ($bounce->bounces >= $bounce->threshold) {
                 /* TODO: put email on hold */
+                break;
             }
         }
     }
