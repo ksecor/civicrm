@@ -16,6 +16,22 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+  <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>
@@ -24,7 +40,7 @@
   <field>
        <name>description</name>
        <type>varchar</type>
-       <length>256</length>
+       <length>255</length>
        <comment>Description</comment>
   </field>
   <field>
@@ -36,7 +52,7 @@
   <field>
        <name>intro_description</name>
        <type>varchar</type>
-       <length>256</length>
+       <length>255</length>
        <comment>Introduction Description</comment>
   </field>
   <field>

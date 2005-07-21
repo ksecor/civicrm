@@ -298,6 +298,11 @@ class CRM_Core_Invoke {
                 }
             }
             break;
+        case 'commercial':
+            if ( $args[3] == 'donation' ) {
+                $view =& new CRM_Commercial_Donation_Page_DonationPage(ts('Custom Data Group'));
+            }
+            break;
         default:
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
