@@ -50,26 +50,55 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static &function replaceContactTokens($str, &$contact, $html = false) {
+    public static function &replaceContactTokens($str, &$contact, $html = false) {
         
         if (self::$_contactTokens == null) {
             self::$_contactTokens =& 
                 CRM_Contact_BAO_Contact::importableFields();
         }
         
+        $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);
         foreach (self::$_contactTokens as $token => $property) {
             if ($token == '') {
                 continue;
             }
 
             /* Construct value from $token and $contact */
-
-
-
-            $str = preg_replace("/\{$token\}/", $str, $value);
+            $value = null;
+            
+            if (preg_match('/custom_(\d+)/', $token, $match)) {
+                foreach ($cv as $customValue) {
+                    if ($cv->custom_field_id == $match[0]) {
+                        $value = $cv->getValue();
+                        break;
+                    }
+                }
+            } else {
+                $value = self::dfsMatch($contact, $token);
+            }
+            
+            if ($value) {
+                $str = preg_replace("/\{$token\}/", $str, $value);
+            }
         }
 
         return $str;
+    }
+
+
+    public static function dfsMatch(&$values, $key) {
+        if (! is_array($values)) {
+            return null;
+        }
+        if ($value = CRM_Core_Utils_Array::value($key, $values)) {
+            return $value;
+        }
+        foreach ($values as $v) {
+            if (is_array($v)) {
+                return self::dfsMatch($v, $key);
+            }
+        }
+        return null;
     }
 }
 

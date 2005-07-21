@@ -1119,7 +1119,6 @@ WHERE  civicrm_contact.id = $id
      */
     static function retrieve( &$params, &$defaults, &$ids ) {
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-
         unset($params['id']);
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
