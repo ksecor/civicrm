@@ -148,23 +148,6 @@ class CRM_Core_SelectValues {
     }
     
     /**
-     * gender selections
-     * @static
-     */
-    static function &gender()
-    {
-        static $gender = null;
-        if (!$gender) {
-            $gender = array(
-                'Female'      => ts('Female'),
-                'Male'        => ts('Male'),
-                'Transgender' => ts('Transgender')
-            );
-        }
-        return $gender;
-    }
-
-    /**
      * privacy options
      * @static
      */

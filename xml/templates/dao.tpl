@@ -198,6 +198,48 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
           return self::$_import;
       {rdelim}
 
+    /**
+     * returns an array containing the enum fields of the {$table.name} table
+     *
+     * @return array  the array of enum fields
+     */
+    static function &getEnums() {ldelim}
+        static $enums = array(
+            {foreach from=$table.fields item=field}
+                {if $field.crmType == 'CRM_Utils_Type::T_ENUM'}
+                    '{$field.name}',
+                {/if}
+            {/foreach}
+        );
+        return $enums;
+    {rdelim}
+
+    /**
+     * returns a ts()-translated enum value for display purposes
+     *
+     * @param string $field  the enum field in question
+     * @param string $value  the enum value up for translation
+     *
+     * @return string  the display value of the enum
+     */
+    static function tsEnum($field, $value) {ldelim}
+        static $translations = null;
+        if (!$translations) {ldelim}
+            $translations = array(
+                {foreach from=$table.fields item=field}
+                    {if $field.crmType == 'CRM_Utils_Type::T_ENUM'}
+                        '{$field.name}' => array(
+                            {foreach from=$field.values item=value}
+                                '{$value}' => ts('{$value}'),
+                            {/foreach}
+                        ),
+                    {/if}
+                {/foreach}
+            );
+        {rdelim}
+        return $translations[$field][$value];
+    {rdelim}
+
 {rdelim}
 
 ?>
