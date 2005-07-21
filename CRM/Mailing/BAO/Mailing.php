@@ -52,10 +52,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     private $html = null;
 
     /**
-     * The text content of the message;
+     * The text content of the message
      */
     private $text = null;
     
+    /**
+     * Cache the outgoing email domain
+     */
+    private $email_domain = null;
 
     /**
      * class constructor
@@ -383,8 +387,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         . $this->footer->body_text;
         }
 
-        /* FIXME put the email domain in config or crm_domain */
-        $domain = "@FIXME.COM";
+        $domain = $this->getDomain();
 
         foreach (array('reply', 'owner', 'unsubscribe') as $key) {
             $address[$key] = implode('.', 
@@ -417,6 +420,27 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         return $message;
     }
+
+
+    /**
+     * Retrieve the outgoing email domain of this mailing
+     *
+     * @param void
+     * @return string   The email domain (pulled from civicrm_domain)
+     * @access public
+     */
+    public function getDomain() {
+        if ($this->email_domain != null) {
+            return $this->email_domain;
+        }
+
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->id = $this->domain_id;
+        $domain->find(true);
+        $this->email_domain = $domain->email_domain;
+        return $this->email_domain;
+    }
+
 }
 
 ?>
