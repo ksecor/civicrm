@@ -9,7 +9,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-       <comment>Saved search ID</comment>
+      <comment>Saved search ID</comment>
   </field>
   <primaryKey>
        <name>id</name>
@@ -40,10 +40,4 @@
        <import>true</import>
        <comment>Submitted form values for this search</comment>
   </field>
-  <index>
-    <name>UI_name_domain_id</name>
-    <fieldName>name</fieldName>
-    <fieldName>domain_id</fieldName>
-    <unique>true</unique>
-  </index>
 </table>
