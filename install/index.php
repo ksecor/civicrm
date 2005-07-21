@@ -671,13 +671,13 @@ function install_database_form($edit = array()) {
     $edit['db_pass'] = isset($edit['db_pass']) ? $edit['db_pass'] : '';
     $edit['db_host'] = isset($edit['db_host']) ? $edit['db_host'] : '';
     //$edit['db_db'] = isset($edit['db_db']) ? $edit['db_db'] : '';
-    //$edit['db_prefix'] = isset($edit['db_prefix']) ? $edit['db_prefix'] : '';
+    $edit['db_prefix'] = isset($edit['db_prefix']) ? $edit['db_prefix'] : '';
     $form = form_textfield('Mysql path', 'db_path', $edit['db_path'], 40, 255, '<span class="tip"><strong>Tip</strong>: Enter your Database path. eg: /opt/mysql4/</span>', NULL, TRUE);
     $form .= form_textfield('User name', 'db_user', $edit['db_user'], 20, 64, '<span class="tip"><strong>Tip</strong>: Allowed characters include letters, digits, \'_\', and \'-\' with a maximum of 16 characters.</span>', NULL, TRUE);
     $form .= form_password('Password', 'db_pass', $edit['db_pass'] , 20, 64, '<span class="tip"><strong>Tip</strong>:  Allowed characters include <strong>letters</strong>, <strong>digits</strong>, and any of the following: -_!#$%^&*()+={}[]|&lt;&gt;;:?,.~</span>', NULL, TRUE);
     $form .= form_textfield('Host', 'db_host', $edit['db_host'] ? $edit['db_host'] : 'localhost', 20, 64, '<span class="tip"><strong>Tip</strong>: If your database is on the same machine as your Civicrm installation, just enter "localhost". Leaving this item blank will default the value to "localhost".</span>', NULL, TRUE);
     $form .= form_textfield('Database name', 'db_db', $edit['db_db'], 20, 64, NULL, NULL, TRUE);
-    //$form .= form_textfield('Table prefix', 'db_prefix', $edit['db_prefix'], 20, 64, '<span class="tip"><strong>Tip</strong>:  If you are using a shared database account or only have one database account, you may wish to prefix your database tables to avoid a "naming collision." For example: "my_new_site_".</span>');
+    $form .= form_textfield('Table prefix', 'db_prefix', $edit['db_prefix'], 20, 64, '<span class="tip"><strong>Tip</strong>:  If you are using a shared database account or only have one database account, you may wish to prefix your database tables to avoid a "naming collision." For example: "my_new_site_".</span>');
     //$form .= form_checkbox('Install US zipcode database?', 'use_us_zipcodes', 1, isset($edit['use_us_zipcodes']) ? $edit['use_us_zipcodes'] : 1, '<span class="tip"><strong>Tip</strong>: <a href="javascript:alert(\'zipcode help!\');">Certain features</a> require the list of US zipcodes. Check this box to install.</span>');
     //$form .= form_checkbox('Install Civicrm Site Configuration Guide?', 'install_docs', 1, isset($edit['install_docs']) ? $edit['install_docs'] : 0, 'Check this box to install documentation for configuring your site.');
     //$form .= form_hidden('db_db', 'civicrm');
@@ -722,6 +722,11 @@ function install_test_dbinfo(&$edit, &$error_status) {
   $db_exists = mysql_select_db($edit['db_db'], $connection);
   if (!$db_exists) {
     $error_status = 'database_name';
+    return FALSE;    
+  }
+ 
+  if ($edit['db_prefix']=='') {
+    $error_status = 'prefix_name';
     return FALSE;    
   }
 
@@ -1088,11 +1093,13 @@ function _install_dump_and_serve(&$edit) {
         $_SESSION['db_host'] = $edit['db_host'];
         $_SESSION['db_db']   = $edit['db_db'];
         $_SESSION['db_path'] = $edit['db_path'];
+        $_SESSION['db_prefix'] = $edit['db_prefix'];
     } else {
         $edit['db_user'] = $_SESSION['db_user'];
         $edit['db_pass'] = $_SESSION['db_pass'];
         $edit['db_host'] = $_SESSION['db_host'];
         $edit['db_db']   = $_SESSION['db_db'];
+        $edit['db_prefix']   = $_SESSION['db_prefix'];
     }
     
     _setup_config($edit);
@@ -1359,8 +1366,14 @@ function install_step_messages($title, $edit = array()) {
                   $messages .= _install_msg_successful('The installer was able to connect to the database with the database hostname, username, and password that you submitted.');
                   
                   if ($failed_status == 'database_name') {
-                      $messages .= _install_msg_failed('There is no database by the name <em>'. $edit['db_db'] .'</em>.  '. 'Please make sure you have the correct database name.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_db');
+                      $messages .= _install_msg_failed('There is no database by the name <em>'. $edit['db_db'] .'</em>.  '. 'Please make sure you have the correct database name.', NULL, '');
                       $messages .= "\n          </div>\n";
+                  }else 
+                      
+                      if ($failed_status == 'prefix_name') {
+                      $messages .= _install_msg_failed('Please make sure you have entered the prefix for database tables.', NULL, '');
+                      $messages .= "\n          </div>\n";
+                      
                   }
                   else {
                       $messages .= _install_msg_successful('The installer was able to access the database specified by the database name you gave.');
@@ -1467,6 +1480,8 @@ function _install_check_server() {
         $status['messages'] .= _install_msg_successful('The <code>sql/</code> directory is readable and writable.');
     }
     
+   
+
     $cms_path = $_SESSION['cms_path'];
     // check that the ../bin directory is writable
     if (!(is_writable($cms_path.'/modules') && is_readable($cms_path.'/modules'))) {
