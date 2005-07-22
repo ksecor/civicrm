@@ -81,7 +81,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @var CRM_Core_ShowHideBlocks
      */
     protected $_showHide;
-    
+
+    /**
+     * name of de-dupe button
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_dedupeButtonName;
+
     /**
      * build all the data structures needed to build the form
      *
@@ -118,6 +126,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
             CRM_Core_Error::fatal( ts('Could not get a contact_id and/or contact_type') );
         }
+
+        $this->_dedupeButtonName = $this->getButtonName( 'refresh', 'dedupe' );
     }
 
     /**
@@ -267,7 +277,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $config  =& CRM_Core_Config::singleton( );
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
-            
+
+        // add the dedupe button
+        $this->add('submit', 
+                   $this->_dedupeButtonName,
+                   ts( 'Check for Matching Contact(s)' ) );
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -294,6 +309,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+
+        // check if dedupe button, if so return
+        //get the button name
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_dedupeButton ) {
+            return;
+        }
 
         // action is taken depending upon the mode
         $ids = array();

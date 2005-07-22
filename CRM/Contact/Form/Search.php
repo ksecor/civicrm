@@ -276,8 +276,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                  )        
                            );
 
-        //commented this button since i was not sure if we used this button
-        //$this->add('submit', $this->_searchButtonName, ts('Search'), array( 'class' => 'form-submit' ) );
         $this->add('submit', $this->_exportButtonName, ts('Export'),
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
@@ -372,8 +370,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /**
          * set the button names
          */
-        // $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' ); we never use this button
-        $this->_searchButtonName = $this->getButtonName( 'refresh');
+        $this->_searchButtonName = $this->getButtonName( 'refresh' );
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );

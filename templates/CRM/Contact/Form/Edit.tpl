@@ -24,13 +24,6 @@
         </span>*}
 	
 	<table class="form-layout">
-	{*<tr>
-		<th><label>{ts}Prefix{/ts}</label></th>
-		<th><label>{ts}First Name{/ts}</label></th>
-		<th><label>{ts}Middle Name{/ts}</label></th>
-		<th><label>{ts}Last Name{/ts}</label></th>
-		<th><label>{ts}Suffix{/ts}</label></th>
-	</tr>*}
     <tr>
 		<td>{$form.prefix.label}</td>
 		<td>{$form.first_name.label}</td>
@@ -66,6 +59,8 @@
         </span>
     </div>
     <!-- Spacer div forces fieldset to contain floated elements -->
+    <div class="spacer"></div>
+    {$form._qf_Edit_refresh_dedupe.html}
     <div class="spacer"></div>
  </fieldset>
  </div>
