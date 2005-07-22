@@ -113,24 +113,30 @@ class CRM_Contact_Form_Individual {
         // make sure that firstName and lastName or a primary email is set
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
                  CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
-                !empty( $primaryEmail ) ) ) {
+                ! empty( $primaryEmail ) ) ) {
             $errors['_qf_default'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
         }
 
-        $cid = null;
-        if ( $options ) {
-            $cid = (int ) $options;
-        }
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
-        if ( $ids ) {
-            $urls = array( );
-            foreach ( explode( ',', $ids ) as $id ) {
-                $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $id ) .
-                    '">' . $displayName . '</a>';
+        // if this is a forced save, ignore find duplicate rule
+        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_force', $fields ) ) {
+            $cid = null;
+            if ( $options ) {
+                $cid = (int ) $options;
             }
-            $url = implode( ', ',  $urls );
-            $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            if ( $ids ) {
+                $urls = array( );
+                foreach ( explode( ',', $ids ) as $id ) {
+                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $id ) .
+                        '">' . $displayName . '</a>';
+                }
+                $url = implode( ', ',  $urls );
+                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
+            } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
+                // add a session message for no matching contacts
+                CRM_Core_Session::setStatus( 'No matching contact found.' );
+            }
         }
 
         return empty($errors) ? true : $errors;

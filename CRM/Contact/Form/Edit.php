@@ -289,13 +289,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                          'subName'   => 'view',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'next',
+                                         'name'      => ts('Save Duplicate'),
+                                         'subName'   => 'force' ),
+                                 array ( 'type'      => 'next',
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-
+                                         'name'      => ts('Cancel') ) ) );
     }
 
        
@@ -307,15 +307,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        // check if dedupe button, if so return.
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_dedupeButtonName ) {
+            return;
+        }
+
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
-        // check if dedupe button, if so return
-        //get the button name
-        $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->_dedupeButton ) {
-            return;
-        }
 
         // action is taken depending upon the mode
         $ids = array();
@@ -336,19 +336,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
             // add the recently viewed contact
-            $displayName = $contact->display_name;
-            $contactImage = '<img src="' . $config->resourceBase . 'i/contact_';
-            switch( $contact->contact_type ) {
-            case 'Individual' :
-                $contactImage .= 'ind.gif" alt="' . ts('Individual') . '">';
-                break;
-            case 'Household' :
-                $contactImage .= 'house.png" alt="' . ts('Household') . '" height="16" width="16">';
-                break;
-            case 'Organization' :
-                $contactImage .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18">';
-                break;
-            }
+            list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
             CRM_Utils_Recent::add( $displayName,
                                    CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
                                    $contactImage,
