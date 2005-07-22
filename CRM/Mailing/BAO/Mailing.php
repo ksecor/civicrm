@@ -181,7 +181,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         /* Get the group contacts, but only those which are not in the temp
          * table */
-        $queryGroup = 
+        $queryGroupPrimary = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
                     FROM                $email
@@ -200,12 +200,67 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
-                        
+                        AND             $g2contact.location_id IS null
+                        AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id;
+                    
+        $queryGroupLocation = 
+                    "SELECT DISTINCT    $email.id as email_id,
+                                        $contact.id as contact_id,
+                    FROM                $email
+                    INNER JOIN          $location
+                            ON          $email.location_id = $location.id
+                    INNER JOIN          $contact
+                            ON          $location.contact_id = $contact.id
+                    INNER JOIN          $g2contact
+                            ON          $contact.id = $g2contact.contact_id
+                                AND     $location.id = $g2contact.location_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
+                    WHERE           
+                                        X_$job_id.contact_id IS null
+                        AND             $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.location_id <> null
+                        AND             $g2contact.email_id is null
+                        AND             $contact.do_not_email = 0
+                        AND             $email.is_primary = 1
+                        AND             $email.bounce_hold = 0
+                        AND             $mg.mailing_id = " . $this->id;
+                    
+        $queryGroupEmail = 
+                    "SELECT DISTINCT    $email.id as email_id,
+                                        $contact.id as contact_id,
+                    FROM                $email
+                    INNER JOIN          $g2contact
+                            ON          $email.id = $g2contact.email_id
+                    INNER JOIN          $contact
+                            ON          $contact.id = $g2contact.contact_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
+                    WHERE           
+                                        X_$job_id.contact_id IS null
+                        AND             $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.location_id <> null
+                        AND             $g2contact.email_id <> null
+                        AND             $contact.do_not_email = 0
+                        AND             $email.bounce_hold = 0
+                        AND             $mg.mailing_id = " . $this->id;
+                        
+        $queryGroup =   "($queryGroupPrimary) 
+                        UNION DISTINCT ($queryGroupLocation) 
+                        UNION DISTINCT ($queryGroupEmail)";
                         
         $queryMailing =
                     "SELECT DISTINCT    $email.id as email_id,
@@ -374,8 +429,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     {
     
         $domain = $this->getDomain();
-
-        foreach (array('reply', 'owner', 'unsubscribe') as $key) {
+        
+        /**
+         * Inbound VERP keys:
+         *  reply:          user replied to mailing
+         *  owner:          bounce
+         *  unsubscribe:    contact opts out of all target lists for the mailing
+         *  opt-out:        contact unsubscribes from the domain
+         */
+        foreach (array('reply', 'owner', 'unsubscribe', 'opt-out') 
+                    as $key) 
+        {
             $address[$key] = implode('.', 
                         array(
                             $key, 

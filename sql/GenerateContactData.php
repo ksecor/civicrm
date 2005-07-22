@@ -1022,8 +1022,9 @@ class CRM_GCD {
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
             $subscriptionHistory->date = $this->_getRandomDate();
-
-            $this->_insert($groupContact);
+            if ($groupContact->status != 'Pending') {
+                $this->_insert($groupContact);
+            }
             $this->_insert($subscriptionHistory);
         }
 
@@ -1040,7 +1041,9 @@ class CRM_GCD {
             $subscriptionHistory->status = $groupContact->status;
             $subscriptionHistory->date = $this->_getRandomDate();
 
-            $this->_insert($groupContact);
+            if ($groupContact->status != 'Pending') {
+                $this->_insert($groupContact);
+            }
             $this->_insert($subscriptionHistory);
         }
 
@@ -1057,7 +1060,9 @@ class CRM_GCD {
             $subscriptionHistory->status = $groupContact->status;
             $subscriptionHistory->date = $this->_getRandomDate();
 
-            $this->_insert($groupContact);
+            if ($groupContact->status != 'Pending') {
+                $this->_insert($groupContact);
+            }
             $this->_insert($subscriptionHistory);
         }
     }
