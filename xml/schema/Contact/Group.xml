@@ -27,6 +27,11 @@
        <key>id</key>
   </foreignKey>
   <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this entry active?</comment>
+  </field>
+  <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>
