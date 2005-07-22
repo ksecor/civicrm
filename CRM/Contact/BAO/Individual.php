@@ -74,7 +74,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $individual->copyValues($params);
 
         // fix gender and date
-        $individual->gender = $params['gender']['enum'];
+        $individual->gender = $params['gender'];
         $date = CRM_Utils_Array::value('birth_date', $params);
         $individual->birth_date = CRM_Utils_Date::format( CRM_Utils_Array::value('birth_date', $params) );
         $individual->middle_name = CRM_Utils_Array::value('middle_name', $params);
@@ -118,20 +118,17 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
                 $values['birth_date'] = CRM_Utils_Date::unformat( $individual->birth_date );
             }
 
-            // for all the enums, change the $value['foo'] enum key
-            // to a $value['foo']['enum'] and $value['foo']['display'] array
+            // for every 'foo' enum, add $value['foo_display']
+            // next to $value['foo'] for display purposes
             $enumFields =& CRM_Contact_DAO_Individual::getEnums();
             foreach ($enumFields as $enum) {
                 if (isset($values[$enum])) {
-                    $values[$enum] = array(
-                        'enum'    => $values[$enum],
-                        'display' => CRM_Contact_DAO_Individual::tsEnum($enum, $values[$enum]),
-                    );
+                    $values[$enum.'_display'] = CRM_Contact_DAO_Individual::tsEnum($enum, $values[$enum]);
                 }
             }
 
-
             return $individual;
+
         }
         return null;
     }

@@ -95,7 +95,7 @@
   <fieldset>
    <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Demographics{/ts}</legend>
    <div class="col1">
-    <label>{ts}Gender:{/ts}</label> {$gender.display}<br />
+    <label>{ts}Gender:{/ts}</label> {$gender_display}<br />
     {if $is_deceased eq 1}
         <label>{ts}Contact is Deceased{/ts}</label>
     {/if}
