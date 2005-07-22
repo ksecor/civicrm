@@ -27,11 +27,6 @@
        <key>id</key>
   </foreignKey>
   <field>
-       <name>is_active</name>
-       <type>boolean</type>
-       <comment>Is this entry active?</comment>
-  </field>
-  <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>
@@ -72,6 +67,11 @@
        <table>civicrm_saved_search</table>
        <key>id</key>
   </foreignKey>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this entry active?</comment>
+  </field>
   <index>
     <name>UI_title_domain_id</name>
     <fieldName>title</fieldName>

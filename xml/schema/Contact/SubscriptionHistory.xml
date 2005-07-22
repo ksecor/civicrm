@@ -9,7 +9,7 @@
         <name>id</name>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>Group ID</comment>
+        <comment>Internal Id</comment>
     </field>
     <primaryKey>
         <name>id</name>
@@ -19,7 +19,7 @@
         <name>contact_id</name>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>The contact</comment>
+        <comment>Contact Id</comment>
     </field>
     <foreignKey>
         <name>contact_id</name>
@@ -29,7 +29,7 @@
     <field>
         <name>group_id</name>
         <type>int unsigned</type>
-        <comment>Internal </comment>
+        <comment>Group Id</comment>
     </field>
     <foreignKey>
        <name>group_id</name>
@@ -51,7 +51,7 @@
     <field>
         <name>status</name>
         <type>enum</type>
-        <values>Pending, In, Out</values>
+        <values>In, Out, Pending</values>
         <comment>The state of the contact within the group</comment>
     </field>
     <field>

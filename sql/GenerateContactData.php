@@ -171,6 +171,8 @@ class CRM_GCD {
                                        ),
                          );
     
+    private $groupMembershipStatus = array('In', 'Out', 'Pending');
+
   /*********************************
    * private methods
    *********************************/
@@ -560,7 +562,6 @@ class CRM_GCD {
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post  = mt_rand(0, 1);
             $contact->do_not_trade = mt_rand(0, 1);
-
             $contact->preferred_communication_method = $this->_getRandomElement($this->preferredCommunicationMethod);
             $this->_insert($contact);
         }
@@ -1001,21 +1002,29 @@ class CRM_GCD {
         $numGroup = count($this->group);
 
         for ($i=0; $i<$numGroup; $i++) {
-            $group->domain_id = 1;
-            $group->name  = $this->group[$i];
-            $group->title = $this->group[$i];
-            $group->type = 'static';
+            $group->domain_id  = 1;
+            $group->name       = $this->group[$i];
+            $group->title      = $this->group[$i];
+            $group->group_type = 'static';
+            $group->is_active  = 1;
             $this->_insert($group);
         }
-
 
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
-            $groupContact->group_id = 1; // newsletter subscribers
+            $groupContact->group_id = 1;                                                     // newsletter subscribers
             $groupContact->contact_id = $this->individual[$i];
-            $this->_setGroupContactStatus($groupContact);
+            $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
+
+            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory->contact_id = $groupContact->contact_id;
+            $subscriptionHistory->group_id = $groupContact->group_id;
+            $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->date = $this->_getRandomDate();
+
             $this->_insert($groupContact);
+            $this->_insert($subscriptionHistory);
         }
 
         // 15 volunteers
@@ -1023,8 +1032,16 @@ class CRM_GCD {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 2; // Volunteers
             $groupContact->contact_id = $this->individual[$i+60];
-            $this->_setGroupContactStatus($groupContact);
+            $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
+
+            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory->contact_id = $groupContact->contact_id;
+            $subscriptionHistory->group_id = $groupContact->group_id;
+            $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->date = $this->_getRandomDate();
+
             $this->_insert($groupContact);
+            $this->_insert($subscriptionHistory);
         }
 
         // 8 advisory board group
@@ -1032,13 +1049,36 @@ class CRM_GCD {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 3; // advisory board group
             $groupContact->contact_id = $this->individual[$i*7];
-            $this->_setGroupContactStatus($groupContact);
+            $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
+
+            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory->contact_id = $groupContact->contact_id;
+            $subscriptionHistory->group_id = $groupContact->group_id;
+            $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->date = $this->_getRandomDate();
+
             $this->_insert($groupContact);
+            $this->_insert($subscriptionHistory);
         }
     }
 
+    
+    /**
+     * This function returns a random status for a group membership
+     * depending on the contact id
+     *
+     * @param int $contactId contact id
+     * @return string 'In', 'Out', or 'Pending'
+     *
+     * @access private
+     */    
+    private function _getRandomGroupMembershipStatus($contactId)
+    {
+        
+        return;
+    }
 
-    private function _setGroupContactStatus($groupContact)
+    private function _setGroupContactStatus1($groupContact)
     {
 
         // clear existing fields for DAO
