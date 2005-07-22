@@ -1,5 +1,5 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Commercial/Donation/Form/DonationPage.tpl"}
+    {include file="CRM/Commerce/Donation/Form/DonationPage.tpl"}
 
 {else}
     <div id="help">{ts}Donation Pages are used for creating customized pages for collecting donations.{/ts}</div>

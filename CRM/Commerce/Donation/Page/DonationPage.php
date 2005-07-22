@@ -44,7 +44,7 @@ require_once 'CRM/Core/Page.php';
  * of all the donation pages in the system.
  *
  */
-class CRM_Commercial_Donation_Page_DonationPage extends CRM_Core_Page {
+class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
 
     /**
      * The action links that we need to display for the browse screen
@@ -157,7 +157,7 @@ class CRM_Commercial_Donation_Page_DonationPage extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing custom data
-        $controller =& new CRM_Core_Controller_Simple('CRM_Commercial_Donation_Form_DonationPage', ts('Donation Page'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_DonationPage', ts('Donation Page'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -178,7 +178,7 @@ class CRM_Commercial_Donation_Page_DonationPage extends CRM_Core_Page {
      */
     function preview($id)
     {
-        $controller =& new CRM_Core_Controller_Simple('CRM_Commercial_Donation_Form_Preview', 'Preview Donation Page', $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_Preview', 'Preview Donation Page', $action);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commercial/donation', 'action=browse'));
         $controller->set('donationPageId', $id);
@@ -200,7 +200,7 @@ class CRM_Commercial_Donation_Page_DonationPage extends CRM_Core_Page {
         
         // get all custom groups sorted by weight
         $donationPage = array();
-        $dao =& new CRM_Commercial_Donation_DAO_DonationPage();
+        $dao =& new CRM_Commerce_Donation_DAO_DonationPage();
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );

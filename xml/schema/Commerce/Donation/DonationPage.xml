@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Commercial/Donation</base>
+  <base>CRM/Commerce/Donation</base>
   <class>DonationPage</class>
   <name>civicrm_donation_page</name>
   <comment>Donation Pages store meta information about a single customized donation page</comment>
