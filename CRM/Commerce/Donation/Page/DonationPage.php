@@ -70,32 +70,32 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
             self::$_actionLinks = array(
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Preview Donation Page'),
-                                                                          'url'   => 'civicrm/admin/commercial/donation',
+                                                                          'url'   => 'civicrm/admin/commerce/donation',
                                                                           'qs'    => 'action=preview&id=%%id%%',
                                                                           'title' => ts('Preview Donation Page'),
                                                                           ),
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('Edit Sections'),
-                                                                          'url'   => 'civicrm/admin/commercial/donation/section',
+                                                                          'url'   => 'civicrm/admin/commerce/donation/section',
                                                                           'qs'    => 'reset=1&action=browse&id=%%id%%',
                                                                           'title' => ts('List Page Sections'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Donation Page'),
-                                                                          'url'   => 'civicrm/admin/commercial/donation',
+                                                                          'url'   => 'civicrm/admin/commerce/donation',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Donation Page') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/commercial/donation',
+                                                                          'url'   => 'civicrm/admin/commerce/donation',
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable Donation Page'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/commercial/donation',
+                                                                          'url'   => 'civicrm/admin/commerce/donation',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Donation Page'),
                                                                           ),
@@ -161,7 +161,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commercial/donation', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/donation', 'action=browse'));
         $controller->set('id', $id);
         $controller->setEmbedded(true);
         $controller->process();
@@ -180,7 +180,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
     {
         $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_Preview', 'Preview Donation Page', $action);
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commercial/donation', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/donation', 'action=browse'));
         $controller->set('donationPageId', $id);
         $controller->process();
         $controller->run();
