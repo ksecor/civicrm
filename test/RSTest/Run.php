@@ -83,13 +83,34 @@ class test_RSTest_Run
     private $_startTimeDC;
     private $_endTimeDC;
     
-    function callCommon()
+    /**
+     * Call to the Common.php
+     *
+     * This function is used for fixing the Recordset Size 
+     * for Stress Testing.
+     *
+     * @return   void
+     * @access   private
+     *
+     */
+    function _callCommon()
     {
-        $objCommon            = new test_RSTest_Common();
+        $objCommon            =& new test_RSTest_Common();
         $this->_recordSetSize = $objCommon->recordsetSize($this->_sizeOfDS);
     }
 
-    function callGenDataset()
+    /**
+     * Call to the GenDataset.php
+     *
+     * This function is used for Generating Dataset for Stress Testing.
+     * Dataset is generated through Steps. 
+     * In each Step fixed size of Recordset gets generated. 
+     * 
+     * @return   void
+     * @access   private
+     *
+     */
+    function _callGenDataset()
     {
         $startID = 0;
         echo "\n Data Generation started. \n";
@@ -104,7 +125,17 @@ class test_RSTest_Run
         echo "\n Data Generation Successfully Completed.\n";
     }
     
-    function callInsertContact()
+    /**
+     * Call to the InsertContact.php
+     *
+     * This function is used for Inserting Contact in the already generated Dataset.
+     * Contacts are Inserted through Steps. 
+     * In each Step fixed number of Contacts gets Inserted. 
+     * 
+     * @return   void
+     * @access   private
+     */
+    function _callInsertContact()
     {
         $startID = 0;
         echo "\n Contacts Insertion started. \n";
@@ -117,7 +148,7 @@ class test_RSTest_Run
             if (!($i)) {
                 $setDomain = true;
             }
-            $objInsertContact  = new test_RSTest_InsertContact($this->_stepOfInsert);
+            $objInsertContact  =& new test_RSTest_InsertContact($this->_stepOfInsert);
             $this->_startTimeIC = microtime(true);
             $objInsertContact->run($this->_recordSetSize, $startID);
             $this->_endTimeIC   = microtime(true);
@@ -127,7 +158,17 @@ class test_RSTest_Run
         echo "\n Contacts Successfully Inserted.\n";
     }
     
-    function callInsertRel()
+    /**
+     * Call to the InsertRel.php
+     *
+     * This function is used for Inserting Relationship amongst already generated Contacts.
+     * Relationships are Inserted through Steps. 
+     * In each Step fixed number of Relationships gets Inserted. 
+     * 
+     * @return   void
+     * @access   private
+     */
+    function _callInsertRel()
     {
         if (($this->_startRel + $this->_insertRel) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Relationships Insertion started. \n";
@@ -138,7 +179,7 @@ class test_RSTest_Run
                     ob_flush();
                     flush();
                 }
-                $objInsertRel  = new test_RSTest_InsertRel();
+                $objInsertRel  =& new test_RSTest_InsertRel();
                 $this->_startTimeIR = microtime(true);
                 $objInsertRel->run($startID, $this->_stepOfInsertRel);
                 $this->_endTimeIR   = microtime(true);
@@ -153,13 +194,23 @@ class test_RSTest_Run
         }
     }
     
-    function callUpdateContact()
+    /**
+     * Call to the UpdateContact.php
+     *
+     * This function is used for Updaing already generated Contacts.
+     * Contacts are Updated through Steps. 
+     * In each Step fixed number of Contacts gets Updated. 
+     * 
+     * @return   void
+     * @access   private
+     */
+    function _callUpdateContact()
     {
         if (($this->_startRecord + $this->_updateRecord) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Updating Contacts . \n";
             $startID = $this->_startRecord;
             for ($i=0; $i<($this->_updateRecord / $this->_stepOfUpdate); $i++) {
-                $objUpdateContact   = new test_RSTest_UpdateContact();
+                $objUpdateContact   =& new test_RSTest_UpdateContact();
                 $this->_startTimeUC = microtime(true);
                 $objUpdateContact->run($startID, $this->_stepOfUpdate);
                 $this->_endTimeUC   = microtime(true);
@@ -174,13 +225,23 @@ class test_RSTest_Run
         }
     }
     
-    function callAddContactToGroup()
+    /**
+     * Call to the AddContactToGroup.php
+     *
+     * This function is used for Adding already generated Contacts to Groups.
+     * Contacts are Added to Groups through Steps. 
+     * In each Step fixed number of Contacts gets Added to Groups. 
+     * 
+     * @return   void
+     * @access   private
+     */
+    function _callAddContactToGroup()
     {
         if (($this->_startOfAdd + $this->_addToGroup) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Adding Contacts to Group. \n";
             $startID = $this->_startOfAdd;
             for ($i=0; $i<($this->_addToGroup / $this->_stepOfAddToGroup); $i++) {
-                $objAddContactToGroup   = new test_RSTest_AddContactToGroup();
+                $objAddContactToGroup   =& new test_RSTest_AddContactToGroup();
                 $this->_startTimeAG = microtime(true);
                 $objAddContactToGroup->run($startID, $this->_stepOfAddToGroup);
                 $this->_endTimeAG   = microtime(true);
@@ -195,13 +256,23 @@ class test_RSTest_Run
         }
     }
     
-    function callDeleteContact()
+    /**
+     * Call to the DeleteContact.php
+     *
+     * This function is used for Deleting Contacts.
+     * Contacts are Deleted through Steps. 
+     * In each Step fixed number of Contacts gets Deleted. 
+     * 
+     * @return   void
+     * @access   private
+     */
+    function _callDeleteContact()
     {
         if (($this->_startOfDelete + $this->_deleteContact) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Deleting Contacts . \n";
             $startID = $this->_startOfDelete;
             for ($i=0; $i<($this->_deleteContact / $this->_stepOfDeleteContact); $i++) {
-                $objDeleteContact   = new test_RSTest_DelContact();
+                $objDeleteContact   =& new test_RSTest_DelContact();
                 $this->_startTimeDC = microtime(true);
                 $objDeleteContact->run($startID, $this->_stepOfDeleteContact);
                 $this->_endTimeDC   = microtime(true);
@@ -215,7 +286,16 @@ class test_RSTest_Run
             echo "**********************************************************************************\n";
         }
     }
-
+    
+    /**
+     * Running the Stress Test.
+     *
+     * This function is used for Running the Stress Test.
+     * User will be having choice to decide which Stress Test to Run.
+     * 
+     * @return   void
+     * @access   public
+     */
     function run()
     {
         $this->_flag = 0;
@@ -235,38 +315,37 @@ class test_RSTest_Run
         
         do {
             fwrite(STDOUT, "Enter Your Option : \t");
+            $selection = strtoupper(fgetc(STDIN));
+        } while (trim($selection) == '');
 
-            $selection = fgetc(STDIN);
-
-        } while (trim ($selection == ''));
-
-        if ((array_key_exists($selection, $options)) || (array_key_exists(strtolower($selection), array_change_key_case($options, CASE_LOWER))) ) {
+        //if ((array_key_exists($selection, $options)) || (array_key_exists(strtolower($selection), array_change_key_case($options, CASE_LOWER))) ) {
+        if (array_key_exists($selection, $options)) {
             $this->_flag = 1;
             echo "\nStress Test Started \n";
-            $this->callCommon();
-            $this->callGenDataset();
+            $this->_callCommon();
+            $this->_callGenDataset();
             switch (strtolower($selection)) {
             case 'a':
-                $this->callInsertContact();
-                $this->callUpdateContact();
-                $this->callInsertRel();
-                $this->callAddContactToGroup();
-                $this->callDeleteContact();
+                $this->_callInsertContact();
+                $this->_callUpdateContact();
+                $this->_callInsertRel();
+                $this->_callAddContactToGroup();
+                $this->_callDeleteContact();
                 break;
             case 'i':
-                $this->callInsertContact();
+                $this->_callInsertContact();
                 break;
             case 'u':
-                $this->callUpdateContact();
+                $this->_callUpdateContact();
                 break;
             case 'r':
-                $this->callInsertRel();
+                $this->_callInsertRel();
                 break;
             case 'g':
-                $this->callAddContactToGroup();
+                $this->_callAddContactToGroup();
                 break;
             case 'd':
-                $this->callDeleteContact();
+                $this->_callDeleteContact();
                 break;
             }
         } else {
@@ -275,7 +354,16 @@ class test_RSTest_Run
             echo "**********************************************************************************\n";
         }
     }
-    /*
+    
+    /**
+     * Results for the Stress Test.
+     *
+     * This function is used for hadling Results from the Stress Test.
+     * User will be having choice to decide how they want to see Results from the Stress Test.
+     * 
+     * @return   void
+     * @access   public
+     */
     function result()
     {
         if ($this->_flag) {
@@ -289,13 +377,13 @@ class test_RSTest_Run
             }
             echo "\n**********************************************************************************\n";
             
+            fwrite(STDOUT, "Enter Your Option : \t");
             do {
-                fwrite(STDOUT, "Enter Your Option : \t");
-                $select = fgets(STDIN);
-                echo " You have selected $select \n";
-            } while (trim ($select == ''));
+                $select = strtoupper(fgetc(STDIN));
+            } while (trim($select) == '');
             
-            if ((array_key_exists($select, $results)) || (array_key_exists(strtolower($select), array_change_key_case($results, CASE_LOWER))) ) {
+            //if ((array_key_exists($select, $results)) || (array_key_exists(strtolower($select), array_change_key_case($results, CASE_LOWER))) ) {
+            if (array_key_exists($select, $results)) {
                 switch (strtolower($select)) {
                 case 'c':
                     $this->_createLog();
@@ -311,7 +399,15 @@ class test_RSTest_Run
         
         
     }
-    */
+
+    /**
+     * Creating Log.
+     *
+     * This function is used for Creating Log of the Stress Test.
+     * 
+     * @return   void
+     * @access   private
+     */    
     function _createLog()
     {
         if (!(is_dir('./LOG'))) {
@@ -390,6 +486,14 @@ class test_RSTest_Run
         echo "**********************************************************************************\n";
     }
 
+    /**
+     * Printing Results.
+     *
+     * This function is used for Printing the Results from the Stress Test.
+     * 
+     * @return   void
+     * @access   private
+     */
     function _printResult()
     {
         if (!(empty($this->_genDataset))) {
@@ -458,7 +562,6 @@ class test_RSTest_Run
 $objRun =& new test_RSTest_Run();
 
 $objRun->run();
-//$objRun->result();
-$objRun->_createLog();
-$objRun->_printResult();
+$objRun->result();
+
 ?>

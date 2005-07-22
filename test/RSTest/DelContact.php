@@ -70,7 +70,6 @@ class test_RSTest_DelContact
         while ($contactDAO->fetch()) {
             $this->_contactArray[]  = $contactDAO->id;
         }
-        print_r($this->_contactArray);
     }
     
     /**
