@@ -30,13 +30,15 @@ while($row = $query->fetchRow(DB_FETCHMODE_ASSOC)) {
         $db->query($insertContact);
 
         $newContactId = mysql_insert_id();
+        //echo "$newContactId\n";
         $insertIndividual = "INSERT INTO civicrm.civicrm_individual (id, contact_id) VALUES ('', $newContactId)";
         $db->query($insertIndividual);
-        $insertLocation = "INSERT INTO civicrm.civicrm_location VALUES('', $newContactId, 1, 1)";
+        $insertLocation = "INSERT INTO civicrm.civicrm_location (id, contact_id, location_type_id, is_primary) VALUES('', $newContactId, 1, 1)";
         $db->query($insertLocation);
         
         $newLocationId = mysql_insert_id();
-        $insertEmail = "INSERT INTO civicrm.civicrm_email VALUES ('', $newLocationId, '$email', 1)";
+        //echo "$newLocationId\n";
+        $insertEmail = "INSERT INTO civicrm.civicrm_email (id, location_id, email, is_primary) VALUES ('', $newLocationId, '$email', 1)";
         $db->query($insertEmail);        
     }
 }
