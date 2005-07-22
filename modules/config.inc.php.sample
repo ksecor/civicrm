@@ -2,16 +2,24 @@
 
 global $user_home;
 
-// this is the path where you have installed the civicrm code
+// this is the file system path on your server where you have installed the civicrm code
 $user_home = '/Users/lobo/htdocs/drupal/modules/civicrm';
 
 // these variables define the absolute urls to access drupal and civicrm
 // note that the trailing slash is important
+// EXAMPLE: if your drupal site url is http://mysite.com/civicspace/
+// your settings would be:
+//  define( 'CRM_HTTPBASE'    , '/civicspace/'                     );
+//  define( 'CRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );
 define( 'CRM_HTTPBASE'    , '/lobo/drupal/'                     );
 define( 'CRM_RESOURCEBASE', '/lobo/drupal/modules/civicrm/'     );
 
-// the new_link option is super important if u r reusing the same user id across both drupal and civicrm
+// the new_link option is super important if you are reusing the same user id across both drupal and civicrm
 define( 'CRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+
+// CiviCRM has been designed for MySQL 4.1 and will run on many 4.0.x versions.
+// You MUST change this setting to 4.0 if you are using a 4.0.x release of MySQL.
+define( 'CRM_MYSQL_VERSION', 4.1 );
 
 define( 'CRM_LC_MESSAGES' , 'en_US' );
 
@@ -30,10 +38,6 @@ define( 'CRM_MAX_IMPORT_FILESIZE' , 1048576);
 
 // If you are sending emails from CiviCRM, enter your smtp server address here (e.g.'smtp.example.com').
 define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
-
-// What version of MySQL are you using. CiviCRM has been designed for MySQL 4.1
-// Change the version parameter to 4.0 if you are using MySQL 4.0
-define( 'CRM_MYSQL_VERSION', 4.1 );
 
 include_once 'config.main.php';
 
