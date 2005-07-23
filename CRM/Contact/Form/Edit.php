@@ -91,6 +91,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     protected $_dedupeButtonName;
 
     /**
+     * name of optional save duplicate button
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_duplicateButtonName;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @return void
@@ -127,7 +135,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             CRM_Core_Error::fatal( ts('Could not get a contact_id and/or contact_type') );
         }
 
-        $this->_dedupeButtonName = $this->getButtonName( 'refresh', 'dedupe' );
+        $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
+        $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
     }
 
     /**
@@ -282,15 +291,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->add('submit', 
                    $this->_dedupeButtonName,
                    ts( 'Check for Matching Contact(s)' ) );
+        $this->add('submit', 
+                   $this->_duplicateButtonName,
+                   ts( 'Save Duplicate Contact' ) );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
                                          'subName'   => 'view',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Save Duplicate'),
-                                         'subName'   => 'force' ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),

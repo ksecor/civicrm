@@ -118,7 +118,7 @@ class CRM_Contact_Form_Individual {
         }
 
         // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_force', $fields ) ) {
+        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
             $cid = null;
             if ( $options ) {
                 $cid = (int ) $options;
@@ -133,6 +133,10 @@ class CRM_Contact_Form_Individual {
                 }
                 $url = implode( ', ',  $urls );
                 $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
+
+                // let smarty know that there are duplicates
+                $template =& CRM_Core_Smarty::singleton( );
+                $template->assign( 'isDuplicate', 1 );
             } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
                 // add a session message for no matching contacts
                 CRM_Core_Session::setStatus( 'No matching contact found.' );

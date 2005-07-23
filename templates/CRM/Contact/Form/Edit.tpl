@@ -61,6 +61,7 @@
     <!-- Spacer div forces fieldset to contain floated elements -->
     <div class="spacer"></div>
     {$form._qf_Edit_refresh_dedupe.html}
+    {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
     <div class="spacer"></div>
  </fieldset>
  </div>
