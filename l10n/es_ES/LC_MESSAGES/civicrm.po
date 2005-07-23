@@ -6,7 +6,7 @@
 # 
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2005-07-13 00:01+0200\n"
+"PO-Revision-Date: 2005-07-23 23:16+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: v 1.0\n"
@@ -67,7 +67,7 @@ msgstr ""
 #: CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
 #: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:268
