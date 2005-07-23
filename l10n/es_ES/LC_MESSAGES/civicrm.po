@@ -6,7 +6,7 @@
 # 
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2005-07-23 23:16+0200\n"
+"PO-Revision-Date: 2005-07-23 23:26+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: v 1.0\n"
@@ -92,7 +92,7 @@ msgstr ""
 #: CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109
 #: CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelación"
 
 #: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52
 #: CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63
