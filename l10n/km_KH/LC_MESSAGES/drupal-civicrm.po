@@ -1,4 +1,4 @@
-# Drupal-CiviCRM POT file
+# Drupal-CiviCRM Khmer file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2005-07-21 08:44+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: CiviCRM v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
