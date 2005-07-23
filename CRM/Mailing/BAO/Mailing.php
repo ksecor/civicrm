@@ -177,10 +177,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         /* Get all the group contacts we want to include */
-        /* TODO: support override emails from the g2c table */
         
         /* Get the group contacts, but only those which are not in the temp
          * table */
+         /* Get the emails with no override */
         $queryGroupPrimary = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
@@ -208,6 +208,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id;
                     
+        /* Get the emails with only location override */
         $queryGroupLocation = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,
@@ -235,6 +236,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id;
                     
+        /* Get the emails with full override */
         $queryGroupEmail = 
                     "SELECT DISTINCT    $email.id as email_id,
                                         $contact.id as contact_id,

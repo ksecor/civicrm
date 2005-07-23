@@ -55,12 +55,14 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
-        /* TODO allow for resuming jobs */
+        /* FIXME: we might want to go to a progress table.. */
         $query = "  SELECT      *
                     FROM        $jobTable
-                    WHERE       start_date IS null
-                    AND         scheduled_date <= NOW()
-                    AND         status IN ('Scheduled')
+                    WHERE       (start_date IS null
+                        AND         scheduled_date <= NOW()
+                        AND         status = 'Scheduled')
+                    OR          (status = 'Running'
+                        AND         end_date IS null)
                     ORDER BY    scheduled_date";
 
         $job->query($query);
@@ -72,13 +74,16 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         while ($job->fetch()) {
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
+                CRM_Core_DAO::transaction('BEGIN');
                 $job->queue();
+                
+                /* Start the job */
+                $job->start_date = time();
+                $job->status = 'Running';
+                $job->save();
+                CRM_Core_DAO::transaction('COMMIT');
             }
             
-            /* Start the job */
-            $job->start_date = time();
-            $job->status = 'Running';
-            $job->save();
         
             /* Compose and deliver */
             $job->deliver($mailer);
