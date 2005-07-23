@@ -6,16 +6,16 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: v 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-11 10:32+0200\n"
-"PO-Revision-Date: 2005-07-11 10:32+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"PO-Revision-Date: 2005-07-14 21:11+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Project-Id-Version: v 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"POT-Creation-Date: 2005-07-11 10:32+0200\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
 
 #: CRM/Activity/Form/Meeting.php:61 CRM/Activity/Form/Phonecall.php:65
 #: CRM/Contact/Form/Task/Email.php:112 CRM/Contact/Selector/Activity.php:253
@@ -4036,3 +4036,4 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr ""
+
