@@ -139,14 +139,22 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $eqTable        = CRM_Mailing_BAO_MailingEventQueue::tableName();
         $emailTable     = CRM_Contact_BAO_Email::tableName();
         $contactTable   = CRM_Contact_BAO_Contact::tableName();
-
+        $edTable        = CRM_Mailing_BAO_MailingEventDelivered::tableName();
+        $ebTable        = CRM_Mailing_BAO_MailingEventBounce::tableName();
+        
         $query = "  SELECT      $eqTable.id,
                                 $emailTable.email as email,
                                 $eqTable.contact_id
                     FROM        $eqTable
                     INNER JOIN  $emailTable
                             ON  $eqTable.email_id = $emailTable.id
-                    WHERE       $eqTable.job_id = " . $this->id;
+                    LEFT JOIN   $edTable
+                            ON  $eqTable.id = $edTable.event_queue_id
+                    LEFT JOIN   $ebTable
+                            ON  $eqTable.id = $ebTable.event_queue_id
+                    WHERE       $eqTable.job_id = " . $this->id . "
+                    HAVING      $edTable.id IS null
+                        AND     $ebTable.id IS null";
                     
         $eq->query($query);
         $eq->find();

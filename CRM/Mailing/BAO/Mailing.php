@@ -143,7 +143,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $eq.id = $eb.event_queue_id
                     WHERE
                                         $job.mailing_id = " . $this->id . "
-                        AND             $eb.id is null";
+                    HAVING              $eb.id IS null";
         $mailingGroup->query($excludeRetry);
         $mailingGroup->find();
 
@@ -196,8 +196,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                        X_$job_id.contact_id IS null
-                        AND             $mg.entity_table = '$group'
+                                        $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
                         AND             $g2contact.location_id IS null
@@ -206,7 +205,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
-                        AND             $mg.mailing_id = " . $this->id;
+                        AND             $mg.mailing_id = " . $this->id . "
+                    HAVING              X_$job_id.contact_id IS null";
                     
         /* Get the emails with only location override */
         $queryGroupLocation = 
@@ -225,8 +225,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                        X_$job_id.contact_id IS null
-                        AND             $mg.entity_table = '$group'
+                                        $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
                         AND             $g2contact.location_id <> null
@@ -234,7 +233,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.do_not_email = 0
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
-                        AND             $mg.mailing_id = " . $this->id;
+                        AND             $mg.mailing_id = " . $this->id . "
+                    HAVING              X_$job_id.contact_id IS null";
                     
         /* Get the emails with full override */
         $queryGroupEmail = 
@@ -250,15 +250,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                        X_$job_id.contact_id IS null
-                        AND             $mg.entity_table = '$group'
+                                        $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
                         AND             $g2contact.location_id <> null
                         AND             $g2contact.email_id <> null
                         AND             $contact.do_not_email = 0
                         AND             $email.bounce_hold = 0
-                        AND             $mg.mailing_id = " . $this->id;
+                        AND             $mg.mailing_id = " . $this->id . "
+                    HAVING              X_$job_id.contact_id IS null";
                         
         $queryGroup =   "($queryGroupPrimary) 
                         UNION DISTINCT ($queryGroupLocation) 
@@ -281,15 +281,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE
-                                        X_$job_id IS null
-                        AND             $mg.entity_table = '$mailing'
+                                        $mg.entity_table = '$mailing'
                         AND             $mg.group_type = 'Include'
                         
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
-                        AND             $mg.mailing_id = " . $this->id;
+                        AND             $mg.mailing_id = " . $this->id . "
+                    HAVING              X_$job_id IS null";
 
         $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
 
@@ -323,12 +323,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         LEFT JOIN       X_$job_id
                                 ON      $contact.id = X_$job_id.contact_id
                         WHERE           
-                                        X_$job_id IS null
-                            AND         $contact.do_not_email = 0
+                                        $contact.do_not_email = 0
                             AND         $location.is_primary = 1
                             AND         $email.is_primary = 1
                             AND         $email.bounce_hold = 0
-                            AND         $where) ";
+                            AND         $where
+                        HAVING          X_$job_id IS null) ";
         }
         
         $results = array();
