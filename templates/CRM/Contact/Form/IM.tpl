@@ -31,20 +31,25 @@
             {$form.location.$index.im.$innerIndex.provider_id.label}
         </span>
         <span class="fields">
-            {$form.location.$index.im.$innerIndex.provider_id.html}
-            {$form.location.$index.im.$innerIndex.name.html}
+            <span>{$form.location.$index.im.$innerIndex.provider_id.html}</span>
+            <span>{$form.location.$index.im.$innerIndex.name.html}</span>
+            <!-- Link to hide this field -->
+            <span id="location[{$index}][im][{$innerIndex}][hide]" class="add-remove-link element-right">
+            {$form.location.$index.im.$innerIndex.hide.html}
+            </span>
             <!-- Link to add another field.-->
             {if $innerIndex LT $blockCount}
             {assign var=j value=$innerIndex+1}
-            <div id="location[{$index}][im][{$j}][show]" class="add-remove-link">
+            <span id="location[{$index}][im][{$j}][show]" class="add-remove-link">
                 {$form.location.$index.im.$j.show.html}
-            </div>
+            </span>
+            {* changing the code as there should not be any <div> within <span>*} 
+            {*<div id="location[{$index}][im][{$j}][show]" class="add-remove-link">
+                {$form.location.$index.im.$j.show.html}
+            </div>*}
             {/if}
         </span>
-		<!-- Link to hide this field -->
-        <span id="location[{$index}][im][{$innerIndex}][hide]" class="add-remove-link element-right">
-            {$form.location.$index.im.$innerIndex.hide.html}
-        </span>
+		
         <!-- Spacer div contains floated elements -->
         <div class="spacer"></div>
 
