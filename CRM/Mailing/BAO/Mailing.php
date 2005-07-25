@@ -384,6 +384,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     $job.mailing_id = " . $this->id . "
                     AND             $job.id <> $job_id
                     AND             $contact.do_not_email = 0
+                    AND             $contact.is_subscribed = 1
                     AND             $email.bounce_hold = 0
                 GROUP BY            $queue.email_id";
 
@@ -444,8 +445,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  unsubscribe:    contact opts out of all target lists for the mailing
          *  opt-out:        contact unsubscribes from the domain
          */
-        foreach (array('reply', 'owner', 'unsubscribe', 'opt-out') 
-                    as $key) 
+        foreach (array('reply', 'owner', 'unsubscribe', 'opt-out') as $key) 
         {
             $address[$key] = implode('.', 
                         array(
