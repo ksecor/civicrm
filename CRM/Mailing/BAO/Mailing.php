@@ -202,6 +202,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id IS null
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
@@ -231,6 +232,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id <> null
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
@@ -256,6 +258,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id <> null
                         AND             $g2contact.email_id <> null
                         AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
                     HAVING              X_$job_id.contact_id IS null";
@@ -285,6 +288,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.group_type = 'Include'
                         
                         AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
@@ -324,6 +328,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 ON      $contact.id = X_$job_id.contact_id
                         WHERE           
                                         $contact.do_not_email = 0
+                            AND         $contact.is_subscribed = 1
                             AND         $location.is_primary = 1
                             AND         $email.is_primary = 1
                             AND         $email.bounce_hold = 0
@@ -487,6 +492,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->text, $contact, false);
+            /* TODO: trackable URL construction */
             
             $message->setTxtBody($text);
         }
@@ -500,6 +506,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->html, $contact, true);
             
+            /* TODO: trackable URL construction */
+            /* TODO: insert html for open tracking */
             $message->setHTMLBody($html);
         }
         
