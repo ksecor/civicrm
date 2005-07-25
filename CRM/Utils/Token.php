@@ -54,6 +54,7 @@ class CRM_Utils_Token {
         
         if (self::$_contactTokens == null) {
             self::$_contactTokens =& 
+            /* This should come from UF */
                 CRM_Contact_BAO_Contact::importableFields();
         }
         
@@ -68,8 +69,8 @@ class CRM_Utils_Token {
             
             if (preg_match('/custom_(\d+)/', $token, $match)) {
                 foreach ($cv as $customValue) {
-                    if ($cv->custom_field_id == $match[0]) {
-                        $value = $cv->getValue();
+                    if ($customValue->custom_field_id == $match[0]) {
+                        $value = $customValue->getValue();
                         break;
                     }
                 }
@@ -89,13 +90,13 @@ class CRM_Utils_Token {
     public static function dfsMatch(&$values, $key) {
         if (! is_array($values)) {
             return null;
-        }
-        if ($value = CRM_Core_Utils_Array::value($key, $values)) {
+        } else if ($value = CRM_Core_Utils_Array::value($key, $values)) {
             return $value;
-        }
-        foreach ($values as $v) {
-            if (is_array($v)) {
-                return self::dfsMatch($v, $key);
+        } else {
+            foreach ($values as $v) {
+                if ($value = self::dfsMatch($v, $key)) {
+                    return $value;
+                }
             }
         }
         return null;
