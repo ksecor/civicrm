@@ -158,6 +158,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
 
         $object = new CRM_Contact_BAO_Group( );
         $object->domain_id = $config->domainID( );
+        $object->is_active = 1;
         $object->orderBy ( 'saved_search_id asc, title asc' );
         $object->find();
 

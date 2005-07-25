@@ -117,7 +117,7 @@ function crm_delete_group(&$group) {
  * @access public
  */
 
-function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
+function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Admin',$status = 'In') {
     
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
@@ -126,7 +126,7 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
         $contactID[] = $contact->id;
     } 
     
-    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id );
+    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status);
     return null;
 }
 
@@ -183,7 +183,7 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
  */
 
 
-function crm_delete_group_contacts(&$group, $contacts) {
+function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin',$status = 'In') {
      
     foreach($contacts as $contact){
         if ( ! isset($contact->id)) {
@@ -192,7 +192,87 @@ function crm_delete_group_contacts(&$group, $contacts) {
         $contactID[] = $contact->id;
     } 
   
-    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id );
+    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method ,$status);
     return null;
 }
 
+/**
+ * subscribe-request to a group contact
+ * 
+ * @param CRM_Contact $group       A valid group object (passed by reference).
+ * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).
+ *
+ *  
+ * @return null if success or CRM_Error (db error or contact was not valid)
+ *
+ * @access public
+ */
+
+function crm_subscribe_group_contacts(&$group, $contacts)
+{
+    if(!is_array($contacts)) {
+        return _crm_error( '$contacts is not  Array ' );
+    }
+   
+
+    foreach($contacts as $contact){
+        if ( ! isset( $contact->id )) {
+            return _crm_error( 'Invalid contact object passed in' );
+        }
+        $contactID[] = $contact->id;
+    }
+
+    $status = 'Pending';
+    $method = 'Email';
+
+    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status);
+    return null;
+
+}
+
+/**
+ * confirm-request to a group contact 
+ * 
+ * @param CRM_Contact $group       A valid group object (passed by reference).
+ * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).
+ *
+ *  
+ * @return null if success or CRM_Error (db error or contact was not valid)
+ *
+ * @access public
+ */
+
+
+
+function crm_confirm_group_contacts(&$group, $contacts)
+{
+    if(!is_array($contacts)) {
+        return _crm_error( '$contacts is not  Array ' );
+    }
+    
+
+    foreach($contacts as $contact){
+        if ( ! isset( $contact->id )) {
+            return _crm_error( 'Invalid contact object passed in' );
+        }
+        $member = CRM_Contact_BAO_GroupContact::getMembershipDetail($contact->id,$group->id);
+ 
+        
+        if($member->status != 'Pending') {
+            return _crm_error( 'Can not confirm subscription. Current group status is NOT Pending.' );
+        }
+        CRM_Contact_BAO_GroupContact::updateGroupMembershipStatus($contact->id,$group->id);
+        //$contactID[] = $contact->id;
+    }
+
+    //$status = 'In';
+    //$method = 'Email';
+    
+    // CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status, true);
+    return null;
+
+   
+
+
+    
+}

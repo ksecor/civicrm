@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfAddGroupContactAPI extends UnitTestCase 
+class TestOfSubscribeGroupContact extends UnitTestCase 
 {
     protected $_individual;
     protected $_houseHold ;
@@ -62,22 +62,22 @@ class TestOfAddGroupContactAPI extends UnitTestCase
 
 
    
-    function testAddContactToGroup() 
+    function testSubscribeContactToGroup() 
     {
         $contacts = array($this->_individual);
         $group = new CRM_Contact_DAO_Group();
         $group->id = 1;
-        $return = crm_add_group_contacts($group,$contacts);
+        $return = crm_subscribe_group_contacts($group,$contacts);
         $this->assertNull($return); 
         
     }
 
-    function testAddContactsToGroup()
+    function testSubscribeContactsToGroup()
     {
         $contacts = array($this->_houseHold ,$this->_organization);
         $group = new CRM_Contact_DAO_Group();
         $group->id = 2;
-        $return = crm_add_group_contacts($group,$contacts);
+        $return = crm_subscribe_group_contacts($group,$contacts);
         $this->assertNull($return); 
     }
     

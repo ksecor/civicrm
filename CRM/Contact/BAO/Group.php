@@ -55,12 +55,15 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
+        
         $group =& new CRM_Contact_DAO_Group( );
         $group->copyValues( $params );
         if ( $group->find( true ) ) {
             CRM_Core_DAO::storeValues( $group, $defaults );
+            
             return $group;
         }
+       
         return null;
     }
 
@@ -79,12 +82,13 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         // delete all crm_group_contact records with the selected group id
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
-        $groupContact->delete();
+        //$groupContact->delete();
 
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
-        $group->delete();
+        $group->is_active = 0;
+        $group->save();
     }
 
     /**

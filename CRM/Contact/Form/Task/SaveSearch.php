@@ -126,6 +126,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             $group->name            =  CRM_Utils_String::titleToVar( $group->title );
             $group->description     =  $formValues['description'];
             $group->saved_search_id =  $savedSearch->id;
+            $group->is_active = 1;
             $group->save( );
         } else {
             // retrieve group
@@ -135,6 +136,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
                 $group->title           =  $formValues['name'];
                 $group->name            =  CRM_Utils_String::titleToVar( $group->title );
                 $group->description     =  $formValues['description'];
+                $group->is_active = 1;
                 $group->save( );
             }
         }

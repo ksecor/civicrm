@@ -144,6 +144,7 @@ class CRM_Core_PseudoConstant {
     protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
+       
         $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
@@ -152,6 +153,9 @@ class CRM_Core_PseudoConstant {
         if ( ! $all ) {
             $object->$filter = 1;
         }
+        if($name == 'CRM_Contact_DAO_Group') {
+            $object->is_active = 1;
+        } 
         
         $object->find( );
         $var = array( );

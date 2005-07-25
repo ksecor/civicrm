@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfAddGroupContactAPI extends UnitTestCase 
+class TestOfConfirmGroupContact extends UnitTestCase 
 {
     protected $_individual;
     protected $_houseHold ;
@@ -59,31 +59,49 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $this->_organization = $contact;
 
     }
-
-
-   
-    function testAddContactToGroup() 
+    
+    function testSubscribeContactToGroup() 
     {
         $contacts = array($this->_individual);
         $group = new CRM_Contact_DAO_Group();
         $group->id = 1;
-        $return = crm_add_group_contacts($group,$contacts);
+        $return = crm_subscribe_group_contacts($group,$contacts);
         $this->assertNull($return); 
         
     }
 
-    function testAddContactsToGroup()
+    function testSubscribeContactsToGroup()
     {
         $contacts = array($this->_houseHold ,$this->_organization);
         $group = new CRM_Contact_DAO_Group();
         $group->id = 2;
-        $return = crm_add_group_contacts($group,$contacts);
+        $return = crm_subscribe_group_contacts($group,$contacts);
+        $this->assertNull($return); 
+    }
+
+   
+    function testConfirmContactToGroup() 
+    {
+        $contacts = array($this->_individual);
+        $group = new CRM_Contact_DAO_Group();
+        $group->id = 1;
+        $return = crm_confirm_group_contacts($group,$contacts);
+        $this->assertNull($return); 
+        
+    }
+
+    function testConfirmContactsToGroup()
+    {
+        $contacts = array($this->_houseHold ,$this->_organization);
+        $group = new CRM_Contact_DAO_Group();
+        $group->id = 2;
+        $return = crm_confirm_group_contacts($group,$contacts);
         $this->assertNull($return); 
     }
     
     
     
-    function testDeleteIndividual() 
+     function testDeleteIndividual() 
     {
      
             $contact = $this->_individual;

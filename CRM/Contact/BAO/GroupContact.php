@@ -127,38 +127,37 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function addContactsToGroup( &$contactIds, $groupId ) {
+    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'In')  {
         $date = date('Ymd');
-
+      
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
-
         foreach ( $contactIds as $contactId ) {
             $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
             // if not a member add to groupContact else keep the count of contacts that are not added
-            if ( ! $groupContact->find( ) ) {
+            if (  ! $groupContact->find( )) {
                 // add the contact to group
                 $historyParams = array(
                     'contact_id' => $contactId, 
                     'group_id' => $groupId, 
-                    'method' => 'Admin',
-                    'status' => 'In',
+                    'method' => $method,
+                    'status' => $status,
                     'date' => $date,
                 );
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
-                $groupContact->status    = 'In';
+                $groupContact->status    = $status;
 //                 $groupContact->in_method = 'Admin';
 //                 $groupContact->in_date   = $date;
+                
                 $groupContact->save( );
                 $numContactsAdded++;
             } else {
                 $numContactsNotAdded++;
             }
         }
-
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
 
@@ -173,7 +172,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function removeContactsFromGroup( &$contactIds, $groupId ) {
+    static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Out') {
         $date = date('Ymd');
 
         $numContactsRemoved    = 0;
@@ -188,12 +187,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             if ( $groupContact->find( true ) ) {
                 $historyParams = array( 'group_id' => $groupId,
                                         'contact_id' => $contactId,
-                                        'status' => 'Out',
-                                        'method' => 'Admin',
+                                        'status' => $status,
+                                        'method' => $method,
                                         'date' => $date);
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
-                $groupContact->status     = 'Out';
+                $groupContact->status     = $status;
 //                 $groupContact->out_method = 'Admin';
 //                 $groupContact->out_date   = $date;
                 $groupContact->save( );
@@ -223,7 +222,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $select = 'SELECT civicrm_group.id, civicrm_group.title ';
         $from   = ' FROM civicrm_group, civicrm_group_contact ';
-        $where  = " WHERE civicrm_group.group_type='static'";
+        $where  = " WHERE civicrm_group.group_type='static'  AND civicrm_group.is_active = '1' ";
         if ($contactId) {
             $where .= " AND civicrm_group.id = civicrm_group_contact.group_id AND civicrm_group_contact.contact_id = ".$contactId;
         }
@@ -269,7 +268,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                     civicrm_subscription_history.method as method';
         }
 
-        $where  = ' WHERE civicrm_contact.id = ' . $contactId;
+        $where  = ' WHERE civicrm_contact.id = ' . $contactId ." AND civicrm_group.is_active = '1' ";
         
         if ( ! empty( $status ) ) {
             $where .= ' AND civicrm_group_contact.status = "' . $status . '"';
@@ -380,17 +379,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     static function getGroupContacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = null, $row_count= null)
     {
         $query = "SELECT * FROM civicrm_group WHERE id = '$group->id'";
+       
         $groupDAO = new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
             return CRM_Core_Error::fatal( "Could not locate group with id: $id" );
         }
-
+        
         // make sure user has got permission to view this group
-        if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
+        /* if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
             return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
-        }
-
+        }*/
+        
         $query = '';
         if ( $returnProperties == null ) {
             $query = "SELECT * , civicrm_contact.id as civicrm_contact_id";
@@ -398,12 +398,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
             $query .= implode( ',', $returnProperties );
         }
-
+        
         if ( $groupDAO->saved_search_id != NULL ) {
             $formValues =& CRM_Contact_BAO_SavedSearch::getFormValues( $groupDAO->saved_search_id );
             $result     =  CRM_Contact_BAO_Contact::searchQuery($formValues, $offset, $row_count,
                                                                 null, false, null, null,
                                                                 true);
+           
 
             $query .= " 
 FROM civicrm_contact 
@@ -417,6 +418,7 @@ WHERE civicrm_contact.id IN ( $result )
             $query .= "
 FROM       civicrm_contact
 LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )
+LEFT JOIN  civicrm_subscription_history ON (civicrm_contact.id = civicrm_subscription_history.contact_id )
 LEFT JOIN  civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id )
 LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
 WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
@@ -433,7 +435,7 @@ WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_i
         if ( $offset != null && $row_count != null ) {
             $query .= " LIMIT $offset, $row_count";
         }
-
+        
         $dao =& new CRM_Contact_DAO_Contact();
         $dao->query($query);
         
@@ -445,8 +447,74 @@ WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_i
         }
         return $contactArray;
     }
+
+    
+    /**
+     * Returns membership details of a contact for a group
+     *
+     * @param  int  $contactId id of the contact
+     *
+     * @param  int  $groupID   Id of a perticuler group
+     *
+     * @return object of group contact
+     * @access public
+     * @static
+     */
+
+    function getMembershipDetail($contactId,$groupID)
+    {
+        $query = "SELECT * 
+FROM civicrm_group_contact 
+LEFT JOIN civicrm_subscription_history ON (civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id) 
+WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_contact.group_id = '".$groupID."' AND civicrm_subscription_history.method ='Email' "  ;
+        $dao =& new CRM_Contact_DAO_GroupContact();
+        $dao->query($query);
+        $dao->fetch();
+        return $dao;
+
+    }
+
+
+    /**
+     * Method to update the Status of Group member form 'Pending' to 'In'
+     *
+     * @param  int  $contactId id of the contact
+     *
+     * @param  int  $groupID   Id of a perticuler group
+     *
+     * @return null If success
+     * @access public
+     * @static
+     */
+
+    function updateGroupMembershipStatus($contactId,$groupID)
+    {
+        if(! isset($contactId) && ! isset($groupID)) {
+            return CRM_Core_Error::fatal( "$contactId or $groupID should not empty" );
+        } 
+
+        $query = "UPDATE civicrm_group_contact 
+SET civicrm_group_contact.status = 'In' 
+WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.group_id = '$groupID'" ;
+      
+        $dao =& new CRM_Contact_DAO_GroupContact();
+        $dao->query($query);
+
+        $query = "UPDATE civicrm_subscription_history 
+SET civicrm_subscription_history.status = 'In' 
+WHERE civicrm_subscription_history.contact_id = '$contactId' AND civicrm_subscription_history.group_id = '$groupID' AND civicrm_subscription_history.method = 'Email'";
+        
+        $dao =& new CRM_Contact_DAO_SubscriptionHistory();
+        $dao->query($query);
+
+        return null;    
+        
+    }
+    
     
     
 }
+
+
 
 ?>
