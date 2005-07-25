@@ -105,8 +105,8 @@ function civicrm_perm()
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
     foreach ( $groups as $title ) {
-        $cPerm[] = 'view ' . $title;
-        $cPerm[] = 'edit ' . $title;
+        $cPerm[] = t('view ') . $title;
+        $cPerm[] = t('edit ') . $title;
     }
 
     return $cPerm;

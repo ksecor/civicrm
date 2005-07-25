@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:58+0200\n"
-"PO-Revision-Date: 2005-06-30 10:58+0200\n"
+"POT-Creation-Date: 2005-07-25 12:38+0200\n"
+"PO-Revision-Date: 2005-07-25 13:17+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -31,3 +31,12 @@ msgstr "corrija a grupos"
 
 msgid "administer CiviCRM"
 msgstr "administre CiviCRM"
+
+msgid "access CiviCRM"
+msgstr ""
+
+msgid "edit "
+msgstr ""
+
+msgid "view "
+msgstr ""
