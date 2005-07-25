@@ -118,14 +118,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
                 $values['birth_date'] = CRM_Utils_Date::unformat( $individual->birth_date );
             }
 
-            // for every 'foo' enum, add $value['foo_display']
-            // next to $value['foo'] for display purposes
-            $enumFields =& CRM_Contact_DAO_Individual::getEnums();
-            foreach ($enumFields as $enum) {
-                if (isset($values[$enum])) {
-                    $values[$enum.'_display'] = CRM_Contact_DAO_Individual::tsEnum($enum, $values[$enum]);
-                }
-            }
+            CRM_Contact_DAO_Individual::addDisplayEnums($values);
 
             return $individual;
 

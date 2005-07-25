@@ -201,7 +201,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
     /**
      * returns an array containing the enum fields of the {$table.name} table
      *
-     * @return array  the array of enum fields
+     * @return array (reference)  the array of enum fields
      */
     static function &getEnums() {ldelim}
         static $enums = array(
@@ -238,6 +238,21 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
             );
         {rdelim}
         return $translations[$field][$value];
+    {rdelim}
+
+    /**
+     * adds $value['foo_display'] for each $value['foo'] enum from {$table.name}
+     *
+     * @param array $values (reference)  the array up for enhancing
+     * @return void
+     */
+    static function addDisplayEnums(&$values) {ldelim}
+        $enumFields =& {$table.className}::getEnums();
+        foreach ($enumFields as $enum) {ldelim}
+            if (isset($values[$enum])) {ldelim}
+                $values[$enum.'_display'] = {$table.className}::tsEnum($enum, $values[$enum]);
+            {rdelim}
+        {rdelim}
     {rdelim}
 
 {rdelim}
