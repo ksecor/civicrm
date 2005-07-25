@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-11 10:32+0200\n"
-"PO-Revision-Date: 2005-07-11 10:33+0200\n"
+"PO-Revision-Date: 2005-07-25 13:25+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2351,7 +2351,7 @@ msgstr "Grupa „%1” została zapisana."
 
 #: CRM/Group/Page/Group.php:53
 msgid "Show Group Members"
-msgstr "Pokaż cżłonków grupy"
+msgstr "Pokaż członków grupy"
 
 #: CRM/History/Page/Activity.php:62
 msgid ""
