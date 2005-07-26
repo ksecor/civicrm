@@ -37,8 +37,32 @@ class CRM_Utils_Token {
 
     static $_contactTokens = null;
     
+    /* TODO: make this configurable, add more tokens (email, etc) */
+    static $_requiredTokens = array( 'domain.address' );
     
+    /**
+     * Check a string (mailing body) for required tokens.
+     *
+     * @param string $str           The message
+     * @return true|array           true if all required tokens are found,
+     *                              else an array of the missing tokens
+     * @access public
+     * @static
+     */
+    public static function &requiredTokens(&$str) {
+        $missing = array();
+        foreach (self::$_requiredTokens as $token) {
+            if (!preg_match("/\{$token\}/", $str)) {
+                $missing[] = $token;
+            }
+        }
+        if (empty($missing)) {
+            return true;
+        }
+        return $missing;
+    }
     
+
     /**
      * Replace all the contact-level tokens in $str with information from
      * $contact.
