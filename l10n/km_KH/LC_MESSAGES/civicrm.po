@@ -6,8 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2005-07-22 08:04+0200\n"
+"PO-Revision-Date: 2005-07-26 07:29+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n% 100<10 || n%100>=20) ? 1 : 2));\n"
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: Automatically generated\n"
@@ -15,7 +16,6 @@ msgstr ""
 "POT-Creation-Date: 2005-07-11 10:32+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "MIME-Version: 1.0\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n% 100<10 || n%100>=20) ? 1 : 2));\n"
 
 #: CRM/Activity/Form/Meeting.php:61 CRM/Activity/Form/Phonecall.php:65
 #: CRM/Contact/Form/Task/Email.php:112 CRM/Contact/Selector/Activity.php:253
@@ -31,18 +31,18 @@ msgstr "កាលបរិច្ឆេទ និង ពេលវេលា"
 
 #: CRM/Activity/Form/Meeting.php:65 CRM/Contact/Form/Individual.php:85
 msgid "Select a valid date."
-msgstr ""
+msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Activity/Form/Meeting.php:71 CRM/Core/DAO/Meeting.php:211
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
-msgstr ""
+msgstr "ទីតាំង"
 
 #: CRM/Activity/Form/Meeting.php:73 CRM/Activity/Form/Phonecall.php:80
 #: CRM/Core/DAO/Meeting.php:217 CRM/Core/DAO/Phonecall.php:228
 #: CRM/History/Selector/Activity.php:122
 msgid "Details"
-msgstr ""
+msgstr "ព័ត៌មាន​លម្អិត"
 
 #: CRM/Activity/Form/Meeting.php:75 CRM/Activity/Form/Phonecall.php:77
 #: CRM/Contact/DAO/GroupContact.php:185 CRM/Contact/Selector/Activity.php:261
@@ -217,15 +217,15 @@ msgstr ""
 #: CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
-msgstr ""
+msgstr "ចំណាំ"
 
 #: CRM/Contact/DAO/Contact.php:218 CRM/Contact/Selector.php:193;486
 msgid "Contact Type"
-msgstr ""
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
 
 #: CRM/Contact/DAO/Contact.php:266 CRM/Contact/DAO/Group.php:189
 msgid "Source"
-msgstr ""
+msgstr "ប្រភព"
 
 #: CRM/Contact/DAO/Email.php:138 CRM/Contact/Import/Base.php:26
 #: CRM/Contact/Selector.php:514 CRM/Core/DAO/UFMatch.php:154
@@ -236,7 +236,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Email"
-msgstr ""
+msgstr "សារ"
 
 #: CRM/Contact/DAO/EntityTag.php:134 CRM/Core/DAO/ActivityHistory.php:184
 #: CRM/Core/DAO/CustomValue.php:173 CRM/Core/DAO/Note.php:148
@@ -246,7 +246,7 @@ msgstr ""
 #: CRM/Contact/DAO/Group.php:173 CRM/Core/DAO/CustomGroup.php:186
 #: CRM/Core/DAO/UFGroup.php:152
 msgid "Title"
-msgstr ""
+msgstr "ចំណងជើង"
 
 #: CRM/Contact/DAO/Household.php:146 CRM/Contact/Form/Household.php:57
 msgid "Household Name"
@@ -255,12 +255,12 @@ msgstr ""
 #: CRM/Contact/DAO/Household.php:152 CRM/Contact/DAO/Organization.php:172
 #: CRM/Contact/Form/Household.php:60 CRM/Contact/Form/Organization.php:64
 msgid "Nick Name"
-msgstr ""
+msgstr "ឈ្មោះ​ក្រៅ"
 
 #: CRM/Contact/DAO/Individual.php:218 CRM/Contact/Form/Individual.php:61
 #: CRM/Contact/Import/Base.php:14
 msgid "First Name"
-msgstr ""
+msgstr "នាមខ្លួន"
 
 #: CRM/Contact/DAO/Individual.php:228 CRM/Contact/Import/Base.php:15
 msgid "Middle Name"
@@ -269,7 +269,7 @@ msgstr ""
 #: CRM/Contact/DAO/Individual.php:234 CRM/Contact/Form/Individual.php:64
 #: CRM/Contact/Import/Base.php:16
 msgid "Last Name"
-msgstr ""
+msgstr "គោត្តនាម"
 
 #: CRM/Contact/DAO/Individual.php:244 CRM/Contact/Import/Base.php:17
 msgid "Prefix"
@@ -281,16 +281,16 @@ msgstr ""
 
 #: CRM/Contact/DAO/Individual.php:274 CRM/Contact/Import/Base.php:19
 msgid "Job Title"
-msgstr ""
+msgstr "មុខ​តំណែង"
 
 #: CRM/Contact/DAO/Individual.php:280
 #: CRM/Contact/Form/Individual.php:77;78;79;80
 msgid "Gender"
-msgstr ""
+msgstr "ភេទ"
 
 #: CRM/Contact/DAO/Organization.php:160 CRM/Contact/Form/Organization.php:58
 msgid "Organization Name"
-msgstr ""
+msgstr "ឈ្មោះ​អង្គការ"
 
 #: CRM/Contact/DAO/Organization.php:166 CRM/Contact/Form/Organization.php:61
 msgid "Legal Name"
@@ -306,29 +306,29 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Phone"
-msgstr ""
+msgstr "លេខ​ទូរស័ព្ទ"
 
 #: CRM/Contact/DAO/Relationship.php:169 CRM/Contact/Form/Relationship.php:153
 msgid "Start Date"
-msgstr ""
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Contact/DAO/Relationship.php:173 CRM/Contact/Form/Relationship.php:154
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
-msgstr ""
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 
 #: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:225;233
 #: CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:194;199
 #: CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
 msgid "- select -"
-msgstr ""
+msgstr "ជ្រើស"
 
 #: CRM/Contact/Form/Address.php:74 CRM/Contact/Form/Search/Advanced.php:87
 #: CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:509
 #: CRM/Core/BAO/CustomField.php:63 CRM/Core/DAO/Country.php:133
 #: CRM/Core/DAO/County.php:134 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "ប្រទេស"
 
 #: CRM/Contact/Form/CustomData.php:191 CRM/Custom/Form/Preview.php:158
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -337,7 +337,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
-msgstr ""
+msgstr "បាទ"
 
 #: CRM/Contact/Form/CustomData.php:192 CRM/Custom/Form/Preview.php:160
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -346,23 +346,23 @@ msgstr ""
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
+msgstr "ទេ"
 
 #: CRM/Contact/Form/CustomData.php:196;218 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
-msgstr ""
+msgstr "%1 ជា​វាល​ចាំបាច់"
 
 #: CRM/Contact/Form/CustomData.php:241 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
-msgstr ""
+msgstr "%1 ត្រូវ​តែ​ជា​ចំនួន​គត់ (លេខ​ទាំងមូល) ។"
 
 #: CRM/Contact/Form/CustomData.php:245 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
-msgstr ""
+msgstr "%1 មិន​មែន​ជា​កាលបរិច្ឆេទ​ត្រឹមត្រូវទេ"
 
 #: CRM/Contact/Form/CustomData.php:250 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
-msgstr ""
+msgstr "%1 ត្រូវ​តែ​ជា​លេខ (មាន​ ឬ គ្មាន​ក្បៀស)"
 
 #: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:330
 #: CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
@@ -379,15 +379,15 @@ msgstr ""
 #: CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr ""
+msgstr "អង្គការ"
 
 #: CRM/Contact/Form/Individual.php:77 CRM/Core/SelectValues.php:159
 msgid "Female"
-msgstr ""
+msgstr "ស្រី"
 
 #: CRM/Contact/Form/Individual.php:78 CRM/Core/SelectValues.php:160
 msgid "Male"
-msgstr ""
+msgstr "ប្រុស"
 
 #: CRM/Contact/Form/Individual.php:79 CRM/Core/SelectValues.php:161
 msgid "Transgender"
@@ -405,24 +405,24 @@ msgstr[1] ""
 #: CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184
 #: templates/CRM/Block/Search.tpl
 msgid "Search"
-msgstr ""
+msgstr "ស្វែងរក"
 
 #: CRM/Contact/Form/Search/Advanced.php:77 CRM/Contact/Form/Search.php:299
 msgid "Find..."
-msgstr ""
+msgstr "រក..."
 
 #: CRM/Contact/Form/Search/Advanced.php:83 CRM/Core/BAO/CustomField.php:62
 msgid "State/Province"
-msgstr ""
+msgstr "រដ្ឋ/ខេត្ត"
 
 #: CRM/Contact/Form/Search/Advanced.php:96;115
 #: CRM/Contact/Form/Task/Email.php:92
 msgid "To"
-msgstr ""
+msgstr "ទៅ"
 
 #: CRM/Contact/Form/Search/Advanced.php:105 CRM/Utils/Menu.php:113
 msgid "Location Types"
-msgstr ""
+msgstr "ប្រភេទ​ទីតាំង"
 
 #: CRM/Contact/Form/Search/Advanced.php:111
 #: CRM/Contact/Selector/Activity.php:164;249
@@ -430,21 +430,21 @@ msgstr ""
 #: CRM/History/Selector/Activity.php:169;253
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "ប្រភេទ​សកម្មភាព"
 
 #: CRM/Contact/Form/Search.php:235 CRM/Contact/Form/Task/AddToGroup.php:99
 msgid "Add Members: %1"
-msgstr ""
+msgstr "បន្ថែម​សមាជីក ៖ %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:85
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:48
 msgid " - select group - "
-msgstr ""
+msgstr "- ជ្រើស​ក្រុម -"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:86
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:49
 msgid "Select Group"
-msgstr ""
+msgstr "ជ្រើស​ក្រុម"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:136
 #: CRM/Contact/Form/Task/AddToHousehold.php:158
@@ -452,7 +452,7 @@ msgstr ""
 #: CRM/Contact/Form/Task/Email.php:140 CRM/Contact/Form/Task/Map.php:94
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:84
 msgid "Total Selected Contact(s): %1"
-msgstr ""
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php:161
 #: CRM/Contact/Form/Task/AddToOrganization.php:160
@@ -473,19 +473,19 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php:48 CRM/Contact/Task.php:85
 msgid "Delete Contacts"
-msgstr ""
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Contact/Form/Task/Email.php:113 CRM/Core/DAO/EmailHistory.php:147
 msgid "Message"
-msgstr ""
+msgstr "សារ"
 
 #: CRM/Contact/Form/Task/Email.php:143 CRM/Contact/Form/Task/Map.php:97
 msgid "Email sent to contact(s): %1"
-msgstr ""
+msgstr "អ៊ីម៉ែល​បាន​ផ្ញើ​ទៅ​ព័ត៌មាន​ទំនាក់ទំនង ៖ %1"
 
 #: CRM/Contact/Form/Task/Email.php:146 CRM/Contact/Form/Task/Map.php:100
 msgid "Email not sent to contact(s): %1"
-msgstr ""
+msgstr "អ៊ីម៉ែល​មិន​បាន​ផ្ញើ​ទៅ​ព័ត៌មាន​ទំនាក់ទំនង ៖ %1"
 
 #: CRM/Contact/Form/Task/SaveSearch.php:82 CRM/Contact/Task.php:106
 msgid "Update Saved Search"
@@ -499,15 +499,15 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "State"
-msgstr ""
+msgstr "រដ្ឋ"
 
 #: CRM/Contact/Import/Base.php:28 CRM/Core/SelectValues.php:107
 msgid "Mobile"
-msgstr ""
+msgstr "ចល័ត"
 
 #: CRM/Contact/Import/Base.php:29 CRM/Core/SelectValues.php:108
 msgid "Fax"
-msgstr ""
+msgstr "ទួរសារ"
 
 #: CRM/Contact/Page/Activity.php:127 CRM/History/Selector/Activity.php:131
 #: templates/CRM/History/Form/Activity.tpl
@@ -522,15 +522,15 @@ msgstr ""
 #: CRM/History/Selector/Activity.php:169;259
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Date"
-msgstr ""
+msgstr "កាលបរិច្ឆេទ​សកម្មភាព"
 
 #: CRM/Contact/Selector/Activity.php:234 CRM/History/Selector/Activity.php:237
 msgid "CiviCRM Activity History"
-msgstr ""
+msgstr "ប្រវត្តិ​សកម្មភាព​ CivicCRM"
 
 #: CRM/Contact/Selector/Activity.php:257 CRM/Core/SelectValues.php:401;408
 msgid "Scheduled"
-msgstr ""
+msgstr "បាន​កំណត់​​ពេល"
 
 #: CRM/Contact/Selector/Activity.php:263 CRM/Contact/Selector.php:519
 #: CRM/History/Selector/Activity.php:263
@@ -539,17 +539,17 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomField.php:56 CRM/Core/SelectValues.php:214
 msgid "Integer"
-msgstr ""
+msgstr "ចំនួន​គត់"
 
 #: CRM/Core/BAO/CustomField.php:58 CRM/Core/SelectValues.php:216
 msgid "Money"
-msgstr ""
+msgstr "លុយ"
 
 #: CRM/Core/BAO/CustomField.php:60 CRM/Core/SelectValues.php:218
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
-msgstr ""
+msgstr "កាលបរិច្ឆេទ"
 
 #: CRM/Core/Block.php:80;192 CRM/Utils/Menu.php:217
 msgid "New Individual"
@@ -557,29 +557,29 @@ msgstr ""
 
 #: CRM/Core/Block.php:88 CRM/Utils/Menu.php:173
 msgid "CiviCRM"
-msgstr ""
+msgstr "CivicCRM"
 
 #: CRM/Core/Block.php:195 CRM/Utils/Menu.php:228
 msgid "New Organization"
-msgstr ""
+msgstr "អង្គការ​ថ្មី"
 
 #: CRM/Core/Block.php:198 CRM/Utils/Menu.php:239
 msgid "New Household"
-msgstr ""
+msgstr "ផ្ទះ​សម្បែង​ថ្មី"
 
 #: CRM/Core/DAO/CustomField.php:229 CRM/Core/DAO/CustomOption.php:152
 #: CRM/Custom/Form/Field.php:182 templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
-msgstr ""
+msgstr "ស្លាក"
 
 #: CRM/Core/DAO/CustomField.php:235 CRM/Custom/Form/Field.php:169
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
-msgstr ""
+msgstr "ប្រភេទ​ទិន្នន័យ"
 
 #: CRM/Core/DAO/CustomField.php:243 CRM/Custom/Form/Field.php:203
 msgid "Default Value"
-msgstr ""
+msgstr "តម្លៃ​លំនាំដើម"
 
 #: CRM/Core/DAO/CustomField.php:252 CRM/Core/DAO/CustomGroup.php:212
 #: CRM/Core/DAO/CustomOption.php:164 CRM/Core/DAO/UFField.php:209
@@ -589,7 +589,7 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Weight"
-msgstr ""
+msgstr "ទម្ងន់"
 
 #: CRM/Core/DAO/CustomField.php:260 CRM/Core/DAO/CustomGroup.php:200
 msgid "Help Pre"
