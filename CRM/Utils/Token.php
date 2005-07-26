@@ -53,8 +53,8 @@ class CRM_Utils_Token {
     public static function &replaceContactTokens($str, &$contact, $html = false) {
         
         if (self::$_contactTokens == null) {
-            self::$_contactTokens =& 
             /* This should come from UF */
+            self::$_contactTokens =& 
                 CRM_Contact_BAO_Contact::importableFields();
         }
         
