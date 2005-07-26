@@ -52,7 +52,7 @@ class CRM_Utils_Token {
     public static function &requiredTokens(&$str) {
         $missing = array();
         foreach (self::$_requiredTokens as $token) {
-            if (!preg_match("/\{$token\}/", $str)) {
+            if (!preg_match('/' . preg_quote("{$token}") . '/', $str)) {
                 $missing[] = $token;
             }
         }
@@ -103,7 +103,8 @@ class CRM_Utils_Token {
             }
             
             if ($value) {
-                $str = preg_replace("/\{contact\.$token\}/", $str, $value);
+                $str = preg_replace('/'.preg_quote("{contact.$token}").'/', 
+                                    $str, $value);
             }
         }
 
