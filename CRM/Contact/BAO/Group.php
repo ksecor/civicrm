@@ -253,6 +253,24 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return null;
     }
 
+    /**
+     * Create a new group
+     *
+     * @param array $params     Associative array of parameters
+     * @return object|null      The new group BAO (if created)
+     * @access public
+     * @static
+     */
+    public static function create(&$params) {
+        $group =& new CRM_Contact_BAO_Group();
+        $group->copyValues($params);
+        $group->save();
+        
+        if ($group->id) {
+            return $group;
+        }
+        return null;
+    }
     
 }
 
