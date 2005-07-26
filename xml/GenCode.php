@@ -214,6 +214,14 @@ function getTable( $tableXML, &$database, &$tables ) {
         getField( $fieldXML, $fields );
     }
     $table['fields' ] =& $fields;
+    
+    $table['hasEnum'] = false;
+    foreach ($table['fields'] as $field) {
+        if ($field['crmType'] == 'CRM_Utils_Type::T_ENUM') {
+            $table['hasEnum'] = true;
+            break;
+        }
+    }
 
     if ( value( 'primaryKey', $tableXML ) ) {
         getPrimaryKey( $tableXML->primaryKey, $fields, $table );

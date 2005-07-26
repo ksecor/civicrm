@@ -198,6 +198,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
           return self::$_import;
       {rdelim}
 
+{if $table.hasEnum}
     /**
      * returns an array containing the enum fields of the {$table.name} table
      *
@@ -254,6 +255,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
             {rdelim}
         {rdelim}
     {rdelim}
+{/if}
 
 {rdelim}
 
