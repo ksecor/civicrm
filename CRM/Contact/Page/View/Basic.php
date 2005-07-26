@@ -75,12 +75,6 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
             $defaults['contactTag'] = implode( ', ', $categories );
         }
         
-
-        $t = CRM_Core_SelectValues::pcm();
-        if ($defaults['preferred_communication_method'] != '') {
-            $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
-        }
-        
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
 
         $this->assign( $defaults );

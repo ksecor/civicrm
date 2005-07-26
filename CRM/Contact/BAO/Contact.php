@@ -899,7 +899,9 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             if ( !empty($privacy) ) {
                 $values['privacy'] = $privacy;
             }
-                        
+
+            CRM_Contact_DAO_Contact::addDisplayEnums($values);
+
             return $contact;
         }
         return null;
