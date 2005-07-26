@@ -146,7 +146,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = "History %%StatusMessage%%";
+        $params['status']       = ts('History %%StatusMessage%%');
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
 

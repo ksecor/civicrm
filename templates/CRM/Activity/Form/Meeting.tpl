@@ -32,7 +32,7 @@
     <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
    {/if}
     {if $action eq 8 }
-    <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>
+    <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
     {/if}
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>

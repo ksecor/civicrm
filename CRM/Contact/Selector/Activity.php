@@ -139,7 +139,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = "Open Activities %%StatusMessage%%";
+        $params['status']       = ts('Open Activities %%StatusMessage%%');
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
 

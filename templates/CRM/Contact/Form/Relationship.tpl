@@ -117,8 +117,12 @@
 {if $action eq 8}
      <fieldset><legend>{ts}Delete Relationship{/ts}</legend>
 	<dl>
-	<div class="status">{ts}Are you sure to delete the Reletionship "{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }" ?{/ts}</div>
-        <dt></dt><dd>{$form.buttons.html}</dd>
-        </dl>
+        <div class="status">
+        {capture assign=relationshipsString}{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }{/capture}
+        {ts 1=$relationshipsString}Are you sure you want to delete the Relationship "%1"?{/ts}
+        </div>
+        <dt></dt>
+        <dd>{$form.buttons.html}</dd>
+    </dl>
  </fieldset>	
 {/if}
