@@ -429,12 +429,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param string $contactId     ID of the Contact
      * @param string $email         Destination address
      * @param string $recipient     To: of the recipient
+     * @param boolean $test         Is this mailing a test?
      * @return object               The mail object
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
-                                $email, &$recipient) 
+                                $email, &$recipient, $test = false) 
     {
+        if ($test) {
+            $job_id = 'JOB';
+            $event_queue_id = 'QUEUE';
+            $hash = 'HASH';
+        }
     
         $domain = $this->getDomain();
         

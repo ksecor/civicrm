@@ -139,7 +139,8 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &replaceContactTokens($str, &$contact, $html = false) {
-        
+        /* TODO: meta-tokens (group...) */
+
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =& 

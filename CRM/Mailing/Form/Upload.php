@@ -53,12 +53,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
 
+        /* TODO: add rules for required tokens
+         * (CRM_Utils_Token::requiredTokens()) */
+
         $this->addButtons( array(
+                                 array ( 'type'      => 'back',
+                                         'name'      => ts('Previous <<') ),
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('Previous <<') ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )

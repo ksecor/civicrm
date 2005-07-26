@@ -78,11 +78,11 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $this->add( 'select', 'mailingFooter', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
 
         $this->addButtons( array(
+                                 array ( 'type'      => 'back',
+                                         'name'      => ts('Previous <<') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('Previous <<') ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
