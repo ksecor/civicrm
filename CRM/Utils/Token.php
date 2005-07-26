@@ -69,7 +69,7 @@ class CRM_Utils_Token {
 
         $missing = array();
         foreach (self::$_requiredTokens as $token => $description) {
-            if (!preg_match('/' . preg_quote("{$token}") . '/', $str)) {
+            if (strpos("{$token}", $str) === false) {
                 $missing[$token] = $description;
             }
         }
@@ -189,9 +189,8 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &unmatchedTokens(&$str) {
-        preg_match('/\{(.*?)\}/', $str, $match);
-        array_shift($match);
-        return $match;
+        preg_match_all('/\{(.*?)\}/', $str, $match);
+        return $match[1];
     }
 }
 
