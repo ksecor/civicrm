@@ -35,10 +35,19 @@
 class CRM_Utils_Token {
 
 
-    static $_contactTokens = null;
-    
     /* TODO: make this configurable, add more tokens (email, etc) */
-    static $_requiredTokens = array( 'domain.address' );
+    static $_requiredTokens = null;
+
+    static $_tokens = array(
+        'action' => array( 
+                        'donate', 'forward', 'optOut', 'reply', 'unsubscribe'
+                    ),
+        'contact' => null,  // populate this dynamically
+        'domain' => array( 
+                        'phone', 'address', 'email'
+                    ),
+    );
+
     
     /**
      * Check a string (mailing body) for required tokens.
@@ -50,10 +59,18 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &requiredTokens(&$str) {
+        if (self::$_requiredTokens == null) {
+            self::$_requiredTokens = array(    
+                'domain.address'    => ts("Your organization's postal address"),
+                'action.optOut'     => ts("Link to allow contacts to opt out of your organization"), 
+                'action.unsubscribe'    => ts("Link to allow contacts to unsubscribe from target groups of this mailing."),
+            );
+        }
+
         $missing = array();
-        foreach (self::$_requiredTokens as $token) {
+        foreach (self::$_requiredTokens as $token => $description) {
             if (!preg_match('/' . preg_quote("{$token}") . '/', $str)) {
-                $missing[] = $token;
+                $missing[$token] = $description;
             }
         }
         if (empty($missing)) {
@@ -65,7 +82,7 @@ class CRM_Utils_Token {
     /**
      * Replace all the domain-level tokens in $str
      *
-     * @param string $stsr      The string with tokens to be replaced
+     * @param string $str       The string with tokens to be replaced
      * @param array $domain     The domain
      * @param boolean $html     Replace tokens with HTML or plain text
      * @return string           The processed string
@@ -77,6 +94,28 @@ class CRM_Utils_Token {
         
         return $str;
     }
+
+    /**
+     * Replace all action tokens in $str
+     *
+     * @param string $str       The string with tokens to be replaced
+     * @param array $addresses  Assoc. array of VERP event addresses
+     * @param boolean $html     Replace tokens with HTML or plain text
+     * @return string           The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceActionTokens($str, &$addresses, $html = false) {
+        foreach ($addresses as $token => $value) {
+            if (strpos($token, $str) === false) {
+                continue;
+            }
+            $str = preg_replace('/'.preg_quote("{action.$token}").'/', 
+                                $value, $str);
+        }
+        return $str;
+    }
+
 
     /**
      * Replace all the contact-level tokens in $str with information from
@@ -91,14 +130,14 @@ class CRM_Utils_Token {
      */
     public static function &replaceContactTokens($str, &$contact, $html = false) {
         
-        if (self::$_contactTokens == null) {
+        if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
-            self::$_contactTokens =& 
+            self::$_tokens['contact'] =& 
                 CRM_Contact_BAO_Contact::importableFields();
         }
         
         $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);
-        foreach (self::$_contactTokens as $token => $property) {
+        foreach (self::$_tokens['contact'] as $token => $property) {
             if ($token == '') {
                 continue;
             }
@@ -124,7 +163,7 @@ class CRM_Utils_Token {
             
             if ($value) {
                 $str = preg_replace('/'.preg_quote("{contact.$token}").'/', 
-                                    $str, $value);
+                                    $value, $str);
             }
         }
 

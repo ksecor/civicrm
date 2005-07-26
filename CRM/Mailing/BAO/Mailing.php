@@ -445,7 +445,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  unsubscribe:    contact opts out of all target lists for the mailing
          *  opt-out:        contact unsubscribes from the domain
          */
-        foreach (array('reply', 'owner', 'unsubscribe', 'opt-out') as $key) 
+        foreach (array('reply', 'owner', 'unsubscribe', 'optOut') as $key) 
         {
             $address[$key] = implode('.', 
                         array(
@@ -500,6 +500,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->text, $contact, false);
+            $text = CRM_Utils_token::replaceActionTokens( $this->text,
+                                        $address, false);
+                                        
             /* TODO: trackable URL construction */
             
             $message->setTxtBody($text);
@@ -513,6 +516,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->html, $contact, true);
+            $text = CRM_Utils_token::replaceActionTokens( $this->text,
+                                        $address, true);
             
             /* TODO: trackable URL construction */
             /* TODO: insert html for open tracking */
