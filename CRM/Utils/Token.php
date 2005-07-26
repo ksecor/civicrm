@@ -67,9 +67,9 @@ class CRM_Utils_Token {
             /* Construct value from $token and $contact */
             $value = null;
             
-            if (preg_match('/custom_(\d+)/', $token, $match)) {
+            if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
                 foreach ($cv as $customValue) {
-                    if ($customValue->custom_field_id == $match[0]) {
+                    if ($customValue->custom_field_id == $cfID) {
                         $value = $customValue->getValue();
                         break;
                     }
@@ -79,7 +79,7 @@ class CRM_Utils_Token {
             }
             
             if ($value) {
-                $str = preg_replace("/\{$token\}/", $str, $value);
+                $str = preg_replace("/\{contact\.$token\}/", $str, $value);
             }
         }
 

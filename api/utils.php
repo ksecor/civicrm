@@ -248,10 +248,7 @@ function _crm_format_params( &$params, &$values ) {
     $customFields = CRM_Core_BAO_CustomField::getFields();
     
     foreach ($params as $key => $value) {
-        if (substr($key, 0, 7) == 'custom_') {
-            /* get the ID out of the key */
-            $customFieldID = substr($key, 7);
-            
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
             if ( !array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');
@@ -804,10 +801,7 @@ function _crm_add_formatted_param(&$values, &$params) {
     $customFields = CRM_Core_BAO_CustomField::getFields();
     
     foreach ($values as $key => $value) {
-        if (substr($key, 0, 7) === 'custom_') {
-            /* get the ID out of the key */
-            $customFieldID = substr($key, 7);
-
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
             if (!array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');

@@ -44,9 +44,6 @@ require_once 'CRM/Core/Form.php';
   */
 class CRM_UF_Form_Dynamic extends CRM_Core_Form
 {
-    const
-        CUSTOM_REGEXP = '/^custom_(\d+)$/';
-
     /**
      * The contact id that we are editing
      *
@@ -125,8 +122,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             } else if ( $field['name'] === 'country_id' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
-            } else if (preg_match(self::CUSTOM_REGEXP, $field['name'], $matches)) {
-                $customFieldID = $matches[1];
+            } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
                 if ($field['is_required']) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
@@ -244,9 +240,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
-                } else if ( preg_match(self::CUSTOM_REGEXP, $objName, $matches) ) {
+                } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                     $cv =& new CRM_Core_BAO_CustomValue();
-                    $cv->custom_field_id = $matches[1];
+                    $cv->custom_field_id = $cfID;
                     $cv->entity_table = 'crm_contact';
                     $cv->entity_id = $this->_id;
                     if ($cv->find(true)) {
@@ -358,10 +354,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
 
         /* Process custom field values */
         foreach ($params['edit'] as $key => $value) {
-            if (! preg_match(self::CUSTOM_REGEXP, $key, $matches)) {
+            if (($cfID = CRM_Core_BAO_CustomField::getKeyID($key)) == null) {
                 continue;
             }
-            $custom_field_id = $matches[1];
+            $custom_field_id = $cfID;
             $cf =& new CRM_Core_BAO_CustomField();
             $cf->id = $custom_field_id;
             $cf->find();

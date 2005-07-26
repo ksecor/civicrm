@@ -215,7 +215,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $importableFields = array();
         foreach ($fields as $id => $values) {
             /* generate the key for the fields array */
-            $key = "custom_$id";
+            $key = "custom.$id";
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
             $importableFields[$key] = array(
                 'title' => "$values[1]: $values[0]",
@@ -227,6 +227,22 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
         return $importableFields;
     }
+
+    /**
+     * Get the field id from an import key
+     *
+     * @param string $key       The key to parse
+     * @return int|null         The id (if exists)
+     * @access public
+     * @static
+     */
+    public static function getKeyID($key) {
+        if (preg_match('/^custom\.(\d+)$/', $key, $match)) {
+            return $match[1];
+        } 
+        return null;
+    }
+    
 
     /* static wrapper for _addQuickFormElement */
     public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired) {
