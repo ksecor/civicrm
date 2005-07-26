@@ -114,6 +114,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->id          = $this->_id;
         $savedSearch->domain_id   = CRM_Core_Config::domainID( );
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
+        $savedSearch->is_active = 1;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your search has been saved as "%1".', array(1 => $formValues['name'])) );
