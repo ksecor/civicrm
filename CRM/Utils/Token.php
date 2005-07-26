@@ -62,6 +62,21 @@ class CRM_Utils_Token {
         return $missing;
     }
     
+    /**
+     * Replace all the domain-level tokens in $str
+     *
+     * @param string $stsr      The string with tokens to be replaced
+     * @param array $domain     The domain
+     * @param boolean $html     Replace tokens with HTML or plain text
+     * @return string           The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceDomainTokens($str, &$domain, $html = false)
+    {
+        
+        return $str;
+    }
 
     /**
      * Replace all the contact-level tokens in $str with information from
@@ -114,6 +129,20 @@ class CRM_Utils_Token {
         }
 
         return $str;
+    }
+
+    /**
+     * Find unprocessed tokens (call this last)
+     *
+     * @param string $str       The string to search
+     * @return array            Array of tokens that weren't replaced
+     * @access public
+     * @static
+     */
+    public static function &unmatchedTokens(&$str) {
+        preg_match('/\{.*?\}/', $str, $match);
+        array_shift($match);
+        return $match;
     }
 }
 

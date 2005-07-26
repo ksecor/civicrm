@@ -464,16 +464,24 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         );
 
         if ($this->html == null || $this->text == null) {
+            /* TODO get the domain object */
+            $domain = null;
             $this->getHeaderFooter();
         
             $this->html = $this->header->body_html 
                         . $this->body_html 
                         . $this->footer->body_html;
-                        
+            
+            $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
+                            $domain, true);
+            
             $this->text = $this->header->body_text
                         . $this->body_text
                         . $this->footer->body_text;
-            /* TODO General Token replacement */
+            
+            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
+                            $domain, false);
+            
         }
 
         
