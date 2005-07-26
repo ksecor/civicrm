@@ -2,9 +2,9 @@
 <fieldset>
 <legend>{ts}Send an Email{/ts}</legend>
 <dl>
-<dt>From</dt><dd>{$from|escape}</dd>
+<dt>{ts}From{/ts}</dt><dd>{$from|escape}</dd>
 {if $single eq false}
-<dt>To</dt><dd>{$to|escape}</dd>
+<dt>{ts}Recipient(s){/ts}</dt><dd>{$to|escape}</dd>
 {else}
 <dt>{$form.to.label}</dt><dd>{$form.to.html}</dd>
 {/if}
