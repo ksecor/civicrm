@@ -87,6 +87,10 @@ class CRM_Utils_Token {
             if ($token == '') {
                 continue;
             }
+            /* If the string doesn't contain this token, skip it. */
+            if (strpos($str, "{contact.$token}") === false) {
+                continue;
+            }
 
             /* Construct value from $token and $contact */
             $value = null;
@@ -99,7 +103,8 @@ class CRM_Utils_Token {
                     }
                 }
             } else {
-                $value = self::dfsMatch($contact, $token);
+                $value = CRM_Contact_BAO_Contact::retrieveValue(
+                            $contact, $token);
             }
             
             if ($value) {
@@ -109,22 +114,6 @@ class CRM_Utils_Token {
         }
 
         return $str;
-    }
-
-
-    public static function dfsMatch(&$values, $key) {
-        if (! is_array($values)) {
-            return null;
-        } else if ($value = CRM_Core_Utils_Array::value($key, $values)) {
-            return $value;
-        } else {
-            foreach ($values as $v) {
-                if ($value = self::dfsMatch($v, $key)) {
-                    return $value;
-                }
-            }
-        }
-        return null;
     }
 }
 
