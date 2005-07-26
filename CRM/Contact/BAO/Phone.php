@@ -117,7 +117,11 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
     {
         $phone =& new CRM_Contact_BAO_Phone( );
-        return CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
+        $getValues = CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
+        foreach ($values['phone'] as $key => $array) {
+            CRM_Contact_BAO_Phone::addDisplayEnums($values['phone'][$key]);
+        }
+        return $getValues;
     }
 
     /**
