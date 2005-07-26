@@ -31,11 +31,11 @@
  * $Id$
  *
  */
+ 
+/*** TODO: figure out some sort of default replacement scheme ***/
 
 class CRM_Utils_Token {
-
-
-    /* TODO: make this configurable, add more tokens (email, etc) */
+    
     static $_requiredTokens = null;
 
     static $_tokens = array(
@@ -106,9 +106,19 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &replaceActionTokens($str, &$addresses, $html = false) {
-        foreach ($addresses as $token => $value) {
+        foreach (self::$_tokens['action'] as $token) {
             if (strpos($token, $str) === false) {
                 continue;
+            }
+
+            /* If the token is an email action, use it.  Otherwise, find the
+             * appropriate URL */
+            if (($value = CRM_Core_Utils_Array::value($token, $addresses)) == null) {
+                /* Get $value from the URL constructor */
+            } else {
+                if ($html) {
+                    $value = "mailto:$value";
+                }
             }
             $str = preg_replace('/'.preg_quote("{action.$token}").'/', 
                                 $value, $str);
@@ -133,11 +143,11 @@ class CRM_Utils_Token {
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =& 
-                CRM_Contact_BAO_Contact::importableFields();
+                array_keys(CRM_Contact_BAO_Contact::importableFields());
         }
         
         $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);
-        foreach (self::$_tokens['contact'] as $token => $property) {
+        foreach (self::$_tokens['contact'] as $token) {
             if ($token == '') {
                 continue;
             }
@@ -179,7 +189,7 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &unmatchedTokens(&$str) {
-        preg_match('/\{.*?\}/', $str, $match);
+        preg_match('/\{(.*?)\}/', $str, $match);
         array_shift($match);
         return $match;
     }
