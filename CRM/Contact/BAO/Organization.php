@@ -34,11 +34,6 @@
 
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Organization.php';
-require_once 'CRM/Contact/DAO/Location.php';
-require_once 'CRM/Contact/DAO/Address.php';
-require_once 'CRM/Contact/DAO/Phone.php';
-require_once 'CRM/Contact/DAO/IM.php';
-require_once 'CRM/Contact/DAO/Email.php';
 
 class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
 {

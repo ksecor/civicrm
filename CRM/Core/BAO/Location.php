@@ -31,16 +31,16 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/Location.php';
+require_once 'CRM/Core/DAO/Location.php';
 
-require_once 'CRM/Contact/BAO/Block.php';
+require_once 'CRM/Core/BAO/Block.php';
 
 require_once 'CRM/Contact/Form/Location.php';
 
 /**
  * BAO object for crm_location table
  */
-class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
+class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     /**
      * takes an associative array and creates a contact object
      *
@@ -52,7 +52,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @param array  $ids            the array that holds all the db ids
      * @param array  $locationId     
      *
-     * @return object CRM_Contact_BAO_Location object
+     * @return object CRM_Core_BAO_Location object
      * @access public
      * @static
      */
@@ -61,9 +61,10 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             return null;
         }
         
-        $location =& new CRM_Contact_BAO_Location( );
+        $location =& new CRM_Core_BAO_Location( );
         
-        $location->contact_id       = $params['contact_id'];
+        $location->entity_table    = 'civicrm_contact';
+        $location->entity_id       = $params['contact_id'];
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
 
@@ -72,7 +73,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
 
         $params['location'][$locationId]['id'] = $location->id;
 
-        CRM_Contact_BAO_Address::add( $params, $ids, $locationId );
+        CRM_Core_BAO_Address::add( $params, $ids, $locationId );
 
         // set this to true if this has been made the primary IM.
         // the rule is the first entered value is the primary object
@@ -83,9 +84,9 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         $location->im    = array( );
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            $location->phone[$i] = CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
-            $location->email[$i] = CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
-            $location->im   [$i] = CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
+            $location->phone[$i] = CRM_Core_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
+            $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
+            $location->im   [$i] = CRM_Core_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
         return $location;
     }
@@ -111,14 +112,14 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             return false;
         }
 
-        if ( CRM_Contact_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
+        if ( CRM_Core_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
             return true;
         }
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            if ( CRM_Contact_BAO_Phone::dataExists( $params, $locationId, $i, $ids ) ||
-                 CRM_Contact_BAO_Email::dataExists( $params, $locationId, $i, $ids ) ||
-                 CRM_Contact_BAO_IM::dataExists   ( $params, $locationId, $i, $ids ) ) {
+            if ( CRM_Core_BAO_Phone::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Core_BAO_Email::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Core_BAO_IM::dataExists   ( $params, $locationId, $i, $ids ) ) {
                 return true;
             }
         }
@@ -139,7 +140,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
-        $location =& new CRM_Contact_BAO_Location( );
+        $location =& new CRM_Core_BAO_Location( );
         $location->copyValues( $params );
 
         $flatten = false;
@@ -180,11 +181,11 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * simple helper function to dispatch getCall to lower comm blocks
      */
     static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, $parent ) {
-        $parent->address = CRM_Contact_BAO_Address::getValues( $params, $values, $ids, $blockCount );
+        $parent->address = CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount );
 
-        $parent->phone   = CRM_Contact_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
-        $parent->email   = CRM_Contact_BAO_Email::getValues( $params, $values, $ids, $blockCount );
-        $parent->im      = CRM_Contact_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
+        $parent->phone   = CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
+        $parent->email   = CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );
+        $parent->im      = CRM_Core_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
     /**
@@ -197,7 +198,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function deleteContact( $contactId ) {
-        $location =& new CRM_Contact_DAO_Location( );
+        $location =& new CRM_Core_DAO_Location( );
         $location->contact_id = $contactId;
         $location->find( );
         while ( $location->fetch( ) ) {
@@ -219,8 +220,8 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
     static function deleteLocationBlocks( $locationId ) {
         static $blocks = array( 'Address', 'Phone', 'Email', 'IM' );
         foreach ($blocks as $name) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $name) . ".php");
+            eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );
             $object->location_id = $locationId;
             $object->delete( );
         }

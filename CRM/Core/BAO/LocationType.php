@@ -31,7 +31,13 @@
  *
  */
 
-class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
+class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
+
+    /**
+     * static holder for the default LT
+     */
+    static $_defaultLocationType = null;
+
 
     /**
      * class constructor
@@ -50,96 +56,52 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Contact_BAO_Tag object
+     * @return object CRM_Core_BAO_LocaationType object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $tag =& new CRM_Contact_DAO_Tag( );
-        $tag->copyValues( $params );
-        if ( $tag->find( true ) ) {
-            CRM_Core_DAO::storeValues( $tag, $defaults );
-            return $tag;
+        $locationType =& new CRM_Core_DAO_LocationType( );
+        $locationType->copyValues( $params );
+        if ( $locationType->find( true ) ) {
+            CRM_Core_DAO::storeValues( $locationType, $defaults );
+            return $locationType;
         }
         return null;
     }
 
     /**
-     * Function to delete the tag 
+     * update the is_active flag in the db
      *
-     * @param int $id tag id
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
      *
-     * @return null
-     * @access public
+     * @return Object             DAO object on sucess, null otherwise
      * @static
-     *
      */
-    static function del ( $id ) {
-        // delete all crm_entity_tag records with the selected tag id
-        $entityTag =& new CRM_Contact_DAO_EntityTag( );
-        $entityTag->tag_id = $id;
-        $entityTag->find();
-        while ( $entityTag->fetch() ) {
-            $entityTag->delete();
-        }
-        
-        // delete from tag table
-        $tag =& new CRM_Contact_DAO_Tag( );
-        $tag->id = $id;
-        $tag->delete();
-        CRM_Core_Session::setStatus( ts('Selected Tag has been Deleted Successfuly.') );
+    static function setIsActive( $id, $is_active ) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_LocationType', $id, 'is_active', $is_active );
     }
+
 
     /**
-     * takes an associative array and creates a contact object
+     * retrieve the default location_type
      *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     *
-     * @return object CRM_Contact_BAO_Tag object
-     * @access public
+     * @param void
+     * @return object           The default location type object on success,
+     *                          null otherwise
      * @static
+     * @access public
      */
-    static function add( &$params, &$ids ) {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
+    static function &getDefault() {
+        if (self::$_defaultLocationType == null) {
+            $params = array('is_default' => 1);
+            $defaults = array();
+            self::$_defaultLocationType = self::retrieve($params, $defaults);
         }
-
-        $tag               =& new CRM_Contact_DAO_Tag( );
-        $tag->domain_id    = CRM_Core_Config::domainID( );
-
-        $tag->copyValues( $params );
-
-        $tag->id = CRM_Utils_Array::value( 'tag', $ids );
-
-        $tag->save( );
-        
-        CRM_Core_Session::setStatus( ts('The tag "%1" has been saved.', array(1 => $tag->name)) );
-        
-        return $tag;
+        return self::$_defaultLocationType;
     }
 
-    /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) {
-        
-        if ( !empty( $params['name'] ) ) {
-            return true;
-        }
-        
-        return false;
-    }
 }
 
 ?>

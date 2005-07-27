@@ -85,7 +85,9 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $query = "
 SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id AND 
+                                civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
 WHERE     civicrm_email.email = '" . $user->$mail . "'";
   
@@ -126,8 +128,11 @@ WHERE     civicrm_email.email = '" . $user->$mail . "'";
 
                 $query = "
 UPDATE  civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id  AND
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
+                                civicrm_email.is_primary = 1    )
 SET civicrm_email.email = '" . $user->$mail . '" WHERE civicrm_contact.id = ' . $ufmatch->contact_id;
                 
                 $dao =& new CRM_Core_DAO( );
@@ -150,8 +155,11 @@ SET civicrm_email.email = '" . $user->$mail . '" WHERE civicrm_contact.id = ' . 
         $query = "
 SELECT    civicrm_email.email as email
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_contact.id  = civicrm_location.contact_id AND civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id  AND
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
+                                civicrm_email.is_primary = 1    )
 WHERE     civicrm_contact.id = " . $contactId;
 
         $dao =& new CRM_Core_DAO( );

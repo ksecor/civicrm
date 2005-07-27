@@ -36,10 +36,11 @@ require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Contact/DAO/Contact.php';
-require_once 'CRM/Contact/DAO/Location.php';
-require_once 'CRM/Contact/DAO/Address.php';
-require_once 'CRM/Contact/DAO/Phone.php';
-require_once 'CRM/Contact/DAO/Email.php';
+
+require_once 'CRM/Core/DAO/Location.php';
+require_once 'CRM/Core/DAO/Address.php';
+require_once 'CRM/Core/DAO/Phone.php';
+require_once 'CRM/Core/DAO/Email.php';
 
 
 
@@ -204,9 +205,10 @@ SELECT DISTINCT
         $query = "
 SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary
 FROM    civicrm_contact
-LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
-LEFT JOIN civicrm_location_type ON (civicrm_location.location_type_id = civicrm_location_type.id)
-LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id)
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id = civicrm_location.entity_id )
+LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
+LEFT JOIN civicrm_email ON ( civicrm_location.id = civicrm_email.location_id )
 WHERE
   civicrm_contact.id = $id
 ORDER BY
@@ -375,7 +377,9 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 continue;
 
             case 'civicrm_location':
-                $from .= ' LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1) ';
+                $from .= " LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                                                          civicrm_contact.id = civicrm_location.entity_id  AND
+                                                          civicrm_location.is_primary = 1)";
                 continue;
 
             case 'civicrm_address':
@@ -408,7 +412,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
 
             case 'civicrm_entity_tag':
                 $from .= " LEFT JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
-                                                         civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
+                                                             civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
                 continue;
 
             case 'civicrm_activity_history':
@@ -935,18 +939,18 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
 
         $location = array();
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location[$locationId] = CRM_Contact_BAO_Location::add($params, $ids, $locationId);
+            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
         }
         $contact->location = $location;
 
         // add notes
-//         $contact->note =& CRM_Core_BAO_Note::add($params);
         if (is_array($params['note'])) {
             foreach ($params['note'] as $note) {
                 $noteParams = array(
-                    'contact_id'     => $contact->id,
+                    'entity_id'     => $contact->id,
+                    'entity_table'  => 'civicrm_contact',
                     'note'          => $note['note']
-                );
+                    );
                 CRM_Core_BAO_Note::add($noteParams);
             }
         }
@@ -1125,7 +1129,7 @@ WHERE  civicrm_contact.id = $id
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
     
-        $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
+        $contact->location     =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
@@ -1189,11 +1193,13 @@ WHERE  civicrm_contact.id = $id
      * @access public
      */
     static function getEmailDetails( $id ) {
-        $sql = ' SELECT    civicrm_contact.display_name, civicrm_email.email
+        $sql = " SELECT    civicrm_contact.display_name, civicrm_email.email
                  FROM      civicrm_contact
-                 LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+                 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                                                civicrm_contact.id = civicrm_location.entity_id AND
+                                                civicrm_location.is_primary = 1)
                  LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-                 WHERE     civicrm_contact.id = ' . $id;
+                 WHERE     civicrm_contact.id = $id";
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
@@ -1229,7 +1235,9 @@ SELECT
   civicrm_state_province.abbreviation as state,
   civicrm_country.name as country
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                               civicrm_contact.id = civicrm_location.entity_id AND
+                               civicrm_location.is_primary = 1)
 LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
@@ -1289,7 +1297,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
         // location shld be deleted after phonecall, since fields in phonecall are
         // fkeyed into location/phone.
-        CRM_Contact_BAO_Location::deleteContact( $id );
+        CRM_Core_BAO_Location::deleteContact( $id );
 
         // fix household and org primary contact ids
         static $misc = array( 'Household', 'Organization' );
@@ -1361,31 +1369,22 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Individual::import( ) );
 
-            $locationFields = array_merge(  CRM_Contact_DAO_Address::import( ),
-                                            CRM_Contact_DAO_Phone::import( ),
-                                            CRM_Contact_DAO_Email::import( ),
-                                            CRM_Contact_DAO_IM::import( true ));
+            $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
+                                            CRM_Core_DAO_Phone::import( ),
+                                            CRM_Core_DAO_Email::import( ),
+                                            CRM_Core_DAO_IM::import( true ));
             foreach ($locationFields as $key => $field) {
                 $locationFields[$key]['hasLocationType'] = true;
             }
 
             self::$_importableFields = array_merge(self::$_importableFields, $locationFields);
 
-//             self::$_importableFields = array_merge(self::$_importableFields,
-//                                                    CRM_Contact_DAO_Address::import( ) );
-//             self::$_importableFields = array_merge(self::$_importableFields,
-//                                                    CRM_Contact_DAO_Phone::import( ) );
-//             self::$_importableFields = array_merge(self::$_importableFields,
-//                                                    CRM_Contact_DAO_Email::import( ) );
-//             self::$_importableFields = array_merge(self::$_importableFields,
-//                                                    CRM_Contact_DAO_IM::import( true ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Contact::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_DAO_Note::import());
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_BAO_CustomField::getFieldsForImport() );
-//             $customImports =& CRM_Core_Dao_CustomField::import();
         }
         return self::$_importableFields;
     }
@@ -1539,7 +1538,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $from   = ' FROM civicrm_contact, civicrm_location';
         $andArray = array();
         
-        $andArray[] = "civicrm_contact.id = civicrm_location.contact_id";
+        $andArray[] = "civicrm_location.entity_table = 'civicrm_contact'";
+        $andArray[] = "civicrm_contact.id = civicrm_location.entity_id";
+        
 
         if (isset($params['email'])) {// is email present ?
             $from .= ', civicrm_email';

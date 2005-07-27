@@ -33,7 +33,7 @@
  *
  */
 
-class CRM_Contact_BAO_Block {
+class CRM_Core_BAO_Block {
 
     /**
      * Given the list of params in the params array, fetch the object

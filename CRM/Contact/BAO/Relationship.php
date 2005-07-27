@@ -33,7 +33,6 @@
 
 require_once 'CRM/Contact/DAO/Relationship.php';
 require_once 'CRM/Contact/DAO/RelationshipType.php';
-require_once 'CRM/Contact/BAO/Block.php';
 
 class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
@@ -473,14 +472,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
 
         }
-
-        $from = ' FROM civicrm_contact, civicrm_relationship, civicrm_relationship_type
-                        LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id AND civicrm_location.is_primary = 1)
+        
+        $from = " FROM civicrm_contact, civicrm_relationship, civicrm_relationship_type
+                        LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                                              civicrm_contact.id = civicrm_location.entity_id AND
+                                                              civicrm_location.is_primary = 1 )
                         LEFT OUTER JOIN civicrm_address ON (civicrm_location.id = civicrm_address.location_id )
                         LEFT OUTER JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1)
                         LEFT OUTER JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
                         LEFT OUTER JOIN civicrm_state_province ON (civicrm_address.state_province_id = civicrm_state_province.id)
-                        LEFT OUTER JOIN civicrm_country ON (civicrm_address.country_id = civicrm_country.id) ';
+                        LEFT OUTER JOIN civicrm_country ON (civicrm_address.country_id = civicrm_country.id) ";
 
         $where = ' WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id ';
         if ( $direction == 'a_b' ) {

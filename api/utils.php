@@ -169,7 +169,7 @@ function _crm_format_params( &$params, &$values ) {
 
     $values['location']               = array( );
     $values['location'][1]            = array( );
-    $fields =& CRM_Contact_DAO_Location::fields( );
+    $fields =& CRM_Core_DAO_Location::fields( );
     if ( _crm_store_values( $fields, $params, $values['location'][1] ) ) {
         $locationTypeNeeded = true;
     }
@@ -180,7 +180,7 @@ function _crm_format_params( &$params, &$values ) {
     }
 
     $values['location'][1]['address'] = array( );
-    $fields =& CRM_Contact_DAO_Address::fields( );
+    $fields =& CRM_Core_DAO_Address::fields( );
     if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
         $locationTypeNeeded = true;
     }
@@ -197,8 +197,8 @@ function _crm_format_params( &$params, &$values ) {
         $name = strtolower($block);
         $values['location'][1][$name]    = array( );
         $values['location'][1][$name][1] = array( );
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $block) . ".php");
-        eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
+        eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         if ( _crm_store_values( $fields, $params, $values['location'][1][$name][1] ) ) {
             $locationTypeNeeded = true;
             $values['location'][1][$name][1]['is_primary'] = 1;
@@ -702,7 +702,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                         
             $params['location'][$locBlock]['phone'][$phoneBlock] = array();
 
-            $fields = CRM_Contact_DAO_Phone::fields();
+            $fields = CRM_Core_DAO_Phone::fields();
             
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['phone'][$phoneBlock]);
@@ -724,7 +724,7 @@ function _crm_add_formatted_param(&$values, &$params) {
             
             $params['location'][$locBlock]['email'][$emailBlock] = array();
 
-            $fields = CRM_Contact_DAO_Email::fields();
+            $fields = CRM_Core_DAO_Email::fields();
 
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['email'][$emailBlock]);
@@ -746,7 +746,7 @@ function _crm_add_formatted_param(&$values, &$params) {
 
             $params['location'][$locBlock]['im'][$imBlock] = array();
 
-            $fields = CRM_Contact_DAO_IM::fields();
+            $fields = CRM_Core_DAO_IM::fields();
 
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['im'][$imBlock]);
@@ -763,7 +763,7 @@ function _crm_add_formatted_param(&$values, &$params) {
             $params['location'][$locBlock]['address'] = array();
         }
         
-        $fields = CRM_Contact_DAO_Address::fields();
+        $fields = CRM_Core_DAO_Address::fields();
 
         _crm_store_values($fields, $values,
             $params['location'][$locBlock]['address']);

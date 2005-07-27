@@ -411,6 +411,8 @@ function getIndex(&$indexXML, &$fields, &$indices)
         }
         if (!array_key_exists($fieldName, $fields)) {
             echo "Table does not contain $fieldName\n";
+            print_r( $fields );
+            exit( );
             return;
         }
     }

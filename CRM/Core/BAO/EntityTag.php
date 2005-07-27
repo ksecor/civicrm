@@ -32,7 +32,7 @@
  *
  */
 
-class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag 
+class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag 
 {
 
     /**
@@ -51,7 +51,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
     {
         $tag = array();
 
-        $entityTag =& new CRM_Contact_BAO_EntityTag();
+        $entityTag =& new CRM_Core_BAO_EntityTag();
         $entityTag->entity_table = $entityTable;
         $entityTag->entity_id = $entityID;
         $entityTag->find();
@@ -71,7 +71,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
-     * @return object CRM_Contact_BAO_EntityTag object
+     * @return object CRM_Core_BAO_EntityTag object
      * @access public
      * @static
      */
@@ -83,7 +83,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
             return null;
         }
 
-        $entityTag =& new CRM_Contact_BAO_EntityTag( );
+        $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->save( );
         return $entityTag;
@@ -108,14 +108,14 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
-     * @return object CRM_Contact_BAO_EntityTag object
+     * @return object CRM_Core_BAO_EntityTag object
      * @access public
      * @static
      *
      */
     static function del( &$params ) 
     {
-        $entityTag =& new CRM_Contact_BAO_EntityTag( );
+        $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->delete( );
         return $entityTag;
@@ -137,7 +137,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
         $numContactsNotAdded = 0;
 
         foreach ( $contactIds as $contactId ) {
-            $tag =& new CRM_Contact_DAO_EntityTag( );
+            $tag =& new CRM_Core_DAO_EntityTag( );
             
             $tag->entity_id    = $contactId;
             $tag->entity_table = 'civicrm_contact';

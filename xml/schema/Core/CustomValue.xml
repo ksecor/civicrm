@@ -32,10 +32,6 @@
        <length>64</length>
        <comment>physical tablename for entity being extended by this data, e.g. civicrm_contact</comment>
   </field>
-  <index>
-       <name>index_entity_table</name>
-       <fieldName>entity_table</fieldName>
-  </index>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
@@ -43,7 +39,8 @@
       <comment>FK to record in the entity table specified by entity_table column.</comment>
   </field>
   <index>
-       <name>index_entity_id</name>
+       <name>index_entity</name>
+       <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
   </index>
   <field>

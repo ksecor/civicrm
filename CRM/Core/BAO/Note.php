@@ -80,8 +80,8 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note =& new CRM_Core_BAO_Note( );
         
         $params['modified_date'] = date("Ymd");
-        $params['entity_id']      = $params['contact_id'];
-        $params['entity_table']    = 'civicrm_contact';
+        $params['entity_id']      = $params['entity_id'];
+        $params['entity_id']      = $params['entity_table'];
 
         $note->copyValues( $params );
 

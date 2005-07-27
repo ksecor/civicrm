@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Core</base>
   <class>Location</class>
   <name>civicrm_location</name>
   <comment>Define location specific properties</comment>
@@ -16,16 +16,23 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>contact_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to Contact ID</comment>
+       <name>entity_table</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Name of table where item being referenced is stored.</comment>
   </field>
-  <foreignKey>
-       <name>contact_id</name>
-       <table>civicrm_contact</table>
-       <key>id</key>
-  </foreignKey>
+  <field>
+       <name>entity_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+  </field>
+  <index>
+       <name>index_entity</name>
+       <fieldName>entity_table</fieldName>
+       <fieldName>entity_id</fieldName>
+  </index>
   <field>
       <name>location_type_id</name>
       <type>int unsigned</type>
@@ -39,8 +46,9 @@
        <import>true</import>
   </foreignKey>
   <index>
-       <name>index_contact_location_type</name>
-       <fieldName>contact_id</fieldName>
+       <name>index_entity_location_type</name>
+       <fieldName>entity_table</fieldName>
+       <fieldName>entity_id</fieldName>
        <fieldName>location_type_id</fieldName>
        <unique/>
   </index>

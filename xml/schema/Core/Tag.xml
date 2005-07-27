@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Core</base>
   <class>Tag</class>
   <name>civicrm_tag</name>
   <comment>Provides support for flat or hierarchical classification of various types of entities (contacts, groups, actions...).</comment>

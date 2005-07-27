@@ -299,9 +299,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      */
     static function getMatchClause( $params, &$tables, $flatten = false ) {
         if ( $flatten ) {
-//             $params['email'] = $params['location'][1]['email'][1]['email'];
-//             $params['phone'] = $params['location'][1]['phone'][1]['phone'];
-
             if (is_array($params['location'])) {
                 $params['email'] = array();
                 $params['phone'] = array();

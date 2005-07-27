@@ -58,7 +58,7 @@ class CRM_Contact_Form_Email
             $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
                                                                              "location[$locationId][email][$i][email]",
                                                                              $label,
-                                                                             CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Email',
+                                                                             CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                                                                    'email'));
             $form->addRule( "location[$locationId][email][$i][email]", ts('Email is not valid.'), 'email' );
         }

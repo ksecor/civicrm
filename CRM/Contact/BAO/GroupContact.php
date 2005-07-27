@@ -35,8 +35,6 @@
 
 require_once 'CRM/Contact/DAO/GroupContact.php';
 
-require_once 'CRM/Contact/BAO/Block.php';
-
 class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     
     /**
@@ -408,7 +406,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
             $query .= " 
 FROM civicrm_contact 
-LEFT OUTER JOIN civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id)
+LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                      civicrm_contact.id = civicrm_location.entity_id )
 LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND
                                       civicrm_email.is_primary = 1)
 WHERE civicrm_contact.id IN ( $result )
@@ -419,7 +418,8 @@ WHERE civicrm_contact.id IN ( $result )
 FROM       civicrm_contact
 LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )
 LEFT JOIN  civicrm_subscription_history ON (civicrm_contact.id = civicrm_subscription_history.contact_id )
-LEFT JOIN  civicrm_location ON (civicrm_contact.id = civicrm_location.contact_id )
+LEFT JOIN  civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                 civicrm_contact.id = civicrm_location.entity_id)
 LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
 WHERE civicrm_group_contact.status = '$status' AND civicrm_group_contact.group_id = '$group->id' ";
         }

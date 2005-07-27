@@ -31,12 +31,13 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/Email.php';
+require_once 'CRM/Core/DAO/Phone.php';
 
 /**
- * BAO object for crm_email table
+ * BAO object for crm_phone table
  */
-class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
+class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone 
+{
     /**
      * takes an associative array and creates a contact object
      *
@@ -47,34 +48,36 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
-     * @param int    $emailId
+     * @param int    $phoneId
      * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object CRM_Contact_BAO_Email object
+     * @return object CRM_Core_BAO_Phone object
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $emailId, &$isPrimary ) {
-        // if no data and we are not updating an exisiting record
-        if ( ! self::dataExists( $params, $locationId, $emailId, $ids ) ) {
+    static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) 
+    {
+        if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
             return null;
         }
 
-        $email =& new CRM_Contact_DAO_Email();
-        $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
-        $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
-        if ( empty( $email->email ) ) {
-            $email->delete( );
+        $phone =& new CRM_Core_DAO_Phone();
+        $phone->id                 = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
+        $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
+        if ( empty( $phone->phone ) ) {
+            $phone->delete( );
             return null;
         }
 
-        $email->location_id = $params['location'][$locationId]['id'];
+        $phone->location_id        = $params['location'][$locationId]['id'];
+        $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
+        $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        $email->is_primary  = $isPrimary;
-        $isPrimary          = false;
-        
-        return $email->save( );
+        $phone->is_primary         = $isPrimary;
+        $isPrimary                 = false;
+
+        return $phone->save( );
     }
 
     /**
@@ -82,19 +85,20 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param int    $locationId
-     * @param int    $emailId
+     * @param int    $phoneId
      * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $emailId, &$ids) {
-        if ( CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] )) {
+    static function dataExists( &$params, $locationId, $phoneId, &$ids ) 
+    {
+        if ( CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] )) {
             return true;
         }
 
-        return CRM_Contact_BAO_Block::dataExists('email', array( 'email' ), $params, $locationId, $emailId );
+        return CRM_Core_BAO_Block::dataExists('phone', array( 'phone' ), $params, $locationId, $phoneId );
     }
 
     /**
@@ -110,10 +114,45 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $email =& new CRM_Contact_BAO_Email( );
-        return CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
+    {
+        $phone =& new CRM_Core_BAO_Phone( );
+        $getValues = CRM_Core_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
+        foreach ($values['phone'] as $key => $array) {
+            CRM_Core_DAO_Phone::addDisplayEnums($values['phone'][$key]);
+        }
+        return $getValues;
     }
+
+    /**
+     * Function to return the phone numbers of a contact
+     * 
+     * @param int $contactId
+     * 
+     * @return array $contactPhones 
+     * @access public 
+     *
+     */
+    static function getphoneNumber ( $contactId ) 
+    {
+        $phone =& new CRM_Core_DAO( );
+        
+        $strQuery = "SELECT civicrm_phone.id as phone_id, civicrm_phone.phone as phone 
+                     FROM civicrm_phone, civicrm_location 
+                     WHERE civicrm_phone.location_id = civicrm_location.id
+                       AND civicrm_location.entity_table = 'civicrm_contact'
+                       AND civicrm_location.entity_id = $contactId";
+        
+        $phone->query($strQuery);
+        
+        while($phone->fetch()) {
+            $contactPhones[$phone->phone_id] = $phone->phone;
+        }
+
+        return $contactPhones;
+    }
+    
+
 }
 
 ?>

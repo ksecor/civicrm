@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Core</base>
   <class>Phone</class>
   <name>civicrm_phone</name>
   <comment>Phone information for a specific location.</comment>

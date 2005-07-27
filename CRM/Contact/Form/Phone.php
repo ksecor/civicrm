@@ -64,7 +64,7 @@ class CRM_Contact_Form_Phone
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
                                                                                   $label,
-                                                                                  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Phone',
+                                                                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                         'phone'));
 
             // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number

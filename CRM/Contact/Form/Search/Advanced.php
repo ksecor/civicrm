@@ -75,8 +75,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // add text box for last name, first name, street name, city
         $this->addElement('text', 'sort_name', ts('Find...'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->addElement('text', 'street_name', ts('Street Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
-        $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
+        $this->addElement('text', 'street_name', ts('Street Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'street_name'));
+        $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'city'));
 
         // select for state province
         $stateProvince = array('' => ts(' - any state/province - ')) + CRM_Core_PseudoConstant::stateProvince( );
@@ -87,13 +87,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('select', 'country', ts('Country'), $country);
 
         // add text box for postal code
-        $this->addElement('text', 'postal_code', ts('Postal Code'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code', ts('Postal Code'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
         $this->addRule('postal_code', ts('Enter valid Postal Code'), 'numeric' );
         
-        $this->addElement('text', 'postal_code_low', ts('Range-From'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address','postal_code') );
+        $this->addElement('text', 'postal_code_low', ts('Range-From'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address','postal_code') );
         $this->addRule('postal_code_low', ts('Enter valid From range of Postal Code'), 'numeric' );
 
-        $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
         $this->addRule('postal_code_high', ts('Enter valid To range of Postal Code'), 'numeric' );
 
         // checkboxes for location type

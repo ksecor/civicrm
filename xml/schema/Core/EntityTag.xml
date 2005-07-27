@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Core</base>
   <class>EntityTag</class>
   <name>civicrm_entity_tag</name>
   <comment>Tag entities (Contacts, Groups, Actions) to categories.</comment>
@@ -21,10 +21,6 @@
        <length>64</length>
        <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
   </field>
-  <index>
-       <name>index_entity_table</name>
-       <fieldName>entity_table</fieldName>
-  </index>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
@@ -32,7 +28,8 @@
       <comment>FK to entity table specified in entity_table column.</comment>
   </field>
   <index>
-       <name>index_entity_id</name>
+       <name>index_entity</name>
+       <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
   </index>
   <field>

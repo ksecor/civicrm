@@ -31,12 +31,12 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/IM.php';
+require_once 'CRM/Core/DAO/Address.php';
 
 /**
- * BAO object for crm_im table
+ * BAO object for crm_address table
  */
-class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
+class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     /**
      * takes an associative array and creates a contact object
      *
@@ -46,58 +46,71 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $ids            the array that holds all the db ids
-     * @param int    $locationId
-     * @param int    $imId
-     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
+     * @param array  $locationId     
      *
-     * @return object CRM_Contact_BAO_IM object
+     * @return object CRM_Core_BAO_Address object
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $imId, &$isPrimary ) {
-        if ( ! self::dataExists( $params, $locationId, $imId, $ids ) ) {
+    static function add(&$params, &$ids, $locationId)
+    {
+        if ( ! self::dataExists($params, $locationId, $ids) ) {
             return null;
         }
 
-        $im =& new CRM_Contact_DAO_IM();
-        $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
-        $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
-        if ( empty( $im->name ) ) {
-            $im->delete( );
+        $address              =& new CRM_Core_BAO_Address();
+        $address->location_id = $params['location'][$locationId]['id'];
+        $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
+        if ( $address->copyValues($params['location'][$locationId]['address']) ) {
+            // we copied only null stuff, so we delete the object
+            $address->delete( );
             return null;
         }
 
-        $im->location_id  = $params['location'][$locationId]['id'];
-        $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
-        if (! $im->provider_id ) {
-            $im->provider_id  = 'null';
+        // currently copy values populates empty fields with the string "null"
+        // and hence need to check for the string null
+        if ( is_numeric( $address->state_province_id ) && !isset($address->country_id)) {
+            // since state id present and country id not present, hence lets populate it
+            // jira issue http://objectledge.org/jira/browse/CRM-56
+            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO->id = $address->state_province_id; 
+            $stateProvinceDAO->find(true);
+            $address->country_id = $stateProvinceDAO->country_id;
         }
 
-        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        $im->is_primary   = $isPrimary;
-        $isPrimary        = false;
-
-        return $im->save( );
+        $address->county_id = $address->geo_coord_id = 1;
+        return $address->save();
     }
 
     /**
      * Check if there is data to create the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param int    $locationId
-     * @param int    $imId
+     * @param array  $locationId     
      * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $imId, &$ids ) {
-        if (CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] )) {
+    static function dataExists(&$params, $locationId, &$ids)
+    {
+        if ( is_array( $ids ) && CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
             return true;
         }
+
+        // return if no data present
+        if (! array_key_exists('address' , $params['location'][$locationId])) {
+            return false;
+        }
+
+        foreach ($params['location'][$locationId]['address'] as $name => $value) {
+            if (!empty($value)) {
+                return true;
+            }
+        }
         
-        return CRM_Contact_BAO_Block::dataExists('im', array( 'name' ), $params, $locationId, $imId );
+        return false;
     }
 
 
@@ -114,9 +127,28 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $im =& new CRM_Contact_BAO_IM( );
-        return CRM_Contact_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
+    static function getValues(&$params, &$values, &$ids, $blockCount=0)
+    {
+        $address =& new CRM_Core_BAO_Address();
+        $address->copyValues($params);
+
+        $flatten = false;
+        if (empty($blockCount)) {
+            $flatten = true;
+        }
+        
+        // we first get the primary location due to the order by clause
+        if ($address->find(true)) {
+            $ids['address'] = $address->id;
+            if ($flatten) {
+                CRM_Core_DAO::storeValues( $address, $values );
+            } else {
+                $values['address'] = array();
+                CRM_Core_DAO::storeValues( $address, $values['address'] );
+            }
+            return $address;
+        }
+        return null;
     }
 
 }

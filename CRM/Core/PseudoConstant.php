@@ -181,7 +181,7 @@ class CRM_Core_PseudoConstant {
     public static function &locationType( $all=false )
     {
         if ( ! self::$locationType ) {
-            self::populate( self::$locationType, 'CRM_Contact_DAO_LocationType', $all );
+            self::populate( self::$locationType, 'CRM_Core_DAO_LocationType', $all );
         }
         return self::$locationType;
     }
@@ -322,7 +322,7 @@ class CRM_Core_PseudoConstant {
     public static function &tag()
     {
         if (!self::$tag) {
-            self::populate( self::$tag, 'CRM_Contact_DAO_Tag', true );
+            self::populate( self::$tag, 'CRM_Core_DAO_Tag', true );
         }
         return self::$tag;
     }

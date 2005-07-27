@@ -64,7 +64,7 @@ class CRM_Contact_Form_IM
             $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
                                                                          "location[$locationId][im][$i][name]",
                                                                          null,
-                                                                         CRM_Core_DAO::getAttribute('CRM_Contact_DAO_IM',
+                                                                         CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM',
                                                                                                'name'));
         }
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Core</base>
   <class>LocationType</class>
   <name>civicrm_location_type</name>
   <field>
