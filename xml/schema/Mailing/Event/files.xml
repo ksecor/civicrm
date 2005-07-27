@@ -7,6 +7,8 @@
 <xi:include href="Delivered.xml"        parse="xml" />
 <xi:include href="Opened.xml"           parse="xml" />
 <xi:include href="TrackableURLOpen.xml" parse="xml" />
+<xi:include href="Subscribe.xml"        parse="xml" />
+<xi:include href="Confirm.xml"          parse="xml" />
 <xi:include href="Unsubscribe.xml"      parse="xml" />
 
 </tables>
