@@ -151,6 +151,31 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         return null;
     }
 
+    /**
+     * Given an array of address values (getValues() style), return a formatted
+     * string of the address.  TODO: make this i18n-friendly
+     *
+     * @param array $params     The getValues() array, after resolving
+     *                          state/country
+     * @param string $separator The string used for separating lines
+     * @return string           The formatted address string
+     * @access public
+     * @static
+     */
+    static function format(&$params, $separator = "\n") {
+        $formatted  = array( $params['street_address'] );
+        foreach (array(1,2,3) as $index) {
+            if (isset($params["supplemental_address_$index"])) {
+                $formatted[] = $params["supplemental_address_$index"];
+            }
+        }
+        $formatted[]    = $params['city'] 
+                        . ', ' . $params['state_province'] 
+                        . ' ' . $params['postal_code'];
+        $formatted[] = $params['country'];
+        
+        return implode($separator, $formatted);
+    }
 }
 
 ?>
