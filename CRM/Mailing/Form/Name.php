@@ -46,9 +46,11 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add( 'text', 'name', 'Name Your Mailing',
+        $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
+        $this->addRule('name', ts('Name already exists in Database.'),
+            'objectExists', array('CRM_Mailing_DAO_Component', $this->_id));
 
         $template =& CRM_Mailing_PseudoConstant::template( );
         if ( ! empty( $template ) ) {
@@ -67,6 +69,13 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
                                  )
                            );
 
+    }
+
+    public function postProcess() {
+        $mailingName = $this->controller->exportValue($this->_name, 'name');
+        $isTemplate  = $this->controller->exportValue($this->_name, 'template');
+        $this->set('mailing_name', $mailingName);
+        $this->set('template', $isTemplate);
     }
 
     /**

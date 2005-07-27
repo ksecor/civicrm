@@ -84,16 +84,59 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function dataRule(&$params) {
+    static function dataRule(&$params, &$files, &$options) {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
             return true;
         }
         $errors = array();
-
+        
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        
+        $session =& CRM_Core_Session::singleton();
+        $values = array('contact_id' => $session->get('userID'));
+        $contact = array();
+        $ids = array();
+        CRM_Contact_BAO_Contact::retrieve($values,$contact,$id);
+        
+        $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
+                        
         foreach (array('textFile', 'htmlFile') as $file) {
-//             CRM_Core_Error::debug('params', $params);
+            $str = file_get_contents($files[$file]['tmp_name']);
+            $name = $files[$file]['name'];
+            
+            $dataErrors = array();
+            
+            /* First look for missing tokens */
+            $err = CRM_Utils_Token::requiredTokens($str);
+            if ($err !== true) {
+                foreach ($err as $token => $desc) {
+                    $dataErrors[]   = '<li>' 
+                                    . ts('Missing required token') 
+                                    .' {' . $token . "}: $desc</li>";
+                }
+            }
+            
+            /* Do a full token replacement on a dummy verp, the current contact
+             * and domain. */
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
+
+            $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+            if (! empty($unmatched)) {
+                foreach ($unmatched as $token) {
+                    $dataErrors[]   = '<li>'
+                                    . ts('Invalid token code')
+                                    .' {'.$token.'}</li>';
+                }
+            }
+            if (! empty($dataErrors)) {
+                $errors[$file] = 
+                ts('The following errors were detected in %1: <ul>%2</ul>',
+                array('1' => $name, '2' => implode('', $dataErrors)));
+            }
         }
-        return true;
+        return empty($errors) ? true : $errors;
     }
 
     /**

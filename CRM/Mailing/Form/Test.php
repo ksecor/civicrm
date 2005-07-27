@@ -36,6 +36,27 @@
  */
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
+    public function buildQuickForm() {
+        $this->addButtons(
+            array(
+                array(  'type'  => 'prev',
+                        'name'  => '<< Previous'),
+                array(  'type'  => 'next',
+                        'name'  => ts('Next >>'),
+                        'isDefault' => true ),
+                array(  'type'  => 'cancel',
+                        'name'  => ts('Cancel') )
+                )
+            );
+    }
+
+    public function postProcess() {
+        $textFile = $this->get('textFile');
+        $htmlFile = $this->get('htmlFile');
+
+
+    }
+
     /**
      * Display Name of the form
      *

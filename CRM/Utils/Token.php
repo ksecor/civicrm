@@ -69,10 +69,11 @@ class CRM_Utils_Token {
 
         $missing = array();
         foreach (self::$_requiredTokens as $token => $description) {
-            if (strpos("{$token}", $str) === false) {
+            if (! preg_match('/'.preg_quote('{' . $token . '}').'/', $str)) {
                 $missing[$token] = $description;
             }
         }
+
         if (empty($missing)) {
             return true;
         }
@@ -92,7 +93,7 @@ class CRM_Utils_Token {
     public static function &replaceDomainTokens($str, &$domain, $html = false)
     {
         $loc =& $domain->getLocationValues();
-        if (strpos('{domain.address}', $str) !== false) {
+        if (preg_match('/'.preg_quote('{domain.address}').'/', $str)) {
             /* Construct the address token */
             $value = CRM_Core_BAO_Address::format(  $loc['address'], 
                                                     ($html ? '<br />' : "\n"));
@@ -102,7 +103,7 @@ class CRM_Utils_Token {
         
         /* Construct the phone and email tokens */
         foreach (array('phone', 'email') as $key) {
-            if (strpos("{domain.$key}", $str) !== false) {
+            if (preg_match('/'.preg_quote("{domain.$key}").'/', $str)) {
                 $value = null;
                 foreach ($loc[$key] as $index => $entity) {
                     if ($entity->is_primary) {
@@ -129,7 +130,7 @@ class CRM_Utils_Token {
      */
     public static function &replaceActionTokens($str, &$addresses, $html = false) {
         foreach (self::$_tokens['action'] as $token) {
-            if (strpos($token, $str) === false) {
+            if (! preg_match('/'.preg_quote("{action.$token}").'/', $str)) {
                 continue;
             }
 
@@ -175,7 +176,7 @@ class CRM_Utils_Token {
                 continue;
             }
             /* If the string doesn't contain this token, skip it. */
-            if (strpos($str, "{contact.$token}") === false) {
+            if (! preg_match('/'.preg_quote("{contact.$token}").'/', $str)) {
                 continue;
             }
 

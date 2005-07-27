@@ -460,7 +460,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          */
         foreach (array('reply', 'owner', 'unsubscribe', 'optOut') as $key) 
         {
-            $address[$key] = implode('.', 
+            $verp[$key] = implode('.', 
                         array(
                             $key, 
                             $job_id, 
@@ -472,8 +472,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $headers = array(
             'Subject'   => $this->subject,
             'From'      => $this->from_name . ' <' . $this->from_email . '>',
-            'Reply-To'  => CRM_Utils_Verp::encode($address['reply'], $email),
-            'Return-path' => CRM_Utils_Verp::encode($address['owner'], $email),
+            'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
+            'Return-path' => CRM_Utils_Verp::encode($verp['owner'], $email),
         );
 
         if ($this->html == null || $this->text == null) {
@@ -512,7 +512,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->text, $contact, false);
             $text = CRM_Utils_token::replaceActionTokens( $this->text,
-                                        $address, false);
+                                        $verp, false);
                                         
             /* TODO: trackable URL construction */
             
@@ -528,7 +528,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->html, $contact, true);
             $text = CRM_Utils_token::replaceActionTokens( $this->text,
-                                        $address, true);
+                                        $verp, true);
             
             /* TODO: trackable URL construction */
             /* TODO: insert html for open tracking */
