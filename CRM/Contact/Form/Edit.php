@@ -340,7 +340,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // here we replace the user context with the url to view this contact
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));
+        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {

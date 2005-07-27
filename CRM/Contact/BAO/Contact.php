@@ -979,6 +979,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
 
         CRM_Core_DAO::transaction('COMMIT');
+        
+        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         return $contact;
     }
