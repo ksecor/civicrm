@@ -188,7 +188,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.contact_id = $contact.id
+                            ON          $location.entity_id = $contact.id
+                                AND     $location.entity_table = '$contact'
                     INNER JOIN          $g2contact
                             ON          $contact.id = $g2contact.contact_id
                     INNER JOIN          $mg
@@ -217,7 +218,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.contact_id = $contact.id
+                            ON          $location.entity_id = $contact.id
+                                AND     $location.entity_table = '$contact'
                     INNER JOIN          $g2contact
                             ON          $contact.id = $g2contact.contact_id
                                 AND     $location.id = $g2contact.location_id
@@ -274,7 +276,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.contact_id = $contact.id
+                            ON          $location.entity_id = $contact.id
+                                AND     $location.entity_table = '$contact'
                     INNER JOIN          $eq
                             ON          $eq.contact_id = $contact.id
                     INNER JOIN          $job
@@ -321,7 +324,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $contact.id as contact_id 
                         FROM            $from
                         INNER JOIN      $location
-                                ON      $location.contact_id = $contact.id
+                                ON      $location.entity_id = $contact.id
+                                    AND $location.entity_table = '$contact'
                         INNER JOIN      $email
                                 ON      $email.location_id = $location.id
                         LEFT JOIN       X_$job_id
