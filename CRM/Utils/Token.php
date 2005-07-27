@@ -91,18 +91,28 @@ class CRM_Utils_Token {
      */
     public static function &replaceDomainTokens($str, &$domain, $html = false)
     {
+        $loc =& $domain->getLocationValues();
         if (strpos('{domain.address}', $str) !== false) {
             /* Construct the address token */
-            $loc =& $domain->getLocationValues();
             $value = CRM_Core_BAO_Address::format(  $loc['address'], 
                                                     ($html ? '<br />' : "\n"));
             $str = preg_replace('/'.preg_quote('{domain.address}').'/', 
                                 $value, $str);
         }
-
-        if (strpos('{domain.phone}', $str) !== false) {
-            /* Construct the phone token */
-
+        
+        foreach (array('phone', 'email') as $key) {
+            if (strpos("{domain.$key}", $str) !== false) {
+                /* Construct the phone token */
+                $value = null;
+                foreach ($loc[$key] as $index => $entity) {
+                    if ($entity->is_primary) {
+                        $value = $entity->$key;
+                        break;
+                    }
+                }
+                $str = preg_replace('/'.preg_quote("{domain.$key}").'/',
+                                    $value, $str);
+            }
         }
         return $str;
     }
