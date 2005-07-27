@@ -37,5 +37,4 @@
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>
-<p>{$kangur}</p>
 </div>
