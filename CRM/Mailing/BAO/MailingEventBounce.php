@@ -49,8 +49,8 @@ class CRM_Mailing_BAO_MailingEventBounce extends CRM_Mailing_DAO_MailingEventBou
         $bounce->copyValues($params);
         $bounce->save();
 
-        $bounceTable    = $bounce->tableName();
-        $bounceType     = CRM_Mailing_DAO_BounceType::tableName();
+        $bounceTable    = $bounce->getTableName();
+        $bounceType     = CRM_Mailing_DAO_BounceType::getTableName();
         
         $email  =& new CRM_Core_BAO_Email();
         $email->id = $bounce->email_id;

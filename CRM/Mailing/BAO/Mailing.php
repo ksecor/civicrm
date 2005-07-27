@@ -77,18 +77,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     function &getRecipients($job_id) {
         $mailingGroup =& new CRM_Mailing_DAO_MailingGroup();
         
-        $mailing    = CRM_Mailing_DAO_Mailing::tableName();
-        $mg         = CRM_Mailing_DAO_MailingGroup::tableName();
-        $eq         = CRM_Mailing_DAO_MailingEventQueue::tableName();
-        $ed         = CRM_Mailing_DAO_MailingEventDelivered::tableName();
-        $eb         = CRM_Mailing_DAO_MailingEventBounce::tableName();
-        $job        = CRM_Mailing_DAO_Job::tableName();
+        $mailing    = CRM_Mailing_DAO_Mailing::getTableName();
+        $mg         = CRM_Mailing_DAO_MailingGroup::getTableName();
+        $eq         = CRM_Mailing_DAO_MailingEventQueue::getTableName();
+        $ed         = CRM_Mailing_DAO_MailingEventDelivered::getTableName();
+        $eb         = CRM_Mailing_DAO_MailingEventBounce::getTableName();
+        $job        = CRM_Mailing_DAO_Job::getTableName();
         
-        $email      = CRM_Core_DAO_Email::tableName();
-        $contact    = CRM_Contact_DAO_Contact::tableName();
-        $location   = CRM_Core_DAO_Location::tableName();
-        $group      = CRM_Contact_DAO_Group::tableName();
-        $g2contact  = CRM_Contact_DAO_GroupContact::tableName();
+        $email      = CRM_Core_DAO_Email::getTableName();
+        $contact    = CRM_Contact_DAO_Contact::getTableName();
+        $location   = CRM_Core_DAO_Location::getTableName();
+        $group      = CRM_Contact_DAO_Group::getTableName();
+        $g2contact  = CRM_Contact_DAO_GroupContact::getTableName();
       
         /* Create a temp table for contact exclusion */
         $mailingGroup->query(
@@ -367,11 +367,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
     public function retryRecipients($job_id) {
         $eq =& new CRM_Mailing_BAO_MailingEventQueue();
-        $job        = CRM_Mailing_BAO_Job::tableName();
-        $queue      = CRM_Mailing_BAO_MailingEventQueue::tableName();
-        $bounce     = CRM_Mailing_BAO_MailingEventBounce::tableName();
-        $email      = CRM_Core_BAO_Email::tableName();
-        $contact    = CRM_Contact_BAO_Contact::tableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+        $queue      = CRM_Mailing_BAO_MailingEventQueue::getTableName();
+        $bounce     = CRM_Mailing_BAO_MailingEventBounce::getTableName();
+        $email      = CRM_Core_BAO_Email::getTableName();
+        $contact    = CRM_Contact_BAO_Contact::getTableName();
         
         $query = 
                 "SELECT             email_id, contact_id
