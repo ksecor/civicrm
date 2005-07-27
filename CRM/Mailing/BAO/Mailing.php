@@ -84,9 +84,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $eb         = CRM_Mailing_DAO_MailingEventBounce::tableName();
         $job        = CRM_Mailing_DAO_Job::tableName();
         
-        $email      = CRM_Contact_DAO_Email::tableName();
+        $email      = CRM_Core_DAO_Email::tableName();
         $contact    = CRM_Contact_DAO_Contact::tableName();
-        $location   = CRM_Contact_DAO_Location::tableName();
+        $location   = CRM_Core_DAO_Location::tableName();
         $group      = CRM_Contact_DAO_Group::tableName();
         $g2contact  = CRM_Contact_DAO_GroupContact::tableName();
       
@@ -366,7 +366,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $job        = CRM_Mailing_BAO_Job::tableName();
         $queue      = CRM_Mailing_BAO_MailingEventQueue::tableName();
         $bounce     = CRM_Mailing_BAO_MailingEventBounce::tableName();
-        $email      = CRM_Contact_BAO_Email::tableName();
+        $email      = CRM_Core_BAO_Email::tableName();
         $contact    = CRM_Contact_BAO_Contact::tableName();
         
         $query = 

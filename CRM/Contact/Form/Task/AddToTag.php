@@ -76,7 +76,7 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
         $tagId    = $this->controller->exportValue( 'AddToTag', 'tag_id'  );
         $this->_name   = $this->_tags[$tagId];
 
-        list( $total, $added, $notAdded ) = CRM_Contact_BAO_EntityTag::addContactsToTag( $this->_contactIds, $tagId );
+        list( $total, $added, $notAdded ) = CRM_Core_BAO_EntityTag::addContactsToTag( $this->_contactIds, $tagId );
         $status = array(
                         'Contact(s) tagged as: '       . $this->_name,
                         'Total Selected Contact(s): '  . $total

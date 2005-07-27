@@ -55,7 +55,7 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Contact_BAO_Tag';
+        return 'CRM_Core_BAO_Tag';
     }
 
 

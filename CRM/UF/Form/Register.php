@@ -155,14 +155,14 @@ class CRM_UF_Form_Register extends CRM_Core_Form
         CRM_Contact_BAO_Contact::add   ( $edit, $ids );
         CRM_Contact_BAO_Individual::add( $edit, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {
-            $address =& new CRM_Contact_BAO_Address();
+            $address =& new CRM_Core_BAO_Address();
             if ( ! $address->copyValues( $edit ) ) {
                 $address->id = CRM_Utils_Array::value( 'address', $ids );
                 $address->location_id = CRM_Utils_Array::value( 'location', $ids );
                 $address->save( );
             }
 
-            $phone =& new CRM_Contact_BAO_Phone();
+            $phone =& new CRM_Core_BAO_Phone();
             if ( ! $phone->copyValues( $edit ) ) {
                 $phone->id = CRM_Utils_Array::value( 'phone', $ids );
                 $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
@@ -170,7 +170,7 @@ class CRM_UF_Form_Register extends CRM_Core_Form
                 $phone->save( );
             }
 
-            $email =& new CRM_Contact_BAO_Email();
+            $email =& new CRM_Core_BAO_Email();
             if ( ! $email->copyValues( $edit ) ) {
                 $email->id = CRM_Utils_Array::value( 'email', $ids );
                 $email->location_id = CRM_Utils_Array::value( 'location', $ids );

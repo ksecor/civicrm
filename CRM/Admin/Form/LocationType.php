@@ -49,15 +49,15 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_LocationType', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_LocationType', $this->_id ) );
         
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
+        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_LocationType', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
         $this->add('checkbox', 'is_default', ts('Default?'));
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_LocationType', $this->_id, 'is_reserved' )) { 
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
         parent::buildQuickForm( );
@@ -78,7 +78,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
 
         // action is taken depending upon the mode
-        $locationType               =& new CRM_Contact_DAO_LocationType( );
+        $locationType               =& new CRM_Core_DAO_LocationType( );
         $locationType->domain_id    = CRM_Core_Config::domainID( );
         $locationType->name         = $params['name'];
         $locationType->description  = $params['description'];

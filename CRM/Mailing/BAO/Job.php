@@ -137,7 +137,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         $eq =& new CRM_Mailing_BAO_MailingEventQueue();
         $eqTable        = CRM_Mailing_BAO_MailingEventQueue::tableName();
-        $emailTable     = CRM_Contact_BAO_Email::tableName();
+        $emailTable     = CRM_Core_BAO_Email::tableName();
         $contactTable   = CRM_Contact_BAO_Contact::tableName();
         $edTable        = CRM_Mailing_BAO_MailingEventDelivered::tableName();
         $ebTable        = CRM_Mailing_BAO_MailingEventBounce::tableName();

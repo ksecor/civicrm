@@ -164,7 +164,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     $defaults['location'][$i+1] = array( );
                     //$defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     if ( $i == 0 ) {
-                        $defaultLocation =& new CRM_Contact_BAO_LocationType();
+                        $defaultLocation =& new CRM_Core_BAO_LocationType();
                         $locationType = $defaultLocation->getDefault();
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
                     } else {

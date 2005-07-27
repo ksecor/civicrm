@@ -63,7 +63,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // get categories for the contact id
-        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+        $entityTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
         
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
@@ -110,7 +110,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         $data = $this->exportValues();
 
         // get categories for the contact id
-        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+        $entityTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
 
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
@@ -139,10 +139,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
             
             if (array_key_exists($key, $contactTag) && !array_key_exists($key, $entityTag) ) {
                 // insert a new record
-                    CRM_Contact_BAO_EntityTag::add($params);
+                    CRM_Core_BAO_EntityTag::add($params);
             } else if (!array_key_exists($key, $contactTag) && array_key_exists($key, $entityTag) ) {
                 // delete a record for existing contact
-                CRM_Contact_BAO_EntityTag::del($params);
+                CRM_Core_BAO_EntityTag::del($params);
             }
         }
         

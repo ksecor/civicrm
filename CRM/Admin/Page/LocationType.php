@@ -54,7 +54,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Contact_BAO_LocationType';
+        return 'CRM_Core_BAO_LocationType';
     }
 
     /**
@@ -139,7 +139,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
         
         // get all custom groups sorted by weight
         $locationType = array();
-        $dao =& new CRM_Contact_DAO_LocationType();
+        $dao =& new CRM_Core_DAO_LocationType();
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );

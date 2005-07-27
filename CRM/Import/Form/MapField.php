@@ -194,7 +194,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
 
-        $defaultLocationType =& CRM_Contact_BAO_LocationType::getDefault();
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
 
         /* FIXME: dirty hack to make the default option show up first.  This
          * avoids a mozilla browser bug with defaults on dynamically constructed

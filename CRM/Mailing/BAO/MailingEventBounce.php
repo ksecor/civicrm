@@ -52,7 +52,7 @@ class CRM_Mailing_BAO_MailingEventBounce extends CRM_Mailing_DAO_MailingEventBou
         $bounceTable    = $bounce->tableName();
         $bounceType     = CRM_Mailing_DAO_BounceType::tableName();
         
-        $email  =& new CRM_Contact_BAO_Email();
+        $email  =& new CRM_Core_BAO_Email();
         $email->id = $bounce->email_id;
         $email->find(true);
         

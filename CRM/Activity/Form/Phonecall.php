@@ -74,8 +74,8 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
         $this->applyFilter('__ALL__', 'trim');
         $contactPhone[''] = ts('Select Phone Number');
-        if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
-            $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
+        if ( is_array(CRM_Core_BAO_Phone::getphoneNumber($this->_contactId))) {
+            $contactPhone = CRM_Core_BAO_Phone::getphoneNumber($this->_contactId);
         }
         
         $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'subject' ));

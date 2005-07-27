@@ -61,13 +61,13 @@ class CRM_Admin_Form_Tag extends CRM_Admin_Form
             $this->applyFilter('__ALL__', 'trim');
             
             $this->add('text', 'name'       , ts('Name')       ,
-                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Tag', 'name' ) );
+                       CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Tag', 'name' ) );
             $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
 
-            $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_Tag', $this->_id ) );
+            $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_Tag', $this->_id ) );
 
             $this->add('text', 'description', ts('Description'), 
-                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Tag', 'description' ) );
+                       CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Tag', 'description' ) );
             
             parent::buildQuickForm( ); 
         }
@@ -90,10 +90,10 @@ class CRM_Admin_Form_Tag extends CRM_Admin_Form
         
         if ($this->_action == CRM_Core_Action::DELETE) {
             if ($this->_id  > 0 ) {
-                CRM_Contact_BAO_Tag::del( $this->_id );
+                CRM_Core_BAO_Tag::del( $this->_id );
             }
         } else {
-            CRM_Contact_BAO_Tag::add($params, $ids);
+            CRM_Core_BAO_Tag::add($params, $ids);
         }        
         
     }//end of function
