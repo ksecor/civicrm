@@ -52,9 +52,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
-
-        /* TODO: add rules for required tokens
-         * (CRM_Utils_Token::requiredTokens()) */
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -66,6 +64,36 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+    }
+
+    public function postProcess() {
+        $textFile = $this->controller->exportValue($this->_name, 'textFile');
+        $htmlFile = $this->controller->exportValue($this->_name, 'htmlFile');
+
+        $this->set('textFile', $textFile);
+        $this->set('htmlFile', $htmlFile);
+
+    }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    static function dataRule(&$params) {
+        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
+            return true;
+        }
+        $errors = array();
+
+        foreach (array('textFile', 'htmlFile') as $file) {
+//             CRM_Core_Error::debug('params', $params);
+        }
+        return true;
     }
 
     /**
