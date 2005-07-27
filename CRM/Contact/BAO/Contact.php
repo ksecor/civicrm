@@ -1130,8 +1130,9 @@ WHERE  civicrm_contact.id = $id
         unset($params['id']);
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
-    
-        $contact->location     =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 3 );
+        $locParams = $params + array('entity_id' => $params['contact_id'],
+                'entity_table' => self::getTableName());
+        $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
