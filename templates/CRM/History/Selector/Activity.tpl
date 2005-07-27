@@ -7,7 +7,7 @@
         {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&reset=1&cid=$contactId"}{/capture}
         {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&reset=1&cid=$contactId"}{/capture}
         <div class="data-group">
-            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
+            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd></dl>
         </div>
     {/if}
 {else}
@@ -18,7 +18,7 @@
         {else}
             {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&reset=1&cid=$contactId"}{/capture}
             {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&reset=1&cid=$contactId"}{/capture}
-            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
+            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd></dl>
         {/if}
     </div>
     {if $totalCountActivity}
