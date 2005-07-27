@@ -91,7 +91,25 @@ class CRM_Utils_Token {
      */
     public static function &replaceDomainTokens($str, &$domain, $html = false)
     {
-        
+        if (strpos("{domain.address}", $str) !== false) {
+            /* Construct the address token */
+            $loc =& $domain->getLocationValues();
+            
+            $separator = $html ? '<br />' : "\n";
+
+            /** This should really go in BAO_Address **/
+            $value = $loc['address']['street_address'] . $separator;
+            foreach (array( 'supplemental_address_1', 
+                    'supplemental_address_2', 'supplemental_address_3') as
+                    $key) 
+            {
+                if (isset($loc['address'][$key])) {
+                    $value .= $loc['address'][$key] . $separator;
+                }
+            }
+
+            $value .= $loc['address']['city'] . ' ' . ;
+        }
         return $str;
     }
 

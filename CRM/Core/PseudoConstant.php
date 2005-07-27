@@ -222,14 +222,21 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
+     * @param int $id -  Optional id to return
      * @return array - array reference of all State/Provinces.
      *
      */
-    public static function &stateProvince()
+    public static function &stateProvince($id = false)
     {
         if (!self::$stateProvince) {
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true );
+        }
+        if ($id) {
+            if (array_key_exists(self::$stateProvince, $id)) {
+                return self::$stateProvince[$id];
+            } else {
+                return null;
+            }
         }
         return self::$stateProvince;
     }
@@ -241,14 +248,21 @@ class CRM_Core_PseudoConstant {
      *
      * @access public
      * @static
-     * @param none
+     * @param int $id  -     Optional id to return
      * @return array - array reference of all State/Province abbreviations.
      */
-    public static function &stateProvinceAbbreviation()
+    public static function &stateProvinceAbbreviation($id = false)
     {
         if (!self::$stateProvinceAbbreviation) {
             self::populate( self::$stateProvinceAbbreviation,
             'CRM_Core_DAO_StateProvince', true, 'abbreviation');
+        }
+        if ($id) {
+            if (array_key_exists(self::$stateProvince, $id)) {
+                return self::$stateProvinceAbbreviation[$id];
+            } else {
+                return null;
+            }
         }
         return self::$stateProvinceAbbreviation;
     }
@@ -266,14 +280,21 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
+     * @param int $id - Optional id to return
      * @return array - array reference of all countries.
      *
      */
-    public static function &country()
+    public static function &country($id = false)
     {
         if (!self::$country) {
             self::populate( self::$country, 'CRM_Core_DAO_Country', true );
+        }
+        if ($id) {
+            if (array_key_exists(self::$country, $id)) {
+                return self::$country[$id];
+            } else {
+                return null;
+            }
         }
         return self::$country;
     }
