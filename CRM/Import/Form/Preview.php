@@ -92,9 +92,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
-        $this->addRule('newGroupName', ts('Name already exists in Database.'),
-        'objectExists', array('CRM_Contact_DAO_Group', $this->_id));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
+        $this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
+        
         $groups =& $this->get('groups');
         
         $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
@@ -228,6 +228,42 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
             $this->set('errorFile', $errorFile);
         }
+    }
+
+
+    /**
+     * function for validation
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    static function newGroupRule( &$params ) {
+        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
+            return true;
+        }
+        
+        /* If we're not creating a new group, accept */
+        if (! $params['newGroup']) {
+            return true;
+        }
+
+        $errors = array();
+        
+        if ($params['newGroupName'] === '') {
+            $errors['newGroupName'] = ts( 'Please enter a name for the new group.');
+        } else {
+            if (! CRM_Utils_Rule::objectExists($params['newGroupName'],
+                    array('CRM_Contact_DAO_Group')))
+            {
+                $errors['newGroupName'] = ts( "Group '%1' already exists.",
+                        array( '1' => $params['newGroupName']));
+            }
+        }
+
+        return empty($errors) ? true : $errors;
     }
 }
 

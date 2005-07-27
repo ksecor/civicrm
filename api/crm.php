@@ -94,7 +94,7 @@ function crm_create_location(&$contact, $params) {
     $loc['location_type_id'] = $params['location_type_id'];
  
     $ids = array();
-    CRM_Contact_BAO_Location::add($values, $ids, null);
+    CRM_Core_BAO_Location::add($values, $ids, null);
     return $contact;
 }
 

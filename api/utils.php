@@ -346,7 +346,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     }
 
     if ( ! array_key_exists( 1, $contact->location ) || empty( $contact->location[1] ) ) {
-        $contact->location[1] =& new CRM_Contact_BAO_Location( );
+        $contact->location[1] =& new CRM_Core_BAO_Location( );
     }
     
     $primary_location = null;
@@ -375,12 +375,14 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
                 $contactLocationBlock = $emptyBlock;
             } else {
                 /* no matching blocks and no empty blocks, make a new one */
-                $contact->location[] =& new CRM_Contact_BAO_Location();
+                $contact->location[] =& new CRM_Core_BAO_Location();
                 $contactLocationBlock = count($contact->location);
             }
         }
         
-        $updateLocation['contact_id'] = $contact->id;
+        $updateLocation['entity_id'] = $contact->id;
+        $updateLocation['entity_table'] = 
+                CRM_Contact_BAO_Contact::getTableName();
         
         /* If we're not overwriting, copy old data back before updating */
         if (! $overwrite) {
@@ -397,7 +399,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         _crm_update_object( $contact->location[$contactLocationBlock], $updateLocation );
     
         if ( ! isset( $contact->location[$contactLocationBlock]->address ) ) {
-            $contact->location[$contactLocationBlock]->address =& new CRM_Contact_BAO_Address( );
+            $contact->location[$contactLocationBlock]->address =& new CRM_Core_BAO_Address( );
         }
         $updateLocation['address']['location_id'] = $contact->location[$contactLocationBlock]->id;
         
@@ -432,8 +434,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             foreach ($updateLocation[$name] as $property) {
                 
                 if (! isset($contact->location[$contactLocationBlock]->{$name}[$propertyBlock])) {
-                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
-                    eval( '$contact->location[$contactLocationBlock]->{$name}[$propertyBlock] =& new CRM_Contact_BAO_' . $block . '( );' );
+                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_BAO_" . $block) . ".php");
+                    eval( '$contact->location[$contactLocationBlock]->{$name}[$propertyBlock] =& new CRM_Core_BAO_' . $block . '( );' );
                 }
                 
                 $property['location_id'] = $contact->location[$contactLocationBlock]->id;
@@ -483,7 +485,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
                     } else {
                         $contactPhoneBlock = count($contact->location[$contactLocationBlock]->phone) + 1;
                     }
-                    $contact->location[$contactLocationBlock]->phone[$contactPhoneBlock] =& new CRM_Contact_BAO_Phone();
+                    $contact->location[$contactLocationBlock]->phone[$contactPhoneBlock] =& new CRM_Core_BAO_Phone();
                 }
     
                 $phone['location_id'] = $contact->location[$contactLocationBlock]->id;
