@@ -100,9 +100,9 @@ class CRM_Utils_Token {
                                 $value, $str);
         }
         
+        /* Construct the phone and email tokens */
         foreach (array('phone', 'email') as $key) {
             if (strpos("{domain.$key}", $str) !== false) {
-                /* Construct the phone token */
                 $value = null;
                 foreach ($loc[$key] as $index => $entity) {
                     if ($entity->is_primary) {
