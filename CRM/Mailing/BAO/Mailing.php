@@ -55,11 +55,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * The text content of the message
      */
     private $text = null;
-    
+
     /**
-     * Cache the outgoing email domain
+     * Cached BAO for the domain
      */
-    private $email_domain = null;
+    private $_domain = null;
+
 
     /**
      * class constructor
@@ -445,9 +446,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $event_queue_id = 'QUEUE';
             $hash = 'HASH';
         }
-    
-        $domain = $this->getDomain();
-        
+        if ($this->_domain == null) {
+            $this->_domain =& 
+                CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
+        }
+
         /**
          * Inbound VERP keys:
          *  reply:          user replied to mailing
@@ -464,7 +467,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             $event_queue_id,
                             $hash
                         )
-                    ) . "@$domain";
+                    ) . '@' . $this->_domain->email_domain;
         }
         $headers = array(
             'Subject'   => $this->subject,
@@ -474,8 +477,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         );
 
         if ($this->html == null || $this->text == null) {
-            /* TODO get the domain object */
-            $domain = null;
             $this->getHeaderFooter();
         
             $this->html = $this->header->body_html 
@@ -483,14 +484,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         . $this->footer->body_html;
             
             $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
-                            $domain, true);
+                            $this->_domain, true);
             
             $this->text = $this->header->body_text
                         . $this->body_text
                         . $this->footer->body_text;
             
             $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                            $domain, false);
+                            $this->_domain, false);
             
         }
 
@@ -542,26 +543,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $recipient = $contact['display_name'] . " <$email>";
         
         return $message;
-    }
-
-
-    /**
-     * Retrieve the outgoing email domain of this mailing
-     *
-     * @param void
-     * @return string   The email domain (pulled from civicrm_domain)
-     * @access public
-     */
-    public function getDomain() {
-        if ($this->email_domain != null) {
-            return $this->email_domain;
-        }
-
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->id = $this->domain_id;
-        $domain->find(true);
-        $this->email_domain = $domain->email_domain;
-        return $this->email_domain;
     }
 
 }

@@ -83,7 +83,7 @@ class CRM_Utils_Token {
      * Replace all the domain-level tokens in $str
      *
      * @param string $str       The string with tokens to be replaced
-     * @param array $domain     The domain
+     * @param object $domain    The domain BAO
      * @param boolean $html     Replace tokens with HTML or plain text
      * @return string           The processed string
      * @access public
