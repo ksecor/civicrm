@@ -5,6 +5,7 @@
 <xi:include href="Queue.xml"            parse="xml" />
 <xi:include href="Bounce.xml"           parse="xml" />
 <xi:include href="Delivered.xml"        parse="xml" />
+<xi:include href="Forward.xml"          parse="xml" />
 <xi:include href="Opened.xml"           parse="xml" />
 <xi:include href="Reply.xml"            parse="xml" />
 <xi:include href="Subscribe.xml"        parse="xml" />
