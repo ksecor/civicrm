@@ -223,12 +223,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
 
-                // enum display hack
-                if ( CRM_Utils_Array::value( 'contact_type_a', $values[$object->id] ) ) {
-                    $t = CRM_Core_SelectValues::contactType();
-                    $values[$object->id]['contact_type_a'] = $t[$values[$object->id]['contact_type_a']];
-                    $values[$object->id]['contact_type_b'] = $t[$values[$object->id]['contact_type_b']];
-                }
+                CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
 
                 // populate action links
                 self::action( $object, $action, $values[$object->id], $links, $permission );

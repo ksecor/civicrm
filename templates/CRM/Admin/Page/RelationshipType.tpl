@@ -25,8 +25,8 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td> {$row.name_a_b} </td>	
             <td> {$row.name_b_a} </td>	
-            <td> {$row.contact_type_a} </td>	
-            <td> {$row.contact_type_b} </td>	
+            <td> {$row.contact_type_a_display} </td>	
+            <td> {$row.contact_type_b_display} </td>	
             <td> {if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if} </td>	
             <td>{$row.action}</td>
         </tr>
