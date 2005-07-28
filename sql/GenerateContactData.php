@@ -1003,7 +1003,6 @@ class CRM_GCD {
             $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
-            $group->group_type = 'static';
             $group->is_active  = 1;
             $this->_insert($group);
         }

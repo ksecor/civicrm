@@ -28,7 +28,7 @@ class TestOfGetGroups extends UnitTestCase
     function testGetFilterdGroup()
     {
         $params = array('name'=>'summer');
-        $return_prop = array('name','title','group_type');
+        $return_prop = array('name','title');
         $groups = crm_get_groups($params,$return_prop);
         $this->assertNotA($group,'CRM_Core_Error');
         foreach($groups as  $group) {
@@ -42,7 +42,7 @@ class TestOfGetGroups extends UnitTestCase
     function testGetFilterdGroupGroupCount()
     {
        
-        $return_prop = array('name','title','group_type','member_count');
+        $return_prop = array('name','title','member_count');
         $groups = crm_get_groups($params);
         $this->assertNotA($group,'CRM_Core_Error');
         foreach($groups as  $group) {

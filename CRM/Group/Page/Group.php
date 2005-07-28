@@ -85,7 +85,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
             self::$_savedSearchLinks =
                 array(
                       CRM_Core_Action::VIEW   => array(
-                                                       'name'  => ts('Search'),
+                                                       'name'  => ts('Show Group Members'),
                                                        'url'   => 'civicrm/contact/search/advanced',
                                                        'qs'    => 'reset=1&force=1&ssID=%%ssid%%',
                                                        'title' => ts('Search')
@@ -159,7 +159,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         $object = new CRM_Contact_BAO_Group( );
         $object->domain_id = $config->domainID( );
         $object->is_active = 1;
-        $object->orderBy ( 'saved_search_id asc, title asc' );
+        $object->orderBy ( 'title asc' );
         $object->find();
 
         while ($object->fetch()) {
@@ -168,6 +168,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
+                    $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
                     $links =& $this->savedSearchLinks( );
                 } else {
                     $links =& $this->links( );

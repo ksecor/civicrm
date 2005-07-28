@@ -220,9 +220,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $select = 'SELECT civicrm_group.id, civicrm_group.title ';
         $from   = ' FROM civicrm_group, civicrm_group_contact ';
-        $where  = " WHERE civicrm_group.group_type='static'  AND civicrm_group.is_active = '1' ";
-        if ($contactId) {
-            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id AND civicrm_group_contact.contact_id = ".$contactId;
+        $where  = " WHERE civicrm_group.is_active = 1 ";
+        if ( $contactId ) {
+            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id AND civicrm_group_contact.contact_id = " . $contactId;
         }
 
         $orderby = " ORDER BY civicrm_group.name";

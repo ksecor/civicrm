@@ -45,13 +45,6 @@
        <comment>Optional verbose description of the group.</comment>
   </field>
   <field>
-      <name>group_type</name>
-      <type>enum</type>
-      <values>static, query</values>
-      <default>'static'</default>
-      <comment>Type of groups - 2 types are supported - static or query</comment>
-  </field>
-  <field>
        <name>source</name>
        <type>varchar</type>
        <length>64</length>
