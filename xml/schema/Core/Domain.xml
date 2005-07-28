@@ -33,6 +33,12 @@
     <unique>true</unique>
   </index>
   <field>
+    <name>contact_name</name>
+    <type>varchar</type>
+    <length>64</length>
+    <comment>Name of the person responsible for this domain</comment>
+  </field>
+  <field>
        <name>email_domain</name>
        <type>varchar</type>
        <length>64</length>
