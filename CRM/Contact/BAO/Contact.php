@@ -1504,6 +1504,10 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
             $values[$rowCnt]['targetName'] = $dao->targetName;
             $rowCnt++;
         }
+        foreach ($values as $key => $array) {
+            CRM_Core_DAO_Meeting::addDisplayEnums($values[$key]);
+            CRM_Core_DAO_Phonecall::addDisplayEnums($values[$key]);
+        }
         return $values;
 
     }

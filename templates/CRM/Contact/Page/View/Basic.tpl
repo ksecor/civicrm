@@ -143,7 +143,7 @@
             <td>{$row.sourceName}</td>
             <td>{$row.targetName}</td>
             <td>{$row.date|crmDate}</td>
-   	    	<td>{$row.status}</td>	
+   	    	<td>{$row.status_display}</td>	
         </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
