@@ -519,25 +519,21 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         // check for last name, as of now only working with sort name
         if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
             $name = trim($fv['sort_name']);
+            $sub  = array( );
             // if we have a comma in the string, search for the entire string
-            if ( strpos( $name, ',' ) !== false ) {
-                $cond = " LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
+            if ( strpos( $name, ',' ) === false ) {
+                $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )";
+                $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes($name)) . "%' )";
+                $tables['civicrm_location'] = 1;
+                $tables['civicrm_email']    = 1;
             } else {
                 // split the string into pieces
                 $pieces =  explode( ' ', $name );
-                $first = true;
-                $cond  = ' ( ';
                 foreach ( $pieces as $piece ) {
-                    if ( ! $first ) {
-                        $cond .= ' OR';
-                    } else {
-                        $first = false;
-                    }
-                    $cond .= " LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
+                    $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) ";
                 }
-                $cond .= ' ) ';
             }
-            $andArray['sort_name'] = "( $cond )";
+            $andArray['sort_name'] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
         }
 
         // sortByCharacter
@@ -568,7 +564,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         foreach ( $fields as $field => $value ) {
             if ( CRM_Utils_Array::value( $field, $fv ) ) {
                 $tables['civicrm_location'] = 1;
-                $tables['civicrm_address'] = 1;
+                $tables['civicrm_address']  = 1;
 
                 if ( $value == 1 ) {
                     $andArray[$field] = " ( LOWER(civicrm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
@@ -927,6 +923,9 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      */
     static function create(&$params, &$ids, $maxLocationBlocks)
     {
+        // we need a few ids resolved, so lets resolve the defaults
+        self::resolveDefaults( $params );
+
         CRM_Core_DAO::transaction('BEGIN');
         
         $contact = self::add($params, $ids);
@@ -1034,7 +1033,6 @@ WHERE  civicrm_contact.id = $id
      */
     static function resolveDefaults( &$defaults, $reverse = false ) {
         // hack for birth_date
-        
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
             $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );
         }
@@ -1042,8 +1040,6 @@ WHERE  civicrm_contact.id = $id
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 
-            // does not work for php4
-            //foreach ( $locations as $index => &$location ) {
             foreach ($locations as $index => $location) {                
                 $location =& $locations[$index];
                 self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
@@ -1095,8 +1091,6 @@ WHERE  civicrm_contact.id = $id
         if ( ! array_key_exists( $src, $defaults ) ) {
             return false;
         }
-
-//         CRM_Core_Error::debug('lookup',$lookup);
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
         
@@ -1529,9 +1523,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
      */
     function _crm_get_contact_id($params)
     {
-        //CRM_Core_Error::le_function();
-    //CRM_Core_Error::debug_var('params', $params);
-        
         if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
             //CRM_Core_Error::debug_log_message('$params must contain either email, phone or city to obtain contact id');
             //CRM_Core_Error::ll_function();

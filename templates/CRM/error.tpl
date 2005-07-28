@@ -22,6 +22,9 @@
 {if $code}
       <p>{ts}Error Code:{/ts} {$code}</p>
 {/if}
+{if $mysql_code}
+      <p>{ts}Database Error Code:{/ts} {$mysql_code}</p>
+{/if}
       <p><a href="{$config->mainMenu}" title="{ts}Main Menu{/ts}">{ts}Return to CiviCRM menu.{/ts}</a></p>
   </dd>
   </dl>

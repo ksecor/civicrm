@@ -92,13 +92,13 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * 
      * - View
      *
-     * @param $activityType string type of activity
+     * @param string $activityType type of activity
      *
      * @return array
      * @access public
      *
      */
-    static function &actionLinks($activityType) 
+    static function &actionLinks( $activityType ) 
     {
         $url = '';
         

@@ -123,14 +123,23 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         
         // create the error array
         $error = array();
-        $error['callback']   = $pearError->getCallback();
-        $error['code']       = $pearError->getCode();
-        $error['message']    = $pearError->getMessage();
-        $error['mode']       = $pearError->getMode();
-        $error['debug_info'] = $pearError->getDebugInfo();
-        $error['type']       = $pearError->getType();
-        $error['user_info']  = $pearError->getUserInfo();
-        $error['to_string']  = $pearError->toString();
+        $error['callback']    = $pearError->getCallback();
+        $error['code']        = $pearError->getCode();
+        $error['message']     = $pearError->getMessage();
+        $error['mode']        = $pearError->getMode();
+        $error['debug_info']  = $pearError->getDebugInfo();
+        $error['type']        = $pearError->getType();
+        $error['user_info']   = $pearError->getUserInfo();
+        $error['to_string']   = $pearError->toString();
+        if ( mysql_error( ) ) {
+            $mysql_error = mysql_error( ) . ', ' . mysql_errno( );
+            $template->assign_by_ref( 'mysql_code', $mysql_error );
+
+            // execute a dummy query to clear error stack
+            $query = 'select 1';
+            $dao = new CRM_Core_DAO( );
+            $dao->query( $query );
+        }
 
         $template->assign_by_ref('error', $error);
         

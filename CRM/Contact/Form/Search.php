@@ -306,7 +306,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
-        $this->add('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->add('text', 'sort_name', ts('Name or email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         $this->buildQuickFormCommon( );
     }

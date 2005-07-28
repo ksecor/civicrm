@@ -2155,7 +2155,6 @@ class DB_DataObject extends DB_DataObject_Overload
          
         $result = $DB->query($string);
         
-        
        
 
         if (is_a($result,'DB_Error')) {

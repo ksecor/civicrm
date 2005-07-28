@@ -61,6 +61,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address              =& new CRM_Core_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
+
+        // add latitude and longitude and format address if needed
+        CRM_Utils_Geocoder::format( $params['location'][$locationId]['address'] );
+
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
             $address->delete( );
@@ -79,6 +83,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         $address->county_id = $address->geo_coord_id = 1;
+
+
         return $address->save();
     }
 
@@ -163,17 +169,16 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @static
      */
     static function format(&$params, $separator = "\n") {
-        $formatted  = array( $params['street_address'] );
-        foreach (array(1,2,3) as $index) {
-            if (isset($params["supplemental_address_$index"])) {
-                $formatted[] = $params["supplemental_address_$index"];
+        static $elements = array( 'street_address', 'supplemental_address_1',
+                                  'supplemental_address_2', 'supplemental_address_3',
+                                  'city', 'state_province', 'postal_code' );
+
+        $formatted  = array( );
+        foreach ( $elements as $e ) {
+            if ( ! empty( $params[$e] ) && ( $params[$e] != 'null' ) ) {
+                $formatted[] = $params[$e];
             }
         }
-        $formatted[]    = $params['city'] 
-                        . ', ' . $params['state_province'] 
-                        . ' ' . $params['postal_code'];
-        $formatted[] = $params['country'];
-        
         return implode($separator, $formatted);
     }
 }

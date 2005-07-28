@@ -273,7 +273,6 @@ class CRM_Utils_System {
         }
 
         if ( $url ) {
-            // CRM_Core_Error::debug( 'pushing: ', $url );
             $session->pushUserContext( $url );
         }
     }

@@ -8,7 +8,7 @@
     </legend>
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
-     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
+     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>M
      <span class="horizontal-position">{$form.tag.label}{$form.tag.html}</span>
  </div>
  <div class="form-item">
@@ -18,7 +18,7 @@
      <span class="align-right">{$form.buttons.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
-        {ts}Complete OR partial contact name. To find individuals by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
+        {ts}Complete OR partial contact name OR email. To find individuals by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
         </span>
      </div>
 

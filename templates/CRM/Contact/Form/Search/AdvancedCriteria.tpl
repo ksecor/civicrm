@@ -12,7 +12,7 @@
             <td class="font-size12pt">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
-                  {ts}Complete OR partial contact name.{/ts}
+                  {ts}Complete OR partial contact name OR email.{/ts}
                 </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       
