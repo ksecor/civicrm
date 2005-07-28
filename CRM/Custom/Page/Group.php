@@ -222,6 +222,11 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             $customGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $dao->id));
         }
+        $customGroupExtends = CRM_Core_SelectValues::customGroupExtends();
+        foreach ($customGroup as $key => $array) {
+            CRM_Core_DAO_CustomGroup::addDisplayEnums($customGroup[$key]);
+            $customGroup[$key]['extends_display'] = $customGroupExtends[$customGroup[$key]['extends']];
+        }
         $this->assign('rows', $customGroup);
     }
 }

@@ -22,9 +22,9 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends}s{/if}</td>
+            <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
             <td>{$row.weight}</td>
-            <td>{$row.style}</td>
+            <td>{$row.style_display}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}
