@@ -662,7 +662,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     /**
      * Get the table name for the entity type
      * currently if entity type is 'Contact', 'Individual', 'Household', 'Organization'
-     * tableName is 'crm_contact'; 
+     * tableName is 'civicrm_contact'; 
      * 
      * @param string $entityType - what entity are we extending here ?
      *

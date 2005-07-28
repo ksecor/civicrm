@@ -206,7 +206,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $params = array('entity_table' => 'crm_contact', 'entity_id' => $this->_entityId);
+        $params = array('entity_table' => 'civicrm_contact', 'entity_id' => $this->_entityId);
         $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
 
         // does not work with php4

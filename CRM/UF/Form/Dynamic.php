@@ -243,7 +243,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                     $cv =& new CRM_Core_BAO_CustomValue();
                     $cv->custom_field_id = $cfID;
-                    $cv->entity_table = 'crm_contact';
+                    $cv->entity_table = 'civicrm_contact';
                     $cv->entity_id = $this->_id;
                     if ($cv->find(true)) {
                         $cf =& new CRM_Core_BAO_CustomField();

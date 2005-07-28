@@ -529,7 +529,7 @@ class CRM_Core_DAO extends DB_DataObject {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
 
-        $object->entity_table = 'crm_contact';
+        $object->entity_table = 'civicrm_contact';
         $object->entity_id   = $contactId;
         $object->delete( );
     }
