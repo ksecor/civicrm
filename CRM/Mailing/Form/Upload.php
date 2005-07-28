@@ -118,7 +118,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             
             /* Do a full token replacement on a dummy verp, the current contact
              * and domain. */
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
+//             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
 
