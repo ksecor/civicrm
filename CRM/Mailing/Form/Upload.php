@@ -52,7 +52,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'),
+        array(  'header' => $this->get('mailingHeader'), 
+                'footer' => $this->get('mailingFooter')));
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -99,11 +101,30 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         CRM_Contact_BAO_Contact::retrieve($values,$contact,$id);
         
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
-                        
+        
+        $header =& new CRM_Mailing_BAO_Component();
+        $header->id = $options['header'];
+        $header->find(true);
+        
+        $footer =& new CRM_Mailing_BAO_Component();
+        $footer->id = $options['footer'];
+        $footer->find(true);
+        
+        list($headerBody['htmlFile'],
+             $headerBody['textFile']) = 
+                    array($header->body_html, $header->body_text);
+
+        list($footerBody['htmlFile'],
+             $footerBody['textFile']) = 
+                    array($footer->body_html, $footer->body_text);
+
         foreach (array('textFile', 'htmlFile') as $file) {
             $str = file_get_contents($files[$file]['tmp_name']);
             $name = $files[$file]['name'];
             
+            /* append header/footer */
+            $str = $headerBody[$file] . $str . $footerBody[$file];
+
             $dataErrors = array();
             
             /* First look for missing tokens */
@@ -119,6 +140,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             /* Do a full token replacement on a dummy verp, the current contact
              * and domain. */
 //             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
+//             $str = CRM_Utils_Token::replaceMailingTokens($str, $domain);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
 

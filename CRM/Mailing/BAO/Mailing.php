@@ -485,6 +485,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
                             $this->_domain, true);
+            $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
+                            $this, true);
             
             $this->text = $this->header->body_text
                         . $this->body_text
@@ -493,6 +495,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
                             $this->_domain, false);
             
+            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
+                            $this, true);
         }
 
         
@@ -545,6 +549,33 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         return $message;
     }
 
+    /**
+     * Return a list of group names for this mailing.  Does not work with
+     * prior-mailing targets.
+     *
+     * @param none
+     * @return array        Names of groups receiving this mailing
+     * @access public
+     */
+    public function &getGroupNames() {
+        $mg =& new CRM_Mailing_DAO_MailingGroup();
+        $mgname = CRM_Mailing_DAO_MailingGroup::getTableName();
+        $group = CRM_Contact_BAO_Group::getTableName();
+
+        $mg->query("SELECT      $group.name as name FROM $mgtable 
+                    INNER JOIN  $group ON $mgtable.entity_id = $group.id
+                    WHERE       $mgtable.mailing_id = " . $this->id . "
+                        AND     $mgtable.entity_table = $group
+                        AND     $mgtable.group_type = 'Include'
+                    ORDER BY    $group.name");
+        $mg->find();
+
+        $groups = array();
+        while ($mg->fetch()) {
+            $groups[] = $mg->name;
+        }
+        return empty($groups) ? null : $groups;
+    }
 }
 
 ?>

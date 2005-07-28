@@ -89,6 +89,15 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
                            );
     }
 
+    public function postProcess() {
+        $header = $this->controller->exportValue($this->_name, 'mailingHeader');
+        $footer = $this->controller->exportValue($this->_name, 'mailingFooter');
+
+        $this->set('mailingHeader', $header);
+        $this->set('mailingFooter', $footer);
+
+    }
+
     /**
      * Display Name of the form
      *

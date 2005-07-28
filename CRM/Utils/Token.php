@@ -101,14 +101,15 @@ class CRM_Utils_Token {
      * @param string $type      The token type
      * @param string $var       The token variable
      * @param string $value     The value to substitute for the token
-     * @param string $str       The string to replace in
+     * @param string (reference) $str       The string to replace in
      * @return string           The processed string
      * @access public
      * @static
      */
-    public static function &token_replace($type, $var, $value, $str) {
+    public static function &token_replace($type, $var, $value, &$str) {
         $token = preg_quote('{' . "$type.$var" . '}');
-        return preg_replace("/([^\{])?$token/", "$1$value", $str);
+        $str = preg_replace("/([^\{])?$token/", "$1$value", $str);
+        return $str;
     }
     
     /**
@@ -128,7 +129,7 @@ class CRM_Utils_Token {
             /* Construct the address token */
             $value = CRM_Core_BAO_Address::format(  $loc['address'], 
                                                     ($html ? '<br />' : "\n"));
-            $str = self::token_replace('domain', 'address', $value, $str);
+            self::token_replace('domain', 'address', $value, $str);
         }
         
         /* Construct the phone and email tokens */
@@ -141,7 +142,7 @@ class CRM_Utils_Token {
                         break;
                     }
                 }
-                $str = self::token_replace('domain', $key, $value, $str);
+                self::token_replace('domain', $key, $value, $str);
             }
         }
         return $str;
@@ -158,7 +159,14 @@ class CRM_Utils_Token {
      * @static
      */
      public static function &replaceMailingTokens($str, &$mailing, $html = false) {
-
+        if (self::token_match('mailing', 'name', $str)) {
+            self::token_replace('mailing', 'name', $mailing->name, $str);
+        }
+        if (self::token_match('mailing', 'group', $str)) {
+            $groups = $mailing->getGroupNames();
+            $value = implode(', ', $groups);
+            self::token_replace('mailing', 'group', $value, $str);
+        }
         return $str;
      }
 
@@ -187,7 +195,7 @@ class CRM_Utils_Token {
                     $value = "mailto:$value";
                 }
             }
-            $str = self::token_replace('action', $token, $value, $str);
+            self::token_replace('action', $token, $value, $str);
         }
         return $str;
     }
@@ -237,7 +245,7 @@ class CRM_Utils_Token {
             }
             
             if ($value) {
-                $str = self::token_replace('contact', $token, $value, $str);
+                self::token_replace('contact', $token, $value, $str);
             }
         }
 
