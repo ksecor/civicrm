@@ -387,7 +387,12 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
         
         self::$_template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        self::$_template->assign_by_ref( 'rows'         , $this->_store->get( 'rows' )          );
+        $rows = $this->_store->get('rows');
+        foreach ($rows as $key => $array) {
+            CRM_Core_DAO_Meeting::addDisplayEnums($rows[$key]);
+            CRM_Core_DAO_Phonecall::addDisplayEnums($rows[$key]);
+        }
+        self::$_template->assign_by_ref( 'rows'         , $rows                                 );
         self::$_template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
         self::$_template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
 

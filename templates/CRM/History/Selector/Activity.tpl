@@ -72,7 +72,7 @@
              <td>{$row.sourceName}</td>
              <td>{$row.targetName}</td>
              <td>{$row.date|crmDate}</td>
-             <td>{$row.status}</td>
+             <td>{$row.status_display}</td>
              <td>{$row.action}</td>
            </tr>
         {/if}
@@ -83,8 +83,8 @@
 
     {include file="CRM/pager.tpl" location="bottom"}
     </form>
-  </fieldset>
 {/if}
+</fieldset>
 
 {if $history NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
