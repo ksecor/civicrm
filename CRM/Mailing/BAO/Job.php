@@ -171,7 +171,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
+            
+            PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                    array('CRM_Mailing_BAO_Mailing', 
+                                    'catchSMTP'));
             $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
             
             if (is_a($result, PEAR_Error)) {
                 /* Register the bounce event */

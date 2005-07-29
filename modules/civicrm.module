@@ -184,7 +184,7 @@ function civicrm_init()
     drupal_set_html_head(civicrm_html_head());
 
     // set error handling
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
+    CRM_Core_Error::setCallback();
 
     if(arg(0) == 'civicrm') {
         // this is just for ease of use. once the code is solid, we no longer need this

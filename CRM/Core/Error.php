@@ -104,6 +104,19 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $this->setDefaultCallback(array($this, 'handlePES'));
     }
 
+    /**
+     * (Re)set the default callback method
+     *
+     * @param none
+     * @return void
+     * @access publiic
+     * @static
+     */
+    public static function setCallback() {
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK, 
+                                array('CRM_Core_Error', 'handle'));
+    }
+
 
     /**
      * create the main callback method. this method centralizes error processing.

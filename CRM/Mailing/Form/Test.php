@@ -48,41 +48,63 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
                         'name'  => ts('Cancel') )
                 )
             );
+        $values = array(
+            'textFile'  => $this->get('textFile'),
+            'htmlFile'  => $this->get('htmlFile'),
+            'header'    => $this->get('mailingHeader'),
+            'footer'    => $this->get('mailingFooter'),
+            'name'      => $this->get('mailing_name'),
+        );
+        
+        $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
+        $session    =& CRM_Core_Session::singleton();
+        $email = $session->get('ufEmail');
+        $this->assign('email', $email);
     }
 
-    public function postProcess() {
+    public function &testMail($params, &$files, &$options) {
         $session    =& CRM_Core_Session::singleton();
         $contactId  = $session->get('userID');
         $email      = $session->get('ufEmail');
         
-        $textFile   = $this->get('textFile');
-        $htmlFile   = $this->get('htmlFile');
-        $header     = $this->get('mailingHeader');
-        $footer     = $this->get('mailingFooter');
-        
         /* Create a new mailing object for test purposes only */
         $mailing    =& new CRM_Mailing_BAO_Mailing();
         $mailing->domain_id = $session->get('domainID');
-        $mailing->header_id = $header;
-        $mailing->footer_id = $footer;
-        $mailing->name = 'Test mailing';
-        $mailing->from_name = 'Tester';
+        $mailing->header_id = $options['header'];
+        $mailing->footer_id = $options['footer'];
+        $mailing->name = $options['name'];
+        $mailing->from_name = ts('CiviCRM Test Mailer');
         $mailing->from_email = $email;
         $mailing->replyTo_email = $email;
-        $mailing->subject = 'Test Mailing';
+        $mailing->subject = ts('Test Mailing: ') . $options['name'];
 
-        $mailing->body_html = file_get_contents($htmlFile);
-        $mailing->body_text = file_get_contents($textFile);
+        $mailing->body_html = file_get_contents($options['htmlFile']);
+        $mailing->body_text = file_get_contents($options['textFile']);
         
         $mime =& $mailing->compose(null, null, null, 
                                     $contactId, $email, $recipient, true);
-        $mailer =& Mail::factory('smtp', array('host' => 'FIXME.ORG'));
+
+//      FIXME:  Get the smtp server out of config
+        $mailer =& Mail::factory('smtp', array('host' => 'localhost'));
 
         $body = $mime->get();
         $headers = $mime->headers();
+        
+        
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         $result = $mailer->send($recipient, $headers, $body);
-    
-        CRM_Core_Error::debug('result', $result);
+        CRM_Core_Error::setCallback();
+        
+        if ($result === true) {
+            return true;
+        }
+        
+        $errors = array( 
+            '_qf_default' => 
+            ts('The test mailing could not be delivered due to the following error:<br /> <tt>%1</tt>', array('1' => $result->getMessage()))
+        );
+        return $errors;
     }
 
     /**

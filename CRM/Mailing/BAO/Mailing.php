@@ -577,6 +577,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         return $groups;
     }
+
+    public static function catchSMTP($obj) {
+        return $obj;
+    }
 }
 
 ?>
