@@ -76,13 +76,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return array            Tuples of Contact IDs and Email IDs
      */
     function &getRecipients($job_id) {
-        $mailingGroup =& new CRM_Mailing_DAO_MailingGroup();
+        $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_DAO_Mailing::getTableName();
-        $mg         = CRM_Mailing_DAO_MailingGroup::getTableName();
-        $eq         = CRM_Mailing_DAO_MailingEventQueue::getTableName();
-        $ed         = CRM_Mailing_DAO_MailingEventDelivered::getTableName();
-        $eb         = CRM_Mailing_DAO_MailingEventBounce::getTableName();
+        $mg         = CRM_Mailing_DAO_Group::getTableName();
+        $eq         = CRM_Mailing_Event_DAO_Queue::getTableName();
+        $ed         = CRM_Mailing_Event_DAO_Delivered::getTableName();
+        $eb         = CRM_Mailing_Event_DAO_Bounce::getTableName();
         $job        = CRM_Mailing_DAO_Job::getTableName();
         
         $email      = CRM_Core_DAO_Email::getTableName();
@@ -367,10 +367,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function retryRecipients($job_id) {
-        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
+        $eq =& new CRM_Mailing_Event_BAO_Queue();
         $job        = CRM_Mailing_BAO_Job::getTableName();
-        $queue      = CRM_Mailing_BAO_MailingEventQueue::getTableName();
-        $bounce     = CRM_Mailing_BAO_MailingEventBounce::getTableName();
+        $queue      = CRM_Mailing_Event_BAO_Queue::getTableName();
+        $bounce     = CRM_Mailing_Event_BAO_Bounce::getTableName();
         $email      = CRM_Core_BAO_Email::getTableName();
         $contact    = CRM_Contact_BAO_Contact::getTableName();
         

@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_Mailing_BAO_MailingEventDelivered extends CRM_Mailing_DAO_MailingEventDelivered {
+class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
 
     /**
      * class constructor
@@ -45,7 +45,7 @@ class CRM_Mailing_BAO_MailingEventDelivered extends CRM_Mailing_DAO_MailingEvent
      * Create a new delivery event
      */
     static function &create(&$params) {
-        $delivered =& new CRM_Mailing_BAO_MailingEventDelivered();
+        $delivered =& new CRM_Mailing_Event_BAO_Delivered();
         $delivered->copyValues($params);
         $delivered->save();
     }

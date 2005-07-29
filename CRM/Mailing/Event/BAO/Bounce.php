@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_Mailing_BAO_MailingEventQueue extends CRM_Mailing_DAO_MailingEventQueue {
+class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
 
     /**
      * class constructor
@@ -40,35 +40,47 @@ class CRM_Mailing_BAO_MailingEventQueue extends CRM_Mailing_DAO_MailingEventQueu
         parent::__construct( );
     }
 
-    /**
-     * Queue a new recipient
-     *
-     * @param array     The values of the new EventQueue
-     * @return object   The new EventQueue
-     * @access public
-     * @static
-     */
-    public static function &create(&$params) {
-        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
-        $eq->copyValues($params);
-        $eq->hash = self::hash($params);
-        $eq->save();
-    }
 
     /**
-     * Create a security hash from the job, email and contact ids
-     *
-     * @param array     The ids to be hashed
-     * @return int      The hash
-     * @access public
-     * @static
+     * Create a new bounce event, update the email address if necessary
      */
-    public static function hash($params) {
-        $jobId      = $params['job_id'];
-        $emailId    = $params['email_id'];
-        $contactId  = $params['contact_id'];
+    static function &create(&$params) {
+        $bounce =& new CRM_Mailing_Event_BAO_Bounce();
+        $bounce->copyValues($params);
+        $bounce->save();
 
-        return sha1($jobId . $emailId . $contactId);
+        $bounceTable    = $bounce->getTableName();
+        $bounceType     = CRM_Mailing_DAO_BounceType::getTableName();
+        
+        $email  =& new CRM_Core_BAO_Email();
+        $email->id = $bounce->email_id;
+        $email->find(true);
+        
+        $bounce->reset();
+        $query =
+                "SELECT         count(id) as bounces,
+                                $bounceType.hold_threshold as threshold
+                FROM            $bounceTable
+                INNER JOIN      $bounceType
+                        ON      $bounceTable.bounce_type_id = $bounceType.id
+                WHERE
+                                $bounceTable.email_id = " . $email->id . "
+                GROUP BY        $bounceTable.bounce_type_id";
+                                
+        if (isset($email->reset_date)) {
+            $query .= " AND $bounceTable.time_stamp > " . $email->reset_date;
+        }
+        $bounce->query($query);
+        $bounce->find();
+
+        while ($bounce->fetch()) {
+            if ($bounce->bounces >= $bounce->threshold) {
+                $email->bounce_hold = 1;
+                $email->hold_date = date('Ymd');
+                $email->save();
+                break;
+            }
+        }
     }
 }
 

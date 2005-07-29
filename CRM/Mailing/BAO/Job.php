@@ -118,7 +118,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 'email_id'      => $recipient['email_id'],
                 'contact_id'    => $recipient['contact_id']
             );
-            CRM_Mailing_BAO_MailingEventQueue::create($params);
+            CRM_Mailing_Event_BAO_Queue::create($params);
         }
     }
 
@@ -135,12 +135,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $mailing->id = $this->mailing_id;
         $mailing->find(true);
 
-        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
-        $eqTable        = CRM_Mailing_BAO_MailingEventQueue::getTableName();
+        $eq =& new CRM_Mailing_Event_BAO_Queue();
+        $eqTable        = CRM_Mailing_Event_BAO_Queue::getTableName();
         $emailTable     = CRM_Core_BAO_Email::getTableName();
         $contactTable   = CRM_Contact_BAO_Contact::getTableName();
-        $edTable        = CRM_Mailing_BAO_MailingEventDelivered::getTableName();
-        $ebTable        = CRM_Mailing_BAO_MailingEventBounce::getTableName();
+        $edTable        = CRM_Mailing_Event_BAO_Delivered::getTableName();
+        $ebTable        = CRM_Mailing_Event_BAO_Bounce::getTableName();
         
         $query = "  SELECT      $eqTable.id,
                                 $emailTable.email as email,
@@ -172,6 +172,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
             
+            return;
+            
             PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                     array('CRM_Mailing_BAO_Mailing', 
                                     'catchSMTP'));
@@ -184,11 +186,11 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                     CRM_Mailing_BAO_BouncePattern::match($result->getMessage());
                 $params['event_queue_id'] = $eq->id;
                 
-                CRM_Mailing_BAO_MailingEventBounce::create($params);
+                CRM_Mailing_Event_BAO_Bounce::create($params);
             } else {
                 /* Register the delivery event */
                 $params = array('event_queue_id' => $eq->id);
-                CRM_Mailing_BAO_MailingEventDelivered::create($params);
+                CRM_Mailing_Event_BAO_Delivered::create($params);
             }
         }
     }

@@ -46,6 +46,9 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
+        CRM_Mailing_BAO_Job::runJobs();
+        exit();
+
 
         //Setting Upload File Size
         $config =& new CRM_Core_Config();
