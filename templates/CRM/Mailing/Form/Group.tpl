@@ -14,9 +14,6 @@
 <tr><td>{$form.mailingType.$index.html}</td><td>{$form.mailing.$index.html}</td></tr>
 {/section}
 </table>
-
-    <dt>{$form.mailingHeader.label}</dt><dd>{$form.mailingHeader.html}</dd>
-    <dt>{$form.mailingFooter.label}</dt><dd>{$form.mailingFooter.html}</dd>
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>

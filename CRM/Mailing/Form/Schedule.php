@@ -36,6 +36,61 @@
  */
 class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
 
+    public function buildQuickform() {
+        $this->addElement('date', 'start_date', ts('Start Date'),
+            CRM_Core_SelectValues::date('mailing'));
+        $this->addElement('checkbox', 'now', ts('Send Immediately'));
+        
+        $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'));
+        
+        $this->addButtons(  array(
+                                array(  'type'  => 'back',
+                                        'name'  => ts('<< Previous')),
+                                array(  'type'  => 'next',
+                                        'name'  => ts('Done'),
+                                        'isDefault' => true),
+                                array(  'type'  => 'Cancel',
+                                        'name'  => ts('Cancel')),
+                            )
+                        );
+    }
+
+    public static function &formRule(&$params) {
+        /* TODO: make this check for dates before now() */
+        if ($params['now']) {
+            return true;
+        } elseif (CRM_Utils_Rule::qfDate($params['start_date'])) {
+            return array('start_date' => ts('Start date is not valid.'));
+        } else
+            return true;
+    }
+
+
+    public function postProcess() {
+        $params = array();
+        foreach (array( 
+                    'template', 'mailing_name',
+                    'groups', 'mailings', 'header_id', 'footer_id',
+                    'textFile', 'htmlFile', 'subject',
+                    'from_name', 'from_email', 'forward_reply', 'track_urls',
+                    'track_opens'
+                ) as $parameter) 
+        {
+            $params[$parameter] = $this->get($parameter);
+        }
+        foreach(array('now', 'start_date') as $parameter) {
+            $params[$parameter] = $this->controller->exportValue($this->_name,
+            $parameter);
+        }
+        
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id'] = $session->get('domainID');
+        $params['contact_id'] = $session->get('userID');
+        
+        /* Build the mailing object */
+        CRM_Mailing_BAO_Mailing::create($params);
+    }
+
     /**
      * Display Name of the form
      *

@@ -581,6 +581,63 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public static function catchSMTP($obj) {
         return $obj;
     }
+
+    public static function create(&$params) {
+        CRM_Core_DAO::transaction('BEGIN');
+        $mailing =& new CRM_Mailing_BAO_Mailing();       
+
+        $mailing->domain_id     = $params['domain_id'];
+        $mailing->header_id     = $params['header_id'];
+        $mailing->footer_id     = $params['footer_id'];
+        $mailing->name          = $params['mailing_name'];
+        $mailing->from_name     = $params['from_name'];
+        $mailing->from_email    = $params['from_email'];
+        if (! isset($params['replyto_email'])) {
+            $mailing->replyto_email = $params['from_email'];
+        } else  {
+            $mailing->replyto_email = $params['replyto_email'];
+        }
+        $mailing->subject       = $params['subject'];
+        $mailing->body_text     = file_get_contents($params['textFile']);
+        $mailing->body_html     = file_get_contents($params['htmlFile']);
+        $mailing->is_template   = $params['template'];
+        $mailing->is_completed  = false;
+        $mailing->save();
+
+        /* Create the job record */
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $mailing->id;
+        $job->status = 'Scheduled';
+        $job->is_retry = false;
+        if ($params['now']) {
+            $job->scheduled_date = date('Ymd H:i:s');
+        } else {
+            $job->scheduled_date =
+                CRM_Utils_Date::format($params['start_date']);
+        }
+        $job->save();
+        
+        /* Create the mailing group record */
+        $mg =& new CRM_Mailing_DAO_Group();
+        foreach (array('groups', 'mailings') as $entity) {
+            foreach (array('include', 'exclude') as $type) {
+                if (is_array($params[$entity][$type])) {
+                    foreach ($params[$entity][$type] as $entityId) {
+                        $mg->reset();
+                        $mg->mailing_id = $mailing->id;
+                        $mg->entity_table   = ($entity == 'groups') 
+                                            ? CRM_Contact_BAO_Group::getTableName()
+                                            : CRM_Mailing_BAO_Mailing::getTableName();
+                        $mg->entity_id = $entityId;
+                        $mg->group_type = $type;
+                        $mg->save();
+                    }
+                }
+            }
+        }
+        CRM_Core_DAO::transaction('COMMIT');
+        return $mailing;
+    }
 }
 
 ?>

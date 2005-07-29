@@ -37,9 +37,13 @@
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
     public function buildQuickForm() {
+        $this->add('checkbox', 'test', ts('Send a test mailing?'));
+        $defaults['test'] = true;
+        $this->setDefaults($defaults);
+
         $this->addButtons(
             array(
-                array(  'type'  => 'prev',
+                array(  'type'  => 'back',
                         'name'  => '<< Previous'),
                 array(  'type'  => 'next',
                         'name'  => ts('Next >>'),
@@ -51,8 +55,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $values = array(
             'textFile'  => $this->get('textFile'),
             'htmlFile'  => $this->get('htmlFile'),
-            'header'    => $this->get('mailingHeader'),
-            'footer'    => $this->get('mailingFooter'),
+            'header'    => $this->get('header_id'),
+            'footer'    => $this->get('footer_id'),
             'name'      => $this->get('mailing_name'),
         );
         
@@ -63,6 +67,11 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
     }
 
     public function &testMail($params, &$files, &$options) {
+        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
+            ! $params['test']) 
+        {
+            return true;
+        }
         $session    =& CRM_Core_Session::singleton();
         $contactId  = $session->get('userID');
         $email      = $session->get('ufEmail');
@@ -70,13 +79,14 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         /* Create a new mailing object for test purposes only */
         $mailing    =& new CRM_Mailing_BAO_Mailing();
         $mailing->domain_id = $session->get('domainID');
-        $mailing->header_id = $options['header'];
-        $mailing->footer_id = $options['footer'];
+        $mailing->header_id = $options['header_id'];
+        $mailing->footer_id = $options['footer_id'];
         $mailing->name = $options['name'];
-        $mailing->from_name = ts('CiviCRM Test Mailer');
-        $mailing->from_email = $email;
+        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array(1 =>
+        $params['from_name']));
+        $mailing->from_email = $params['from_email'];
         $mailing->replyTo_email = $email;
-        $mailing->subject = ts('Test Mailing: ') . $options['name'];
+        $mailing->subject = ts('Test Mailing: ') . $params['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
         $mailing->body_text = file_get_contents($options['textFile']);

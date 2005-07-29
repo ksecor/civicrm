@@ -334,6 +334,11 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'custom') {
             $minOffset = 100;
             $maxOffset = 20;
+        } elseif ($type == 'mailing') {
+            $minOffset = 0;
+            $maxOffset = 1;
+            $newDate['format'] = 'Y m d H i';
+            $newDate['optionIncrement']['i'] = 15;
         } elseif ($type == 'datetime') {
             $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
             $newDate['optionIncrement']['i'] = 15;

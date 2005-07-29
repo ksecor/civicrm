@@ -66,20 +66,17 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             $this->add( 'select', "group[$i]"      , null, $group       );
             $this->add( 'select', "groupType[$i]"  , null, $groupType   );
         }
-        $this->assign( 'groupCount', $groupCount );
+        $this->assign(  'groupCount', $groupCount );
         
         for ( $i = 1; $i <= $mailingCount; $i++ ) {
             $this->add( 'select', "mailing[$i]"    , null, $mailing     );
             $this->add( 'select', "mailingType[$i]", null, $mailingType );
         }
-        $this->assign( 'mailingCount', $mailingCount );
-
-        $this->add( 'select', 'mailingHeader', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
-        $this->add( 'select', 'mailingFooter', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+        $this->assign(  'mailingCount', $mailingCount );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('Previous <<') ),
+                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
@@ -90,12 +87,34 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
     }
 
     public function postProcess() {
-        $header = $this->controller->exportValue($this->_name, 'mailingHeader');
-        $footer = $this->controller->exportValue($this->_name, 'mailingFooter');
 
-        $this->set('mailingHeader', $header);
-        $this->set('mailingFooter', $footer);
+        $selectGroupTypes = $this->controller->exportValue($this->_name, 'groupType');
+        $selectGroups = $this->controller->exportValue($this->_name, 'group');
+        
+        $groups = array();
+        
+        if (is_array($selectGroups)) {
+            foreach ($selectGroups as $key => $id) {
+                if ($id) {
+                    $groups[$selectGroupTypes[$key]][] = $id;
+                }
+            }
+        }
 
+        $selectMailingTypes = $this->controller->exportValue($this->_name, 'mailingType');
+        $selectMailings = $this->controller->exportValue($this->_name, 'mailing');
+        
+        $mailings = array();
+        if (is_array($selectMailings)) {
+            foreach ($selectMailings as $key => $id) {
+                if ($id) {
+                    $mailings[$selectGroupTypes[$key]][] = $id;
+                }
+            }
+        }
+        
+        $this->set('mailings', $mailings);
+        $this->set('groups', $groups);
     }
 
     /**

@@ -43,6 +43,24 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
+        $session =& CRM_Core_Session::singleton();
+        
+        $this->add('text', 'from_name', ts('From name'));
+        $this->add('text', 'from_email', ts('From Email'));
+        $defaults['from_email'] = $session->get('ufEmail');
+        
+        $this->add('checkbox', 'forward_reply', ts('Forward replies?'));
+        $defaults['forward_reply'] = true;
+        
+        $this->add('checkbox', 'track_urls', ts('Track URLs?'));
+        $defaults['track_urls'] = true;
+        
+        $this->add('checkbox', 'track_opens', ts('Track Opens?'));
+        $defaults['track_opens'] = true;
+        
+        $this->addElement('text', 'subject', ts('Mailing subject'), 'size=30 maxlength=60');
+        $defaults['subject'] = $this->get('mailing_name');
+        
         $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -52,13 +70,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'),
-        array(  'header' => $this->get('mailingHeader'), 
-                'footer' => $this->get('mailingFooter')));
+        
+        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
+        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+
+
+        
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('Previous <<') ),
+                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
@@ -66,15 +88,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+
+        $this->setDefaults($defaults);
     }
 
     public function postProcess() {
-        $textFile = $this->controller->exportValue($this->_name, 'textFile');
-        $htmlFile = $this->controller->exportValue($this->_name, 'htmlFile');
-
-        $this->set('textFile', $textFile);
-        $this->set('htmlFile', $htmlFile);
-
+        foreach (array( 'from_name', 'from_email','subject', 
+                        'forward_reply', 'track_urls', 'track_opens',
+                        'header_id', 'footer_id', 'textFile', 'htmlFile') as $key) {
+            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        }
     }
 
     /**
@@ -104,11 +127,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
         
         $header =& new CRM_Mailing_BAO_Component();
-        $header->id = $options['header'];
+        $header->id = $params['header_id'];
         $header->find(true);
         
         $footer =& new CRM_Mailing_BAO_Component();
-        $footer->id = $options['footer'];
+        $footer->id = $options['footer_id'];
         $footer->find(true);
         
         list($headerBody['htmlFile'],
