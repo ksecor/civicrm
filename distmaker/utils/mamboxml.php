@@ -12,8 +12,9 @@ if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_ENV']['DM_GENFILESDIR'];
 } else {
     // backward compatibility
-    $targetDir = $GLOBALS['_ENV']['HOME'] . '/svn/crm';
+    $targetDir = $GLOBALS['_ENV']['HOME'] . '/com_civicrm/civicrm';
 }
+$targetDirLength = strlen( $targetDir );
 
 require_once "$sourceCheckoutDir/modules/config.inc.php";
 require_once 'Smarty/Smarty.class.php';
@@ -21,8 +22,8 @@ require_once 'Smarty/Smarty.class.php';
 $path = array( 'CRM', 'api', 'bin', 'css', 'gmaps', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
 $files = array( 'license.txt' => 1 );
 foreach ( $path as $v ) {
-    $rootDir = "$sourceCheckoutDir/$v";
-    walkDirectory( new DirectoryIterator( $rootDir ), $files, $sourceCheckoutDirLength );
+    $rootDir = "$targetDir/$v";
+    walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );
 }
 generateMamboConfig( $files );
 
@@ -41,7 +42,7 @@ function createDir( $dir, $perm = 0755 ) {
 }
 
 function generateMamboConfig( &$files ) {
-    global $sourceCheckoutDir;
+    global $targetDir, $sourceCheckoutDir;
 
     $smarty =& new Smarty( );
     $smarty->template_dir = $sourceCheckoutDir . '/xml/templates';
@@ -51,7 +52,7 @@ function generateMamboConfig( &$files ) {
     $smarty->assign( 'files', array_keys( $files ) );
     $xml = $smarty->fetch( 'mambo.tpl' );
 
-    $output = $sourceCheckoutDir . '/mambo/civicrm.xml';
+    $output = $targetDir . '/mambo/civicrm.xml';
     $fd = fopen( $output, "w" );
     fputs( $fd, $xml );
     fclose( $fd );
@@ -67,7 +68,6 @@ function walkDirectory( $iter, &$files, $length ) {
              $node->isReadable( ) &&
              ! $node->isDot( )    &&
              $name != '.svn' ) {
-            $files[ substr( $path, $length + 1 ) . '/' ] = 1;
             walkDirectory(new DirectoryIterator( $path ), $files, $length);
         } else if ( $node->isFile( ) ) {
             if ( substr( $name, -1, 1 ) != '~' && substr( $name, 0, 1 ) != '#' ) {
