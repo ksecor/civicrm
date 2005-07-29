@@ -1,6 +1,11 @@
 <?
 function com_install() {
-global $database;
+    global $database;
+
+    require_once 'civicrm.php';
+
+    civicrm_main( );
+}
 
 # Show installation result to user
 ?>
