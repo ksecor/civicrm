@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>06/07/2005</creationDate>
-  <author>Amy Hoy and Donald Lobo</author>
+  <creationDate>07/28/2005</creationDate>
+  <author>Amy Hoy, Donald Lobo and Ryan Ozimek</author>
   <copyright>(C) Copyright 2005 by PICnet, Inc., and  Social Source Foundation</copyright>
-  <authorEmail>amy@picnet.net</authorEmail>
+  <authorEmail>ryan@picnet.net</authorEmail>
   <authorUrl>www.picnet.net</authorUrl>
-  <version>1.0</version>
+  <version>1.1</version>
   <description>CiviCRM</description>
   <files>
   </files>
@@ -18,8 +18,8 @@
       <queries>
       </queries>
   </uninstall>
-  <installfile>install.civicrm.php</installfile>
-  <uninstallfile>uninstall.civicrm.php</uninstallfile>
+  <installfile><filename>install.civicrm.php</filename></installfile>
+  <uninstallfile><filename>uninstall.civicrm.php</filename></uninstallfile>
   <administration>
     <menu>CiviCRM</menu>
                 <submenu>
@@ -30,8 +30,12 @@
                 </submenu>
     <files>
       <filename>admin.civicrm.php</filename>
+      <filename>toolbar.civicrm.php</filename>
+      <filename>install.civicrm.php</filename>
+      <filename>uninstall.civicrm.php</filename>
       <filename>config.main.php</filename>
       <filename>config.inc.php</filename>
+      <filename>setup.php</filename>
       <filename>civicrm/license.txt</filename>
       <filename>civicrm/CRM/Activity/</filename>
       <filename>civicrm/CRM/Activity/Form/</filename>
@@ -52,48 +56,41 @@
       <filename>civicrm/CRM/Admin/Page/MobileProvider.php</filename>
       <filename>civicrm/CRM/Admin/Page/RelationshipType.php</filename>
       <filename>civicrm/CRM/Admin/Page/Tag.php</filename>
+      <filename>civicrm/CRM/Commerce/</filename>
+      <filename>civicrm/CRM/Commerce/Donation/</filename>
+      <filename>civicrm/CRM/Commerce/Donation/DAO/</filename>
+      <filename>civicrm/CRM/Commerce/Donation/DAO/DonationPage.php</filename>
+      <filename>civicrm/CRM/Commerce/Donation/Form/</filename>
+      <filename>civicrm/CRM/Commerce/Donation/Form/DonationPage.php</filename>
+      <filename>civicrm/CRM/Commerce/Donation/Page/</filename>
+      <filename>civicrm/CRM/Commerce/Donation/Page/DonationPage.php</filename>
       <filename>civicrm/CRM/Contact/</filename>
       <filename>civicrm/CRM/Contact/BAO/</filename>
-      <filename>civicrm/CRM/Contact/BAO/Address.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Base.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/Block.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Contact.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/Email.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/EntityTag.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Group.php</filename>
       <filename>civicrm/CRM/Contact/BAO/GroupContact.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Household.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/IM.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Individual.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/Location.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/LocationType.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Organization.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/Phone.php</filename>
       <filename>civicrm/CRM/Contact/BAO/Relationship.php</filename>
       <filename>civicrm/CRM/Contact/BAO/RelationshipType.php</filename>
       <filename>civicrm/CRM/Contact/BAO/SavedSearch.php</filename>
-      <filename>civicrm/CRM/Contact/BAO/Tag.php</filename>
+      <filename>civicrm/CRM/Contact/BAO/SubscriptionHistory.php</filename>
       <filename>civicrm/CRM/Contact/Controller/</filename>
       <filename>civicrm/CRM/Contact/Controller/Search.php</filename>
       <filename>civicrm/CRM/Contact/DAO/</filename>
-      <filename>civicrm/CRM/Contact/DAO/Address.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Contact.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/Email.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/EntityTag.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Factory.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Group.php</filename>
       <filename>civicrm/CRM/Contact/DAO/GroupContact.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Household.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/IM.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Individual.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/Location.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/LocationType.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Organization.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/Phone.php</filename>
       <filename>civicrm/CRM/Contact/DAO/Relationship.php</filename>
       <filename>civicrm/CRM/Contact/DAO/RelationshipType.php</filename>
       <filename>civicrm/CRM/Contact/DAO/SavedSearch.php</filename>
-      <filename>civicrm/CRM/Contact/DAO/Tag.php</filename>
+      <filename>civicrm/CRM/Contact/DAO/SubscriptionHistory.php</filename>
       <filename>civicrm/CRM/Contact/Form/</filename>
       <filename>civicrm/CRM/Contact/Form/Address.php</filename>
       <filename>civicrm/CRM/Contact/Form/CustomData.php</filename>
@@ -126,12 +123,14 @@
       <filename>civicrm/CRM/Contact/Form/Task/SaveSearch/Update.php</filename>
       <filename>civicrm/CRM/Contact/Form/Task/SaveSearch.php</filename>
       <filename>civicrm/CRM/Contact/Form/Task.php</filename>
+      <filename>civicrm/CRM/Contact/Form/Test.php</filename>
       <filename>civicrm/CRM/Contact/Import/</filename>
       <filename>civicrm/CRM/Contact/Import/Base.php</filename>
       <filename>civicrm/CRM/Contact/Import/Summary.php</filename>
       <filename>civicrm/CRM/Contact/Import.php</filename>
       <filename>civicrm/CRM/Contact/Page/</filename>
       <filename>civicrm/CRM/Contact/Page/SavedSearch.php</filename>
+      <filename>civicrm/CRM/Contact/Page/StateCountryServer.php</filename>
       <filename>civicrm/CRM/Contact/Page/Task.php</filename>
       <filename>civicrm/CRM/Contact/Page/View/</filename>
       <filename>civicrm/CRM/Contact/Page/View/Activity.php</filename>
@@ -148,23 +147,35 @@
       <filename>civicrm/CRM/Contact/Selector/Activity.php</filename>
       <filename>civicrm/CRM/Contact/Selector/Controller.php</filename>
       <filename>civicrm/CRM/Contact/Selector.php</filename>
+      <filename>civicrm/CRM/Contact/Server/</filename>
+      <filename>civicrm/CRM/Contact/Server/StateCountryServer.php</filename>
       <filename>civicrm/CRM/Contact/StateMachine/</filename>
       <filename>civicrm/CRM/Contact/StateMachine/Search.php</filename>
       <filename>civicrm/CRM/Contact/Task.php</filename>
       <filename>civicrm/CRM/Core/</filename>
       <filename>civicrm/CRM/Core/Action.php</filename>
       <filename>civicrm/CRM/Core/BAO/</filename>
+      <filename>civicrm/CRM/Core/BAO/Address.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Block.php</filename>
       <filename>civicrm/CRM/Core/BAO/CustomField.php</filename>
       <filename>civicrm/CRM/Core/BAO/CustomGroup.php</filename>
       <filename>civicrm/CRM/Core/BAO/CustomOption.php</filename>
       <filename>civicrm/CRM/Core/BAO/CustomValue.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Domain.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Email.php</filename>
       <filename>civicrm/CRM/Core/BAO/EmailHistory.php</filename>
+      <filename>civicrm/CRM/Core/BAO/EntityTag.php</filename>
       <filename>civicrm/CRM/Core/BAO/History.php</filename>
+      <filename>civicrm/CRM/Core/BAO/IM.php</filename>
       <filename>civicrm/CRM/Core/BAO/IMProvider.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Location.php</filename>
+      <filename>civicrm/CRM/Core/BAO/LocationType.php</filename>
       <filename>civicrm/CRM/Core/BAO/Meeting.php</filename>
       <filename>civicrm/CRM/Core/BAO/MobileProvider.php</filename>
       <filename>civicrm/CRM/Core/BAO/Note.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Phone.php</filename>
       <filename>civicrm/CRM/Core/BAO/Phonecall.php</filename>
+      <filename>civicrm/CRM/Core/BAO/Tag.php</filename>
       <filename>civicrm/CRM/Core/BAO/UFField.php</filename>
       <filename>civicrm/CRM/Core/BAO/UFGroup.php</filename>
       <filename>civicrm/CRM/Core/BAO/UFMatch.php</filename>
@@ -176,6 +187,7 @@
       <filename>civicrm/CRM/Core/Controller.php</filename>
       <filename>civicrm/CRM/Core/DAO/</filename>
       <filename>civicrm/CRM/Core/DAO/ActivityHistory.php</filename>
+      <filename>civicrm/CRM/Core/DAO/Address.php</filename>
       <filename>civicrm/CRM/Core/DAO/Country.php</filename>
       <filename>civicrm/CRM/Core/DAO/County.php</filename>
       <filename>civicrm/CRM/Core/DAO/CustomField.php</filename>
@@ -183,15 +195,24 @@
       <filename>civicrm/CRM/Core/DAO/CustomOption.php</filename>
       <filename>civicrm/CRM/Core/DAO/CustomValue.php</filename>
       <filename>civicrm/CRM/Core/DAO/Domain.php</filename>
+      <filename>civicrm/CRM/Core/DAO/Email.php</filename>
       <filename>civicrm/CRM/Core/DAO/EmailHistory.php</filename>
+      <filename>civicrm/CRM/Core/DAO/EntityTag.php</filename>
       <filename>civicrm/CRM/Core/DAO/Factory.php</filename>
       <filename>civicrm/CRM/Core/DAO/GeoCoord.php</filename>
+      <filename>civicrm/CRM/Core/DAO/IM.php</filename>
+      <filename>civicrm/CRM/Core/DAO/ImportMapping.php</filename>
+      <filename>civicrm/CRM/Core/DAO/ImportMappingField.php</filename>
       <filename>civicrm/CRM/Core/DAO/IMProvider.php</filename>
+      <filename>civicrm/CRM/Core/DAO/Location.php</filename>
+      <filename>civicrm/CRM/Core/DAO/LocationType.php</filename>
       <filename>civicrm/CRM/Core/DAO/Meeting.php</filename>
       <filename>civicrm/CRM/Core/DAO/MobileProvider.php</filename>
       <filename>civicrm/CRM/Core/DAO/Note.php</filename>
+      <filename>civicrm/CRM/Core/DAO/Phone.php</filename>
       <filename>civicrm/CRM/Core/DAO/Phonecall.php</filename>
       <filename>civicrm/CRM/Core/DAO/StateProvince.php</filename>
+      <filename>civicrm/CRM/Core/DAO/Tag.php</filename>
       <filename>civicrm/CRM/Core/DAO/UFField.php</filename>
       <filename>civicrm/CRM/Core/DAO/UFGroup.php</filename>
       <filename>civicrm/CRM/Core/DAO/UFMatch.php</filename>
@@ -286,10 +307,19 @@
       <filename>civicrm/CRM/Import/StateMachine.php</filename>
       <filename>civicrm/CRM/Mailing/</filename>
       <filename>civicrm/CRM/Mailing/BAO/</filename>
+      <filename>civicrm/CRM/Mailing/BAO/BouncePattern.php</filename>
       <filename>civicrm/CRM/Mailing/BAO/Component.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/Job.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/Mailing.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/MailingEventBounce.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/MailingEventDelivered.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/MailingEventQueue.php</filename>
+      <filename>civicrm/CRM/Mailing/BAO/MailingTrackableUrl.php</filename>
       <filename>civicrm/CRM/Mailing/Controller/</filename>
       <filename>civicrm/CRM/Mailing/Controller/Send.php</filename>
       <filename>civicrm/CRM/Mailing/DAO/</filename>
+      <filename>civicrm/CRM/Mailing/DAO/BouncePattern.php</filename>
+      <filename>civicrm/CRM/Mailing/DAO/BounceType.php</filename>
       <filename>civicrm/CRM/Mailing/DAO/Component.php</filename>
       <filename>civicrm/CRM/Mailing/DAO/Group.php</filename>
       <filename>civicrm/CRM/Mailing/DAO/Job.php</filename>
@@ -298,9 +328,13 @@
       <filename>civicrm/CRM/Mailing/Event/</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/Bounce.php</filename>
+      <filename>civicrm/CRM/Mailing/Event/DAO/Confirm.php</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/Delivered.php</filename>
+      <filename>civicrm/CRM/Mailing/Event/DAO/Forward.php</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/Opened.php</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/Queue.php</filename>
+      <filename>civicrm/CRM/Mailing/Event/DAO/Reply.php</filename>
+      <filename>civicrm/CRM/Mailing/Event/DAO/Subscribe.php</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/TrackableURLOpen.php</filename>
       <filename>civicrm/CRM/Mailing/Event/DAO/Unsubscribe.php</filename>
       <filename>civicrm/CRM/Mailing/Form/</filename>
@@ -334,6 +368,7 @@
       <filename>civicrm/CRM/Utils/Array.php</filename>
       <filename>civicrm/CRM/Utils/Date.php</filename>
       <filename>civicrm/CRM/Utils/File.php</filename>
+      <filename>civicrm/CRM/Utils/Geocoder.php</filename>
       <filename>civicrm/CRM/Utils/Menu.php</filename>
       <filename>civicrm/CRM/Utils/Pager.php</filename>
       <filename>civicrm/CRM/Utils/PagerAToZ.php</filename>
@@ -346,19 +381,23 @@
       <filename>civicrm/CRM/Utils/System/Drupal.php</filename>
       <filename>civicrm/CRM/Utils/System/Mambo.php</filename>
       <filename>civicrm/CRM/Utils/System.php</filename>
+      <filename>civicrm/CRM/Utils/Token.php</filename>
       <filename>civicrm/CRM/Utils/Type.php</filename>
+      <filename>civicrm/CRM/Utils/Verp.php</filename>
       <filename>civicrm/CRM/Utils/Wrapper.php</filename>
       <filename>civicrm/api/Contact.php</filename>
       <filename>civicrm/api/crm.php</filename>
       <filename>civicrm/api/CustomGroup.php</filename>
+      <filename>civicrm/api/Group.php</filename>
       <filename>civicrm/api/History.php</filename>
       <filename>civicrm/api/utils.php</filename>
       <filename>civicrm/bin/createdoc.sh</filename>
+      <filename>civicrm/bin/DrupalUsers.php</filename>
       <filename>civicrm/bin/extractor.php</filename>
       <filename>civicrm/bin/php-extractor.php</filename>
       <filename>civicrm/bin/replace.sh</filename>
+      <filename>civicrm/bin/runStressTest.sh.txt</filename>
       <filename>civicrm/bin/setup.bat</filename>
-      <filename>civicrm/bin/setup.php4.sh</filename>
       <filename>civicrm/bin/setup.php4.sh.txt</filename>
       <filename>civicrm/bin/setup.sh</filename>
       <filename>civicrm/bin/setup.sh.txt</filename>
@@ -393,6 +432,13 @@
       <filename>civicrm/js/HOUSE.js</filename>
       <filename>civicrm/js/Individual.js</filename>
       <filename>civicrm/js/ORG.js</filename>
+      <filename>civicrm/js/Test.js</filename>
+      <filename>civicrm/l10n/es_ES/</filename>
+      <filename>civicrm/l10n/es_ES/LC_MESSAGES/</filename>
+      <filename>civicrm/l10n/es_ES/LC_MESSAGES/civicrm.mo</filename>
+      <filename>civicrm/l10n/es_ES/LC_MESSAGES/civicrm.po</filename>
+      <filename>civicrm/l10n/es_ES/LC_MESSAGES/drupal-civicrm.mo</filename>
+      <filename>civicrm/l10n/es_ES/LC_MESSAGES/drupal-civicrm.po</filename>
       <filename>civicrm/l10n/pl_PL/</filename>
       <filename>civicrm/l10n/pl_PL/LC_MESSAGES/</filename>
       <filename>civicrm/l10n/pl_PL/LC_MESSAGES/civicrm.mo</filename>
@@ -403,7 +449,14 @@
       <filename>civicrm/l10n/pot/LC_MESSAGES/</filename>
       <filename>civicrm/l10n/pot/LC_MESSAGES/civicrm.pot</filename>
       <filename>civicrm/l10n/pot/LC_MESSAGES/drupal-civicrm.pot</filename>
+      <filename>civicrm/l10n/pt_BR/</filename>
+      <filename>civicrm/l10n/pt_BR/LC_MESSAGES/</filename>
+      <filename>civicrm/l10n/pt_BR/LC_MESSAGES/civicrm.mo</filename>
+      <filename>civicrm/l10n/pt_BR/LC_MESSAGES/civicrm.po</filename>
+      <filename>civicrm/l10n/pt_BR/LC_MESSAGES/drupal-civicrm.mo</filename>
+      <filename>civicrm/l10n/pt_BR/LC_MESSAGES/drupal-civicrm.po</filename>
       <filename>civicrm/sql/ContactData.csv</filename>
+      <filename>civicrm/sql/Contacts.mysql40.sql</filename>
       <filename>civicrm/sql/Contacts.sql</filename>
       <filename>civicrm/sql/Contacts.sql.DO_NOT_DELETE</filename>
       <filename>civicrm/sql/CreateDB.sql</filename>
@@ -440,6 +493,12 @@
       <filename>civicrm/templates/CRM/Block/Search.tpl</filename>
       <filename>civicrm/templates/CRM/Block/Shortcuts.tpl</filename>
       <filename>civicrm/templates/CRM/Block/Subject.tpl</filename>
+      <filename>civicrm/templates/CRM/Commerce/</filename>
+      <filename>civicrm/templates/CRM/Commerce/Donation/</filename>
+      <filename>civicrm/templates/CRM/Commerce/Donation/Form/</filename>
+      <filename>civicrm/templates/CRM/Commerce/Donation/Form/DonationPage.tpl</filename>
+      <filename>civicrm/templates/CRM/Commerce/Donation/Page/</filename>
+      <filename>civicrm/templates/CRM/Commerce/Donation/Page/DonationPage.tpl</filename>
       <filename>civicrm/templates/CRM/common/</filename>
       <filename>civicrm/templates/CRM/common/drupal.tpl</filename>
       <filename>civicrm/templates/CRM/common/form_element.tpl</filename>
@@ -487,6 +546,7 @@
       <filename>civicrm/templates/CRM/Contact/Form/Task/SaveSearch/Update.tpl</filename>
       <filename>civicrm/templates/CRM/Contact/Form/Task/SaveSearch.tpl</filename>
       <filename>civicrm/templates/CRM/Contact/Form/Task.tpl</filename>
+      <filename>civicrm/templates/CRM/Contact/Form/Test.tpl</filename>
       <filename>civicrm/templates/CRM/Contact/Page/</filename>
       <filename>civicrm/templates/CRM/Contact/Page/SavedSearch.tpl</filename>
       <filename>civicrm/templates/CRM/Contact/Page/View/</filename>
@@ -570,9 +630,10 @@
       <filename>civicrm/mambo/admin.civicrm.php</filename>
       <filename>civicrm/mambo/civicrm.xml</filename>
       <filename>civicrm/mambo/config.inc.php</filename>
+      <filename>civicrm/mambo/config.inc.php.sample</filename>
       <filename>civicrm/mambo/config.main.php</filename>
-      <filename>civicrm/mambo/config.user.php</filename>
       <filename>civicrm/mambo/install.civicrm.php</filename>
+      <filename>civicrm/mambo/setup.php</filename>
       <filename>civicrm/mambo/toolbar.civicrm.php</filename>
       <filename>civicrm/mambo/uninstall.civicrm.php</filename>
       <filename>civicrm/packages/Archive/</filename>
@@ -675,6 +736,49 @@
       <filename>civicrm/packages/HTML/QuickForm/textarea.php</filename>
       <filename>civicrm/packages/HTML/QuickForm/xbutton.php</filename>
       <filename>civicrm/packages/HTML/QuickForm.php</filename>
+      <filename>civicrm/packages/JPSpan/</filename>
+      <filename>civicrm/packages/JPSpan/CodeWriter.php</filename>
+      <filename>civicrm/packages/JPSpan/ErrorHandler.php</filename>
+      <filename>civicrm/packages/JPSpan/errors/</filename>
+      <filename>civicrm/packages/JPSpan/errors/errors.en.ini</filename>
+      <filename>civicrm/packages/JPSpan/Generator.php</filename>
+      <filename>civicrm/packages/JPSpan/Handle.php</filename>
+      <filename>civicrm/packages/JPSpan/Include.php</filename>
+      <filename>civicrm/packages/JPSpan/js/</filename>
+      <filename>civicrm/packages/JPSpan/js/encode/</filename>
+      <filename>civicrm/packages/JPSpan/js/encode/php.js</filename>
+      <filename>civicrm/packages/JPSpan/js/encode/xml.js</filename>
+      <filename>civicrm/packages/JPSpan/js/httpclient.js</filename>
+      <filename>civicrm/packages/JPSpan/js/remoteobject.js</filename>
+      <filename>civicrm/packages/JPSpan/js/request/</filename>
+      <filename>civicrm/packages/JPSpan/js/request/get.js</filename>
+      <filename>civicrm/packages/JPSpan/js/request/post.js</filename>
+      <filename>civicrm/packages/JPSpan/js/request/rawpost.js</filename>
+      <filename>civicrm/packages/JPSpan/js/request.js</filename>
+      <filename>civicrm/packages/JPSpan/js/serialize.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/</filename>
+      <filename>civicrm/packages/JPSpan/js/util/data.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/errorreader.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/mock.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/mockxmlhttp.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/pseudoxmlhttp.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/typeof.js</filename>
+      <filename>civicrm/packages/JPSpan/js/util/utf8.js</filename>
+      <filename>civicrm/packages/JPSpan/Lexer.php</filename>
+      <filename>civicrm/packages/JPSpan/Listener.php</filename>
+      <filename>civicrm/packages/JPSpan/Monitor.php</filename>
+      <filename>civicrm/packages/JPSpan/RequestData.php</filename>
+      <filename>civicrm/packages/JPSpan/Script.php</filename>
+      <filename>civicrm/packages/JPSpan/Serializer.php</filename>
+      <filename>civicrm/packages/JPSpan/Server/</filename>
+      <filename>civicrm/packages/JPSpan/Server/PostOffice.php</filename>
+      <filename>civicrm/packages/JPSpan/Server.php</filename>
+      <filename>civicrm/packages/JPSpan/Types.php</filename>
+      <filename>civicrm/packages/JPSpan/Unserializer/</filename>
+      <filename>civicrm/packages/JPSpan/Unserializer/PHP.php</filename>
+      <filename>civicrm/packages/JPSpan/Unserializer/XML.php</filename>
+      <filename>civicrm/packages/JPSpan/Unserializer.php</filename>
+      <filename>civicrm/packages/JPSpan.php</filename>
       <filename>civicrm/packages/Log/</filename>
       <filename>civicrm/packages/Log/composite.php</filename>
       <filename>civicrm/packages/Log/console.php</filename>
@@ -693,6 +797,9 @@
       <filename>civicrm/packages/Log.php</filename>
       <filename>civicrm/packages/Mail/</filename>
       <filename>civicrm/packages/Mail/mail.php</filename>
+      <filename>civicrm/packages/Mail/mime.php</filename>
+      <filename>civicrm/packages/Mail/mimeDecode.php</filename>
+      <filename>civicrm/packages/Mail/mimePart.php</filename>
       <filename>civicrm/packages/Mail/null.php</filename>
       <filename>civicrm/packages/Mail/RFC822.php</filename>
       <filename>civicrm/packages/Mail/sendmail.php</filename>
@@ -969,6 +1076,11 @@
       <filename>civicrm/packages/Validate/US.php</filename>
       <filename>civicrm/packages/Validate.php</filename>
       <filename>civicrm/packages/VERSIONS</filename>
+      <filename>civicrm/packages/XML/</filename>
+      <filename>civicrm/packages/XML/RPC/</filename>
+      <filename>civicrm/packages/XML/RPC/Dump.php</filename>
+      <filename>civicrm/packages/XML/RPC/Server.php</filename>
+      <filename>civicrm/packages/XML/RPC.php</filename>
     </files>
   </administration>
 </mosinstall>

@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>06/07/2005</creationDate>
-  <author>Amy Hoy and Donald Lobo</author>
+  <creationDate>07/28/2005</creationDate>
+  <author>Amy Hoy, Donald Lobo and Ryan Ozimek</author>
   <copyright>(C) Copyright 2005 by PICnet, Inc., and  Social Source Foundation</copyright>
-  <authorEmail>amy@picnet.net</authorEmail>
+  <authorEmail>ryan@picnet.net</authorEmail>
   <authorUrl>www.picnet.net</authorUrl>
-  <version>1.0</version>
+  <version>1.1</version>
   <description>CiviCRM</description>
   <files>
   </files>
@@ -18,8 +18,8 @@
       <queries>
       </queries>
   </uninstall>
-  <installfile>install.civicrm.php</installfile>
-  <uninstallfile>uninstall.civicrm.php</uninstallfile>
+  <installfile><filename>install.civicrm.php</filename></installfile>
+  <uninstallfile><filename>uninstall.civicrm.php</filename></uninstallfile>
   <administration>
     <menu>CiviCRM</menu>
                 <submenu>
@@ -30,6 +30,9 @@
                 </submenu>
     <files>
       <filename>admin.civicrm.php</filename>
+      <filename>toolbar.civicrm.php</filename>
+      <filename>install.civicrm.php</filename>
+      <filename>uninstall.civicrm.php</filename>
       <filename>config.main.php</filename>
       <filename>config.inc.php</filename>
       <filename>setup.php</filename>

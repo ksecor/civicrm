@@ -39,9 +39,7 @@ if ( ! defined( 'JPSPAN' ) ) {
     define( JPSPAN, $user_home . DIRECTORY_SEPARATOR . packages . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
 
-define( 'CRM_CLEANURL', 0 );
-define( 'CRM_TEMPLATE_COMPILEDIR', '/tmp/civicrm.mambo' );
-define( 'CRM_UPLOAD_DIR'         , '/tmp/civicrm.mambo' );
-define( 'CRM_DOMAIN_ID'           , 1         );
+define( 'CRM_CLEANURL' , 0 );
+define( 'CRM_DOMAIN_ID', 1 );
 
 ?>

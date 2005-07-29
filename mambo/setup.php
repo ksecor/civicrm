@@ -16,11 +16,27 @@ $comPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
            'com_civicrm'            ;
 $crmPath = $comPath . DIRECTORY_SEPARATOR . 'civicrm';
 
-global $httpBase, $resourceBase, $mainMenu;
+global $httpBase, $resourceBase, $mainMenu, $compileDir, $uploadDir;
+
 $pieces = parse_url( $mosConfig_live_site );
 $httpBase     = $pieces['path'] . '/administrator/';
 $resourceBase = $httpBase . 'components/com_civicrm/civicrm/';
 $mainMenu     = $httpBase . 'index2.php?option=com_civicrm';
+
+$scratchDir   = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
+if ( ! is_dir( $scratchDir ) ) {
+    mkdir( $scratchDir, 0777 );
+}
+  
+$compileDir        = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c';
+if ( ! is_dir( $compileDir ) ) {
+    mkdir( $compileDir, 0777 );
+}
+
+$uploadDir         = $scratchDir . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
+if ( ! is_dir( $uploadDir ) ) {
+    mkdir( $uploadDir, 0777 );
+}
 
 ini_set( 'include_path',
          '.:' . $crmPath . ':' .
@@ -66,7 +82,7 @@ function sourceFile( &$db, $fileName ) {
 }
 
 function generateConfigString( ) {
-    global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn;
+    global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir;
 
     $str = "
 <?php
@@ -83,6 +99,9 @@ define( 'CRM_MAINMENU'    , '$mainMenu' );
 define( 'CRM_DSN'         , '$dsn' );
 
 define( 'CRM_MYSQL_VERSION', 4.0 );
+
+define( 'CRM_TEMPLATE_COMPILEDIR', '$compileDir' );
+define( 'CRM_UPLOAD_DIR'         , '$uploadDir'  );
 
 define( 'CRM_USERFRAMEWORK'       , 'Mambo' );
 define( 'CRM_USERFRAMEWORK_URLVAR', 'task'  );
