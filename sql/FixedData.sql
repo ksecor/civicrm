@@ -347,7 +347,8 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 #
 # insert some data for domain, reserved location_types, and reserved relationship_types
 #
-INSERT INTO civicrm_domain( name ) VALUES ( 'CRM Test Domain' );
+INSERT INTO civicrm_domain( name, contact_name, email_domain ) 
+    VALUES ( 'CRM Test Domain', 'Mr System Administrator', 'FIXME.ORG' );
 
 INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Home', 'Place of residence', 1, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active, is_default ) VALUES( 1, 'Work', 'Work location', 1, 1, 1 );

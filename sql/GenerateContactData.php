@@ -522,18 +522,33 @@ class CRM_GCD {
 
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
+        /* Add a location for domain 1 */
+        $this->_addLocation(self::MAIN, 1, true);
 
         $domain =& new CRM_Core_DAO_Domain();
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";
             $domain->description = "Description $id";
-            
+            $domain->contact_name = $this->randomName();
+            $domain->email_domain = 
+                $this->_getRandomElement($this->emailDomain) . ".fixme";
+
             // insert domain
             $this->_insert($domain);
+            $this->_addLocation(self::MAIN, $id, true);
         }
     }
+    
+    public function randomName() {
+        $prefix = $this->_getRandomElement($this->prefix);
+        $first_name = ucfirst($this->_getRandomElement($this->firstName));
+        $middle_name = ucfirst($this->_getRandomChar());
+        $last_name = ucfirst($this->_getRandomElement($this->lastName));
+        $suffix = $this->_getRandomElement($this->suffix);
 
+        return "$prefix $first_name $middle_name $last_name $suffix";
+    }
     /*******************************************************
      *
      * addContact()
@@ -813,7 +828,7 @@ class CRM_GCD {
         // CRM_Core_Error::ll_method();
     }
 
-    private function _addLocation($locationType, $contactId)
+    private function _addLocation($locationType, $contactId, $domain = false)
     {
 
         // CRM_Core_Error::le_method();
@@ -822,8 +837,13 @@ class CRM_GCD {
 
         $locationDAO->is_primary = 1; // primary location for now
         $locationDAO->location_type_id = $locationType;
-        $locationDAO->entity_id    = $contactId;
-        $locationDAO->entity_table = 'civicrm_contact';
+        if ($domain) {
+            $locationDAO->entity_id = $contactId;
+            $locationDAO->entity_table = 'civicrm_domain';
+        } else {
+            $locationDAO->entity_id    = $contactId;
+            $locationDAO->entity_table = 'civicrm_contact';
+        }
 
         $this->_insert($locationDAO);
         $this->_addAddress($locationDAO->id);        
