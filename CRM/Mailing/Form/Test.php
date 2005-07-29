@@ -51,10 +51,38 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
     }
 
     public function postProcess() {
-        $textFile = $this->get('textFile');
-        $htmlFile = $this->get('htmlFile');
+        $session    =& CRM_Core_Session::singleton();
+        $contactId  = $session->get('userID');
+        $email      = $session->get('ufEmail');
+        
+        $textFile   = $this->get('textFile');
+        $htmlFile   = $this->get('htmlFile');
+        $header     = $this->get('mailingHeader');
+        $footer     = $this->get('mailingFooter');
+        
+        /* Create a new mailing object for test purposes only */
+        $mailing    =& new CRM_Mailing_BAO_Mailing();
+        $mailing->domain_id = $session->get('domainID');
+        $mailing->header_id = $header;
+        $mailing->footer_id = $footer;
+        $mailing->name = 'Test mailing';
+        $mailing->from_name = 'Tester';
+        $mailing->from_email = $email;
+        $mailing->replyTo_email = $email;
+        $mailing->subject = 'Test Mailing';
 
+        $mailing->body_html = file_get_contents($htmlFile);
+        $mailing->body_text = file_get_contents($textFile);
+        
+        $mime =& $mailing->compose(null, null, null, 
+                                    $contactId, $email, $recipient, true);
+        $mailer =& Mail::factory('smtp', array('host' => 'smtp.sbcglobal.net'));
 
+        $body = $mime->get();
+        $headers = $mime->headers();
+        $result = $mailer->send($recipient, $headers, $body);
+    
+        CRM_Core_Error::debug('result', $result);
     }
 
     /**

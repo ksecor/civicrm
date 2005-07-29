@@ -499,23 +499,21 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             $this, true);
         }
 
-        
-        $params = array('id' => $contactId);
+        $params = array('contact_id' => $contactId, 'id' => $contactId);
         $contact = array();
         $ids    = array();
         CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
 
         $message =& new Mail_Mime("\n");
 
-
         /* Do contact-specific token replacement in text mode, and add to the
          * message if necessary */
-        if ($values['preferred_mail_format'] == 'Text' ||
-            $values['preferred_mail_format'] == 'Both') 
+        if ($test || $contact['preferred_mail_format'] == 'Text' ||
+            $contact['preferred_mail_format'] == 'Both') 
         {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->text, $contact, false);
-            $text = CRM_Utils_token::replaceActionTokens( $this->text,
+            $text = CRM_Utils_token::replaceActionTokens( $text,
                                         $verp, false);
                                         
             /* TODO: trackable URL construction */
@@ -524,15 +522,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
 
 
+
         /* Do contact-specific token replacement in html mode, and add to the
          * message if necessary */
-        if ($values['preferred_mail_format'] == 'HTML' ||
-            $values['preferred_mail_format'] == 'Both')
+        if ($test || $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both')
         {
-            $text = CRM_Utils_Token::replaceContactTokens(
+            $html = CRM_Utils_Token::replaceContactTokens(
                                         $this->html, $contact, true);
-            $text = CRM_Utils_token::replaceActionTokens( $this->text,
-                                        $verp, true);
+            $html = CRM_Utils_token::replaceActionTokens( $html, $verp, true);
             
             /* TODO: trackable URL construction */
             /* TODO: insert html for open tracking */
@@ -558,8 +556,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function &getGroupNames() {
-        $mg =& new CRM_Mailing_DAO_MailingGroup();
-        $mgname = CRM_Mailing_DAO_MailingGroup::getTableName();
+        if (! isset($this->id)) {
+            return array();
+        }
+        $mg =& new CRM_Mailing_DAO_Group();
+        $mgname = CRM_Mailing_DAO_Group::getTableName();
         $group = CRM_Contact_BAO_Group::getTableName();
 
         $mg->query("SELECT      $group.name as name FROM $mgtable 
@@ -574,7 +575,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         while ($mg->fetch()) {
             $groups[] = $mg->name;
         }
-        return empty($groups) ? null : $groups;
+        return $groups;
     }
 }
 

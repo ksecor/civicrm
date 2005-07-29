@@ -68,8 +68,8 @@ class CRM_Utils_Verp {
      * @static
      */
     public static function encode($sender, $recipient) {
-        var $slocal, $sdomain;
-        var $rlocal, $rdomain;
+//         var $slocal, $sdomain;
+//         var $rlocal, $rdomain;
 
         preg_match('/(.+)\@([^\@]+)$/', $sender, $match);
         $slocal     = $match[1];
@@ -80,8 +80,8 @@ class CRM_Utils_Verp {
         $rdomain    = $match[2];
         
         foreach (self::$encodeMap as $char => $code) {
-            $rlocal     = preg_replace("/$char/i", "+$code", $rlocal);
-            $rdomain    = preg_replace("/$char/i", "+$code", $rdomain);
+            $rlocal     = preg_replace('/'.preg_quote($char).'/i', "+$code", $rlocal);
+            $rdomain    = preg_replace('/'.preg_quote($char).'/i', "+$code", $rdomain);
         }
 
         return "$slocal-$rlocal=$rdomain@$sdomain";
