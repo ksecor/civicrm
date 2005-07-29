@@ -1,19 +1,13 @@
 <?php
 
+require_once '../../../configuration.php';
+
 global $mosConfig_host;
 global $mosConfig_user;
 global $mosConfig_password;
 global $mosConfig_db;
 global $mosConfig_live_site;
 global $mosConfig_absolute_path;
-
-$mosConfig_host      = 'localhost';
-$mosConfig_user      = 'civicrm';
-$mosConfig_password  = 'Mt!Everest';
-$mosConfig_db        = 'civicrm';
-$mosConfig_live_site = 'http://localhost/lobo/mambo';
-
-$mosConfig_absolute_path = '/Users/lobo/htdocs/mambo';
 
 global $comPath, $crmPath;
 $comPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
@@ -25,8 +19,8 @@ $crmPath = $comPath . DIRECTORY_SEPARATOR . 'civicrm';
 global $httpBase, $resourceBase, $mainMenu;
 $pieces = parse_url( $mosConfig_live_site );
 $httpBase     = $pieces['path'] . '/administrator/';
-$resourceBase = $httpBase . 'administrator/components/com_civicrm/civicrm/';
-$mainMenu     = $httpBase . 'administrator/index2.php?option=com_civicrm';
+$resourceBase = $httpBase . 'components/com_civicrm/civicrm/';
+$mainMenu     = $httpBase . 'index2.php?option=com_civicrm';
 
 ini_set( 'include_path',
          '.:' . $crmPath . ':' .
@@ -46,15 +40,13 @@ $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
 sourceFile( $db, $sqlPath . DIRECTORY_SEPARATOR . 'Contacts.sql'  );
 sourceFile( $db, $sqlPath . DIRECTORY_SEPARATOR . 'FixedData.sql' );
 
-$configFile = $sqlPath . DIRECTORY_SEPARATOR . 'config.inc.php';
+$configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
 $string = generateConfigString( );
 $fd = fopen( $configFile, "w" );
 fputs( $fd, $string );
 fclose ( $fd );
 
 function sourceFile( &$db, $fileName ) {
-    return;
-
     $string = file_get_contents( $fileName );
 
     //get rid of comments starting with # and --
@@ -91,6 +83,9 @@ define( 'CRM_MAINMENU'    , '$mainMenu' );
 define( 'CRM_DSN'         , '$dsn' );
 
 define( 'CRM_MYSQL_VERSION', 4.0 );
+
+define( 'CRM_USERFRAMEWORK'       , 'Mambo' );
+define( 'CRM_USERFRAMEWORK_URLVAR', 'task'  );
 
 define( 'CRM_LC_MESSAGES' , 'en_US' );
 

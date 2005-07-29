@@ -32,6 +32,7 @@
       <filename>admin.civicrm.php</filename>
       <filename>config.main.php</filename>
       <filename>config.inc.php</filename>
+      <filename>setup.php</filename>
 {foreach from=$files item=file}
       <filename>civicrm/{$file}</filename>
 {/foreach}
