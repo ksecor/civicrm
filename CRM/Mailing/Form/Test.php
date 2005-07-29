@@ -76,7 +76,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         
         $mime =& $mailing->compose(null, null, null, 
                                     $contactId, $email, $recipient, true);
-        $mailer =& Mail::factory('smtp', array('host' => 'smtp.sbcglobal.net'));
+        $mailer =& Mail::factory('smtp', array('host' => 'FIXME.ORG'));
 
         $body = $mime->get();
         $headers = $mime->headers();
