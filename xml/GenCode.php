@@ -64,6 +64,8 @@ $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
+exit( );
+
 // now generate the mysql4.0 version
 $smarty->assign( 'mysql', 'simple' );
 echo "Generating mysql 4.0 file\n";

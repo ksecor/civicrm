@@ -25,11 +25,11 @@
        <name>coord_units</name>
        <type>enum</type>
        <values>Degree, Grad, Radian, Foot, Meter</values>
-       <comment>If the coord_type is LATLONG, indicate the unit of angular measure: Degree|Grad|Radian; If the coord_type is Projected, indicate unit of distance measure: Foot|Meter.</comment>
+       <comment>If the coord_type is LATLONG, indicate the unit of angular measure: Degree|Grad|Radian. If the coord_type is Projected, indicate unit of distance measure: Foot|Meter.</comment>
   </field>
   <field>
        <name>coord_ogc_wkt_string</name>
        <type>text</type>
-       <comment>Coordinate sys description in Open GIS Consortium WKT (well known text) format - see http://www.opengeospatial.org/docs/01-009.pdf; this is provided for the convenience of the user or third party modules.</comment>
+       <comment>Coordinate sys description in Open GIS Consortium WKT (well known text) format - see http://www.opengeospatial.org/docs/01-009.pdf this is provided for the convenience of the user or third party modules.</comment>
   </field>
 </table>

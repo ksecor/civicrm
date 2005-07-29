@@ -88,7 +88,6 @@ class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
         $params = array ();
         $params['title'] = $this->controller->exportValue('Group','title' );
         $params['description'] = $this->controller->exportValue('Group','description' );
-        $params['group_type'] = $this->controller->exportValue('Group','group_type' );
         $params['saved_search_id'] = $this->controller->exportValue('DynamicGroup','saved_search_id' );
         
         $group =& new CRM_Contact_DAO_Group();
