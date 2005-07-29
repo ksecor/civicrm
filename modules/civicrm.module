@@ -102,10 +102,8 @@ function civicrm_perm()
     // static permissions
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM', 'access CiviCRM' );
 
-    db_set_active('civicrm');
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
-    db_set_active();
     return $cPerm;    foreach ( $groups as $title ) {
         $cPerm[] = t('view ') . $title;
         $cPerm[] = t('edit ') . $title;
@@ -130,13 +128,11 @@ function civicrm_block($op='list', $delta='0')
     global $user;
     if ($user->uid) {
         $menu_arr = civicrm_menu(true);
-        db_set_active('civicrm');
         if ($op == 'list') {
             $block = CRM_Core_Block::getInfo();
         } else {
             $block = CRM_Core_Block::getContent ($delta);
         }
-        db_set_active();
         return $block;
     }
 }
@@ -160,9 +156,7 @@ function civicrm_block($op='list', $delta='0')
 function civicrm_menu($may_cache)
 {
     if ( $may_cache ) {
-        db_set_active('civicrm');
         $items = CRM_Utils_Menu::items( );
-        db_set_active();
         return $items;
     } else {
         return array( );
@@ -179,14 +173,12 @@ function civicrm_init()
         return;
     }
 
-    db_set_active('civicrm');
 
     $config =& CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
 
     $factoryClass = 'CRM_Contact_DAO_Factory';
     CRM_Core_DAO::setFactory(new $factoryClass());
-    db_set_active();
 
     // Add module-specific stylesheet to page header
     drupal_set_html_head(civicrm_html_head());
@@ -202,9 +194,6 @@ function civicrm_init()
 
 function civicrm_invoke()
 {
-    // NOTE: Do not call db_set_active('civicrm')
-    // comment by killes, not sure why?
-
     // synchronize the drupal uid with the contacts db
     global $user;
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
@@ -212,10 +201,6 @@ function civicrm_invoke()
     $args = explode( '/', $_GET['q'] );
 	$ret = CRM_Core_Invoke::invoke( $args );
     
-    // NOTE: Make sure we switch back to the Drupal DB.
-    // comment by killes
-    db_set_active();
-
     return $ret;
 }
 
@@ -264,9 +249,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 }
 
 function civicrm_categories( ) {
-    db_set_active('civicrm');
     $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
-    db_set_active();
 
     $data = array( );
     foreach ( $ufGroups as $id => $title ) {
@@ -282,8 +265,6 @@ function civicrm_load_data(&$user) {
 
 function civicrm_register_data($edit, &$user, $category, $reset) {
     $output = array( );
-
-    db_set_active('civicrm');
 
     if ( $user->uid ) {
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal' );
@@ -302,15 +283,11 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
         }
     }
 
-    db_set_active();
-
     return $output;
 }
 
 function civicrm_form_data($edit, &$user, $category, $reset) {
     $output = array( );
-
-    db_set_active('civicrm');
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
@@ -321,14 +298,10 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
         }
     }
     
-    db_set_active();
-
     return $output;
 }
 
 function civicrm_view_data($user ) {
-    db_set_active( 'civicrm');
-
     $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
     $data = array( );
@@ -340,22 +313,16 @@ function civicrm_view_data($user ) {
         }
     }
 
-    db_set_active();
-
     return $data;
 }
 
 function civicrm_validate_data($edit, &$user, $title) {
     $register = ( $title == 'account' ) ? true : false;
 
-    db_set_active( 'civicrm');
-
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( ! CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register ) ) {
         form_set_error( 'error', 'Please correct the errors in the form fields below' );
     }
-
-    db_set_active();
 
     return;
 }

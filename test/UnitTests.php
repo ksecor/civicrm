@@ -21,6 +21,7 @@ class UnitTests extends GroupTest {
         // contact api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CRM272.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         
         // group api
@@ -30,8 +31,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
         // location api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetLocation.php'    );

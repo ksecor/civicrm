@@ -147,6 +147,13 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
         $location =& new CRM_Core_BAO_Location( );
         $location->copyValues( $params );
+        if ( $params['contact_id'] ) {
+            $location->entity_table = 'civicrm_contact';
+            $location->entity_id    = $params['contact_id'];
+        } else if ( $params['domain_id'] ) {
+            $location->entity_table = 'civicrm_domain';
+            $location->entity_id    = $params['domain_id'];
+        }
 
         $flatten = false;
         if ( empty($locationCount) ) {

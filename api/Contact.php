@@ -115,21 +115,13 @@ require_once 'CRM/Utils/Array.php';
  * @access public
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
-
-    //CRM_Core_Error::le_function();
-
     // return error if we do not get any params
     if (empty($params)) {
-        //CRM_Core_Error::debug_log_message('breakpoint 10');
-        //CRM_Core_Error::ll_function();
         return _crm_error( "Input Parameters empty" );
     }
     
     $error = _crm_check_params( $params, $contact_type );
     if (is_a($error, CRM_Core_Error)) {
-        //CRM_Core_Error::debug_log_message('breakpoint 20');
-        //CRM_Core_Error::debug_var('error', $error);
-        //CRM_Core_Error::ll_function();
         return $error;
     }
 
@@ -138,23 +130,19 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
     $error = _crm_format_params( $params, $values );
     if (is_a($error, CRM_Core_Error) ) {
-        //CRM_Core_Error::debug_log_message('breakpoint 30');
-        //CRM_Core_Error::debug_var('error', $error);
-        //CRM_Core_Error::ll_function();
         return $error;
     }
 
     $ids     = array( );
+    CRM_Core_Error::debug( 'p', $values );
+
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
-    //CRM_Core_Error::debug_log_message('breakpoint 40');
-    //CRM_Core_Error::ll_function();
 
     return $contact;
 }
 
 
 function &crm_create_contact_formatted( &$params ) {
-    //CRM_Core_Error::le_function();
     // return error if we have no params
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
@@ -185,14 +173,12 @@ function &crm_create_contact_formatted( &$params ) {
 }
 
 function &crm_replace_contact_formatted($contactId, &$params) {
-    //CRM_Core_Error::le_function();
     $contact = crm_get_contact(array('contact_id' => $contactId));
     crm_delete_contact($contact);
     return crm_create_contact_formatted($params);
 }
 
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
-    //CRM_Core_Error::le_function();
     $contact = crm_get_contact(array('contact_id' => $contactId));
     return _crm_update_contact($contact, $params, $overwrite);
 }
@@ -243,53 +229,35 @@ function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) 
  *
  */
 function &crm_get_contact( $params, $returnProperties = null ) {
-    //CRM_Core_Error::le_function();
-
     // empty parameters ?
     if (empty($params)) {
-        //CRM_Core_Error::debug_log_message('breakpoint 10');
-        //CRM_Core_Error::ll_function();
         return _crm_error('$params is empty');
     }
 
-    //CRM_Core_Error::debug_log_message('breakpoint 20');
-
     // correct parameter format ?
     if (!is_array($params)) {
-        //CRM_Core_Error::debug_log_message('breakpoint 30');
-        //CRM_Core_Error::ll_function();
         return _crm_error('$params is not an array');
     }
 
     // if id is not present, get contact id first
     if (!$params['contact_id']) {
-        //CRM_Core_Error::debug_log_message('breakpoint 40');
         $contactId = CRM_Contact_BAO_Contact::_crm_get_contact_id($params);
         if (is_a($contactId, CRM_Core_Error)) {
-            //CRM_Core_Error::debug_log_message('breakpoint 50');
-            //CRM_Core_Error::ll_function();
             return $contactId;
         }
 
-        //CRM_Core_Error::debug_log_message('breakpoint 60');
         $params['contact_id'] = $contactId;
     }
 
-    //CRM_Core_Error::debug_log_message('breakpoint 70');
     $params['id'] = $params['contact_id'];
     $ids          = array( );
 
-    //CRM_Core_Error::debug_var('params', $params);
     $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-    //CRM_Core_Error::debug_var('contact', $contact);
 
     if ( $contact == null || is_a($contact, CRM_Core_Error) || ! $contact->id ) {
-        //CRM_Core_Error::debug_log_message('breakpoint 80');
-        //CRM_Core_Error::ll_function();
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
     }
 
-    //CRM_Core_Error::debug_log_message('breakpoint 90');
     unset($params['id']);
     
     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
@@ -300,9 +268,6 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
     $contact->custom_values = CRM_Core_BAO_CustomValue::getContactValues($contact->id);
 
-    //CRM_Core_Error::debug_var('contact', $contact);
-    //CRM_Core_Error::debug_log_message('breakpoint 100');
-    //CRM_Core_Error::ll_function();
     return $contact;
 }
 

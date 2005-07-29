@@ -74,6 +74,7 @@ class TestOfGetContactAPI extends UnitTestCase
     {
         $params = array('contact_id' => $this->_individual->id);
         $contact =& crm_get_contact($params);
+        CRM_Core_Error::debug( 'c', $contact );
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->id, $this->_individual->id);
         $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');

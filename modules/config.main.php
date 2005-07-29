@@ -27,6 +27,10 @@ if ( ! defined( 'CRM_HTTPBASE' ) ) {
   define( 'CRM_HTTPBASE', '/drupal/' );
 }
 
+if ( ! defined( 'CRM_RESOURCEBASE' ) ) {
+    define( 'CRM_RESOURCEBASE', CRM_HTTPBASE . 'modules/civicrm/' );
+}
+
 if ( ! defined( 'CRM_MAINMENU' ) ) {
   define( 'CRM_MAINMENU', CRM_HTTPBASE . 'civicrm/' );
 }
