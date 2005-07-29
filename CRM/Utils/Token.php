@@ -152,7 +152,7 @@ class CRM_Utils_Token {
      * Replace all mailing tokens in $str
      *
      * @param string $str       The string with tokens to be replaced
-     * @param object $mailing   The mailing BAO
+     * @param object $mailing   The mailing BAO, or null for validation
      * @param boolean $html     Replace tokens with HTML or plain text
      * @return string           The processed sstring
      * @access public
@@ -160,10 +160,12 @@ class CRM_Utils_Token {
      */
      public static function &replaceMailingTokens($str, &$mailing, $html = false) {
         if (self::token_match('mailing', 'name', $str)) {
-            self::token_replace('mailing', 'name', $mailing->name, $str);
+            self::token_replace('mailing', 'name', 
+            $mailing ? $mailing->name : 'Mailing Name', $str);
         }
         if (self::token_match('mailing', 'group', $str)) {
-            $groups = $mailing->getGroupNames();
+            $groups = $mailing  ? $mailing->getGroupNames() 
+                                : array('Mailing Groups');
             $value = implode(', ', $groups);
             self::token_replace('mailing', 'group', $value, $str);
         }

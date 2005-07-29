@@ -93,7 +93,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $errors = array();
         
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
-        
+        $mailing = null;
+
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
         $contact = array();
@@ -139,8 +140,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             
             /* Do a full token replacement on a dummy verp, the current contact
              * and domain. */
-//             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
-//             $str = CRM_Utils_Token::replaceMailingTokens($str, $domain);
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
 

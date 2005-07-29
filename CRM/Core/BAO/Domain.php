@@ -106,15 +106,17 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     function &getLocationValues() {
         if ($this->_location == null) {
             $params = array(
+                'domain_id' => $this->id,
                 'entity_id' => $this->id, 
                 'entity_table' => self::getTableName()
             );
-            $loc = array();
+            $values = array();
             $ids = array();
-            CRM_Core_BAO_Location::getValues($params, $loc, $ids, 1);
+            CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+            $loc =& $values['location'];
             
             /* Translate the state/province and country ids to names */
-            if (! array_key_exists($loc[1]['address'], 'state_province')) 
+            if (! array_key_exists('state_province', $loc[1]['address'])) 
             {
                 $loc[1]['state_province'] = CRM_Core_PseudoConstant::stateProvince($loc[1]['address']['state_province_id']);
                 if (! $loc[1]['address']['state_province']) {
@@ -123,7 +125,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                 }
             }
 
-            if (! array_key_exists($loc[1]['address'], 'country')) {
+            if (! array_key_exists('country', $loc[1]['address'])) {
                 $loc[1]['address']['country'] = CRM_Core_PseudoConstant::country($loc[1]['address']['country_id']);
                 if (! $loc[1]['address']['country']) {
                     $loc[1]['address']['country'] =

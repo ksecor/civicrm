@@ -479,8 +479,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
         
-            $this->html = $this->header->body_html 
-                        . $this->body_html 
+            $this->html = $this->header->body_html . '<br />'
+                        . $this->body_html . '<br />'
                         . $this->footer->body_html;
             
             $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
@@ -488,8 +488,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
                             $this, true);
             
-            $this->text = $this->header->body_text
-                        . $this->body_text
+            $this->text = $this->header->body_text . "\n"
+                        . $this->body_text . "\n"
                         . $this->footer->body_text;
             
             $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,

@@ -63,8 +63,13 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         
         $location =& new CRM_Core_BAO_Location( );
         
-        $location->entity_table    = 'civicrm_contact';
-        $location->entity_id       = $params['contact_id'];
+        if (! isset($params['contact_id'])) {
+            $location->entity_table = CRM_Core_BAO_Domain::getTableName();
+            $location->entity_id    = $params['domain_id'];
+        } else {
+            $location->entity_table = CRM_Contact_BAO_Contact::getTableName();
+            $location->entity_id    = $params['contact_id'];
+        }
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
 

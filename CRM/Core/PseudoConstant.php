@@ -232,7 +232,7 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true );
         }
         if ($id) {
-            if (array_key_exists(self::$stateProvince, $id)) {
+            if (array_key_exists($id, self::$stateProvince)) {
                 return self::$stateProvince[$id];
             } else {
                 return null;
@@ -258,7 +258,7 @@ class CRM_Core_PseudoConstant {
             'CRM_Core_DAO_StateProvince', true, 'abbreviation');
         }
         if ($id) {
-            if (array_key_exists(self::$stateProvince, $id)) {
+            if (array_key_exists($id, self::$stateProvince)) {
                 return self::$stateProvinceAbbreviation[$id];
             } else {
                 return null;
@@ -290,7 +290,7 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$country, 'CRM_Core_DAO_Country', true );
         }
         if ($id) {
-            if (array_key_exists(self::$country, $id)) {
+            if (array_key_exists($id, self::$country)) {
                 return self::$country[$id];
             } else {
                 return null;
