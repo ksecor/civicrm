@@ -159,6 +159,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         return $defaults;
     }
 
+    /**
+     * Function to rebuild the html types in 
+     * the drop down on page refresh
+     *
+     * @return void
+     * @access private
+     */
 
     private function _rebuildHTMLType($dataType)
     {
