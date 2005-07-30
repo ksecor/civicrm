@@ -1,3 +1,11 @@
+{if $recentlyViewed}
+    {include file="CRM/common/recentlyViewed.tpl"}
+{/if}
+
+{if $localTasks}
+    {include file="CRM/common/localNav.tpl"}
+{/if}
+
 {include file="CRM/common/status.tpl"}
 
 <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
