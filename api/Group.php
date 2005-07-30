@@ -166,7 +166,6 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
     }
     $contacts = array();
     $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts(&$group, $returnProperties, $status, $sort, $offset, $row_count);
-
     return $contacts;
     
 }
@@ -199,13 +198,13 @@ function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin') {
 }
 
 /**
- * subscribe-request to a group contact
+ * subscribe contacts to a group 
  * 
  * @param CRM_Contact $group       A valid group object (passed by reference).
  * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).
  *
  *  
- * @return null if success or CRM_Error (db error or contact was not valid)
+ * @return null if success or CRM_Error (db error or contacts were not valid)
  *
  * @access public
  */
@@ -233,8 +232,8 @@ function crm_subscribe_group_contacts(&$group, $contacts)
 }
 
 /**
- * confirm-request to a group contact 
- * 
+ * confirm membership to a group  
+ *
  * @param CRM_Contact $group       A valid group object (passed by reference).
  * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).
  *

@@ -385,9 +385,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         // make sure user has got permission to view this group
-        /* if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
+         if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
             return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
-        }*/
+        }
         
         $query = '';
         if ( $returnProperties == null ) {
