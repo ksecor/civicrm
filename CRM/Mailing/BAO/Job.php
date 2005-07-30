@@ -66,7 +66,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                     ORDER BY    scheduled_date";
 
         $job->query($query);
-        $job->find();
 
         $mailer =& Mail::factory('smtp', array('host' => 'SMTP.FIXME.COM'));
 
@@ -86,7 +85,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
         
             /* Compose and deliver */
-            $job->deliver($mailer);
+//             $job->deliver($mailer);
 
             /* Finish the job */
             $job->end_date = time();
@@ -153,11 +152,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                     LEFT JOIN   $ebTable
                             ON  $eqTable.id = $ebTable.event_queue_id
                     WHERE       $eqTable.job_id = " . $this->id . "
-                    HAVING      $edTable.id IS null
+                        AND     $edTable.id IS null
                         AND     $ebTable.id IS null";
                     
         $eq->query($query);
-        $eq->find();
 
         while ($eq->fetch()) {
             /* Compose the mailing */
@@ -171,8 +169,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
-            
-            return;
             
             PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                     array('CRM_Mailing_BAO_Mailing', 

@@ -71,7 +71,6 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
             $query .= " AND $bounceTable.time_stamp > " . $email->reset_date;
         }
         $bounce->query($query);
-        $bounce->find();
 
         while ($bounce->fetch()) {
             if ($bounce->bounces >= $bounce->threshold) {

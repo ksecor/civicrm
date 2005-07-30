@@ -78,12 +78,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     function &getRecipients($job_id) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
-        $mailing    = CRM_Mailing_DAO_Mailing::getTableName();
+        $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
         $eq         = CRM_Mailing_Event_DAO_Queue::getTableName();
         $ed         = CRM_Mailing_Event_DAO_Delivered::getTableName();
         $eb         = CRM_Mailing_Event_DAO_Bounce::getTableName();
-        $job        = CRM_Mailing_DAO_Job::getTableName();
         
         $email      = CRM_Core_DAO_Email::getTableName();
         $contact    = CRM_Contact_DAO_Contact::getTableName();
@@ -95,7 +95,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE X_$job_id (contact_id int) TYPE=HEAP"
         );
-        $mailingGroup->find();
 
         /* Add all the members of groups excluded from this mailing to the temp
          * table */
@@ -110,8 +109,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.entity_table = '$group'
                         AND             $g2contact.status = 'In'
                         AND             $mg.group_type = 'Exclude'";
+        $mailingGroup->reset();
         $mailingGroup->query($excludeSubGroup);
-        $mailingGroup->find();
         
         /* Add all the (intended) recipients of an excluded prior mailing to
          * the temp table */
@@ -127,8 +126,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.mailing_id = " . $this->id . "
                         AND             $mg.entity_table = '$mailing'
                         AND             $mg.group_type = 'Exclude'";
+        $mailingGroup->reset();
         $mailingGroup->query($excludeSubMailing);
-        $mailingGroup->find();
         
         /* Add all the succesful deliveries of this mailing (but any job/retry)
          * to the exclude temp table */
@@ -144,10 +143,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $eq.id = $eb.event_queue_id
                     WHERE
                                         $job.mailing_id = " . $this->id . "
-                    HAVING              $eb.id IS null";
+                        AND             $eb.id IS null";
+        $mailingGroup->reset();
         $mailingGroup->query($excludeRetry);
-        $mailingGroup->find();
-
+        
+        $mailingGroup->reset();
         $mailingGroup->query(
                     "SELECT             $group.saved_search_id as saved_search_id
                     FROM                $group
@@ -157,7 +157,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.group_type = 'Exclude'
                         AND             $mg.mailing_id = " . $this->id . "
                         AND             $group.saved_search_id <> null");
-        $mailingGroup->find();
         $ss =& new CRM_Contact_BAO_SavedSearch();
         
         while ($mailingGroup->fetch()) {
@@ -173,10 +172,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     SELECT              $contact.id
                     FROM                $from
                     WHERE               $where");
-            $ss->find();
             $ss->reset();
         }
-        
+
         /* Get all the group contacts we want to include */
         
         /* Get the group contacts, but only those which are not in the temp
@@ -209,7 +207,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
-                    HAVING              X_$job_id.contact_id IS null";
+                        AND             X_$job_id.contact_id IS null";
                     
         /* Get the emails with only location override */
         $queryGroupLocation = 
@@ -239,7 +237,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
-                    HAVING              X_$job_id.contact_id IS null";
+                        AND             X_$job_id.contact_id IS null";
                     
         /* Get the emails with full override */
         $queryGroupEmail = 
@@ -264,7 +262,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.is_subscribed = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
-                    HAVING              X_$job_id.contact_id IS null";
+                        AND             X_$job_id.contact_id IS null";
                         
         $queryGroup =   "($queryGroupPrimary) 
                         UNION DISTINCT ($queryGroupLocation) 
@@ -297,11 +295,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.is_primary = 1
                         AND             $email.bounce_hold = 0
                         AND             $mg.mailing_id = " . $this->id . "
-                    HAVING              X_$job_id IS null";
+                        AND             X_$job_id.contact_id IS null";
 
         $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
 
         /* Construct the saved-search queries */
+        $mailingGroup->reset();
         $mailingGroup->query(
                     "SELECT             $group.saved_search_id as saved_search_id
                     FROM                $group
@@ -311,7 +310,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.group_type = 'Include'
                         AND             $mg.mailing_id = " . $this->id . "
                         AND             $group.saved_search_id <> null");
-        $mailingGroup->find();
         /* FIXME: is it kosher to possibly multiple-inner-join? */
         while ($mailingGroup->fetch()) {
             $tables = array($contact);
@@ -338,13 +336,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             AND         $email.is_primary = 1
                             AND         $email.bounce_hold = 0
                             AND         $where
-                        HAVING          X_$job_id IS null) ";
+                            AND         X_$job_id.contact_id IS null) ";
         }
         
         $results = array();
 
+        $mailingGroup->reset();
         $mailingGroup->query($query);
-        $mailingGroup->find();
     
         while ($mailingGroup->fetch()) {
             $results[] =    
@@ -354,8 +352,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         /* Delete the temp table */
+        $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
-        
+
         return $results;
     }
 
@@ -367,7 +366,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function retryRecipients($job_id) {
-        $eq =& new CRM_Mailing_Event_BAO_Queue();
+        $eq         =& new CRM_Mailing_Event_BAO_Queue();
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $queue      = CRM_Mailing_Event_BAO_Queue::getTableName();
         $bounce     = CRM_Mailing_Event_BAO_Bounce::getTableName();
@@ -393,8 +392,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND             $email.bounce_hold = 0
                 GROUP BY            $queue.email_id";
 
-        $eq->query();
-        $eq->find();
+        $eq->query($query);
         
         $results = array();
         while ($eq->fetch()) {
@@ -560,16 +558,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             return array();
         }
         $mg =& new CRM_Mailing_DAO_Group();
-        $mgname = CRM_Mailing_DAO_Group::getTableName();
+        $mgtable = CRM_Mailing_DAO_Group::getTableName();
         $group = CRM_Contact_BAO_Group::getTableName();
 
         $mg->query("SELECT      $group.name as name FROM $mgtable 
                     INNER JOIN  $group ON $mgtable.entity_id = $group.id
                     WHERE       $mgtable.mailing_id = " . $this->id . "
-                        AND     $mgtable.entity_table = $group
+                        AND     $mgtable.entity_table = '$group'
                         AND     $mgtable.group_type = 'Include'
                     ORDER BY    $group.name");
-        $mg->find();
 
         $groups = array();
         while ($mg->fetch()) {
@@ -610,7 +607,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $job->status = 'Scheduled';
         $job->is_retry = false;
         if ($params['now']) {
-            $job->scheduled_date = date('Ymd H:i:s');
+            $job->scheduled_date = time();
         } else {
             $job->scheduled_date =
                 CRM_Utils_Date::format($params['start_date']);
