@@ -39,10 +39,6 @@
             <dd class="description">
             {ts}<label>Replace:</label> Replaces the entire matching record in the database with imported contact data.{/ts}
             </dd>*}
-	<dt> </dt>
-            <dd class="description">
-            {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
-            </dd>
        <dt> </dt>
             <dd class="description">
             {ts}<label>Update:</label> Updates database fields with available import data. Fields in the database which are NOT included in the import row are left as-is.{/ts}
@@ -50,6 +46,10 @@
        <dt> </dt>
             <dd class="description">
             {ts}<label>Fill:</label> Fills in additional contact data only. Database fields which currently have values are left as-is.{/ts}
+            </dd>
+       <dt> </dt>
+            <dd class="description">
+            {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
             </dd>
     </dl>
  </fieldset>
