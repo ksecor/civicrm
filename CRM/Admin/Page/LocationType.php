@@ -49,7 +49,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Get BAO Name
      *
-     * @param none
      * @return string Classname of BAO.
      */
     function getBAOName() 
@@ -60,7 +59,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Get action Links
      *
-     * @param none
      * @return array (reference) of action links
      */
     function &links()
@@ -101,8 +99,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      * type of action and executes that action.
      * Finally it calls the parent's run method.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */
@@ -129,8 +126,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Browse all custom data groups.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -174,7 +170,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Get name of edit form
      *
-     * @param none
      * @return string Classname of edit form.
      */
     function editForm() 
@@ -185,7 +180,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Get edit form name
      *
-     * @param none
      * @return string name of this page.
      */
     function editName() 
@@ -196,7 +190,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
     /**
      * Get user context.
      *
-     * @param none
      * @return string user context.
      */
     function userContext($mode = null) 

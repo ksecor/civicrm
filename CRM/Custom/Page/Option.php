@@ -71,7 +71,6 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     /**
      * Get the action links for this page.
      *
-     * @param none
      * @return array $_actionLinks
      *
      */
@@ -114,8 +113,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     /**
      * Browse all custom group fields.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -170,7 +168,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      *
      * @param string $action the action to be invoked
 
-     * @return none
+     * @return void
      * @access public
      */
     function edit($action)
@@ -197,8 +195,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      * This method is called after the page is created. It checks for the  
      * type of action and executes that action. 
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */

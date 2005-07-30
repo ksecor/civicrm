@@ -163,7 +163,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Store and return an array of all active custom fields.
      *
-     * @param void
      * @return array $fields - 
      *
      * @access public
@@ -203,7 +202,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Return the field ids and names (with groups) for import purposes.
      *
-     * @param void
      * @return array $fields - 
      *
      * @access public

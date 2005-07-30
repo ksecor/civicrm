@@ -73,7 +73,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     /**
      * Function to set variables up before form is built
      *
-     * @param none
      * @return void
      * @access public
      */
@@ -96,9 +95,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
-     * @param none
      * @access public
-     * @return None
+     * @return void
      */
     function setDefaultValues()
     {
@@ -118,8 +116,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
-     * @param none
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -176,7 +173,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     /**
      * Process the form
      *
-     * @param none
      * @return void
      * @access public
      */

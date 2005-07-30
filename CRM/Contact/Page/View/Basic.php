@@ -43,8 +43,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */
@@ -90,7 +89,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
      * Show hide blocks based on default values.
      *
      * @param array (reference) $defaults
-     * @return none
+     * @return void
      * @access public
      */
     function setShowHide( &$defaults ) {

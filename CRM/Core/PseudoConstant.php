@@ -199,7 +199,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all IM providers.
      *
      */
@@ -311,7 +310,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all country ISO codes.
      *
      */
@@ -336,7 +334,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all categories.
      *
      */
@@ -360,7 +357,6 @@ class CRM_Core_PseudoConstant {
     * @access public
     * @static
     *
-    * @param none
     * @return array - array reference of all groups.
     *
     */
@@ -384,7 +380,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all groups.
      *
      */
@@ -405,7 +400,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all saved searches
      *
      */
@@ -422,7 +416,6 @@ class CRM_Core_PseudoConstant {
      *
      * @access public
      *
-     * @param none
      * @return array - array reference of all groups.
      * @static
      */
@@ -458,7 +451,6 @@ class CRM_Core_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all relationship types.
      *
      */

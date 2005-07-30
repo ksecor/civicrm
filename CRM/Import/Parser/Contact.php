@@ -308,8 +308,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     /**
      * Get the array of succesfully imported contact id's
      *
-     * @param void
-     *
      * @return array
      * @access public
      */

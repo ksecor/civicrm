@@ -278,7 +278,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param  array  &$groupTree - array of all custom groups, fields and values.
      * @param  string $entityType - type of entity being extended
      * @param  int    $entityId   - id of the contact whose custom data is to be updated
-     * @return none
+     * @return void
      *
      * @access public
      * @static
@@ -505,7 +505,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * An array containing custom group details (including their custom field) is returned.
      *
-     * @param none
      * @return array $groupTree - array consisting of all group and field details
      *
      * @access public
@@ -596,7 +595,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param string $path        - what should be the starting path for the new menus ?
      * @param int    $startWeight - weight to start the local menu tabs
      *
-     * @return none
+     * @return void
      *
      * @access public
      * @static
@@ -666,7 +665,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * 
      * @param string $entityType - what entity are we extending here ?
      *
-     * @return none
+     * @return void
      *
      * @access private
      * @static
@@ -695,7 +694,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param object CRM_Core_DAO_CustomGroup (reference) - Custom Group DAO.
      * @param string $entityType    - what entity are we extending here ?
      *
-     * @return none
+     * @return void
      *
      * @access private
      * @static

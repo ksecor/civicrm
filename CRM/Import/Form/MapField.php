@@ -150,7 +150,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     /**
      * Function to set variables up before form is built
      *
-     * @param none
      * @return void
      * @access public
      */
@@ -179,8 +178,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
-     * @param none
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -278,7 +276,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * Process the mapped fields and map it into the uploaded file
      * preview the file and extract some summary statistics
      *
-     * @param none
      * @return void
      * @access public
      */
@@ -326,7 +323,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     /**
      * Return a descriptive name for the page, used in wizard header
      *
-     * @param none
      * @return string
      * @access public
      */

@@ -53,7 +53,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      * delete a saved search.
      *
      * @param int $id - id of saved search
-     * @return none
+     * @return void
      *
      */
     function delete($id)
@@ -77,7 +77,6 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     /**
      * Browse all saved searches.
      *
-     * @param none
      * @return content of the parents run method
      *
      */
@@ -123,8 +122,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     /**
      * run this page (figure out the action needed and perform it).
      *
-     * @param none
-     * @return none
+     * @return void
      */
     function run() {
         $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
@@ -142,7 +140,6 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     /**
      * Get action Links
      *
-     * @param none
      * @return array (reference) of action links
      * @static
      */

@@ -67,7 +67,6 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     /**
      * Return the domain BAO for the current domain.
      *
-     * @param void
      * @return object CRM_Core_BAO_Domain object
      * @access public
      * @static
@@ -99,7 +98,6 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     /**
      * Get the location values of a domain
      *
-     * @param void
      * @return array        Location::getValues
      * @access public
      */

@@ -47,7 +47,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * Get BAO Name
      *
-     * @param none
      * @return string Classname of BAO.
      */
     function getBAOName() 
@@ -58,7 +57,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * Get action Links
      *
-     * @param none
      * @return array (reference) of action links
      */
     function &links()
@@ -96,7 +94,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * Get name of edit form
      *
-     * @param none
      * @return string Classname of edit form.
      */
     function editForm() 
@@ -107,7 +104,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * Get edit form name
      *
-     * @param none
      * @return string name of this page.
      */
     function editName() 
@@ -118,7 +114,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * Get user context.
      *
-     * @param none
      * @return string user context.
      */
     function userContext($mode = null) 

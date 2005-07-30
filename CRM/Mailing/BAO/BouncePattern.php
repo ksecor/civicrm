@@ -53,7 +53,6 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
     /**
      * Build the static pattern array
      *
-     * @param void
      * @return void
      * @access public
      * @static

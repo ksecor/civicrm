@@ -136,8 +136,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     /**
      * Run the basic page (run essentially starts execution for that page).
      *
-     * @param none
-     * @return none
+     * @return void
      */
     function run()
     {
@@ -275,7 +274,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      *
      * @param int $mode - what mode for the form ?
      * @param int $id - id of the entity (for update, view operations)
-     * @return none
+     * @return void
      */
     function edit( $mode, $id = null ) 
     {
@@ -300,7 +299,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      *
      * @param int $mode - what mode for the form ?
      * @param int $id - id of the entity (for update, view operations)
-     * @return none
+     * @return void
      */
     function delete( $mode, $id = null )
     {

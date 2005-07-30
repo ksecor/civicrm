@@ -43,8 +43,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
      *
      * This method is called after the page is created.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */

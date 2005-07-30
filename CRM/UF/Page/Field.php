@@ -63,7 +63,6 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     /**
      * Get the action links for this page.
      *
-     * @param none
      * @return array $_actionLinks
      *
      */
@@ -106,8 +105,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     /**
      * Browse all CiviCRM Profile group fields.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -157,7 +155,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      *
      * @param string $action the action to be invoked
 
-     * @return none
+     * @return void
      * @access public
      */
     function edit($action)
@@ -182,8 +180,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      * This method is called after the page is created. It checks for the  
      * type of action and executes that action. 
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */

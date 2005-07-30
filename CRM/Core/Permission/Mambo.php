@@ -64,7 +64,6 @@ class CRM_Core_Permission_Mambo {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all groups.
      *
      */
@@ -79,7 +78,6 @@ class CRM_Core_Permission_Mambo {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all filtered saved searches
      *
      */

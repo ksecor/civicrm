@@ -46,7 +46,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
     /**
      * Initiate all pending/ready jobs
      *
-     * @param void
      * @return void
      * @access public
      * @static
@@ -97,7 +96,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
     /**
      * Queue recipients of a job.
      *
-     * @param void
      * @return void
      * @access public
      */

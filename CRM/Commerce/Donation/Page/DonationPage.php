@@ -57,7 +57,6 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
     /**
      * Get the action links for this page.
      *
-     * @param none
      * @return array $_actionLinks
      *
      */
@@ -111,8 +110,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
      * type of action and executes that action.
      * Finally it calls the parent's run method.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */
@@ -151,7 +149,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
      *
      * @param int $id custom group id
      * @param string $action the action to be invoked
-     * @return none
+     * @return void
      * @access public
      */
     function edit($id, $action)
@@ -173,7 +171,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
      * Preview custom group
      *
      * @param int $id custom group id
-     * @return none
+     * @return void
      * @access public
      */
     function preview($id)
@@ -190,8 +188,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
     /**
      * Browse all custom data groups.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      * @static
      */

@@ -107,7 +107,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * (Re)set the default callback method
      *
-     * @param none
      * @return void
      * @access publiic
      * @static
@@ -307,8 +306,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * log an entry into a method
      *
-     * @param  none
-     *
      * @return string format of the output
      *
      * @access public
@@ -327,8 +324,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * log an exit out of a method
      *
-     * @param  none
-     *
      * @return string format of the output
      *
      * @access public
@@ -345,8 +340,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
     /**
      * log an entry into a function
-     *
-     * @param  none
      *
      * @return string format of the output
      *
@@ -365,8 +358,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * log an exit out of a function
      *
-     * @param  none
-     *
      * @return string format of the output
      *
      * @access public
@@ -384,8 +375,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     /**
      * log an entry into a file
      *
-     * @param  none
-     *
      * @return string format of the output
      *
      * @access public
@@ -402,8 +391,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
     /**
      * log an exit out of a file
-     *
-     * @param  none
      *
      * @return string format of the output
      *

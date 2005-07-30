@@ -277,8 +277,7 @@ class CRM_Core_Selector_Controller {
      *     or template variables are updated.
      *
      *
-     * @param none
-     * @return none
+     * @return void
      *
      */
     function run()
@@ -348,7 +347,6 @@ class CRM_Core_Selector_Controller {
     /**
      * getter for pager 
      *
-     * @param none
      * @return object CRM_Utils_Pager
      * @access public
      */
@@ -360,7 +358,6 @@ class CRM_Core_Selector_Controller {
     /**
      * getter for sort 
      *
-     * @param none
      * @return object CRM_Utils_Sort
      * @access public
      */

@@ -78,7 +78,6 @@ class CRM_Core_Permission {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all groups.
      *
      */

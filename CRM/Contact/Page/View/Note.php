@@ -50,7 +50,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
     /**
      * View details of a note
      *
-     * @return none
+     * @return void
      * @access public
      */
     function view( ) {
@@ -152,7 +152,6 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
     /**
      * Get action links
      *
-     * @param none
      * @return array (reference) of action links
      * @static
      */

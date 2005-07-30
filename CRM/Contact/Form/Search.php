@@ -443,7 +443,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     /**
      * this method is called for processing a submitted search form
      *
-     * @param none
      * @return void
      * @access public
      */
@@ -501,7 +500,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     /**
      * Common post processing
      *
-     * @param none
      * @return void
      * @access public
      */

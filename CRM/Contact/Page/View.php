@@ -67,8 +67,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      *
      */
@@ -113,8 +112,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     /**
      * Get meta details of the contact.
      *
-     * @param none
-     * @return none
+     * @return void
      * @access public
      */
     function getContactDetails()

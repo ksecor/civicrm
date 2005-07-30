@@ -62,7 +62,6 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
      *    - displaying the QILL (query in local language)
      *    - displaying elements for saving the search
      *
-     * @param none
      * @access public
      * @return void
      */
@@ -86,7 +85,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
      * process the form after the input has been submitted and validated
      *
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess()
     {

@@ -549,7 +549,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * Return a list of group names for this mailing.  Does not work with
      * prior-mailing targets.
      *
-     * @param none
      * @return array        Names of groups receiving this mailing
      * @access public
      */

@@ -66,7 +66,6 @@ class CRM_Core_Permission_Drupal {
      * @access public
      * @static
      *
-     * @param none
      * @return array - array reference of all groups.
      *
      */

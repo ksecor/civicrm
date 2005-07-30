@@ -140,8 +140,6 @@ class CRM_Utils_System_Mambo {
     /**
      * FIXME Stub function to generate the base URL
      * 
-     * @param void
-     *
      * @return string
      * @access public
      * @static

@@ -131,8 +131,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * - View
      * - Edit
      *
-     * @param none
-     *
      * @return array
      * @access public
      *
@@ -451,7 +449,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      *
      * Calls the static function getQILL to get query in local language
      *
-     * @param none
      * @return contents of static function.
      * @access public
      */
@@ -474,7 +471,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * get colunmn headers for search selector
      *
      *
-     * @param none
      * @return array $_columnHeaders
      * @access private
      */

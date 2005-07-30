@@ -29,7 +29,7 @@ PRIVATE=on
 # /*
 #  * JavaDoc-compliant description parsing
 #  */
-JAVADOC_STYLE=off
+JAVADOC_STYLE=on
 
 # /*
 #  * parse a PEAR-style repository
@@ -39,7 +39,7 @@ PEAR_STYLE=on
 # /*
 #  * generate highlighted sourcecode for every parced file
 #  */
-SOURCECODE=off
+SOURCECODE=on
 
 # /*
 #  * output information (output:converter:templatedir)

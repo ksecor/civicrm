@@ -87,7 +87,6 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
     /**
      * retrieve the default location_type
      *
-     * @param void
      * @return object           The default location type object on success,
      *                          null otherwise
      * @static

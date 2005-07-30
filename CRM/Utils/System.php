@@ -321,7 +321,6 @@ class CRM_Utils_System {
     /**
      * check if PHP4 ?
      *
-     * @param none
      * @return boolean true if php4 false otherwise
      * @access public
      * @static

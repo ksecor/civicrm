@@ -108,7 +108,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * - Details
      * - Delete
      *
-     * @param none
      *
      * @return array
      * @access public
@@ -243,7 +242,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * get colunmn headers for search selector
      *
      *
-     * @param none
      * @return array $_columnHeaders
      * @access private
      */

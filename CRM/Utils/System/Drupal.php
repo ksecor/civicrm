@@ -151,8 +151,6 @@ class CRM_Utils_System_Drupal {
     /**
      * Get the base URL from Drupal's configuration
      *
-     * @param void
-     *
      * @return string
      * @access public
      * @static

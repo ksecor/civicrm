@@ -46,7 +46,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
     /**
      * View details of a relationship
      *
-     * @return none
+     * @return void
      *
      * @access public
      */
@@ -151,7 +151,6 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
     /**
      * Get action links
      *
-     * @param none
      * @return array (reference) of action links
      * @static
      */
