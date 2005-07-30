@@ -129,10 +129,11 @@ class test_RSTest_UpdateContact
     {
         //print_r($locationType);
         //print_r($contactId);
-        $locationDAO                   =& new CRM_Contact_DAO_Location();
+        $locationDAO                   =& new CRM_Core_DAO_Location();
         $locationDAO->is_primary       = $setPrimary;
         $locationDAO->location_type_id = $locationType;
-        $locationDAO->contact_id       = $contactId;
+        $locationDAO->entity_id        = $contactId;
+        $locationDAO->entity_table     = 'civicrm_contact';
         test_RSTest_Common::_insert($locationDAO);
         $this->_addAddress($locationDAO->id);        
 
@@ -167,7 +168,7 @@ class test_RSTest_UpdateContact
      */
     private function _addAddress($locationId)
     {
-        $addressDAO                                    =& new CRM_Contact_DAO_Address();
+        $addressDAO                                    =& new CRM_Core_DAO_Address();
         // add addresses now currently we are adding only 1 address for each location
         $addressDAO->location_id                       = $locationId;
         if ($locationId % 5) {
@@ -220,7 +221,7 @@ class test_RSTest_UpdateContact
     private function _addPhone($locationId, $phoneType, $primary=false)
     {
         if ($locationId % 3) {
-            $phoneDAO              =& new CRM_Contact_DAO_Phone();
+            $phoneDAO              =& new CRM_Core_DAO_Phone();
             $phoneDAO->location_id = $locationId;
             $phoneDAO->is_primary  = $primary;
             $phoneDAO->phone       = mt_rand(11111111, 99999999);
@@ -246,7 +247,7 @@ class test_RSTest_UpdateContact
     private function _addEmail($locationId, $sortName, $primary=false)
     {
         if ($locationId % 7) {
-            $emailDAO              =& new CRM_Contact_DAO_Email();
+            $emailDAO              =& new CRM_Core_DAO_Email();
             $emailDAO->location_id = $locationId;
             $emailDAO->is_primary  = $primary;
             $emailName             = $this->_sortNameToEmail($sortName);

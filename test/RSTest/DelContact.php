@@ -141,7 +141,7 @@ class test_RSTest_DelContact
     {
         $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
 
-        $activityHistoryDAO->entity_table = 'crm_contact';
+        $activityHistoryDAO->entity_table = 'civicrm_contact';
         $activityHistoryDAO->entity_id    = $contactId;
         $activityHistoryDAO->delete();
     }
@@ -157,7 +157,7 @@ class test_RSTest_DelContact
      */
     private function _deleteLocation($contactId)
     {
-        $locationDAO =& new CRM_Contact_DAO_Location();
+        $locationDAO =& new CRM_Core_DAO_Location();
         $locationDAO->contact_id = $contactId;
         $locationDAO->find();
         while ($locationDAO->fetch()) {
@@ -179,7 +179,7 @@ class test_RSTest_DelContact
     {
         $blocks = array('Address', 'Phone', 'Email', 'IM');
         foreach ($blocks as $name) {
-            eval('$object =& new CRM_Contact_DAO_' . $name . '();');
+            eval('$object =& new CRM_Core_DAO_' . $name . '();');
             $object->location_id = $locationId;
             $object->delete();
         }

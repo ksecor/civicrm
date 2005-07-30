@@ -141,10 +141,11 @@ class test_RSTest_GenDataset
     {
         //print_r($locationType);
         //print_r($contactId);
-        $locationDAO                   =& new CRM_Contact_DAO_Location();
+        $locationDAO                   =& new CRM_Core_DAO_Location();
         $locationDAO->is_primary       = $setPrimary; // primary location for now
         $locationDAO->location_type_id = $locationType;
-        $locationDAO->contact_id       = $contactId;
+        $locationDAO->entity_id        = $contactId;
+        $locationDAO->entity_table     = 'civicrm_contact';
         test_RSTest_Common::_insert($locationDAO);
         $this->_addAddress($locationDAO->id);        
 
@@ -179,7 +180,7 @@ class test_RSTest_GenDataset
      */
     private function _addAddress($locationId)
     {
-        $addressDAO                                    =& new CRM_Contact_DAO_Address();
+        $addressDAO                                    =& new CRM_Core_DAO_Address();
         // add addresses now currently we are adding only 1 address for each location
         $addressDAO->location_id                       = $locationId;
         if ($locationId % 5) {
@@ -252,7 +253,7 @@ class test_RSTest_GenDataset
     private function _addPhone($locationId, $phoneType, $primary=false)
     {
         if ($locationId % 3) {
-            $phoneDAO              =& new CRM_Contact_DAO_Phone();
+            $phoneDAO              =& new CRM_Core_DAO_Phone();
             $phoneDAO->location_id = $locationId;
             $phoneDAO->is_primary  = $primary;
             $phoneDAO->phone       = mt_rand(11111111, 99999999);
@@ -278,7 +279,7 @@ class test_RSTest_GenDataset
     private function _addEmail($locationId, $sortName, $primary=false)
     {
         if ($locationId % 7) {
-            $emailDAO              =& new CRM_Contact_DAO_Email();
+            $emailDAO              =& new CRM_Core_DAO_Email();
             $emailDAO->location_id = $locationId;
             $emailDAO->is_primary  = $primary;
             $emailName             = $this->_sortNameToEmail($sortName);
@@ -955,7 +956,7 @@ class test_RSTest_GenDataset
     public function addNote()
     {
         $noteDAO               =& new CRM_Core_DAO_Note();
-        $noteDAO->entity_table = 'crm_contact';
+        $noteDAO->entity_table = 'civicrm_contact';
         $noteDAO->contact_id   = 1;
 
         for ($i=0; $i<$this->numContact; $i++) {
@@ -1005,7 +1006,7 @@ class test_RSTest_GenDataset
             }
             for ($i=0; $i<test_RSTest_Common::NUM_ACTIVITY_HISTORY; $i++) {
                 $activityHistoryDAO                   =& new CRM_Core_DAO_ActivityHistory();
-                $activityHistoryDAO->entity_table     = 'crm_contact';
+                $activityHistoryDAO->entity_table     = 'civicrm_contact';
                 $activityHistoryDAO->entity_id        = $contactDAO->id;
                 $activityHistoryDAO->activity_type    = test_RSTest_Common::getRandomElement($this->activity_type);
                 $activityHistoryDAO->module           = test_RSTest_Common::getRandomElement($this->module);
@@ -1030,12 +1031,12 @@ class test_RSTest_GenDataset
      */
     public function addEntityTag()
     {
-        $entityTagDAO =& new CRM_Contact_DAO_EntityTag();
+        $entityTagDAO =& new CRM_Core_DAO_EntityTag();
         for ($i=0; $i<$this->numContact; $i+=2) {
             echo ".";
             ob_flush();
             flush();
-            $entityTagDAO->entity_table = 'crm_contact';
+            $entityTagDAO->entity_table = 'civicrm_contact';
             $entityTagDAO->entity_id    = $this->contact[$i];
             $entityTagDAO->tag_id       = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('tag'), test_RSTest_Common::ARRAY_DIRECT_USE);
 
@@ -1067,6 +1068,7 @@ class test_RSTest_GenDataset
                 $groupDAO->name      = $this->group[$i];
                 $groupDAO->title     = $this->group[$i];
                 $groupDAO->type      = 'static';
+                $groupDAO->is_active = 1;
                 test_RSTest_Common::_insert($groupDAO);
             }
         }
@@ -1100,38 +1102,38 @@ class test_RSTest_GenDataset
     public function run($ID=0) 
     {
         $this->initID($ID);
-        //echo "Hello 1 \n";
+        echo "Hello 1 \n";
         $this->parseDataFile();
-        //echo "Hello 2 \n";
+        echo "Hello 2 \n";
         $this->initDB();
         if (!($ID)) {
-            //echo "Hello 3 \n";
+            echo "Hello 3 \n";
             $this->addDomain();
         }
-        //echo "Hello 4 \n";
+        echo "Hello 4 \n";
         $this->addContact();
-        //echo "Hello 5 \n";
+        echo "Hello 5 \n";
         $this->addIndividual();
-        //echo "Hello 6 \n";
+        echo "Hello 6 \n";
         $this->addHousehold();
-        //echo "Hello 7 \n";
+        echo "Hello 7 \n";
         $this->addOrganization();
-        //echo "Hello 8 \n";
+        echo "Hello 8 \n";
         $this->addRelationship();
-        //echo "Hello 9 \n";
+        echo "Hello 9 \n";
         $this->addLocation(1);
-        //echo "Hello 10 \n";
+        echo "Hello 10 \n";
         $this->addEntityTag();
         if ($ID) {
-            //echo "Hello 11 \n";
+            echo "Hello 11 \n";
             $this->addGroup(false);
         } else {
-            //echo "Hello 11 \n";
+            echo "Hello 11 \n";
             $this->addGroup(true);
         }
-        //echo "Hello 12 \n";
+        echo "Hello 12 \n";
         $this->addNote();
-        //echo "Hello 13 \n";
+        echo "Hello 13 \n";
         $this->addActivityHistory();
     }
 }
