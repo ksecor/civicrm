@@ -31,8 +31,8 @@
  *
  */
 
-function getWord(input, evt) {
-
+function getState(input, evt, status) 
+{
     if (input.value.length == 0) {
         return;
     }
@@ -67,7 +67,6 @@ function getWord(input, evt) {
     CompletionHandler.lastLength = input.value.length;
       
     /*Create the remote client*/
-
     var a = new crm_contact_server_statecountryserver (CompletionHandler);
 
     /*Set a timeout for responses which take too long*/
@@ -83,7 +82,20 @@ function getWord(input, evt) {
     }
 
     /*Call the remote method*/
-    a.getword(input.value);
+    a.getstate(input.value, 0);
+  
+    /*  set the state id */
+    if (status == true) {
+	var input1 = document.getElementById('country');
+	var countryId = input1.options[input1.selectedIndex].value;
+
+	var input2 = document.getElementById('state');
+
+	var c = new crm_contact_server_statecountryserver (CompletionHandler);
+	
+	c.getstate(input2.value, countryId );
+    }
+    
 }
 
 /*Callback handler*/
@@ -92,20 +104,23 @@ var CompletionHandler = {
     lastLength: 0,
     
     /*Callback method*/
-    getword: function(result) {
+    getstate: function(result) {
+	
         if (result.length < 1 ) {
             return;
         }        
 
-        var input = document.getElementById('state');
-        input.value = result.pop();
+	if (isNaN(result)) { 
+	    var input = document.getElementById('state');
+	    input.value = result.pop();
 
-        var input1 = document.getElementById('state_id');
-        input1.value = result.length;
-
-        var b = new crm_contact_server_statecountryserver (CompletionHandlerCountry);
-        b.getcountry(input1.value);
-
+	    var b = new crm_contact_server_statecountryserver (CompletionHandlerCountry);
+	    b.getcountry( input.value);
+	} else {
+	    var input2 = document.getElementById('state_id');
+	    input2.value = result;
+	}
+	
         try {
             input.setSelectionRange(this.lastLength, input.value.length);
         } catch(e) {
@@ -125,12 +140,20 @@ var CompletionHandlerCountry = {
         if (result.length < 1 ) {
             return;
         }
-        
-        var input = document.getElementById('country');
-        input.value = result.pop();
 
-        var input1 = document.getElementById('country_id');
-        input1.value = result.length;
+	var s = result.pop();
+	
+        var input = document.getElementById('country');
+
+	var optLen = input.options.length;
+	
+	for (i = optLen ; i > 0 ; i-- ) {
+	    input.remove(i);
+	}
+
+	input.options[0] = new Option(s, result.length, true);
+	
+	input.focus();
 
         try {
             input.setSelectionRange(this.lastLength, input.value.length);
@@ -138,5 +161,3 @@ var CompletionHandlerCountry = {
         }
     }
 }
-
-

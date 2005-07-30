@@ -38,12 +38,31 @@ require_once 'CRM/Core/PseudoConstant.php';
 class CRM_Contact_Server_StateCountryServer  
 {
     
-    function getWord($fragment='') 
+    function getState($fragment='', $countryId = 0) 
     {
         $fraglen = strlen($fragment);
         
+        if (!$countryId) { 
+            $states = CRM_Core_PseudoConstant::stateProvince();
+        } else {
+          
+            $queryString = "SELECT civicrm_state_province.id as civicrm_state_province_id  
+                            FROM civicrm_country , civicrm_state_province 
+                            WHERE civicrm_state_province.country_id = civicrm_country.id
+                              AND civicrm_country.id = ".$countryId."
+                              AND civicrm_state_province.name ='".$fragment."'";  
+
+            $DAOobj =& new CRM_Core_DAO();
+            
+            $DAOobj->query($queryString); 
+            
+            while ($DAOobj->fetch()) {
+              return $DAOobj->civicrm_state_province_id;
+            }
+        }
+
         for ( $i = $fraglen; $i > 0; $i-- ) {
-            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i', CRM_Core_PseudoConstant::stateProvince());
+            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i', $states);
             
             if ( count($matches) > 0 ) {
                 $id = key($matches);
@@ -56,26 +75,21 @@ class CRM_Contact_Server_StateCountryServer
         return '';
     }
 
-    function getCountry($stateProvinceId) {
+    function getCountry($stateProvince) {
         unset($matches);
         $queryString = "SELECT civicrm_country.id as civicrm_country_id, civicrm_country.name as civicrm_country_name 
                         FROM civicrm_country , civicrm_state_province 
                         WHERE civicrm_state_province.country_id = civicrm_country.id
-                          AND civicrm_state_province.id =".$stateProvinceId;  
+                          AND civicrm_state_province.name ='".$stateProvince."'";  
 
         $DAOobj =& new CRM_Core_DAO();
         
         $DAOobj->query($queryString); 
 
-        if ($DAOobj->fetch()) { 
+        while ($DAOobj->fetch()) { 
             $matches[$DAOobj->civicrm_country_id] = $DAOobj->civicrm_country_name;
-               
-            $id = key($matches);
-            $value = current($matches);
-            $showCountry[$id] = $value;
-            return $showCountry;
         }
-        return '';
+        return $matches;
     }
 
 }

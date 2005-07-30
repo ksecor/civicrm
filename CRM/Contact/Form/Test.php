@@ -72,10 +72,13 @@ class CRM_Contact_Form_Test extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-        header( "Cache-Control: no-cache, must-revalidate" ); 
-        header( "Pragma: no-cache" );
         
+        $this->addElement('text', "state", ts('State / Province'), 'onkeyup="getState(this,event, false);"  onblur="getState(this,event, false);" autocomplete="off"' );
+        
+        $this->addElement('text', "state_id", ts('State / Province  Id'));
+        //$this->addElement('text', "country", ts('Country'));
+        // $this->addElement('text', "country_id", ts('Country  Id'));
+        $this->addElement('select', "country", ts('Country'), array('' => ts('- select -')), 'onblur="getState(this,event, true);"');
 
     }
 
@@ -88,7 +91,7 @@ class CRM_Contact_Form_Test extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        echo "In post process";
+        
     }
 }
 
