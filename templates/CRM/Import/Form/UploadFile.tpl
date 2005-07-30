@@ -35,9 +35,13 @@
             <dd class="description">
             {ts}<label>Skip:</label> Reports and then Skips duplicate import file rows - leaving the matching record in the database as-is (default).{/ts}</dd>
             </dd>
-       <dt> </dt>
+       {* <dt> </dt>
             <dd class="description">
             {ts}<label>Replace:</label> Replaces the entire matching record in the database with imported contact data.{/ts}
+            </dd>*}
+	<dt> </dt>
+            <dd class="description">
+            {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
             </dd>
        <dt> </dt>
             <dd class="description">

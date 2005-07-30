@@ -57,7 +57,8 @@ abstract class CRM_Import_Parser {
         DUPLICATE_SKIP = 1,
         DUPLICATE_REPLACE = 2,
         DUPLICATE_UPDATE = 4,
-        DUPLICATE_FILL = 8;
+        DUPLICATE_FILL = 8,
+        DUPLICATE_NOCHECK = 16;
 
     protected $_fileName;
 

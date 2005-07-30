@@ -71,12 +71,14 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Skip'), CRM_Import_Parser::DUPLICATE_SKIP);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Replace'), CRM_Import_Parser::DUPLICATE_REPLACE);
+        //$duplicateOptions[] = HTML_QuickForm::createElement('radio',
+        //    null, null, ts('Replace'), CRM_Import_Parser::DUPLICATE_REPLACE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Update'), CRM_Import_Parser::DUPLICATE_UPDATE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Fill'), CRM_Import_Parser::DUPLICATE_FILL);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('No Duplicate Checking'), CRM_Import_Parser::DUPLICATE_NOCHECK);
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
                         ts('On duplicate entries'));

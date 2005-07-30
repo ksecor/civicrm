@@ -253,8 +253,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
 //         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
         if ( is_a($newContact = crm_create_contact_formatted( $formatted ),
-                    CRM_Core_Error) ) 
+                    CRM_Core_Error)) 
         {
+
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
@@ -293,7 +294,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 if (! is_a($newContact, CRM_Core_Error)) {
                     $this->_newContacts[] = $newContact->id;
                 }
-                return CRM_Import_Parser::DUPLICATE;
+                //CRM-262 No Duplicate Checking  
+                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK) {
+                    return CRM_Import_Parser::VALID;
+                } else {
+                    return CRM_Import_Parser::DUPLICATE; 
+                }
             } 
             /* Not a dupe, so we had an error */
             array_unshift($values, $newContact->_errors[0]['message']);
