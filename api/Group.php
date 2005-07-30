@@ -111,13 +111,15 @@ function crm_delete_group(&$group) {
  * @param CRM_Contact $group       A valid group object (passed by reference)
  * @param array       $contact     An array of one or more valid Contact objects (passed by reference).
  * @param text        status       A valid status value ('In', 'Pending', 'Out').
- *  
+ * @param text        $method      A valid method to enter the contact to a group ('Admin','Email','Web','API').
+ *
+ *
  * @return null if success or CRM_Error (db error or contact was not valid)
  *
  * @access public
  */
 
-function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Admin',$status = 'In') {
+function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Admin') {
     
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
@@ -183,7 +185,7 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
  */
 
 
-function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin',$status = 'In') {
+function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin') {
      
     foreach($contacts as $contact){
         if ( ! isset($contact->id)) {
@@ -192,7 +194,7 @@ function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin',$status 
         $contactID[] = $contact->id;
     } 
   
-    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method ,$status);
+    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method);
     return null;
 }
 
