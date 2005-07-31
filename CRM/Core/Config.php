@@ -46,6 +46,13 @@ require_once 'CRM/Contact/DAO/Factory.php';
 class CRM_Core_Config {
 
     /**
+     * constants to determine method of geocode resolution
+     */
+    const
+        GEOCODE_RPC = 1,
+        GEOCODE_ZIP = 2;
+
+    /**
      * the dsn of the database connection
      * @var string
      */
@@ -198,6 +205,27 @@ class CRM_Core_Config {
      * @var int
      */
     public $maxImportFileSize = 1048576;
+
+    /**
+     * Should we support Google Maps / latitude / longitude lookup
+     *
+     * @var boolean
+     */
+    public $enableGoogleMaps = false;
+
+    /**
+     * Google Map API Key if google map support needed
+     *
+     * @var boolean
+     */
+    public $googleMapsAPIKey = null;
+
+    /**
+     * How should we get geo code information if google map support needed
+     *
+     * @var boolean
+     */
+    public $geocodeMethod    = 0;
 
     /**
      * the domainID for this instance. 
@@ -363,6 +391,19 @@ class CRM_Core_Config {
         if ( defined ( 'CRM_MAX_IMPORT_FILESIZE' ) ) {
             $this->maxImportFileSize = CRM_MAX_IMPORT_FILESIZE;
         }
+
+        if ( defined( 'CRM_GOOGLE_MAPS' ) ) {
+            $this->enableGoogleMaps = true;
+        }
+
+        if ( defined( 'CRM_GOOGLE_MAPS_API_KEY' ) ) {
+            $this->googleMapsAPIKey = CRM_GOOGLE_MAPS_API_KEY;
+        }
+
+        if ( defined( 'CRM_GEOCODE_METHOD' ) ) {
+            $this->geocodeMethod = CRM_GEOCODE_METHOD;
+        }
+
         // initialize the framework
         $this->initialize();
     }

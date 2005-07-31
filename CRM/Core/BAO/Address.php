@@ -63,14 +63,19 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
 
         // add latitude and longitude and format address if needed
-        CRM_Utils_Geocoder::format( $params['location'][$locationId]['address'] );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->geocodeMethod == CRM_Core_Config::GEOCODE_ZIP ) {
+            CRM_Utils_Geocode_ZipTable::format( $params['location'][$locationId]['address'] );
+        } else if ( $config->geocodeMethod == CRM_Core_Config::GEOCODE_RPC ) {
+            CRM_Utils_Geocode_RPC::format( $params['location'][$locationId]['address'] );
+        }
 
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
             $address->delete( );
             return null;
         }
-
+        
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
         if ( is_numeric( $address->state_province_id ) && !isset($address->country_id)) {

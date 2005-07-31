@@ -36,7 +36,7 @@ require_once 'XML/RPC.php';
 /**
  * Class that uses geocoder.us to retrieve the lat/long of an address
  */
-class CRM_Utils_Geocoder {
+class CRM_Utils_Geocode_RPC {
     /**
      * server to retrieve the lat/long
      *
@@ -79,8 +79,8 @@ class CRM_Utils_Geocoder {
 
         $data = XML_RPC_decode( $response->value( ) );
         $data = $data[0];
-        $values['geo_code_1'] = $data->lat ;
-        $values['geo_code_2'] = $data->long;
+        $values['geo_code_1'] = $data['lat' ];
+        $values['geo_code_2'] = $data['long'];
 
         return true;
     }

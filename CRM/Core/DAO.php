@@ -533,6 +533,21 @@ class CRM_Core_DAO extends DB_DataObject {
         $object->entity_id   = $contactId;
         $object->delete( );
     }
-    
+ 
+    /**
+     * execute a query
+     *
+     * @param string $query query to be executed
+     *
+     * @return Object CRM_Core_DAO object that holds the results of the query
+     * @static
+     * @access public
+     */
+    static function &executeQuery( $query ) {
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        return $dao;
+    }
+
 }
 ?>
