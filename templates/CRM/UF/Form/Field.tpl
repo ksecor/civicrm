@@ -19,16 +19,18 @@
         {/if}
         <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Where is this field displayed?{/ts}</dd>
+        <dt></dt><dd class="description">{ts}Is this field visible on Public User Pages, or only to User Administrators and the user themself?{/ts}</dd>
         {/if}
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
+        {* User Listings are not supported for v1.1 
         <dt>{$form.listings_title.label}</dt><dd>{$form.listings_title.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}When this field is used to aggregate a user listings page, what is the title of that page?{/ts}</dd>
         {/if}
+        *}
         <dt>{$form.is_match.label}</dt><dd>&nbsp;{$form.is_match.html}</dd>
         {if $action neq 4}
         <dt></dt><dd class="description">{ts}Is this field used to map a newly registered user to an existing contact record?{/ts}</dd>

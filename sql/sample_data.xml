@@ -51,7 +51,7 @@
   <street_names>
     <street_name>Second</street_name>
     <street_name>Main</street_name>
-    <street_name>Linking</street_name>
+    <street_name>States</street_name>
     <street_name>Dowlen</street_name>
     <street_name>Maple</street_name>
     <street_name>Pine</street_name>
@@ -65,9 +65,9 @@
     <street_name>Van Ness</street_name>
     <street_name>Cadell</street_name>
     <street_name>Northpoint</street_name>
-    <street_name>Niepodległości</street_name>
-    <street_name>Odyńca</street_name>
-    <street_name>Kukułki</street_name>
+    <street_name>Green</street_name>
+    <street_name>Beech</street_name>
+    <street_name>Lincoln</street_name>
   </street_names>
 
   <street_types>
@@ -101,17 +101,17 @@
   </supplemental_addresses_1>
 
   <cities>
-    <city>Mumbai</city>
-    <city>Delhi</city>
-    <city>Kraków</city>
+    <city>Portland</city>
+    <city>Cleveland</city>
+    <city>Boston</city>
     <city>Chicago</city>
-    <city>Bangalore</city>
-    <city>Warszawa</city>
+    <city>Detroit</city>
+    <city>Des Moines</city>
     <city>San Francisco</city>
     <city>New York</city>
     <city>Seattle</city>
-    <city>Łódź</city>
-    <city>Wrocław</city>
+    <city>Los Angeles</city>
+    <city>Minneapolis</city>
   </cities>
 
   <address_directions>
@@ -166,7 +166,7 @@
     <organization_name>Compumentor</organization_name>
     <organization_name>Project Open Hand</organization_name>
     <organization_name>Eastmont Computing Center</organization_name>
-    <organization_name>Międzynarodowe Targi Łódzkie</organization_name>
+    <organization_name>Magic Bus</organization_name>
   </organization_names>
 
   <organization_fields>
