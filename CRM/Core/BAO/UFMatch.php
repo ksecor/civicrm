@@ -78,41 +78,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $session->reset( );
         }
 
-        // make sure that a contact id exists for this user id
-        $ufmatch =& new CRM_Core_DAO_UFMatch( );
-        $ufmatch->uf_id = $user->$key;
-        if ( ! $ufmatch->find( true ) ) {
-            $query = "
-SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
-FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id AND 
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = '" . $user->$mail . "'";
-  
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            if ( $dao->fetch( ) ) {
-                $ufmatch->contact_id = $dao->contact_id;
-                $ufmatch->domain_id  = $dao->domain_id ;
-                $ufmatch->email      = $user->$mail    ;
-            } else {
-                if ( $uf == 'Mambo' ) {
-                    CRM_Utils_System_Mambo::setEmail( $user );
-                }
-                $params= array( 'email' => $user->$mail, 'location_type' => 'Home' );
-                $contact =& crm_create_contact( $params, 'Individual' );
-                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                    CRM_Core_Error::debug( 'error', $contact );
-                    exit(1);
-                }
-                $ufmatch->contact_id = $contact->id;
-                $ufmatch->domain_id  = $contact->domain_id ;
-                $ufmatch->email      = $user->$mail    ;
-            }
-            $ufmatch->save( );
-        }
+        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );
 
         $session->set( 'ufID'    , $ufmatch->uf_id       );
         $session->set( 'userID'  , $ufmatch->contact_id );
@@ -139,6 +105,58 @@ SET civicrm_email.email = '" . $user->$mail . '" WHERE civicrm_contact.id = ' . 
                 $dao->query( $query );
             }
         }
+    }
+
+    /**
+     * Synchronize the object with the UF Match entry. Can be called stand-alone from
+     * the drupalUsers script
+     *
+     * @param Object  $user    the drupal user object
+     * @param string  $userKey the id of the user from the uf object
+     * @param string  $mail    the email address of the user
+     * @param string  $uf      the name of the user framework
+     *
+     * @return the ufmatch object that was found or created
+     * @access public
+     * @static
+     */
+    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf ) {
+        // make sure that a contact id exists for this user id
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->uf_id = $userKey;
+        if ( ! $ufmatch->find( true ) ) {
+            $query = "
+SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id AND 
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+WHERE     civicrm_email.email = '" . $mail . "'";
+  
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            if ( $dao->fetch( ) ) {
+                $ufmatch->contact_id = $dao->contact_id;
+                $ufmatch->domain_id  = $dao->domain_id ;
+                $ufmatch->email      = $mail           ;
+            } else {
+                if ( $uf == 'Mambo' ) {
+                    CRM_Utils_System_Mambo::setEmail( $user );
+                }
+                $params= array( 'email' => $mail, 'location_type' => 'Home' );
+                $contact =& crm_create_contact( $params, 'Individual' );
+                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                    CRM_Core_Error::debug( 'error', $contact );
+                    exit(1);
+                }
+                $ufmatch->contact_id = $contact->id;
+                $ufmatch->domain_id  = $contact->domain_id ;
+                $ufmatch->email      = $mail    ;
+            }
+            $ufmatch->save( );
+        }
+        return $ufmatch;
     }
 
     /**

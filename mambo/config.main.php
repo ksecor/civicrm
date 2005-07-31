@@ -36,7 +36,7 @@ if ( ! defined( 'CRM_MAINMENU' ) ) {
 }
 
 if ( ! defined( 'JPSPAN' ) ) {
-    define( JPSPAN, $user_home . DIRECTORY_SEPARATOR . packages . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
+    define( 'JPSPAN', $user_home . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
 
 define( 'CRM_CLEANURL' , 0 );

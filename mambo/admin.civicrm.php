@@ -12,21 +12,13 @@ require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Invoke.php';
 
-
 // insert any functions/includes etc. that apply to all "tasks"
 // HERE
-
 switch ($task) {
-	/** Sample Task **/
-	case 'civicrm/contacts/view':
 	default:
         civicrm_invoke( );
 		break;
 }
-
-// want to use wrapper functions instead of direct calls?
-// this is probably overkill, but might be considered a good
-// abstraction. this would be the place to put them.
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();

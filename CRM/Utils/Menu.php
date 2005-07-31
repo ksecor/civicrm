@@ -183,6 +183,7 @@ class CRM_Utils_Menu {
                             'callback' => 'civicrm_invoke',
                             'type'     => self::NORMAL_ITEM,
                             'crmType'  => self::CALLBACK,
+                            'weight'   => 0,
                             ),
 
                       array(
@@ -267,6 +268,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('View Contact'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
+                            'weight'   => 0,
                             ),
 
                       array(
@@ -327,6 +329,7 @@ class CRM_Utils_Menu {
                             'path'    => 'civicrm/contact/view/cd',
                             'type'    => self::CALLBACK,
                             'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
 
                       array(
@@ -347,10 +350,11 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
-                            'path'   => 'civicrm/group/add',
-                            'title'  => ts('Create New Group'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/group/add',
+                            'title'   => ts('Create New Group'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
         
                       array(
@@ -365,36 +369,41 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
-                            'path'   => 'civicrm/history/activity/detail',
-                            'title'  => ts('Activity Detail'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/history/activity/detail',
+                            'title'   => ts('Activity Detail'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
 
                       array(
-                            'path'   => 'civicrm/history/activity/delete',
-                            'title'  => ts('Delete Activity'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/history/activity/delete',
+                            'title'   => ts('Delete Activity'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
 
                       array(
-                            'path'   => 'civicrm/history/email',
-                            'title'  => ts('Sent Email Message'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/history/email',
+                            'title'   => ts('Sent Email Message'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
                       array(
-                            'path'   => 'civicrm/mailing/component',
-                            'title'  => ts('Mailing Header / Footer'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/mailing/component',
+                            'title'   => ts('Mailing Header / Footer'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
                       array(
-                            'path'   => 'civicrm/mailing/send',
-                            'title'  => ts('Mailing Message'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
+                            'path'    => 'civicrm/mailing/send',
+                            'title'   => ts('Mailing Message'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
                             ),
                       );
             

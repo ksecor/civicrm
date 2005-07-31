@@ -34,13 +34,6 @@
        <fulltext/>
   </field>
   <field>
-       <name>nick_name</name>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>Nick Name.</comment>
-       <fulltext/>
-  </field>
-  <field>
       <name>primary_contact_id</name>
       <type>int unsigned</type>
       <comment>Optional FK to Primary Contact for this household.</comment>

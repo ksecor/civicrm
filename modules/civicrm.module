@@ -173,7 +173,15 @@ function civicrm_init()
         return;
     }
 
+	civicrm_initialize( );
+}
 
+/**
+ * Initialize CivicRM. Call this function from other modules too if 
+ * they use the CivicRM API.
+ *
+ */
+function civicrm_initialize() {
     $config =& CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
 

@@ -41,13 +41,6 @@
        <fulltext/>
   </field>
   <field>
-       <name>nick_name</name>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>Nick Name.</comment>
-       <fulltext/>
-  </field>
-  <field>
        <name>sic_code</name>
        <type>varchar</type>
        <length>8</length>

@@ -122,6 +122,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         $group->name         = $params['title'];
         $group->title        = $params['title'];
         $group->description  = $params['description'];
+        $group->is_active    = 1;
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $group->id = $this->_id;

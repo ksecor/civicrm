@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../../configuration.php';
+require_once '../configuration.php';
 
 function civicrm_setup( ) {
     global $comPath, $crmPath, $sqlPath, $dsn;

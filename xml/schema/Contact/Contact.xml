@@ -67,6 +67,13 @@
        <comment>Formatted name representing preferred format for display/print/other output.</comment>
   </field>
   <field>
+       <name>nick_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Nick Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
        <name>home_URL</name>
        <type>varchar</type>
        <length>128</length>
