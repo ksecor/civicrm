@@ -114,8 +114,21 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
+        // should we restrict what we display
+        $admin = false;
+        $session  =& CRM_Core_Session::singleton( );
+        if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
+             $this->_id == $session->get( 'userID' ) ) {
+            $admin = true;
+        }
+        
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
+            // make sure that there is enough permission to expose this field
+            if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
+                continue;
+            }
+
             if ( $field['name'] === 'state_province_id' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);

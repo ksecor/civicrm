@@ -61,21 +61,21 @@ class CRM_Core_Invoke {
 
         switch ( $args[1] ) {
 
-        case 'contact': return self::contact( $args );
+        case 'contact': return self::contact  ( $args );
 
-        case 'admin'   : return self::admin  ( $args );
+        case 'admin'   : return self::admin   ( $args );
 
-        case 'history' : return self::history( $args );
+        case 'history' : return self::history ( $args );
 
-        case 'group'   : return self::group  ( $args );
+        case 'group'   : return self::group   ( $args );
 
-        case 'import'  : return self::import ( $args );
+        case 'import'  : return self::import  ( $args );
        
-        case 'export'  : return self::export ( $args );
+        case 'export'  : return self::export  ( $args );
 
-        case 'activity': return self::activity ( $args );
+        case 'activity': return self::activity( $args );
 
-        case 'mailing' : return self::mailing( $args );
+        case 'mailing' : return self::mailing ( $args );
 
         default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
 
@@ -104,6 +104,7 @@ class CRM_Core_Invoke {
             }
             return $server->run( $set );
         }
+
         //code added for testing ajax
         if ($args[2] == 'test') {
             $wrapper =& new CRM_Utils_Wrapper( );

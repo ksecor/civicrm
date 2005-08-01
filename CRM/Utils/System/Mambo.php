@@ -45,6 +45,8 @@ class CRM_Utils_System_Mambo {
      * @access public
      */
     function setTitle( $title ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'pageTitle', $title );
         return;
     }
 

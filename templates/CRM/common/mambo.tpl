@@ -13,7 +13,7 @@
         {include file="CRM/common/recentlyViewed.tpl"}
     {/if}
     
-    <h1 class="title">Page Title Goes Here</h1>
+    <h1 class="title">{$pageTitle}</h1>
     
     {if $localTasks}
         {include file="CRM/common/localNav.tpl"}

@@ -85,6 +85,10 @@ class CRM_Core_Smarty extends Smarty {
     static function &singleton( ) {
         if ( ! isset( self::$_singleton ) ) {
             self::$_singleton =& new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
+
+            // hack for now, since we cant put this in constructor, but only want to do this once
+            $config  =& CRM_Core_Config::singleton ();
+            CRM_Utils_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
         }
         return self::$_singleton;
     }
@@ -99,9 +103,6 @@ class CRM_Core_Smarty extends Smarty {
      */
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
-        $config =& CRM_Core_Config::singleton( );
-        CRM_Utils_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
-
         return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
     }
 }

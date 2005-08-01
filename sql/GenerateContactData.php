@@ -216,7 +216,8 @@ class CRM_GCD {
     {
         $array1 = array();
 
-        $c = array_rand($this->CSC);
+        // $c = array_rand($this->CSC);
+        $c = 1228;
 
         // the state array now
         $s = array_rand($this->CSC[$c]);
@@ -520,8 +521,6 @@ class CRM_GCD {
     public function addDomain()
     {
 
-        // CRM_Core_Error::le_method();
-        // CRM_Core_Error::ll_method();
         /* Add a location for domain 1 */
         $this->_addLocation(self::MAIN, 1, true);
 
@@ -800,9 +799,6 @@ class CRM_GCD {
      *******************************************************/
     public function addLocation()
     {
-        // CRM_Core_Error::le_method();
-
-
         // strict individuals
         foreach ($this->strictIndividual as $contactId) {
             $this->_addLocation(self::HOME, $contactId);
@@ -830,9 +826,6 @@ class CRM_GCD {
 
     private function _addLocation($locationType, $contactId, $domain = false)
     {
-
-        // CRM_Core_Error::le_method();
-
         $locationDAO =& new CRM_Core_DAO_Location();
 
         $locationDAO->is_primary = 1; // primary location for now
@@ -854,17 +847,16 @@ class CRM_GCD {
 
         // need to get sort name to generate email id
         $contact =& new CRM_Contact_DAO_Contact();
-        $contact->id = $locationDAO->contact_id;
+        $contact->id = $contactId;
         $contact->find(true);
         // get the sort name of the contact
         $sortName  = $contact->sort_name;
-
-        // add 2 email for each location
-        for ($emailId=1; $emailId<=2; $emailId++) {
-            $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
+        if ( ! empty( $sortName ) ) {
+            // add 2 email for each location
+            for ($emailId=1; $emailId<=2; $emailId++) {
+                $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
+            }
         }
-
-        // CRM_Core_Error::ll_method();
     }
 
     private function _addAddress($locationId)

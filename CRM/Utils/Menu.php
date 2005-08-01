@@ -424,6 +424,13 @@ class CRM_Utils_Menu {
     static function createLocalTasks( $path ) {
         self::items( );
 
+        foreach ( self::$_items as $key => $item ) {
+            if ( $item['path'] == $path ) {
+                CRM_Utils_System::setTitle( $item['title'] );
+                break;
+            }
+        }
+
         foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
             if ( strpos( $path, self::$_items[$root]['path'] ) !== false ) {
                 $localTasks = array( );
