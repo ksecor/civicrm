@@ -141,7 +141,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 }
 
 
-function &crm_create_contact_formatted( &$params ) {
+function &crm_create_contact_formatted( &$params , $onDuplicate) {
     // return error if we have no params
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
@@ -157,11 +157,12 @@ function &crm_create_contact_formatted( &$params ) {
         return $error;
     }
     
-    $error = _crm_duplicate_formatted_contact($params);
-    if (is_a( $error, CRM_Core_Error)) {
-        return $error;
+    if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
+        $error = _crm_duplicate_formatted_contact($params);
+        if (is_a( $error, CRM_Core_Error)) {
+            return $error;
+        }
     }
-    
     $ids = array();
     
     CRM_Contact_BAO_Contact::resolveDefaults($params, true);
