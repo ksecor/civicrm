@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_Mailing_BAO_MailingTrackableUrl extends CRM_Mailing_DAO_MailingTrackableUrl {
+class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
 
     /**
      * class constructor

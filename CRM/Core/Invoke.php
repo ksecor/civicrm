@@ -381,6 +381,11 @@ class CRM_Core_Invoke {
             return $controller->run( );
         }
 
+        if ( $args[2] == 'queue' ) {
+            CRM_Mailing_BAO_Job::runJobs();
+            return;
+        }
+
     }
 
     static function export( $args ) {

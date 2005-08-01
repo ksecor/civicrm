@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_Mailing_BAO_MailingEventQueue extends CRM_Mailing_Event_DAO_Queue {
+class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
 
     /**
      * class constructor
@@ -49,7 +49,7 @@ class CRM_Mailing_BAO_MailingEventQueue extends CRM_Mailing_Event_DAO_Queue {
      * @static
      */
     public static function &create(&$params) {
-        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
+        $eq =& new CRM_Mailing_Event_BAO_Queue();
         $eq->copyValues($params);
         $eq->hash = self::hash($params);
         $eq->save();
@@ -68,7 +68,7 @@ class CRM_Mailing_BAO_MailingEventQueue extends CRM_Mailing_Event_DAO_Queue {
         $emailId    = $params['email_id'];
         $contactId  = $params['contact_id'];
 
-        return sha1($jobId . $emailId . $contactId);
+        return sha1($jobId . $emailId . $contactId, true);
     }
 }
 
