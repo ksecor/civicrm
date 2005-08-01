@@ -229,10 +229,6 @@ WHERE     civicrm_contact.id = " . $contactId;
      * @static
      */
     static function getContactId( $ufID ) {
-
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var( 'ufID', $ufID );
-        
         if (!isset($ufID)) {
             return null;
         }

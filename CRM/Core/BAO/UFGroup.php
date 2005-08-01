@@ -308,8 +308,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     foreach (array('email', 'phone') as $key) {
                         if (is_array($loc[$key])) {
                             foreach ($loc[$key] as $value) {
-                                $params[$key][] = 
-                                    '"' . addslashes($value[$key]) . '"';
+                                if ( ! empty( $value[$key] ) ) {
+                                    $value[$key] = strtolower( $value[$key] );
+                                    $params[$key][] = 
+                                        '"' . addslashes($value[$key]) . '"';
+                                }
                             }
                         }
                     }
@@ -343,9 +346,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $value = CRM_Utils_Array::value( $field['name'], $params );
             if ( $value ) {
                 if (is_array($value)) {
-                    $where[] = $field['where'] .' IN (' . implode(',', $value) . ')';
+                    $where[] = 'LOWER(' . $field['where'] . ') IN (' . implode(',', $value) . ')';
                 } else {
-                    $where[] = $field['where'] . ' = "' . addslashes( $value ) . '"';
+                    $value = strtolower( $value );
+                    $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"';
                 }
                 list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );
                 if ( isset( $tableName ) ) {
