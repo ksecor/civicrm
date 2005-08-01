@@ -505,7 +505,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
                             $this, true);
         }
-
+        
+        if ($this->url_tracking) {
+            CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->html,
+                                $this->id, $event_queue_id);
+            CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->text,
+                                $this->id, $event_queue_id);
+        }
+        
         $params = array('contact_id' => $contactId, 'id' => $contactId);
         $contact = array();
         $ids    = array();

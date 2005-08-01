@@ -40,8 +40,37 @@ class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
         parent::__construct( );
     }
 
+    /**
+     * Given a url, mailing id and queue event id, find or construct a
+     * trackable url and redirect url.
+     *
+     * @param string $url       The target url to track
+     * @param int $mailing_id   The id of the mailing
+     * @param int $queue_id     The queue event id (contact clicking through)
+     * @return string $redirect The redirect/tracking url
+     * @static
+     */
+    public static function getTrackerURL($url, $mailing_id, $queue_id) {
+        $redirect = "http://FIXME.COM/";
+        $tracker =& new CRM_Mailing_BAO_TrackableUrl();
+        $tracker->url = $url;
+        $tracker->mailing_id = $mailing_id;
+        
+        if (! $tracker->find(true)) {
+            $tracker->save();
+        }
+        $id = $tracker->id;
+        
+        return $redirect . "?q=$queue_id&u=$id";
+    }
 
-
+    public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {
+        preg_replace(
+//     '|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|e', 
+    '|(https?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|eim', 
+    "CRM_Mailing_BAO_TrackableUrl::getTrackerURL(\\1, $mailing_id, $queue_id)", 
+    $msg);
+    }
 }
 
 ?>
