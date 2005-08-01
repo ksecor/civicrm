@@ -51,6 +51,16 @@ class CRM_Group_StateMachine extends CRM_Core_StateMachine {
         $this->addSequentialPages( $this->_pages, $action );
     }
 
+    /**
+     * return the form name of the task. This is 
+     *
+     * @return string
+     * @access public
+     */
+    function getTaskFormName( ) {
+        return CRM_Utils_String::getClassName( 'CRM_Contact_Form_Task_AddToGroup' );
+    }
+
 }
 
 ?>

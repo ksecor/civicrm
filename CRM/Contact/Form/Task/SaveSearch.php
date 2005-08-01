@@ -53,6 +53,14 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     {
         $this->_id   = null;
 
+        // get the submitted values of the search form
+        // we'll need to get fv from either search or adv search in the future
+        if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+            $values = $this->controller->exportValues( 'Advanced' );
+        } else {
+            $values = $this->controller->exportValues( 'Search' );
+        }
+
         $this->_task = $values['task'];
         $crmContactTaskTasks = CRM_Contact_Task::tasks();
         $this->assign('taskName', $crmContactTaskTasks[$this->_task]);
@@ -74,21 +82,21 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // need to save qill for the smarty template
         $this->assign('qill', $qill);
         
-        //get the group id for the saved search
-        if ( isset( $this->_id ) ) { 
-            $params = array( 'saved_search_id' => $this->_id );
-            CRM_Contact_BAO_Group::retrieve( $params, $values );
-            $groupId = $values['id'];
-        }
-       
-
         // the name and description are actually stored with the group and not the saved search
         $this->add('text', 'name', ts('Name'),
                    CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
         $this->addElement('text', 'description', ts('Description'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
-        $this->addRule( 'name', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupId ) );
+
+        // get the group id for the saved search
+        if ( isset( $this->_id ) ) { 
+            $params = array( 'saved_search_id' => $this->_id );
+            CRM_Contact_BAO_Group::retrieve( $params, $values );
+            $groupId = $values['id'];
+
+            $this->addRule( 'name', ts('Name already exists in Database.'),
+                            'objectExists', array( 'CRM_Contact_DAO_Group', $groupId ) );
+        }
         
         if ( isset( $this->_id ) ) {
             $this->addDefaultButtons( ts('Update Saved Search') );

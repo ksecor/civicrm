@@ -7,7 +7,7 @@
        {$sidebarLeft}
     </td>
     <td valign="top">
-    <div class="breadcrumb"><a href="">Home</a> &raquo; <a href="">CiviCRM</a> &raquo; <a href="">Search Results</a></div>
+    <div class="breadcrumb">{$pageCrumb}</div>
     {if $recentlyViewed}
         {include file="CRM/common/recentlyViewed.tpl"}
     {/if}

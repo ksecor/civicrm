@@ -12,13 +12,7 @@ require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Invoke.php';
 
-// insert any functions/includes etc. that apply to all "tasks"
-// HERE
-switch ($task) {
-	default:
-        civicrm_invoke( );
-		break;
-}
+civicrm_invoke( );
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
@@ -35,6 +29,9 @@ function civicrm_init( ) {
 
 function civicrm_invoke( ) {
     civicrm_init( );
+
+    global $
+    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Mambo' );
 
     $args = explode( '/', trim( $_GET['task'] ) );
     CRM_Core_Invoke::invoke( $args );

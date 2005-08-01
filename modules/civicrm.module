@@ -207,7 +207,7 @@ function civicrm_invoke()
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     $args = explode( '/', $_GET['q'] );
-	$ret = CRM_Core_Invoke::invoke( $args );
+	$ret  = CRM_Core_Invoke::invoke( $args );
     
     return $ret;
 }
