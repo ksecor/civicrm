@@ -14,15 +14,6 @@
 {if $contact_type eq 'Individual'}
  <div id="name">
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
-    <div class="form-item">
-        {*<span class="labels"><label>{ts}First/Last{/ts}</label></span>
-        <span class="fields">
-            {$form.prefix.html}
-            {$form.first_name.html}
-            {$form.last_name.html}
-            {$form.suffix.html}
-        </span>*}
-	
 	<table class="form-layout">
     <tr>
 		<td>{$form.prefix.label}</td>
@@ -38,28 +29,20 @@
 		<td>{$form.last_name.html}</td>
 		<td>{$form.suffix.html}</td>
 	</tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$form.job_title.label}</td>
+        <td>{$form.greeting_type.label}</td>
+        <td colspan="2">{$form.nick_name.label} &nbsp; </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$form.job_title.html}</td>
+        <td>{$form.greeting_type.html}</td>
+        <td colspan="2">{$form.nick_name.html}</td>
+    </tr>
     </table>
-    </div>
-    
-    <div class="form-item">
-        <span class="labels">
-        {$form.greeting_type.label}
-        </span>
-        <span class="fields">
-        {$form.greeting_type.html}
-        </span>
-    </div>
 
-    <div class="form-item">
-        <span class="labels">
-        {$form.job_title.label}
-        </span>
-        <span class="fields">
-        {$form.job_title.html}
-        </span>
-    </div>
-    <!-- Spacer div forces fieldset to contain floated elements -->
-    <div class="spacer"></div>
     {$form._qf_Edit_refresh_dedupe.html}
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
     <div class="spacer"></div>
@@ -89,33 +72,26 @@
 {elseif $contact_type eq 'Organization'}
 <div id="name">
  <fieldset><legend>{ts}Organization{/ts}</legend>
-    <div class="form-item">
-        <span class="labels">{$form.organization_name.label}</span>
-        <span class="fields">
-            {$form.organization_name.html}
-        </span>
-    </div>
-
-    <div class="form-item">
-        <span class="labels">{$form.legal_name.label}</span>
-        <span class="fields">
-            {$form.legal_name.html}
-        </span>
-    </div>
-
-    <div class="form-item">
-        <span class="labels">{$form.nick_name.label}</span>
-        <span class="fields">
-            {$form.nick_name.html}
-        </span>
-    </div>
-
-    <div class="form-item">
-        <span class="labels">{$form.sic_code.label}</span>
-        <span class="fields">
-            {$form.sic_code.html}
-        </span>
-    </div>
+	<table class="form-layout">
+    <tr>
+		<td>{$form.organization_name.label}</td>
+		<td>{$form.legal_name.label}</td>
+		<td>{$form.sic_code.label}</td>
+    </tr>
+    <tr>
+        <td>{$form.organization_name.html}</td>
+        <td>{$form.legal_name.html}</td>
+        <td>{$form.sic_code.html}</td>
+    </tr>
+    <tr>
+        <td>{$form.home_URL.label}</td>
+		<td colspan="2">{$form.nick_name.label}</td>
+	</tr>
+    <tr>
+        <td>{$form.home_URL.html}</td>
+        <td colspan="2">{$form.nick_name.html}</td>
+    </tr>
+    </table>
 </fieldset>
 {/if}
 

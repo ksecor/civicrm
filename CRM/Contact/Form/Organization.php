@@ -65,6 +65,9 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
 
         // sic_code
         $form->addElement('text', 'sic_code', ts('SIC Code'), $attributes['sic_code']);
+
+        // home_URL
+        $form->addElement('text', 'home_URL', ts('Website'), $attributes['home_URL']);
     }
 
     static function formRule( &$fields ) {

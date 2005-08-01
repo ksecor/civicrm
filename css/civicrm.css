@@ -125,13 +125,13 @@ div.spacer {
 
 #crm-container table.form-layout {
   margin: 0em;
-  width: 100%;
+  width: auto;
   border-collapse: collapse;
   border: none;
 }
 
 #crm-container .form-layout td {
-  padding: 2px;
+  padding: 3px;
   white-space: nowrap;
   border: none;
 }

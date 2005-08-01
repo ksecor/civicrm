@@ -69,8 +69,11 @@ class CRM_Contact_Form_Individual {
         // suffix
         $form->addElement('select', 'suffix', ts('Suffix'), CRM_Core_SelectValues::suffixName());
         
+        // nick_name
+        $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name']);
+
         // greeting type
-        $form->addElement('select', 'greeting_type', ts('Greeting type'), CRM_Core_SelectValues::greeting());
+        $form->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
         
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);

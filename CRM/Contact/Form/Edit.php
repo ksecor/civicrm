@@ -380,7 +380,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, $t['do_not_mail']);
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, $t['do_not_trade']);
 
-        $form->addGroup($privacy, 'privacy', ts('Privacy'), '<br/>');
+        $form->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
 
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
