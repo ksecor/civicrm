@@ -6,9 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2005-07-24 03:09+0200\n"
+"PO-Revision-Date: 2005-07-29 17:38+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2));\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: Automatically generated\n"
@@ -22,26 +22,26 @@ msgstr ""
 #: CRM/Core/DAO/EmailHistory.php:141 CRM/Core/DAO/Meeting.php:193
 #: CRM/Core/DAO/Phonecall.php:201 templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Subject"
-msgstr ""
+msgstr "หัวข้อ"
 
 #: CRM/Activity/Form/Meeting.php:64 CRM/Activity/Form/Phonecall.php:67
 msgid "Date and Time"
-msgstr ""
+msgstr "วันที่ และ เวลา"
 
 #: CRM/Activity/Form/Meeting.php:65 CRM/Contact/Form/Individual.php:85
 msgid "Select a valid date."
-msgstr ""
+msgstr "เลือกวันที่ถูกต้อง."
 
 #: CRM/Activity/Form/Meeting.php:71 CRM/Core/DAO/Meeting.php:211
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
-msgstr ""
+msgstr "สถานที่"
 
 #: CRM/Activity/Form/Meeting.php:73 CRM/Activity/Form/Phonecall.php:80
 #: CRM/Core/DAO/Meeting.php:217 CRM/Core/DAO/Phonecall.php:228
 #: CRM/History/Selector/Activity.php:122
 msgid "Details"
-msgstr ""
+msgstr "รายละเอียด"
 
 #: CRM/Activity/Form/Meeting.php:75 CRM/Activity/Form/Phonecall.php:77
 #: CRM/Contact/DAO/GroupContact.php:185 CRM/Contact/Selector/Activity.php:261
@@ -49,15 +49,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Status"
-msgstr ""
+msgstr "สถานะ"
 
 #: CRM/Activity/Form/Meeting.php:76 CRM/Activity/Form/Phonecall.php:78
 msgid "Please select status."
-msgstr ""
+msgstr "กรุณาเลือกสถานะ."
 
 #: CRM/Activity/Form/Phonecall.php:71 CRM/Core/DAO/Phonecall.php:222
 msgid "Phone Number"
-msgstr ""
+msgstr "เบอร์โทรศัพท์"
 
 #: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76
 #: CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88
@@ -67,7 +67,7 @@ msgstr ""
 #: CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
-msgstr ""
+msgstr "เสร็จแล้ว"
 
 #: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
 #: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:268
@@ -77,7 +77,7 @@ msgstr ""
 #: CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93
 #: CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
 msgid "Save"
-msgstr ""
+msgstr "บันทึก"
 
 #: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57
 #: CRM/Contact/Form/CustomData.php:268 CRM/Contact/Form/Edit.php:275
@@ -92,7 +92,7 @@ msgstr ""
 #: CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109
 #: CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
-msgstr ""
+msgstr "ยกเลิก"
 
 #: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52
 #: CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63
@@ -108,20 +108,20 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Name"
-msgstr ""
+msgstr "ชื่อ"
 
 #: CRM/Admin/Form/IMProvider.php:54 CRM/Admin/Form/MobileProvider.php:54
 #: CRM/Admin/Form/Tag.php:65 CRM/Custom/Form/Group.php:86
 #: CRM/UF/Form/Group.php:86
 msgid "Please enter a valid name."
-msgstr ""
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 
 #: CRM/Admin/Form/IMProvider.php:55 CRM/Admin/Form/LocationType.php:55
 #: CRM/Admin/Form/MobileProvider.php:55
 #: CRM/Admin/Form/RelationshipType.php:56;61 CRM/Admin/Form/Tag.php:67
 #: CRM/Contact/Form/Task/SaveSearch.php:80 CRM/Group/Form/Edit.php:93
 msgid "Name already exists in Database."
-msgstr ""
+msgstr "มีชื่อนี้อนู่ในฐานข้อมูลแล้ว."
 
 #: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/LocationType.php:60
 #: CRM/Admin/Form/MobileProvider.php:57 CRM/Admin/Form/RelationshipType.php:70
@@ -129,7 +129,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid "Enabled?"
-msgstr ""
+msgstr "เปิดการทำงาน?"
 
 #: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:68
 #: CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179
@@ -144,7 +144,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
-msgstr ""
+msgstr "รายการ"
 
 #: CRM/Admin/Form/Tag.php:54 CRM/Admin/Page/Tag.php:82
 #: CRM/Contact/Page/Relationship.php:215 CRM/Contact/Page/SavedSearch.php:140
@@ -152,7 +152,7 @@ msgstr ""
 #: CRM/History/Form/Activity.php:57 CRM/History/Selector/Activity.php:128
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Delete"
-msgstr ""
+msgstr "ลบ"
 
 #: CRM/Admin/Page/IMProvider.php:74 CRM/Admin/Page/LocationType.php:75
 #: CRM/Admin/Page/MobileProvider.php:76 CRM/Admin/Page/RelationshipType.php:81
@@ -162,7 +162,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Edit"
-msgstr ""
+msgstr "แก้ไข"
 
 #: CRM/Admin/Page/IMProvider.php:80 CRM/Admin/Page/LocationType.php:81
 #: CRM/Admin/Page/MobileProvider.php:82 CRM/Admin/Page/RelationshipType.php:87
@@ -170,7 +170,7 @@ msgstr ""
 #: CRM/Custom/Page/Group.php:87 CRM/Custom/Page/Option.php:103
 #: CRM/UF/Page/Field.php:89 CRM/UF/Page/Group.php:80
 msgid "Disable"
-msgstr ""
+msgstr "ปิด"
 
 #: CRM/Admin/Page/IMProvider.php:87 CRM/Admin/Page/LocationType.php:88
 #: CRM/Admin/Page/MobileProvider.php:89 CRM/Admin/Page/RelationshipType.php:94
@@ -178,7 +178,7 @@ msgstr ""
 #: CRM/Custom/Page/Group.php:94 CRM/Custom/Page/Option.php:97
 #: CRM/UF/Page/Field.php:96 CRM/UF/Page/Group.php:87
 msgid "Enable"
-msgstr ""
+msgstr "เปิด"
 
 #: CRM/Admin/Page/RelationshipType.php:75
 #: CRM/Contact/Page/Relationship.php:189 CRM/Contact/Selector.php:146
@@ -186,15 +186,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Group.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "View"
-msgstr ""
+msgstr "มุมมอง"
 
 #: CRM/Contact/DAO/Address.php:289 CRM/Contact/Form/Address.php:55
 msgid "Street Address"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: CRM/Contact/DAO/Address.php:315 CRM/Contact/Form/Search/Advanced.php:78
 msgid "Street Name"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Contact/DAO/Address.php:365 CRM/Contact/Form/Address.php:65
 #: CRM/Contact/Form/Search/Advanced.php:79 CRM/Contact/Import/Base.php:22
@@ -205,26 +205,26 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "City"
-msgstr ""
+msgstr "เมือง"
 
 #: CRM/Contact/DAO/Address.php:381 CRM/Contact/Form/Search/Advanced.php:90
 #: CRM/Contact/Import/Base.php:25
 msgid "Postal Code"
-msgstr ""
+msgstr "รหัสไปรษณีย์"
 
 #: CRM/Contact/DAO/Address.php:424 CRM/Core/BAO/CustomField.php:59
 #: CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
-msgstr ""
+msgstr "บันทึก"
 
 #: CRM/Contact/DAO/Contact.php:218 CRM/Contact/Selector.php:193;486
 msgid "Contact Type"
-msgstr ""
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Contact/DAO/Contact.php:266 CRM/Contact/DAO/Group.php:189
 msgid "Source"
-msgstr ""
+msgstr "แหล่งข้อมูล"
 
 #: CRM/Contact/DAO/Email.php:138 CRM/Contact/Import/Base.php:26
 #: CRM/Contact/Selector.php:514 CRM/Core/DAO/UFMatch.php:154
@@ -235,65 +235,65 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Email"
-msgstr ""
+msgstr "อีเมล์"
 
 #: CRM/Contact/DAO/EntityTag.php:134 CRM/Core/DAO/ActivityHistory.php:184
 #: CRM/Core/DAO/CustomValue.php:173 CRM/Core/DAO/Note.php:148
 msgid "Entity Table"
-msgstr ""
+msgstr "ตารางแสดงเอกลักษณ์"
 
 #: CRM/Contact/DAO/Group.php:173 CRM/Core/DAO/CustomGroup.php:186
 #: CRM/Core/DAO/UFGroup.php:152
 msgid "Title"
-msgstr ""
+msgstr "ชื่อเรื่อง"
 
 #: CRM/Contact/DAO/Household.php:146 CRM/Contact/Form/Household.php:57
 msgid "Household Name"
-msgstr ""
+msgstr "ชื่อครัวเรือน"
 
 #: CRM/Contact/DAO/Household.php:152 CRM/Contact/DAO/Organization.php:172
 #: CRM/Contact/Form/Household.php:60 CRM/Contact/Form/Organization.php:64
 msgid "Nick Name"
-msgstr ""
+msgstr "ชื่อเล่น"
 
 #: CRM/Contact/DAO/Individual.php:218 CRM/Contact/Form/Individual.php:61
 #: CRM/Contact/Import/Base.php:14
 msgid "First Name"
-msgstr ""
+msgstr "ชื่อ"
 
 #: CRM/Contact/DAO/Individual.php:228 CRM/Contact/Import/Base.php:15
 msgid "Middle Name"
-msgstr ""
+msgstr "ชื่อกลาง"
 
 #: CRM/Contact/DAO/Individual.php:234 CRM/Contact/Form/Individual.php:64
 #: CRM/Contact/Import/Base.php:16
 msgid "Last Name"
-msgstr ""
+msgstr "นามสกุล"
 
 #: CRM/Contact/DAO/Individual.php:244 CRM/Contact/Import/Base.php:17
 msgid "Prefix"
-msgstr ""
+msgstr "คำนำหน้า"
 
 #: CRM/Contact/DAO/Individual.php:254 CRM/Contact/Import/Base.php:18
 msgid "Suffix"
-msgstr ""
+msgstr "คำลงท้าย"
 
 #: CRM/Contact/DAO/Individual.php:274 CRM/Contact/Import/Base.php:19
 msgid "Job Title"
-msgstr ""
+msgstr "ตำแหน่ง"
 
 #: CRM/Contact/DAO/Individual.php:280
 #: CRM/Contact/Form/Individual.php:77;78;79;80
 msgid "Gender"
-msgstr ""
+msgstr "เพศ"
 
 #: CRM/Contact/DAO/Organization.php:160 CRM/Contact/Form/Organization.php:58
 msgid "Organization Name"
-msgstr ""
+msgstr "ชื่อหน่วยงาน"
 
 #: CRM/Contact/DAO/Organization.php:166 CRM/Contact/Form/Organization.php:61
 msgid "Legal Name"
-msgstr ""
+msgstr "ชื่อทางการ"
 
 #: CRM/Contact/DAO/Phone.php:153 CRM/Contact/Form/Phone.php:55
 #: CRM/Contact/Import/Base.php:27 CRM/Contact/Selector.php:518
@@ -305,29 +305,29 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Phone"
-msgstr ""
+msgstr "โทรศัพท์"
 
 #: CRM/Contact/DAO/Relationship.php:169 CRM/Contact/Form/Relationship.php:153
 msgid "Start Date"
-msgstr ""
+msgstr "เริ่มวันที่"
 
 #: CRM/Contact/DAO/Relationship.php:173 CRM/Contact/Form/Relationship.php:154
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
-msgstr ""
+msgstr "สิ้นสุดวันที่"
 
 #: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:225;233
 #: CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:194;199
 #: CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
 msgid "- select -"
-msgstr ""
+msgstr "-เลือก -"
 
 #: CRM/Contact/Form/Address.php:74 CRM/Contact/Form/Search/Advanced.php:87
 #: CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:509
 #: CRM/Core/BAO/CustomField.php:63 CRM/Core/DAO/Country.php:133
 #: CRM/Core/DAO/County.php:134 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "ประเทศ"
 
 #: CRM/Contact/Form/CustomData.php:191 CRM/Custom/Form/Preview.php:158
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -336,7 +336,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
-msgstr ""
+msgstr "ใช่"
 
 #: CRM/Contact/Form/CustomData.php:192 CRM/Custom/Form/Preview.php:160
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -345,58 +345,57 @@ msgstr ""
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
+msgstr "ไม่"
 
 #: CRM/Contact/Form/CustomData.php:196;218 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
-msgstr ""
+msgstr "%1 เป็นข้อมูลที่ต้องระบุ."
 
 #: CRM/Contact/Form/CustomData.php:241 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
-msgstr ""
+msgstr "%1 ต้องเป็นจำนวนเต็ม (ตัวเลขทั้งหมด)."
 
 #: CRM/Contact/Form/CustomData.php:245 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
-msgstr ""
+msgstr "%1 ไม่ใช้วันที่ถูกต้อง."
 
 #: CRM/Contact/Form/CustomData.php:250 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
-msgstr ""
+msgstr "%1 ต้องเป็นตัวเลข (ไม่มีเครื่องหมายอื่นๆ)."
 
 #: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:330
 #: CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
 msgid "Individual"
-msgstr ""
+msgstr "บุคคล"
 
 #: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:333
 #: CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr ""
+msgstr "ครัวเรือน"
 
 #: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:336
 #: CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr ""
+msgstr "หน่วยงาน"
 
 #: CRM/Contact/Form/Individual.php:77 CRM/Core/SelectValues.php:159
 msgid "Female"
-msgstr ""
+msgstr "ผู้หญิง"
 
 #: CRM/Contact/Form/Individual.php:78 CRM/Core/SelectValues.php:160
 msgid "Male"
-msgstr ""
+msgstr "ผู้ชาย"
 
 #: CRM/Contact/Form/Individual.php:79 CRM/Core/SelectValues.php:161
 msgid "Transgender"
-msgstr ""
+msgstr "อื่นๆ"
 
 #: CRM/Contact/Form/Individual.php:124 CRM/UF/Form/Dynamic.php:182
 msgid "One matching contact was found. You can edit it here: %1"
 msgid_plural "%count matching contacts were found. You can edit them here: %1"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
 
 #: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279
 #: CRM/Contact/Form/Task/AddToHousehold.php:83
@@ -404,24 +403,24 @@ msgstr[1] ""
 #: CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184
 #: templates/CRM/Block/Search.tpl
 msgid "Search"
-msgstr ""
+msgstr "ค้นหา"
 
 #: CRM/Contact/Form/Search/Advanced.php:77 CRM/Contact/Form/Search.php:299
 msgid "Find..."
-msgstr ""
+msgstr "ค้นหา..."
 
 #: CRM/Contact/Form/Search/Advanced.php:83 CRM/Core/BAO/CustomField.php:62
 msgid "State/Province"
-msgstr ""
+msgstr "รัฐ/จังหวัด"
 
 #: CRM/Contact/Form/Search/Advanced.php:96;115
 #: CRM/Contact/Form/Task/Email.php:92
 msgid "To"
-msgstr ""
+msgstr "ถึง"
 
 #: CRM/Contact/Form/Search/Advanced.php:105 CRM/Utils/Menu.php:113
 msgid "Location Types"
-msgstr ""
+msgstr "ประเภทสถานที่"
 
 #: CRM/Contact/Form/Search/Advanced.php:111
 #: CRM/Contact/Selector/Activity.php:164;249
@@ -429,21 +428,21 @@ msgstr ""
 #: CRM/History/Selector/Activity.php:169;253
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "ประเภทกิจกรรม"
 
 #: CRM/Contact/Form/Search.php:235 CRM/Contact/Form/Task/AddToGroup.php:99
 msgid "Add Members: %1"
-msgstr ""
+msgstr "เพิ่มสถาชิก: %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:85
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:48
 msgid " - select group - "
-msgstr ""
+msgstr "-เลือกกลุ่ม-"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:86
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:49
 msgid "Select Group"
-msgstr ""
+msgstr "เลือกกลุ่ม"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:136
 #: CRM/Contact/Form/Task/AddToHousehold.php:158
@@ -451,44 +450,44 @@ msgstr ""
 #: CRM/Contact/Form/Task/Email.php:140 CRM/Contact/Form/Task/Map.php:94
 #: CRM/Contact/Form/Task/RemoveFromGroup.php:84
 msgid "Total Selected Contact(s): %1"
-msgstr ""
+msgstr "ที่ติดต่อทั้งหมดที่เรื่อง:%1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php:161
 #: CRM/Contact/Form/Task/AddToOrganization.php:160
 msgid "New relationship record(s) created: %1."
-msgstr ""
+msgstr "สร้างข้อมูลความสัมพันธ์ใหม่แล้ว:%1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php:164
 #: CRM/Contact/Form/Task/AddToOrganization.php:163
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr ""
+msgstr "ไม่ได้สร้างข้อมูลความสัมพันธ์ ในระหว่างประเภทของเป้าหมายการติดต่อ ที่ไม่ถูกต้อง:%1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php:167
 #: CRM/Contact/Form/Task/AddToOrganization.php:166
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
-msgstr ""
+msgstr "ไม่ได้สร้างข้อมูลความสัมพันธ์ ที่ซ้ำกับความสัมพันธ์ที่มีอยู่แล้ว:%1."
 
 #: CRM/Contact/Form/Task/Delete.php:48 CRM/Contact/Task.php:85
 msgid "Delete Contacts"
-msgstr ""
+msgstr "ลบที่ติดต่อ"
 
 #: CRM/Contact/Form/Task/Email.php:113 CRM/Core/DAO/EmailHistory.php:147
 msgid "Message"
-msgstr ""
+msgstr "ข้อความ"
 
 #: CRM/Contact/Form/Task/Email.php:143 CRM/Contact/Form/Task/Map.php:97
 msgid "Email sent to contact(s): %1"
-msgstr ""
+msgstr "อีีเมล์ได้ส่งไปถึงที่อยู่:%1"
 
 #: CRM/Contact/Form/Task/Email.php:146 CRM/Contact/Form/Task/Map.php:100
 msgid "Email not sent to contact(s): %1"
-msgstr ""
+msgstr "อีีเมล์ไม่ถูกส่งไปถึงที่อยู่:%1"
 
 #: CRM/Contact/Form/Task/SaveSearch.php:82 CRM/Contact/Task.php:106
 msgid "Update Saved Search"
-msgstr ""
+msgstr "อัพเดทบันทึกการค้นหา"
 
 #: CRM/Contact/Import/Base.php:23 CRM/Contact/Selector.php:499
 #: CRM/Core/DAO/StateProvince.php:134
@@ -498,87 +497,87 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "State"
-msgstr ""
+msgstr "รัฐ"
 
 #: CRM/Contact/Import/Base.php:28 CRM/Core/SelectValues.php:107
 msgid "Mobile"
-msgstr ""
+msgstr "โทรศัพท์เคลื่อนที่"
 
 #: CRM/Contact/Import/Base.php:29 CRM/Core/SelectValues.php:108
 msgid "Fax"
-msgstr ""
+msgstr "โทรสาร"
 
 #: CRM/Contact/Page/Activity.php:127 CRM/History/Selector/Activity.php:131
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
-msgstr ""
+msgstr "ลบประวัติกิจกรรม"
 
 #: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:363
 msgid "Delete Activity"
-msgstr ""
+msgstr "ลบกิจกรรม"
 
 #: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityHistory.php:222
 #: CRM/History/Selector/Activity.php:169;259
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Date"
-msgstr ""
+msgstr "วันที่กิจกรรม"
 
 #: CRM/Contact/Selector/Activity.php:234 CRM/History/Selector/Activity.php:237
 msgid "CiviCRM Activity History"
-msgstr ""
+msgstr "CiviCRM ประวัติกิจกรรม"
 
 #: CRM/Contact/Selector/Activity.php:257 CRM/Core/SelectValues.php:401;408
 msgid "Scheduled"
-msgstr ""
+msgstr "ตารางเวลา"
 
 #: CRM/Contact/Selector/Activity.php:263 CRM/Contact/Selector.php:519
 #: CRM/History/Selector/Activity.php:263
 msgid "Actions"
-msgstr ""
+msgstr "ปฏิบัติการ"
 
 #: CRM/Core/BAO/CustomField.php:56 CRM/Core/SelectValues.php:214
 msgid "Integer"
-msgstr ""
+msgstr "จำนวนเต็ม"
 
 #: CRM/Core/BAO/CustomField.php:58 CRM/Core/SelectValues.php:216
 msgid "Money"
-msgstr ""
+msgstr "เงิน"
 
 #: CRM/Core/BAO/CustomField.php:60 CRM/Core/SelectValues.php:218
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
-msgstr ""
+msgstr "วันที่"
 
 #: CRM/Core/Block.php:80;192 CRM/Utils/Menu.php:217
 msgid "New Individual"
-msgstr ""
+msgstr "บุคคลใหม่"
 
 #: CRM/Core/Block.php:88 CRM/Utils/Menu.php:173
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/Core/Block.php:195 CRM/Utils/Menu.php:228
 msgid "New Organization"
-msgstr ""
+msgstr "หน่วยงานใหม่"
 
 #: CRM/Core/Block.php:198 CRM/Utils/Menu.php:239
 msgid "New Household"
-msgstr ""
+msgstr "ครัวเรือนใหม่"
 
 #: CRM/Core/DAO/CustomField.php:229 CRM/Core/DAO/CustomOption.php:152
 #: CRM/Custom/Form/Field.php:182 templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
-msgstr ""
+msgstr "ป้ายชื่อ"
 
 #: CRM/Core/DAO/CustomField.php:235 CRM/Custom/Form/Field.php:169
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
-msgstr ""
+msgstr "ประเภทข้อมูล"
 
 #: CRM/Core/DAO/CustomField.php:243 CRM/Custom/Form/Field.php:203
 msgid "Default Value"
-msgstr ""
+msgstr "ค่าปริยาย"
 
 #: CRM/Core/DAO/CustomField.php:252 CRM/Core/DAO/CustomGroup.php:212
 #: CRM/Core/DAO/CustomOption.php:164 CRM/Core/DAO/UFField.php:209
@@ -588,257 +587,257 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Weight"
-msgstr ""
+msgstr "น้ำหนัก"
 
 #: CRM/Core/DAO/CustomField.php:260 CRM/Core/DAO/CustomGroup.php:200
 msgid "Help Pre"
-msgstr ""
+msgstr "ช่วย ก่อน"
 
 #: CRM/Core/DAO/CustomField.php:264 CRM/Core/DAO/CustomGroup.php:206
 #: CRM/Core/DAO/UFField.php:214
 msgid "Help Post"
-msgstr ""
+msgstr "ช่วย หลัง"
 
 #: CRM/Core/DAO/CustomField.php:268 CRM/Custom/Form/Field.php:205
 msgid "Mask"
-msgstr ""
+msgstr "ซ่อน"
 
 #: CRM/Core/DAO/CustomOption.php:158 CRM/Custom/Form/Field.php:184
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
-msgstr ""
+msgstr "ค่า"
 
 #: CRM/Core/DAO/Meeting.php:199 CRM/Core/DAO/Phonecall.php:207
 msgid "Scheduled Date Time"
-msgstr ""
+msgstr "ตารางวันที่ และ เวลา"
 
 #: CRM/Core/DAO/Meeting.php:203 CRM/Core/DAO/Phonecall.php:211
 msgid "Duration Hours"
-msgstr ""
+msgstr "ระหว่าง ชั่วโมงที่"
 
 #: CRM/Core/DAO/Meeting.php:207 CRM/Core/DAO/Phonecall.php:215
 msgid "Duration Minutes"
-msgstr ""
+msgstr "ระหว่าง นาทีที่"
 
 #: CRM/Core/DAO/UFField.php:224 CRM/UF/Form/Field.php:132
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
-msgstr ""
+msgstr "แสดง"
 
 #: CRM/Core/DAO/UFField.php:228 CRM/UF/Form/Field.php:141
 msgid "Listings Title"
-msgstr ""
+msgstr "รายชือเรื่อง"
 
 #: CRM/Core/Invoke.php:180 CRM/Utils/Menu.php:201
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
-msgstr ""
+msgstr "ค้นหาขั้นสูง"
 
 #: CRM/Core/Invoke.php:273 CRM/UF/Page/Group.php:148
 #: templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile Group"
-msgstr ""
+msgstr "CiviCRM โครงร่างกลุ่ม"
 
 #: CRM/Core/Invoke.php:275 CRM/UF/Page/Field.php:166
 #: templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Core/Invoke.php:299 CRM/Utils/Menu.php:345
 msgid "Import Contacts"
-msgstr ""
+msgstr "นำเข้าที่ติดต่อ"
 
 #: CRM/Core/Invoke.php:319 CRM/Utils/Menu.php:289
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: CRM/Custom/Form/Field.php:188;208 CRM/Custom/Form/Option.php:124
 #: CRM/UF/Form/Field.php:146 templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "ทำงาน?"
 
 #: CRM/Custom/Form/Field.php:197 CRM/Custom/Form/Group.php:102
 #: CRM/Custom/Form/Option.php:121 CRM/UF/Form/Field.php:136
 msgid " is a numeric field"
-msgstr ""
+msgstr "นี่เป็นช่องข้อมูลตัวเลข"
 
 #: CRM/Custom/Form/Field.php:200 CRM/UF/Form/Field.php:145
 msgid "Required?"
-msgstr ""
+msgstr "ต้องการ?"
 
 #: CRM/Custom/Form/Field.php:204 CRM/UF/Form/Field.php:138
 msgid "Field Help"
-msgstr ""
+msgstr "ช่วยเหลือในช่องข้อมูล"
 
 #: CRM/Custom/Form/Group.php:64 CRM/UF/Form/Group.php:66
 msgid "Edit %1"
-msgstr ""
+msgstr "แก้ไข %1"
 
 #: CRM/Custom/Form/Group.php:85 CRM/UF/Form/Group.php:84
 msgid "Group Name"
-msgstr ""
+msgstr "ชื่อกลุ่ม"
 
 #: CRM/Custom/Page/Field.php:98 CRM/Custom/Page/Option.php:106
 msgid "Disable Custom Field"
-msgstr ""
+msgstr "ปิดช่องข้อมูลกำหนดเอง"
 
 #: CRM/Custom/Page/Group.php:81 CRM/Group/Page/Group.php:62
 #: CRM/UF/Page/Group.php:74
 msgid "Edit Group"
-msgstr ""
+msgstr "แก้ไขกลุ่ม"
 
 #: CRM/Group/Form/Delete.php:84 CRM/Group/Page/Group.php:68
 msgid "Delete Group"
-msgstr ""
+msgstr "ลบกลุ่ม"
 
 #: CRM/Group/Page/Group.php:56 CRM/Utils/Menu.php:331
 msgid "Group Members"
-msgstr ""
+msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Import/Form/MapField.php:218 CRM/Import/Form/Preview.php:98
 msgid "<< Previous"
-msgstr ""
+msgstr "<< ย้อนหลัง"
 
 #: CRM/Import/Form/MapField.php:220 CRM/Import/Form/UploadFile.php:68
 msgid "Continue >>"
-msgstr ""
+msgstr "ต่อไป >>"
 
 #: CRM/Note/Form/Note.php:101 CRM/Utils/Menu.php:297
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Notes"
-msgstr ""
+msgstr "บันทึก"
 
 #: CRM/UF/Form/Dynamic.php:127 CRM/UF/Form/Register.php:111
 msgid "Please enter a valid %1"
-msgstr ""
+msgstr "กรุณาใส่ข้อมลูนี้ให้ถูกต้อง %1"
 
 #: CRM/Activity/Form/Meeting.php:62
 msgid "Please enter a valid subject."
-msgstr ""
+msgstr "กรุณาใส่หัวข้อให้ถูกต้อง."
 
 #: CRM/Activity/Form/Meeting.php:66
 msgid "Please select Scheduled Date."
-msgstr ""
+msgstr "กรุณาเลือกตารางวันที่"
 
 #: CRM/Activity/Form/Meeting.php:68 templates/CRM/Activity/Form/Call.tpl
 msgid "Duration"
-msgstr ""
+msgstr "ระยะเวลา"
 
 #: CRM/Activity/Form/Meeting.php:141
 msgid "Meeting \"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "การประชุม \"%1\" ได้ถูกบัันทึกลงในประวัติกิจกรรมแล้ว"
 
 #: CRM/Activity/Form/Meeting.php:143
 msgid "Meeting \"%1\" has been saved."
-msgstr ""
+msgstr "การประชุม \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Activity/Form/Phonecall.php:60
 msgid "Select Phone Number"
-msgstr ""
+msgstr "เลือกเบอร์โทรศัพท์"
 
 #: CRM/Activity/Form/Phonecall.php:66
 msgid "The Field Subject should not be Empty"
-msgstr ""
+msgstr "ช่องข้อมูลหัวข้อไม่ควรถูกเว้นไว้"
 
 #: CRM/Activity/Form/Phonecall.php:68
 msgid "Please enter a valid date and time for this call."
-msgstr ""
+msgstr "กรุณาใส่วันที่และเวลาที่ถูกต้องสำหรับการโทรหา"
 
 #: CRM/Activity/Form/Phonecall.php:69
 msgid "Call Date and Time are required."
-msgstr ""
+msgstr "ต้องระบุวันและเวลาที่โทรหา"
 
 #: CRM/Activity/Form/Phonecall.php:72
 msgid " OR New Phone"
-msgstr ""
+msgstr "หรือ เบอร์ใหม่"
 
 #: CRM/Activity/Form/Phonecall.php:144
 msgid "Phone Call \"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "โทรศัพท์หา \"%1\" ได้ถูกบันทึกลงในประวัติกิจกรรมแล้ว"
 
 #: CRM/Activity/Form/Phonecall.php:146
 msgid "Phone Call \"%1\" has been saved."
-msgstr ""
+msgstr "โทรศัพท์หา \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/IMProvider.php:86
 msgid "The IM Provider \"%1\" has been saved."
-msgstr ""
+msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/LocationType.php:54
 msgid "Please enter a valid location type name."
-msgstr ""
+msgstr "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
 
 #: CRM/Admin/Form/LocationType.php:90
 msgid "The location type \"%1\" has been saved."
-msgstr ""
+msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/MobileProvider.php:86
 msgid "The Mobile Provider \"%1\" has been saved."
-msgstr ""
+msgstr "ผู้ให้บริการโทรศัพท์เคลื่อนที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/RelationshipType.php:53
 msgid "Relationship Label-A to B"
-msgstr ""
+msgstr "ความสัมพันธ์ ชื่อ-A ถึง B"
 
 #: CRM/Admin/Form/RelationshipType.php:55
 msgid "Please enter a valid Relationship Label for A to B."
-msgstr ""
+msgstr "กรุณาใส่ความสัมพันธ์ที่ถูกต้องสำหรับชื่อ A ถึง B"
 
 #: CRM/Admin/Form/RelationshipType.php:58
 msgid "Relationship Label-B to A"
-msgstr ""
+msgstr "ความสัมพันธ์ ชื่อ-B ถึง A"
 
 #: CRM/Admin/Form/RelationshipType.php:65
 msgid "Contact Type A "
-msgstr ""
+msgstr "การติดต่อ ประเภท A"
 
 #: CRM/Admin/Form/RelationshipType.php:66
 msgid "Contact Type B "
-msgstr ""
+msgstr "การติดต่อ ประเภท B"
 
 #: CRM/Admin/Form/RelationshipType.php:103
 msgid "The Relationship Type has been saved."
-msgstr ""
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Page/IMProvider.php:70
 msgid ""
 "Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
 "no longer be able to select this value when adding or editing contact IM "
 "screen names."
-msgstr ""
+msgstr "คุณแน่ใจหรือว่าจะปิดผู้ให้บริการIM \n\nผู้ใช้จะไม่สามารถเลือกค่านี้เมื่อใส่หรือแก้ไขชื่อแสดง IM อีกต่อไป"
 
 #: CRM/Admin/Page/IMProvider.php:77
 msgid "IM Provider"
-msgstr ""
+msgstr "ผู้ให้บริการ IM"
 
 #: CRM/Admin/Page/IMProvider.php:84
 msgid "Disable IM Service Provider"
-msgstr ""
+msgstr "ปิดผู้ให้บริการ IM"
 
 #: CRM/Admin/Page/IMProvider.php:90
 msgid "Enable IM Service Provider"
-msgstr ""
+msgstr "เปิดผู้ให้บริการ IM"
 
 #: CRM/Admin/Page/LocationType.php:71
 msgid ""
 "Are you sure you want to disable this location type?\\n\\nUsers will no "
 "longer be able to select this value when adding or editing contact locations."
-msgstr ""
+msgstr "คุณแน่ใจหรือว่าต้องการปิดประเภทสถานที่นี้\n\nผู้ใช้จะไม่สามารถทำการเลือกค่านี้เมื่อเพิ่มหรือแก้ไขสถานที่ติดต่ออีกต่อไป"
 
 #: CRM/Admin/Page/LocationType.php:78
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr ""
+msgstr "แก้ไขประเภทสถานที่"
 
 #: CRM/Admin/Page/LocationType.php:85
 msgid "Disable Location Type"
-msgstr ""
+msgstr "ปิดประเภทสถานที่"
 
 #: CRM/Admin/Page/LocationType.php:91
 msgid "Enable Location Type"
-msgstr ""
+msgstr "เปิดประเภทสถานที่"
 
 #: CRM/Admin/Page/MobileProvider.php:72
 msgid ""

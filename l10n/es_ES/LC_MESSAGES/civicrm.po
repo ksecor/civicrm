@@ -8,7 +8,6 @@ msgid ""
 msgstr ""
 "PO-Revision-Date: 2005-07-23 23:26+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: Automatically generated\n"
@@ -16,6 +15,7 @@ msgstr ""
 "POT-Creation-Date: 2005-07-11 10:32+0200\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2));\n"
 
 #: CRM/Activity/Form/Meeting.php:61 CRM/Activity/Form/Phonecall.php:65
 #: CRM/Contact/Form/Task/Email.php:112 CRM/Contact/Selector/Activity.php:253
