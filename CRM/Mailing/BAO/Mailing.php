@@ -93,7 +93,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
       
         /* Create a temp table for contact exclusion */
         $mailingGroup->query(
-            "CREATE  TABLE X_$job_id 
+            "CREATE TEMPORARY TABLE X_$job_id 
             (contact_id int primary key) 
             TYPE=HEAP"
         );
@@ -180,7 +180,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get all the group contacts we want to include */
         
         $mailingGroup->query(
-            "CREATE  TABLE I_$job_id 
+            "CREATE TEMPORARY TABLE I_$job_id 
             (email_id int, contact_id int primary key)
             TYPE=HEAP"
         );
@@ -361,8 +361,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         /* Delete the temp table */
         $mailingGroup->reset();
-//         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
-//         $mailingGroup->query("DROP TEMPORARY TABLE I_$job_id");
+        $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
+        $mailingGroup->query("DROP TEMPORARY TABLE I_$job_id");
 
         return $results;
     }
