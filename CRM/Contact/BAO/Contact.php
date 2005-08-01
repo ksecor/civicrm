@@ -464,6 +464,13 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
               [1] => 1
               )
              
+             [cb_group_contact_status] => Array
+             (
+              [In] => 1
+              [Out] => 0
+              [Pending] => 0
+              )
+             
              [cb_tag] => Array
              (
               [1] => 1
@@ -504,8 +511,20 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         // check for group restriction
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
             $andArray['group'] = "(civicrm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
-            $andArray['groupStatus'] = '(civicrm_group_contact.status = "In")';
-            
+
+            $statii = array();
+            if (is_array($fv['cb_group_contact_status'])) {
+                foreach ($fv['cb_group_contact_status'] as $key => $value) {
+                    if ($value) {
+                        $statii[] = "\"$key\"";
+                    }
+                }
+                $andArray['groupStatus']    
+                        = '(civicrm_group_contact.status IN (' 
+                        . implode( ',', $statii) . '))';
+            } else {
+                $andArray['groupStatus'] = '(civicrm_group_contact.status = "In")';
+            }
             $tables['civicrm_group_contact'] = 1;
         }
         

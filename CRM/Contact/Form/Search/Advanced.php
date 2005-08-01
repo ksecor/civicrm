@@ -252,7 +252,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         } else {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
-
+        
         // note that we do this so we over-ride the default/post/submitted values to get
         // consisten behavior between search and advanced search
         // $this->setConstants( $defaults );
@@ -290,7 +290,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
         }
 
-        // CRM_Core_Error::debug( 'F', $this->_formValues );
+//         CRM_Core_Error::debug( 'F', $this->_formValues );
         $this->postProcessCommon( );
     }
 

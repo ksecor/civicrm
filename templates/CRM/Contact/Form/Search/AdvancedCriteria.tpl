@@ -21,7 +21,7 @@
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.cb_contact_type.html}
             </td>
-            <td><label>{ts}In Group(s){/ts}</label><br />
+            <td><label>{ts}Group(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.cb_group item="cb_group_val"}
                     <div class="{cycle values="odd-row,even-row"}">

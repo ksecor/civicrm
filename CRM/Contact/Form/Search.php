@@ -221,7 +221,19 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set the group title
             $groupValues = array( 'id' => $this->_groupID, 'title' => $this->_group[$this->_groupID] );
             $this->assign_by_ref( 'group', $groupValues );
-
+            $cb_group_contact_status = array();
+            foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
+                if (! empty($k)) {
+                    $cb_group_contact_status[] =
+                        HTML_QuickForm::createElement('checkbox', $k, null, $v);
+                }
+            }
+            $this->addGroup($cb_group_contact_status,
+                'cb_group_contact_status', ts('With status'));
+//             $r = $this->getRegisteredRules();
+//             CRM_Core_Error::debug('r', $r);
+//             exit();
+            $this->addGroupRule('cb_group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
         }
@@ -335,7 +347,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
 
-        
+        if ( $this->_context === 'smog' ) {
+            $defaults['cb_group_contact_status[In]'] = true;
+        }
 
         // note that we do this so we over-ride the default/post/submitted values to get
         // consisten behavior between search and advanced search

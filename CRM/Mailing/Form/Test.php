@@ -95,7 +95,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
                                     $contactId, $email, $recipient, true);
 
 //      FIXME:  Get the smtp server out of config
-        $mailer =& Mail::factory('smtp', array('host' => 'localhost'));
+        $mailer =& Mail::factory('smtp', array('host' => CRM_SMTP_SERVER));
 
         $body = $mime->get();
         $headers = $mime->headers();

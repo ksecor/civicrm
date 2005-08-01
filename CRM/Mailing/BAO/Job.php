@@ -66,7 +66,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         $job->query($query);
 
-        $mailer =& Mail::factory('smtp', array('host' => 'SMTP.FIXME.COM'));
+        $mailer =& Mail::factory('smtp', array('host' => CRM_SMTP_SERVER));
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {

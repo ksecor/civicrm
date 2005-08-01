@@ -8,6 +8,12 @@
     </legend>
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
+     {if $context EQ 'smog'}
+        <span class="horizontal-position">
+            <span class="label">{$form.cb_group_contact_status.label}</span>
+            {$form.cb_group_contact_status.html}
+        </span>
+     {/if}
      <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
      <span class="horizontal-position">{$form.tag.label}{$form.tag.html}</span>
  </div>
