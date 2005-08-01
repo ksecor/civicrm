@@ -245,7 +245,7 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No group memberships. You can <a href="%1">add {$display_name} to a group</a>.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}</dd></dl>
   {/if}
 </div>
 
