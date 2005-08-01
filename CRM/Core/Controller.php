@@ -56,6 +56,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     protected $_title;
 
     /**
+     * the name of the session scope where values are stored
+     *
+     * @var object
+     */
+    protected $_scope;
+
+    /**
      * the state machine associated with this controller
      *
      * @var object
@@ -97,16 +104,22 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * All CRM single or multi page pages should inherit from this class. 
      *
      * @param string  descriptive title of the controller
-     * @param boolean whether controller is modal
+     * @param boolean whether     controller is modal
+     * @param string  scope       name of session if we want unique scope, used only by Controller_Simple
      *
      * @access public
      *   
      * @return void
      *
      */
-    function __construct( $title = null, $modal = true ) {
+    function __construct( $title = null, $modal = true, $scope = null ) {
         $this->HTML_QuickForm_Controller(CRM_Utils_System::getClassName($this), $modal);
         $this->_title = $title;
+        if ( $scope ) {
+            $this->_scope = $scope;
+        } else {
+            $this->_scope = CRM_Utils_System::getClassName($this);
+        }
 
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
@@ -287,7 +300,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      */
     function reset( ) {
         $this->container( true );
-        self::$_session->resetScope( $this->_name );
+        self::$_session->resetScope( $this->_scope );
     }
 
     /**
@@ -314,7 +327,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function set( $name, $value = null) {
-        self::$_session->set( $name, $value, $this->_name );
+        self::$_session->set( $name, $value, $this->_scope );
     }
 
     /**
@@ -328,7 +341,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function get( $name ) {
-        return self::$_session->get( $name, $this->_name );
+        return self::$_session->get( $name, $this->_scope );
     }
 
     /**
