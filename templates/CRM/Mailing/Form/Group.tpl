@@ -4,16 +4,20 @@
 <fieldset>
   <legend>Select Mailing Recipients</legend>
   <dl>
-<table>
-{section name = groupLoop start = 1 loop = $groupCount+1 }
-{assign var=index value=$smarty.section.groupLoop.index}
-<tr><td>{$form.groupType.$index.html}</td><td>{$form.group.$index.html}</td></tr>
-{/section}
-{section name = mailingLoop start = 1 loop = $mailingCount}
-{assign var=index value=$smarty.section.mailingLoop.index}
-<tr><td>{$form.mailingType.$index.html}</td><td>{$form.mailing.$index.html}</td></tr>
-{/section}
-</table>
+  <table>
+  {if $groupCount > 0}
+    <tr><th class="label">{$form.includeGroups.label}</th></tr>
+    <tr><td>{$form.includeGroups.html}</td></tr>
+    <tr><th class="label">{$form.excludeGroups.label}</th></tr>
+    <tr><td>{$form.excludeGroups.html}</td></tr>
+  {/if}
+  {if $mailingCount > 0}
+  <tr><th class="label">{$form.includeMailings.label}</th></tr>
+  <tr><td>{$form.includeMailings.html}</td></tr>
+  <tr><th class="label">{$form.excludeMailings.label}</th></tr>
+  <tr><td>{$form.excludeMailings.html}</td></tr>
+  {/if}
+  </table>
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>

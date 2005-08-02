@@ -51,28 +51,47 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $group       = array( '' => '-select-' ) + CRM_Core_PseudoConstant::group( );
-        $groupCount  = min( self::NUMBER_OF_ELEMENTS, count( $group ) - 1 );
-        $groupType   = array( 'include' => 'Include All Members from this Group',
-                              'exclude' => 'Exclude All Members from this Group' );
+//         $group       = array( '' => '-select-' ) + CRM_Core_PseudoConstant::group( );
+//         $groupCount  = min( self::NUMBER_OF_ELEMENTS, count( $group ) - 1 );
+//         $groupType   = array( 'include' => 'Include All Members from this Group',
+//                               'exclude' => 'Exclude All Members from this Group' );
 
-        $mailing      = array( '' => '-select-' ) + CRM_Mailing_PseudoConstant::completed( );
-        $mailingCount = min( self::NUMBER_OF_ELEMENTS, count( $mailing ) - 1 );
-        $mailingType  = array( 'include' => 'Include All Members from this Mailing',
-                               'exclude' => 'Exclude All Members from this Mailing' );
+//         $mailing      = array( '' => '-select-' ) + CRM_Mailing_PseudoConstant::completed( );
+//         $mailingCount = min( self::NUMBER_OF_ELEMENTS, count( $mailing ) - 1 );
+//         $mailingType  = array( 'include' => 'Include All Members from this Mailing',
+//                                'exclude' => 'Exclude All Members from this Mailing' );
 
 
-        for ( $i = 1; $i <= $groupCount; $i++ ) {
-            $this->add( 'select', "group[$i]"      , null, $group       );
-            $this->add( 'select', "groupType[$i]"  , null, $groupType   );
+//         for ( $i = 1; $i <= $groupCount; $i++ ) {
+//             $this->add( 'select', "group[$i]"      , null, $group       );
+//             $this->add( 'select', "groupType[$i]"  , null, $groupType   );
+//         }
+//         $this->assign(  'groupCount', $groupCount );
+//         
+//         for ( $i = 1; $i <= $mailingCount; $i++ ) {
+//             $this->add( 'select', "mailing[$i]"    , null, $mailing     );
+//             $this->add( 'select', "mailingType[$i]", null, $mailingType );
+//         }
+//         $this->assign(  'mailingCount', $mailingCount );
+        $groups =& CRM_Core_PseudoConstant::group();
+        $this->addElement('advmultiselect', 'includeGroups', 
+            ts('Include group(s) '), $groups,
+            array('size' => 5, 'style' => 'width:240px'));
+        $this->addElement('advmultiselect', 'excludeGroups', 
+            ts('Exclude group(s) '), $groups,
+            array('size' => 5, 'style' => 'width:240px'));
+
+        $mailings =& CRM_Mailing_PseudoConstant::completed();
+        if (! $mailings) {
+            $mailings = array();
         }
-        $this->assign(  'groupCount', $groupCount );
-        
-        for ( $i = 1; $i <= $mailingCount; $i++ ) {
-            $this->add( 'select', "mailing[$i]"    , null, $mailing     );
-            $this->add( 'select', "mailingType[$i]", null, $mailingType );
-        }
-        $this->assign(  'mailingCount', $mailingCount );
+        $this->addElement('advmultiselect', 'includeMailings', 
+            ts('Include mailing(s) '), $mailings,
+            array('size' => 5, 'style' => 'width:240px'));
+        $this->addElement('advmultiselect', 'excludeMailings', 
+            ts('Exclude mailing(s) '), $mailings,
+            array('size' => 5, 'style' => 'width:240px'));
+
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -84,37 +103,75 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+
+        $this->assign('groupCount', count($groups));
+        $this->assign('mailingCount', count($mailings));
     }
 
     public function postProcess() {
 
-        $selectGroupTypes = $this->controller->exportValue($this->_name, 'groupType');
-        $selectGroups = $this->controller->exportValue($this->_name, 'group');
-        
+//         $selectGroupTypes = $this->controller->exportValue($this->_name, 'groupType');
+//         $selectGroups = $this->controller->exportValue($this->_name, 'group');
+//         
+//         $groups = array();
+//         
+//         if (is_array($selectGroups)) {
+//             foreach ($selectGroups as $key => $id) {
+//                 if ($id) {
+//                     $groups[$selectGroupTypes[$key]][] = $id;
+//                 }
+//             }
+//         }
+
+//         $selectMailingTypes = $this->controller->exportValue($this->_name, 'mailingType');
+//         $selectMailings = $this->controller->exportValue($this->_name, 'mailing');
+//         
+//         $mailings = array();
+//         if (is_array($selectMailings)) {
+//             foreach ($selectMailings as $key => $id) {
+//                 if ($id) {
+//                     $mailings[$selectGroupTypes[$key]][] = $id;
+//                 }
+//             }
+//         }
+        $inGroups = $this->controller->exportValue($this->_name, 'includeGroups');
+        $outGroups = $this->controller->exportValue($this->_name, 'excludeGroups');
+        $inMailings = $this->controller->exportValue($this->_name, 'includeMailings');
+        $outMailings = $this->controller->exportValue($this->_name, 'excludeMailings');
         $groups = array();
-        
-        if (is_array($selectGroups)) {
-            foreach ($selectGroups as $key => $id) {
+        if (is_array($inGroups)) {
+            foreach($inGroups as $key => $id) {
                 if ($id) {
-                    $groups[$selectGroupTypes[$key]][] = $id;
+                    $groups['include'][] = $id;
+                }
+            }
+        }
+        if (is_array($outGroups)) {
+            foreach($outGroups as $key => $id) {
+                if ($id) {
+                    $groups['exclude'][] = $id;
                 }
             }
         }
 
-        $selectMailingTypes = $this->controller->exportValue($this->_name, 'mailingType');
-        $selectMailings = $this->controller->exportValue($this->_name, 'mailing');
-        
         $mailings = array();
-        if (is_array($selectMailings)) {
-            foreach ($selectMailings as $key => $id) {
+        if (is_array($inMailings)) {
+            foreach($inMailings as $key => $id) {
                 if ($id) {
-                    $mailings[$selectGroupTypes[$key]][] = $id;
+                    $mailings['include'][] = $id;
                 }
             }
         }
-        
-        $this->set('mailings', $mailings);
+        if (is_array($outMailings)) {
+            foreach($outMailings as $key => $id) {
+                if ($id) {
+                    $mailings['exclude'][] = $id;
+                }
+            }
+        }
+
         $this->set('groups', $groups);
+        $this->set('mailings', $mailings);
     }
 
     /**
