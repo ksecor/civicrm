@@ -89,7 +89,10 @@ function civicrm_html_head()
  * text to the pages your module defines.
  */
 function civicrm_help($section)
-{
+{	
+    // make sure the system is initialized
+    civicrm_initialize( );
+
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
@@ -107,6 +110,9 @@ function civicrm_help($section)
  */
 function civicrm_perm()
 {
+    // make sure the system is initialized
+    civicrm_initialize( );
+
     // static permissions
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM', 'access CiviCRM' );
 

@@ -159,9 +159,8 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
     }
     $contacts = array();
     $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group, $returnProperties, $status, $sort, $offset, $row_count);
-    return $contacts;
-    
-p}
+    return $contacts;    
+}
 
 
 /**
