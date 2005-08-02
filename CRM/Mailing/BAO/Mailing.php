@@ -541,7 +541,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $html = CRM_Utils_Token::replaceContactTokens(
                                         $this->html, $contact, true);
-            $html = CRM_Utils_token::replaceActionTokens( $html, $verp, true);
+            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, true);
             
             /* TODO: insert html for open tracking */
             $message->setHTMLBody($html);
