@@ -158,10 +158,10 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
         return _crm_error('$sort is not an array');
     }
     $contacts = array();
-    $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts(&$group, $returnProperties, $status, $sort, $offset, $row_count);
+    $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group, $returnProperties, $status, $sort, $offset, $row_count);
     return $contacts;
     
-}
+p}
 
 
 /**

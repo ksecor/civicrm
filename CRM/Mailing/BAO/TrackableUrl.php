@@ -31,6 +31,8 @@
  *
  */
 
+require_once 'CRM/Mailing/DAO/TrackableUrl.php';
+
 class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
 
     /**
