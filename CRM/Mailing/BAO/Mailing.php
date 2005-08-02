@@ -530,8 +530,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = CRM_Utils_token::replaceActionTokens( $text,
                                         $verp, false);
                                         
-            /* TODO: trackable URL construction */
-            
             $message->setTxtBody($text);
         }
 
@@ -546,7 +544,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $this->html, $contact, true);
             $html = CRM_Utils_token::replaceActionTokens( $html, $verp, true);
             
-            /* TODO: trackable URL construction */
             /* TODO: insert html for open tracking */
             $message->setHTMLBody($html);
         }
@@ -589,11 +586,29 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         return $groups;
     }
-
+    
+    /**
+     * Error handler to quietly catch otherwise fatal smtp transport errors.
+     *
+     * @param object $obj       The PEAR_ERROR object
+     * @return object $obj
+     * @access public
+     * @static
+     */
     public static function catchSMTP($obj) {
         return $obj;
     }
 
+
+    /**
+     * Construct a new mailing object, along with job and mailing_group
+     * objects, from the form values of the create mailing wizard.
+     *
+     * @params array $params        Form values
+     * @return object $mailing      The new mailing object
+     * @access public
+     * @static
+     */
     public static function create(&$params) {
         CRM_Core_DAO::transaction('BEGIN');
         $mailing =& new CRM_Mailing_BAO_Mailing();       
@@ -612,22 +627,27 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->subject       = $params['subject'];
         $mailing->body_text     = file_get_contents($params['textFile']);
         $mailing->body_html     = file_get_contents($params['htmlFile']);
-        $mailing->is_template   = $params['template'];
+        $mailing->is_template   = $params['template'] ? true : false;
+        $mailing->url_tracking  = $params['track_urls'] ? true : false;
+        $mailing->open_tracking = $params['track_opens'] ? true : false;
+        $mailing->forward_replies = $params['forward_reply'] ? true : false;
         $mailing->is_completed  = false;
         $mailing->save();
-
-        /* Create the job record */
-        $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $mailing->id;
-        $job->status = 'Scheduled';
-        $job->is_retry = false;
-        if ($params['now']) {
-            $job->scheduled_date = time();
-        } else {
-            $job->scheduled_date =
-                CRM_Utils_Date::format($params['start_date']);
+        
+        if (! $mailing->is_template) {
+            /* Create the job record */
+            $job =& new CRM_Mailing_BAO_Job();
+            $job->mailing_id = $mailing->id;
+            $job->status = 'Scheduled';
+            $job->is_retry = false;
+            if ($params['now']) {
+                $job->scheduled_date = time();
+            } else {
+                $job->scheduled_date =
+                    CRM_Utils_Date::format($params['start_date']);
+            }
+            $job->save();
         }
-        $job->save();
         
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();

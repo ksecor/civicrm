@@ -41,7 +41,15 @@ class CRM_Contact_BAO_SubscriptionHistory extends CRM_Contact_DAO_SubscriptionHi
     function __construct() {
         parent::__construct();
     }
-
+    
+    /**
+     * Create a new subscription history record
+     *
+     * @param array $params     Values for the new history record
+     * @return object $history  The new history object
+     * @access public
+     * @static
+     */
     public static function &create(&$params) {
         $history =& new CRM_Contact_BAO_SubscriptionHistory();
         $history->date = date('Ymd');
@@ -50,6 +58,14 @@ class CRM_Contact_BAO_SubscriptionHistory extends CRM_Contact_DAO_SubscriptionHi
         return $history;
     }
 
+    /**
+     * Erase a contact's subscription history records
+     *
+     * @param int $id       The contact id
+     * @return none
+     * @access public
+     * @static
+     */
     public static function deleteContact($id) {
         $history =& new CRM_Contact_BAO_SubscriptionHistory();
         $history->contact_id = $id;

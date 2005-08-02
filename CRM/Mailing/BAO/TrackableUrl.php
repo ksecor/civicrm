@@ -68,7 +68,7 @@ class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
         preg_replace(
 //     '|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|e', 
     '|(https?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|eim', 
-    "CRM_Mailing_BAO_TrackableUrl::getTrackerURL(\\1, $mailing_id, $queue_id)", 
+    "CRM_Mailing_BAO_TrackableUrl::getTrackerURL('\\1', $mailing_id, $queue_id)", 
     $msg);
     }
 }

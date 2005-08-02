@@ -65,7 +65,16 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $email = $session->get('ufEmail');
         $this->assign('email', $email);
     }
-
+    
+    /**
+     * Form rule to send out a test mailing.
+     *
+     * @param array $params     Array of the form values
+     * @param array $files      Any files posted to the form
+     * @param array $options    Additional options from earlier in the wizard
+     * @return boolean          true on succesful SMTP handoff
+     * @access public
+     */
     public function &testMail($params, &$files, &$options) {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
             ! $params['test']) 

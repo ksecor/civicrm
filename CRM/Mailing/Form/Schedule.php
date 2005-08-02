@@ -36,6 +36,13 @@
  */
 class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
 
+    /**
+     * Build the form for the last step of the mailing wizard
+     *
+     * @param none
+     * @return none
+     * @access public
+     */
     public function buildQuickform() {
         $this->addElement('date', 'start_date', ts('Start Date'),
             CRM_Core_SelectValues::date('mailing'));
@@ -54,7 +61,15 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
                             )
                         );
     }
-
+    /**
+     * Form rule to validate the date selector and/or if we should deliver
+     * immediately.
+     *
+     * @param array $params     The form values
+     * @return boolean          True if either we deliver immediately, or the
+     *                          date is properly set.
+     * @static
+     */
     public static function &formRule(&$params) {
         /* TODO: make this check for dates before now() */
         if ($params['now']) {
@@ -65,7 +80,13 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
             return true;
     }
 
-
+    /**
+     * Process the posted form values.  Create and schedule a mailing.
+     *
+     * @param none
+     * @return none
+     * @access public
+     */
     public function postProcess() {
         $params = array();
         foreach (array( 

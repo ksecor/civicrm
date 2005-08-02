@@ -57,6 +57,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static $_importFields = null;
 
+    /**
+     * Build and retrieve the list of data types and descriptions
+     *
+     * @param none
+     * @return array        Data type => Description
+     * @access public
+     * @static
+     */
     static function &dataType()
     {
         if (!(self::$_dataType)) {
