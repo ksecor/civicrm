@@ -28,7 +28,7 @@
     <td>{$row.street_address|mb_truncate:22:"...":true}</td>
     <td>{$row.city}</td>
     <td>{$row.state}</td>
-    <td>{$row.postal_code}{if $row.postal_code_suffix}-{$row.postal_code_suffix}{/if}</td>
+    <td>{$row.postal_code}</td>
     <td>{$row.country}</td>
     <td>{$row.email|mb_truncate:17:"...":true}</td>
     <td>{$row.phone}</td>

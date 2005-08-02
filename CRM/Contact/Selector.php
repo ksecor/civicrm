@@ -72,7 +72,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @static
      */
     static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
-                                'city', 'state', 'postal_code','postal_code_suffix', 'country',
+                                'city', 'state', 'postal_code', 'country',
                                 'email', 'phone' );
 
     /**
@@ -252,7 +252,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;
             }
-
+            if (!empty ($result->postal_code_suffix)) {
+                $row['postal_code'] .= "-" . $result->postal_code_suffix;
+            }
+                
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
                 $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
