@@ -439,6 +439,13 @@ class CRM_Core_Config {
         CRM_Core_DAO::setFactory(new $factoryClass());
     }
 
+    /**
+     * returns the singleton logger for the applicationthe singleton logger for the application
+     *
+     * @param none
+     * @access private
+     * @return object
+     */
     static function &getLog() {
         if ( ! isset( self::$_log ) ) {
             self::$_log =& Log::singleton( 'display' );
@@ -447,6 +454,13 @@ class CRM_Core_Config {
         return self::$_log;
     }
 
+    /**
+     * retrieve a mailer to send any mail from the applciation
+     *
+     * @param none
+     * @access private
+     * @return object
+     */
     static function &getMailer( ) {
         if ( ! isset( self::$_mail ) ) {
             $params['host'] = self::$_singleton->smtpServer;
@@ -458,6 +472,13 @@ class CRM_Core_Config {
         return self::$_mail;
     }
 
+    /**
+     * get the domain Id of the current user
+     *
+     * @param none
+     * @access private
+     * @return int
+     */
     static function domainID( ) {
         return self::$_domainID;
     }
