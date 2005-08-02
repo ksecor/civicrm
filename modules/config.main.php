@@ -36,7 +36,7 @@ if ( ! defined( 'CRM_MAINMENU' ) ) {
 }
 
 if ( ! defined( 'JPSPAN' ) ) {
-    define( JPSPAN, $civicrm_root . DIRECTORY_SEPARATOR . packages . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
+    define( 'JPSPAN', $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
 
 // drupal specific code

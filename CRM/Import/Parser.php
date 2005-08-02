@@ -409,7 +409,7 @@ abstract class CRM_Import_Parser {
     function setActiveFields( $fieldKeys ) {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
-            $this->_activeFields[] = clone $this->_fields[$key];
+            $this->_activeFields[] = clone( $this->_fields[$key] );
         }
     }
 

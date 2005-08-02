@@ -527,7 +527,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $this->text, $contact, false);
-            $text = CRM_Utils_token::replaceActionTokens( $text,
+            $text = CRM_Utils_Token::replaceActionTokens( $text,
                                         $verp, false);
                                         
             $message->setTxtBody($text);

@@ -513,7 +513,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $andArray['group'] = "(civicrm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
 
             $statii = array();
-            if (is_array($fv['cb_group_contact_status'])) {
+            if ( CRM_Utils_Array::value( 'cb_group_contact_status', $fv ) &&
+                 is_array( $fv['cb_group_contact_status'] ) ) {
                 foreach ($fv['cb_group_contact_status'] as $key => $value) {
                     if ($value) {
                         $statii[] = "\"$key\"";
