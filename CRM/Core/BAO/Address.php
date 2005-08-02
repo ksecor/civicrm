@@ -62,6 +62,16 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
 
+        /* Split the zip and +4, if it's in US format */
+        if (preg_match('/^(\d{4,5})[+-](\d{4})$/',
+            $params['location'][$locationId]['address']['postal_code'], 
+            $match)) 
+        {
+            $params['location'][$locationId]['address']['postal_code'] =
+                $match[1];
+            $params['location'][$locationId]['address']['postal_code_suffix'] =
+                $match[2];
+        }
         // add latitude and longitude and format address if needed
         $config =& CRM_Core_Config::singleton( );
         if ( $config->geocodeMethod == CRM_Core_Config::GEOCODE_ZIP ) {
