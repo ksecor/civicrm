@@ -39,6 +39,13 @@ require_once 'CRM/Contact/Page/View.php';
 class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 {
 
+     /**
+     * This function is called when action is update or new
+     * 
+     * return null
+     * @access public
+     */
+    
     function edit( )
     {
         //set the path depending on open activity or activity history (view mode)
@@ -67,6 +74,13 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         $controller->run( );
     }
 
+    /**
+     * This function is the main function that is called when the page loads,
+     * it decides the which action has to be taken for the page.
+     * 
+     * return null
+     * @access public
+     */
     function run( )
     {
         $this->preProcess( );
