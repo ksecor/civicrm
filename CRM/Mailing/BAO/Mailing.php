@@ -117,7 +117,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Add all the (intended) recipients of an excluded prior mailing to
          * the temp table */
         $excludeSubMailing = 
-                    "INSERT INTO        X_$job_id (contact_id)
+                    "INSERT IGNORE INTO X_$job_id (contact_id)
                     SELECT              $eq.contact_id
                     FROM                $eq
                     INNER JOIN          $job
@@ -134,7 +134,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Add all the succesful deliveries of this mailing (but any job/retry)
          * to the exclude temp table */
         $excludeRetry =
-                    "INSERT INTO        X_$job_id (contact_id)
+                    "INSERT IGNORE INTO X_$job_id (contact_id)
                     SELECT              $eq.contact_id
                     FROM                $eq
                     INNER JOIN          $job
@@ -170,7 +170,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             CRM_Contact_BAO_SavedSearch::whereClause(
                 $mailingGroup->saved_search_id, $tables);
             $ss->query(
-                    "INSERT INTO        X_$job_id (contact id)
+                    "INSERT IGNORE INTO X_$job_id (contact id)
                     SELECT              $contact.id
                     FROM                $from
                     WHERE               $where");
@@ -190,7 +190,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Get the emails with no override */
         $mailingGroup->query(
-                    "INSERT INTO        I_$job_id (email_id, contact_id)
+                    "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT              $email.id as email_id,
                                         $contact.id as contact_id
                     FROM                $email
