@@ -1419,7 +1419,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
         // this is not sufficient way to do.
 
-        $query1 = "SELECT count(*) FROM civicrm_meeting WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query1 = "SELECT count(*) FROM civicrm_meeting WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao =& new CRM_Core_DAO();
         $dao->query($query1);
         $result = $dao->getDatabaseResult();
@@ -1427,7 +1427,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         
         $rowMeeting = $row[0];
         
-        $query2 = "SELECT count(*) FROM civicrm_phonecall WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query2 = "SELECT count(*) FROM civicrm_phonecall WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao->query($query2);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -1468,8 +1468,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
   FROM civicrm_phonecall, civicrm_contact source, civicrm_contact target
   WHERE
     civicrm_phonecall.source_contact_id = source.id AND
-    civicrm_phonecall.target_contact_id = target.id AND
-    ( civicrm_phonecall.source_contact_id = $contactId OR civicrm_phonecall.target_contact_id = $contactId ) AND
+    civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
+    civicrm_phonecall.target_entity_id = target.id AND
+    ( civicrm_phonecall.source_contact_id = $contactId OR civicrm_phonecall.target_entity_id = $contactId ) AND
     civicrm_phonecall.status != 'Completed'
 ) UNION
 ( SELECT   
@@ -1483,8 +1484,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
   FROM civicrm_meeting, civicrm_contact source, civicrm_contact target
   WHERE
     civicrm_meeting.source_contact_id = source.id AND
-    civicrm_meeting.target_contact_id = target.id AND
-    ( civicrm_meeting.source_contact_id = $contactId OR civicrm_meeting.target_contact_id = $contactId ) AND
+    civicrm_meeting.target_entity_table = 'civicrm_contact' AND
+    civicrm_meeting.target_entity_id = target.id AND
+    ( civicrm_meeting.source_contact_id = $contactId OR civicrm_meeting.target_entity_id = $contactId ) AND
     civicrm_meeting.status != 'Completed'
 )";
         if ($sort) {

@@ -25,17 +25,22 @@
        <table>civicrm_contact</table>
        <key>id</key>
   </foreignKey>
+
+
   <field>
-      <name>target_contact_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Contact ID of person being called.</comment>
+       <name>target_entity_table</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Name of table where item being referenced is stored.</comment>
   </field>
-  <foreignKey>
-       <name>target_contact_id</name>
-       <table>civicrm_contact</table>
-       <key>id</key>
-  </foreignKey>
+  <field>
+       <name>target_entity_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+  </field>
+
   <field>
       <name>subject</name>
       <type>varchar</type>

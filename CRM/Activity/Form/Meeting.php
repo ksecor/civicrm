@@ -126,7 +126,8 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         // store the contact id and current drupal user id
         $params['source_contact_id'] = $this->_userId;
-        $params['target_contact_id'] = $this->_contactId;
+        $params['target_entity_id'] = $this->_contactId;
+        $params['target_entity_table'] = 'civicrm_contact';
 
         //set parent id if exists for follow up activities
         if ($this->_pid) {
