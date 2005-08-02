@@ -172,6 +172,8 @@ class CRM_GCD {
                          );
     
     private $groupMembershipStatus = array('In', 'Out', 'Pending');
+    private $subscriptionHistoryMethod = array('Admin', 'Email');
+
 
   /*********************************
    * private methods
@@ -1026,10 +1028,12 @@ class CRM_GCD {
             $groupContact->contact_id = $this->individual[$i];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
+
             $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->method = $this->_getRandomElement($this->subscriptionHistoryMethod); // method
             $subscriptionHistory->date = $this->_getRandomDate();
             if ($groupContact->status != 'Pending') {
                 $this->_insert($groupContact);
@@ -1048,6 +1052,7 @@ class CRM_GCD {
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->method = $this->_getRandomElement($this->subscriptionHistoryMethod); // method
             $subscriptionHistory->date = $this->_getRandomDate();
 
             if ($groupContact->status != 'Pending') {
@@ -1067,6 +1072,7 @@ class CRM_GCD {
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
+            $subscriptionHistory->method = $this->_getRandomElement($this->subscriptionHistoryMethod); // method
             $subscriptionHistory->date = $this->_getRandomDate();
 
             if ($groupContact->status != 'Pending') {
@@ -1076,47 +1082,9 @@ class CRM_GCD {
         }
     }
 
+
+
     
-    /**
-     * This function returns a random status for a group membership
-     * depending on the contact id
-     *
-     * @param int $contactId contact id
-     * @return string 'In', 'Out', or 'Pending'
-     *
-     * @access private
-     */    
-    private function _getRandomGroupMembershipStatus($contactId)
-    {
-        
-        return;
-    }
-
-    private function _setGroupContactStatus1($groupContact)
-    {
-
-        // clear existing fields for DAO
-        if ($groupContact->contact_id % 7) {
-            $groupContact->status = "In";
-            $groupContact->in_date = $this->_getRandomDate();
-            $groupContact->in_method = 'Admin';
-        } else {
-            $groupContact->status = "Out";
-            $groupContact->out_date = $this->_getRandomDate();
-            $groupContact->in_date = $this->_getRandomDate(0, strtotime($groupContact->out_date));
-            $groupContact->out_method = 'Admin';
-        }
-        if (!$groupContact->contact_id % 13) {
-            unset($groupContact->in_date);
-            unset($groupContact->in_method);
-            $groupContact->status = "Pending";
-            $groupContact->pending_date = $this->_getRandomDate();
-            $groupContact->pending_method = 'Admin';
-        }
-        return;
-    }
-
-
     /*******************************************************
      *
      * addNote()
