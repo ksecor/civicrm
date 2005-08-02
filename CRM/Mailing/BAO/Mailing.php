@@ -107,11 +107,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id
                     WHERE
-                                        $mg.mailing_id = " . $this->id . "
+                                        $mg.mailing_id = {$this->id}
                         AND             $mg.entity_table = '$group'
                         AND             $g2contact.status = 'In'
                         AND             $mg.group_type = 'Exclude'";
-        $mailingGroup->reset();
         $mailingGroup->query($excludeSubGroup);
         
         /* Add all the (intended) recipients of an excluded prior mailing to
@@ -125,10 +124,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $job.mailing_id = $mg.entity_id
                     WHERE
-                                        $mg.mailing_id = " . $this->id . "
+                                        $mg.mailing_id = {$this->id}
                         AND             $mg.entity_table = '$mailing'
                         AND             $mg.group_type = 'Exclude'";
-        $mailingGroup->reset();
         $mailingGroup->query($excludeSubMailing);
         
         /* Add all the succesful deliveries of this mailing (but any job/retry)
@@ -144,37 +142,33 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     LEFT JOIN           $eb
                             ON          $eq.id = $eb.event_queue_id
                     WHERE
-                                        $job.mailing_id = " . $this->id . "
+                                        $job.mailing_id = {$this->id}
                         AND             $eb.id IS null";
-        $mailingGroup->reset();
         $mailingGroup->query($excludeRetry);
         
-        $mailingGroup->reset();
-        $mailingGroup->query(
-                    "SELECT             $group.saved_search_id as saved_search_id
-                    FROM                $group
-                    INNER JOIN          $mg
-                            ON          $mg.entity_id = $group.id
-                    WHERE               $mg.entity_table = '$group'
-                        AND             $mg.group_type = 'Exclude'
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $group.saved_search_id <> null");
-        $ss =& new CRM_Contact_BAO_SavedSearch();
+        $ss =& new CRM_Core_DAO();
+        $ss->query(
+                "SELECT             $group.saved_search_id as saved_search_id
+                FROM                $group
+                INNER JOIN          $mg
+                        ON          $mg.entity_id = $group.id
+                WHERE               $mg.entity_table = '$group'
+                    AND             $mg.group_type = 'Exclude'
+                    AND             $mg.mailing_id = {$this->id}
+                    AND             $group.saved_search_id <> null");
         
-        while ($mailingGroup->fetch()) {
+        while ($ss->fetch()) {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact);
+            $where = CRM_Contact_BAO_SavedSearch::whereClause(
+                $ss->saved_search_id, $tables);
             $from = CRM_Contact_BAO_Contact::fromClause($tables);
-            $where =
-            CRM_Contact_BAO_SavedSearch::whereClause(
-                $mailingGroup->saved_search_id, $tables);
-            $ss->query(
+            $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact id)
                     SELECT              $contact.id
                     FROM                $from
                     WHERE               $where");
-            $ss->reset();
         }
 
         /* Get all the group contacts we want to include */
@@ -190,8 +184,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Get the emails with no override */
         $mailingGroup->query(
-                    "REPLACE INTO       I_$job_id (email_id, contact_id)
-                    SELECT              $email.id as email_id,
+                    "INSERT INTO        I_$job_id (email_id, contact_id)
+                    SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id
                     FROM                $email
                     INNER JOIN          $location
@@ -216,69 +210,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $mg.mailing_id = {$this->id}
                         AND             X_$job_id.contact_id IS null");
-                    
-        /* Get the emails with only location override */
+
+        /* Query prior mailings */
         $mailingGroup->query(
                     "REPLACE INTO       I_$job_id (email_id, contact_id)
-                    SELECT              $email.id as local_email_id,
-                                        $contact.id as contact_id
-                    FROM                $email
-                    INNER JOIN          $location
-                            ON          $email.location_id = $location.id
-                    INNER JOIN          $contact
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
-                    INNER JOIN          $g2contact
-                            ON          $contact.id = $g2contact.contact_id
-                                AND     $location.id = $g2contact.location_id
-                    INNER JOIN          $mg
-                            ON          $g2contact.group_id = $mg.entity_id
-                    LEFT JOIN           X_$job_id
-                            ON          $contact.id = X_$job_id.contact_id
-                    WHERE           
-                                        $mg.entity_table = '$group'
-                        AND             $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
-                        AND             $g2contact.location_id <> null
-                        AND             $g2contact.email_id is null
-                        AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
-                        AND             $email.is_primary = 1
-                        AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             X_$job_id.contact_id IS null");
-                    
-        /* Get the emails with full override */
-        $mailingGroup->query(
-                    "REPLACE INTO       I_$job_id (email_id, contact_id)
-                    SELECT              $email.id as email_id,
-                                        $contact.id as contact_id
-                    FROM                $email
-                    INNER JOIN          $g2contact
-                            ON          $email.id = $g2contact.email_id
-                    INNER JOIN          $contact
-                            ON          $contact.id = $g2contact.contact_id
-                    INNER JOIN          $mg
-                            ON          $g2contact.group_id = $mg.entity_id
-                    LEFT JOIN           X_$job_id
-                            ON          $contact.id = X_$job_id.contact_id
-                    WHERE           
-                                        $mg.entity_table = '$group'
-                        AND             $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
-                        AND             $g2contact.location_id <> null
-                        AND             $g2contact.email_id <> null
-                        AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
-                        AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             X_$job_id.contact_id IS null");
-                        
-        $mailingGroup->query(
-                    "INSERT IGNORE INTO I_$job_id (email_id, contact_id)
-                    SELECT              $email.id as email_id,
+                    SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id
                     FROM                $email
                     INNER JOIN          $location
@@ -303,37 +241,28 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $mg.mailing_id = {$this->id}
                         AND             X_$job_id.contact_id IS null");
 
         /* Construct the saved-search queries */
-        $mailingGroup->query(
-                    "SELECT             $group.saved_search_id as saved_search_id
-                    FROM                $group
-                    INNER JOIN          $mg
-                            ON          $mg.entity_id = $group.id
-                    WHERE               $mg.entity_table = '$group'
-                        AND             $mg.group_type = 'Include'
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $group.saved_search_id <> null");
-        /* FIXME: is it kosher to possibly multiple-inner-join? */
-        $ssquery = array();
-        while ($mailingGroup->fetch()) {
-            $tables = array($contact);
-            $from = CRM_Contact_BAO_Contact::fromClause($tables);
+        $ss->query("SELECT          $group.saved_search_id as saved_search_id
+                    FROM            $group
+                    INNER JOIN      $mg
+                            ON      $mg.entity_id = $group.id
+                                AND $mg.entity_table = '$group'
+                    WHERE               
+                                    $mg.group_type = 'Include'
+                        AND         $mg.mailing_id = {$this->id}
+                        AND         $group.saved_search_id <> null");
+        while ($ss->fetch()) {
+            $tables = array($contact, $location, $email);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
-                        $mailingGroup->saved_search_id, $tables);
-
-            $mailingGroup->query(
-                    "INSERT IGNORE INTO I_$job_id (email_id, contact_id)
-                    SELECT              $email.id as email_id,
+                                    $ss->saved_search_id, $tables);
+            $from = CRM_Contact_BAO_Contact::fromClause($tables);
+            $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
+                    SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id 
                     FROM                $from
-                    INNER JOIN          $location
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
-                    INNER JOIN          $email
-                            ON          $email.location_id = $location.id
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
@@ -343,14 +272,73 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                         AND             $where
-                        AND             X_$job_id.contact_id IS null ");
+                        AND             X_$job_id.contact_id IS null ";
+            $mailingGroup->query($ssq);
         }
         
+        /* Get the emails with only location override */
+        $mailingGroup->query(
+                    "REPLACE INTO       I_$job_id (email_id, contact_id)
+                    SELECT DISTINCT     $email.id as local_email_id,
+                                        $contact.id as contact_id
+                    FROM                $email
+                    INNER JOIN          $location
+                            ON          $email.location_id = $location.id
+                    INNER JOIN          $contact
+                            ON          $location.entity_id = $contact.id
+                                AND     $location.entity_table = '$contact'
+                    INNER JOIN          $g2contact
+                            ON          $contact.id = $g2contact.contact_id
+                                AND     $location.id = $g2contact.location_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
+                    WHERE           
+                                        $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.location_id <> null
+                        AND             $g2contact.email_id is null
+                        AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
+                        AND             $email.is_primary = 1
+                        AND             $email.on_hold = 0
+                        AND             $mg.mailing_id = {$this->id}
+                        AND             X_$job_id.contact_id IS null");
+                    
+        /* Get the emails with full override */
+        $mailingGroup->query(
+                    "REPLACE INTO       I_$job_id (email_id, contact_id)
+                    SELECT DISTINCT     $email.id as email_id,
+                                        $contact.id as contact_id
+                    FROM                $email
+                    INNER JOIN          $g2contact
+                            ON          $email.id = $g2contact.email_id
+                    INNER JOIN          $contact
+                            ON          $contact.id = $g2contact.contact_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    LEFT JOIN           X_$job_id
+                            ON          $contact.id = X_$job_id.contact_id
+                    WHERE           
+                                        $mg.entity_table = '$group'
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.location_id <> null
+                        AND             $g2contact.email_id <> null
+                        AND             $contact.do_not_email = 0
+                        AND             $contact.is_subscribed = 1
+                        AND             $email.on_hold = 0
+                        AND             $mg.mailing_id = {$this->id}
+                        AND             X_$job_id.contact_id IS null");
+                        
         $results = array();
 
+        $mailingGroup->reset();
         $mailingGroup->query("  SELECT * 
                                 FROM I_$job_id 
-                                ORDER BY contact_id");
+                                ORDER BY contact_id, email_id");
         
         while ($mailingGroup->fetch()) {
             $results[] =    
@@ -360,7 +348,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         /* Delete the temp table */
-        $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
         $mailingGroup->query("DROP TEMPORARY TABLE I_$job_id");
 
@@ -507,9 +494,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         if (!$test && $this->url_tracking) {
-            CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->html,
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($this->html,
                                 $this->id, $event_queue_id);
-            CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->text,
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($this->text,
                                 $this->id, $event_queue_id);
         }
         
@@ -642,7 +629,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $job->status = 'Scheduled';
             $job->is_retry = false;
             if ($params['now']) {
-                $job->scheduled_date = time();
+                $job->scheduled_date = date("Y-m-d H:i:s");
             } else {
                 $job->scheduled_date =
                     CRM_Utils_Date::format($params['start_date']);

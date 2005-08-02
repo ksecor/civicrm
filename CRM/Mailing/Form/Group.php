@@ -67,8 +67,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        $inG->setElementTemplate($template);
-        $outG->setElementTemplate($template);
+//         $inG->setElementTemplate($template);
+//         $outG->setElementTemplate($template);
         
 
         $mailings =& CRM_Mailing_PseudoConstant::completed();
@@ -86,8 +86,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $outM->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        $inM->setElementTemplate($template);
-        $outM->setElementTemplate($template);
+//         $inM->setElementTemplate($template);
+//         $outM->setElementTemplate($template);
         
 
 

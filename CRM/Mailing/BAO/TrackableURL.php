@@ -31,9 +31,9 @@
  *
  */
 
-require_once 'CRM/Mailing/DAO/TrackableUrl.php';
+require_once 'CRM/Mailing/DAO/TrackableURL.php';
 
-class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
+class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
 
     /**
      * class constructor
@@ -54,7 +54,7 @@ class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
      */
     public static function getTrackerURL($url, $mailing_id, $queue_id) {
         $redirect = "http://FIXME.COM/";
-        $tracker =& new CRM_Mailing_BAO_TrackableUrl();
+        $tracker =& new CRM_Mailing_BAO_TrackableURL();
         $tracker->url = $url;
         $tracker->mailing_id = $mailing_id;
         
@@ -69,8 +69,8 @@ class CRM_Mailing_BAO_TrackableUrl extends CRM_Mailing_DAO_TrackableUrl {
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {
         preg_replace(
 //     '|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|e', 
-    '|(https?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|eim', 
-    "CRM_Mailing_BAO_TrackableUrl::getTrackerURL('\\1', $mailing_id, $queue_id)", 
+    '|(https?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*)))|eim', 
+    "CRM_Mailing_BAO_TrackableURL::getTrackerURL('\\1', $mailing_id, $queue_id)", 
     $msg);
     }
 }

@@ -410,7 +410,13 @@ LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_c
                                       civicrm_contact.id = civicrm_location.entity_id )
 LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND
                                       civicrm_email.is_primary = 1)
-WHERE civicrm_contact.id IN ( $result )
+LEFT JOIN civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id)
+WHERE civicrm_group_contact.group_id = {$group->id} 
+AND     (
+            (civicrm_group_contact.status = '$status')
+            OR 
+            (civicrm_group_contact.status <> 'Out' AND civicrm_contact.id IN ( $result ))
+        )
 ";
 
         } else {

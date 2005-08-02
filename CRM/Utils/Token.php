@@ -32,8 +32,6 @@
  *
  */
  
-/*** TODO: figure out some sort of default replacement scheme ***/
-
 class CRM_Utils_Token {
     
     static $_requiredTokens = null;
@@ -218,7 +216,8 @@ class CRM_Utils_Token {
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =& 
-                array_keys(CRM_Contact_BAO_Contact::importableFields());
+                array_keys(CRM_Contact_BAO_Contact::importableFields())
+                + array('display_name', 'nick_name');
         }
         
         $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);

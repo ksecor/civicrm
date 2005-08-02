@@ -1177,7 +1177,7 @@ WHERE  civicrm_contact.id = $id
     static function retrieveValue(&$params, $key) {
         if (! is_array($params)) {
             return null;
-        } else if ($value = CRM_Core_Utils_Array::value($key, $params)) {
+        } else if ($value = CRM_Utils_Array::value($key, $params)) {
             return $value;
         } else {
             foreach ($params as $subParam) {
