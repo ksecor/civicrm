@@ -47,6 +47,7 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'hierselect'    =>array('HTML/QuickForm/hierselect.php', 'HTML_QuickForm_hierselect'),
             'autocomplete'  =>array('HTML/QuickForm/autocomplete.php', 'HTML_QuickForm_autocomplete'),
             'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton'),
+            'advmultiselect'=>array('HTML/QuickForm/advmultiselect.php','HTML_QuickForm_advmultiselect'),
         );
 
 $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
