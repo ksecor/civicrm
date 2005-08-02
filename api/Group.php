@@ -54,13 +54,6 @@ require_once 'CRM/Utils/Array.php';
  *                                need to be returned to the caller
  *
  */
-
-
-
-
-
-
-
 function crm_create_group($params) {
 }
 
@@ -78,8 +71,8 @@ function crm_create_group($params) {
  */
 
 function crm_get_groups($params = null, $returnProperties = null) {
-    
-           
+    _crm_initialize( );
+
     if ($returnProperties != null && !is_array($returnProperties)) {
         return _crm_error('$returnProperties is not an array');
     }
@@ -120,7 +113,8 @@ function crm_delete_group(&$group) {
  */
 
 function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Admin') {
-    
+    _crm_initialize( );
+
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
@@ -150,13 +144,12 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Ad
 
 
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = null, $row_count= null ) {
+    _crm_initialize( );
     
     if ( ! isset( $group->id )) {
         return _crm_error( 'Invalid group object passed in' );
     }
-   
-
-                
+                   
     if ($returnProperties != null && !is_array($returnProperties)) {
         return _crm_error('$returnProperties is not an array');
     }
@@ -182,9 +175,8 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
  *
  * @access public
  */
-
-
 function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin') {
+    _crm_initialize( );
      
     foreach($contacts as $contact){
         if ( ! isset($contact->id)) {
@@ -211,11 +203,12 @@ function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin') {
 
 function crm_subscribe_group_contacts(&$group, $contacts)
 {
+    _crm_initialize( );
+
     if(!is_array($contacts)) {
         return _crm_error( '$contacts is not  Array ' );
     }
    
-
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
@@ -242,16 +235,14 @@ function crm_subscribe_group_contacts(&$group, $contacts)
  *
  * @access public
  */
-
-
-
 function crm_confirm_group_contacts(&$group, $contacts)
 {
+    _crm_initialize( );
+
     if(!is_array($contacts)) {
         return _crm_error( '$contacts is not  Array ' );
     }
     
-
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
@@ -263,17 +254,7 @@ function crm_confirm_group_contacts(&$group, $contacts)
             return _crm_error( 'Can not confirm subscription. Current group status is NOT Pending.' );
         }
         CRM_Contact_BAO_GroupContact::updateGroupMembershipStatus($contact->id,$group->id);
-        //$contactID[] = $contact->id;
     }
 
-    //$status = 'In';
-    //$method = 'Email';
-    
-    // CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status, true);
-    return null;
-
-   
-
-
-    
+    return null;    
 }

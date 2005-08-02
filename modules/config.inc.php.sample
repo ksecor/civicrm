@@ -25,7 +25,7 @@ define( 'CRM_USERFRAMEWORK_URLVAR', 'q'  );
  *
  * CRM_TEMPLATE_COMPILEDIR is the file system path where compiled templates are stored.
  *
- * CRM_UPLOAD_DIR is the file system path to which CiviCRM files are uploaded.
+ * CRM_UPLOADDIR is the file system path to which CiviCRM files are uploaded.
  *
  * EXAMPLE - CivicSpace / Drupal:
  * If the path to the CivicSpace or Drupal home directory is /var/www/htdocs/civicspace
@@ -35,8 +35,8 @@ define( 'CRM_USERFRAMEWORK_URLVAR', 'q'  );
  * the CRM_TEMPLATE_COMPILEDIR would be:
  *      define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
  *
- * and the CRM_UPLOAD_DIR would be:
- *      define( 'CRM_UPLOAD_DIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
+ * and the CRM_UPLOADDIR would be:
+ *      define( 'CRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
  *
  * EXAMPLE - Mambo:
  * If the path to the Mambo home directory is /var/www/htdocs/mambo
@@ -46,12 +46,16 @@ define( 'CRM_USERFRAMEWORK_URLVAR', 'q'  );
  * the CRM_TEMPLATE_COMPILEDIR would be:
  *      define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c' );
  *
- * and the CRM_UPLOAD_DIR would be:
- *      define( 'CRM_UPLOAD_DIR', '/var/www/htdocs/mambo/media/civicrm/upload' );
+ * and the CRM_UPLOADDIR would be:
+ *      define( 'CRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload' );
+ *	
+ * Please make sure that the COMPILERDIR and UPLOADDIR are created and the
+ * web server user has write access to that directory
+ *
  */
 $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
 define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
-define( 'CRM_UPLOAD_DIR'         , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
+define( 'CRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
 
 /**
  * Site URLs:

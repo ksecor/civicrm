@@ -76,14 +76,14 @@ require_once 'CRM/Core/I18n.php';
  */
 function &crm_create_activity_history(&$params)
 {
+    _crm_initialize( );
+
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error(ts('Input Parameters empty'));
     }
 
     $error = _crm_check_history_params($params, 'Activity');
-    // does not work for php4
-    //if ($error instanceof CRM_Core_Error) {
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
@@ -117,6 +117,8 @@ function &crm_create_activity_history(&$params)
  */
 function &crm_get_activity_history($params, $offset, $numRow, $sort)
 {
+    _crm_initialize( );
+
     $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
     return $values;
 }
@@ -150,6 +152,8 @@ function &crm_get_activity_history($params, $offset, $numRow, $sort)
  */
 function &crm_update_activity_history(&$historyDAO, &$params)
 {
+    _crm_initialize( );
+
     $error = _crm_check_activity_history_object($historyDAO, true);
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
@@ -178,6 +182,8 @@ function &crm_update_activity_history(&$historyDAO, &$params)
  */
 function &crm_delete_activity_history(&$historyDAO)
 {
+    _crm_initialize( );
+
     $error = _crm_check_activity_history_object($historyDAO);
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
@@ -202,6 +208,8 @@ function &crm_delete_activity_history(&$historyDAO)
  */
 function _crm_check_activity_history_object(&$historyDAO, $checkForId=false)
 {
+    _crm_initialize( );
+
     // check if valid DAO
     if (!is_a($historyDAO, 'CRM_Core_DAO_ActivityHistory')) {
         return _crm_error(ts('Invalid history object passed in'));

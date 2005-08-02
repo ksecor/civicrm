@@ -34,25 +34,33 @@
 
 include_once 'config.inc.php';
 
-require_once 'PEAR.php';
+function civicrm_require( ) {
+    static $required = false;
 
-require_once 'CRM/Core/Action.php';
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/Block.php';
-require_once 'CRM/Core/Selector/Controller.php';
-require_once 'CRM/Core/DAO.php';
-require_once 'CRM/Core/PseudoConstant.php';
-require_once 'CRM/Core/Invoke.php';
+    if ( $required ) {
+        return;
+    }
+    $required = true;
 
-require_once 'CRM/Core/BAO/UFMatch.php';
+    require_once 'PEAR.php';
 
-require_once 'CRM/Utils/Menu.php';
-require_once 'CRM/Utils/Wrapper.php';
+    require_once 'CRM/Core/Action.php';
+    require_once 'CRM/Core/Form.php';
+    require_once 'CRM/Core/Block.php';
+    require_once 'CRM/Core/Selector/Controller.php';
+    require_once 'CRM/Core/DAO.php';
+    require_once 'CRM/Core/PseudoConstant.php';
+    require_once 'CRM/Core/Invoke.php';
 
-require_once 'CRM/Contact/Page/View.php';
+    require_once 'CRM/Core/BAO/UFMatch.php';
 
-require_once 'CRM/Core/Error.php';
+    require_once 'CRM/Utils/Menu.php';
+    require_once 'CRM/Utils/Wrapper.php';
 
+    require_once 'CRM/Contact/Page/View.php';
+
+    require_once 'CRM/Core/Error.php';
+}
 
 /**
  * Provides a link to the CSS stylesheet associated with this module.
@@ -156,6 +164,7 @@ function civicrm_block($op='list', $delta='0')
 function civicrm_menu($may_cache)
 {
     if ( $may_cache ) {
+        civicrm_require( );
         $items = CRM_Utils_Menu::items( );
         return $items;
     } else {
@@ -164,35 +173,26 @@ function civicrm_menu($may_cache)
 }
 
 /**
- * implementation of hook_init
- *
- */
-function civicrm_init()
-{
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
-        return;
-    }
-
-	civicrm_initialize( );
-}
-
-/**
  * Initialize CivicRM. Call this function from other modules too if 
  * they use the CivicRM API.
  *
  */
 function civicrm_initialize() {
-    $config =& CRM_Core_Config::singleton();
-    CRM_Core_DAO::init($config->dsn, $config->daoDebug);
+    static $initialized = false;
 
-    $factoryClass = 'CRM_Contact_DAO_Factory';
-    CRM_Core_DAO::setFactory(new $factoryClass());
+    if ( $initialized ) {
+        return;
+    }
+
+    $initialized = true;
+
+    civicrm_require( );
+
+    // this does pretty much all of the civicrm initialization
+    $config =& CRM_Core_Config::singleton();
 
     // Add module-specific stylesheet to page header
     drupal_set_html_head(civicrm_html_head());
-
-    // set error handling
-    CRM_Core_Error::setCallback();
 
     if(arg(0) == 'civicrm') {
         // this is just for ease of use. once the code is solid, we no longer need this
@@ -202,12 +202,15 @@ function civicrm_initialize() {
 
 function civicrm_invoke()
 {
+    // make sure the system is initialized
+    civicrm_initialize( );
+
     // synchronize the drupal uid with the contacts db
     global $user;
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     $args = explode( '/', $_GET['q'] );
-	$ret  = CRM_Core_Invoke::invoke( $args );
+    $ret  = CRM_Core_Invoke::invoke( $args );
     
     return $ret;
 }

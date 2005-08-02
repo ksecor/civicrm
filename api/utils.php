@@ -1,6 +1,7 @@
 <?php
 
 require_once 'CRM/Core/I18n.php';
+require_once 'CRM/Core/Config.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
@@ -25,11 +26,6 @@ function _crm_store_values( &$fields, &$params, &$values ) {
     }
     return $valueFound;
 }
-
-
-
-
-
 
 function _crm_update_object(&$object, &$values)
 {
@@ -942,5 +938,8 @@ function _crm_location_match(&$contact, &$values) {
     return true;
 }
 
+function _crm_initialize( ) {
+    $config =& CRM_Core_Config::singleton( );
+}
 
 ?>

@@ -322,8 +322,8 @@ class CRM_Core_Config {
             $this->resourceBase = CRM_RESOURCEBASE;
         }
 
-        if ( defined( 'CRM_UPLOAD_DIR' ) ) {
-            $this->uploadDir = CRM_UPLOAD_DIR;
+        if ( defined( 'CRM_UPLOADDIR' ) ) {
+            $this->uploadDir = CRM_UPLOADDIR;
         }
 
         if ( defined( 'CRM_CLEANURL' ) ) {
@@ -366,8 +366,8 @@ class CRM_Core_Config {
             $this->gettextDomain = CRM_GETTEXT_DOMAIN;
         }
         
-        if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
-            $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
+        if ( defined( 'CRM_GETTEXT_RESOURCEDIR' ) ) {
+            $this->gettextResourceDir = CRM_GETTEXT_RESOURCEDIR;
         }
 
         if ( defined( 'CRM_SMTP_SERVER' ) ) {
@@ -421,6 +421,8 @@ class CRM_Core_Config {
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
 
+        // set the error callback
+        CRM_Core_Error::setCallback();
     }
 
     /**

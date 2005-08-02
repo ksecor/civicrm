@@ -424,10 +424,13 @@ class CRM_Utils_Menu {
     static function createLocalTasks( $path ) {
         self::items( );
 
-        foreach ( self::$_items as $key => $item ) {
-            if ( $item['path'] == $path ) {
-                CRM_Utils_System::setTitle( $item['title'] );
-                break;
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Mambo' ) {
+            foreach ( self::$_items as $key => $item ) {
+                if ( $item['path'] == $path ) {
+                    CRM_Utils_System::setTitle( $item['title'] );
+                    break;
+                }
             }
         }
 

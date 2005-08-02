@@ -75,6 +75,8 @@ require_once 'CRM/Core/I18n.php';
  */
 function &crm_create_custom_group(&$params)
 {
+    _crm_initialize( );
+
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error(ts('Input Parameters empty'));

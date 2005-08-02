@@ -64,6 +64,7 @@ require_once 'CRM/Contact/BAO/Group.php';
  * @access public
  */
 function crm_create_location(&$contact, $params) {
+    _crm_initialize( );
 
     $values = array(
         'contact_id'    => $contact->id,
@@ -152,6 +153,8 @@ function crm_get_option_values($property, $filter = null) {
  */
 
 function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
+    _crm_initialize( );
+
     $property_object = array(); 
     $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
     if($error) {

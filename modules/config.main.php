@@ -15,9 +15,9 @@ define( 'CRM_DAO_DEBUG'  , 0 );
 define( 'CRM_TEMPLATEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
 define( 'CRM_PLUGINSDIR' , $civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
 
-define( 'CRM_GETTEXT_CODESET'     , 'utf-8'   );
-define( 'CRM_GETTEXT_DOMAIN'      , 'civicrm' );
-define( 'CRM_GETTEXT_RESOURCE_DIR', $civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
+define( 'CRM_GETTEXT_CODESET'    , 'utf-8'   );
+define( 'CRM_GETTEXT_DOMAIN'     , 'civicrm' );
+define( 'CRM_GETTEXT_RESOURCEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
 
 if ( ! defined( 'CRM_USERFRAMEWORK' ) ) {
     define( 'CRM_USERFRAMEWORK', 'Drupal' );
@@ -40,30 +40,12 @@ if ( ! defined( 'JPSPAN' ) ) {
 }
 
 // drupal specific code
-if ( function_exists( 'variable_get' ) ) {
-    if ( variable_get('clean_url', '0') != '0' ) {
+if ( CRM_USERFRAMEWORK == 'Drupal' ) {
+    if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
         define( 'CRM_CLEANURL', 1 );
     } else {
         define( 'CRM_CLEANURL', 0 );
     }
-
-    $scratch_directory = variable_get( 'file_directory_path', 'files');
-    $scratch_directory = $scratch_directory . DIRECTORY_SEPARATOR . 'civicrm';
-    if ( ! is_dir( $scratch_directory ) ) {
-        mkdir( $scratch_directory, 0777 );
-    }
-
-    $compileDir        = $scratch_directory . DIRECTORY_SEPARATOR . 'templates_c';
-    if ( ! is_dir( $compileDir ) ) {
-        mkdir( $compileDir, 0777 );
-    }
-    define( 'CRM_TEMPLATE_COMPILEDIR', $compileDir );
-
-    $uploadDir         = $scratch_directory . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
-    if ( ! is_dir( $uploadDir ) ) {
-        mkdir( $uploadDir, 0777 );
-    }
-    define( 'CRM_UPLOAD_DIR'         , $uploadDir );
 
     global $db_prefix;
     if ( isset( $db_prefix )    &&

@@ -60,9 +60,12 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $uf == 'Drupal' ) {
             $key  = 'uid';
             $mail = 'mail';
-        } else {
+        } else if ( $uf == 'Mambo' ) {
             $key  = 'id';
             $mail = 'email';
+        } else {
+            CRM_Core_Error::fatal( 'Please set the user framework variable' );
+            exit( );
         }
 
         // have we already processed this user, if so early
@@ -76,6 +79,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         // reset the session if we are a different user
         if ( $ufID && $ufID != $user->$key ) {
             $session->reset( );
+        }
+
+        // make sure we load the mambo object to get valid information
+        if ( $uf == 'Mambo' ) {
+            $user->load( );
         }
 
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );

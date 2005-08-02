@@ -115,11 +115,13 @@ require_once 'CRM/Utils/Array.php';
  * @access public
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
+    _crm_initialize( );
+
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error( "Input Parameters empty" );
     }
-    
+
     $error = _crm_check_params( $params, $contact_type );
     if (is_a($error, CRM_Core_Error)) {
         return $error;
@@ -142,6 +144,8 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
 
 function &crm_create_contact_formatted( &$params , $onDuplicate) {
+    _crm_initialize( );
+
     // return error if we have no params
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
@@ -229,6 +233,8 @@ function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) 
  *
  */
 function &crm_get_contact( $params, $returnProperties = null ) {
+    _crm_initialize( );
+
     // empty parameters ?
     if (empty($params)) {
         return _crm_error('$params is empty');
@@ -300,6 +306,8 @@ function &crm_get_contact( $params, $returnProperties = null ) {
  *
  */
 function &crm_update_contact( &$contact, $params ) {
+    _crm_initialize( );
+
     $values = array( );
 
     if ( ! isset( $contact->id ) || ! isset( $contact->contact_type ) ) {
@@ -340,7 +348,8 @@ function &crm_update_contact( &$contact, $params ) {
  *
  */
 function crm_delete_contact( &$contact ) {
-    
+    _crm_initialize( );
+
     if ( ! isset( $contact->id ) || ! isset( $contact->contact_type ) ) {
         return _crm_error( 'Invalid contact object passed in' );
     }

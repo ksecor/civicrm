@@ -30,8 +30,8 @@ function civicrm_init( ) {
 function civicrm_invoke( ) {
     civicrm_init( );
 
-    global $
-    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Mambo' );
+    global $my;
+    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Mambo' );
 
     $args = explode( '/', trim( $_GET['task'] ) );
     CRM_Core_Invoke::invoke( $args );
