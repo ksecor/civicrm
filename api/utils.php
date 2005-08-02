@@ -793,7 +793,7 @@ function _crm_add_formatted_param(&$values, &$params) {
 
         return true;
     }
-
+    
     /* Check for custom field values */
     
     $customFields = CRM_Core_BAO_CustomField::getFields();
@@ -817,6 +817,10 @@ function _crm_add_formatted_param(&$values, &$params) {
             );
         }
     }
+    
+    /* Finally, check for contact fields */
+    $fields =& CRM_Contact_DAO_Contact::fields( );
+    _crm_store_values( $fields, $values, $params );
 }
 
 /**
