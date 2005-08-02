@@ -155,7 +155,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 WHERE               $mg.entity_table = '$group'
                     AND             $mg.group_type = 'Exclude'
                     AND             $mg.mailing_id = {$this->id}
-                    AND             $group.saved_search_id <> null");
+                    AND             $group.saved_search_id IS NOT null");
         
         while ($ss->fetch()) {
             /* run the saved search query and dump result contacts into the temp
@@ -167,7 +167,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact id)
                     SELECT              $contact.id
-                    FROM                $from
+                                    $from
                     WHERE               $where");
         }
 
@@ -253,7 +253,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE               
                                     $mg.group_type = 'Include'
                         AND         $mg.mailing_id = {$this->id}
-                        AND         $group.saved_search_id <> null");
+                        AND         $group.saved_search_id IS NOT null");
         while ($ss->fetch()) {
             $tables = array($contact, $location, $email);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
@@ -262,7 +262,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id 
-                    FROM                $from
+                    $from
+                    INNER JOIN          $location
+                            ON          $location.entity_id = $contact.id
+                                AND     $location.entity_table = '$contact'
+                    INNER JOIN          $email
+                            ON          $email.location_id = $location.id
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
@@ -298,7 +303,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
-                        AND             $g2contact.location_id <> null
+                        AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_subscribed = 1
@@ -325,8 +330,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'In'
-                        AND             $g2contact.location_id <> null
-                        AND             $g2contact.email_id <> null
+                        AND             $g2contact.location_id IS NOT null
+                        AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_subscribed = 1
                         AND             $email.on_hold = 0
