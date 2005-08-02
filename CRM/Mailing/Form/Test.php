@@ -56,7 +56,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
             'textFile'  => $this->get('textFile'),
             'htmlFile'  => $this->get('htmlFile'),
             'header_id' => $this->get('header_id'),
-            'footer_d'  => $this->get('footer_id'),
+            'footer_id' => $this->get('footer_id'),
             'name'      => $this->get('mailing_name'),
             'from_name' => $this->get('from_name'),
             'from_email'=> $this->get('from_email'),
