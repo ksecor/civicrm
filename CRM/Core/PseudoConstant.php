@@ -153,9 +153,6 @@ class CRM_Core_PseudoConstant {
         if ( ! $all ) {
             $object->$filter = 1;
         }
-        if($name == 'CRM_Contact_DAO_Group') {
-            $object->is_active = 1;
-        } 
         
         $object->find( );
         $var = array( );
@@ -363,7 +360,7 @@ class CRM_Core_PseudoConstant {
     public static function &allGroup()
     {
         if (!self::$group) {
-            self::populate( self::$group, 'CRM_Contact_DAO_Group', true, 'title' );
+            self::populate( self::$group, 'CRM_Contact_DAO_Group', false, 'title' );
         }
         return self::$group;
     }
