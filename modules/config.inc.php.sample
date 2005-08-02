@@ -137,6 +137,13 @@ define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
  */
 define( 'CRM_MAX_IMPORT_FILESIZE' , 1048576);
 
+/**
+ * Google Map api key
+ * Eg: Key should be generated for http://localhost/drupal/civicrm/contact/
+ *
+ */
+define('CRM_GOOGLE_MAP_API_KEY', '');
+
 include_once 'config.main.php';
 
 ?>

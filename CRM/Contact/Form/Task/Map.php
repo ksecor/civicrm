@@ -114,7 +114,9 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
     function createLocationXML( $contactIds ) {
         $this->assign( 'title', 'CiviCRM Google Maps'  );
         $this->assign( 'query', 'CiviCRM Search Query' );
-        
+
+        $this->assign( 'googleMapKey', CRM_GOOGLE_MAP_API_KEY );
+       
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
         if ( empty( $locations ) ) {
             CRM_Core_Error::fatal( ts( 'The locations chosen did not have any coordinate information' ) );
@@ -150,6 +152,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                          'lng' => (float ) ( $maxLng - $minLng ) );
         $this->assign_by_ref( 'center', $center );
         $this->assign_by_ref( 'span'  , $span   );
+       
         
         $template =& CRM_Core_Smarty::singleton( );
         $xml = $template->fetch( 'CRM/Contact/Form/Task/GMapsInput.tpl' );
@@ -159,8 +162,9 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         fwrite( $fp, $xml );
         fclose( $fp );
     
-        $this->assign('xmlURL', CRM_Utils_System::baseURL() .
-        '/files/civicrm/upload/locations.xml' );
+        $this->assign('xmlURL', CRM_Utils_System::baseURL() . '/files/civicrm/upload/locations.xml' );
+
+        
 //         $this->assign( 'xmlURL',
 //                        'http://' . $_SERVER['HTTP_HOST'] . $config->httpBase . 'files/civicrm/upload/locations.xml' );
     }
