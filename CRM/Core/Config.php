@@ -65,10 +65,11 @@ class CRM_Core_Config {
     public $daoDebug		  = 0;
 
     /**
-     * the directory where Smarty is installed
+     * the directory where Smarty and plugins are installed
      * @var string
      */
     public $smartyDir           = '/opt/local/lib/php/Smarty/';
+    public $pluginsDir          = '/opt/local/lib/php/Smarty/plugins/';
 
     /**
      * the root directory of our template tree
@@ -207,13 +208,6 @@ class CRM_Core_Config {
     public $maxImportFileSize = 1048576;
 
     /**
-     * Should we support Google Maps / latitude / longitude lookup
-     *
-     * @var boolean
-     */
-    public $enableGoogleMaps = false;
-
-    /**
      * Google Map API Key if google map support needed
      *
      * @var boolean
@@ -225,7 +219,7 @@ class CRM_Core_Config {
      *
      * @var boolean
      */
-    public $geocodeMethod    = 0;
+    public $geocodeMethod    = '';
 
     /**
      * the domainID for this instance. 
@@ -279,129 +273,136 @@ class CRM_Core_Config {
      */
     function __construct() {
         $session =& CRM_Core_Session::singleton( );
-        if ( defined( 'CRM_DOMAIN_ID' ) ) {
-            self::$_domainID = CRM_DOMAIN_ID;
+        if ( defined( 'CIVICRM_DOMAIN_ID' ) ) {
+            self::$_domainID = CIVICRM_DOMAIN_ID;
         } else {
             self::$_domainID = 1;
         }
         $session->set( 'domainID', self::$_domainID );
 
-        if (defined('CRM_DSN')) {
-            $this->dsn = CRM_DSN;
+        if (defined('CIVICRM_DSN')) {
+            $this->dsn = CIVICRM_DSN;
         }
 
-        if (defined('CRM_Core_DAO_DEBUG') ) {
-            $this->daoDebug = CRM_Core_DAO_DEBUG;
+        if (defined('CIVICRM_Core_DAO_DEBUG') ) {
+            $this->daoDebug = CIVICRM_Core_DAO_DEBUG;
         }
 
-        if (defined('CRM_Core_DAO_FACTORY_CLASS') ) {
-            $this->DAOFactoryClass = CRM_Core_DAO_FACTORY_CLASS;
+        if (defined('CIVICRM_Core_DAO_FACTORY_CLASS') ) {
+            $this->DAOFactoryClass = CIVICRM_Core_DAO_FACTORY_CLASS;
         }
 
-        if (defined('CRM_SMARTYDIR')) {
-            $this->smartyDir = CRM_SMARTYDIR;
+        if (defined('CIVICRM_SMARTYDIR')) {
+            $this->smartyDir = CIVICRM_SMARTYDIR;
         }
 
-        if (defined('CRM_TEMPLATEDIR')) {
-            $this->templateDir = CRM_TEMPLATEDIR;
+        if (defined('CIVICRM_PLUGINSDIR')) {
+            $this->pluginsDir = CIVICRM_PLUGINSDIR;
         }
 
-        if (defined('CRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CRM_TEMPLATE_COMPILEDIR;
+        if (defined('CIVICRM_TEMPLATEDIR')) {
+            $this->templateDir = CIVICRM_TEMPLATEDIR;
         }
 
-        if ( defined( 'CRM_MAINMENU' ) ) {
-            $this->mainMenu = CRM_MAINMENU;
+        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
+            $this->templateCompileDir = CIVICRM_TEMPLATE_COMPILEDIR;
         }
 
-        if ( defined( 'CRM_HTTPBASE' ) ) {
-            $this->httpBase = CRM_HTTPBASE;
+        if ( defined( 'CIVICRM_MAINMENU' ) ) {
+            $this->mainMenu = CIVICRM_MAINMENU;
         }
 
-        if ( defined( 'CRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = CRM_RESOURCEBASE;
+        if ( defined( 'CIVICRM_HTTPBASE' ) ) {
+            $this->httpBase = CIVICRM_HTTPBASE;
         }
 
-        if ( defined( 'CRM_UPLOADDIR' ) ) {
-            $this->uploadDir = CRM_UPLOADDIR;
+        if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
+            $this->resourceBase = CIVICRM_RESOURCEBASE;
         }
 
-        if ( defined( 'CRM_CLEANURL' ) ) {
-            $this->cleanURL = CRM_CLEANURL;
+        if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
+            $this->uploadDir = CIVICRM_UPLOADDIR;
         }
 
-        if ( defined( 'CRM_LC_MESSAGES' ) ) {
-            $this->lcMessages = CRM_LC_MESSAGES;
+        if ( defined( 'CIVICRM_CLEANURL' ) ) {
+            $this->cleanURL = CIVICRM_CLEANURL;
+        }
+
+        if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
+            $this->lcMessages = CIVICRM_LC_MESSAGES;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_DATETIME' ) ) {
-            $this->dateformatDatetime = CRM_DATEFORMAT_DATETIME;
+        if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {
+            $this->dateformatDatetime = CIVICRM_DATEFORMAT_DATETIME;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_FULL' ) ) {
-            $this->dateformatFull = CRM_DATEFORMAT_FULL;
+        if ( defined( 'CIVICRM_DATEFORMAT_FULL' ) ) {
+            $this->dateformatFull = CIVICRM_DATEFORMAT_FULL;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_PARTIAL' ) ) {
-            $this->dateformatPartial = CRM_DATEFORMAT_PARTIAL;
+        if ( defined( 'CIVICRM_DATEFORMAT_PARTIAL' ) ) {
+            $this->dateformatPartial = CIVICRM_DATEFORMAT_PARTIAL;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_YEAR' ) ) {
-            $this->dateformatYear = CRM_DATEFORMAT_YEAR;
+        if ( defined( 'CIVICRM_DATEFORMAT_YEAR' ) ) {
+            $this->dateformatYear = CIVICRM_DATEFORMAT_YEAR;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_QF_DATE' ) ) {
-            $this->dateformatQfDate = CRM_DATEFORMAT_QF_DATE;
+        if ( defined( 'CIVICRM_DATEFORMAT_QF_DATE' ) ) {
+            $this->dateformatQfDate = CIVICRM_DATEFORMAT_QF_DATE;
         }
         
-        if ( defined( 'CRM_DATEFORMAT_QF_DATETIME' ) ) {
-            $this->dateformatQfDatetime = CRM_DATEFORMAT_QF_DATETIME;
+        if ( defined( 'CIVICRM_DATEFORMAT_QF_DATETIME' ) ) {
+            $this->dateformatQfDatetime = CIVICRM_DATEFORMAT_QF_DATETIME;
         }
         
-        if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
-            $this->gettextCodeset = CRM_GETTEXT_CODESET;
+        if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {
+            $this->gettextCodeset = CIVICRM_GETTEXT_CODESET;
         }
         
-        if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
-            $this->gettextDomain = CRM_GETTEXT_DOMAIN;
+        if ( defined( 'CIVICRM_GETTEXT_DOMAIN' ) ) {
+            $this->gettextDomain = CIVICRM_GETTEXT_DOMAIN;
         }
         
-        if ( defined( 'CRM_GETTEXT_RESOURCEDIR' ) ) {
-            $this->gettextResourceDir = CRM_GETTEXT_RESOURCEDIR;
+        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
+            $this->gettextResourceDir = CIVICRM_GETTEXT_RESOURCEDIR;
         }
 
-        if ( defined( 'CRM_SMTP_SERVER' ) ) {
-            $this->smtpServer = CRM_SMTP_SERVER;
+        if ( defined( 'CIVICRM_SMTP_SERVER' ) ) {
+            $this->smtpServer = CIVICRM_SMTP_SERVER;
         }
 
-        if ( defined( 'CRM_USERFRAMEWORK' ) ) {
-            $this->userFramework       = CRM_USERFRAMEWORK;
+        if ( defined( 'CIVICRM_USERFRAMEWORK' ) ) {
+            $this->userFramework       = CIVICRM_USERFRAMEWORK;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
         }
 
-        if ( defined( 'CRM_USERFRAMEWORK_URLVAR' ) ) {
-            $this->userFrameworkURLVar = CRM_USERFRAMEWORK_URLVAR;
+        if ( defined( 'CIVICRM_USERFRAMEWORK_URLVAR' ) ) {
+            $this->userFrameworkURLVar = CIVICRM_USERFRAMEWORK_URLVAR;
         }
 
-        if ( defined( 'CRM_MYSQL_VERSION' ) ) {
-            $this->mysqlVersion = CRM_MYSQL_VERSION;
+        if ( defined( 'CIVICRM_MYSQL_VERSION' ) ) {
+            $this->mysqlVersion = CIVICRM_MYSQL_VERSION;
         }
 
-        if ( defined ( 'CRM_MAX_IMPORT_FILESIZE' ) ) {
-            $this->maxImportFileSize = CRM_MAX_IMPORT_FILESIZE;
+        if ( defined ( 'CIVICRM_MAX_IMPORT_FILESIZE' ) ) {
+            $this->maxImportFileSize = CIVICRM_MAX_IMPORT_FILESIZE;
         }
 
-        if ( defined( 'CRM_GOOGLE_MAPS' ) ) {
+        if ( defined( 'CIVICRM_GOOGLE_MAPS' ) ) {
             $this->enableGoogleMaps = true;
         }
 
-        if ( defined( 'CRM_GOOGLE_MAPS_API_KEY' ) ) {
-            $this->googleMapsAPIKey = CRM_GOOGLE_MAPS_API_KEY;
+        if ( defined( 'CIVICRM_GOOGLE_MAPS_API_KEY' ) ) {
+            $this->googleMapsAPIKey = CIVICRM_GOOGLE_MAPS_API_KEY;
         }
 
-        if ( defined( 'CRM_GEOCODE_METHOD' ) ) {
-            $this->geocodeMethod = CRM_GEOCODE_METHOD;
+        if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
+            if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC' ) {
+                $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
+            }
         }
 
         // initialize the framework

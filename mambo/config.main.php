@@ -39,7 +39,12 @@ if ( ! defined( 'JPSPAN' ) ) {
     define( 'JPSPAN', $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
 
-define( 'CRM_CLEANURL', 0 );
+if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
+    define( 'CRM_CLEANURL', 1 );
+} else {
+    define( 'CRM_CLEANURL', 0 );
+}
+
 define( 'CRM_DOMAIN_ID', 1 );
 
 ?>

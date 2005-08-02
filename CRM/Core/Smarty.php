@@ -50,19 +50,18 @@ class CRM_Core_Smarty extends Smarty {
     /**
      * class constructor
      *
-     * @param string $templateDir root directory for all the templates
-     * @param string $compileDir  where should all the compiled templates be stored
-     *
      * @return CRM_Core_Smarty
      * @access private
      */
-    function __construct( $templateDir, $compileDir ) {
+    function __construct( ) {
         parent::__construct( );
 
-        $this->template_dir = $templateDir;
-        $this->compile_dir  = $compileDir;
+        $config =& CRM_Core_Config::singleton( );
+
+        $this->template_dir = $config->templateDir;
+        $this->compile_dir  = $config->templateCompileDir;
         $this->use_sub_dirs = true;
-        $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', CRM_PLUGINSDIR );
+        $this->plugins_dir  = array ( $config->smartyDir . 'plugins', $config->pluginsDir );
 
         // add the session and the config here
         $config  =& CRM_Core_Config::singleton ();
@@ -84,7 +83,8 @@ class CRM_Core_Smarty extends Smarty {
      */
     static function &singleton( ) {
         if ( ! isset( self::$_singleton ) ) {
-            self::$_singleton =& new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
+            $config =& CRM_Core_Config::singleton( );
+            self::$_singleton =& new CRM_Core_Smarty( $config->templateDir, $config->templateCompileDir );
         }
         return self::$_singleton;
     }
