@@ -125,6 +125,14 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
+                            'path'    => 'civicrm/admin/activityType',
+                            'title'   => ts('Activity Types'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'weight'  => -6
+                            ),
+
+                      array(
                             'path'    => 'civicrm/admin/custom/group',
                             'title'   => ts('Custom Data'),
                             'qs'      => 'reset=1',

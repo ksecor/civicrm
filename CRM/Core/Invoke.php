@@ -266,6 +266,9 @@ class CRM_Core_Invoke {
         case 'locationType':
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
             break;
+        case 'activityType':
+            $view =& new CRM_Admin_Page_ActivityType(ts('View Activity Types'));
+            break;
         case 'IMProvider':
             $view =& new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
             break;

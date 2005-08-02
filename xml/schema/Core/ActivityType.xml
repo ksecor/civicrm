@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>ActivityType</class>
+  <name>civicrm_activity_type</name>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Activity Type ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this activity type.</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <title>Activity Type</title>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <comment>Activity Type Name.</comment>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Activity Type Description.</comment>
+  </field>
+  <field>
+       <name>is_reserved</name>
+       <type>boolean</type>
+       <comment>Is this activity type a predefined system activity?</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+  <field>
+        <name>is_default</name>
+        <type>boolean</type>
+        <comment>Is this activity type the default?</comment>
+  </field>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+</table>
