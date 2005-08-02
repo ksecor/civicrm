@@ -226,6 +226,8 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
+    // make sure the system is initialized
+    civicrm_initialize( );
 
     switch ( $type ) {
 
