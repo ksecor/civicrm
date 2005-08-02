@@ -66,7 +66,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         $job->query($query);
 
-        $mailer =& Mail::factory('smtp', array('host' => CRM_SMTP_SERVER));
+        $config =& CRM_Core_Config::singleton();
+        $mailer =& $config->getMailer();
+
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {

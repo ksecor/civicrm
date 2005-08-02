@@ -506,7 +506,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             $this, true);
         }
         
-        if ($this->url_tracking) {
+        if (!$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->html,
                                 $this->id, $event_queue_id);
             CRM_Mailing_BAO_TrackableUrl::scan_and_replace($this->text,
@@ -517,7 +517,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $contact = array();
         $ids    = array();
         CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
-
         $message =& new Mail_Mime("\n");
 
         /* Do contact-specific token replacement in text mode, and add to the

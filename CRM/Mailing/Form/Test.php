@@ -55,9 +55,12 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $values = array(
             'textFile'  => $this->get('textFile'),
             'htmlFile'  => $this->get('htmlFile'),
-            'header'    => $this->get('header_id'),
-            'footer'    => $this->get('footer_id'),
+            'header_id' => $this->get('header_id'),
+            'footer_d'  => $this->get('footer_id'),
             'name'      => $this->get('mailing_name'),
+            'from_name' => $this->get('from_name'),
+            'from_email'=> $this->get('from_email'),
+            'subject'   => $this->get('subject'),
         );
         
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
@@ -81,6 +84,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         {
             return true;
         }
+        $config =& CRM_Core_Config::singleton();
         $session    =& CRM_Core_Session::singleton();
         $contactId  = $session->get('userID');
         $email      = $session->get('ufEmail');
@@ -91,11 +95,11 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mailing->header_id = $options['header_id'];
         $mailing->footer_id = $options['footer_id'];
         $mailing->name = $options['name'];
-        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array(1 =>
-        $params['from_name']));
-        $mailing->from_email = $params['from_email'];
+        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array('1' =>
+                                $options['from_name']));
+        $mailing->from_email = $options['from_email'];
         $mailing->replyTo_email = $email;
-        $mailing->subject = ts('Test Mailing: ') . $params['subject'];
+        $mailing->subject = ts('Test Mailing: ') . $options['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
         $mailing->body_text = file_get_contents($options['textFile']);
@@ -103,12 +107,10 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mime =& $mailing->compose(null, null, null, 
                                     $contactId, $email, $recipient, true);
 
-//      FIXME:  Get the smtp server out of config
-        $mailer =& Mail::factory('smtp', array('host' => CRM_SMTP_SERVER));
+        $mailer =& $config->getMailer();
 
         $body = $mime->get();
         $headers = $mime->headers();
-        
         
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
