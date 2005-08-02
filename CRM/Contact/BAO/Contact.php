@@ -828,7 +828,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
-                if (empty($firstName) && empty($lastName)) {
+                if (empty($firstName) || empty($lastName)) {
                     $sortName = $lastName . $firstName;
                 } else {
                     $individual =& new CRM_Contact_BAO_Individual();
@@ -842,23 +842,23 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                         $individualMiddleName = $individual->middle_name;
                     }
                     
-                    if (empty($lastName)) {
+                    if (empty($lastName) && !empty($individualLastName)) {
                         $lastName = $individualLastName;
                     } 
                     
-                    if (empty($firstName)) {
+                    if (empty($firstName) && !empty($individualFirstName)) {
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix)) {
+                    if (empty($prefix) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
-                    if (empty($middleName)) {
+                    if (empty($middleName) && !empty($individualMiddleName)) {
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix)) {
+                    if (empty($suffix) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
                     
