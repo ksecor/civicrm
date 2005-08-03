@@ -17,7 +17,7 @@ class TestOfCRM272 extends UnitTestCase
     function testCreateIndividual() 
     {
         $params = array('first_name'    => 'kurund',
-                        'last_name'     => 'jalmi', 
+                        'last_name'     => 'jalmi_4', 
                         'location_type' => 'Main', 
                         'im'            => 'kurundssyahoo', 
                         'im_provider'   => 'AIM',

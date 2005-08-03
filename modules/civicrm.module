@@ -225,6 +225,11 @@ function civicrm_invoke()
 /**
  * User hook for civicrm module
  *
+ * Note that we ignore the edit field and do not follow the drupal protocol
+ * of extracting values from the edit field. We extract the fields directly
+ * from $_POST. This is because the underlying form package that we use
+ * (HTML_QuickForm) does the form value extraction and validation.
+ *
  * @param string $type     Type of operation being performed
  * @param array  $edit     The array of form values submitted by the user.
  * @param object $user     The user object on which the operation is being performed.

@@ -209,7 +209,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
-                if ($row['callback']) {
+                if ( CRM_Utils_Array::value( 'callback', $row ) ) {
                     $row['action'] = CRM_Core_Action::formLink(self::actionLinks(),
                                                                null,
                                                                array('activity_history_id'=>$k,
@@ -219,7 +219,6 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'cid' => $this->_contactId ) );
                 } else {
                     $actionLinks = self::actionLinks($row['activity_type']);
-                    //unset($actionLinks[CRM_Core_Action::VIEW]);
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                null,
                                                                array('id'=>$row['id'],

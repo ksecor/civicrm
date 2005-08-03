@@ -152,7 +152,8 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
         $dao->delete();
 
         $dao = new CRM_Core_DAO_Meeting();
-        $dao->target_contact_id = $id;        
+        $dao->target_entity_table = 'civicrm_contact';
+        $dao->target_entity_id    = $id;        
         $dao->delete();
     }
 

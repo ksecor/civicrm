@@ -5,7 +5,6 @@ require_once '../modules/config.inc.php';
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
 
-//require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
 
@@ -19,34 +18,34 @@ class UnitTests extends GroupTest {
         parent::__construct( 'Unit Tests for CRM' );
 
         // contact api
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CRM272.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM272.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         
         // group api
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
         // location api
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
 
         // history api
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
 
         // custom group api
-        //$this->addTestFile(CRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         
     }
 

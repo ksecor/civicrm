@@ -158,7 +158,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $template->assign( 'tplFile', "CRM/" . self::ERROR_TEMPLATE); 
         $content  = $template->fetch( 'CRM/error.tpl' );
         $content .= CRM_Core_Error::debug( 'error', $error, false );
-
+        debug_print_backtrace( );
         echo CRM_Utils_System::theme( 'page', $content );
         exit(1);
     }

@@ -184,8 +184,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign('duplicateRelationship', $duplicateRelationship);
         $this->assign('searchCount'          , $searchCount);
         $this->assign('searchDone'           , $this->get('searchDone'));
-        $this->assign('contact_type'         , $this->get('contact_type'));
-        $this->assign('contact_type_display' , CRM_Contact_DAO_Contact::tsEnum('contact_type', $this->get('contact_type')));
+        if ( $this->get('contact_type') ) {
+            $this->assign('contact_type'         , $this->get('contact_type'));
+            $this->assign('contact_type_display' , CRM_Contact_DAO_Contact::tsEnum('contact_type', $this->get('contact_type')));
+        }
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Search'), array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );

@@ -146,7 +146,8 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
         $dao->delete();
 
         $dao = new CRM_Core_DAO_Phonecall();
-        $dao->target_contact_id = $id;        
+        $dao->target_entity_table = 'civicrm_contact';
+        $dao->target_entity_id = $id;        
         $dao->delete();
     }
 
