@@ -207,11 +207,31 @@ class CRM_Utils_String {
      * @static
      */
     function match( $url1, $url2 ) {
+        $url1 = strtolower( $url1 );
+        $url2 = strtolower( $url2 );
+
         $url1Str = parse_url( $url1 );
         $url2Str = parse_url( $url2 );
 
-        // CRM_Core_Error::debug( $url1Str['path'], $url2Str['path'] );
-        return ( strtolower( $url1Str['path'] ) == strtolower( $url2Str['path'] ) ) ? true : false;
+        if ( $url1Str['path'] == $url2Str['path'] && 
+             self::extractURLVarValue( $url1Str['query'] ) == self::extractURLVarValue( $url2Str['query'] ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    function extractURLVarValue( $query ) {
+        $config =& CRM_Core_Config::singleton( );
+        $urlVar =  $config->userFrameworkURLVar;
+
+        $params = explode( '&', $query );
+        foreach ( $params as $p ) {
+            list( $k, $v ) = explode( '=', $p );
+            if ( $k == $urlVar ) {
+                return $v;
+            }
+        }
+        return null;
     }
 
     /**

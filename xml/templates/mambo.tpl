@@ -23,9 +23,9 @@
   <administration>
     <menu>CiviCRM</menu>
                 <submenu>
+                        <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
                         <menu task="civicrm/group&reset=1">Manage Groups</menu>
                         <menu task="civicrm/import&reset=1">Import Contacts</menu>
-                        <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
                         <menu task="civicrm/admin&reset=1">Administer CiviCRM</menu>
                 </submenu>
     <files>
