@@ -160,7 +160,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         while ($ss->fetch()) {
             /* run the saved search query and dump result contacts into the temp
              * table */
-            $tables = array($contact);
+            $tables = array($contact => 1);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
                 $ss->saved_search_id, $tables);
             $from = CRM_Contact_BAO_Contact::fromClause($tables);
@@ -255,7 +255,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND         $mg.mailing_id = {$this->id}
                         AND         $group.saved_search_id IS NOT null");
         while ($ss->fetch()) {
-            $tables = array($contact, $location, $email);
+            $tables = array($contact => 1, $location => 1, $email => 1);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
                                     $ss->saved_search_id, $tables);
             $from = CRM_Contact_BAO_Contact::fromClause($tables);
@@ -263,11 +263,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id 
                     $from
-                    INNER JOIN          $location
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
-                    INNER JOIN          $email
-                            ON          $email.location_id = $location.id
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
