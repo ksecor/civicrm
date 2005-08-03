@@ -169,7 +169,8 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-                    $links =& $this->savedSearchLinks( );
+//                     $links =& $this->savedSearchLinks( );
+                    $links =& $this->links( );
                 } else {
                     $links =& $this->links( );
                 }
