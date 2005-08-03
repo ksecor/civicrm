@@ -512,23 +512,45 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         
         // check for group restriction
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
-            $andArray['group'] = "(civicrm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
-
+            $andArray['group'] = "(civicrm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . ')';
+            
             $statii = array();
-            if ( CRM_Utils_Array::value( 'cb_group_contact_status', $fv ) &&
-                 is_array( $fv['cb_group_contact_status'] ) ) {
-                foreach ($fv['cb_group_contact_status'] as $key => $value) {
-                    if ($value) {
-                        $statii[] = "\"$key\"";
+            $in = false;
+            if (CRM_Utils_Array::value( 'cb_group_contact_status', $fv)
+                && is_array($fv['cb_group_contact_status'])) {
+                foreach ($fv['cb_group_contact_status'] as $k => $v) {
+                    if ($v) {
+                        if ($k == 'In') {
+                            $in = true;
+                        }
+                        $statii[] = "\"$k\"";
                     }
                 }
-                $andArray['groupStatus']    
-                        = '(civicrm_group_contact.status IN (' 
-                        . implode( ',', $statii) . '))';
             } else {
-                $andArray['groupStatus'] = '(civicrm_group_contact.status = "In")';
+                $statii[] = '"In"';
+                $in = true;
             }
+            $andArray['group'] .= ' AND civicrm_group_contact.status IN (' 
+                                .  implode(', ', $statii) .'))';
             $tables['civicrm_group_contact'] = 1;
+            if ($in) {
+                $group =& new CRM_Contact_BAO_Group();
+                $ssWhere = array();
+                foreach (array_keys($fv['cb_group']) as $group_id) {
+                    $group->id = $group_id;
+                    $group->find(true);
+                    if (isset($group->saved_search_id)) {
+                        $ssw = CRM_Contact_BAO_SavedSearch::whereClause(
+                            $group->saved_search_id, $tables);
+                        $ssWhere[] = "($ssw AND NOT (civicrm_group_contact.id is not null AND civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'Out'))";
+                    }
+                }
+                if (count($ssWhere)) {
+                    $andArray['group']  = "( ({$andArray['group']}) OR ("
+                                        . implode(' OR ', $ssWhere) 
+                                        .') )';
+                }
+            }
         }
         
         // check for tag restriction
