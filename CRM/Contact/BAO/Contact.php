@@ -743,7 +743,12 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                             break;
                         case 'Int':
                         case 'Boolean':
-                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";;
+                            if ($v == 'yes') {
+                                $strBoolInt = 1;
+                            } else {
+                                $strBoolInt = 0;
+                            }
+                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $strBoolInt . "' )";;
                             break;
                         case 'Float':
                         case 'Money':
