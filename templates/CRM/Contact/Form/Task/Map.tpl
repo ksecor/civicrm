@@ -1,11 +1,8 @@
-<!--iframe src="{$config->resourceBase}gmaps/index.html?url={$xmlURL}"
-    width="900" height="600" scrolling="no" marginwidth="0"	
-    marginheight="0" frameborder="0" /-->	
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <script src="http://maps.google.com/maps?file=api&v=1&key={$googleMapKey}" type="text/javascript"></script>
+  {$title}	
   {literal}
   <script type="text/javascript">
     function onLoad() {
