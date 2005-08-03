@@ -6,28 +6,29 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: v 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:35+0200\n"
-"PO-Revision-Date: 2005-06-30 10:35+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"PO-Revision-Date: 2005-08-01 18:33+0200\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Project-Id-Version: v 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"POT-Creation-Date: 2005-06-30 10:35+0200\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
 
 msgid "add contacts"
-msgstr ""
+msgstr "adicionar contatos"
 
 msgid "view all contacts"
-msgstr ""
+msgstr "ver todos os contatos"
 
 msgid "edit all contacts"
-msgstr ""
+msgstr "editar todos os contatos"
 
 msgid "edit groups"
-msgstr ""
+msgstr "editar grupos"
 
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administrar CiviCRM"
+
