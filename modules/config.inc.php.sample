@@ -138,19 +138,39 @@ define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
 
 /**
- * Google Map api key
- * Eg: Key should be generated for http://localhost/drupal/civicrm/contact/
+ * Map Contacts with Google Maps API:
+ * 
+ * If you want to utilize the Google mapping feature, you must apply for an API key for your site
+ * here: http://www.google.com/apis/maps/signup.html
  *
+ * Entering your API key below will enable the mapping feature for your CiviCRM installation.
  */
 define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 
 /**
- * this should be null or 'CRM_Utils_Geocode_ZipTable' or 'CRM_Utils_Geocode_RPC'
- * or a class you define with the right interface
- * defined at 'CRM_Utils_Geocode_API' )
+ * Geocode (latitude and longitude) lookup:
+ *
+ * CiviCRM can be configured to automatically lookup and insert geo-coordinates for contact
+ * addresses. The current version offers to methods for this lookup:
+ * - local lookup in the Drupal zipcodes table (requires that this table be installed)
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_ZipTable' );
+ *
+ * - remote lookup using geocoder.us
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' );
+ *
+ * You may also create and call your own class using the interface defined at
+ * 'CRM_Utils_Geocode_API'.
  */
 define('CIVICRM_GEOCODE_METHOD', '' );
 
+/**
+ * Multi-site Support
+ *
+ * CiviCRM uses Domain ID keys to allow you to store separate data sets for multiple sites
+ * using the same codebase.
+ *
+ * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
+ */
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 include_once 'config.main.php';

@@ -96,7 +96,7 @@ function civicrm_help($section)
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
-        return ts('CiviCRM module DEV version');
+        return ts('Constituent Relationship Management (CRM). Allows sites to manage contacts, relationships and groups, and track contact activities.');
     }
 }
 
