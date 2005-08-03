@@ -69,7 +69,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $individual->copyValues($params);
 
         // fix gender and date
-        $individual->gender = $params['gender'];
+        $individual->gender = CRM_Utils_Array::value( 'gender', $params );
         $date = CRM_Utils_Array::value('birth_date', $params);
         $individual->birth_date = CRM_Utils_Date::format( CRM_Utils_Array::value('birth_date', $params) );
         $individual->middle_name = CRM_Utils_Array::value('middle_name', $params);

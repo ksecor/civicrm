@@ -992,13 +992,13 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         $contact->location = $location;
 
         // add notes
-        if (is_array($params['note'])) {
+        if ( CRM_Utils_Array::value( 'note', $params ) ) {
             foreach ($params['note'] as $note) {
                 $noteParams = array(
-                    'entity_id'     => $contact->id,
-                    'entity_table'  => 'civicrm_contact',
-                    'note'          => $note['note']
-                    );
+                                    'entity_id'     => $contact->id,
+                                    'entity_table'  => 'civicrm_contact',
+                                    'note'          => $note['note']
+                                    );
                 CRM_Core_BAO_Note::add($noteParams);
             }
         }
@@ -1007,7 +1007,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
 
 
         // add custom field values
-        if (is_array($params['custom'])) {  
+        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
             foreach ($params['custom'] as $customValue) {
                 $cvParams = array(
                     'entity_table' => 'civicrm_contact',

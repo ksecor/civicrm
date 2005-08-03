@@ -123,7 +123,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     }
 
     $error = _crm_check_params( $params, $contact_type );
-    if (is_a($error, CRM_Core_Error)) {
+    if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
 
@@ -131,7 +131,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     $values['contact_type'] = $contact_type;
 
     $error = _crm_format_params( $params, $values );
-    if (is_a($error, CRM_Core_Error) ) {
+    if (is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
 
@@ -152,18 +152,18 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
     }
 
     $error = _crm_required_formatted_contact($params);
-    if (is_a( $error, CRM_Core_Error)) {
+    if (is_a( $error, 'CRM_Core_Error')) {
         return $error;
     }
     
     $error = _crm_validate_formatted_contact($params);
-    if (is_a( $error, CRM_Core_Error)) {
+    if (is_a( $error, 'CRM_Core_Error')) {
         return $error;
     }
     
     if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
         $error = _crm_duplicate_formatted_contact($params);
-        if (is_a( $error, CRM_Core_Error)) {
+        if (is_a( $error, 'CRM_Core_Error')) {
             return $error;
         }
     }
@@ -248,7 +248,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     // if id is not present, get contact id first
     if (!$params['contact_id']) {
         $contactId = CRM_Contact_BAO_Contact::_crm_get_contact_id($params);
-        if (is_a($contactId, CRM_Core_Error)) {
+        if (is_a($contactId, 'CRM_Core_Error')) {
             return $contactId;
         }
 
@@ -260,7 +260,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
     $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
-    if ( $contact == null || is_a($contact, CRM_Core_Error) || ! $contact->id ) {
+    if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) {
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
     }
 
@@ -316,12 +316,12 @@ function &crm_update_contact( &$contact, $params ) {
 
     $values['contact_type'] = $contact->contact_type;
     $error = _crm_format_params( $params, $values );
-    if ( is_a($error, CRM_Core_Error) ) {
+    if ( is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
 
     $error = _crm_update_contact( $contact, $values );
-    if ( is_a($error, CRM_Core_Error) ) {
+    if ( is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
 

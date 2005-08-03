@@ -84,7 +84,6 @@ function &crm_create_custom_group(&$params)
 
     // check required fields
     $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
-    //if ($error instanceof CRM_Core_Error) {
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
