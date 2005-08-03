@@ -549,7 +549,16 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                     if (isset($group->saved_search_id)) {
                         $ssw = CRM_Contact_BAO_SavedSearch::whereClause(
                             $group->saved_search_id, $tables);
-                        $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'In')))";
+                        if ( $config->mysqlVersion >= 4.1 ) {
+                            $ssWhere[] = "($ssw AND (civicrm_contact.id NOT IN (
+                            SELECT contact_id FROM civicrm_group_contact
+                            WHERE civicrm_group_contact.group_id = $group_id
+                            AND civicrm_group_contact.status = 'Out'
+                            )))";
+                        } else {
+                            /* FIXME: bug with multiple group searches */
+                            $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'In')))";
+                        }
                     }
                     $group->reset();
                     $group->selectAdd('*');
