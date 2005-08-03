@@ -43,3 +43,69 @@ S.No   Apache    PHP      MySQL     Zend Optimizer
 6      2.0.54    5.0.4    4.1.13       -
 --------------------------------------------------
 The above six combinations will run on port 81 to 86 respectively
+
+
+
+
+
+
+Building the staging server
+---------------------------
+1 - Add a new hdd of atleast 80Gb and create the partition
+    /staging/ 
+    also create a directory
+    /staging/etc/
+
+2 - Download all the distributions (sources)
+
+    apache - httpd-2.0.54.tar.bz2
+
+    mysql  - mysql-4.0.25.tar.gz
+             mysql-4.1.13.tar.gz
+
+    php    - php-4.0.6.tar.gz
+             php-4.1.2.tar.gz
+             php-4.2.3.tar.gz
+             php-4.3.11.tar.bz2
+             php-4.4.0.tar.bz2
+             php-5.0.4.tar.bz2
+
+
+
+3 - untar sources and build apache, mysql, php and install it in
+
+
+
+    /staging/apache-2.0.54
+
+$ ./configure --prefix=/staging/apache-2.0.54 --enable-so --enable-mods-shared=auth_anon auth_dbm auth_digest cache cern-meta cgid charset_lite dav dav_fs deflate disk_cache echo example expires ext_filter file_cache headers info isapi log_forensic logio mem_cache mime_magic nw_ssl proxy proxy_connect proxy_ftp proxy_http rewrite speling ssl suexec unique_id usertrack vhost_alias
+
+
+    /staging/mysql-4.0.25
+$ ./configure --prefix=/staging/mysql-4.0.25
+
+
+    /staging/mysql-4.1.13
+
+    /staging/php-4.0.6
+    /staging/php-4.1.2
+    /staging/php-4.2.3
+    /staging/php-4.3.11
+    /staging/php-4.4.0
+    /staging/php-5.0.4
+
+
+4 - modify the apachectl and conf files for apache
+
+    /staging/apache-2.0.54/bin/apachectl
+    /staging/apache-2.0.54/conf/httpd.conf.php<version>.mysql<version>
+
+    sample config files in /staging/apache-2.0.54 are
+      httpd.conf.php-4.0.6.mysql-4.0.25
+      httpd.conf.php-4.1.2.mysql-4.0.25
+      httpd.conf.php-4.2.3.mysql-4.0.25
+      httpd.conf.php-4.3.11.mysql-4.1.13
+      httpd.conf.php-4.4.0.mysql-4.1.13
+      httpd.conf.php-5.0.4.mysql-4.1.13
+
+
