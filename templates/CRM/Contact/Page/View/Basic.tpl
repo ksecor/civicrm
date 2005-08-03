@@ -7,6 +7,7 @@
     <label>{$display_name}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
     {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
+    &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}">[ vCard ]</a>
     {if $contactTag}<br />{$contactTag}{/if}
    </div>
 </div>

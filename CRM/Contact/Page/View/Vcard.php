@@ -1,0 +1,134 @@
+<?php
+/*
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
+require_once 'CRM/Contact/Page/View.php';
+require_once 'Contact/Vcard/Build.php';
+
+/**
+ * vCard export class
+ *
+ */
+class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
+
+    /**
+     * Heart of the vCard data assignment process. The runner gets all the meta
+     * data for the contact and calls the writeVcard method to output the vCard
+     * to the user.
+     *
+     * @return void
+     */
+    function run()
+    {
+        $this->preProcess();
+
+        $params   = array();
+        $defaults = array();
+        $ids      = array();
+
+        $params['id'] = $params['contact_id'] = $this->_contactId;
+        $contact = CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
+
+        CRM_Contact_BAO_Contact::resolveDefaults($defaults);
+
+        // now that we have the contact's data - let's build the vCard
+        // TODO: non-US-ASCII support (requires changes to the Contact_Vcard_Build class)
+
+        $vcard =& new Contact_Vcard_Build('2.1');
+
+        if ($defaults['contact_type'] == 'Individual') {
+            $vcard->setName($defaults['last_name'], $defaults['first_name'], $defaults['middle_name'], $defaults['prefix'], $defaults['suffix']);
+        } elseif ($defaults['contact_type'] == 'Organization') {
+            $vcard->setName($defaults['organization_name'], '', '', '', '');
+        } elseif ($defaults['contact_type'] == 'Household') {
+            $vcard->setName($defaults['household_name'], '', '', '', '');
+        }
+        $vcard->setFormattedName($defaults['display_name']);
+        $vcard->setSortString($defaults['sort_name']);
+
+        if ($defaults['nick_name'])  $vcard->addNickname($defaults['nick_name']);
+        if ($defaults['job_title'])  $vcard->setTitle($defaults['job_title']);
+        if ($defaults['birth_date']) $vcard->setBirthday($defaults['birth_date']);
+        // TODO: $vcard->setGeo($lat, $lon);
+
+        $phoneNumbers = array();
+        $primaryPhone = '';
+        $emailAddresses = array();
+        $primaryEmail = '';
+        foreach ($defaults['location'] as $location) {
+
+            // we don't keep PO boxes in separate fields
+            $pob = '';
+            $extend = $location['address']['supplemental_address_1'];
+            if ($location['address']['supplemental_address_2']) $extend .= ', ' . $location['address']['supplemental_address_2'];
+            $street = $location['address']['street_address'];
+            $locality = $location['address']['city'];
+            $region = $location['address']['state_province'];
+            $postcode = $location['address']['postal_code'];
+            if ($location['address']['postal_code_suffix']) $postcode .= '-' . $location['address']['postal_code_suffix'];
+            $country = $location['address']['country'];
+            $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
+            if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
+            if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+            if ($location['is_primary']) $vcard->addParam('TYPE', 'PREF');
+
+            foreach ($location['phone'] as $phone) {
+                $phoneNumbers[] = $phone['phone'];
+                if ($phone['is_primary']) $primaryPhone = $phone['phone'];
+            }
+
+            foreach ($location['email'] as $email) {
+                $emailAddresses[] = $email['email'];
+                if ($email['is_primary']) $primaryEmail = $email['email'];
+            }
+
+        }
+
+        foreach (array_unique($phoneNumbers) as $number) {
+            $vcard->addTelephone($number);
+            if ($number == $primaryPhone) $vcard->addParam('TYPE', 'PREF');
+        }
+
+        foreach (array_unique($emailAddresses) as $address) {
+            $vcard->addEmail($address);
+            if ($address == $primaryEmail) $vcard->addParam('TYPE', 'PREF');
+        }
+
+        // all that's left is sending the vCard to the browser
+        $filename = CRM_Utils_String::munge($defaults['display_name']);
+        $vcard->send($filename . '.vcf', 'attachment', 'utf-8');
+
+    }
+
+}
+
+?>
