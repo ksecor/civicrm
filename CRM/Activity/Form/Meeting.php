@@ -55,7 +55,9 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $defaults = array();
         $bao =& new CRM_Core_BAO_Meeting();
         $bao->retrieve($params, $defaults);
-        $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+        if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
+            $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+        }
     }
 
     /**

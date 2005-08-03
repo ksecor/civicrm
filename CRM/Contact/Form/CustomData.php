@@ -188,9 +188,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $fieldId = $field['id'];                
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
 
-                // if custom data exists use it, else use the default value if it exists
-                $elementData = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
-                
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
                 
                 if ($field['html_type'] == 'Select State/Province' || $field['html_type'] == 'Select Country') {
@@ -315,7 +312,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
- 
+                // if we dont have a custom value, just continue
+                if ( ! CRM_Utils_Array::value( 'customValue', $field ) ) {
+                    continue;
+                }
+
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 switch($field['html_type']) {

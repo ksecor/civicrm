@@ -55,7 +55,9 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $defaults = array();
         $bao =& new CRM_Core_BAO_Phonecall();
         $bao->retrieve($params, $defaults);
-        $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+        if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
+            $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+        }
     }
 
     /**
@@ -141,7 +143,6 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
       
         $call = CRM_Core_BAO_Phonecall::add($params, $ids);
-        //echo "+++++++++++++++++++++++++";
         if($call->status=='Completed'){
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',

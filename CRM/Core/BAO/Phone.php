@@ -145,6 +145,7 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         
         $phone->query($strQuery);
         
+        $contactPhones = array( );
         while($phone->fetch()) {
             $contactPhones[$phone->phone_id] = $phone->phone;
         }

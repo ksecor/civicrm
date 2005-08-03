@@ -11,11 +11,11 @@ global $civicrm_root;
  * CiviCRM can be hosted in either Drupal or Mambo. Retain the default settings
  * for Drupal.
  * Settings for Mambo:
- *      define( ''CRM_USERFRAMEWORK'       , 'Mambo' );
- *      define( 'CRM_USERFRAMEWORK_URLVAR', 'task'  );
+ *      define( 'CIVICRM_USERFRAMEWORK'       , 'Mambo' );
+ *      define( 'CIVICRM_USERFRAMEWORK_URLVAR', 'task'  );
  */
-define( 'CRM_USERFRAMEWORK'       , 'Drupal' );
-define( 'CRM_USERFRAMEWORK_URLVAR', 'q'  );
+define( 'CIVICRM_USERFRAMEWORK'       , 'Drupal' );
+define( 'CIVICRM_USERFRAMEWORK_URLVAR', 'q'  );
 
 /**
  * File system paths for this install:
@@ -23,76 +23,76 @@ define( 'CRM_USERFRAMEWORK_URLVAR', 'q'  );
  * $civicrm_root is the file system path on your server where the civicrm
  * code is installed.
  *
- * CRM_TEMPLATE_COMPILEDIR is the file system path where compiled templates are stored.
+ * CIVICRM_TEMPLATE_COMPILEDIR is the file system path where compiled templates are stored.
  *
- * CRM_UPLOADDIR is the file system path to which CiviCRM files are uploaded.
+ * CIVICRM_UPLOADDIR is the file system path to which CiviCRM files are uploaded.
  *
  * EXAMPLE - CivicSpace / Drupal:
  * If the path to the CivicSpace or Drupal home directory is /var/www/htdocs/civicspace
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
  *
- * the CRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
+ * the CIVICRM_TEMPLATE_COMPILEDIR would be:
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
  *
- * and the CRM_UPLOADDIR would be:
- *      define( 'CRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
+ * and the CIVICRM_UPLOADDIR would be:
+ *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
  *
  * EXAMPLE - Mambo:
  * If the path to the Mambo home directory is /var/www/htdocs/mambo
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/mambo/administrator/components/com_civicrm/civicrm';
  *
- * the CRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c' );
+ * the CIVICRM_TEMPLATE_COMPILEDIR would be:
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c' );
  *
- * and the CRM_UPLOADDIR would be:
- *      define( 'CRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload' );
+ * and the CIVICRM_UPLOADDIR would be:
+ *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload' );
  *	
  * Please make sure that the COMPILERDIR and UPLOADDIR are created and the
  * web server user has write access to that directory
  *
  */
 $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
-define( 'CRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
-define( 'CRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
+define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
 
 /**
  * Site URLs:
  *
  * This section defines absolute URLs to access Drupal and CiviCRM.
- * IMPORTANT: Trailing slashes are required for CRM_HTTPBASE and CRM_RESOURCEBASE. 
+ * IMPORTANT: Trailing slashes are required for CIVICRM_HTTPBASE and CIVICRM_RESOURCEBASE. 
  *
  * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/
  * these variables would be set as below. Modify as needed for your install.
  */
-define( 'CRM_HTTPBASE'    , '/civicspace/'                     );
-define( 'CRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );
-define( 'CRM_MAINMENU'    , '/civicspace/civicrm'              );
+define( 'CIVICRM_HTTPBASE'    , '/civicspace/'                     );
+define( 'CIVICRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );
+define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
 
 /**
  * Database settings:
  *
  * Define the version of MySQL you are running. 
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
- * If you are using a 4.0.x release of MySQL, you MUST change CRM_MYSQL_VERSION to 4.0
+ * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
  *
- * Define the database URL (CRM_DSN) for the CiviCRM database.
+ * Define the database URL (CIVICRM_DSN) for the CiviCRM database.
  * Database URL format:
- *      define( 'CRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
+ *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
  *
  * Drupal and CiviCRM can share the same database, or can be installed into separate databases.
  *
  * EXAMPLE: Drupal and CiviCRM running in the same database...
  *      DB Name = drupal, DB User = drupal
- *      define( 'CRM_DSN'         , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
+ *      define( 'CIVICRM_DSN'         , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
  *
  * EXAMPLE: Drupal and CiviCRM running in separate databases...
  *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
- *      define( 'CRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+ *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
  */
-define( 'CRM_MYSQL_VERSION', 4.1 );
-define( 'CRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+define( 'CIVICRM_MYSQL_VERSION', 4.1 );
+define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
 
 /**
  * SMTP Server:
@@ -100,7 +100,7 @@ define( 'CRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new
  * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality
  * enter your smtp server address here (e.g.'smtp.example.com').
  */
-define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
+define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
 /**
  * Localisation:
@@ -111,7 +111,7 @@ define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
  * new locale (stored below civicrm/l10n directory). Locale format is 'langageCode_countryCode'
  * (e.g. 'pl_PL' for Polish translation).
  */
-define( 'CRM_LC_MESSAGES' , 'en_US' );
+define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
 /**
  * Date formatting:
@@ -121,12 +121,12 @@ define( 'CRM_LC_MESSAGES' , 'en_US' );
  *
  * Refer to CiviCRM Localisation documentation for more info. 
  */ 
-define( 'CRM_DATEFORMAT_DATETIME', '%B %E%f, %Y %l:%M %P' );
-define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y' );
-define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
-define( 'CRM_DATEFORMAT_YEAR', '%Y' );
-define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
-define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
+define( 'CIVICRM_DATEFORMAT_DATETIME', '%B %E%f, %Y %l:%M %P' );
+define( 'CIVICRM_DATEFORMAT_FULL', '%B %E%f, %Y' );
+define( 'CIVICRM_DATEFORMAT_PARTIAL', '%B %Y' );
+define( 'CIVICRM_DATEFORMAT_YEAR', '%Y' );
+define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
+define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 
 /**
  * Import - maximum file size:
@@ -135,16 +135,43 @@ define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
  * However, imports above 1MB will take a 'long time' and are server resource intensive.
  * File size is expressed in bytes (1MB is entered as 1048576).
  */
-define( 'CRM_MAX_IMPORT_FILESIZE' , 1048576);
+define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
 
 /**
- * Google Map api key
- * Eg: Key should be generated for http://localhost/drupal/civicrm/contact/
+ * Map Contacts with Google Maps API:
+ * 
+ * If you want to utilize the Google mapping feature, you must apply for an API key for your site
+ * here: http://www.google.com/apis/maps/signup.html
  *
+ * Entering your API key below will enable the mapping feature for your CiviCRM installation.
  */
-define('CRM_GOOGLE_MAP_API_KEY', '');
+define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 
-define('CRM_DOMAIN_ID' , 1 );
+/**
+ * Geocode (latitude and longitude) lookup:
+ *
+ * CiviCRM can be configured to automatically lookup and insert geo-coordinates for contact
+ * addresses. The current version offers to methods for this lookup:
+ * - local lookup in the Drupal zipcodes table (requires that this table be installed)
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_ZipTable' );
+ *
+ * - remote lookup using geocoder.us
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' );
+ *
+ * You may also create and call your own class using the interface defined at
+ * 'CRM_Utils_Geocode_API'.
+ */
+define('CIVICRM_GEOCODE_METHOD', '' );
+
+/**
+ * Multi-site Support
+ *
+ * CiviCRM uses Domain ID keys to allow you to store separate data sets for multiple sites
+ * using the same codebase.
+ *
+ * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
+ */
+define('CIVICRM_DOMAIN_ID' , 1 );
 
 include_once 'config.main.php';
 

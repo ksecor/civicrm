@@ -220,7 +220,7 @@ ORDER BY
         $emails = array( );
         while ( $dao->fetch( ) ) {
             $emails[$dao->email] = array( 'locationType' => $dao->locationType,
-                                          'primary'      => $dao->primary );
+                                          'is_primary'      => $dao->is_primary );
         }
         return $emails;
     }
