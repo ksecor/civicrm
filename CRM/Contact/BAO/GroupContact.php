@@ -176,13 +176,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
 
+        $group =& new CRM_Contact_DAO_Group();
+        $group->id = $groupId;
+        $group->find(true);
+
         foreach ( $contactIds as $contactId ) {
             $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
-            // check if the selected contact id already a member
+            // check if the selected contact id already a member, or if this is
+            // an opt-out of a smart group.
             // if not a member remove to groupContact else keep the count of contacts that are not removed
-            if ( $groupContact->find( true ) ) {
+            if ( $groupContact->find( true ) || $group->saved_search_id ) {
                 $historyParams = array( 'group_id' => $groupId,
                                         'contact_id' => $contactId,
                                         'status' => $status,

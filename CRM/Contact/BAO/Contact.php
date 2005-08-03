@@ -373,6 +373,11 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 continue;
             }
 
+            if ( $value != 1 ) {
+                $from .= " LEFT JOIN $name ON ( $value ) ";
+                continue;
+            }
+                
             switch ( $name ) {
             case 'civicrm_individual':
                 $from .= ' LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ';
@@ -532,23 +537,29 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             }
             $andArray['group'] .= ' AND civicrm_group_contact.status IN (' 
                                 .  implode(', ', $statii) .'))';
+            
             $tables['civicrm_group_contact'] = 1;
+            
             if ($in) {
-                $group =& new CRM_Contact_BAO_Group();
                 $ssWhere = array();
+                $group =& new CRM_Contact_BAO_Group();
                 foreach (array_keys($fv['cb_group']) as $group_id) {
                     $group->id = $group_id;
                     $group->find(true);
                     if (isset($group->saved_search_id)) {
                         $ssw = CRM_Contact_BAO_SavedSearch::whereClause(
                             $group->saved_search_id, $tables);
-                        $ssWhere[] = "($ssw AND NOT (civicrm_group_contact.id is not null AND civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'Out'))";
+                        $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'In')))";
                     }
+                    $group->reset();
+                    $group->selectAdd('*');
                 }
                 if (count($ssWhere)) {
-                    $andArray['group']  = "( ({$andArray['group']}) OR ("
+                    $tables['civicrm_group_contact'] = 
+                        "civicrm_contact.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" . implode(',', array_keys($fv['cb_group'])) . ')';
+                    $andArray['group']  = "(({$andArray['group']}) OR ("
                                         . implode(' OR ', $ssWhere) 
-                                        .') )';
+                                        .'))';
                 }
             }
         }
