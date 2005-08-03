@@ -179,7 +179,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             if (! empty($dataErrors)) {
                 $errors[$file] = 
                 ts('The following errors were detected in %1: <ul>%2</ul>',
-                array('1' => $name, '2' => implode('', $dataErrors)));
+                array(1 => $name, 2 => implode('', $dataErrors)));
             }
         }
         return empty($errors) ? true : $errors;

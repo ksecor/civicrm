@@ -259,7 +259,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                     array('CRM_Contact_DAO_Group')))
             {
                 $errors['newGroupName'] = ts( "Group '%1' already exists.",
-                        array( '1' => $params['newGroupName']));
+                        array( 1 => $params['newGroupName']));
             }
         }
 

@@ -95,7 +95,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mailing->header_id = $options['header_id'];
         $mailing->footer_id = $options['footer_id'];
         $mailing->name = $options['name'];
-        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array('1' =>
+        $mailing->from_name = ts('CiviCRM Test Mailer (%1)', array(1 =>
                                 $options['from_name']));
         $mailing->from_email = $options['from_email'];
         $mailing->replyTo_email = $email;
@@ -123,7 +123,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         
         $errors = array( 
             '_qf_default' => 
-            ts('The test mailing could not be delivered due to the following error:<br /> <tt>%1</tt>', array('1' => $result->getMessage()))
+            ts('The test mailing could not be delivered due to the following error:<br /> <tt>%1</tt>', array(1 => $result->getMessage()))
         );
         return $errors;
     }
