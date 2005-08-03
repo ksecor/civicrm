@@ -32,7 +32,7 @@
       {literal} 
          var point = new GPoint({/literal}{$location.lng},{$location.lat}{literal});
 
-	 var data = "{/literal}{$location.displayName}<br>{$location.location_type}<br>{$location.address}{literal}";
+	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br>{$location.location_type}<br>{$location.address}{literal}";
          
          var marker = createMarker(point, data);
          map.addOverlay(marker);
