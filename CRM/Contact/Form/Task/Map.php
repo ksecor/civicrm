@@ -115,7 +115,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $this->assign( 'title', 'CiviCRM Google Maps'  );
         $this->assign( 'query', 'CiviCRM Search Query' );
 
-        $this->assign( 'googleMapKey', CRM_GOOGLE_MAP_API_KEY );
+        $this->assign( 'googleMapKey', CIVICRM_GOOGLE_MAP_API_KEY );
        
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
         if ( empty( $locations ) ) {
