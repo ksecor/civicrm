@@ -8,7 +8,12 @@ require_once 'CRM/Core/BAO/UFMatch.php';
 
 $config =& CRM_Core_Config::singleton( );
 
-$dsn_drupal  = "mysql://drupal:Mt!Everest@localhost/drupal";
+/**
+ * Update the next line with the correct Drupal database user, password, db_server and db name
+ * for your Drupal installation.
+ */
+$dsn_drupal  = "mysql://drupal_db_user:drupal_db_password@db_server/drupal_db";
+
 $db_drupal = DB::connect($dsn_drupal);
 if ( DB::isError( $db_drupal ) ) {
     die( "Cannot connect to drupal db via $dsn, " . $db_drupal->getMessage( ) );
