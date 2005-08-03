@@ -59,7 +59,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         } else {
             parent::preProcess( );
         }
-        $this->createLocationXML( $this->_contactIds );
+        $this->createLocation( $this->_contactIds );
         $this->assign( 'single', $this->_single );
     }
     
@@ -80,38 +80,19 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $emailAddress = null;
-        if ( $this->_single ) {
-            $emailAddress = $this->controller->exportValue( 'Email', 'to' );
-        }
-        $subject = $this->controller->exportValue( 'Email', 'subject' );
-        $message = $this->controller->exportValue( 'Email', 'message' );
-
-        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
-
-        $status = array(
-                        '',
-                        ts('Total Selected Contact(s): %1', array(1 => $total))
-                        );
-        if ( $sent ) {
-            $status[] = ts('Email sent to contact(s): %1', array(1 => $sent));
-        }
-        if ( $notSent ) {
-            $status[] = ts('Email not sent to contact(s): %1', array(1 => $notSent));
-        }
-        CRM_Core_Session::setStatus( $status );
-        
+           
     }//end of function
 
+
     /**
-     * create the smarty variables for the location XML
+     * assign smarty variables to the template that will be used by google api to plot the contacts
      *
      * @param array $contactIds list of contact ids that we need to plot
      *
      * @return string           the location of the file we have created
      * @access protected
      */
-    function createLocationXML( $contactIds ) {
+    function createLocation( $contactIds ) {
         $this->assign( 'title', 'CiviCRM Google Maps'  );
         $this->assign( 'query', 'CiviCRM Search Query' );
 
@@ -124,6 +105,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
 
         $this->assign_by_ref( 'locations', $locations );
 
+        
         $sumLat = $sumLng = 0;
         $maxLat = $maxLng = -400;
         $minLat = $minLng = +400;
@@ -152,23 +134,11 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                          'lng' => (float ) ( $maxLng - $minLng ) );
         $this->assign_by_ref( 'center', $center );
         $this->assign_by_ref( 'span'  , $span   );
-       
         
         $template =& CRM_Core_Smarty::singleton( );
         $xml = $template->fetch( 'CRM/Contact/Form/Task/GMapsInput.tpl' );
-
-        $config =& CRM_Core_Config::singleton( );
-        $fp = fopen( $config->uploadDir . 'locations.xml', 'w' );
-        fwrite( $fp, $xml );
-        fclose( $fp );
-    
-        $this->assign('xmlURL', CRM_Utils_System::baseURL() . '/files/civicrm/upload/locations.xml' );
-
         
-//         $this->assign( 'xmlURL',
-//                        'http://' . $_SERVER['HTTP_HOST'] . $config->httpBase . 'files/civicrm/upload/locations.xml' );
     }
-
 
 }
 
