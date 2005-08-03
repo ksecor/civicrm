@@ -52,6 +52,14 @@ class CRM_Core_PseudoConstant {
     private static $locationType;
     
     /**
+     * activity type
+     * @var array
+     * @static
+     */
+    private static $activityType;
+    
+
+    /**
      * im protocols
      * @var array
      * @static
@@ -181,6 +189,28 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$locationType, 'CRM_Core_DAO_LocationType', $all );
         }
         return self::$locationType;
+    }
+
+
+    /**
+     * Get all Activty types.
+     *
+     * The static array activityType is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Activity  types - default is to get only active ones.
+     *
+     * @return array - array reference of all activty types.
+     *
+     */
+    public static function &activityType( $all=false )
+    {
+        if ( ! self::$activityType ) {
+            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all);
+        }
+        return self::$activityType;
     }
 
 

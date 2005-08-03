@@ -2,6 +2,7 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
+<xi:include href="Activity.xml"  parse="xml" />
 <xi:include href="ActivityHistory.xml"  parse="xml" />
 <xi:include href="ActivityType.xml"     parse="xml" />
 <xi:include href="Address.xml"          parse="xml" />

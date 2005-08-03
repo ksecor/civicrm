@@ -165,6 +165,9 @@ class CRM_Core_Invoke {
             case 'meeting':
                 $view =& new CRM_Contact_Page_View_Meeting( );
                 break;
+            case 'otheract':
+                $view =& new CRM_Contact_Page_View_OtherActivity( );
+                break;    
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
                 return $view->run();

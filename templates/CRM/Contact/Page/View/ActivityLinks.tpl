@@ -16,3 +16,8 @@
    <img src="{$config->resourceBase}i/tel.gif" alt="{ts}call{/ts}">&nbsp;
    <a href="{crmURL p='civicrm/contact/view/call' q="action=add&reset=1&cid=`$contactId`&log=1"}">{ts}Log a Call{/ts}</a>
 </div>
+<div class= "data-group">
+<a href="{crmURL p='civicrm/contact/view/otheract' q="action=add&reset=1&cid=`$contactId`"}">
+{ts}Other Activities{/ts}
+</a>
+</div>

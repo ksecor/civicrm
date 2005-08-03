@@ -101,6 +101,28 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
         return self::$_defaultActivityType;
     }
 
+    /**
+     * retrieve the id and decription
+     *
+     * @return Array            id and decription
+     * @static
+     * @access public
+     */
+    static function &getActivityDescription() {
+        $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1";
+        $dao   = new CRM_Core_DAO_ActivityType();
+        $dao->query($query);
+        $description =array();
+        while($dao->fetch()) {
+            $description[ $dao->id] = $dao->description;
+
+        }
+       
+       
+        return $description;
+    }
+
+
 }
 
 ?>

@@ -104,9 +104,12 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         
         if ($activityType == 'Meeting') {
             $url = 'civicrm/contact/view/meeting';
-        } else {
+        } else if($activityType == 'Phone Call') {
             $url = 'civicrm/contact/view/call';
+        } else {
+            $url = 'civicrm/contact/view/otheract';
         }
+
 
         // helper variable for nicer formatting
         $deleteExtra = ts('Are you sure you want to delete this activity?');
@@ -201,7 +204,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
-        
+       
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {

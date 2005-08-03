@@ -1444,8 +1444,14 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
         $rowPhonecall = $row[0];
+        
+        $query3 = "SELECT count(*) FROM civicrm_activity WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $dao->query($query3);
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
+        $rowActivity = $row[0];
 
-        return  $rowMeeting + $rowPhonecall;
+        return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
 
     /**
@@ -1500,7 +1506,25 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_meeting.target_entity_id = target.id AND
     ( civicrm_meeting.source_contact_id = $contactId OR civicrm_meeting.target_entity_id = $contactId ) AND
     civicrm_meeting.status != 'Completed'
-)";
+) UNION
+( SELECT   
+    civicrm_activity.id as id,
+    civicrm_activity.subject as subject,
+    civicrm_activity.scheduled_date_time as date,
+    civicrm_activity.status as status,
+    source.display_name as sourceName,
+    target.display_name as targetName,
+    civicrm_activity_type.name  as activity_type
+  FROM civicrm_activity, civicrm_contact source, civicrm_contact target ,civicrm_activity_type
+  WHERE
+    civicrm_activity.source_contact_id = source.id AND
+    civicrm_activity.target_entity_table = 'civicrm_contact' AND
+    civicrm_activity.target_entity_id = target.id AND
+    ( civicrm_activity.source_contact_id = $contactId OR civicrm_activity.target_entity_id = $contactId ) AND
+    civicrm_activity_type.id = civicrm_activity.activity_type AND
+    civicrm_activity.status != 'Completed'
+)
+";
         if ($sort) {
             $order = " ORDER BY " . $sort->orderBy(); 
         } else {
@@ -1518,11 +1542,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
-            if ($dao->activity_type == 1) {
-                $values[$rowCnt]['activity_type'] = 'Phone Call';        
+            if (is_numeric($dao->activity_type)) {
+                if ($dao->activity_type == 1) {
+                    $values[$rowCnt]['activity_type'] = 'Phone Call';        
+                } else {
+                    $values[$rowCnt]['activity_type'] = 'Meeting';        
+                }
             } else {
-                $values[$rowCnt]['activity_type'] = 'Meeting';        
+                $values[$rowCnt]['activity_type'] = $dao->activity_type;        
             }
+
             $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;
             $values[$rowCnt]['date']    = $dao->date;
