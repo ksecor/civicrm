@@ -1,0 +1,45 @@
+README for building a STAGING area.
+
+A staging area is being built for testing various versions of apache, mysql and php.
+The versions being used currently are.
+
+
+Apache
+------
+2.0.54
+
+
+MySQL
+-----
+4.0.25
+4.1.13
+
+
+PHP
+---
+4.0.6
+4.1.2
+4.2.3
+4.3.11
+4.4.0
+
+
+Zend Optimizer
+--------------
+2.5.7
+2.5.10
+
+
+
+The following combinations will be build
+--------------------------------------------------
+S.No   Apache    PHP      MySQL     Zend Optimizer
+--------------------------------------------------
+1      2.0.54    4.0.6    4.0.25       -
+2      2.0.54    4.1.2    4.0.25       -
+3      2.0.54    4.2.3    4.0.25       -
+4      2.0.54    4.3.11   4.1.13       -
+5      2.0.54    4.4.0    4.1.13       -
+6      2.0.54    5.0.4    4.1.13       -
+--------------------------------------------------
+The above six combinations will run on port 81 to 86 respectively

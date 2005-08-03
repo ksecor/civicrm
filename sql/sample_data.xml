@@ -242,4 +242,36 @@
     <callback>Callback7</callback>
   </callbacks>
 
+
+  <party_registrations>
+    <party_registration>BJP</party_registration>
+    <party_registration>Congress(I)</party_registration>
+    <party_registration>BSP</party_registration>
+    <party_registration>Democrat</party_registration>
+    <party_registration>Republican</party_registration>
+    <party_registration>Labour</party_registration>
+    <party_registration>CPI</party_registration>
+  </party_registrations>
+
+
+  <degrees>
+    <degree>B.Tech</degree>
+    <degree>M.Tech</degree>
+    <degree>B.Sc</degree>
+    <degree>B.A</degree>
+    <degree>M.Sc</degree>
+    <degree>PhD</degree>
+    <degree>MCom</degree>
+  </degrees>
+
+  <schools>
+    <school>Brown University</school>
+    <school>VJTI</school>
+    <school>RAIT</school>
+    <school>Princeton University</school>
+    <school>UDCT</school>
+    <school>IIT</school>
+    <school>VIT</school>
+  </schools>
+
 </sample_data>
