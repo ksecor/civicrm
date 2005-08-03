@@ -1253,7 +1253,8 @@ SELECT
   civicrm_address.geo_code_1 as latitude,
   civicrm_address.geo_code_2 as longitude,
   civicrm_state_province.abbreviation as state,
-  civicrm_country.name as country
+  civicrm_country.name as country,
+  civicrm_location_type.name as location_type
 FROM      civicrm_contact
 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
                                civicrm_contact.id = civicrm_location.entity_id AND
@@ -1261,6 +1262,7 @@ LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact'
 LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
+LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
 WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civicrm_address.geo_code_1 is not null";
 
         $dao =& new CRM_Core_DAO( );
@@ -1269,14 +1271,15 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $locations = array( );
         while ( $dao->fetch( ) ) {
             $location = array( );
-            $location['displayName'] = $dao->display_name;
-            $location['lat'        ] = $dao->latitude;
-            $location['lng'        ] = $dao->longitude;
+            $location['displayName'  ] = $dao->display_name;
+            $location['lat'          ] = $dao->latitude;
+            $location['lng'          ] = $dao->longitude;
             $address = '';
             CRM_Utils_String::append( $address, ', ',
                                       array( $dao->street_address, $dao->city, $dao->state, $dao->postal_code, $dao->country ) );
-            $location['address'    ] = $address;
-            $location['url'        ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
+            $location['address'      ] = $address;
+            $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
+            $location['location_type'] = $dao->location_type;
             $locations[] = $location;
         }
         return $locations;

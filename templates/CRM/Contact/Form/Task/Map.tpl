@@ -14,25 +14,32 @@
       var map = new GMap(document.getElementById("map"));
       map.addControl(new GSmallMapControl());
       map.addControl(new GMapTypeControl());
-      map.centerAndZoom(new GPoint({/literal}{$center.lng},{$center.lat}{literal}), 4);
+      map.centerAndZoom(new GPoint({/literal}{$location.lng},{$location.lat}{literal}), 4);
 
       // Creates a marker whose info window displays the given number
-      function createMarker(point) {
+      function createMarker(point, data) {
         var marker = new GMarker(point);
 
-        // Show this marker's index in the info window when it is clicked
-        var html = "{/literal}{$location.displayName}<br>{$location.address}{literal}";
-  
         GEvent.addListener(marker, "click", function() {
-          marker.openInfoWindowHtml(html);
+          marker.openInfoWindowHtml(data);
         });
 
         return marker;
       }
 
-      var point = new GPoint({/literal}{$center.lng},{$center.lat}{literal});
-      var marker = createMarker(point);
-      map.addOverlay(marker);
+      {/literal}
+      {foreach from=$locations item=location}
+      {literal} 
+         var point = new GPoint({/literal}{$location.lng},{$location.lat}{literal});
+
+	 var data = "{/literal}{$location.displayName}<br>{$location.location_type}<br>{$location.address}{literal}";
+         
+         var marker = createMarker(point, data);
+         map.addOverlay(marker);
+
+      {/literal} 
+      {/foreach}
+      {literal}
 
      //]]>  
    }
