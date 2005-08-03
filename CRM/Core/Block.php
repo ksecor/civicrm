@@ -168,7 +168,7 @@ class CRM_Core_Block {
             self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) ) );
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
-                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) ,
+                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) ,
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' )
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
