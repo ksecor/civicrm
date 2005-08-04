@@ -31,7 +31,7 @@
             {ts}There are currently no Saved Searches. To create a Saved search:{/ts}
             <p>
             <ul>
-            {capture assign=crmURLsearch}{crmURL p='civicrm/contact/search' q='reset=1'}{/capture}
+            {capture assign=crmURLsearch}{crmURL p='civicrm/contact/search/basic' q='reset=1'}{/capture}
             {capture assign=crmURLadvanced}{crmURL p='civicrm/contact/search/advanced' q='reset=1'}{/capture}
             <li>{ts 1=$crmURLsearch 2=$crmURLadvanced}Use <a href="%1">Find</a> or <a href="%2"> Advanced Search</a> form to enter search criteria{/ts}</li>
             <li>{ts}Run and refine the search criteria as necessary{/ts}</li>

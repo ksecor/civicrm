@@ -24,7 +24,6 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     {
         $params = array('first_name'    => 'abc7',
                         'last_name'     => 'xyz7', 
-                        'location_type' => 'Main',
                         'im'            => 'manyahoo',
                         'im_provider'   => 'AIM',
                         'phone'         => '999999',
@@ -42,7 +41,6 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $params = array('household_name' => 'abc8\'s House',
                         'nick_name'      => 'x House',
                         'email'          => 'man8@yahoo.com',
-                        'location_type'  => 'Main'
                         );
         $contact =& crm_create_contact($params, 'Household');
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
@@ -80,7 +78,6 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $return = crm_add_group_contacts($group,$contacts);
         $this->assertNull($return); 
     }
-    
     
     
     function testDeleteIndividual() 

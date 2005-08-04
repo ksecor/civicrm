@@ -14,17 +14,17 @@ if ( !defined( 'TEST' ) ) {
 
 class UnitTests extends GroupTest {
     
-    function __construct( ) {
-        parent::__construct( 'Unit Tests for CRM' );
+    function UnitTests( ) {
+        $this->GroupTest( 'Unit Tests for CRM' );
 
         // contact api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM272.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM272.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         
         // group api
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );

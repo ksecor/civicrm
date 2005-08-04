@@ -113,7 +113,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Relationship Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -8
+                            'weight'  => -9
                             ),
 
                       array(
@@ -121,7 +121,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Location Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -6
+                            'weight'  => -8
                             ),
         
                       array(
@@ -129,7 +129,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Activity Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -6
+                            'weight'  => -7
                             ),
 
                       array(
@@ -138,7 +138,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -5
+                            'weight'  => -6
                             ),
 
                       array(
@@ -156,7 +156,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -4
+                            'weight'  => -5
                             ),
 
                       array(
@@ -173,7 +173,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('IM Services'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -3
+                            'weight'  => -4
                             ),
 
                       array(
@@ -181,7 +181,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Mobile Providers'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => -2
+                            'weight'  => -3
                             ),
     
                       array(
@@ -199,7 +199,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Contacts'),
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
-                            'crmType' => self::ROOT_LOCAL_TASK | self::NORMAL_ITEM,
+                            'crmType' => self::ROOT_LOCAL_TASK,
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight'  => 10,
                             ),
@@ -209,7 +209,8 @@ class CRM_Utils_Menu {
                             'title'   => ts('Find Contacts'),
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK,
+                            'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight'  => 0
                             ),
 

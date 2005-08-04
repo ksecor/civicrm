@@ -209,12 +209,6 @@ function _crm_format_params( &$params, &$values ) {
         }
     }
 
-//     if ( array_key_exists( 'phone', $params ) &&
-//          ! CRM_Utils_Rule::phone( $params['phone'] ) ) {
-//         return _crm_error( "Phone not valid " . $params['phone'] );
-//     }
-   
-    /* WAS: 'im_name', CHANGED: to 'im' */
     if ( array_key_exists( 'im', $params ) ) {
         $values['location'][1]['im'][1]['name'] = $params['im'];
         $locationTypeNeeded = true;
@@ -228,7 +222,9 @@ function _crm_format_params( &$params, &$values ) {
     if ( $locationTypeNeeded ) {
         if ( ! array_key_exists( 'location_type_id', $values['location'][1] ) ) 
         {
-            return _crm_error( "Location Type not defined" );
+            $locationType =& CRM_Core_BAO_LocationType::getDefault( );
+            $values['location'][1]['location_type_id'] = $locationType->id;
+            $values['location'][1]['location_type']    = $locationType->name;
         }
 
         $values['location'][1]['is_primary'] = true;
