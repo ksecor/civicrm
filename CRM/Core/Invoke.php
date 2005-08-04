@@ -286,10 +286,10 @@ class CRM_Core_Invoke {
             break;
         case 'custom':
             if ( $args[3] == 'group' ) {
-                if ( $args[4] != 'field' ) {
+                if ( CRM_Utils_Array::value( 4, $args ) != 'field' ) {
                     $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
-                    if ( $args[5] != 'option' ) {
+                    if ( CRM_Utils_Array::value( 5, $args ) != 'option' ) {
                         $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                     } else {
                         $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
@@ -301,7 +301,7 @@ class CRM_Core_Invoke {
             break;
         case 'uf':
             if ( $args[3] == 'group' ) {
-                if ( $args[4] != 'field' ) {
+                if ( CRM_Utils_Array::value( 4, $args ) != 'field' ) {
                     $view =& new CRM_UF_Page_Group(ts('CiviCRM Profile Group'));
                 } else {
                    $view =& new CRM_UF_Page_Field(ts('CiviCRM Profile Field'));

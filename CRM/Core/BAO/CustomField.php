@@ -259,58 +259,58 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             return null;
         }
         
-        return $field->_addQuickFormElement($qf, $elementName, $inactiveNeeded, $useRequired);
-    }
-
-    public function _addQuickFormElement(&$qf, $elementName, $inactiveNeeded, $useRequired) {
-        switch($this->html_type) {
+        /**
+         * THis was split into a different function before. however thanx to php4's bug with references,
+         * it was not working, so i munged it back into one big function - lobo
+         */
+        switch($field->html_type) {
             case 'Text':
             case 'TextArea':
-                $element = $qf->add(strtolower($this->html_type), $elementName, $this->label,
-                                        $this->attributes, ($useRequired && $this->is_required));
+                $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+                                        $field->attributes, ($useRequired && $field->is_required));
                 break;
 
             case 'Select Date':
-                $qf->add('date', $elementName, $this->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $this->is_required));
+                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
                 break;
 
             case 'Radio':
                 $choice = array();
-                if($this->data_type != 'Boolean') {
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($this->id, $inactiveNeeded);
+                if($field->data_type != 'Boolean') {
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                     foreach ($customOption as $v) {
-                        $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $this->attributes);
+                        $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
                     }
-                    $qf->addGroup($choice, $elementName, $this->label);
+                    $qf->addGroup($choice, $elementName, $field->label);
                 } else {
-                    $choice[] = $qf->createElement('radio', null, '', ts('Yes'), 'yes', $this->attributes);
-                    $choice[] = $qf->createElement('radio', null, '', ts('No') , 'no' , $this->attributes);
-                    $qf->addGroup($choice, $elementName, $this->label);
+                    $choice[] = $qf->createElement('radio', null, '', ts('Yes'), 'yes', $field->attributes);
+                    $choice[] = $qf->createElement('radio', null, '', ts('No') , 'no' , $field->attributes);
+                    $qf->addGroup($choice, $elementName, $field->label);
                 }
-                if ($useRequired && $this->is_required) {
-                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $this->label)) , 'required');
+                if ($useRequired && $field->is_required) {
+                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
                 }
                 break;
 
             case 'Select':
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($this->id, $inactiveNeeded);
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                 $selectOption = array();
                 foreach ($customOption as $v) {
                     $selectOption[$v['value']] = $v['label'];
                 }
-                $qf->add('select', $elementName, $this->label, $selectOption, ($useRequired && $this->is_required));
+                $qf->add('select', $elementName, $field->label, $selectOption, ($useRequired && $field->is_required));
                 break;
 
             case 'CheckBox':
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($this->id, $inactiveNeeded);
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                 $check = array();
                 foreach ($customOption as $v) {
                     $checked = array();
                     $check[] = $qf->createElement('checkbox', $v['value'], null, $v['label']);
                 }
-                $qf->addGroup($check, $elementName, $this->label);
-                if ($useRequired && $this->is_required) {
-                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $this->label)) , 'required');
+                $qf->addGroup($check, $elementName, $field->label);
+                if ($useRequired && $field->is_required) {
+                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
                 }
                 break;
 
@@ -321,7 +321,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 } else { 
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
                 }
-                $qf->add('select', $elementName, $this->label, $stateOption, ($useRequired && $this->is_required));
+                $qf->add('select', $elementName, $field->label, $stateOption, ($useRequired && $field->is_required));
                 break;
 
             case 'Select Country':
@@ -331,23 +331,23 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 } else {
                     $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
                 }
-                $qf->add('select', $elementName, $this->label, $countryOption, ($useRequired && $this->is_required));
+                $qf->add('select', $elementName, $field->label, $countryOption, ($useRequired && $field->is_required));
                 break;
             }
                 
-        switch ( $this->data_type ) {
+        switch ( $field->data_type ) {
             case 'Int':
                 // integers will have numeric rule applied to them.
-                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $this->label)), 'integer');
+                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
                 break;
 
             case 'Date':
-                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $this->label)), 'qfDate');
+                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
                 break;
 
             case 'Float':
             case 'Money':
-                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $this->label)), 'numeric');
+                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
                 break;
         }
     }

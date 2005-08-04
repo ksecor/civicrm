@@ -57,7 +57,8 @@ class CRM_Contact_Form_Household {
         $form->add('text', 'household_name', ts('Household Name'), $attributes['household_name']);
         
         // nick_name
-        $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name']);
+        $form->addElement('text', 'nick_name', ts('Nick Name'),
+                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
     }
 
     static function formRule( &$fields ) {

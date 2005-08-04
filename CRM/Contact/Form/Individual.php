@@ -70,7 +70,8 @@ class CRM_Contact_Form_Individual {
         $form->addElement('select', 'suffix', ts('Suffix'), CRM_Core_SelectValues::suffixName());
         
         // nick_name
-        $form->addElement('text', 'nick_name', ts('Nick Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
+        $form->addElement('text', 'nick_name', ts('Nick Name'),
+                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
 
         // greeting type
         $form->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());

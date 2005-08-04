@@ -56,8 +56,10 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $bao =& new CRM_Core_BAO_OtherActivity();
         $bao->retrieve($params, $defaults);
         $this->description = CRM_Core_BAO_ActivityType::getActivityDescription();
-        $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
         $this->assign('ActivityTypeDescription',$this->description);
+        if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
+            $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+        }
     }
 
     /**
@@ -159,7 +161,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                             );
             
             
-            if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
                 return false;
             }
         }
