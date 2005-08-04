@@ -192,12 +192,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     /**
      * simple helper function to dispatch getCall to lower comm blocks
      */
-    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, $parent ) {
-        $parent->address = CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount );
+    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent ) {
+        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount );
 
-        $parent->phone   = CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
-        $parent->email   = CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );
-        $parent->im      = CRM_Core_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
+        $parent->phone   =& CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
+        $parent->email   =& CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );
+        $parent->im      =& CRM_Core_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
     /**

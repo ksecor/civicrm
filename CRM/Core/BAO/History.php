@@ -56,7 +56,7 @@ class CRM_Core_BAO_History {
      */
     static function retrieve(&$params, &$defaults, $type='Activity')
     {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         if ($historyDAO->find(true)) {
@@ -78,7 +78,7 @@ class CRM_Core_BAO_History {
      */
     static function del($historyTableId, $type='Activity')
     {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->id = $historyTableId;
         $historyDAO->delete();
@@ -122,7 +122,7 @@ class CRM_Core_BAO_History {
      */
     static function &getHistory(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
     {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
 
         // if null hence no search criteria
@@ -133,7 +133,7 @@ class CRM_Core_BAO_History {
         $historyDAO->copyValues($params);
 
         // sort order
-        $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc, activity_type asc"));
+        $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, 'activity_date desc, activity_type asc'));
 
         // how many rows to get ?
         $historyDAO->limit($offset, $rowCount);
@@ -160,7 +160,7 @@ class CRM_Core_BAO_History {
      */
     static function &getNumHistory($entityId, $type='Activity')
     {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->entity_table = 'civicrm_contact';
         $historyDAO->entity_id = $entityId;
@@ -181,7 +181,7 @@ class CRM_Core_BAO_History {
      */
     static function create(&$params, $type='Activity')
     {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         return $historyDAO->save();

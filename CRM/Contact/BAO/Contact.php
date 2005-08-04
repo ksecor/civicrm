@@ -947,7 +947,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids ) {
+    static function &getValues( &$params, &$values, &$ids ) {
 
         $contact =& new CRM_Contact_BAO_Contact( );
 

@@ -258,7 +258,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     $params['id'] = $params['contact_id'];
     $ids          = array( );
 
-    $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+    $contact =& CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
     if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) {
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
@@ -270,9 +270,9 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     $contact->contact_type_object =
         eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
 
-    $contact->location = CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 );
+    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 );
 
-    $contact->custom_values = CRM_Core_BAO_CustomValue::getContactValues($contact->id);
+    $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id);
 
     return $contact;
 }

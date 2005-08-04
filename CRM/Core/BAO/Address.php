@@ -63,9 +63,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
 
         /* Split the zip and +4, if it's in US format */
-        if (preg_match('/^(\d{4,5})[+-](\d{4})$/',
-            $params['location'][$locationId]['address']['postal_code'], 
-            $match)) 
+        if (CRM_Utils_Array::value( 'postal_code', $params['location'][$locationId]['address'] ) &&
+            preg_match('/^(\d{4,5})[+-](\d{4})$/',
+                       $params['location'][$locationId]['address']['postal_code'], 
+                       $match)) 
         {
             $params['location'][$locationId]['address']['postal_code'] =
                 $match[1];
@@ -75,6 +76,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         // add latitude and longitude and format address if needed
         $config =& CRM_Core_Config::singleton( );
         if ( ! empty( $config->geocodeMethod ) ) {
+            require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) );
             eval( $config->geocodeMethod . '::format( $params[\'location\'][$locationId][\'address\'] );' );
         }
 
@@ -146,7 +148,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      * @static
      */
-    static function getValues(&$params, &$values, &$ids, $blockCount=0)
+    static function &getValues(&$params, &$values, &$ids, $blockCount=0)
     {
         $address =& new CRM_Core_BAO_Address();
         $address->copyValues($params);

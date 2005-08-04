@@ -110,7 +110,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
+    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $email =& new CRM_Core_BAO_Email( );
         return CRM_Core_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
     }

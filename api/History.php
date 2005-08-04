@@ -1,4 +1,5 @@
 <?php
+
 /*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -221,4 +222,5 @@ function _crm_check_activity_history_object(&$historyDAO, $checkForId=false)
 
     return true;
 }
+
 ?>

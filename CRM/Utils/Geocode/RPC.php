@@ -64,6 +64,17 @@ class CRM_Utils_Geocode_RPC {
      * @static
      */
     static function format( &$values ) {
+        // we need a valid zipcode, state and country, else we ignore
+        if ( ! CRM_Utils_Array::value( 'postal_code', $values  ) &&
+             ! CRM_Utils_Array::value( 'state'      , $values  ) &&
+             ! CRM_Utils_Array::value( 'country'    , $values  ) ) {
+            return false;
+        }
+
+        if ( $values['country'] != 'United States' ) {
+            return false;
+        }
+
         $string = CRM_Core_BAO_Address::format( $values, ', ' );
         if ( ! $string ) {
             return false;
@@ -78,6 +89,9 @@ class CRM_Utils_Geocode_RPC {
         }
 
         $data = XML_RPC_decode( $response->value( ) );
+        if ( ! CRM_Utils_Array::value( 0, $data ) ) {
+            return false;
+        }
         $data = $data[0];
         $values['geo_code_1'] = $data['lat' ];
         $values['geo_code_2'] = $data['long'];

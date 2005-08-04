@@ -50,7 +50,7 @@ class CRM_Core_BAO_Block {
      * @access public
      * @static
      */
-    static function getValues( $block, $blockName, &$params, &$values, &$ids, $blockCount = 0 )  {
+    static function &getValues( &$block, $blockName, &$params, &$values, &$ids, $blockCount = 0 )  {
         $block->copyValues( $params );
 
         $flatten = false;
@@ -77,7 +77,7 @@ class CRM_Core_BAO_Block {
                     CRM_Core_DAO::storeValues( $block, $values[$blockName][$i+1] );
                     $ids[$blockName][$i+1] = $block->id;
                 }
-                $blocks[$i + 1] = $block;
+                $blocks[$i + 1] = clone($block);
             }
         }
         return $blocks;

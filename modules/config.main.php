@@ -35,6 +35,10 @@ if ( ! defined( 'CIVICRM_MAINMENU' ) ) {
     define( 'CIVICRM_MAINMENU', CIVICRM_HTTPBASE . 'civicrm/' );
 }
 
+if ( ! defined( 'CIVICRM_DOMAIN_ID' ) ) {
+    define( 'CIVICRM_DOMAIN_ID', 1 );
+}
+
 if ( ! defined( 'JPSPAN' ) ) {
     define( 'JPSPAN', $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
@@ -44,7 +48,5 @@ if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' 
 } else {
     define( 'CIVICRM_CLEANURL', 0 );
 }
-
-define( 'CIVICRM_DOMAIN_ID', 1 );
 
 ?>
