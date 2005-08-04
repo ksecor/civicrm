@@ -14,10 +14,8 @@
    <img src="{$config->resourceBase}i/meeting.gif" alt="{ts}meeting{/ts}">&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=`$contactId`&log=1"}">{ts}Log a Meeting{/ts}</a>&nbsp;&nbsp;
    <img src="{$config->resourceBase}i/tel.gif" alt="{ts}call{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=`$contactId`&log=1"}">{ts}Log a Call{/ts}</a>
-</div>
-<div class= "data-group">
-<a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}">
-{ts}Other Activities{/ts}
+   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=`$contactId`&log=1"}">{ts}Log a Call{/ts}</a>&nbsp;&nbsp;
+   {*Need conditional here - only display next link if there are activity_type entries for this domain. *}
+   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}
 </a>
 </div>

@@ -1,12 +1,14 @@
-{* this template is used for adding/editing meeting  *}
+{* this template is used for adding/editing other (custom) activities. *}
 <div class="form-item">
 <fieldset>
    <legend>
     {if $action eq 1}
-    {ts}Schedule a Activities{/ts}
-    {elseif $action eq 2}{ts}Edit Scheduled Acticity{/ts}
+    {ts}Schedule an Activity{/ts}
+    {elseif $action eq 2}{ts}Edit Scheduled Activity{/ts}
     {elseif $action eq 8}{ts}Delete Activity{/ts}
-    {else}{ts}View Scheduled Activity{/ts}{/if}
+    {else}
+        {if $history eq 1}{ts}View Completed Activity{/ts}{else}{ts}View Scheduled Activity{/ts}{/if}
+    {/if}
   </legend>
   <dl>
      {if $action eq 1 or $action eq 2  or $action eq 4}

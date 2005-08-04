@@ -321,16 +321,16 @@ function on_load_init_check(form)
 {
     for( i=0; i < document.forms[form].elements.length; i++) {
 	
-	if (document.forms[form].elements[i].type == 'checkbox' ) {
-	    
-	    if (document.forms[form].elements[i].checked == true ) {
-		var ss = document.forms[form].elements[i].id;
-		var row = 'rowid' + ss;
-		changeRowColor(row, form);
-	    }
-	}
+      if (
+          ( document.forms[form].elements[i].type == 'checkbox' && document.forms[form].elements[i].checked == true )
+           ||
+          ( document.forms[form].elements[i].type == 'hidden' && document.forms[form].elements[i].value == 1 )
+         ) {
+              var ss = document.forms[form].elements[i].id;
+		      var row = 'rowid' + ss;
+		      changeRowColor(row, form);
+           }
     }
-    
 }
 
 /**
