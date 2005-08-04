@@ -223,42 +223,42 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         continue;
                 } 
                 $groupTree[$groupId]['fields'][$fieldId][$fieldName] = $crmDAO->$fullFieldName;                    
+            }
 
-                // check for custom values please
-                if ($crmDAO->civicrm_custom_value_id) {
-                    $valueId = $crmDAO->civicrm_custom_value_id;
+            // check for custom values please
+            if ($crmDAO->civicrm_custom_value_id) {
+                $valueId = $crmDAO->civicrm_custom_value_id;
 
-                    // create an array for storing custom values for that field
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['id'] = $valueId;
-
-                    $dataType = $groupTree[$groupId]['fields'][$fieldId]['data_type'];
-                    
-                    switch ($dataType) {
-                    case 'String':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_char_data;
-                        break;
-                    case 'Int':
-                    case 'Boolean':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
-                        break;
-                    case 'Float':
-                    case 'Money':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_float_data;
-                        break;
-                    case 'Memo':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_memo_data;
-                        break;
-                    case 'Date':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
-                        break;
-                    case 'StateProvince':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
-                        break;
-                    case 'Country':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
-                        break;
-                    }
+                // create an array for storing custom values for that field
+                $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['id'] = $valueId;
+                
+                $dataType = $groupTree[$groupId]['fields'][$fieldId]['data_type'];
+                
+                switch ($dataType) {
+                case 'String':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_char_data;
+                    break;
+                case 'Int':
+                case 'Boolean':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
+                    break;
+                case 'Float':
+                case 'Money':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_float_data;
+                    break;
+                case 'Memo':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_memo_data;
+                    break;
+                case 'Date':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
+                    break;
+                case 'StateProvince':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
+                    break;
+                case 'Country':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
+                    break;
                 }
             }
         }
