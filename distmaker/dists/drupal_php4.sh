@@ -46,6 +46,9 @@ fi
 # delete current config.inc.php
 rm -f $TRG/modules/config.inc.php $TRG/mambo/config.inc.php
 
+# copy sample config file
+cp $SRC/modules/config.inc.php.sample $TRG/modules/
+
 # copy selected sqls
 if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
