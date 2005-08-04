@@ -53,7 +53,13 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
      * @static
      */
     public static function getTrackerURL($url, $mailing_id, $queue_id) {
-        $redirect = "http://FIXME.COM/";
+
+        static $base = null;
+        
+        if ($base == null) {
+            $base = CRM_Utils_System::baseURL() . '/';
+        }
+        
         $tracker =& new CRM_Mailing_BAO_TrackableURL();
         $tracker->url = $url;
         $tracker->mailing_id = $mailing_id;
@@ -63,14 +69,30 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
         }
         $id = $tracker->id;
         
-        return $redirect . "?q=$queue_id&u=$id";
+        $redirect = $base . CRM_Utils_System::url('civicrm/redirect', 
+                                            "q=$queue_id&u=$id", false);
+
+        return $redirect;
     }
 
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {
-        preg_replace(
-//     '|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*))|e', 
-    '|(https?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?: +#(.*)))|eim', 
-    "CRM_Mailing_BAO_TrackableURL::getTrackerURL('\\1', $mailing_id, $queue_id)", 
+        static $pattern = null;
+    
+        if (! $mailing_id) {
+            return;
+        }
+
+        if ($pattern == null) {
+            $protos = '(https?|ftp)';
+            $letters = '\w';
+            $gunk = '/#~:.?+=&%@!\-';
+            $punc = '.:?\-';
+            $any = "{$letters}{$gunk}{$punc}";
+            $pattern = "{\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))}eim";
+        }
+        
+        $msg = preg_replace($pattern,
+            "CRM_Mailing_BAO_TrackableURL::getTrackerURL('\\1', $mailing_id, $queue_id)", 
     $msg);
     }
 }

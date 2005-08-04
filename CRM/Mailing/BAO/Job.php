@@ -54,6 +54,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
+        $config =& CRM_Core_Config::singleton();
+        $mailer =& $config->getMailer();
+
         /* FIXME: we might want to go to a progress table.. */
         $query = "  SELECT      *
                     FROM        $jobTable
@@ -62,13 +65,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                         AND         status = 'Scheduled')
                     OR          (status = 'Running'
                         AND         end_date IS null)
-                    ORDER BY    scheduled_date";
+                    ORDER BY    scheduled_date, start_date";
 
         $job->query($query);
-
-        $config =& CRM_Core_Config::singleton();
-        $mailer =& $config->getMailer();
-
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
@@ -89,7 +88,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $job->deliver($mailer);
 
             /* Finish the job */
-//             $job->end_date = '"' . date("Y-m-d H:i:s") . '"';
             $job->end_date = date('YmdHis');
             $job->status = 'Complete';
             $job->save();
