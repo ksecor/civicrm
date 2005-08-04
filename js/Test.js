@@ -92,7 +92,6 @@ function getState(input, evt, status)
 	var input2 = document.getElementById('state');
 
 	var c = new crm_contact_server_statecountryserver (CompletionHandler);
-	
 	c.getstate(input2.value, countryId );
     }
     
@@ -113,7 +112,6 @@ var CompletionHandler = {
 	if (isNaN(result)) { 
 	    var input = document.getElementById('state');
 	    input.value = result.pop();
-
 	    var b = new crm_contact_server_statecountryserver (CompletionHandlerCountry);
 	    b.getcountry( input.value);
 	} else {
@@ -141,6 +139,27 @@ var CompletionHandlerCountry = {
             return;
         }
 
+	var strCountry = result.toString();
+
+        strCountry = strCountry.replace("[","");
+        strCountry = strCountry.replace("]","");
+        strCountryArray = strCountry.split(",");
+
+        var input = document.getElementById('country');
+
+	var optLen = input.options.length;
+	
+	for (i = optLen ; i > 0 ; i-- ) {
+	    input.remove(i);
+	}
+
+	for(var i=0; i<strCountryArray.length; i++)
+	{
+	    val = strCountryArray[i].split(":");
+     	    input.options[i] = new Option(val[1], val[0], true);
+	}
+	
+	/*
 	var s = result.pop();
 	
         var input = document.getElementById('country');
@@ -152,7 +171,7 @@ var CompletionHandlerCountry = {
 	}
 
 	input.options[0] = new Option(s, result.length, true);
-	
+	*/
 	input.focus();
 
         try {
