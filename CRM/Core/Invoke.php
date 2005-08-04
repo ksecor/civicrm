@@ -77,7 +77,7 @@ class CRM_Core_Invoke {
 
         case 'mailing' : return self::mailing ( $args );
 
-        default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
+        default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
         }
     }
@@ -182,7 +182,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
         }
 
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
     }
 
 
@@ -211,7 +211,7 @@ class CRM_Core_Invoke {
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
-            $url   = 'civicrm/contact/search';
+            $url   = 'civicrm/contact/search/basic';
         }
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session =& CRM_Core_Session::singleton( );
@@ -228,7 +228,7 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function form( $action ) {
-        CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ) );
+        CRM_Utils_System::setUserContext( array( 'civicrm/contact/search/basic', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
         $wrapper->run( 'CRM_Contact_Form_Edit', ts('Contact Page'), $action );
     }
@@ -321,7 +321,7 @@ class CRM_Core_Invoke {
             return $view->run( );
         }
 
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
     }
 
     /**
