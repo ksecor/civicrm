@@ -78,7 +78,7 @@ class test_RSTest_AddContactToGroup
      * @return  none
      *
      * @access  private
-     */
+     *//*
     private function _setGroupContactStatus($groupContactDAO)
     {
         switch ($groupContactDAO->status) {
@@ -97,7 +97,7 @@ class test_RSTest_AddContactToGroup
             break;
         } 
     }
-    
+       */
     /** 
      * Add contact to Group.
      *
@@ -118,8 +118,10 @@ class test_RSTest_AddContactToGroup
             $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
             $groupContactDAO->contact_id = $id;
             $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
-            $this->_setGroupContactStatus($groupContactDAO);
-            test_RSTest_Common::_insert($groupContactDAO);
+            
+            if ($groupContactDAO->status != 'Pending') {
+                test_RSTest_Common::_insert($groupContactDAO);
+            }
         }
     }
     

@@ -61,34 +61,36 @@ class test_RSTest_Common
     const ARRAY_SHIFT_USE              =    2;
     
     // gender types
-    public static $genderType   = array('Male','Female','Transgender');
+    public static $genderType                = array('Male','Female','Transgender');
     
     //group contact enums
-    public static $groupStatus  = array('1' => 'Pending',
-                                        '2' => 'In',
-                                        '3' => 'Out'
-                                        );
-    public static $groupMethod  = array('1' => 'Admin',
-                                        '2' => 'Email',
-                                        '3' => 'Web',
-                                        '4' => 'API'
-                                        );
+    public static $groupStatus               = array('1' => 'Pending',
+                                                     '2' => 'In',
+                                                     '3' => 'Out'
+                                                     );
+    public static $groupMethod               = array('1' => 'Admin',
+                                                     '2' => 'Email',
+                                                     '3' => 'Web',
+                                                     '4' => 'API'
+                                                     );
+    public static $subscriptionHistoryMethod = array('Admin', 
+                                                     'Email');
 
         // country and state province combo
-    public static $CSC                 = array(
-                                        1228 => array( // united states
-                                                      1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
-                                                      1031 => array ('New York', 'Albany'), // new york
-                                                      ),
-                                        1101 => array( // india
-                                                      1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
-                                                      1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
-                                                      ),
-                                        1172 => array( // poland
-                                                      1115 => array ('Warszawa', 'Plock'), // Mazowieckie
-                                                      1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
-                                                      ),
-                                        );
+    public static $CSC                       = array(
+                                                     1228 => array( // united states
+                                                                   1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
+                                                                   1031 => array ('New York', 'Albany'), // new york
+                                                                   ),
+                                                     1101 => array( // india
+                                                                   1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
+                                                                   1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
+                                                                   ),
+                                                     1172 => array( // poland
+                                                                   1115 => array ('Warszawa', 'Plock'), // Mazowieckie
+                                                                   1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
+                                                                   ),
+                                                     );
     
     
     // constructor
@@ -310,6 +312,17 @@ class test_RSTest_Common
         return date($dateFormat, mt_rand($today-$numSecond, $today));
     }
 
+    public static function getRandomName($firstName, $lastName)
+    {
+        $first_name    = ucfirst(self::getRandomElement($firstName, self::ARRAY_DIRECT_USE));
+        $middle_name   = ucfirst(self::getRandomChar());
+        $last_name     = ucfirst(self::getRandomElement($lastName, self::ARRAY_DIRECT_USE));
+        $prefix        = ucfirst(self::getRandomElement(self::getValue('prefixType'), self::ARRAY_SHIFT_USE));
+        $suffix        = ucfirst(self::getRandomElement(self::getValue('suffixType'), self::ARRAY_SHIFT_USE));
+        return "$prefix $first_name $middle_name $last_name $suffix"; 
+    }
+    
+    
     /**
      *  Insert data into the database
      *  

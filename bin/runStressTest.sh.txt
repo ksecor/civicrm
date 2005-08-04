@@ -68,7 +68,19 @@ echo; echo Creating database structure
 mysql -u $DBUSER $PASSWDSECTION $DBNAME < Contacts.sql
 
 mysql -u $DBUSER $PASSWDSECTION $DBNAME < FixedData.sql
+
+mysql -u $DBUSER $PASSWDSECTION $DBNAME < zipcodes.mysql
 cd ../test/RSTest/
 php Run.php
 
 echo; echo "DONE!"
+
+# to generate a new data file do the foll:
+# mysqladmin -f -uYourDBUser -pYourDBPassword drop YourDBName
+# mysqladmin -f -uYourDBUser -pYourDBPassword create YourDBName
+# mysql -uYourDBUser -pYourDBPassword YourDBName < Contacts.sql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < FixedData.sql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
+# php GenerateContactData.php
+# echo "drop table zipcodes" | mysql -uYourDBUser -pYourDBPassword YourDBName
+# mysqldump -t -n -uYourDBUser -pYourDBPassword YourDBName  > GeneratedData.sql

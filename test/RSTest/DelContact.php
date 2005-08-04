@@ -90,6 +90,12 @@ class test_RSTest_DelContact
         $groupContactDAO->delete();
     }
     
+    public function _deleteSubscriptionHistory($contactId) {
+        $historyDAO =& new CRM_Contact_BAO_SubscriptionHistory();
+        $historyDAO->contact_id = $contactId;
+        $historyDAO->delete();
+    }
+    
     /**
      * Delete the Relationship of the Contact. 
      * 
@@ -158,7 +164,8 @@ class test_RSTest_DelContact
     private function _deleteLocation($contactId)
     {
         $locationDAO =& new CRM_Core_DAO_Location();
-        $locationDAO->contact_id = $contactId;
+        $locationDAO->entity_id = $contactId;
+        $locationDAO->entity_table = CRM_Contact_DAO_Contact::getTableName();
         $locationDAO->find();
         while ($locationDAO->fetch()) {
             $this->_deleteLocationBlocks($locationDAO->id);
@@ -203,6 +210,7 @@ class test_RSTest_DelContact
             
             CRM_Core_DAO::transaction('BEGIN');
             $this->_deleteContactFromGroup($id);
+            $this->_deleteSubscriptionHistory($id);
             $this->_deleteRelOfContact($id);
             $this->_deleteNote($id);
             $this->_deleteActivityHistory($id);
@@ -222,15 +230,15 @@ class test_RSTest_DelContact
             }
 
             // get the contact type
-            $contact =& new CRM_Contact_DAO_Contact();
-            $contact->id = $id;
-            if ($contact->find(true)) {
-                eval( '$object =& new CRM_Contact_DAO_' . $contact->contact_type . '();' );
-                $object->contact_id = $contact->id;
+            $contactDAO =& new CRM_Contact_DAO_Contact();
+            $contactDAO->id = $id;
+            if ($contactDAO->find(true)) {
+                eval( '$object =& new CRM_Contact_BAO_' . $contactDAO->contact_type . '();' );
+                $object->contact_id = $contactDAO->id;
                 $object->delete();
-                $contact->delete();
+                $contactDAO->delete();
             }
-                  
+            
             CRM_Core_DAO::transaction('COMMIT');
         }
     }

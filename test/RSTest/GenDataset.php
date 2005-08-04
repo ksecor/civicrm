@@ -137,15 +137,20 @@ class test_RSTest_GenDataset
      *
      * @access  private
      */
-    private function _addLocation($locationType, $contactId, $setPrimary)
+    private function _addLocation($locationType, $contactId, $setPrimary, $domain=false)
     {
         //print_r($locationType);
         //print_r($contactId);
         $locationDAO                   =& new CRM_Core_DAO_Location();
         $locationDAO->is_primary       = $setPrimary; // primary location for now
         $locationDAO->location_type_id = $locationType;
-        $locationDAO->entity_id        = $contactId;
-        $locationDAO->entity_table     = 'civicrm_contact';
+        if ($domain) {
+            $locationDAO->entity_id        = $contactId;
+            $locationDAO->entity_table     = 'civicrm_domain';
+        } else {
+            $locationDAO->entity_id        = $contactId;
+            $locationDAO->entity_table     = 'civicrm_contact';
+        }
         test_RSTest_Common::_insert($locationDAO);
         $this->_addAddress($locationDAO->id);        
 
@@ -155,14 +160,17 @@ class test_RSTest_GenDataset
 
         // need to get sort name to generate email id
         $contactDAO     =& new CRM_Contact_DAO_Contact();
-        $contactDAO->id = $locationDAO->contact_id;
+        //$contactDAO->id = $locationDAO->contact_id;
+        $contactDAO->id = $contact_id;
         $contactDAO->find(true);
         // get the sort name of the contact
         $sortName       = $contactDAO->sort_name;
 
-        // add 2 email for each location
-        for ($emailId=1; $emailId<=2; $emailId++) {
-            $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
+        if (! empty ($sortName)) {
+            // add 2 email for each location
+            for ($emailId=1; $emailId<=2; $emailId++) {
+                $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
+            }
         }
     }
 
@@ -230,10 +238,11 @@ class test_RSTest_GenDataset
      */
     private function _sortNameToEmail($sortName)
     {
-        $sortName = strtolower(str_replace(" ", "", $sortName));
-        $sortName = strtolower(str_replace(",", "_", $sortName));
-        $sortName = strtolower(str_replace("'s", "_", $sortName));
-        return $sortName;
+//         $sortName = strtolower(str_replace(" ", "", $sortName));
+//         $sortName = strtolower(str_replace(",", "_", $sortName));
+//         $sortName = strtolower(str_replace("'s", "_", $sortName));
+        $email = preg_replace("([^a-zA-Z0-9_-]*)", "", $sortName);
+        return $email;
     }
 
     /**
@@ -302,7 +311,7 @@ class test_RSTest_GenDataset
      *
      * @access  private
      */
-    private function _setGroupContactStatus($groupContactDAO)
+    /*private function _setGroupContactStatus($groupContactDAO)
     {
         switch ($groupContactDAO->status) {
         case 'Pending':
@@ -320,7 +329,7 @@ class test_RSTest_GenDataset
             break;
         } 
         //return;
-    }
+    }*/
 
     /**
      * Setter method to add Relationship
@@ -675,13 +684,16 @@ class test_RSTest_GenDataset
      */
     public function addDomain()
     {
+        $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), 1, true);
         $domainDAO =& new CRM_Core_DAO_Domain();
         for ($id=2; $id<=test_RSTest_Common::NUM_DOMAIN; $id++) {
-            $domainDAO->name        = "Domain $id";
-            $domainDAO->description = "Description $id";
-            
+            $domainDAO->name         = "Domain $id";
+            $domainDAO->description  = "Description $id";
+            $domainDAO->contact_name = test_RSTest_Common::getRandomName($this->firstName, $this->lastName);
+            $domainDAO->email_domain = test_RSTest_Common::getRandomElement($this->emailDomain, test_RSTest_Common::ARRAY_DIRECT_USE) . ".fixme";
             // insert domain
             test_RSTest_Common::_insert($domainDAO);
+            $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), $id, true);
         }
     }
 
@@ -1067,25 +1079,81 @@ class test_RSTest_GenDataset
                 $groupDAO->domain_id = 1;
                 $groupDAO->name      = $this->group[$i];
                 $groupDAO->title     = $this->group[$i];
-                $groupDAO->type      = 'static';
                 $groupDAO->is_active = 1;
                 test_RSTest_Common::_insert($groupDAO);
             }
         }
-        
-        for ($i=0; $i<$this->numContact; $i++) {
+
+        $newsLetter    = $this->numContact * 70 / 100;
+        $volunteers    = $this->numContact * 15 / 100;
+        $advisoryBoard = $this->numContact * 10 / 100;
+
+        for ($i=0; $i<$newsLetter; $i++) {
             echo ".";
             ob_flush();
             flush();
-            if (!($i % 3)) {
-                $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
-                $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
-                $groupContactDAO->contact_id = $this->contact[$i];
-                $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
-                $this->_setGroupContactStatus($groupContactDAO);
+            
+            $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
+            $groupContactDAO->group_id   = 1;
+            $groupContactDAO->contact_id = test_RSTest_Common::getRandomElement($this->contact, test_RSTest_Common::ARRAY_DIRECT_USE);;
+            $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
+            
+            $subscriptionHistoryDAO             = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistoryDAO->contact_id = $groupContactDAO->contact_id;
+            $subscriptionHistoryDAO->group_id   = $groupContactDAO->group_id;
+            $subscriptionHistoryDAO->status     = $groupContactDAO->status;
+            $subscriptionHistoryDAO->method     = test_RSTest_Common::getRandomElement((test_RSTest_Common::$subscriptionHistoryMethod), test_RSTest_Common::ARRAY_DIRECT_USE); // method
+            $subscriptionHistoryDAO->date       = test_RSTest_Common::getRandomDate();
+            if ($groupContactDAO->status != 'Pending') {
                 test_RSTest_Common::_insert($groupContactDAO);
             }
+            test_RSTest_Common::_insert($subscriptionHistoryDAO);
         }
+        
+        for ($i=0; $i<$volunteers; $i++) {
+            echo ".";
+            ob_flush();
+            flush();
+            
+            $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
+            $groupContactDAO->group_id   = 2;
+            $groupContactDAO->contact_id = test_RSTest_Common::getRandomElement($this->contact, test_RSTest_Common::ARRAY_DIRECT_USE);
+            $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
+            
+            $subscriptionHistoryDAO             = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistoryDAO->contact_id = $groupContactDAO->contact_id;
+            $subscriptionHistoryDAO->group_id   = $groupContactDAO->group_id;
+            $subscriptionHistoryDAO->status     = $groupContactDAO->status;
+            $subscriptionHistoryDAO->method     = test_RSTest_Common::getRandomElement((test_RSTest_Common::$subscriptionHistoryMethod), test_RSTest_Common::ARRAY_DIRECT_USE); // method
+            $subscriptionHistoryDAO->date       = test_RSTest_Common::getRandomDate();
+            if ($groupContactDAO->status != 'Pending') {
+                test_RSTest_Common::_insert($groupContactDAO);
+            }
+            test_RSTest_Common::_insert($subscriptionHistoryDAO);
+        }
+        
+        for ($i=0; $i<$advisoryBoard; $i++) {
+            echo ".";
+            ob_flush();
+            flush();
+            
+            $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
+            $groupContactDAO->group_id   = 3;
+            $groupContactDAO->contact_id = test_RSTest_Common::getRandomElement($this->contact, test_RSTest_Common::ARRAY_DIRECT_USE);;
+            $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
+            
+            $subscriptionHistoryDAO             = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistoryDAO->contact_id = $groupContactDAO->contact_id;
+            $subscriptionHistoryDAO->group_id   = $groupContactDAO->group_id;
+            $subscriptionHistoryDAO->status     = $groupContactDAO->status;
+            $subscriptionHistoryDAO->method     = test_RSTest_Common::getRandomElement((test_RSTest_Common::$subscriptionHistoryMethod), test_RSTest_Common::ARRAY_DIRECT_USE); // method
+            $subscriptionHistoryDAO->date       = test_RSTest_Common::getRandomDate();
+            if ($groupContactDAO->status != 'Pending') {
+                test_RSTest_Common::_insert($groupContactDAO);
+            }
+            test_RSTest_Common::_insert($subscriptionHistoryDAO);
+        }
+        
     }
     
     

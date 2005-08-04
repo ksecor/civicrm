@@ -32,8 +32,41 @@
  *
  */
 
+require_once '../../modules/config.inc.php';
+require_once '../../CRM/Core/Config.php';
+require_once 'CRM/Core/Error.php';
+require_once 'CRM/Core/I18n.php';
+require_once 'CRM/Contact/BAO/Contact.php';
+
 class test_RSTest_PartialNameSearch
 {
+    private $_partialName;
+    
+    function __construct()
+    {
+    }
 
+    function search()
+    {
+        $arrayForSearch = array ('sort_name' => $this->_partialName);
+        $contactBAO = new CRM_Contact_BAO_Contact();
+        $result = $contactBAO->searchQuery($arrayForSearch, 0, 0, null, true);
+        print_r($result);
+    }
+    
+    function run()
+    {
+        $name='Zop';
+//         echo "\n**********************************************************************************\n";
+        // do {
+//             fwrite(STDOUT, "Enter Partial Name For Search: \t");
+//             $name = fgets(STDIN);
+//         } while (trim($name) == '');
+
+//        echo "\n**********************************************************************************\n";
+        $this->_partialName = $name;
+        
+        $this->search();
+    }
 }
 ?>

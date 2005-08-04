@@ -6,16 +6,18 @@ require_once 'InsertRel.php';
 require_once 'UpdateContact.php';
 require_once 'AddContactToGroup.php';
 require_once 'DelContact.php';
+require_once 'PartialNameSearch.php';
+require_once 'Result.php';
 
 class test_RSTest_Run
 {
     private $_recordSetSize;
-    private $_flag;
+    private $_doIt;
 
     // This constant is used to set size fo dataset. 
     // The value entered is multiple of 1000 or 1k
     // Ex. if the constant value is 10 then dataset size will be (1000 * 10)
-    private $_sizeOfDS      = 2;
+    private $_sizeOfDS      = 1;
     // Following constant is used for setting the step for generating the dataset.
     private $_stepOfDS      = 500;
     // Following array is used to store the timings for all the steps of generating the dataset.
@@ -30,7 +32,7 @@ class test_RSTest_Run
     private $_insertContact = array();
     
     // Following constant is used for setting the no of records to be updated from the database. 
-    private $_updateRecord  = 1000;
+    private $_updateRecord  = 500;
     // Following constant is used for setting the starting record from which update should start. 
     private $_startRecord   = 500;
     // Following constant is used for setting the step for updaing the contacts.
@@ -39,16 +41,16 @@ class test_RSTest_Run
     private $_updateContact = array();
     
     // Following constant is used for setting the no of contact for which relationships needs to be entered
-    private $_insertRel        = 1000;
+    private $_insertRel        = 500;
     // Following constant is used for setting the starting contact from which the relationships needs to be entered.
-    private $_startRel         = 1000;
+    private $_startRel         = 0;
     // Following constant is used for setting the step for inserting relationships.
     private $_stepOfInsertRel  = 500;
     // Following array is used to store the timings for all the steps of updations. 
     private $_insertRelTime    = array();
     
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_addToGroup       = 1500;
+    private $_addToGroup       = 1000;
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
     private $_startOfAdd       = 0;
     // Following constant is used for setting the step for adding Contact to a Group.
@@ -57,7 +59,7 @@ class test_RSTest_Run
     private $_addToGroupTime   = array();
 
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_deleteContact       = 1000;
+    private $_deleteContact       = 500;
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
     private $_startOfDelete       = 500;
     // Following constant is used for setting the step for adding Contact to a Group.
@@ -286,6 +288,60 @@ class test_RSTest_Run
             echo "**********************************************************************************\n";
         }
     }
+
+    function _callPartialNameSearch()
+    {
+        $objNameSearch = new test_RSTest_PartialNameSearch();
+        $objNameSearch->run();
+    }
+    
+    /**
+     * Call to the Result.php
+     *
+     * This function is used for handling Results from the Stress Test.
+     *
+     * @return   void
+     * @access   private
+     */
+    function _callResult()
+    {
+        $genDataset = array('size'  => $this->_recordSetSize,
+                            'step'  => $this->_stepOfDS,
+                            'time'  => $this->_genDataset,
+                            );
+        
+        $insertContact = array('size'  => $this->_insertRecord,
+                               'step'  => $this->_stepOfInsert,
+                               'time'  => $this->_insertContact,
+                               );
+        
+        $updateContact = array('size'  => $this->_updateRecord,
+                               'step'  => $this->_stepOfUpdate,
+                               'start' => $this->_startRecord,
+                               'time'  => $this->_updateContact,
+                               );
+        
+        $insertRel = array('size'  => $this->_insertRel,
+                           'step'  => $this->_stepOfInsertRel,
+                           'start' => $this->_startRel,
+                           'time'  => $this->_insertRelTime,
+                           );
+        
+        $addToGroup = array('size'  => $this->_addToGroup,
+                            'step'  => $this->_stepOfAddToGroup,
+                            'start' => $this->_startOfAdd,
+                            'time'  => $this->_addToGroupTime,
+                            );
+
+        $deleteContact = array('size'  => $this->_deleteContact,
+                               'step'  => $this->_stepOfDeleteContact,
+                               'start' => $this->_startOfDelete,
+                               'time'  => $this->_deleteContactTime,
+                               );
+                
+        $objResult = new test_RSTest_Result();
+        $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact);
+    }
     
     /**
      * Running the Stress Test.
@@ -298,7 +354,7 @@ class test_RSTest_Run
      */
     function run()
     {
-        $this->_flag = 0;
+        $this->_doIt = 0;
         echo "\n**********************************************************************************\n";
         fwrite(STDOUT, "Options for Stress Testing \n");
         $options = array ('A' => 'All Operations will be done for Stress Test i.e. Inserting Contact, Updating Contact, Insert Relationship, Adding Contact to Group and Deleting Contacts',
@@ -306,7 +362,8 @@ class test_RSTest_Run
                           'U' => 'Updating Contacts',
                           'R' => 'Inserting Relationship',
                           'G' => 'Adding Contacts to Group',
-                          'D' => 'Delete Contacts'
+                          'D' => 'Delete Contacts',
+                          'P' => 'Partial Name Search'
                           );
         foreach ($options as $val => $desc) {
             fwrite(STDOUT, "\n" . $val . " : " . $desc . "\n");
@@ -320,7 +377,7 @@ class test_RSTest_Run
 
         //if ((array_key_exists($selection, $options)) || (array_key_exists(strtolower($selection), array_change_key_case($options, CASE_LOWER))) ) {
         if (array_key_exists($selection, $options)) {
-            $this->_flag = 1;
+            $this->_doIt = 1;
             echo "\nStress Test Started \n";
             $this->_callCommon();
             $this->_callGenDataset();
@@ -347,221 +404,21 @@ class test_RSTest_Run
             case 'd':
                 $this->_callDeleteContact();
                 break;
+            case 'p':
+                $this->_callPartialNameSearch();
+                break;
             }
+            //$this->_callResult();
         } else {
             echo "\n**********************************************************************************\n";
             echo "Not a Valid Choice \n";
             echo "**********************************************************************************\n";
         }
     }
-    
-    /**
-     * Results for the Stress Test.
-     *
-     * This function is used for hadling Results from the Stress Test.
-     * User will be having choice to decide how they want to see Results from the Stress Test.
-     * 
-     * @return   void
-     * @access   public
-     */
-    function result()
-    {
-        if ($this->_flag) {
-            echo "\n**********************************************************************************\n";
-            fwrite(STDOUT, "Options for Stress Testing Results\n");
-            $results = array ('C' => 'Create Log File of the Results from the Stress Test',
-                              'D' => 'Display the Results from the Stress Test on the Terminal'
-                              );
-            foreach ($results as $val => $desc) {
-                fwrite(STDOUT, "\n" . $val . " : " . $desc . "\n");
-            }
-            echo "\n**********************************************************************************\n";
-            
-            fwrite(STDOUT, "Enter Your Option : \t");
-            do {
-                $select = strtoupper(fgetc(STDIN));
-            } while (trim($select) == '');
-            
-            //if ((array_key_exists($select, $results)) || (array_key_exists(strtolower($select), array_change_key_case($results, CASE_LOWER))) ) {
-            if (array_key_exists($select, $results)) {
-                switch (strtolower($select)) {
-                case 'c':
-                    $this->_createLog();
-                    break;
-                case 'd':
-                    $this->_printResult();
-                    break;
-                }
-            }
-        } else {
-            echo "flag not set";
-        }
-        
-        
-    }
-
-    /**
-     * Creating Log.
-     *
-     * This function is used for Creating Log of the Stress Test.
-     * 
-     * @return   void
-     * @access   private
-     */    
-    function _createLog()
-    {
-        if (!(is_dir('./LOG'))) {
-            mkdir('LOG');
-        }
-        $file_name = "LOG/stressTest.LOG." . date("YmdHis");
-        
-        $file_pointer = fopen($file_name, "w");
-        
-        $string = "\n Stress Test Started \n";
-        
-        if (!(empty($this->_genDataset))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= "Recordset of Size " . ($this->_recordSetSize / 1000) . " K is Generated. Records were generated through the step of " . $this->_stepOfDS . " Contacts \n";
-            for ($ig=0; $ig<count($this->_genDataset); $ig++) {
-                $string .= "Time taken for step " . ($kg = $ig + 1) . " : " . $this->_genDataset[$ig] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-        
-        if (!(empty($this->_insertContact))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= $this->_insertRecord . " Contact(s) Inserted into the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfInsert . " Contacts \n";
-            
-            for ($ii=0; $ii<count($this->_insertContact); $ii++) {
-                $string .= "Time taken for step " . ($ki = $ii + 1) . " : " . $this->_insertContact[$ii] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-
-        if (!(empty($this->_insertRelTime))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= "Relationships entered for Contact No. " . $this->_startRel . " To Contact No. " . ($this->_startRel + $this->_insertRel) . " From the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfInsertRel . " Contacts \n";
-            
-            for ($ir=0; $ir<count($this->_insertRelTime); $ir++) {
-                $string .= "Time taken for step " . ($kr = $ir + 1) . " : " . $this->_insertRelTime[$ir] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-        
-        if (!(empty($this->_updateContact))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= "Contact No. " . $this->_startRecord . " To Contact No. " . ($this->_startRecord + $this->_updateRecord) . " Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " Contacts \n";
-            
-            for ($iu=0; $iu<count($this->_updateContact); $iu++) {
-                $string .= "Time taken for step " . ($ku = $iu + 1) . " : " . $this->_updateContact[$iu] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-        
-        if (!(empty($this->_addToGroupTime))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= "Contact No. " . $this->_startOfAdd . " To Contact No. " . ($this->_startOfAdd + $this->_addToGroup) . " Added to Groups from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfAddToGroup . " Contacts \n";
-            
-            for ($iag=0; $iag<count($this->_addToGroupTime); $iag++) {
-                $string .= "Time taken for step " . ($kag = $iag + 1) . " : " . $this->_addToGroupTime[$iag] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-
-        if (!(empty($this->_deleteContactTime))) {
-            $string .= "\n**********************************************************************************\n";
-            $string .= "Contact No. " . $this->_startOfDelete . " To Contact No. " . ($this->_startOfDelete + $this->_deleteContact) . " Deleted from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfDeleteContact . " Contacts \n";
-            
-            for ($id=0; $id<count($this->_deleteContactTime); $id++) {
-                $string .= "Time taken for step " . ($kd = $id + 1) . " : " . $this->_deleteContactTime[$id] . " seconds\n";
-            }
-            $string .= "**********************************************************************************\n";
-        }
-        
-        fwrite($file_pointer, $string);
-                
-        fclose($file_pointer);
-        echo "\n**********************************************************************************\n";
-        echo " Results Successfully written to the file : " . getcwd() . "/" .$file_name. "\n";
-        echo "**********************************************************************************\n";
-    }
-
-    /**
-     * Printing Results.
-     *
-     * This function is used for Printing the Results from the Stress Test.
-     * 
-     * @return   void
-     * @access   private
-     */
-    function _printResult()
-    {
-        if (!(empty($this->_genDataset))) {
-            echo "\n**********************************************************************************\n";
-            echo "Recordset of Size " . ($this->_recordSetSize / 1000) . " K is Generated. Records were generated through the step of " . $this->_stepOfDS . " Contacts \n";
-            for ($ig=0; $ig<count($this->_genDataset); $ig++) {
-                echo "Time taken for step " . ($kg = $ig + 1) . " : " . $this->_genDataset[$ig] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-
-        if (!(empty($this->_insertContact))) {
-            echo "\n**********************************************************************************\n";
-            echo $this->_insertRecord . " Contact(s) Inserted into the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfInsert . " Contacts \n";
-            
-            for ($ii=0; $ii<count($this->_insertContact); $ii++) {
-                echo "Time taken for step " . ($ki = $ii + 1) . " : " . $this->_insertContact[$ii] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-
-        if (!(empty($this->_insertRelTime))) {
-            echo "\n**********************************************************************************\n";
-            echo "Relationships entered for Contact No. " . $this->_startRel . " To Contact No. " . ($this->_startRel + $this->_insertRel) . " From the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfInsertRel . " Contacts \n";
-            
-            for ($ir=0; $ir<count($this->_insertRelTime); $ir++) {
-                echo "Time taken for step " . ($kr = $ir + 1) . " : " . $this->_insertRelTime[$ir] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-        
-        if (!(empty($this->_updateContact))) {
-            echo "\n**********************************************************************************\n";
-            echo "Contact No. " . $this->_startRecord . " To Contact No. " . ($this->_startRecord + $this->_updateRecord) . " Updated from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfUpdate . " Contacts \n";
-            
-            for ($iu=0; $iu<count($this->_updateContact); $iu++) {
-                echo "Time taken for step " . ($ku = $iu + 1) . " : " . $this->_updateContact[$iu] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-        
-        if (!(empty($this->_addToGroupTime))) {
-            echo "\n**********************************************************************************\n";
-            echo "Contact No. " . $this->_startOfAdd . " To Contact No. " . ($this->_startOfAdd + $this->_addToGroup) . " Added to Groups from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfAddToGroup . " Contacts \n";
-            
-            for ($iag=0; $iag<count($this->_addToGroupTime); $iag++) {
-                echo "Time taken for step " . ($kag = $iag + 1) . " : " . $this->_addToGroupTime[$iag] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-
-        if (!(empty($this->_deleteContactTime))) {
-            echo "\n**********************************************************************************\n";
-            echo "Contact No. " . $this->_startOfDelete . " To Contact No. " . ($this->_startOfDelete + $this->_deleteContact) . " Deleted from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfDeleteContact . " Contacts \n";
-            
-            for ($id=0; $id<count($this->_deleteContactTime); $id++) {
-                echo "Time taken for step " . ($kd = $id + 1) . " : " . $this->_deleteContactTime[$id] . " seconds\n";
-            }
-            echo "**********************************************************************************\n";
-        }
-        
-        echo "\n";
-    }
 }
 
 $objRun =& new test_RSTest_Run();
 
 $objRun->run();
-$objRun->result();
 
 ?>
