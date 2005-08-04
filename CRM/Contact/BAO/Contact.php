@@ -259,8 +259,11 @@ ORDER BY
             $select  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
         } else {
             $select = self::selectClause( $tables );
-        }
 
+            if (is_array($fv['cb_group_contact_status'])) {
+                $select .= ', civicrm_group_contact.status as status';
+            }
+        }
         $where      = self::whereClause( $fv, $includeContactIds, $tables );
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
         if ( empty( $where ) ) {
