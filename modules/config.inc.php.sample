@@ -140,10 +140,16 @@ define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
 /**
  * Map Contacts with Google Maps API:
  * 
- * If you want to utilize the Google mapping feature, you must apply for an API key for your site
+ * If you want to utilize the Google mapping feature, you must request an API key for your site
  * here: http://www.google.com/apis/maps/signup.html
  *
- * Entering your API key below will enable the mapping feature for your CiviCRM installation.
+ * When prompted for 'My Web Site URL' - enter the url for your CiviCRM menu followed by
+ * the path '/contact/search'. You API Key will be generated and displayed on the next page.
+ *
+ * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/ you would enter
+ * 'http://www.example.com/civicspace/civicrm/contact/search'
+ *
+ * Enter your API key below to enable the mapping feature for your CiviCRM installation.
  */
 define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 
