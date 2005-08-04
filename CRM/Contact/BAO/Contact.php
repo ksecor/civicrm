@@ -863,6 +863,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         
         if( !empty( $intersectArray )) {
             $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
+        } else {
+            $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (NULL) ) ';
         }
         
         // final AND ing of the entire query.
