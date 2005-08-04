@@ -142,6 +142,9 @@ class CRM_GCD {
     private $activity_type = array();
     private $module = array();
     private $callback = array();
+    private $party_registration = array();
+    private $degree = array();
+    private $school = array();
 
     // stores the strict individual id and household id to individual id mapping
     private $strictIndividual = array();
@@ -443,7 +446,20 @@ class CRM_GCD {
             $this->callback[] = trim($callback);
         }
 
+        // custom data - party registration
+        foreach ($sampleData->party_registrations->party_registration as $party_registration) {
+            $this->party_registration[] = trim($party_registration); 
+        }
 
+        // custom data - degrees
+        foreach ($sampleData->degrees->degree as $degree) {
+            $this->degree[] = trim($degree); 
+        }
+
+        // custom data - schools
+        foreach ($sampleData->schools->school as $school) {
+            $this->school[] = trim($school); 
+        }
     }
 
     public function getContactType($id)
@@ -630,6 +646,58 @@ class CRM_GCD {
             $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
+
+            $this->addCustomDataValue($contact->id);
+        }
+    }
+
+
+    /******************************************************
+     * addCustomDataValue()
+     *
+     * This method adds custom data for individuals
+     *
+     ******************************************************/
+    private function addCustomDataValue($contact_id) {
+                
+        $randLength = mt_rand(0, 3);
+        for($cnt = 0; $cnt <= $randLength; $cnt++) {
+            switch($cnt) {
+            case 0:
+                //do nothing
+                break;
+            case 1:
+                $customData =& new CRM_Core_DAO_CustomValue();
+                $customData->entity_table = 'civicrm_contact';
+                $customData->entity_id = $contact_id;
+                $customData->custom_field_id = 1;
+                $customData->int_data = mt_rand(0, 1);
+                $this->_insert($customData);
+                
+                $customData =& new CRM_Core_DAO_CustomValue();
+                $customData->entity_table = 'civicrm_contact';
+                $customData->entity_id = $contact_id;
+                $customData->custom_field_id = 2;
+                $customData->char_data = $this->_getRandomElement($this->party_registration);
+                $this->_insert($customData);
+                break;
+            case 2:
+                $customData =& new CRM_Core_DAO_CustomValue();
+                $customData->entity_table = 'civicrm_contact';
+                $customData->entity_id = $contact_id;
+                $customData->custom_field_id = 5;
+                $customData->char_data = $this->_getRandomElement($this->degree);
+                $this->_insert($customData);
+                break;
+            case 3:
+                $customData =& new CRM_Core_DAO_CustomValue();
+                $customData->entity_table = 'civicrm_contact';
+                $customData->entity_id = $contact_id;
+                $customData->custom_field_id = 6;
+                $customData->char_data = $this->_getRandomElement($this->school);
+                $this->_insert($customData);
+                break;
+            }
         }
     }
 

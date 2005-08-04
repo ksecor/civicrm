@@ -724,6 +724,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         
         $cdANDArray = array();
         if ( ! empty( $fv ) ) {
+            $contactIdCount = 0;
             foreach ($fv as $k => $v) {
                 if ( substr( $k, 0, 10 ) != 'customData' ) {
                     continue;
@@ -739,10 +740,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                     $tableData = array();
                     
                     // using tableData to build the queryString 
-                    $tableData = array(
-                                       'civicrm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
-                                       'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'),
-                                       );
+                    $tableData = array('civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'));
                     
                     // create select
                     $strSelect = "SELECT"; 
@@ -772,32 +770,40 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                     while($crmDAO->fetch()) {
                         $dataType = $crmDAO->civicrm_custom_field_data_type;
                         $htmlType = $crmDAO->civicrm_custom_field_html_type;
+                        
+                        $contactSearchQuery = "SELECT entity_id FROM civicrm.civicrm_custom_value";
+                        
+
                         switch ($dataType) {
                         case 'String':
                             if ( $htmlType == 'CheckBox' ) {
                                 
                                 $strChkBox = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                                 
-                                $cdANDArray[] = " ( civicrm_custom_value.char_data LIKE '". $strChkBox ."' )";                            
+                                $cdANDArray = " where ( civicrm_custom_value.char_data LIKE '". $strChkBox ."' )";
                             } else {
-                                $cdANDArray[] = " ( civicrm_custom_value.char_data LIKE '%". $v ."%' )";
+                                $cdANDArray = " where ( civicrm_custom_value.char_data LIKE '%". $v ."%' )";
                             }
                             break;
                         case 'Int':
+                            $cdANDArray = " where ( civicrm_custom_value.int_data = '". $v . "' )";
+                            break;
                         case 'Boolean':
                             if ($v == 'yes') {
                                 $strBoolInt = 1;
                             } else {
                                 $strBoolInt = 0;
                             }
-                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $strBoolInt . "' )";;
+                            $cdANDArray = " where ( civicrm_custom_value.int_data = '". $strBoolInt . "' )";
                             break;
                         case 'Float':
+                            $cdANDArray = " where ( civicrm_custom_value.float_data = '". $v . "' ) ";
+                            break;
                         case 'Money':
-                            $cdANDArray[] = " ( civicrm_custom_value.float_data = '". $v . "' ) ";
+                            $cdANDArray = " where ( civicrm_custom_value.float_data = '". $v . "' ) ";
                             break;
                         case 'Memo':
-                            $cdANDArray[] = " ( civicrm_custom_value.memo_data LIKE '%". $v . "%' )";
+                            $cdANDArray = " where ( civicrm_custom_value.memo_data LIKE '%". $v . "%' )";
                             break;
                         case 'Date':
                             if ( !empty($v['d']) ) {
@@ -805,34 +811,58 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                                 if ( ! $date ) {
                                     $date = '';
                                 }
-                                $cdANDArray[] = " ( civicrm_custom_value.date_data = '". $v . "' )";
+                                $cdANDArray = " where ( civicrm_custom_value.date_data = '". $v . "' )";
                             }
                             
                             if ( !empty($v['M']) ) {
-                                $cdANDArray[] = " ( MONTH(civicrm_custom_value.date_data) = '". $v['M'] . "' AND YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
+                                $cdANDArray = " where ( MONTH(civicrm_custom_value.date_data) = '". $v['M'] . "' AND YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
                             } else {
-                                $cdANDArray[] = " ( YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
+                                $cdANDArray = " where ( YEAR(civicrm_custom_value.date_data) = '". $v['Y'] . "' )";
                             }
-                            /*$date = CRM_Utils_Date::format( $v );
-                            if ( ! $date ) {
-                                $date = '';
-                            }
-                            $cdANDArray[] = " ( civicrm_custom_value.date_data = '". $v . "' )";*/
                             break;
                         case 'StateProvince':
-                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";
+                            $cdANDArray = " where ( civicrm_custom_value.int_data = '". $v . "' )";
                             break;
                         case 'Country':
-                            $cdANDArray[] = " ( civicrm_custom_value.int_data = '". $v . "' )";
+                            $cdANDArray = " where ( civicrm_custom_value.int_data = '". $v . "' )";
                             break;
+                        } // end switch
+                        
+                        // dummy dao needed
+                        $customDAO =& new CRM_Core_DAO();
+                        $contactSearchQuery = $contactSearchQuery . $cdANDArray;
+                        $customDAO->query($contactSearchQuery);
+
+                        if ( !isset($customEntityId) ) {
+                            $customEntityId = array();
+                        } else {
+                            $tempArray = $customEntityId;
+                            $customEntityId = array();
                         }
+
+                        while($customDAO->fetch()) {
+                            $customEntityId[] = $customDAO->entity_id;
+                        }
+
+                        $contactIdCount++;
+                    } // end while
+
+                    if ($contactIdCount > 1) {
+                        if ( isset($intersectArray) ) {
+                            $intersectArray = array_intersect($customEntityId, $intersectArray);
+                        } else {
+                            $intersectArray = array_intersect($customEntityId, $tempArray);
+                        }
+                    } else {
+                        $intersectArray = $customEntityId;
                     }
-                }
-            }
-        }
+                } // end inner if               
+            } // end foreach
+            
+        } // end outer if
         
-        if( !empty( $cdANDArray )) {
-            $andArray['custom_data'] = ' ( ' . implode( ' OR ', $cdANDArray ) . ' ) ';
+        if( !empty( $intersectArray )) {
+            $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
         }
         
         // final AND ing of the entire query.
