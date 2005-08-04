@@ -89,7 +89,8 @@ class CRM_Utils_Token {
      * @static
      */
     public static function token_match($type, $var, &$str) {
-        $token = preg_quote('{' . "$type.$var" . '}');
+        $token  = preg_quote('{' . "$type.$var") 
+                . '(\|.+?)?' . preg_quote('}');
         return preg_match("/[^\{]$token/", $str);
     }
 
@@ -105,7 +106,11 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &token_replace($type, $var, $value, &$str) {
-        $token = preg_quote('{' . "$type.$var" . '}');
+        $token  = preg_quote('{' . "$type.$var") 
+                . '(\|([^\}]+?))?' . preg_quote('}');
+        if (! $value) {
+            $value = '$3';
+        }
         $str = preg_replace("/([^\{])?$token/", "$1$value", $str);
         return $str;
     }
@@ -217,7 +222,7 @@ class CRM_Utils_Token {
             /* This should come from UF */
             self::$_tokens['contact'] =& 
                 array_keys(CRM_Contact_BAO_Contact::importableFields())
-                + array('display_name', 'nick_name');
+                + array('display_name');
         }
         
         $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);
@@ -245,9 +250,7 @@ class CRM_Utils_Token {
                             $contact, $token);
             }
             
-            if ($value) {
-                self::token_replace('contact', $token, $value, $str);
-            }
+            self::token_replace('contact', $token, $value, $str);
         }
 
         return $str;

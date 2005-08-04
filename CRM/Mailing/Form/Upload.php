@@ -131,7 +131,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $header->find(true);
         
         $footer =& new CRM_Mailing_BAO_Component();
-        $footer->id = $options['footer_id'];
+        $footer->id = $params['footer_id'];
         $footer->find(true);
         
         list($headerBody['htmlFile'],

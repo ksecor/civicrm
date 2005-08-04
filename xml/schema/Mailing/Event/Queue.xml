@@ -49,7 +49,8 @@
     </foreignKey>
     <field>
         <name>hash</name>
-        <type>int unsigned</type>
+        <type>varchar</type>
+        <length>255</length>
         <required>true</required>
         <comment>Security hash</comment>
     </field>

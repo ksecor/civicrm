@@ -46,7 +46,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
      */
     static function &create(&$params) {
         $bounce =& new CRM_Mailing_Event_BAO_Bounce();
-        $bounce->timestamp = date("Y-m-d H:i:s");
+        $bounce->time_stamp = date("Y-m-d H:i:s");
         $bounce->copyValues($params);
         $bounce->save();
 

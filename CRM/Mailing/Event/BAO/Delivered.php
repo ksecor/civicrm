@@ -46,7 +46,7 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
      */
     static function &create(&$params) {
         $delivered =& new CRM_Mailing_Event_BAO_Delivered();
-        $delivered->timestamp = date("Y-m-d H:i:s");
+        $delivered->time_stamp = date("Y-m-d H:i:s");
         $delivered->copyValues($params);
         $delivered->save();
     }

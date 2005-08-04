@@ -86,7 +86,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
         
             /* Compose and deliver */
-//             $job->deliver($mailer);
+            $job->deliver($mailer);
 
             /* Finish the job */
             $job->end_date = date("Y-m-d H:i:s");
@@ -143,7 +143,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         
         $query = "  SELECT      $eqTable.id,
                                 $emailTable.email as email,
-                                $eqTable.contact_id
+                                $eqTable.contact_id,
+                                $eqTable.hash
                     FROM        $eqTable
                     INNER JOIN  $emailTable
                             ON  $eqTable.email_id = $emailTable.id
