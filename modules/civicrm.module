@@ -90,9 +90,6 @@ function civicrm_html_head()
  */
 function civicrm_help($section)
 {	
-    // make sure the system is initialized
-    civicrm_initialize( );
-
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
@@ -342,6 +339,11 @@ function civicrm_view_data($user ) {
 }
 
 function civicrm_validate_data($edit, &$user, $title) {
+    // hack: if this is an admin creator, dont validate
+    if ( $_GET['q'] == 'admin/user/create' ) {
+        return;
+    }
+
     $register = ( $title == 'account' ) ? true : false;
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );

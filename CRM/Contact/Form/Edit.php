@@ -105,6 +105,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     function preProcess( ) {
+        $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
+        $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
+
         if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
             $this->_contactId = null;
@@ -134,9 +137,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
             CRM_Core_Error::fatal( ts('Could not get a contact_id and/or contact_type') );
         }
-
-        $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
-        $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
     }
 
     /**
@@ -288,12 +288,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
 
         // add the dedupe button
-        $this->add('submit', 
-                   $this->_dedupeButtonName,
-                   ts( 'Check for Matching Contact(s)' ) );
-        $this->add('submit', 
-                   $this->_duplicateButtonName,
-                   ts( 'Save Duplicate Contact' ) );
+        $this->addElement('submit', 
+                          $this->_dedupeButtonName,
+                          ts( 'Check for Matching Contact(s)' ) );
+        $this->addElement('submit', 
+                          $this->_duplicateButtonName,
+                          ts( 'Save Duplicate Contact' ) );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

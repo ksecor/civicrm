@@ -152,6 +152,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                                    'qs'       => 'reset=1&cid=%%id%%',
                                                                    'title'    => ts('Edit Contact Details'),
                                                                   ),
+                                  CRM_Core_Action::MAP    => array(
+                                                                   'name'     => ts('Map'),
+                                                                   'url'      => 'civicrm/contact/search/map',
+                                                                   'qs'       => 'reset=1&cid=%%id%%',
+                                                                   'title'    => ts('Map Contact'),
+                                                                   ),
+
                                  );
         }
         return self::$_links;

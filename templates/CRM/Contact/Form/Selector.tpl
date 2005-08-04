@@ -32,7 +32,7 @@
     <td>{$row.country}</td>
     <td>{$row.email|mb_truncate:17:"...":true}</td>
     <td>{$row.phone}</td>
-    <td>{$row.action} | <a href="{crmURL p='civicrm/contact/search/basic' q="map=1&cid=`$row.contact_id`"}">Map</a></td>
+    <td>{$row.action}</td>
   </tr>
   {/foreach}
 </table>
