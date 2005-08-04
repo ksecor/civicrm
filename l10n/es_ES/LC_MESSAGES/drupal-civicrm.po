@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-25 12:38+0200\n"
-"PO-Revision-Date: 2005-08-03 16:33+0200\n"
+"POT-Creation-Date: 2005-08-04 09:06+0200\n"
+"PO-Revision-Date: 2005-08-04 09:12+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,13 @@ msgid "access CiviCRM"
 msgstr "administre CiviCRM"
 
 #, fuzzy
-msgid "edit "
+msgid "edit %group"
 msgstr "corrija a grupos"
 
-msgid "view "
-msgstr ""
+#, fuzzy
+msgid "view %group"
+msgstr "corrija a grupos"
+
+#, fuzzy
+#~ msgid "edit "
+#~ msgstr "corrija a grupos"

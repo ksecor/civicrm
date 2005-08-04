@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-25 12:38+0200\n"
-"PO-Revision-Date: 2005-08-03 17:13+0200\n"
+"POT-Creation-Date: 2005-08-04 09:06+0200\n"
+"PO-Revision-Date: 2005-08-04 09:12+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -36,8 +36,13 @@ msgid "access CiviCRM"
 msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
 
 #, fuzzy
-msgid "edit "
+msgid "edit %group"
 msgstr "កែសម្រួល​ក្រុម"
 
-msgid "view "
-msgstr ""
+#, fuzzy
+msgid "view %group"
+msgstr "កែសម្រួល​ក្រុម"
+
+#, fuzzy
+#~ msgid "edit "
+#~ msgstr "កែសម្រួល​ក្រុម"
