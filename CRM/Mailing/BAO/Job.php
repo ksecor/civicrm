@@ -78,7 +78,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 $job->queue();
                 
                 /* Start the job */
-                $job->start_date = date("Y-m-d H:i:s");
+                $job->start_date = date('YmdHis');
                 $job->status = 'Running';
                 $job->save();
                 CRM_Core_DAO::transaction('COMMIT');
@@ -89,7 +89,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $job->deliver($mailer);
 
             /* Finish the job */
-            $job->end_date = date("Y-m-d H:i:s");
+//             $job->end_date = '"' . date("Y-m-d H:i:s") . '"';
+            $job->end_date = date('YmdHis');
             $job->status = 'Complete';
             $job->save();
         }

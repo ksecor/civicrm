@@ -629,7 +629,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $job->status = 'Scheduled';
             $job->is_retry = false;
             if ($params['now']) {
-                $job->scheduled_date = date("Y-m-d H:i:s");
+//                 $job->scheduled_date = '"' . date("Y-m-d H:i:s") . '"';
+                $job->scheduled_date = date('YmdHis');
             } else {
                 $job->scheduled_date =
                     CRM_Utils_Date::format($params['start_date']);

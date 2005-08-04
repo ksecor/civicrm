@@ -104,6 +104,7 @@
        <name>preferred_mail_format</name>
        <type>enum</type>
        <values>Text, HTML, Both</values>
+       <default>"Text"</default>
        <comment>What is the preferred mode of sending an email.</comment>
   </field>
   <field>
