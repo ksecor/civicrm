@@ -17,8 +17,10 @@
 # The following options will be passed to all MySQL clients
 [client]
 #password	= your_password
-port		= 3306
-socket		= /tmp/mysql.sock
+# port		= 3306
+port		= 3307
+# socket		= /tmp/mysql.sock
+socket		= /tmp/mysql-4.0.25.sock
 
 # Here follows entries for some specific programs
 
@@ -26,7 +28,8 @@ socket		= /tmp/mysql.sock
 [mysqld]
 # port		= 3306
 port		= 3307
-socket		= /tmp/mysql.sock
+# socket		= /tmp/mysql.sock
+socket		= /tmp/mysql-4.0.25.sock
 skip-locking
 key_buffer = 16M
 max_allowed_packet = 1M

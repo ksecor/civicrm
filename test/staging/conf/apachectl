@@ -51,15 +51,22 @@ PORT="$2"
 # echo PORT = $PORT
 # echo SERVER_ROOT = $SERVER_ROOT
 
+# case $PORT in
+# 81) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.0.6.mysql-4.0.25'  ;;
+# 82) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.1.2.mysql-4.0.25'  ;;
+# 83) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.2.3.mysql-4.0.25'  ;;
+# 84) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.3.11.mysql-4.1.13' ;;
+# 84) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.3.11.mysql-4.0.25' ;;
+# 85) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.4.0.mysql-4.1.13'  ;;
+# 86) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-5.0.4.mysql-4.1.13'  ;;
+# *)  echo 'Invalid port' $PORT; exit 1 ;;
+# esac
+
 case $PORT in
-81) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.0.6.mysql-4.0.25'  ;;
-82) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.1.2.mysql-4.0.25'  ;;
-83) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.2.3.mysql-4.0.25'  ;;
-84) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.3.11.mysql-4.1.13' ;;
-85) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.4.0.mysql-4.1.13'  ;;
-86) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-5.0.4.mysql-4.1.13'  ;;
-*)  echo 'Invalid port' $PORT; exit 1 ;;
+    81) HTTPD_CONF_FILE=$SERVER_ROOT'/conf/httpd.conf.php-4.3.11.mysql-4.0.25'  ;;
+    *)  echo 'Invalid port' $PORT; exit 1 ;;
 esac
+
 
 echo 'executing command on port' $PORT 'with config file' $HTTPD_CONF_FILE
 
