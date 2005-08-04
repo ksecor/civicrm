@@ -76,11 +76,13 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-        $myArr = Array('A', 'B');
+        $activityType = CRM_Core_PseudoConstant::activityType(true);
+        $activityType[''] = ts('- select Activity Type -') ;
+        asort($activityType);
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type', ts('Activity Type'), CRM_Core_PseudoConstant::activityType(true) );
-        $description = $this->add('text', 'description', ts('Description'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ),false);
-        $description->freeze();
+        $this->addElement('select', 'activity_type', ts('Activity Type'),$activityType ,array('onchange'=>'activity_get_description()'));
+        $this->addRule('activity_type',ts('Please select the Activity Type.'), 'required');
+        $description = $this->addElement('text', 'description', ts('Description'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ),false);
         $this->addElement('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ) );
         $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
 
