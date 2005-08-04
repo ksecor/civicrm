@@ -881,15 +881,20 @@ function _crm_validate_formatted_contact(&$params) {
 
     /* Look for offending email addresses */
     if (is_array($params['location'])) {
+        $badEmail = true;
+        $emails = 0;
         foreach ($params['location'] as $loc) {
             if (is_array($loc['email'])) {
+                $emails++;
                 foreach ($loc['email'] as $email) {
-                    if (! CRM_Utils_Rule::email( $email['email']) ) {
-                        return 
-                        _crm_error( 'Email not valid ' . $email['email'] );
+                    if (CRM_Utils_Rule::email( $email['email']) ) {
+                        $badEmail = false;
                     }
                 }
             }
+        }
+        if ($emails && $badEmail) {
+            return _crm_error( 'No valid email address');
         }
     }
 

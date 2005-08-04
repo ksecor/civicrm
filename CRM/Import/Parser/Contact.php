@@ -235,7 +235,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             if (is_array($field)) {
                 foreach ($field as $value) {
-                    _crm_add_formatted_param($value, $formatted);
+                    $break = false;
+                    foreach ($value as $testForEmpty) {
+                        if ($testForEmpty === '' || $testForEmpty == null) {
+                            $break = true;
+                            break;
+                        }
+                    }
+                    if (! $break) {
+                        _crm_add_formatted_param($value, $formatted);
+                    }
                 }
                 continue;
             }
@@ -253,7 +262,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 //         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
         if ( is_a($newContact = crm_create_contact_formatted( $formatted, $onDuplicate ),
                     CRM_Core_Error)) 
-        {         
+        {    
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
