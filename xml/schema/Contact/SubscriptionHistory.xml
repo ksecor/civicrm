@@ -38,7 +38,7 @@
     </foreignKey>
     <field>
         <name>date</name>
-        <type>date</type>
+        <type>datetime</type>
         <required>true</required>
         <comment>Date of the (un)subscription</comment>
     </field>
