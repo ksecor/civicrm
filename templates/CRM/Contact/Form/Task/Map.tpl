@@ -8,11 +8,16 @@
     function onLoad() {
 
       //<![CDATA[
-      var map = new GMap(document.getElementById("map"));
+      var map    = new GMap(document.getElementById("map"));
+      var spec   = map.spec;
+      var span   = new GSize({/literal}{$span.lng},{$span.lat}{literal});
+      var center = new GPoint({/literal}{$center.lng},{$center.lat}{literal});
+      var zoom   = spec.getLowestZoomLevel(center, span, map.viewSize);
+      
       map.addControl(new GSmallMapControl());
       map.addControl(new GMapTypeControl());
-      map.centerAndZoom(new GPoint({/literal}{$location.lng},{$location.lat}{literal}), 4);
-
+      map.centerAndZoom(center, zoom);
+      
       // Creates a marker whose info window displays the given number
       function createMarker(point, data) {
         var marker = new GMarker(point);

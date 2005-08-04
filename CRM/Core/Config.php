@@ -213,7 +213,7 @@ class CRM_Core_Config {
      *
      * @var boolean
      */
-    public $googleMapsAPIKey = null;
+    public $googleMapAPIKey = null;
 
     /**
      * How should we get geo code information if google map support needed
@@ -391,12 +391,8 @@ class CRM_Core_Config {
             $this->maxImportFileSize = CIVICRM_MAX_IMPORT_FILESIZE;
         }
 
-        if ( defined( 'CIVICRM_GOOGLE_MAPS' ) ) {
-            $this->enableGoogleMaps = true;
-        }
-
-        if ( defined( 'CIVICRM_GOOGLE_MAPS_API_KEY' ) ) {
-            $this->googleMapsAPIKey = CIVICRM_GOOGLE_MAPS_API_KEY;
+        if ( defined( 'CIVICRM_GOOGLE_MAP_API_KEY' ) ) {
+            $this->googleMapAPIKey = CIVICRM_GOOGLE_MAP_API_KEY;
         }
 
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {

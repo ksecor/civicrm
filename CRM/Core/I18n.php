@@ -22,8 +22,8 @@
  +----------------------------------------------------------------------+
 */
 
-require_once 'packages/PHPgettext/streams.php';
-require_once 'packages/PHPgettext/gettext.php';
+require_once 'PHPgettext/streams.php';
+require_once 'PHPgettext/gettext.php';
 
 /**
  * This is CiviCRM's internationalisation mechanism based on smarty_gettext

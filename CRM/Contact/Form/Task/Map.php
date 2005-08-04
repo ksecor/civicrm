@@ -93,10 +93,12 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @access protected
      */
     function createLocation( $contactIds ) {
+        $config =& CRM_Core_Config::singleton( );
+
         $this->assign( 'title', 'CiviCRM Google Maps'  );
         $this->assign( 'query', 'CiviCRM Search Query' );
 
-        $this->assign( 'googleMapKey', CIVICRM_GOOGLE_MAP_API_KEY );
+        $this->assign( 'googleMapKey', $config->googleMapAPIKey );
        
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
         if ( empty( $locations ) ) {
@@ -134,10 +136,6 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                          'lng' => (float ) ( $maxLng - $minLng ) );
         $this->assign_by_ref( 'center', $center );
         $this->assign_by_ref( 'span'  , $span   );
-        
-        $template =& CRM_Core_Smarty::singleton( );
-        $xml = $template->fetch( 'CRM/Contact/Form/Task/GMapsInput.tpl' );
-        
     }
 
 }
