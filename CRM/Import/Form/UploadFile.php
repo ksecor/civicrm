@@ -54,7 +54,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         } else {
             $uploadFileSize = $config->maxImportFileSize;
         }
-        $uploadSize = ($uploadFileSize / (1024*1024));
+        $uploadSize = round(($uploadFileSize / (1024*1024)), 2);
                 
         //CRM_Core_Error::debug('uploadFileSize1',$config->importFileSize);
         
