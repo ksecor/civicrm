@@ -102,7 +102,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
-                $defaults[$elementName] = $field['default_value'];
+                $defaults[$elementName] = CRM_Utils_Array::value( 'default_value', $field );
                 //handle checkboxes default checked
                 if($field['html_type'] == 'CheckBox') {
                     $defaults[$elementName] = '';                    
@@ -129,14 +129,15 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 $fieldId = $field['id'];                
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
 
-                $elementData = $field['default_value'];
+                $elementData = CRM_Utils_Array::value( 'default_value', $field );
 
                 switch($field['html_type']) {
 
                 case 'Text':
                 case 'TextArea':
                     $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'], 
-                                          $field['attributes'], $field['is_required']);
+                                          CRM_Utils_Array::value( 'attributes', $field ),
+                                          $field['is_required']);
                     break;
 
                 case 'Select Date':
@@ -150,14 +151,17 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                          $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                          foreach ($customOption as $v) {
                              $choice[] = $this->createElement(strtolower($field['html_type']), null, '',
-                                                              $v['label'], $v['value'], $field['attributes']);
+                                                              $v['label'], $v['value'],
+                                                              CRM_Utils_Array::value( 'attributes', $field ) );
                          }
                          $this->addGroup($choice, $elementName, $field['label']);
                      } else {
                          $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
-                                                          ts('Yes'), 'yes', $field['attributes']);                   
+                                                          ts('Yes'), 'yes',
+                                                          CRM_Utils_Array::value( 'attributes', $field ) );
                          $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
-                                                          ts('No') , 'no' , $field['attributes']);
+                                                          ts('No') , 'no' ,
+                                                          CRM_Utils_Array::value( 'attributes', $field ) );
                          $this->addGroup($choice, $elementName, $field['label']);
                      }
                      if ($field['is_required']) {
