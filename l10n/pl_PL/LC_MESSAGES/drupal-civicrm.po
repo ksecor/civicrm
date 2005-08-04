@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:22+0200\n"
-"PO-Revision-Date: 2005-06-30 10:25+0200\n"
+"POT-Creation-Date: 2005-08-04 09:06+0200\n"
+"PO-Revision-Date: 2005-08-04 09:10+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -32,3 +32,12 @@ msgstr "edytuj grupy"
 
 msgid "administer CiviCRM"
 msgstr "zarządzaj CiviCRM-em"
+
+msgid "access CiviCRM"
+msgstr "dostęp do CiviCRM-a"
+
+msgid "edit %group"
+msgstr "edytuj grupę %group"
+
+msgid "view %group"
+msgstr "zobacz grupę %group"

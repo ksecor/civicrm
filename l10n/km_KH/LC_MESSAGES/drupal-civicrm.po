@@ -7,8 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM v1.0\n"
-"POT-Creation-Date: 2005-06-30 10:35+0200\n"
-"PO-Revision-Date: 2005-07-26 13:33+0700\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-08-04 09:06+0200\n"
+"PO-Revision-Date: 2005-08-04 09:09+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -30,3 +31,14 @@ msgstr "កែសម្រួល​ក្រុម"
 msgid "administer CiviCRM"
 msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
 
+#, fuzzy
+msgid "access CiviCRM"
+msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
+
+#, fuzzy
+msgid "edit %group"
+msgstr "កែសម្រួល​ក្រុម"
+
+#, fuzzy
+msgid "view %group"
+msgstr "កែសម្រួល​ក្រុម"
