@@ -734,7 +734,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                 
                 if ( $str == 'customData' && $v != '') {
-                    
+                    $customDataConstant = 1;
                     $strSelect = $strFrom = $strWhere = $orderBy = ''; 
                     
                     $tableData = array();
@@ -859,13 +859,16 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 } // end inner if               
             } // end foreach
             
+            if( $customDataConstant ) {
+                if( !empty($intersectArray) ) {
+                    $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
+                } else {
+                    $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (NULL) ) ';
+                }
+            }
         } // end outer if
         
-        if( !empty( $intersectArray )) {
-            $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
-        } else {
-            $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (NULL) ) ';
-        }
+        
         
         // final AND ing of the entire query.
         if ( !empty( $andArray ) ) {
