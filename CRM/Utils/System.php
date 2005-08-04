@@ -90,6 +90,7 @@ class CRM_Utils_System {
                                                 'ufmatch'            => 'UFMatch',
                                                 'uploadfile'         => 'UploadFile',
                                                 'uf'                 => 'UF',
+                                                'otheractivity'      => 'OtherActivity',
                                                 );
     
     /**
