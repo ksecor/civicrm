@@ -71,7 +71,7 @@ function civicrm_source( $fileName ) {
     ini_set( 'include_path',
              '.:' . $crmPath . ':' .
              $crmPath . DIRECTORY_SEPARATOR . 'packages' );
-    require_once 'packages/DB.php';
+    require_once 'DB.php';
 
     $db  =& DB::connect( $dsn );
     if ( PEAR::isError( $db ) ) {
