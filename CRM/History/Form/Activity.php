@@ -53,7 +53,7 @@ class CRM_History_Form_Activity extends CRM_Core_Form
     {
         $id = $this->get('id');
         
-        $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&history=1');
+        $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'show=1&action=browse&history=1');
         if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
             CRM_Core_BAO_History::del( $id );
             CRM_Core_Session::setStatus( "Selected Activity History record has been deleted." );

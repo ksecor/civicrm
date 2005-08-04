@@ -188,7 +188,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      */
     static function showOtherActivityDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/otheract', "action=view&id=$id&status=true&history=1");
+        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=other&action=view&id=$id&status=true&history=1");
     }
 
 

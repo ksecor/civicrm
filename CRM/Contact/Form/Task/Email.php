@@ -115,7 +115,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( $this->_single ) {
             // also fix the user context stack
             $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/activity',
-                                                                'action=browse&cid=' . $this->_contactIds[0] ) );
+                                                                '&show=1&action=browse&cid=' . $this->_contactIds[0] ) );
             $this->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
         } else {
             $this->addDefaultButtons( ts('Send Email') );

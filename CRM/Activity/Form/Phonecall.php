@@ -185,7 +185,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
      */
     static function showCallDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/call', "action=view&id=$id&status=true&history=1");
+        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=2&action=view&id=$id&status=true&history=1");
     }
 
 }

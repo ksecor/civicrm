@@ -290,7 +290,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'qs'      => 'show=1&reset=1&cid=%%cid%%',
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,

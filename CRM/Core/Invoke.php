@@ -91,20 +91,23 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
-
+       
         //code added for testing ajax
         if ($args[2] == 'StateCountryServer') {
             $server =& new CRM_Contact_Page_StateCountryServer( );
             $set = CRM_Utils_Request::retrieve('set', $form);
             if ($set) {
                 $path = CRM_Utils_Request::retrieve('path', $form );
+               
                 $path= '?q='.$path;
                 $session =& new CRM_Core_Session();
                 $session->set('path', $path);
             }
             return $server->run( $set );
         }
-
+       
+       
+        
         //code added for testing ajax
         if ($args[2] == 'test') {
             $wrapper =& new CRM_Utils_Wrapper( );
@@ -139,7 +142,7 @@ class CRM_Core_Invoke {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
-
+            
             switch ( $thirdArg ) {
             case 'note':
                 $view =& new CRM_Contact_Page_View_Note( );
@@ -157,9 +160,37 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_CustomData($fourthArg);
                 break;
             case 'activity':
-                $view =& new CRM_Contact_Page_View_Activity( );
+                $activityId = CRM_Utils_Request::retrieve('activity_id', $form);
+                $show = CRM_Utils_Request::retrieve('show', $form);
+
+                $session =& CRM_Core_Session::singleton();
+                
+                if(!$show) {
+                    if ($activityId)  {
+                        $session->set('activityId', $activityId);
+                    } else {
+                        $activityId = $session->get('activityId');
+                    }
+                }
+
+                if($activityId == 1) {
+                    $view =& new CRM_Contact_Page_View_Meeting( );
+                } elseif($activityId == 2) {
+                    $view =& new CRM_Contact_Page_View_Phonecall( );
+                } elseif($activityId == 3) {
+                    $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+
+                    $wrapper =& new CRM_Utils_Wrapper( );
+                    return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+                } elseif($activityId == 'other') {
+                    $view =& new CRM_Contact_Page_View_OtherActivity( );
+                    break;
+                } else {
+                    $view =& new CRM_Contact_Page_View_Activity( );
+                }
+                
                 break;
-            case 'call':
+            /*case 'call':
                 $view =& new CRM_Contact_Page_View_Phonecall( );
                 break;
             case 'meeting':
@@ -167,7 +198,7 @@ class CRM_Core_Invoke {
                 break;
             case 'otheract':
                 $view =& new CRM_Contact_Page_View_OtherActivity( );
-                break;    
+                break;*/    
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
                 return $view->run();

@@ -101,13 +101,16 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     static function &actionLinks( $activityType ) 
     {
         $url = '';
-        
+        $extra = '';
         if ($activityType == 'Meeting') {
-            $url = 'civicrm/contact/view/meeting';
+            $url = 'civicrm/contact/view/activity';
+            $extra = "activity_id=1";
         } else if($activityType == 'Phone Call') {
-            $url = 'civicrm/contact/view/call';
+            $url = 'civicrm/contact/view/activity';
+            $extra = "activity_id=2";
         } else {
-            $url = 'civicrm/contact/view/otheract';
+            $url = 'civicrm/contact/view/activity';
+            $extra = "activity_id=other";
         }
 
 
@@ -118,13 +121,13 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => $url,
-                                                                     'qs'       => 'action=update&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'qs'       => $extra.'&action=update&reset=1&id=%%id%%&cid=%%cid%%',
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => $url,
-                                                                     'qs'       => 'action=delete&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'qs'       => $extra.'&action=delete&reset=1&id=%%id%%&cid=%%cid%%',
                                                                      'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&confirmed=1\'; else return false;"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
