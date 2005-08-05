@@ -173,8 +173,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed') {
-        $date = date('Ymd');
+    static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
+        $date = date('YmdHis');
 
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
@@ -195,7 +195,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                         'contact_id' => $contactId,
                                         'status' => $status,
                                         'method' => $method,
-                                        'date' => $date);
+                                        'date' => $date
+                                        'tracking' => $tracking);
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
                 $groupContact->status     = $status;
