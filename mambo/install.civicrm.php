@@ -3,7 +3,12 @@
 function com_install() {
     global $database;
 
-    require_once 'civicrm.php';
+    global $mosConfig_absolute_path;
+    $path = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
+        'administrator'          . DIRECTORY_SEPARATOR .
+        'components'             . DIRECTORY_SEPARATOR .
+        'com_civicrm'            . DIRECTORY_SEPARATOR ;
+    require_once $path . 'civicrm.php';
 
     civicrm_main( );
 }

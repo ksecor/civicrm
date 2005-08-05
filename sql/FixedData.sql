@@ -1,5 +1,5 @@
 -- setting the proper encoding for client, connection and results settings
-SET NAMES 'utf8';
+-- SET NAMES 'utf8';
 
 
 
