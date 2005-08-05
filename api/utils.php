@@ -74,7 +74,8 @@ function _crm_update_object(&$object, &$values)
         if (array_key_exists( $name, $values)) {
             $object->$name = $values[$name];
             //if ( substr( $name, -1, 3 ) !== '_id' ) {
-            if (substr($name, -3, 3) !== '_id') {
+            /* only say we've found a value if at least one is not null */
+            if (substr($name, -3, 3) !== '_id' && $values[$name] !== null) {
                 $valueFound = true;
             }
         }
@@ -430,7 +431,6 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         if (! $overwrite) {
             _crm_update_from_object($contact->location[$contactLocationBlock]->address, $updateLocation['address']);
         }
-        
         _crm_update_object( $contact->location[$contactLocationBlock]->address, $updateLocation['address'] );
     
         $blocks = array( 'Email', 'IM' );
