@@ -1,6 +1,7 @@
 <?php
 
-require_once '../configuration.php';
+global $mosConfig_absolute_path;
+require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
 
 function civicrm_setup( ) {
     global $comPath, $crmPath, $sqlPath, $dsn;
@@ -15,6 +16,14 @@ function civicrm_setup( ) {
         'components'             . DIRECTORY_SEPARATOR .
         'com_civicrm'            ;
     $crmPath = $comPath . DIRECTORY_SEPARATOR . 'civicrm';
+    $pkgPath = $crmPath . DIRECTORY_SEPARATOR . 'packages';
+    ini_set( 'include_path',
+             $comPath . ':' .
+             $crmPath . ':' .
+             $pkgPath . ':' .
+             ini_get( 'include_path' ) );
+
+    
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
 
     $pieces = parse_url( $mosConfig_live_site );

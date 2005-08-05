@@ -8,6 +8,7 @@ function com_install() {
         'administrator'          . DIRECTORY_SEPARATOR .
         'components'             . DIRECTORY_SEPARATOR .
         'com_civicrm'            . DIRECTORY_SEPARATOR ;
+
     require_once $path . 'civicrm.php';
 
     civicrm_main( );
