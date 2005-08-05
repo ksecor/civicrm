@@ -56,6 +56,10 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      */
     function preProcess( ) {
         $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+
+        // also add the cid params to the Menu array
+        CRM_Utils_Menu::addParam( 'cid', $cid );
+
         if ( $cid ) {
             $this->_contactIds = array( $cid );
             $this->_single     = true;
