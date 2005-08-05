@@ -54,6 +54,7 @@ class CRM_Utils_System {
                                                 'addtotag'           => 'AddToTag',
                                                 'api'                => 'API',
                                                 'at'                 => 'AT',
+                                                'activitytype'       => 'ActivityType',
                                                 'bao'                => 'BAO',
                                                 'customdata'         => 'CustomData',
                                                 'customfield'        => 'CustomField',
