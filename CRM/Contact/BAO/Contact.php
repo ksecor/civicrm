@@ -970,6 +970,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $contact->sort_name    = trim($sortName);
             $contact->display_name =
                 trim( $prefix . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix );
+            $contact->display_name = str_replace( '  ', ' ', $contact->display_name );
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
