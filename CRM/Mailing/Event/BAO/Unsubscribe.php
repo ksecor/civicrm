@@ -44,24 +44,41 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
     }
 
     /**
+     * Unsubscribe a contact from the domain
+     *
+     * @param int $job_id       The job ID
+     * @param int $queue_id     The Queue Event ID of the recipient
+     * @param string $hash      The hash
+     * @return boolean          Was the contact succesfully unsubscribed?
+     * @access public
+     * @static
+     */
+    public static function unsub_from_domain($job_id, $queue_id, $hash) {
+        $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
+        if (! $q) {
+            return false;
+        }
+        $contact =& new CRM_Contact_BAO_Contact();
+        $contact->id = $q->contact_id;
+        $contact->is_subscribed = false;
+        $contact->save();
+        return true;
+    }
+
+    /**
      * Unsubscribe a contact from all groups that received this mailing
      *
      * @param int $job_id       The job ID
      * @param int $queue_id     The Queue Event ID of the recipient
      * @param string $hash      The hash
-     * @return array $groups    Array of all groups from which the contact was removed.
+     * @return array|null $groups    Array of all groups from which the contact was removed, or null if the queue event could not be found.
      * @access public
      * @static
      */
     public static function &unsub_from_mailing($job_id, $queue_id, $hash) {
         /* First make sure there's a matching queue event */
-    
-        $q =& new CRM_Mailing_Event_BAO_Queue();
-        $q->id = $queue_id;
-        $q->job_id = $job_id;
-        $q->hash = $hash;
-        
-        if (! $q->find(true)) {
+        $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
+        if (! $q) {
             return null;
         }
         

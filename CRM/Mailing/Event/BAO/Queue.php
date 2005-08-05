@@ -73,6 +73,29 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
 
         return sha1("{$jobId}:{$emailId}:{$contactId}");
     }
+
+
+    /**
+     * Verify that a queue event exists with the specified id/job id/hash
+     *
+     * @param int $job_id       The job ID of the event to find
+     * @param int $queue_id     The Queue Event ID to find
+     * @param string $hash      The hash to validate against
+     * @return object|null      The queue event if verified, or null
+     * @access public
+     * @static
+     */
+    public static function &verify($job_id, $queue_id, $hash) {
+        $q =& new CRM_Mailing_Event_BAO_Queue();
+        $q->id = $queue_id;
+        $q->job_id = $job_id;
+        $q->hash = $hash;
+        if ($q->find(true)) {
+            return $q;
+        }
+        return null;
+    }
+
 }
 
 ?>

@@ -52,10 +52,17 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
      * @static
      */
     public static function &create(&$params) {
+        $q =& CRM_Mailing_Event_BAO_Queue::verify($params['job_id'],
+            $params['event_queue_id'], $params['hash']);
+        if (! $q) {
+            return null;
+        }
         $delivered =& new CRM_Mailing_Event_BAO_Delivered();
         $delivered->time_stamp = date('YmdHis');
         $delivered->copyValues($params);
         $delivered->save();
+
+        return $delivered;
     }
 }
 

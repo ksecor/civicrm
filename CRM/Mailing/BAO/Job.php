@@ -55,6 +55,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
      */
     public static function runJobs() {
         $job =& new CRM_Mailing_BAO_Job();
+        $mailing =& new CRM_Mailing_DAO_Mailing();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
         $config =& CRM_Core_Config::singleton();
@@ -91,9 +92,15 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $job->deliver($mailer);
 
             /* Finish the job */
+            CRM_Core_DAO::transaction('BEGIN');
             $job->end_date = date('YmdHis');
             $job->status = 'Complete';
             $job->save();
+            $mailing->reset();
+            $mailing->id = $job->mailing_id;
+            $mailing->is_completed = true;
+            $mailing->save();
+            CRM_Core_DAO::transaction('COMMIT');
         }
     }
 
@@ -179,16 +186,17 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $result = $mailer->send($recipient, $headers, $body);
             CRM_Core_Error::setCallback();
             
+            $params = array('event_queue_id' => $eq->id,
+                            'job_id' => $this->id,
+                            'hash' => $eq->hash);
+
             if (is_a($result, PEAR_Error)) {
                 /* Register the bounce event */
-                $params =&
+                $params +=
                     CRM_Mailing_BAO_BouncePattern::match($result->getMessage());
-                $params['event_queue_id'] = $eq->id;
-                
                 CRM_Mailing_Event_BAO_Bounce::create($params);
             } else {
                 /* Register the delivery event */
-                $params = array('event_queue_id' => $eq->id);
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
         }

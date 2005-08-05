@@ -48,7 +48,12 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
      * Create a new bounce event, update the email address if necessary
      */
     static function &create(&$params) {
-        
+        $q =& CRM_Mailing_Event_BAO_Queue::verify($params['job_id'],
+                $params['event_queue_id'], $params['hash']);
+        if (! $q) {
+            return null;
+        }
+
         CRM_Core_DAO::transaction('BEGIN');
         $bounce =& new CRM_Mailing_Event_BAO_Bounce();
         $bounce->time_stamp = date('YmdHis');
@@ -59,17 +64,6 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
         $bounceType     = CRM_Mailing_DAO_BounceType::getTableName();
         $emailTable     = CRM_Core_BAO_Email::getTableName();
         $queueTable     = CRM_Mailing_Event_BAO_Queue::getTableName();
-        
-        $q =& new CRM_Core_DAO();
-        $q->query(" SELECT $queueTable.email_id as email_id
-                    FROM $queueTable where
-                    $queueTable.id = {$params['event_queue_id']}"
-            );
-        $q->find(true);
-        
-        $email =& new CRM_Core_BAO_Email();
-        $email->id = $q->email_id;
-
         
         $bounce->reset();
         $query =
@@ -82,7 +76,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                         ON  $bounceTable.event_queue_id = $queueTable.id
                 INNER JOIN  $emailTable
                         ON  $queueTable.email_id = $emailTable.id
-                WHERE       $emailTable.id = {$email->id}
+                WHERE       $emailTable.id = {$q->email_id}
                     AND     ($emailTable.reset_date IS NULL
                         OR  $bounceTable.time_stamp >= $emailTable.reset_date)
                 GROUP BY    $bounceTable.bounce_type_id
@@ -92,6 +86,8 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
 
         while ($bounce->fetch()) {
             if ($bounce->bounces >= $bounce->threshold) {
+                $email =& new CRM_Core_BAO_Email();
+                $email->id = $q->email_id;
                 $email->bounce_hold = 1;
                 $email->hold_date = date('YmdHis');
                 $email->save();
