@@ -242,7 +242,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
         
-        list( $valid, $invalid, $duplicate ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
+        list( $valid, $invalid, $duplicate, $saved ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
             $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
@@ -252,6 +252,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
         if ( $duplicate ) {
             $status .= ' ' . ts('%count relationship record not created - duplicate of existing relationship.', array('count' => $duplicate, 'plural' => '%count relationship records not created - duplicate of existing relationship.'));
+        }
+        if ( $saved ) {
+            $status .= ts('Relationship record has been updated.');
         }
         CRM_Core_Session::setStatus( $status );
     }//end of function

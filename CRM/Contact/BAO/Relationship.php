@@ -61,6 +61,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function create( &$params, &$ids ) 
     {
+        $valid = $invalid = $duplicate = $saved = 0;
+
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
         if ( ! $relationshipId ) {
             // creating a new relationship
@@ -69,22 +71,21 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 return null;
             }
 
-            $valid = $invalid = $duplicate = 0;
+            
             foreach ( $params['contact_check'] as $key => $value) {
                 $errors = '';
                 // check if the realtionship is valid between contacts.
                 // step 1: check if the relationship is valid if not valid skip and keep the count
                 // step 2: check the if two contacts already have a relationship if yes skip and keep the count
                 // step 3: if valid relationship then add the relation and keep the count
-                
+
                 $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $key ); // step 1
                 if ( $errors ) {
                     $invalid++;
                     continue;
                 }
                 
-                if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( CRM_Utils_Array::value( 'relationship_type_id',
-                                                                                                       $params ),
+                if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,
                                                                                CRM_Utils_Array::value( 'contact', $ids ),
                                                                                $key )) { // step 2
                     $duplicate++;
@@ -95,20 +96,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 $valid++;
             }
         
-            return array( $valid, $invalid, $duplicate );
+            return array( $valid, $invalid, $duplicate, $saved );
         } else { //editing the relationship
             
             // check for duplicate relationship
-            if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( CRM_Utils_Array::value( 'relationship_type_id',
-                                                                                                       $params ),
+            if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,
                                                                            CRM_Utils_Array::value( 'contact', $ids ),
-                                                                               $ids['contactTarget'] )) { 
+                                                                           $ids['contactTarget'],
+                                                                           $relationshipId ) 
+                                                                          ) { 
                 $duplicate++;
                 return array( $valid, $invalid, $duplicate );
             }
 
             // editing an existing relationship
             self::add( $params, $ids, $ids['contactTarget'] );
+            $saved++;
+            return array( $valid, $invalid, $duplicate, $saved );
         }
     }
 
@@ -358,25 +362,36 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
      * this function checks for duplicate relationship
      *
-     * @param string $relationshipTypeId relationship id concatinated with (a_b or b_a)
+     * @param array $params (reference ) an assoc array of name/value pairs
      * @param integer $id this the id of the contact whom we are adding relationship
      * @param integer $contactId  this is contact id for adding relationship
+     * @param integer $relationshipId this is relationship id for the contact 
      * 
      * @return boolean true if record exists else false
      * @access public
      * @static
      */
-    static function checkDuplicateRelationship( $relationshipTypeId, $id, $contactId = 0) 
+    static function checkDuplicateRelationship( &$params, $id, $contactId = 0, $relationshipId = 0) 
     {
+
+        $start_date =  CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
+        $end_date =  CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date', $params ) );
+        
+        $relationshipTypeId = CRM_Utils_Array::value( 'relationship_type_id', $params );
         list( $type, $first, $second ) = explode( '_' , $relationshipTypeId );
 
         $queryString = " SELECT id 
                          FROM   civicrm_relationship 
                          WHERE  relationship_type_id = $type
+                                AND start_date = $start_date  
+                                AND end_date = $end_date  
                                 AND ( ( contact_id_a = $id        AND contact_id_b = $contactId ) OR 
                                       ( contact_id_a = $contactId AND contact_id_b = $id        )
                                     ) ";
-
+        if ($relationshipId) {
+            $queryString .= "AND id !=". $relationshipId;
+        }
+        
 
         $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
