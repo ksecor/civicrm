@@ -128,7 +128,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added')  {
+    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added', $tracking = null)  {
         $date = date('Ymd');
       
         $numContactsAdded    = 0;
@@ -147,6 +147,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                     'method' => $method,
                     'status' => $status,
                     'date' => $date,
+                    'tracking' => $tracking,
                 );
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 $groupContact->status    = $status;

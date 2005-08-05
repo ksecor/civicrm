@@ -1691,15 +1691,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
      * 1 - email
      * 2 - phone number
      * 3 - city
+     * 4 - domain id
      *
      * @param array $param - array of input parameters
      *
      * @return $contactId|CRM_Error if unique id available
      *
      * @access public
-     *
+     * @static
      */
-    function _crm_get_contact_id($params)
+    static function _crm_get_contact_id($params)
     {
         if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
             //CRM_Core_Error::debug_log_message('$params must contain either email, phone or city to obtain contact id');
@@ -1707,12 +1708,18 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
             return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
         }
 
-        
+        if (!isset($params['domain_id'])) {
+            $config =& CRM_Core_Config::singleton( );
+            $domain_id = $config->domainID;
+        } else {
+            $domain_id = $params['domain_id'];
+        }
+
         $queryString = $select = $from = $where = '';
         
         $select = 'SELECT civicrm_contact.id';
         $from   = ' FROM civicrm_contact, civicrm_location';
-        $andArray = array();
+        $andArray = array("civicrm_contact.domain_id = $domain_id");
         
         $andArray[] = "civicrm_location.entity_table = 'civicrm_contact'";
         $andArray[] = "civicrm_contact.id = civicrm_location.entity_id";

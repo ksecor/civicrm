@@ -58,10 +58,29 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         if (! $q) {
             return false;
         }
+        CRM_Core_DAO::transaction('BEGIN');
         $contact =& new CRM_Contact_BAO_Contact();
         $contact->id = $q->contact_id;
         $contact->is_subscribed = false;
         $contact->save();
+        
+        $ue =& new CRM_Mailing_Event_BAO_Unsubscribe();
+        $ue->event_queue_id = $queue_id;
+        $ue->org_unsubscribe = 1;
+        $ue->time_stamp = date('YmdHis');
+        $ue->save();
+
+        $shParams = array(
+            'contact_id'    => $q->contact_id,
+            'group_id'      => null,
+            'status'        => 'Removed',
+            'method'        => 'Email',
+            'tracking'      => $ue->id
+        );
+        CRM_Contact_BAO_SubscriptionHistory::create($shParams);
+        
+        CRM_Core_DAO::transaction('COMMIT');
+        
         return true;
     }
 
