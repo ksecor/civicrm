@@ -260,7 +260,7 @@ ORDER BY
         } else {
             $select = self::selectClause( $tables );
 
-            if (is_array($fv['cb_group_contact_status'])) {
+            if (is_array($fv['cb_group'])) {
                 $select .= ', civicrm_group_contact.status as status';
             }
         }

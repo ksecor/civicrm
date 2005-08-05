@@ -252,6 +252,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
+        $gc = CRM_Core_SelectValues::groupContactStatus();
+
         while ($result->fetch()) {
             $row = array();
 
@@ -262,7 +264,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             if (!empty ($result->postal_code_suffix)) {
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
-                
+            
+            if (empty($result->status)) {
+                $row['status'] = ts('Smart');
+            } else {
+                $row['status'] = $gc[$result->status];
+            }
+            
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
                 $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
@@ -339,11 +347,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
 
-            if ( CRM_Utils_Array::value('cb_group_contact_status', $fv) ) {
+            if ( CRM_Utils_Array::value('cb_group', $fv) ) {
                 $gc =& CRM_Core_SelectValues::groupContactStatus();
                 $str = ts('With status -');
-                foreach ($fv['cb_group_contact_status'] as $k => $v) {
-                    $str .= ' "' . $gc[$k] . '" ' . ts('or');
+                if (CRM_Utils_Array::value('cb_group_contact_status', $fv)) {
+                    foreach ($fv['cb_group_contact_status'] as $k => $v) {
+                        $str .= ' "' . $gc[$k] . '" ' . ts('or');
+                    }
+                } else {
+                    $str .= ' "' . $gc['In'] . '" ';
                 }
                 $str = preg_replace($patternOr, $replacement, $str);
                 $qill[] = $str;
