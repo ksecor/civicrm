@@ -165,6 +165,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         $object->orderBy ( 'title asc' );
         $object->find();
 
+        $groupPermission = CRM_Utils_System::checkPermission( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
@@ -172,7 +173,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-//                     $links =& $this->savedSearchLinks( );
                     $links =& $this->links( );
                 } else {
                     $links =& $this->links( );
@@ -180,7 +180,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 if ( $action == null ) {
                     $action = array_sum(array_keys($links));
                 }
-                $action = $action & CRM_Core_Action::mask( $permission );
+                $action = $action & CRM_Core_Action::mask( $groupPermission );
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $action,
                                                                             array( 'id'   => $object->id,

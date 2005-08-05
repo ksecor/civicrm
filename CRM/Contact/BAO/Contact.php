@@ -1121,9 +1121,15 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      */
     static function getDisplayAndImage( $id ) {
         $sql = "
-SELECT civicrm_contact.display_name as display_name, civicrm_contact.contact_type as contact_type
-FROM   civicrm_contact
-WHERE  civicrm_contact.id = $id
+SELECT    civicrm_contact.display_name as display_name,
+          civicrm_contact.contact_type as contact_type,
+          civicrm_email.email          as email       
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                               civicrm_contact.id = civicrm_location.entity_id AND
+                               civicrm_location.is_primary = 1)
+LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+WHERE     civicrm_contact.id = $id
 ";
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
@@ -1140,6 +1146,10 @@ WHERE  civicrm_contact.id = $id
             case 'Organization' :
                 $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18">';
                 break;
+            }
+            // use email if display_name is empty
+            if ( empty( $dao->display_name ) ) {
+                $dao->display_name = $dao->email;
             }
             return array( $dao->display_name, $image );
         }

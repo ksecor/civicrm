@@ -17,11 +17,10 @@ function civicrm_setup( ) {
         'com_civicrm'            ;
     $crmPath = $comPath . DIRECTORY_SEPARATOR . 'civicrm';
     $pkgPath = $crmPath . DIRECTORY_SEPARATOR . 'packages';
-    ini_set( 'include_path',
-             $comPath . ':' .
-             $crmPath . ':' .
-             $pkgPath . ':' .
-             ini_get( 'include_path' ) );
+    set_include_path( $comPath . PATH_SEPARATOR .
+                      $crmPath . PATH_SEPARATOR .
+                      $pkgPath . PATH_SEPARATOR .
+                      get_include_path( ) );
 
     
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
@@ -252,5 +251,7 @@ include_once 'config.main.php';
 
     return $str;
 }
+
+civicrm_main( );
 
 ?>

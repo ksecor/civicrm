@@ -9,9 +9,9 @@ function com_install() {
         'components'             . DIRECTORY_SEPARATOR .
         'com_civicrm'            . DIRECTORY_SEPARATOR ;
 
+    // this require actually runs the function needed
+    // bad code, but easier to debug on remote machines
     require_once $path . 'civicrm.php';
-
-    civicrm_main( );
 }
 
 # Show installation result to user

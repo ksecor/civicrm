@@ -42,13 +42,14 @@ class TestOfCRM272 extends UnitTestCase
         $this->assertEqual($contact->location[1]->email[1]->email, 'kurund@yahoo.com');
     }
     
-
+    /***
     function testDeleteIndividual()
     {
         $contact = $this->_individual;
         $val =& crm_delete_contact($contact);
         $this->assertNull($val);
     }
+    ***/
 
 }
 

@@ -150,7 +150,8 @@ class CRM_Utils_System_Mambo {
      * @static
      */
     static function baseURL() {
-        return 'http://FIXME/';
+        global $mosConfig_live_site;
+        return $mosConfig_live_site;
     }
 
 }

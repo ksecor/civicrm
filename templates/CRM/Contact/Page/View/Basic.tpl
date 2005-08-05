@@ -4,7 +4,7 @@
         <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contactId"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
-    <label>{$display_name}</label>
+    <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
     {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}">[ vCard ]</a>
