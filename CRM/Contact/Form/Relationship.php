@@ -399,9 +399,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Contact_Form_Relationship' );
         $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Contact_Form_Relationship' );
 
-
-        CRM_Core_Error::debug_var('ids', $ids);
-
         $errors        = array( );
         if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {
             foreach ( $params['contact_check'] as $cid => $dontCare ) {

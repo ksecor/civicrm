@@ -343,8 +343,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function checkValidRelationship( &$params, &$ids, $contactId ) 
     {
-        // CRM_Core_Error::debug_var('ids', $ids);
-        CRM_Core_Error::debug_var('contactId', $contactId);
         $errors = '';
 
         // get the string of relationship type
