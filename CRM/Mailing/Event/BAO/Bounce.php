@@ -48,32 +48,46 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
      * Create a new bounce event, update the email address if necessary
      */
     static function &create(&$params) {
+        
+        CRM_Core_DAO::transaction('BEGIN');
         $bounce =& new CRM_Mailing_Event_BAO_Bounce();
         $bounce->time_stamp = date('YmdHis');
         $bounce->copyValues($params);
         $bounce->save();
 
-        $bounceTable    = $bounce->getTableName();
+        $bounceTable    = CRM_Mailing_Event_BAO_Bounce::getTableName();
         $bounceType     = CRM_Mailing_DAO_BounceType::getTableName();
+        $emailTable     = CRM_Core_BAO_Email::getTableName();
+        $queueTable     = CRM_Mailing_Event_BAO_Queue::getTableName();
         
-        $email  =& new CRM_Core_BAO_Email();
-        $email->id = $bounce->email_id;
-        $email->find(true);
+        $q =& new CRM_Core_DAO();
+        $q->query(" SELECT $queueTable.email_id as email_id
+                    FROM $queueTable where
+                    $queueTable.id = {$params['event_queue_id']}"
+            );
+        $q->find(true);
+        
+        $email =& new CRM_Core_BAO_Email();
+        $email->id = $q->email_id;
+
         
         $bounce->reset();
         $query =
-                "SELECT         count(id) as bounces,
-                                $bounceType.hold_threshold as threshold
-                FROM            $bounceTable
-                INNER JOIN      $bounceType
-                        ON      $bounceTable.bounce_type_id = $bounceType.id
-                WHERE
-                                $bounceTable.email_id = " . $email->id . "
-                GROUP BY        $bounceTable.bounce_type_id";
+                "SELECT     count($bounceTable.id) as bounces,
+                            $bounceType.hold_threshold as threshold
+                FROM        $bounceTable
+                INNER JOIN  $bounceType
+                        ON  $bounceTable.bounce_type_id = $bounceType.id
+                INNER JOIN  $queueTable
+                        ON  $bounceTable.event_queue_id = $queueTable.id
+                INNER JOIN  $emailTable
+                        ON  $queueTable.email_id = $emailTable.id
+                WHERE       $emailTable.id = {$email->id}
+                    AND     ($emailTable.reset_date IS NULL
+                        OR  $bounceTable.time_stamp >= $emailTable.reset_date)
+                GROUP BY    $bounceTable.bounce_type_id
+                ORDER BY    $bounceType.hold_threshold, bounces desc";
                                 
-        if (isset($email->reset_date)) {
-            $query .= " AND $bounceTable.time_stamp > " . $email->reset_date;
-        }
         $bounce->query($query);
 
         while ($bounce->fetch()) {
@@ -84,6 +98,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                 break;
             }
         }
+        CRM_Core_DAO::transaction('COMMIT');
     }
 }
 
