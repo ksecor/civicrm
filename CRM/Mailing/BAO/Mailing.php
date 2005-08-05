@@ -112,7 +112,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE
                                         $mg.mailing_id = {$this->id}
                         AND             $mg.entity_table = '$group'
-                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.status = 'Added'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
         
@@ -205,7 +205,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
                                         $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.status = 'Added'
                         AND             $g2contact.location_id IS null
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
@@ -300,7 +300,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.status = 'Added'
                         AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
@@ -327,7 +327,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
+                        AND             $g2contact.status = 'Added'
                         AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0

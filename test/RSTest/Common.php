@@ -68,8 +68,8 @@ class test_RSTest_Common
     
     //group contact enums
     public static $groupStatus               = array('1' => 'Pending',
-                                                     '2' => 'In',
-                                                     '3' => 'Out'
+                                                     '2' => 'Added',
+                                                     '3' => 'Removed'
                                                      );
     public static $groupMethod               = array('1' => 'Admin',
                                                      '2' => 'Email',

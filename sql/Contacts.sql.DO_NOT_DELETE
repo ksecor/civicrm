@@ -843,10 +843,10 @@ CREATE TABLE crm_group_contact(
 	group_id INT UNSIGNED NOT NULL,
 	contact_id INT UNSIGNED NOT NULL,
 	
-	status ENUM('Pending','In','Out') COMMENT 'status of contact relative to membership in group',
+	status ENUM('Pending','Added','Removed') COMMENT 'status of contact relative to membership in group',
 	pending_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Pending"',
-	in_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "In"',
-	out_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Out"',
+	in_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Added"',
+	out_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Removed"',
     
 	PRIMARY KEY(id),
 

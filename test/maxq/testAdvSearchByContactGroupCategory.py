@@ -79,7 +79,7 @@ class testAdvSearchByContactGroupCategory(PyHttpTestCase):
         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
         LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE contact_type IN ( \'%s\' ) AND group_id IN ( 2 ) AND crm_group_contact.status=\"In\" AND tag_id IN (4,5) AND 1' % contact
+        WHERE contact_type IN ( \'%s\' ) AND group_id IN ( 2 ) AND crm_group_contact.status=\"Added\" AND tag_id IN (4,5) AND 1' % contact
         noOfContact = db.loadVal(query)
         if noOfContact == '1' :
             string = "Found %s contact" % noOfContact

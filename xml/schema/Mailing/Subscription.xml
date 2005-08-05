@@ -50,7 +50,7 @@
   <field>
        <name>status</name>
        <type>enum</type>
-       <values>Pending, In, Out</values>
+       <values>Pending, Added, Removed</values>
        <comment>status of contact</comment>
   </field>
   <field>

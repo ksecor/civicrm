@@ -106,7 +106,7 @@ function crm_delete_group(&$group) {
  *
  * @param CRM_Contact $group       A valid group object (passed by reference)
  * @param array       $contact     An array of one or more valid Contact objects (passed by reference).
- * @param text        status       A valid status value ('In', 'Pending', 'Out').
+ * @param text        status       A valid status value ('Added', 'Pending', 'Removed').
  * @param text        $method      A valid method to enter the contact to a group ('Admin','Email','Web','API').
  *
  *
@@ -115,7 +115,7 @@ function crm_delete_group(&$group) {
  * @access public
  */
 
-function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Admin') {
+function crm_add_group_contacts(&$group, $contacts, $status = 'Added',$method = 'Admin') {
     _crm_initialize( );
 
     foreach($contacts as $contact){
@@ -134,7 +134,7 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Ad
  *
  * @param CRM_Contact $group                A valid group object (passed by reference)
  * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.Note:Do not inclue Id releted properties. 
- * @param text        $status               A valid status value ('In', 'Pending', 'Out').
+ * @param text        $status               A valid status value ('Added', 'Pending', 'Removed').
  * @param text        $sort                 Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned.
  * @param Int         $offset               Starting row index.
  * @param Int         $row_count            Maximum number of rows to returns.
@@ -146,7 +146,7 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In',$method = 'Ad
  */
 
 
-function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = null, $row_count= null ) {
+function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null ) {
     _crm_initialize( );
     
     if ( ! isset( $group->id )) {

@@ -103,7 +103,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @return int count of members in the group with above status
      * @access public
      */
-    static function memberCount( $id, $status = 'In' ) {
+    static function memberCount( $id, $status = 'Added' ) {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         if ( isset( $status ) ) {

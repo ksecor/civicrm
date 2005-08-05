@@ -40,7 +40,7 @@
   <field>
        <name>status</name>
        <type>enum</type>
-       <values>In, Out, Pending</values>
+       <values>Added, Removed, Pending</values>
        <comment>status of contact relative to membership in group</comment>
   </field>
   <field>

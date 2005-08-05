@@ -321,11 +321,11 @@ class test_RSTest_GenDataset
             $groupContactDAO->pending_date   = test_RSTest_Common::getRandomDate();
             $groupContactDAO->pending_method = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
             break;
-        case 'In':
+        case 'Added':
             $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate();
             $groupContactDAO->in_method      = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
             break;
-        case 'Out':
+        case 'Removed':
             $groupContactDAO->out_date       = test_RSTest_Common::getRandomDate();
             $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate(0, strtotime($groupContactDAO->out_date));
             $groupContactDAO->out_method     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);

@@ -109,11 +109,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function &getValues( &$params, &$values, &$ids ) {
 
-        //$groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
-        $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
+        //$groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , 3 );
+        $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , 3 );
 
         // get the total count of groups
-        $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , null, true );
+        $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , null, true );
 
         return $values;
     }
@@ -128,7 +128,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'In')  {
+    static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added')  {
         $date = date('Ymd');
       
         $numContactsAdded    = 0;
@@ -173,7 +173,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Out') {
+    static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed') {
         $date = date('Ymd');
 
         $numContactsRemoved    = 0;
@@ -327,10 +327,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;
                 switch($groupContact->status) {
-                    case 'In':
+                    case 'Added':
                         $prefix = 'in_';
                         break;
-                    case 'Out':
+                    case 'Removed':
                         $prefix = 'out_';
                         break;
                     default:
@@ -368,7 +368,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      *                    included. group_contact properties (such as 'status',
      * '                  in_date', etc.) are included automatically.Note:Do not inclue
      *                    Id releted properties.  
-     * @param text        $status               A valid status value ('In', 'Pending', 'Out').
+     * @param text        $status               A valid status value ('Added', 'Pending', 'Removed').
      * @param text        $sort                 Associative array of
      *                    one or more "property_name"=>"sort direction"
      *                    pairs which will control order of Contact objects returned.
@@ -382,7 +382,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     
     
-    static function getGroupContacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = null, $row_count= null)
+    static function getGroupContacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null)
     {
         $query = "SELECT * FROM civicrm_group WHERE id = '$group->id'";
        
@@ -423,7 +423,7 @@ WHERE civicrm_group_contact.group_id = {$group->id}
 AND     (
             (civicrm_group_contact.status = '$status')
             OR 
-            (civicrm_group_contact.status <> 'Out' AND civicrm_contact.id IN ( $result ))
+            (civicrm_group_contact.status <> 'Removed' AND civicrm_contact.id IN ( $result ))
         )
 ";
 
@@ -490,7 +490,7 @@ WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_cont
 
 
     /**
-     * Method to update the Status of Group member form 'Pending' to 'In'
+     * Method to update the Status of Group member form 'Pending' to 'Added'
      *
      * @param  int  $contactId id of the contact
      *
@@ -508,14 +508,14 @@ WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_cont
         } 
 
         $query = "UPDATE civicrm_group_contact 
-SET civicrm_group_contact.status = 'In' 
+SET civicrm_group_contact.status = 'Added' 
 WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.group_id = '$groupID'" ;
       
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
 
         $query = "UPDATE civicrm_subscription_history 
-SET civicrm_subscription_history.status = 'In' 
+SET civicrm_subscription_history.status = 'Added' 
 WHERE civicrm_subscription_history.contact_id = '$contactId' AND civicrm_subscription_history.group_id = '$groupID' AND civicrm_subscription_history.method = 'Email'";
         
         $dao =& new CRM_Contact_DAO_SubscriptionHistory();

@@ -84,7 +84,7 @@ class testAdvSearchByAllCriteria(PyHttpTestCase):
         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
         LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE group_id=1 AND crm_group_contact.status=\"In\" AND LOWER(crm_contact.sort_name) LIKE \'%%%s%%\' AND LOWER(crm_address.street_name) LIKE \'%%%s%%\' AND LOWER(crm_address.city) LIKE \'%%%s%%\' AND crm_address.state_province_id=%s AND crm_address.country_id=%s AND crm_address.postal_code>=%s AND crm_address.postal_code<=%s AND 1' % (name, street, city, params[6][1], params[7][1], postalL, postalH)
+        WHERE group_id=1 AND crm_group_contact.status=\"Added\" AND LOWER(crm_contact.sort_name) LIKE \'%%%s%%\' AND LOWER(crm_address.street_name) LIKE \'%%%s%%\' AND LOWER(crm_address.city) LIKE \'%%%s%%\' AND crm_address.state_province_id=%s AND crm_address.country_id=%s AND crm_address.postal_code>=%s AND crm_address.postal_code<=%s AND 1' % (name, street, city, params[6][1], params[7][1], postalL, postalH)
         
         noOfContact = db.loadVal(query)
         if noOfContact == '1' :

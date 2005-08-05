@@ -33,7 +33,7 @@ class TestOfGetGroupContacts extends UnitTestCase
         $group->id = 1;
         $sort = array("date" => "DESC");
         $returnProperties =array('method','date');
-        $contacts = crm_get_group_contacts(&$group, $returnProperties ,"In",$sort, $offset = 0, $row_count = 25 );
+        $contacts = crm_get_group_contacts(&$group, $returnProperties ,'Added',$sort, $offset = 0, $row_count = 25 );
         
         foreach($contacts as $contact) {
             $this->assertIsA($contact,'CRM_Contact_DAO_Contact');
@@ -49,7 +49,7 @@ class TestOfGetGroupContacts extends UnitTestCase
         $group = new CRM_Contact_DAO_Group();
         $group->id = 1;
         $returnProperties =array('method','date');
-        $contacts = crm_get_group_contacts(&$group, $returnProperties , $status = 'Out', $sort = null, $offset = 0, $row_count = 25 );
+        $contacts = crm_get_group_contacts(&$group, $returnProperties , $status = 'Removed', $sort = null, $offset = 0, $row_count = 25 );
         
         foreach($contacts as $contact) {
             $this->assertIsA($contact,'CRM_Contact_DAO_Contact');

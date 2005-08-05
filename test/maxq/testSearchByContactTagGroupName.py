@@ -79,7 +79,7 @@ class testSearchByContactCategoryGroupName(PyHttpTestCase):
         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
         LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE contact_type=\'%s\' AND ( group_id=%s AND crm_group_contact.status=\'In\' ) AND tag_id=%s AND crm_contact.sort_name LIKE \'%%%s%%\' AND 1' % (contact, params[2][1], params[3][1], name)
+        WHERE contact_type=\'%s\' AND ( group_id=%s AND crm_group_contact.status=\'Added\' ) AND tag_id=%s AND crm_contact.sort_name LIKE \'%%%s%%\' AND 1' % (contact, params[2][1], params[3][1], name)
  
         noOfContact = db.loadVal(query)
         print noOfContact

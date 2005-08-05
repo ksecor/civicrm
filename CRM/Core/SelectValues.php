@@ -277,9 +277,9 @@ class CRM_Core_SelectValues {
         static $groupContactStatus = null;
         if (!$groupContactStatus) {
             $groupContactStatus = array(
-                'In'      => ts('Added'),
-                'Out'     => ts('Removed'),
-                'Pending' => ts('Pending')
+                'Added'     => ts('Added'),
+                'Removed'   => ts('Removed'),
+                'Pending'   => ts('Pending')
             );
         }
         return $groupContactStatus;

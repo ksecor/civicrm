@@ -50,9 +50,9 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
   
         $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
         
-        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'In' );
+        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Added' );
         $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Pending' );
-        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Out' );
+        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Removed' );
 
         $this->assign       ( 'groupCount'  , $count );
         $this->assign_by_ref( 'groupIn'     , $in );
@@ -123,7 +123,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
         
         switch ($status) {
         case 'i' :
-            $groupContact->status = 'In';
+            $groupContact->status = 'Added';
             $groupContact->in_date = date('Ymd');
             $groupContact->in_method = 'Admin';
             break;
@@ -132,7 +132,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
             $groupContact->pending_date = date('Ymd');
             break;
         case 'o' :
-            $groupContact->status = 'Out';
+            $groupContact->status = 'Removed';
             $groupContact->out_date = date('Ymd');
             $groupContact->out_method = 'Admin';
             break;

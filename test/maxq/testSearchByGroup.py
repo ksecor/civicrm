@@ -77,7 +77,7 @@ class testSearchByGroup(PyHttpTestCase):
         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
         LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE ( crm_group_contact.group_id=%s  AND crm_group_contact.status=\'In\' ) AND 1' % params[2][1]
+        WHERE ( crm_group_contact.group_id=%s  AND crm_group_contact.status=\'Added\' ) AND 1' % params[2][1]
 
         noOfContact = db.loadVal(query)
         if noOfContact == '1' :

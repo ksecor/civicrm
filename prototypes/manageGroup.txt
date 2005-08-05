@@ -63,7 +63,7 @@ The managing of groups will consist of
       - description (truncated)
       - group type
 
-! number of 'In' members (for static only)
+! number of 'Added' members (for static only)
 
    there will be links after the listing for the following operations "members", "edit" and "delete".
 

@@ -174,7 +174,7 @@ class CRM_GCD {
                                        ),
                          );
     
-    private $groupMembershipStatus = array('In', 'Out', 'Pending');
+    private $groupMembershipStatus = array('Added', 'Removed', 'Pending');
     private $subscriptionHistoryMethod = array('Admin', 'Email');
 
 

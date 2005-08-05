@@ -489,8 +489,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
              
              [cb_group_contact_status] => Array
              (
-              [In] => 1
-              [Out] => 0
+              [Added] => 1
+              [Removed] => 0
               [Pending] => 0
               )
              
@@ -541,14 +541,14 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 && is_array($fv['cb_group_contact_status'])) {
                 foreach ($fv['cb_group_contact_status'] as $k => $v) {
                     if ($v) {
-                        if ($k == 'In') {
+                        if ($k == 'Added') {
                             $in = true;
                         }
                         $statii[] = "\"$k\"";
                     }
                 }
             } else {
-                $statii[] = '"In"';
+                $statii[] = '"Added"';
                 $in = true;
             }
             $andArray['group'] .= ' AND civicrm_group_contact.status IN (' 
@@ -569,11 +569,11 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                             $ssWhere[] = "($ssw AND (civicrm_contact.id NOT IN (
                             SELECT contact_id FROM civicrm_group_contact
                             WHERE civicrm_group_contact.group_id = $group_id
-                            AND civicrm_group_contact.status = 'Out'
+                            AND civicrm_group_contact.status = 'Removed'
                             )))";
                         } else {
                             /* FIXME: bug with multiple group searches */
-                            $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'In')))";
+                            $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'Added')))";
                         }
                     }
                     $group->reset();
@@ -1099,7 +1099,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         }
         
         $subscriptionParams = array('contact_id' => $contact->id,
-                                    'status' => 'In',
+                                    'status' => 'Added',
                                     'method' => 'Admin');
         CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
 

@@ -348,7 +348,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( $this->_context === 'smog' ) {
-            $defaults['cb_group_contact_status[In]'] = true;
+            $defaults['cb_group_contact_status[Added]'] = true;
         }
 
         // note that we do this so we over-ride the default/post/submitted values to get

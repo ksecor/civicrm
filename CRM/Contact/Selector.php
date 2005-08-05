@@ -361,7 +361,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $str .= ' "' . $gc[$k] . '" ' . ts('or');
                     }
                 } else {
-                    $str .= ' "' . $gc['In'] . '" ';
+                    $str .= ' "' . $gc['Added'] . '" ';
                 }
                 $str = preg_replace($patternOr, $replacement, $str);
                 $qill[] = $str;
