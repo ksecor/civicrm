@@ -478,6 +478,29 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $qill[] = ts('Restricted to Contacts starting with: "%1"', array(1 => $fv['sortByCharacter']));
         }
 
+        // Custom Data 
+        if ( ! empty( $fv ) ) {
+            foreach ($fv as $k => $v) {
+                if ( substr( $k, 0, 10 ) != 'customData' ) {
+                    continue;
+                }
+                
+                if ( $v != '' ) {
+                    list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
+                    // Custom Group DAO
+                    $cgDAO =& new CRM_Core_DAO();
+                    $strQuery = "SELECT title FROM civicrm.civicrm_custom_group WHERE id = $groupId";
+                    $cgDAO->query($strQuery);
+                    while($cgDAO->fetch()) {
+                        $groupName = $cgDAO->title;
+                    }
+                    $elementName = str_replace("_", " ", $elementName);
+                    $strCustom = $cgDAO->title . ': ' . $elementName . ' -  "%1"';
+                    $qill[] = ts($strCustom , array(1 => $v));
+                }
+            }
+        }
+
         return $qill;
     }
 
