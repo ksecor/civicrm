@@ -49,7 +49,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @param int $job_id       The job ID of the reply
      * @param int $queue_id     The queue event id
      * @param string $hash      The hash
-     * @return void
+     * @return string|null      The email address to forward the reply to, or null on failure
      * @access public
      * @static
      */
