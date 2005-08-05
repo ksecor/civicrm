@@ -204,7 +204,7 @@ class CRM_Core_Invoke {
                 break;*/    
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
-                return $view->run();
+                break;
             default:
                 $view =& new CRM_Contact_Page_View_Basic( );
                 break;
