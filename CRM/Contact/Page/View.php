@@ -109,7 +109,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
         CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
-    }
+        //display OtherActivty link 
+        $otherAct = CRM_Core_PseudoConstant::activityType(false);
+        $activityNum = count($otherAct);
+        $this->assign('showOtherActivityLink',$activityNum);
+        
+}
 
 
     /**

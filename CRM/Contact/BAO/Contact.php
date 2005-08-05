@@ -1544,7 +1544,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $row    = $result->fetchRow();
         $rowPhonecall = $row[0];
         
-        $query3 = "SELECT count(*) FROM civicrm_activity WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND civicrm_activity_type.id = civicrm_activity.activity_type AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
         $dao->query($query3);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -1576,6 +1576,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $query = "
 ( SELECT
     civicrm_phonecall.id as id,
+    civicrm_phonecall.source_contact_id as source_contact_id, 
+    civicrm_phonecall.target_entity_id as  target_contact_id,
     civicrm_phonecall.subject as subject,
     civicrm_phonecall.scheduled_date_time as date,
     civicrm_phonecall.status as status,
@@ -1592,6 +1594,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
+    civicrm_meeting.source_contact_id as source_contact_id,
+    civicrm_meeting.target_entity_id as  target_contact_id,
     civicrm_meeting.subject as subject,
     civicrm_meeting.scheduled_date_time as date,
     civicrm_meeting.status as status,
@@ -1608,6 +1612,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
+    civicrm_activity.source_contact_id as source_contact_id,
+    civicrm_activity.target_entity_id as  target_contact_id,
     civicrm_activity.subject as subject,
     civicrm_activity.scheduled_date_time as date,
     civicrm_activity.status as status,
@@ -1620,7 +1626,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
     civicrm_activity.target_entity_id = target.id AND
     ( civicrm_activity.source_contact_id = $contactId OR civicrm_activity.target_entity_id = $contactId ) AND
-    civicrm_activity_type.id = civicrm_activity.activity_type AND
+    civicrm_activity_type.id = civicrm_activity.activity_type AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
 )
 ";
@@ -1636,7 +1642,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         
 
         $queryString = $query . $order . $limit;
-
         $dao->query( $queryString );
         $values =array();
         $rowCnt = 0;
@@ -1657,6 +1662,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
             $values[$rowCnt]['status']  = $dao->status;
             $values[$rowCnt]['sourceName'] = $dao->sourceName;
             $values[$rowCnt]['targetName'] = $dao->targetName;
+            $values[$rowCnt]['sourceID'] = $dao->source_contact_id;
+            $values[$rowCnt]['targetID'] = $dao->target_contact_id;
             $rowCnt++;
         }
         foreach ($values as $key => $array) {

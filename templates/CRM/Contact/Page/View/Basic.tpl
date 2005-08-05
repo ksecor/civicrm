@@ -117,8 +117,8 @@
   {if $openActivity.totalCount}
     <a href="#" onClick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
   {else}
-    {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&reset=1&cid=$contactId"}{/capture}
-    {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&reset=1&cid=$contactId"}{/capture}
+    {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+    {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
     <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
   {/if}
 </div>
@@ -140,10 +140,12 @@
         	<td>{$row.activity_type}</td>
             <td>
              {if $row.activity_type eq 'Meeting'}  
-               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
+             {elseif $row.activity_type eq  'Phone Call'}
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {else}
-               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
-             {/if}
+	       <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>			
+             {/if }
             </td>
             <td>{$row.sourceName}</td>
             <td>{$row.targetName}</td>
@@ -152,7 +154,7 @@
         </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse&cid=$contactId'}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&cid=$contactId"}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
@@ -184,7 +186,7 @@
         </tr>
     {/foreach}
     {if $activity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=true&cid=$contactId"}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=true&cid=$contactId"}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}

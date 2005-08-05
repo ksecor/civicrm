@@ -71,8 +71,24 @@
                <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {/if}
              </td>
-             <td>{$row.sourceName}</td>
-             <td>{$row.targetName}</td>
+             <td>
+	     {if $contactId  NEQ $row.sourceID} 
+	     <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">
+		{$row.sourceName}
+	     </a>
+	     {else}
+	        {$row.sourceName}
+	     {/if}			
+	     </td>
+             <td>
+	     {if $$contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
+	       <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">
+		 {$row.targetName}
+	       </a>
+             {else}
+		 {$row.targetName} 
+	     {/if}	
+	     </td>
              <td>{$row.date|crmDate}</td>
              <td>{$row.status_display}</td>
              <td>{$row.action}</td>
