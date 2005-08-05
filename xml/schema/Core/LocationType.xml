@@ -34,6 +34,13 @@
        <comment>Location Type Name.</comment>
   </field>
   <field>
+       <name>vcard_name</name>
+       <title>vCard Location Type</title>
+       <type>varchar</type>
+       <length>4</length>
+       <comment>vCard Location Type Name.</comment>
+  </field>
+  <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
