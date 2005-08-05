@@ -262,6 +262,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             // the columns we are interested in
             foreach (self::$_properties as $property) {
+                if ( $property == 'status' ) {
+                    continue;
+                }
                 $row[$property] = $result->$property;
             }
             if (!empty ($result->postal_code_suffix)) {

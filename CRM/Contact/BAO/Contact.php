@@ -272,7 +272,7 @@ ORDER BY
         } else {
             $select = self::selectClause( $tables );
 
-            if (is_array($fv['cb_group'])) {
+            if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
                 $select .= ', civicrm_group_contact.status as status';
             }
         }
@@ -741,6 +741,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         $cdANDArray = array();
         if ( ! empty( $fv ) ) {
             $contactIdCount = 0;
+            $customDataConstant = false;
             foreach ($fv as $k => $v) {
                 if ( substr( $k, 0, 10 ) != 'customData' ) {
                     continue;
@@ -750,7 +751,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                 
                 if ( $str == 'customData' && $v != '') {
-                    $customDataConstant = 1;
+                    $customDataConstant = true;
                     $strSelect = $strFrom = $strWhere = $orderBy = ''; 
                     
                     $tableData = array();
