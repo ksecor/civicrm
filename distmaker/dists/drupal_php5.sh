@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the stuff
-for CODE in css i js l10n packages PEAR templates bin mambo gmaps CRM api modules; do
+for CODE in css i js l10n packages PEAR templates bin mambo CRM api modules; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
