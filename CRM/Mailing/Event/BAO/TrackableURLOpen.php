@@ -67,8 +67,8 @@ class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_Track
                     INNER JOIN $job ON $turl.mailing_id = $job.mailing_id
                     INNER JOIN $eq ON $job.id = $eq.job_id
                     WHERE $eq.id = $queue_id AND $turl.id = $url_id");
-                    
-        if (! $open->find(true)) {
+        
+        if (! $search->fetch()) {
             /* Whoops, error, don't track it.  Return the base url. */
             return CRM_Utils_System::baseURL();
         }

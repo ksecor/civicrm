@@ -76,12 +76,27 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             }
             $contact_id = $contact->id;
         }
-        
+       
+        /* Get the primary email id from the contact to use as a hash input */
+        $dao =& new CRM_Core_DAO();
+        $emailTable = CRM_Core_BAO_Email::getTableName();
+        $locTable   = CRM_Core_BAO_Location::getTableName();
+        $contactTable = CRM_Contact_BAO_Contact::getTableName();
+        $dao->query("SELECT $emailTable.id as email_id
+                    FROM $emailTable
+                    INNER JOIN $locTable
+                        ON  $emailTable.location_id = $locTable.id
+                    WHERE   $emailTable.is_primary = 1
+                    AND     $locTable.is_primary = 1
+                    AND     $locTable.entity_table = '$contactTable'
+                    AND     $locTable.entity_id = $contact_id");
+        $dao->fetch();
+
         $se =& new CRM_Mailing_Event_BAO_Subscribe();
         $se->group_id = $group_id;
         $se->contact_id = $contact_id;
         $se->time_stamp = date('YmdHis');
-        $se->hash = sha1("{$group_id}:{$contact_id}:{$se->time_stamp}");
+        $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
         $se->save();
 
         $shParams = array (
