@@ -241,7 +241,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $ids['contactTarget'] = ( $relation->contact_id_a == $this->_contactId ) ?
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
-        
+
         list( $valid, $invalid, $duplicate, $saved ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
@@ -396,8 +396,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $ids = array( );
         $session =& CRM_Core_Session::singleton( );
-        $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Core_Controller_Simple' );
-        $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Core_Controller_Simple' );
+        $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Contact_Form_Relationship' );
+        $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Contact_Form_Relationship' );
+
+
+        CRM_Core_Error::debug_var('ids', $ids);
 
         $errors        = array( );
         if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {

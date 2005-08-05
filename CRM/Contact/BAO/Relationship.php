@@ -61,6 +61,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function create( &$params, &$ids ) 
     {
+
         $valid = $invalid = $duplicate = $saved = 0;
 
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
@@ -321,7 +322,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $contact_type_a = CRM_Contact_BAO_Contact::getContactType( $contact_a );
         $contact_type_b = CRM_Contact_BAO_Contact::getContactType( $contact_b );
 
-        if ( ( ( ! $relationshipType->contact_type_a ) || ( $relationshipType->contact_type_a == $contact_type_a ) ) &&
+        if ( ( ( ! $relationshipType->contact_type_a ) || ( $relationshipType->contact_type_a == $contact_type_a )  ) &&
              ( ( ! $relationshipType->contact_type_b ) || ( $relationshipType->contact_type_b == $contact_type_b ) ) ) {
             return true;
         } else {
@@ -342,6 +343,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function checkValidRelationship( &$params, &$ids, $contactId ) 
     {
+        // CRM_Core_Error::debug_var('ids', $ids);
+        CRM_Core_Error::debug_var('contactId', $contactId);
         $errors = '';
 
         // get the string of relationship type
@@ -382,10 +385,14 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $queryString = " SELECT id 
                          FROM   civicrm_relationship 
-                         WHERE  relationship_type_id = $type
-                                AND start_date = $start_date  
-                                AND end_date = $end_date  
-                                AND ( ( contact_id_a = $id        AND contact_id_b = $contactId ) OR 
+                         WHERE  relationship_type_id = $type";
+        if ($start_date) {
+            $queryString .= " AND start_date = $start_date "; 
+        }
+        if ($end_date) {
+            $queryString .= " AND end_date = $end_date ";
+        }
+        $queryString .= " AND ( ( contact_id_a = $id        AND contact_id_b = $contactId ) OR 
                                       ( contact_id_a = $contactId AND contact_id_b = $id        )
                                     ) ";
         if ($relationshipId) {
