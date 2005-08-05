@@ -17,7 +17,8 @@
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=`$contactId`&log=1"}">{ts}Log a Call{/ts}</a>&nbsp;&nbsp;
    {*Need conditional here - only display next link if there are activity_type entries for this domain. *}
 {if $showOtherActivityLink}
-   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}
+&nbsp;&nbsp;&nbsp;&nbsp;
+  [&nbsp;<a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}</a>&nbsp;]
 {/if}
-</a>
+
 </div>
