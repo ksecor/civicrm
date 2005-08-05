@@ -6,6 +6,11 @@
 <table>
   <tr class="columnheader">
   <th>{$form.toggleSelect.html}</th>
+  {if $context eq 'smog'}
+  <th>
+    {ts}Status{/ts}
+  </th>
+  {/if}
   {foreach from=$columnHeaders item=header}
     <th>
     {if $header.sort}
@@ -23,6 +28,9 @@
   <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td>
+    {if $context eq 'smog'}
+    <td>{$row.status}</td>
+    {/if}
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td>{$row.street_address|mb_truncate:22:"...":true}</td>
