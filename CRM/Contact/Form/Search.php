@@ -462,8 +462,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function postProcess( ) {
         // get user submitted values
-        $this->_formValues = $this->controller->exportValues($this->_name);
-
+        $this->_formValues = $this->controller->exportValues($this->_name);       
         /* after every search form is submitted we save the following in the session
          *     - type of search 'type'
          *     - submitted form values 'formValues'
@@ -526,6 +525,30 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             return;
         }
         $this->_done = true;
+
+        // need to collapse the custom data groups 
+        // if some values entered to search        
+        if ( !empty($this->_formValues) ) {
+            $customDataCriteria = array();
+            foreach ($this->_formValues as $k => $v) {
+                if ( substr( $k, 0, 10 ) != 'customData' ) {
+                    continue;
+                }
+                if ( $v != '' ) {
+                    list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
+
+                    // Custom Group DAO
+                    $cgDAO =& new CRM_Core_DAO();
+                    $strQuery = "SELECT title FROM civicrm.civicrm_custom_group WHERE id = $groupId";
+                    $cgDAO->query($strQuery);
+                    while($cgDAO->fetch()) {
+                        $groupName = $cgDAO->title;
+                    }
+                    $customDataCriteria[] = $groupName;
+                }
+            }
+            $this->set('customDataSearch',$customDataCriteria);
+        }
 
         // added the sorting  character to the form array
         // lets recompute the aToZ bar without the sortByCharacter

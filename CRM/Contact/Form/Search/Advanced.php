@@ -161,6 +161,24 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     public function customDataSearch() {
         
+        // expand on search result if criteria entered
+        
+        $customDataSearch = $this->get('customDataSearch');
+        if ( !empty($customDataSearch)) {
+            $customAssignHide = array();
+            $customAssignShow = array();
+            foreach(array_unique($customDataSearch) as $v) {
+                $customAssignHide[] = $v . '[show]';
+                $customAssignShow[] = $v;
+            }
+            
+            $customShow = '"' . implode("\",\"",$customAssignShow) . '"';
+            $customHide = '"' . implode("\",\"",$customAssignHide) . '"';
+
+            $this->assign('customShow', $customShow);
+            $this->assign('customHide', $customHide);
+        }
+
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetailForSearch();
 
         $this->assign('groupTree', $groupDetails);

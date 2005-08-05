@@ -153,4 +153,10 @@
 
 {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );
+
+{if $customShow} 
+    var showBlocks = new Array({$customShow});
+    var hideBlocks = new Array({$customHide});	
+    on_load_init_blocks( showBlocks, hideBlocks );
+{/if}    
 </script>
