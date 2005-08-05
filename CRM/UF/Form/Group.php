@@ -79,12 +79,12 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // title
-        $this->add('text', 'title', ts('Group Name'),
+        $this->add('text', 'title', ts('Profile Name'),
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
         // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile Group active?') );
+        $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',

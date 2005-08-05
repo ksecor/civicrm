@@ -1,7 +1,7 @@
-{* add/update/view CiviCRM Profile group *}
+{* add/update/view CiviCRM Profile *}
 
 <div class="form-item">
-    <fieldset><legend>{ts}CiviCRM Profile Group{/ts}</legend>
+    <fieldset><legend>{ts}CiviCRM Profile{/ts}</legend>
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
@@ -20,7 +20,7 @@
 {if $action eq 2 or $action eq 4} {* Update or View*}
     <p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}CiviCRM Profile Fields for this Group{/ts}</a>
+    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
     </div>
     </p>
 {/if}

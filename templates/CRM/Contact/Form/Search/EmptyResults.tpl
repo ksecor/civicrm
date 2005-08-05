@@ -4,7 +4,7 @@
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {if $context EQ 'smog'}
-            {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 currently has no members. You can <a href="%2">add members here.</a>{/ts}
+            {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 has no members which match your search criteria. You can <a href="%2">add members here.</a>{/ts}
         {else}
             {if $qill}{ts}No matches found for:{/ts}
             <ul>

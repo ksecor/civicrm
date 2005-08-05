@@ -71,7 +71,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'title' => ts('List CiviCRM Profile Group Fields'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Group'),
+                                                                          'name'  => ts('Edit Profile Name'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 

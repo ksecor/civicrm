@@ -417,9 +417,9 @@ VALUES
     (1, 'registered_voter', 'Registered Voter?', 'Boolean', 'Radio', 1, 1, '', 1);
     
 INSERT INTO civicrm_custom_field
-    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable)
 VALUES
-    (1, 'party_registration', 'Party Registration', 'String', 'Text', 0, 2, 'If contact is registered, enter party name here.', 1);
+    (1, 'party_registration', 'Party Registration', 'String', 'Text', 0, 2, 'If contact is registered, enter party name here.', 1, 1);
     
 INSERT INTO civicrm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
@@ -427,9 +427,9 @@ VALUES
     (1, 'date_last_voted', 'Date Last Voted', 'Date', 'Select Date', 0, 3, '', 1);
 
 INSERT INTO civicrm_custom_field
-    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable)
 VALUES
-    (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1);
+    (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1, 1);
 
 
 -- Custom data for educational qualifications
