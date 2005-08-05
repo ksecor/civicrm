@@ -50,8 +50,10 @@ class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_Track
      * @param int $queue_id     The Queue Event ID of the clicker
      * @param int $url_id       The ID of the trackable URL
      * @return string $url      The redirection url, or base url on failure.
+     * @access public
+     * @static
      */
-    function track($queue_id, $url_id) {
+    public static function track($queue_id, $url_id) {
         $search =& new CRM_Mailing_BAO_TrackableURL();
         
         /* To find the url, we also join on the queue and job tables.  This

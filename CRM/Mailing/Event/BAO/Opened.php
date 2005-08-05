@@ -34,7 +34,7 @@
  *
  */
 
-class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
+class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
 
     /**
      * class constructor
@@ -44,34 +44,24 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
     }
 
     /**
-     * Queue a new recipient
+     * Register an open event
      *
-     * @param array     The values of the new EventQueue
-     * @return object   The new EventQueue
+     * @param int $queue_id     The Queue Event ID of the recipient
+     * @return void
      * @access public
      * @static
      */
-    public static function &create(&$params) {
-        $eq =& new CRM_Mailing_Event_BAO_Queue();
-        $eq->copyValues($params);
-        $eq->hash = self::hash($params);
-        $eq->save();
-    }
-
-    /**
-     * Create a security hash from the job, email and contact ids
-     *
-     * @param array     The ids to be hashed
-     * @return int      The hash
-     * @access public
-     * @static
-     */
-    public static function hash($params) {
-        $jobId      = $params['job_id'];
-        $emailId    = $params['email_id'];
-        $contactId  = $params['contact_id'];
-
-        return sha1("{$jobId}:{$emailId}:{$contactId}");
+    public static function open($queue_id) {
+        /* First make sure there's a matching queue event */
+    
+        $q =& new CRM_Mailing_Event_BAO_Queue();
+        $q->id = $queue_id;
+        if ($q->find(true)) {
+            $oe =& new CRM_Mailing_Event_BAO_Opened();
+            $oe->event_queue_id = $queue_id;
+            $oe->time_stamp = date('YmdHis');
+            $oe->save();
+        }
     }
 }
 
