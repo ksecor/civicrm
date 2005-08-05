@@ -498,31 +498,39 @@ WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_cont
      *
      * @param  int  $groupID   Id of a perticuler group
      *
+     * @param mixed $tracking   tracking information for history
+     *
      * @return null If success
      * @access public
      * @static
      */
 
-    function updateGroupMembershipStatus($contactId,$groupID)
+    function updateGroupMembershipStatus($contactId,$groupID,$method = 'Email',$tracking = null)
     {
         if(! isset($contactId) && ! isset($groupID)) {
             return CRM_Core_Error::fatal( "$contactId or $groupID should not empty" );
         } 
 
         $query = "UPDATE civicrm_group_contact 
-SET civicrm_group_contact.status = 'Added' 
+SET civicrm_group_contact.status = 'Added'
 WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.group_id = '$groupID'" ;
       
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
 
-        $query = "UPDATE civicrm_subscription_history 
-SET civicrm_subscription_history.status = 'Added' 
-WHERE civicrm_subscription_history.contact_id = '$contactId' AND civicrm_subscription_history.group_id = '$groupID' AND civicrm_subscription_history.method = 'Email'";
-        
-        $dao =& new CRM_Contact_DAO_SubscriptionHistory();
-        $dao->query($query);
-
+//         $query = "UPDATE civicrm_subscription_history 
+// SET civicrm_subscription_history.status = 'Added' 
+// WHERE civicrm_subscription_history.contact_id = '$contactId' AND civicrm_subscription_history.group_id = '$groupID' AND civicrm_subscription_history.method = 'Email'";
+//         
+//         $dao =& new CRM_Contact_DAO_SubscriptionHistory();
+//         $dao->query($query);
+        $params = array('contact_id' => $contactId,
+                        'group_id'  => $ggroupID,
+                        'status'    => 'Added',
+                        'method'    => $method,
+                        'tracking'  => $tracking
+        );
+        CRM_Contact_BAO_SubscriptionHistory::create($params);
         return null;    
         
     }

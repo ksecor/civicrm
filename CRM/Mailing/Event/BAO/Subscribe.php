@@ -114,6 +114,28 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         CRM_Core_DAO::transaction('COMMIT');
         return $contact_id;
     }
+
+    /**
+     * Verify the hash of a subscription event
+     * 
+     * @param int $contact_id       ID of the contact
+     * @param int $subscribe_id     ID of the subscription event
+     * @param string $hash          Hash to verify
+     *
+     * @return object|null          The subscribe event object, or null on failure
+     * @access public
+     * @static
+     */
+    public static function &verify($contact_id, $subscribe_id, $hash) {
+        $se =& new CRM_Mailing_Event_BAO_Subscribe();
+        $se->contact_id = $contact_id;
+        $se->id = $subscribe_id;
+        $se->hash = $hash;
+        if ($se->find(true)) {
+            return $se;
+        }
+        return null;
+    }
 }
 
 ?>
