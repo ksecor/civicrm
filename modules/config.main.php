@@ -2,12 +2,11 @@
 
 global $civicrm_root;
 
-$include_path = ini_get('include_path');
 $include_path = '.'        . PATH_SEPARATOR .
-                $civicrm_root . PATH_SEPARATOR . 
+$civicrm_root . PATH_SEPARATOR . 
                 $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
-                $include_path;
-ini_set('include_path', $include_path);
+                get_include_path( );
+set_include_path( $include_path );
 
 define( 'CIVICRM_SMARTYDIR'  , $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
 define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test'   . DIRECTORY_SEPARATOR );
