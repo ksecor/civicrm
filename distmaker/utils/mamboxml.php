@@ -4,7 +4,8 @@ if( isset( $GLOBALS['_ENV']['DM_SOURCEDIR'] ) ) {
     $sourceCheckoutDir = $GLOBALS['_ENV']['DM_SOURCEDIR'];
 } else {
     // backward compatibility
-    $sourceCheckoutDir = $GLOBALS['_ENV']['HOME'] . '/svn/crm';
+    // $sourceCheckoutDir = $GLOBALS['_ENV']['HOME'] . '/svn/crm';
+    $sourceCheckoutDir = $argv[1];
 }
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
@@ -12,7 +13,8 @@ if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_ENV']['DM_GENFILESDIR'];
 } else {
     // backward compatibility
-    $targetDir = $GLOBALS['_ENV']['HOME'] . '/com_civicrm/civicrm';
+    //$targetDir = $GLOBALS['_ENV']['HOME'] . '/com_civicrm/civicrm';
+    $targetDir = $argv[2];
 }
 $targetDirLength = strlen( $targetDir );
 
@@ -51,11 +53,12 @@ function generateMamboConfig( &$files ) {
 
     $smarty->assign( 'files', array_keys( $files ) );
     $xml = $smarty->fetch( 'mambo.tpl' );
-
+    
     $output = $targetDir . '/mambo/civicrm.xml';
     $fd = fopen( $output, "w" );
     fputs( $fd, $xml );
     fclose( $fd );
+    
 }
 
 function walkDirectory( $iter, &$files, $length ) {
