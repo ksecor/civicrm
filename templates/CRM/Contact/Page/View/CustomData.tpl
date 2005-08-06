@@ -29,7 +29,8 @@
                 </fieldset>
                 </div>
                 {/foreach}
-                
+
+                {if $editCustomData}
                 <div class="action-link">
                 {if $groupId}
                 <a href="{crmURL p='civicrm/contact/view/cd/`$groupId` q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
@@ -37,8 +38,10 @@
                 <a href="{crmURL p='civicrm/contact/view/cd q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
                 {/if}
                 </div>
+		{/if}
             </div>
         {else}
+	    {if $editCustomData}
             <div class="messages status">
                 {if $groupId}       
                 <dl>
@@ -55,6 +58,7 @@
                 </dl>
                 {/if}
             </div>
+	    {/if}
         {/if}    
     {/if}
     {/strip}

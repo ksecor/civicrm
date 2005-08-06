@@ -80,6 +80,16 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
     {
         $this->preProcess( );
 
+        // get permission detail view or edit
+        $permUser = CRM_Core_Permission::getPermission();
+        
+        if(CRM_Core_Permission::VIEW == $permUser) 
+            $editCustomData = 0;
+        else
+            $editCustomData = 1;
+
+        $this->assign('editCustomData', $editCustomData);
+
         $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $this->_action);
         $controller->setEmbedded(true);
 
