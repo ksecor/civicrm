@@ -143,9 +143,9 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      *
      * @param int $id
      */
-    public function showEmailDetails( $id )
+    public function showEmailDetails( $cid )
     {
-        return CRM_Utils_System::url('civicrm/history/email', "action=view&id=$id");
+        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=3&details=1&action=view&id=$cid");
     }
 
 

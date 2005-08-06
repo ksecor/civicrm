@@ -16,8 +16,8 @@
         {if $totalCountOpenActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
-            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="actvity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
-            {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="actvity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
+            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+            {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
             <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd></dl>
         {/if}
     </div>

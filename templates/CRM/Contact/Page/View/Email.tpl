@@ -7,6 +7,6 @@
 <dt>{ts}To{/ts}</dt><dd>{$toName}</dd>
 <dt>{ts}Subject{/ts}</dt><dd>{$subject}</dd>
 <dt>{ts}Message{/ts}</dt><dd>{$message}</dd>
-<dt>&nbsp;</dt><dd><input type="button" name="Done" value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/activity' q="history=1"}';"></dd>
+<dt>&nbsp;</dt><dd><input type="button" name="Done" value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/activity' q="history=1&show=1"}';"></dd>
 </fieldset>
 </div>

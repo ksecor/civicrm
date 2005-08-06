@@ -181,10 +181,15 @@ class CRM_Core_Invoke {
                 } elseif($activityId == 2) {
                     $view =& new CRM_Contact_Page_View_Phonecall( );
                 } elseif($activityId == 3) {
+                    $details = CRM_Utils_Request::retrieve('details', $form);
+                    if ($details) {
+                        $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
+                    } else {
                     $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
                     $wrapper =& new CRM_Utils_Wrapper( );
                     return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+                    }
                 } elseif($activityId == 'other') {
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                     break;
