@@ -95,6 +95,6 @@ cp -r civicrm/modules/config.main.php com_civicrm
 zip -r -9 $DM_TARGETDIR/com_civicrm.$REV.zip com_civicrm
 
 # clean up
-rm -rf com_civicrm
+# rm -rf com_civicrm
 
-rm -rf $TRG
+# rm -rf $TRG
