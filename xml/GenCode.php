@@ -122,7 +122,9 @@ function &getDatabase( &$dbXML ) {
     
     $tableAttributes = '';
     checkAndAppend( $tableAttributes, $dbXML, 'table_type', 'ENGINE=', '' );
-    $database['tableAttributes'] = trim( $tableAttributes . ' ' . $attributes );
+    //$database['tableAttributes'] = trim( $tableAttributes . ' ' . $attributes );
+    $database['tableAttributes_modern'] = trim( $tableAttributes . ' ' . $attributes );
+    $database['tableAttributes_simple'] = trim( $tableAttributes );
 
     $database['comment'] = value( 'comment', $dbXML, '' );
 
@@ -206,7 +208,9 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'objectName' => $klass,
                     'labelName'  => substr($name, 8),
                     'className'  => $classNames[$name],
-                    'attributes' => trim($database['tableAttributes']),
+                    //'attributes' => trim($database['tableAttributes']),
+                    'attributes_simple' => trim($database['tableAttributes_simple']),
+                    'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ) );
     
     $fields  = array( );

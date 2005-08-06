@@ -349,7 +349,7 @@ UseCanonicalName Off
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-DocumentRoot "/staging/apache-2.0.54/htdocs/84"
+DocumentRoot "/staging/apache-2.0.54/htdocs/81"
 
 #
 # Each directory to which Apache has access can be configured with respect

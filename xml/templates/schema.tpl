@@ -59,12 +59,12 @@ CREATE TABLE {$table.name} (
 {foreach from=$table.foreignKey item=foreign}
 {if ! $first},{/if}
 {assign var='first' value=false}
-
+     {if $mysql eq 'simple'} INDEX FKEY_{$foreign.name} ( {$foreign.name} ) , {/if} 
      FOREIGN KEY ({$foreign.name}) REFERENCES {$foreign.table}({$foreign.key})
 {/foreach} {* table.foreignKey *}
 {/if} {* table.foreignKey *}
 
-) {if $mysql eq 'modern' }{$table.attributes}{/if};
-
+{* ) {if $mysql eq 'modern' }{$table.attributes}{/if}; *}
+) {if $mysql eq 'modern' } {$table.attributes_modern} {else} {$table.attributes_simple} {/if} ;
 
 {/foreach} {* tables *}

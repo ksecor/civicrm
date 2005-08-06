@@ -81,11 +81,17 @@ Building the staging server
 $ ./configure --prefix=/staging/apache-2.0.54 --enable-so --enable-mods-shared=auth_anon auth_dbm auth_digest cache cern-meta cgid charset_lite dav dav_fs deflate disk_cache echo example expires ext_filter file_cache headers info isapi log_forensic logio mem_cache mime_magic nw_ssl proxy proxy_connect proxy_ftp proxy_http rewrite speling ssl suexec unique_id usertrack vhost_alias
 
 
+
     /staging/mysql-4.0.25
 $ ./configure --prefix=/staging/mysql-4.0.25
+recommended
+$ ./configure --prefix=/staging/mysql-4.0.25 --with-unix-socket-path=/tmp/mysql-4.0.25.sock --with-tcp-port=3307
 
 
     /staging/mysql-4.1.13
+
+
+
 
     /staging/php-4.0.6
     /staging/php-4.1.2
