@@ -102,6 +102,11 @@ class test_RSTest_Run
     // Following array is used to store the timings for all the steps of adding Contact to a Group. 
     private $_deleteContactTime   = array();
     
+    // Following array is used to store the timings for Partial Name Search.
+    private $_partialNameSearchTime = array();
+    // Following variable is used to store the result from the partial name search
+    private $_searchResultPN        = array();
+
     private $_startTimeG;
     private $_endTimeG;
     
@@ -120,6 +125,9 @@ class test_RSTest_Run
     private $_startTimeDC;
     private $_endTimeDC;
     
+    private $_startTimePNS;
+    private $_endTimePNS;
+
     /**
      * Call to the Common.php
      *
@@ -324,10 +332,21 @@ class test_RSTest_Run
         }
     }
 
-    function _callPartialNameSearch()
+    /**
+     * Call to the PartialNameSearch.php
+     *
+     * This function is used for Searching Contacts.
+     * 
+     * @return   void
+     * @access   private
+     */
+    private function _callPartialNameSearch()
     {
-        $objNameSearch = new test_RSTest_PartialNameSearch();
-        $objNameSearch->run();
+        $objPartialNameSearch         = new test_RSTest_PartialNameSearch();
+        $this->_startTimePNS          = microtime(true);
+        $this->_searchResultPN        = $objPartialNameSearch->run();
+        $this->_endTimePNS            = microtime(true);
+        $this->_partialNameSearchTime = $this->_endTimePNS - $this->_startTimePNS;
     }
     
     /**
@@ -373,9 +392,13 @@ class test_RSTest_Run
                                'start' => $this->_startOfDelete,
                                'time'  => $this->_deleteContactTime,
                                );
-                
+        
+        $partialNameSearch = array('count'    => $this->_searchResultPN['count'],
+                                   'criteria' => $this->_searchResultPN['criteria'],
+                                   'time'     => $this->_partialNameSearchTime
+                                   );
         $objResult = new test_RSTest_Result();
-        $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact);
+        $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch);
     }
     
     /**
@@ -443,13 +466,17 @@ class test_RSTest_Run
                 $this->_callPartialNameSearch();
                 break;
             }
-            //$this->_callResult();
+            $this->_callResult();
         } else {
             echo "\n**********************************************************************************\n";
             echo "Not a Valid Choice \n";
             echo "**********************************************************************************\n";
         }
     }
+}
+
+function user_access( $str ) {
+    return true;
 }
 
 $objRun =& new test_RSTest_Run();

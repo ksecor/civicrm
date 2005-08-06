@@ -49,27 +49,28 @@ class test_RSTest_PartialNameSearch
     {
     }
 
-    function search()
+    private function _search()
     {
         $arrayForSearch = array ('sort_name' => $this->_partialName);
-        $contactBAO = new CRM_Contact_BAO_Contact();
-        $result = $contactBAO->searchQuery($arrayForSearch, 0, 0, null, true);
-        print_r($result);
+        $contactBAO     = new CRM_Contact_BAO_Contact();
+        $count          = $contactBAO->searchQuery($arrayForSearch, 0, 0, null, true);
+        return $count;
     }
     
     function run()
     {
-        $name='Zop';
-//         echo "\n**********************************************************************************\n";
-        // do {
-//             fwrite(STDOUT, "Enter Partial Name For Search: \t");
-//             $name = fgets(STDIN);
-//         } while (trim($name) == '');
-
-//        echo "\n**********************************************************************************\n";
+        echo "\n**********************************************************************************\n";
+        fwrite(STDOUT, "Enter Partial Name For Search: \t");
+        while (trim($name) == '') {
+            $name = fgets(STDIN);
+        }
+        echo "\n**********************************************************************************\n";
         $this->_partialName = $name;
         
-        $this->search();
+        $result = array();
+        $result['criteria'] = array('name' => $this->_partialName);
+        $result['count'] = $this->_search();
+        return $result;
     }
 }
 ?>

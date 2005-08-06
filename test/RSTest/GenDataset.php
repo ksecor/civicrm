@@ -1173,38 +1173,38 @@ class test_RSTest_GenDataset
     public function run($ID=0) 
     {
         $this->initID($ID);
-        echo "Hello 1 \n";
+        //echo "Hello 1 \n";
         $this->parseDataFile();
-        echo "Hello 2 \n";
+        //echo "Hello 2 \n";
         $this->initDB();
         if (!($ID)) {
-            echo "Hello 3 \n";
+            //echo "Hello 3 \n";
             $this->addDomain();
         }
-        echo "Hello 4 \n";
+        //echo "Hello 4 \n";
         $this->addContact();
-        echo "Hello 5 \n";
+        //echo "Hello 5 \n";
         $this->addIndividual();
-        echo "Hello 6 \n";
+        //echo "Hello 6 \n";
         $this->addHousehold();
-        echo "Hello 7 \n";
+        //echo "Hello 7 \n";
         $this->addOrganization();
-        echo "Hello 8 \n";
+        //echo "Hello 8 \n";
         $this->addRelationship();
-        echo "Hello 9 \n";
+        //echo "Hello 9 \n";
         $this->addLocation(1);
-        echo "Hello 10 \n";
+        //echo "Hello 10 \n";
         $this->addEntityTag();
         if ($ID) {
-            echo "Hello 11 \n";
+            //echo "Hello 11 \n";
             $this->addGroup(false);
         } else {
-            echo "Hello 11 \n";
+            //echo "Hello 11 \n";
             $this->addGroup(true);
         }
-        echo "Hello 12 \n";
+        //echo "Hello 12 \n";
         $this->addNote();
-        echo "Hello 13 \n";
+        //echo "Hello 13 \n";
         $this->addActivityHistory();
     }
 }

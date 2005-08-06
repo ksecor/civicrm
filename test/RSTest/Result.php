@@ -89,7 +89,14 @@ class test_RSTest_Result
     // Following array is used to store the timings for all the steps of adding Contact to a Group. 
     private $_deleteContactTime;
 
-    private function _set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact)
+    // Following array is used to store the timings for Partial Name Search.
+    private $_partialNameSearchTime;
+    // Following variable is used to store the Count of Contacts found from the Partial Name Search.
+    private $_searchCountPN;
+    // Following variable is used to store the Criteria for Partial Name Search.
+    private $_searchCriteriaPN;
+    
+    private function _set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch)
     {
         $this->_doIt = $doIt;
         
@@ -136,6 +143,12 @@ class test_RSTest_Result
         $this->_stepOfDeleteContact = $deleteContact['step'];
 
         $this->_deleteContactTime = $deleteContact['time'];
+        
+        $this->_searchCountPN = $partialNameSearch['count'];
+    
+        $this->_searchCriteriaPN = $partialNameSearch['criteria'];
+        
+        $this->_partialNameSearchTime = $partialNameSearch['time'];
     }
 
     /**
@@ -213,6 +226,20 @@ class test_RSTest_Result
             for ($id=0; $id<count($this->_deleteContactTime); $id++) {
                 $string .= "Time taken for step " . ($kd = $id + 1) . " : " . $this->_deleteContactTime[$id] . " seconds\n";
             }
+            $string .= "**********************************************************************************\n";
+        }
+
+        if (!(empty($this->_partialNameSearchTime))) {
+            $string .= "\n**********************************************************************************\n";
+            $string .= "Partial Name Search Carried out on the dataset of size " . ($this->_recordSetSize / 1000) . " K \n";
+            $string .= "Criteria for the Search : \n";
+            $string .= "------------------------------------------------------\n";
+            foreach ($this->_searchCriteriaPN as $criteriaKey => $criteriaVal) {
+                $string .= "{$criteriaKey} : {$criteriaVal}";
+            }
+            $string .= "------------------------------------------------------\n";
+            $string .= "Total '{$this->_searchCountPN}' Contacts found.\n";
+            $string .= "And Time Taken for Search : {$this->_partialNameSearchTime} seconds\n";
             $string .= "**********************************************************************************\n";
         }
         
@@ -293,6 +320,20 @@ class test_RSTest_Result
             echo "**********************************************************************************\n";
         }
         
+        if (!(empty($this->_partialNameSearchTime))) {
+            echo "\n**********************************************************************************\n";
+            echo "Partial Name Search Carried out on the dataset of size " . ($this->_recordSetSize / 1000) . " K \n";
+            echo "Criteria for the Search : \n";
+            echo "------------------------------------------------------\n";
+            foreach ($this->_searchCriteriaPN as $criteriaKey => $criteriaVal) {
+                echo " {$criteriaKey} : {$criteriaVal} ";
+            }
+            echo "------------------------------------------------------\n";
+            echo "Total '{$this->_searchCountPN}' Contacts found.\n";
+            echo "And Time Taken for Search : {$this->_partialNameSearchTime} seconds\n";
+            echo "**********************************************************************************\n";
+        }
+        
         echo "\n";
     }
 
@@ -305,9 +346,9 @@ class test_RSTest_Result
      * @return   void
      * @access   public
      */
-    function run($doIt , $genDataset , $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact)
+    function run($doIt , $genDataset , $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch)
     {
-        $this->_set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact);
+        $this->_set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch);
         if ($this->_doIt) {
             echo "\n**********************************************************************************\n";
             fwrite(STDOUT, "Options for Stress Testing Results\n");
