@@ -196,7 +196,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                         'contact_id' => $contactId,
                                         'status' => $status,
                                         'method' => $method,
-                                        'date' => $date
+                                        'date' => $date,
                                         'tracking' => $tracking);
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
