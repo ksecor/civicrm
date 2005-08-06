@@ -42,6 +42,7 @@ require_once 'UpdateContact.php';
 require_once 'AddContactToGroup.php';
 require_once 'DelContact.php';
 require_once 'PartialNameSearch.php';
+require_once 'GroupSearch.php';
 require_once 'Result.php';
 
 class test_RSTest_Run
@@ -52,7 +53,7 @@ class test_RSTest_Run
     // This constant is used to set size fo dataset. 
     // The value entered is multiple of 1000 or 1k
     // Ex. if the constant value is 10 then dataset size will be (1000 * 10)
-    private $_sizeOfDS      = 1;
+    private $_sizeOfDS      = 3;
     // Following constant is used for setting the step for generating the dataset.
     private $_stepOfDS      = 500;
     // Following array is used to store the timings for all the steps of generating the dataset.
@@ -67,7 +68,7 @@ class test_RSTest_Run
     private $_insertContact = array();
     
     // Following constant is used for setting the no of records to be updated from the database. 
-    private $_updateRecord  = 500;
+    private $_updateRecord  = 1000;
     // Following constant is used for setting the starting record from which update should start. 
     private $_startRecord   = 500;
     // Following constant is used for setting the step for updaing the contacts.
@@ -76,7 +77,7 @@ class test_RSTest_Run
     private $_updateContact = array();
     
     // Following constant is used for setting the no of contact for which relationships needs to be entered
-    private $_insertRel        = 500;
+    private $_insertRel        = 1500;
     // Following constant is used for setting the starting contact from which the relationships needs to be entered.
     private $_startRel         = 0;
     // Following constant is used for setting the step for inserting relationships.
@@ -85,7 +86,7 @@ class test_RSTest_Run
     private $_insertRelTime    = array();
     
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_addToGroup       = 1000;
+    private $_addToGroup       = 1500;
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
     private $_startOfAdd       = 0;
     // Following constant is used for setting the step for adding Contact to a Group.
@@ -107,6 +108,11 @@ class test_RSTest_Run
     // Following variable is used to store the result from the partial name search
     private $_searchResultPN        = array();
 
+    // Following array is used to store the timings for Partial Name Search.
+    private $_groupSearchTime = array();
+    // Following variable is used to store the result from the partial name search
+    private $_searchResultG   = array();
+
     private $_startTimeG;
     private $_endTimeG;
     
@@ -127,6 +133,9 @@ class test_RSTest_Run
     
     private $_startTimePNS;
     private $_endTimePNS;
+
+    private $_startTimeGS;
+    private $_endTimeGS;
 
     /**
      * Call to the Common.php
@@ -348,6 +357,15 @@ class test_RSTest_Run
         $this->_endTimePNS            = microtime(true);
         $this->_partialNameSearchTime = $this->_endTimePNS - $this->_startTimePNS;
     }
+
+    private function _callGroupSearch()
+    {
+        $objGroupSearch         = new test_RSTest_GroupSearch();
+        $this->_startTimeGS     = microtime(true);
+        $this->_searchResultG   = $objGroupSearch->run();
+        $this->_endTimeGS       = microtime(true);
+        $this->_groupSearchTime = $this->_endTimeGS - $this->_startTimeGS;
+    }
     
     /**
      * Call to the Result.php
@@ -397,8 +415,14 @@ class test_RSTest_Run
                                    'criteria' => $this->_searchResultPN['criteria'],
                                    'time'     => $this->_partialNameSearchTime
                                    );
+        
+        $groupSearch = array('count'    => $this->_searchResultG['count'],
+                             'criteria' => $this->_searchResultG['criteria'],
+                             'time'     => $this->_groupSearchTime
+                             );
+
         $objResult = new test_RSTest_Result();
-        $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch);
+        $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch, $groupSearch);
     }
     
     /**
@@ -415,13 +439,14 @@ class test_RSTest_Run
         $this->_doIt = 0;
         echo "\n**********************************************************************************\n";
         fwrite(STDOUT, "Options for Stress Testing \n");
-        $options = array ('A' => 'All Operations will be done for Stress Test i.e. Inserting Contact, Updating Contact, Insert Relationship, Adding Contact to Group and Deleting Contacts',
+        $options = array ('L' => 'All Operations will be done for Stress Test except Searching Options. The Operations are - Inserting Contact, Updating Contact, Insert Relationship, Adding Contact to Group and Deleting Contacts',
                           'I' => 'Inserting Contacts',
                           'U' => 'Updating Contacts',
                           'R' => 'Inserting Relationship',
-                          'G' => 'Adding Contacts to Group',
+                          'A' => 'Adding Contacts to Group',
                           'D' => 'Delete Contacts',
-                          'P' => 'Partial Name Search'
+                          'P' => 'Partial Name Search. (Before Searching, fresh Dataset will be Generated.)',
+                          'G' => 'Group Search. (Before Searching, fresh Dataset will be Generated.)'
                           );
         foreach ($options as $val => $desc) {
             fwrite(STDOUT, "\n" . $val . " : " . $desc . "\n");
@@ -440,7 +465,7 @@ class test_RSTest_Run
             $this->_callCommon();
             $this->_callGenDataset();
             switch (strtolower($selection)) {
-            case 'a':
+            case 'l':
                 $this->_callInsertContact();
                 $this->_callUpdateContact();
                 $this->_callInsertRel();
@@ -456,7 +481,7 @@ class test_RSTest_Run
             case 'r':
                 $this->_callInsertRel();
                 break;
-            case 'g':
+            case 'a':
                 $this->_callAddContactToGroup();
                 break;
             case 'd':
@@ -464,6 +489,9 @@ class test_RSTest_Run
                 break;
             case 'p':
                 $this->_callPartialNameSearch();
+                break;
+            case 'g':
+                $this->_callGroupSearch();
                 break;
             }
             $this->_callResult();

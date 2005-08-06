@@ -95,8 +95,15 @@ class test_RSTest_Result
     private $_searchCountPN;
     // Following variable is used to store the Criteria for Partial Name Search.
     private $_searchCriteriaPN;
+
+    // Following array is used to store the timings for Partial Name Search.
+    private $_groupSearchTime;
+    // Following variable is used to store the Count of Contacts found from the Partial Name Search.
+    private $_searchCountG;
+    // Following variable is used to store the Criteria for Partial Name Search.
+    private $_searchCriteriaG;
     
-    private function _set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch)
+    private function _set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch, $groupSearch)
     {
         $this->_doIt = $doIt;
         
@@ -149,6 +156,12 @@ class test_RSTest_Result
         $this->_searchCriteriaPN = $partialNameSearch['criteria'];
         
         $this->_partialNameSearchTime = $partialNameSearch['time'];
+        
+        $this->_searchCountG = $groupSearch['count'];
+        
+        $this->_searchCriteriaG = $groupSearch['criteria'];
+        
+        $this->_groupSearchTime = $groupSearch['time'];
     }
 
     /**
@@ -218,7 +231,7 @@ class test_RSTest_Result
             }
             $string .= "**********************************************************************************\n";
         }
-
+        
         if (!(empty($this->_deleteContactTime))) {
             $string .= "\n**********************************************************************************\n";
             $string .= "Contact No. " . $this->_startOfDelete . " To Contact No. " . ($this->_startOfDelete + $this->_deleteContact) . " Deleted from the dataset of size " . ($this->_recordSetSize / 1000) . " K through the step of " . $this->_stepOfDeleteContact . " Contacts \n";
@@ -228,18 +241,32 @@ class test_RSTest_Result
             }
             $string .= "**********************************************************************************\n";
         }
-
+        
         if (!(empty($this->_partialNameSearchTime))) {
             $string .= "\n**********************************************************************************\n";
             $string .= "Partial Name Search Carried out on the dataset of size " . ($this->_recordSetSize / 1000) . " K \n";
             $string .= "Criteria for the Search : \n";
             $string .= "------------------------------------------------------\n";
-            foreach ($this->_searchCriteriaPN as $criteriaKey => $criteriaVal) {
-                $string .= "{$criteriaKey} : {$criteriaVal}";
+            foreach ($this->_searchCriteriaPN as $criteriaKeyPN => $criteriaValPN) {
+                $string .= "{$criteriaKeyPN} : {$criteriaValPN}\n";
             }
             $string .= "------------------------------------------------------\n";
             $string .= "Total '{$this->_searchCountPN}' Contacts found.\n";
             $string .= "And Time Taken for Search : {$this->_partialNameSearchTime} seconds\n";
+            $string .= "**********************************************************************************\n";
+        }
+
+        if (!(empty($this->_groupSearchTime))) {
+            $string .= "\n**********************************************************************************\n";
+            $string .= "Group Search Carried out on the dataset of size " . ($this->_recordSetSize / 1000) . " K \n";
+            $string .= "Criteria for the Search : \n";
+            $string .= "------------------------------------------------------\n";
+            foreach ($this->_searchCriteriaG as $criteriaKeyG => $criteriaValG) {
+                $string .= "{$criteriaKeyG} : {$criteriaValG} \n";
+            }
+            $string .= "------------------------------------------------------\n";
+            $string .= "Total '{$this->_searchCountG}' Contacts found.\n";
+            $string .= "And Time Taken for Search : {$this->_groupSearchTime} seconds\n";
             $string .= "**********************************************************************************\n";
         }
         
@@ -334,6 +361,20 @@ class test_RSTest_Result
             echo "**********************************************************************************\n";
         }
         
+        if (!(empty($this->_groupSearchTime))) {
+            echo "\n**********************************************************************************\n";
+            echo "Group Search Carried out on the dataset of size " . ($this->_recordSetSize / 1000) . " K \n";
+            echo "Criteria for the Search : \n";
+            echo "------------------------------------------------------\n";
+            foreach ($this->_searchCriteriaG as $criteriaKeyG => $criteriaValG) {
+                echo " {$criteriaKeyG} : {$criteriaValG} \n";
+            }
+            echo "------------------------------------------------------\n";
+            echo "Total '{$this->_searchCountG}' Contacts found.\n";
+            echo "And Time Taken for Search : {$this->_groupSearchTime} seconds\n";
+            echo "**********************************************************************************\n";
+        }
+        
         echo "\n";
     }
 
@@ -346,9 +387,9 @@ class test_RSTest_Result
      * @return   void
      * @access   public
      */
-    function run($doIt , $genDataset , $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch)
+    function run($doIt , $genDataset , $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch, $groupSearch)
     {
-        $this->_set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch);
+        $this->_set($doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch, $groupSearch);
         if ($this->_doIt) {
             echo "\n**********************************************************************************\n";
             fwrite(STDOUT, "Options for Stress Testing Results\n");
