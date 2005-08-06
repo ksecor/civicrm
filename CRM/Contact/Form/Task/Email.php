@@ -63,7 +63,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         // create menus ..
         $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
-        CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
+        CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
 
         if ( $cid ) {
             $this->_contactIds = array( $cid );
