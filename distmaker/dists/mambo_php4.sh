@@ -73,28 +73,20 @@ echo "CiviCRM version rev$REV snapshot for Mambo on PHP4" > $TRG/version.txt
 
 
 # gen zip file
-cd $TRG/..
+cd $DM_TMPDIR;
 
 mkdir com_civicrm
-
 mkdir com_civicrm/civicrm
 
-chmod -R 777 com_civicrm
+cp -r -p civicrm/* com_civicrm/civicrm
 
-cp -r civicrm/* com_civicrm/civicrm
+$DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 
-$DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php $DM_SOURCEDIR $DM_TMPDIR/com_civicrm/civicrm
+cp -r com_civicrm/civicrm/mambo/* com_civicrm
+cp -r com_civicrm/civicrm/modules/config.main.php com_civicrm
 
-cp $DM_GENFILESDIR/mambo/civicrm.xml com_civicrm
-
-cp -r civicrm/mambo/* com_civicrm
-
-cp -r civicrm/modules/config.main.php com_civicrm
-
-#zip -r -9 $DM_TARGETDIR/civicrm.$REV.zip civicrm
 zip -r -9 $DM_TARGETDIR/com_civicrm.$REV.zip com_civicrm
 
 # clean up
-# rm -rf com_civicrm
-
-# rm -rf $TRG
+rm -rf com_civicrm
+rm -rf $TRG

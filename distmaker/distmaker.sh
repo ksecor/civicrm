@@ -134,7 +134,7 @@ esac
 # Before anything - regenerate DAOs
 
 cd $DM_SOURCEDIR/xml
-$DM_PHP5PATH/php GenCode.php
+# $DM_PHP5PATH/php GenCode.php
 cd $ORIGPWD
 
 # Main flow

@@ -9,8 +9,8 @@ if( isset( $GLOBALS['_ENV']['DM_SOURCEDIR'] ) ) {
 }
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
-if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
-    $targetDir = $GLOBALS['_ENV']['DM_GENFILESDIR'];
+if( isset( $GLOBALS['_ENV']['DM_TMPDIR'] ) ) {
+    $targetDir = $GLOBALS['_ENV']['DM_TMPDIR'] . '/com_civicrm/civicrm';
 } else {
     // backward compatibility
     //$targetDir = $GLOBALS['_ENV']['HOME'] . '/com_civicrm/civicrm';

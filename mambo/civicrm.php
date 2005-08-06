@@ -2,12 +2,6 @@
 
 global $mosConfig_absolute_path;
 require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
-set_include_path( $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
-                  'administrator'          . DIRECTORY_SEPARATOR .
-                  'components'             . DIRECTORY_SEPARATOR .
-                  'com_civicrm'            . DIRECTORY_SEPARATOR .
-                  'civicrm'                . DIRECTORY_SEPARATOR .
-                  'packages' );
 
 function civicrm_setup( ) {
     global $comPath, $crmPath, $sqlPath, $dsn;
