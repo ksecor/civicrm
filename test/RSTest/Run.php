@@ -34,6 +34,9 @@
  * $Id$
  *
  */
+require_once '../../modules/config.inc.php';
+require_once '../../CRM/Core/Config.php';
+require_once 'CRM/Core/Error.php';
 require_once 'Common.php';
 require_once 'GenDataset.php';
 require_once 'InsertContact.php';
@@ -53,7 +56,7 @@ class test_RSTest_Run
     // This constant is used to set size fo dataset. 
     // The value entered is multiple of 1000 or 1k
     // Ex. if the constant value is 10 then dataset size will be (1000 * 10)
-    private $_sizeOfDS      = 3;
+    private $_sizeOfDS      = 3; // 5
     // Following constant is used for setting the step for generating the dataset.
     private $_stepOfDS      = 500;
     // Following array is used to store the timings for all the steps of generating the dataset.
@@ -68,7 +71,7 @@ class test_RSTest_Run
     private $_insertContact = array();
     
     // Following constant is used for setting the no of records to be updated from the database. 
-    private $_updateRecord  = 1000;
+    private $_updateRecord  = 2500;// 3500
     // Following constant is used for setting the starting record from which update should start. 
     private $_startRecord   = 500;
     // Following constant is used for setting the step for updaing the contacts.
@@ -77,7 +80,7 @@ class test_RSTest_Run
     private $_updateContact = array();
     
     // Following constant is used for setting the no of contact for which relationships needs to be entered
-    private $_insertRel        = 1500;
+    private $_insertRel        = 3000; // 4000
     // Following constant is used for setting the starting contact from which the relationships needs to be entered.
     private $_startRel         = 0;
     // Following constant is used for setting the step for inserting relationships.
@@ -86,7 +89,7 @@ class test_RSTest_Run
     private $_insertRelTime    = array();
     
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_addToGroup       = 1500;
+    private $_addToGroup       = 2500;// 4500
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
     private $_startOfAdd       = 0;
     // Following constant is used for setting the step for adding Contact to a Group.
@@ -95,9 +98,9 @@ class test_RSTest_Run
     private $_addToGroupTime   = array();
 
     // Following constant is used for setting the no of Contacts which needs to be added to a Group. 
-    private $_deleteContact       = 500;
+    private $_deleteContact       = 500; // 1500
     // Following constant is used for setting the starting contact from which Contacts needs to be added to a Group.
-    private $_startOfDelete       = 500;
+    private $_startOfDelete       = 1000;
     // Following constant is used for setting the step for adding Contact to a Group.
     private $_stepOfDeleteContact = 500;
     // Following array is used to store the timings for all the steps of adding Contact to a Group. 
