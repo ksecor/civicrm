@@ -38,9 +38,20 @@
 //require_once 'CRM/Core/DAO.php'; 
 require_once 'CRM/Core/PseudoConstant.php'; 
 
+/**
+ * This class is for state country widget using JPSpan.
+ *
+ */
 class CRM_Contact_Server_StateCountryServer  
 {
-    
+    /**
+     * This function is to get the state name based on the search criteria
+     * @param string $fragment this is the search string
+     * @param integer $countryId country id 
+     *
+     * @return state id / state name depending on search criteria
+     * @access public
+     */
     function getState($fragment='', $countryId = 0) 
     {
         $fraglen = strlen($fragment);
@@ -74,10 +85,16 @@ class CRM_Contact_Server_StateCountryServer
                 return $showState;
             }
         }
-        
         return '';
     }
 
+    /**
+     * This is the function to get the list of countries 
+     * @param string $stateProvince stateProvince name
+     *
+     * @return array of countries 
+     * @access public
+     */
     function getCountry($stateProvince) {
         unset($matches);
         $queryString = "SELECT civicrm_country.id as civicrm_country_id, civicrm_country.name as civicrm_country_name 
@@ -94,6 +111,5 @@ class CRM_Contact_Server_StateCountryServer
         }
         return $matches;
     }
-
 }
 ?>
