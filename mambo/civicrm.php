@@ -105,6 +105,13 @@ function civicrm_config( ) {
     global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir;
     global $mosConfig_smtphost;
 
+    /**
+     * make sure we escape the back slashes in the dir names to prevent any
+     * issues with windows wehre the dir seperator is a backslash
+     */
+    $compileDir = addslashes( $compileDir );
+    $uploadDir  = addslashes( $uploadDir  );
+
     $str = "
 <?php
 /**
