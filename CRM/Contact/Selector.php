@@ -353,19 +353,17 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
 
-            if ( CRM_Utils_Array::value('cb_group', $fv) ) {
-                $gc =& CRM_Core_SelectValues::groupContactStatus();
-                $str = ts('With status -');
-                if (CRM_Utils_Array::value('cb_group_contact_status', $fv)) {
-                    foreach ($fv['cb_group_contact_status'] as $k => $v) {
-                        $str .= ' "' . $gc[$k] . '" ' . ts('or');
-                    }
-                } else {
-                    $str .= ' "' . $gc['Added'] . '" ';
+            $gc =& CRM_Core_SelectValues::groupContactStatus();
+            $str = ts('Group Status -');
+            if (CRM_Utils_Array::value('cb_group_contact_status', $fv)) {
+                foreach ($fv['cb_group_contact_status'] as $k => $v) {
+                    $str .= ' "' . $gc[$k] . '" ' . ts('or');
                 }
-                $str = preg_replace($patternOr, $replacement, $str);
-                $qill[] = $str;
+            } else {
+                $str .= ' "' . $gc['Added'] . '" ';
             }
+            $str = preg_replace($patternOr, $replacement, $str);
+            $qill[] = $str;
         }
         
         // check for tag restriction
