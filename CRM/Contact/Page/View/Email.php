@@ -59,7 +59,7 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
         $dao = new CRM_Core_DAO_ActivityHistory();
         $dao->activity_id = $id;
         if ( $dao->find(true) ) {
-            echo $cid = $dao->entity_id;
+            $cid = $dao->entity_id;
         }
 
         $dao = new CRM_Core_DAO_EmailHistory();
