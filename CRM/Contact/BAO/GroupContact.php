@@ -454,7 +454,6 @@ WHERE civicrm_subscription_history.status = '$status'AND civicrm_group_contact.s
         
         $dao =& new CRM_Contact_DAO_Contact();
 
-        echo($query);
         $dao->query($query);
         
         // this is quite inefficient, we need to change the return
