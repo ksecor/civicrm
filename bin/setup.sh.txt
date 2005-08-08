@@ -65,7 +65,7 @@ mysqladmin -f -u $DBUSER $PASSWDSECTION drop $DBNAME
 echo; echo Creating $DBNAME database
 mysqladmin -f -u $DBUSER $PASSWDSECTION create $DBNAME
 echo; echo Creating database structure
-mysql -u $DBUSER $PASSWDSECTION $DBNAME < Contacts.sql
+mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm.sql
 echo; echo Populating database with example data
 mysql -u $DBUSER $PASSWDSECTION $DBNAME < GeneratedData.sql
 
@@ -74,9 +74,10 @@ echo; echo "DONE!"
 # to generate a new data file do the foll:
 # mysqladmin -f -uYourDBUser -pYourDBPassword drop YourDBName
 # mysqladmin -f -uYourDBUser -pYourDBPassword create YourDBName
-# mysql -uYourDBUser -pYourDBPassword YourDBName < Contacts.sql
-# mysql -uYourDBUser -pYourDBPassword YourDBName < FixedData.sql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_41.mysql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_data.mysql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_sample.mysql
 # mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
-# php GenerateContactData.php
+# php GenerateData.php
 # echo "drop table zipcodes" | mysql -uYourDBUser -pYourDBPassword YourDBName
-# mysqldump -t -n -uYourDBUser -pYourDBPassword YourDBName  > GeneratedData.sql
+# mysqldump -t -n -uYourDBUser -pYourDBPassword YourDBName  > civicrm_generated.mysql

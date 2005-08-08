@@ -59,9 +59,9 @@ function civicrm_main( ) {
 
     civicrm_setup( );
 
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'Contacts.mysql40.sql'  );
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'FixedData.sql' );
-
+    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
+    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+    
     $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
     $string = civicrm_config( );
     $fd = fopen( $configFile, "w" );

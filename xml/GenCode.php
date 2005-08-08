@@ -60,7 +60,7 @@ echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
+$fd = fopen( $sqlCodePath . "civicrm_41.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
@@ -70,9 +70,24 @@ echo "Generating mysql 4.0 file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "Contacts.mysql40.sql", "w" );
+$fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
+
+// write the civicrm data file fixing the domain id variable
+$data = file_get_contents( $smarty->template_dir . '/civicrm_data.tpl' );
+$data = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $data );
+$fd = fopen( $sqlCodePath . "civicrm_data.mysql", "w" );
+fputs( $fd, $data );
+fclose( $fd );
+
+$sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
+$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
+$fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
+fputs( $fd, $sample );
+fclose( $fd );
+
+exit( );
 
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
