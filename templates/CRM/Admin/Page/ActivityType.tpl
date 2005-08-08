@@ -1,5 +1,8 @@
 <div id="help">
-    {ts}Activity types are various activities that can be added/modified by the user. CiviCRM provides some default activities{/ts}
+    {ts}CiviCRM allows users to track meetings and phone calls by default. Use this configuration tab
+    to give users the ability to record other types of interactions with contacts (activities) that are specific to your needs.
+    For example, you might want to include 'New Client Intake', or 'Site Audit', etc. ...as types of
+    trackable activites. 'Custom' activities are searchable by type using 'Advanced Search'.{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2}
@@ -46,7 +49,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/activityType' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Activity Types entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no custom Activity Types entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

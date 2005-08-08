@@ -29,7 +29,10 @@
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td>
     {if $context eq 'smog'}
-    <td>{$row.status}</td>
+        {if $row.status eq 'Pending'}<td class="status-pending"}>
+        {elseif $row.status eq 'Removed'}<td class="status-removed">
+        {else}<td>{/if}
+        {$row.status}</td>
     {/if}
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>

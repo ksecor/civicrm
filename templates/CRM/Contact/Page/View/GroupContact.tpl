@@ -40,7 +40,7 @@
 
        	{if $groupPending }
 	<div class="form-item">
-        <div class="label">{ts}Pending Memberships{/ts}</div> 
+        <div class="label status-pending">{ts}Pending Memberships{/ts}</div> 
         <div class="description">{ts}Membership in these group(s) is pending confirmation by this contact.{/ts}</div>
 		
 	<div>
@@ -73,7 +73,7 @@
        	
 	{if $groupOut }
 	<div class="form-item">
-	<div class="label font-red">{ts}Past Memberships{/ts}</div>
+	<div class="label status-removed">{ts}Past Memberships{/ts}</div>
     <div class="description">{ts 1=$displayName}%1 is no longer a member of these group(s).{/ts}</div>
 	
 	<div>
@@ -89,7 +89,7 @@
         {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$row.title}</td>
-	    	<td>{ts 1=$row.out_method}Removed (by %1){/ts}</td> 
+	    	<td class="status-removed">{ts 1=$row.out_method}Removed (by %1){/ts}</td> 
             <td>{$row.in_date|crmDate}</td>
             <td>{$row.out_date|crmDate}</td>
 	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$displayName 2=$row.title}Are you sure you want to add %1 back into %2?{/ts}');">{ts}[ Rejoin Group ]{/ts}</a></td>

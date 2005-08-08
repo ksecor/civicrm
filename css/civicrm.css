@@ -225,8 +225,12 @@ div.spacer {
   font-size: 1.2em;
 }
 
-.font-red {
-  color: #FF0105;	
+.font-red, .status-removed {
+  color: #FF0105;
+}
+
+.status-pending {
+  color: green;
 }
 
 .upper {

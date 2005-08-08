@@ -7,7 +7,7 @@
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
     {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
-    &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}">[ vCard ]</a>
+    &nbsp; &nbsp; <input type="button" value="vCard" name="vCard_export" onClick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';">
     {if $contactTag}<br />{$contactTag}{/if}
    </div>
 </div>
@@ -250,7 +250,7 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No current group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}</dd></dl>
   {/if}
 </div>
 
