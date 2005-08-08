@@ -87,8 +87,6 @@ $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
 
-exit( );
-
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
 $beautifier->addFilter('Pear'); // add one or more filters
