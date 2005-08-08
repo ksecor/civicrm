@@ -69,7 +69,7 @@ class CRM_GCD {
     const DATA_FILENAME="sample_data.xml";
 
     const NUM_DOMAIN = 10;
-    const NUM_CONTACT = 2000;
+    const NUM_CONTACT = 100;
 
     const INDIVIDUAL_PERCENT = 75;
     const HOUSEHOLD_PERCENT = 15;
