@@ -63,6 +63,8 @@ function civicrm_require( ) {
     require_once 'CRM/Contact/Page/View.php';
 
     require_once 'CRM/Core/Error.php';
+
+    require_once 'CRM/Core/I18n.php';
 }
 
 /**
@@ -93,6 +95,8 @@ function civicrm_html_head()
  */
 function civicrm_help($section)
 {	
+    civicrm_require();
+
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
