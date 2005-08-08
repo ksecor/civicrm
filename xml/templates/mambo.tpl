@@ -2,7 +2,7 @@
 <mosinstall type="component">
   <name>CiviCRM</name>
   <creationDate>07/28/2005</creationDate>
-  <author>Amy Hoy, Donald Lobo and Ryan Ozimek</author>
+  <author>Social Source Foundation and PICnet Inc.</author>
   <copyright>(C) Copyright 2005 by PICnet, Inc., and  Social Source Foundation</copyright>
   <authorEmail>ryan@picnet.net</authorEmail>
   <authorUrl>www.picnet.net</authorUrl>
