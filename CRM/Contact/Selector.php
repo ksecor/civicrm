@@ -485,6 +485,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 
                 if ( $v != '' ) {
                     list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
+                    
                     // Custom Group DAO
                     $cgDAO =& new CRM_Core_DAO();
                     $strQuery = "SELECT title FROM civicrm.civicrm_custom_group WHERE id = $groupId";
@@ -492,8 +493,16 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     while($cgDAO->fetch()) {
                         $groupName = $cgDAO->title;
                     }
-                    $elementName = str_replace("_", " ", $elementName);
-                    $strCustom = $cgDAO->title . ': ' . $elementName . ' -  "%1"';
+                    
+                    // Custom Field DAO
+                    $cfDAO =& new CRM_Core_DAO();
+                    $strQuery = "SELECT label FROM civicrm.civicrm_custom_field WHERE id = $fieldId";
+                    $cfDAO->query($strQuery);
+                    while($cfDAO->fetch()) {
+                        $fieldLabel = $cfDAO->label;
+                    }
+
+                    $strCustom = $cgDAO->title . ': ' . $fieldLabel . ' -  "%1"';
                     $qill[] = ts($strCustom , array(1 => $v));
                 }
             }
