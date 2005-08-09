@@ -120,27 +120,23 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      */
     function del($groupContactId, $status ) {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        
+        $groupId = CRM_Contact_BAO_GroupContact::getGroupId($groupContactId);
+       
         switch ($status) {
         case 'i' :
-            $groupContact->status = 'Added';
-            $groupContact->in_date = date('Ymd');
-            $groupContact->in_method = 'Admin';
+            $groupStatus = 'Added';
             break;
         case 'p' :
-            $groupContact->status = 'Pending';
-            $groupContact->pending_date = date('Ymd');
+            $groupStatus = 'Pending';
+           
             break;
         case 'o' :
-            $groupContact->status = 'Removed';
-            $groupContact->out_date = date('Ymd');
-            $groupContact->out_method = 'Admin';
+            $groupStatus = 'Removed';
             break;
         }
-        
-        $groupContact->id = $groupContactId;
-
-        $groupContact->save();
+        $contactID = array($this->_contactId);
+        $method = 'Admin';
+        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $groupId, $method  ,$groupStatus);
 
     }
 }

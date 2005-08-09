@@ -130,10 +130,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added', $tracking = null)  {
         $date = date('Ymd');
-      
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
         foreach ( $contactIds as $contactId ) {
+
+           
             $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
@@ -176,7 +177,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
         $date = date('YmdHis');
-
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
 
@@ -536,8 +536,28 @@ WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.
         
     }
     
-    
-    
+    /**
+     * Method to get Group Id 
+     *
+     * @param  int  $groupContactID   Id of a perticuler group
+     *
+     *
+     * @return groupID
+     * @access public
+     * @static
+     */
+    function getGroupId($groupContactID){
+        $query = "SELECT group_id FROM civicrm_group_contact WHERE id = '$groupContactID'";
+         
+        $dao =& new CRM_Contact_DAO_GroupContact();
+        $dao->query($query);
+
+        $dao->fetch();
+        return $dao->group_id; 
+        
+    }
+
+
 }
 
 
