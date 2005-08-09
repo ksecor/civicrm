@@ -540,12 +540,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $message->setHTMLBody($html);
         }
         
-
+        $recipient = "\"{$contact['display_name']}\" <$email>";
+        $headers['To'] = $recipient;
 
         $message->get();
         $message->headers($headers);
-
-        $recipient = "\"{$contact['display_name']}\" <$email>";
         
         return $message;
     }
