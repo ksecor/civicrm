@@ -152,13 +152,17 @@ class CRM_Core_PseudoConstant {
      * @access protected
      * @static
      */
-    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active' ) {
+    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active', $condition = null ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
        
         $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
+        if ($condition) {
+            $object->whereAdd($condition);
+        }
+        
         $object->orderBy( $retrieve );
 
         if ( ! $all ) {
@@ -211,7 +215,7 @@ class CRM_Core_PseudoConstant {
     public static function &activityType( $all=false )
     {
         if ( ! self::$activityType ) {
-            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all);
+            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all, 'name', 'is_active', 'id > 3' );
         }
         return self::$activityType;
     }

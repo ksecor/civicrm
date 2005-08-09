@@ -1592,15 +1592,17 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_phonecall.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    1 as activity_type
-  FROM civicrm_phonecall, civicrm_contact source, civicrm_contact target
+    civicrm_activity_type.id  as activity_type_id,
+    civicrm_activity_type.name  as activity_type
+  FROM civicrm_activity_type, civicrm_phonecall, civicrm_contact source, civicrm_contact target
   WHERE
+    civicrm_activity_type.id = 2 AND
     civicrm_phonecall.source_contact_id = source.id AND
     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
     civicrm_phonecall.target_entity_id = target.id AND
     ( civicrm_phonecall.source_contact_id = $contactId OR civicrm_phonecall.target_entity_id = $contactId ) AND
     civicrm_phonecall.status != 'Completed'
-) UNION
+ ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
     civicrm_meeting.source_contact_id as source_contact_id,
@@ -1610,9 +1612,11 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_meeting.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    0 as activity_type
-  FROM civicrm_meeting, civicrm_contact source, civicrm_contact target
+    civicrm_activity_type.id  as activity_type_id,
+    civicrm_activity_type.name  as activity_type
+  FROM civicrm_activity_type, civicrm_meeting, civicrm_contact source, civicrm_contact target
   WHERE
+    civicrm_activity_type.id = 1 AND
     civicrm_meeting.source_contact_id = source.id AND
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
     civicrm_meeting.target_entity_id = target.id AND
@@ -1628,6 +1632,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_activity.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
+    civicrm_activity_type.id  as activity_type_id,
     civicrm_activity_type.name  as activity_type
   FROM civicrm_activity, civicrm_contact source, civicrm_contact target ,civicrm_activity_type
   WHERE
@@ -1655,6 +1660,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
+            $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;        
             $values[$rowCnt]['activity_type'] = $dao->activity_type;        
             $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;

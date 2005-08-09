@@ -601,3 +601,6 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Meeting', 'Schedule a Meeting', 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Phone Call', 'Schedule a Phone Call', 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Email', 'Email', 1);

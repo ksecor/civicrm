@@ -105,19 +105,6 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         $url = '';
         $extra = '';
-        // echo $activityType."<br>";
-        if (is_numeric($activityType)) {
-            if ($activityType == 1) {
-                $url = 'civicrm/contact/view/activity';
-                $extra = "activity_id=2";
-            } else {
-                $url = 'civicrm/contact/view/activity';
-                $extra = "activity_id=1";
-            }
-        } else {
-            $url = 'civicrm/contact/view/activity';
-            $extra = "activity_id=other";
-        }
 
         // helper variable for nicer formatting
         $deleteExtra = ts('Are you sure you want to delete this activity?');
@@ -125,8 +112,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         self::$_actionLinks = array(
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
-                                                                     'url'      => $url,
-                                                                     'qs'       => $extra.'&action=update&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'url'      => 'civicrm/contact/view/activity',
+                                                                     'qs'       => 'activity_id='.$activityType.'&action=update&reset=1&id=%%id%%&cid=%%cid%%',
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     CRM_Core_Action::DELETE => array(
@@ -217,9 +204,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             $row =& $rows[$k];
 
             //check the if the activity type is meeting or phonecall
-            $activity_type = $row['activity_type'];
             if (is_numeric($row['activity_type'])) {
-                if ($row['activity_type'] == 1) {
+                if ($row['activity_type'] == 2) {
                     $row['activity_type'] = ts('Phone Call');
                 } else {
                     $row['activity_type'] = ts('Meeting');
@@ -237,7 +223,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'activity_id'=>$row['activity_id'],
                                                                      'cid' => $this->_contactId ) );
                 } else {
-                    $actionLinks = self::actionLinks($activity_type);
+                    $actionLinks = self::actionLinks($row['activity_type_id']);
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                null,
                                                                array('id'=>$row['id'],

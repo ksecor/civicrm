@@ -18,8 +18,8 @@
    {* Only display next link if there are activity_type entries for this domain. *}
    {if $showOtherActivityLink}
         &nbsp;&nbsp;
-        <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/custom_activity.gif" alt="{ts}Other Activities{/ts}"></a>&nbsp;
-        <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}</a>
+        <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=4&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/custom_activity.gif" alt="{ts}Other Activities{/ts}"></a>&nbsp;
+        <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=4&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}</a>
    {/if}
 
 </div>

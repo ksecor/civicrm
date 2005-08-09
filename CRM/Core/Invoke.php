@@ -185,28 +185,19 @@ class CRM_Core_Invoke {
                     if ($details) {
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
                     } else {
-                    $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
-                    $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+                        $wrapper =& new CRM_Utils_Wrapper( );
+                        return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
                     }
-                } elseif($activityId == 'other') {
+                } elseif($activityId > 3 ) {
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
-                    break;
                 } else {
                     $view =& new CRM_Contact_Page_View_Activity( );
                 }
                 
                 break;
-            /*case 'call':
-                $view =& new CRM_Contact_Page_View_Phonecall( );
-                break;
-            case 'meeting':
-                $view =& new CRM_Contact_Page_View_Meeting( );
-                break;
-            case 'otheract':
-                $view =& new CRM_Contact_Page_View_OtherActivity( );
-                break;*/    
+                
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
                 break;
@@ -216,11 +207,11 @@ class CRM_Core_Invoke {
             }
             return $view->run( );
         }
-
+        
         if ( $args[2] == 'search' ) {
             return self::search( $args );
         }
-
+        
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
     }
 
