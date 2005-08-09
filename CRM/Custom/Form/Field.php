@@ -129,9 +129,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $daoState->fetch();
                 
                 $defaults['default_value'] = $daoState->name;
-            }
-
-            if ( $defaults['data_type'] == 'Country' ) {
+            } else if ( $defaults['data_type'] == 'Country' ) {
                 $daoCountry =& new CRM_Core_DAO();
                 $countryId = $defaults['default_value'];
                 $query = "SELECT * FROM civicrm_country WHERE id = $countryId";
@@ -140,17 +138,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 
                 $defaults['default_value'] = $daoCountry->name;
             }
-
+            
             if (CRM_Utils_Array::value('data_type', $defaults)) {
-                $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
+                $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys), '1' => $defaults['html_type']);
             }
 
-            if (CRM_Utils_Array::value('data_type', $defaults)) {
-                $this->_rebuildHTMLType($defaults['data_type'][0]);
-                $this->assign('html_type',$defaults['html_type']);
-                $defaults['html_type'] = array('0' => array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]));
-            }
-           
         } else {
             $defaults['is_active'] = 1;
             for($i=1; $i<=self::NUM_OPTION; $i++) {
@@ -163,122 +155,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     }
 
     /**
-     * Function to rebuild the html types in 
-     * the drop down on page refresh
-     *
-     * @return void
-     * @access private
-     */
-
-    private function _rebuildHTMLType($dataType)
-    {
-        $this->removeElement('html_type');
-
-        $htmlArray = self::$_dataToHTML[$dataType];
-        $_dataHTML = array();
-        foreach($htmlArray as $value) {
-            $_dataHTML[] = ts($value);
-        }
-
-        $this->addElement('select', 'html_type', ts('HTML Type'), $_dataHTML, array('onchange' => 'custom_option_html_type(this)'));
-        $this->freeze('html_type');
-    }
-
-    /**
-     * The javascript functions to rebuild 
-     * the dropdown values in data_type and html_type
-     *
-     * @access private
-     * @return void
-     */
-    private function _customDataType()
-    {
-
-        $customDataTypeJs = "<script type='text/javascript'>
-            function custom_option_data_type(data_type) 
-            {
-                // get the html_type
-                html_type = data_type.form.html_type;
-                var data_type_name = data_type.options[data_type.selectedIndex].text;
-                var data_type_index = data_type.selectedIndex;
-                
-                html_type.length=0;
-                switch(data_type_name) {
-                case \"".ts('Alphanumeric')."\":
-                    html_type[0] = new Option('".ts('Text')."',     0, true);
-                    html_type[1] = new Option('".ts('Select')."',   1);
-                    html_type[2] = new Option('".ts('Radio')."',    2);
-                    html_type[3] = new Option('".ts('Checkbox')."', 3);
-                    break;
-                case \"".ts('Integer')."\":
-                    html_type[0] = new Option('".ts('Text')."',     0, true);
-                    html_type[1] = new Option('".ts('Select')."',   1);
-                    html_type[2] = new Option('".ts('Radio')."',    2);
-                    break;
-                case \"".ts('Number')."\":
-                    html_type[0] = new Option('".ts('Text')."',     0, true);
-                    html_type[1] = new Option('".ts('Select')."',   1);
-                    html_type[2] = new Option('".ts('Radio')."',    2);
-                    break;
-                case \"".ts('Money')."\":
-                    html_type[0] = new Option('".ts('Text')."',     0, true);
-                    html_type[1] = new Option('".ts('Select')."',   1);
-                    html_type[2] = new Option('".ts('Radio')."',    2);
-                    break;
-                case \"".ts('Note')."\":
-                    html_type[0] = new Option('".ts('TextArea')."', 0, true);
-                    break;
-                case \"".ts('Date')."\":
-                    html_type[0] = new Option('".ts('Select Date')."', 0, true);
-                    break;
-                case \"".ts('Yes or No')."\":
-                    html_type[0] = new Option('".ts('Radio')."', 0, true);
-                    break;
-                case \"".ts('State/Province')."\":
-                    html_type[0] = new Option('".ts('Select State/Province')."', 0, true);
-                    break;
-                case \"".ts('Country')."\":
-                    html_type[0] = new Option('".ts('Select Country')."', 0, true);
-                    break;
-                }
-    
-                // need to call onchange for html_type since we may need to hide custom options
-                custom_option_html_type(html_type);
-            }";
-
-        $customDataTypeJs .= "
-            function custom_option_html_type(html_type) 
-            {
-                var data_type = html_type.form.data_type;
-                var html_type_name = html_type.options[html_type.selectedIndex].text;
-                var data_type_name = data_type.options[data_type.selectedIndex].text;
-                
-                if (data_type_name == \"".ts('Alphanumeric')."\" || data_type_name == \"".ts('Integer')."\" 
-                      || data_type_name == \"".ts('Number')."\" || data_type_name == \"".ts('Money')."\") {
-                    if(html_type_name != \"".ts('Text')."\") {
-                        document.getElementById('".ts('showoption')."').style.display=\"block\";
-                        document.getElementById('".ts('hideDefaultValTxt')."').style.display=\"none\";
-                        document.getElementById('".ts('hideDefaultValDef')."').style.display=\"none\";
-                        document.getElementById('".ts('hideDescTxt')."').style.display=\"none\";
-                        document.getElementById('".ts('hideDescDef')."').style.display=\"none\";
-                    } else {
-                        document.getElementById('".ts('showoption')."').style.display=\"none\";
-                        document.getElementById('".ts('hideDefaultValTxt')."').style.display=\"block\";
-                        document.getElementById('".ts('hideDefaultValDef')."').style.display=\"block\";
-                        document.getElementById('".ts('hideDescTxt')."').style.display=\"block\";
-                        document.getElementById('".ts('hideDescDef')."').style.display=\"block\";
-                    }
-                } else {
-                    document.getElementById('".ts('showoption')."').style.display=\"none\";
-                }
-            } 
-            </script>";
-
-        $this->assign('customDataTypeJs', $customDataTypeJs);
-
-    }
-    
-    /**
      * Function to actually build the form
      *
      * @return void
@@ -288,28 +164,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-        
-        // javascript functions for drop downs
-        $this->_customDataType();
 
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
-        // data_type, html_type
-        $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
-        // coversion of HTML array for internationalisation
-        $htmlArray = self::$_dataToHTML[0];
-        $_dataHTML = array();
-        foreach($htmlArray as $value) {
-            $_dataHTML[] = ts($value);
+        $dt =& self::$_dataTypeValues;
+        $it = array();
+        foreach ($dt as $key => $value) {
+            $it[$key] = self::$_dataToHTML[$key];
         }
-        
-        $this->addElement('select', 'html_type', ts('Input Field Type'), $_dataHTML, array('onchange' => 'custom_option_html_type(this)'));
-
-        // need to freeze data_type, html_type for edit mode
-        if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $this->freeze(array('data_type', 'html_type'));
+        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), null, '<br />');
+        $sel->setOptions(array($dt, $it));
+        if ($this->_action == CRM_Core_Action::UPDATE) {
+            $this->freeze('data_type');
         }
         
         // form fields of Custom Option rows
@@ -396,7 +264,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $errors  = array( );
 
         if ( $default ) {
-            $dataType = self::$_dataTypeKeys[$fields['data_type']];
+            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
@@ -454,7 +322,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
-            $dataType = self::$_dataTypeKeys[$fields['data_type']];
+            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             
             //capture duplicate Custom option values
             if( !empty($fields['option_value']) ) {
@@ -567,7 +435,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $_showHide->addToTemplate();
                 CRM_Core_Page::assign('optionRowError', $_rowError);
             } else {
-                switch (self::$_dataToHTML[$fields['data_type']][$fields['html_type']]) {
+                switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
                 case 'Radio':
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
@@ -624,19 +492,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
-        $customField->data_type     = self::$_dataTypeKeys[$params['data_type']];
-        $customField->html_type     = self::$_dataToHTML[$params['data_type']][$params['html_type']];
+        $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
+        $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
         $customField->weight        = $params['weight'];
         
         //$customField->default_value = $params['default_value'];
         //store the primary key for State/Province or Country as default value.
         if ( !empty($params['default_value'])) {
-            switch (self::$_dataTypeKeys[$params['data_type']]) {
+            switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
             case 'StateProvince':
                 $daoState =& new CRM_Core_DAO();
                 $fieldStateProvince = $params['default_value'];
