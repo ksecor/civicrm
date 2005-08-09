@@ -437,7 +437,7 @@ LEFT JOIN  civicrm_subscription_history ON (civicrm_subscription_history.contact
 LEFT JOIN  civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
                                  civicrm_contact.id = civicrm_location.entity_id)
 LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-WHERE civicrm_subscription_history.status = '$status'AND civicrm_group_contact.status = '$status'  AND civicrm_group_contact.group_id = '$group->id' ";
+WHERE civicrm_subscription_history.status = '$status' AND civicrm_group_contact.status = '$status'  AND civicrm_group_contact.group_id = '$group->id' GROUP BY  civicrm_contact_id ";
         }
         
         if ( $sort != null ) {
@@ -453,7 +453,7 @@ WHERE civicrm_subscription_history.status = '$status'AND civicrm_group_contact.s
         }
         
         $dao =& new CRM_Contact_DAO_Contact();
-
+        echo $query;
         $dao->query($query);
         
         // this is quite inefficient, we need to change the return
