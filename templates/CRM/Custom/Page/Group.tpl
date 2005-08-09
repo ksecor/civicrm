@@ -1,6 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
     {include file="CRM/Custom/Form/Group.tpl"}
-
+{elseif $action eq 1024}
+    {include file="CRM/Custom/Form/Preview.tpl"}
 {else}
     <div id="help">{ts}Custom Data Groups are used to collect and store additional data not included in the standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields.{/ts}</div>
 

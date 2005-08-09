@@ -180,6 +180,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group', 'action=browse'));
         $controller->set('groupId', $id);
+        $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
     }
