@@ -216,16 +216,14 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
 
         if ($domain) {
-            $body = 
-            ts('You have been unsubscribed from %1.', array('1' =>
-            $domain->name));
+            $body = ts('You have been unsubscribed from %1.', 
+                        array('1' => $domain->name));
         } else if (count($groups) > 1) {
-            $body = 
-            ts('You have been removed from the following groups: %1.', 
-                    array('1' => implode(', ', $groups)));
+            $body = ts('You have been removed from the following groups: %1.', 
+                        array('1' => implode(', ', $groups)));
         } else {    
             $body = ts('You have been removed from %1.',
-                    array('1' => array_shift($groups)));
+                        array('1' => array_shift($groups)));
         }
         /* TODO: add links to resubscribe */
         /* TODO: use autoresponder template? */

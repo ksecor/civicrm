@@ -74,13 +74,17 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
      * @static
      */
     public static function &formRule(&$params) {
-        /* TODO: make this check for dates before now() */
         if ($params['now']) {
             return true;
-        } elseif (CRM_Utils_Rule::qfDate($params['start_date'])) {
+        }
+        if (! CRM_Utils_Rule::qfDate($params['start_date'])) {
             return array('start_date' => ts('Start date is not valid.'));
-        } else
-            return true;
+        }
+        if (CRM_Utils_Date::format($params['start_date']) < date('YmdHi00')) {
+            return array('start_date' => 
+                ts('Start date cannot be earlier than the current time.'));
+        }
+        return true;
     }
 
     /**

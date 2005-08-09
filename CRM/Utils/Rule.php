@@ -115,8 +115,8 @@ class CRM_Utils_Rule {
      * @access public
      */
     static function qfDate($date) {
-	if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) {
-	    return true;
+        if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) {
+            return true;
         }
 
         $day = $mnt = 1;

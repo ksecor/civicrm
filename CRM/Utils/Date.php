@@ -69,8 +69,10 @@ class CRM_Utils_Date {
         }
 
         $time = '';
-        if (CRM_Utils_Array::value( 'H', $date ) || CRM_Utils_Array::value( 'h', $date ) ||
-            CRM_Utils_Array::value( 'i', $date ) || CRM_Utils_Array::value( 's', $date )) {
+        if (CRM_Utils_Array::value( 'H', $date ) != null 
+        ||  CRM_Utils_Array::value( 'h', $date ) != null
+        ||  CRM_Utils_Array::value( 'i', $date ) != null
+        ||  CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
                 if ($date['A'] == 'PM') {
