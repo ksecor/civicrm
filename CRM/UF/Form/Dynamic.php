@@ -95,7 +95,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getUFFields( $this->_gid, false, $this->_action );
         }
-        
+
         $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
     }
 
@@ -335,11 +335,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         if ( ! $edit ) {
             return;
         }
-        /*echo "<pre>";
-        print_r($edit);
-        echo "</pre>";*/
+
         $edit['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
+
         $edit['contact_id'] = $contact->id;
         CRM_Contact_BAO_Individual::add( $edit, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {

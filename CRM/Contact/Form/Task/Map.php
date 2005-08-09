@@ -104,8 +104,15 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $this->assign( 'googleMapKey', $config->googleMapAPIKey );
        
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
+
+        $session =& CRM_Core_Session::singleton();
+        $redirect = $session->readUserContext();
         if ( empty( $locations ) ) {
-            CRM_Core_Error::fatal( ts( 'The locations chosen did not have any coordinate information' ) );
+            $session->setStatus( 'The location did not have any latitude / longitude information' );
+            CRM_Utils_System::redirect( $redirect );
+        } else {
+            $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => $redirect ) );
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }
 
         $this->assign_by_ref( 'locations', $locations );

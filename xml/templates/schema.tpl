@@ -2,7 +2,7 @@
 
 -- /*******************************************************
 -- *
--- * DROP TABLES IN REVERSE ORDER OF CREATION
+-- * Clean up the exisiting tables
 -- *
 -- *******************************************************/
 {foreach from=$dropOrder item=name}
@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS {$name};
 
 -- /*******************************************************
 -- *
--- * CREATE TABLES
+-- * Create new tables
 -- *
 -- *******************************************************/
 

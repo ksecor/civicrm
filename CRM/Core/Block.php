@@ -149,6 +149,10 @@ class CRM_Core_Block {
         $block = array( );
         foreach ( self::properties() as $id => $value ) {
             if ( $value['active'] ) {
+                if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+                     ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) ) {
+                    continue;
+                }
                 $block[$id]['info'] = $value['info'];
             }
         }
@@ -257,6 +261,11 @@ class CRM_Core_Block {
         self::setTemplateValues( $id );
         $block = array( );
         if ( ! self::getProperty( $id, 'active' ) ) {
+            return null;
+        }
+
+        if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+             ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) ) {
             return null;
         }
 

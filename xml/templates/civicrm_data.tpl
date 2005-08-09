@@ -1,8 +1,3 @@
--- setting the proper encoding for client, connection and results settings
--- SET NAMES 'utf8';
-
-
-
 /*******************************************************
 *
 * civicrm_county (!! TBD)
