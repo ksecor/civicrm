@@ -209,7 +209,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id IS null
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
+                        AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
@@ -240,7 +240,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.group_type = 'Include'
                         
                         AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
+                        AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
@@ -270,7 +270,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
                                         $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
+                        AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
@@ -304,7 +304,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
+                        AND             $contact.is_opt_out = 0
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$this->id}
@@ -331,7 +331,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0
-                        AND             $contact.is_subscribed = 1
+                        AND             $contact.is_opt_out = 0
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$this->id}
                         AND             X_$job_id.contact_id IS null");
@@ -387,7 +387,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     $job.mailing_id = " . $this->id . "
                     AND             $job.id <> $job_id
                     AND             $contact.do_not_email = 0
-                    AND             $contact.is_subscribed = 1
+                    AND             $contact.is_opt_out = 0
                     AND             $email.on_hold = 0
                 GROUP BY            $queue.email_id";
 

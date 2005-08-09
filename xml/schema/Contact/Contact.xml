@@ -134,10 +134,10 @@
       <comment>Key for validating requests related to this contact.</comment>
   </field>
   <field>
-    <name>is_subscribed</name>
+    <name>is_opt_out</name>
     <type>boolean</type>
-    <default>1</default>
+    <default>0</default>
     <required>true</required>
-    <comment>Is the contact currently subscribed to the org?</comment>
+    <comment>Has the contact opted out from the org?</comment>
   </field>
 </table>

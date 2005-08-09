@@ -64,7 +64,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         CRM_Core_DAO::transaction('BEGIN');
         $contact =& new CRM_Contact_BAO_Contact();
         $contact->id = $q->contact_id;
-        $contact->is_subscribed = false;
+        $contact->is_opt_out = true;
         $contact->save();
         
         $ue =& new CRM_Mailing_Event_BAO_Unsubscribe();
