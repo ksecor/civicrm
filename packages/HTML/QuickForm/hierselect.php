@@ -388,7 +388,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                              ."        if (!ctl) {\n"
                              ."            ctl = frm[grpName+'['+ n +'][]'];\n"
                              ."        }\n"
-                             ."        ctl.style.display = 'block';\n"
+                             ."        ctl.style.display = 'inline';\n"
                              ."        for (var i in the_array) {\n"
                              ."            opt = new Option(the_array[i], i, false, false);\n"
                              ."            ctl.options[j++] = opt;\n"
