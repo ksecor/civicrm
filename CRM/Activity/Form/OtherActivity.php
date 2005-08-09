@@ -83,8 +83,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $activityType[''] = ts('- select Activity Type -') ;
         asort($activityType);
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type', ts('Activity Type'),$activityType ,array('onchange'=>'activity_get_description()'));
-        $this->addRule('activity_type',ts('Please select the Activity Type.'), 'required');
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'),$activityType ,array('onChange'=>'activity_get_description()'));
+        $this->addRule('activity_type_id',ts('Please select the Activity Type.'), 'required');
         $description = $this->addElement('text', 'description', ts('Description'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ),false);
         $this->addElement('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ) );
         $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
@@ -157,7 +157,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
                             'entity_id'        => $this->_contactId,
-                            'activity_type'    => $activityType[$params['activity_type']],
+                            'activity_type'    => $activityType[$params['activity_type_id']],
                             'module'           => 'CiviCRM',
                             'callback'         => 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails',
                             'activity_id'      => $otherActivity->id,

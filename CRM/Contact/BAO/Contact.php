@@ -1554,7 +1554,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $row    = $result->fetchRow();
         $rowPhonecall = $row[0];
         
-        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND civicrm_activity_type.id = civicrm_activity.activity_type AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
+        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
         $dao->query($query3);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -1579,7 +1579,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
      */
     static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
     {
-        
         $dao =& new CRM_Core_DAO();
         $contactId = $params['contact_id'];
         
@@ -1636,7 +1635,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
     civicrm_activity.target_entity_id = target.id AND
     ( civicrm_activity.source_contact_id = $contactId OR civicrm_activity.target_entity_id = $contactId ) AND
-    civicrm_activity_type.id = civicrm_activity.activity_type AND civicrm_activity_type.is_active = 1 AND 
+    civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
 )
 ";
@@ -1656,16 +1655,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
-            if (is_numeric($dao->activity_type)) {
-                if ($dao->activity_type == 1) {
-                    $values[$rowCnt]['activity_type'] = 'Phone Call';        
-                } else {
-                    $values[$rowCnt]['activity_type'] = 'Meeting';        
-                }
-            } else {
-                $values[$rowCnt]['activity_type'] = $dao->activity_type;        
-            }
-
+            $values[$rowCnt]['activity_type'] = $dao->activity_type;        
             $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;
             $values[$rowCnt]['date']    = $dao->date;
@@ -1681,7 +1671,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
             CRM_Core_DAO_Phonecall::addDisplayEnums($values[$key]);
         }
         return $values;
-
     }
 
     /**

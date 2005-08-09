@@ -18,7 +18,7 @@
   	  <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}&nbsp;</dd>
 	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}&nbsp;</dd>
         {/if}
-	<dt>{$form.activity_type.label} <dd>{$form.activity_type.html}{$form.description.html|crmReplace:class:texttolabel}</dd></dt>
+	<dt>{$form.activity_type_id.label} <dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd></dt>
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
     {if $action eq 4}
@@ -49,18 +49,18 @@ activityDesc.readOnly = 1;
 function activity_get_description()
 {
 
-var activityType = document.getElementById("activity_type");
-var activityDesc = document.getElementById("description");
-var desc = new Array();
-desc[0] = "";
-{/literal}
-var index = 1;
-{foreach from= $ActivityTypeDescription item=description key=id}
-{literal}desc[index]{/literal} = "{$description}"
-{literal}index = index + 1{/literal}
-{/foreach}
-{literal}
-activityDesc.value = desc[activityType.selectedIndex];
+  var activityType = document.getElementById("activity_type_id");
+  var activityDesc = document.getElementById("description");
+  var desc = new Array();
+  desc[0] = "";
+  {/literal}
+  var index = 1;
+  {foreach from= $ActivityTypeDescription item=description key=id}
+    {literal}desc[index]{/literal} = "{$description}"
+    {literal}index = index + 1{/literal}
+  {/foreach}
+  {literal}
+  activityDesc.value = desc[activityType.selectedIndex];
 }
 
 

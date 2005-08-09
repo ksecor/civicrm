@@ -105,17 +105,19 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         $url = '';
         $extra = '';
-        if ($activityType == 'Meeting') {
-            $url = 'civicrm/contact/view/activity';
-            $extra = "activity_id=1";
-        } else if($activityType == 'Phone Call') {
-            $url = 'civicrm/contact/view/activity';
-            $extra = "activity_id=2";
+        // echo $activityType."<br>";
+        if (is_numeric($activityType)) {
+            if ($activityType == 1) {
+                $url = 'civicrm/contact/view/activity';
+                $extra = "activity_id=2";
+            } else {
+                $url = 'civicrm/contact/view/activity';
+                $extra = "activity_id=1";
+            }
         } else {
             $url = 'civicrm/contact/view/activity';
             $extra = "activity_id=other";
         }
-
 
         // helper variable for nicer formatting
         $deleteExtra = ts('Are you sure you want to delete this activity?');
@@ -213,6 +215,17 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
        
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
+
+            //check the if the activity type is meeting or phonecall
+            $activity_type = $row['activity_type'];
+            if (is_numeric($row['activity_type'])) {
+                if ($row['activity_type'] == 1) {
+                    $row['activity_type'] = ts('Phone Call');
+                } else {
+                    $row['activity_type'] = ts('Meeting');
+                }
+            }
+
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ( CRM_Utils_Array::value( 'callback', $row ) ) {
@@ -224,7 +237,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'activity_id'=>$row['activity_id'],
                                                                      'cid' => $this->_contactId ) );
                 } else {
-                    $actionLinks = self::actionLinks($row['activity_type']);
+                    $actionLinks = self::actionLinks($activity_type);
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                null,
                                                                array('id'=>$row['id'],
