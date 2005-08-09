@@ -35,7 +35,8 @@
  */
 
 require_once 'api/crm.php';
-
+require_once 'Mail/mime.php';
+require_once 'CRM/Utils/Verp.php';
 class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
 
     /**
@@ -52,11 +53,11 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * @param int $domain_id        The domain id of the new subscription
      * @param int $group_id         The group id to subscribe to
      * @param string $email         The email address of the (new) contact
-     * @return int|null $contact_id      The id of the (new) contact, null on failure
+     * @return int|null $se_id      The id of the subscription event, null on failure
      * @access public
      * @static
      */
-    public static function subscribe($domain_id, $group_id, $email) {
+    public static function &subscribe($domain_id, $group_id, $email) {
         /* First, find out if the contact already exists */        
         $params = array('email' => $email, 'domain_id' => $domain_id);
         $contact_id = CRM_Contact_BAO_Contact::_crm_get_contact_id($params);
@@ -112,7 +113,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             'Email', 'Pending', $se->id);
             
         CRM_Core_DAO::transaction('COMMIT');
-        return $contact_id;
+        return $se;
     }
 
     /**
@@ -135,6 +136,47 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             return $se;
         }
         return null;
+    }
+
+    /**
+     * Ask a contact for subscription confirmation (opt-in)
+     *
+     * @param string $email         The email address
+     * @return void
+     * @access public
+     */
+    public function send_confirm_request($email) {
+        $config =& CRM_Core_Config::singleton();
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $confirm = CRM_Utils_Verp::encode( "confirm.{$this->contact_id}.{$this->id}.{$this->hash}@{$domain->email_domain}", 
+            $email);
+        $group =& new CRM_Contact_BAO_Group();
+        $group->id = $this->group_id;
+        $group->find(true);
+        $headers = array(
+            'Subject'   => ts('Subscribe confirmation request'),
+            'From'      => ts('"%1 Administrator" <do-not-reply@%2>', 
+                            array('1' => $domain->name, 
+                            '2' => $domain->email_domain)),
+            'Reply-to'  => $confirm,
+            'Return-path'   => "do-not-reply@{$domain->email_domain}"
+        );
+
+        $body = ts('
+You have a pending subscription to %1.  To confirm this 
+subscription, reply to this message.', 
+            array('1' => $group->name, '2' => $confirm));
+
+        $message =& new Mail_Mime("\n");
+        $message->setTxtBody($body);
+        $b = $message->get();
+        $h = $message->headers($headers);
+        $mailer =& $config->getMailer();
+        
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        $mailer->send($email, $h, $b);
+        CRM_Core_Error::setCallback();
     }
 }
 
