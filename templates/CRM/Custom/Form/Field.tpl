@@ -1,3 +1,4 @@
+{*Javascript functions*}
 {$customDataTypeJs}
 <fieldset><legend>{ts}Custom Data Field{/ts}</legend>
 

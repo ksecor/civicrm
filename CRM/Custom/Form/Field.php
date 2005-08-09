@@ -184,6 +184,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->freeze('html_type');
     }
 
+    /**
+     * The javascript functions to rebuild 
+     * the dropdown values in data_type and html_type
+     *
+     * @access private
+     * @return void
+     */
     private function _customDataType()
     {
 
@@ -281,7 +288,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-
+        
+        // javascript functions for drop downs
         $this->_customDataType();
 
         // label
