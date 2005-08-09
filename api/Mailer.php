@@ -93,8 +93,26 @@ function crm_mailer_event_unsubscribe($job, $queue, $hash) {
     $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
     
     if ($email && count($groups)) {
-        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, $groups);
+        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, $groups, false);
     }
 }
 
+/**
+ * Handle a domain-level unsubscribe event
+ *
+ * @param int $job          ID of the job that caused this unsub
+ * @param int $queue        ID of the queue event
+ * @param string $hash      Security hash
+ * @return void
+ */
+function crm_mailer_event_domain_unsubscribe($job, $queue, $hash) {
+    if (! CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_domain($job,$queue,$hash)) {
+        return;
+    }
+
+    $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
+    if ($email) {
+        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, null, true);
+    }
+}
 ?>

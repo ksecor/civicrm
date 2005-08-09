@@ -206,27 +206,31 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      *
      * @param string $email         The email address of the contact
      * @param array $groups         List of group IDs
+     * @param bool $domain          Is this domain-level?
      * @return void
      * @access public
      * @static
      */
-    public static function send_unsub_response($email, $groups) {
+    public static function send_unsub_response($email, $groups, $domain = false) {
         $config =& CRM_Core_Config::singleton();
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
 
-        if (count($groups) > 1) {
+        if ($domain) {
+            $body = 
+            ts('You have been unsubscribed from %1.', array('1' =>
+            $domain->name));
+        } else if (count($groups) > 1) {
             $body = 
             ts('You have been removed from the following groups: %1.', 
                     array('1' => implode(', ', $groups)));
         } else {    
-            $body = ts('You have been removed from \'%1\'.',
+            $body = ts('You have been removed from %1.',
                     array('1' => array_shift($groups)));
         }
         /* TODO: add links to resubscribe */
         /* TODO: use autoresponder template? */
         /* TODO: include domain contact information */
 
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
-        
         $headers = array(
             'Subject'       => ts('Unsubscribe request completed'),
             'From'          => 
@@ -238,6 +242,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $message->setTxtBody($body);
         $b = $message->get();
         $h = $message->headers($headers);
+        $mailer =& $config->getMailer();
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
