@@ -59,7 +59,7 @@ class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-        $this->add('checkbox', 'is_default', ts('Default?'));
+
         if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_ActivityType', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
@@ -75,30 +75,15 @@ class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        $params = $ids = array( );
         // store the submitted values in an array
         $params = $this->exportValues();
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
-
-        // action is taken depending upon the mode
-        $activityType               =& new CRM_Core_DAO_ActivityType( );
-        $activityType->domain_id    = CRM_Core_Config::domainID( );
-        $activityType->name         = $params['name'];
-        $activityType->description  = $params['description'];
-        $activityType->is_active    = $params['is_active'];
-        $activityType->is_default   = $params['is_default'];
-        
-        if ($params['is_default']) {
-            $unsetDefault =& new CRM_Core_DAO();
-            $query = 'UPDATE civicrm_activity_type SET is_default = 0';
-            $unsetDefault->query($query);
-        }
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $activityType->id = $this->_id;
+            $ids['activityType'] = $this->_id;
         }
 
-        $activityType->save( );
+        $activityType = CRM_Core_BAO_ActivityType::add($params, $ids);
 
         CRM_Core_Session::setStatus( ts('The activity type "%1" has been saved.', array( 1 => $activityType->name )) );
     }

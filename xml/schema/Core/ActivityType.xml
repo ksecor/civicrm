@@ -49,11 +49,6 @@
        <type>boolean</type>
        <comment>Is this property active?</comment>
   </field>
-  <field>
-        <name>is_default</name>
-        <type>boolean</type>
-        <comment>Is this activity type the default?</comment>
-  </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>

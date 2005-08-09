@@ -117,7 +117,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($id, $action) ;
+            $this->edit($action, $id) ;
         } 
         // finally browse the custom groups
         $this->browse();
@@ -143,6 +143,8 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
+        // $dao->whereAdd('id > 3');
+
         $dao->orderBy('name');
         $dao->find();
 

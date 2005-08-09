@@ -117,7 +117,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($id, $action) ;
+            $this->edit($action, $id) ;
         } 
         // finally browse the custom groups
         $this->browse();
@@ -135,7 +135,6 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function browse($action=null)
     {
-        
         // get all custom groups sorted by weight
         $locationType = array();
         $dao =& new CRM_Core_DAO_LocationType();

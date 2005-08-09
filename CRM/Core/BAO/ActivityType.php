@@ -112,7 +112,7 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @access public
      */
     static function &getActivityDescription() {
-        $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 ORDER BY name ";
+        $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 ";
         $dao   = new CRM_Core_DAO_ActivityType();
         $dao->query($query);
         $description =array();
@@ -125,7 +125,38 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
         return $description;
     }
 
-
+    /**
+     * function to add the activity types
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id
+     * 
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function add(&$params, &$ids) {
+        
+        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
+        
+        // action is taken depending upon the mode
+        $activityType               =& new CRM_Core_DAO_ActivityType( );
+        $activityType->domain_id    = CRM_Core_Config::domainID( );
+        
+        $activityType->copyValues( $params );;
+        
+        if ($params['is_default']) {
+            $unsetDefault =& new CRM_Core_DAO();
+            $query = 'UPDATE civicrm_activity_type SET is_default = 0';
+            $unsetDefault->query($query);
+        }
+        
+        $activityType->id = CRM_Utils_Array::value( 'activityType', $ids );
+        $activityType->save( );
+        return $activityType;
+    }
+    
 }
 
 ?>
