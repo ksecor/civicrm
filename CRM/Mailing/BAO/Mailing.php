@@ -534,7 +534,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, true);
             
             if ($this->open_tracking) {
-                /* TODO: insert html for open tracking */
+                $html .= '<img src="' . CRM_Utils_System::baseURL() .
+                "/modules/civicrm/extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
             }
             $message->setHTMLBody($html);
         }
@@ -544,7 +545,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $message->get();
         $message->headers($headers);
 
-        $recipient = $contact['display_name'] . " <$email>";
+        $recipient = "\"{$contact['display_name']}\" <$email>";
         
         return $message;
     }

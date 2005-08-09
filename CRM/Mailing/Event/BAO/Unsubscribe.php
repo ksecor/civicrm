@@ -34,6 +34,9 @@
  *
  */
 
+
+require_once 'Mail/mime.php';
+
 class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscribe {
 
     /**
@@ -159,7 +162,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         /* Now we have a complete list of recipient groups.  Filter out all
          * those except smart groups and those that the contact belongs to */
         $do->query("
-            SELECT      $group.id as group_id
+            SELECT      $group.id as group_id,
+                        $group.name as name
             FROM        $group
             LEFT JOIN   $gc
                 ON      $gc.group_id = $group.id
@@ -172,17 +176,17 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $groups = array();
         
         while ($do->fetch()) {
-            $groups[] = $do->group_id;
+            $groups[$do->group_id] = $do->name;
         }
 
         $contacts = array($contact_id);
 
-        foreach ($groups as $key => $group_id) {
+        foreach ($groups as $group_id => $group_name) {
             list($total, $removed, $notremoved) = 
                 CRM_Contact_BAO_GroupContact::removeContactsFromGroup(
                     $contacts, $group_id, 'Email', $queue_id);
-            if (! $removed) {
-                unset($groups[$key]);
+            if ($notremoved) {
+                unset($groups[$group_id]);
             }
         }
         
@@ -194,6 +198,51 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         
         CRM_Core_DAO::transaction('COMMIT');
         return $groups;
+    }
+
+    /**
+     * Send a reponse email informing the contact of the groups from which he
+     * has been unsubscribed.
+     *
+     * @param string $email         The email address of the contact
+     * @param array $groups         List of group IDs
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function send_unsub_response($email, $groups) {
+        $config =& CRM_Core_Config::singleton();
+
+        if (count($groups) > 1) {
+            $body = 
+            ts('You have been removed from the following groups: %1.', 
+                    array('1' => implode(', ', $groups)));
+        } else {    
+            $body = ts('You have been removed from \'%1\'.',
+                    array('1' => array_shift($groups)));
+        }
+        /* TODO: add links to resubscribe */
+        /* TODO: use autoresponder template? */
+        /* TODO: include domain contact information */
+
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        
+        $headers = array(
+            'Subject'       => ts('Unsubscribe request completed'),
+            'From'          => 
+            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+            'Return-path'   => "do-not-reply@{$domain->email_domain}"
+        );
+
+        $message =& new Mail_Mime("\n");
+        $message->setTxtBody($body);
+        $b = $message->get();
+        $h = $message->headers($headers);
+
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        $mailer->send($email, $h, $b);
+        CRM_Core_Error::setCallback();
     }
 }
 

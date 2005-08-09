@@ -96,6 +96,32 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         return null;
     }
 
+
+    /**
+     * Given a queue event ID, find the corresponding email address.
+     *
+     * @param int $queue_id         The queue event ID
+     * @return string               The email address
+     * @access public
+     * @static
+     */
+    public static function getEmailAddress($queue_id) {
+        $email = CRM_Core_BAO_Email::getTableName();
+        $eq = self::getTableName();
+        $query = "  SELECT      $email.email as email 
+                    FROM        $email 
+                    INNER JOIN  $eq 
+                    ON          $eq.email_id = $email.id 
+                    WHERE       $eq.id = $queue_id";
+        $q =& new CRM_Mailing_Event_BAO_Queue();
+        $q->query($query);
+        if (! $q->fetch()) {
+            return null;
+        }
+
+        return $q->email;
+    }
+
 }
 
 ?>
