@@ -45,8 +45,8 @@ if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
 fi
 
-for F in civirm_41.mysql civicrm_40.mysql civicrm_data.mysql civirm_sample.mysql civirm_generated.mysql; do 
-	cp $SRC/sql/$F $TRG/sql
+for F in $SRC/sql/civicrm_*.mysql; do 
+	cp $F $TRG/sql
 done
 
 
