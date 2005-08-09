@@ -142,6 +142,7 @@ class test_RSTest_GenDataset
      */
     private function _addLocation($locationType, $contactId, $setPrimary, $domain=false)
     {
+        CRM_Core_Error::le_method();
         //print_r($locationType);
         //print_r($contactId);
         $locationDAO                   =& new CRM_Core_DAO_Location();
@@ -191,6 +192,7 @@ class test_RSTest_GenDataset
      */
     private function _addAddress($locationId)
     {
+        CRM_Core_Error::le_method();
         $addressDAO                                    =& new CRM_Core_DAO_Address();
         // add addresses now currently we are adding only 1 address for each location
         $addressDAO->location_id                       = $locationId;
@@ -264,6 +266,7 @@ class test_RSTest_GenDataset
      */
     private function _addPhone($locationId, $phoneType, $primary=false)
     {
+        CRM_Core_Error::le_method();
         if ($locationId % 3) {
             $phoneDAO              =& new CRM_Core_DAO_Phone();
             $phoneDAO->location_id = $locationId;
@@ -290,6 +293,7 @@ class test_RSTest_GenDataset
      */
     private function _addEmail($locationId, $sortName, $primary=false)
     {
+        CRM_Core_Error::le_method();
         if ($locationId % 7) {
             $emailDAO              =& new CRM_Core_DAO_Email();
             $emailDAO->location_id = $locationId;
@@ -642,6 +646,7 @@ class test_RSTest_GenDataset
      */
     public function initID($startID=0)
     {
+        //        CRM_Core_Error::le_method();
         $this->_startID = $startID;
         //CRM_Core_Error::le_method();
         // may use this function in future if needed to get
@@ -687,6 +692,7 @@ class test_RSTest_GenDataset
      */
     public function addDomain()
     {
+        CRM_Core_Error::le_method();
         $this->_addLocation(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('locationType'), test_RSTest_Common::ARRAY_DIRECT_USE), 1, true);
         $domainDAO =& new CRM_Core_DAO_Domain();
         for ($id=2; $id<=test_RSTest_Common::NUM_DOMAIN; $id++) {
@@ -714,6 +720,7 @@ class test_RSTest_GenDataset
      */
     public function addContact()
     {
+        //CRM_Core_Error::le_method();
         // add contacts
         $contactDAO =& new CRM_Contact_DAO_Contact();
 
@@ -721,7 +728,7 @@ class test_RSTest_GenDataset
             echo ".";
             ob_flush();
             flush();
-
+            
             $contactDAO->domain_id                      = 1;
             $contactDAO->contact_type                   = $this->getContactType($this->_startID + $id);
             $contactDAO->do_not_phone                   = mt_rand(0, 1);
@@ -746,6 +753,7 @@ class test_RSTest_GenDataset
      */
     public function addIndividual()
     {
+        //CRM_Core_Error::le_method();
         $individualDAO =& new CRM_Contact_DAO_Individual();
         $contactDAO    =& new CRM_Contact_DAO_Contact();
 
@@ -788,6 +796,7 @@ class test_RSTest_GenDataset
      */
     public function addHousehold()
     {
+        //CRM_Core_Error::le_method();
         $householdDAO =& new CRM_Contact_DAO_Household();
         $contactDAO   =& new CRM_Contact_DAO_Contact();
         
@@ -832,6 +841,7 @@ class test_RSTest_GenDataset
      */
     public function addOrganization()
     {
+        //CRM_Core_Error::le_method();
         $organizationDAO =& new CRM_Contact_DAO_Organization();
         $contactDAO      =& new CRM_Contact_DAO_Contact();       
 
@@ -867,6 +877,7 @@ class test_RSTest_GenDataset
      */
     public function addRelationship()
     {
+        //CRM_Core_Error::le_method();
         $relationshipDAO            =& new CRM_Contact_DAO_Relationship();
         
         $relationshipDAO->is_active = 1; // all active for now.
@@ -923,6 +934,7 @@ class test_RSTest_GenDataset
      */
     public function addLocation($setPrimary=0)
     {
+        //CRM_Core_Error::le_method();
         // strict individuals
         foreach ($this->strictIndividual as $contactId) {
             echo ".";
@@ -970,6 +982,7 @@ class test_RSTest_GenDataset
      */
     public function addNote()
     {
+        //CRM_Core_Error::le_method();
         $noteDAO               =& new CRM_Core_DAO_Note();
         $noteDAO->entity_table = 'civicrm_contact';
         $noteDAO->contact_id   = 1;
@@ -1003,6 +1016,7 @@ class test_RSTest_GenDataset
      */
     public function addActivityHistory()
     {
+        //CRM_Core_Error::le_method();
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
         $contactDAO->selectAdd();
@@ -1046,6 +1060,7 @@ class test_RSTest_GenDataset
      */
     public function addEntityTag()
     {
+        //CRM_Core_Error::le_method();
         $entityTagDAO =& new CRM_Core_DAO_EntityTag();
         for ($i=0; $i<$this->numContact; $i+=2) {
             echo ".";
@@ -1073,6 +1088,7 @@ class test_RSTest_GenDataset
      */
     public function addGroup($flag=true)
     {
+        //CRM_Core_Error::le_method();
         if ($flag) {
             $groupDAO =& new CRM_Contact_DAO_Group();
             // add the 3 groups first
