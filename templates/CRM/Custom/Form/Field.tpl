@@ -1,3 +1,4 @@
+{$customDataTypeJs}
 <fieldset><legend>{ts}Custom Data Field{/ts}</legend>
 
     <div class="form-item">
