@@ -3,13 +3,11 @@
 {else}
 {* View Contact Summary *}
 <div id="name" class="data-group">
-   <div class="float-right">
-        <a href="{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
-   </div>
    <div>
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
     {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
+    &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onClick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';">
     &nbsp; &nbsp; <input type="button" value="vCard" name="vCard_export" onClick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';">
     {if $contactTag}<br />{$contactTag}{/if}
    </div>
