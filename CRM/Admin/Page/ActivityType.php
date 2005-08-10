@@ -128,14 +128,14 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
 
     /**
      * Browse all custom data groups.
-     *
+     *  
+     * 
      * @return void
      * @access public
      * @static
      */
-    function browse($action=null)
+    function browse()
     {
-        
         // get all custom groups sorted by weight
         $activityType = array();
         $dao =& new CRM_Core_DAO_ActivityType();
@@ -143,7 +143,6 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
-        // $dao->whereAdd('id > 3');
 
         $dao->orderBy('name');
         $dao->find();
@@ -153,11 +152,10 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
             CRM_Core_DAO::storeValues( $dao, $activityType[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->links()));
-            
-            // update enable/disable links depending on custom_group properties.
+
+            // update enable/disable links depending on if it is is_reserved or is_active
             if ($dao->is_reserved) {
-                $action -= CRM_Core_Action::ENABLE;
-                $action -= CRM_Core_Action::DISABLE;
+                continue;
             } else {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;
@@ -165,7 +163,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
                     $action -= CRM_Core_Action::DISABLE;
                 }
             }
-            
+
             $activityType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                                     array('id' => $dao->id));
         }
