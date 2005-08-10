@@ -58,6 +58,20 @@
                 </dl>
                 {/if}
             </div>
+	    {else}
+	    <div class="messages status">
+                {if $groupId}       
+                <dl>
+                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+                    <dd>{ts}There are either no Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
+                </dl>    
+                {else}    
+                <dl>
+                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+                    <dd>{ts}There are either no (Inline) Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
+                </dl>
+                {/if}
+            </div>
 	    {/if}
         {/if}    
     {/if}
