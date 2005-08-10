@@ -118,6 +118,9 @@ class CRM_Core_Invoke {
         }
 
         $session =& CRM_Core_Session::singleton();
+       
+        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$session->readUserContext() ));
+
         if ( $args[1] !== 'contact' ) {
             return;
         }
