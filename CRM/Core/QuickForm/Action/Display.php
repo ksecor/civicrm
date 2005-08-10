@@ -76,6 +76,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
      */
     function perform(&$page, $actionName) {
         $pageName = $page->getAttribute('id');
+
         // If the original action was 'display' and we have values in container then we load them
         // BTW, if the page was invalid, we should later call validate() to get the errors
         list(, $oldName) = $page->controller->getActionName();
@@ -127,6 +128,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
 
         $template->assign( 'action' , $page->getAction( ) );
         $template->assign( 'tplFile', $page->getTemplateFileName() ); 
+        CRM_Core_Error::debug( $page->getAction( ), $page->getTemplateFileName() );
 
         if ( $controller->getPrint( ) ) {
             $content = $template->fetch( 'CRM/print.tpl' );

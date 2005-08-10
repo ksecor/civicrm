@@ -83,10 +83,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         // get permission detail view or edit
         $permUser = CRM_Core_Permission::getPermission();
         
-        if(CRM_Core_Permission::VIEW == $permUser) 
-            $editCustomData = 0;
-        else
-            $editCustomData = 1;
+        $editCustomData = ( CRM_Core_Permission::VIEW == $permUser ) ? 0 : 1;
 
         $this->assign('editCustomData', $editCustomData);
 
@@ -94,11 +91,10 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $controller->setEmbedded(true);
 
         // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-
         $doneURL = 'civicrm/contact/view/cd/' . $this->_groupId;
-
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url($doneURL, 'action=browse'));
+
         $controller->set('tableId'   , $this->_contactId );
         $controller->set('groupId'   , $this->_groupId);
         $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );

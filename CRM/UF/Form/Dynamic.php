@@ -205,7 +205,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $urls = array( );
             foreach ( explode( ',', $ids ) as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $id ) .
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );

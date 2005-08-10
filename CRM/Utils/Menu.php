@@ -267,14 +267,6 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
-                            'path'   => 'civicrm/contact/edit',
-                            'title'  => ts('Edit Contact Name and Location'),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'weight' => 1
-                            ),
-        
-                      array(
                             'path'    => 'civicrm/contact/view',
                             'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('View Contact'),

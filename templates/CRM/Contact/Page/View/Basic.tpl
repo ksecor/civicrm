@@ -1,7 +1,10 @@
+{if $action eq 2}
+  {include file="CRM/Contact/Form/Edit.tpl"}
+{else}
 {* View Contact Summary *}
 <div id="name" class="data-group">
    <div class="float-right">
-        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contactId"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
+        <a href="{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
     <label>{$displayName}</label>
@@ -334,3 +337,4 @@
     on_load_init_blocks( showBlocks, hideBlocks );
  </script>
 
+{/if}

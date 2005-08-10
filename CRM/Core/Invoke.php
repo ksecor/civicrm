@@ -126,12 +126,6 @@ class CRM_Core_Invoke {
             return self::form( CRM_Core_Action::ADD );
         }
 
-        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => $session->readUserContext()));
-        if ( $args[2] == 'edit' ) {
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            return self::form( CRM_Core_Action::UPDATE );
-        }
-
         if ( $args[2] == 'email' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
