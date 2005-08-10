@@ -238,7 +238,7 @@ ORDER BY
      * @param boolean  $count    is this a count only query ?
      * @param boolean  $includeContactIds should we include contact ids?
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
-     * @param boolean  $groupContacts if true, use a single mysql group_contact statement to get the contact ids
+     * @param boolean  $groupContacts if true, use a single mysql group_concat statement to get the contact ids
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
@@ -563,15 +563,22 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                     $group->id = $group_id;
                     $group->find(true);
                     if (isset($group->saved_search_id)) {
-                        $ssw = CRM_Contact_BAO_SavedSearch::whereClause(
-                            $group->saved_search_id, $tables);
                         if ( $config->mysqlVersion >= 4.1 ) {
-                            $ssWhere[] = "($ssw AND (civicrm_contact.id NOT IN (
+                            $sfv =& CRM_Contact_BAO_SavedSearch::getFormValues(
+                                $group->saved_search_id);
+                                
+                            $smarts =& self::searchQuery($sfv, 0, 0, null, 
+                                        false, false, false, true);
+                            $ssWhere[] = "
+                            (civicrm_contact.id IN ($smarts) 
+                            AND civicrm_contact.id NOT IN (
                             SELECT contact_id FROM civicrm_group_contact
                             WHERE civicrm_group_contact.group_id = $group_id
                             AND civicrm_group_contact.status = 'Removed'
-                            )))";
+                            ))";
                         } else {
+                            $ssw = CRM_Contact_BAO_SavedSearch::whereClause(
+                                $group->saved_search_id, $tables);
                             /* FIXME: bug with multiple group searches */
                             $ssWhere[] = "($ssw AND (civicrm_group_contact.id is null OR (civicrm_group_contact.group_id = $group_id AND civicrm_group_contact.status = 'Added')))";
                         }
