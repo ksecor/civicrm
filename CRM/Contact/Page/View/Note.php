@@ -141,15 +141,20 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
+            // we use the edit screen the confirm the delete
             $this->edit( );
-
-            //$this->delete( );
         }
 
         $this->browse( );
         return parent::run( );
     }
 
+    /**
+     * delete the note object from the db
+     *
+     * @return void
+     * @access public
+     */
     function delete( ) {
         CRM_Core_BAO_Note::del( $this->_id );
     }

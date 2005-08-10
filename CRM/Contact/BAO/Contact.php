@@ -74,6 +74,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         parent::__construct();
     }
 
+    /**
+     * check if the logged in user has permissions for the operation type
+     *
+     * @param int    $id   contact id
+     * @param string $type the type of operation (view|edit)
+     *
+     * @return boolean true if the user has permission, false otherwise
+     * @access public
+     * @static
+     */
     static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) {
         $tables     = array( );
         $permission = CRM_Core_Permission::whereClause( $type, $tables );

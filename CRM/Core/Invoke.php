@@ -434,6 +434,14 @@ class CRM_Core_Invoke {
 
     }
 
+    /**
+     * handle the export case. this is a hack, so please fix soon
+     *
+     * @param $args array this array contains the arguments of the url
+     *
+     * @static
+     * @access public
+     */
     static function export( $args ) {
         // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
         // This function is a dirty, dirty hack.  It should live in its own

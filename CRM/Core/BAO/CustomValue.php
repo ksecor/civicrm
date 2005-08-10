@@ -133,6 +133,15 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         return $customValue;
     }
 
+    /**
+     * given a 'civicrm' type string, return the mysql data store area
+     *
+     * @param string $type the civicrm type string
+     *
+     * @return the mysql data store placeholder
+     * @access public
+     * @static
+     */
     public static function typeToField($type) {
         switch ($type) {
             case 'String':
@@ -153,11 +162,21 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
                 return null;
         }
     }
-    
-    public function getField(&$isBool) {
+
+    /**
+     * return the mysql type of the current value.
+     * If boolean type, set the isBool flag too (since int and bool share
+     * the same mysql type, we need another differentiator
+     *
+     * @param boolean $isBool (reference ) set to true if boolean     
+     * 
+     * @return string the mysql type
+     * @access public
+     */
+    public function getField( &$isBool ) {
         $cf =& new CRM_Core_BAO_CustomField();
         $cf->id = $this->custom_field_id;
-        
+
         if (! $cf->find(true)) {
             return null;
         }
@@ -166,6 +185,14 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         return $this->typeToField($cf->data_type);
     }
 
+    /**
+     * returns the string value of the curren object
+     *
+     * @param boolean $translateBoolean should a boolean value be translated to yes/no
+     *
+     * @return string the value
+     * @access public
+     */
     public function getValue($translateBoolean = false) {
         $field = $this->getField($var1);
         
@@ -175,6 +202,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         
         return $this->$field;
     }
+
     /**
      * Find all the custom values for a given contact.
      *
@@ -198,7 +226,17 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         return $values;
     }
 
-
+    /**
+     * update the custom calue for a given contact id and field id
+     *
+     * @param int    $contactId contact id
+     * @param int    $cfId      custom field id
+     * @param string $value     the value to set the field
+     *
+     * @return void
+     * @access public
+     * @static
+     */
     public static function updateValue($contactId, $cfId, $value) {
         $customValue =& new CRM_Core_BAO_CustomValue();
 

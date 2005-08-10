@@ -110,26 +110,62 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         return self::$_savedSearchLinks;
     }
 
+    /**
+     * return class name of edit form
+     *
+     * @return string
+     * @access public
+     */
     function editForm( ) {
         return 'CRM_Group_Form_Edit';
     }
 
+    /**
+     * return name of edit form
+     *
+     * @return string
+     * @access public
+     */
     function editName( ) {
         return 'Edit Group';
     }
 
+    /**
+     * return class name of delete form
+     *
+     * @return string
+     * @access public
+     */
     function deleteForm( ) {
         return 'CRM_Group_Form_Delete';
     }
 
+    /**
+     * return name of delete form
+     *
+     * @return string
+     * @access public
+     */
     function deleteName( ) {
         return 'Delete Group';
     }
 
+    /**
+     * return user context uri to return to
+     *
+     * @return string
+     * @access public
+     */
     function userContext( $mode = null ) {
         return 'civicrm/group';
     }
 
+    /**
+     * return user context uri params
+     *
+     * @return string
+     * @access public
+     */
     function userContextParams( $mode = null ) {
         return 'reset=1&action=browse';
     }
