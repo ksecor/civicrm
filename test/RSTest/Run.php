@@ -152,10 +152,8 @@ class test_RSTest_Run
      */
     function _callCommon()
     {
-        CRM_Core_Error::le_method();
         $objCommon            =& new test_RSTest_Common();
         $this->_recordSetSize = $objCommon->recordsetSize($this->_sizeOfDS);
-        CRM_Core_Error::ll_method();
     }
 
     /**
@@ -171,13 +169,11 @@ class test_RSTest_Run
      */
     function _callGenDataset()
     {
-        CRM_Core_Error::le_method();
         $startID = 0;
         echo "\n Data Generation started. \n";
-
-        $interval = $this->_recordSetSize / $this->_stepOfDS;
-
-        for ($i=0; $i<$interval; $i++) {
+        $loop = ($this->_recordSetSize / $this->_stepOfDS);
+        
+        for ($i = 0; $i < $loop; $i++) {
             $objGenDataset       =& new test_RSTest_GenDataset($this->_stepOfDS);
             $this->_startTimeG   = microtime(true);
             $objGenDataset->run($startID);
@@ -186,7 +182,6 @@ class test_RSTest_Run
             $startID = $startID + $this->_stepOfDS;
         }
         echo "\n Data Generation Successfully Completed.\n";
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -201,15 +196,12 @@ class test_RSTest_Run
      */
     function _callInsertContact()
     {
-        CRM_Core_Error::le_method();
         $startID = 0;
         echo "\n Contacts Insertion started. \n";
 
-
-        $interval = $this->_insertRecord / $this->_stepOfInsert;
-
-        for ($i=0; $i<$interval; $i++) {
-
+        $loop = ($this->_insertRecord / $this->_stepOfInsert);
+        
+        for ($i = 0; $i < $loop; $i++) {
             echo ".";
             ob_flush();
             flush();
@@ -226,7 +218,6 @@ class test_RSTest_Run
             $startID = $startID + $this->_stepOfInsert;
         }
         echo "\n Contacts Successfully Inserted.\n";
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -241,16 +232,16 @@ class test_RSTest_Run
      */
     function _callInsertRel()
     {
-        CRM_Core_Error::le_method();
         if (($this->_startRel + $this->_insertRel) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Relationships Insertion started. \n";
             $startID = $_startRel;
-            for ($i=0; $i<($this->_insertRel / $this->_stepOfInsertRel); $i++) {
-                for ($tmp=0; $tmp<$this->_stepOfDS; $tmp++) {
-                    echo ".";
-                    ob_flush();
-                    flush();
-                }
+            $loop = ($this->_insertRel / $this->_stepOfInsertRel);
+            
+            for ($i = 0; $i < $loop; $i++) {
+                echo ".";
+                ob_flush();
+                flush();
+                
                 $objInsertRel  =& new test_RSTest_InsertRel();
                 $this->_startTimeIR = microtime(true);
                 $objInsertRel->run($startID, $this->_stepOfInsertRel);
@@ -264,7 +255,6 @@ class test_RSTest_Run
             echo "Check the number of Contacts for which Relationships are to be inserted..!!! \n";
             echo "**********************************************************************************\n";
         }
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -279,11 +269,12 @@ class test_RSTest_Run
      */
     function _callUpdateContact()
     {
-        CRM_Core_Error::le_method();
         if (($this->_startRecord + $this->_updateRecord) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Updating Contacts . \n";
             $startID = $this->_startRecord;
-            for ($i=0; $i<($this->_updateRecord / $this->_stepOfUpdate); $i++) {
+            $loop = ($this->_updateRecord / $this->_stepOfUpdate);
+            
+            for ($i = 0; $i < $loop; $i++) {
                 $objUpdateContact   =& new test_RSTest_UpdateContact();
                 $this->_startTimeUC = microtime(true);
                 $objUpdateContact->run($startID, $this->_stepOfUpdate);
@@ -297,7 +288,6 @@ class test_RSTest_Run
             echo "Check the number of records need to be Updated..!!! \n";
             echo "**********************************************************************************\n";
         }
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -312,11 +302,12 @@ class test_RSTest_Run
      */
     function _callAddContactToGroup()
     {
-        CRM_Core_Error::le_method();
         if (($this->_startOfAdd + $this->_addToGroup) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Adding Contacts to Group. \n";
             $startID = $this->_startOfAdd;
-            for ($i=0; $i<($this->_addToGroup / $this->_stepOfAddToGroup); $i++) {
+            $loop = ($this->_addToGroup / $this->_stepOfAddToGroup);
+            
+            for ($i = 0; $i < $loop; $i++) {         
                 $objAddContactToGroup   =& new test_RSTest_AddContactToGroup();
                 $this->_startTimeAG = microtime(true);
                 $objAddContactToGroup->run($startID, $this->_stepOfAddToGroup);
@@ -330,7 +321,6 @@ class test_RSTest_Run
             echo "Check the number of Contacts need to be added to Groups..!!! \n";
             echo "**********************************************************************************\n";
         }
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -345,12 +335,13 @@ class test_RSTest_Run
      */
     function _callDeleteContact()
     {
-        CRM_Core_Error::le_method();
         if (($this->_startOfDelete + $this->_deleteContact) <= ($this->_sizeOfDS * 1000)) {
             echo "\n Deleting Contacts . \n";
             $startID = $this->_startOfDelete;
 
-            for ($i=0; $i<($this->_deleteContact / $this->_stepOfDeleteContact); $i++) {
+            $loop = ($this->_deleteContact / $this->_stepOfDeleteContact);
+            
+            for ($i = 0; $i < $loop; $i++) {
                 $objDeleteContact   =& new test_RSTest_DelContact();
                 $this->_startTimeDC = microtime(true);
                 $objDeleteContact->run($startID, $this->_stepOfDeleteContact);
@@ -364,7 +355,6 @@ class test_RSTest_Run
             echo "Check the number of Contacts need to be Deleted..!!! \n";
             echo "**********************************************************************************\n";
         }
-        CRM_Core_Error::ll_method();
     }
 
     /**
@@ -377,24 +367,20 @@ class test_RSTest_Run
      */
     private function _callPartialNameSearch()
     {
-        CRM_Core_Error::le_method();
         $objPartialNameSearch         = new test_RSTest_PartialNameSearch();
         $this->_startTimePNS          = microtime(true);
         $this->_searchResultPN        = $objPartialNameSearch->run();
         $this->_endTimePNS            = microtime(true);
         $this->_partialNameSearchTime = $this->_endTimePNS - $this->_startTimePNS;
-        CRM_Core_Error::ll_method();
     }
 
     private function _callGroupSearch()
     {
-        CRM_Core_Error::le_method();
         $objGroupSearch         = new test_RSTest_GroupSearch();
         $this->_startTimeGS     = microtime(true);
         $this->_searchResultG   = $objGroupSearch->run();
         $this->_endTimeGS       = microtime(true);
         $this->_groupSearchTime = $this->_endTimeGS - $this->_startTimeGS;
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -407,7 +393,6 @@ class test_RSTest_Run
      */
     function _callResult()
     {
-        CRM_Core_Error::le_method();
         $genDataset = array('size'  => $this->_recordSetSize,
                             'step'  => $this->_stepOfDS,
                             'time'  => $this->_genDataset,
@@ -454,7 +439,6 @@ class test_RSTest_Run
 
         $objResult = new test_RSTest_Result();
         $objResult->run($this->_doIt, $genDataset, $insertContact, $updateContact, $insertRel, $addToGroup, $deleteContact, $partialNameSearch, $groupSearch);
-        CRM_Core_Error::ll_method();
     }
     
     /**
@@ -468,9 +452,6 @@ class test_RSTest_Run
      */
     function run()
     {
-
-        CRM_Core_Error::le_method();
-
         $this->_doIt = 0;
         echo "\n**********************************************************************************\n";
         fwrite(STDOUT, "Options for Stress Testing \n");
@@ -502,10 +483,9 @@ class test_RSTest_Run
 
             $this->_callGenDataset();
 
-            switch (strtolower($selection)) {
+            switch ($selection) {
 
-            case 'l':
-                CRM_Core_Error::debug_log_message("Starting tests for choice 'L'");
+            case 'L':
                 $this->_callInsertContact();
                 $this->_callUpdateContact();
                 $this->_callInsertRel();
@@ -513,25 +493,25 @@ class test_RSTest_Run
                 $this->_callDeleteContact();
                 break;
 
-            case 'i':
+            case 'I':
                 $this->_callInsertContact();
                 break;
-            case 'u':
+            case 'U':
                 $this->_callUpdateContact();
                 break;
-            case 'r':
+            case 'R':
                 $this->_callInsertRel();
                 break;
-            case 'a':
+            case 'A':
                 $this->_callAddContactToGroup();
                 break;
-            case 'd':
+            case 'D':
                 $this->_callDeleteContact();
                 break;
-            case 'p':
+            case 'P':
                 $this->_callPartialNameSearch();
                 break;
-            case 'g':
+            case 'G':
                 $this->_callGroupSearch();
                 break;
             }
@@ -541,7 +521,6 @@ class test_RSTest_Run
             echo "Not a Valid Choice \n";
             echo "**********************************************************************************\n";
         }
-        CRM_Core_Error::ll_method();
     }
 }
 

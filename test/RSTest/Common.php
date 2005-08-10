@@ -136,8 +136,9 @@ class test_RSTest_Common
     {
         $array = array();
 
-        $c = array_rand(self::$CSC);
-        
+        //$c = array_rand(self::$CSC);
+        $c = 1228;
+
         // the state array now
         $s = array_rand(self::$CSC[$c]);
 

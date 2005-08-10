@@ -101,7 +101,6 @@ class test_RSTest_UpdateContact
      */
     public function updateLocation($setPrimary=0, $contactArray)
     {
-        
         if (is_array($contactArray)) {
             foreach ($contactArray as $lngkey => $contactId) {
                 echo ".";
@@ -128,25 +127,28 @@ class test_RSTest_UpdateContact
      *
      * @access  private
      */
-    private function _addLocation($locationType, $contactId, $setPrimary)
+    private function _addLocation($locationType, $contactId, $setPrimary, $domain=false)
     {
-        //print_r($locationType);
-        //print_r($contactId);
         $locationDAO                   =& new CRM_Core_DAO_Location();
         $locationDAO->is_primary       = $setPrimary;
         $locationDAO->location_type_id = $locationType;
-        $locationDAO->entity_id        = $contactId;
-        $locationDAO->entity_table     = 'civicrm_contact';
+        if ($domain) {
+            $locationDAO->entity_id        = $contactId;
+            $locationDAO->entity_table     = 'civicrm_domain';
+        } else {
+            $locationDAO->entity_id        = $contactId;
+            $locationDAO->entity_table     = 'civicrm_contact';
+        }
         test_RSTest_Common::_insert($locationDAO);
         $this->_addAddress($locationDAO->id);        
-
+                
         // add two phones for each location
         $this->_addPhone($locationDAO->id, test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('phoneType'), test_RSTest_Common::ARRAY_SHIFT_USE), true);
         $this->_addPhone($locationDAO->id, test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('phoneType'), test_RSTest_Common::ARRAY_SHIFT_USE), false);
 
         // need to get sort name to generate email id
         $contactDAO     =& new CRM_Contact_DAO_Contact();
-        $contactDAO->id = $locationDAO->contact_id;
+        $contactDAO->id = $contactId;
         $contactDAO->find(true);
         // get the sort name of the contact
         $sortName       = $contactDAO->sort_name;
@@ -275,9 +277,10 @@ class test_RSTest_UpdateContact
      */
     private function _sortNameToEmail($sortName)
     {
-        $sortName = strtolower(str_replace(" ", "", $sortName));
-        $sortName = strtolower(str_replace(",", "_", $sortName));
-        $sortName = strtolower(str_replace("'s", "_", $sortName));
+//         $sortName = strtolower(str_replace(" ", "", $sortName));
+//         $sortName = strtolower(str_replace(",", "_", $sortName));
+//         $sortName = strtolower(str_replace("'s", "_", $sortName));
+        $email = preg_replace("([^a-zA-Z0-9_-]*)", "", $sortName);
         return $sortName;
     }
 

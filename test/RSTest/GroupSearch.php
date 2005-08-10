@@ -83,7 +83,7 @@ class test_RSTest_GroupSearch
         echo "--------------------------------------------\n";
     }
 
-    function run()
+    function run($groupNO)
     {
         $this->_parseForGroups();
         $this->_display();
@@ -97,7 +97,11 @@ class test_RSTest_GroupSearch
 
         $result = array();
         $result['criteria'] = array('group' => $this->_groupName);
+        $this->_startTimeGS          = microtime(true);
         $result['count'] = $this->_search();
+        $this->_endTimeGS            = microtime(true);
+        $this->_groupSearchTime = $this->_endTimeGS - $this->_startTimeGS;
+        $result['time'] = $this->_groupSearchTime;
         return $result;
     }
 }

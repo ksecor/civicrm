@@ -57,16 +57,9 @@ class test_RSTest_PartialNameSearch
         return $count;
     }
     
-    function run()
+    function run($name)
     {
-        echo "\n**********************************************************************************\n";
-        fwrite(STDOUT, "Enter Partial Name For Search: \t");
-        while (trim($name) == '') {
-            $name = fgets(STDIN);
-        }
-        echo "\n**********************************************************************************\n";
         $this->_partialName = $name;
-        
         $result = array();
         $result['criteria'] = array('name' => $this->_partialName);
         $result['count'] = $this->_search();
