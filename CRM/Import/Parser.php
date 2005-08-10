@@ -363,7 +363,8 @@ abstract class CRM_Import_Parser {
         
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
-            $customfields = CRM_Core_BAO_CustomField::getFields();
+            
+            $customfields =& CRM_Core_BAO_CustomField::getFields();
             foreach ($customHeaders as $key => $value) {
                 if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
                     $customHeaders[$key] = $customfields[$id][0];

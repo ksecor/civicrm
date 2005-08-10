@@ -840,13 +840,14 @@ function _crm_add_formatted_param(&$values, &$params) {
     }
     
     /* Check for custom field values */
-    
-    $customFields = CRM_Core_BAO_CustomField::getFields();
+    if ($fields['custom'] == null) {
+        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields();
+    }
     
     foreach ($values as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
-            if (!array_key_exists($customFieldID, $customFields)) {
+            if (!array_key_exists($customFieldID, $fields['custom'])) {
                 return _crm_error('Invalid custom field ID');
             }
             
@@ -857,8 +858,8 @@ function _crm_add_formatted_param(&$values, &$params) {
             $params['custom'][$customBlock] = array(
                 'custom_field_id'    => $customFieldID,
                 'value' => $value,
-                'type' => $customFields[$customFieldID][2],
-                'name' => $customFields[$customFieldID][0]
+                'type' => $fields['custom'][$customFieldID][2],
+                'name' => $fields['custom'][$customFieldID][0]
             );
         }
     }

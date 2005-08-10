@@ -225,12 +225,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         if ( $response != CRM_Import_Parser::VALID ) {
             return $response;
         }
-
-        $params =& $this->getActiveFieldParams( );
-        
+        static $params = null;
+        if ($params == null) {
+            $params =& $this->getActiveFieldParams( );
+        }
         $formatted = array('contact_type' => 'Individual');
-
-        $indieFields = CRM_Contact_DAO_Individual::import();
+        
+        static $indieFields = null;
+        if ($indieFields == null) {
+            $indieFields =& CRM_Contact_DAO_Individual::import();
+        }
         
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
