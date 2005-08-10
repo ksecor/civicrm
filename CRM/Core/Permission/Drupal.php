@@ -38,7 +38,6 @@
  *
  */
 class CRM_Core_Permission_Drupal {
-
     /**
      * is this user someone with access for the entire system
      *
@@ -93,11 +92,11 @@ class CRM_Core_Permission_Drupal {
             }
 
             foreach ( $groups as $id => $title ) {
-                if ( CRM_Utils_System::checkPermission( 'edit ' . $title ) ) {
+                if ( CRM_Utils_System::checkPermission( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
                     self::$_editPermissionedGroups[$id] = $title;
                     self::$_viewPermissionedGroups[$id] = $title;
                     self::$_editPermission      = true;
-                } else if ( CRM_Utils_System::checkPermission( 'view ' . $title ) ) {
+                } else if ( CRM_Utils_System::checkPermission( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
                     self::$_viewPermissionedGroups[$id] = $title;
                     self::$_viewPermission      = true;
                 } 

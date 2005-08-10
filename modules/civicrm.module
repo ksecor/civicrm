@@ -53,6 +53,7 @@ function civicrm_require( ) {
     require_once 'CRM/Core/Selector/Controller.php';
     require_once 'CRM/Core/DAO.php';
     require_once 'CRM/Core/PseudoConstant.php';
+    require_once 'CRM/Core/Permission.php';
     require_once 'CRM/Core/Invoke.php';
 
     require_once 'CRM/Core/BAO/UFMatch.php';
@@ -123,8 +124,8 @@ function civicrm_perm()
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
     foreach ( $groups as $title ) {
-        $cPerm[] = t('view contacts in %group', array('%group' => $title));
-        $cPerm[] = t('edit contacts in %group', array('%group' => $title));
+        $cPerm[] = t( CRM_Core_Permission::VIEW_GROUPS . '%group', array('%group' => $title));
+        $cPerm[] = t( CRM_Core_Permission::EDIT_GROUPS . '%group', array('%group' => $title));
     }
 
     return $cPerm;

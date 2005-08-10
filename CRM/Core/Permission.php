@@ -42,6 +42,16 @@ require_once 'CRM/Core/Permission/Mambo.php';
  */
 class CRM_Core_Permission {
     /**
+     * Static strings used to compose permissions
+     *
+     * @const
+     * @var string
+     */
+    const
+        EDIT_GROUPS = 'edit contacts in ',
+        VIEW_GROUPS = 'view contacts in ';
+
+    /**
      * The various type of permissions
      * 
      * @var int
@@ -69,7 +79,7 @@ class CRM_Core_Permission {
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type, $tables ) {
+    public static function whereClause( $type, &$tables ) {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables );' );
     }
