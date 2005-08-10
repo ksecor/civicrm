@@ -120,7 +120,7 @@ class CRM_Core_Invoke {
         $session =& CRM_Core_Session::singleton();
        
         $BreadCrumbPath ='civicrm/contact/search/basic?force=1';
-        if($session->get('IsAdvanced')) {
+        if($session->get('isAdvanced')) {
             $BreadCrumbPath ='civicrm/contact/search/advanced?force=1' ;
         }
         //$additionalBreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$session->readUserContext() ));

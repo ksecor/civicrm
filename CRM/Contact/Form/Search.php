@@ -463,7 +463,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function postProcess( ) {
         
         $session =& CRM_Core_Session::singleton();
-        $session ->set('IsAdvanced','0');
+        $session ->set('isAdvanced','0');
         // get user submitted values
         $this->_formValues = $this->controller->exportValues($this->_name);       
         /* after every search form is submitted we save the following in the session

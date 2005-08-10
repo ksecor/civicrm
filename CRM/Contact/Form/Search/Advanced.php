@@ -298,7 +298,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     function postProcess() 
     {
         $session =& CRM_Core_Session::singleton();
-        $session ->set('IsAdvanced','1');
+        $session ->set('isAdvanced','1');
 
         // get user submitted values
         $this->_formValues = $this->controller->exportValues( $this->_name );
