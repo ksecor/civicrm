@@ -102,11 +102,11 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
     static function sendMessage( $from, $toID, &$subject, &$message, $emailAddress, $activityID ) {
         list( $toDisplayName  , $toEmail   ) = CRM_Contact_BAO_Contact::getEmailDetails( $toID   );
         if ( $emailAddress ) {
-            $toEmail = $emailAddress;
+            $toEmail = trim( $emailAddress );
         }
 
         // make sure both email addresses are valid
-        if ( ! $toEmail ) {
+        if ( empty( $toEmail ) ) {
             return false;
         }
         

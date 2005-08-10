@@ -67,6 +67,14 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     protected $_action;
 
     /**
+     * The permission we have on this contact
+     *
+     * @string
+     * @access protected
+     */
+    protected $_permission;
+
+    /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
      *
@@ -86,7 +94,14 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->assign( 'action', $this->_action);
 
         // check for permissions
-        if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
+        $this->_permission = null;
+        if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+            $this->assign( 'permission', 'edit' );
+            $this->_permission = CRM_Core_Permission::EDIT;            
+        } else if ( CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
+            $this->assign( 'permission', 'view' );
+            $this->_permission = CRM_Core_Permission::VIEW;
+        } else {
             CRM_Core_Error::fatal( ts('You do not have the necessary permission to view this contact.') );
         }
 
@@ -109,12 +124,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
         CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
-        //display OtherActivty link 
+
+        //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);
         $this->assign('showOtherActivityLink',$activityNum);
-        
-}
+    }
 
 
     /**

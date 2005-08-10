@@ -116,7 +116,7 @@ class CRM_Core_Permission_Drupal {
      * @return string the group where clause for this user
      * @access public
      */
-    public static function groupClause( $type = CRM_Core_Permission::VIEW, &$tables ) {
+    public static function groupClause( $type, &$tables ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }

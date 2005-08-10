@@ -97,7 +97,9 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $toArray = array();
             foreach ( $this->_contactIds as $contactId ) {
                 list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
-                $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                if ( ! empty( $toEmail ) ) {
+                    $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                }
             }
             $this->assign('to', implode(', ', $toArray));
         } else {

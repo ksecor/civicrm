@@ -547,12 +547,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @param int $numRelationship no of relationships to display (limit)
      * @param int $count get the no of relationships
      * $param int $relationshipId relationship id
+     * $param array $links the list of links to display
+     * $param int   $permissionMask  the permission mask to be applied for the actions
      *
      * return array $values relationship records
      * @static
      * @access public
      */
-    static function getRelationship( $contactId, $status = 0, $numRelationship = 0, $count = 0, $relationshipId = 0, $links = null ) {
+    static function getRelationship( $contactId,
+                                     $status = 0, $numRelationship = 0,
+                                     $count = 0, $relationshipId = 0,
+                                     $links = null, $permissionMask = null ) {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
 
@@ -581,13 +586,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         } else {
             $values = array( );
 
+            $mask = null;
             if ( $links ) {
-                $mask = CRM_Core_Action::VIEW | CRM_Core_Action::UPDATE | CRM_Core_Action::DELETE;
+                $mask = array_sum( array_keys( $links ) );
+
                 if ( $status == self::CURRENT ) {
                     $mask |= CRM_Core_Action::DISABLE;
                 } else if ( $status == self::DISABLED ) {
                     $mask |= CRM_Core_Action::ENABLE;
                 }
+
+                $mask = $mask & $permissionMask;
             }
 
             while ( $relationship->fetch() ) {
