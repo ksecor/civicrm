@@ -79,13 +79,15 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
             $this->assign('subject', $dao->subject);
             $this->assign('message', $dao->message);
 
-            // get email details and show on page
-            // Call the parents run method
+            // get the display name and images for the contact
+            list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id );
             
+            CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
+
             // also add the cid params to the Menu array
             CRM_Utils_Menu::addParam( 'cid',  $cid);
           
-        // create menus ..
+            // create menus ..
             $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
             $startWeight++;
             CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
