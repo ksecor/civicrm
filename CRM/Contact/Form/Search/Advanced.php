@@ -116,7 +116,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // Date selects for activity date
         $this->add('date', 'activity_from_date', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
         $this->add('date', 'activity_to_date', ts('To'), CRM_Core_SelectValues::date('relative'));
-
+        
+        
         //Custom data Search Fields
         $this->customDataSearch();
         
@@ -296,6 +297,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function postProcess() 
     {
+        $session =& CRM_Core_Session::singleton();
+        $session ->set('IsAdvanced','1');
+
         // get user submitted values
         $this->_formValues = $this->controller->exportValues( $this->_name );
 
