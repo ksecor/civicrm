@@ -598,4 +598,4 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Meeting', 'Schedule a Meeting', 1, 1);
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Phone Call', 'Schedule a Phone Call', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Email', 'Email', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Email', 'Email Sent', 1, 1);

@@ -150,6 +150,10 @@ define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
  * 'http://www.example.com/civicspace/civicrm/contact/search'
  *
  * Enter your API key below to enable the mapping feature for your CiviCRM installation.
+ * 
+ * IMPORTANT: You must enable some form of Geocode lookup (see next section) for mapping to
+ * function, since the mapping API requires latitude and longitude to be populated for
+ * contacts' addresses.
  */
 define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 
@@ -157,12 +161,16 @@ define('CIVICRM_GOOGLE_MAP_API_KEY', '');
  * Geocode (latitude and longitude) lookup:
  *
  * CiviCRM can be configured to automatically lookup and insert geo-coordinates for contact
- * addresses. The current version offers to methods for this lookup:
- * - local lookup in the Drupal zipcodes table (requires that this table be installed)
+ * addresses. The current version offers two methods for this lookup:
+ * - local lookup in the Drupal zipcodes table (requires this table to be installed in the
+ *   civicrm_db)
  *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_ZipTable' );
  *
  * - remote lookup using geocoder.us
  *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' );
+ *
+ * NOTE: The default Geocode_RPC implementation queries the geocoder.us service. This may
+ * result in significant overhead, especially for import operations.
  *
  * You may also create and call your own class using the interface defined at
  * 'CRM_Utils_Geocode_API'.

@@ -67,20 +67,20 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data group?');
             self::$_actionLinks = array(
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview Form Fields'),
-                                                                          'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview Custom Group'),
-                                                                          ),
                                         CRM_Core_Action::BROWSE  => array(
-                                                                          'name'  => ts('Edit Fields'),
+                                                                          'name'  => ts('View and Edit Custom Fields'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',
                                                                           'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                                          'title' => ts('List Custom Group Fields'),
+                                                                          'title' => ts('View and Edit Custom Fields'),
+                                                                          ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/admin/custom/group',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Data Group'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Group'),
+                                                                          'name'  => ts('Edit Group Title and Display Type'),
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Custom Group') 
