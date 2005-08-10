@@ -142,8 +142,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
                         continue;
                     }
                 
-                if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( CRM_Utils_Array::value( 'relationship_type_id',
-                                                                                                       $params ),
+                if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params,
                                                                                CRM_Utils_Array::value( 'contact', $ids ),
                                                                                $params['contact_check'])) { // step 2
                     $duplicate++;
