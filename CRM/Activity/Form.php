@@ -160,11 +160,14 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
-        
+
         if ($this->_status || ($this->_action == CRM_Core_Action::VIEW)) { 
             if ($this->_status) {
                 $this->assign('status', $this->_status);
                 $this->assign('pid'   , $this->_id);
+                $this->assign('history'   , 1);
+            } else {
+                $this->assign('history'   , 0);
             }
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
