@@ -248,9 +248,9 @@ class test_RSTest_Result
             $string .= "Criteria for the Search : \n";
             $string .= "------------------------------------------------------\n";
             foreach ($this->_searchCriteriaPN as $criteriaKeyPN => $criteriaValPN) {
-                $string .= "{$criteriaKeyPN} : {$criteriaValPN}\n";
+                $string .= "{$criteriaKeyPN} : {$criteriaValPN}";
             }
-            $string .= "------------------------------------------------------\n";
+            $string .= "\n------------------------------------------------------\n";
             $string .= "Total '{$this->_searchCountPN}' Contacts found.\n";
             $string .= "And Time Taken for Search : {$this->_partialNameSearchTime} seconds\n";
             $string .= "**********************************************************************************\n";
@@ -262,9 +262,9 @@ class test_RSTest_Result
             $string .= "Criteria for the Search : \n";
             $string .= "------------------------------------------------------\n";
             foreach ($this->_searchCriteriaG as $criteriaKeyG => $criteriaValG) {
-                $string .= "{$criteriaKeyG} : {$criteriaValG} \n";
+                $string .= "{$criteriaKeyG} : {$criteriaValG}";
             }
-            $string .= "------------------------------------------------------\n";
+            $string .= "\n------------------------------------------------------\n";
             $string .= "Total '{$this->_searchCountG}' Contacts found.\n";
             $string .= "And Time Taken for Search : {$this->_groupSearchTime} seconds\n";
             $string .= "**********************************************************************************\n";

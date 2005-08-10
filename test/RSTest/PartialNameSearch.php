@@ -57,8 +57,14 @@ class test_RSTest_PartialNameSearch
         return $count;
     }
     
-    function run($name)
+    function run()
     {
+        echo "\n**********************************************************************************\n";
+        fwrite(STDOUT, "Enter the Partial Name of the Contact for which Searching needs to be done : \t");
+        do {
+            $name = fgets(STDIN);
+        } while (trim($name) == '');
+        echo "\n**********************************************************************************\n";
         $this->_partialName = $name;
         $result = array();
         $result['criteria'] = array('name' => $this->_partialName);
