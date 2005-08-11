@@ -307,7 +307,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     $this->_newContacts[] = $newContact->id;
                 }
                 //CRM-262 No Duplicate Checking  
-                if ($onDuplicate == CRM_Import_Parser::SKIP) {
+                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {
                     return CRM_Import_Parser::DUPLICATE; 
                 }
             } 
