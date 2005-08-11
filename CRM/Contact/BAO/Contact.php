@@ -171,11 +171,7 @@ SELECT DISTINCT
      */
     static function matchContact( $matchClause, &$tables, $id = null ) {
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->mysqlVersion >= 4.1 ) {
-            $query  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
-        } else {
-            $query  = "SELECT DISTINCT civicrm_contact.id as id";
-        }
+        $query  = "SELECT DISTINCT civicrm_contact.id as id";
         $query .= self::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
@@ -184,22 +180,11 @@ SELECT DISTINCT
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
-        if ( $config->mysqlVersion >= 4.1 ) {
-            $result = $dao->getDatabaseResult();
-            if ( $result ) {
-                $row = $result->fetchRow();
-                if ( $row ) {
-                    return $row[0];
-                }
-            }
-        } else {
-            $ids = array( );
-            while ( $dao->fetch( ) ) {
-                $ids[] = $dao->id;
-            }
-            return implode( ',', $ids );
+        $ids = array( );
+        while ( $dao->fetch( ) ) {
+            $ids[] = $dao->id;
         }
-        return null;
+        return implode( ',', $ids );
     }
 
     /**
@@ -275,10 +260,8 @@ ORDER BY
             $select = "SELECT count(DISTINCT civicrm_contact.id) ";
         } else if ( $sortByChar ) {
             $select = "SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name";
-        } else if ( $idsOnly || ($groupContacts && $config->mysqlVersion < 4.1 )) {
-            $select  = "SELECT DISTINCT civicrm_contact.id as id";
         } else if ( $groupContacts ) {
-            $select  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
+            $select  = "SELECT DISTINCT civicrm_contact.id as id";
         } else {
             $select = self::selectClause( $tables );
 
@@ -319,20 +302,20 @@ ORDER BY
 
         $crmDAO->query($queryString);
 
-        if ($count || $groupContacts) {
-            if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
-                $ids = array( );
-                while ( $crmDAO->fetch( ) ) {
-                    $ids[] = $crmDAO->id;
-                }
-                return implode( ',', $ids );
-            } else {
-                $result = $crmDAO->getDatabaseResult();
-                $row    = $result->fetchRow();
-                return $row[0];
+        if ( $groupContacts ) {
+            $ids = array( );
+            while ( $crmDAO->fetch( ) ) {
+                $ids[] = $crmDAO->id;
             }
+            return implode( ',', $ids );
         }
-
+        
+        if ( $count ) {
+            $result = $crmDAO->getDatabaseResult();
+            $row    = $result->fetchRow();
+            return $row[0];
+        }
+        
         return $crmDAO;
     }
 

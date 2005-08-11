@@ -226,7 +226,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                     $actionLinks = self::actionLinks($row['activity_type_id']);
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                null,
-                                                               array('id'=>$row['id'],
+                                                               array('id'  => $row['id'],
                                                                      'cid' => $this->_contactId ) );
                 }
             }
