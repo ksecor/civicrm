@@ -88,6 +88,10 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // the name and description are actually stored with the group and not the saved search
         $this->add('text', 'name', ts('Name'),
                    CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
+        $this->addRule( 'name', ts('Name already exists in Database.'),
+                        'objectExists',
+                        array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+
         $this->addElement('text', 'description', ts('Description'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
 

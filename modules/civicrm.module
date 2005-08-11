@@ -345,19 +345,18 @@ function civicrm_view_data($user ) {
 }
 
 function civicrm_validate_data($edit, &$user, $title) {
-    // hack: if this is an admin creator, dont validate
+    // if this is an admin creator, dont validate
     if ( $_GET['q'] == 'admin/user/create' ) {
         return;
     }
 
-    $register = ( $title == 'account' ) ? true : false;
-
+    $register = ( arg(3) == 'register' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( ! CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register ) ) {
         if ( $register ) {
-            form_set_error( 'error', 'Please correct the errors in the form fields in the CiviCRM tab' );
+            form_set_error( 'error', 'Please correct the errors indicated below...' );
         } else {
-            form_set_error( 'error', "Please correct the errors in the form fields in the tab $title" );
+            form_set_error( 'error', "Please complete and save required values in the tab $title" );
         }
     }
 
