@@ -346,7 +346,8 @@ function civicrm_view_data($user ) {
 
 function civicrm_validate_data($edit, &$user, $title) {
     // if this is an admin creator, dont validate
-    if ( $_GET['q'] == 'admin/user/create' ) {
+    if ( ( $_GET['q'] == 'admin/user/create' ) ||
+         ! CRM_Utils_Array::value( '_qf_default', $_POST ) ) {
         return;
     }
 

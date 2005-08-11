@@ -193,7 +193,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $controller->set( 'gid'  , $group->id );
             $controller->set( 'id'   , $userID );
             $controller->process( );
-            return $controller->validate( 'Dynamic' );
+            return $controller->validate( );
         } else {
             // make sure we have a valid group
             $group = new CRM_Core_DAO_UFGroup( );
