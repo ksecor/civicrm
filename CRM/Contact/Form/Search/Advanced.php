@@ -310,6 +310,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         if ( isset( $this->_groupID ) ) {
             $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
+            unset($this->_groupID);
         }
 
 //         CRM_Core_Error::debug( 'F', $this->_formValues );

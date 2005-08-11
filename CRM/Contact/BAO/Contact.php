@@ -255,7 +255,7 @@ ORDER BY
      */
     function searchQuery(&$fv, $offset, $rowCount, $sort, 
                          $count = false, $includeContactIds = false, $sortByChar = false,
-                         $groupContacts = false )
+                         $groupContacts = false, $idsOnly = false, $returnQuery = false )
     {
 //         my_print_r($fv, 'FormVal');
 //         my_print_r($offset, 'Offset');
@@ -275,7 +275,7 @@ ORDER BY
             $select = "SELECT count(DISTINCT civicrm_contact.id) ";
         } else if ( $sortByChar ) {
             $select = "SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name";
-        } else if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
+        } else if ( $idsOnly || ($groupContacts && $config->mysqlVersion < 4.1 )) {
             $select  = "SELECT DISTINCT civicrm_contact.id as id";
         } else if ( $groupContacts ) {
             $select  = "SELECT GROUP_CONCAT(DISTINCT civicrm_contact.id)";
@@ -310,6 +310,11 @@ ORDER BY
 
         // building the query string
         $queryString = $select . $from . $where . $order . $limit;
+
+        if ($returnQuery) {
+            return $queryString;
+        }
+        
         $crmDAO = new CRM_Core_DAO();
 
         $crmDAO->query($queryString);
@@ -578,7 +583,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                                 $group->saved_search_id);
                                 
                             $smarts =& self::searchQuery($sfv, 0, 0, null, 
-                                        false, false, false, true);
+                                        false, false, false, false, true, true);
                             $ssWhere[] = "
                             (civicrm_contact.id IN ($smarts) 
                             AND civicrm_contact.id NOT IN (

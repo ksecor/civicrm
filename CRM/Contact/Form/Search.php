@@ -402,6 +402,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->set( 'force', false );
 
         $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
+        /* We don't want to keep this around after inclusion in formValues */
+        $this->set('gid', null);
+
         $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
         $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
