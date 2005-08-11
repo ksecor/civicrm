@@ -412,6 +412,22 @@ class CRM_Utils_System {
         return 
             eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
     }
+
+
+    /**
+     * Set a status message in the session, then bounce back to the referrer.
+     *
+     * @param string $status        The status message to set
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function statusBounce($status) {
+        $session =& CRM_Core_Session::singleton();
+        $redirect = $session->readUserContext();
+        $session->setStatus($status);
+        self::redirect($redirect);
+    }
 }
 
 

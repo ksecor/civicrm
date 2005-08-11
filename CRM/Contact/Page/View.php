@@ -102,7 +102,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $this->assign( 'permission', 'view' );
             $this->_permission = CRM_Core_Permission::VIEW;
         } else {
-            CRM_Core_Error::fatal( ts('You do not have the necessary permission to view this contact.') );
+            CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this contact.') );
         }
 
         $this->getContactDetails();

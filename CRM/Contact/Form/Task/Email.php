@@ -118,7 +118,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
         if ( ! $fromEmail ) {
-            CRM_Core_Error::fatal( 'Your user record does not have a valid email address' );
+            CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
         }
         $from = "'$fromDisplayName' <$fromEmail>";
         $this->assign( 'from', $from );

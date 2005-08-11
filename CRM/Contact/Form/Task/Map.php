@@ -105,11 +105,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
        
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
 
-        $session =& CRM_Core_Session::singleton();
-        $redirect = $session->readUserContext();
         if ( empty( $locations ) ) {
-            $session->setStatus( 'The location did not have any latitude / longitude information' );
-            CRM_Utils_System::redirect( $redirect );
+            CRM_Utils_System::statusBounce(ts('The location did not have any latitude / longitude information.'));
         } else {
             $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => $redirect ) );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );

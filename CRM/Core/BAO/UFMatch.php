@@ -67,8 +67,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $key  = 'id';
             $mail = 'email';
         } else {
-            CRM_Core_Error::fatal( 'Please set the user framework variable' );
-            exit( );
+            CRM_Utils_System::statusBounce(ts('Please set the user framework variable'));
         }
 
         // have we already processed this user, if so early

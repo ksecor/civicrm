@@ -148,8 +148,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         $note->note          = $params['note'];
         $note->contact_id    = $session->get( 'userID' );
         if ( ! $note->contact_id ) {
-            CRM_Core_Error::fatal( 'We could not find your logged in user ID' );
-            return;
+            CRM_Utils_System::statusBounce(ts('We could not find your logged in user ID'));
         }
         
         $note->modified_date = date("Ymd");
