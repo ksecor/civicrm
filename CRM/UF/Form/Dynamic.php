@@ -141,7 +141,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
                 if ($field['is_required']) {
-                    $this->addRule($name, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                    $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );

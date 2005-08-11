@@ -6,7 +6,7 @@
    <div>
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
-    {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
+    {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onClick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';">
     {/if}

@@ -78,6 +78,10 @@ class CRM_Contact_Form_Address
         $location[$locationId]['address']['country_id']             =
             $form->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+        $location[$locationId]['address']['geo_code_1']             =
+            $form->addElement('text', "location[$locationId][address][geo_code_1]", ts('Latitude'), array('size' => 4, 'maxlength' => 8));
+        $location[$locationId]['address']['geo_code_2']             =
+            $form->addElement('text', "location[$locationId][address][geo_code_2]", ts('Longitude'), array('size' => 4, 'maxlength' => 8));
     }
 
 

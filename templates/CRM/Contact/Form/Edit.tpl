@@ -41,6 +41,16 @@
         <td>{$form.greeting_type.html}</td>
         <td colspan="2">{$form.nick_name.html}</td>
     </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan="3">{$form.home_URL.label}</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan="3">{$form.home_URL.html}</td>
+        <td>&nbsp;</td>
+    </tr>
     </table>
 
     {$form._qf_Edit_refresh_dedupe.html}
