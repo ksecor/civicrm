@@ -457,9 +457,6 @@ class CRM_Core_DAO extends DB_DataObject {
         $object->selectAdd( 'id, ' . $fieldName );
         $object->id    = $id;
         if ( $object->find( true ) ) {
-
-            print_r($object);
-            
             $object->$fieldName = $value;
             if ( $object->save( ) ) {
                 return true;
