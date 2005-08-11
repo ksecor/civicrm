@@ -135,6 +135,7 @@ div.spacer {
 #crm-container table.form-layout {
   margin: 0em;
   width: auto;
+  //width: 100%;	
   border-collapse: collapse;
   border: none;
 }
