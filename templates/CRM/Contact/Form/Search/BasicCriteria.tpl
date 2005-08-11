@@ -7,37 +7,52 @@
         {else}{ts}Search Criteria{/ts}{/if}
     </legend>
  <div class="form-item">
-     <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
-     {if $context EQ 'smog'}
-        <span class="horizontal-position">
-            <span class="label">{$form.cb_group_contact_status.label}</span>
-            {$form.cb_group_contact_status.html}
-        </span>
-     {/if}
-     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
-     <span class="horizontal-position">{$form.tag.label}{$form.tag.html}</span>
- </div>
- <div class="form-item">
-     <span class="place-left">
-     {$form.sort_name.label} &nbsp;{$form.sort_name.html}
-     </span>
-     <span class="align-right">{$form.buttons.html}</span>
-     <div class="description font-italic">
-        <span class="horizontal-position">
-        {ts}Complete OR partial contact name OR email. To find individuals by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
-        </span>
-     </div>
+    {strip}
+	<table class="form-layout">
+		<tr>
+            <td class="font-size12pt">{$form.contact_type.label}</td><td>{$form.contact_type.html}</td>
+            <td class="label">
+                {if $context EQ 'smog'}
+                    {$form.cb_group_contact_status.label}
+                {else}
+                    {$form.group.label}
+                {/if}
+            </td>
+            <td>
+                {if $context EQ 'smog'}
+                    {$form.cb_group_contact_status.html}
+                {else}
+                    {$form.group.html}
+                {/if}
+            </td>
+            <td class="label">{$form.tag.label}</td><td>{$form.tag.html}</td>
+        </tr>
+        <tr>
+            <td class="label">{$form.sort_name.label}</td>
+            <td colspan={if $context EQ 'smog'}"7"{else}"5"{/if}>{$form.sort_name.html}</td>
+        </tr>
+        <tr><td></td>
+            <td colspan={if $context EQ 'smog'}"6"{else}"4"{/if}>
+                <div class="description font-italic">
+                {ts}Complete OR partial contact name OR email.
+                To search by first AND last name,<br>enter 'lastname, firstname'.
+                Example: 'Doe, Jane'.{/ts}
+                </div></td>
+            <td class="label">{$form.buttons.html}</td>
+        </tr>
+        <tr>
+            <td class="label" colspan={if $context EQ 'smog'}"8"{else}"6"{/if}>
+                {if $context EQ 'smog'}
+                     <a href="{crmURL p='civicrm/group/search/advanced' q="gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
+                {elseif $context EQ 'amtg'}
+                     <a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
+                {else}
+                     <a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; {ts}Advanced Search{/ts}</a>
+                {/if}
+            </td>
+        </tr>
+    </table>
+    {/strip}
 
- </div>
- <div class="form-item">
-     <p>
-{if $context EQ 'smog'}
-     <span class="element-right"><a href="{crmURL p='civicrm/group/search/advanced' q="gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a></span>
-{elseif $context EQ 'amtg'}
-     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a></span>
-{else}
-     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; {ts}Advanced Search{/ts}</a></span>
-{/if}
-     </p>
  </div>
 </fieldset>

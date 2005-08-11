@@ -16,6 +16,7 @@
     </div>
 {else}
     <div id="help">
-        {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
+        {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc.
+        You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
     </div>
 {/if}

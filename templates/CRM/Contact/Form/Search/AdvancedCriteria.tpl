@@ -12,7 +12,9 @@
             <td class="font-size12pt">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
-                  {ts}Complete OR partial contact name OR email.{/ts}
+                    {ts}Complete OR partial contact name OR email.
+                    To search by first AND last name,<br>enter 'lastname, firstname'.
+                    Example: 'Doe, Jane'.{/ts}
                 </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       
