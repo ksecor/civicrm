@@ -7,13 +7,18 @@
     <label>{$displayName}</label>
     {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
     {elseif $contact_type eq 'Organization' && $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
-    &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onClick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';">
+    {if $permission EQ 'edit'}
+        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onClick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';">
+    {/if}
     &nbsp; &nbsp; <input type="button" value="vCard" name="vCard_export" onClick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';">
     {if $contactTag}<br />{$contactTag}{/if}
    </div>
 </div>
 
-{include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
+{* Include links to enter Activities if session has 'edit' permission *}
+{if $permission EQ 'edit'}
+    {include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
+{/if}
 
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
@@ -118,9 +123,15 @@
   {if $openActivity.totalCount}
     <a href="#" onClick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
   {else}
-    {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
-    {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
-    <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
+    <dl><dt>{ts}Open Activities{/ts}</dt>
+    {if $permission EQ 'edit'}
+        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+        {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
+        <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd>
+    {else}
+        {ts}There are no open activities for this contact.{/ts}
+    {/if}
+    </dl>
   {/if}
 </div>
 
@@ -198,7 +209,15 @@
   {if $relationship.totalCount}
     <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
   {else}
-    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}</dd></dl>
+    <dl><dt>{ts}Relationships{/ts}</dt>
+    <dd>
+        {if $permission EQ 'edit'}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}
+        {else}
+            {ts}There are no Relationships entered for this contact.{/ts}
+        {/if}
+    </dd>
+    </dl>
   {/if}
 </div>
 
@@ -232,7 +251,9 @@
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td>
-                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`&cid=$contactId"}">{ts}Edit{/ts}</a></td> 
+                <td>
+                    {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}
+                </td>
             </tr>  
         {/foreach}
         {if $relationship.totalCount gt 3 }
@@ -240,9 +261,11 @@
         {/if}
         </table>
 	{/strip}
+   {if $permission EQ 'edit'}
    <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}">&raquo; {ts}New Relationship{/ts}</a>
    </div>
+   {/if}
  </fieldset>
  {/if}
 </div>
@@ -251,7 +274,15 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No current group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt>
+    <dd>
+        {if $permission EQ 'edit'}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No current group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}
+        {else}
+            {ts}No current group memberships.{/ts}
+        {/if}
+    </dd>
+    </dl>
   {/if}
 </div>
 
@@ -276,9 +307,11 @@
     {/if}
     </table>
 	{/strip}
+   {if $permission EQ 'edit'}
    <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/group' q="reset=1&action=add&cid=$contactId"}">&raquo; {ts}New Group Membership{/ts}</a>
    </div>
+   {/if}
  </fieldset>
 </div>
 
@@ -286,7 +319,15 @@
   {if $noteTotalCount}
     <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}
-    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No notes. You can <a href="%1">enter notes</a> about this contact.{/ts}</dd></dl>
+    <dl><dt>{ts}Notes{/ts}</dt>
+    <dd>
+        {if $permission EQ 'edit'}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}There are no Notes. You can <a href="%1">enter notes</a> about this contact.{/ts}
+        {else}
+            {ts}There are no Notes for this contact.{/ts}
+        {/if}
+    </dd>
+    </dl>
   {/if}
 </div>
 
@@ -311,7 +352,9 @@
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=update&cid=$contactId"}">{ts}Edit{/ts}</a></td> 
+            <td>
+                {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=update&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}
+            </td> 
        </tr>  
        {/foreach}
        {if $noteTotalCount gt 3 }
@@ -319,10 +362,11 @@
        {/if}
        </table>
        {/strip}
-       
+       {if $permission EQ 'edit'}
        <div class="action-link">
          <a href="{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}">&raquo; {ts}New Note{/ts}</a>
        </div>
+       {/if}
  </fieldset>
 {/if}
 </div> <!-- End of Notes block -->

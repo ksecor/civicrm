@@ -61,7 +61,7 @@
        </table>
        {/strip}
 
-       {if $action eq 16 or $action eq 4 or $action eq 8}
+       {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
        </div>

@@ -8,7 +8,7 @@
 	    {foreach from=$viewRelationship item="row"}
             <dl>
             <dt>{$row.relation}</dt> 
-            <dd class="label">{$row.name}</dd>
+            <dd class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.cid`"}">{$row.name}</a></dd>
             {if $row.start_date}
                 <dt>{ts}Start Date:{/ts}</dt><dd>{$row.start_date|crmDate}</dd>
             {/if}

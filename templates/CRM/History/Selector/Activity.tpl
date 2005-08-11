@@ -4,10 +4,16 @@
     {if $totalCountOpenActivity}
         <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=1"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Open Activities{/ts}</legend>
     {else}
-        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
-        {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
         <div class="data-group">
-            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd></dl>
+        <dl><dt>{ts}Open Activities{/ts}</dt>
+        {if $permission EQ 'edit'}
+            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+            {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
+            <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
+        {else}
+            {ts}There are no open activities for this contact.{/ts}
+        {/if}
+        </dl>
         </div>
     {/if}
 {else}
@@ -16,9 +22,15 @@
         {if $totalCountOpenActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
-            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
-            {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
-            <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd></dl>
+            <dl><dt>{ts}Open Activities{/ts}</dt>
+            {if $permission EQ 'edit'}
+                {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+                {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
+                <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
+            {else}
+                {ts}There are no open activities for this contact.{/ts}
+            {/if}
+            </dl>
         {/if}
     </div>
     {if $totalCountActivity}
