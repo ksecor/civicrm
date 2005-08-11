@@ -235,7 +235,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         if ($indieFields == null) {
             $indieFields =& CRM_Contact_DAO_Individual::import();
         }
-        
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
                 continue;
@@ -249,7 +248,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                             break;
                         }
                     }
-                    if (! $break) {
+                    if (! $break) {                        
                         _crm_add_formatted_param($value, $formatted);
                     }
                 }
@@ -257,11 +256,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             
             $value = array($key => $field);
-            
             if (array_key_exists($key, $indieFields)) {
                 $value['contact_type'] = 'Individual';
             }
-            
+
             _crm_add_formatted_param($value, $formatted);
         }
 
@@ -309,10 +307,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     $this->_newContacts[] = $newContact->id;
                 }
                 //CRM-262 No Duplicate Checking  
-                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK) {
-                    $this->_newContacts[] = $newContact->id;
-                    return CRM_Import_Parser::VALID;
-                } else {
+                if ($onDuplicate == CRM_Import_Parser::SKIP) {
                     return CRM_Import_Parser::DUPLICATE; 
                 }
             } 
