@@ -174,11 +174,37 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         foreach ($dt as $key => $value) {
             $it[$key] = self::$_dataToHTML[$key];
         }
-        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), null, '<br />');
+        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form);"', '<br />' );
         $sel->setOptions(array($dt, $it));
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
+        
+        $this->assign('customDataTypeJs', '
+    <script type="text/Javascript">
+    function custom_option_html_type(form) { 
+        var html_type = document.getElementsByName("data_type[1]")[0];
+        var html_type_name = html_type.options[html_type.selectedIndex].text;
+        var data_type = document.getElementsByName("data_type[0]")[0];
+        if (data_type.selectedIndex < 4) {
+            if (html_type_name != "' . ts('Text') . '") {
+            document.getElementById("showoption").style.display="block";
+            document.getElementById("hideDefaultValTxt").style.display="none";
+            document.getElementById("hideDefaultValDef").style.display="none";
+            document.getElementById("hideDescTxt").style.display="none";
+            document.getElementById("hideDescDef").style.display="none";
+            } else {
+            document.getElementById("showoption").style.display="none";
+            document.getElementById("hideDefaultValTxt").style.display="block";
+            document.getElementById("hideDefaultValDef").style.display="block";
+            document.getElementById("hideDescTxt").style.display="block";
+            document.getElementById("hideDescDef").style.display="block";
+            }
+        } else {
+            document.getElementById("showoption").style.display="none";
+        }
+    }
+    </script>');
         
         // form fields of Custom Option rows
         $defaultOption = array();
