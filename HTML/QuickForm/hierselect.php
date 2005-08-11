@@ -405,6 +405,8 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                              ."    }\n"
                              ."    if (eleIndex+1 < nbElements) {\n"
                              ."        swapOptions(frm, grpName, eleIndex+1, nbElements, arName);\n"
+                             ."    } else {\n"
+                             ."             \n"
                              ."    }\n"
                              ."}\n";
                 define('HTML_QUICKFORM_HIERSELECT_EXISTS', true);
