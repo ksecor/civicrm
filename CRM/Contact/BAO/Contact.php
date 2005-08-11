@@ -240,7 +240,7 @@ ORDER BY
      */
     function searchQuery(&$fv, $offset, $rowCount, $sort, 
                          $count = false, $includeContactIds = false, $sortByChar = false,
-                         $groupContacts = false, $idsOnly = false, $returnQuery = false )
+                         $groupContacts = false, $returnQuery = false )
     {
 //         my_print_r($fv, 'FormVal');
 //         my_print_r($offset, 'Offset');
@@ -566,7 +566,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                                 $group->saved_search_id);
                                 
                             $smarts =& self::searchQuery($sfv, 0, 0, null, 
-                                        false, false, false, false, true, true);
+                                        false, false, false, true, true);
                             $ssWhere[] = "
                             (civicrm_contact.id IN ($smarts) 
                             AND civicrm_contact.id NOT IN (
