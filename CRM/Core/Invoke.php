@@ -123,8 +123,10 @@ class CRM_Core_Invoke {
         if($session->get('isAdvanced')) {
             $breadCrumbPath ='civicrm/contact/search/advanced?force=1' ;
         }
-
-        $additionalbreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$breadCrumbPath));
+       
+        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$breadCrumbPath));
+       
+        
         if ( $args[1] !== 'contact' ) {
             return;
         }
