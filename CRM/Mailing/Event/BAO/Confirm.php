@@ -49,7 +49,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
      * @param int $contact_id       The id of the contact
      * @param int $subscribe_id     The id of the subscription event
      * @param string $hash          The hash
-     * @return void
+     * @return boolean              True on success
      * @access public
      * @static
      */
@@ -58,7 +58,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
                                             $subscribe_id, $hash);
         
         if (! $se) {
-            return;
+            return false;
         }
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -72,6 +72,9 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
                 $contact_id, $se->group_id,'Email',$ce->id);
         
         CRM_Core_DAO::transaction('COMMIT');
+        /* TODO: send a welcome message */
+
+        return true;
     }
 }
 

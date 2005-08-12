@@ -42,11 +42,6 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
     static $_patterns = null;
 
     /**
-     * The bounce type id of unknown
-     */
-    static $_unknown = null;
-
-    /**
      * class constructor
      */
     function __construct( ) {
@@ -75,17 +70,11 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
 
         foreach (self::$_patterns as $type => $patterns) {
             if (count($patterns) == 1) {
-                self::$_patterns[$type] = '/' . $patterns[0] . '/';
+                self::$_patterns[$type] = '{(' . $patterns[0] . ')}im';
             } else {
                 self::$_patterns[$type]
-                    = '/(' . implode(')|(', $patterns) . ')/';
+                    = '{(' . implode(')|(', $patterns) . ')}im';
             }
-        }
-        
-        $bt =& new CRM_Mailing_DAO_BounceType();
-        $bt->name = 'Unknown';
-        if ($bt->find(true)) {
-            self::$_unknown = $bt->id;
         }
     }
 
@@ -101,9 +90,8 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
         if (self::$_patterns == null) {
             self::buildPatterns();
         }
-        
         foreach (self::$_patterns as $type => $re) {
-            if (preg_match($re, $string, $matches)) {
+            if (preg_match($re, $message, $matches)) {
                 return  array(
                             'bounce_type_id' => $type,
                             'bounce_reason' => $matches[0]
@@ -112,7 +100,7 @@ class CRM_Mailing_BAO_BouncePattern extends CRM_Mailing_DAO_BouncePattern {
         }
         
         return  array( 
-                    'bounce_type_id' => self::$_unknown, 
+                    'bounce_type_id' => null, 
                     'bounce_reason' => null 
                 );
     }

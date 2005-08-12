@@ -80,7 +80,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                     AND     ($emailTable.reset_date IS NULL
                         OR  $bounceTable.time_stamp >= $emailTable.reset_date)
                 GROUP BY    $bounceTable.bounce_type_id
-                ORDER BY    $bounceType.hold_threshold, bounces desc";
+                ORDER BY    threshold, bounces desc";
                                 
         $bounce->query($query);
 
@@ -88,7 +88,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
             if ($bounce->bounces >= $bounce->threshold) {
                 $email =& new CRM_Core_BAO_Email();
                 $email->id = $q->email_id;
-                $email->bounce_hold = 1;
+                $email->on_hold = true;
                 $email->hold_date = date('YmdHis');
                 $email->save();
                 break;

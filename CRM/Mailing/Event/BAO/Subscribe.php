@@ -100,14 +100,14 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
         $se->save();
 
-        $shParams = array (
-            'contact_id' => $contact_id,
-            'group_id'  => null,
-            'method'    => 'Email',
-            'status'    => 'Pending',
-            'tracking'  => $se->id
-        );
-        CRM_Contact_BAO_SubscriptionHistory::create($shParams);
+//         $shParams = array (
+//             'contact_id' => $contact_id,
+//             'group_id'  => null,
+//             'method'    => 'Email',
+//             'status'    => 'Pending',
+//             'tracking'  => $se->id
+//         );
+//         CRM_Contact_BAO_SubscriptionHistory::create($shParams);
         $contacts = array($contact_id);
         CRM_Contact_BAO_GroupContact::addContactsToGroup($contacts, $group_id,
             'Email', 'Pending', $se->id);

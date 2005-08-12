@@ -41,6 +41,7 @@
  */
 
 require_once 'PEAR.php';
+
 require_once 'CRM/Core/Error.php';
 require_once 'api/utils.php';
 
@@ -139,5 +140,19 @@ function crm_mailer_event_subscribe($email, $domain_id, $group_id) {
     }
     return false;
 }
+
+/**
+ * Handle a confirm event
+ *
+ * @param int $contact_id       The contact id
+ * @param int $subscribe_id     The subscription event id
+ * @param string $hash          Security hash to validate against
+ * @return boolean
+ */
+function crm_mailer_event_confirm($contact_id, $subscribe_id, $group_id) {
+    return CRM_Mailing_Event_BAO_Confirm::confirm($contact_id, $subscribe_id,
+                    $group_id);
+}
+
 
 ?>
