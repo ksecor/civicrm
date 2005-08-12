@@ -119,6 +119,8 @@ WHERE civicrm_contact.id = $id AND $permission
         $query = "
 SELECT DISTINCT
   civicrm_contact.id as contact_id,
+  civicrm_contact.home_URL            as home_URL      ,
+  civicrm_contact.image_URL           as image_URL     ,
   civicrm_individual.id               as individual_id ,
   civicrm_location.id                 as location_id   ,
   civicrm_address.id                  as address_id    ,
@@ -933,7 +935,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         
         $contact->copyValues($params);
         
-        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
+	$contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
         if ($contact->contact_type == 'Individual') {
@@ -1002,7 +1004,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
-        
+	 
         return $contact->save();
     }
 

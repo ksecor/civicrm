@@ -78,8 +78,10 @@
   </field>
   <field>
        <name>home_URL</name>
+       <title>Home URL</title>
        <type>varchar</type>
        <length>128</length>
+       <import>true</import>
        <comment>optional "home page" URL for this contact.</comment>
   </field>
   <field>
