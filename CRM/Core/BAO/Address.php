@@ -65,46 +65,56 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
 
-        /* Split the zip and +4, if it's in US format */
-        if (CRM_Utils_Array::value( 'postal_code', $params['location'][$locationId]['address'] ) &&
-            preg_match('/^(\d{4,5})[+-](\d{4})$/',
-                       $params['location'][$locationId]['address']['postal_code'], 
-                       $match)) 
-        {
-            $params['location'][$locationId]['address']['postal_code'] =
-                $match[1];
-            $params['location'][$locationId]['address']['postal_code_suffix'] =
-                $match[2];
-        }
-        // add latitude and longitude and format address if needed
-        $config =& CRM_Core_Config::singleton( );
-        if ( ! empty( $config->geocodeMethod ) ) {
-            require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) . '.php' );
-            eval( $config->geocodeMethod . '::format( $params[\'location\'][$locationId][\'address\'] );' );
-        }
+        CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
 
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
             $address->delete( );
             return null;
         }
-        
-        // currently copy values populates empty fields with the string "null"
-        // and hence need to check for the string null
-        if ( is_numeric( $address->state_province_id ) && !isset($address->country_id)) {
-            // since state id present and country id not present, hence lets populate it
-            // jira issue http://objectledge.org/jira/browse/CRM-56
-            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-            $stateProvinceDAO->id = $address->state_province_id; 
-            $stateProvinceDAO->find(true);
-            $address->country_id = $stateProvinceDAO->country_id;
-        }
-
-        $address->county_id = $address->geo_coord_id = 1;
-
 
         return $address->save();
     }
+
+    /**
+     * format the address params to have reasonable values
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function fixAddress( &$params ) {
+        /* Split the zip and +4, if it's in US format */
+        if (CRM_Utils_Array::value( 'postal_code', $params ) &&
+            preg_match('/^(\d{4,5})[+-](\d{4})$/',
+                       $params['postal_code'], 
+                       $match)) {
+            $params['postal_code']        = $match[1];
+            $params['postal_code_suffix'] = $match[2];
+        }
+
+        // currently copy values populates empty fields with the string "null"
+        // and hence need to check for the string null
+        if ( is_numeric( $params['state_province_id'] ) && !isset($params['country_id'])) {
+            // since state id present and country id not present, hence lets populate it
+            // jira issue http://objectledge.org/jira/browse/CRM-56
+            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO->id = $params['state_province_id'];
+            $stateProvinceDAO->find(true);
+            $params['country_id'] = $stateProvinceDAO->country_id;
+        }
+
+        $params['county_id'] = $params['geo_coord_id'] = 1;
+
+        // add latitude and longitude and format address if needed
+        $config =& CRM_Core_Config::singleton( );
+        if ( ! empty( $config->geocodeMethod ) ) {
+            require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) . '.php' );
+            eval( $config->geocodeMethod . '::format( $params );' );
+        } 
+   }
 
     /**
      * Check if there is data to create the object

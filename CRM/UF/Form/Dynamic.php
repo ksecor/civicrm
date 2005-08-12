@@ -343,6 +343,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         CRM_Contact_BAO_Individual::add( $edit, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {
             $address =& new CRM_Core_BAO_Address();
+            CRM_Core_BAO_Address::fixAddress( $edit );
             if ( ! $address->copyValues( $edit ) ) {
                 $address->id = CRM_Utils_Array::value( 'address', $ids );
                 $address->location_id = CRM_Utils_Array::value( 'location', $ids );
