@@ -97,6 +97,24 @@ class CRM_Utils_File {
         return $html;
     }
 
+    /**
+     * create a directory given a path name, creates parent directories
+     * if needed
+     * 
+     * @param string $path  the path name
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    function createDir( $path ) {
+        if ( is_dir( $path ) ) {
+            return;
+        }
+
+        CRM_Utils_File::createDir( dirname( $path ) );
+        mkdir( $path, 0777 );
+    }
 }
 
 ?>

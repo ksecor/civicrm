@@ -310,6 +310,9 @@ class CRM_Core_Config {
 
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
             $this->templateCompileDir = CIVICRM_TEMPLATE_COMPILEDIR;
+
+            // make sure this directory exists
+            CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
         if ( defined( 'CIVICRM_MAINMENU' ) ) {
@@ -326,6 +329,8 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
             $this->uploadDir = CIVICRM_UPLOADDIR;
+
+            CRM_Utils_File::createDir( $this->uploadDir );
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
