@@ -118,6 +118,7 @@ div.spacer {
 
 #crm-container div.form-item dd.description {
  padding: 0px 0px 5px;
+ white-space: normal;
 }
 
 #crm-container div.form-item span.labels {
@@ -149,7 +150,6 @@ div.spacer {
 #crm-container .form-layout td.label {
   text-align: right;
   vertical-align: middle;
-//  padding-right: 0.5em;
   padding: 0em 0.25em 0em 0.75em;
 }
 
@@ -209,6 +209,7 @@ div.spacer {
 #crm-container .description {
   padding: 0px 0px 5px;
   font-size: 0.9em;
+  white-space: normal;
 }
 
 /* Page and form-level 'help' */
