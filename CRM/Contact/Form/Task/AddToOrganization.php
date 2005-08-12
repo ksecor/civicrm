@@ -50,16 +50,27 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
-      
-
     }
-
-
-
+    
+    /**
+     * Function to build the form
+     *
+     * @access public
+     * @return None
+     */
     function buildQuickForm( ) {
 
         CRM_Utils_System::setTitle( ts('Add Members To Organization') );
         $this->addElement('text', 'name'      , ts('Find Target Organization') );
+
+        $this->addElement('select',
+                          'relationship_type_id',
+                          ts('Relationship Type'),
+                          array('' => ts('- select -')) +
+                          CRM_Contact_BAO_Relationship::getRelationType("Organization"));
+    
+
+        $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
 
         $searchRows    = $this->get( 'searchRows' );
         $searchCount   = $this->get( 'searchCount' );
@@ -97,10 +108,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-
     }
-
-
 
     /**
      * process the form after the input has been submitted and validated
@@ -111,33 +119,31 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
     public function postProcess() {
 
         // store the submitted values in an array
-        
         $params = $this->controller->exportValues( $this->_name );
-       
+        
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_AddToOrganization_refresh', $_POST ) ) {
-            $params['contact_type'] = array('Organization' => 'Organization');
-            CRM_Contact_Form_Relationship::search( $params );
+            $searchParams['contact_type'] = array('Organization' => 'Organization');
+            CRM_Contact_Form_Relationship::search( $searchParams );
             $this->set( 'searchDone', 1 );
             return;
         }
        
         $data = array ();
-        $params['relationship_type_id']='4_a_b';
+        //$params['relationship_type_id']='4_a_b';
+        $data['relationship_type_id'] = $params['relationship_type_id'];
         $invalid = 0;
         $valid = 0;
         $duplicate = 0;
         if ( is_array($this->_contactIds)) {
             foreach ( $this->_contactIds as $value) {
                 $ids = array();
-                $data['relationship_type_id'] = '4_a_b';
                 $ids['contact'] = $value;
-                //contact b --> houshold
+                //contact b --> organization
                 // contact a  -> individual
                 $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $params['contact_check']);
                 if($errors)
                     {
-                        //$status =$errors;
                         $invalid=$invalid+1;
                         continue;
                     }
@@ -150,14 +156,12 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
                 }
                 CRM_Contact_BAO_Relationship::add($data, $ids, $params['contact_check']);
                 $valid++;
-                
             }
             
-            
             $status = array(
-                        ts('Added Contact(s) to Organization'),
-                        ts('Total Selected Contact(s): %1', array(1 => $valid+$invalid+$duplicate))
-                        );
+                            ts('Added Contact(s) to Organization'),
+                            ts('Total Selected Contact(s): %1', array(1 => $valid+$invalid+$duplicate))
+                            );
             if ( $valid ) {
                 $status[] = ts('New relationship record(s) created: %1.', array(1 => $valid)) . '<br>';
             }
@@ -167,11 +171,8 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
             if ( $duplicate ) {
                 $status[] = ts('Relationship record(s) not created - duplicate of existing relationship: %1.', array(1 => $duplicate)) . '<br>';
             }
-            
             CRM_Core_Session::setStatus( $status );
-            
         }
-
     }//end of function
 
 }
