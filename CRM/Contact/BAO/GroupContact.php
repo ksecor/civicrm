@@ -281,11 +281,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( ! empty( $status ) ) {
             $where .= ' AND civicrm_group_contact.status = "' . $status . '"';
         }
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
-        $where .= " AND $permission ";
         $tables     = array( 'civicrm_group_contact'        => 1,
                              'civicrm_group'                => 1,
                              'civicrm_subscription_history' => 1 );
+        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
+        $where .= " AND $permission ";
         
         $from = CRM_Contact_BAO_Contact::fromClause( $tables );
 
