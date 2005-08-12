@@ -87,7 +87,9 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             // fire the query again and get the contact id's + display name
             $contact =& new CRM_Contact_BAO_Contact();
             $fv = $this->get( 'formValues' );
-            $ids = $contact->searchQuery( $fv, 0, 0, null, false, false, false, true, true, false );
+            $ids = $contact->searchQuery( $fv, 0, 0, null,
+                                          false, false, false,
+                                          true, false );
             $this->_contactIds = explode( ',', $ids );
         } else if($values['radio_ts'] == 'ts_sel') {
             // selected contacts only

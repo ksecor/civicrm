@@ -65,7 +65,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
 
             // create the selector, controller and run - store results in session
             $output   =  CRM_Core_Selector_Controller::SESSION;
-            $selector =& new CRM_History_Selector_Activity( $this->_contactId );
+            $selector =& new CRM_History_Selector_Activity( $this->_contactId, $this->_permission );
             $sortID   =  null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
                 $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -81,7 +81,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             
             // create the selector, controller and run - store results in session
             $output = CRM_Core_Selector_Controller::SESSION;
-            $selector   =& new CRM_Contact_Selector_Activity($this->_contactId );
+            $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
             $sortID     = null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
                 $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),

@@ -47,6 +47,13 @@ class CRM_Core_Selector_Base {
     protected $_order;
 
     /**
+     * The permission mask for this selector
+     *
+     * @var string
+     */
+    protected $_permission = null;
+
+    /**
      * This function gets the attribute for the action that
      * it matches.
      *
@@ -133,6 +140,17 @@ class CRM_Core_Selector_Base {
         return $this->_order;
     }
 
+    /**
+     * setter for permission
+     *
+     * @var string
+     * @access public
+     */
+    public function setPermission( $permission ) {
+        $this->_permission = $permission;
+    }
+
+    
 }
 
 ?>

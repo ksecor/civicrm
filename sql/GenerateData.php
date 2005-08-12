@@ -1,4 +1,4 @@
-<?php
+S<?php
 
 /*******************************************************
  * This class generates data for the schema located in Contact.sql
@@ -950,27 +950,13 @@ class CRM_GCD {
             $addressDAO->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplementalAddress1));
         }
         
-        // lets do some good skips
-        if ($locationId % 9) {
-            $addressDAO->postal_code = mt_rand( 90000, 99999 );
-        }
-
-        
         // some more random skips
         // if ($locationId % 7) {
         if ($locationId) {
-            $array1 = $this->_getRandomCSC();
-            $addressDAO->city = $array1[2];
-            $addressDAO->state_province_id = $array1[1];
-            $addressDAO->country_id = $array1[0];
-            $addressDAO->country_id = 1228;
-
             // hack add lat / long for US based addresses
-            if ( $addressDAO->country_id == '1228' ) {
-                list( $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
-                    self::getZipCodeInfo( );
-            }
-
+            list( $addressDAO->country_id, $addressDAO->state_province_id, $addressDAO->city, 
+                  $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
+                self::getZipCodeInfo( );
         }        
 
         $addressDAO->county_id = 1;
@@ -1226,12 +1212,29 @@ class CRM_GCD {
     }
 
     static function getZipCodeInfo( ) {
+        static $stateMap;
+
+        if ( ! isset( $stateMap ) ) {
+            $query = 'SELECT id, abbreviation from civicrm_state_province where country_id = 1228';
+            $dao = new CRM_Core_DAO( );
+            $dao->query( $query );
+            $stateMap = array( );
+            while ( $dao->fetch( ) ) {
+                $stateMap[$dao->abbreviation] = $dao->id;
+            }
+        }
+
         $offset = mt_rand( 1, 43000 );
-        $query = "SELECT zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
+        $query = "SELECT city, state, zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
         $dao = new CRM_Core_DAO( );
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
-            return array( $dao->zip, $dao->latitude, $dao->longitude );
+            if ( $stateMap[$dao->state] ) {
+                $stateID = $stateMap[$dao->state];
+            } else {
+                $stateID = 1004;
+            }
+            return array( 1228, $stateID, $dao->city, $dao->zip, $dao->latitude, $dao->longitude );
         }
     }
 

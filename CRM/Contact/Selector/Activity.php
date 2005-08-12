@@ -79,13 +79,15 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * Class constructor
      *
      * @param int $contactId - contact whose open activities we want to display
+     * @param int $permission - the permission we have for this contact 
      *
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId) 
+    function __construct($contactId, $permission) 
     {
-        $this->_contactId = $contactId;
+        $this->_contactId  = $contactId;
+        $this->_permission = $permission;
     }
 
 
@@ -199,7 +201,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
-       
+
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
@@ -212,20 +214,22 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 }
             }
 
+            $actionLinks =& self::actionLinks($row['activity_type_id']);
+            $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
+
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ( CRM_Utils_Array::value( 'callback', $row ) ) {
-                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(),
-                                                               null,
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks,
+                                                               $actionMask,
                                                                array('activity_history_id'=>$k,
                                                                      'callback'=>$row['callback'],
                                                                      'module'=>$row['module'],
                                                                      'activity_id'=>$row['activity_id'],
                                                                      'cid' => $this->_contactId ) );
                 } else {
-                    $actionLinks = self::actionLinks($row['activity_type_id']);
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
-                                                               null,
+                                                               $actionMask,
                                                                array('id'  => $row['id'],
                                                                      'cid' => $this->_contactId ) );
                 }

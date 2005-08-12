@@ -93,14 +93,16 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     /**
      * Class constructor
      *
-     * @param int $contactId - contact whose history we want to display
+     * @param int $contactId  - contact whose history we want to display
+     * @param int $permission - the permission we have for this contact 
      *
      * @return CRM_History_Selector
      * @access public
      */
-    function __construct($entityId) 
+    function __construct($entityId, $permission) 
     {
-        $this->_entityId = $entityId;
+        $this->_entityId   = $entityId;
+        $this->_permission = $permission;
     }
 
 
@@ -211,18 +213,18 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $params = array('entity_table' => 'civicrm_contact', 'entity_id' => $this->_entityId);
         $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
 
-        // does not work with php4
-        //foreach ($rows as &$row) {
+        $links =& self::actionLinks();
+        $mask  =  array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ($row['callback']) {
-                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
+                    $row['action'] = CRM_Core_Action::formLink($links, $mask, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
                 } else {
-                    $actionLinks = self::actionLinks();
+                    $actionLinks = $links;
                     unset($actionLinks[CRM_Core_Action::VIEW]);
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('id'=>$k));
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k));
                 }
             }
             unset($row);

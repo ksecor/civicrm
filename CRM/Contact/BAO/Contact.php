@@ -1710,7 +1710,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
         if (!isset($params['domain_id'])) {
             $config =& CRM_Core_Config::singleton( );
-            $domain_id = $config->domainID;
+            $domain_id = CRM_Core_Config::domainID( );
         } else {
             $domain_id = $params['domain_id'];
         }

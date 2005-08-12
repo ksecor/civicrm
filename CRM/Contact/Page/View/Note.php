@@ -81,9 +81,9 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
 
         $values =  array( );
         $links  =& self::links( );
-        $note->find( );
         $action = array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
         
+        $note->find( );
         while ( $note->fetch( ) ) {
             $values[$note->id] = array( );
             CRM_Core_DAO::storeValues( $note, $values[$note->id] );
