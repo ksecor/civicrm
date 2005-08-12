@@ -351,9 +351,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $defaults['cb_group_contact_status[Added]'] = true;
         }
 
-        // note that we do this so we over-ride the default/post/submitted values to get
-        // consisten behavior between search and advanced search
-        // $this->setConstants( $defaults );
         return $defaults;
     }
 
@@ -432,7 +429,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
-        //        if ( $controller->hasChanged( $this->_reset ) ||
         if ( $this->_force ) {
 
             $this->postProcess( );
@@ -467,6 +463,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         $session =& CRM_Core_Session::singleton();
         $session ->set('isAdvanced','0');
+
         // get user submitted values
         $this->_formValues = $this->controller->exportValues($this->_name);       
         /* after every search form is submitted we save the following in the session
@@ -477,6 +474,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         if ( isset( $this->_groupID ) ) {
             $this->_formValues['group'] = $this->_groupID;
+
+            // add group_contact_status as added if not present
+            if ( ! CRM_Utils_Array::value( 'cb_group_contact_status', $this->_formValues ) ) {
+                $this->_formValues['cb_group_contact_status'] = array( 'Added' => true );
+            }
         } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -512,6 +514,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['cb_tag'][$tag] = 1;
         }
         unset( $this->_formValues['tag'] );
+
         return;
     }
 
