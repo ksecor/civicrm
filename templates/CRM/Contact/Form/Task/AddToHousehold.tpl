@@ -1,6 +1,6 @@
 <fieldset>
 <legend>
-{ts}Choose Household and Relationship that you would like to add the below contacts to.{/ts}
+{ts}Choose Relationship Type and Target Household{/ts}
 </legend>
 <br>
 {include file="CRM/Contact/Form/Task.tpl"}
@@ -8,16 +8,16 @@
             <dl>
             <dt>
             {if $action EQ 2} {* action = update *}
-                <label>{$sort_name}</label></dd>
+                <label>{$sort_name}</label></dt>
           	</dl>
             {else} {* action = add *}
-                
+                <dt>{$form.relationship_type_id.label}</dt><dd>{$form.relationship_type_id.html}</dd>
                 <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
                 <dt> </dt>
                   <dd>
                     {$form._qf_AddToHousehold_refresh.html}
                     {$form._qf_AddToHousehold_cancel.html}
-		    {$form.relationship_type_id.html}	
+		    {*$form.relationship_type_id.html*}	
                   </dd>
                 </dl>
 
