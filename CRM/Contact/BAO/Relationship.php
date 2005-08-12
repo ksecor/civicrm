@@ -629,7 +629,29 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             return $values;
         }
     }
- 
+    
+   /**
+     * Function to get get list of relationship type based on the target contact type.
+     *
+     * @param string $targetContactType it's valid contact tpye(may be Individual , Organization , Household)  
+     *
+     * @return array - array reference of all relationship types with context to current contact type .
+     *
+     */
+
+    function getRelationType($targetContactType)
+    {
+        $relationshipType    = array();
+        $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
+        
+        foreach($allRelationshipType as $key => $type) {
+            if($type['contact_type_b'] == $targetContactType) {
+                $relationshipType[ $key . '_a_b' ] = $type[ 'name_a_b' ];
+            }
+        }
+        
+        return $relationshipType;
+    }
 }
 
 ?>
