@@ -34,6 +34,9 @@
  *
  */
 
+require_once 'Mail/mime.php';
+
+
 class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
 
     /**
@@ -49,11 +52,11 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @param int $job_id       The job ID of the reply
      * @param int $queue_id     The queue event id
      * @param string $hash      The hash
-     * @return string|null      The email address to forward the reply to, or null on failure
+     * @return object|null      The mailing object, or null on failure
      * @access public
      * @static
      */
-    public static function reply($job_id, $queue_id, $hash) {
+    public static function &reply($job_id, $queue_id, $hash) {
         /* First make sure there's a matching queue event */
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
 
@@ -79,7 +82,40 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         $re->event_queue_id = $queue_id;
         $re->time_stamp = date('YmdHis');
         $re->save();
-        return $mailing->replyto_email;
+        return $mailing;
+    }
+
+    /**
+     * Forward a mailing reply 
+     *
+     * @param int $queue_id     Queue event ID of the sender
+     * @param string $mailing   The mailing object
+     * @param string $body      Body of the message
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function send($queue_id, &$mailing, &$body) {
+        $config =& CRM_Core_Config::singleton();
+        $mailer =& $config->getMailer();
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        
+        $dao =& new CRM_Core_DAO();
+        
+        $message =& new Mail_Mime("\n");
+        $headers = array(
+            'Subject'       => "Re: {$mailing->subject}",
+            'From'          => '',
+            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+            'Return-path'   => "do-not-reply@{$domain->email_domain}",
+        );
+        $message->setTxtBody($body);
+        $b = $message->get();
+        $h = $message->headers($headers);
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                        array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        $mailer->send($mailing->replyto_email, $h, $b);
+        CRM_Core_Error::setCallback();
     }
 }
 

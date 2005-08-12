@@ -231,8 +231,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
 
         $headers = array(
             'Subject'       => ts('Unsubscribe request completed'),
-            'From'          => ts('"%1 Administrator <do-not-reply@%2>',
-                array('1' => $domain->name, '2' => $domain->email_domain)),
+            'From'          => ts('"%1 Administrator" <%2>',
+                array(  '1' => $domain->name, 
+                        '2' => "do-not-reply@{$domain->email_domain}")),
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );

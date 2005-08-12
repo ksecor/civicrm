@@ -149,10 +149,31 @@ function crm_mailer_event_subscribe($email, $domain_id, $group_id) {
  * @param string $hash          Security hash to validate against
  * @return boolean
  */
-function crm_mailer_event_confirm($contact_id, $subscribe_id, $group_id) {
+function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
     return CRM_Mailing_Event_BAO_Confirm::confirm($contact_id, $subscribe_id,
-                    $group_id);
+                    $hash);
 }
 
+
+/**
+ * Handle a reply event
+ *
+ * @param int $job_id           The job ID
+ * @param int $queue_id         The queue event ID
+ * @param string $hash          Security hash
+ * @param string $body          Body of the reply message
+ * @return boolean              True on success
+ */
+function crm_mailer_event_reply($job_id, $queue_id, $hash, $body) {
+    $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, $hash);
+
+    if (empty($mailing)) {
+        return false;
+    }
+
+    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $body);
+
+    return true;
+}
 
 ?>
