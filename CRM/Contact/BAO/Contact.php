@@ -382,6 +382,12 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $tables['civicrm_group_contact'] = 1;
         }
 
+        // add group_contact and group table is subscription history is present
+        if ( CRM_Utils_Array::value( 'civicrm_subscription_history', $tables ) ) {
+            $tables['civicrm_group'] = 1;
+            $tables['civicrm_group_contact'] = 1;
+        }
+
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
@@ -445,7 +451,14 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 $from .= " LEFT JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
                                                            civicrm_contact.id = civicrm_custom_value.entity_id ) ";
                 continue;
+
+            case 'civicrm_subscription_history':
+                $from .= " RIGHT JOIN civicrm_subscription_history
+                                   ON civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id
+                                  AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
+                continue;
             }
+
         }
 
         return $from;

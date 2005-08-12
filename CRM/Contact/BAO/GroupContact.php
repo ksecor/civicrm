@@ -281,26 +281,14 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( ! empty( $status ) ) {
             $where .= ' AND civicrm_group_contact.status = "' . $status . '"';
         }
-        $tables     = array( 'civicrm_group_contact' => 1,
-                             'civicrm_group'         => 1, );
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
         $where .= " AND $permission ";
+        $tables     = array( 'civicrm_group_contact'        => 1,
+                             'civicrm_group'                => 1,
+                             'civicrm_subscription_history' => 1 );
         
-//         $from = CRM_Contact_BAO_Contact::fromClause( $tables );
-        $from = 
-            ' FROM      civicrm_group_contact 
-            INNER JOIN  civicrm_group
-                ON      civicrm_group_contact.group_id = civicrm_group.id
-            INNer JOIN  civicrm_contact
-                ON      civicrm_group_contact.contact_id = civicrm_contact.id
-            RIGHT JOIN  civicrm_subscription_history 
-                ON 
-                        civicrm_group_contact.contact_id = 
-                            civicrm_subscription_history.contact_id
-                AND
-                        civicrm_group_contact.group_id =
-                            civicrm_subscription_history.group_id';
-                
+        $from = CRM_Contact_BAO_Contact::fromClause( $tables );
+
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_group.title ';
@@ -311,7 +299,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         $sql = $select . $from . $where . $order . $limit;
-//         CRM_Core_Error::debug( 'sql', $sql );
 
         $groupContact->query($sql);
 
