@@ -68,9 +68,9 @@ class CRM_Utils_Geocode_RPC {
      */
     static function format( &$values ) {
         // we need a valid zipcode, state and country, else we ignore
-        if ( ! CRM_Utils_Array::value( 'postal_code', $values  ) &&
-             ! CRM_Utils_Array::value( 'state'      , $values  ) &&
-             ! CRM_Utils_Array::value( 'country'    , $values  ) ) {
+        if ( ! CRM_Utils_Array::value( 'postal_code'    , $values  ) &&
+             ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
+             ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
             return false;
         }
 

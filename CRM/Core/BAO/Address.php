@@ -97,7 +97,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
 
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
-        if ( is_numeric( $params['state_province_id'] ) && !isset($params['country_id'])) {
+        if ( is_numeric( $params['state_province_id'] ) && ( !isset($params['country_id']) || empty($params['country_id']))) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://objectledge.org/jira/browse/CRM-56
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
@@ -106,6 +106,15 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             $params['country_id'] = $stateProvinceDAO->country_id;
         }
 
+        // add state and country names from the ids
+        if ( is_numeric( $params['state_province_id'] ) ) {
+             $state = CRM_Core_PseudoConstant::stateProvince( $params['state_province_id'] );
+             $params['state_province'] = $state;
+        }
+
+        if ( is_numeric( $params['country_id'] ) ) {
+             $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
+        }
         $params['county_id'] = $params['geo_coord_id'] = 1;
 
         // add latitude and longitude and format address if needed

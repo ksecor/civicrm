@@ -1065,13 +1065,6 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      */
     static function create(&$params, &$ids, $maxLocationBlocks)
     {
-        // hack to not mess with birth_date
-        $birth_date = CRM_Utils_Array::value( 'birth_date', $params );
-
-        // we need a few ids resolved, so lets resolve the defaults
-        self::resolveDefaults( $params );
-        $params['birth_date'] = $birth_date;
-
         CRM_Core_DAO::transaction('BEGIN');
         
         $contact = self::add($params, $ids);
