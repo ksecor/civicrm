@@ -91,22 +91,40 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @param int $queue_id     Queue event ID of the sender
      * @param string $mailing   The mailing object
      * @param string $body      Body of the message
+     * @param string $replyto   Reply-to of the incoming message
      * @return void
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$body) {
+    public static function send($queue_id, &$mailing, &$body, $replyto = null) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         
-        $dao =& new CRM_Core_DAO();
+        $q =& new CRM_Mailing_Event_BAO_Queue();
+        $q->id = $queue_id;
+        if (! $q->find(true)) {
+            return;
+        }
+        
+        $contact =& new CRM_Contact_BAO_Contact();
+        $contact->id = $q->contact_id;
+        $contact->find(true);
+        
+        $from = empty($contact->display_name) ? '' : "\"{$contact->display_name}\" ";
+
+        $email =& new CRM_Core_BAO_Email();
+        $email->id = $q->email_id;
+        $email->find(true);
+
+        $from .= "<{$email->email}>";
         
         $message =& new Mail_Mime("\n");
         $headers = array(
             'Subject'       => "Re: {$mailing->subject}",
-            'From'          => '',
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+            'To'            => $mailing->replyto_email,
+            'From'          => $from,
+            'Reply-To'      => empty($replyto) ? "do-not-reply@{$domain->email_domain}" : $replyto,
             'Return-path'   => "do-not-reply@{$domain->email_domain}",
         );
         $message->setTxtBody($body);
