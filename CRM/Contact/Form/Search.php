@@ -398,10 +398,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // we only force stuff once :)
         $this->set( 'force', false );
 
-        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
-        /* We don't want to keep this around after inclusion in formValues */
-        $this->set('gid', null);
 
+        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
         $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
         $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
@@ -422,7 +420,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
-        
+
         $selector =& new CRM_Contact_Selector($this->_formValues, $this->_action);
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
@@ -471,8 +469,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          *     - submitted form values 'formValues'
          *     - QILL 'qill'
          */
-        
-        if ( isset( $this->_groupID ) ) {
+       CRM_Core_Error::debug( $this->_groupID, $this->_formValues );
+        if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = $this->_groupID;
 
             // add group_contact_status as added if not present
