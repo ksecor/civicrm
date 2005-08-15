@@ -100,13 +100,34 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         $mailer =& $config->getMailer();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         
+        $emails = CRM_Core_BAO_Email::getTableName();
+        $eq = CRM_Mailing_Event_BAO_Queue::getTableName();
+        $contacts = CRM_Contact_BAO_Contact::getTableName();
+        
         $dao =& new CRM_Core_DAO();
+        $dao->query("SELECT     $contacts.display_name as display_name,
+                                $emails.email as email
+                    FROM        $eq
+                    INNER JOIN  $contacts
+                            ON  $eq.contact_id = $contacts.id
+                    INNER JOIN  $emails
+                            ON  $eq.email_id = $emails.id
+                    WHERE       $eq.id = $queue_id");
+        $dao->fetch();
+        
+        
+        if (empty($dao->display_name)) {
+            $from = $dao->email;
+        } else {
+            $from = "\"{$dao->display_name}\" <{$dao->email}>";
+        }
         
         $message =& new Mail_Mime("\n");
         $headers = array(
             'Subject'       => "Re: {$mailing->subject}",
-            'From'          => '',
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+            'To'            => $mailing->replyto_email,
+            'From'          => $from,
+            'Reply-To'      => $dao->email,
             'Return-path'   => "do-not-reply@{$domain->email_domain}",
         );
         $message->setTxtBody($body);
