@@ -91,40 +91,43 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @param int $queue_id     Queue event ID of the sender
      * @param string $mailing   The mailing object
      * @param string $body      Body of the message
-     * @param string $replyto   Reply-to of the incoming message
      * @return void
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$body, $replyto = null) {
+    public static function send($queue_id, &$mailing, &$body) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         
-        $q =& new CRM_Mailing_Event_BAO_Queue();
-        $q->id = $queue_id;
-        if (! $q->find(true)) {
-            return;
+        $emails = CRM_Core_BAO_Email::getTableName();
+        $eq = CRM_Mailing_Event_BAO_Queue::getTableName();
+        $contacts = CRM_Contact_BAO_Contact::getTableName();
+        
+        $dao =& new CRM_Core_DAO();
+        $dao->query("SELECT     $contacts.display_name as display_name,
+                                $emails.email as email
+                    FROM        $eq
+                    INNER JOIN  $contacts
+                            ON  $eq.contact_id = $contacts.id
+                    INNER JOIN  $emails
+                            ON  $eq.email_id = $emails.id
+                    WHERE       $eq.id = $queue_id");
+        $dao->fetch();
+        
+        
+        if (empty($dao->display_name)) {
+            $from = $dao->email;
+        } else {
+            $from = "\"{$dao->display_name}\" <{$dao->email}>";
         }
-        
-        $contact =& new CRM_Contact_BAO_Contact();
-        $contact->id = $q->contact_id;
-        $contact->find(true);
-        
-        $from = empty($contact->display_name) ? '' : "\"{$contact->display_name}\" ";
-
-        $email =& new CRM_Core_BAO_Email();
-        $email->id = $q->email_id;
-        $email->find(true);
-
-        $from .= "<{$email->email}>";
         
         $message =& new Mail_Mime("\n");
         $headers = array(
             'Subject'       => "Re: {$mailing->subject}",
             'To'            => $mailing->replyto_email,
             'From'          => $from,
-            'Reply-To'      => empty($replyto) ? "do-not-reply@{$domain->email_domain}" : $replyto,
+            'Reply-To'      => $dao->email,
             'Return-path'   => "do-not-reply@{$domain->email_domain}",
         );
         $message->setTxtBody($body);

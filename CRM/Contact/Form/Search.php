@@ -469,7 +469,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          *     - submitted form values 'formValues'
          *     - QILL 'qill'
          */
-       CRM_Core_Error::debug( $this->_groupID, $this->_formValues );
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = $this->_groupID;
 

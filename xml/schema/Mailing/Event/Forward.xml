@@ -26,14 +26,14 @@
         <key>id</key>
     </foreignKey>
     <field>
-        <name>contact_id</name>
+        <name>dest_queue_id</name>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>FK to contact</comment>
+        <comment>FK to EventQueue for destination</comment>
     </field>
     <foreignKey>
-        <name>contact_id</name>
-        <table>civicrm_contact</table>
+        <name>dest_queue_id</name>
+        <table>civicrm_mailing_event_queue</table>
         <key>id</key>
     </foreignKey>
     <field>
