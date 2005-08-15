@@ -398,7 +398,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/profile',
-                            'title'   => ts( 'CiviCRM Profile Listings' );
+                            'title'   => ts( 'CiviCRM Profile Listings' ),
                             'access'  => CRM_Utils_System::checkPermission( 'access user profiles') && 
                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ), 
                             'type'    => self::CALLBACK, 
