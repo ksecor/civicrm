@@ -6553,7 +6553,7 @@ do{ local($/) = "__DATA__\n";   # set line terminator to this string
     map { chomp($_ = <Amavis::DATA>) }
 	($extra_code_sql, $extra_code_ldap,
 	 $extra_code_in_amcl, $extra_code_in_smtp,
-	 $extra_code_antivirus, $extra_code_antispam,
+	 $extra_code_antivirus, $extra_code_civicrm, $extra_code_antispam,
 	 $log_templ,
 	 $notify_sender_templ,
 	 $notify_virus_sender_templ,
