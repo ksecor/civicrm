@@ -51,12 +51,12 @@
   </field>
   <field>
     <name>hold_date</name>
-    <type>date</type>
+    <type>datetime</type>
     <comment>When the address went on bounce hold</comment>
   </field>
   <field>
     <name>reset_date</name>
-    <type>date</type>
+    <type>datetime</type>
     <comment>When the address bounce status was last reset</comment>
   </field>
 </table>
