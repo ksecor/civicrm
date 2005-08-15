@@ -1,0 +1,20 @@
+MANIFEST         this file
+LICENSE          GPL license text
+
+AAAREADME.first  start reading here...
+RELEASE_NOTES    ...followed by reading/browsing this file
+
+INSTALL          installation instructions
+README_FILES/    MTA-specific instructions and other documentation
+
+amavisd          the amavisd-new daemon (should go to /usr/local/sbin/)
+amavisd.conf     its configuration file (should go to /etc/)
+
+amavisd_init.sh  sample init shell script
+LDAP.schema      amavisd-new LDAP schema for LDAP lookups
+
+helper-progs/    contains amavis.c and amavis-milter.c helpers (sendmail only)
+test-messages/   contains sample/test mail messages
+
+amavisd-new-courier.patch patches amavisd/amavisd.conf for Courier support
+amavisd-new-qmqpqq.patch  patches amavisd/amavisd.conf for qmail qmqpqq support

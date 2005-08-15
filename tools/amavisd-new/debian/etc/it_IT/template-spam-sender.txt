@@ -1,0 +1,23 @@
+# This is a template for SPAM SENDER NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-spam-sender.txt,v 1.1 2004/07/31 19:38:12 hmh Exp $
+Subject: EMAIL considerata NON RICHIESTA da parte tua
+[? %m  |#|In-Reply-To: %m]
+Message-ID: <SS%n@%h>
+
+Il tuo messaggio a:[
+-> %R]
+
+e` stato considerato non richiesto (unsolicited bulk e-mail, UBE).
+Subject: %j
+Return-Path: %s
+
+[? %#D |La consegna dell'email e` stata interrotta!
+]#
+#
+# SpamAssassin report:
+# [%A
+# ]\

@@ -468,7 +468,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         $headers = array(
             'Subject'   => $this->subject,
-            'From'      => $this->from_name . ' <' . $this->from_email . '>',
+            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
             'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
             'Return-path' => CRM_Utils_Verp::encode($verp['owner'], $email),
         );

@@ -1,0 +1,69 @@
+# This is a template for VIRUS/BANNED-FILE SENDER NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-virus-sender.txt,v 1.2 2004/06/15 00:26:09 hmh Exp $
+Subject: [? %#V |[? %#F |[? %#X ||UNGUELTIGE KOPFDATEN]|VERBOTENER DATEINAME (%F)]|VIRUS (%V)] IN EINER MAIL VON IHNEN
+[? %m  |#|In-Reply-To: %m]
+Message-ID: <VS%n@%h>
+
+[? %#V |[? %#F |[? %#X ||UNGÜLTIGE ZEICHEN IN DEN KOPFDATEN]|ALARM: VERBOTENER DATEINAME]|VIRUS ALARM]
+
+Unser Content-Filter fand
+[? %#V |#|    [? %#V |Viren|einen Virus|Viren]: %V]
+[? %#F |#|    [? %#F |verbotene Dateinamen|einen verbotenen Dateinamen|verbotene Dateinamen]: %F]
+[? %#X |#|\n[%X\n]]
+in einer Mail vermutlich von Ihnen (%s), an [? %#R die|den] folgenden Empfänger:[
+
+-> %R]
+
+[? %#V ||Bitte untersuchen Sie Ihr System auf Virenbefall,
+oder bitten Sie Ihren Systemadministrator dass zu tun.
+
+]#
+[? %#D |Die Auslieferung dieser Nachricht wurde gestoppt!
+
+]#
+[? %#V |[? %#F ||#
+Diese Nachricht wurde geblockt, da sie eine Komponente (als 
+MIME-Teil oder eingebettet) mit einem bestimmten Namen oder eines
+bestimmten MIME-Typs enthielt, die unsere Sicherheits-Richtlinien
+verletzt.
+
+Mit wenig Aufwand ist es jedoch trotzdem möglich JEDEN Inhalt
+(inklusive Viren) mit folgenden Methoden zu versenden:
+
+- Verschlüsselt durch pgp, gpg oder andere Methoden.
+
+- Verpackt in einem passwortgeschützten oder verschlüsselten
+  Kontainer oder Archiv (z.B.: zip -e, arj -g, arc g, rar -p oder
+  andere Methoden).
+
+Wenn der Inhalt nicht sicher sein muss, kann der Schlüssel oder das
+Passwort der Mail beigelegt werden um es dem Empfänger einfacher zu 
+machen.
+
+Wir bitten die Umstände zu Entschuldigen, falls der Inhalt der Mail
+nicht "bösartig" war.
+
+Der Zweck dieser Ristriktionen ist es, die meistgenutzte Verbreitungsmethode
+von Viren und anderen Schadprogrammen einzudämmen. Diese nutzen häufig
+automatisierte Mechanismen und Sicherheitslöcher in verschiedenen 
+Mailprogrammen aus (Microsoft's Mailprogramm und Internet-Browser sind
+ein häufiges und einfaches Angriffsziel). Durch die Erzwingung einer
+expliziten Benutzerinteraktion vom Empfänger beim öffnen von Mails kann
+die Gefahr der automatischen Verbreitung von Schadprogrammen deutlich
+reduziert werden.
+#
+# Nähere Informationen zu unseren Mail-Sicherheitsrichtlinien finden 
+# Sie unter ...
+
+]]#
+
+Für Ihre Unterlagen, das sind die Kopfdaten Ihrer Mail:
+------------------------- BEGIN HEADERS -----------------------------
+Return-Path: %s
+[%H
+]\
+-------------------------- END HEADERS ------------------------------

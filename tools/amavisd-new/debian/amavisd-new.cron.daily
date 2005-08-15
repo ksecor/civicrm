@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+#  Daily maintenance for amavisd-new
+#  $Id: amavisd-new.cron.daily,v 1.3.2.1 2004/11/18 23:11:27 hmh Exp $
+# 
+# Needed only if spamassassin is in use
+umask 022
+test -e /usr/bin/sa-learn && test -e /usr/sbin/amavisd-new && {
+	su - amavis -- /usr/bin/sa-learn --rebuild --force-expire >/dev/null 2>&1
+}
+exit 0
