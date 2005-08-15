@@ -308,12 +308,10 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
-        if ( isset( $this->_groupID ) ) {
+        if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'cb_group', $this->_formValues ) ) {
             $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
-            unset($this->_groupID);
         }
 
-//         CRM_Core_Error::debug( 'F', $this->_formValues );
         $this->postProcessCommon( );
     }
 
