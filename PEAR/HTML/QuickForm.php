@@ -770,6 +770,7 @@ class HTML_QuickForm extends HTML_Common {
     function getSubmitValue($elementName)
     {
         $value = null;
+
         if (isset($this->_submitValues[$elementName]) || isset($this->_submitFiles[$elementName])) {
             $value = isset($this->_submitValues[$elementName])? $this->_submitValues[$elementName]: array();
             if (is_array($value) && isset($this->_submitFiles[$elementName])) {
@@ -780,19 +781,6 @@ class HTML_QuickForm extends HTML_Common {
 
         } elseif ('file' == $this->getElementType($elementName)) {
             return $this->getElementValue($elementName);
-
-        } elseif ('group' == $this->getElementType($elementName)) {
-            $group    =& $this->getElement($elementName);
-            $elements =& $group->getElements();
-            foreach (array_keys($elements) as $key) {
-                $name = $group->getElementName($key);
-                // filter out radios
-                if ($name != $elementName) {
-                    if (null !== ($v = $this->getSubmitValue($name))) {
-                        $value[$name] = $v;
-                    }
-                }
-            }
 
         } elseif (false !== ($pos = strpos($elementName, '['))) {
             $base = substr($elementName, 0, $pos);
@@ -811,6 +799,18 @@ class HTML_QuickForm extends HTML_Common {
                     $code .= "    \$v['{$prop}'] = \$this->_submitFiles['{$base}']['{$prop}']{$idx};\n";
                 }
                 $value = eval($code . "    return \$v;\n}\n");
+            }
+        } elseif ('group' == $this->getElementType($elementName)) {
+            $group    =& $this->getElement($elementName);
+            $elements =& $group->getElements();
+            foreach (array_keys($elements) as $key) {
+                $name = $group->getElementName($key);
+                // filter out radios
+                if ($name != $elementName) {
+                    if (null !== ($v = $this->getSubmitValue($name))) {
+                        $value[$name] = $v;
+                    }
+                }
             }
         }
         return $value;
@@ -1431,10 +1431,13 @@ class HTML_QuickForm extends HTML_Common {
         include_once('HTML/QuickForm/RuleRegistry.php');
         $registry =& HTML_QuickForm_RuleRegistry::singleton();
 
+        $values = $this->getSubmitValues( );
+
         foreach ($this->_rules as $target => $rules) {
             $submitValue = $this->getSubmitValue($target);
 
             foreach ($rules as $elementName => $rule) {
+
                 if ((isset($rule['group']) && isset($this->_errors[$rule['group']])) ||
                      isset($this->_errors[$target])) {
                     continue 2;
