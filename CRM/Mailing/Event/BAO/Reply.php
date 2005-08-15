@@ -91,11 +91,12 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @param int $queue_id     Queue event ID of the sender
      * @param string $mailing   The mailing object
      * @param string $body      Body of the message
+     * @param string $replyto   Reply-to of the incoming message
      * @return void
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$body) {
+    public static function send($queue_id, &$mailing, &$body, $replyto) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
@@ -127,7 +128,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             'Subject'       => "Re: {$mailing->subject}",
             'To'            => $mailing->replyto_email,
             'From'          => $from,
-            'Reply-To'      => $dao->email,
+            'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
             'Return-path'   => "do-not-reply@{$domain->email_domain}",
         );
         $message->setTxtBody($body);
