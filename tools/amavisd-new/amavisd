@@ -8465,13 +8465,14 @@ sub process($$) {
     my $result;
     
     if ($hash) {
-        $soapJobId = SOAP::Data->name('job_id' => $jobId);
-        $soapQueueId = SOAP::Data->name('queue_id' => $qId);
-        $soapHash = SOAP::Data->name('hash' => $hash);
+        my $soapJobId = SOAP::Data->name('job_id' => $jobId);
+        my $soapQueueId = SOAP::Data->name('queue_id' => $qId);
+        my $soapHash = SOAP::Data->name('hash' => $hash);
     
         if ($dest eq 'owner') {
             # bounce
-            $soapBody = SOAP::Data->name('body' => $msginfo->mime_entity->body);
+            my $soapBody = 
+                SOAP::Data->name('body' => $msginfo->mime_entity->body);
             $result = 
                 $soapClient->crm_mailer_event_bounce(   $soapJobId, 
                                                         $soapQueueId, 
@@ -8484,9 +8485,11 @@ sub process($$) {
             }
         } elsif ($dest eq 'reply') {
             # reply
-            $soapBody = SOAP::Data->name('body' => $msginfo->mime_entity->body);
-            $replyto = (MIME::WordDecoder::unmime($msginfo->head->get('Reply-to')) or '');
-            $soapRT = SOAP::Data->name('replyto' => $replyto);
+            my $soapBody = 
+                SOAP::Data->name('body' => $msginfo->mime_entity->body);
+            my $replyto = 
+                (MIME::WordDecoder::unmime($msginfo->head->get('Reply-to')) or '');
+            my $soapRT = SOAP::Data->name('replyto' => $replyto);
             
             $result = 
                 $soapClient->crm_mailer_event_reply(    $soapJobId,
@@ -8536,9 +8539,9 @@ sub process($$) {
         my ($dest, $dId, $gId) =
             ($verpInfo =~ m/(subscribe)\.(\d+).(\d+)\@.*/) or return;
 
-        $soapDomain = SOAP::Data->name('domain_id' => $dId);
-        $soapGroup = SOAP::Data->name('group_id' => $gId);
-        $soapEmail = SOAP::Data->name('email' =>
+        my $soapDomain = SOAP::Data->name('domain_id' => $dId);
+        my $soapGroup = SOAP::Data->name('group_id' => $gId);
+        my $soapEmail = SOAP::Data->name('email' =>
             MIME::WordDecoder::unmime($msginfo->head->get('From')));
         $result = 
             $soapClient->srm_mailer_event_subscribe(    $soapEmail,
