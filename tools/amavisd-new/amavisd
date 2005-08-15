@@ -245,7 +245,7 @@ BEGIN {
 	    &D_REJECT &D_BOUNCE &D_DISCARD &D_PASS
 	)],
     );
-    Exporter::export_tags qw(confvars notifyconf unpack sa platform);
+    Exporter::export_tags qw(confvars notifyconf unpack sa platform civicrm);
 } # BEGIN
 
 use POSIX qw(uname);
