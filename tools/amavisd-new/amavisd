@@ -4959,7 +4959,7 @@ use Net::Server 0.83;
 use Net::Server::PreForkSimple;
 
 BEGIN {
-    import Amavis::Conf qw(:platform :confvars :notifyconf :sa);
+    import Amavis::Conf qw(:platform :confvars :notifyconf :sa :civicrm);
     import Amavis::Util qw(do_log debug_oneshot am_id prolong_timer
 			   min max);
     import Amavis::Timing qw(section_time);
