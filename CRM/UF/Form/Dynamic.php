@@ -311,9 +311,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                         $defaults[$name] = $customValue;
                         break;
                     }
+                } else {
+                    $defaults[$name] = $this->_contact->$objName;
                 }
-            } else {
-                $defaults[$name] = $this->_contact->$objName;
             }
         }
         return $defaults;
