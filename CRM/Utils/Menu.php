@@ -238,7 +238,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('New Individual'),
                             'qs'     => 'reset=1',
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -395,6 +395,17 @@ class CRM_Utils_Menu {
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
                             ),
+
+                      array(
+                            'path'    => 'civicrm/profile',
+                            'title'   => ts( 'CiviCRM Profile Listings' );
+                            'access'  => CRM_Utils_System::checkPermission( 'access user profiles') && 
+                                         CRM_Utils_System::checkPermission( 'access CiviCRM' ), 
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0, 
+                            ),
+
                       array(
                             'path'    => 'civicrm/mailing/component',
                             'title'   => ts('Mailing Header / Footer'),
@@ -402,6 +413,7 @@ class CRM_Utils_Menu {
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
                             ),
+
                       array(
                             'path'    => 'civicrm/mailing/send',
                             'title'   => ts('Mailing Message'),

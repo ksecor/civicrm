@@ -257,55 +257,63 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+
+                    // make sure the custom field exists
+                    $cf =& new CRM_Core_BAO_CustomField();
+                    $cf->id = $cfID;
+                    if ( ! $cf->find( true ) ) {
+                        continue;
+                    }
+
+                    // make sure the custom value exists
                     $cv =& new CRM_Core_BAO_CustomValue();
                     $cv->custom_field_id = $cfID;
                     $cv->entity_table = 'civicrm_contact';
                     $cv->entity_id = $this->_id;
-                    if ($cv->find(true)) {
-                        $cf =& new CRM_Core_BAO_CustomField();
-                        $cf->id = $cv->custom_field_id;
-                        $cf->find();
-                        while($cf->fetch()) {
-                            switch($cf->html_type) {
-                            case "Radio":
-                                if($cf->data_type == 'Boolean')
-                                    $customValue = $cv->getValue(true)? 'yes' : 'no';
-                                else
-                                    $customValue = $cv->getValue(true);
+                    if ( ! $cv->find( true ) ) {
+                        continue;
+                    }
 
-                                $defaults[$name] = $customValue;
+                    switch($cf->html_type) {
 
-                                break;
+                    case "Radio":
+                        if($cf->data_type == 'Boolean') {
+                            $customValue = $cv->getValue(true)? 'yes' : 'no';
+                        } else {
+                            $customValue = $cv->getValue(true);
+                        }
+                        $defaults[$name] = $customValue;
+                        break;
                             
-                            case "CheckBox":
-                                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);    
-                                $value = $cv->getValue(true);
-                                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
-                                foreach($customOption as $val) {
-                                    $checkVal = $val['value'];
-                                    $checkName = $name.'['.$checkVal.']';
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$checkName] = 1;
-                                    } else {
-                                        $defaults[$checkName] = 0;
-                                    }
-                                }
-                                break;
-                            case "Select Date":
-                                $date = CRM_Utils_Date::unformat($cv->getValue(true));
-                                $customValue = $date;
-                                $defaults[$name] = $customValue;
-                                break;
-                            default:
-                                $customValue = $cv->getValue(true);
-                                $defaults[$name] = $customValue;
+                    case "CheckBox":
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);    
+                        $value = $cv->getValue(true);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        foreach($customOption as $val) {
+                            $checkVal = $val['value'];
+                            $checkName = $name.'['.$checkVal.']';
+                            if (in_array($val['value'], $checkedData)) {
+                                $defaults[$checkName] = 1;
+                            } else {
+                                $defaults[$checkName] = 0;
                             }
                         }
-                        
+                        break;
+
+                    case "Select Date":
+                        $date = CRM_Utils_Date::unformat($cv->getValue(true));
+                        $customValue = $date;
+                        $defaults[$name] = $customValue;
+                        break;
+
+                    default:
+                        $customValue = $cv->getValue(true);
+                        $defaults[$name] = $customValue;
+                        break;
                     }
-                } else {
-                    $defaults[$name] = $this->_contact->$objName;
                 }
+            } else {
+                $defaults[$name] = $this->_contact->$objName;
             }
         }
         return $defaults;
