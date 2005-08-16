@@ -485,7 +485,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     
                     // Custom Group DAO
                     $cgDAO =& new CRM_Core_DAO();
-                    $strQuery = "SELECT title FROM civicrm.civicrm_custom_group WHERE id = $groupId";
+                    $strQuery = "SELECT title FROM civicrm_custom_group WHERE id = $groupId";
                     $cgDAO->query($strQuery);
                     while($cgDAO->fetch()) {
                         $groupName = $cgDAO->title;
@@ -493,7 +493,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     
                     // Custom Field DAO
                     $cfDAO =& new CRM_Core_DAO();
-                    $strQuery = "SELECT label FROM civicrm.civicrm_custom_field WHERE id = $fieldId";
+                    $strQuery = "SELECT label FROM civicrm_custom_field WHERE id = $fieldId";
                     $cfDAO->query($strQuery);
                     while($cfDAO->fetch()) {
                         $fieldLabel = $cfDAO->label;

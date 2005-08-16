@@ -808,7 +808,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                         $dataType = $crmDAO->civicrm_custom_field_data_type;
                         $htmlType = $crmDAO->civicrm_custom_field_html_type;
                         
-                        $contactSearchQuery = "SELECT entity_id FROM civicrm.civicrm_custom_value";
+                        $contactSearchQuery = "SELECT entity_id FROM civicrm_custom_value";
                         
 
                         switch ($dataType) {
@@ -898,9 +898,9 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             
             if( $customDataConstant ) {
                 if( !empty($intersectArray) ) {
-                    $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
+                    $andArray['custom_data'] = ' ( civicrm_contact.id IN (' . implode( ' , ', $intersectArray ) . ') ) ';
                 } else {
-                    $andArray['custom_data'] = ' ( civicrm.civicrm_contact.id IN (NULL) ) ';
+                    $andArray['custom_data'] = ' ( civicrm_contact.id IN (NULL) ) ';
                 }
             }
         } // end outer if
@@ -1417,11 +1417,18 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
      * 
      * @param  int  $id id of the contact to delete
      *
-     * @return void
+     * @return boolean true if contact deleted, false otherwise
      * @access public
      * @static
      */
     function deleteContact( $id ) {
+
+        // make sure we have edit permission for this contact
+        // before we delete
+        if ( ! self::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
+            return false;
+        }
+            
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         // do a top down deletion
@@ -1478,6 +1485,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         CRM_Utils_Recent::del($id);
 
         CRM_Core_DAO::transaction( 'COMMIT' );
+
+        return true;
     }
 
 

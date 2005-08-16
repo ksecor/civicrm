@@ -545,7 +545,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
                     // Custom Group DAO
                     $cgDAO =& new CRM_Core_DAO();
-                    $strQuery = "SELECT title FROM civicrm.civicrm_custom_group WHERE id = $groupId";
+                    $strQuery = "SELECT title FROM civicrm_custom_group WHERE id = $groupId";
                     $cgDAO->query($strQuery);
                     while($cgDAO->fetch()) {
                         $groupName = $cgDAO->title;
