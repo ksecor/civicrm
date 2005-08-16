@@ -152,7 +152,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
             $this->initializeTemplates();
         }
 
-        $renderer = $page->getRenderer();
+        $renderer =& $page->getRenderer();
     
         $renderer->setRequiredTemplate( self::$_requiredTemplate );
         $renderer->setErrorTemplate   ( self::$_errorTemplate    );
