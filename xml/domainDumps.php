@@ -92,7 +92,7 @@ foreach($subFrKeyTables as $key => $value) {
             if ( array_key_exists($value['foreignKey'][$k]['table'], $nonFrKeyTables) ) {
                 $nonDomArray[$value['foreignKey'][$k]['table']][$value['name']] = array( 'subName' => $value['name'], 'subPrimaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key'] );
             } else {
-                $remains[$value['foreignKey'][$k]['table']] = array( 'table' => $value['name'], 'primaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key']);
+                $remains[$value['name']] = array( 'table' => $value['name'], 'primaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key']);
             }
         }
     }
@@ -104,8 +104,10 @@ foreach($subFrKeyTables as $key => $value) {
 foreach($subFrKeyTables as $key => $value) {
     foreach($value['foreignKey'] as $k => $v) {
         if ( array_key_exists($value['foreignKey'][$k]['table'], $domainArray) ) {
-        //echo $value['name'];
-        //}
+            if ( array_key_exists($value['name'], $domainArray[$value['foreignKey'][$k]['table']]) && array_key_exists($value['name'], $remains) ) {
+                echo $value['name']."\n";
+            }
+        }
     }
 }
 
