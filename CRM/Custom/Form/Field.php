@@ -174,7 +174,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         foreach ($dt as $key => $value) {
             $it[$key] = self::$_dataToHTML[$key];
         }
-        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form);"', '<br />' );
+        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form);"', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');

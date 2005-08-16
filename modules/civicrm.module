@@ -308,7 +308,8 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
 
     $output = array( );
     if ( $html ) {
-        $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
+	$title = CRM_Core_BAO_UFGroup::getRegisteredTitle( );
+        $output[] = array( 'title' => $title, 'data' => $html, weight => 0 );
     }
 
     return $output;

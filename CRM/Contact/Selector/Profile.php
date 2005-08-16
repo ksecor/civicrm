@@ -45,7 +45,43 @@ require_once 'CRM/Contact/BAO/Contact.php';
  
 class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM_Core_Selector_API  
 {
+    /** 
+     * This defines no action
+     * 
+     * @var array 
+     * @static 
+     */ 
+    static $_links = null; 
+ 
+    /** 
+     * we use desc to remind us what that column is, name is used in the tpl 
+     * 
+     * @var array 
+     * @static 
+     */ 
+    static $_columnHeaders; 
     
+    /** 
+     * Class constructor 
+     * 
+     * @return CRM_Contact_Selector_Profile
+     * @access public 
+     */ 
+    function __construct( &$headers ) {
+        self::$_columnHeaders = $headers;
+    }
+
+    /** 
+     * This method returns the links that are given for each search row. 
+     * currently the links added for each row are  
+     *  
+     * @return array 
+     * @access public 
+     */ 
+    static function &links() { 
+        return self::$_links;
+    }
+
 }
 
 ?>

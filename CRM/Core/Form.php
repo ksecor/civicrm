@@ -397,7 +397,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */  
     function toSmarty() {
-        $renderer = $this->getRenderer();
+        $renderer =& $this->getRenderer();
         $this->accept($renderer);
         $content = $renderer->toArray();
         $content['formName'] = $this->getName();
@@ -411,7 +411,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @return object
      * @access public
      */
-    function getRenderer() {
+    function &getRenderer() {
         if (isset($this->_renderer)) {
             return $this->_renderer;
         } else {

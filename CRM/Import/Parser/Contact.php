@@ -225,9 +225,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         if ( $response != CRM_Import_Parser::VALID ) {
             return $response;
         }
-        
+
         $params =& $this->getActiveFieldParams( );
-        
         $formatted = array('contact_type' => 'Individual');
         
         static $indieFields = null;

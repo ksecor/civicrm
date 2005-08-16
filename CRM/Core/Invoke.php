@@ -80,6 +80,8 @@ class CRM_Core_Invoke {
 
         case 'mailing' : return self::mailing ( $args );
 
+        case 'profile' : return self::profile ( $args );
+
         default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
         }
@@ -408,7 +410,7 @@ class CRM_Core_Invoke {
     }
     
     /**
-     * This function contains the actions for admin arguments
+     * This function contains the actions for profile arguments
      *
      * @param $args array this array contains the arguments of the url
      *
@@ -437,6 +439,23 @@ class CRM_Core_Invoke {
 
     }
 
+    /** 
+     * This function contains the actions for profile arguments 
+     * 
+     * @param $args array this array contains the arguments of the url 
+     * 
+     * @static 
+     * @access public 
+     */ 
+    static function profile( $args ) { 
+        if ( $args[1] !== 'profile' ) { 
+            return; 
+        } 
+
+        $page =& new CRM_Contact_Page_Profile( );
+        return $page->run( );
+    }
+    
     /**
      * handle the export case. this is a hack, so please fix soon
      *

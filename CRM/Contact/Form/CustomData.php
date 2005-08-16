@@ -316,50 +316,37 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 // if we dont have a custom value, just continue
-                if ( ! CRM_Utils_Array::value( 'customValue', $field ) ) {
+                if ( CRM_Utils_Array::value( 'customValue', $field ) ) {
+                    $value = $field['customValue']['data'];
+                } else if ( CRM_Utils_Array::value( 'default_value', $field ) ) {
+                    $value = $viewMode ? null : $field['default_value'];
+                } else {
                     continue;
                 }
 
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 switch($field['html_type']) {
+
                 case 'Radio':
                     if ($field['data_type'] != 'Boolean' ) {
-                        if ($viewMode) {
-                            $defaults[$elementName] = $field['customValue']['data'];
-                        } else {
-                            $defaults[$elementName] = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
-                        }
-                    } else {
-                        if ($viewMode) {
-                            if (isset($field['customValue']['data'])) {
-                                $defaults[$elementName] =  $field['customValue']['data'] ? 'yes' : 'no';
-                            } 
-                        } else {
-                            if (isset($field['customValue']['data'])) {
-                                $defaults[$elementName] =  $field['customValue']['data'] ? 'yes' : 'no';
-                            } else {
-                                $field['customValue']['data'] = strtolower($field['default_value']);
-                            }
-                        }
+                        $defaults[$elementName] = $value;
+                    } else if ( isset( $value ) ) {
+                        $defaults[$elementName] =  $value ? ts( 'yes' ) : ts( 'no' );
                     }
                     break;
                     
                 case 'Select':
-                    if ($viewMode) {
-                        $defaults[$elementName] = $field['customValue']['data']; 
-                    } else {
-                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
-                    }
+                    $defaults[$elementName] = $value;
                     break;
                     
                 case 'CheckBox':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                         $defaults[$elementName] = array();
-                        if(isset($field['customValue']['data'])) {
+                        if(isset($value)) {
                             foreach($customOption as $val) {
                                 if (is_array($customValues)) {
                                     if (in_array($val['value'], $checkedData)) {
@@ -399,19 +386,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                     
                 case 'Select Date':
-                    if ($date = $field['customValue']['data']) {
-                        $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
+                    if (isset($value)) {
+                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value );
                     }
                     break;
+
                 default:
-                    if ($viewMode) {
-                        $defaults[$elementName] = isset($field['customValue']['data']) ? $field['customValue']['data'] : ''; 
-                    } else {
-                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
-                    }
+                    $defaults[$elementName] = $value;
                 } 
             }
-        } 
+        }
         return $defaults;
     }
     
