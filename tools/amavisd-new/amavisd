@@ -8472,7 +8472,7 @@ sub process($$) {
         if ($dest eq 'owner') {
             # bounce
             my $soapBody = 
-                SOAP::Data->name('body' => $msginfo->mime_entity->body);
+                SOAP::Data->name('body' => join('', @{$msginfo->mime_entity->body}));
             $result = 
                 $soapClient->crm_mailer_event_bounce(   $soapJobId, 
                                                         $soapQueueId, 
@@ -8486,7 +8486,7 @@ sub process($$) {
         } elsif ($dest eq 'reply') {
             # reply
             my $soapBody = 
-                SOAP::Data->name('body' => $msginfo->mime_entity->body);
+                SOAP::Data->name('body' => join('', @{$msginfo->mime_entity->body}));
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
             my $soapRT = SOAP::Data->name('replyto' => $replyto);
