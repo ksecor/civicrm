@@ -8435,6 +8435,7 @@ BEGIN {
 use SOAP::Lite;
 use MIME::WordDecoder;
 use MIME::Entity;
+use Mail::Address;
 use Mail::Verp;
 
 use subs @EXPORT_OK;
@@ -8464,7 +8465,7 @@ sub process($$) {
     
     my $result;
     
-    if ($hash) {
+    if (defined($hash)) {
         my $soapJobId = SOAP::Data->name('job_id' => $jobId);
         my $soapQueueId = SOAP::Data->name('queue_id' => $qId);
         my $soapHash = SOAP::Data->name('hash' => $hash);
@@ -8541,8 +8542,12 @@ sub process($$) {
 
         my $soapDomain = SOAP::Data->name('domain_id' => $dId);
         my $soapGroup = SOAP::Data->name('group_id' => $gId);
-        my $soapEmail = SOAP::Data->name('email' =>
-            MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From')));
+        my $email = 
+            MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
+        $email = (Mail::Address->parse($email))[0];
+        
+        my $soapEmail = SOAP::Data->name('email' => $email->address);
+        
         $result = 
             $soapClient->srm_mailer_event_subscribe(    $soapEmail,
                                                         $soapDomain, 
