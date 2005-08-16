@@ -599,3 +599,16 @@ INSERT INTO civicrm_mailing_bounce_pattern
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Meeting', 'Schedule a Meeting', 1, 1);
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Phone Call', 'Schedule a Phone Call', 1, 1);
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Email', 'Email Sent', 1, 1);
+
+
+INSERT INTO civicrm_mailing_component
+    (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
+VALUES
+    (%%CIVICRM_DOMAIN_ID%%,'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Subscribe Message','Subscribe','Subscription confirmation request','You have a pending subscription to {subscribe.group}.  To confirm this subscription, reply to this email.','You have a pending subscription to {subscribe.group}.  To confirm this subscription, reply to this email.',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Welcome Message','Welcome','Welcome','Welcome to {welcome.group}!','Welcome to {welcome.group}!',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Unsubscribe Message','Unsubscribe','Unsubscribe results','You have been unsubscribed from {unsubscribe.group}.','You have been unsubscribed from {unsubscribe.group}.',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Opt-out Message','OptOut','Goodbye','You have been removed from {domain.name}.  Goodbye.','You have been removed from {domain.name}.  Goodbye.',1,1),
+    (%%CIVICRM_DOMAIN_ID%%,'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
+

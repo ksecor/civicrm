@@ -963,9 +963,9 @@ function _crm_validate_formatted_contact(&$params) {
     return true;
 }
 
-function _crm_duplicate_formatted_contact(&$params) {
-    if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
-        $error = _crm_error( "Found matching contacts: $ids",
+function &_crm_duplicate_formatted_contact(&$params) {
+    if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
+        $error =& _crm_error( "Found matching contacts: $ids",
                             CRM_Core_Error::DUPLICATE_CONTACT, 
                             'Fatal', $ids );
         return $error;

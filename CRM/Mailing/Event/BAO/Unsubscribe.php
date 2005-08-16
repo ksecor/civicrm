@@ -227,7 +227,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         /* TODO: add links to resubscribe */
         /* TODO: use autoresponder template? */
-        /* TODO: include domain contact information */
+        /* TODO: include domain contact information, or force it into a
+         * component with a token */
 
         $headers = array(
             'Subject'       => ts('Unsubscribe request completed'),
