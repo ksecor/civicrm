@@ -109,7 +109,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         CRM_Core_DAO::transaction('BEGIN');
 
         $do =& new CRM_Core_DAO();
-        $mg         = CRM_Mailing_BAO_MailingGroup::getTableName();
+        $mg         = CRM_Mailing_BAO_Group::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
