@@ -6,10 +6,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM trunk\n"
+"Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-03 16:21+0200\n"
-"PO-Revision-Date: 2005-08-03 16:41+0200\n"
+"POT-Creation-Date: 2005-08-16 14:11+0200\n"
+"PO-Revision-Date: 2005-08-16 14:24+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -18,119 +18,168 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%"
 "100<10 || n%100>=20) ? 1 : 2));\n"
 
-#: CRM/Activity/Form/Meeting.php:80 CRM/Activity/Form/Phonecall.php:83
-#: CRM/Contact/Form/Task/Email.php:112 CRM/Contact/Selector/Activity.php:258
-#: CRM/Core/DAO/EmailHistory.php:141 CRM/Core/DAO/Meeting.php:206
-#: CRM/Core/DAO/Phonecall.php:214 CRM/Mailing/DAO/Component.php:181
-#: CRM/Mailing/DAO/MailingComponent.php:184 CRM/Mailing/DAO/Mailing.php:255
-#: CRM/Mailing/Form/Component.php:78 templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/History/Page/Email.tpl
+#: CRM/Activity/Form/Meeting.php:82 CRM/Activity/Form/OtherActivity.php:89
+#: CRM/Activity/Form/Phonecall.php:86 CRM/Contact/Form/Task/Email.php:126
+#: CRM/Contact/Selector/Activity.php:269 CRM/Core/DAO/Activity.php:221
+#: CRM/Core/DAO/EmailHistory.php:144 CRM/Core/DAO/Meeting.php:209
+#: CRM/Core/DAO/Phonecall.php:217 CRM/Mailing/DAO/Component.php:184
+#: CRM/Mailing/DAO/Mailing.php:258 CRM/Mailing/Form/Component.php:81
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Subject"
 msgstr "Temat"
 
-#: CRM/Activity/Form/Meeting.php:83 CRM/Activity/Form/Phonecall.php:85
+#: CRM/Activity/Form/Meeting.php:83 CRM/Activity/Form/OtherActivity.php:90
+msgid "Please enter a valid subject."
+msgstr "Wprowadź poprawny temat."
+
+#: CRM/Activity/Form/Meeting.php:85 CRM/Activity/Form/OtherActivity.php:92
+#: CRM/Activity/Form/Phonecall.php:88
 msgid "Date and Time"
 msgstr "Data i czas"
 
-#: CRM/Activity/Form/Meeting.php:84 CRM/Contact/Form/Individual.php:91
+#: CRM/Activity/Form/Meeting.php:86 CRM/Activity/Form/OtherActivity.php:93
+#: CRM/Contact/Form/Individual.php:95
 msgid "Select a valid date."
 msgstr "Wybierz poprawną datę."
 
-#: CRM/Activity/Form/Meeting.php:90 CRM/Core/DAO/CustomGroup.php:297
-#: CRM/Core/DAO/Meeting.php:224
+#: CRM/Activity/Form/Meeting.php:87 CRM/Activity/Form/OtherActivity.php:94
+msgid "Please select Scheduled Date."
+msgstr "Wybierz zaplanowany termin."
+
+#: CRM/Activity/Form/Meeting.php:89 CRM/Activity/Form/OtherActivity.php:96
+#: templates/CRM/Activity/Form/Phonecall.tpl
+msgid "Duration"
+msgstr "Czas trwania"
+
+#: CRM/Activity/Form/Meeting.php:92 CRM/Activity/Form/OtherActivity.php:99
+#: CRM/Core/DAO/Activity.php:239 CRM/Core/DAO/CustomGroup.php:300
+#: CRM/Core/DAO/Meeting.php:227
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr "Lokalizacja"
 
-#: CRM/Activity/Form/Meeting.php:92 CRM/Activity/Form/Phonecall.php:98
-#: CRM/Core/DAO/Meeting.php:230 CRM/Core/DAO/Phonecall.php:241
-#: CRM/History/Selector/Activity.php:122
+#: CRM/Activity/Form/Meeting.php:94 CRM/Activity/Form/OtherActivity.php:101
+#: CRM/Activity/Form/Phonecall.php:100 CRM/Core/DAO/Activity.php:245
+#: CRM/Core/DAO/Meeting.php:233 CRM/Core/DAO/Phonecall.php:244
+#: CRM/History/Selector/Activity.php:127
 msgid "Details"
 msgstr "Szczegóły"
 
-#: CRM/Activity/Form/Meeting.php:94 CRM/Activity/Form/Phonecall.php:95
-#: CRM/Contact/DAO/GroupContact.php:159
-#: CRM/Contact/DAO/SubscriptionHistory.php:172
-#: CRM/Contact/Selector/Activity.php:266 CRM/Core/DAO/Meeting.php:234
-#: CRM/Core/DAO/Phonecall.php:245 CRM/Mailing/DAO/Job.php:170
+#: CRM/Activity/Form/Meeting.php:96 CRM/Activity/Form/OtherActivity.php:103
+#: CRM/Activity/Form/Phonecall.php:97 CRM/Contact/DAO/GroupContact.php:162
+#: CRM/Contact/DAO/SubscriptionHistory.php:175
+#: CRM/Contact/Selector/Activity.php:277 CRM/Core/DAO/Activity.php:249
+#: CRM/Core/DAO/Meeting.php:237 CRM/Core/DAO/Phonecall.php:248
+#: CRM/Mailing/DAO/Job.php:173 templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Status"
 msgstr "Stan"
 
-#: CRM/Activity/Form/Meeting.php:95 CRM/Activity/Form/Phonecall.php:96
+#: CRM/Activity/Form/Meeting.php:97 CRM/Activity/Form/OtherActivity.php:104
+#: CRM/Activity/Form/Phonecall.php:98
 msgid "Please select status."
 msgstr "Wybierz stan."
 
-#: CRM/Activity/Form/Phonecall.php:89 CRM/Core/DAO/Phonecall.php:235
+#: CRM/Activity/Form/OtherActivity.php:86
+#: CRM/Contact/Form/Search/Advanced.php:114
+#: CRM/Contact/Selector/Activity.php:164;265
+#: CRM/Core/DAO/ActivityHistory.php:197 CRM/Core/DAO/ActivityType.php:155
+#: CRM/History/Selector/Activity.php:175;258
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Activity Type"
+msgstr "Rodzaj zdarzenia"
+
+#: CRM/Activity/Form/OtherActivity.php:88 CRM/Admin/Form/ActivityType.php:59
+#: CRM/Admin/Form/LocationType.php:59 CRM/Admin/Form/RelationshipType.php:71
+#: CRM/Admin/Form/Tag.php:72 CRM/Commerce/Donation/DAO/DonationPage.php:178
+#: CRM/Commerce/Donation/Form/DonationPage.php:89
+#: CRM/Contact/DAO/Group.php:182 CRM/Contact/DAO/RelationshipType.php:188
+#: CRM/Contact/Form/Task/SaveSearch.php:95
+#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityType.php:165
+#: CRM/Core/DAO/Domain.php:135 CRM/Core/DAO/ImportMapping.php:147
+#: CRM/Core/DAO/LocationType.php:185 CRM/Core/DAO/Tag.php:155
+#: CRM/Core/DAO/Validation.php:171 CRM/History/Selector/Activity.php:175;262
+#: CRM/Mailing/DAO/BounceType.php:126
+#: templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
+#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Description"
+msgstr "Opis"
+
+#: CRM/Activity/Form/Phonecall.php:92 CRM/Core/DAO/Phonecall.php:238
 msgid "Phone Number"
 msgstr "Numer telefonu"
 
-#: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76
-#: CRM/Commerce/Donation/Form/DonationPage.php:105
-#: CRM/Contact/Form/Task/Print.php:79 CRM/Contact/Form/Task/Result.php:88
-#: CRM/Custom/Form/Field.php:268 CRM/Custom/Form/Group.php:124
-#: CRM/Custom/Form/Option.php:152 CRM/Group/Form/DynamicGroup.php:69
-#: CRM/Import/Form/Summary.php:103 CRM/Mailing/Form/Schedule.php:57
-#: CRM/UF/Form/Field.php:169 CRM/UF/Form/Group.php:102
+#: CRM/Activity/Form.php:174 CRM/Admin/Form/RelationshipType.php:79
+#: CRM/Commerce/Donation/Form/DonationPage.php:108
+#: CRM/Contact/Form/Task/Print.php:82 CRM/Contact/Form/Task/Result.php:91
+#: CRM/Custom/Form/Field.php:274 CRM/Custom/Form/Group.php:127
+#: CRM/Custom/Form/Option.php:155 CRM/Group/Form/DynamicGroup.php:72
+#: CRM/Import/Form/Summary.php:106 CRM/Mailing/Form/Schedule.php:60
+#: CRM/UF/Form/Field.php:172 CRM/UF/Form/Group.php:105
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
 msgstr "OK"
 
-#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
-#: CRM/Commerce/Donation/Form/DonationPage.php:94
-#: CRM/Contact/Form/CustomData.php:206 CRM/Contact/Form/Edit.php:300
-#: CRM/Custom/Form/Field.php:255 CRM/Custom/Form/Group.php:113
-#: CRM/Custom/Form/Option.php:141 CRM/Group/Form/Edit.php:101
-#: CRM/Mailing/Form/Component.php:93 CRM/Note/Form/Note.php:120
-#: CRM/UF/Form/Dynamic.php:154 CRM/UF/Form/Field.php:157
-#: CRM/UF/Form/Group.php:91 CRM/UF/Form/Register.php:117
+#: CRM/Activity/Form.php:181 CRM/Admin/Form.php:101
+#: CRM/Commerce/Donation/Form/DonationPage.php:97
+#: CRM/Contact/Form/CustomData.php:209 CRM/Contact/Form/Edit.php:303
+#: CRM/Custom/Form/Field.php:261 CRM/Custom/Form/Group.php:116
+#: CRM/Custom/Form/Option.php:144 CRM/Group/Form/Edit.php:104
+#: CRM/Mailing/Form/Component.php:96 CRM/Note/Form/Note.php:123
+#: CRM/UF/Form/Dynamic.php:157 CRM/UF/Form/Field.php:160
+#: CRM/UF/Form/Group.php:94 CRM/UF/Form/Register.php:120
 #: templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr "Zapisz"
 
-#: CRM/Activity/Form.php:178;190 CRM/Admin/Form.php:101
-#: CRM/Admin/Form/Tag.php:57 CRM/Commerce/Donation/Form/DonationPage.php:98
-#: CRM/Contact/Form/CustomData.php:209 CRM/Contact/Form/Edit.php:307
-#: CRM/Contact/Form/Relationship.php:153;191;198
-#: CRM/Contact/Form/Task/AddToHousehold.php:85;93
-#: CRM/Contact/Form/Task/AddToOrganization.php:86;94
-#: CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:258
-#: CRM/Custom/Form/Group.php:117 CRM/Custom/Form/Option.php:144
-#: CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76
-#: CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:69
-#: CRM/Import/Form/MapField.php:270 CRM/Import/Form/Preview.php:110
-#: CRM/Import/Form/UploadFile.php:94 CRM/Mailing/Form/Component.php:96
-#: CRM/Mailing/Form/Group.php:101 CRM/Mailing/Form/Name.php:68
-#: CRM/Mailing/Form/Schedule.php:60 CRM/Mailing/Form/Test.php:52
-#: CRM/Mailing/Form/Upload.php:88 CRM/Note/Form/Note.php:109;123
-#: CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:160 CRM/UF/Form/Group.php:95
+#: CRM/Activity/Form.php:184;196 CRM/Admin/Form.php:104
+#: CRM/Admin/Form/Tag.php:60 CRM/Commerce/Donation/Form/DonationPage.php:101
+#: CRM/Contact/Form/CustomData.php:212 CRM/Contact/Form/Edit.php:310
+#: CRM/Contact/Form/Relationship.php:156;196;203
+#: CRM/Contact/Form/Task/AddToHousehold.php:98;106
+#: CRM/Contact/Form/Task/AddToOrganization.php:100;108
+#: CRM/Contact/Form/Task.php:169 CRM/Custom/Form/Field.php:264
+#: CRM/Custom/Form/Group.php:120 CRM/Custom/Form/Option.php:147
+#: CRM/Group/Form/Delete.php:90 CRM/Group/Form/DynamicGroup.php:79
+#: CRM/Group/Form/Edit.php:107 CRM/History/Form/Activity.php:72
+#: CRM/Import/Form/MapField.php:273 CRM/Import/Form/Preview.php:113
+#: CRM/Import/Form/UploadFile.php:97 CRM/Mailing/Form/Component.php:99
+#: CRM/Mailing/Form/Group.php:104 CRM/Mailing/Form/Name.php:71
+#: CRM/Mailing/Form/Schedule.php:63 CRM/Mailing/Form/Test.php:55
+#: CRM/Mailing/Form/Upload.php:91 CRM/Note/Form/Note.php:112;126
+#: CRM/Tag/Form/Tag.php:97 CRM/UF/Form/Field.php:163 CRM/UF/Form/Group.php:98
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: CRM/Activity/Form.php:187 CRM/Admin/Form/Tag.php:54
-#: CRM/Admin/Page/Tag.php:80 CRM/Contact/Form/Relationship.php:150
-#: CRM/Contact/Page/SavedSearch.php:161 CRM/Contact/Page/View/Note.php:177
-#: CRM/Contact/Page/View/Relationship.php:192
-#: CRM/Contact/Selector/Activity.php:122 CRM/Group/Page/Group.php:72;100
-#: CRM/History/Form/Activity.php:66 CRM/History/Selector/Activity.php:128
-#: CRM/Note/Form/Note.php:106
+#: CRM/Activity/Form.php:193 CRM/Admin/Form/Tag.php:57
+#: CRM/Admin/Page/Tag.php:83 CRM/Contact/Form/Relationship.php:153
+#: CRM/Contact/Page/SavedSearch.php:164 CRM/Contact/Page/View/Note.php:187
+#: CRM/Contact/Page/View/Relationship.php:197
+#: CRM/Contact/Selector/Activity.php:122 CRM/Group/Page/Group.php:75;103
+#: CRM/History/Form/Activity.php:69 CRM/History/Selector/Activity.php:133
+#: CRM/Note/Form/Note.php:109
 msgid "Delete"
 msgstr "Usuń"
 
-#: CRM/Admin/Form/ActivityType.php:52 CRM/Admin/Form/IMProvider.php:52
-#: CRM/Admin/Form/LocationType.php:52 CRM/Admin/Form/MobileProvider.php:52
-#: CRM/Admin/Form/Tag.php:63 CRM/Commerce/Donation/DAO/DonationPage.php:169
-#: CRM/Commerce/Donation/Form/DonationPage.php:83
-#: CRM/Contact/DAO/Group.php:167 CRM/Contact/Form/Task/SaveSearch.php:86
-#: CRM/Contact/Selector.php:487 CRM/Core/DAO/CustomField.php:230
-#: CRM/Core/DAO/CustomGroup.php:187 CRM/Core/DAO/Domain.php:126
-#: CRM/Core/DAO/ImportMappingField.php:146 CRM/Core/DAO/ImportMapping.php:138
-#: CRM/Core/DAO/MobileProvider.php:141 CRM/Core/DAO/Tag.php:146
-#: CRM/Mailing/DAO/BounceType.php:118 CRM/Mailing/DAO/Mailing.php:231
-#: CRM/Mailing/Form/Component.php:72 templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Admin/Form/ActivityType.php:55 CRM/Admin/Form/IMProvider.php:55
+#: CRM/Admin/Form/LocationType.php:55 CRM/Admin/Form/MobileProvider.php:55
+#: CRM/Admin/Form/Tag.php:66 CRM/Commerce/Donation/DAO/DonationPage.php:172
+#: CRM/Commerce/Donation/Form/DonationPage.php:86
+#: CRM/Contact/DAO/Group.php:170 CRM/Contact/Form/Task/SaveSearch.php:89
+#: CRM/Contact/Selector.php:549 CRM/Core/DAO/CustomField.php:233
+#: CRM/Core/DAO/CustomGroup.php:190 CRM/Core/DAO/Domain.php:129
+#: CRM/Core/DAO/ImportMappingField.php:149 CRM/Core/DAO/ImportMapping.php:141
+#: CRM/Core/DAO/MobileProvider.php:144 CRM/Core/DAO/Tag.php:149
+#: CRM/Mailing/DAO/BounceType.php:121 CRM/Mailing/DAO/Mailing.php:234
+#: CRM/Mailing/Form/Component.php:75 templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -142,37 +191,17 @@ msgstr "Usuń"
 msgid "Name"
 msgstr "Nazwa"
 
-#: CRM/Admin/Form/ActivityType.php:54 CRM/Admin/Form/IMProvider.php:55
-#: CRM/Admin/Form/LocationType.php:54 CRM/Admin/Form/MobileProvider.php:55
-#: CRM/Admin/Form/RelationshipType.php:56;61 CRM/Admin/Form/Tag.php:67
-#: CRM/Contact/Form/Task/SaveSearch.php:97 CRM/Group/Form/Edit.php:93
-#: CRM/Mailing/Form/Component.php:74 CRM/Mailing/Form/Name.php:52
+#: CRM/Admin/Form/ActivityType.php:57 CRM/Admin/Form/IMProvider.php:58
+#: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/MobileProvider.php:58
+#: CRM/Admin/Form/RelationshipType.php:59;64 CRM/Admin/Form/Tag.php:70
+#: CRM/Contact/Form/Task/SaveSearch.php:91;104 CRM/Group/Form/Edit.php:96
+#: CRM/Mailing/Form/Component.php:77 CRM/Mailing/Form/Name.php:55
 msgid "Name already exists in Database."
 msgstr "Nazwa już występuje w bazie danych."
 
-#: CRM/Admin/Form/ActivityType.php:56 CRM/Admin/Form/LocationType.php:56
-#: CRM/Admin/Form/RelationshipType.php:68 CRM/Admin/Form/Tag.php:69
-#: CRM/Commerce/Donation/DAO/DonationPage.php:175
-#: CRM/Commerce/Donation/Form/DonationPage.php:86
-#: CRM/Contact/DAO/Group.php:179 CRM/Contact/DAO/RelationshipType.php:185
-#: CRM/Contact/Form/Task/SaveSearch.php:88
-#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityType.php:169
-#: CRM/Core/DAO/Domain.php:132 CRM/Core/DAO/ImportMapping.php:144
-#: CRM/Core/DAO/LocationType.php:169 CRM/Core/DAO/Tag.php:152
-#: CRM/Core/DAO/Validation.php:168 CRM/History/Selector/Activity.php:170;257
-#: CRM/Mailing/DAO/BounceType.php:123
-#: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-#: templates/CRM/Contact/Page/SavedSearch.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Group/Page/Group.tpl
-msgid "Description"
-msgstr "Opis"
-
-#: CRM/Admin/Form/ActivityType.php:58 CRM/Admin/Form/IMProvider.php:57
-#: CRM/Admin/Form/LocationType.php:58 CRM/Admin/Form/MobileProvider.php:57
-#: CRM/Admin/Form/RelationshipType.php:70 CRM/Mailing/Form/Component.php:89
+#: CRM/Admin/Form/ActivityType.php:61 CRM/Admin/Form/IMProvider.php:60
+#: CRM/Admin/Form/LocationType.php:61 CRM/Admin/Form/MobileProvider.php:60
+#: CRM/Admin/Form/RelationshipType.php:73 CRM/Mailing/Form/Component.php:92
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -181,114 +210,112 @@ msgstr "Opis"
 msgid "Enabled?"
 msgstr "Włączony?"
 
-#: CRM/Admin/Form/ActivityType.php:59 CRM/Admin/Form/LocationType.php:59
-#: CRM/Mailing/Form/Component.php:88 templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/MobileProvider.php:57
+#: CRM/Admin/Form/Tag.php:68 CRM/Custom/Form/Group.php:87
+#: CRM/UF/Form/Group.php:87
+msgid "Please enter a valid name."
+msgstr "Wprowadź poprawną nazwę."
+
+#: CRM/Admin/Form/LocationType.php:62 CRM/Mailing/Form/Component.php:91
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Default?"
 msgstr "Domyślnie?"
 
-#: CRM/Admin/Form/IMProvider.php:54 CRM/Admin/Form/MobileProvider.php:54
-#: CRM/Admin/Form/Tag.php:65 CRM/Custom/Form/Group.php:84
-#: CRM/UF/Form/Group.php:84
-msgid "Please enter a valid name."
-msgstr "Wprowadź poprawną nazwę."
-
-#: CRM/Admin/Page/ActivityType.php:72 CRM/Admin/Page/IMProvider.php:72
-#: CRM/Admin/Page/LocationType.php:72 CRM/Admin/Page/MobileProvider.php:74
-#: CRM/Admin/Page/RelationshipType.php:79 CRM/Admin/Page/Tag.php:74
-#: CRM/Contact/Page/View/Note.php:171
-#: CRM/Contact/Page/View/Relationship.php:172
-#: CRM/Contact/Selector/Activity.php:116 CRM/Contact/Selector.php:150
-#: CRM/Group/Page/Group.php:66;94 CRM/Mailing/Page/Component.php:71
-#: CRM/UF/Page/Field.php:76 templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Admin/Page/ActivityType.php:75 CRM/Admin/Page/IMProvider.php:75
+#: CRM/Admin/Page/LocationType.php:75 CRM/Admin/Page/MobileProvider.php:77
+#: CRM/Admin/Page/RelationshipType.php:82 CRM/Admin/Page/Tag.php:77
+#: CRM/Contact/Page/View/Note.php:181
+#: CRM/Contact/Page/View/Relationship.php:177
+#: CRM/Contact/Selector/Activity.php:116 CRM/Contact/Selector.php:153
+#: CRM/Group/Page/Group.php:69;97 CRM/Mailing/Page/Component.php:74
+#: CRM/UF/Page/Field.php:79 templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Edit"
 msgstr "Edytuj"
 
-#: CRM/Admin/Page/ActivityType.php:78 CRM/Admin/Page/IMProvider.php:78
-#: CRM/Admin/Page/LocationType.php:78 CRM/Admin/Page/MobileProvider.php:80
-#: CRM/Admin/Page/RelationshipType.php:85
-#: CRM/Commerce/Donation/Page/DonationPage.php:89
-#: CRM/Contact/Page/View/Relationship.php:185 CRM/Custom/Page/Field.php:94
-#: CRM/Custom/Page/Group.php:86 CRM/Custom/Page/Option.php:102
-#: CRM/Mailing/Page/Component.php:77 CRM/UF/Page/Field.php:88
-#: CRM/UF/Page/Group.php:80
+#: CRM/Admin/Page/ActivityType.php:81 CRM/Admin/Page/IMProvider.php:81
+#: CRM/Admin/Page/LocationType.php:81 CRM/Admin/Page/MobileProvider.php:83
+#: CRM/Admin/Page/RelationshipType.php:88
+#: CRM/Commerce/Donation/Page/DonationPage.php:92
+#: CRM/Contact/Page/View/Relationship.php:190 CRM/Custom/Page/Field.php:97
+#: CRM/Custom/Page/Group.php:89 CRM/Custom/Page/Option.php:105
+#: CRM/Mailing/Page/Component.php:80 CRM/UF/Page/Field.php:91
+#: CRM/UF/Page/Group.php:83
 msgid "Disable"
 msgstr "Wyłącz"
 
-#: CRM/Admin/Page/ActivityType.php:85 CRM/Admin/Page/IMProvider.php:85
-#: CRM/Admin/Page/LocationType.php:85 CRM/Admin/Page/MobileProvider.php:87
-#: CRM/Admin/Page/RelationshipType.php:92
-#: CRM/Commerce/Donation/Page/DonationPage.php:96
-#: CRM/Contact/Page/View/Relationship.php:178 CRM/Custom/Page/Field.php:101
-#: CRM/Custom/Page/Group.php:93 CRM/Custom/Page/Option.php:96
-#: CRM/Mailing/Page/Component.php:84 CRM/UF/Page/Field.php:95
-#: CRM/UF/Page/Group.php:87
+#: CRM/Admin/Page/ActivityType.php:88 CRM/Admin/Page/IMProvider.php:88
+#: CRM/Admin/Page/LocationType.php:88 CRM/Admin/Page/MobileProvider.php:90
+#: CRM/Admin/Page/RelationshipType.php:95
+#: CRM/Commerce/Donation/Page/DonationPage.php:99
+#: CRM/Contact/Page/View/Relationship.php:183 CRM/Custom/Page/Field.php:104
+#: CRM/Custom/Page/Group.php:96 CRM/Custom/Page/Option.php:99
+#: CRM/Mailing/Page/Component.php:87 CRM/UF/Page/Field.php:98
+#: CRM/UF/Page/Group.php:90
 msgid "Enable"
 msgstr "Włącz"
 
-#: CRM/Admin/Page/RelationshipType.php:73 CRM/Contact/Page/View/Note.php:165
-#: CRM/Contact/Page/View/Relationship.php:166 CRM/Contact/Selector.php:144
-#: CRM/Custom/Page/Option.php:84 CRM/UF/Page/Field.php:82
+#: CRM/Admin/Page/RelationshipType.php:76 CRM/Contact/Page/View/Note.php:175
+#: CRM/Contact/Page/View/Relationship.php:171 CRM/Contact/Selector.php:147
+#: CRM/Custom/Page/Option.php:87 CRM/UF/Page/Field.php:85
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
 msgstr "Zobacz"
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:68 CRM/Custom/Page/Group.php:65
+#: CRM/Commerce/Donation/Page/DonationPage.php:71 CRM/Custom/Page/Group.php:68
 msgid "Are you sure you want to disable this custom data group?"
 msgstr "Na pewno wyłączyć tę grupę danych dodatkowych?"
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:158 CRM/Core/Invoke.php:310
+#: CRM/Commerce/Donation/Page/DonationPage.php:161 CRM/Core/Invoke.php:353
 #: templates/CRM/Commerce/Donation/Form/DonationPage.tpl
-#, fuzzy
 msgid "Donation Page"
-msgstr "Strona kontaktu"
+msgstr "Strona dotacji"
 
-#: CRM/Contact/BAO/Contact.php:1036 CRM/Contact/DAO/Contact.php:399
-#: CRM/Contact/DAO/RelationshipType.php:267;272
-#: CRM/Contact/Form/Relationship.php:352 CRM/Contact/Selector.php:265
-#: CRM/Core/DAO/CustomGroup.php:294
+#: CRM/Contact/BAO/Contact.php:1154 CRM/Contact/DAO/Contact.php:406
+#: CRM/Contact/DAO/RelationshipType.php:270;275
+#: CRM/Contact/Form/Relationship.php:360 CRM/Contact/Selector.php:286
+#: CRM/Core/DAO/CustomGroup.php:297
 msgid "Individual"
 msgstr "Osoba"
 
-#: CRM/Contact/BAO/Contact.php:1039 CRM/Contact/DAO/Contact.php:401
-#: CRM/Contact/DAO/RelationshipType.php:269;274
-#: CRM/Contact/Form/Relationship.php:355
-#: CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Selector.php:268
-#: CRM/Core/DAO/CustomGroup.php:295 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php:1157 CRM/Contact/DAO/Contact.php:408
+#: CRM/Contact/DAO/RelationshipType.php:272;277
+#: CRM/Contact/Form/Relationship.php:363
+#: CRM/Contact/Form/Task/AddToHousehold.php:96 CRM/Contact/Selector.php:289
+#: CRM/Core/DAO/CustomGroup.php:298 templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Mieszkanie"
 
-#: CRM/Contact/BAO/Contact.php:1042 CRM/Contact/DAO/Contact.php:400
-#: CRM/Contact/DAO/RelationshipType.php:268;273
-#: CRM/Contact/Form/Relationship.php:358
-#: CRM/Contact/Form/Task/AddToOrganization.php:84 CRM/Contact/Selector.php:271
-#: CRM/Core/DAO/CustomGroup.php:296 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php:1160 CRM/Contact/DAO/Contact.php:407
+#: CRM/Contact/DAO/RelationshipType.php:271;276
+#: CRM/Contact/Form/Relationship.php:366
+#: CRM/Contact/Form/Task/AddToOrganization.php:98 CRM/Contact/Selector.php:292
+#: CRM/Core/DAO/CustomGroup.php:299 templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Organizacja"
 
-#: CRM/Contact/DAO/Contact.php:239 CRM/Contact/Selector.php:191;485
+#: CRM/Contact/DAO/Contact.php:242 CRM/Contact/Selector.php:201;547
 msgid "Contact Type"
 msgstr "Rodzaj kontaktu"
 
-#: CRM/Contact/DAO/Contact.php:275 CRM/Contact/Form/Household.php:60
-#: CRM/Contact/Form/Individual.php:73 CRM/Contact/Form/Organization.php:64
+#: CRM/Contact/DAO/Contact.php:278 CRM/Contact/Form/Household.php:63
+#: CRM/Contact/Form/Individual.php:76 CRM/Contact/Form/Organization.php:67
 msgid "Nick Name"
 msgstr "Ksywa"
 
-#: CRM/Contact/DAO/Contact.php:297 CRM/Contact/DAO/Group.php:185
+#: CRM/Contact/DAO/Contact.php:304 CRM/Contact/DAO/Group.php:188
 msgid "Source"
 msgstr "Źródło"
 
-#: CRM/Contact/DAO/Contact.php:327 CRM/Mailing/Event/DAO/Queue.php:154
-#: CRM/Mailing/Event/DAO/Subscribe.php:149
+#: CRM/Contact/DAO/Contact.php:334 CRM/Mailing/Event/DAO/Queue.php:157
+#: CRM/Mailing/Event/DAO/Subscribe.php:152
 msgid "Hash"
 msgstr "Hash"
 
-#: CRM/Contact/DAO/Contact.php:404 CRM/Contact/Form/Phone.php:55
-#: CRM/Contact/Import/Base.php:27 CRM/Contact/Selector.php:517
-#: CRM/Core/DAO/Phone.php:153;234 CRM/Core/DAO/Validation.php:238
-#: CRM/Core/SelectValues.php:106;142
+#: CRM/Contact/DAO/Contact.php:411 CRM/Contact/Form/Phone.php:58
+#: CRM/Contact/Import/Base.php:61 CRM/Contact/Selector.php:579
+#: CRM/Core/DAO/Phone.php:156;237 CRM/Core/DAO/Validation.php:241
+#: CRM/Core/SelectValues.php:109;145
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -298,10 +325,10 @@ msgstr "Hash"
 msgid "Phone"
 msgstr "Telefon"
 
-#: CRM/Contact/DAO/Contact.php:405 CRM/Contact/DAO/SubscriptionHistory.php:245
-#: CRM/Contact/Import/Base.php:26 CRM/Contact/Selector.php:513
-#: CRM/Core/DAO/Email.php:159 CRM/Core/DAO/UFMatch.php:154
-#: CRM/Core/DAO/Validation.php:235 CRM/Core/SelectValues.php:143
+#: CRM/Contact/DAO/Contact.php:412 CRM/Contact/DAO/SubscriptionHistory.php:248
+#: CRM/Contact/Import/Base.php:60 CRM/Contact/Selector.php:575
+#: CRM/Core/DAO/Email.php:162 CRM/Core/DAO/UFMatch.php:157
+#: CRM/Core/DAO/Validation.php:238 CRM/Core/SelectValues.php:146
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -311,115 +338,114 @@ msgstr "Telefon"
 msgid "Email"
 msgstr "Email"
 
-#: CRM/Contact/DAO/Contact.php:409 CRM/Core/DAO/CustomField.php:372
-#: CRM/Core/SelectValues.php:196
+#: CRM/Contact/DAO/Contact.php:416 CRM/Core/DAO/CustomField.php:375
+#: CRM/Core/SelectValues.php:199 CRM/Custom/Form/Field.php:190
 msgid "Text"
 msgstr "Tekst"
 
-#: CRM/Contact/DAO/GroupContact.php:230
-#: CRM/Contact/DAO/SubscriptionHistory.php:250 CRM/Core/SelectValues.php:277
-msgid "In"
-msgstr "W"
+#: CRM/Contact/DAO/GroupContact.php:233
+#: CRM/Contact/DAO/SubscriptionHistory.php:253 CRM/Core/SelectValues.php:280
+msgid "Added"
+msgstr "Dodany"
 
-#: CRM/Contact/DAO/GroupContact.php:231
-#: CRM/Contact/DAO/SubscriptionHistory.php:251 CRM/Core/SelectValues.php:278
-msgid "Out"
-msgstr "Poza"
+#: CRM/Contact/DAO/GroupContact.php:234
+#: CRM/Contact/DAO/SubscriptionHistory.php:254 CRM/Core/SelectValues.php:281
+msgid "Removed"
+msgstr "Usunięty"
 
-#: CRM/Contact/DAO/GroupContact.php:232
-#: CRM/Contact/DAO/SubscriptionHistory.php:252 CRM/Core/SelectValues.php:279
+#: CRM/Contact/DAO/GroupContact.php:235
+#: CRM/Contact/DAO/SubscriptionHistory.php:255 CRM/Core/SelectValues.php:282
 msgid "Pending"
 msgstr "Oczekuje"
 
-#: CRM/Contact/DAO/Group.php:173 CRM/Core/DAO/CustomGroup.php:193
-#: CRM/Core/DAO/UFGroup.php:152
+#: CRM/Contact/DAO/Group.php:176 CRM/Core/DAO/CustomGroup.php:196
+#: CRM/Core/DAO/UFGroup.php:155
 msgid "Title"
 msgstr "Tytuł"
 
-#: CRM/Contact/DAO/Household.php:139 CRM/Contact/Form/Household.php:57
+#: CRM/Contact/DAO/Household.php:142 CRM/Contact/Form/Household.php:60
 msgid "Household Name"
 msgstr "Nazwa mieszkania"
 
-#: CRM/Contact/DAO/Individual.php:218 CRM/Contact/Form/Individual.php:61
-#: CRM/Contact/Import/Base.php:14
+#: CRM/Contact/DAO/Individual.php:221 CRM/Contact/Form/Individual.php:64
+#: CRM/Contact/Import/Base.php:48
 msgid "First Name"
 msgstr "Imię"
 
-#: CRM/Contact/DAO/Individual.php:228 CRM/Contact/Form/Individual.php:64
-#: CRM/Contact/Import/Base.php:15
+#: CRM/Contact/DAO/Individual.php:231 CRM/Contact/Form/Individual.php:67
+#: CRM/Contact/Import/Base.php:49
 msgid "Middle Name"
 msgstr "Drugie imię"
 
-#: CRM/Contact/DAO/Individual.php:238 CRM/Contact/Form/Individual.php:67
-#: CRM/Contact/Import/Base.php:16
+#: CRM/Contact/DAO/Individual.php:241 CRM/Contact/Form/Individual.php:70
+#: CRM/Contact/Import/Base.php:50
 msgid "Last Name"
 msgstr "Nazwisko"
 
-#: CRM/Contact/DAO/Individual.php:248 CRM/Contact/Form/Individual.php:56
-#: CRM/Contact/Import/Base.php:17
+#: CRM/Contact/DAO/Individual.php:251 CRM/Contact/Form/Individual.php:59
+#: CRM/Contact/Import/Base.php:51
 msgid "Prefix"
 msgstr "Prefiks"
 
-#: CRM/Contact/DAO/Individual.php:258 CRM/Contact/Form/Individual.php:70
-#: CRM/Contact/Import/Base.php:18
+#: CRM/Contact/DAO/Individual.php:261 CRM/Contact/Form/Individual.php:73
+#: CRM/Contact/Import/Base.php:52
 msgid "Suffix"
 msgstr "Przyrostek"
 
-#: CRM/Contact/DAO/Individual.php:278 CRM/Contact/Import/Base.php:19
+#: CRM/Contact/DAO/Individual.php:281 CRM/Contact/Import/Base.php:53
 msgid "Job Title"
 msgstr "Stanowisko"
 
-#: CRM/Contact/DAO/Individual.php:284
-#: CRM/Contact/Form/Individual.php:83;84;85;86
+#: CRM/Contact/DAO/Individual.php:287
+#: CRM/Contact/Form/Individual.php:87;88;89;90
 msgid "Gender"
 msgstr "Płeć"
 
-#: CRM/Contact/DAO/Individual.php:373 CRM/Contact/Form/Individual.php:83
+#: CRM/Contact/DAO/Individual.php:376 CRM/Contact/Form/Individual.php:87
 msgid "Female"
 msgstr "Kobieta"
 
-#: CRM/Contact/DAO/Individual.php:374 CRM/Contact/Form/Individual.php:84
+#: CRM/Contact/DAO/Individual.php:377 CRM/Contact/Form/Individual.php:88
 msgid "Male"
 msgstr "Mężczyzna"
 
-#: CRM/Contact/DAO/Individual.php:375 CRM/Contact/Form/Individual.php:85
+#: CRM/Contact/DAO/Individual.php:378 CRM/Contact/Form/Individual.php:89
 msgid "Transgender"
 msgstr "Transseksualista"
 
-#: CRM/Contact/DAO/Organization.php:153 CRM/Contact/Form/Organization.php:58
+#: CRM/Contact/DAO/Organization.php:156 CRM/Contact/Form/Organization.php:61
 msgid "Organization Name"
 msgstr "Nazwa organizacji"
 
-#: CRM/Contact/DAO/Organization.php:159 CRM/Contact/Form/Organization.php:61
+#: CRM/Contact/DAO/Organization.php:162 CRM/Contact/Form/Organization.php:64
 msgid "Legal Name"
 msgstr "Nazwa prawna"
 
-#: CRM/Contact/DAO/Relationship.php:169 CRM/Contact/Form/Relationship.php:168
-#: CRM/Mailing/DAO/Job.php:162 CRM/Mailing/DAO/MailingJob.php:158
-#: CRM/Mailing/Form/Schedule.php:47
+#: CRM/Contact/DAO/Relationship.php:172 CRM/Contact/Form/Relationship.php:171
+#: CRM/Mailing/DAO/Job.php:165 CRM/Mailing/Form/Schedule.php:50
 msgid "Start Date"
 msgstr "Data rozpoczęcia"
 
-#: CRM/Contact/DAO/Relationship.php:173 CRM/Contact/Form/Relationship.php:169
-#: CRM/Mailing/DAO/Job.php:166 CRM/Mailing/DAO/MailingJob.php:162
+#: CRM/Contact/DAO/Relationship.php:176 CRM/Contact/Form/Relationship.php:172
+#: CRM/Mailing/DAO/Job.php:169
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "Data zakończenia"
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:163 CRM/Core/BAO/CustomField.php:77
-#: CRM/Core/DAO/CustomField.php:366 CRM/Core/SelectValues.php:201
+#: CRM/Contact/DAO/SubscriptionHistory.php:166 CRM/Core/BAO/CustomField.php:80
+#: CRM/Core/DAO/CustomField.php:369 CRM/Core/SelectValues.php:204
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
 msgstr "Data"
 
-#: CRM/Contact/Form/Address.php:54 CRM/Core/DAO/Address.php:289
+#: CRM/Contact/Form/Address.php:57 CRM/Core/DAO/Address.php:292
 msgid "Street Address"
 msgstr "Adres"
 
-#: CRM/Contact/Form/Address.php:64 CRM/Contact/Form/Search/Advanced.php:79
-#: CRM/Contact/Import/Base.php:22 CRM/Contact/Selector.php:493
-#: CRM/Core/DAO/Address.php:365 templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Contact/Form/Address.php:67 CRM/Contact/Form/Search/Advanced.php:82
+#: CRM/Contact/Import/Base.php:56 CRM/Contact/Selector.php:555
+#: CRM/Core/DAO/Address.php:368 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -428,86 +454,96 @@ msgstr "Adres"
 msgid "City"
 msgstr "Miejscowość"
 
-#: CRM/Contact/Form/Address.php:73 CRM/Contact/Form/Test.php:76
+#: CRM/Contact/Form/Address.php:76 CRM/Contact/Form/Test.php:79
 msgid "State / Province"
 msgstr "Stan / Województwo"
 
-#: CRM/Contact/Form/Address.php:74;77 CRM/Contact/Form/Relationship.php:162
-#: CRM/Contact/Form/Search/Advanced.php:208;223;228
-#: CRM/Contact/Form/Test.php:81 CRM/Core/BAO/CustomField.php:322;332
-#: CRM/Custom/Form/Preview.php:194;199 CRM/UF/Form/Dynamic.php:134;137
-#: CRM/UF/Form/Register.php:102;105
+#: CRM/Contact/Form/Address.php:77;80 CRM/Contact/Form/Relationship.php:165
+#: CRM/Contact/Form/Search/Advanced.php:230;245;250
+#: CRM/Contact/Form/Task/AddToHousehold.php:69
+#: CRM/Contact/Form/Task/AddToOrganization.php:69 CRM/Contact/Form/Test.php:84
+#: CRM/Core/BAO/CustomField.php:325;335 CRM/Custom/Form/Preview.php:201;206
+#: CRM/UF/Form/Dynamic.php:137;140 CRM/UF/Form/Register.php:105;108
 msgid "- select -"
 msgstr "- wybierz -"
 
-#: CRM/Contact/Form/Address.php:76 CRM/Contact/Form/Search/Advanced.php:87
-#: CRM/Contact/Form/Test.php:81 CRM/Contact/Import/Base.php:24
-#: CRM/Contact/Selector.php:508 CRM/Core/BAO/CustomField.php:80
-#: CRM/Core/DAO/Country.php:133 CRM/Core/DAO/County.php:134
-#: CRM/Core/DAO/CustomField.php:369 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Form/Address.php:79 CRM/Contact/Form/Search/Advanced.php:90
+#: CRM/Contact/Form/Test.php:84 CRM/Contact/Import/Base.php:58
+#: CRM/Contact/Selector.php:570 CRM/Core/BAO/CustomField.php:83
+#: CRM/Core/DAO/Country.php:136 CRM/Core/DAO/County.php:137
+#: CRM/Core/DAO/CustomField.php:372 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "Kraj"
 
-#: CRM/Contact/Form/Individual.php:138 CRM/UF/Form/Dynamic.php:209
+#: CRM/Contact/Form/Individual.php:97 CRM/Contact/Form/Organization.php:74
+msgid "Website"
+msgstr "Strona WWW"
+
+#: CRM/Contact/Form/Individual.php:145 CRM/UF/Form/Dynamic.php:212
 msgid "One matching contact was found. You can edit it here: %1"
 msgid_plural "%count matching contacts were found. You can edit them here: %1"
 msgstr[0] "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1"
 msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1"
 msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
 
-#: CRM/Contact/Form/Relationship.php:123 CRM/Mailing/Form/Schedule.php:78
+#: CRM/Contact/Form/Relationship.php:125
+#: CRM/Contact/Form/Task/AddToHousehold.php:71
+#: CRM/Contact/Form/Task/AddToOrganization.php:73
+msgid "Please select a relationship type."
+msgstr "Wybierz rodzaj powiązania."
+
+#: CRM/Contact/Form/Relationship.php:126 CRM/Mailing/Form/Schedule.php:81
 msgid "Start date is not valid."
 msgstr "Data początkowa jest niepoprawna."
 
-#: CRM/Contact/Form/Relationship.php:190 CRM/Contact/Form/Search.php:286
-#: CRM/Contact/Form/Task/AddToHousehold.php:84
-#: CRM/Contact/Form/Task/AddToOrganization.php:85
-#: CRM/Contact/Page/SavedSearch.php:155;158 CRM/Core/Invoke.php:210
-#: CRM/Group/Page/Group.php:91 templates/CRM/Block/Search.tpl
+#: CRM/Contact/Form/Relationship.php:164
+#: CRM/Contact/Form/Task/AddToHousehold.php:68
+#: CRM/Contact/Form/Task/AddToOrganization.php:68
+msgid "Relationship Type"
+msgstr "Rodzaj powiązania"
+
+#: CRM/Contact/Form/Relationship.php:195 CRM/Contact/Form/Search.php:286
+#: CRM/Contact/Form/Task/AddToHousehold.php:97
+#: CRM/Contact/Form/Task/AddToOrganization.php:99
+#: CRM/Contact/Page/SavedSearch.php:158;161 CRM/Core/Invoke.php:253
+#: CRM/Group/Page/Group.php:94 templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr "Szukaj"
 
-#: CRM/Contact/Form/Search/Advanced.php:77 CRM/Contact/Form/Search.php:310
+#: CRM/Contact/Form/Search/Advanced.php:80 CRM/Contact/Form/Search.php:310
 msgid "Find..."
 msgstr "Znajdź…"
 
-#: CRM/Contact/Form/Search/Advanced.php:78 CRM/Core/DAO/Address.php:315
+#: CRM/Contact/Form/Search/Advanced.php:81 CRM/Core/DAO/Address.php:318
 msgid "Street Name"
 msgstr "Nazwa ulicy"
 
-#: CRM/Contact/Form/Search/Advanced.php:83 CRM/Core/BAO/CustomField.php:79
+#: CRM/Contact/Form/Search/Advanced.php:86 CRM/Core/BAO/CustomField.php:82
 msgid "State/Province"
 msgstr "Stan/województwo"
 
-#: CRM/Contact/Form/Search/Advanced.php:90 CRM/Contact/Import/Base.php:25
-#: CRM/Core/DAO/Address.php:381
+#: CRM/Contact/Form/Search/Advanced.php:93 CRM/Contact/Import/Base.php:59
+#: CRM/Core/DAO/Address.php:384
 msgid "Postal Code"
 msgstr "Kod pocztowy"
 
-#: CRM/Contact/Form/Search/Advanced.php:96;115
-#: CRM/Contact/Form/Task/Email.php:92 templates/CRM/History/Page/Email.tpl
+#: CRM/Contact/Form/Search/Advanced.php:99;118
+#: CRM/Contact/Form/Task/Email.php:106
+#: templates/CRM/Contact/Page/View/Email.tpl
 msgid "To"
 msgstr "Do"
 
-#: CRM/Contact/Form/Search/Advanced.php:105 CRM/Utils/Menu.php:121
+#: CRM/Contact/Form/Search/Advanced.php:108 CRM/Utils/Menu.php:124
 msgid "Location Types"
 msgstr "Rodzaje lokalizacji"
 
-#: CRM/Contact/Form/Search/Advanced.php:111
-#: CRM/Contact/Selector/Activity.php:164;254
-#: CRM/Core/DAO/ActivityHistory.php:194 CRM/Core/DAO/ActivityType.php:159
-#: CRM/History/Selector/Activity.php:170;253
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Activity Type"
-msgstr "Rodzaj zdarzenia"
-
-#: CRM/Contact/Form/Search/Advanced.php:185 CRM/Core/BAO/CustomField.php:345
-#: CRM/Custom/Form/Preview.php:211
+#: CRM/Contact/Form/Search/Advanced.php:207 CRM/Core/BAO/CustomField.php:348
+#: CRM/Custom/Form/Preview.php:218
 msgid "%1 is not a valid date."
 msgstr "%1 nie jest poprawną datą."
 
-#: CRM/Contact/Form/Search/Advanced.php:196 CRM/Core/BAO/CustomField.php:286
-#: CRM/Custom/Form/Preview.php:158 templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Contact/Form/Search/Advanced.php:218 CRM/Core/BAO/CustomField.php:289
+#: CRM/Custom/Form/Preview.php:163 templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
@@ -517,8 +553,8 @@ msgstr "%1 nie jest poprawną datą."
 msgid "Yes"
 msgstr "Tak"
 
-#: CRM/Contact/Form/Search/Advanced.php:197 CRM/Core/BAO/CustomField.php:287
-#: CRM/Custom/Form/Preview.php:160 templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Contact/Form/Search/Advanced.php:219 CRM/Core/BAO/CustomField.php:290
+#: CRM/Custom/Form/Preview.php:166 templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
@@ -528,62 +564,66 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: CRM/Contact/Form/Search.php:247 CRM/Contact/Form/Task/AddToGroup.php:99
+#: CRM/Contact/Form/Search.php:247 CRM/Contact/Form/Task/AddToGroup.php:102
 msgid "Add Members: %1"
 msgstr "Dodaj członków: %1"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:85
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:48
+#: CRM/Contact/Form/Task/AddToGroup.php:88
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:51
 msgid " - select group - "
 msgstr " - wybierz grupę - "
 
-#: CRM/Contact/Form/Task/AddToGroup.php:86
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:49
+#: CRM/Contact/Form/Task/AddToGroup.php:89
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:52
 msgid "Select Group"
 msgstr "Wybierz grupę"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:136
-#: CRM/Contact/Form/Task/AddToHousehold.php:159
-#: CRM/Contact/Form/Task/AddToOrganization.php:157
-#: CRM/Contact/Form/Task/Email.php:143
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:84
+#: CRM/Contact/Form/Task/AddToGroup.php:139
+#: CRM/Contact/Form/Task/AddToHousehold.php:161
+#: CRM/Contact/Form/Task/AddToOrganization.php:163
+#: CRM/Contact/Form/Task/Email.php:157
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:87
 msgid "Total Selected Contact(s): %1"
 msgstr "Suma wybranych kontaktów: %1"
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:162
-#: CRM/Contact/Form/Task/AddToOrganization.php:160
+#: CRM/Contact/Form/Task/AddToHousehold.php:164
+#: CRM/Contact/Form/Task/AddToOrganization.php:166
 msgid "New relationship record(s) created: %1."
 msgstr "Nowych powiązań: %1."
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:165
-#: CRM/Contact/Form/Task/AddToOrganization.php:163
+#: CRM/Contact/Form/Task/AddToHousehold.php:167
+#: CRM/Contact/Form/Task/AddToOrganization.php:169
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
 msgstr ""
 "Powiązania nie stworzone z powodu niepoprawnego docelowego rodzaju kontaktu: "
 "%1."
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:168
-#: CRM/Contact/Form/Task/AddToOrganization.php:166
+#: CRM/Contact/Form/Task/AddToHousehold.php:170
+#: CRM/Contact/Form/Task/AddToOrganization.php:172
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
 msgstr "Powiązania nie stworzone – powielenia istniejących powiązań: %1."
 
-#: CRM/Contact/Form/Task/Delete.php:48 CRM/Contact/Task.php:85
+#: CRM/Contact/Form/Task/Delete.php:51 CRM/Contact/Task.php:88
 msgid "Delete Contacts"
 msgstr "Usuń kontakty"
 
-#: CRM/Contact/Form/Task/Email.php:113 CRM/Core/DAO/EmailHistory.php:147
-#: templates/CRM/History/Page/Email.tpl
+#: CRM/Contact/Form/Task/Email.php:127 CRM/Core/DAO/EmailHistory.php:150
+#: templates/CRM/Contact/Page/View/Email.tpl
 msgid "Message"
 msgstr "Wiadomość"
 
-#: CRM/Contact/Form/Task/SaveSearch.php:102 CRM/Contact/Task.php:106
+#: CRM/Contact/Form/Task/Map.php:111 CRM/Core/Invoke.php:127
+msgid "<a href=\"%1\">Search Results</a>"
+msgstr "<a href=\"%1\">Wyniki wyszukiwania</a>"
+
+#: CRM/Contact/Form/Task/SaveSearch.php:109 CRM/Contact/Task.php:109
 msgid "Update Saved Search"
 msgstr "Zaktualizuj zapisane wyszukanie"
 
-#: CRM/Contact/Import/Base.php:23 CRM/Contact/Selector.php:498
-#: CRM/Core/DAO/StateProvince.php:134
+#: CRM/Contact/Import/Base.php:57 CRM/Contact/Selector.php:560
+#: CRM/Core/DAO/StateProvince.php:137
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -592,128 +632,160 @@ msgstr "Zaktualizuj zapisane wyszukanie"
 msgid "State"
 msgstr "Stan"
 
-#: CRM/Contact/Import/Base.php:28 CRM/Core/DAO/Phone.php:235
-#: CRM/Core/SelectValues.php:107
+#: CRM/Contact/Import/Base.php:62 CRM/Core/DAO/Phone.php:238
+#: CRM/Core/SelectValues.php:110
 msgid "Mobile"
 msgstr "Telefon komórkowy"
 
-#: CRM/Contact/Import/Base.php:29 CRM/Core/DAO/Phone.php:236
-#: CRM/Core/SelectValues.php:108
+#: CRM/Contact/Import/Base.php:63 CRM/Core/DAO/Phone.php:239
+#: CRM/Core/SelectValues.php:111
 msgid "Fax"
 msgstr "Faks"
 
-#: CRM/Contact/Page/SavedSearch.php:151 CRM/Group/Page/Group.php:84
+#: CRM/Contact/Page/SavedSearch.php:154 CRM/Group/Page/Group.php:87
 msgid "Do you really want to remove this Saved Search?"
 msgstr "Na pewno usunąć zapisane wyszukiwanie?"
 
-#: CRM/Contact/Page/View/Activity.php:116
-#: CRM/History/Selector/Activity.php:132
+#: CRM/Contact/Page/View/Activity.php:119
+#: CRM/History/Selector/Activity.php:137
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
 msgstr "Usuń historię zdarzenia"
 
-#: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:389
+#: CRM/Contact/Page/View/Basic.php:78 CRM/Core/Invoke.php:272
+msgid "Contact Page"
+msgstr "Strona kontaktu"
+
+#: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:385
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Delete Activity"
 msgstr "Usuń zdarzenie"
 
-#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityHistory.php:222
-#: CRM/History/Selector/Activity.php:170;259
+#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityHistory.php:225
+#: CRM/History/Selector/Activity.php:175;264
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr "Data zdarzenia"
 
-#: CRM/Contact/Selector/Activity.php:240 CRM/History/Selector/Activity.php:238
+#: CRM/Contact/Selector/Activity.php:251 CRM/History/Selector/Activity.php:243
 msgid "CiviCRM Activity History"
 msgstr "Historia zdarzeń CiviCRM"
 
-#: CRM/Contact/Selector/Activity.php:262 CRM/Core/DAO/Meeting.php:302
-#: CRM/Core/DAO/Phonecall.php:313 CRM/Core/SelectValues.php:392;399
-#: CRM/Mailing/DAO/Job.php:238
+#: CRM/Contact/Selector/Activity.php:273 CRM/Core/DAO/Activity.php:317
+#: CRM/Core/DAO/Meeting.php:305 CRM/Core/DAO/Phonecall.php:316
+#: CRM/Core/SelectValues.php:395;402 CRM/Mailing/DAO/Job.php:241
 msgid "Scheduled"
 msgstr "Zaplanowany"
 
-#: CRM/Contact/Selector/Activity.php:268 CRM/Contact/Selector.php:518
-#: CRM/History/Selector/Activity.php:263
+#: CRM/Contact/Selector/Activity.php:279 CRM/Contact/Selector.php:580
+#: CRM/History/Selector/Activity.php:268
 msgid "Actions"
 msgstr "Akcje"
 
-#: CRM/Contact/Selector.php:491 CRM/Core/DAO/CustomGroup.php:298
+#: CRM/Contact/Selector.php:162 CRM/Core/Invoke.php:250
+msgid "Map Contact"
+msgstr "Pokaż na mapie"
+
+#: CRM/Contact/Selector.php:553 CRM/Core/DAO/CustomGroup.php:301
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr "Adres"
 
-#: CRM/Core/BAO/CustomField.php:73 CRM/Core/SelectValues.php:197
+#: CRM/Core/BAO/CustomField.php:76 CRM/Core/SelectValues.php:200
 msgid "Integer"
 msgstr "Liczba całkowita"
 
-#: CRM/Core/BAO/CustomField.php:75 CRM/Core/DAO/CustomField.php:364
-#: CRM/Core/DAO/Validation.php:236 CRM/Core/SelectValues.php:199
+#: CRM/Core/BAO/CustomField.php:78 CRM/Core/DAO/CustomField.php:367
+#: CRM/Core/DAO/Validation.php:239 CRM/Core/SelectValues.php:202
 msgid "Money"
 msgstr "Pieniądze"
 
-#: CRM/Core/BAO/CustomField.php:76 CRM/Core/DAO/Address.php:424
-#: CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Core/BAO/CustomField.php:79 CRM/Core/DAO/Address.php:427
+#: CRM/Core/DAO/Note.php:162 templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
 msgstr "Notatka"
 
-#: CRM/Core/BAO/CustomField.php:291;313 CRM/Custom/Form/Preview.php:164;189
-#: CRM/UF/Form/Dynamic.php:141
+#: CRM/Core/BAO/CustomField.php:294;316 CRM/Custom/Form/Preview.php:171;196
+#: CRM/UF/Form/Dynamic.php:144
 msgid "%1 is a required field."
 msgstr "%1 jest polem wymaganym."
 
-#: CRM/Core/BAO/CustomField.php:341 CRM/Custom/Form/Preview.php:207
+#: CRM/Core/BAO/CustomField.php:344 CRM/Custom/Form/Preview.php:214
 msgid "%1 must be an integer (whole number)."
 msgstr "%1 musi być liczbą całkowitą."
 
-#: CRM/Core/BAO/CustomField.php:350 CRM/Custom/Form/Preview.php:216
+#: CRM/Core/BAO/CustomField.php:353 CRM/Custom/Form/Preview.php:223
 msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 musi być liczbą (całkowitą lub nie)."
 
-#: CRM/Core/Block.php:80;192 CRM/Utils/Menu.php:234
+#: CRM/Core/BAO/Note.php:96 CRM/Note/Form/Note.php:151
+msgid "We could not find your logged in user ID"
+msgstr ""
+
+#: CRM/Core/Block.php:83;199 CRM/Utils/Menu.php:238
 msgid "New Individual"
 msgstr "Nowa osoba"
 
-#: CRM/Core/Block.php:88 CRM/Utils/Menu.php:189
+#: CRM/Core/Block.php:91 CRM/Utils/Menu.php:192
 msgid "CiviCRM"
 msgstr "CiviCRM"
 
-#: CRM/Core/Block.php:195 CRM/Utils/Menu.php:245
+#: CRM/Core/Block.php:202 CRM/Utils/Menu.php:249
 msgid "New Organization"
 msgstr "Nowa organizacja"
 
-#: CRM/Core/Block.php:198 CRM/Utils/Menu.php:256
+#: CRM/Core/Block.php:205 CRM/Utils/Menu.php:260
 msgid "New Household"
 msgstr "Nowe mieszkanie"
 
-#: CRM/Core/DAO/ActivityHistory.php:184 CRM/Core/DAO/CustomValue.php:173
-#: CRM/Core/DAO/EntityTag.php:134 CRM/Core/DAO/Location.php:141
-#: CRM/Core/DAO/Note.php:148 CRM/Mailing/DAO/Group.php:148
-#: CRM/Mailing/DAO/MailingGroup.php:151
+#: CRM/Core/DAO/ActivityHistory.php:187 CRM/Core/DAO/CustomValue.php:176
+#: CRM/Core/DAO/EntityTag.php:137 CRM/Core/DAO/Location.php:144
+#: CRM/Core/DAO/Note.php:151 CRM/Mailing/DAO/Group.php:151
 msgid "Entity Table"
 msgstr "Tabela jednostek"
 
-#: CRM/Core/DAO/CustomField.php:236 CRM/Core/DAO/CustomOption.php:152
-#: CRM/Custom/Form/Field.php:218
+#: CRM/Core/DAO/Activity.php:210 CRM/Core/DAO/Meeting.php:198
+#: CRM/Core/DAO/Phonecall.php:206
+msgid "Target Entity Table"
+msgstr "Docelowa tabela jednostek"
+
+#: CRM/Core/DAO/Activity.php:227 CRM/Core/DAO/Meeting.php:215
+#: CRM/Core/DAO/Phonecall.php:223
+msgid "Scheduled Date Time"
+msgstr "Zaplanowany termin"
+
+#: CRM/Core/DAO/Activity.php:231 CRM/Core/DAO/Meeting.php:219
+#: CRM/Core/DAO/Phonecall.php:227
+msgid "Duration Hours"
+msgstr "Czas trwania (godziny)"
+
+#: CRM/Core/DAO/Activity.php:235 CRM/Core/DAO/Meeting.php:223
+#: CRM/Core/DAO/Phonecall.php:231
+msgid "Duration Minutes"
+msgstr "Czas trwania (minuty)"
+
+#: CRM/Core/DAO/Activity.php:318 CRM/Core/DAO/Meeting.php:306
+#: CRM/Core/DAO/Phonecall.php:319 CRM/Core/SelectValues.php:396;403
+msgid "Completed"
+msgstr "Zakończony"
+
+#: CRM/Core/DAO/CustomField.php:239 CRM/Core/DAO/CustomOption.php:155
+#: CRM/Custom/Form/Field.php:224
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr "Etykieta"
 
-#: CRM/Core/DAO/CustomField.php:242 CRM/Custom/Form/Field.php:195
-#: templates/CRM/Custom/Page/Field.tpl
-msgid "Data Type"
-msgstr "Rodzaj danych"
-
-#: CRM/Core/DAO/CustomField.php:250 CRM/Custom/Form/Field.php:242
+#: CRM/Core/DAO/CustomField.php:253 CRM/Custom/Form/Field.php:248
 msgid "Default Value"
 msgstr "Wartość domyślna"
 
-#: CRM/Core/DAO/CustomField.php:262 CRM/Core/DAO/CustomGroup.php:223
-#: CRM/Core/DAO/CustomOption.php:164 CRM/Core/DAO/UFField.php:209
-#: CRM/Custom/Form/Field.php:224;235 CRM/Custom/Form/Group.php:99
-#: CRM/Custom/Form/Option.php:126 CRM/UF/Form/Field.php:138
+#: CRM/Core/DAO/CustomField.php:265 CRM/Core/DAO/CustomGroup.php:226
+#: CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212
+#: CRM/Custom/Form/Field.php:230;241 CRM/Custom/Form/Group.php:102
+#: CRM/Custom/Form/Option.php:129 CRM/UF/Form/Field.php:141
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
@@ -721,430 +793,311 @@ msgstr "Wartość domyślna"
 msgid "Weight"
 msgstr "Waga"
 
-#: CRM/Core/DAO/CustomField.php:270 CRM/Core/DAO/CustomGroup.php:211
+#: CRM/Core/DAO/CustomField.php:273 CRM/Core/DAO/CustomGroup.php:214
 msgid "Help Pre"
 msgstr "Pomoc przed"
 
-#: CRM/Core/DAO/CustomField.php:274 CRM/Core/DAO/CustomGroup.php:217
-#: CRM/Core/DAO/UFField.php:214
+#: CRM/Core/DAO/CustomField.php:277 CRM/Core/DAO/CustomGroup.php:220
+#: CRM/Core/DAO/UFField.php:217
 msgid "Help Post"
 msgstr "Pomoc za"
 
-#: CRM/Core/DAO/CustomField.php:278 CRM/Custom/Form/Field.php:244
+#: CRM/Core/DAO/CustomField.php:281 CRM/Custom/Form/Field.php:250
 msgid "Mask"
 msgstr "Maska"
 
-#: CRM/Core/DAO/CustomField.php:365 CRM/Core/SelectValues.php:200
+#: CRM/Core/DAO/CustomField.php:368 CRM/Core/SelectValues.php:203
 msgid "Memo"
 msgstr "Notatka"
 
-#: CRM/Core/DAO/CustomGroup.php:301 CRM/Core/SelectValues.php:260
+#: CRM/Core/DAO/CustomGroup.php:304 CRM/Core/SelectValues.php:263
 msgid "Tab"
 msgstr "Zakładka"
 
-#: CRM/Core/DAO/CustomGroup.php:302 CRM/Core/SelectValues.php:261
+#: CRM/Core/DAO/CustomGroup.php:305 CRM/Core/SelectValues.php:264
 msgid "Inline"
 msgstr "Śródtekstowo"
 
-#: CRM/Core/DAO/CustomOption.php:158 CRM/Custom/Form/Field.php:221
+#: CRM/Core/DAO/CustomOption.php:161 CRM/Custom/Form/Field.php:227
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
 msgstr "Wartość"
 
-#: CRM/Core/DAO/ImportMappingField.php:155 CRM/Core/DAO/Phone.php:163
+#: CRM/Core/DAO/ImportMappingField.php:158 CRM/Core/DAO/Phone.php:166
 msgid "Phone Type"
 msgstr "Rodzaj telefonu"
 
-#: CRM/Core/DAO/Meeting.php:195 CRM/Core/DAO/Phonecall.php:203
-#, fuzzy
-msgid "Target Entity Table"
-msgstr "Tabela jednostek"
-
-#: CRM/Core/DAO/Meeting.php:212 CRM/Core/DAO/Phonecall.php:220
-msgid "Scheduled Date Time"
-msgstr "Zaplanowany termin"
-
-#: CRM/Core/DAO/Meeting.php:216 CRM/Core/DAO/Phonecall.php:224
-msgid "Duration Hours"
-msgstr "Czas trwania (godziny)"
-
-#: CRM/Core/DAO/Meeting.php:220 CRM/Core/DAO/Phonecall.php:228
-msgid "Duration Minutes"
-msgstr "Czas trwania (minuty)"
-
-#: CRM/Core/DAO/Meeting.php:303 CRM/Core/DAO/Phonecall.php:316
-#: CRM/Core/SelectValues.php:393;400
-msgid "Completed"
-msgstr "Zakończony"
-
-#: CRM/Core/DAO/Phonecall.php:314 CRM/Core/SelectValues.php:395
+#: CRM/Core/DAO/Phonecall.php:317 CRM/Core/SelectValues.php:398
 msgid "Left Message"
 msgstr "Zostawiono wiadomość"
 
-#: CRM/Core/DAO/Phonecall.php:315 CRM/Core/SelectValues.php:394
+#: CRM/Core/DAO/Phonecall.php:318 CRM/Core/SelectValues.php:397
 msgid "Unreachable"
 msgstr "Niedostępny"
 
-#: CRM/Core/DAO/Phone.php:237 CRM/Core/SelectValues.php:109
+#: CRM/Core/DAO/Phone.php:240 CRM/Core/SelectValues.php:112
 msgid "Pager"
 msgstr "Pager"
 
-#: CRM/Core/DAO/UFField.php:224 CRM/UF/Form/Field.php:135
+#: CRM/Core/DAO/UFField.php:227 CRM/UF/Form/Field.php:138
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
 msgstr "Widoczność"
 
-#: CRM/Core/DAO/UFField.php:228 CRM/UF/Form/Field.php:144
+#: CRM/Core/DAO/UFField.php:231 CRM/UF/Form/Field.php:147
 msgid "Listings Title"
 msgstr "Tytuł spisu"
 
-#: CRM/Core/DAO/UFGroup.php:219 CRM/Utils/Menu.php:155
+#: CRM/Core/DAO/UFGroup.php:222 CRM/Utils/Menu.php:158
+#: templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
 msgstr "Profil CiviCRM"
 
-#: CRM/Core/Invoke.php:206 CRM/Utils/Menu.php:218
+#: CRM/Core/Invoke.php:242 CRM/Utils/Menu.php:222
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
 msgstr "Szukanie zaawansowane"
 
-#: CRM/Core/Invoke.php:302 CRM/UF/Page/Group.php:148
-#: templates/CRM/UF/Form/Group.tpl
+#: CRM/Core/Invoke.php:345 CRM/UF/Page/Group.php:151
 msgid "CiviCRM Profile Group"
 msgstr "Grupa profilu CiviCRM"
 
-#: CRM/Core/Invoke.php:304 CRM/UF/Page/Field.php:164
+#: CRM/Core/Invoke.php:347 CRM/UF/Page/Field.php:167
 #: templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
 msgstr "Pole profilu CiviCRM"
 
-#: CRM/Core/Invoke.php:333 CRM/Utils/Menu.php:370
+#: CRM/Core/Invoke.php:376 CRM/Utils/Menu.php:366
 msgid "Import Contacts"
 msgstr "Importuj kontakty"
 
-#: CRM/Core/Invoke.php:353 CRM/Utils/Menu.php:312
+#: CRM/Core/Invoke.php:396 CRM/Utils/Menu.php:308
 msgid "Groups"
 msgstr "Grupy"
 
-#: CRM/Custom/Form/Field.php:227;247 CRM/Custom/Form/Option.php:130
-#: CRM/UF/Form/Field.php:149 templates/CRM/Custom/Form/OptionFieldsError.tpl
+#: CRM/Custom/Form/Field.php:233;253 CRM/Custom/Form/Option.php:133
+#: CRM/UF/Form/Field.php:152 templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
 msgstr "Aktywne?"
 
-#: CRM/Custom/Form/Field.php:236 CRM/Custom/Form/Group.php:100
-#: CRM/Custom/Form/Option.php:127 CRM/UF/Form/Field.php:139
+#: CRM/Custom/Form/Field.php:242 CRM/Custom/Form/Group.php:103
+#: CRM/Custom/Form/Option.php:130 CRM/UF/Form/Field.php:142
 msgid " is a numeric field"
 msgstr " jest polem numerycznym"
 
-#: CRM/Custom/Form/Field.php:239 CRM/UF/Form/Field.php:148
+#: CRM/Custom/Form/Field.php:245 CRM/UF/Form/Field.php:151
 msgid "Required?"
 msgstr "Wymagane?"
 
-#: CRM/Custom/Form/Field.php:243 CRM/UF/Form/Field.php:141
+#: CRM/Custom/Form/Field.php:249 CRM/UF/Form/Field.php:144
 msgid "Field Help"
 msgstr "Pomoc do pola"
 
-#: CRM/Custom/Form/Group.php:63 CRM/UF/Form/Group.php:65
+#: CRM/Custom/Form/Group.php:66 CRM/UF/Form/Group.php:68
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "Edytuj %1"
 
-#: CRM/Custom/Form/Group.php:83 CRM/UF/Form/Group.php:82
-msgid "Group Name"
-msgstr "Nazwa grupy"
-
-#: CRM/Custom/Page/Field.php:97 CRM/Custom/Page/Option.php:105
+#: CRM/Custom/Page/Field.php:100 CRM/Custom/Page/Option.php:108
 msgid "Disable Custom Field"
 msgstr "Wyłącz pole dodatkowe"
 
-#: CRM/Custom/Page/Group.php:80 CRM/Group/Page/Group.php:69;97
-#: CRM/UF/Page/Group.php:74
-msgid "Edit Group"
-msgstr "Edytuj grupę"
+#: CRM/Custom/Page/Group.php:77 CRM/Import/Form/Preview.php:125
+msgid "Preview"
+msgstr "Podgląd"
 
-#: CRM/Group/Form/Delete.php:84 CRM/Group/Page/Group.php:75
+#: CRM/Group/Form/Delete.php:87 CRM/Group/Page/Group.php:78
 msgid "Delete Group"
 msgstr "Usuń grupę"
 
-#: CRM/Group/Page/Group.php:63 CRM/Utils/Menu.php:355
+#: CRM/Group/Page/Group.php:66 CRM/Utils/Menu.php:351
 msgid "Group Members"
 msgstr "Członkowie grupy"
 
-#: CRM/Import/Form/MapField.php:264 CRM/Import/Form/Preview.php:104
-#: CRM/Mailing/Form/Group.php:96 CRM/Mailing/Form/Schedule.php:55
-#: CRM/Mailing/Form/Upload.php:83
+#: CRM/Import/Form/MapField.php:267 CRM/Import/Form/Preview.php:107
+#: CRM/Mailing/Form/Group.php:99 CRM/Mailing/Form/Schedule.php:58
+#: CRM/Mailing/Form/Upload.php:86
 msgid "<< Previous"
 msgstr "<< Wstecz"
 
-#: CRM/Import/Form/MapField.php:266 CRM/Import/Form/UploadFile.php:90
+#: CRM/Import/Form/MapField.php:269 CRM/Import/Form/UploadFile.php:93
 msgid "Continue >>"
 msgstr "Dalej >>"
 
-#: CRM/Mailing/DAO/BounceType.php:195 CRM/Mailing/Event/DAO/Bounce.php:221
-msgid "AOL"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:196 CRM/Mailing/Event/DAO/Bounce.php:222
-msgid "Away"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:197 CRM/Mailing/Event/DAO/Bounce.php:223
-msgid "DNS"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:198 CRM/Mailing/Event/DAO/Bounce.php:224
-#, fuzzy
-msgid "Host"
-msgstr "Pomoc za"
-
-#: CRM/Mailing/DAO/BounceType.php:199 CRM/Mailing/Event/DAO/Bounce.php:225
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
-msgid "Inactive"
-msgstr "Nieaktywne"
-
-#: CRM/Mailing/DAO/BounceType.php:200 CRM/Mailing/Event/DAO/Bounce.php:226
-#, fuzzy
-msgid "Invalid"
-msgstr "Śródtekstowo"
-
-#: CRM/Mailing/DAO/BounceType.php:201 CRM/Mailing/Event/DAO/Bounce.php:227
-msgid "Loop"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:202 CRM/Mailing/Event/DAO/Bounce.php:228
-msgid "Quota"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:203 CRM/Mailing/Event/DAO/Bounce.php:229
-#, fuzzy
-msgid "Relay"
-msgstr "Zastąp"
-
-#: CRM/Mailing/DAO/BounceType.php:204 CRM/Mailing/Event/DAO/Bounce.php:230
-msgid "Spam"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:205 CRM/Mailing/Event/DAO/Bounce.php:231
-msgid "Syntax"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php:206 CRM/Mailing/Event/DAO/Bounce.php:232
-msgid "Unknown"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php:171 CRM/Mailing/DAO/MailingComponent.php:174
-msgid "Component Name"
-msgstr "Nazwa składnika"
-
-#: CRM/Mailing/DAO/Component.php:177 CRM/Mailing/DAO/MailingComponent.php:180
-#: CRM/Mailing/Form/Component.php:76
+#: CRM/Mailing/DAO/Component.php:180 CRM/Mailing/Form/Component.php:79
 msgid "Component Type"
 msgstr "Rodzaj składnika"
 
-#: CRM/Mailing/DAO/Component.php:187 CRM/Mailing/DAO/MailingComponent.php:190
-#: CRM/Mailing/DAO/Mailing.php:265
+#: CRM/Mailing/DAO/Component.php:190 CRM/Mailing/DAO/Mailing.php:268
 msgid "Body Html"
 msgstr "Treść HTML"
 
-#: CRM/Mailing/DAO/Component.php:193 CRM/Mailing/DAO/MailingComponent.php:196
-#: CRM/Mailing/DAO/Mailing.php:261 templates/CRM/Mailing/Page/Component.tpl
+#: CRM/Mailing/DAO/Component.php:196 CRM/Mailing/DAO/Mailing.php:264
+#: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body Text"
 msgstr "Tekst treści"
 
-#: CRM/Mailing/DAO/Group.php:144 CRM/Mailing/DAO/MailingGroup.php:147
-msgid "Group Type"
-msgstr "Rodzaj grupy"
-
-#: CRM/Mailing/DAO/Job.php:158 CRM/Mailing/DAO/MailingJob.php:154
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Scheduled Date"
-msgstr "Zaplanowany termin"
-
-#: CRM/Mailing/DAO/MailingEventBounce.php:147
-#: CRM/Mailing/Event/DAO/Bounce.php:144
-msgid "Bounce Type"
-msgstr "Rodzaj odbicia"
-
-#: CRM/Mailing/DAO/MailingEventBounce.php:152
-#: CRM/Mailing/Event/DAO/Bounce.php:149
-msgid "Bounce Reason"
-msgstr "Powód odbicia"
-
-#: CRM/Mailing/DAO/MailingEventBounce.php:158
-#: CRM/Mailing/DAO/MailingEventDelivered.php:133
-#: CRM/Mailing/DAO/MailingEventOpened.php:133
-#: CRM/Mailing/DAO/MailingEventTrackableUrlOpen.php:145
-#: CRM/Mailing/DAO/MailingEventUnsubscribe.php:145
-#: CRM/Mailing/Event/DAO/Bounce.php:155 CRM/Mailing/Event/DAO/Confirm.php:130
-#: CRM/Mailing/Event/DAO/Delivered.php:130
-#: CRM/Mailing/Event/DAO/Forward.php:142 CRM/Mailing/Event/DAO/Opened.php:130
-#: CRM/Mailing/Event/DAO/Reply.php:130 CRM/Mailing/Event/DAO/Subscribe.php:154
-#: CRM/Mailing/Event/DAO/TrackableURLOpen.php:142
-#: CRM/Mailing/Event/DAO/Unsubscribe.php:142
-msgid "Time Stamp"
-msgstr "Data i czas"
-
-#: CRM/Mailing/DAO/MailingEventUnsubscribe.php:140
-#: CRM/Mailing/Event/DAO/Unsubscribe.php:137
-msgid "Org Unsubscribe"
-msgstr "Wypisanie organizacji"
-
-#: CRM/Mailing/DAO/Mailing.php:243 CRM/Mailing/Form/Upload.php:49
+#: CRM/Mailing/DAO/Mailing.php:246 CRM/Mailing/Form/Upload.php:52
 msgid "From Email"
 msgstr "Adres nadawcy"
 
-#: CRM/Mailing/DAO/MailingTrackableUrl.php:129
-#: CRM/Mailing/DAO/TrackableURL.php:126
-msgid "Url"
-msgstr "URL"
+#: CRM/Mailing/Event/DAO/Bounce.php:156 CRM/Mailing/Event/DAO/Confirm.php:133
+#: CRM/Mailing/Event/DAO/Delivered.php:133
+#: CRM/Mailing/Event/DAO/Forward.php:145 CRM/Mailing/Event/DAO/Opened.php:133
+#: CRM/Mailing/Event/DAO/Reply.php:133 CRM/Mailing/Event/DAO/Subscribe.php:159
+#: CRM/Mailing/Event/DAO/TrackableURLOpen.php:145
+#: CRM/Mailing/Event/DAO/Unsubscribe.php:145
+msgid "Time Stamp"
+msgstr "Data i czas"
 
-#: CRM/Mailing/Form/Group.php:98 CRM/Mailing/Form/Name.php:65
-#: CRM/Mailing/Form/Test.php:49 CRM/Mailing/Form/Upload.php:85
+#: CRM/Mailing/Form/Group.php:101 CRM/Mailing/Form/Name.php:68
+#: CRM/Mailing/Form/Test.php:52 CRM/Mailing/Form/Upload.php:88
 msgid "Next >>"
 msgstr "Następny >>"
 
-#: CRM/Note/Form/Note.php:115 CRM/Utils/Menu.php:321
+#: CRM/Note/Form/Note.php:118 CRM/Utils/Menu.php:317
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes"
 msgstr "Notatki"
 
-#: CRM/UF/Form/Dynamic.php:148 CRM/UF/Form/Register.php:111
+#: CRM/UF/Form/Dynamic.php:151 CRM/UF/Form/Register.php:114
 msgid "Please enter a valid %1"
 msgstr "Wprowadź poprawnie %1"
 
-#: CRM/Activity/Form/Meeting.php:81
-msgid "Please enter a valid subject."
-msgstr "Wprowadź poprawny temat."
-
-#: CRM/Activity/Form/Meeting.php:85
-msgid "Please select Scheduled Date."
-msgstr "Wybierz zaplanowany termin."
-
-#: CRM/Activity/Form/Meeting.php:87 templates/CRM/Activity/Form/Phonecall.tpl
-msgid "Duration"
-msgstr "Czas trwania"
-
-#: CRM/Activity/Form/Meeting.php:165
+#: CRM/Activity/Form/Meeting.php:166
 msgid "Meeting \"%1\" has been logged to Activity History."
 msgstr "Spotkanie „%1” zostało zapisane w historii zdarzeń."
 
-#: CRM/Activity/Form/Meeting.php:167
+#: CRM/Activity/Form/Meeting.php:168
 msgid "Selected Meeting is deleted sucessfully."
 msgstr "Wybrane spotkanie zostało skasowane"
 
-#: CRM/Activity/Form/Meeting.php:169
+#: CRM/Activity/Form/Meeting.php:170
 msgid "Meeting \"%1\" has been saved."
 msgstr "Spotkanie „%1” zostało zapisane."
 
-#: CRM/Activity/Form/Phonecall.php:78
+#: CRM/Activity/Form/OtherActivity.php:83
+msgid "- select Activity Type -"
+msgstr "- wybierz rodzaj zdarzenia -"
+
+#: CRM/Activity/Form/OtherActivity.php:87
+msgid "Please select the Activity Type."
+msgstr "Wybierz rodzaj zdarzenia."
+
+#: CRM/Activity/Form/OtherActivity.php:175
+msgid "Activity \"%1\" has been logged to Activity History."
+msgstr "Zdarzenie „%1” zostało zapisane w historii zdarzeń."
+
+#: CRM/Activity/Form/OtherActivity.php:177
+msgid "Selected Activity is deleted sucessfully."
+msgstr "Wybrane zdarzenie zostało skasowane."
+
+#: CRM/Activity/Form/OtherActivity.php:179
+msgid "Activity \"%1\" has been saved."
+msgstr "Zdarzenie „%1” zostało zapisane."
+
+#: CRM/Activity/Form/Phonecall.php:81
 msgid "Select Phone Number"
 msgstr "Wybierz numer telefonu"
 
-#: CRM/Activity/Form/Phonecall.php:84
+#: CRM/Activity/Form/Phonecall.php:87
 msgid "The Field Subject should not be Empty"
 msgstr "Pole tematu nie powinno być puste"
 
-#: CRM/Activity/Form/Phonecall.php:87
+#: CRM/Activity/Form/Phonecall.php:90
 msgid "Call Date and Time are required."
 msgstr "Data i czas rozmowy są wymagane."
 
-#: CRM/Activity/Form/Phonecall.php:90
+#: CRM/Activity/Form/Phonecall.php:93
 msgid " OR New Phone"
 msgstr "LUB Nowy telefon"
 
-#: CRM/Activity/Form/Phonecall.php:168
+#: CRM/Activity/Form/Phonecall.php:170
 msgid "Phone Call \"%1\" has been logged to Activity History."
 msgstr "Rozmowa „%1” została zapisana w historii zdarzeń."
 
-#: CRM/Activity/Form/Phonecall.php:170
+#: CRM/Activity/Form/Phonecall.php:172
 msgid "Selected Phone Call is deleted sucessfully."
 msgstr "Wybrana rozmowa została skasowana."
 
-#: CRM/Activity/Form/Phonecall.php:173
+#: CRM/Activity/Form/Phonecall.php:175
 msgid "Phone Call \"%1\" has been saved."
 msgstr "Rozmowa „%1” została zapisana."
 
-#: CRM/Admin/Form/ActivityType.php:53
-#, fuzzy
+#: CRM/Admin/Form/ActivityType.php:56
 msgid "Please enter a valid activity type name."
-msgstr "Wprowadź nazwę poprawnego rodzaju lokalizacji."
+msgstr "Wprowadź poprawną nazwę rodzaju zdarzenia."
 
-#: CRM/Admin/Form/ActivityType.php:100
-#, fuzzy
+#: CRM/Admin/Form/ActivityType.php:88
 msgid "The activity type \"%1\" has been saved."
-msgstr "Rodzaj lokalizacji „%1” został zapisany."
+msgstr "Rodzaj zdarzenia „%1” został zapisany."
 
-#: CRM/Admin/Form/IMProvider.php:86
+#: CRM/Admin/Form/IMProvider.php:89
 msgid "The IM Provider \"%1\" has been saved."
 msgstr "Komunikator „%1” został zapisany"
 
-#: CRM/Admin/Form/LocationType.php:53
+#: CRM/Admin/Form/LocationType.php:56
 msgid "Please enter a valid location type name."
 msgstr "Wprowadź nazwę poprawnego rodzaju lokalizacji."
 
-#: CRM/Admin/Form/LocationType.php:100
+#: CRM/Admin/Form/LocationType.php:103
 msgid "The location type \"%1\" has been saved."
 msgstr "Rodzaj lokalizacji „%1” został zapisany."
 
-#: CRM/Admin/Form/MobileProvider.php:86
+#: CRM/Admin/Form/MobileProvider.php:89
 msgid "The Mobile Provider \"%1\" has been saved."
 msgstr "Sieć komórkowa „%1” została zapisana."
 
-#: CRM/Admin/Form/RelationshipType.php:53
+#: CRM/Admin/Form/RelationshipType.php:56
 msgid "Relationship Label-A to B"
 msgstr "Etykieta powiązania-A z B"
 
-#: CRM/Admin/Form/RelationshipType.php:55
+#: CRM/Admin/Form/RelationshipType.php:58
 msgid "Please enter a valid Relationship Label for A to B."
 msgstr "Wprowadź poprawną etykietę powiązania między A i B."
 
-#: CRM/Admin/Form/RelationshipType.php:58
+#: CRM/Admin/Form/RelationshipType.php:61
 msgid "Relationship Label-B to A"
 msgstr "Etykieta powiązania-B z A"
 
-#: CRM/Admin/Form/RelationshipType.php:65
+#: CRM/Admin/Form/RelationshipType.php:68
 msgid "Contact Type A "
 msgstr "Rodzaj kontaktu A "
 
-#: CRM/Admin/Form/RelationshipType.php:66
+#: CRM/Admin/Form/RelationshipType.php:69
 msgid "Contact Type B "
 msgstr "Rodzaj kontaktu B "
 
-#: CRM/Admin/Form/RelationshipType.php:103
+#: CRM/Admin/Form/RelationshipType.php:106
 msgid "The Relationship Type has been saved."
 msgstr "Rodzaj powiązania został zapisany."
 
-#: CRM/Admin/Page/ActivityType.php:68
-#, fuzzy
+#: CRM/Admin/Page/ActivityType.php:71
 msgid ""
 "Are you sure you want to disable this activity type?\\n\\nUsers will no "
 "longer be able to select this value when adding or editing activities."
 msgstr ""
-"Na pewno wyłączyć ten rodzaj lokalizacji?\\n\\nUżytkownicy nie będą mogli "
-"wybierać tej wartości przy dodawaniu i edytowaniu lokalizacji."
+"Na pewno wyłączyć ten rodzaj zdarzenia?\\n\\nUżytkownicy nie będą mogli "
+"wybierać tej wartości przy dodawaniu i edytowaniu zdarzeń."
 
-#: CRM/Admin/Page/ActivityType.php:75
+#: CRM/Admin/Page/ActivityType.php:78
 #: templates/CRM/Admin/Form/ActivityType.tpl
-#, fuzzy
 msgid "Edit Activity Type"
-msgstr "Rodzaj zdarzenia"
+msgstr "Edytuj rodzaj zdarzenia"
 
-#: CRM/Admin/Page/ActivityType.php:82
-#, fuzzy
+#: CRM/Admin/Page/ActivityType.php:85
 msgid "Disable Activity Type"
-msgstr "Rodzaj zdarzenia"
+msgstr "Wyłącz rodzaj zdarzenia"
 
-#: CRM/Admin/Page/ActivityType.php:88
-#, fuzzy
+#: CRM/Admin/Page/ActivityType.php:91
 msgid "Enable Activity Type"
-msgstr "Rodzaj zdarzenia"
+msgstr "Włącz rodzaj zdarzenia"
 
-#: CRM/Admin/Page/IMProvider.php:68
+#: CRM/Admin/Page/IMProvider.php:71
 msgid ""
 "Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
 "no longer be able to select this value when adding or editing contact IM "
@@ -1153,19 +1106,19 @@ msgstr ""
 "Na pewno wyłączyć ten komunikator?\\n\\nUżytkownicy nie będą mogli wybierać "
 "tej wartości przy dodawaniu i edytowaniu nazw kontaktów."
 
-#: CRM/Admin/Page/IMProvider.php:75
+#: CRM/Admin/Page/IMProvider.php:78
 msgid "IM Provider"
 msgstr "Komunikator"
 
-#: CRM/Admin/Page/IMProvider.php:82
+#: CRM/Admin/Page/IMProvider.php:85
 msgid "Disable IM Service Provider"
 msgstr "Wyłącz komunikator"
 
-#: CRM/Admin/Page/IMProvider.php:88
+#: CRM/Admin/Page/IMProvider.php:91
 msgid "Enable IM Service Provider"
 msgstr "Włącz komunikator"
 
-#: CRM/Admin/Page/LocationType.php:68
+#: CRM/Admin/Page/LocationType.php:71
 msgid ""
 "Are you sure you want to disable this location type?\\n\\nUsers will no "
 "longer be able to select this value when adding or editing contact locations."
@@ -1173,20 +1126,20 @@ msgstr ""
 "Na pewno wyłączyć ten rodzaj lokalizacji?\\n\\nUżytkownicy nie będą mogli "
 "wybierać tej wartości przy dodawaniu i edytowaniu lokalizacji."
 
-#: CRM/Admin/Page/LocationType.php:75
+#: CRM/Admin/Page/LocationType.php:78
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
 msgstr "Edytuj rodzaj lokalizacji"
 
-#: CRM/Admin/Page/LocationType.php:82
+#: CRM/Admin/Page/LocationType.php:85
 msgid "Disable Location Type"
 msgstr "Wyłącz rodzaj lokalizacji"
 
-#: CRM/Admin/Page/LocationType.php:88
+#: CRM/Admin/Page/LocationType.php:91
 msgid "Enable Location Type"
 msgstr "Włącz rodzaj lokalizacji"
 
-#: CRM/Admin/Page/MobileProvider.php:70
+#: CRM/Admin/Page/MobileProvider.php:73
 msgid ""
 "Are you sure you want to disable this Mobile Phone Service Provider?\\n"
 "\\nUsers will no longer be able to select this value when adding or editing "
@@ -1195,20 +1148,20 @@ msgstr ""
 "Na pewno wyłączyć tę sieć komórkową?\\n\\nUżytkownicy nie będą mogli "
 "wybierać tej wartości przy dodwaniu i edytowaniu numerów telefonów kontaktów."
 
-#: CRM/Admin/Page/MobileProvider.php:77
+#: CRM/Admin/Page/MobileProvider.php:80
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 msgid "Edit Mobile Provider"
 msgstr "Edytuj sieć  komórkową"
 
-#: CRM/Admin/Page/MobileProvider.php:84
+#: CRM/Admin/Page/MobileProvider.php:87
 msgid "Disable Mobile Phone Service Provider"
 msgstr "Wyłącz sieć komórkową"
 
-#: CRM/Admin/Page/MobileProvider.php:90
+#: CRM/Admin/Page/MobileProvider.php:93
 msgid "Enable Mobile Phone Service Provider"
 msgstr "Włącz sieć komórkową"
 
-#: CRM/Admin/Page/RelationshipType.php:69
+#: CRM/Admin/Page/RelationshipType.php:72
 msgid ""
 "Are you sure you want to disable this relationship type?\\n\\nUsers will no "
 "longer be able to select this value when adding or editing relationships "
@@ -1217,25 +1170,25 @@ msgstr ""
 "Na pewno wyłączyć ten rodzaj powiązania?\\n\\nUżytkownicy nie będą mogli "
 "wybierać tej wartości przy dodawaniu i edytowaniu kontaktów."
 
-#: CRM/Admin/Page/RelationshipType.php:76
+#: CRM/Admin/Page/RelationshipType.php:79
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "View Relationship Type"
 msgstr "Zobacz rodzaj relacji"
 
-#: CRM/Admin/Page/RelationshipType.php:82
+#: CRM/Admin/Page/RelationshipType.php:85
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
 msgstr "Edytuj rodzaj relacji"
 
-#: CRM/Admin/Page/RelationshipType.php:89
+#: CRM/Admin/Page/RelationshipType.php:92
 msgid "Disable Relationship Type"
 msgstr "Wyłącz rodzaj relacji"
 
-#: CRM/Admin/Page/RelationshipType.php:95
+#: CRM/Admin/Page/RelationshipType.php:98
 msgid "Enable Relationship Type"
 msgstr "Włącz rodzaj relacji"
 
-#: CRM/Admin/Page/Tag.php:70
+#: CRM/Admin/Page/Tag.php:73
 msgid ""
 "Are you sure you want to delete this tag?\\n\\nThis tag will be removed from "
 "any currently tagged contacts, and users will no longer be able to assign "
@@ -1245,429 +1198,403 @@ msgstr ""
 "wszystkich oznaczonych nim kontkatów, a użytkownicy nie będą już mogli "
 "przypisywać tego znacznika kontaktom."
 
-#: CRM/Admin/Page/Tag.php:77 templates/CRM/Admin/Form/Tag.tpl
+#: CRM/Admin/Page/Tag.php:80 templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
 msgstr "Edytuj znacznik"
 
-#: CRM/Admin/Page/Tag.php:84 templates/CRM/Admin/Form/Tag.tpl
+#: CRM/Admin/Page/Tag.php:87 templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
 msgstr "Usuń znacznik"
 
-#: CRM/Commerce/Donation/DAO/DonationPage.php:181
-#, fuzzy
+#: CRM/Commerce/Donation/DAO/DonationPage.php:184
 msgid "Intro Title"
-msgstr "Nazwa grupy"
+msgstr "Tytuł wprowadzenia"
 
-#: CRM/Commerce/Donation/DAO/DonationPage.php:187
-#, fuzzy
+#: CRM/Commerce/Donation/DAO/DonationPage.php:190
 msgid "Intro Description"
-msgstr "Opis"
+msgstr "Opis wprowadzenia"
 
-#: CRM/Commerce/Donation/DAO/DonationPage.php:193
+#: CRM/Commerce/Donation/DAO/DonationPage.php:196
 msgid "Anonymous"
 msgstr ""
 
-#: CRM/Commerce/Donation/Form/DonationPage.php:68
+#: CRM/Commerce/Donation/Form/DonationPage.php:71
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-#, fuzzy
 msgid "New Donation Page"
-msgstr "Nowy rodzaj lokalizacji"
+msgstr "Nowa strona dotacji"
 
-#: CRM/Commerce/Donation/Form/DonationPage.php:90
-#, fuzzy
+#: CRM/Commerce/Donation/Form/DonationPage.php:93
 msgid "Is this Donation Page active?"
-msgstr "Czy ta grupa danych dodatkowych jest aktywna?"
-
-#: CRM/Commerce/Donation/Form/DonationPage.php:151
-#, fuzzy
-msgid "Your Donation Page \"%1\" has been saved."
-msgstr "Rodzaj lokalizacji „%1” został zapisany."
+msgstr "Czy ta strona dotacji jest aktywna?"
 
 #: CRM/Commerce/Donation/Form/DonationPage.php:154
-#, fuzzy
+msgid "Your Donation Page \"%1\" has been saved."
+msgstr "Strona dotacji „%1” została zapisana."
+
+#: CRM/Commerce/Donation/Form/DonationPage.php:157
 msgid ""
 "Your Donation Page \"%1\" has been added. You can <a href=\"%2\">add custom "
 "fields</a> to this group now."
 msgstr ""
-"Grupa „%1” została dodana. Można do niej teraz <a href=\"%2\">dodać "
+"Strona dotacji „%1” została dodana. Można do niej teraz <a href=\"%2\">dodać "
 "dodatkowe pola</a>."
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:71;74
-#, fuzzy
+#: CRM/Commerce/Donation/Page/DonationPage.php:74;77
 msgid "Preview Donation Page"
-msgstr "Zobacz rodzaje lokalizacji"
-
-#: CRM/Commerce/Donation/Page/DonationPage.php:77
-#, fuzzy
-msgid "Edit Sections"
-msgstr "Edytuj opcję"
+msgstr "Zobacz stronę dotacji"
 
 #: CRM/Commerce/Donation/Page/DonationPage.php:80
+msgid "Edit Sections"
+msgstr "Edytuj sekcje"
+
+#: CRM/Commerce/Donation/Page/DonationPage.php:83
 msgid "List Page Sections"
 msgstr ""
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:83;86
-#, fuzzy
+#: CRM/Commerce/Donation/Page/DonationPage.php:86;89
 msgid "Edit Donation Page"
-msgstr "Edytuj rodzaj lokalizacji"
+msgstr "Edytuj stronę dotacji"
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:92
-#, fuzzy
+#: CRM/Commerce/Donation/Page/DonationPage.php:95
 msgid "Disable Donation Page"
-msgstr "Wyłącz rodzaj lokalizacji"
+msgstr "Wyłącz stronę dotacji"
 
-#: CRM/Commerce/Donation/Page/DonationPage.php:99
-#, fuzzy
+#: CRM/Commerce/Donation/Page/DonationPage.php:102
 msgid "Enable Donation Page"
-msgstr "Włącz rodzaj lokalizacji"
+msgstr "Włącz stronę dotacji"
 
-#: CRM/Contact/BAO/Contact.php:1395
+#: CRM/Contact/BAO/Contact.php:1517
 msgid "-do not import-"
 msgstr "-nie importuj-"
 
-#: CRM/Contact/BAO/Relationship.php:251
+#: CRM/Contact/BAO/Relationship.php:259
 msgid "Selected Relationship has been Deleted Successfuly."
 msgstr "Wybrane powiązanie zostało skasowane."
 
-#: CRM/Contact/DAO/Contact.php:243
+#: CRM/Contact/DAO/Contact.php:246
 msgid "Legal Identifier"
 msgstr "Identyfikator prawny"
 
-#: CRM/Contact/DAO/Contact.php:253
+#: CRM/Contact/DAO/Contact.php:256
 msgid "External Identifier"
 msgstr "Identyfikator zewnętrzny"
 
-#: CRM/Contact/DAO/Contact.php:263
+#: CRM/Contact/DAO/Contact.php:266
 msgid "Sort Name"
 msgstr "Nazwa do sortowania"
 
-#: CRM/Contact/DAO/Contact.php:269
+#: CRM/Contact/DAO/Contact.php:272
 msgid "Display Name"
 msgstr "Nazwa wyświetlana"
 
-#: CRM/Contact/DAO/Contact.php:285
-msgid "Home Url"
+#: CRM/Contact/DAO/Contact.php:288
+msgid "Home URL"
 msgstr "URL strony domowej"
 
-#: CRM/Contact/DAO/Contact.php:291
+#: CRM/Contact/DAO/Contact.php:298
 msgid "Image Url"
 msgstr "URL obrazka"
 
-#: CRM/Contact/DAO/Contact.php:303
+#: CRM/Contact/DAO/Contact.php:310
 msgid "Preferred Communication Method"
 msgstr "Preferowany sposób komunikacji"
 
-#: CRM/Contact/DAO/Contact.php:307
+#: CRM/Contact/DAO/Contact.php:314
 msgid "Preferred Mail Format"
 msgstr "Preferowany format wiadomości"
 
-#: CRM/Contact/DAO/Contact.php:311
+#: CRM/Contact/DAO/Contact.php:318
 msgid "Do Not Phone"
 msgstr "Nie dzwonić"
 
-#: CRM/Contact/DAO/Contact.php:315
+#: CRM/Contact/DAO/Contact.php:322
 msgid "Do Not Email"
 msgstr "Nie wysyłać emaili"
 
-#: CRM/Contact/DAO/Contact.php:319
+#: CRM/Contact/DAO/Contact.php:326
 msgid "Do Not Mail"
 msgstr "Nie pisać listów"
 
-#: CRM/Contact/DAO/Contact.php:323
+#: CRM/Contact/DAO/Contact.php:330
 msgid "Do Not Trade"
 msgstr "Nie przekazywać"
 
-#: CRM/Contact/DAO/Contact.php:406
-#, fuzzy
+#: CRM/Contact/DAO/Contact.php:413
 msgid "Post"
-msgstr "Pocztowy"
+msgstr "Poczta"
 
-#: CRM/Contact/DAO/Contact.php:410
-#, fuzzy
+#: CRM/Contact/DAO/Contact.php:417
 msgid "HTML"
-msgstr "Rodzaj HTML"
+msgstr "HTML"
 
-#: CRM/Contact/DAO/Contact.php:411
+#: CRM/Contact/DAO/Contact.php:418
 msgid "Both"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php:268
+#: CRM/Contact/DAO/Individual.php:271
 msgid "Greeting Type"
 msgstr "Rodzaj powitania"
 
-#: CRM/Contact/DAO/Individual.php:272
+#: CRM/Contact/DAO/Individual.php:275
 msgid "Custom Greeting"
 msgstr "Powitanie dodatkowe"
 
-#: CRM/Contact/DAO/Individual.php:288
+#: CRM/Contact/DAO/Individual.php:291
 msgid "Birth Date"
 msgstr "Data urodzenia"
 
-#: CRM/Contact/DAO/Individual.php:366
-#, fuzzy
+#: CRM/Contact/DAO/Individual.php:369
 msgid "Formal"
-msgstr "Pomoc do formularza"
+msgstr "Formalny"
 
-#: CRM/Contact/DAO/Individual.php:367
+#: CRM/Contact/DAO/Individual.php:370
 msgid "Informal"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php:368
+#: CRM/Contact/DAO/Individual.php:371
 msgid "Honorific"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php:369
-#, fuzzy
+#: CRM/Contact/DAO/Individual.php:372
 msgid "Custom"
 msgstr "Inny"
 
-#: CRM/Contact/DAO/Individual.php:370
+#: CRM/Contact/DAO/Individual.php:373
 msgid "Other"
 msgstr ""
 
-#: CRM/Contact/DAO/Organization.php:165
+#: CRM/Contact/DAO/Organization.php:168
 msgid "Sic Code"
 msgstr "Kod SIC"
 
-#: CRM/Contact/DAO/RelationshipType.php:173
+#: CRM/Contact/DAO/RelationshipType.php:176
 msgid "Name A B"
 msgstr "Nazwa A B"
 
-#: CRM/Contact/DAO/RelationshipType.php:179
+#: CRM/Contact/DAO/RelationshipType.php:182
 msgid "Name B A"
 msgstr "Nazwa B A"
 
-#: CRM/Contact/DAO/RelationshipType.php:191
+#: CRM/Contact/DAO/RelationshipType.php:194
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
 msgstr "Rodzaj kontaktu A"
 
-#: CRM/Contact/DAO/RelationshipType.php:195
+#: CRM/Contact/DAO/RelationshipType.php:198
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type B"
 msgstr "Rodzaj kontaktu B"
 
-#: CRM/Contact/DAO/SavedSearch.php:145
+#: CRM/Contact/DAO/SavedSearch.php:148
 msgid "SQL Query"
 msgstr "Zapytanie SQL"
 
-#: CRM/Contact/DAO/SavedSearch.php:153
+#: CRM/Contact/DAO/SavedSearch.php:156
 msgid "Submitted Form Values"
 msgstr "Wysłane wartości formularza"
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:168
-#, fuzzy
+#: CRM/Contact/DAO/SubscriptionHistory.php:171
 msgid "Method"
-msgstr "Metoda wejściowa"
+msgstr "Metoda"
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:176
+#: CRM/Contact/DAO/SubscriptionHistory.php:179
 msgid "Tracking"
 msgstr ""
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:244
-#, fuzzy
+#: CRM/Contact/DAO/SubscriptionHistory.php:247
 msgid "Admin"
-msgstr "-min-"
+msgstr "Administracja"
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:246
+#: CRM/Contact/DAO/SubscriptionHistory.php:249
 msgid "Web"
 msgstr ""
 
-#: CRM/Contact/DAO/SubscriptionHistory.php:247
+#: CRM/Contact/DAO/SubscriptionHistory.php:250
 msgid "API"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php:57
+#: CRM/Contact/Form/Address.php:60
 msgid "Addt'l Address 1"
 msgstr "Dodatkowy adres 1"
 
-#: CRM/Contact/Form/Address.php:60
+#: CRM/Contact/Form/Address.php:63
 msgid "Addt'l Address 2"
 msgstr "Dodatkowy adres 2"
 
-#: CRM/Contact/Form/Address.php:67
+#: CRM/Contact/Form/Address.php:70
 msgid "Zip / Postal Code"
 msgstr "Kod pocztowy"
 
-#: CRM/Contact/Form/Address.php:70
-#, fuzzy
+#: CRM/Contact/Form/Address.php:73
 msgid "Add-on Code"
-msgstr "Kod ISO"
+msgstr "Kod dodatkowy"
 
-#: CRM/Contact/Form/Edit.php:124
+#: CRM/Contact/Form/Address.php:82
+msgid "Latitude"
+msgstr ""
+
+#: CRM/Contact/Form/Address.php:84
+msgid "Longitude"
+msgstr ""
+
+#: CRM/Contact/Form/Edit.php:130
 msgid "contact does not exist: %1"
 msgstr "kontakt nie istnieje: %1"
 
-#: CRM/Contact/Form/Edit.php:130
+#: CRM/Contact/Form/Edit.php:136
 msgid "You do not have the necessary permission to edit this contact."
 msgstr "Nie masz wystarczających uprawnień, by edytować ten kontakt."
 
-#: CRM/Contact/Form/Edit.php:135
+#: CRM/Contact/Form/Edit.php:141
 msgid "Could not get a contact_id and/or contact_type"
 msgstr "Nie udało się ustalić contact_id i/lub contact_type"
 
-#: CRM/Contact/Form/Edit.php:293
-#, fuzzy
-msgid "Check for Matching Contact(s)"
-msgstr "Klucz do dopasowywania kontaktów?"
-
 #: CRM/Contact/Form/Edit.php:296
-#, fuzzy
-msgid "Save Duplicate Contact"
-msgstr "Usuń kontakty"
+msgid "Check for Matching Contact(s)"
+msgstr "Sprawdź pasujące kontakty"
 
-#: CRM/Contact/Form/Edit.php:304
+#: CRM/Contact/Form/Edit.php:299
+msgid "Save Duplicate Contact"
+msgstr "Usuń powtarzający się kontakt"
+
+#: CRM/Contact/Form/Edit.php:307
 msgid "Save and New"
 msgstr "Zapisz i nowy"
 
-#: CRM/Contact/Form/Edit.php:343
+#: CRM/Contact/Form/Edit.php:346
 msgid "Your %1 contact record has been saved."
 msgstr "Kontakt typu %1 został zapisany."
 
-#: CRM/Contact/Form/Edit.php:383
+#: CRM/Contact/Form/Edit.php:386
 msgid "Privacy"
 msgstr "Prywatność"
 
-#: CRM/Contact/Form/Edit.php:386
+#: CRM/Contact/Form/Edit.php:389
 msgid "Prefers"
 msgstr "Preferencje"
 
-#: CRM/Contact/Form/Edit.php:413
+#: CRM/Contact/Form/Edit.php:416
 msgid "Only one location can be marked as primary."
 msgstr "Tylko jedna lokalizacja może być oznaczona jako główna."
 
-#: CRM/Contact/Form/Edit.php:433
+#: CRM/Contact/Form/Edit.php:436
 msgid "The Location Type should be set if there is any location information"
 msgstr ""
 "Jeśli istnieją jakieś lokalizacje, powinien być ustawiony rodzaj lokalizacji"
 
-#: CRM/Contact/Form/Edit.php:439
+#: CRM/Contact/Form/Edit.php:442
 msgid "One location should be marked as primary."
 msgstr "Jedna lokalizacja powinna zostać oznaczona jako główna."
 
-#: CRM/Contact/Form/Email.php:56
+#: CRM/Contact/Form/Email.php:60
 msgid "another email"
 msgstr "inny email"
 
-#: CRM/Contact/Form/Email.php:56
+#: CRM/Contact/Form/Email.php:60
 msgid "hide this email"
 msgstr "ukryj ten email"
 
-#: CRM/Contact/Form/Email.php:63
+#: CRM/Contact/Form/Email.php:67
 msgid "Email is not valid."
 msgstr "Email jest błędny."
 
-#: CRM/Contact/Form/GroupContact.php:114
+#: CRM/Contact/Form/GroupContact.php:117
 msgid "- select group -"
 msgstr "- wybierz grupę -"
 
-#: CRM/Contact/Form/GroupContact.php:118
+#: CRM/Contact/Form/GroupContact.php:121
 msgid "Add to a group"
 msgstr "Dodaj do grupy."
 
-#: CRM/Contact/Form/GroupContact.php:119
+#: CRM/Contact/Form/GroupContact.php:122
 msgid "Please select the group."
 msgstr "Wybierz grupę."
 
-#: CRM/Contact/Form/GroupContact.php:123
+#: CRM/Contact/Form/GroupContact.php:126
 msgid "Add"
 msgstr "Dodaj"
 
-#: CRM/Contact/Form/GroupContact.php:149
+#: CRM/Contact/Form/GroupContact.php:152
 msgid "Contact has been added to the selected group."
 msgstr "Dodano kontakt do wybranych grup."
 
-#: CRM/Contact/Form/IM.php:57
+#: CRM/Contact/Form/IM.php:60
 msgid "another IM"
 msgstr "inny komunikator"
 
-#: CRM/Contact/Form/IM.php:57
+#: CRM/Contact/Form/IM.php:60
 msgid "hide this IM"
 msgstr "ukryj ten komunikator"
 
-#: CRM/Contact/Form/IM.php:62
+#: CRM/Contact/Form/IM.php:65
 msgid "- select service -"
 msgstr "- wybierz usługę -"
 
-#: CRM/Contact/Form/Individual.php:76
-#, fuzzy
+#: CRM/Contact/Form/Individual.php:80
 msgid "Greeting"
-msgstr "spotkanie"
+msgstr "Powitanie"
 
-#: CRM/Contact/Form/Individual.php:79
+#: CRM/Contact/Form/Individual.php:83
 msgid "Job title"
 msgstr "Stanowisko"
 
-#: CRM/Contact/Form/Individual.php:88
+#: CRM/Contact/Form/Individual.php:92
 msgid "Contact is deceased"
 msgstr "Osoba nie żyje"
 
-#: CRM/Contact/Form/Individual.php:90
+#: CRM/Contact/Form/Individual.php:94
 msgid "Date of birth"
 msgstr "Data urodzenia"
 
-#: CRM/Contact/Form/Individual.php:120
+#: CRM/Contact/Form/Individual.php:127
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
 msgstr "W lokalizacji głównej muszą być ustawione imię i nazwisko LUB email."
 
-#: CRM/Contact/Form/Location.php:60;60
+#: CRM/Contact/Form/Location.php:63;63
 msgid "Primary location for this contact"
 msgstr "Lokalizacja główna tego kontaktu"
 
-#: CRM/Contact/Form/Note.php:47
+#: CRM/Contact/Form/Note.php:50
 msgid "Notes:"
 msgstr "Notatki:"
 
-#: CRM/Contact/Form/Organization.php:67
+#: CRM/Contact/Form/Organization.php:71
 msgid "SIC Code"
 msgstr "Kod SIC"
 
-#: CRM/Contact/Form/Organization.php:70
-#, fuzzy
-msgid "Website"
-msgstr "Waga"
-
-#: CRM/Contact/Form/Phone.php:55
+#: CRM/Contact/Form/Phone.php:58
 msgid "Phone (preferred)"
 msgstr "Telefon (preferowany)"
 
-#: CRM/Contact/Form/Phone.php:57
+#: CRM/Contact/Form/Phone.php:60
 msgid "another phone"
 msgstr "inny telefon"
 
-#: CRM/Contact/Form/Phone.php:57
+#: CRM/Contact/Form/Phone.php:60
 msgid "hide this phone"
 msgstr "ukryj ten telefon"
 
-#: CRM/Contact/Form/Relationship.php:122
-msgid "Please select a relationship type."
-msgstr "Wybierz rodzaj powiązania."
-
-#: CRM/Contact/Form/Relationship.php:124
+#: CRM/Contact/Form/Relationship.php:127
 msgid "End date is not valid."
 msgstr "Data końcowa jest niepoprawna."
 
-#: CRM/Contact/Form/Relationship.php:161
-msgid "Relationship Type"
-msgstr "Rodzaj powiązania"
-
-#: CRM/Contact/Form/Relationship.php:167
+#: CRM/Contact/Form/Relationship.php:170
 msgid "Find Target Contact"
 msgstr "Znajdź kontakt docelowy"
 
-#: CRM/Contact/Form/Relationship.php:195
+#: CRM/Contact/Form/Relationship.php:200
 msgid "Save Relationship"
 msgstr "Zapisz powiązanie"
 
-#: CRM/Contact/Form/Relationship.php:243
+#: CRM/Contact/Form/Relationship.php:248
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] "Utworzono %count nowe powiązaie."
 msgstr[1] "Utworzono %count nowe powiązania."
 msgstr[2] "Utworzono %count nowych powiązań."
 
-#: CRM/Contact/Form/Relationship.php:246
+#: CRM/Contact/Form/Relationship.php:251
 msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
@@ -1682,7 +1609,7 @@ msgstr[2] ""
 "Nie stworzono %count powiązań z powodu niepoprawnego typu kontaktu "
 "docelowego."
 
-#: CRM/Contact/Form/Relationship.php:249
+#: CRM/Contact/Form/Relationship.php:254
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
@@ -1691,65 +1618,67 @@ msgstr[0] "Nie stworzono jednego powiązania – takie powiązanie już istnieje
 msgstr[1] "Nie stworzono %count powiązań – takie powiązania już istnieją."
 msgstr[2] "Nie stworzono %count powiązań – takie powiązanie już istnieją."
 
-#: CRM/Contact/Form/Relationship.php:404
+#: CRM/Contact/Form/Relationship.php:257
+msgid "Relationship record has been updated."
+msgstr "Rodzaj powiązania został uaktualniony."
+
+#: CRM/Contact/Form/Relationship.php:412
 msgid "Please select at least one contact."
 msgstr "Wybierz przynajmniej jeden kontakt."
 
-#: CRM/Contact/Form/Relationship.php:428
+#: CRM/Contact/Form/Relationship.php:436
 msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 "Data zakończenia powiązania nie pomoże być wcześniejsza niż data rozpoczęcia."
 
-#: CRM/Contact/Form/Search/Advanced.php:63
+#: CRM/Contact/Form/Search/Advanced.php:66
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Contact Type(s)"
 msgstr "Rodzaje kontaktów"
 
-#: CRM/Contact/Form/Search/Advanced.php:82
+#: CRM/Contact/Form/Search/Advanced.php:85
 msgid " - any state/province - "
 msgstr " - dowolne - "
 
-#: CRM/Contact/Form/Search/Advanced.php:86
+#: CRM/Contact/Form/Search/Advanced.php:89
 msgid " - any country - "
 msgstr " - dowolny - "
 
-#: CRM/Contact/Form/Search/Advanced.php:91
+#: CRM/Contact/Form/Search/Advanced.php:94
 msgid "Enter valid Postal Code"
 msgstr "Wpisz poprawny kod pocztowy"
 
-#: CRM/Contact/Form/Search/Advanced.php:93
+#: CRM/Contact/Form/Search/Advanced.php:96
 msgid "Range-From"
 msgstr "Zakres-Od"
 
-#: CRM/Contact/Form/Search/Advanced.php:94
+#: CRM/Contact/Form/Search/Advanced.php:97
 msgid "Enter valid From range of Postal Code"
 msgstr "Wprowadź poprawny zakres kodu pocztowego (Od)"
 
-#: CRM/Contact/Form/Search/Advanced.php:97
+#: CRM/Contact/Form/Search/Advanced.php:100
 msgid "Enter valid To range of Postal Code"
 msgstr "Wprowadź poprawny kodu pocztowego (Do)"
 
-#: CRM/Contact/Form/Search/Advanced.php:108
+#: CRM/Contact/Form/Search/Advanced.php:111
 msgid "Search primary locations only"
 msgstr "Szukaj tylko w lokalizacjach głównych"
 
-#: CRM/Contact/Form/Search/Advanced.php:114
+#: CRM/Contact/Form/Search/Advanced.php:117
 msgid "Activity Dates - From"
 msgstr "Daty zdarzeń – od"
 
-#: CRM/Contact/Form/Search.php:207
+#: CRM/Contact/Form/Search.php:210
 msgid "- more actions -"
 msgstr "- więcej akcji -"
 
-#: CRM/Contact/Form/Search.php:232
-#, fuzzy
-msgid "With status"
-msgstr "Stan"
+#: CRM/Contact/Form/Search.php:235
+msgid "Group Status"
+msgstr "Status grupy"
 
 #: CRM/Contact/Form/Search.php:236
-#, fuzzy
 msgid "Please select at least one membership status."
-msgstr "Wybierz przynajmniej jeden kontakt."
+msgstr "Wybierz przynajmniej jeden status członkostwa."
 
 #: CRM/Contact/Form/Search.php:238
 msgid "Group Members: %1"
@@ -1792,185 +1721,188 @@ msgid "Tagged"
 msgstr "ozn."
 
 #: CRM/Contact/Form/Search.php:321
-#, fuzzy
 msgid "Name or email"
-msgstr "inny email"
+msgstr "Nazwa lub email"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:102
+#: CRM/Contact/Form/Task/AddToGroup.php:105
 msgid "Add Members to A Group"
 msgstr "Dodaj członków do grupy"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:105
+#: CRM/Contact/Form/Task/AddToGroup.php:108
 msgid "Add To Group"
 msgstr "Dodaj do grupy"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:135
+#: CRM/Contact/Form/Task/AddToGroup.php:138
 msgid "Added Contact(s) to %1"
 msgstr "Dodane kontakty do %1"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:139
+#: CRM/Contact/Form/Task/AddToGroup.php:142
 msgid "Total Contact(s) added to group: %1"
 msgstr "Suma kontaktów dodanych do grupy: %1"
 
-#: CRM/Contact/Form/Task/AddToGroup.php:142
+#: CRM/Contact/Form/Task/AddToGroup.php:145
 msgid "Total Contact(s) already in group: %1"
 msgstr "Suma kontaktów będących w grupie wcześniej: %1"
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:58
-msgid "Find Target Household"
-msgstr "Mieszkanie"
-
-#: CRM/Contact/Form/Task/AddToHousehold.php:59
+#: CRM/Contact/Form/Task/AddToHousehold.php:63
 msgid "Add Members To Household"
 msgstr "Dodaj członków do mieszkania"
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:90
+#: CRM/Contact/Form/Task/AddToHousehold.php:64
+msgid "Find Target Household"
+msgstr "Mieszkanie"
+
+#: CRM/Contact/Form/Task/AddToHousehold.php:103
 msgid "Add To Household"
 msgstr "Dodaj do mieszkania"
 
-#: CRM/Contact/Form/Task/AddToHousehold.php:158
+#: CRM/Contact/Form/Task/AddToHousehold.php:160
 msgid "Added Contact(s) to Household"
 msgstr "Dodaj kontakt(y) do mieszkania"
 
-#: CRM/Contact/Form/Task/AddToOrganization.php:58
+#: CRM/Contact/Form/Task/AddToOrganization.php:63
 msgid "Add Members To Organization"
 msgstr "Dodaj członków do organizacji"
 
-#: CRM/Contact/Form/Task/AddToOrganization.php:59
+#: CRM/Contact/Form/Task/AddToOrganization.php:64
 msgid "Find Target Organization"
 msgstr "Znajdź organizację docelową"
 
-#: CRM/Contact/Form/Task/AddToOrganization.php:91
+#: CRM/Contact/Form/Task/AddToOrganization.php:105
 msgid "Add To Organization"
 msgstr "Dodaj do organizacji"
 
-#: CRM/Contact/Form/Task/AddToOrganization.php:156
+#: CRM/Contact/Form/Task/AddToOrganization.php:162
 msgid "Added Contact(s) to Organization"
 msgstr "Dodaj kontakt(y) do organizacji"
 
-#: CRM/Contact/Form/Task/AddToTag.php:64
+#: CRM/Contact/Form/Task/AddToTag.php:67
 msgid "Select Tag"
 msgstr "Wybierz znacznik"
 
-#: CRM/Contact/Form/Task/AddToTag.php:66
+#: CRM/Contact/Form/Task/AddToTag.php:69
 msgid "Tag Contacts"
 msgstr "Oznacz kontakty"
 
-#: CRM/Contact/Form/Task/Email.php:119;121
+#: CRM/Contact/Form/Task/Email.php:121
+msgid "Your user record does not have a valid email address"
+msgstr ""
+
+#: CRM/Contact/Form/Task/Email.php:133;135
+#: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
 msgstr "Wyślij emaila"
 
-#: CRM/Contact/Form/Task/Email.php:146
+#: CRM/Contact/Form/Task/Email.php:160
 msgid "Email sent to contact(s): %1"
 msgstr "Liczba emaili wysłanych do kontaktów: %1"
 
-#: CRM/Contact/Form/Task/Email.php:149
+#: CRM/Contact/Form/Task/Email.php:163
 msgid "Email not sent to contact(s): %1"
 msgstr "Liczba emaili nie wysłanych do kontaktów: %1"
 
-#: CRM/Contact/Form/Task/Map.php:103
-msgid "The locations chosen did not have any coordinate information"
-msgstr "Wybrane lokalizacje nie posiadają informacji o współrzędnych"
+#: CRM/Contact/Form/Task/Map.php:109
+msgid "The location did not have any latitude / longitude information."
+msgstr "Lokalizacja nie posiadała informacji o współrzędnych."
 
-#: CRM/Contact/Form/Task.php:135
+#: CRM/Contact/Form/Task.php:140
 msgid "Confirm Action"
 msgstr "Potwierdź akcję"
 
-#: CRM/Contact/Form/Task/Print.php:75
+#: CRM/Contact/Form/Task/Print.php:78
 msgid "Print Contact List"
 msgstr "Wydrukuj listę kontaktów"
 
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:51
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:54
 msgid "Remove Members from Group"
 msgstr "Usuń członków z grupy"
 
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:52
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:55
 msgid "Remove From Group"
 msgstr "Usuń z grupy"
 
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:83
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:86
 msgid "Removed Contact(s) from %1"
 msgstr "Usuń kontakt(y) z %1"
 
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:87
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:90
 msgid "Total Contact(s) removed from group: %1"
 msgstr "Suma kontaktów usuniętych z grupy: %1"
 
-#: CRM/Contact/Form/Task/RemoveFromGroup.php:90
+#: CRM/Contact/Form/Task/RemoveFromGroup.php:93
 msgid "Total Contact(s) not in group: %1"
 msgstr "Suma kontaktów poza grupą: %1"
 
-#: CRM/Contact/Form/Task/SaveSearch.php:104
+#: CRM/Contact/Form/Task/SaveSearch.php:111
 msgid "Save Search"
 msgstr "Zapisz wyszukiwanie"
 
-#: CRM/Contact/Form/Task/SaveSearch.php:127
+#: CRM/Contact/Form/Task/SaveSearch.php:134
 msgid "Your search has been saved as \"%1\"."
 msgstr "Wyszukiwanie zostało zapisane jako „%1”."
 
-#: CRM/Contact/Form/Test.php:78
-#, fuzzy
-msgid "State / Province  Id"
-msgstr "Stan / Województwo"
+#: CRM/Contact/Form/Test.php:81
+msgid "State / Province Id"
+msgstr "Id stanu / województwa"
 
-#: CRM/Contact/Import/Base.php:20
+#: CRM/Contact/Import/Base.php:54
 msgid "Street"
 msgstr "Ulica"
 
-#: CRM/Contact/Import/Base.php:21
+#: CRM/Contact/Import/Base.php:55
 msgid "Supplemental Address"
 msgstr "Adres dodatkowy"
 
-#: CRM/Contact/Page/View/Note.php:161
+#: CRM/Contact/Page/View/Note.php:171
 msgid "Are you sure you want to delete this note?"
 msgstr "Na pewno usunąć tę notatkę?"
 
-#: CRM/Contact/Page/View/Note.php:168 templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Contact/Page/View/Note.php:178 templates/CRM/Contact/Page/View/Note.tpl
 msgid "View Note"
 msgstr "Zobacz notatkę"
 
-#: CRM/Contact/Page/View/Note.php:174 templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Contact/Page/View/Note.php:184 templates/CRM/Contact/Page/View/Note.tpl
 msgid "Edit Note"
 msgstr "Edytuj notatkę"
 
-#: CRM/Contact/Page/View/Note.php:181
+#: CRM/Contact/Page/View/Note.php:191
 msgid "Delete Note"
 msgstr "Usuń notatkę"
 
-#: CRM/Contact/Page/View.php:87
+#: CRM/Contact/Page/View.php:105
 msgid "You do not have the necessary permission to view this contact."
 msgstr "Nie masz wystarczających uprawnień, by obejrzeć ten kontakt."
 
-#: CRM/Contact/Page/View/Relationship.php:160
+#: CRM/Contact/Page/View/Relationship.php:165
 msgid "Are you sure you want to delete this relationship?"
 msgstr "Na pewno usunąć to powiązanie?"
 
-#: CRM/Contact/Page/View/Relationship.php:161
+#: CRM/Contact/Page/View/Relationship.php:166
 msgid "Are you sure you want to disable this relationship?"
 msgstr "Na pewno wyłączyć to powiązanie?"
 
-#: CRM/Contact/Page/View/Relationship.php:162
+#: CRM/Contact/Page/View/Relationship.php:167
 msgid "Are you sure you want to re-enable this relationship?"
 msgstr "Na pewno włączyć ponownie to powiązanie?"
 
-#: CRM/Contact/Page/View/Relationship.php:169
+#: CRM/Contact/Page/View/Relationship.php:174
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
 msgstr "Zobacz powiązanie"
 
-#: CRM/Contact/Page/View/Relationship.php:175
+#: CRM/Contact/Page/View/Relationship.php:180
 msgid "Edit Relationship"
 msgstr "Edytuj powiązanie"
 
-#: CRM/Contact/Page/View/Relationship.php:182
+#: CRM/Contact/Page/View/Relationship.php:187
 msgid "Enable Relationship"
 msgstr "Włącz powiązanie"
 
-#: CRM/Contact/Page/View/Relationship.php:189
+#: CRM/Contact/Page/View/Relationship.php:194
 msgid "Disable Relationship"
 msgstr "Wyłącz powiązanie"
 
-#: CRM/Contact/Page/View/Relationship.php:196
+#: CRM/Contact/Page/View/Relationship.php:201
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Delete Relationship"
 msgstr "Usunąć powiązanie?"
@@ -1984,851 +1916,861 @@ msgid "View Activity"
 msgstr "Zobacz zdarzenie"
 
 #: CRM/Contact/Selector/Activity.php:142
-#, fuzzy
 msgid "Open Activities %%StatusMessage%%"
-msgstr "Kontakty %%StatusMessage%%"
+msgstr "Zdarzenia otwarte %%StatusMessage%%"
 
-#: CRM/Contact/Selector/Activity.php:259
+#: CRM/Contact/Selector/Activity.php:211
+msgid "Phone Call"
+msgstr "Rozmowa"
+
+#: CRM/Contact/Selector/Activity.php:213
+msgid "Meeting"
+msgstr "Spotkanie"
+
+#: CRM/Contact/Selector/Activity.php:270
 #: templates/CRM/Activity/Form/Meeting.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Created By"
 msgstr "Stworzone przez"
 
-#: CRM/Contact/Selector/Activity.php:260
+#: CRM/Contact/Selector/Activity.php:271
 #: templates/CRM/Activity/Form/Meeting.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "With Contact"
 msgstr "Z kontaktem"
 
-#: CRM/Contact/Selector.php:147
+#: CRM/Contact/Selector.php:150
 msgid "View Contact Details"
 msgstr "Zobacz szczegóły kontaktu"
 
-#: CRM/Contact/Selector.php:153
+#: CRM/Contact/Selector.php:156
 msgid "Edit Contact Details"
 msgstr "Edytuj szczegóły kontaktu"
 
-#: CRM/Contact/Selector.php:169
+#: CRM/Contact/Selector.php:159
+msgid "Map"
+msgstr ""
+
+#: CRM/Contact/Selector.php:179
 msgid "Contact %%StatusMessage%%"
 msgstr "Kontakt %%StatusMessage%%"
 
-#: CRM/Contact/Selector.php:191
+#: CRM/Contact/Selector.php:201
 msgid "Contact Id"
 msgstr "Id kontaktu"
 
-#: CRM/Contact/Selector.php:304;317;330;341;377;399
+#: CRM/Contact/Selector.php:275
+msgid "Smart"
+msgstr "Sprytny"
+
+#: CRM/Contact/Selector.php:325;338;351;360;372;408;430
 msgid "or"
 msgstr "lub"
 
-#: CRM/Contact/Selector.php:305
+#: CRM/Contact/Selector.php:326
 msgid "and"
 msgstr "i"
 
-#: CRM/Contact/Selector.php:310
+#: CRM/Contact/Selector.php:331
 msgid "Name like - \"%1\""
 msgstr "Nazwa zawiera \"%1\""
 
-#: CRM/Contact/Selector.php:314
+#: CRM/Contact/Selector.php:335
 msgid "Contact Type -"
 msgstr "Rodzaj kontaktu –"
 
-#: CRM/Contact/Selector.php:321
+#: CRM/Contact/Selector.php:342
 msgid "All"
 msgstr "Wszystkie"
 
-#: CRM/Contact/Selector.php:328
+#: CRM/Contact/Selector.php:349
 msgid "Member of Group -"
 msgstr "Przynależność do grup –"
 
-#: CRM/Contact/Selector.php:339
+#: CRM/Contact/Selector.php:357
+msgid "Group Status -"
+msgstr "Stan grupy -"
+
+#: CRM/Contact/Selector.php:370
 msgid "Tagged as -"
 msgstr "Oznaczony jako –"
 
-#: CRM/Contact/Selector.php:349
+#: CRM/Contact/Selector.php:380
 msgid "Street Name like - \"%1\""
 msgstr "Nazwa ulicy zawiera \"%1\""
 
-#: CRM/Contact/Selector.php:354
+#: CRM/Contact/Selector.php:385
 msgid "City Name like - \"%1\""
 msgstr "Nazwa miasta zawiera – \"%1\""
 
-#: CRM/Contact/Selector.php:360
+#: CRM/Contact/Selector.php:391
 msgid "State - \"%1\""
 msgstr "Stan / Województwo – \"%1\""
 
-#: CRM/Contact/Selector.php:366
+#: CRM/Contact/Selector.php:397
 msgid "Country - \"%1\""
 msgstr "Kraj – \"%1\""
 
-#: CRM/Contact/Selector.php:373
+#: CRM/Contact/Selector.php:404
 msgid "Postal code -"
 msgstr "Kod pocztowy –"
 
-#: CRM/Contact/Selector.php:382;430
+#: CRM/Contact/Selector.php:413;461
 msgid "between \"%1\" and \"%2\""
 msgstr "między \"%1\" i \"%2\""
 
-#: CRM/Contact/Selector.php:384;432
+#: CRM/Contact/Selector.php:415;463
 msgid "greater than \"%1\""
 msgstr "większy niż \"%1\""
 
-#: CRM/Contact/Selector.php:386;434
+#: CRM/Contact/Selector.php:417;465
 msgid "less than \"%1\""
 msgstr "mniejszy niż \"%1\""
 
-#: CRM/Contact/Selector.php:396
+#: CRM/Contact/Selector.php:427
 msgid "Location type -"
 msgstr "Rodzaj lokalizacji –"
 
-#: CRM/Contact/Selector.php:403
+#: CRM/Contact/Selector.php:434
 msgid "Any"
 msgstr "Dowolny"
 
-#: CRM/Contact/Selector.php:410
+#: CRM/Contact/Selector.php:441
 msgid "Primary Location only? - Yes"
 msgstr "Tylko lokalizacje główne? – Tak"
 
-#: CRM/Contact/Selector.php:416
+#: CRM/Contact/Selector.php:447
 msgid "Activity Type like - \"%1\""
 msgstr "Rodzaj zdarzenia – \"%1\""
 
-#: CRM/Contact/Selector.php:438
+#: CRM/Contact/Selector.php:469
 msgid "Activity Date - %1"
 msgstr "Data zdarzenia – %1"
 
-#: CRM/Contact/Selector.php:443
+#: CRM/Contact/Selector.php:474
 msgid "Restricted to Contacts starting with: \"%1\""
 msgstr "Ograniczony do kontaktów zaczynających się od \"%1\""
 
-#: CRM/Contact/Selector.php:470
+#: CRM/Contact/Selector.php:532
 msgid "CiviCRM Contact Search"
 msgstr "Wyszukiwarka kontaktów CiviCRM"
 
-#: CRM/Contact/Selector.php:503 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Selector.php:565 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
 msgstr "Pocztowy"
 
-#: CRM/Contact/Task.php:81
+#: CRM/Contact/Task.php:84
 msgid "Add Contacts to a Group"
 msgstr "Dodaj kontakty do grupy"
 
-#: CRM/Contact/Task.php:82
+#: CRM/Contact/Task.php:85
 msgid "Remove Contacts from a Group"
 msgstr "Usuń kontakty z grupy"
 
-#: CRM/Contact/Task.php:83
+#: CRM/Contact/Task.php:86
 msgid "Tag Contacts (assign tags)"
 msgstr "Oznacz kontakty (przydziel im znaczniki)"
 
-#: CRM/Contact/Task.php:84
+#: CRM/Contact/Task.php:87
 msgid "Send Email to Contacts"
 msgstr "Napisz emaila do kontaktów"
 
-#: CRM/Contact/Task.php:86
+#: CRM/Contact/Task.php:89
 msgid "New Saved Search"
 msgstr "Nowe zapisane wyszukiwanie"
 
-#: CRM/Contact/Task.php:87
+#: CRM/Contact/Task.php:90
 msgid "Add Contacts to Household"
 msgstr "Dodaj kontakty do mieszkania"
 
-#: CRM/Contact/Task.php:88
+#: CRM/Contact/Task.php:91
 msgid "Add Contacts to Organization"
 msgstr "Dodaj kontakty do organizacji"
 
-#: CRM/Contact/Task.php:89
+#: CRM/Contact/Task.php:92
 msgid "Map Contacts using Google Maps"
 msgstr "Pokaż kontakty używając Google Maps"
 
-#: CRM/Core/BAO/CustomField.php:72
+#: CRM/Core/BAO/CustomField.php:75
 msgid "Alphanumeric"
 msgstr "Alfanumeryczny"
 
-#: CRM/Core/BAO/CustomField.php:74
+#: CRM/Core/BAO/CustomField.php:77
 msgid "Number"
 msgstr "Liczba"
 
-#: CRM/Core/BAO/CustomField.php:78
+#: CRM/Core/BAO/CustomField.php:81
 msgid "Yes or No"
 msgstr "Tak lub Nie"
 
-#: CRM/Core/BAO/EmailHistory.php:127
+#: CRM/Core/BAO/EmailHistory.php:130
 msgid "To: %1; Subject: %2"
 msgstr "Do: %1; Temat: %2"
 
-#: CRM/Core/BAO/Meeting.php:138
+#: CRM/Core/BAO/Meeting.php:141
 msgid "Selected Meeting has been deleted."
 msgstr "Wybrane spotkanie zostało skasowane."
 
-#: CRM/Core/BAO/Note.php:181
+#: CRM/Core/BAO/Note.php:185
 msgid "Selected Note has been Deleted Successfuly."
 msgstr "Wybrana notatka została skasowana."
 
-#: CRM/Core/BAO/Phonecall.php:132
+#: CRM/Core/BAO/OtherActivity.php:141
+msgid "Selected OtherActivity has been deleted."
+msgstr "Wybrane inne zdarzenie zostało skasowane."
+
+#: CRM/Core/BAO/Phonecall.php:135
 msgid "Selected Phone Call has been deleted."
 msgstr "Wybrana rozmowa została skasowana."
 
-#: CRM/Core/BAO/Tag.php:90
+#: CRM/Core/BAO/Tag.php:93
 msgid "Selected Tag has been Deleted Successfuly."
 msgstr "Wybrane oznaczenie zostało skasowane."
 
-#: CRM/Core/BAO/Tag.php:121
+#: CRM/Core/BAO/Tag.php:124
 msgid "The tag \"%1\" has been saved."
 msgstr "Znacznik „%1” został skasowany."
 
-#: CRM/Core/Block.php:75;76
+#: CRM/Core/BAO/UFMatch.php:70
+msgid "Please set the user framework variable"
+msgstr ""
+
+#: CRM/Core/Block.php:78;79
 msgid "CiviCRM Shortcuts"
 msgstr "Skróty CiviCRM"
 
-#: CRM/Core/Block.php:79
+#: CRM/Core/Block.php:82
 msgid "CiviCRM Quick Add"
 msgstr "Szybkie dodawanie CiviCRM"
 
-#: CRM/Core/Block.php:83
+#: CRM/Core/Block.php:86
 msgid "CiviCRM Search"
 msgstr "Wyszukiwanie CiviCRM"
 
-#: CRM/Core/Block.php:84
+#: CRM/Core/Block.php:87
 msgid "Contact Search"
 msgstr "Szukaj kontaktów"
 
-#: CRM/Core/Block.php:87
+#: CRM/Core/Block.php:90
 msgid "CiviCRM Menu"
 msgstr "Menu CiviCRM"
 
-#: CRM/Core/Block.php:201 templates/CRM/Group/Page/Group.tpl
+#: CRM/Core/Block.php:208 templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
 msgstr "Nowa grupa"
 
-#: CRM/Core/DAO/ActivityHistory.php:200
+#: CRM/Core/DAO/ActivityHistory.php:203
 msgid "Module"
 msgstr "Moduł"
 
-#: CRM/Core/DAO/ActivityHistory.php:206
+#: CRM/Core/DAO/ActivityHistory.php:209
 msgid "Callback"
 msgstr "Oddzwonienie"
 
-#: CRM/Core/DAO/ActivityHistory.php:216
+#: CRM/Core/DAO/ActivityHistory.php:219
 msgid "Activity Summary"
 msgstr "Podsumowanie zdarzenia"
 
-#: CRM/Core/DAO/Address.php:299
+#: CRM/Core/DAO/Address.php:302
 msgid "Street Number"
 msgstr "Numer domu"
 
-#: CRM/Core/DAO/Address.php:303
+#: CRM/Core/DAO/Address.php:306
 msgid "Street Number Suffix"
 msgstr "Przyrostek numeru domu"
 
-#: CRM/Core/DAO/Address.php:309
+#: CRM/Core/DAO/Address.php:312
 msgid "Street Number Predirectional"
 msgstr "Przedrostek numeru domu"
 
-#: CRM/Core/DAO/Address.php:321
+#: CRM/Core/DAO/Address.php:324
 msgid "Street Type"
 msgstr "Rodzaj ulicy"
 
-#: CRM/Core/DAO/Address.php:327
+#: CRM/Core/DAO/Address.php:330
 msgid "Street Number Postdirectional"
 msgstr "Przyrostek numeru domu"
 
-#: CRM/Core/DAO/Address.php:333
+#: CRM/Core/DAO/Address.php:336
 msgid "Street Unit"
 msgstr "Jednostka ulicy"
 
-#: CRM/Core/DAO/Address.php:339
+#: CRM/Core/DAO/Address.php:342
 msgid "Supplemental Address 1"
 msgstr "Dodatkowy adres 1"
 
-#: CRM/Core/DAO/Address.php:349
+#: CRM/Core/DAO/Address.php:352
 msgid "Supplemental Address 2"
 msgstr "Dodatkowy adres 2"
 
-#: CRM/Core/DAO/Address.php:359
+#: CRM/Core/DAO/Address.php:362
 msgid "Supplemental Address 3"
 msgstr "Dodatkowy adres 3"
 
-#: CRM/Core/DAO/Address.php:392
+#: CRM/Core/DAO/Address.php:395
 msgid "Postal Code Suffix"
 msgstr "Przyrostek kodu pocztowego"
 
-#: CRM/Core/DAO/Address.php:398
+#: CRM/Core/DAO/Address.php:401
 msgid "Usps Adc"
 msgstr "Adres USPS"
 
-#: CRM/Core/DAO/Address.php:410
+#: CRM/Core/DAO/Address.php:413
 msgid "Geo Code 1"
 msgstr "Współrzędna geograficzna 1"
 
-#: CRM/Core/DAO/Address.php:414
+#: CRM/Core/DAO/Address.php:417
 msgid "Geo Code 2"
 msgstr "Współrzędna geograficzna 2"
 
-#: CRM/Core/DAO/Address.php:418
+#: CRM/Core/DAO/Address.php:421
 msgid "Timezone"
 msgstr "Strefa czasowa"
 
-#: CRM/Core/DAO/Country.php:143
+#: CRM/Core/DAO/Country.php:146
 msgid "Iso Code"
 msgstr "Kod ISO"
 
-#: CRM/Core/DAO/Country.php:149
+#: CRM/Core/DAO/Country.php:152
 msgid "Country Code"
 msgstr "Kod kraju"
 
-#: CRM/Core/DAO/Country.php:155
+#: CRM/Core/DAO/Country.php:158
 msgid "Idd Prefix"
 msgstr "Przedrostek Idd"
 
-#: CRM/Core/DAO/Country.php:161
+#: CRM/Core/DAO/Country.php:164
 msgid "Ndd Prefix"
 msgstr "Przedrostek Ndd"
 
-#: CRM/Core/DAO/County.php:140
+#: CRM/Core/DAO/County.php:143
 msgid "Country Abbreviation"
 msgstr "Skrót nazwy kraju"
 
-#: CRM/Core/DAO/CustomField.php:246
+#: CRM/Core/DAO/CustomField.php:245 templates/CRM/Custom/Page/Field.tpl
+msgid "Data Type"
+msgstr "Rodzaj danych"
+
+#: CRM/Core/DAO/CustomField.php:249
 msgid "Html Type"
 msgstr "Rodzaj HTML"
 
-#: CRM/Core/DAO/CustomField.php:284
+#: CRM/Core/DAO/CustomField.php:287
 msgid "Attributes"
 msgstr "Własności"
 
-#: CRM/Core/DAO/CustomField.php:290
+#: CRM/Core/DAO/CustomField.php:293
 msgid "Javascript"
 msgstr "Javascript"
 
-#: CRM/Core/DAO/CustomField.php:361
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:364
 msgid "String"
-msgstr "spotkanie"
+msgstr "Tekst"
 
-#: CRM/Core/DAO/CustomField.php:362
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:365
 msgid "Int"
-msgstr "W"
+msgstr "Liczba całkowita"
 
-#: CRM/Core/DAO/CustomField.php:363
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:366
 msgid "Float"
-msgstr "Dane zmiennoprzecinkowe"
+msgstr "Liczba zmiennoprzecinkowe"
 
-#: CRM/Core/DAO/CustomField.php:367
+#: CRM/Core/DAO/CustomField.php:370
 msgid "Boolean"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:368
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:371
 msgid "StateProvince"
 msgstr "Stan/województwo"
 
-#: CRM/Core/DAO/CustomField.php:373
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:376
 msgid "TextArea"
-msgstr "Tekst"
+msgstr "Pole tekstowe"
 
-#: CRM/Core/DAO/CustomField.php:374
+#: CRM/Core/DAO/CustomField.php:377
 msgid "Select"
 msgstr "Wybierz"
 
-#: CRM/Core/DAO/CustomField.php:375
+#: CRM/Core/DAO/CustomField.php:378
 msgid "Radio"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:376
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:379
 msgid "CheckBox"
 msgstr "Wybór wielokrotny (checkbox)"
 
-#: CRM/Core/DAO/CustomField.php:377
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:380
 msgid "Select Date"
-msgstr "Data wysłania"
+msgstr "Wybór daty"
 
-#: CRM/Core/DAO/CustomField.php:378
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:381
 msgid "Select State/Province"
-msgstr "Stan/województwo"
+msgstr "Wybór stanu/województwa"
 
-#: CRM/Core/DAO/CustomField.php:379
-#, fuzzy
+#: CRM/Core/DAO/CustomField.php:382
 msgid "Select Country"
-msgstr "Wybierz grupę"
+msgstr "Wybór kraju"
 
-#: CRM/Core/DAO/CustomGroup.php:199
+#: CRM/Core/DAO/CustomGroup.php:202
 msgid "Extends"
 msgstr "Rozszerza"
 
-#: CRM/Core/DAO/CustomGroup.php:203 templates/CRM/Custom/Page/Group.tpl
+#: CRM/Core/DAO/CustomGroup.php:206 templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
 msgstr "Styl"
 
-#: CRM/Core/DAO/CustomGroup.php:207
+#: CRM/Core/DAO/CustomGroup.php:210
 msgid "Collapse Display"
 msgstr "Zwiń widok"
 
-#: CRM/Core/DAO/CustomGroup.php:293
-#, fuzzy
+#: CRM/Core/DAO/CustomGroup.php:296
 msgid "Contact"
-msgstr "Kontakty"
+msgstr "Kontakt"
 
-#: CRM/Core/DAO/CustomValue.php:183
+#: CRM/Core/DAO/CustomValue.php:186
 msgid "Int Data"
 msgstr "Dane całkowitoliczbowe"
 
-#: CRM/Core/DAO/CustomValue.php:187
+#: CRM/Core/DAO/CustomValue.php:190
 msgid "Float Data"
 msgstr "Dane zmiennoprzecinkowe"
 
-#: CRM/Core/DAO/CustomValue.php:191
+#: CRM/Core/DAO/CustomValue.php:194
 msgid "Char Data"
 msgstr "Dane znakowe"
 
-#: CRM/Core/DAO/CustomValue.php:197
+#: CRM/Core/DAO/CustomValue.php:200
 msgid "Date Data"
 msgstr "Dane w postaci daty"
 
-#: CRM/Core/DAO/CustomValue.php:201
+#: CRM/Core/DAO/CustomValue.php:204
 msgid "Memo Data"
 msgstr "Dane w postaci notatki"
 
-#: CRM/Core/DAO/Domain.php:138
-#, fuzzy
+#: CRM/Core/DAO/Domain.php:141
 msgid "Contact Name"
-msgstr "Strona kontaktu"
+msgstr "Nazwa kontaktu"
 
-#: CRM/Core/DAO/Domain.php:144
+#: CRM/Core/DAO/Domain.php:147
 msgid "Email Domain"
 msgstr ""
 
-#: CRM/Core/DAO/EmailHistory.php:157
+#: CRM/Core/DAO/EmailHistory.php:160
 msgid "Sent Date"
 msgstr "Data wysłania"
 
-#: CRM/Core/DAO/Email.php:173
+#: CRM/Core/DAO/Email.php:176
 msgid "On Hold"
 msgstr ""
 
-#: CRM/Core/DAO/Email.php:178
-#, fuzzy
+#: CRM/Core/DAO/Email.php:181
 msgid "Hold Date"
-msgstr "Data zakończenia"
+msgstr "Data zatrzymania"
 
-#: CRM/Core/DAO/Email.php:182
-#, fuzzy
+#: CRM/Core/DAO/Email.php:185
 msgid "Reset Date"
-msgstr "Data wysłania"
+msgstr "Data zresetowania"
 
-#: CRM/Core/DAO/GeoCoord.php:119
+#: CRM/Core/DAO/GeoCoord.php:122
 msgid "Coord Type"
 msgstr "Rodzaj współrzędnych"
 
-#: CRM/Core/DAO/GeoCoord.php:123
+#: CRM/Core/DAO/GeoCoord.php:126
 msgid "Coord Units"
 msgstr "Jednowski współrzędnych"
 
-#: CRM/Core/DAO/GeoCoord.php:127
+#: CRM/Core/DAO/GeoCoord.php:130
 msgid "Coord Ogc Wkt String"
 msgstr "Współrzędne OGC WKT"
 
-#: CRM/Core/DAO/GeoCoord.php:193
-#, fuzzy
+#: CRM/Core/DAO/GeoCoord.php:196
 msgid "LatLong"
-msgstr "Lokalizacja"
+msgstr "Współrzędne"
 
-#: CRM/Core/DAO/GeoCoord.php:194
+#: CRM/Core/DAO/GeoCoord.php:197
 msgid "Projected"
 msgstr ""
 
-#: CRM/Core/DAO/GeoCoord.php:197
-#, fuzzy
+#: CRM/Core/DAO/GeoCoord.php:200
 msgid "Degree"
-msgstr "Usuń"
+msgstr "Stopień"
 
-#: CRM/Core/DAO/GeoCoord.php:198
+#: CRM/Core/DAO/GeoCoord.php:201
 msgid "Grad"
 msgstr ""
 
-#: CRM/Core/DAO/GeoCoord.php:199
+#: CRM/Core/DAO/GeoCoord.php:202
 msgid "Radian"
 msgstr ""
 
-#: CRM/Core/DAO/GeoCoord.php:200
+#: CRM/Core/DAO/GeoCoord.php:203
 msgid "Foot"
 msgstr ""
 
-#: CRM/Core/DAO/GeoCoord.php:201
+#: CRM/Core/DAO/GeoCoord.php:204
 msgid "Meter"
 msgstr ""
 
-#: CRM/Core/DAO/IM.php:146
+#: CRM/Core/DAO/IM.php:149
 msgid "IM Screen Name"
 msgstr "Identyfikator w komunikatorze"
 
-#: CRM/Core/DAO/IMProvider.php:141
+#: CRM/Core/DAO/IMProvider.php:144
 msgid "IM Provider Name"
 msgstr "Nazwa komunikatora"
 
-#: CRM/Core/DAO/LocationType.php:159
+#: CRM/Core/DAO/LocationType.php:169
 msgid "Location Type"
 msgstr "Rodzaj lokalizacji"
 
-#: CRM/Core/DAO/Note.php:173
+#: CRM/Core/DAO/LocationType.php:179
+msgid "vCard Location Type"
+msgstr "vCard – rodzaj lokalizacji"
+
+#: CRM/Core/DAO/Note.php:176
 msgid "Modified Date"
 msgstr "Data modyfikacji"
 
-#: CRM/Core/DAO/StateProvince.php:144
+#: CRM/Core/DAO/StateProvince.php:147
 msgid "State Abbreviation"
 msgstr "Skrót stanu/województwa"
 
-#: CRM/Core/DAO/UFField.php:194
+#: CRM/Core/DAO/UFField.php:197
 msgid "Field Name"
 msgstr "Nazwa pola"
 
-#: CRM/Core/DAO/UFField.php:295
+#: CRM/Core/DAO/UFField.php:298
 msgid "User and User Admin Only"
 msgstr ""
 
-#: CRM/Core/DAO/UFField.php:296
+#: CRM/Core/DAO/UFField.php:299
 msgid "Public User Pages"
 msgstr ""
 
-#: CRM/Core/DAO/UFField.php:297
+#: CRM/Core/DAO/UFField.php:300
 msgid "Public User Pages and Listings"
 msgstr ""
 
-#: CRM/Core/DAO/UFGroup.php:148
+#: CRM/Core/DAO/UFGroup.php:151
 msgid "Form Type"
 msgstr "Rodzaj formularza"
 
-#: CRM/Core/DAO/Validation.php:152 templates/CRM/Mailing/Page/Component.tpl
+#: CRM/Core/DAO/Validation.php:155 templates/CRM/Mailing/Page/Component.tpl
 msgid "Type"
 msgstr "Rodzaj"
 
-#: CRM/Core/DAO/Validation.php:156
+#: CRM/Core/DAO/Validation.php:159
 msgid "Parameters"
 msgstr "Parametry"
 
-#: CRM/Core/DAO/Validation.php:162
+#: CRM/Core/DAO/Validation.php:165
 msgid "Function Name"
 msgstr "Nazwa funkcji"
 
-#: CRM/Core/DAO/Validation.php:237
+#: CRM/Core/DAO/Validation.php:240
 msgid "URL"
 msgstr ""
 
-#: CRM/Core/DAO/Validation.php:239
-#, fuzzy
-msgid "Positive Integer"
-msgstr "Liczba całkowita"
-
-#: CRM/Core/DAO/Validation.php:240
-#, fuzzy
-msgid "Variable Name"
-msgstr "Drugie imię"
-
-#: CRM/Core/DAO/Validation.php:241
-#, fuzzy
-msgid "Range"
-msgstr "Zakres-Od"
-
 #: CRM/Core/DAO/Validation.php:242
+msgid "Positive Integer"
+msgstr "Liczba dodatnia"
+
+#: CRM/Core/DAO/Validation.php:243
+msgid "Variable Name"
+msgstr "Nazwa zmiennej"
+
+#: CRM/Core/DAO/Validation.php:244
+msgid "Range"
+msgstr "Zakres"
+
+#: CRM/Core/DAO/Validation.php:245
 msgid "Regular Expression Match"
 msgstr ""
 
-#: CRM/Core/DAO/Validation.php:243
+#: CRM/Core/DAO/Validation.php:246
 msgid "Regular Expression No Match"
 msgstr ""
 
-#: CRM/Core/Form.php:169
+#: CRM/Core/Form.php:172
 msgid "%1 is a required field"
 msgstr "%1 jest polem wymaganym"
 
-#: CRM/Core/Invoke.php:111
+#: CRM/Core/Invoke.php:117
 msgid "Test Ajax Page"
 msgstr ""
 
-#: CRM/Core/Invoke.php:123
-msgid "<a href=\"%1\">Search Results</a>"
-msgstr "<a href=\"%1\">Wyniki wyszukiwania</a>"
-
-#: CRM/Core/Invoke.php:135
+#: CRM/Core/Invoke.php:144;194
 msgid "Email a Contact"
 msgstr "Napisz emaila do kontaktu"
 
-#: CRM/Core/Invoke.php:230
-msgid "Contact Page"
-msgstr "Strona kontaktu"
-
-#: CRM/Core/Invoke.php:270
+#: CRM/Core/Invoke.php:312
 msgid "View Location Types"
 msgstr "Zobacz rodzaje lokalizacji"
 
-#: CRM/Core/Invoke.php:273
-#, fuzzy
+#: CRM/Core/Invoke.php:315
 msgid "View Activity Types"
-msgstr "Rodzaj zdarzenia"
+msgstr "Zobacz rodzaje zdarzeń"
 
-#: CRM/Core/Invoke.php:276
+#: CRM/Core/Invoke.php:318
 msgid "View Instant Messenger Providers"
 msgstr "Zobacz komunikatory"
 
-#: CRM/Core/Invoke.php:279
+#: CRM/Core/Invoke.php:321
 msgid "View Mobile Providers"
 msgstr "Zobacz sieci komórkowe"
 
-#: CRM/Core/Invoke.php:282
+#: CRM/Core/Invoke.php:324
 msgid "View Relationship Types"
 msgstr "Zobacz rodzaje powiązań"
 
-#: CRM/Core/Invoke.php:287 templates/CRM/Custom/Form/Group.tpl
+#: CRM/Core/Invoke.php:329 templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
 msgstr "Grupa danych dodatkowych"
 
-#: CRM/Core/Invoke.php:290;292;293 templates/CRM/Custom/Form/Field.tpl
+#: CRM/Core/Invoke.php:332;334;336 templates/CRM/Custom/Form/Field.tpl
 msgid "Custom Data Field"
 msgstr "Pole danych dodatkowych"
 
-#: CRM/Core/Invoke.php:314
+#: CRM/Core/Invoke.php:357
 msgid "View Tags"
 msgstr "Zobacz znaczniki"
 
-#: CRM/Core/Invoke.php:362
+#: CRM/Core/Invoke.php:405
 msgid "View Groups"
 msgstr "Zobacz grupy"
 
-#: CRM/Core/Invoke.php:386
+#: CRM/Core/Invoke.php:429
 msgid "Send Mailing"
 msgstr "Zrób wysyłkę"
 
-#: CRM/Core/SelectValues.php:48
+#: CRM/Core/SelectValues.php:51
 msgid "-title-"
 msgstr "-tytuł-"
 
-#: CRM/Core/SelectValues.php:49
+#: CRM/Core/SelectValues.php:52
 msgid "Mrs."
 msgstr "Pani"
 
-#: CRM/Core/SelectValues.php:50
+#: CRM/Core/SelectValues.php:53
 msgid "Ms."
 msgstr "Pani"
 
-#: CRM/Core/SelectValues.php:51
+#: CRM/Core/SelectValues.php:54
 msgid "Mr."
 msgstr "Pan"
 
-#: CRM/Core/SelectValues.php:52
+#: CRM/Core/SelectValues.php:55
 msgid "Dr."
 msgstr "Dr"
 
-#: CRM/Core/SelectValues.php:53;72
+#: CRM/Core/SelectValues.php:56;75
 msgid "(none)"
 msgstr "(brak)"
 
-#: CRM/Core/SelectValues.php:68
+#: CRM/Core/SelectValues.php:71
 msgid "-suffix-"
 msgstr "-przyrostek-"
 
-#: CRM/Core/SelectValues.php:69
+#: CRM/Core/SelectValues.php:72
 msgid "Jr."
 msgstr "Jr."
 
-#: CRM/Core/SelectValues.php:70
+#: CRM/Core/SelectValues.php:73
 msgid "Sr."
 msgstr "Sr."
 
-#: CRM/Core/SelectValues.php:71
+#: CRM/Core/SelectValues.php:74
 msgid "II"
 msgstr "II"
 
-#: CRM/Core/SelectValues.php:87
+#: CRM/Core/SelectValues.php:90
 msgid "default - Dear [first] [last]"
 msgstr "domyślne: Droga/Drogi [imię] [nazwisko]"
 
-#: CRM/Core/SelectValues.php:88
+#: CRM/Core/SelectValues.php:91
 msgid "Dear [first]"
 msgstr "Droga/Drogi [imię]"
 
-#: CRM/Core/SelectValues.php:89
+#: CRM/Core/SelectValues.php:92
 msgid "Dear [title] [last]"
 msgstr "Droga/Drogi [tytuł] [nazwisko]"
 
-#: CRM/Core/SelectValues.php:90
+#: CRM/Core/SelectValues.php:93
 msgid "Customized"
 msgstr "Inny"
 
-#: CRM/Core/SelectValues.php:105;125;195;217;321
+#: CRM/Core/SelectValues.php:108;128;198;220;324
 msgid "-select-"
 msgstr "-wybierz-"
 
-#: CRM/Core/SelectValues.php:126
+#: CRM/Core/SelectValues.php:129
 msgid "San Francisco"
 msgstr "San Francisco"
 
-#: CRM/Core/SelectValues.php:141
+#: CRM/Core/SelectValues.php:144
 msgid "-no preference-"
 msgstr "-brak preferencji-"
 
-#: CRM/Core/SelectValues.php:144
+#: CRM/Core/SelectValues.php:147
 msgid "Postal Mail"
 msgstr "Poczta zwykła"
 
-#: CRM/Core/SelectValues.php:159
+#: CRM/Core/SelectValues.php:162
 msgid "Do not call"
 msgstr "Nie dzwonić"
 
-#: CRM/Core/SelectValues.php:160
+#: CRM/Core/SelectValues.php:163
 msgid "Do not email"
 msgstr "Nie wysyłać maili"
 
-#: CRM/Core/SelectValues.php:161
+#: CRM/Core/SelectValues.php:164
 msgid "Do not mail"
 msgstr "Nie wysyłać listów"
 
-#: CRM/Core/SelectValues.php:162
+#: CRM/Core/SelectValues.php:165
 msgid "Do not trade"
 msgstr "Nie przekazywać adresu"
 
-#: CRM/Core/SelectValues.php:177
+#: CRM/Core/SelectValues.php:180
 msgid "- all contacts -"
 msgstr "- wszystkie -"
 
-#: CRM/Core/SelectValues.php:178;242 templates/CRM/Block/Search.tpl
+#: CRM/Core/SelectValues.php:181;245 templates/CRM/Block/Search.tpl
 msgid "Individuals"
 msgstr "osoby"
 
-#: CRM/Core/SelectValues.php:179;243 templates/CRM/Block/Search.tpl
+#: CRM/Core/SelectValues.php:182;246 templates/CRM/Block/Search.tpl
 msgid "Households"
 msgstr "mieszkania"
 
-#: CRM/Core/SelectValues.php:180;244 templates/CRM/Block/Search.tpl
+#: CRM/Core/SelectValues.php:183;247 templates/CRM/Block/Search.tpl
 msgid "Organizations"
 msgstr "organizacje"
 
-#: CRM/Core/SelectValues.php:198
+#: CRM/Core/SelectValues.php:201
 msgid "Decimal Number"
 msgstr "Liczba dziesiętna"
 
-#: CRM/Core/SelectValues.php:202
+#: CRM/Core/SelectValues.php:205
 msgid "Yes/No"
 msgstr "Tak/Nie"
 
-#: CRM/Core/SelectValues.php:218
+#: CRM/Core/SelectValues.php:221
 msgid "Single-line input field (text or numeric)"
 msgstr "Pole jednoliniowe (tekstowe lub liczbowe)"
 
-#: CRM/Core/SelectValues.php:219
+#: CRM/Core/SelectValues.php:222
 msgid "Multi-line text box (textarea)"
 msgstr "Pole wieloliczbowe (textarea)"
 
-#: CRM/Core/SelectValues.php:220
+#: CRM/Core/SelectValues.php:223
 msgid "Drop-down (select list)"
 msgstr "Lista wyboru (drop-down)"
 
-#: CRM/Core/SelectValues.php:221
+#: CRM/Core/SelectValues.php:224
 msgid "Radio buttons"
 msgstr "Wybór jednokrotny (radio)"
 
-#: CRM/Core/SelectValues.php:222
+#: CRM/Core/SelectValues.php:225
 msgid "Checkbox(es)"
 msgstr "Wybór wielokrotny (checkbox)"
 
-#: CRM/Core/SelectValues.php:223
+#: CRM/Core/SelectValues.php:226
 msgid "Date selector"
 msgstr "Wybór daty"
 
-#: CRM/Core/SelectValues.php:224
+#: CRM/Core/SelectValues.php:227
 msgid "State / Province selector"
 msgstr "Wybór stanu / województwa"
 
-#: CRM/Core/SelectValues.php:225
+#: CRM/Core/SelectValues.php:228
 msgid "Country selector"
 msgstr "Wybór kraju"
 
-#: CRM/Core/SelectValues.php:241
+#: CRM/Core/SelectValues.php:244
 msgid "-all contact types-"
 msgstr "-wszystkie rodzaje kontaktów-"
 
-#: CRM/Core/SelectValues.php:294
+#: CRM/Core/SelectValues.php:297
 msgid "Dynamic"
 msgstr "Dynamiczny"
 
-#: CRM/Core/SelectValues.php:295
+#: CRM/Core/SelectValues.php:298
 msgid "Static"
 msgstr "Statyczny"
 
-#: CRM/Core/ShowHideBlocks.php:90
+#: CRM/Core/ShowHideBlocks.php:93
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
 msgstr "pokaż pole lub sekcję"
 
-#: CRM/Core/ShowHideBlocks.php:91
+#: CRM/Core/ShowHideBlocks.php:94
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "hide field or section"
 msgstr "ukryj pole lub sekcję"
 
-#: CRM/Custom/Form/Field.php:173
-msgid "HTML Type"
-msgstr "Rodzaj HTML"
-
-#: CRM/Custom/Form/Field.php:191 templates/CRM/Custom/Page/Field.tpl
+#: CRM/Custom/Form/Field.php:169 templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
 msgstr "Etykieta pola"
 
-#: CRM/Custom/Form/Field.php:192
+#: CRM/Custom/Form/Field.php:170
 msgid "Please enter a valid label for this field."
 msgstr "Wprowadź poprawną etykietę dla tego pola."
 
-#: CRM/Custom/Form/Field.php:196
-msgid "Input Field Type"
-msgstr "Wprowadź rodzaj pola"
+#: CRM/Custom/Form/Field.php:177
+msgid "Data and Input Field Type"
+msgstr "Rodzaj danych i pola ich wprowadzenia"
 
-#: CRM/Custom/Form/Field.php:250
+#: CRM/Custom/Form/Field.php:256
 msgid "Is this Field Searchable?"
 msgstr "Czy to pole jest przeszukiwalne?"
 
-#: CRM/Custom/Form/Field.php:590
+#: CRM/Custom/Form/Field.php:595
 msgid "Your custom field \"%1\" has been saved"
 msgstr "Pole dodatkowe „%1” zostało zapisane"
 
-#: CRM/Custom/Form/Group.php:66
+#: CRM/Custom/Form/Group.php:69
 msgid "Preview %1"
 msgstr "Podgląd %1"
 
-#: CRM/Custom/Form/Group.php:68 templates/CRM/Custom/Page/Group.tpl
+#: CRM/Custom/Form/Group.php:71 templates/CRM/Custom/Page/Group.tpl
 msgid "New Custom Data Group"
 msgstr "Nowa grupa danych dodatkowych"
 
-#: CRM/Custom/Form/Group.php:88 templates/CRM/Custom/Page/Group.tpl
+#: CRM/Custom/Form/Group.php:86
+msgid "Group Name"
+msgstr "Nazwa grupy"
+
+#: CRM/Custom/Form/Group.php:91 templates/CRM/Custom/Page/Group.tpl
 msgid "Used For"
 msgstr "Rozszerza"
 
-#: CRM/Custom/Form/Group.php:96
+#: CRM/Custom/Form/Group.php:99
 msgid "Form Help"
 msgstr "Pomoc do formularza"
 
-#: CRM/Custom/Form/Group.php:103
+#: CRM/Custom/Form/Group.php:106
 msgid "Display Style"
 msgstr "Styl wyświetlania"
 
-#: CRM/Custom/Form/Group.php:106
+#: CRM/Custom/Form/Group.php:109
 msgid "Collapse this group on initial display"
 msgstr "Zwiń tę grupę podczas wstępnego wyświetlania"
 
-#: CRM/Custom/Form/Group.php:109
+#: CRM/Custom/Form/Group.php:112
 msgid "Is this Custom Data Group active?"
 msgstr "Czy ta grupa danych dodatkowych jest aktywna?"
 
-#: CRM/Custom/Form/Group.php:176
+#: CRM/Custom/Form/Group.php:179
 msgid "Your Group \"%1\" has been saved."
 msgstr "Grupa „%1” została zapisana."
 
-#: CRM/Custom/Form/Group.php:179
+#: CRM/Custom/Form/Group.php:182
 msgid ""
 "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</"
 "a> to this group now."
@@ -2836,176 +2778,175 @@ msgstr ""
 "Grupa „%1” została dodana. Można do niej teraz <a href=\"%2\">dodać "
 "dodatkowe pola</a>."
 
-#: CRM/Custom/Form/Option.php:118 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:121 templates/CRM/Custom/Page/Option.tpl
 msgid "Option Label"
 msgstr "Etykieta opcji"
 
-#: CRM/Custom/Form/Option.php:122 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:125 templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
 msgstr "Wartość opcji"
 
-#: CRM/Custom/Form/Option.php:133 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:136 templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
 msgstr "Domyślnie"
 
-#: CRM/Custom/Form/Option.php:276
+#: CRM/Custom/Form/Option.php:279
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr "Opcja wielokrotnego wyboru „%1” została zapisana"
 
-#: CRM/Custom/Form/Preview.php:224
+#: CRM/Custom/Form/Preview.php:231
 msgid "Done with Preview"
 msgstr "Koniec podglądu"
 
-#: CRM/Custom/Page/Field.php:73
+#: CRM/Custom/Page/Field.php:76
 msgid "Are you sure you want to disable this custom data field?"
 msgstr "Na pewno wyłączyć to pole dodatkowych danych?"
 
-#: CRM/Custom/Page/Field.php:76
+#: CRM/Custom/Page/Field.php:79
 msgid "Preview Field Display"
 msgstr "Podejrzyj wyświetlanie pola"
 
-#: CRM/Custom/Page/Field.php:79
+#: CRM/Custom/Page/Field.php:82
 msgid "Preview Custom Field"
 msgstr "Podejrzyj pole dodatkowe"
 
-#: CRM/Custom/Page/Field.php:82
+#: CRM/Custom/Page/Field.php:85
 msgid "Edit Field"
 msgstr "Edytuj pole"
 
-#: CRM/Custom/Page/Field.php:85
+#: CRM/Custom/Page/Field.php:88
 msgid "Edit Custom Field"
 msgstr "Edytuj pole dodatkowe"
 
-#: CRM/Custom/Page/Field.php:88
+#: CRM/Custom/Page/Field.php:91
 msgid "Edit Multiple Choice Options"
 msgstr "Edytuj opcje wielokrotnego wyboru"
 
-#: CRM/Custom/Page/Field.php:91
+#: CRM/Custom/Page/Field.php:94
 msgid "List Custom Options"
 msgstr "Wypisz opcje dodatkowe"
 
-#: CRM/Custom/Page/Field.php:104
+#: CRM/Custom/Page/Field.php:107
 msgid "Enable Custom Field"
 msgstr "Włącz pole dodatkowe"
 
-#: CRM/Custom/Page/Field.php:192
+#: CRM/Custom/Page/Field.php:195
 msgid "Custom Field"
 msgstr "Pole dodatkowe"
 
-#: CRM/Custom/Page/Field.php:223
+#: CRM/Custom/Page/Field.php:226
 msgid "%1 - Custom Fields"
 msgstr "%1 – pola dodatkowe"
 
-#: CRM/Custom/Page/Group.php:68
-msgid "Preview Form Fields"
-msgstr "Podejrzyj pole formularza"
+#: CRM/Custom/Page/Group.php:71;74
+msgid "View and Edit Custom Fields"
+msgstr "Zobacz i edytuj pola dodatkowe"
 
-#: CRM/Custom/Page/Group.php:71
-msgid "Preview Custom Group"
-msgstr "Podejrzyj grupę dodatkową"
-
-#: CRM/Custom/Page/Group.php:74
-msgid "Edit Fields"
-msgstr "Edytuj pola"
-
-#: CRM/Custom/Page/Group.php:77
-msgid "List Custom Group Fields"
-msgstr "Wypisz pola grupy dodatkowej"
+#: CRM/Custom/Page/Group.php:80
+msgid "Preview Custom Data Group"
+msgstr "Podejrzyj grupę danych dodatkowych"
 
 #: CRM/Custom/Page/Group.php:83
+msgid "Edit Group Title and Display Type"
+msgstr ""
+
+#: CRM/Custom/Page/Group.php:86
 msgid "Edit Custom Group"
 msgstr "Edytuj grupę dodatkową"
 
-#: CRM/Custom/Page/Group.php:89
+#: CRM/Custom/Page/Group.php:92
 msgid "Disable Custom Group"
 msgstr "Wyłącz grupę dodatkową"
 
-#: CRM/Custom/Page/Group.php:96
+#: CRM/Custom/Page/Group.php:99
 msgid "Enable Custom Group"
 msgstr "Włącz grupę dodatkową"
 
-#: CRM/Custom/Page/Group.php:155
+#: CRM/Custom/Page/Group.php:158
 msgid "Custom Group"
 msgstr "Grupa dodatkowa"
 
-#: CRM/Custom/Page/Option.php:81
+#: CRM/Custom/Page/Option.php:84
 msgid "Are you sure you want to disable this custom data option?"
 msgstr "Na pewno wyłączyć tę grupę danych dodatkowych?"
 
-#: CRM/Custom/Page/Option.php:87
+#: CRM/Custom/Page/Option.php:90
 msgid "View Custom Option"
 msgstr "Zobacz opcję dodatkową"
 
-#: CRM/Custom/Page/Option.php:90
+#: CRM/Custom/Page/Option.php:93
 msgid "Edit Option"
 msgstr "Edytuj opcję"
 
-#: CRM/Custom/Page/Option.php:93
+#: CRM/Custom/Page/Option.php:96
 msgid "Edit Custom Option"
 msgstr "Edytuj opcję dodatkową"
 
-#: CRM/Custom/Page/Option.php:99
+#: CRM/Custom/Page/Option.php:102
 msgid "Enable Custom Option"
 msgstr "Włącz opcję dodatkową"
 
-#: CRM/Custom/Page/Option.php:177
+#: CRM/Custom/Page/Option.php:180
 msgid "Custom Option"
 msgstr "Opcja dodatkowa"
 
-#: CRM/Custom/Page/Option.php:213
+#: CRM/Custom/Page/Option.php:216
 msgid "%1 - Multiple Choice Options"
 msgstr "%1 – opcje wielokrotnego wyboru"
 
-#: CRM/Group/Form/Delete.php:71
+#: CRM/Group/Form/Delete.php:74
 msgid "Confirm Group Delete"
 msgstr "Potwierdź usunięcie grupy"
 
-#: CRM/Group/Form/Delete.php:100
+#: CRM/Group/Form/Delete.php:103
 msgid "The Group \"%1\" has been deleted."
 msgstr "Grupa „%1” została utworzona."
 
-#: CRM/Group/Form/DynamicGroup.php:65
+#: CRM/Group/Form/DynamicGroup.php:68
 msgid "Saved Search: "
 msgstr "Zapisane wyszukiwanie: "
 
-#: CRM/Group/Form/DynamicGroup.php:72
+#: CRM/Group/Form/DynamicGroup.php:75
 msgid "Previous"
 msgstr "Poprzedni"
 
-#: CRM/Group/Form/DynamicGroup.php:74
+#: CRM/Group/Form/DynamicGroup.php:77
 msgid "Reset"
 msgstr "Zresetuj"
 
-#: CRM/Group/Form/Edit.php:90
+#: CRM/Group/Form/Edit.php:93
 msgid "Name: "
 msgstr "Nazwa: "
 
-#: CRM/Group/Form/Edit.php:92
+#: CRM/Group/Form/Edit.php:95
 msgid "Group name is required."
 msgstr "Wymagana jest nazwa grupy."
 
-#: CRM/Group/Form/Edit.php:96
+#: CRM/Group/Form/Edit.php:99
 msgid "Description: "
 msgstr "Opis: "
 
-#: CRM/Group/Form/Edit.php:101
+#: CRM/Group/Form/Edit.php:104
 msgid "Continue"
 msgstr "Dalej"
 
-#: CRM/Group/Form/Edit.php:133
+#: CRM/Group/Form/Edit.php:136
 msgid "The Group \"%1\" has been saved."
 msgstr "Grupa „%1” została zapisana."
 
-#: CRM/Group/Page/Group.php:60;88
+#: CRM/Group/Page/Group.php:63;91
 msgid "Show Group Members"
 msgstr "Pokaż członków grupy"
 
-#: CRM/Group/Page/Group.php:171
-#, fuzzy
-msgid "Smart Group"
-msgstr "Wybierz grupę"
+#: CRM/Group/Page/Group.php:72;100
+msgid "Edit Group"
+msgstr "Edytuj grupę"
 
-#: CRM/History/Page/Activity.php:61
+#: CRM/Group/Page/Group.php:211
+msgid "Smart Group"
+msgstr "Sprytna grupa"
+
+#: CRM/History/Page/Activity.php:64
 msgid ""
 "Cannot include file \"%1\" corresponding to class \"%2\". Please check "
 "include_path"
@@ -3013,473 +2954,563 @@ msgstr ""
 "Nie mogę dołączyć pliku „%1” odpowiadającemu klasie „%2”. Sprawdź "
 "include_path"
 
-#: CRM/History/Page/Activity.php:68
+#: CRM/History/Page/Activity.php:71
 msgid "Cannot find class \"%1\""
 msgstr "Nie mogę znaleźć klasy „%1”"
 
-#: CRM/History/Page/Activity.php:78
+#: CRM/History/Page/Activity.php:81
 msgid "Cannot find method \"%1\" for class \"%2\""
 msgstr "Nie mogę znaleźć metody „%1” dla klasy „%2”"
 
-#: CRM/History/Selector/Activity.php:118
+#: CRM/History/Selector/Activity.php:123
 msgid "Are you sure you want to delete this activity History?"
 msgstr "Na pewno usunąć tę historię zdarzenia?"
 
-#: CRM/History/Selector/Activity.php:125
+#: CRM/History/Selector/Activity.php:130
 msgid "View Activity Details"
 msgstr "Zobacz szczegóły zdarzenia"
 
-#: CRM/History/Selector/Activity.php:148
-#, fuzzy
+#: CRM/History/Selector/Activity.php:153
 msgid "History %%StatusMessage%%"
-msgstr "Kontakt %%StatusMessage%%"
+msgstr "Historia %%StatusMessage%%"
 
-#: CRM/Import/Form/MapField.php:233
+#: CRM/Import/Form/MapField.php:236
 msgid "Mapper for Field %1"
 msgstr "Przypisywacz dla pola %1"
 
-#: CRM/Import/Form/MapField.php:331
+#: CRM/Import/Form/MapField.php:334
 msgid "Match Fields"
 msgstr "Dopasuj pola"
 
-#: CRM/Import/Form/Preview.php:93
+#: CRM/Import/Form/Preview.php:96
 msgid "Create a new group from imported records"
 msgstr "Stwórz nową grupę dla zaimportowanych wpisów"
 
-#: CRM/Import/Form/Preview.php:94
+#: CRM/Import/Form/Preview.php:97
 msgid "Name for new group"
 msgstr "Nazwa nowej grupy"
 
-#: CRM/Import/Form/Preview.php:95
+#: CRM/Import/Form/Preview.php:98
 msgid "Description of new group"
 msgstr "Opis nowej grupy"
 
-#: CRM/Import/Form/Preview.php:100
+#: CRM/Import/Form/Preview.php:103
 msgid "Join new contacts to existing group(s)"
 msgstr "Dopisz nowe kontakty do istniejących grup"
 
-#: CRM/Import/Form/Preview.php:106
+#: CRM/Import/Form/Preview.php:109
 msgid "Import Now >>"
 msgstr "Importuj >>"
 
-#: CRM/Import/Form/Preview.php:122
-msgid "Preview"
-msgstr "Podgląd"
-
-#: CRM/Import/Form/Preview.php:256
-#, fuzzy
+#: CRM/Import/Form/Preview.php:259
 msgid "Please enter a name for the new group."
-msgstr "Wprowadź poprawną etykietę dla tego pola."
+msgstr "Wprowadź nazwę dla nowej grupy."
 
-#: CRM/Import/Form/Preview.php:261
+#: CRM/Import/Form/Preview.php:264
 msgid "Group '%1' already exists."
 msgstr ""
 
-#: CRM/Import/Form/Summary.php:68
+#: CRM/Import/Form/Summary.php:71
 msgid "These records have been updated with the imported data."
 msgstr "Te wpisy zostały uaktualnione danymi zaimportowanymi."
 
-#: CRM/Import/Form/Summary.php:71
+#: CRM/Import/Form/Summary.php:74
 msgid "These records have been replaced with the imported data."
 msgstr "Te wpisy zostały zastąpione danymi zaimportowanymi."
 
-#: CRM/Import/Form/Summary.php:74
+#: CRM/Import/Form/Summary.php:77
 msgid "These records have been filled in with the imported data."
 msgstr "Te wpisy zostały wypełnione danymi zaimportowanymi."
 
-#: CRM/Import/Form/Summary.php:78
+#: CRM/Import/Form/Summary.php:81
 msgid "These records have not been imported."
 msgstr "Te wpisy nie zostały zaimportowane."
 
-#: CRM/Import/Form/Summary.php:116
+#: CRM/Import/Form/Summary.php:119
 msgid "Summary"
 msgstr "Podsumowanie"
 
-#: CRM/Import/Form/UploadFile.php:63
+#: CRM/Import/Form/UploadFile.php:66
 msgid "Import Data File"
 msgstr "Importuj plik z danymi"
 
-#: CRM/Import/Form/UploadFile.php:65
-#, fuzzy
+#: CRM/Import/Form/UploadFile.php:68
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr "Wielkość pliku powinna być mniejsza niż 1 MB"
+msgstr "Wielkość pliku powinna być mniejsza niż %1 MB (%2 bajtów)"
 
-#: CRM/Import/Form/UploadFile.php:67
+#: CRM/Import/Form/UploadFile.php:70
 msgid "Input file must be in CSV format"
 msgstr "Plik wejściowy musi być w formacie CSV"
 
-#: CRM/Import/Form/UploadFile.php:69
+#: CRM/Import/Form/UploadFile.php:72
 msgid "First row contains column headers"
 msgstr "Pierwszy rząd zawiera nagłówki kolumn"
 
-#: CRM/Import/Form/UploadFile.php:73
+#: CRM/Import/Form/UploadFile.php:76
 msgid "Skip"
 msgstr "Pomiń"
 
-#: CRM/Import/Form/UploadFile.php:77
+#: CRM/Import/Form/UploadFile.php:80
 msgid "Update"
 msgstr "Uaktualnij"
 
-#: CRM/Import/Form/UploadFile.php:79
+#: CRM/Import/Form/UploadFile.php:82
 msgid "Fill"
 msgstr "Wypełnij"
 
-#: CRM/Import/Form/UploadFile.php:81
+#: CRM/Import/Form/UploadFile.php:84
 msgid "No Duplicate Checking"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:84
+#: CRM/Import/Form/UploadFile.php:87
 msgid "On duplicate entries"
 msgstr "W powtórzonych wpisach"
 
-#: CRM/Import/Form/UploadFile.php:134
+#: CRM/Import/Form/UploadFile.php:137
 msgid "Upload Data"
 msgstr "Wgraj dane"
 
-#: CRM/Import/Parser/Contact.php:165;188
+#: CRM/Import/Parser/Contact.php:168;191
 msgid "Missing required fields"
 msgstr "Brak wymaganych pól"
 
-#: CRM/Import/Parser/Contact.php:173
+#: CRM/Import/Parser/Contact.php:176
 msgid "Invalid Email address"
 msgstr "Błędy adres email"
 
-#: CRM/Import/Parser/Contact.php:179
+#: CRM/Import/Parser/Contact.php:182
 msgid "Email address conflicts with record %1"
 msgstr "Adres email koliduje z wpisem %1"
 
-#: CRM/Import/Parser/Contact.php:273
+#: CRM/Import/Parser/Contact.php:287
 msgid "Record duplicates multiple contacts"
 msgstr "Wpis powiela wiele kontaktów"
 
-#: CRM/Import/Parser.php:369;381
+#: CRM/Import/Parser.php:373;385
 msgid "Record Number"
 msgstr "Liczba wpisów"
 
-#: CRM/Import/Parser.php:370
+#: CRM/Import/Parser.php:374
 msgid "Reason"
 msgstr "Powód"
 
-#: CRM/Import/Parser.php:382
+#: CRM/Import/Parser.php:386
 msgid "View Contact URL"
 msgstr "Zobacz URL kontaktu"
 
-#: CRM/Mailing/DAO/BouncePattern.php:130
-#, fuzzy
+#: CRM/Mailing/DAO/BouncePattern.php:133
 msgid "Pattern"
-msgstr "Pager"
+msgstr "Wzór"
 
-#: CRM/Mailing/DAO/BounceType.php:129
-#, fuzzy
+#: CRM/Mailing/DAO/BounceType.php:132
 msgid "Hold Threshold"
-msgstr "Mieszkanie"
+msgstr "Poziom zatrzymania"
 
-#: CRM/Mailing/DAO/Component.php:266
-#, fuzzy
-msgid "Header"
-msgstr "Płeć"
+#: CRM/Mailing/DAO/BounceType.php:198
+msgid "AOL"
+msgstr ""
 
-#: CRM/Mailing/DAO/Component.php:267
-#, fuzzy
-msgid "Footer"
-msgstr "Stopka wysyłki"
+#: CRM/Mailing/DAO/BounceType.php:199
+msgid "Away"
+msgstr ""
 
-#: CRM/Mailing/DAO/Component.php:268
-#, fuzzy
-msgid "Subscribe"
-msgstr "Wypisanie organizacji"
+#: CRM/Mailing/DAO/BounceType.php:200
+msgid "DNS"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php:201
+msgid "Host"
+msgstr "Host"
+
+#: CRM/Mailing/DAO/BounceType.php:202
+#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
+msgid "Inactive"
+msgstr "Nieaktywne"
+
+#: CRM/Mailing/DAO/BounceType.php:203
+msgid "Invalid"
+msgstr "Niepoprawny"
+
+#: CRM/Mailing/DAO/BounceType.php:204
+msgid "Loop"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php:205
+msgid "Quota"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php:206
+msgid "Relay"
+msgstr "Przekazywanie"
+
+#: CRM/Mailing/DAO/BounceType.php:207
+msgid "Spam"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php:208
+msgid "Syntax"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php:209
+msgid "Unknown"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php:174
+msgid "Component Name"
+msgstr "Nazwa składnika"
 
 #: CRM/Mailing/DAO/Component.php:269
+msgid "Header"
+msgstr "Nagłówek"
+
+#: CRM/Mailing/DAO/Component.php:270
+msgid "Footer"
+msgstr "Stopka"
+
+#: CRM/Mailing/DAO/Component.php:271
+msgid "Subscribe"
+msgstr "Zapisz"
+
+#: CRM/Mailing/DAO/Component.php:272
 msgid "Welcome"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php:270
-#, fuzzy
+#: CRM/Mailing/DAO/Component.php:273
 msgid "Unsubscribe"
-msgstr "Wypisanie organizacji"
+msgstr "Wypisz"
 
-#: CRM/Mailing/DAO/Component.php:271
-#, fuzzy
+#: CRM/Mailing/DAO/Component.php:274
 msgid "Reply"
-msgstr "Zastąp"
+msgstr "Odpowiedz"
 
-#: CRM/Mailing/DAO/Group.php:220
-#, fuzzy
+#: CRM/Mailing/DAO/Group.php:147
+msgid "Group Type"
+msgstr "Rodzaj grupy"
+
+#: CRM/Mailing/DAO/Group.php:223
 msgid "Include"
-msgstr "Śródtekstowo"
+msgstr "Dołącz"
 
-#: CRM/Mailing/DAO/Group.php:221
+#: CRM/Mailing/DAO/Group.php:224
 msgid "Exclude"
 msgstr ""
 
-#: CRM/Mailing/DAO/Job.php:239
+#: CRM/Mailing/DAO/Job.php:161 templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Scheduled Date"
+msgstr "Zaplanowany termin"
+
+#: CRM/Mailing/DAO/Job.php:242
 msgid "Running"
 msgstr ""
 
-#: CRM/Mailing/DAO/Job.php:240
-#, fuzzy
+#: CRM/Mailing/DAO/Job.php:243
 msgid "Complete"
 msgstr "Zakończony"
 
-#: CRM/Mailing/DAO/Job.php:241
+#: CRM/Mailing/DAO/Job.php:244
 msgid "Paused"
 msgstr ""
 
-#: CRM/Mailing/DAO/Job.php:242
-#, fuzzy
+#: CRM/Mailing/DAO/Job.php:245
 msgid "Canceled"
-msgstr "Anuluj"
+msgstr "Anulowany"
 
-#: CRM/Mailing/DAO/Mailing.php:237
+#: CRM/Mailing/DAO/Mailing.php:240
 msgid "From Name"
 msgstr "Nazwa nadawcy"
 
-#: CRM/Mailing/DAO/Mailing.php:249
+#: CRM/Mailing/DAO/Mailing.php:252
 msgid "Replyto Email"
 msgstr "Adres Reply-To"
 
-#: CRM/Mailing/DAO/Mailing.php:272
+#: CRM/Mailing/DAO/Mailing.php:275
 msgid "Url Tracking"
 msgstr ""
 
-#: CRM/Mailing/DAO/Mailing.php:276
+#: CRM/Mailing/DAO/Mailing.php:279
 msgid "Forward Replies"
 msgstr ""
 
-#: CRM/Mailing/DAO/Mailing.php:280
+#: CRM/Mailing/DAO/Mailing.php:283
 msgid "Open Tracking"
 msgstr ""
 
-#: CRM/Mailing/Form/Component.php:81
+#: CRM/Mailing/DAO/TrackableURL.php:129
+msgid "Url"
+msgstr "URL"
+
+#: CRM/Mailing/Event/BAO/Subscribe.php:157
+msgid "Subscribe confirmation request"
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Subscribe.php:158
+msgid "\"%1 Administrator\" <do-not-reply@%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Subscribe.php:165
+msgid ""
+"\n"
+"You have a pending subscription to %1.  To confirm this \n"
+"subscription, reply to this message."
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Unsubscribe.php:219
+msgid "You have been unsubscribed from %1."
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Unsubscribe.php:222
+msgid "You have been removed from the following groups: %1."
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Unsubscribe.php:225
+msgid "You have been removed from %1."
+msgstr "Zostałeś usunięty z %1."
+
+#: CRM/Mailing/Event/BAO/Unsubscribe.php:233
+msgid "Unsubscribe request completed"
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Unsubscribe.php:234
+msgid "\"%1 Administrator\" <%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Bounce.php:150
+msgid "Bounce Reason"
+msgstr "Powód odbicia"
+
+#: CRM/Mailing/Event/DAO/Unsubscribe.php:140
+msgid "Org Unsubscribe"
+msgstr "Wypisanie organizacji"
+
+#: CRM/Mailing/Form/Component.php:84
 msgid "Body in text format"
 msgstr "Treść w formacie tekstowym"
 
-#: CRM/Mailing/Form/Component.php:84
+#: CRM/Mailing/Form/Component.php:87
 msgid "Body in html format"
 msgstr "Treść w formacie HTML"
 
-#: CRM/Mailing/Form/Component.php:150
+#: CRM/Mailing/Form/Component.php:153
 msgid "The mailing component \"%1\" has been saved."
 msgstr "Składnik wysyłki „%1” został zapisany."
 
-#: CRM/Mailing/Form/Group.php:61
-#, fuzzy
-msgid "Include group(s) "
-msgstr "W grupach"
-
 #: CRM/Mailing/Form/Group.php:64
+msgid "Include group(s) "
+msgstr "Dołącz grupy "
+
+#: CRM/Mailing/Form/Group.php:67
 msgid "Exclude group(s) "
 msgstr ""
 
-#: CRM/Mailing/Form/Group.php:66;67;85;86
-#, fuzzy
+#: CRM/Mailing/Form/Group.php:69;70;88;89
 msgid "Add >>"
-msgstr "Dodaj"
+msgstr "Dodaj >>"
 
-#: CRM/Mailing/Form/Group.php:68;69;87;88
-#, fuzzy
+#: CRM/Mailing/Form/Group.php:71;72;90;91
 msgid "<< Remove"
-msgstr "[ Usuń ]"
+msgstr "<< Usuń"
 
-#: CRM/Mailing/Form/Group.php:79
+#: CRM/Mailing/Form/Group.php:82
 msgid "Include mailing(s) "
 msgstr ""
 
-#: CRM/Mailing/Form/Group.php:82
+#: CRM/Mailing/Form/Group.php:85
 msgid "Exclude mailing(s) "
 msgstr ""
 
-#: CRM/Mailing/Form/Group.php:157
+#: CRM/Mailing/Form/Group.php:160
 msgid "Select Mailing Recipients"
 msgstr "Wybierz odbiorców wysyłki"
 
-#: CRM/Mailing/Form/Name.php:49
-#, fuzzy
+#: CRM/Mailing/Form/Name.php:52
 msgid "Name Your Mailing"
-msgstr "Nazwij wysyłki"
+msgstr "Nazwij wysyłkę"
 
-#: CRM/Mailing/Form/Name.php:58
+#: CRM/Mailing/Form/Name.php:61
 msgid "Mailing Template"
 msgstr "Szablon wysyłki"
 
-#: CRM/Mailing/Form/Name.php:61
+#: CRM/Mailing/Form/Name.php:64
 msgid "Mailing Template?"
 msgstr "Szablon wysyłki?"
 
-#: CRM/Mailing/Form/Name.php:88
+#: CRM/Mailing/Form/Name.php:91
 msgid "Name Mailing"
 msgstr "Nazwij wysyłki"
 
-#: CRM/Mailing/Form/Schedule.php:49
-#, fuzzy
+#: CRM/Mailing/Form/Schedule.php:52
 msgid "Send Immediately"
-msgstr "Wyślij emaila"
+msgstr "Wyślij natychmiast"
 
-#: CRM/Mailing/Form/Schedule.php:122
+#: CRM/Mailing/Form/Schedule.php:85
+msgid "Start date cannot be earlier than the current time."
+msgstr ""
+"Data rozpoczęcia nie pomoże być wcześniejsza niż chwila obecna."
+
+#: CRM/Mailing/Form/Schedule.php:129
 msgid "Schedule / Send Mailing"
 msgstr "Zaplanuj / zrób wysyłkę"
 
-#: CRM/Mailing/Form/Test.php:40
-#, fuzzy
+#: CRM/Mailing/Form/Test.php:43
 msgid "Send a test mailing?"
-msgstr "Zrób wysyłkę"
+msgstr "Wykonać wysyłkę próbną?"
 
-#: CRM/Mailing/Form/Test.php:98
+#: CRM/Mailing/Form/Test.php:101
 msgid "CiviCRM Test Mailer (%1)"
 msgstr ""
 
-#: CRM/Mailing/Form/Test.php:102
-#, fuzzy
+#: CRM/Mailing/Form/Test.php:105
 msgid "Test Mailing: "
-msgstr "Przetestuj wysyłkę"
+msgstr "Wysyłka próbna: "
 
-#: CRM/Mailing/Form/Test.php:126
+#: CRM/Mailing/Form/Test.php:129
 msgid ""
 "The test mailing could not be delivered due to the following error:<br /> "
 "<tt>%1</tt>"
 msgstr ""
 
-#: CRM/Mailing/Form/Test.php:138
+#: CRM/Mailing/Form/Test.php:141
 msgid "Test Mailing"
 msgstr "Przetestuj wysyłkę"
 
-#: CRM/Mailing/Form/Upload.php:48
-#, fuzzy
+#: CRM/Mailing/Form/Upload.php:51
 msgid "From name"
 msgstr "Nazwa nadawcy"
 
-#: CRM/Mailing/Form/Upload.php:52
+#: CRM/Mailing/Form/Upload.php:55
 msgid "Forward replies?"
 msgstr ""
 
-#: CRM/Mailing/Form/Upload.php:55
+#: CRM/Mailing/Form/Upload.php:58
 msgid "Track URLs?"
 msgstr ""
 
-#: CRM/Mailing/Form/Upload.php:58
+#: CRM/Mailing/Form/Upload.php:61
 msgid "Track Opens?"
 msgstr ""
 
-#: CRM/Mailing/Form/Upload.php:61
-#, fuzzy
-msgid "Mailing subject"
-msgstr "Wiadomość wysyłki"
-
 #: CRM/Mailing/Form/Upload.php:64
+msgid "Mailing subject"
+msgstr "Temat wysyłki"
+
+#: CRM/Mailing/Form/Upload.php:67
 msgid "Upload Text Message"
 msgstr "Wgraj wiadomość tekstową"
 
-#: CRM/Mailing/Form/Upload.php:66;71
+#: CRM/Mailing/Form/Upload.php:69;74
 msgid "File size should be less than 1 MByte"
 msgstr "Wielkość pliku powinna być mniejsza niż 1 MB"
 
-#: CRM/Mailing/Form/Upload.php:67;72
+#: CRM/Mailing/Form/Upload.php:70;75
 msgid "File must be in ascii format"
 msgstr "Plik musi być w formacie ASCII"
 
-#: CRM/Mailing/Form/Upload.php:69
+#: CRM/Mailing/Form/Upload.php:72
 msgid "Upload HTML Message"
 msgstr "Wgraj wiadomość HTML"
 
-#: CRM/Mailing/Form/Upload.php:74
+#: CRM/Mailing/Form/Upload.php:77
 msgid "Mailing Header"
 msgstr "Nagłówek wysyłki"
 
-#: CRM/Mailing/Form/Upload.php:75
+#: CRM/Mailing/Form/Upload.php:78
 msgid "Mailing Footer"
 msgstr "Stopka wysyłki"
 
-#: CRM/Mailing/Form/Upload.php:159
-#, fuzzy
+#: CRM/Mailing/Form/Upload.php:162
 msgid "Missing required token"
-msgstr "Brak wymaganych pól"
+msgstr "Brak wymaganego elementu"
 
-#: CRM/Mailing/Form/Upload.php:175
-#, fuzzy
+#: CRM/Mailing/Form/Upload.php:178
 msgid "Invalid token code"
-msgstr "Błędny numer telefonu"
+msgstr "Błędny kod elementu"
 
-#: CRM/Mailing/Form/Upload.php:181
+#: CRM/Mailing/Form/Upload.php:184
 msgid "The following errors were detected in %1: <ul>%2</ul>"
 msgstr ""
 
-#: CRM/Mailing/Form/Upload.php:195
+#: CRM/Mailing/Form/Upload.php:198
 msgid "Upload Message"
 msgstr "Wgraj wiadomość"
 
-#: CRM/Mailing/Page/Component.php:67
+#: CRM/Mailing/Page/Component.php:70
 msgid "Are you sure you want to disable this component?"
 msgstr "Na pewno wyłączyć ten składnik?"
 
-#: CRM/Mailing/Page/Component.php:74 templates/CRM/Mailing/Form/Component.tpl
+#: CRM/Mailing/Page/Component.php:77 templates/CRM/Mailing/Form/Component.tpl
 msgid "Edit Mailing Component"
 msgstr "Edytuj składnik wysyłki"
 
-#: CRM/Mailing/Page/Component.php:81
+#: CRM/Mailing/Page/Component.php:84
 msgid "Disable Mailing Component"
 msgstr "Wyłącz składnik wysyłki"
 
-#: CRM/Mailing/Page/Component.php:87
+#: CRM/Mailing/Page/Component.php:90
 msgid "Enable Mailing Component"
 msgstr "Włącz składnik wysyłki"
 
-#: CRM/Note/Form/Note.php:116
+#: CRM/Note/Form/Note.php:119
 msgid "Please enter note text."
 msgstr "Wprowadż tekst notatki."
 
-#: CRM/Note/Form/Note.php:168
+#: CRM/Note/Form/Note.php:170
 msgid "Your Note has been saved."
 msgstr "Notatka została zapisana."
 
-#: CRM/Tag/Form/Tag.php:91
+#: CRM/Tag/Form/Tag.php:94
 msgid "Update Tags"
 msgstr "Uaktualnij znaczniki"
 
-#: CRM/Tag/Form/Tag.php:150
+#: CRM/Tag/Form/Tag.php:153
 msgid "Your update(s) have been saved."
 msgstr "Uaktualnienia zostały zapisane."
 
-#: CRM/UF/Form/Field.php:134 templates/CRM/UF/Page/Field.tpl
+#: CRM/UF/Form/Field.php:137 templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
 msgstr "Nazwa pola CiviCRM"
 
-#: CRM/UF/Form/Field.php:146
+#: CRM/UF/Form/Field.php:149
 msgid ""
 "Please enter a valid title for this field when displayed in user listings."
 msgstr ""
 "Wprowadź poprawny tytuł tego pola, gdy będzie wyświetlane w spisach "
 "użytkowników."
 
-#: CRM/UF/Form/Field.php:150
+#: CRM/UF/Form/Field.php:153
 msgid "View Only?"
 msgstr "Tylko do odczytu?"
 
-#: CRM/UF/Form/Field.php:151
+#: CRM/UF/Form/Field.php:154
 msgid "Display in Registration Form?"
 msgstr "Wyświetlać w formularzu rejestracyjnym?"
 
-#: CRM/UF/Form/Field.php:152
+#: CRM/UF/Form/Field.php:155
 msgid "Key to Match Contacts?"
 msgstr "Klucz do dopasowywania kontaktów?"
 
-#: CRM/UF/Form/Field.php:208
-#, fuzzy
+#: CRM/UF/Form/Field.php:211
 msgid "Your civicrm profile field \"%1\" has been saved."
-msgstr "Pole profilu CiviCRM „%1” zostało zapisane"
+msgstr "Pole profilu CiviCRM „%1” zostało zapisane."
 
-#: CRM/UF/Form/Group.php:67 templates/CRM/UF/Page/Group.tpl
+#: CRM/UF/Form/Group.php:70
 msgid "New CiviCRM Profile Group"
 msgstr "Nowa grupa profilu CiviCRM"
 
-#: CRM/UF/Form/Group.php:87
-msgid "Is this CiviCRM Profile Group active?"
-msgstr "Czy ta grupa profilu CiviCRM jest aktywna?"
+#: CRM/UF/Form/Group.php:85
+msgid "Profile Name"
+msgstr "Nazwa profilu"
 
-#: CRM/UF/Form/Group.php:149
+#: CRM/UF/Form/Group.php:90
+msgid "Is this CiviCRM Profile active?"
+msgstr "Czy ten profil CiviCRM jest aktywny?"
+
+#: CRM/UF/Form/Group.php:152
 msgid "Your CiviCRM Profile Group \"%1\" has been saved."
 msgstr "Grupa profilu CiviCRM „%1” została zapisana."
 
-#: CRM/UF/Form/Group.php:152
+#: CRM/UF/Form/Group.php:155
 msgid ""
 "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2\">add "
 "fields</a> to this group now."
@@ -3487,185 +3518,188 @@ msgstr ""
 "Grupa profilu CiviCRM „%1” została dodana. Można teraz <a href=\"%2\">dodać "
 "do niej pola</a>."
 
-#: CRM/UF/Page/Field.php:73
+#: CRM/UF/Page/Field.php:76
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
 msgstr "Na pewno wyłączyć to pole profilu CiviCRM?"
 
-#: CRM/UF/Page/Field.php:79
+#: CRM/UF/Page/Field.php:82
 msgid "Edit CiviCRM Profile Field"
 msgstr "Edytuj pole profilu CiviCRM"
 
-#: CRM/UF/Page/Field.php:85
+#: CRM/UF/Page/Field.php:88
 msgid "View CiviCRM Profile Field"
 msgstr "Zobacz pole profilu CiviCRM"
 
-#: CRM/UF/Page/Field.php:91
+#: CRM/UF/Page/Field.php:94
 msgid "Disable CiviCRM Profile Field"
 msgstr "Wyłącz pole profilu CiviCRM"
 
-#: CRM/UF/Page/Field.php:98
+#: CRM/UF/Page/Field.php:101
 msgid "Enable CiviCRM Profile Field"
 msgstr "Włącz pole profilu CiviCRM"
 
-#: CRM/UF/Page/Field.php:195
+#: CRM/UF/Page/Field.php:198
 msgid "%1 - CiviCRM Profile Fields"
 msgstr "%1 – pola profilu CiviCRM"
 
-#: CRM/UF/Page/Group.php:65
+#: CRM/UF/Page/Group.php:68
 msgid "Are you sure you want to disable this CiviCRM Profile group?"
 msgstr "Na pewno wyłączyć tę grupę profilu CiviCRM?"
 
-#: CRM/UF/Page/Group.php:68
+#: CRM/UF/Page/Group.php:71
 msgid "View and Edit Fields"
 msgstr "Zobacz i edytuj pola"
 
-#: CRM/UF/Page/Group.php:71
+#: CRM/UF/Page/Group.php:74
 msgid "List CiviCRM Profile Group Fields"
 msgstr "Wypisz pola grupy profilu CiviCRM"
 
 #: CRM/UF/Page/Group.php:77
+msgid "Edit Profile Name"
+msgstr "Edytuj nazwę profilu"
+
+#: CRM/UF/Page/Group.php:80
 msgid "Edit CiviCRM Profile Group"
 msgstr "Edytuj grupę profilu CiviCRM"
 
-#: CRM/UF/Page/Group.php:83
+#: CRM/UF/Page/Group.php:86
 msgid "Disable CiviCRM Profile Group"
 msgstr "Wyłącz grupę profilu CiviCRM"
 
-#: CRM/UF/Page/Group.php:90
+#: CRM/UF/Page/Group.php:93
 msgid "Enable CiviCRM Profile Group"
 msgstr "Włącz grupę profilu CiviCRM"
 
-#: CRM/Utils/Menu.php:94
+#: CRM/Utils/Menu.php:97
 msgid "Administer CiviCRM"
 msgstr "Zarządzaj CiviCRM-em"
 
-#: CRM/Utils/Menu.php:105;330 templates/CRM/Tag/Form/Tag.tpl
+#: CRM/Utils/Menu.php:108;326 templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
 msgstr "Znaczniki"
 
-#: CRM/Utils/Menu.php:113
+#: CRM/Utils/Menu.php:116
 msgid "Relationship Types"
 msgstr "Rodzaje powiązań"
 
-#: CRM/Utils/Menu.php:129
-#, fuzzy
+#: CRM/Utils/Menu.php:132
 msgid "Activity Types"
-msgstr "Rodzaj zdarzenia"
+msgstr "Rodzaje zdarzeń"
 
-#: CRM/Utils/Menu.php:137
+#: CRM/Utils/Menu.php:140
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Custom Data"
 msgstr "Dane dodatkowe"
 
-#: CRM/Utils/Menu.php:146
+#: CRM/Utils/Menu.php:149
 msgid "Custom Data Fields"
 msgstr "Pola danych dodatkowych"
 
-#: CRM/Utils/Menu.php:164
+#: CRM/Utils/Menu.php:167
 msgid "CiviCRM Profile Fields"
 msgstr "Pola profilu CiviCRM"
 
-#: CRM/Utils/Menu.php:173
+#: CRM/Utils/Menu.php:176
 msgid "IM Services"
 msgstr "Komunikatory"
 
-#: CRM/Utils/Menu.php:181
+#: CRM/Utils/Menu.php:184
 msgid "Mobile Providers"
 msgstr "Sieci komórkowe"
 
-#: CRM/Utils/Menu.php:199
+#: CRM/Utils/Menu.php:202
 msgid "Contacts"
 msgstr "Kontakty"
 
-#: CRM/Utils/Menu.php:209
+#: CRM/Utils/Menu.php:212
 msgid "Find Contacts"
 msgstr "Szukanie kontaktów"
 
-#: CRM/Utils/Menu.php:225
+#: CRM/Utils/Menu.php:229
 msgid "Saved Searches"
 msgstr "Zapisane wyszukiwania"
 
-#: CRM/Utils/Menu.php:267
-msgid "Edit Contact Name and Location"
-msgstr "Edytuj nazwę i lokalizację kontaktu"
-
-#: CRM/Utils/Menu.php:276
+#: CRM/Utils/Menu.php:272
 msgid "View Contact"
 msgstr "Zobacz kontakt"
 
-#: CRM/Utils/Menu.php:285
+#: CRM/Utils/Menu.php:281
 msgid "Contact Summary"
 msgstr "Podsumowanie"
 
-#: CRM/Utils/Menu.php:294
+#: CRM/Utils/Menu.php:290
 msgid "Activities"
 msgstr "Zdarzenia"
 
-#: CRM/Utils/Menu.php:303 templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Utils/Menu.php:299 templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships"
 msgstr "Powiązania"
 
-#: CRM/Utils/Menu.php:345
+#: CRM/Utils/Menu.php:341
 msgid "Manage Groups"
 msgstr "Zarządzaj grupami"
 
-#: CRM/Utils/Menu.php:362
+#: CRM/Utils/Menu.php:358
 msgid "Create New Group"
 msgstr "Stwórz nową grupę"
 
-#: CRM/Utils/Menu.php:381
+#: CRM/Utils/Menu.php:377
 msgid "Activity Detail"
 msgstr "Szczegóły zdarzenia"
 
-#: CRM/Utils/Menu.php:397 templates/CRM/History/Page/Email.tpl
+#: CRM/Utils/Menu.php:393 templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
 msgstr "Wysłany email"
 
-#: CRM/Utils/Menu.php:404
+#: CRM/Utils/Menu.php:401
+msgid "CiviCRM Profile Listings"
+msgstr "Spisy profili CiviCRM"
+
+#: CRM/Utils/Menu.php:411
 msgid "Mailing Header / Footer"
 msgstr "Nagłówek / stopka wysyłki"
 
-#: CRM/Utils/Menu.php:411
+#: CRM/Utils/Menu.php:419
 msgid "Mailing Message"
 msgstr "Wiadomość wysyłki"
 
-#: CRM/Utils/Pager.php:78
+#: CRM/Utils/Pager.php:81
 msgid "Contacts %%StatusMessage%%"
 msgstr "Kontakty %%StatusMessage%%"
 
-#: CRM/Utils/Pager.php:95
+#: CRM/Utils/Pager.php:98
 msgid "%1 - %2 of %3"
 msgstr "%1 – %2 z %3"
 
-#: CRM/Utils/Pager.php:122;123
+#: CRM/Utils/Pager.php:125;126
 msgid "Page %1 of %2"
 msgstr "Strona %1 z %2"
 
-#: CRM/Utils/Pager.php:158
+#: CRM/Utils/Pager.php:161
 msgid " &lt; Previous"
 msgstr " &lt; Poprzednie"
 
-#: CRM/Utils/Pager.php:159
+#: CRM/Utils/Pager.php:162
 msgid "Next &gt; "
 msgstr "Następne &gt; "
 
-#: CRM/Utils/Pager.php:164
+#: CRM/Utils/Pager.php:167
 msgid " &lt;&lt; First"
 msgstr " &lt;&lt; Pierwsze"
 
-#: CRM/Utils/Pager.php:168
+#: CRM/Utils/Pager.php:171
 msgid "Last &gt;&gt; "
 msgstr "Ostatnie &gt;&gt; "
 
-#: CRM/Utils/Token.php:62
+#: CRM/Utils/Token.php:65
 msgid "Your organization's postal address"
 msgstr ""
 
-#: CRM/Utils/Token.php:63
+#: CRM/Utils/Token.php:66
 msgid "Link to allow contacts to opt out of your organization"
 msgstr ""
 
-#: CRM/Utils/Token.php:64
+#: CRM/Utils/Token.php:67
 msgid ""
 "Link to allow contacts to unsubscribe from target groups of this mailing."
 msgstr ""
@@ -3721,11 +3755,13 @@ msgid "View Scheduled Meeting"
 msgstr "Zobacz zaplanowane spotkanie"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Hrs"
 msgstr "godz."
 
 #: templates/CRM/Activity/Form/Meeting.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Min"
 msgstr "min."
@@ -3737,9 +3773,31 @@ msgstr ""
 "„Zakończony”."
 
 #: templates/CRM/Activity/Form/Meeting.tpl
-#, fuzzy
+#: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Are you sure you want to delete \"%1\"?"
-msgstr "Na pewno usunąć %1?"
+msgstr "Na pewno usunąć „%1”?"
+
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+msgid "Schedule an Activity"
+msgstr "Zaplanuj zdarzenie"
+
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+msgid "Edit Scheduled Activity"
+msgstr "Edytuj zaplanowane zdarzenie"
+
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+msgid "View Completed Activity"
+msgstr "Zobacz zakończone zdarzenie"
+
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+msgid "View Scheduled Activity"
+msgstr "Zobacz zaplanowane zdarzenie"
+
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+msgid "Activity will be moved to Activity History when status is 'Completed'."
+msgstr ""
+"Zdarzenie zostanie przeniesione do historii zdarzeń gdy jego stan będzie "
+"„Zakończony”."
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
@@ -3769,9 +3827,8 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#, fuzzy
 msgid "New Activity Type"
-msgstr "Rodzaj zdarzenia"
+msgstr "Nowy rodzaj zdarzenia"
 
 #: templates/CRM/Admin/Form/IMProvider.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -3806,8 +3863,17 @@ msgstr "Na pewno skasować znacznik <b>%1</b>?"
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 msgid ""
-"Activity types are various activities that can be added/modified by the "
-"user. CiviCRM provides some default activities"
+"<p>Activities are 'interactions with contacts' which you want to record and "
+"track. CiviCRM has several reserved (e.g.'built-in') activity types\n"
+"    (meetings, phone calls, emails sent). Create additional 'activity types' "
+"here if you need to record other types of activities. For example, you\n"
+"    might want to include 'New Client Intake', or 'Site Audit', etc. ...as "
+"types of trackable activites.</p>\n"
+"    <p> Completed activities are searchable by type and/or activity date "
+"using 'Advanced Search'. Other applications may record activities for "
+"CiviCRM\n"
+"    contacts using our APIs. For more information, refer to our "
+"Administrator Documentation.</p>"
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
@@ -3843,11 +3909,11 @@ msgid "status"
 msgstr "Stan"
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#, fuzzy
 msgid ""
-"There are no Activity Types entered. You can <a href=\"%1\">add one</a>."
+"There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
+"a>."
 msgstr ""
-"Ten kontakt nie ma informacji o rodzajach lokalizacji. <a href=\"%1\">Możesz "
+"Nie zostały wprowadzone żadne dodatkowe rodzaje zdarzeń. <a href=\"%1\">Możesz "
 "je dodać</a>."
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -4030,7 +4096,7 @@ msgstr ""
 "Nie utworzono jeszcze grup danych dodatkowych. <a href=\"%1\">Można to "
 "zrobić tu</a>."
 
-#: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
+#: templates/CRM/common/mambo.tpl
 msgid ""
 "<p>This sandbox site is running code in active development towards our 1.1 "
 "release. Some functions may not be fully operational. Check out our <a href="
@@ -4208,9 +4274,8 @@ msgstr ""
 "Jeśli to powiązanie ma początkową i/lub końcową datę, możesz ją tu wybrać."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
-#, fuzzy
 msgid "Are you sure you want to delete the Relationship \"%1\"?"
-msgstr "Na pewno usunąć to powiązanie?"
+msgstr "Na pewno usunąć powiązanie „%1”?"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -4228,12 +4293,10 @@ msgid "Search Criteria"
 msgstr "Kryteria wyszukiwania"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-#, fuzzy
 msgid "Complete OR partial contact name OR email."
-msgstr "Pełna lub częściowa nazwa kontaktu."
+msgstr "Pełna lub częściowa nazwa kontaktu lub email."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-#, fuzzy
 msgid "Group(s)"
 msgstr "Grupy"
 
@@ -4260,18 +4323,17 @@ msgid "Edit Search Criteria"
 msgstr "Edytuj kryteria wyszukiwania"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
-#, fuzzy
 msgid ""
-"Complete OR partial contact name OR email. To find individuals by first AND "
-"last name, enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"Complete OR partial contact name OR email. To search by first AND last name,<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
-"Pełna lub częściowa nazwa kontaktu. By znaleźć osoby podając imię i "
+"Pełna lub częściowa nazwa kontaktu lub adres email. By znaleźć osoby podając imię i "
 "nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
-"%1 currently has no members. You can <a href=\"%2\">add members here.</a>"
-msgstr "%1 nie ma członków. <a href=\"%2\">Tu możesz ich dodać.</a>"
+"%1 has no members which match your search criteria. You can <a href=\"%2"
+"\">add members here.</a>"
+msgstr "%1 nie ma członków, którzy spełniają kryteria wyszukiwania. <a href=\"%2\">Tu możesz ich dodać.</a>"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "No matches found for:"
@@ -4316,13 +4378,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"The current members of the <strong>%1</strong> group are listed below. Use "
-"the Find box below to search for specific members. Use the <a href=\"%2"
-"\">Add Members...</a> screen if you want to add new members to this group."
+"<p>The members of the <strong>%1</strong> group are listed below. Use the 'Find Members...' criteria below to search for specific members. Use the 'Group Status...' checkboxes to view members with 'Pending' status and/or members who have been 'Removed' from this group.</p>\n"
+"        <p>Use the <a href=\"%2\">Add Members...</a> screen if you want to add new members to this group.</p>"
 msgstr ""
-"Poniżej wymieniono aktualnych członków grupy <strong>%1</strong>. Użyj pola "
-"wyszukiwania by znaleźć konkretnych członków. By dodać nowych członków do "
-"tej grupy użyj strony <a href=\"%2\">dodaj członków…</a>."
+"<p>Poniżej wymieniono aktualnych członków grupy <strong>%1</strong>. Użyj pola wyszukiwania by znaleźć konkretnych członków. Użyj pola wyboru „Status grupy” by zobaczyć członków ze statusem „Oczekujący” i/lub członków „Usuniętych” z tej grupy.</p>\n"
+"        <p>By dodać nowych członków do tej grupy użyj strony <a href=\"%2\">dodaj członków…</a>.</p>"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
@@ -4331,7 +4391,7 @@ msgstr "Dodaj członków do %1"
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the Search form to find contacts to add to %1. Mark the contacts you "
-"want to add and click 'Add Contacts...' buttons."
+"want to add and click 'Add Contacts...'."
 msgstr ""
 "Użyj formularza wyszukiwania by znaleźć kontakty do dodania do %1. Wybierz "
 "kontakty, które chcesz dodać i kliknij w przycisk „Dodaj kontakty…”."
@@ -4339,8 +4399,8 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
-"group membership, tags, etc. You can then view or edit contact details, "
-"print a contact list, assign tags, export contact data to a spreadsheet, etc."
+"group membership, tags, etc. You can then view or edit contact details, print a contact list, "
+"assign tags, export contact data to a spreadsheet, etc."
 msgstr ""
 "Skorzystaj z formularza kryteriów wyszukiwania by znaleźć kontakty według "
 "nazwy, typu, przynależności do grupy, znaczników itp. Można następnie "
@@ -4388,18 +4448,12 @@ msgid "Group"
 msgstr "Grupa"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-msgid ""
-"Choose Household and Relationship that you would like to add the below "
-"contacts to."
-msgstr ""
-"Wybierz mieszkanie i powiązanie, do którego chcesz dodać poniższe kontakty."
+msgid "Choose Relationship Type and Target Household"
+msgstr "Wybierz rodzaj powiązania i docelowe mieszkanie."
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-msgid ""
-"Choose Organization and Relationship that you would like to add the below "
-"contacts to."
-msgstr ""
-"Wybierz organizację i powiązanie, do którego chcesz dodać poniższe kontakty."
+msgid "Choose Relationship Type and Target Organization"
+msgstr "Wybierz rodzaj powiązania i docelową organizację."
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
 msgid "Tag Contact(s)"
@@ -4417,7 +4471,7 @@ msgid "Send an Email"
 msgstr "Wyślij emaila"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
-#: templates/CRM/History/Page/Email.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
 msgid "From"
 msgstr "Od"
 
@@ -4471,16 +4525,12 @@ msgid "Enter a name and description for your Saved Search"
 msgstr "Wpisz nazwę i opis dla zapisanego wyszukiwania"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
-msgid "send email"
-msgstr "wyślij emaila"
+msgid "Schedule Meeting"
+msgstr "Zaplanuj spotkanie"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
-msgid "meeting"
-msgstr "spotkanie"
-
-#: templates/CRM/Contact/Page/View/ActivityLinks.tpl
-msgid "call"
-msgstr "rozmowa"
+msgid "Schedule Call"
+msgstr "Zaplanuj rozmowę"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Call"
@@ -4490,9 +4540,9 @@ msgstr "Zaplanuj rozmowę"
 msgid "Log a Call"
 msgstr "Zanotuj rozmowę"
 
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Edit address, phone, email..."
-msgstr "Edytuj adres, telefon, email…"
+#: templates/CRM/Contact/Page/View/ActivityLinks.tpl
+msgid "Other Activities"
+msgstr "Inne zdarzenia"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -4501,6 +4551,14 @@ msgstr "(lokalizacja główna)"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Instant Messenger:"
 msgstr "Komunikator:"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Map Primary Address"
+msgstr "Pokaż adres główny na mapie"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Map this Address"
+msgstr "Pokaż ten adres na mapie"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Communications Preferences"
@@ -4540,6 +4598,11 @@ msgstr ""
 "<a href=\"%2\">rozmowę</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/History/Selector/Activity.tpl
+msgid "There are no open activities for this contact."
+msgstr "Brak otwartych zdarzeń dla tego kontaktu."
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Open Activities (3 of %1)"
 msgstr "Otwarte zdarzenia (3 z %1)"
 
@@ -4568,6 +4631,11 @@ msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
 msgstr "Brak powiązań. Można <a href=\"%1\">stworzyć nowe powiązanie</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "There are no Relationships entered for this contact."
+msgstr "Ten kontakt nie ma powiązań."
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships (3 of %1)"
 msgstr "Powiązania (3 z %1)"
 
@@ -4585,9 +4653,13 @@ msgid "Group Memberships"
 msgstr "Przynależność do grup"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
-msgid "No group memberships. You can <a href=\"%1\">add %2 to a group</a>."
-msgstr "Brak powiązań. Można <a href=\"%1\">stworzyć nowe powiązanie</a>."
+msgid ""
+"No current group memberships. You can <a href=\"%1\">add %2 to a group</a>."
+msgstr "Nie jest członkiem żadnej grupy. Możesz <a href=\"%1\">dodać %2 do grupy</a>."
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "No current group memberships."
+msgstr "Brak przynależności do grup."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships (3 of %1)"
@@ -4612,9 +4684,15 @@ msgid "New Group Membership"
 msgstr "Nowa przynależność do grupy"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No notes. You can <a href=\"%1\">enter notes</a> about this contact."
+msgid ""
+"There are no Notes. You can <a href=\"%1\">enter notes</a> about this "
+"contact."
 msgstr ""
-"Brak notatek. Możesz <a href=\"%1\">wprowadzić notatki</a> dla tego kontaktu."
+"Brak notatek. Możesz <a href=\"%1\">wprowadzić notatki</a> o tym kontakcie."
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "There are no Notes for this contact."
+msgstr "Ten kontakt nie ma notatek."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes (3 of %1)"
@@ -4653,6 +4731,21 @@ msgid ""
 "this Contact."
 msgstr ""
 "Ten kontakt nie ma (śródtekstowych) grup dodatkowych lub pól dodatkowych."
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid ""
+"There are either no Custom Groups or no Custom Fields entered for this "
+"Contact."
+msgstr ""
+"Ten kontakt nie ma grup dodatkowych lub pól dodatkowych."
+
+#: templates/CRM/Contact/Page/View/Email.tpl
+msgid "Date Sent"
+msgstr "Data wysłania"
+
+#: templates/CRM/Contact/Page/View/Email.tpl
+msgid "(display name not available)"
+msgstr "(nazwa niedostępna)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
@@ -4736,9 +4829,8 @@ msgid "Date:"
 msgstr "Data:"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
-#, fuzzy
 msgid "Are you sure you want to delete the Note \"%1\"?"
-msgstr "Na pewno usunąć grupę %1?"
+msgstr "Na pewno usunąć notatkę „%1?”"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid ""
@@ -4972,7 +5064,7 @@ msgstr ""
 "utworzyć jedną lub więcej grup – każdą zawierającą powiązany zestaw pól "
 "danych dodatkowych."
 
-#: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
+#: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
 msgstr "Nazwa grupy"
 
@@ -5005,9 +5097,8 @@ msgid "Error Code:"
 msgstr "Kod błędu:"
 
 #: templates/CRM/error.tpl
-#, fuzzy
 msgid "Database Error Code:"
-msgstr "Kod błędu:"
+msgstr "Kod błędu bazy danych:"
 
 #: templates/CRM/error.tpl
 msgid "Main Menu"
@@ -5075,16 +5166,7 @@ msgid ""
 "1\" with description \"%3\" ?"
 msgstr "Na pewno usunąć historię zdarzenia z %2 rodzaju „%1” z opisem „%3”?"
 
-#: templates/CRM/History/Page/Email.tpl
-msgid "Date Sent"
-msgstr "Data wysłania"
-
-#: templates/CRM/History/Page/Email.tpl
-msgid "(display name not available)"
-msgstr "(nazwa niedostępna)"
-
 #: templates/CRM/History/Selector/Activity.tpl
-#, fuzzy
 msgid ""
 "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
 "href=\"%2\">call</a>."
@@ -5440,6 +5522,10 @@ msgstr ""
 "znaczniki przez <a href=\"%2\">edycję znaczników</a>."
 
 #: templates/CRM/Tag/Form/Tag.tpl
+msgid "Current tags are highlighted."
+msgstr ""
+
+#: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
 msgstr ""
 "Zaznacz lub odznacz pola, a następnie kliknij „Uaktualnij znaczniki” by je "
@@ -5502,8 +5588,8 @@ msgstr ""
 "kontaktów”."
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile Fields for this Group"
-msgstr "Pola profilu CiviCRM tej grupy"
+msgid "View or Edit Fields for this Profile"
+msgstr "Zobacz lub edytuj pola dla tego profilu"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
@@ -5535,35 +5621,95 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"<p>By configuring 'CiviCRM Profile', you can allow end-users to edit and/or "
-"view specific fields from their own contact information. Additionally, "
+"<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/"
+"or view specific fields from their own contact information. Additionally, "
 "'CiviCRM Profile' fields control which data is used to match a contact "
 "record to a user. You can also mark 'CiviCRM Profile' fields as viewable by "
 "other users and site visitors.</p>\n"
-"    <p>Each 'CiviCRM Profile Group' is presented as a separate form when new "
-"users register for an account, as well as when they edit an existing account."
-"</p>"
+"    <p>Each 'CiviCRM Profile' is presented as a separate form when new users "
+"register for an account, as well as when they edit an existing account.</p>"
 msgstr ""
 "<p>Dzięki skonfigurowaniu „Profilu CiviCRM”, użytkownicy mogą oglądać i/lub "
 "edytować wybrane pola ze swoich danych jako kontaktu. Pola profilu CiviCRM "
 "są też używane do kontrolowania które dane służą do dopasowywania kontaktu "
 "do użytkownika. Można także oznaczyć pola profilu CiviCRM jako widzialne "
 "przez innych użytkowników i gości strony.</p>\n"
-"    <p>Za każdym razem, gdy nowi użytkownicy rejestrują konto, jako osobny "
-"formularz przedstawiana jest każda grupa profilu CiviCRM. Dzieje się tak też "
+"    <p>Za każdym razem, gdy nowi użytkownicy rejestrują konto, każdy “Profil CiviCRM” przedstawiany jest jako osobny "
+"formularz. Dzieje się tak też "
 "przy edycji istniejących kont.</p>"
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "Profile Title"
+msgstr "Tytuł profilu"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "New CiviCRM Profile"
+msgstr "Nowy Profil CiviCRM"
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"No CiviCRM Profile Groups have been created yet. You can <a href=\"%1\">add "
-"one now</a>."
+"No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
+"now</a>."
 msgstr ""
-"Nie utworzono jeszcze grup profilu CiviCRM. <a href=\"%1\">Można to zrobić "
+"Nie utworzono jeszcze profilu CiviCRM. <a href=\"%1\">Można to zrobić "
 "tu</a>."
 
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
+
+#~ msgid "In"
+#~ msgstr "W"
+
+#~ msgid "Out"
+#~ msgstr "Poza"
+
+#~ msgid "Bounce Type"
+#~ msgstr "Rodzaj odbicia"
+
+#~ msgid "With status"
+#~ msgstr "Ze statusem"
+
+#~ msgid "HTML Type"
+#~ msgstr "Rodzaj HTML"
+
+#~ msgid "Preview Form Fields"
+#~ msgstr "Podejrzyj pole formularza"
+
+#~ msgid "Edit Fields"
+#~ msgstr "Edytuj pola"
+
+#~ msgid "List Custom Group Fields"
+#~ msgstr "Wypisz pola grupy dodatkowej"
+
+#~ msgid "Edit Contact Name and Location"
+#~ msgstr "Edytuj nazwę i lokalizację kontaktu"
+
+#~ msgid ""
+#~ "Choose Household and Relationship that you would like to add the below "
+#~ "contacts to."
+#~ msgstr ""
+#~ "Wybierz mieszkanie i powiązanie, do którego chcesz dodać poniższe "
+#~ "kontakty."
+
+#~ msgid ""
+#~ "Choose Organization and Relationship that you would like to add the below "
+#~ "contacts to."
+#~ msgstr ""
+#~ "Wybierz organizację i powiązanie, do którego chcesz dodać poniższe "
+#~ "kontakty."
+
+#~ msgid "send email"
+#~ msgstr "wyślij emaila"
+
+#~ msgid "call"
+#~ msgstr "rozmowa"
+
+#~ msgid "Edit address, phone, email..."
+#~ msgstr "Edytuj adres, telefon, email…"
+
+#~ msgid "CiviCRM Profile Fields for this Group"
+#~ msgstr "Pola profilu CiviCRM tej grupy"
 
 #~ msgid "Previous <<"
 #~ msgstr "Poprzedni <<"
@@ -5591,9 +5737,6 @@ msgstr "(krok %1 z %2)"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Gdzie ma być wyświetlane to pole?"
-
-#~ msgid "Mailing Address"
-#~ msgstr "Adres pocztowy"
 
 #~ msgid "No open activities."
 #~ msgstr "Brak otwartych zdarzeń."
@@ -5738,9 +5881,6 @@ msgstr "(krok %1 z %2)"
 
 #~ msgid "Rows with invalid data (NOT imported)."
 #~ msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
-
-#~ msgid "User Sharing Fields for this Group"
-#~ msgstr "Pola współdzielenia użytkowników dla tej grupy"
 
 #~ msgid "New User Sharing Field"
 #~ msgstr "Nowe pole współdzielenia użytwkoników"

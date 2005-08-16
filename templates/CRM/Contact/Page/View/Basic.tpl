@@ -31,7 +31,9 @@
 
  <div id="location[{$locationIndex}]">
   <fieldset>
-   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{$loc.location_type}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</legend>
+   <legend{if $locationIndex eq 1} class="label"{/if}>
+    <a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{$loc.location_type}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}
+   </legend>
 
   <div class="col1">
    {foreach from=$loc.phone item=phone}
@@ -63,6 +65,9 @@
    </div>
 
    <div class="col2">
+    {if $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
+        <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
+    {/if}
     {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
     {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
     {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}

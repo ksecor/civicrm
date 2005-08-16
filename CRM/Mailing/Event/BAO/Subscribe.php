@@ -156,8 +156,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $headers = array(
             'Subject'   => ts('Subscribe confirmation request'),
             'From'      => ts('"%1 Administrator" <do-not-reply@%2>', 
-                            array('1' => $domain->name, 
-                            '2' => $domain->email_domain)),
+                            array(1 => $domain->name, 
+                            2 => $domain->email_domain)),
             'Reply-to'  => $confirm,
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );
@@ -165,7 +165,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $body = ts('
 You have a pending subscription to %1.  To confirm this 
 subscription, reply to this message.', 
-            array('1' => $group->name, '2' => $confirm));
+            array(1 => $group->name, 2 => $confirm));
 
         $message =& new Mail_Mime("\n");
         $message->setTxtBody($body);

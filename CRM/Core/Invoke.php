@@ -118,11 +118,11 @@ class CRM_Core_Invoke {
         }
 
         $session =& CRM_Core_Session::singleton();
-       
-        $breadCrumbPath ='civicrm/contact/search/basic?force=1';
-        if($session->get('isAdvanced')) {
-            $breadCrumbPath ='civicrm/contact/search/advanced?force=1' ;
-        }
+        
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
+       if ($session->get('isAdvanced')) {
+           $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+       }
        
         $additionalBreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$breadCrumbPath));
        
@@ -332,7 +332,8 @@ class CRM_Core_Invoke {
                         $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                     } else {
                         $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
-                        $additionalBreadCrumb = '<a href="civicrm/admin/custom/group/field">' . ts('Custom Data Field') . '</a>';
+                        $url  = CRM_Utils_System::url( 'civicrm/admin/custom/group/field' );
+                        $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Custom Data Field') . '</a>';
                         CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
                     }
                 }

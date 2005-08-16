@@ -500,8 +500,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $fieldLabel = $cfDAO->label;
                     }
 
-                    $strCustom = $cgDAO->title . ': ' . $fieldLabel . ' -  "%1"';
-                    $qill[] = ts($strCustom , array(1 => $v));
+                    $qill[] = $cgDAO->title . ': ' . $fieldLabel . ' -  "' . $v . '"';
                 }
             }
         }
