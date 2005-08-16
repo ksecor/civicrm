@@ -8474,9 +8474,9 @@ sub process($$) {
                                                         $hash, $body);
 
             if ($result->result == 1) {
-                do_log(5, "CiviCRM: succesful bounce event: $verpInfo");
+                do_log(2, "CiviCRM: succesful bounce event: $verpInfo");
             } else {
-                do_log(4, "CiviCRM: failed bounce event: $verpInfo");
+                do_log(1, "CiviCRM: failed bounce event: $verpInfo");
             }
         } elsif ($dest eq 'reply') {
             # reply
@@ -8488,27 +8488,27 @@ sub process($$) {
                 $soapClient->crm_mailer_event_reply(    $jobId, $qId, $hash,
                                                         $body, $replyto);
             if ($result->result == 1) {
-                do_log(5, "CiviCRM: succesful reply event: $verpInfo");
+                do_log(2, "CiviCRM: succesful reply event: $verpInfo");
             } else {
-                do_log(4, "CiviCRM: failed reply event: $verpInfo");
+                do_log(1, "CiviCRM: failed reply event: $verpInfo");
             }
         } elsif ($dest eq 'unsubscribe') {
             # unsubscription
             $result = 
                 $soapClient->crm_mailer_event_unsubscribe($jobId, $qId, $hash);
             if ($result->result == 1) {
-                do_log(5, "CiviCRM: succesful unsubscribe event: $verpInfo");
+                do_log(2, "CiviCRM: succesful unsubscribe event: $verpInfo");
             } else {
-                do_log(4, "CiviCRM: failed unsubscribe event: $verpInfo");
+                do_log(1, "CiviCRM: failed unsubscribe event: $verpInfo");
             }
         } elsif ($dest eq 'confirm') {
             # opt-in
             $result = 
                 $soapClient->crm_mailer_event_confirm(  $jobId, $qId, $hash);
             if ($result->result == 1) {
-                do_log(5, "CiviCRM: succesful confirm event: $verpInfo");
+                do_log(2, "CiviCRM: succesful confirm event: $verpInfo");
             } else {
-                do_log(4, "CiviCRM: failed confirm event: $verpInfo");
+                do_log(1, "CiviCRM: failed confirm event: $verpInfo");
             }
         } elsif ($dest eq 'optOut') {
             # opt-out
@@ -8516,9 +8516,9 @@ sub process($$) {
                 $soapClient->crm_mailer_event_domain_unsubscribe(   
                                 $jobId, $qId, $hash);
             if ($result->result == 1) {
-                do_log(5, "CiviCRM: succesful opt-out event: $verpInfo");
+                do_log(2, "CiviCRM: succesful opt-out event: $verpInfo");
             } else {
-                do_log(4, "CiviCRM: failed opt-out event: $verpInfo");
+                do_log(1, "CiviCRM: failed opt-out event: $verpInfo");
             }
         }
     } else {
@@ -8527,14 +8527,14 @@ sub process($$) {
 
         my $email = 
             MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
-        $email = ((Mail::Address->parse($email))[0])->address;
+        my $from = ((Mail::Address->parse($email))[0])->address;
         
         $result = 
-            $soapClient->crm_mailer_event_subscribe( $email, $dId, $gId);
+            $soapClient->crm_mailer_event_subscribe( $from, $dId, $gId);
         if ($result->result == 1) {
-            do_log(5, "CiviCRM: succesful subscribe event: $verpInfo");
+            do_log(2, "CiviCRM: succesful subscribe event: $verpInfo");
         } else {
-            do_log(4, "CiviCRM: failed subscribe event: $verpInfo");
+            do_log(1, "CiviCRM: failed subscribe event: $verpInfo");
         }
     }
 }
