@@ -8466,19 +8466,13 @@ sub process($$) {
     my $result;
     
     if (defined($hash)) {
-        my $soapJobId = SOAP::Data->name('job_id' => $jobId);
-        my $soapQueueId = SOAP::Data->name('queue_id' => $qId);
-        my $soapHash = SOAP::Data->name('hash' => $hash);
-    
         if ($dest eq 'owner') {
             # bounce
-            my $soapBody = 
-                SOAP::Data->name('body' => join('', @{$msginfo->mime_entity->body}));
+            my $body = join('', @{$msginfo->mime_entity->body});
             $result = 
-                $soapClient->crm_mailer_event_bounce(   $soapJobId, 
-                                                        $soapQueueId, 
-                                                        $soapHash,
-                                                        $soapBody);
+                $soapClient->crm_mailer_event_bounce(   $jobId, $qId, 
+                                                        $hash, $body);
+
             if ($result->result == 1) {
                 do_log(5, "CiviCRM: succesful bounce event: $verpInfo");
             } else {
@@ -8486,18 +8480,13 @@ sub process($$) {
             }
         } elsif ($dest eq 'reply') {
             # reply
-            my $soapBody = 
-                SOAP::Data->name('body' => join('', @{$msginfo->mime_entity->body}));
+            my $body = join('', @{$msginfo->mime_entity->body});
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
-            my $soapRT = SOAP::Data->name('replyto' => $replyto);
             
             $result = 
-                $soapClient->crm_mailer_event_reply(    $soapJobId,
-                                                        $soapQueueId,
-                                                        $soapHash,
-                                                        $soapBody,
-                                                        $soapRT);
+                $soapClient->crm_mailer_event_reply(    $jobId, $qId, $hash,
+                                                        $body, $replyto);
             if ($result->result == 1) {
                 do_log(5, "CiviCRM: succesful reply event: $verpInfo");
             } else {
@@ -8506,9 +8495,7 @@ sub process($$) {
         } elsif ($dest eq 'unsubscribe') {
             # unsubscription
             $result = 
-                $soapClient->crm_mailer_event_unsubscribe(  $soapJobId, 
-                                                            $soapQueueId, 
-                                                            $soapHash);
+                $soapClient->crm_mailer_event_unsubscribe($jobId, $qId, $hash);
             if ($result->result == 1) {
                 do_log(5, "CiviCRM: succesful unsubscribe event: $verpInfo");
             } else {
@@ -8517,9 +8504,7 @@ sub process($$) {
         } elsif ($dest eq 'confirm') {
             # opt-in
             $result = 
-                $soapClient->crm_mailer_event_confirm(  $soapJobId, 
-                                                        $soapQueueId, 
-                                                        $soapHash);
+                $soapClient->crm_mailer_event_confirm(  $jobId, $qId, $hash);
             if ($result->result == 1) {
                 do_log(5, "CiviCRM: succesful confirm event: $verpInfo");
             } else {
@@ -8529,7 +8514,7 @@ sub process($$) {
             # opt-out
             $result = 
                 $soapClient->crm_mailer_event_domain_unsubscribe(   
-                                $soapJobId, $soapQueueId, $soapHash);
+                                $jobId, $qId, $hash);
             if ($result->result == 1) {
                 do_log(5, "CiviCRM: succesful opt-out event: $verpInfo");
             } else {
@@ -8540,18 +8525,12 @@ sub process($$) {
         my ($dest, $dId, $gId) =
             ($verpInfo =~ m/(subscribe)\.(\d+).(\d+)\@.*/) or return;
 
-        my $soapDomain = SOAP::Data->name('domain_id' => $dId);
-        my $soapGroup = SOAP::Data->name('group_id' => $gId);
         my $email = 
             MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
-        $email = (Mail::Address->parse($email))[0];
-        
-        my $soapEmail = SOAP::Data->name('email' => $email->address);
+        $email = ((Mail::Address->parse($email))[0])->address;
         
         $result = 
-            $soapClient->srm_mailer_event_subscribe(    $soapEmail,
-                                                        $soapDomain, 
-                                                        $soapGroup);
+            $soapClient->srm_mailer_event_subscribe( $email, $dId, $gId);
         if ($result->result == 1) {
             do_log(5, "CiviCRM: succesful subscribe event: $verpInfo");
         } else {
