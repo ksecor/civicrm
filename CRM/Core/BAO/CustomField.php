@@ -291,7 +291,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                     $qf->addGroup($choice, $elementName, $field->label);
                 }
                 if ($useRequired && $field->is_required) {
-                    $qf->addGroupRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
                 }
                 break;
 
@@ -313,7 +313,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 }
                 $qf->addGroup($check, $elementName, $field->label);
                 if ($useRequired && $field->is_required) {
-                    $qf->addGroupRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
                 }
                 break;
 

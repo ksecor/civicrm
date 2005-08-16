@@ -316,7 +316,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 // if we dont have a custom value, just continue
-                if ( ! CRM_Utils_Array::value( 'customValue', $field ) ) {
+                if ( ! CRM_Utils_Array::value( 'customValue', $field ) && ! CRM_Utils_Array::value( 'default_value', $field ) ) {
                     continue;
                 }
 
