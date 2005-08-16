@@ -98,19 +98,20 @@ foreach($subFrKeyTables as $key => $value) {
     }
 }
 
-//print_r($remains);
-//print_r($domainArray);
+print_r($remains);
+
 
 foreach($subFrKeyTables as $key => $value) {
     foreach($value['foreignKey'] as $k => $v) {
         if ( array_key_exists($value['foreignKey'][$k]['table'], $domainArray) ) {
             if ( array_key_exists($value['name'], $domainArray[$value['foreignKey'][$k]['table']]) && array_key_exists($value['name'], $remains) ) {
-                echo $value['name']."\n";
+                $domainArray[$value['foreignKey'][$k]['table']][$value['name']]['subtable'] = $remains[$value['name']];
             }
         }
     }
 }
 
+//print_r($domainArray);
 
 exit(1);
 
