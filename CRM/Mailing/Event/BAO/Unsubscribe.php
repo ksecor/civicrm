@@ -131,10 +131,10 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $mailings = array();
 
         while ($do->fetch()) {
-            if ($mg->entity_table == $group) {
-                $groups[$mg->entity_id] = true;
-            } else if ($mg->entity_table == $mailing) {
-                $mailings[] = $mg->entity_id;
+            if ($do->entity_table == $group) {
+                $groups[$do->entity_id] = true;
+            } else if ($do->entity_table == $mailing) {
+                $mailings[] = $do->entity_id;
             }
         }
 
@@ -151,10 +151,10 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $mailings = array();
             
             while ($do->fetch()) {
-                if ($mg->entity_table == $group) {
-                    $groups[$mg->entity_id] = true;
-                } else if ($mg->entity_table == $mailing) {
-                    $mailings[] = $mg->entity_id;
+                if ($do->entity_table == $group) {
+                    $groups[$do->entity_id] = true;
+                } else if ($do->entity_table == $mailing) {
+                    $mailings[] = $do->entity_id;
                 }
             }
         }
