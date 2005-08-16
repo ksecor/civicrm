@@ -8530,7 +8530,7 @@ sub process($$) {
         $email = ((Mail::Address->parse($email))[0])->address;
         
         $result = 
-            $soapClient->srm_mailer_event_subscribe( $email, $dId, $gId);
+            $soapClient->crm_mailer_event_subscribe( $email, $dId, $gId);
         if ($result->result == 1) {
             do_log(5, "CiviCRM: succesful subscribe event: $verpInfo");
         } else {
