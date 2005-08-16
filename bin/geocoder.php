@@ -1,10 +1,11 @@
 <?php
 
-ini_set( 'include_path', '.:/opt/local/lib/php' );
+ini_set( 'include_path', '.:../packages' );
 
 require_once 'XML/RPC.php';
 
-$string = '88 ashbury terrace, San Francisco, California, 94117';
+$string = '455 FDR Drive, New York, NY 10002';
+// $string = '88 ashbury terrace, San Francisco, California, 94117';
 // $string = '107 garden street, great neck, new york, 11021';
 
 $params   = array( new XML_RPC_Value( $string, 'string' ) );
