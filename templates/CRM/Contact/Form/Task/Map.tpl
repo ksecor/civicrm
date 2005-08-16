@@ -14,7 +14,7 @@
       var center = new GPoint({/literal}{$center.lng},{$center.lat}{literal});
       var zoom   = spec.getLowestZoomLevel(center, span, map.viewSize);
       
-      map.addControl(new GSmallMapControl());
+      map.addControl(new GLargeMapControl());
       map.addControl(new GMapTypeControl());
       map.centerAndZoom(center, zoom);
       
