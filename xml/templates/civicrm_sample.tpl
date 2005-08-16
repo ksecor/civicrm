@@ -57,9 +57,3 @@ VALUES
     (1,'country',7,1,0,0,0,0,'Public User Pages','',''),
     (1,'email',8,1,1,0,0,1,'Public User Pages','','');
 
-INSERT INTO civicrm_mailing_component
-    (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
-VALUES
-    (%%CIVICRM_DOMAIN_ID%%,'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1);
-

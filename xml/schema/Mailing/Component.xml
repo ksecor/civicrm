@@ -35,7 +35,7 @@
   <field>
        <name>component_type</name>
        <type>enum</type>
-       <values>Header, Footer, Subscribe, Welcome, Unsubscribe, Reply</values>
+       <values>Header, Footer, Subscribe, Welcome, Unsubscribe, OptOut, Reply</values>
        <comment>Type of Component.</comment>
   </field>
   <field>
@@ -54,7 +54,7 @@
   <field>
        <name>body_text</name>
        <type>text</type>
-       <comment>Body of the component in html format.</comment>
+       <comment>Body of the component in text format.</comment>
        <htmlType>textarea</htmlType>
        <rows>8</rows>
        <cols>80</cols>

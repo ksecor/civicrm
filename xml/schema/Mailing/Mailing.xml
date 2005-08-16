@@ -48,6 +48,39 @@
        <key>id</key>
   </foreignKey>
   <field>
+        <name>reply_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>FK to the auto-responder component.</comment>
+  </field>
+  <foreignKey>
+        <name>reply_id</name>
+        <table>civicrm_mailing_component</table>
+        <key>id</key>
+  </foreignKey>
+  <field>
+        <name>unsubscribe_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>FK to the unsubscribe component.</comment>
+  </field>
+  <foreignKey>
+        <name>unsubscribe_id</name>
+        <table>civicrm_mailing_component</table>
+        <key>id</key>
+  </foreignKey>
+  <field>
+        <name>optout_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>FK to the opt-out component.</comment>
+  </field>
+  <foreignKey>
+        <name>optout_id</name>
+        <table>civicrm_mailing_component</table>
+        <key>id</key>
+  </foreignKey>
+  <field>
        <name>name</name>
        <type>varchar</type>
        <length>128</length>
@@ -101,6 +134,11 @@
        <name>forward_replies</name>
        <type>boolean</type>
        <comment>Should we forward replies back to the author?</comment>
+  </field>
+  <field>
+        <name>auto_responder</name>
+        <type>boolean</type>
+        <comment>Should we enable the auto-responder?</comment>
   </field>
   <field>
        <name>open_tracking</name>

@@ -69,7 +69,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             $value = array('email' => $email, 'location_type' =>
             CRM_Core_BAO_LocationType::getDefaultID());
             _crm_add_formatted_param($value, $formatted);
-            $contact = crm_create_contact_formatted($formatted,
+            $contact =& crm_create_contact_formatted($formatted,
                 CRM_Import_Parser::DUPLICATE_SKIP);
 
             if (is_a($contact, CRM_Core_Error)) {
@@ -150,9 +150,11 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         $confirm = CRM_Utils_Verp::encode( "confirm.{$this->contact_id}.{$this->id}.{$this->hash}@{$domain->email_domain}", 
             $email);
+
         $group =& new CRM_Contact_BAO_Group();
         $group->id = $this->group_id;
         $group->find(true);
+        
         $headers = array(
             'Subject'   => ts('Subscribe confirmation request'),
             'From'      => ts('"%1 Administrator" <do-not-reply@%2>', 
@@ -162,6 +164,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );
 
+        /* TODO: pull this from a component */
         $body = ts('
 You have a pending subscription to %1.  To confirm this 
 subscription, reply to this message.', 
