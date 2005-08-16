@@ -57,7 +57,31 @@ require_once 'CRM/Utils/Array.php';
  *                                need to be returned to the caller
  *
  */
+
+
+
+
+/**
+ * Defines a new group (static or query-based),
+ *
+ *
+ * @param array       $param  Associative array of property name/value pairs to insert in new 'group'.             
+ * @return     newly created 'group' object
+ *
+ * @access public
+ */
+
+
 function crm_create_group($params) {
+    _crm_initialize( );
+    if ($params != null && !is_array($params)) {
+        return _crm_error('$params is not an array');
+    }
+
+    $group = CRM_Contact_BAO_Group::createGroup($params);
+    
+    return($group);
+
 }
 
 
@@ -93,12 +117,59 @@ function crm_get_groups($params = null, $returnProperties = null) {
 }
 
 
-
+/**
+ * Update the existing group
+ *
+ *
+ * @param $group         A valid group object (passed by reference)
+ * @param array $params  Associative array of property name/value pairs to be updated
+ * 
+ * @return Group object with updated property values. if success or CRM_Error (db error or contact was not valid)
+ *
+ * @access public
+ */
 
 function crm_update_group(&$group, $params) {
+    _crm_initialize( );
+    
+    if (!is_array($params)) {
+        return _crm_error('$params is not an array');
+    }
+    
+    if ($group->id == null) {
+        return _crm_error('Could not locate group with id: $id');
+    }
+
+    $group->copyValues($params);
+    $updatedGroup = $group->save( );
+
+    return $updatedGroup;
 }
 
+/**
+ *
+ * Delete an existing group.
+ *
+ * @param $group         A valid group object (passed by reference)
+ *
+ * @return  null, if successful.or  CRM error object, if permissions are insufficient, etc.
+ *
+ *
+ * @access public
+ */
+
 function crm_delete_group(&$group) {
+    _crm_initialize( );
+    if ($group->id == null) {
+        return _crm_error('Could not locate group with id: $id');
+    }
+
+    if ( ! CRM_Contact_BAO_Group::checkPermission( $group->id, $group->title ) ) {
+            return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
+     }
+    
+    CRM_Contact_BAO_Group::discard($group->id);    
+    return null;
 }
 
 /**

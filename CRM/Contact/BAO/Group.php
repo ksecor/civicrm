@@ -276,6 +276,36 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         }
         return null;
     }
+
+    /**
+     * Defines a new group (static or query-based)
+     *
+     * @param array $params     Associative array of parameters
+     * @return object|null      The new group BAO (if created)
+     * @access public
+     * @static
+     */
+
+    public static function createGroup(&$params) {
+         
+        if ($params['saved_search_id'] != null) {
+            
+            $savedSearch =& new CRM_Contact_BAO_SavedSearch();
+            $savedSearch->domain_id   = CRM_Core_Config::domainID( );
+            $savedSearch->form_values = $params['formValues'];
+            $savedSearch->is_active = 1;
+            $savedSearch->save();
+            
+        } 
+        
+        $group =& new CRM_Contact_BAO_Group();
+        $params['domain_id'] = CRM_Core_Config::domainID( );;
+        $group->copyValues($params);
+        $newGroup = $group->save();
+        return $newGroup;
+
+    }
+
     
 }
 

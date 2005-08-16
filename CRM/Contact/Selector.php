@@ -103,14 +103,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     protected $_action;
 
-
     /**
      * Class constructor
      *
      * @param array $formValues array of parameters for query
      * @param int   $action - action of search basic or advanced.
      *
-     * @return CRM_Contact_AdvancedSelector
+     * @return CRM_Contact_Selector
      * @access public
      */
     function __construct(&$formValues, $action = CRM_Core_Action::NONE) 

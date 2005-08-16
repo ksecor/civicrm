@@ -114,6 +114,29 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     }
 
     /**
+     * get the title of the group which contributes the largest number of fields
+     * to the registered entries
+     *
+     * @return string title of the registered group
+     * @static
+     * @access public
+     */
+    static function getRegisteredTitle( ) {
+        $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
+
+        $size  = -1;
+        $title = null;
+        foreach ( $ufGroups as $id => $value ) { 
+            $subset = self::getUFFields( $id, true, $action ); 
+            if ( count( $subset ) > $size ) {
+                $size  = count( $subset );
+                $title = $value;
+            }
+        }
+        return $title;
+    }
+
+    /**
      * get all the fields that belong to the group with the named title
      *
      * @param int $id       the id of the UF group
