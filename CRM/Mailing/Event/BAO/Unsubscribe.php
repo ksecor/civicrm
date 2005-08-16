@@ -117,7 +117,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         
         $do->query("
             SELECT      $mg.entity_table as entity_table,
-                        $mg.entity_id as entity_id,
+                        $mg.entity_id as entity_id
             FROM        $mg
             INNER JOIN  $job
                 ON      $job.mailing_id = $mg.mailing_id
@@ -143,7 +143,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         while (! empty($mailings)) {
             $do->query("
                 SELECT      $mg.entity_table as entity_table,
-                            $mg.entity_id as entity_id,
+                            $mg.entity_id as entity_id
                 FROM        $mg
                 WHERE       $mg.mailing_id IN (".implode(', ', $mailings).")
                     AND     $mg.group_type = 'Include'");
