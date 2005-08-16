@@ -47,8 +47,42 @@ $tables   =& getTables( $dbXML, $database );
 resolveForeignKeys( $tables, $classNames );
 $tables = orderTables( $tables );
 
-// echo "\n\n\n\n\n*****************************************************************************\n\n";
-// print_r($tables);
+echo "\n\n\n\n\n*****************************************************************************\n\n";
+//print_r($tables);
+
+$tree1 = array();
+
+foreach ($tables as $k => $v) {
+    $tableName = $k;
+    $tree1[$tableName] = array();
+
+    if(!isset($v['foreignKey'])) {
+        continue;
+    }
+    foreach ($v['foreignKey'] as $k1 => $v1) {
+        $tree1[$tableName][] = $v1['table'];
+    }
+}
+
+
+
+$tree2 = array();
+
+foreach ($tree1 as $k => $v) {
+
+    foreach ($v as $k1 => $v1) {
+        if (!isset($tree2[$v1])) {
+            $tree2[$v1] = array();
+        }
+        $tree2[$v1][] = $k;
+    }
+}
+
+print_r($tree1);
+print_r($tree2);
+
+exit(1);
+
 
 $domainTables = array();
 $subTables = array();
