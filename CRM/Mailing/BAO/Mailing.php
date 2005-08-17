@@ -451,11 +451,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /**
          * Inbound VERP keys:
          *  reply:          user replied to mailing
-         *  owner:          bounce
+         *  bounce:         email address bounced
          *  unsubscribe:    contact opts out of all target lists for the mailing
          *  opt-out:        contact unsubscribes from the domain
          */
-        foreach (array('reply', 'owner', 'unsubscribe', 'optOut') as $key) 
+        foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
         {
             $verp[$key] = implode('.', 
                         array(
@@ -470,7 +470,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'Subject'   => $this->subject,
             'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
             'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
-            'Return-path' => CRM_Utils_Verp::encode($verp['owner'], $email),
+            'Return-path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
         );
 
         if ($this->html == null || $this->text == null) {

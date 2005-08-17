@@ -71,7 +71,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $emailId    = $params['email_id'];
         $contactId  = $params['contact_id'];
 
-        return sha1("{$jobId}:{$emailId}:{$contactId}");
+        return sha1("{$jobId}:{$emailId}:{$contactId}:" . time());
     }
 
 

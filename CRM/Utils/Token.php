@@ -270,16 +270,21 @@ class CRM_Utils_Token {
      * @param string $str           the string with tokens to be replaced
      * @param array $groups         The groups (if any) being unsubscribed
      * @param boolean $html         Replace tokens with html or plain text
+     * @param int $contact_id       The contact ID
+     * @param string hash           The security hash of the unsub event
      * @return string               The processed string
      * @access public
      * @static
      */
-    public static function &replaceUnsubscribeTokens($str, &$groups, $html) {
+    public static function &replaceUnsubscribeTokens($str, &$groups, $html,
+        $contact_id, $hash) 
+    {
         if (self::token_match('unsubscribe', 'group', $str)) {
             if (! empty($groups)) {
                 if ($html) {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
+                        // FIXME: generate an extern resubscribe URL
                         $value .= ts(
                         "<li>%1 (<a href=\"%2\">re-subscribe</a>)</li>\n", 
                         array('1' => $name, '2' => 'FIXME'));

@@ -8466,7 +8466,7 @@ sub process($$) {
     my $result;
     
     if (defined($hash)) {
-        if ($dest eq 'owner') {
+        if ($dest eq 'bounce') {
             # bounce
             my $body = join('', @{$msginfo->mime_entity->body});
             $result = 

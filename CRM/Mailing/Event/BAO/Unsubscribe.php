@@ -243,7 +243,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $eq =& new CRM_Core_DAO();
         $eq->query(
         "SELECT     $contacts.preferred_mail_format as format,
+                    $contacts.id as contact_id
                     $email.email as email
+                    $queue.hash as hash
         FROM        $contacts
         INNER JOIN  $queue ON $queue.contact_id = $contacts.id
         INNER JOIN  $email ON $queue.email_id = $email.id
@@ -255,14 +257,14 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $html = 
                 CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
             $html = 
-                CRM_Utils_Token::replaceUnsubscribeTokens($html, $groups, true);
+                CRM_Utils_Token::replaceUnsubscribeTokens($html, $groups, true, $eq->contact_id, $eq->hash);
             $message->setHTMLBody($html);
         }
         if ($eq->format == 'Text' || $eq->format == 'Both') {
             $text = 
                 CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $text = 
-                CRM_Utils_Token::replaceUnsubscribeTokens($text, $groups, false);
+                CRM_Utils_Token::replaceUnsubscribeTokens($text, $groups, false, $eq->contact_id, $eq->hash);
             $message->setTxtBody($text);
         }
         $headers = array(
