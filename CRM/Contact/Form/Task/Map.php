@@ -74,6 +74,12 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      */
     public function buildQuickForm()
     {
+        $this->addButtons( array( 
+                                 array ( 'type'      => 'done', 
+                                         'name'      => ts('Done'), 
+                                         'isDefault' => true   ), 
+                                 ) 
+                           ); 
     }
 
     /**
@@ -98,7 +104,6 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
     function createLocation( $contactIds ) {
         $config =& CRM_Core_Config::singleton( );
 
-        $this->assign( 'title', 'CiviCRM Google Maps'  );
         $this->assign( 'query', 'CiviCRM Search Query' );
 
         $this->assign( 'googleMapKey', $config->googleMapAPIKey );
@@ -108,6 +113,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         if ( empty( $locations ) ) {
             CRM_Utils_System::statusBounce(ts('The location did not have any latitude / longitude information.'));
         } else {
+            $session =& CRM_Core_Session::singleton(); 
+            $redirect = $session->readUserContext(); 
             $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => $redirect ) );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }

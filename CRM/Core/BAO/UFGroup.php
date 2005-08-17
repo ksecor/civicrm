@@ -143,12 +143,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @param int $register are we interested in registration fields
      * @param int $action   what action are we doing
      * @param int $match    are we interested in match fields
+     * @param string $visibility visibility of fields we are interested in
      *
      * @return array the fields that belong to this title
      * @static
      * @access public
      */
-    static function getUFFields( $id, $register = false, $action = null, $match = false ) {
+    static function getUFFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
         $group = new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
@@ -162,6 +163,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             if ( $match ) {
                 $field->is_match = 1;
             }
+            if ( $visibility ) {
+                $field->visibility = $visibility;
+            }
+
             $field->orderBy('weight', 'field_name');
             $field->find( );
             $fields = array( );

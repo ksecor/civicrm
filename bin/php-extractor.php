@@ -336,7 +336,7 @@ function writeHeader($file)
     $output[] = '# ';
     $output[] = 'msgid ""';
     $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM trunk\n"';
+    $output[] = '"Project-Id-Version: CiviCRM 1.1\n"';
     $output[] = '"Report-Msgid-Bugs-To: \n"';
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
@@ -502,7 +502,8 @@ foreach ($strings as $str => $fileinfo) {
     $occured = $filelist = array();
 
     foreach ($fileinfo as $file => $lines) {
-        $occured[] = "$file:" . join(";", $lines);
+//      $occured[] = "$file:" . join(";", $lines);
+        $occured[] = "$file";
         if (isset($file_versions[$file])) {
             $filelist[] = $file_versions[$file];
         }

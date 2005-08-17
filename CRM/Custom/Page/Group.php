@@ -76,26 +76,26 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Preview'),
                                                                           'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'qs'    => 'action=preview&reset=1&id=%%id%%',
                                                                           'title' => ts('Preview Custom Data Group'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Group Title and Display Type'),
                                                                           'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'qs'    => 'action=update&reset=1&id=%%id%%',
                                                                           'title' => ts('Edit Custom Group') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=disable&id=%%id%%',
+                                                                          'qs'    => 'action=disable&reset=1&id=%%id%%',
                                                                           'title' => ts('Disable Custom Group'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'qs'    => 'action=enable&reset=1&id=%%id%%',
                                                                           'title' => ts('Enable Custom Group'),
                                                                           ),
                                         );

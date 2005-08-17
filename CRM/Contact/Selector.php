@@ -484,22 +484,30 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                     
                     // Custom Group DAO
-                    $cgDAO =& new CRM_Core_DAO();
-                    $strQuery = "SELECT title FROM civicrm_custom_group WHERE id = $groupId";
-                    $cgDAO->query($strQuery);
-                    while($cgDAO->fetch()) {
+                    $cgDAO =& new CRM_Contact_DAO_Group( );
+                    $cgDAO->id = $groupId;
+                    if ( $cgDAO->find( true ) ) {
                         $groupName = $cgDAO->title;
                     }
                     
                     // Custom Field DAO
-                    $cfDAO =& new CRM_Core_DAO();
-                    $strQuery = "SELECT label FROM civicrm_custom_field WHERE id = $fieldId";
-                    $cfDAO->query($strQuery);
-                    while($cfDAO->fetch()) {
+                    $cfDAO =& new CRM_Core_DAO_CustomField();
+                    $cfDAO->id = $fieldId;
+                    if ( $cfDAO->find( true ) ) {
                         $fieldLabel = $cfDAO->label;
                     }
 
-                    $qill[] = $cgDAO->title . ': ' . $fieldLabel . ' -  "' . $v . '"';
+                    if ( is_array( $v ) ) {
+                        if ( $cfDAO->html_type == 'Select Date' ) {
+                            $v = implode( ', ', array_values($v) );
+                        } else {
+                            $v = implode( ', ', array_keys($v) );
+                        }
+                    } else {
+                        $v = '"' . $v . '"';
+                    }
+
+                    $qill[] = $cgDAO->title . ': ' . $fieldLabel . " - $v";
                 }
             }
         }

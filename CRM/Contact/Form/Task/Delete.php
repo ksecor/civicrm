@@ -81,7 +81,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
                            
         if ( $selfDelete ) {
             $display_name = CRM_Contact_BAO_Contact::displayName($currentUserId);
-            $status[] = ts('Your contact record "') . $display_name . ts('" was not deleted.');
+            $status[] = ts('Your contact record "%1" was not deleted.', array(1 => $display_name));
         }
         
         CRM_Core_Session::setStatus( $status );
