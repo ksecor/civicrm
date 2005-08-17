@@ -68,6 +68,7 @@ foreach ($tables as $key => $value) {
         $frtable[$value['name']][] = $v1['name'];
     }
 }
+//print_r($frtable);
 
 $tree2 = array();
 
@@ -97,7 +98,7 @@ unset($tree2['civicrm_domain']);
 foreach($tree2 as $k => $v) {
     foreach ($tree3 as $key => $val) {
         foreach ($val as $k1 => $v1) {
-            if ( in_array($k, $v1)) {
+            if ( in_array($k, $v1) && count($v)) {
                 //print_r(array_flip($v1));
                 $arKey = array_search($k, $v1);
                 unset($tree3[$key][$k1][$arKey]);
@@ -109,7 +110,10 @@ foreach($tree2 as $k => $v) {
     }
 }
 
-print_r($tree3);
+//print_r($tree2);
+
+$a = getChildren(&$tree3, 'civicrm_domain');
+echo $a;
 
 /*$tempDoneArray = array();
 
