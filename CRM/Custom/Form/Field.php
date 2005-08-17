@@ -166,6 +166,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
+        $this->addRule( 'label', ts('Name already exists in Database.'), 
+                        'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
 
         $dt =& self::$_dataTypeValues;
         $it = array();
@@ -489,15 +491,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     }
                 }
                 $_showHide->addToTemplate();
-            }
-            
-            //Check for duplicate Field Label
-            $fieldLabel = $fields['label'];
-            $dao =& new CRM_Core_DAO_CustomField();
-            $dao->label = $fieldLabel;
-            $dao->custom_group_id = $_gid;
-            if ( $dao->find( true ) ) {
-                $errors['label'] = "There is a Custom Field with same name.";
             }
         }
         
