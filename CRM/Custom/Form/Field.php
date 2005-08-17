@@ -74,16 +74,17 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     private static $_dataTypeKeys = null;
     
     private static $_dataToHTML = array(
-                                        array('Text', 'Select', 'Radio', 'Checkbox'),
-                                        array('Text', 'Select', 'Radio'),
-                                        array('Text', 'Select', 'Radio'),
-                                        array('Text', 'Select', 'Radio'),
-                                        array('TextArea'),
-                                        array('Select Date'),
-                                        array('Radio'),
-                                        array('Select State/Province'),
-                                        array('Select Country'),
-                                        );
+            array(  'Text' => 'Text', 'Select' => 'Select', 
+                    'Radio' => 'Radio', 'Checkbox' => 'Checkbox'),
+            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+            array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
+            array('TextArea' => 'TextArea'),
+            array('Date' => 'Select Date'),
+            array('Radio' => 'Radio'),
+            array('StateProvince' => 'Select State/Province'),
+            array('Country' => 'Select Country'),
+    );
     
     private static $_dataToLabels = null;
     
@@ -105,15 +106,19 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
         if (self::$_dataToLabels == null) {
             self::$_dataToLabels = array(
-                array(ts('Text'), ts('Select'), ts('Radio'), ts('Checkbox')),
-                array(ts('Text'), ts('Select'), ts('Radio')),
-                array(ts('Text'), ts('Select'), ts('Radio')),
-                array(ts('Text'), ts('Select'), ts('Radio')),
-                array(ts('TextArea')),
-                array(ts('Select Date')),
-                array(ts('Radio')),
-                array(ts('Select State/Province')),
-                array(ts('Select Country')),
+                array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                        'Radio' => ts('Radio'), 'Checkbox' => ts('Checkbox')),
+                array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                        'Radio' => ts('Radio')),
+                array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                        'Radio' => ts('Radio')),
+                array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                        'Radio' => ts('Radio')),
+                array('TextArea' => ts('TextArea')),
+                array('Date' => ts('Select Date')),
+                array('Radio' => ts('Radio')),
+                array('StateProvince' => ts('Select State/Province')),
+                array('Country' => ts('Select Country')),
             );
         }
 
@@ -200,10 +205,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     <script type="text/Javascript">
     function custom_option_html_type(form) { 
         var html_type = document.getElementsByName("data_type[1]")[0];
-        var html_type_name = html_type.options[html_type.selectedIndex].text;
+        var html_type_name = html_type.options[html_type.selectedIndex].value;
         var data_type = document.getElementsByName("data_type[0]")[0];
         if (data_type.selectedIndex < 4) {
-            if (html_type_name != "' . ts('Text') . '") {
+            if (html_type_name != "Text") {
             document.getElementById("showoption").style.display="block";
             document.getElementById("hideDefaultValTxt").style.display="none";
             document.getElementById("hideDefaultValDef").style.display="none";
