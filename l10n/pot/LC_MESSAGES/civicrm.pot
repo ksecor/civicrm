@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-17 11:55+0200\n"
+"POT-Creation-Date: 2005-08-17 13:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -2798,6 +2798,10 @@ msgid "Unsubscribe"
 msgstr ""
 
 #: CRM/Mailing/DAO/Component.php
+msgid "OptOut"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr ""
 
@@ -2847,6 +2851,10 @@ msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Forward Replies"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php
+msgid "Auto Responder"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
@@ -3947,8 +3955,8 @@ msgstr ""
 msgid "Open Activities"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a href=\"%2\"}\">call</a>."
+#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
+msgid "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a href=\"%2\">call</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
@@ -4387,10 +4395,6 @@ msgstr ""
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Are you sure you want to delete the Activity History dated \"%2\" of type \"%1\" with description \"%3\" ?"
-msgstr ""
-
-#: templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
-msgid "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a href=\"%2\">call</a>."
 msgstr ""
 
 #: templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
