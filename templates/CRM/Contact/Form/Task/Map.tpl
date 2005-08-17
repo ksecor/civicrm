@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <script src="http://maps.google.com/maps?file=api&v=1&key={$googleMapKey}" type="text/javascript"></script>
-  {$title}	
   {literal}
   <script type="text/javascript">
     function onLoad() {
@@ -53,3 +52,11 @@
     <div id="map" style="width: 600px; height: 400px"></div>
   </body>
 </html>
+
+<p>                                                                                                           
+<div class="form-item">                     
+    <p> 
+    {$form.buttons.html}                                                                                      
+    </p>    
+</div>                            
+</p>
