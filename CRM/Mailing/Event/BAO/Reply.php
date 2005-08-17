@@ -117,7 +117,8 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
                             ON  $eq.contact_id = $contacts.id
                     INNER JOIN  $emails
                             ON  $eq.email_id = $emails.id
-                    WHERE       $eq.id = $queue_id");
+                    WHERE       $eq.id = " 
+                                . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $dao->fetch();
         
         
@@ -168,7 +169,8 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         FROM        $contacts
         INNER JOIN  $queue ON $queue.contact_id = $contacts.id
         INNER JOIN  $email ON $queue.email_id = $email.id
-        WHERE       $queue.id = $queue_id");
+        WHERE       $queue.id = " 
+                            . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
 
         $to = empty($replyto) ? $eq->email : $replyto;

@@ -384,7 +384,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 INNER JOIN          $email
                         ON          $queue.email_id = $email.id
                 WHERE               
-                                    $job.mailing_id = " . $this->id . "
+                                    $job.mailing_id = {$this->id}
                     AND             $job.id <> $job_id
                     AND             $contact.do_not_email = 0
                     AND             $contact.is_opt_out = 0
@@ -566,7 +566,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $mg->query("SELECT      $group.name as name FROM $mgtable 
                     INNER JOIN  $group ON $mgtable.entity_id = $group.id
-                    WHERE       $mgtable.mailing_id = " . $this->id . "
+                    WHERE       $mgtable.mailing_id = {$this->id}
                         AND     $mgtable.entity_table = '$group'
                         AND     $mgtable.group_type = 'Include'
                     ORDER BY    $group.name");

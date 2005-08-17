@@ -121,7 +121,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             FROM        $mg
             INNER JOIN  $job
                 ON      $job.mailing_id = $mg.mailing_id
-            WHERE       $job.id = $job_id
+            WHERE       $job.id = " 
+                . CRM_Utils_Type::escape($job_id, 'Integer') . "
                 AND     $mg.group_type = 'Include'");
         
         /* Make a list of groups and a list of prior mailings that received 
@@ -249,7 +250,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         FROM        $contacts
         INNER JOIN  $queue ON $queue.contact_id = $contacts.id
         INNER JOIN  $email ON $queue.email_id = $email.id
-        WHERE       $queue.id = $queue_id");
+        WHERE       $queue.id = " 
+                    . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
         
         $message =& new Mail_Mime("\n");

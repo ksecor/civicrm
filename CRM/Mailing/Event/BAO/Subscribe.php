@@ -90,7 +90,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
                     WHERE   $emailTable.is_primary = 1
                     AND     $locTable.is_primary = 1
                     AND     $locTable.entity_table = '$contactTable'
-                    AND     $locTable.entity_id = $contact_id");
+                    AND     $locTable.entity_id = " 
+                            . CRM_Utils_Type::escape($contact_id, 'Integer'));
         $dao->fetch();
 
         $se =& new CRM_Mailing_Event_BAO_Subscribe();
