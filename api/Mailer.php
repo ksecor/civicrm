@@ -166,7 +166,8 @@ function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
  * @return boolean              True on success
  */
 function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
-    $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, $hash);
+    $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, 
+                                                    $hash, $replyto);
 
     if (empty($mailing)) {
         return false;

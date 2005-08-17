@@ -56,7 +56,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @access public
      * @static
      */
-    public static function &reply($job_id, $queue_id, $hash) {
+    public static function &reply($job_id, $queue_id, $hash, $replyto = null) {
         /* First make sure there's a matching queue event */
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
 
@@ -73,15 +73,19 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
                 ON          $jobs.mailing_id = $mailings.id
             WHERE           $jobs.id = {$q->job_id}");
         $mailing->fetch();
-
-        if (! $mailing->forward_replies || empty($mailing->replyto_email)) {
-            return null;
+        if ($mailing->auto_responder) {
+            self::autoRespond($mailing, $queue_id, $replyto);
         }
 
         $re =& new CRM_Mailing_Event_BAO_Reply();
         $re->event_queue_id = $queue_id;
         $re->time_stamp = date('YmdHis');
         $re->save();
+
+        if (! $mailing->forward_replies || empty($mailing->replyto_email)) {
+            return null;
+        }
+        
         return $mailing;
     }
 
@@ -137,6 +141,73 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                         array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         $mailer->send($mailing->replyto_email, $h, $b);
+        CRM_Core_Error::setCallback();
+    }
+
+    /**
+     * Send an automated response
+     *
+     * @param object $mailing       The mailing object
+     * @param int $queue_id         The queue ID
+     * @param string $replyto       Optional reply-to from the reply
+     * @return void
+     * @access private
+     * @static
+     */
+    private static function autoRespond(&$mailing, $queue_id, $replyto) {
+        $config =& CRM_Core_Config::singleton();
+
+        $contacts   = CRM_Contact_DAO_Contact::getTableName();
+        $email      = CRM_Core_DAO_Email::getTableName();
+        $queue      = CRM_Mailing_Event_DAO_Queue::getTableName();
+        
+        $eq =& new CRM_Core_DAO();
+        $eq->query(
+        "SELECT     $contacts.preferred_mail_format as format,
+                    $email.email as email
+        FROM        $contacts
+        INNER JOIN  $queue ON $queue.contact_id = $contacts.id
+        INNER JOIN  $email ON $queue.email_id = $email.id
+        WHERE       $queue.id = $queue_id");
+        $eq->fetch();
+
+        $to = empty($replyto) ? $eq->email : $replyto;
+        
+        $component =& new CRM_Mailing_BAO_Component();
+        $component->id = $mailing->reply_id;
+        $component->find(true);
+
+        $message =& new Mail_Mime("\n");
+        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $headers = array(
+            'Subject'   => $component->subject,
+            'To'        => $to,
+            'From'      => ts('"%1 Administrator" <%2>',
+                        array(  '1' => $domain->name,
+                                '2' => "do-not-reply@{$domain->email_domain}")),
+            'Reply-To'  => "do-not-reply@{$domain->email_domain}",
+            'Return-path' => "do-not-reply@{$domain->email_domain}"
+        );
+
+        /* TODO: do we need reply tokens? */
+        if ($eq->format == 'HTML' ||  $eq->format == 'Both') {
+            $html = $component->body_html;
+            $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
+            $message->setHTMLBody($html);
+        }
+        if ($eq->format == 'Text' ||  $eq->format == 'Both') {
+            $text = $component->body_text;
+            $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+            $message->setTxtBody($text);
+        }
+        
+        $b = $message->get();
+        $h = $message->headers($headers);
+        
+        $mailer =& $config->getMailer();
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                        array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        $mailer->send($to, $h, $b);
         CRM_Core_Error::setCallback();
     }
 }
