@@ -217,7 +217,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            $permission = true;
+            $permission = CRM_Core_Permission::EDIT;
             if ( $key ) {
                 $permission = $this->checkPermission( $object->id, $object->$key );
             }
@@ -266,7 +266,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 $newAction += CRM_Core_Action::ENABLE;
             }
         }
-        
+
         // make sure we only allow those actions that the user is permissioned for
         $newAction = $newAction & CRM_Core_Action::mask( $permission );
         $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );

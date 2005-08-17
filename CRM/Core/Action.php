@@ -232,7 +232,6 @@ class CRM_Core_Action {
      * @static
      * @access public
      */
-    //static public function mask( $permission ) {
     static function mask( $permission ) {
         if ( $permission == CRM_Core_Permission::VIEW ) {
             return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP;
