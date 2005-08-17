@@ -60,6 +60,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
         static $base = null;
         
         if ($base == null) {
+            /* FIXME: This won't work outside of the CMS framework */
             $base = CRM_Utils_System::baseURL() . '/';
         }
         

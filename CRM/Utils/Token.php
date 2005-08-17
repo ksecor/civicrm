@@ -281,20 +281,24 @@ class CRM_Utils_Token {
     {
         if (self::token_match('unsubscribe', 'group', $str)) {
             if (! empty($groups)) {
+                // FIXME: This won't work under SOAP mode
+                $base = CRM_Utils_System::baseURL();
+                
                 if ($html) {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
-                        // FIXME: generate an extern resubscribe URL
                         $value .= ts(
                         "<li>%1 (<a href=\"%2\">re-subscribe</a>)</li>\n", 
-                        array('1' => $name, '2' => 'FIXME'));
+                        array('1' => $name, '2' =>
+                        "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
                     }
                     $value .= '</ul>';
                 } else {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
                         $value .= ts("\t* %1 (re-subscribe: %2 )\n", 
-                        array('1' => $name, '2' => 'FIXME'));
+                        array('1' => $name, '2' => 
+                        "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
                     }
                     $value .= "\n";
                 }

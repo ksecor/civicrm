@@ -243,8 +243,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $eq =& new CRM_Core_DAO();
         $eq->query(
         "SELECT     $contacts.preferred_mail_format as format,
-                    $contacts.id as contact_id
-                    $email.email as email
+                    $contacts.id as contact_id,
+                    $email.email as email,
                     $queue.hash as hash
         FROM        $contacts
         INNER JOIN  $queue ON $queue.contact_id = $contacts.id
