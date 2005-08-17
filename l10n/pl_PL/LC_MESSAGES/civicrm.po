@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-17 13:42+0200\n"
+"POT-Creation-Date: 2005-08-17 15:26+0200\n"
 "PO-Revision-Date: 2005-08-17 13:57+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -83,6 +83,10 @@ msgstr "Stan"
 msgid "Please select status."
 msgstr "Wybierz stan."
 
+#: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php
+msgid "Meeting"
+msgstr "Spotkanie"
+
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php
 #: CRM/Core/DAO/ActivityType.php CRM/History/Selector/Activity.php
@@ -111,6 +115,10 @@ msgstr "Opis"
 #: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Phonecall.php
 msgid "Phone Number"
 msgstr "Numer telefonu"
+
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/Selector/Activity.php
+msgid "Phone Call"
+msgstr "Rozmowa"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/Task/Map.php
@@ -1898,14 +1906,6 @@ msgstr "Zobacz zdarzenie"
 msgid "Open Activities %%StatusMessage%%"
 msgstr "Zdarzenia otwarte %%StatusMessage%%"
 
-#: CRM/Contact/Selector/Activity.php
-msgid "Phone Call"
-msgstr "Rozmowa"
-
-#: CRM/Contact/Selector/Activity.php
-msgid "Meeting"
-msgstr "Spotkanie"
-
 #: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
@@ -2082,6 +2082,10 @@ msgstr "Liczba"
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
 msgstr "Tak lub Nie"
+
+#: CRM/Core/BAO/EmailHistory.php
+msgid "Email Sent"
+msgstr "Wysłano email"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
