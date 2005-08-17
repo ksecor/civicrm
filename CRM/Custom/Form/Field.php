@@ -85,6 +85,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                         array('Select Country'),
                                         );
     
+    private static $_dataToLabels = null;
+    
 
     /**
      * Function to set variables up before form is built
@@ -101,6 +103,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        if (self::$_dataToLabels == null) {
+            self::$_dataToLabels = array(
+                array(ts('Text'), ts('Select'), ts('Radio'), ts('Checkbox')),
+                array(ts('Text'), ts('Select'), ts('Radio')),
+                array(ts('Text'), ts('Select'), ts('Radio')),
+                array(ts('Text'), ts('Select'), ts('Radio')),
+                array(ts('TextArea')),
+                array(ts('Select Date')),
+                array(ts('Radio')),
+                array(ts('Select State/Province')),
+                array(ts('Select Country')),
+            );
+        }
+
     }
 
     /**
@@ -172,7 +188,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $dt =& self::$_dataTypeValues;
         $it = array();
         foreach ($dt as $key => $value) {
-            $it[$key] = self::$_dataToHTML[$key];
+            $it[$key] = self::$_dataToLabels[$key];
         }
         $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form);"', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
