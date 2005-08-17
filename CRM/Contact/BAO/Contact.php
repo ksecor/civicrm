@@ -1683,7 +1683,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         $rowCnt = 0;
         while($dao->fetch()) {
             $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;        
-            $values[$rowCnt]['activity_type'] = $dao->activity_type;        
+            $values[$rowCnt]['activity_type'] = ts($dao->activity_type);        
             $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;
             $values[$rowCnt]['date']    = $dao->date;

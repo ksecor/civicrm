@@ -26,7 +26,7 @@ class testAdminEnableDisableCustomData(PyHttpTestCase):
 
         commonAPI.login(self)
 
-        queryID = 'select id from crm_custom_group where title like \'%%Test Group%%\''
+        queryID = 'select id from civicrm_custom_group where title like \'%%Test Group%%\''
         CDGID   = '''%s''' % db.loadVal(queryID)
         
         params = [
@@ -71,6 +71,7 @@ class testAdminEnableDisableCustomData(PyHttpTestCase):
         #self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

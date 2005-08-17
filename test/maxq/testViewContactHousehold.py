@@ -27,7 +27,7 @@ class testViewContactHousehold(PyHttpTestCase):
         commonAPI.login(self)
 
         name    = 'Zope House'
-        queryID = 'select id from crm_contact where sort_name like \'%%%s%%\'' % name
+        queryID = 'select id from civicrm_contact where sort_name like \'%%%s%%\'' % name
         
         CID     = '''%s''' % db.loadVal(queryID)
         params = [
@@ -46,6 +46,7 @@ class testViewContactHousehold(PyHttpTestCase):
         print "Viewing Household \'%s\'" % name
         print ("**************************************************************************************")
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

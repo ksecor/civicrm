@@ -106,16 +106,8 @@ class testAddLocationType(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        # url = "http://localhost/favicon.ico"
-        # params = None
-        # Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        # self.get(url, params)
-        # self.msg("Response code: %s" % self.getResponseCode())
-        # self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
-        # Validator.validateResponse(self, self.getMethod(), url, params)
-        
-
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

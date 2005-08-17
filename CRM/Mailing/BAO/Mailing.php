@@ -607,6 +607,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->domain_id     = $params['domain_id'];
         $mailing->header_id     = $params['header_id'];
         $mailing->footer_id     = $params['footer_id'];
+        $mailing->reply_id      = $params['reply_id'];
+        $mailing->unsubscribe_id= $params['unsubscribe_id'];
+        $mailing->optout_id     = $params['optout_id'];
         $mailing->name          = $params['mailing_name'];
         $mailing->from_name     = $params['from_name'];
         $mailing->from_email    = $params['from_email'];
@@ -619,6 +622,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->body_text     = file_get_contents($params['textFile']);
         $mailing->body_html     = file_get_contents($params['htmlFile']);
         $mailing->is_template   = $params['template'] ? true : false;
+        $mailing->auto_responder= $params['auto_responder'] ? true : false;
         $mailing->url_tracking  = $params['track_urls'] ? true : false;
         $mailing->open_tracking = $params['track_opens'] ? true : false;
         $mailing->forward_replies = $params['forward_reply'] ? true : false;

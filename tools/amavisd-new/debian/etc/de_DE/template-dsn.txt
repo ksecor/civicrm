@@ -1,0 +1,50 @@
+# This is a template for (neutral) DELIVERY STATUS NOTIFICATIONS to sender.
+# For syntax and customization instructions see README.customize
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-dsn.txt,v 1.1 2004/05/27 19:24:41 hmh Exp $
+Subject: Mail nicht zustellbar (Undeliverable mail)
+Message-ID: <DSN%n@%h>
+
+[? %#X |#|ungültige Zeichen in den Mail-Kopfdaten
+
+[%X\n]
+]\
+Dieser Bericht über die Nichtzustellung wurde durch den "amavisd-new"
+Dienst auf dem Server %h generiert. Unser interner Referenz-Code für
+Ihre nachricht ist %n.
+
+[? %#X ||
+Was sind ungültige Zeichen in den Kopfdaten einer eMail?
+
+  Der RFC 2822 Standard spezifiziert Regeln zur Erstellung von Internet
+  Nachrichten. Er erlaubt keine direkte (nicht kodierte) Benutzung von 
+  Zeichen mit einem Zeichencode grösser als 127 in den Kopfdaten einer eMail
+  (Er verbietet auch NUL und CR Zeichen).
+
+  Wenn Zeichen (z.B. diakritische Zeichen) aus dem ISO Latin oder anderen
+  Zeichensätzen in eine Mail-Kopfzeile eingefügt werden müssen, so müssen
+  diese Zeichen richtig nach RFC 2047 kodiert werden. Diese Kodierung 
+  geschieht oft transparent durch das Mail-Programm (MUA). Aber wenn diese
+  transparente Kodierung nicht verfügbar ist (z.B. bei älteren 
+  Mailprogrammen), dann liegt es in der Verantwortung des Benutzers diese
+  ungültigen Zeichen in den Kopfdaten zu vermeiden oder manunell zu
+  kodieren. Typischerweise betrifft das Kopfzeilen wie 'Subject',
+  'Organization' aber auch Kommentare in eMail-Adressen der 'From', 'To' und 
+  'Cc' Kopfdaten.
+
+  Manchmal werden solche fehlerhaften Kopfdaten automatisch von Mailprogrammen
+  (MUA), Mailservern (MTA), sog. "Content Filtern" oder anderen Diensten in
+  Mails eingefügt. Wenn das der Fall ist, dann muss dieser Dienst entweder
+  korrigiert oder richtig konfiguriert werden. Dies betrifft typischerweise 
+  Kopfzeilen wie 'Date', 'Received', 'X-Mailer', 'X-Priority', 'X-Scanned', etc.
+  
+  Wenn Sie nicht wissen, wie Sie dieses Problem beheben oder umgehen können, 
+  dann wenden Sie sich bitte an _Ihren_ Verantwortlichen für eMail (postmaster) 
+  oder _Ihren_ Adminitrator.
+]
+
+Return-Path: %s
+Ihre Nachricht [?%m|| %m] konnte nicht zugestellt werden an:[
+  %N].

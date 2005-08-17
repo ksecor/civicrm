@@ -27,14 +27,14 @@ class testEditNoteByContactTab(PyHttpTestCase):
         commonAPI.login(self)
 
         name    = 'Zope, Manish'
-        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
+        queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
 
         contactID = db.loadVal(queryID)
         if contactID :
             CID = '''%s''' % contactID
             
             note      = 'This is Test Note From Contact Tab'
-            queryID   = 'select id from crm_note where note like \'%%%s%%\'' % note
+            queryID   = 'select id from civicrm_note where note like \'%%%s%%\'' % note
             noteID    = db.loadVal(queryID)
             
             if noteID :
@@ -103,6 +103,7 @@ class testEditNoteByContactTab(PyHttpTestCase):
             print "Required Contact Does not Exists"
             print "********************************************************************************"
 
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

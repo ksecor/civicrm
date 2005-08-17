@@ -15,9 +15,9 @@ class adminDeleteMobileProvider(PyHttpTestCase):
     def runTest(self):
         nameMP      = 'Test Mobile Provider'
         
-        queryID     = 'select id from crm_mobile_provider where name like \'%%%s%%\'' % nameMP
+        queryID     = 'select id from civicrm_mobile_provider where name like \'%%%s%%\'' % nameMP
         mobilePID   = db.loadVal(queryID)
-        queryD      = 'delete from crm_mobile_provider where id=%s' % mobilePID
+        queryD      = 'delete from civicrm_mobile_provider where id=%s' % mobilePID
 
         if mobilePID :
             if db.execute(queryD) :

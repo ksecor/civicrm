@@ -1,0 +1,21 @@
+#
+# =============================================================================
+# This is a template for SPAM SENDER NOTIFICATIONS.
+# For syntax and customization instructions see README.customize
+#
+# $Id: template-spam-sender.txt,v 1.2 2003/04/08 01:03:57 hmh Exp $
+Subject: Considered UNSOLICITED BULK EMAIL from you
+[? %m  |#|In-Reply-To: %m]
+Message-ID: <SS%n@%h>
+
+Your message to:
+Sua mensagem para:[
+-> %R]
+
+was considered unsolicited bulk e-mail (UBE).
+foi considerada mala direta não-solicitada (UBE).
+Subject: %j
+
+[? %#D |Delivery of the email was stopped!
+A entrega da mensagem foi bloqueada!
+]#

@@ -36,7 +36,7 @@ class testAdminViewRel(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        queryID = 'select id from crm_relationship_type order by RAND() limit 1'
+        queryID = 'select id from civicrm_relationship_type order by RAND() limit 1'
         
         ID      = '''%s''' % db.loadVal(queryID)
         params = [
@@ -51,8 +51,8 @@ class testAdminViewRel(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        query1 = 'select name_a_b from crm_relationship_type where id=%s' % params[1][1]
-        query2 = 'select name_b_a from crm_relationship_type where id=%s' % params[1][1]
+        query1 = 'select name_a_b from civicrm_relationship_type where id=%s' % params[1][1]
+        query2 = 'select name_b_a from civicrm_relationship_type where id=%s' % params[1][1]
         print ("*****************************************************************************")
         self.msg("Viewing relationship : '" + db.loadVal(query1) + "' and '" + db.loadVal(query2) + "'")
         print ("*****************************************************************************")
@@ -78,15 +78,7 @@ class testAdminViewRel(PyHttpTestCase):
         self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

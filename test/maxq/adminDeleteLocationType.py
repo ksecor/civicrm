@@ -15,9 +15,9 @@ class adminDeleteLocationType(PyHttpTestCase):
     def runTest(self):
         nameLT      = 'Test Location Type'
         
-        queryID     = 'select id from crm_location_type where name like \'%%%s%%\'' % nameLT
+        queryID     = 'select id from civicrm_location_type where name like \'%%%s%%\'' % nameLT
         locationTID = db.loadVal(queryID)
-        queryD      = 'delete from crm_location_type where id=%s' % locationTID
+        queryD      = 'delete from civicrm_location_type where id=%s' % locationTID
 
         if locationTID :
             if db.execute(queryD) :

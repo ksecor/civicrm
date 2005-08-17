@@ -109,7 +109,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         CRM_Core_DAO::transaction('BEGIN');
 
         $do =& new CRM_Core_DAO();
-        $mg         = CRM_Mailing_BAO_MailingGroup::getTableName();
+        $mg         = CRM_Mailing_DAO_Group::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
@@ -117,7 +117,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         
         $do->query("
             SELECT      $mg.entity_table as entity_table,
-                        $mg.entity_id as entity_id,
+                        $mg.entity_id as entity_id
             FROM        $mg
             INNER JOIN  $job
                 ON      $job.mailing_id = $mg.mailing_id
@@ -131,10 +131,10 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $mailings = array();
 
         while ($do->fetch()) {
-            if ($mg->entity_table == $group) {
-                $groups[$mg->entity_id] = true;
-            } else if ($mg->entity_table == $mailing) {
-                $mailings[] = $mg->entity_id;
+            if ($do->entity_table == $group) {
+                $groups[$do->entity_id] = true;
+            } else if ($do->entity_table == $mailing) {
+                $mailings[] = $do->entity_id;
             }
         }
 
@@ -143,7 +143,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         while (! empty($mailings)) {
             $do->query("
                 SELECT      $mg.entity_table as entity_table,
-                            $mg.entity_id as entity_id,
+                            $mg.entity_id as entity_id
                 FROM        $mg
                 WHERE       $mg.mailing_id IN (".implode(', ', $mailings).")
                     AND     $mg.group_type = 'Include'");
@@ -151,10 +151,10 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $mailings = array();
             
             while ($do->fetch()) {
-                if ($mg->entity_table == $group) {
-                    $groups[$mg->entity_id] = true;
-                } else if ($mg->entity_table == $mailing) {
-                    $mailings[] = $mg->entity_id;
+                if ($do->entity_table == $group) {
+                    $groups[$do->entity_id] = true;
+                } else if ($do->entity_table == $mailing) {
+                    $mailings[] = $do->entity_id;
                 }
             }
         }
@@ -235,6 +235,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             'From'          => ts('"%1 Administrator" <%2>',
                 array(  1 => $domain->name, 
                         2 => "do-not-reply@{$domain->email_domain}")),
+            'To'            => $email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );

@@ -57,8 +57,8 @@ class testAdminAddMobileProvider(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        queryName    = 'select name from crm_mobile_provider'          
-        queryID      = 'select max(id) from crm_mobile_provider'
+        queryName    = 'select name from civicrm_mobile_provider'          
+        queryID      = 'select max(id) from civicrm_mobile_provider'
         providerName = db.loadRows(queryName)
         providerNum  = db.loadVal(queryID)
         
@@ -111,6 +111,7 @@ class testAdminAddMobileProvider(PyHttpTestCase):
         #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

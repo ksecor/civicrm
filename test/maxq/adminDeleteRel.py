@@ -15,10 +15,10 @@ class adminDeleteRel(PyHttpTestCase):
     def runTest(self):
         nameAB  = 'Test A B'
         
-        queryID = 'select id from crm_relationship_type where name_a_b like \'%%%s%%\'' % nameAB
+        queryID = 'select id from civicrm_relationship_type where name_a_b like \'%%%s%%\'' % nameAB
         relID   = db.loadVal(queryID)
         if relID :
-            queryD  = 'delete from crm_relationship_type where id=%s' % relID
+            queryD  = 'delete from civicrm_relationship_type where id=%s' % relID
             
             if db.execute(queryD) :
                 print "***************************************************************"

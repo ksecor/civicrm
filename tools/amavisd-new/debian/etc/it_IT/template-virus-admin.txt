@@ -1,0 +1,54 @@
+# This is a template for VIRUS ADMINISTRATOR NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-virus-admin.txt,v 1.1 2004/07/31 19:38:12 hmh Exp $
+Date: %d
+From: %f
+Subject: [? %#V |[? %#F |[? %#X ||INTESTAZIONE NON VALIDA]|NOME INTERDETTO (%F)]|VIRUS (%V)]#
+ DA[?%l|| LOCALE] [?%o|(?)|<%o>]
+To: [? %#T |undisclosed-recipients: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+Message-ID: <VA%n@%h>
+
+[? %#X |#|[%X\n]]
+[? %#V |Non e` stato trovato nessun virus.
+|E` stato trovato un virus (%V).
+|Sono stati trovati due virus (%V).
+|Sono stati trovati %#V virus.
+]
+[? %#F
+|#|E` stato trovato un nome interdetto (%F).
+|Sono stati trovati due nomi interdetti (%F).
+|Sono stati trovati %#F nomi interdetti.
+]
+[? %#W |#
+|Scanner che ha scoperto un virus: %W
+|Scanner che hanno scoperto un virus: %W
+]
+La mail e` originaria di: <%o>
+
+[? %t |#|In base alla traccia di 'Received:', il messaggio e` stato originato a:
+   %t
+]
+[? %#S |Non verra` spedita una notifica al mittente.
+
+]#
+[? %#D |#|Il messaggio VERRA` spedito a:[
+%D]
+]
+[? %#N |#|Il messaggio NON VERRA` spedito a:[
+%N]
+]
+[? %#V |#|[? %#v |#|Risultati degli scanner per i Virus:[
+   %v]
+]]
+[? %q  |Non messo in quarantena.|Il messaggio e` stato messo in quarantena come:
+   %q
+]
+------------------------- BEGIN HEADERS -----------------------------
+Return-Path: %s
+[%H
+]\
+-------------------------- END HEADERS ------------------------------

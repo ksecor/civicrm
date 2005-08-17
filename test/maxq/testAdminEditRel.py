@@ -46,7 +46,7 @@ class testAdminEditRel(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
 
         name       = '\'Test A B\''
-        query      = 'select id from crm_relationship_type where name_a_b=%s' % name  
+        query      = 'select id from civicrm_relationship_type where name_a_b=%s' % name  
         relationID = db.loadVal(query)
 
         RID = '''%s''' % relationID 
@@ -104,15 +104,7 @@ class testAdminEditRel(PyHttpTestCase):
         print "Relationship \'Test A B\' is Edited Successfully"
         print ("**************************************************************************************")
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

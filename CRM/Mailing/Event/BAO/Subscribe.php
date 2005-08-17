@@ -69,7 +69,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             $value = array('email' => $email, 'location_type' =>
             CRM_Core_BAO_LocationType::getDefaultID());
             _crm_add_formatted_param($value, $formatted);
-            $contact = crm_create_contact_formatted($formatted,
+            $contact =& crm_create_contact_formatted($formatted,
                 CRM_Import_Parser::DUPLICATE_SKIP);
 
             if (is_a($contact, CRM_Core_Error)) {
@@ -165,7 +165,9 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         );
 
         /* TODO: pull this from a component */
-        $body = ts('You have a pending subscription to %1. To confirm this subscription, reply to this message.', 
+        $body = ts('
+You have a pending subscription to %1.  To confirm this 
+subscription, reply to this message.', 
             array(1 => $group->name, 2 => $confirm));
 
         $message =& new Mail_Mime("\n");

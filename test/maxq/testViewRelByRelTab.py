@@ -29,9 +29,9 @@ class testViewRelByRelTab(PyHttpTestCase):
         nameI      = 'Zope, Manish'
         nameH      = 'Zope House'
         
-        queryCA    = 'select id from crm_contact where sort_name=\'%s\' and contact_type=\'Individual\'' % nameI
+        queryCA    = 'select id from civicrm_contact where sort_name=\'%s\' and contact_type=\'Individual\'' % nameI
         contactIID = db.loadVal(queryCA)
-        queryCB    = 'select id from crm_contact where sort_name=\'%s\' and contact_type=\'Household\'' % nameH
+        queryCB    = 'select id from civicrm_contact where sort_name=\'%s\' and contact_type=\'Household\'' % nameH
         contactHID = db.loadVal(queryCB)
         
         if contactIID :
@@ -56,7 +56,7 @@ class testViewRelByRelTab(PyHttpTestCase):
             self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
-            queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+            queryRID  = 'select id from civicrm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
             relID      = db.loadVal(queryRID)
             
             if relID :
@@ -73,11 +73,11 @@ class testViewRelByRelTab(PyHttpTestCase):
                 self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
 
-                queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s' % contactIID
+                queryRTID  = 'select relationship_type_id from civicrm_relationship where contact_id_a=%s' % contactIID
                 relTID      = db.loadVal(queryRTID)
                 
-                queryRA      = 'select name_a_b from crm_relationship_type where id=%s' % relTID
-                queryRB      = 'select name_b_a from crm_relationship_type where id=%s' % relTID
+                queryRA      = 'select name_a_b from civicrm_relationship_type where id=%s' % relTID
+                queryRB      = 'select name_b_a from civicrm_relationship_type where id=%s' % relTID
                 
                 relationA    = db.loadVal(queryRA)
                 relationB    = db.loadVal(queryRB)
@@ -118,7 +118,8 @@ class testViewRelByRelTab(PyHttpTestCase):
             print ("**************************************************************************************")
             print " Individual \'%s\' do not Exists" % nameI
             print ("**************************************************************************************")
-
+        
+        commonAPI.logout(self)    
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

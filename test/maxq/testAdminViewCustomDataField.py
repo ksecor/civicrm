@@ -109,6 +109,7 @@ class testAdminAddCustomDataField(PyHttpTestCase):
         #self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

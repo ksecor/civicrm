@@ -29,7 +29,7 @@ class testAddRelByRelTab(PyHttpTestCase):
         nameI      = 'Zope, Manish'
         nameH      = 'Zope House'
         
-        queryCA    = 'select id from crm_contact where sort_name=\'%s\' and contact_type=\'Individual\'' % nameI
+        queryCA    = 'select id from civicrm_contact where sort_name=\'%s\' and contact_type=\'Individual\'' % nameI
         contactIID = db.loadVal(queryCA)
 
         if contactIID :
@@ -133,6 +133,8 @@ class testAddRelByRelTab(PyHttpTestCase):
             print ("**************************************************************************************")
             print " Individual \'%s\' do not Exists" % nameI
             print ("**************************************************************************************")
+
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

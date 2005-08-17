@@ -15,9 +15,9 @@ class adminDeleteCustomDataGroup(PyHttpTestCase):
     def runTest(self):
         nameCDG       = 'Test Group'
         
-        queryCDGID    = 'select id from crm_custom_group where title like \'%%%s%%\'' % nameCDG
+        queryCDGID    = 'select id from civicrm_custom_group where title like \'%%%s%%\'' % nameCDG
         customDataGID = db.loadVal(queryCDGID)
-        queryD        = 'delete from crm_custom_group where id=%s' % customDataGID
+        queryD        = 'delete from civicrm_custom_group where id=%s' % customDataGID
         
         if customDataGID :
             if db.execute(queryD) :

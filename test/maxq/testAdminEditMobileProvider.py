@@ -46,8 +46,8 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         name        = '\'Test Mobile Provider\''
-        queryID     = 'select id from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
-        #queryName   = 'select name from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
+        queryID     = 'select id from civicrm_mobile_provider where name like \'%%Test Mobile Provider%%\''
+        #queryName   = 'select name from civicrm_mobile_provider where name like \'%%Test Mobile Provider%%\''
         mobilePID   = db.loadVal(queryID)
         #mobilePName = db.loadVal(queryName)
         
@@ -110,15 +110,7 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

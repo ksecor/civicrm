@@ -99,9 +99,10 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
         foreach (array( 
                     'template', 'mailing_name',
                     'groups', 'mailings', 'header_id', 'footer_id',
+                    'reply_id', 'unsubscribe_id', 'optout_id',
                     'textFile', 'htmlFile', 'subject',
                     'from_name', 'from_email', 'forward_reply', 'track_urls',
-                    'track_opens'
+                    'track_opens', 'auto_responder'
                 ) as $parameter) 
         {
             $params[$parameter] = $this->get($parameter);

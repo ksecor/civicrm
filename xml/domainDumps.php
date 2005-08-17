@@ -12,42 +12,35 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
-require_once 'Smarty/Smarty.class.php';
-require_once 'PHP/Beautifier.php';
+require_once '../modules/config.inc.php';
+require_once('DB.php');
+require_once 'CRM/Core/Config.php';
 
-function createDir( $dir, $perm = 0755 ) {
-    if ( ! is_dir( $dir ) ) {
-        mkdir( $dir, $perm, true );
-    }
+$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
+
+$db_domain = DB::connect($dsn_domain);
+if ( DB::isError( $db_domain ) ) {
+    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
 }
-
-$smarty =& new Smarty( );
-$smarty->template_dir = './templates';
-$smarty->compile_dir  = '/tmp/templates_c';
-
-createDir( $smarty->compile_dir );
 
 $file = 'schema/Schema.xml';
 
 $sqlCodePath = '../sql/';
 $phpCodePath = '../';
 
-echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
 // print_r( $dbXML );
 
-echo "Extracting database information\n";
 $database =& getDatabase( $dbXML );
 // print_r( $database );
 
 $classNames = array( );
 
-echo "Extracting table information\n";
 $tables   =& getTables( $dbXML, $database );
 resolveForeignKeys( $tables, $classNames );
 $tables = orderTables( $tables );
 
-echo "\n\n\n\n\n*****************************************************************************\n\n";
+//echo "\n\n\n\n\n*****************************************************************************\n\n";
 //print_r($tables);
 
 $tree1 = array();
@@ -60,11 +53,22 @@ foreach ($tables as $k => $v) {
         continue;
     }
     foreach ($v['foreignKey'] as $k1 => $v1) {
-        $tree1[$tableName][] = $v1['table'];
+        if ( !in_array($v1['table'], $tree1[$tableName]) )
+            $tree1[$tableName][] = $v1['table'];
     }
 }
 
+$frtable = array();
+foreach ($tables as $key => $value) {
+    if(!isset($value['foreignKey'])) {
+        continue;
+    }
 
+    foreach ($value['foreignKey'] as $k1 => $v1) {
+        $frtable[$value['name']][] = $v1['name'];
+    }
+}
+//print_r($frtable);
 
 $tree2 = array();
 
@@ -74,80 +78,90 @@ foreach ($tree1 as $k => $v) {
         if (!isset($tree2[$v1])) {
             $tree2[$v1] = array();
         }
-        $tree2[$v1][] = $k;
+        if ( !array_key_exists($k, $tree2[$v1]) ) {
+            if ( $v1 != $k)
+                $tree2[$v1][] = $k;
+        }
     }
 }
 
-print_r($tree1);
-print_r($tree2);
 
-exit(1);
+$tree3 = array();
+foreach ($tree2['civicrm_domain'] as $k => $v) {
+    if($tree2[$v] != 0) {
+        $tree3['civicrm_domain'][$v] = $tree2[$v];
+    }
+    unset($tree2[$v]);    
+}
+unset($tree2['civicrm_domain']);
+    
+foreach($tree2 as $k => $v) {
+    foreach ($tree3 as $key => $val) {
+        foreach ($val as $k1 => $v1) {
+            if ( in_array($k, $v1) && count($v)) {
+                //print_r(array_flip($v1));
+                $arKey = array_search($k, $v1);
+                unset($tree3[$key][$k1][$arKey]);
+                
+                $tree3[$key][$k1][$k] = $v;
+                unset($tree2[$k]);
+            }
+        }            
+    }
+}
+
+//print_r($tree2);
+
+$a = getChildren(&$tree3, 'civicrm_domain');
+echo $a;
+
+/*$tempDoneArray = array();
+
+if ( array_key_exists('civicrm_domain', $tree2) ) {
+    $tempDoneArray['civicrm_domain'] = $argv[1];
+    foreach( $tree2['civicrm_domain'] as $k => $v) {
+        $sql = 'SELECT id FROM '. $k .' WHERE domain_id = '. $argv[1] ;
+        $query = $db_domain->query($sql);
+        $ids = array();
+        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $ids[] = $row['id'];
+        }
+        $tempDoneArray[$k] = implode(",", $ids);
+    }
+}
 
 
-$domainTables = array();
-$subTables = array();
-foreach($tables as $key => $value) {
-    if ( is_array($value) && ($value['name'] != 'civicrm_domain')) {
-        foreach($value as $k => $v) {
-            if ($k == 'fields') {
-                if (array_key_exists('domain_id',$v)) {
-                    $domainTables[$key] = $tables[$key];                        
-                } else {
-                    if ( array_key_exists('foreignKey', $value) ) {
-                        $subFrKeyTables[$key] = $tables[$key];
-                    } else {
-                        $nonFrKeyTables[$key] = $tables[$key];
+//print_r($doneArray);
+$doneArray = array();
+foreach($tempDoneArray as $k => $v) {
+    if( $k != 'civicrm_domain') {
+        foreach($tree2 as $key => $val) {
+            if ( $tempDoneArray[$key] != "" && $key != 'civicrm_domain' && array_key_exists($key, $tempDoneArray)) { 
+                if ( !array_key_exists($key, $doneArray) ) {              
+                    $sql = 'SELECT id FROM '. $key[$k] .' WHERE '.$val['fKey'][0].' IN ( '. $doneArray[$k] .' )' ;
+                    $query = $db_domain->query($sql);
+                    $ids = array();
+                    while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+                        $ids[] = $row['id'];
                     }
+                    
+                    $doneArray[$key] = implode(",", $ids);
                 }
-            }
-        }
-    }
-}
-
-/*(echo "domain count = ". count($domainTables);
-echo "\n\n";
-echo "sub count = ". count($subFrKeyTables);
-echo "\n\n";
-echo "nondom count = ". count($nonFrKeyTables);*/
-
-foreach ($domainTables as $k => $v) {
-    $domainArray[$k] = array( 'name' => $k, 'primaryKey' => $v['primaryKey']['name'] );
-}
-
-foreach ($nonFrKeyTables as $k => $v) {
-    $nonDomArray[$k] = array( 'name' => $k, 'primaryKey' => $v['primaryKey']['name'] );
-}
-
-foreach($subFrKeyTables as $key => $value) {
-    foreach($value['foreignKey'] as $k => $v) {
-        if ( array_key_exists($value['foreignKey'][$k]['table'], $domainTables) ) {
-            $domainArray[$value['foreignKey'][$k]['table']][$value['name']]  = array( 'subName' => $value['name'], 'subPrimaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key'] );
-        } else {
-            if ( array_key_exists($value['foreignKey'][$k]['table'], $nonFrKeyTables) ) {
-                $nonDomArray[$value['foreignKey'][$k]['table']][$value['name']] = array( 'subName' => $value['name'], 'subPrimaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key'] );
             } else {
-                $remains[$value['name']] = array( 'table' => $value['name'], 'primaryKey' => $value['primaryKey']['name'], 'frTable' => $value['foreignKey'][$k]['table'], 'frKey' => $value['foreignKey'][$k]['key']);
-            }
-        }
+                $ids = '';
+                $doneArray[$key] = $ids;
+            }                    
+        }                
     }
 }
 
-print_r($remains);
 
 
-foreach($subFrKeyTables as $key => $value) {
-    foreach($value['foreignKey'] as $k => $v) {
-        if ( array_key_exists($value['foreignKey'][$k]['table'], $domainArray) ) {
-            if ( array_key_exists($value['name'], $domainArray[$value['foreignKey'][$k]['table']]) && array_key_exists($value['name'], $remains) ) {
-                $domainArray[$value['foreignKey'][$k]['table']][$value['name']]['subtable'] = $remains[$value['name']];
-            }
-        }
-    }
-}
-
-//print_r($domainArray);
+print_r($doneArray);*/
 
 exit(1);
+
+//-------------------------------------------------------------
 
 
 function &parseInput( $file ) {
@@ -564,6 +578,20 @@ function getSize( $maxLength ) {
         return 'CRM_Utils_Type::BIG';
     } 
     return 'CRM_Utils_Type::HUGE';
+}
+
+function getChildren(&$tree, $tableName)
+{
+    if (!is_array($tree)) {
+        // end condition for recursion
+        return $tableName;
+    }
+ 
+    foreach ($tree[$tableName] as $k => $v) {
+        getChildren($v);
+    }
+
+ 
 }
 
 ?>

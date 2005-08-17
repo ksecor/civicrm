@@ -26,8 +26,8 @@ class testDeleteRelByRelTab(PyHttpTestCase):
 
         commonAPI.login(self)
         
-        queryCA    = 'select id from crm_contact where sort_name=\'Zope, Manish\' and contact_type=\'Individual\''
-        queryCB    = 'select id from crm_contact where sort_name=\'Zope House\' and contact_type=\'Household\''
+        queryCA    = 'select id from civicrm_contact where sort_name=\'Zope, Manish\' and contact_type=\'Individual\''
+        queryCB    = 'select id from civicrm_contact where sort_name=\'Zope House\' and contact_type=\'Household\''
         contactA   = db.loadVal(queryCA)
         contactB   = db.loadVal(queryCB)
         
@@ -87,7 +87,8 @@ class testDeleteRelByRelTab(PyHttpTestCase):
             print ("**************************************************************************************")
             print " Individual \'Zope, Manish\' do not Exists"
             print ("**************************************************************************************")
-                
+
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

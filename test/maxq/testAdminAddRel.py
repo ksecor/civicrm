@@ -38,8 +38,8 @@ class testAdminAddRel(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        queryName      = 'select name_a_b from crm_relationship_type'       
-        queryID        = 'select max(id) from crm_relationship_type'
+        queryName      = 'select name_a_b from civicrm_relationship_type'       
+        queryID        = 'select max(id) from civicrm_relationship_type'
         relName = db.loadRows(queryName)
         relNum  = db.loadVal(queryID)
  
@@ -84,15 +84,7 @@ class testAdminAddRel(PyHttpTestCase):
         self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 9 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

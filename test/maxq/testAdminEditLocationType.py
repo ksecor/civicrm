@@ -37,7 +37,7 @@ class testEditLocationType(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         name        = '\'Test Location Type\''
-        queryID     = 'select id from crm_location_type where name=%s' % name  
+        queryID     = 'select id from civicrm_location_type where name=%s' % name  
         locationTID = db.loadVal(queryID)
         
         LTID = '''%s''' % locationTID
@@ -82,6 +82,8 @@ class testEditLocationType(PyHttpTestCase):
         print "Location Type \'%s\' is Edited Successfully" % name
         print ("**************************************************************************************")
 
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

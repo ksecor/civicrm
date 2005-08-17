@@ -162,7 +162,7 @@ function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
  * @param int $queue_id         The queue event ID
  * @param string $hash          Security hash
  * @param string $body          Body of the reply message
- * @param string $replyto       Reply-to of the message
+ * @param string $replyto       Reply-to of the incoming message
  * @return boolean              True on success
  */
 function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
