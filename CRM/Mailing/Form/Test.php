@@ -126,7 +126,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         
         $errors = array( 
             '_qf_default' => 
-            ts('The test mailing could not be delivered due to the following error:<br /> <tt>%1</tt>', array(1 => $result->getMessage()))
+            ts('The test mailing could not be delivered due to the following error:') . '<br /> <tt>' . $result->getMessage() . '</tt>'
         );
         return $errors;
     }
