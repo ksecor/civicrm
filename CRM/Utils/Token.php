@@ -45,8 +45,9 @@ class CRM_Utils_Token {
                     ),
         'contact' => null,  // populate this dynamically
         'domain' => array( 
-                        'phone', 'address', 'email'
+                        'name', 'phone', 'address', 'email'
                     ),
+        'unsubscribe' => array('group'),
     );
 
     
@@ -136,6 +137,10 @@ class CRM_Utils_Token {
             $value = CRM_Core_BAO_Address::format(  $loc['address'], 
                                                     ($html ? '<br />' : "\n"));
             self::token_replace('domain', 'address', $value, $str);
+        }
+
+        if (self::token_match('domain', 'name', $str)) {
+            self::token_replace('domain', 'name', $domain->name, $str);
         }
         
         /* Construct the phone and email tokens */
@@ -256,6 +261,41 @@ class CRM_Utils_Token {
             self::token_replace('contact', $token, $value, $str);
         }
 
+        return $str;
+    }
+
+    /**
+     * Replace unsubscribe tokens
+     *
+     * @param string $str           the string with tokens to be replaced
+     * @param array $groups         The groups (if any) being unsubscribed
+     * @param boolean $html         Replace tokens with html or plain text
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceUnsubscribeTokens($str, &$groups, $html) {
+        if (self::token_match('unsubscribe', 'group', $str)) {
+            if (! empty($groups)) {
+                if ($html) {
+                    $value = '<ul>';
+                    foreach ($groups as $gid => $name) {
+                        $value .= ts(
+                        "<li>%1 (<a href=\"%2\">re-subscribe</a>)</li>\n", 
+                        array('1' => $name, '2' => 'FIXME'));
+                    }
+                    $value .= '</ul>';
+                } else {
+                    $value = "\n";
+                    foreach ($groups as $gid => $name) {
+                        $value .= ts("\t* %1 (re-subscribe: %2 )\n", 
+                        array('1' => $name, '2' => 'FIXME'));
+                    }
+                    $value .= "\n";
+                }
+                self::token_replace('unsubscribe', 'group', $value, $str);
+            }
+        }
         return $str;
     }
 

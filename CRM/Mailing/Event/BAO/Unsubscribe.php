@@ -242,7 +242,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
 
-        /* TODO: write context token replacer for unsub/optout */
+        $html = CRM_Utils_Token::replaceUnsubscribeTokens($html, $groups, true);
+        $text = CRM_Utils_Token::replaceUnsubscribeTokens($text, $groups, false);
         
         $headers = array(
             'Subject'       => $component->subject,
