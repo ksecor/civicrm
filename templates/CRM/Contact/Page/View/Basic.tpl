@@ -156,9 +156,9 @@
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.activity_type}</td>
             <td>
-             {if $row.activity_type eq 'Meeting'}  
+             {if $row.activity_type_id eq 1}  
                <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
-             {elseif $row.activity_type eq  'Phone Call'}
+             {elseif $row.activity_type_id eq 2}
                <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {else}
 	       <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>			
