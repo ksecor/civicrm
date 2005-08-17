@@ -61,6 +61,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->add('checkbox', 'track_opens', ts('Track Opens?'));
         $defaults['track_opens'] = true;
         
+        $this->add('checkbox', 'auto_responder', ts('Auto-respond to replies?'));
+        $defaults['auto_responder'] = false;
+        
         $this->addElement('text', 'subject', ts('Mailing subject'), 'size=30 maxlength=60');
         $defaults['subject'] = $this->get('mailing_name');
         
@@ -76,6 +79,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ) );
+        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ) );
+        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ) );
 
 
         
@@ -98,7 +104,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
     public function postProcess() {
         foreach (array( 'from_name', 'from_email','subject', 
                         'forward_reply', 'track_urls', 'track_opens',
-                        'header_id', 'footer_id', 'textFile', 'htmlFile') as $key) {
+                        'header_id', 'footer_id', 'reply_id', 'unsubscribe_id',
+                        'optout_id', 'auto_responder', 'textFile', 'htmlFile') 
+                    as $key) 
+        {
             $this->set($key, $this->controller->exportvalue($this->_name, $key));
         }
     }
