@@ -98,7 +98,7 @@ class testAddContactOrganization(PyHttpTestCase):
         url = "%s/civicrm/contact/addO" % drupal_path
         self.msg("Testing URL: %s" % url)
 
-        queryID = "select id from crm_contact where sort_name=\'%s\'" % params[1][1]
+        queryID = "select id from civicrm_contact where sort_name=\'%s\'" % params[1][1]
         cid     = db.loadVal(queryID)
         
         if cid :
@@ -126,6 +126,7 @@ class testAddContactOrganization(PyHttpTestCase):
         #self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg("Test successfully complete")
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

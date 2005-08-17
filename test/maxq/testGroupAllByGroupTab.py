@@ -20,11 +20,11 @@ class testGroupAllbyGroupTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/group''') % drupal_path)
         url = " %s/civicrm/contact/view/group" % drupal_path
         self.msg("Testing URL: %s" % url)
@@ -118,15 +118,7 @@ class testGroupAllbyGroupTab(PyHttpTestCase):
         self.assertEquals("Assert number 12 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 13 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

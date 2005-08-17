@@ -14,9 +14,9 @@ class adminDeleteCustomDataField(PyHttpTestCase):
     
     def runTest(self):
         nameCDF       = 'Test Field'
-        queryCDFID    = 'select id from crm_custom_field where label like \'%%%s%%\'' % nameCDF
+        queryCDFID    = 'select id from civicrm_custom_field where label like \'%%%s%%\'' % nameCDF
         customDataFID = db.loadVal(queryCDFID)
-        queryD        = 'delete from crm_custom_field where id=%s' % customDataFID
+        queryD        = 'delete from civicrm_custom_field where id=%s' % customDataFID
 
         if customDataFID :
             if db.execute(queryD) :

@@ -27,7 +27,7 @@ class testAddNoteByNoteTab(PyHttpTestCase):
         commonAPI.login(self)
         
         name    = 'Zope, Manish'
-        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
+        queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
 
         contactID = db.loadVal(queryID)
         if contactID :
@@ -94,6 +94,7 @@ class testAddNoteByNoteTab(PyHttpTestCase):
             print "No such contact having Name \"%s\" currently Exists" % name
             print "********************************************************************************"
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

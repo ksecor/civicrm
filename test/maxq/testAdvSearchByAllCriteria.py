@@ -67,24 +67,24 @@ class testAdvSearchByAllCriteria(PyHttpTestCase):
         name       = '%s' % params[1][1]
         street     = '%s' % params[4][1]
         city       = '%s' % params[5][1]
-        stateQuery = 'select name from crm_state_province where id=%s' % params[6][1]
+        stateQuery = 'select name from civicrm_state_province where id=%s' % params[6][1]
         state   = db.loadVal(stateQuery)
-        countryQuery = 'select name from crm_country where id=%s' % params[7][1]
+        countryQuery = 'select name from civicrm_country where id=%s' % params[7][1]
         country = db.loadVal(countryQuery)
         postalL = '%s' % params[9][1] 
         postalH = '%s' % params[10][1]
         group   = 'Newsletter Subscribers'
         
-        query = 'SELECT count(DISTINCT crm_contact.id)  FROM crm_contact \
-        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) \
-        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id \
-        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1) \
-        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1) \
-        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id \
-        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
-        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
-        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE group_id=1 AND crm_group_contact.status=\"Added\" AND LOWER(crm_contact.sort_name) LIKE \'%%%s%%\' AND LOWER(crm_address.street_name) LIKE \'%%%s%%\' AND LOWER(crm_address.city) LIKE \'%%%s%%\' AND crm_address.state_province_id=%s AND crm_address.country_id=%s AND crm_address.postal_code>=%s AND crm_address.postal_code<=%s AND 1' % (name, street, city, params[6][1], params[7][1], postalL, postalH)
+        query = 'SELECT count(DISTINCT civicrm_contact.id)  FROM civicrm_contact \
+        LEFT JOIN civicrm_location ON (civicrm_location.entity_table = \'civicrm_contact\' AND civicrm_contact.id = civicrm_location.entity_id AND civicrm_location.is_primary = 1) \
+        LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id \
+        LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) \
+        LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) \
+        LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id \
+        LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id \
+        LEFT JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id \
+        LEFT JOIN civicrm_entity_tag ON civicrm_contact.id = civicrm_entity_tag.entity_id \
+        WHERE group_id=1 AND civicrm_group_contact.status=\"Added\" AND LOWER(civicrm_contact.sort_name) LIKE \'%%%s%%\' AND LOWER(civicrm_address.street_name) LIKE \'%%%s%%\' AND LOWER(civicrm_address.city) LIKE \'%%%s%%\' AND civicrm_address.state_province_id=%s AND civicrm_address.country_id=%s AND civicrm_address.postal_code>=%s AND civicrm_address.postal_code<=%s AND 1' % (name, street, city, params[6][1], params[7][1], postalL, postalH)
         
         noOfContact = db.loadVal(query)
         if noOfContact == '1' :
@@ -129,6 +129,8 @@ class testAdvSearchByAllCriteria(PyHttpTestCase):
             self.msg("The Response does not match with the result from the database ")
             print ("*********************************************************************************")            
 
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

@@ -57,8 +57,8 @@ class testAdminAddCustomData(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        queryName      = 'select title from crm_custom_group'          
-        queryID        = 'select max(id) from crm_custom_group'
+        queryName      = 'select title from civicrm_custom_group'          
+        queryID        = 'select max(id) from civicrm_custom_group'
         customDataName = db.loadRows(queryName)
         customDataNum  = db.loadVal(queryID)
  
@@ -102,15 +102,7 @@ class testAdminAddCustomData(PyHttpTestCase):
         self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

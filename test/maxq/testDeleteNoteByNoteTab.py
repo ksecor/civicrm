@@ -27,7 +27,7 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
         commonAPI.login(self)
 
         name    = 'Zope, Manish'
-        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
+        queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
 
         contactID = db.loadVal(queryID)
         if contactID :
@@ -55,7 +55,7 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             note    = 'This is Test Note'
-            queryID = 'select id from crm_note where note like \'%%%s%%\'' % note
+            queryID = 'select id from civicrm_note where note like \'%%%s%%\'' % note
             noteID  = db.loadVal(queryID)
             print noteID
             NID = '''%s''' % noteID
@@ -87,6 +87,8 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
             print "********************************************************************************"
             print "No such contact having Name \"%s\" currently Exists" % name
             print "********************************************************************************"
+
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

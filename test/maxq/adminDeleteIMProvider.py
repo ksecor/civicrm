@@ -15,9 +15,9 @@ class adminDeleteIMProvider(PyHttpTestCase):
     def runTest(self):
         nameIM  = 'Test IM'
 
-        queryID = 'select id from crm_im_provider where name like \'%%%s%%\'' % nameIM
+        queryID = 'select id from civicrm_im_provider where name like \'%%%s%%\'' % nameIM
         IMPID   = db.loadVal(queryID)
-        queryD  = 'delete from crm_im_provider where id=%s' % IMPID
+        queryD  = 'delete from civicrm_im_provider where id=%s' % IMPID
 
         if IMPID :
             if db.execute(queryD) :

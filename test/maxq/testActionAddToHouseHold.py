@@ -164,9 +164,8 @@ class testActionAddToHouseHold(PyHttpTestCase):
         self.assertEquals("Assert number 15 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg("Test successfully complete")
-        
-
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

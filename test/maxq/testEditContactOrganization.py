@@ -52,7 +52,7 @@ class testEditContactOrganization(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         name    = 'Zope Organization'
-        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
+        queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
 
         cid     = db.loadVal(queryID)
         CID     = '''%s''' % cid
@@ -77,7 +77,7 @@ class testEditContactOrganization(PyHttpTestCase):
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
         
             params = [
@@ -144,7 +144,7 @@ class testEditContactOrganization(PyHttpTestCase):
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
             self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             params = [
@@ -155,7 +155,7 @@ class testEditContactOrganization(PyHttpTestCase):
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             print ("**************************************************************************************")
@@ -166,7 +166,8 @@ class testEditContactOrganization(PyHttpTestCase):
             print "****************************************************************"
             print "Organization \'%s\' can not be Found" % name
             print "****************************************************************"
-        
+
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

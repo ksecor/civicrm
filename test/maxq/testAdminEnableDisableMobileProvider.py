@@ -46,7 +46,7 @@ class testAdminEnableDisableMobileProvider(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
 
         nameMP    = 'Test Mobile Provider'
-        queryMPID = 'select id from crm_mobile_provider where name like \'%%%s%%\'' % nameMP
+        queryMPID = 'select id from civicrm_mobile_provider where name like \'%%%s%%\'' % nameMP
 
         MPID      = '''%s''' % db.loadVal(queryMPID)
         params = [
@@ -91,6 +91,7 @@ class testAdminEnableDisableMobileProvider(PyHttpTestCase):
         #self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

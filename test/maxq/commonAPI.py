@@ -36,13 +36,20 @@ def login(test) :
 
     params = [
         ('''reset''', '''1'''),]
-    url = "%s/civicrm/contact/search" % commonConst.DRUPAL_PATH
+    url = "%s/civicrm/contact/search/basic" % commonConst.DRUPAL_PATH
     print "Testing URL: %s" % url
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
     test.assertEquals("Assert number 5 failed", 200, test.getResponseCode())
 
-    
+def logout(test):
+    url = "%s/logout" % commonConst.DRUPAL_PATH
+    print "Testing URL: %s" % url
+    params = None
+    test.get(url, params)
+    test.msg("Response code: %s" % test.getResponseCode())
+    test.assertEquals("Logout Assertion failed", 302, test.getResponseCode())
+
 def dbStart() :
     return DBUtil("%s" % commonConst.MSQLDRIVER, "jdbc:mysql://%s/%s" % (commonConst.DBHOST, commonConst.DBNAME), "%s" % commonConst.DBUSERNAME, "%s" % commonConst.DBPASSWORD)
 

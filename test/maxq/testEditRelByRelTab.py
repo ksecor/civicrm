@@ -28,18 +28,18 @@ class testEditRelByRelTab(PyHttpTestCase):
 
         nameI      = 'Zope, Manish'
         nameH      = 'Zope House'
-        queryCA    = 'select id from crm_contact where sort_name like \'%s\' and contact_type=\'Individual\'' % nameI
+        queryCA    = 'select id from civicrm_contact where sort_name like \'%s\' and contact_type=\'Individual\'' % nameI
         contactIID = db.loadVal(queryCA)
 
         if contactIID :
             CID = '''%s''' % contactIID
-            queryCB    = 'select id from crm_contact where sort_name like \'%s\' and contact_type=\'Household\'' % nameH
+            queryCB    = 'select id from civicrm_contact where sort_name like \'%s\' and contact_type=\'Household\'' % nameH
             contactHID = db.loadVal(queryCB)
 
             if contactHID :
-                queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+                queryRID  = 'select id from civicrm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
                 relID      = db.loadVal(queryRID)
-                queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+                queryRTID  = 'select relationship_type_id from civicrm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
                 relTID      = db.loadVal(queryRTID)
                 
                 if relTID == '7' :
@@ -138,6 +138,7 @@ class testEditRelByRelTab(PyHttpTestCase):
             print " Individual \'%s\' do not Exists" % nameI
             print ("**************************************************************************************")
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

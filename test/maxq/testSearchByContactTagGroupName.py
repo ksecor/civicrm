@@ -65,21 +65,21 @@ class testSearchByContactCategoryGroupName(PyHttpTestCase):
         
         name       = '%s' % params[4][1]
         contact    = '%s' % params[1][1]
-        groupQuery = 'select name from crm_group where id=%s' % params[2][1]
+        groupQuery = 'select name from civicrm_group where id=%s' % params[2][1]
         group      = db.loadVal(groupQuery)
-        tagQuery   = 'select name from crm_tag where id=%s' % params[3][1]
+        tagQuery   = 'select name from civicrm_tag where id=%s' % params[3][1]
         tag        = db.loadVal(tagQuery)
 
-        query = 'SELECT count(DISTINCT crm_contact.id)  FROM crm_contact \
-        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) \
-        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id \
-        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1) \
-        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1) \
-        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id \
-        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
-        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
-        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
-        WHERE contact_type=\'%s\' AND ( group_id=%s AND crm_group_contact.status=\'Added\' ) AND tag_id=%s AND crm_contact.sort_name LIKE \'%%%s%%\' AND 1' % (contact, params[2][1], params[3][1], name)
+        query = 'SELECT count(DISTINCT civicrm_contact.id)  FROM civicrm_contact \
+        LEFT JOIN civicrm_location ON (civicrm_location.entity_table = \'civicrm_contact\' AND civicrm_contact.id = civicrm_location.entity_id AND civicrm_location.is_primary = 1) \
+        LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id \
+        LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) \
+        LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) \
+        LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id \
+        LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id \
+        LEFT JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id \
+        LEFT JOIN civicrm_entity_tag ON civicrm_contact.id = civicrm_entity_tag.entity_id \
+        WHERE contact_type=\'%s\' AND ( group_id=%s AND civicrm_group_contact.status=\'Added\' ) AND tag_id=%s AND civicrm_contact.sort_name LIKE \'%%%s%%\' AND 1' % (contact, params[2][1], params[3][1], name)
  
         noOfContact = db.loadVal(query)
         print noOfContact
@@ -122,6 +122,8 @@ class testSearchByContactCategoryGroupName(PyHttpTestCase):
             print ("*********************************************************************************")            
 
 
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

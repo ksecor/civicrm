@@ -46,7 +46,7 @@ class testAdminEnableDisableIMProvider(PyHttpTestCase):
         #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
 
-        queryID = 'select id from crm_im_provider where name like \'%%Test IM%%\'' 
+        queryID = 'select id from civicrm_im_provider where name like \'%%Test IM%%\'' 
 
         IMID = '''%s''' % db.loadVal(queryID)
         params = [
@@ -91,6 +91,7 @@ class testAdminEnableDisableIMProvider(PyHttpTestCase):
         #self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

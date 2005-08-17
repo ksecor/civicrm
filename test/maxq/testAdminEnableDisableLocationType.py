@@ -36,7 +36,7 @@ class testAdminEnableDisableLocationType(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        queryID = 'select id from crm_location_type where name like \'%%Test Location Type%%\''
+        queryID = 'select id from civicrm_location_type where name like \'%%Test Location Type%%\''
         
         LID = '''%s''' % db.loadVal(queryID) 
         params = [
@@ -63,6 +63,8 @@ class testAdminEnableDisableLocationType(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

@@ -52,7 +52,7 @@ class testEditContactIndividual(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         name    = 'Zope, Manish'
-        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
+        queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
 
         cid     = db.loadVal(queryID)
         CID     = '''%s''' % cid
@@ -174,6 +174,7 @@ class testEditContactIndividual(PyHttpTestCase):
             print "Individual \'%s\' can not be Found" % name
             print "****************************************************************"
         
+        commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

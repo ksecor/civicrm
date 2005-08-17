@@ -48,8 +48,8 @@ class testAddLocationType(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        queryName    = 'select name from crm_location_type'          
-        queryID      = 'select max(id) from crm_location_type'
+        queryName    = 'select name from civicrm_location_type'          
+        queryID      = 'select max(id) from civicrm_location_type'
         locationName = db.loadRows(queryName)
         locationNum  = db.loadVal(queryID)
         
@@ -90,6 +90,8 @@ class testAddLocationType(PyHttpTestCase):
         self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
+        commonAPI.logout(self)
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 
