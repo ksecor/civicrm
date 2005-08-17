@@ -94,7 +94,7 @@ function crm_mailer_event_unsubscribe($job, $queue, $hash) {
     $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
     
     if ($email && count($groups)) {
-        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, $groups, false);
+        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, $groups, false, $job);
         return true;
     }
     return false;
@@ -115,7 +115,7 @@ function crm_mailer_event_domain_unsubscribe($job, $queue, $hash) {
 
     $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
     if ($email) {
-        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, null, true);
+        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, null, true, $job);
         return true;
     }
     return false;

@@ -207,31 +207,45 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      * @param string $email         The email address of the contact
      * @param array $groups         List of group IDs
      * @param bool $is_domain       Is this domain-level?
+     * @param int $job              The job ID
      * @return void
      * @access public
      * @static
      */
-    public static function send_unsub_response($email, $groups, $is_domain = false) {
+    public static function send_unsub_response($email, $groups, $is_domain = false, $job) {
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
 
-        if ($is_domain) {
-            $body = ts('You have been unsubscribed from %1.', 
-                        array(1 => $domain->name));
-        } else if (count($groups) > 1) {
-            $body = ts('You have been removed from the following groups: %1.', 
-                        array(1 => implode(', ', $groups)));
-        } else {    
-            $body = ts('You have been removed from %1.',
-                        array(1 => array_shift($groups)));
-        }
-        /* TODO: add links to resubscribe */
-        /* TODO: use autoresponder template? */
-        /* TODO: include domain contact information, or force it into a
-         * component with a token */
+        $jobTable = CRM_Mailing_BAO_Job::getTableName();
+        $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
 
+        $dao =& new CRM_Mailing_DAO_Mailing();
+        $dao->query("   SELECT * FROM $mailingTable 
+                        INNER JOIN $jobTable ON
+                            $jobTable.mailing_id = $mailingTable.id 
+                        WHERE $jobTable.id = $job");
+        $dao->fetch();
+        $component =& new CRM_Mailing_BAO_Component();
+        
+        if ($is_domain) {
+            $component->id = $dao->optout_id;
+        } else {
+            $component->id = $dao->unsubscribe_id;
+        }
+        $component->find(true);
+        
+        $html = $component->body_html;
+        $text = $component->body_text;
+
+        /* TODO: should we respect email preference settings? */
+        
+        $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
+        $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+
+        /* TODO: write context token replacer for unsub/optout */
+        
         $headers = array(
-            'Subject'       => ts('Unsubscribe request completed'),
+            'Subject'       => $component->subject,
             'From'          => ts('"%1 Administrator" <%2>',
                 array(  1 => $domain->name, 
                         2 => "do-not-reply@{$domain->email_domain}")),
@@ -241,7 +255,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         );
 
         $message =& new Mail_Mime("\n");
-        $message->setTxtBody($body);
+        $message->setHTMLBody($html);
+        $message->setTxtBody($text);
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
