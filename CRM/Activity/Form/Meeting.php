@@ -148,7 +148,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
                             'entity_id'        => $this->_contactId,
-                            'activity_type'    => 'Meeting',
+                            'activity_type'    => ts('Meeting'),
                             'module'           => 'CiviCRM',
                             'callback'         => 'CRM_Activity_Form_Meeting::showMeetingDetails',
                             'activity_id'      => $meeting->id,
