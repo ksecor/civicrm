@@ -204,7 +204,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      * Send a reponse email informing the contact of the groups from which he
      * has been unsubscribed.
      *
-     * @param string $email         The email address of the contact
+     * @param string $queue_id      The queue event ID
      * @param array $groups         List of group IDs
      * @param bool $is_domain       Is this domain-level?
      * @param int $job              The job ID
@@ -212,13 +212,16 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      * @access public
      * @static
      */
-    public static function send_unsub_response($email, $groups, $is_domain = false, $job) {
+    public static function send_unsub_response($queue_id, $groups, $is_domain = false, $job) {
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
 
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
-
+        $contacts = CRM_Contact_DAO_Contact::getTableName();
+        $email = CRM_Core_DAO_Email::getTableName();
+        $queue = CRM_Mailing_Event_BAO_Queue::getTableName();
+        
         $dao =& new CRM_Mailing_DAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
                         INNER JOIN $jobTable ON
@@ -237,34 +240,48 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $html = $component->body_html;
         $text = $component->body_text;
 
-        /* TODO: should we respect email preference settings? */
+        $eq =& new CRM_Core_DAO();
+        $eq->query(
+        "SELECT     $contacts.preferred_mail_format as format,
+                    $email.email as email
+        FROM        $contacts
+        INNER JOIN  $queue ON $queue.contact_id = $contacts.id
+        INNER JOIN  $email ON $queue.email_id = $email.id
+        WHERE       $queue.id = $queue_id");
+        $eq->fetch();
         
-        $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
-        $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
-
-        $html = CRM_Utils_Token::replaceUnsubscribeTokens($html, $groups, true);
-        $text = CRM_Utils_Token::replaceUnsubscribeTokens($text, $groups, false);
-        
+        $message =& new Mail_Mime("\n");
+        if ($eq->format == 'HTML' || $eq->format == 'Both') {
+            $html = 
+                CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
+            $html = 
+                CRM_Utils_Token::replaceUnsubscribeTokens($html, $groups, true);
+            $message->setHTMLBody($html);
+        }
+        if ($eq->format == 'Text' || $eq->format == 'Both') {
+            $text = 
+                CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+            $text = 
+                CRM_Utils_Token::replaceUnsubscribeTokens($text, $groups, false);
+            $message->setTxtBody($text);
+        }
         $headers = array(
             'Subject'       => $component->subject,
             'From'          => ts('"%1 Administrator" <%2>',
                 array(  1 => $domain->name, 
                         2 => "do-not-reply@{$domain->email_domain}")),
-            'To'            => $email,
+            'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );
 
-        $message =& new Mail_Mime("\n");
-        $message->setHTMLBody($html);
-        $message->setTxtBody($text);
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $mailer->send($email, $h, $b);
+        $mailer->send($eq->email, $h, $b);
         CRM_Core_Error::setCallback();
     }
 }

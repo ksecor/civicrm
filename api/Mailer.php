@@ -89,12 +89,11 @@ function crm_mailer_event_bounce($job, $queue, $hash, $body) {
  * @return boolean
  */
 function crm_mailer_event_unsubscribe($job, $queue, $hash) {
-    $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job, $queue, $hash);
+    $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job, 
+                                                                $queue, $hash);
     
-    $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
-    
-    if ($email && count($groups)) {
-        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, $groups, false, $job);
+    if (count($groups)) {
+        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue, $groups, false, $job);
         return true;
     }
     return false;
@@ -113,12 +112,9 @@ function crm_mailer_event_domain_unsubscribe($job, $queue, $hash) {
         return false;
     }
 
-    $email = CRM_Mailing_Event_BAO_Queue::getEmailAddress($queue);
-    if ($email) {
-        CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($email, null, true, $job);
-        return true;
-    }
-    return false;
+    CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue, null, 
+                                                            true, $job);
+    return true;
 }
 
 /**
