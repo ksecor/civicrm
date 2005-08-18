@@ -209,7 +209,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
-            $errors['edit[first_name]'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
+            $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
         }
         
         // Validate Country - State list
