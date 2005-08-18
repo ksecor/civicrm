@@ -110,9 +110,9 @@ class CRM_Utils_Tree {
      */
     public function &findNode(&$parentNode, $name)
     {
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('parentNode', $parentNode);
-        CRM_Core_Error::debug_var('name', $name);
+        //CRM_Core_Error::le_method();
+        //CRM_Core_Error::debug_var('parentNode', $parentNode);
+        //CRM_Core_Error::debug_var('name', $name);
 
         // first check the nodename of subtree itself
         if ($parentNode['name'] == $name) {
@@ -182,6 +182,29 @@ class CRM_Utils_Tree {
     {
         $parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
         $parentNode['children'][] =& $node;
+    }
+
+    /**
+     * Add Data
+     *
+     * @param string $parentName - name of the parent ?
+     * @param mixed              - data to be added
+     * @param string             - key to be used (optional)
+     * @return none
+     *
+     * @access public
+     */
+    public function addData($parentName, $data, $key=null)
+    {
+        $parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
+        
+        if ( !empty($key) ) {
+            $parentNode['data'][$key] =& $data;
+        } else {
+            $parentNode['data'][] =& $data;
+        }
+        
+        print_r($parentNode);
     }
 
 
