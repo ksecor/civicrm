@@ -81,7 +81,7 @@ class CRM_UF_Form_Register extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_fields  = CRM_Core_BAO_UFGroup::getUFRegistrationFields( );
+        $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( );
 
         $this->_id      = $this->get( 'id' );
         $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );

@@ -41,7 +41,23 @@
  * the admin
  */
 class CRM_Contact_Page_Profile extends CRM_Core_Page {
-    
+
+    /**
+     * all the fields that are listings related
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_fields;
+
+    /**
+     * list of all the fields that influence the search criteria
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_values;
+
     /**
      * extracts the parameters from the request and constructs information for
      * the selectror object to do a query
@@ -51,6 +67,35 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
+        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE );
+
+        $where  = array( );
+        $tables = array( );
+
+        foreach ( $this->_fields as $key => $field ) {
+            $value = CRM_Utils_Request::retrieve( $field['name'] );
+            if ( isset( $value ) ) {
+                $this->_fields[$key]['value'] = $value;
+                $this->_values[$key] = $value;
+
+                $value = strtolower( $value ); 
+                $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
+
+                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
+                if ( isset( $tableName ) ) { 
+                    $tables[$tableName] = 1; 
+                } 
+            }
+        }
+
+        // get the permissions for this user
+        $where[] = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
+
+        $clause = null; 
+        if ( ! empty( $where ) ) { 
+            $clause = implode( ' AND ', $where ); 
+        } 
+
     }
 
     /** 
