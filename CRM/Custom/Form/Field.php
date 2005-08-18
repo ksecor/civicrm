@@ -201,32 +201,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->freeze('data_type');
         }
         
-        $this->assign('customDataTypeJs', '
-    <script type="text/Javascript">
-    function custom_option_html_type(form) { 
-        var html_type = document.getElementsByName("data_type[1]")[0];
-        var html_type_name = html_type.options[html_type.selectedIndex].value;
-        var data_type = document.getElementsByName("data_type[0]")[0];
-        if (data_type.selectedIndex < 4) {
-            if (html_type_name != "Text") {
-            document.getElementById("showoption").style.display="block";
-            document.getElementById("hideDefaultValTxt").style.display="none";
-            document.getElementById("hideDefaultValDef").style.display="none";
-            document.getElementById("hideDescTxt").style.display="none";
-            document.getElementById("hideDescDef").style.display="none";
-            } else {
-            document.getElementById("showoption").style.display="none";
-            document.getElementById("hideDefaultValTxt").style.display="block";
-            document.getElementById("hideDefaultValDef").style.display="block";
-            document.getElementById("hideDescTxt").style.display="block";
-            document.getElementById("hideDescDef").style.display="block";
-            }
-        } else {
-            document.getElementById("showoption").style.display="none";
-        }
-    }
-    </script>');
-        
         // form fields of Custom Option rows
         $defaultOption = array();
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
