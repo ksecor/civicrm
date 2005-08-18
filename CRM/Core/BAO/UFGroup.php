@@ -38,7 +38,10 @@
  *
  */
 class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
-
+    const 
+        PUBLIC_VISIBILITY   = 1,
+        PRIVATE_VISIBILITY  = 2,
+        LISTINGS_VISIBILITY = 4,
     /**
      * cache the match clause used in this transaction
      *
@@ -102,16 +105,36 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      * @access public
      */
-    static function getUFRegistrationFields( $action ) {
+    static function getRegistrationFields( $action ) {
         $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
         $fields = array( );
         foreach ( $ufGroups as $id => $title ) {
-            $subset = self::getUFFields( $id, true, $action );
+            $subset = self::getFields( $id, true, $action );
             $fields = array_merge( $fields, $subset );
         }
         return $fields;
     }
+
+    /** 
+     * get all the listing fields 
+     * 
+     * @param int $action   what action are we doing 
+     * 
+     * @return array the fields that are listings related
+     * @static 
+     * @access public 
+     */ 
+    static function getListingFields( $action ) { 
+        $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
+ 
+        $fields = array( ); 
+        foreach ( $ufGroups as $id => $title ) { 
+            $subset = self::getFields( $id, false, $action, false, 'Public User Pages and Listings' ); 
+            $fields = array_merge( $fields, $subset ); 
+        } 
+        return $fields; 
+    } 
 
     /**
      * get the title of the group which contributes the largest number of fields
@@ -127,7 +150,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $size  = -1;
         $title = null;
         foreach ( $ufGroups as $id => $value ) { 
-            $subset = self::getUFFields( $id, true, $action ); 
+            $subset = self::getFields( $id, true, $action ); 
             if ( count( $subset ) > $size ) {
                 $size  = count( $subset );
                 $title = $value;
@@ -149,7 +172,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      * @access public
      */
-    static function getUFFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
+    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
         $group = new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
@@ -367,7 +390,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
             self::$_matchClause = array( );
             foreach ( $ufGroups as $id => $title ) {
-                $subset = self::getUFFields( $id, false, CRM_Core_Action::VIEW, true );
+                $subset = self::getFields( $id, false, CRM_Core_Action::VIEW, true );
                 self::$_matchClause = array_merge( self::$_matchClause, $subset );
             }
         }

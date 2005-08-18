@@ -232,7 +232,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $from   = ' FROM civicrm_group, civicrm_group_contact ';
         $where  = " WHERE civicrm_group.is_active = 1 ";
         if ( $contactId ) {
-            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id AND civicrm_group_contact.contact_id = " . $contactId;
+            $where .= " AND civicrm_group.id = civicrm_group_contact.group_id 
+                        AND civicrm_group_contact.contact_id = " 
+                    . CRM_Utils_Type::escape($contactId, 'Integer');
         }
 
         $orderby = " ORDER BY civicrm_group.name";
@@ -276,10 +278,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                     civicrm_subscription_history.method as method';
         }
 
-        $where  = ' WHERE civicrm_contact.id = ' . $contactId ." AND civicrm_group.is_active = '1' ";
+        $where  = ' WHERE civicrm_contact.id = ' 
+                . CRM_Utils_Type::escape($contactId, 'Integer') 
+                ." AND civicrm_group.is_active = '1' ";
         
         if ( ! empty( $status ) ) {
-            $where .= ' AND civicrm_group_contact.status = "' . $status . '"';
+            $where .= ' AND civicrm_group_contact.status = "' 
+                    . CRM_Utils_Type::escape($status, 'String') . '"';
         }
         $tables     = array( 'civicrm_group_contact'        => 1,
                              'civicrm_group'                => 1,
@@ -373,7 +378,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     
     static function getGroupContacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null)
     {
-        $query = "SELECT * FROM civicrm_group WHERE id = '$group->id'";
+        $query = "SELECT * FROM civicrm_group WHERE id = {$group->id}";
        
         $groupDAO = new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
@@ -410,11 +415,10 @@ LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.locatio
 LEFT JOIN civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id)
 WHERE civicrm_group_contact.group_id = {$group->id} 
 AND     (
-            (civicrm_group_contact.status = '$status')
+            (civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') ."')
             OR 
             (civicrm_group_contact.status <> 'Removed' AND civicrm_contact.id IN ( $result ))
-        )
-";
+        ) ";
 
         } else {
             $query .= "
@@ -424,7 +428,10 @@ LEFT JOIN  civicrm_subscription_history ON (civicrm_subscription_history.contact
 LEFT JOIN  civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
                                  civicrm_contact.id = civicrm_location.entity_id)
 LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-WHERE civicrm_subscription_history.status = '$status' AND civicrm_group_contact.status = '$status'  AND civicrm_group_contact.group_id = '$group->id' GROUP BY  civicrm_contact_id ";
+WHERE civicrm_subscription_history.status = '" . CRM_Utils_Type::escape($status, 'String') ."' 
+AND civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') . "'  
+AND civicrm_group_contact.group_id = {$group->id} 
+GROUP BY  civicrm_contact_id ";
         }
         
         if ( $sort != null ) {
@@ -470,7 +477,9 @@ WHERE civicrm_subscription_history.status = '$status' AND civicrm_group_contact.
         $query = "SELECT * 
 FROM civicrm_group_contact 
 LEFT JOIN civicrm_subscription_history ON (civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id) 
-WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_contact.group_id = '".$groupID."' AND civicrm_subscription_history.method ='Email' "  ;
+WHERE civicrm_group_contact.contact_id = ".CRM_Utils_Type::escape($contactId, 'Integer')." 
+AND civicrm_group_contact.group_id = '".CRM_Utils_Type::escape($groupID, 'Integer')." 
+AND civicrm_subscription_history.method ='Email' "  ;
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
         $dao->fetch();
@@ -501,7 +510,8 @@ WHERE civicrm_group_contact.contact_id = '".$contactId."' AND civicrm_group_cont
 
         $query = "UPDATE civicrm_group_contact 
 SET civicrm_group_contact.status = 'Added'
-WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.group_id = '$groupID'" ;
+WHERE civicrm_group_contact.contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
+AND civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($groupID, 'Integer');
       
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
@@ -533,13 +543,10 @@ WHERE civicrm_group_contact.contact_id = '$contactId' AND civicrm_group_contact.
      * @access public
      * @static
      */
-    function getGroupId($groupContactID){
-        $query = "SELECT group_id FROM civicrm_group_contact WHERE id = '$groupContactID'";
-         
+    public static function getGroupId($groupContactID){
         $dao =& new CRM_Contact_DAO_GroupContact();
-        $dao->query($query);
-
-        $dao->fetch();
+        $dao->id = $groupContactID;
+        $dao->find(true);
         return $dao->group_id; 
         
     }

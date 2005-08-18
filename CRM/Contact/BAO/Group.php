@@ -127,7 +127,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
                    FROM civicrm_contact, civicrm_group_contact
                    WHERE civicrm_contact.id = civicrm_group_contact.contact_id 
-                     AND civicrm_group_contact.group_id =" . $lngGroupId;
+                     AND civicrm_group_contact.group_id =" 
+                . CRM_Utils_Type::escape($lngGroupId, 'Integer');
 
         $groupContact->query($strSql);
 

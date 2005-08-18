@@ -89,6 +89,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             if ( $name ) {
+                // lets skip note for now since we dont support it
+                if ( $name == 'note' ) {
+                    continue;
+                }
                 $this->_selectFields[$name] = $field['title'];
             }
         }
@@ -130,7 +134,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         //hidden field to catch the group id in profile
         $this->add('hidden', 'group_id', $this->_gid);
         
-        //hidden field to catch the group id in profile
+        //hidden field to catch the field id in profile
         $this->add('hidden', 'field_id', $this->_id);
 
         // field name

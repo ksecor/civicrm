@@ -112,9 +112,11 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
         //$household->primary_contact_id = $primaryContactId;        
         //$household->whereAdd('contact_id ='.$contactId);
 
-        $queryString = "UPDATE civicrm_household 
-                        SET primary_contact_id = ".$primaryContactId." 
-                        WHERE contact_id=".$contactId;
+        $queryString    = "UPDATE civicrm_household 
+                           SET primary_contact_id = "
+                        . CRM_Utils_Type::escape($primaryContactId,'Integer')
+                        ." WHERE contact_id= "
+                        . CRM_Utils_Type::escape($contactId, 'Integer');
         
         return  $household->query($queryString);
     }
