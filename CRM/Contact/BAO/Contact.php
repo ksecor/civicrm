@@ -91,8 +91,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $query = "
 SELECT count(DISTINCT civicrm_contact.id) 
        $from
-WHERE civicrm_contact.id = $id AND $permission
-";
+WHERE civicrm_contact.id = ' " . CRM_Utils_Type::escape($id, 'Integer') ." 
+AND $permission";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -155,7 +155,8 @@ SELECT DISTINCT
                          'civicrm_custom_value'   => 1 );
         $query .= self::fromClause( $tables );
 
-        $query .= " WHERE civicrm_contact.id = $id";
+        $query .= " WHERE civicrm_contact.id = " 
+                . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -182,7 +183,7 @@ SELECT DISTINCT
         $query .= self::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
-            $query .= " AND civicrm_contact.id != $id ";
+            $query .= " AND civicrm_contact.id != " . CRM_Utils_Type::escape($id, 'Integer') ;
         }
 
         $dao =& new CRM_Core_DAO( );
@@ -216,7 +217,7 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
 LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
 LEFT JOIN civicrm_email ON ( civicrm_location.id = civicrm_email.location_id )
 WHERE
-  civicrm_contact.id = $id
+  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . "
 ORDER BY
   civicrm_location.is_primary DESC, civicrm_email.is_primary DESC";
         
@@ -542,7 +543,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
             $andArray['contact_type'] = "(contact_type IN (";
             foreach ($fv['cb_contact_type']  as $k => $v) {
-                $andArray['contact_type'] .= "'$k',"; 
+                $andArray['contact_type'] .= "'" . CRM_Utils_Type::escape($k, 'String') ."',"; 
             }            
             // replace the last comma with the parentheses.
             $andArray['contact_type'] = rtrim($andArray['contact_type'], ",");
@@ -562,7 +563,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                         if ($k == 'Added') {
                             $in = true;
                         }
-                        $statii[] = "\"$k\"";
+                        $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
                     }
                 }
             } else {
@@ -591,7 +592,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                             (civicrm_contact.id IN ($smarts) 
                             AND civicrm_contact.id NOT IN (
                             SELECT contact_id FROM civicrm_group_contact
-                            WHERE civicrm_group_contact.group_id = $group_id
+                            WHERE civicrm_group_contact.group_id = " 
+                            . CRM_Utils_Type::escape($group_id, 'Integer') ."
                             AND civicrm_group_contact.status = 'Removed'
                             ))";
                         } else {
@@ -796,7 +798,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                     
                     // from, where, order by
                     $strFrom = " FROM civicrm_custom_value, civicrm_custom_field ";
-                    $strWhere = " WHERE civicrm_custom_value.custom_field_id = $fieldId
+                    $strWhere = " WHERE civicrm_custom_value.custom_field_id = " 
+                                . CRM_Utils_Type::escape($fieldId, 'Integer') ."
                               AND civicrm_custom_value.custom_field_id = civicrm_custom_field.id
                               AND civicrm_custom_field.is_active = 1";
                     $orderBy = " ORDER BY civicrm_custom_field.weight";
@@ -1147,8 +1150,7 @@ LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact'
                                civicrm_contact.id = civicrm_location.entity_id AND
                                civicrm_location.is_primary = 1)
 LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-WHERE     civicrm_contact.id = $id
-";
+WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         if ( $dao->fetch( ) ) {
@@ -1350,7 +1352,7 @@ WHERE     civicrm_contact.id = $id
                                                 civicrm_contact.id = civicrm_location.entity_id AND
                                                 civicrm_location.is_primary = 1)
                  LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-                 WHERE     civicrm_contact.id = $id";
+                 WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
@@ -1567,7 +1569,11 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
 
         // this is not sufficient way to do.
 
-        $query1 = "SELECT count(*) FROM civicrm_meeting WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query1 = "SELECT count(*) FROM civicrm_meeting 
+                    WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
+                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ."
+                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                    AND status != 'Completed'";
         $dao =& new CRM_Core_DAO();
         $dao->query($query1);
         $result = $dao->getDatabaseResult();
@@ -1575,13 +1581,22 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
         
         $rowMeeting = $row[0];
         
-        $query2 = "SELECT count(*) FROM civicrm_phonecall WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND status != 'Completed'";
+        $query2 = "SELECT count(*) FROM civicrm_phonecall 
+                    WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
+                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
+                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                    AND status != 'Completed'";
         $dao->query($query2);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
         $rowPhonecall = $row[0];
         
-        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' AND target_entity_id = $id OR source_contact_id = $id) AND civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
+        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
+                    WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
+                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
+                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                    AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
+                    AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
         $dao->query($query3);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -1627,8 +1642,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_phonecall.source_contact_id = source.id AND
     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
     civicrm_phonecall.target_entity_id = target.id AND
-    ( civicrm_phonecall.source_contact_id = $contactId OR civicrm_phonecall.target_entity_id = $contactId ) AND
-    civicrm_phonecall.status != 'Completed'
+    ( civicrm_phonecall.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
+    OR civicrm_phonecall.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) 
+    AND civicrm_phonecall.status != 'Completed'
  ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
@@ -1647,8 +1663,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_meeting.source_contact_id = source.id AND
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
     civicrm_meeting.target_entity_id = target.id AND
-    ( civicrm_meeting.source_contact_id = $contactId OR civicrm_meeting.target_entity_id = $contactId ) AND
-    civicrm_meeting.status != 'Completed'
+    ( civicrm_meeting.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ."
+    OR civicrm_meeting.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) 
+    AND civicrm_meeting.status != 'Completed'
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
@@ -1666,7 +1683,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_country.id = 1228 AND civi
     civicrm_activity.source_contact_id = source.id AND
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
     civicrm_activity.target_entity_id = target.id AND
-    ( civicrm_activity.source_contact_id = $contactId OR civicrm_activity.target_entity_id = $contactId ) AND
+    ( civicrm_activity.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
+    OR civicrm_activity.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) AND
     civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
 )
