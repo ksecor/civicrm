@@ -386,16 +386,18 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                          WHERE  relationship_type_id = "
                          . CRM_Utils_Type::escape($type, 'Integer');
         if ($start_date) {
-            $queryString .= " AND start_date = $start_date "; 
+            $queryString .= " AND start_date = " . CRM_Utils_Type::escape($start_date, 'Date'); 
         }
         if ($end_date) {
-            $queryString .= " AND end_date = $end_date ";
+            $queryString .= " AND end_date = " . CRM_Utils_Type::escape($end_date, 'Date');
         }
-        $queryString .= " AND ( ( contact_id_a = $id        AND contact_id_b = $contactId ) OR 
-                                      ( contact_id_a = $contactId AND contact_id_b = $id        )
-                                    ) ";
+        $queryString .= " AND ( ( contact_id_a = " . CRM_Utils_Type::escape($id, 'Integer') 
+                     .  " AND contact_id_b = " . CRM_Utils_Type::escape($contactId, 'Integer') 
+                     .  " ) OR ( contact_id_a = " . CRM_Utils_Type::escape($contactId, 'Integer')
+                     .  " AND contact_id_b = " . CRM_Utils_Type::escape($id, 'Integer')
+                     .  " ) ) ";
         if ($relationshipId) {
-            $queryString .= "AND id !=". $relationshipId;
+            $queryString .= "AND id !=". CRM_Utils_Type::escape($relationshipId, 'Integer');
         }
         
 
@@ -509,12 +511,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $where = ' WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id ';
         if ( $direction == 'a_b' ) {
-            $where .= ' AND civicrm_relationship.contact_id_b = ' . $contactId . ' AND civicrm_relationship.contact_id_a = civicrm_contact.id ';
+            $where .= ' AND civicrm_relationship.contact_id_b = ' . CRM_Utils_Type::escape($contactId, 'Integer') . ' AND civicrm_relationship.contact_id_a = civicrm_contact.id ';
         } else {
-            $where .= ' AND civicrm_relationship.contact_id_a = ' . $contactId . ' AND civicrm_relationship.contact_id_b = civicrm_contact.id ';
+            $where .= ' AND civicrm_relationship.contact_id_a = ' . CRM_Utils_Type::escape($contactId, 'Integer') . ' AND civicrm_relationship.contact_id_b = civicrm_contact.id ';
         }
         if ( $relationshipId ) {
-            $where .= ' AND civicrm_relationship.id = ' . $relationshipId;
+            $where .= ' AND civicrm_relationship.id = ' . CRM_Utils_Type::escape($relationshipId, 'Integer');
         }
 
         $date = date( 'Y-m-d' );
