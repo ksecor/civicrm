@@ -383,7 +383,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $queryString = " SELECT id 
                          FROM   civicrm_relationship 
-                         WHERE  relationship_type_id = $type";
+                         WHERE  relationship_type_id = "
+                         . CRM_Utils_Type::escape($type, 'Integer');
         if ($start_date) {
             $queryString .= " AND start_date = $start_date "; 
         }
