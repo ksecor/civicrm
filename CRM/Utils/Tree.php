@@ -205,6 +205,19 @@ class CRM_Utils_Tree {
         }
     }
 
+    /**
+     * Get Tree
+     *
+     * @param none
+     * @return tree
+     *
+     * @access public
+     */
+    public function getTree()
+    {
+        return $this->tree;
+    }
+
 
     /**
      * print the tree
