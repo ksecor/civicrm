@@ -1068,7 +1068,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         CRM_Core_DAO::transaction('BEGIN');
         
         $contact = self::add($params, $ids);
-        
+
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
@@ -1080,17 +1080,17 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
         }
         $contact->location = $location;
-
+	
         // add notes
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
-            foreach ($params['note'] as $note) {
+	  // foreach ($params['note'] as $note) {  commented this since $params['note'] is a value not an array
                 $noteParams = array(
                                     'entity_id'     => $contact->id,
                                     'entity_table'  => 'civicrm_contact',
-                                    'note'          => $note['note']
+                                    'note'          => $params['note']
                                     );
                 CRM_Core_BAO_Note::add($noteParams);
-            }
+		//}
         }
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
