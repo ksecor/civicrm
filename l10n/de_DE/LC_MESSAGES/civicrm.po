@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-17 15:26+0200\n"
-"PO-Revision-Date: 2005-08-17 13:56+0200\n"
+"POT-Creation-Date: 2005-08-18 13:22+0200\n"
+"PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -194,8 +194,9 @@ msgstr "Name"
 #: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/IMProvider.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php
 #: CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php
-#: CRM/Contact/Form/Task/SaveSearch.php CRM/Group/Form/Edit.php
-#: CRM/Mailing/Form/Component.php CRM/Mailing/Form/Name.php
+#: CRM/Contact/Form/Task/SaveSearch.php CRM/Custom/Form/Field.php
+#: CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php
+#: CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
 msgstr "Dieser Name ist bereits in der Datenbank vorhanden."
 
@@ -465,30 +466,6 @@ msgstr "- auswählen -"
 msgid "Country"
 msgstr "Land"
 
-#: CRM/Contact/Form/CustomData.php CRM/Contact/Form/Search/Advanced.php
-#: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
-#: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-#: templates/CRM/Custom/Page/Field.tpl
-#: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
-msgid "Yes"
-msgstr "Ja"
-
-#: CRM/Contact/Form/CustomData.php CRM/Contact/Form/Search/Advanced.php
-#: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
-#: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-#: templates/CRM/Custom/Page/Field.tpl
-#: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
-msgid "No"
-msgstr "Nein"
-
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Website"
 msgstr ""
@@ -553,6 +530,28 @@ msgstr "Standortstypen"
 #: CRM/Custom/Form/Preview.php
 msgid "%1 is not a valid date."
 msgstr "%1 ist kein gültiges Datum."
+
+#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
+#: CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Admin/Page/MobileProvider.tpl
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+#: templates/CRM/Custom/Page/Field.tpl
+#: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
+msgid "Yes"
+msgstr "Ja"
+
+#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
+#: CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Admin/Page/MobileProvider.tpl
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+#: templates/CRM/Custom/Page/Field.tpl
+#: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
+msgid "No"
+msgstr "Nein"
 
 #: CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members: %1"
@@ -798,6 +797,30 @@ msgstr "Maske"
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
 msgstr "Memo"
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "TextArea"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Select"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Radio"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Select Date"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Select State/Province"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Select Country"
+msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
@@ -2259,31 +2282,7 @@ msgid "StateProvince"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
-msgid "TextArea"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Select"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Radio"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
 msgid "CheckBox"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Select Date"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Select State/Province"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Select Country"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
@@ -2683,6 +2682,10 @@ msgstr ""
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "hide field or section"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Checkbox"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php templates/CRM/Custom/Page/Field.tpl
@@ -3228,8 +3231,9 @@ msgstr ""
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
-"You have a pending subscription to %1. To confirm this subscription, reply "
-"to this message."
+"\n"
+"You have a pending subscription to %1.  To confirm this \n"
+"subscription, reply to this message."
 msgstr ""
 
 #: CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -3365,6 +3369,10 @@ msgid "Track Opens?"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
+msgid "Auto-respond to replies?"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
 msgid "Mailing subject"
 msgstr ""
 
@@ -3391,6 +3399,20 @@ msgstr ""
 #: CRM/Mailing/Form/Upload.php
 msgid "Mailing Footer"
 msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+msgid "Auto-responder"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+#, fuzzy
+msgid "Unsubscribe Message"
+msgstr "Org Unsibscribe"
+
+#: CRM/Mailing/Form/Upload.php
+#, fuzzy
+msgid "Opt-out Message"
+msgstr "Hinterlasse Nachricht"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Missing required token"
@@ -3673,6 +3695,10 @@ msgstr ""
 #: CRM/Utils/Token.php
 msgid ""
 "Link to allow contacts to unsubscribe from target groups of this mailing."
+msgstr ""
+
+#: CRM/Utils/Type.php
+msgid "Data-type mismatch: \"%1\" is not of type \"%2\""
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
@@ -4032,7 +4058,7 @@ msgid ""
 "a>."
 msgstr ""
 
-#: templates/CRM/common/mambo.tpl
+#: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
 msgid ""
 "<p>This sandbox site is running code in active development towards our 1.1 "
 "release. Some functions may not be fully operational. Check out our <a href="
@@ -4903,11 +4929,9 @@ msgid "New Custom Field"
 msgstr ""
 
 #: templates/CRM/Custom/Page/Field.tpl
-msgid "There are no custom fields for custom group \"%1\","
-msgstr ""
-
-#: templates/CRM/Custom/Page/Field.tpl
-msgid "add one"
+msgid ""
+"There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
+"a>."
 msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
