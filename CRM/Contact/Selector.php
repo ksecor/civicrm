@@ -484,7 +484,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                     
                     // Custom Group DAO
-                    $cgDAO =& new CRM_Contact_DAO_Group( );
+                    $cgDAO =& new CRM_Core_DAO_CustomGroup( );
                     $cgDAO->id = $groupId;
                     if ( $cgDAO->find( true ) ) {
                         $groupName = $cgDAO->title;
