@@ -203,8 +203,6 @@ class CRM_Utils_Tree {
         } else {
             $parentNode['data'][] =& $data;
         }
-        
-        print_r($parentNode);
     }
 
 
