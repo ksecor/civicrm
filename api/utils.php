@@ -514,7 +514,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     
                 $phone['location_id'] = $contact->location[$contactLocationBlock]->id;
                 if (! $overwrite) {
-                    _crm_update_from_object($contact->location[$contactLocationBlock]->phone[$contactPhoneblock], $phone);
+                    _crm_update_from_object($contact->location[$contactLocationBlock]->phone[$contactPhoneBlock], $phone);
                 }
                 
                 if ($primary_phone == null && $phone['is_primary']) {
@@ -523,7 +523,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
                     $phone['is_primary'] = false;
                 }
                 
-                _crm_update_object($contact->location[$contactLocationBlock]->phone[$contactPhoneblock], $phone);
+                _crm_update_object($contact->location[$contactLocationBlock]->phone[$contactPhoneBlock], $phone);
             }
         }
         
