@@ -471,13 +471,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $objName = $field['name'];
             if ( $objName == 'state_province_id' ) {
                 $states =& CRM_Core_PseudoConstant::stateProvince( );
-                if ( $this->_contact->state ) {
-                    $values[$objName] = array_search( $this->_contact->state, $states );
+                if ( $contact->state ) {
+                    $values[$objName] = array_search( $contact->state, $states );
                 }
             } else if ( $objName == 'country_id' ) {
                 $country =& CRM_Core_PseudoConstant::country( );
-                if ( $this->_contact->country ) {
-                    $values[$objName] = array_search( $this->_contact->country, $country );
+                if ( $contact->country ) {
+                    $values[$objName] = array_search( $contact->country, $country );
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
@@ -534,7 +534,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
                 }
             } else {
-                $values[$objName] = $this->_contact->$objName;
+                $values[$objName] = $contact->$objName;
             }
         }
     }

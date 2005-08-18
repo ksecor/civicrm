@@ -943,7 +943,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         
         $contact->copyValues($params);
         
-	$contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
+        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
         if ($contact->contact_type == 'Individual') {

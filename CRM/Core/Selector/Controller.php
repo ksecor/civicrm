@@ -283,7 +283,7 @@ class CRM_Core_Selector_Controller {
      * @return void
      *
      */
-    function run()
+    function run( )
     {
 
         // get the column headers
@@ -325,6 +325,14 @@ class CRM_Core_Selector_Controller {
                 $this->_store->set( 'rowCount'     , $this->_total  );
                 $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
                 $this->_store->set( 'qill'         , $qill          );
+            } else {
+                self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+                self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+
+                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
+                self::$_template->assign_by_ref( 'rows'         , $rows          );
+                self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+                self::$_template->assign       ( 'qill'         , $qill          );
             }
 
             // always store the current pageID and sortID

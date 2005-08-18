@@ -51,7 +51,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * results of advanced search options.
  *
  */
-class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
      * array of supported links, currenly null
@@ -75,7 +75,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @var string
      * @access protected
      */
-    protected $_clause
+    protected $_clause;
 
     /**
      * The tables involved in the query
@@ -105,7 +105,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function __construct( &$clause, &$tables )
     {
         $this->_clause = $clause;
-        $this->_tables = $table;
+        $this->_tables = $tables;
 
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
@@ -174,7 +174,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     function getTotalCount($action)
     {
-        return $this->query( true );
+        return $this->query( true, 0, 0 );
     }
 
     /**
@@ -192,12 +192,16 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         } else {
             $sql = ' SELECT DISTINCT( civicrm_contact.id ) as contact_id ';
         }
-        
-        $sql .= CRM_Contact_BAO_Contact::fromClause( $this->_table );
+
+        $sql .= CRM_Contact_BAO_Contact::fromClause( $this->_tables );
         $sql .= ' WHERE ' . $this->_clause;
 
+        if ( $rowCount > 0 ) {
+            $sql .= " LIMIT $offset, $rowCount ";
+        }
+
         $dao =& new CRM_Core_DAO( );
-        $dao->query($query);
+        $dao->query($sql);
 
         if ( $count ) {
             $result = $dao->getDatabaseResult();
@@ -226,15 +230,22 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // process the result of the query
         $rows = array( );
 
-        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
         while ($result->fetch()) {
             $row = array( );
-            $row['contact_id'] = $result->contact_id;
             CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    /**
+     * name of export file.
+     *
+     * @param string $output type of output
+     * @return string name of the file
+     */
+    function getExportFileName( $output = 'csv') {
+        return ts('CiviCRM Profile Listings');
     }
     
 }//end of class
