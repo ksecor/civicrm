@@ -93,6 +93,47 @@ class CRM_Utils_Type {
     }
 
 
+    /**
+     * Verify that a variable is of a given type
+     * 
+     * @param mixed $data           The variable
+     * @param string $type          The type
+     * @return mixed                The data, escaped if necessary
+     * @access public
+     * @static
+     */
+    public static function escape($data, $type) {
+        switch($type) {
+            case 'Integer':
+                if (CRM_Utils_Rule::integer($data)) {
+                    return $data;
+                }
+                break;
+                
+            case 'Float':
+                if (CRM_Utils_Rule::numeric($data)) {
+                    return $data;
+                }
+                break;
+                
+            case 'String':
+                return addslashes($data);
+                break;
+
+            case 'Date':
+                if (preg_match('/^\d{8}$/', $data)) {
+                    return $data;
+                }
+                break;
+            case 'Timestamp':
+                if (preg_match('/^\d{14}$/', $data)) {
+                    return $data;
+                }
+                break;
+        }
+
+        CRM_Core_Error::fatal(ts('Data-type mismatch: "%1" is not of type "%2"', array(1 => $data, 2 => $type)));
+    }
 }
 
 ?>
