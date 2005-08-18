@@ -34,8 +34,11 @@ $tree = new CRM_Utils_Tree('domain');
 
 $node1 =& $tree->createNode('im_provider');
 $node2 =& $tree->createNode('location_type');
+$node3 =& $tree->createNode('im');
+
 $tree->addNode('domain', $node1);
 $tree->addNode('domain', $node2);
+$tree->addNode('im_provider', $node3);
 
 $tree->display();
 

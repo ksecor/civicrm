@@ -126,8 +126,8 @@ class CRM_Utils_Tree {
         }
 
         // search children of the subtree
-        foreach ($parentNode['children'] as $childNode) {
-            if ($node = $this->findNode($childNode, $name)) {
+        foreach ($parentNode['children'] as &$childNode) {
+            if ($node =& $this->findNode($childNode, $name)) {
                 return $node;
             }
         }
