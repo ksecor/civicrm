@@ -91,8 +91,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $query = "
 SELECT count(DISTINCT civicrm_contact.id) 
        $from
-WHERE civicrm_contact.id = ' " . CRM_Utils_Type::escape($id, 'Integer') ." 
-AND $permission";
+WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . 
+" AND $permission";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);

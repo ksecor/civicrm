@@ -67,7 +67,8 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
-        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE );
+        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
 
         $where  = array( );
         $tables = array( );

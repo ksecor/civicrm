@@ -86,6 +86,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     protected $_tables;
 
     /**
+     * the public visible fields to be shown to the user
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_fields;
+
+    /**
      * Class constructor
      *
      * @param string clause the query where clause
@@ -98,6 +106,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     {
         $this->_clause = $clause;
         $this->_tables = $table;
+
+        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
+                                                                 CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
     }//end of constructor
 
 
@@ -144,6 +156,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function &getColumnHeaders($action = null, $output = null) 
     {
         if ( ! isset( self::$_columnHeaders ) ) {
+            self::$_columnHeaders = array( );
+            foreach ( $this->_fields as $field ) {
+                self::$_columnHeaders[] = array( 'name'=> $field['name'] );
+            }
         }
         return self::$_columnHeaders;
     }
@@ -161,6 +177,37 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->query( true );
     }
 
+    /**
+     * run a query to retrieve all the ids related to this search
+     *
+     * @param boolean count - are we only interested in the count
+     * @param int    $offset   the row number to start from
+     * @param int    $rowCount the number of rows to return
+     *
+     * @return int|CRM_CORE_DAO   the total number of contacts or a dao object
+     */
+    function query( $count, $offset, $rowCount ) {
+        if ( $count ) {
+            $sql = ' SELECT count( DISTINCT( civicrm_contact.id ) ) ';
+        } else {
+            $sql = ' SELECT DISTINCT( civicrm_contact.id ) as contact_id ';
+        }
+        
+        $sql .= CRM_Contact_BAO_Contact::fromClause( $this->_table );
+        $sql .= ' WHERE ' . $this->_clause;
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query($query);
+
+        if ( $count ) {
+            $result = $dao->getDatabaseResult();
+            $row    = $result->fetchRow();
+            return $row[0];
+        } else {
+            return $dao;
+        }
+    }
+
 
     /**
      * returns all the rows in the given offset and rowCount
@@ -174,7 +221,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $result = $this->query(false, $offset, $rowCount, $sort);
+        $result = $this->query(false, $offset, $rowCount);
 
         // process the result of the query
         $rows = array( );
@@ -182,7 +229,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
         while ($result->fetch()) {
-            $row = CRM_Core_BAO_UFGroup::getDataValues( $result->id );
+            $row = array( );
+            $row['contact_id'] = $result->contact_id;
+            CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
             $rows[] = $row;
         }
         return $rows;
