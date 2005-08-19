@@ -538,6 +538,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             } else {
                 $values[$field['title']] = $contact->$objName;
             }
+
+            if ( $field['visibility'] == "Public User Pages and Listings" ) {
+                $url = CRM_Utils_System::url( 'civicrm/profile',
+                                              'reset=1&' . 
+                                              urlencode( $field['name'] ) .
+                                              '=' .
+                                              urlencode( $values[$field['title']] ) );
+                $values[$field['title']] = '<a href="' . $url . '">' . $values[$field['title']] . '</a>';
+            }
         }
     }
 }
