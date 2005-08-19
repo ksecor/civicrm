@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-18 13:22+0200\n"
+"POT-Creation-Date: 2005-08-19 12:36+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -476,12 +476,6 @@ msgstr "País"
 msgid "Website"
 msgstr "Peso"
 
-#: CRM/Contact/Form/Individual.php CRM/UF/Form/Dynamic.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
-msgstr[0] "Um contato foi encontrado. Você pode editá-lo aqui: %1."
-msgstr[1] ""
-
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Please select a relationship type."
@@ -679,11 +673,20 @@ msgstr "Ações"
 msgid "Map Contact"
 msgstr "Rotular contatos"
 
+#: CRM/Contact/Selector.php CRM/Contact/Selector/Profile.php
+msgid "Contact %%StatusMessage%%"
+msgstr "Contato %%StatusMessage%%"
+
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr "Endereço"
+
+#: CRM/Contact/Selector/Profile.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "CiviCRM Profile Listings"
+msgstr "Campo de Perfil CiviCRM"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1621,6 +1624,12 @@ msgid ""
 msgstr ""
 "Nome e Sobrenome OU email na Localização Primária deverá ser determinado."
 
+#: CRM/Contact/Form/Individual.php
+msgid "One matching contact was found. You can edit it here: %1"
+msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgstr[0] "Um contato foi encontrado. Você pode editá-lo aqui: %1."
+msgstr[1] ""
+
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
 msgstr "Localização primária para este Contato"
@@ -2026,10 +2035,6 @@ msgstr "Editar Detalhes do contato"
 #: CRM/Contact/Selector.php
 msgid "Map"
 msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Contact %%StatusMessage%%"
-msgstr "Contato %%StatusMessage%%"
 
 #: CRM/Contact/Selector.php
 msgid "Contact Id"
@@ -3620,6 +3625,10 @@ msgstr "Atualizar rótulos"
 msgid "Your update(s) have been saved."
 msgstr "Sua(s) atualização(ões) fora(m) salva(s)."
 
+#: CRM/UF/Form/Dynamic.php
+msgid "An account already exists with the same information."
+msgstr ""
+
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
 msgstr "Nome do Campo CiviCRM"
@@ -3808,11 +3817,6 @@ msgstr "Detalhes das Atividades"
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
 msgstr "Enviar mensagem de Email"
-
-#: CRM/Utils/Menu.php
-#, fuzzy
-msgid "CiviCRM Profile Listings"
-msgstr "Campo de Perfil CiviCRM"
 
 #: CRM/Utils/Menu.php
 msgid "Mailing Header / Footer"
@@ -4651,6 +4655,11 @@ msgstr "Remover membros"
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
 msgstr "Pesquisa salva."
+
+#: templates/CRM/Contact/Form/Task.tpl
+#, fuzzy
+msgid "Number of selected contacts: %1"
+msgstr "Total de Contato(s) selecionado(s): %1 "
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Criteria"
@@ -5613,12 +5622,6 @@ msgstr ""
 msgid ""
 "<label>Skip:</label> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid ""
-"<label>Replace:</label> Replaces the entire matching record in the database "
-"with imported contact data."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl

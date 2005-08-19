@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-18 13:22+0200\n"
+"POT-Creation-Date: 2005-08-19 12:36+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -469,13 +469,6 @@ msgstr "Kraj"
 msgid "Website"
 msgstr "Strona WWW"
 
-#: CRM/Contact/Form/Individual.php CRM/UF/Form/Dynamic.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
-msgstr[0] "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1"
-msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1"
-msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
-
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Please select a relationship type."
@@ -670,11 +663,19 @@ msgstr "Akcje"
 msgid "Map Contact"
 msgstr "Pokaż na mapie"
 
+#: CRM/Contact/Selector.php CRM/Contact/Selector/Profile.php
+msgid "Contact %%StatusMessage%%"
+msgstr "Kontakt %%StatusMessage%%"
+
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr "Adres"
+
+#: CRM/Contact/Selector/Profile.php CRM/Utils/Menu.php
+msgid "CiviCRM Profile Listings"
+msgstr "Spisy profili CiviCRM"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1553,6 +1554,13 @@ msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
 msgstr "W lokalizacji głównej muszą być ustawione imię i nazwisko LUB email."
 
+#: CRM/Contact/Form/Individual.php
+msgid "One matching contact was found. You can edit it here: %1"
+msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgstr[0] "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1"
+msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1"
+msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
+
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
 msgstr "Lokalizacja główna tego kontaktu"
@@ -1953,10 +1961,6 @@ msgstr "Edytuj szczegóły kontaktu"
 #: CRM/Contact/Selector.php
 msgid "Map"
 msgstr "Zaznacz na mapie"
-
-#: CRM/Contact/Selector.php
-msgid "Contact %%StatusMessage%%"
-msgstr "Kontakt %%StatusMessage%%"
 
 #: CRM/Contact/Selector.php
 msgid "Contact Id"
@@ -3473,6 +3477,10 @@ msgstr "Uaktualnij znaczniki"
 msgid "Your update(s) have been saved."
 msgstr "Uaktualnienia zostały zapisane."
 
+#: CRM/UF/Form/Dynamic.php
+msgid "An account already exists with the same information."
+msgstr "Istnieje już konto z takimi samymi danymi."
+
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
 msgstr "Nazwa pola CiviCRM"
@@ -3655,10 +3663,6 @@ msgstr "Szczegóły zdarzenia"
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
 msgstr "Wysłany email"
-
-#: CRM/Utils/Menu.php
-msgid "CiviCRM Profile Listings"
-msgstr "Spisy profili CiviCRM"
 
 #: CRM/Utils/Menu.php
 msgid "Mailing Header / Footer"
@@ -4526,6 +4530,10 @@ msgstr "Usuń członków"
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
 msgstr "Wyszukiwanie zapisane"
+
+#: templates/CRM/Contact/Form/Task.tpl
+msgid "Number of selected contacts: %1"
+msgstr "Liczba wybranych kontaktów: %1"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Criteria"
@@ -5490,14 +5498,6 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
-"<label>Replace:</label> Replaces the entire matching record in the database "
-"with imported contact data."
-msgstr ""
-"<label>Zastąp:</label> Całkowicie zastępuje pasujące wpisy w bazie "
-"zaimportowanymi danymi kontaktu."
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid ""
 "<label>Update:</label> Updates database fields with available import data. "
 "Fields in the database which are NOT included in the import row are left as-"
 "is."
@@ -5685,6 +5685,13 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
+
+#~ msgid ""
+#~ "<label>Replace:</label> Replaces the entire matching record in the "
+#~ "database with imported contact data."
+#~ msgstr ""
+#~ "<label>Zastąp:</label> Całkowicie zastępuje pasujące wpisy w bazie "
+#~ "zaimportowanymi danymi kontaktu."
 
 #~ msgid "add one"
 #~ msgstr "dodaj"

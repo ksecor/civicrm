@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-18 13:22+0200\n"
+"POT-Creation-Date: 2005-08-19 12:36+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -474,13 +474,6 @@ msgstr "ประเทศ"
 msgid "Website"
 msgstr "น้ำหนัก"
 
-#: CRM/Contact/Form/Individual.php CRM/UF/Form/Dynamic.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
-msgstr[0] "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
-msgstr[1] ""
-msgstr[2] ""
-
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Please select a relationship type."
@@ -674,11 +667,20 @@ msgstr "ปฏิบัติการ"
 msgid "Map Contact"
 msgstr "ประเภทของการติดต่อ"
 
+#: CRM/Contact/Selector.php CRM/Contact/Selector/Profile.php
+msgid "Contact %%StatusMessage%%"
+msgstr ""
+
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr ""
+
+#: CRM/Contact/Selector/Profile.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "CiviCRM Profile Listings"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1580,6 +1582,13 @@ msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
 msgstr ""
 
+#: CRM/Contact/Form/Individual.php
+msgid "One matching contact was found. You can edit it here: %1"
+msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgstr[0] "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
+msgstr[1] ""
+msgstr[2] ""
+
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
 msgstr ""
@@ -1976,10 +1985,6 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Map"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Contact %%StatusMessage%%"
 msgstr ""
 
 #: CRM/Contact/Selector.php
@@ -3523,6 +3528,10 @@ msgstr ""
 msgid "Your update(s) have been saved."
 msgstr ""
 
+#: CRM/UF/Form/Dynamic.php
+msgid "An account already exists with the same information."
+msgstr ""
+
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
 msgstr ""
@@ -3706,11 +3715,6 @@ msgstr ""
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
 msgstr ""
-
-#: CRM/Utils/Menu.php
-#, fuzzy
-msgid "CiviCRM Profile Listings"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Utils/Menu.php
 msgid "Mailing Header / Footer"
@@ -4492,6 +4496,11 @@ msgstr ""
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
 msgstr ""
+
+#: templates/CRM/Contact/Form/Task.tpl
+#, fuzzy
+msgid "Number of selected contacts: %1"
+msgstr "ที่ติดต่อทั้งหมดที่เรื่อง:%1"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Criteria"
@@ -5339,12 +5348,6 @@ msgstr ""
 msgid ""
 "<label>Skip:</label> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid ""
-"<label>Replace:</label> Replaces the entire matching record in the database "
-"with imported contact data."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl

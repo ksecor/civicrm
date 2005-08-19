@@ -1,4 +1,4 @@
-Number of selected contacts: {$totalSelectedContacts}
+{ts 1=$totalSelectedContacts}Number of selected contacts: %1{/ts}
 
 {if $rows } 
 <div class="form-item">
