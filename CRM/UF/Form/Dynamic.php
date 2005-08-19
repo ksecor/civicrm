@@ -88,7 +88,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_id      = $this->get( 'id' );
+        $this->_id      = $this->get( 'id'  );
         $this->_gid     = $this->get( 'gid' );
         if ( $this->get( 'register' ) ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );

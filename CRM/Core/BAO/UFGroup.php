@@ -471,15 +471,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $objName = $field['name'];
             if ( $objName == 'state_province_id' ) {
                 if ( $contact->state ) {
-                    $values['state_province_id'] = $contact->state;
+                    $values[$field['title']] = $contact->state;
                 } else {
-                    $values['state_province_id'] = null;
+                    $values[$field['title']] = null;
                 }
             } else if ( $objName == 'country_id' ) {
                 if ( $contact->country ) {
-                    $values['country_id'] = $contact->country;
+                    $values[$field['title']] = $contact->country;
                 } else {
-                    $values['country_id'] = null;
+                    $values[$field['title']] = null;
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
@@ -506,7 +506,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     } else {
                         $customValue = $cv->getValue(true);
                     }
-                    $values[$objName] = $customValue;
+                    $values[$field['title']] = $customValue;
                     break;
 
                 case "CheckBox":
@@ -515,7 +515,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                     foreach($customOption as $val) {
                         $checkVal = $val['value'];
-                        $checkName = $objName . '[' . $checkVal .']';
+                        $checkName = $field['title'] . '[' . $checkVal .']';
                         if (in_array($val['value'], $checkedData)) {
                             $values[$checkName] = 1;
                         } else {
@@ -527,16 +527,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 case "Select Date":
                     $date = CRM_Utils_Date::unformat($cv->getValue(true));
                     $customValue = $date;
-                    $values[$objName] = $customValue;
+                    $values[$field['title']] = $customValue;
                     break;
 
                 default:
                     $customValue = $cv->getValue(true);
-                    $values[$objName] = $customValue;
+                    $values[$field['title']] = $customValue;
                     break;
                 }
             } else {
-                $values[$objName] = $contact->$objName;
+                $values[$field['title']] = $contact->$objName;
             }
         }
     }
