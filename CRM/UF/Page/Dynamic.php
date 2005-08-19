@@ -55,16 +55,25 @@ class CRM_UF_Page_Dynamic extends CRM_Core_Page {
     protected $_id;
 
     /**
+     * the profile group are are interested in
+     * 
+     * @var int 
+     * @access protected 
+     */ 
+    protected $_gid;
+
+    /**
      * class constructor
      *
-     * @param int $id the contact id
+     * @param int $id  the contact id
+     * @param int $gid the group id
      *
      * @return void
      * @access public
      */
-    function __construct( $id, $title ) {
+    function __construct( $id, $gid ) {
         $this->_id    = $id;
-        $this->_title = $title;
+        $this->_gid   = $gid;
     }
 
     /**
@@ -90,39 +99,33 @@ class CRM_UF_Page_Dynamic extends CRM_Core_Page {
      */
     function run()
     {
-        // make sure we have a valid group
-        $group = new CRM_Core_DAO_UFGroup( );
-
-        $group->title     = $title;
-        $group->domain_id = CRM_Core_Config::domainID( );
-        if ( $group->find( true ) && $this->_id ) {
+        $template =& CRM_Core_Smarty::singleton( ); 
+        if ( $this->_id && $this->_gid ) {
             $values = array( );
-            $fields = CRM_Core_BAO_UFGroup::getFields( $group->id, false, CRM_Core_Action::VIEW );
+            $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW );
+
+            // make sure we dont expose all fields based on permission
+            $admin = false; 
+            $session  =& CRM_Core_Session::singleton( ); 
+            if ( CRM_Utils_System::checkPermission( 'administer users' ) || 
+                 $this->_id == $session->get( 'userID' ) ) { 
+                $admin = true; 
+            }
+
+            if ( ! $admin ) {
+                foreach ( $fields as $name => $field ) {
+                    // make sure that there is enough permission to expose this field 
+                    if ( $field['visibility'] == 'User and User Admin Only' ) {
+                        unset( $fields[$name] );
+                    }
+                }
+            }
+
             CRM_Core_BAO_UFGroup::getValues( $this->_id, $fields, $values );
+            $template->assign_by_ref( 'row', $values );
         }
 
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
-
-        // assign vars to templates
-        $this->assign('action', $action);
-
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-        
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
-            $this->edit($action);   // no browse for edit/update/view
-        } else {
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_UFField::setIsActive($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_UFField::setIsActive($id, 1);
-            } 
-            $this->browse();
-        }
-
-        // Call the parents run method
-        parent::run();
+        return trim( $template->fetch( 'CRM/UF/Page/Dynamic.tpl' ) ); 
     }
 }
 

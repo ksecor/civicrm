@@ -493,7 +493,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $cv =& new CRM_Core_BAO_CustomValue();
                 $cv->custom_field_id = $cfID;
                 $cv->entity_table = 'civicrm_contact';
-                $cv->entity_id = $this->_id;
+                $cv->entity_id = $contact->id;
                 if ( ! $cv->find( true ) ) {
                     continue;
                 }
