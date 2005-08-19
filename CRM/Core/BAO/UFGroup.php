@@ -470,14 +470,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         foreach ( $fields as $name => $field ) {
             $objName = $field['name'];
             if ( $objName == 'state_province_id' ) {
-                $states =& CRM_Core_PseudoConstant::stateProvince( );
                 if ( $contact->state ) {
-                    $values[$objName] = array_search( $contact->state, $states );
+                    $values['state_province_id'] = $contact->state;
+                } else {
+                    $values['state_province_id'] = null;
                 }
             } else if ( $objName == 'country_id' ) {
-                $country =& CRM_Core_PseudoConstant::country( );
                 if ( $contact->country ) {
-                    $values[$objName] = array_search( $contact->country, $country );
+                    $values['country_id'] = $contact->country;
+                } else {
+                    $values['country_id'] = null;
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists

@@ -158,7 +158,7 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( );
             foreach ( $this->_fields as $field ) {
-                self::$_columnHeaders[] = array( 'name'=> $field['name'] );
+                self::$_columnHeaders[] = array( 'name'=> $field['title'] );
             }
         }
         return self::$_columnHeaders;

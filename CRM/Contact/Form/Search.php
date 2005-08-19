@@ -423,9 +423,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $selector =& new CRM_Contact_Selector($this->_formValues, $this->_action);
         $controller =& new CRM_Contact_Selector_Controller($selector ,
-                                                          $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                          $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                          CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
         if ( $this->_force ) {
 
@@ -463,7 +463,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $session ->set('isAdvanced','0');
 
         // get user submitted values
-        $this->_formValues = $this->controller->exportValues($this->_name);       
+        // get it from controller only if form has been submitted, else preProcess has set this
+        if ( ! empty( $_POST ) ) {
+            $this->_formValues = $this->controller->exportValues($this->_name);
+
+            // also reset the sort by character
+            $this->_sortByCharacter = null;
+            $this->set( 'sortByCharacter', null );
+        }
+
         /* after every search form is submitted we save the following in the session
          *     - type of search 'type'
          *     - submitted form values 'formValues'
@@ -556,22 +564,26 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->set('customDataSearch',$customDataCriteria);
         }
 
-        // added the sorting  character to the form array
-        // lets recompute the aToZ bar without the sortByCharacter
-        // we need this in most cases except when just pager or sort values change, which
-        // we'll ignore for now
-        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
-        $this->set( 'AToZBar', $aToZBar );
-
         //get the button name
         $buttonName = $this->controller->getButtonName( );
 
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button
-        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' && $buttonName != $this->_searchButtonName) {
-            $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
+        if ( $this->_sortByCharacter && $buttonName != $this->_searchButtonName) {
+            if ( $this->_sortByCharacter == 1 ) {
+                $this->_formValues['sortByCharacter'] = null;
+            } else {
+                $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
+            }
         }
+            
+        // added the sorting  character to the form array
+        // lets recompute the aToZ bar without the sortByCharacter
+        // we need this in most cases except when just pager or sort values change, which
+        // we'll ignore for now
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
+        $this->set( 'AToZBar', $aToZBar );
 
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );

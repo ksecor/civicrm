@@ -87,7 +87,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                 $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
 
                 list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
-                if ( isset( $tableName ) ) { 
+                if ( isset( $tableName ) ) {
                     $this->_tables[$tableName] = 1; 
                 } 
             }

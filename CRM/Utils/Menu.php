@@ -219,6 +219,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/search/advanced',
+                            'qs'      => 'force=1',
                             'title'   => ts('Advanced Search'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
