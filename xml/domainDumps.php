@@ -18,12 +18,11 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
 
-$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
-
-$db_domain = DB::connect($dsn_domain);
-if ( DB::isError( $db_domain ) ) {
-    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
-}
+//$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
+//$db_domain = DB::connect($dsn_domain);
+//if ( DB::isError( $db_domain ) ) {
+//    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
+//}
 
 $file = 'schema/Schema.xml';
 
@@ -141,7 +140,7 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
 
         $whereClause = "'".implode(" AND ", $whereCondition)."'";
 
-        $mysqlDump = "mysqldump --single-transaction civicrm ".$tables." -w ".$whereClause." -ucivicrm -pMt\!Everest > ".$nameArray[0].".sql";
+        $mysqlDump = "mysqldump --single-transaction civicrm ".$tables." -w ".$whereClause." -ucivicrm -pMountEverest > ".$nameArray[0].".sql";
         echo $mysqlDump."\n";
         system($mysqlDump);
         exit(1);
