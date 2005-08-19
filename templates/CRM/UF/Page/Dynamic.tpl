@@ -1,11 +1,11 @@
 {if ! empty( $row )}
-<div class="form-item">                               
-<fieldset> 
-<dl>
+<div id="crm-container">
+<fieldset>
+<table class="form-layout-compressed">                               
 {foreach from=$row item=value key=name}
-  <dt>{$name}</dt><dd>{$value}</dd>
+  <tr><td class="label">{$name}</td><td>{$value}</td></tr>
 {/foreach}
-</dl>
+</table>
 </fieldset>
-</div> {* end crm-container div *}
+</div>
 {/if} {* fields array is not empty *}
