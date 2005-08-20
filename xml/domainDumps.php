@@ -18,11 +18,12 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
 
-//$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
-//$db_domain = DB::connect($dsn_domain);
-//if ( DB::isError( $db_domain ) ) {
-//    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
-//}
+$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
+
+$db_domain = DB::connect($dsn_domain);
+if ( DB::isError( $db_domain ) ) {
+    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
+}
 
 $file = 'schema/Schema.xml';
 
@@ -69,7 +70,6 @@ foreach ($tables as $key => $value) {
         $frTable[$value['name']][$v1['table']] = $v1['name'];
     }
 }
-//print_r($frTable);
 
 $tree2 = array();
 foreach ($tree1 as $k => $v) {
@@ -86,19 +86,20 @@ foreach ($tree1 as $k => $v) {
 }
 
 //print_r($tree2);
+//print_r($frTable);
 
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
-    if ($key != 'civicrm_validation') {
         foreach($val as $k => $v) {
-            $node =& $domainTree->createNode($v);
+            $node =& $domainTree->createNode($v);            
             $domainTree->addNode($key, $node);
             $fKey = $frTable[$v][$key];
             $domainTree->addData($v, $fKey, 'fKey');
+            
         }
-    }
 }
+
 
 //$domainTree->display();
 
@@ -113,42 +114,40 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
         $nameArray = array();
         $fKeyArray = array();
     }
-    
+
     $node = $tree;
     
     if ( count($node['children']) ) {
         
         $nameArray[] = $node['name'];
+        $fKeyArray[] = $node['data']['fKey'];
     } else {
         $nameArray[] = $node['name'];
         $fKeyArray[] = $node['data']['fKey'];
         $nameArray = array_reverse($nameArray);
         $fKeyArray = array_reverse($fKeyArray);
-
+        
+        
         $table = array();
         for ($idx = 0; $idx<count($nameArray); $idx++) {
             $table[] = $nameArray[$idx];
         }
-
-        $tables = implode(" ",$table);
-
+        
+        $tables = implode(" ,",$table);
+        
         for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ."=".$nameArray[$idx+1].".id";
+            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
         }
-
-        $whereCondition[] = "".$nameArray[$idx].".id=1";
-
+        
+        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        
         $whereClause = "'".implode(" AND ", $whereCondition)."'";
-
-        $mysqlDump = "mysqldump --single-transaction civicrm ".$tables." -w ".$whereClause." -ucivicrm -pMountEverest > ".$nameArray[0].".sql";
-        echo $mysqlDump."\n";
-        system($mysqlDump);
-        exit(1);
+        
+        $strQuery = "SELECT ". $table[0] .".* INTO OUTFILE '/tmp/". $table[0] .".sql' FROM ". $tables ." WHERE ". $whereClause ;
+        
+        $query = $db_domain->query($strQuery);       
     }
-
-    if ( count($node['data']) ) {
-        $fKeyArray[] = $node['data']['fKey'];
-    }
+   
 
     foreach($node['children'] as &$childNode) {
         leafIter($childNode, $nameArray, $fKeyArray);      
