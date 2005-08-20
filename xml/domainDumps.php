@@ -91,13 +91,13 @@ foreach ($tree1 as $k => $v) {
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
-        foreach($val as $k => $v) {
-            $node =& $domainTree->createNode($v);            
-            $domainTree->addNode($key, $node);
-            $fKey = $frTable[$v][$key];
-            $domainTree->addData($v, $fKey, 'fKey');
-            
-        }
+    foreach($val as $k => $v) {
+        $node =& $domainTree->createNode($v);            
+        $domainTree->addNode($key, $node);
+        $fKey = $frTable[$v][$key];
+        $domainTree->addData($v, $fKey);
+        
+    }
 }
 
 
@@ -105,7 +105,7 @@ foreach($tree2 as $key => $val) {
 
 $tempTree = $domainTree->getTree();
 
-$strQuery = leafIter($tempTree['rootNode'], null, null);
+leafIter($tempTree['rootNode'], null, null);
 
 function leafIter(&$tree, $nameArray, $fKeyArray)
 {
@@ -120,6 +120,33 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
         
         $nameArray[] = $node['name'];
         $fKeyArray[] = $node['data']['fKey'];
+        $tempNameArray = array_reverse($nameArray);
+        $tempFKeyArray = array_reverse($fKeyArray);
+        
+        
+        $table = array();
+        for ($idx = 0; $idx<count($tempNameArray); $idx++) {
+            $table[] = $tempNameArray[$idx];
+        }
+        
+        $tables = implode(" ,",$table);
+        
+        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
+        }
+        
+        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        
+        $whereClause = implode(" AND ", $whereCondition);
+        
+        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+
+        $command = "mysql -uroot civicrm -e '".$strQuery."'";
+
+        //echo $command."\n\n";
+
+        system($command);
+
     } else {
         $nameArray[] = $node['name'];
         $fKeyArray[] = $node['data']['fKey'];
@@ -146,16 +173,18 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
 
         $command = "mysql -uroot civicrm -e '".$strQuery."'";
 
-        //echo $command."\n";
+        //echo $command."\n\n";
 
         system($command);
     }
    
 
     foreach($node['children'] as &$childNode) {
+        
         leafIter($childNode, $nameArray, $fKeyArray);      
     }    
 }
+
 
 exit(1);
 
