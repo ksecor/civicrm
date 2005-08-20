@@ -105,8 +105,7 @@ foreach($tree2 as $key => $val) {
 
 $tempTree = $domainTree->getTree();
 
-leafIter($tempTree['rootNode'], null, null);
-
+$strQuery = leafIter($tempTree['rootNode'], null, null);
 
 function leafIter(&$tree, $nameArray, $fKeyArray)
 {
@@ -141,11 +140,15 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
         
         $whereCondition[] = "".$nameArray[$idx].".id = 1";
         
-        $whereClause = "'".implode(" AND ", $whereCondition)."'";
+        $whereClause = implode(" AND ", $whereCondition);
         
-        $strQuery = "SELECT ". $table[0] .".* INTO OUTFILE '/tmp/". $table[0] .".sql' FROM ". $tables ." WHERE ". $whereClause ;
-        
-        $query = $db_domain->query($strQuery);       
+        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+
+        $command = "mysql -uroot civicrm -e '".$strQuery."'";
+
+        //echo $command."\n";
+
+        system($command);
     }
    
 
