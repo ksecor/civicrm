@@ -38,6 +38,8 @@ require_once 'CRM/Core/Config.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
+    debug_print_backtrace( );
+
     $error = CRM_Core_Error::singleton( );
     $error->push( $code, $level, array( $params ), $message );
     return $error;

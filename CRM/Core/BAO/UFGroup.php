@@ -469,6 +469,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
         foreach ( $fields as $name => $field ) {
             $objName = $field['name'];
+
             if ( $objName == 'state_province_id' ) {
                 if ( $contact->state ) {
                     $values[$field['title']] = $contact->state;
@@ -493,7 +494,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $cv =& new CRM_Core_BAO_CustomValue();
                 $cv->custom_field_id = $cfID;
                 $cv->entity_table = 'civicrm_contact';
-                $cv->entity_id = $contact->id;
+                $cv->entity_id = $contact->contact_id;
                 if ( ! $cv->find( true ) ) {
                     continue;
                 }
@@ -506,7 +507,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     } else {
                         $customValue = $cv->getValue(true);
                     }
-                    $values[$field['title']] = $customValue;
+                    $values[$cf->label] = $customValue;
                     break;
 
                 case "CheckBox":
@@ -515,7 +516,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                     foreach($customOption as $val) {
                         $checkVal = $val['value'];
-                        $checkName = $field['title'] . '[' . $checkVal .']';
+                        $checkName = $cf->label . '[' . $checkVal .']';
                         if (in_array($val['value'], $checkedData)) {
                             $values[$checkName] = 1;
                         } else {
@@ -525,14 +526,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case "Select Date":
-                    $date = CRM_Utils_Date::unformat($cv->getValue(true));
-                    $customValue = $date;
-                    $values[$field['title']] = $customValue;
+                    $values[$cf->label] = $cv->getValue( true );
                     break;
 
                 default:
                     $customValue = $cv->getValue(true);
-                    $values[$field['title']] = $customValue;
+                    $values[$cf->label] = $customValue;
                     break;
                 }
             } else {
