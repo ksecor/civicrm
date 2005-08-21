@@ -329,7 +329,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if ($field['data_type'] != 'Boolean' ) {
                         $defaults[$elementName] = $value;
                     } else if ( isset( $value ) ) {
-                        $defaults[$elementName] =  $value ? 'yes' : 'no';
+                        $defaults[$elementName] = strtolower( $value );
                     }
                     break;
                     
