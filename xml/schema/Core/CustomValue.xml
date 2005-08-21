@@ -51,7 +51,12 @@
   <field>
      <name>float_data</name>
      <type>float</type>
-     <comment>stores data for ext property data_type = float and money.</comment>
+     <comment>stores data for ext property data_type = float.</comment>
+  </field>
+  <field>
+     <name>decimal_data</name>
+     <type>decimal</type>
+     <comment>stores data for ext property data_type = money.</comment>
   </field>
   <field>
      <name>char_data</name>

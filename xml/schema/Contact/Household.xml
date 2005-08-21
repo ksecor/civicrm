@@ -29,7 +29,7 @@
   <field>
        <name>household_name</name>
        <type>varchar</type>
-       <length>64</length>
+       <length>128</length>
        <comment>Household Name.</comment>
        <fulltext/>
   </field>

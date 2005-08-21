@@ -137,7 +137,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // since we have an entity id, lets get it's custom values too.
         if ($entityId) {
-            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data');
+            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data');
         }
 
         // create select
@@ -247,8 +247,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
                     break;
                 case 'Float':
-                case 'Money':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_float_data;
+                    break;
+                case 'Money':
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_decimal_data;
                     break;
                 case 'Memo':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_memo_data;
@@ -341,8 +343,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->int_data = $data;
                         break;
                     case 'Float':
-                    case 'Money':
                         $customValueDAO->float_data = $data;
+                        break;
+                    case 'Money':
+                        $customValueDAO->decimal_data = number_format( $data, 2, '.', '' ); 
                         break;
                     case 'Memo':
                         $customValueDAO->memo_data = $data;

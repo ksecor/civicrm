@@ -101,6 +101,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      */
     public static function create(&$params) {
         $customValue =& new CRM_Core_BAO_CustomValue();
+        CRM_Core_Error::debug( 'p', $params );
 
         $customValue->copyValues($params);
         
@@ -117,10 +118,15 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
             case 'Int':
                 $customValue->int_data = $params['value'];
                 break;
+
             case 'Float':
-            case 'Money':
                 $customValue->float_data = $params['value'];
                 break;
+
+            case 'Money':
+                $customValue->decimal_data = number_format( $params['value'], 2, '.', '' );
+                break;
+
             case 'Memo':
                 $customValue->memo_data = $params['value'];
                 break;
@@ -152,8 +158,9 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
             case 'Int':
                 return 'int_data';
             case 'Float':
-            case 'Money':
                 return 'float_data';
+            case 'Money':
+                return 'decimal_data';
             case 'Memo':
                 return 'memo_data';
             case 'Date':
@@ -199,7 +206,11 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         if ($translateBoolean && $cf->data_type == 'Boolean') {
             return $this->$field ? 'yes' : 'no';
         }
-        
+
+        if ( $cf->data_type == 'Money' ) {
+            return number_format( $this->$field, 3, '.', '' );
+        }
+
         return $this->$field;
     }
 

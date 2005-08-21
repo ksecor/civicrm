@@ -441,12 +441,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     }                    
                     break;
+
                 case 'Select':
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                     break;
+
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
                     if ( ! $date ) {

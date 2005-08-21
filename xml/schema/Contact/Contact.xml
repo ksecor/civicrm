@@ -53,7 +53,7 @@
   <field>
        <name>sort_name</name>
        <type>varchar</type>
-       <length>64</length>
+       <length>128</length>
        <comment>Name used for sorting different contact types</comment>
   </field>
   <index>
@@ -69,7 +69,7 @@
   <field>
        <name>nick_name</name>
        <type>varchar</type>
-       <length>64</length>
+       <length>128</length>
        <import>true</import>
        <headerPattern>/^nick|(n(ick\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
