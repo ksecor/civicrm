@@ -170,12 +170,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign('groupTree', $this->_groupTree);
         $this->assign('groupId', $this->_groupId);
 
-        // do we need inactive options ?
-        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $inactiveNeeded = true;
-        } else {
-            $inactiveNeeded = false;
-        }
+        // u need inactive options only when editing stuff, not when displaying them
+        // on a per contact basis
+        $inactiveNeeded = false;
         
         // add the form elements
         foreach ($this->_groupTree as $group) {
