@@ -141,16 +141,23 @@ div.spacer {
   border: none;
 }
 
+#crm-container table.form-layout-compressed {
+  margin: 0em;
+  width: auto;
+  border-collapse: collapse;
+  border: none;
+}
+
 #crm-container .form-layout td {
   padding: 3px;
   white-space: nowrap;
   border: none;
 }
 
-#crm-container .form-layout td.label {
+#crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label {
   text-align: right;
   vertical-align: middle;
-  padding: 0em 0.25em 0em 0.75em;
+  padding: 0em 0.50em 0em 0.75em;
 }
 
 #crm-container div.status {

@@ -15,6 +15,8 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
 require_once '../modules/config.inc.php';
 require_once('DB.php');
 require_once 'CRM/Core/Config.php';
+require_once 'CRM/Utils/Tree.php';
+require_once 'CRM/Core/Error.php';
 
 $dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
 
@@ -58,20 +60,18 @@ foreach ($tables as $k => $v) {
     }
 }
 
-$frtable = array();
+$frTable = array();
 foreach ($tables as $key => $value) {
     if(!isset($value['foreignKey'])) {
         continue;
     }
 
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        $frtable[$value['name']][] = $v1['name'];
+        $frTable[$value['name']][$v1['table']] = $v1['name'];
     }
 }
-//print_r($frtable);
 
 $tree2 = array();
-
 foreach ($tree1 as $k => $v) {
 
     foreach ($v as $k1 => $v1) {
@@ -85,79 +85,106 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
-
-$tree3 = array();
-foreach ($tree2['civicrm_domain'] as $k => $v) {
-    if($tree2[$v] != 0) {
-        $tree3['civicrm_domain'][$v] = $tree2[$v];
-    }
-    unset($tree2[$v]);    
-}
-unset($tree2['civicrm_domain']);
-    
-foreach($tree2 as $k => $v) {
-    foreach ($tree3 as $key => $val) {
-        foreach ($val as $k1 => $v1) {
-            if ( in_array($k, $v1) && count($v)) {
-                //print_r(array_flip($v1));
-                $arKey = array_search($k, $v1);
-                unset($tree3[$key][$k1][$arKey]);
-                
-                $tree3[$key][$k1][$k] = $v;
-                unset($tree2[$k]);
-            }
-        }            
-    }
-}
-
 //print_r($tree2);
+//print_r($frTable);
 
-$a = getChildren(&$tree3, 'civicrm_domain');
-echo $a;
+$domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
-/*$tempDoneArray = array();
+foreach($tree2 as $key => $val) {
+    foreach($val as $k => $v) {
+        $node =& $domainTree->createNode($v);            
+        $domainTree->addNode($key, $node);
+        $fKey = $frTable[$v][$key];
+        $domainTree->addData($v, $fKey);
+        
+    }
+}
 
-if ( array_key_exists('civicrm_domain', $tree2) ) {
-    $tempDoneArray['civicrm_domain'] = $argv[1];
-    foreach( $tree2['civicrm_domain'] as $k => $v) {
-        $sql = 'SELECT id FROM '. $k .' WHERE domain_id = '. $argv[1] ;
-        $query = $db_domain->query($sql);
-        $ids = array();
-        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
-            $ids[] = $row['id'];
+
+//$domainTree->display();
+
+$tempTree = $domainTree->getTree();
+
+leafIter($tempTree['rootNode'], null, null);
+
+function leafIter(&$tree, $nameArray, $fKeyArray)
+{
+    if ( !isset($nameArray) ) {
+        $nameArray = array();
+        $fKeyArray = array();
+    }
+
+    $node = $tree;
+    
+    if ( count($node['children']) ) {
+        
+        $nameArray[] = $node['name'];
+        $fKeyArray[] = $node['data']['fKey'];
+        $tempNameArray = array_reverse($nameArray);
+        $tempFKeyArray = array_reverse($fKeyArray);
+        
+        
+        $table = array();
+        for ($idx = 0; $idx<count($tempNameArray); $idx++) {
+            $table[] = $tempNameArray[$idx];
         }
-        $tempDoneArray[$k] = implode(",", $ids);
+        
+        $tables = implode(" ,",$table);
+        
+        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
+        }
+        
+        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        
+        $whereClause = implode(" AND ", $whereCondition);
+        
+        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+
+        $command = "mysql -uroot civicrm -e '".$strQuery."'";
+
+        //echo $command."\n\n";
+
+        system($command);
+
+    } else {
+        $nameArray[] = $node['name'];
+        $fKeyArray[] = $node['data']['fKey'];
+        $nameArray = array_reverse($nameArray);
+        $fKeyArray = array_reverse($fKeyArray);
+        
+        
+        $table = array();
+        for ($idx = 0; $idx<count($nameArray); $idx++) {
+            $table[] = $nameArray[$idx];
+        }
+        
+        $tables = implode(" ,",$table);
+        
+        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
+        }
+        
+        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        
+        $whereClause = implode(" AND ", $whereCondition);
+        
+        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+
+        $command = "mysql -uroot civicrm -e '".$strQuery."'";
+
+        //echo $command."\n\n";
+
+        system($command);
     }
+   
+
+    foreach($node['children'] as &$childNode) {
+        
+        leafIter($childNode, $nameArray, $fKeyArray);      
+    }    
 }
 
-
-//print_r($doneArray);
-$doneArray = array();
-foreach($tempDoneArray as $k => $v) {
-    if( $k != 'civicrm_domain') {
-        foreach($tree2 as $key => $val) {
-            if ( $tempDoneArray[$key] != "" && $key != 'civicrm_domain' && array_key_exists($key, $tempDoneArray)) { 
-                if ( !array_key_exists($key, $doneArray) ) {              
-                    $sql = 'SELECT id FROM '. $key[$k] .' WHERE '.$val['fKey'][0].' IN ( '. $doneArray[$k] .' )' ;
-                    $query = $db_domain->query($sql);
-                    $ids = array();
-                    while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
-                        $ids[] = $row['id'];
-                    }
-                    
-                    $doneArray[$key] = implode(",", $ids);
-                }
-            } else {
-                $ids = '';
-                $doneArray[$key] = $ids;
-            }                    
-        }                
-    }
-}
-
-
-
-print_r($doneArray);*/
 
 exit(1);
 
@@ -578,20 +605,6 @@ function getSize( $maxLength ) {
         return 'CRM_Utils_Type::BIG';
     } 
     return 'CRM_Utils_Type::HUGE';
-}
-
-function getChildren(&$tree, $tableName)
-{
-    if (!is_array($tree)) {
-        // end condition for recursion
-        return $tableName;
-    }
- 
-    foreach ($tree[$tableName] as $k => $v) {
-        getChildren($v);
-    }
-
- 
 }
 
 ?>

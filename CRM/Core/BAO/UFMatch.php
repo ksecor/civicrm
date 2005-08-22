@@ -71,7 +71,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         }
 
         // have we already processed this user, if so early
-        // return
+        // return.
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
         if ( ! $update && $ufID == $user->$key ) {
@@ -86,6 +86,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         // make sure we load the mambo object to get valid information
         if ( $uf == 'Mambo' ) {
             $user->load( );
+        }
+
+        // if the id of the object is zero (true for drupal), return early
+        if ( $user->$key == 0 ) {
+            return;
         }
 
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );

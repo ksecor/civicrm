@@ -170,12 +170,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign('groupTree', $this->_groupTree);
         $this->assign('groupId', $this->_groupId);
 
-        // do we need inactive options ?
-        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $inactiveNeeded = true;
-        } else {
-            $inactiveNeeded = false;
-        }
+        // u need inactive options only when editing stuff, not when displaying them
+        // on a per contact basis
+        $inactiveNeeded = false;
         
         // add the form elements
         foreach ($this->_groupTree as $group) {
@@ -316,9 +313,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 // if we dont have a custom value, just continue
-                if ( CRM_Utils_Array::value( 'customValue', $field ) ) {
+                if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
                     $value = $field['customValue']['data'];
-                } else if ( CRM_Utils_Array::value( 'default_value', $field ) ) {
+                } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
                     $value = $viewMode ? null : $field['default_value'];
                 } else {
                     continue;
@@ -332,7 +329,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if ($field['data_type'] != 'Boolean' ) {
                         $defaults[$elementName] = $value;
                     } else if ( isset( $value ) ) {
-                        $defaults[$elementName] =  $value ? 'yes' : 'no';
+                        if ( is_numeric( $value ) ) {
+                            $value = $value ? 'yes' : 'no';
+                        }
+                        $defaults[$elementName] = strtolower( $value );
                     }
                     break;
                     
@@ -441,12 +441,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     }                    
                     break;
+
                 case 'Select':
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                     break;
+
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
                     if ( ! $date ) {

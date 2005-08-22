@@ -238,7 +238,7 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'Ad
 
 
 /**
- * Remove one or more contacts from an existing 'static' group
+ * Remove one or more contacts from an existing group
  * 
  * @param CRM_Contact $group       A valid group object (passed by reference).
  * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).

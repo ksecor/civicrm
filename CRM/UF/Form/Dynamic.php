@@ -88,7 +88,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_id      = $this->get( 'id' );
+        $this->_id      = $this->get( 'id'  );
         $this->_gid     = $this->get( 'gid' );
         if ( $this->get( 'register' ) ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
@@ -385,8 +385,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $custom_field_id = $cfID;
             $cf =& new CRM_Core_BAO_CustomField();
             $cf->id = $custom_field_id;
-            $cf->find();
-            while($cf->fetch()) {
+            if ( $cf->find( true ) ) {
                 switch($cf->html_type) {
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $value );
@@ -396,14 +395,13 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     $customValue = $date;
                     break;
                 case 'CheckBox':
-
                     $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
                     break;
                 default:
                     $customValue = $value;
                 }
             }
-
+            
             CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
         }
     }

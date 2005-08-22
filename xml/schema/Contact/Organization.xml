@@ -29,14 +29,14 @@
   <field>
        <name>organization_name</name>
        <type>varchar</type>
-       <length>64</length>
+       <length>128</length>
        <comment>Organization Name.</comment>
        <fulltext/>
   </field>
   <field>
        <name>legal_name</name>
        <type>varchar</type>
-       <length>64</length>
+       <length>128</length>
        <comment>Legal Name.</comment>
        <fulltext/>
   </field>

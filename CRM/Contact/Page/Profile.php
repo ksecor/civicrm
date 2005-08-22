@@ -35,6 +35,9 @@
  * 
  */ 
 
+require_once 'CRM/Contact/Selector/Profile.php';
+require_once 'CRM/Core/Selector/Controller.php';
+
 /**
  * This implements the profile page for all contacts. It uses a selector
  * object to do the actual dispay. The fields displayd are controlled by
@@ -67,13 +70,17 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
-        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE );
+        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
 
         $where  = array( );
-        $tables = array( );
+        $this->_tables = array( );
+
+        CRM_Core_Error::debug( 'p', $this->_fields );
 
         foreach ( $this->_fields as $key => $field ) {
-            $value = CRM_Utils_Request::retrieve( $field['name'] );
+            $nullObject = null;
+            $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
             if ( isset( $value ) ) {
                 $this->_fields[$key]['value'] = $value;
                 $this->_values[$key] = $value;
@@ -82,21 +89,20 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                 $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
 
                 list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
-                if ( isset( $tableName ) ) { 
-                    $tables[$tableName] = 1; 
+                if ( isset( $tableName ) ) {
+                    $this->_tables[$tableName] = 1; 
                 } 
             }
         }
 
         // get the permissions for this user
-        $where[] = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
+        $where[] = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
 
-        $clause = null; 
+        $this->_clause = null; 
         if ( ! empty( $where ) ) { 
-            $clause = implode( ' AND ', $where ); 
-        } 
-
-    }
+            $this->_clause = implode( ' AND ', $where ); 
+        }  
+   }
 
     /** 
      * run this page (figure out the action needed and perform it). 
@@ -104,6 +110,17 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      * @return void 
      */ 
     function run( ) {
+        $this->preProcess( );
+        
+        $selector =& new CRM_Contact_Selector_Profile( $this->_clause, $this->_tables );
+        $controller =& new CRM_Core_Selector_Controller($selector ,
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                        $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                        CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
+        $controller->setEmbedded( true );
+        $controller->run( );
+
+        return parent::run( );
     }
 
 }

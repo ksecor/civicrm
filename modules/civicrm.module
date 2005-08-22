@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -338,7 +338,8 @@ function civicrm_view_data($user ) {
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
         foreach ( $ufGroups as $id => $title ) {
-            $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, CRM_Core_Action::VIEW, false, true );
+            $page = new CRM_UF_Page_Dynamic( $userID, $id );
+            $data[$title] = $page->run( );
         }
     }
 

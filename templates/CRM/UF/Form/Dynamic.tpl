@@ -24,17 +24,15 @@
        </div>
     {/if}
 
-    <div class="form-item">
-    <dl>
+    <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}
         {assign var=n value=$field.name}
-        <dt>{$form.edit.$n.label}</dt><dd>{$form.edit.$n.html}</dd>
+        <tr><td class="label">{$form.edit.$n.label}</td><td>{$form.edit.$n.html}</td></tr>
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}
-            <dt>&nbsp;</dt><dd class="description">{ts}{$field.help_post}{/ts}</dd>
+            <tr><td>&nbsp;</td><td class="description">{ts}{$field.help_post}{/ts}</td></tr>
         {/if}
     {/foreach}
-    </dl>
-    </div>
+    </table>
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}

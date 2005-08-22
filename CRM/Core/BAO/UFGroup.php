@@ -40,7 +40,7 @@
 class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     const 
         PUBLIC_VISIBILITY   = 1,
-        PRIVATE_VISIBILITY  = 2,
+        ADMIN_VISIBILITY    = 2,
         LISTINGS_VISIBILITY = 4;
 
     /**
@@ -126,12 +126,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action ) { 
+    static function getListingFields( $action, $visibility ) {
         $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
  
         $fields = array( ); 
         foreach ( $ufGroups as $id => $title ) { 
-            $subset = self::getFields( $id, false, $action, false, 'Public User Pages and Listings' ); 
+            $subset = self::getFields( $id, false, $action, false, $visibility );
             $fields = array_merge( $fields, $subset ); 
         } 
         return $fields; 
@@ -188,7 +188,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $field->is_match = 1;
             }
             if ( $visibility ) {
-                $field->visibility = $visibility;
+                $clause = array( );
+                if ( $visibility & self::PUBLIC_VISIBILITY ) {
+                    $clause[] = 'visibility = "Public User Pages"';
+                }
+                if ( $visibility & self::ADMIN_VISIBILITY ) {
+                    $clause[] = 'visibility = "User and User Admin Only"';
+                }
+                if ( $visibility & self::LISTINGS_VISIBILITY ) {
+                    $clause[] = 'visibility = "Public User Pages and Listings"';
+                }
+                $field->whereAdd( implode( ' OR ' , $clause ) );
             }
 
             $field->orderBy('weight', 'field_name');
@@ -439,6 +449,107 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         return CRM_Contact_BAO_Contact::matchContact( $clause, $tables, $id );
     }
 
+    /**
+     * Given a contact id and a field set, return the values from the db
+     * for this contact
+     *
+     * @param int   $id     the contact id
+     * @param array $fields the profile fields of interest
+     * @param array $values the values for the above fields
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function getValues( $id, &$fields, &$values ) {
+        $contact = CRM_Contact_BAO_Contact::contactDetails( $id );
+        if ( ! $contact ) {
+            return;
+        }
+
+        foreach ( $fields as $name => $field ) {
+            $objName = $field['name'];
+
+            $index = $field['title'];
+            if ( $objName == 'state_province_id' ) {
+                if ( $contact->state ) {
+                    $values[$index] = $contact->state;
+                } else {
+                    $values[$index] = null;
+                }
+            } else if ( $objName == 'country_id' ) {
+                if ( $contact->country ) {
+                    $values[$index] = $contact->country;
+                } else {
+                    $values[$index] = null;
+                }
+            } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+                // make sure the custom field exists
+                $cf =& new CRM_Core_BAO_CustomField();
+                $cf->id = $cfID;
+                if ( ! $cf->find( true ) ) {
+                    continue;
+                }
+
+                // make sure the custom value exists
+                $cv =& new CRM_Core_BAO_CustomValue();
+                $cv->custom_field_id = $cfID;
+                $cv->entity_table = 'civicrm_contact';
+                $cv->entity_id = $contact->contact_id;
+                if ( ! $cv->find( true ) ) {
+                    continue;
+                }
+
+                $index = $cf->label;
+                switch($cf->html_type) {
+
+                case "Radio":
+                    if($cf->data_type == 'Boolean') {
+                        $customValue = $cv->getValue(true)? 'yes' : 'no';
+                    } else {
+                        $customValue = $cv->getValue(true);
+                    }
+                    $values[$index] = $customValue;
+                    break;
+
+                case "CheckBox":
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);
+                    $value = $cv->getValue(true);
+                    $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                    foreach($customOption as $val) {
+                        $checkVal = $val['value'];
+                        $checkName = $index . '[' . $checkVal .']';
+                        if (in_array($val['value'], $checkedData)) {
+                            $values[$checkName] = 1;
+                        } else {
+                            $values[$checkName] = 0;
+                        }
+                    }
+                    break;
+
+                case "Select Date":
+                    $values[$index] = $cv->getValue( true );
+                    break;
+
+                default:
+                    $customValue = $cv->getValue(true);
+                    $values[$index] = $customValue;
+                    break;
+                }
+            } else {
+                $values[$index] = $contact->$objName;
+            }
+
+            if ( $field['visibility'] == "Public User Pages and Listings" ) {
+                $url = CRM_Utils_System::url( 'civicrm/profile',
+                                              'reset=1&' . 
+                                              urlencode( $field['name'] ) .
+                                              '=' .
+                                              urlencode( $values[$index] ) );
+                $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+            }
+        }
+    }
 }
 
 ?>

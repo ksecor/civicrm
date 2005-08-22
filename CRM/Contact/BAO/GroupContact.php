@@ -447,7 +447,6 @@ GROUP BY  civicrm_contact_id ";
         }
         
         $dao =& new CRM_Contact_DAO_Contact();
-        echo $query;
         $dao->query($query);
         
         // this is quite inefficient, we need to change the return

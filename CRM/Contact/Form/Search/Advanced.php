@@ -301,7 +301,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $session ->set('isAdvanced','1');
 
         // get user submitted values
-        $this->_formValues = $this->controller->exportValues( $this->_name );
+        // get it from controller only if form has been submitted, else preProcess has set this
+        if ( ! empty( $_POST ) ) {
+            $this->_formValues = $this->controller->exportValues($this->_name);
+ 
+            // also reset the sort by character 
+            $this->_sortByCharacter = null; 
+            $this->set( 'sortByCharacter', null ); 
+        }
 
         // retrieve ssID values only if formValues is null, i.e. form has never been posted
         if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {

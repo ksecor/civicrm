@@ -64,7 +64,9 @@ define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm
  * IMPORTANT: Trailing slashes are required for CIVICRM_HTTPBASE and CIVICRM_RESOURCEBASE. 
  *
  * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/
- * these variables would be set as below. Modify as needed for your install.
+ * these variables would be set as below. Modify as needed for your install. If you do not
+ * have clean url's turned on, make sure CIVICRM_MAINMENU is valid for your install. 
+ * e.g. define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) 
  */
 define( 'CIVICRM_HTTPBASE'    , '/civicspace/'                     );
 define( 'CIVICRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );

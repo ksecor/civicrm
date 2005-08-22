@@ -195,7 +195,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         foreach ($dt as $key => $value) {
             $it[$key] = self::$_dataToLabels[$key];
         }
-        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form);"', '&nbsp;&nbsp;&nbsp;' );
+        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
@@ -289,22 +289,30 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             switch ( $dataType ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid integer as default value.';
+                    $errors['default_value'] = ts( 'Please enter a valid integer as default value.' );
                 }
                 break;
 
             case 'Float':
             case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid number as default value.';
+                    $errors['default_value'] = ts( 'Please enter a valid number as default value.' );
                 }
                 break;
                     
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.';
+                    $errors['default_value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
                 }
                 break;
+
+            case 'Boolean':
+                $default = strtolower($default);
+                if ( $default != ts('yes') && $default != ts('no') ) {
+                    $errors['default_value'] = ts( 'Please enter yes or no as default value.' );
+                }
+                break;
+
             case 'Country':
                 if( !empty($default) ) {
                     $fieldCountry = addslashes( $fields['default_value'] );
@@ -315,9 +323,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $result = $daoCountry->getDatabaseResult();
                     $row    = $result->fetchRow();
                     if (!($row))
-                        $errors['default_value'] = 'The invalid default value for Country Data Type';
+                        $errors['default_value'] = ts( 'The invalid default value for Country Data Type' );
                 }
                 break;
+
             case 'StateProvince':
                 if( !empty($default) ) {
                     $fieldStateProvince = addslashes( $fields['default_value'] );
@@ -329,7 +338,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $result = $daoState->getDatabaseResult();
                     $row    = $result->fetchRow();
                     if (!($row))
-                        $errors['default_value'] = 'The invalid default value for State/Province data type';
+                        $errors['default_value'] = ts( 'The invalid default value for State/Province data type' );
                 }
                 break;
             }
@@ -360,8 +369,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
                             if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] && !empty($fields['option_value'][$nextIndex]) ) {
 
-                                $errors['option_value['.$start.']'] = 'Duplicate Option values';
-                                $errors['option_value['.$nextIndex.']'] = 'Duplicate Option values'; 
+                                $errors['option_value['.$start.']']     = ts( 'Duplicate Option values' );
+                                $errors['option_value['.$nextIndex.']'] = ts( 'Duplicate Option values' );
                                 $_flagOption = 1;
                             }
                             $nextIndex++;
@@ -386,8 +395,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
                             if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
 
-                                $errors['option_label['.$start.']'] = 'Duplicate Option label';
-                                $errors['option_label['.$nextIndex.']'] = 'Duplicate Option label'; 
+                                $errors['option_label['.$start.']']     =  ts( 'Duplicate Option label' );
+                                $errors['option_label['.$nextIndex.']'] = ts( 'Duplicate Option label' );
                                 $_flagOption = 1;
                             }
                             $nextIndex++;
@@ -400,12 +409,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             for($i=1; $i<= self::NUM_OPTION; $i++) {
                 if (!$fields['option_label'][$i]) {
                     if ($fields['option_value'][$i]) {
-                        $errors['option_label['.$i.']'] = 'Option label cannot be empty';
+                        $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
                         $_flagOption = 1;
                     } else {
                         if ($fields['option_weight'][$i]) {
-                            $errors['option_label['.$i.']'] = 'Option label cannot be empty';
-                            $errors['option_value['.$i.']'] = 'Option value cannot be empty';
+                            $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
+                            $errors['option_value['.$i.']'] = ts( 'Option label cannot be empty' );
                             $_flagOption = 1;
                         } else {
                             //The Custom Option row is empty
@@ -414,7 +423,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     }
                 } else {
                     if (!$fields['option_value'][$i]) {
-                        $errors['option_value['.$i.']'] = 'Option value cannot be empty';
+                        $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
                             $_flagOption = 1;
                     }
                 }
@@ -422,12 +431,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     if ( $dataType == 'Int') {
                         if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
                             $_flagOption = 1;
-                            $errors['option_value['.$i.']'] = 'Please enter a valid integer.';
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid integer.' );
                         }
                     } else {
                         if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) ) {
                             $_flagOption = 1;
-                            $errors['option_value['.$i.']'] = 'Please enter a valid number.';
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid number.' );
                         }
                     }
                 }
@@ -532,8 +541,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $customField->default_value = $daoCountry->id;            
                 break;
                 
+            case 'Radio':
+                $customField->default_value = strtolower( $params['default_value'] );
+
             default:     
                 $customField->default_value = $params['default_value'];
+
             }
         } 
        

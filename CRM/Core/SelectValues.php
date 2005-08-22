@@ -373,6 +373,7 @@ class CRM_Core_SelectValues {
             $_visibility = array(
                                  'User and User Admin Only'       => 'User and User Admin Only',
                                  'Public User Pages'              => 'Public User Pages',
+                                 'Public User Pages and Listings' => 'Public User Pages and Listings',
                                  );
         }
         return $_visibility;

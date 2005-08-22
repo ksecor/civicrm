@@ -127,6 +127,7 @@ class CRM_Utils_Tree {
 
         // search children of the subtree
         foreach ($parentNode['children'] as &$childNode) {
+            //print_r($childNode);
             if ($node =& $this->findNode($childNode, $name)) {
                 return $node;
             }
@@ -194,14 +195,11 @@ class CRM_Utils_Tree {
      *
      * @access public
      */
-    public function addData($parentName, $data, $key=null)
+    public function addData($parentName, $data)
     {
         $parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
-        
-        if ( !empty($key) ) {
-            $parentNode['data'][$key] =& $data;
-        } else {
-            $parentNode['data'][] =& $data;
+        if ( empty($parentNode['data']['fKey']) )  {
+            $parentNode['data']['fKey'] =& $data;
         }
     }
 
