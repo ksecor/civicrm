@@ -83,17 +83,17 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data option?');
             self::$_actionLinks = array(
-                                        CRM_Core_Action::VIEW    => array(
-                                                                          'name'  => ts('View'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View Custom Option'),
-                                                                          ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Option'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Custom Option') 
+                                                                          ),
+                                        CRM_Core_Action::VIEW    => array(
+                                                                          'name'  => ts('View'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                          'qs'    => 'action=view&id=%%id%%',
+                                                                          'title' => ts('View Custom Option'),
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),

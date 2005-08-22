@@ -75,12 +75,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data field?');
             self::$_actionLinks = array(
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview Field Display'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'action=preview&reset=1&gid=%%gid%%&id=%%id%%',
-                                                                          'title' => ts('Preview Custom Field'),
-                                                                          ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Field'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',
@@ -92,6 +86,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'reset=1&action=browse&gid=%%gid%%&fid=%%id%%',
                                                                           'title' => ts('List Custom Options'),
+                                                                          ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview Field Display'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=preview&reset=1&gid=%%gid%%&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Field'),
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
