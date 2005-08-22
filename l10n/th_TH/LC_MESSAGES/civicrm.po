@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-19 12:36+0200\n"
+"POT-Creation-Date: 2005-08-22 13:03+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2355,6 +2355,10 @@ msgid "Float Data"
 msgstr ""
 
 #: CRM/Core/DAO/CustomValue.php
+msgid "Decimal Data"
+msgstr ""
+
+#: CRM/Core/DAO/CustomValue.php
 msgid "Char Data"
 msgstr ""
 
@@ -2756,6 +2760,70 @@ msgstr ""
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
 msgstr ""
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Please enter a valid integer as default value."
+msgstr "กรุณาใส่วันที่และเวลาที่ถูกต้องสำหรับการโทรหา"
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Please enter a valid number as default value."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
+
+#: CRM/Custom/Form/Field.php
+msgid ""
+"Please enter a valid date as default value using YYYY-MM-DD format. Example: "
+"2004-12-31."
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "yes"
+msgstr "ใช่"
+
+#: CRM/Custom/Form/Field.php
+msgid "no"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Please enter yes or no as default value."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
+
+#: CRM/Custom/Form/Field.php
+msgid "The invalid default value for Country Data Type"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "The invalid default value for State/Province data type"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Duplicate Option values"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Duplicate Option label"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Option label cannot be empty"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Option value cannot be empty"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Please enter a valid integer."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Please enter a valid number."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 
 #: CRM/Custom/Form/Field.php
 msgid "Your custom field \"%1\" has been saved"
@@ -5510,6 +5578,3 @@ msgstr ""
 #, fuzzy
 #~ msgid "Bounce Type"
 #~ msgstr "ประเภทของการติดต่อ"
-
-#~ msgid "Please enter a valid date and time for this call."
-#~ msgstr "กรุณาใส่วันที่และเวลาที่ถูกต้องสำหรับการโทรหา"
