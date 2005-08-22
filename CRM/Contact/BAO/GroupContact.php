@@ -413,9 +413,10 @@ LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_c
 LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND
                                       civicrm_email.is_primary = 1)
 LEFT JOIN civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id)
-WHERE civicrm_group_contact.group_id = {$group->id} 
-AND     (
-            (civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') ."')
+WHERE ((
+            civicrm_group_contact.group_id = {$group->id} 
+        AND     
+            civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') ."')
             OR 
             (civicrm_group_contact.status <> 'Removed' AND civicrm_contact.id IN ( $result ))
         ) ";

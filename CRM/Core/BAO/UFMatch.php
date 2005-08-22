@@ -147,7 +147,8 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_contact.id  = civicrm_location.entity_id AND 
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = '" . $mail . "'";
+WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String') 
+                                    . "'";
   
             $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
@@ -193,7 +194,8 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
                                 civicrm_email.is_primary = 1    )
-WHERE     civicrm_contact.id = " . $contactId;
+WHERE     civicrm_contact.id = " 
+                            . CRM_Utils_Type::escape($contactId, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $query );

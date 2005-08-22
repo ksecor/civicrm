@@ -170,7 +170,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.id = $groupId";
+            $strWhere .= " AND civicrm_custom_group.id = " 
+                      .  CRM_Utils_Type::escape($groupId, 'Integer');
             $strWhere .= " AND civicrm_custom_group.style = 'Tab'";
             $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
         } else if ($groupId == 0){
@@ -387,7 +388,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
          $queryString = "SELECT count(*) 
                          FROM   civicrm_custom_value, civicrm_custom_field 
                          WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
-                                civicrm_custom_field.custom_group_id = $groupId";
+                                civicrm_custom_field.custom_group_id = " 
+                      . CRM_Utils_Type::escape($groupId, 'Integer');
 
          // this might be faster
          // $queryString = "SELECT count(*) 
@@ -464,7 +466,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strWhere = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
                             AND civicrm_custom_group.is_active = 1
                             AND civicrm_custom_field.is_active = 1
-                            AND civicrm_custom_group.id = $groupId";
+                            AND civicrm_custom_group.id = " .
+                            CRM_Utils_Type::escape($groupId, 'Integer');
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
 
         // final query string
