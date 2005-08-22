@@ -313,9 +313,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 // if we dont have a custom value, just continue
-                if ( CRM_Utils_Array::value( 'customValue', $field ) ) {
+                if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
                     $value = $field['customValue']['data'];
-                } else if ( CRM_Utils_Array::value( 'default_value', $field ) ) {
+                } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
                     $value = $viewMode ? null : $field['default_value'];
                 } else {
                     continue;
@@ -329,6 +329,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if ($field['data_type'] != 'Boolean' ) {
                         $defaults[$elementName] = $value;
                     } else if ( isset( $value ) ) {
+                        if ( is_numeric( $value ) ) {
+                            $value = $value ? 'yes' : 'no';
+                        }
                         $defaults[$elementName] = strtolower( $value );
                     }
                     break;

@@ -470,17 +470,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         foreach ( $fields as $name => $field ) {
             $objName = $field['name'];
 
+            $index = $field['title'];
             if ( $objName == 'state_province_id' ) {
                 if ( $contact->state ) {
-                    $values[$field['title']] = $contact->state;
+                    $values[$index] = $contact->state;
                 } else {
-                    $values[$field['title']] = null;
+                    $values[$index] = null;
                 }
             } else if ( $objName == 'country_id' ) {
                 if ( $contact->country ) {
-                    $values[$field['title']] = $contact->country;
+                    $values[$index] = $contact->country;
                 } else {
-                    $values[$field['title']] = null;
+                    $values[$index] = null;
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
@@ -499,6 +500,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     continue;
                 }
 
+                $index = $cf->label;
                 switch($cf->html_type) {
 
                 case "Radio":
@@ -507,7 +509,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     } else {
                         $customValue = $cv->getValue(true);
                     }
-                    $values[$cf->label] = $customValue;
+                    $values[$index] = $customValue;
                     break;
 
                 case "CheckBox":
@@ -516,7 +518,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                     foreach($customOption as $val) {
                         $checkVal = $val['value'];
-                        $checkName = $cf->label . '[' . $checkVal .']';
+                        $checkName = $index . '[' . $checkVal .']';
                         if (in_array($val['value'], $checkedData)) {
                             $values[$checkName] = 1;
                         } else {
@@ -526,16 +528,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case "Select Date":
-                    $values[$cf->label] = $cv->getValue( true );
+                    $values[$index] = $cv->getValue( true );
                     break;
 
                 default:
                     $customValue = $cv->getValue(true);
-                    $values[$cf->label] = $customValue;
+                    $values[$index] = $customValue;
                     break;
                 }
             } else {
-                $values[$field['title']] = $contact->$objName;
+                $values[$index] = $contact->$objName;
             }
 
             if ( $field['visibility'] == "Public User Pages and Listings" ) {
@@ -543,8 +545,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                               'reset=1&' . 
                                               urlencode( $field['name'] ) .
                                               '=' .
-                                              urlencode( $values[$field['title']] ) );
-                $values[$field['title']] = '<a href="' . $url . '">' . $values[$field['title']] . '</a>';
+                                              urlencode( $values[$index] ) );
+                $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
             }
         }
     }
