@@ -41,7 +41,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     const 
         PUBLIC_VISIBILITY   = 1,
         PRIVATE_VISIBILITY  = 2,
-        LISTINGS_VISIBILITY = 4,
+        LISTINGS_VISIBILITY = 4;
+
     /**
      * cache the match clause used in this transaction
      *
