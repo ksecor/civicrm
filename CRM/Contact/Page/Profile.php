@@ -76,8 +76,6 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
         $where  = array( );
         $this->_tables = array( );
 
-        CRM_Core_Error::debug( 'p', $this->_fields );
-
         foreach ( $this->_fields as $key => $field ) {
             $nullObject = null;
             $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
