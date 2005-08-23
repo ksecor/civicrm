@@ -41,12 +41,12 @@ $tables = orderTables( $tables );
 $tree1 = array();
 
 if ( empty($argv[1]) ) {
-    echo "Usage: php domainDumps.php <value> \n\n";
+    echo "Usage: php domainDumps.php <domain value> \n\n";
     exit(1);
 }
 
 $domainId = $argv[1];
-
+$backupPath = $argv[2]; 
 
 foreach ($tables as $k => $v) {
     $tableName = $k;
@@ -136,18 +136,36 @@ function domainDump( &$tree, $nameArray, $frTable, $domainId )
     $whereCondition[] = "civicrm_domain.id = ".$domainId;
     
     $whereClause = implode(" AND ", $whereCondition);
-    
-    $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "/tmp/'. $tempNameArray[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+
+    $fileName = '/home/siddharth/backupsql/'. $tempNameArray[0].".sql";
+
+    //file exist counter
+    $counter = 0;
+    while  ( file_exists($fileName) ) {
+        ++$counter;
+        $fileName = '/home/siddharth/backupsql/'.$tempNameArray[0]."".$counter.".sql";
+    }
+
+    $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "'. $fileName .'" FROM '. $tables .' WHERE '. $whereClause ;
     
     $command = "mysql -uroot civicrm -e '".$strQuery."'";
     
     echo $command."\n\n";
     
-    $fileName = '/tmp/'. $tempNameArray[0];
-    if ( !file_exists($fileName) ) {
-            system($command);
-    }
-        
+    system($command);
+
+    //handle the mysql stat error
+    chmod($fileName, 0755); 
+
+    // mysql query to load data from files
+    
+    $fp = fopen('/home/siddharth/backupsql/LOADBACKUP.SQL', 'a+');
+
+    $loadQuery = "mysql -uroot civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
+    
+    fwrite($fp, $loadQuery);
+    fclose($fp);
+    
     foreach($node['children'] as &$childNode) {
         domainDump($childNode, $nameArray, $frTable, $domainId);      
     }    
