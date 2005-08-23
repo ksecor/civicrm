@@ -266,5 +266,102 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         
         $customValue->save();
     }
+
+
+    /**
+     * Get the 'SELECT' query for getting contacts id's 
+     * which match all the field_id => value parameters
+     *
+     * For example given the following parameter
+     *       custom_field_1 => value1
+     *       custom_field_2 => value2
+     *
+     * The function returns a select statement which will
+     * return contact id's which have a value1 and value2
+     * for custom_field_1 and custom_field_2
+     *
+     * @param array(ref)  $customField
+     *
+     * @return string $customValueSQL
+     *
+     * @access public
+     * @static
+     */
+    public static function whereClause(&$customField)
+    {
+        CRM_Core_Error::le_method();
+
+
+        CRM_Core_Error::debug_var('customField', $customField);
+
+        /*
+
+        The query below works fine (using self joins)
+
+SELECT t1.entity_id
+
+FROM civicrm_custom_value t1,
+     civicrm_custom_value t2,
+     civicrm_custom_value t3
+ 
+WHERE t1.custom_field_id = 1
+  AND t2.custom_field_id = 2
+  AND t3.custom_field_id = 5
+ 
+  AND t1.int_data = 1
+  AND t2.char_data LIKE '%Congress%'
+  AND t3.char_data LIKE '%PhD%'
+ 
+  AND t1.entity_id = t2.entity_id
+  AND t2.entity_id = t3.entity_id;
+
+        */
+
+
+        // get number of tables needed
+        $numTable = count($customField);
+        if(!$numTable) {
+            return "";
+        }
+
+        $strSelect = 'SELECT t1.entity_id';
+        $strFrom = 'FROM';
+        $customFieldId = array_keys($customField);
+        CRM_Core_Error::debug_var('customFieldId', $customFieldId);
+
+        for($i=1; $i<=$numTable; $i++) { 
+            CRM_Core_Error::debug_log_message("processing loop $i");           
+            $fieldId = $customFieldId[$i-1];
+            CRM_Core_Error::debug_var('fieldId', $fieldId);
+            $strFrom .= " civicrm_custom_value t$i,";
+            $strWhere1 .= " t$i.custom_field_id = $fieldId AND"; 
+            // need to make it work for others besides char data
+            //$strWhere2 .= " t$i.?? AND";
+            $strWhere2 .= " t$i.char_data LIKE '%". $customField[$fieldId] . "%' AND";
+            if($i==$numTable) {
+                continue;
+            }
+            $strWhere3 .= " t$i.entity_id = t" . ($i+1) . '.entity_id AND';
+        }
+        
+        $strFrom = rtrim($strFrom, ',');
+
+        //preg_replace($pattern, $replacement, $string)
+        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
+        $strWhere3 = preg_replace("/(.*) AND$/", '$1', $strWhere3);
+        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
+
+        CRM_Core_Error::debug_var('strSelect', $strSelect);
+        CRM_Core_Error::debug_var('strFrom', $strFrom);
+        CRM_Core_Error::debug_var('strWhere1', $strWhere1);
+        CRM_Core_Error::debug_var('strWhere2', $strWhere2);
+        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
+
+        $customValueSQL = " AND civicrm_contact.id IN ( $strSelect $strFrom WHERE $strWhere1 $strWhere2 $strWhere3 )";
+
+        CRM_Core_Error::debug_var('customValueSQL', $customValueSQL);
+
+        CRM_Core_Error::ll_method();
+    }
 }
 ?>
