@@ -144,7 +144,8 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
                      FROM civicrm_phone, civicrm_location 
                      WHERE civicrm_phone.location_id = civicrm_location.id
                        AND civicrm_location.entity_table = 'civicrm_contact'
-                       AND civicrm_location.entity_id = $contactId";
+                       AND civicrm_location.entity_id = " .
+                       CRM_Utils_Type::escape($contactId, 'Integer');
         
         $phone->query($strQuery);
         

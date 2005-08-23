@@ -770,6 +770,31 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         }
         
         //Start Custom data Processing 
+
+        /*
+
+        The query below works fine (using self joins)
+
+SELECT t1.entity_id
+
+FROM civicrm_custom_value t1,
+     civicrm_custom_value t2,
+     civicrm_custom_value t3
+ 
+WHERE t1.custom_field_id = 1
+  AND t2.custom_field_id = 2
+  AND t3.custom_field_id = 5
+ 
+  AND t1.int_data = 1
+  AND t2.char_data LIKE '%Congress%'
+  AND t3.char_data LIKE '%PhD%'
+ 
+  AND t1.entity_id = t2.entity_id
+  AND t2.entity_id = t3.entity_id;
+
+        */
+
+
         foreach ($fv as $k => $v) {
             if ( substr( $k, 0, 10 ) != 'customData' ) {
                 continue;

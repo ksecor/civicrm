@@ -392,47 +392,30 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         $query = '';
-        if ( $returnProperties == null ) {
+        if ( empty($returnProperties) ) {
             $query = "SELECT * , civicrm_contact.id as civicrm_contact_id";
         } else {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
             $query .= implode( ',', $returnProperties );
         }
         
-        if ( $groupDAO->saved_search_id != NULL ) {
-            $formValues =& CRM_Contact_BAO_SavedSearch::getFormValues( $groupDAO->saved_search_id );
-            $result     =  CRM_Contact_BAO_Contact::searchQuery($formValues, $offset, $row_count,
-                                                                null, false, null, null,
-                                                                true);
-           
-
-            $query .= " 
-FROM civicrm_contact 
-LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                      civicrm_contact.id = civicrm_location.entity_id )
-LEFT OUTER JOIN civicrm_email    ON (civicrm_location.id = civicrm_email.location_id AND
-                                      civicrm_email.is_primary = 1)
-LEFT JOIN civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id)
-WHERE civicrm_group_contact.group_id = {$group->id} 
-AND     (
-            (civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') ."')
-            OR 
-            (civicrm_group_contact.status <> 'Removed' AND civicrm_contact.id IN ( $result ))
-        ) ";
-
-        } else {
-            $query .= "
-FROM       civicrm_contact
-LEFT JOIN  civicrm_group_contact ON (civicrm_contact.id =civicrm_group_contact.contact_id )
-LEFT JOIN  civicrm_subscription_history ON (civicrm_subscription_history.contact_id = civicrm_contact.id  )
-LEFT JOIN  civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                 civicrm_contact.id = civicrm_location.entity_id)
-LEFT JOIN  civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-WHERE civicrm_subscription_history.status = '" . CRM_Utils_Type::escape($status, 'String') ."' 
-AND civicrm_group_contact.status = '" . CRM_Utils_Type::escape($status, 'String') . "'  
-AND civicrm_group_contact.group_id = {$group->id} 
-GROUP BY  civicrm_contact_id ";
-        }
+//         if ( $groupDAO->saved_search_id != NULL ) {
+        $fv = array(
+            'cb_group'                  => array($group->id => true),
+            'cb_group_contact_status'   => array($status => true)
+        );
+        
+        $tables = array(
+            self::getTableName() => true,
+            CRM_Contact_BAO_Contact::getTableName() => true, 
+            CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
+        );
+        
+        
+        $where = CRM_Contact_BAO_Contact::whereClause($fv, false, $tables);
+        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
+        $from = CRM_Contact_BAO_Contact::fromClause($tables);
+        $query .= " $from WHERE $permission AND $where ";
         
         if ( $sort != null ) {
             $order = array( );

@@ -186,7 +186,7 @@ function crm_delete_group(&$group) {
  * @access public
  */
 
-function crm_add_group_contacts(&$group, $contacts, $status = 'Added',$method = 'Admin') {
+function crm_add_group_contacts(&$group, $contacts, $status = 'Added', $method = 'Admin' ) {
     _crm_initialize( );
 
     foreach($contacts as $contact){

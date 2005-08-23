@@ -101,24 +101,25 @@ class CRM_Utils_Tree {
     /**
      * Find a node that matches the given string
      *
-     * @param array (ref) $parentNode which parent node should we search in ?
      * @param string      $name       name of the node we are searching for.
+     * @param array (ref) $parentNode which parent node should we search in ?
      *
      * @return array(ref) | false node if found else false
      *
      * @access public
      */
-    public function &findNode(&$parentNode, $name)
+    //public function &findNode(&$parentNode, $name)
+    public function &findNode($name, &$parentNode="")
     {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('parentNode', $parentNode);
-        //CRM_Core_Error::debug_var('name', $name);
+        // if no parent node specified, please start from root node
+        if(!$parentNode) {
+            $parentNode =& $this->tree['rootNode'];
+        }
 
         // first check the nodename of subtree itself
         if ($parentNode['name'] == $name) {
             return $parentNode;
         }
-
 
         // no children ? return false
         if ($this->isLeafNode($node)) {
@@ -128,7 +129,8 @@ class CRM_Utils_Tree {
         // search children of the subtree
         foreach ($parentNode['children'] as &$childNode) {
             //print_r($childNode);
-            if ($node =& $this->findNode($childNode, $name)) {
+            //if ($node =& $this->findNode($childNode, $name)) {
+            if ($node =& $this->findNode($name, $childNode)) {
                 return $node;
             }
         }
@@ -181,7 +183,8 @@ class CRM_Utils_Tree {
      */
     public function addNode($parentName, &$node)
     {
-        $parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
+        $parentNode =& $this->findNode($parentName);
+     
         $parentNode['children'][] =& $node;
     }
 
@@ -195,11 +198,14 @@ class CRM_Utils_Tree {
      *
      * @access public
      */
-    public function addData($parentName, $data)
+    public function addData($parentName, $childName, $data)
     {
-        $parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
-        if ( empty($parentNode['data']['fKey']) )  {
-            $parentNode['data']['fKey'] =& $data;
+        if ($parentNode =& $this->findNode($parentName)) {
+            foreach ($parentNode['children'] as &$childNode ) {
+                if ($childNode =& $this->findNode($childName, $parentNode) ) {
+                    $childNode['data']['fKey'] =& $data;
+                }
+            }
         }
     }
 
@@ -229,7 +235,6 @@ class CRM_Utils_Tree {
     {
         print_r($this->tree);
     }
-
 }
 
 ?>

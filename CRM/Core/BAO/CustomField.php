@@ -144,7 +144,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $cvTable = CRM_Core_DAO_CustomValue::getTableName();
         $queryString = "SELECT count(*) 
                         FROM   $cvTable 
-                        WHERE  $cvTable.custom_field_id = $fieldId";
+                        WHERE  $cvTable.custom_field_id = " .
+                        CRM_Utils_Type::escape($fieldId, 'Integer');
 
         // dummy dao needed
         $crmDAO =& new CRM_Core_DAO();

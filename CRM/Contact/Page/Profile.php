@@ -74,14 +74,15 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
 
         $where  = array( );
+        $criteria = array( );
         $this->_tables = array( );
 
-        CRM_Core_Error::debug( 'p', $this->_fields );
-
+        $where[] = " ( civicrm_contact.contact_type = 'Individual' ) ";
         foreach ( $this->_fields as $key => $field ) {
             $nullObject = null;
             $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
             if ( isset( $value ) ) {
+                $criteria[$field['title']] = $value;
                 $this->_fields[$key]['value'] = $value;
                 $this->_values[$key] = $value;
 
@@ -94,14 +95,10 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                 } 
             }
         }
-
-        // get the permissions for this user
-        $where[] = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
-
-        $this->_clause = null; 
-        if ( ! empty( $where ) ) { 
-            $this->_clause = implode( ' AND ', $where ); 
-        }  
+        
+        $template = CRM_Core_Smarty::singleton( );
+        $template->assign( 'criteria', $criteria );
+        $this->_clause = implode( ' AND ', $where ); 
    }
 
     /** 

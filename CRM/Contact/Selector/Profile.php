@@ -195,6 +195,7 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
 
         $sql .= CRM_Contact_BAO_Contact::fromClause( $this->_tables );
         $sql .= ' WHERE ' . $this->_clause;
+        $sql .= ' ORDER BY civicrm_contact.sort_name ASC ';
 
         if ( $rowCount > 0 ) {
             $sql .= " LIMIT $offset, $rowCount ";

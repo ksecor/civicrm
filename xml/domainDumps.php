@@ -18,13 +18,6 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
 
-$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
-
-$db_domain = DB::connect($dsn_domain);
-if ( DB::isError( $db_domain ) ) {
-    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
-}
-
 $file = 'schema/Schema.xml';
 
 $sqlCodePath = '../sql/';
@@ -47,6 +40,14 @@ $tables = orderTables( $tables );
 
 $tree1 = array();
 
+if ( empty($argv[1]) ) {
+    echo "Usage: php domainDumps.php <domain value> \n\n";
+    exit(1);
+}
+
+$domainId = $argv[1];
+$backupPath = $argv[2]; 
+
 foreach ($tables as $k => $v) {
     $tableName = $k;
     $tree1[$tableName] = array();
@@ -60,6 +61,7 @@ foreach ($tables as $k => $v) {
     }
 }
 
+//create a foregin key link table
 $frTable = array();
 foreach ($tables as $key => $value) {
     if(!isset($value['foreignKey'])) {
@@ -71,9 +73,9 @@ foreach ($tables as $key => $value) {
     }
 }
 
+
 $tree2 = array();
 foreach ($tree1 as $k => $v) {
-
     foreach ($v as $k1 => $v1) {
         if (!isset($tree2[$v1])) {
             $tree2[$v1] = array();
@@ -85,106 +87,89 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
-//print_r($tree2);
-//print_r($frTable);
-
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
     foreach($val as $k => $v) {
-        $node =& $domainTree->createNode($v);            
-        $domainTree->addNode($key, $node);
-        $fKey = $frTable[$v][$key];
-        $domainTree->addData($v, $fKey);
-        
+        $node =& $domainTree->findNode($v);
+        if(!$node) {
+            $node =& $domainTree->createNode($v);            
+        }
+        $domainTree->addNode($key, $node);               
+    }
+}
+ 
+foreach($frTable as $key => $val) {
+    foreach($val as $k => $v ) {
+        $fKey = $frTable[$key];
+        $domainTree->addData($k, $key, $fKey);
     }
 }
 
-
-//$domainTree->display();
 
 $tempTree = $domainTree->getTree();
 
-leafIter($tempTree['rootNode'], null, null);
+domainDump($tempTree['rootNode'], null, $frTable, $domainId);
 
-function leafIter(&$tree, $nameArray, $fKeyArray)
+function domainDump( &$tree, $nameArray, $frTable, $domainId )
 {
     if ( !isset($nameArray) ) {
         $nameArray = array();
-        $fKeyArray = array();
     }
 
     $node = $tree;
-    
-    if ( count($node['children']) ) {
-        
-        $nameArray[] = $node['name'];
-        $fKeyArray[] = $node['data']['fKey'];
-        $tempNameArray = array_reverse($nameArray);
-        $tempFKeyArray = array_reverse($fKeyArray);
-        
-        
-        $table = array();
-        for ($idx = 0; $idx<count($tempNameArray); $idx++) {
-            $table[] = $tempNameArray[$idx];
-        }
-        
-        $tables = implode(" ,",$table);
-        
-        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
-        }
-        
-        $whereCondition[] = "".$nameArray[$idx].".id = 1";
-        
-        $whereClause = implode(" AND ", $whereCondition);
-        
-        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
 
-        $command = "mysql -uroot civicrm -e '".$strQuery."'";
+    $nameArray[] = $node['name'];
+    $tempNameArray = array_reverse($nameArray);
 
-        //echo $command."\n\n";
-
-        system($command);
-
-    } else {
-        $nameArray[] = $node['name'];
-        $fKeyArray[] = $node['data']['fKey'];
-        $nameArray = array_reverse($nameArray);
-        $fKeyArray = array_reverse($fKeyArray);
-        
-        
-        $table = array();
-        for ($idx = 0; $idx<count($nameArray); $idx++) {
-            $table[] = $nameArray[$idx];
-        }
-        
-        $tables = implode(" ,",$table);
-        
-        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
-        }
-        
-        $whereCondition[] = "".$nameArray[$idx].".id = 1";
-        
-        $whereClause = implode(" AND ", $whereCondition);
-        
-        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
-
-        $command = "mysql -uroot civicrm -e '".$strQuery."'";
-
-        //echo $command."\n\n";
-
-        system($command);
+    $table = array();
+    for ($idx = 0; $idx<count($nameArray); $idx++) {
+        $table[] = $nameArray[$idx];
     }
-   
+    
+    $tables = implode(", ",$table);
+    for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+        $foreignKey = $tempNameArray[$idx+1];
+        $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
+    }
+    
+    $whereCondition[] = "civicrm_domain.id = ".$domainId;
+    
+    $whereClause = implode(" AND ", $whereCondition);
 
+    $fileName = '/home/siddharth/backupsql/'. $tempNameArray[0].".sql";
+
+    //file exist counter
+    $counter = 0;
+    while  ( file_exists($fileName) ) {
+        ++$counter;
+        $fileName = '/home/siddharth/backupsql/'.$tempNameArray[0]."".$counter.".sql";
+    }
+
+    $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "'. $fileName .'" FROM '. $tables .' WHERE '. $whereClause ;
+    
+    $command = "mysql -uroot civicrm -e '".$strQuery."'";
+    
+    echo $command."\n\n";
+    
+    system($command);
+
+    //handle the mysql stat error
+    chmod($fileName, 0755); 
+
+    // mysql query to load data from files
+    
+    $fp = fopen('/home/siddharth/backupsql/LOADBACKUP.SQL', 'a+');
+
+    $loadQuery = "mysql -uroot civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
+    
+    fwrite($fp, $loadQuery);
+    fclose($fp);
+    
     foreach($node['children'] as &$childNode) {
-        
-        leafIter($childNode, $nameArray, $fKeyArray);      
+        domainDump($childNode, $nameArray, $frTable, $domainId);      
     }    
 }
-
 
 exit(1);
 

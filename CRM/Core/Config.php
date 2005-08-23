@@ -329,7 +329,7 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
             $this->uploadDir = CIVICRM_UPLOADDIR;
-            if ( ! $this->uploadDir[-1] != DIRECTORY_SEPARATOR ) {
+            if ( substr( $this->uploadDir, -1, 1 ) != DIRECTORY_SEPARATOR ) { 
                 $this->uploadDir .= DIRECTORY_SEPARATOR;
             }
 

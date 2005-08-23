@@ -119,7 +119,10 @@ function civicrm_perm()
     civicrm_initialize( );
 
     // static permissions
-    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM', 'access CiviCRM' );
+    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
+                   'edit groups', 'administer CiviCRM', 
+                   'access CiviCRM Profile Listings',
+                   'access CiviCRM' );
 
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
