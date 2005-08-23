@@ -100,14 +100,14 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         $query = array();
         
         /* Query for permissions granted directly to the contact */
-        $query[] = "SELECT      *, 1 as override
+        $query[] = "SELECT      {$t['ACL']}.*, 1 as override
                     FROM        {$t['ACL']}
                     INNER JOIN  {$t['Contact']}
                             ON  {$t['ACL']}.entity_table = {$t['Contact']}
                     WHERE       ($where)";
 
         /* Query for permissions granted to the contact through an ACL group */
-        $query[] = "SELECT      *, 1 as override
+        $query[] = "SELECT      {$t['ACL']}.*, 1 as override
                     FROM        {$t['ACL']}
                     INNER JOIN  {$t['ACLGroupJoin']}
                             ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
@@ -116,7 +116,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                     WHERE       ($where)";
 
         /* Query for permissions granted to the contact through a group */
-        $query[] = "SELECT      *, 0 as override
+        $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     INNER JOIN  {$t['GroupContact']}
                             ON  ({$t['ACL']}.entity_table = {$t['Group']}
@@ -131,7 +131,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
 
         /* Query for permissions granted through an ACL group to a Contact
          * group */
-        $query[] = "SELECT      *, 0 as override
+        $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     INNER JOIN  {$t['ACLGroupJoin']}
                             ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
@@ -194,7 +194,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
             $denies = '(NOT (' . implode('OR', $override) .") AND $denies)";
         }
 
-        return "$allows AND NOT $denies";
+        return "($allows AND NOT $denies)";
     }
 
     /**
@@ -220,6 +220,95 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         }
 
         return CRM_Contact_BAO_SavedSearch::whereClause($id, $tables);
+    }
+
+
+    /** 
+     * Get all ACLs for a given contact
+     *
+     * @param int $contact_id   -   The contact ID
+     * @param array $acl        -   Assoc array of the contact's ACLs
+     * @param array $groups     -   Assoc array of the contact's ACL groups
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function getContactACL($contact_id, &$acl, &$groups) {
+
+        $t = array(
+            'ACL'           => self::getTableName(),
+            'ACLGroup'      => CRM_Core_DAO_ACLGroup::getTableName(),
+            'ACLGroupJoin'  => CRM_Core_DAO_ACLGroupJoin::getTableName(),
+            'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
+            'Group'         => CRM_Contact_DAO_Group::getTableName(),
+            'GroupContact'  => CRM_Contact_DAO_GroupContact::getTableName()
+        );
+
+        $dao =& new CRM_Core_DAO_ACL();
+
+        $dao->entity_table = $t['Contact'];
+        $dao->entity_id = $contact_id;
+        $dao->find();
+        
+        while ($dao->fetch()) {
+            $acl[] = clone($dao);
+        }
+
+        $dao->reset();
+
+        $dao->query( "  SELECT      {$t['ACL']}.*
+                        FROM        {$t['ACL']}
+                        INNER JOIN  {$t['GroupContact']}
+                            ON  ({$t['ACL']}.entity_table = {$t['Group']}
+                            AND {$t['ACL']}.entity_id =
+                                {$t['GroupContact']}.group_id)
+                        INNER JOIN  {$t['Contact']}
+                            ON  {$t['GroupContact']}.contact_id =
+                                {$t['Contact']}.id
+                        WHERE   {$t['Contact']}.id = $contact_id
+                            AND {$t['GroupContact']}.status = 'Added'");
+
+        while ($dao->fetch()) {
+            $acl[] = clone($dao);
+        }
+
+
+        $dao->reset();
+
+        $dao->query("SELECT     {$t['ACL']}.*
+                    FROM        {$t['ACL']}
+                    INNER JOIN  {$t['ACLGroupJoin']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                            AND {$t['ACL']}.entity_id =
+                                {$t['ACLGroupJoin']}.acl_group_id)
+                    INNER JOIN  {$t['Contact']}
+                            ON  {$t['ACLGroupJoin']}.entity_table =
+                                '{$t['Contact']}'
+                    WHERE       {$t['ACLGroupJoin']}.entity_id = $contact_id");
+
+        while ($dao->fetch()) {
+            $groups[] = clone($dao);
+        }
+
+        $dao->reset();
+        
+        $dao->query("SELECT     {$t['ACL']}.*
+                    FROM        {$t['ACL']}
+                    INNER JOIN  {$t['ACLGroupJoin']}
+                        ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                        AND     {$t['ACL']}.entity_id = 
+                                {$t['ACLGroupJoin']}.acl_group_id)
+                    INNER JOIN  {$t['GroupContact']}
+                        ON  ({$t['ACLGroupJoin']}.entity_table = '{$t['Group']}'
+                        AND {$t['ACLGroupJoin']}.entity_id =
+                             {$t['GroupContact']}.group_id)
+                    WHERE       {$t['GroupContact']}.contact_id = $contact_id
+                        AND     {$t['GroupContact']}.status = 'Added'");
+       
+        while ($dao->fetch()) {
+            $groups[] = clone($dao);
+        }
+
     }
 }
 
