@@ -17,15 +17,14 @@ require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
-require_once 'Structures/Graph.php';
-require_once 'Structures/Graph/Node.php';
+//require_once 'Structures/Graph.php';
+//require_once 'Structures/Graph/Node.php';
 
-$dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
-
-$db_domain = DB::connect($dsn_domain);
-if ( DB::isError( $db_domain ) ) {
-    die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
-}
+// $dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
+// $db_domain = DB::connect($dsn_domain);
+// if ( DB::isError( $db_domain ) ) {
+//     die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
+// }
 
 $file = 'schema/Schema.xml';
 
@@ -56,6 +55,7 @@ if ( empty($argv[1]) ) {
 
 $domainId = $argv[1];
 
+
 foreach ($tables as $k => $v) {
     $tableName = $k;
     $tree1[$tableName] = array();
@@ -69,6 +69,12 @@ foreach ($tables as $k => $v) {
     }
 }
 
+// echo ("\n*******************************************************\n");
+// echo ("\n\nTREE1 = \n\n");
+// print_r($tree1);
+// echo ("\n*******************************************************\n");
+// exit(1);
+
 $frTable = array();
 foreach ($tables as $key => $value) {
     if(!isset($value['foreignKey'])) {
@@ -80,9 +86,16 @@ foreach ($tables as $key => $value) {
     }
 }
 
+
+// echo ("\n*******************************************************\n");
+// echo ("\n\nfrTable = \n\n");
+// print_r($frTable);
+// echo ("\n*******************************************************\n");
+
+
+
 $tree2 = array();
 foreach ($tree1 as $k => $v) {
-
     foreach ($v as $k1 => $v1) {
         if (!isset($tree2[$v1])) {
             $tree2[$v1] = array();
@@ -94,30 +107,42 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
+echo ("\n*******************************************************\n");
+echo ("\$tree2 = \n");
+print_r($tree2);
+echo ("\n*******************************************************\n");
 
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
+    echo "adding dependents for $key\n";
     foreach($val as $k => $v) {
-        //        echo "$key ===> $v\n\n";
-        $node =& $domainTree->createNode($v);            
+        echo " adding $v\n";
+        //$node = $domainTree->findNode($domainTree->tree['rootNode'], $v);
+        $node =& $domainTree->findNode($v);
+        if(!$node) {
+            $node =& $domainTree->createNode($v);            
+        }
         $domainTree->addNode($key, $node);
         $fKey = $frTable[$v][$key];
         $domainTree->addData($v, $fKey);
-        
+        echo " done adding $v\n";
     }
 } 
 
-foreach($tree2 as $key => $val) {
-    foreach($val as $k => $v) {
 
-        $fKey = $frTable[$v][$key];
-        $domainTree->addData($v, $fKey);
-        
-    }
-}
+// foreach($tree2 as $key => $val) {
+//     foreach($val as $k => $v) {
+//         $fKey = $frTable[$v][$key];
+//         $domainTree->addData($v, $fKey);
+//     }
+//}
 
-//$domainTree->display();
+echo ("\n*******************************************************\n");
+echo ("\n\ndomain tree = \n\n");
+$domainTree->display();
+echo ("\n*******************************************************\n");
+exit(1);
 
 $tempTree = $domainTree->getTree();
 
