@@ -93,13 +93,12 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
             }
         }
 
-        // get the permissions for this user
-        $where[] = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
-
         $this->_clause = null; 
         if ( ! empty( $where ) ) { 
             $this->_clause = implode( ' AND ', $where ); 
-        }  
+        } else {
+            $this->_clause = ' ( 1 ) ';
+        }
    }
 
     /** 
