@@ -361,6 +361,8 @@ WHERE t1.custom_field_id = 1
 
         CRM_Core_Error::debug_var('customValueSQL', $customValueSQL);
 
+        return $customValueSQL;
+
         CRM_Core_Error::ll_method();
     }
 }
