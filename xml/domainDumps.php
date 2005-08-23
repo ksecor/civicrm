@@ -17,6 +17,8 @@ require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
+require_once 'Structures/Graph.php';
+require_once 'Structures/Graph/Node.php';
 
 $dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
 
@@ -46,6 +48,13 @@ $tables = orderTables( $tables );
 //print_r($tables);
 
 $tree1 = array();
+
+if ( empty($argv[1]) ) {
+    echo "Usage: php domainDumps.php <value> \n\n";
+    exit(1);
+}
+
+$domainId = $argv[1];
 
 foreach ($tables as $k => $v) {
     $tableName = $k;
@@ -85,29 +94,36 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
-//print_r($tree2);
-//print_r($frTable);
 
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
     foreach($val as $k => $v) {
+        //        echo "$key ===> $v\n\n";
         $node =& $domainTree->createNode($v);            
         $domainTree->addNode($key, $node);
         $fKey = $frTable[$v][$key];
         $domainTree->addData($v, $fKey);
         
     }
-}
+} 
 
+foreach($tree2 as $key => $val) {
+    foreach($val as $k => $v) {
+
+        $fKey = $frTable[$v][$key];
+        $domainTree->addData($v, $fKey);
+        
+    }
+}
 
 //$domainTree->display();
 
 $tempTree = $domainTree->getTree();
 
-leafIter($tempTree['rootNode'], null, null);
+domainDump($tempTree['rootNode'], null, null, $domainId);
 
-function leafIter(&$tree, $nameArray, $fKeyArray)
+function domainDump( &$tree, $nameArray, $fKeyArray, $domainId )
 {
     if ( !isset($nameArray) ) {
         $nameArray = array();
@@ -115,9 +131,8 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
     }
 
     $node = $tree;
-    
+
     if ( count($node['children']) ) {
-        
         $nameArray[] = $node['name'];
         $fKeyArray[] = $node['data']['fKey'];
         $tempNameArray = array_reverse($nameArray);
@@ -129,23 +144,25 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
             $table[] = $tempNameArray[$idx];
         }
         
-        $tables = implode(" ,",$table);
+        $tables = implode(", ",$table);
         
         for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
             $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
         }
         
-        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        $whereCondition[] = "".$tempNameArray[$idx].".id = ".$domainId;
         
         $whereClause = implode(" AND ", $whereCondition);
         
         $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
-
+        
         $command = "mysql -uroot civicrm -e '".$strQuery."'";
-
-        //echo $command."\n\n";
-
-        system($command);
+        
+        // echo $command."\n\n";
+        
+        /*if ( !file_exists('/tmp/'. $table[0]) ) {
+            system($command);
+        }*/
 
     } else {
         $nameArray[] = $node['name'];
@@ -165,7 +182,7 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
             $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
         }
         
-        $whereCondition[] = "".$nameArray[$idx].".id = 1";
+        $whereCondition[] = "".$tempNameArray[$idx].".id = ".$domainId;
         
         $whereClause = implode(" AND ", $whereCondition);
         
@@ -173,15 +190,17 @@ function leafIter(&$tree, $nameArray, $fKeyArray)
 
         $command = "mysql -uroot civicrm -e '".$strQuery."'";
 
-        //echo $command."\n\n";
+        echo $command."\n\n";
 
-        system($command);
+        /*if ( !file_exists('/tmp/'. $table[0]) ) {
+             system($command);
+        }*/
     }
    
 
     foreach($node['children'] as &$childNode) {
         
-        leafIter($childNode, $nameArray, $fKeyArray);      
+        domainDump($childNode, $nameArray, $fKeyArray, $domainId);      
     }    
 }
 
