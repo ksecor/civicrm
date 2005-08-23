@@ -111,10 +111,6 @@ class CRM_Utils_Tree {
     //public function &findNode(&$parentNode, $name)
     public function &findNode($name, &$parentNode="")
     {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('parentNode', $parentNode);
-        //CRM_Core_Error::debug_var('name', $name);
-
         // if no parent node specified, please start from root node
         if(!$parentNode) {
             $parentNode =& $this->tree['rootNode'];
@@ -187,11 +183,8 @@ class CRM_Utils_Tree {
      */
     public function addNode($parentName, &$node)
     {
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('parentName', $parentName);
-        //$parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
         $parentNode =& $this->findNode($parentName);
-        CRM_Core_Error::debug_var('parentNode', $parentNode);
+     
         $parentNode['children'][] =& $node;
     }
 
@@ -205,12 +198,14 @@ class CRM_Utils_Tree {
      *
      * @access public
      */
-    public function addData($parentName, $data)
+    public function addData($parentName, $childName, $data)
     {
-        //$parentNode =& $this->findNode($this->tree['rootNode'], $parentName);
-        $parentNode =& $this->findNode($parentName);
-        if ( empty($parentNode['data']['fKey']) )  {
-            $parentNode['data']['fKey'] =& $data;
+        if ($parentNode =& $this->findNode($parentName)) {
+            foreach ($parentNode['children'] as &$childNode ) {
+                if ($childNode =& $this->findNode($childName, $parentNode) ) {
+                    $childNode['data']['fKey'] =& $data;
+                }
+            }
         }
     }
 
@@ -236,26 +231,9 @@ class CRM_Utils_Tree {
      *
      * @access public
      */
-    public function display($node=0, $count=0)
+    public function display()
     {
-        //print_r($this->tree);
-        $increment = 5;
-        
-        if(!$node) {
-            echo "\nTree Output\n";
-            $node = $this->tree['rootNode'];
-            //$count++;
-        }
-        //echo $this->tree['rootNode']['name'];
-        //string str_pad ( string input, int pad_length [, string pad_string [, int pad_type]])
-        $indent = str_pad("", $count*$increment, " ", STR_PAD_LEFT);
-        echo $indent;
-        echo $node['name'] . "\n";        
-        $count++;
-        //$count = $count * 5;
-        foreach ($node['children'] as $k => $v) {
-            $this->display($v, $count);
-        }
+        print_r($this->tree);
     }
 }
 

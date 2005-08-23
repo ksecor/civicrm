@@ -17,14 +17,6 @@ require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
-//require_once 'Structures/Graph.php';
-//require_once 'Structures/Graph/Node.php';
-
-// $dsn_domain  = "mysql://civicrm:Mt!Everest@localhost/civicrm";
-// $db_domain = DB::connect($dsn_domain);
-// if ( DB::isError( $db_domain ) ) {
-//     die( "Cannot connect to civicrm db via $dsn, " . $db_domain->getMessage( ) );
-// }
 
 $file = 'schema/Schema.xml';
 
@@ -69,12 +61,7 @@ foreach ($tables as $k => $v) {
     }
 }
 
-// echo ("\n*******************************************************\n");
-// echo ("\n\nTREE1 = \n\n");
-// print_r($tree1);
-// echo ("\n*******************************************************\n");
-// exit(1);
-
+//create a foregin key link table
 $frTable = array();
 foreach ($tables as $key => $value) {
     if(!isset($value['foreignKey'])) {
@@ -85,13 +72,6 @@ foreach ($tables as $key => $value) {
         $frTable[$value['name']][$v1['table']] = $v1['name'];
     }
 }
-
-
-// echo ("\n*******************************************************\n");
-// echo ("\n\nfrTable = \n\n");
-// print_r($frTable);
-// echo ("\n*******************************************************\n");
-
 
 
 $tree2 = array();
@@ -107,128 +87,71 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
-echo ("\n*******************************************************\n");
-echo ("\$tree2 = \n");
-print_r($tree2);
-echo ("\n*******************************************************\n");
-
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
-    echo "adding dependents for $key\n";
     foreach($val as $k => $v) {
-        echo " adding $v\n";
-        //$node = $domainTree->findNode($domainTree->tree['rootNode'], $v);
         $node =& $domainTree->findNode($v);
         if(!$node) {
             $node =& $domainTree->createNode($v);            
         }
-        $domainTree->addNode($key, $node);
-        $fKey = $frTable[$v][$key];
-        $domainTree->addData($v, $fKey);
-        echo " done adding $v\n";
+        $domainTree->addNode($key, $node);               
     }
-} 
+}
+ 
+foreach($frTable as $key => $val) {
+    foreach($val as $k => $v ) {
+        $fKey = $frTable[$key];
+        $domainTree->addData($k, $key, $fKey);
+    }
+}
 
-
-// foreach($tree2 as $key => $val) {
-//     foreach($val as $k => $v) {
-//         $fKey = $frTable[$v][$key];
-//         $domainTree->addData($v, $fKey);
-//     }
-//}
-
-echo ("\n*******************************************************\n");
-echo ("\n\ndomain tree = \n\n");
-$domainTree->display();
-echo ("\n*******************************************************\n");
-exit(1);
 
 $tempTree = $domainTree->getTree();
 
-domainDump($tempTree['rootNode'], null, null, $domainId);
+domainDump($tempTree['rootNode'], null, $frTable, $domainId);
 
-function domainDump( &$tree, $nameArray, $fKeyArray, $domainId )
+function domainDump( &$tree, $nameArray, $frTable, $domainId )
 {
     if ( !isset($nameArray) ) {
         $nameArray = array();
-        $fKeyArray = array();
     }
 
     $node = $tree;
 
-    if ( count($node['children']) ) {
-        $nameArray[] = $node['name'];
-        $fKeyArray[] = $node['data']['fKey'];
-        $tempNameArray = array_reverse($nameArray);
-        $tempFKeyArray = array_reverse($fKeyArray);
-        
-        
-        $table = array();
-        for ($idx = 0; $idx<count($tempNameArray); $idx++) {
-            $table[] = $tempNameArray[$idx];
-        }
-        
-        $tables = implode(", ",$table);
-        
-        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
-        }
-        
-        $whereCondition[] = "".$tempNameArray[$idx].".id = ".$domainId;
-        
-        $whereClause = implode(" AND ", $whereCondition);
-        
-        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
-        
-        $command = "mysql -uroot civicrm -e '".$strQuery."'";
-        
-        // echo $command."\n\n";
-        
-        /*if ( !file_exists('/tmp/'. $table[0]) ) {
-            system($command);
-        }*/
+    $nameArray[] = $node['name'];
+    $tempNameArray = array_reverse($nameArray);
 
-    } else {
-        $nameArray[] = $node['name'];
-        $fKeyArray[] = $node['data']['fKey'];
-        $nameArray = array_reverse($nameArray);
-        $fKeyArray = array_reverse($fKeyArray);
-        
-        
-        $table = array();
-        for ($idx = 0; $idx<count($nameArray); $idx++) {
-            $table[] = $nameArray[$idx];
-        }
-        
-        $tables = implode(" ,",$table);
-        
-        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-            $whereCondition[] = "". $nameArray[$idx] .".". $fKeyArray[$idx] ." = ".$nameArray[$idx+1].".id";
-        }
-        
-        $whereCondition[] = "".$tempNameArray[$idx].".id = ".$domainId;
-        
-        $whereClause = implode(" AND ", $whereCondition);
-        
-        $strQuery = 'SELECT '. $table[0] .'.* INTO OUTFILE "/tmp/'. $table[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
-
-        $command = "mysql -uroot civicrm -e '".$strQuery."'";
-
-        echo $command."\n\n";
-
-        /*if ( !file_exists('/tmp/'. $table[0]) ) {
-             system($command);
-        }*/
+    $table = array();
+    for ($idx = 0; $idx<count($nameArray); $idx++) {
+        $table[] = $nameArray[$idx];
     }
-   
-
-    foreach($node['children'] as &$childNode) {
+    
+    $tables = implode(", ",$table);
+    for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+        $foreignKey = $tempNameArray[$idx+1];
+        $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
+    }
+    
+    $whereCondition[] = "civicrm_domain.id = ".$domainId;
+    
+    $whereClause = implode(" AND ", $whereCondition);
+    
+    $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "/tmp/'. $tempNameArray[0] .'.sql" FROM '. $tables .' WHERE '. $whereClause ;
+    
+    $command = "mysql -uroot civicrm -e '".$strQuery."'";
+    
+    echo $command."\n\n";
+    
+    $fileName = '/tmp/'. $tempNameArray[0];
+    if ( !file_exists($fileName) ) {
+            system($command);
+    }
         
-        domainDump($childNode, $nameArray, $fKeyArray, $domainId);      
+    foreach($node['children'] as &$childNode) {
+        domainDump($childNode, $nameArray, $frTable, $domainId);      
     }    
 }
-
 
 exit(1);
 
