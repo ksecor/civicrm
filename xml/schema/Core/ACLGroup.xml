@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+    <base>CRM/Core</base>
+    <class>ACLGroup</class>
+    <name>civicrm_acl_group</name>
+    <comment>ACL Groups.  Each group represents a set of of ACL entries which should be treated as a unit.</comment>
+    <field>
+        <name>id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Unique table ID</comment>
+    </field>
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <field>
+        <name>domain_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Which Domain owns this group.</comment>
+    </field>
+    <foreignKey>
+        <name>domain_id</name>
+        <table>civicrm_domain</table>
+        <key>id</key>
+    </foreignKey>
+    <field>
+        <name>is_active</name>
+        <type>boolean</type>
+        <default>1</default>
+        <comment>Is this ACL Group currently active?</comment>
+    </field>
+    <field>
+        <name>title</name>
+        <type>varchar</type>
+        <length>64</length>
+        <comment>ACL Group Title</comment>
+    </field>
+</table>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+    <base>CRM/Core</base>
+    <class>ACLGroupJoin</class>
+    <name>civicrm_acl_group_join</name>
+    <comment>Join table for Contacts and Groups to ACL Groups</comment>
+    <field>
+        <name>id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Unique table ID</comment>
+    </field>
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <field>
+        <name>acl_group_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Foreign Key to ACL Group</comment>
+    </field>
+    <foreignKey>
+        <name>acl_group_id</name>
+        <table>civicrm_acl_group</table>
+        <key>id</key>
+    </foreignKey>
+    <field>
+        <name>entity_table</name>
+        <type>varchar</type>
+        <length>64</length>
+        <required>true</required>
+        <comment>Table of the object joined to the ACL Group (Contact or Group)</comment>
+    </field>
+    <field>
+        <name>entity_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>ID of the group/contact object being joined</comment>
+    </field>
+</table>
