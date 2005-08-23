@@ -516,14 +516,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);
                     $value = $cv->getValue(true);
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                    $v = array( );
                     foreach($customOption as $val) {
                         $checkVal = $val['value'];
                         $checkName = $index . '[' . $checkVal .']';
                         if (in_array($val['value'], $checkedData)) {
-                            $values[$checkName] = 1;
-                        } else {
-                            $values[$checkName] = 0;
+                            $v[] = $val['label'];
                         }
+                    }
+                    if ( ! empty( $v ) ) {
+                        $values[$index] = implode( ', ', $v );
                     }
                     break;
 
