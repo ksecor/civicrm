@@ -995,14 +995,23 @@ WHERE t1.custom_field_id = 1
 	
         // add notes
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
-	  // foreach ($params['note'] as $note) {  commented this since $params['note'] is a value not an array
-                $noteParams = array(
-                                    'entity_id'     => $contact->id,
-                                    'entity_table'  => 'civicrm_contact',
-                                    'note'          => $params['note']
-                                    );
-                CRM_Core_BAO_Note::add($noteParams);
-		//}
+            if (is_array($params['note'])) {
+                foreach ($params['note'] as $note) {  
+                    $noteParams = array(
+                                        'entity_id'     => $contact->id,
+                                        'entity_table'  => 'civicrm_contact',
+                                        'note'          => $note['note']
+                                        );
+                    CRM_Core_BAO_Note::add($noteParams);
+                }
+            } else {
+                    $noteParams = array(
+                                        'entity_id'     => $contact->id,
+                                        'entity_table'  => 'civicrm_contact',
+                                        'note'          => $params['note']
+                                        );
+                    CRM_Core_BAO_Note::add($noteParams);
+            }
         }
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
