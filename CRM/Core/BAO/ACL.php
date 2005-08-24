@@ -70,7 +70,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         $session =& CRM_Core_Session::singleton();
         $contactId = $session->get('userID');
         
-        $where = " AND {$t['ACL']}.operation = '" .
+        $where = " {$t['ACL']}.operation = '" .
                     CRM_Utils_Type::escape($operation, 'String') ."'";
 
         /* Include clause if we're looking for a specific table/id permission */
@@ -97,15 +97,32 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         
         $query = array();
         
-        /* Query for permissions granted directly to the contact, or to all
-         * contacts */
+        /* Query for permissions granted to all contacts */
+        $query[] = "SELECT      {$t['ACL']}.*, 0 as override
+                    FROM        {$t['ACL']}
+                    WHERE       {$t['ACL']}.entity_table = {$t['Contact']}
+                            AND {$t['ACL']}.entity_id IS null
+                            AND ($where)";
+
+        /* Query for permissions granted to all contacts through an ACL group */
+        $query[] = "SELECT      {$t['ACL']}.*, 0 as override
+                    FROM        {$t['ACL']}
+                    INNER JOIN  {$t['ACLGroupJoin']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                            AND {$t['ACL']}.entity_id = 
+                                {$t['ACLGroupJoin']}.acl_group_id)
+                    WHERE       {$t['ACLGroupJoin']}.entity_table =
+                                    '{$t['Contact']}'
+                            AND {$t['ACLGroupJoin']}.entity_id IS null
+                            AND ($where)";
+        
+        /* Query for permissions granted directly to the contact */
         $query[] = "SELECT      {$t['ACL']}.*, 1 as override
                     FROM        {$t['ACL']}
-                    LEFT JOIN   {$t['Contact']}
+                    INNER JOIN  {$t['Contact']}
                             ON  ({$t['ACL']}.entity_table = {$t['Contact']}
                             AND {$t['ACL']}.entity_id = {$t['Contact']}.id)
-                    WHERE       ({$t['ACL']}.entity_id IS null OR
-                                {$t['Contact']}.id = $contactId) 
+                    WHERE       {$t['Contact']}.id = $contactId 
                             AND ($where)";
 
         /* Query for permissions granted to the contact through an ACL group */
@@ -117,8 +134,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                                 {$t['ACLGroupJoin']}.acl_group_id)
                     WHERE       {$t['ACLGroupJoin']}.entity_table = 
                                     '{$t['Contact']}' 
-                        AND     ({$t['ACLGroupJoin']}.entity_id is null
-                            OR  {$t['ACLGroupJoin']}.entity_id = $contactId)
+                        AND     {$t['ACLGroupJoin']}.entity_id = $contactId
                         AND     ($where)";
 
         /* Query for permissions granted to the contact through a group */
@@ -150,7 +166,6 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                         AND     {$t['GroupContact']}.contact_id = $contactId
                         AND     {$t['GroupContact']}.status = 'Added'";
                     
-
         $union = '(' . implode(') UNION DISTINCT (', $query) . ')';
 
         $dao->query($union);
@@ -162,14 +177,18 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
             $clause = self::getClause(
                     $dao->object_table, $dao->object_id, $tables);
             
-            /* If we've got an exact match on the object, let it through */
-            if ($dao->object_table == $object_table 
-                && ($dao->object_id == $object_id 
-                    || empty($dao->object_id) ) ) 
+            /* If we've got an exact match on the object, or the rule overrides
+             * it, let it through */
+            if (empty($dao->object_table) || 
+                ($dao->object_table == $object_table 
+                && ($dao->object_id == $object_id || empty($dao->object_id)))) 
             {
                 $clause = 1;
             }
-
+            
+            if (empty($clause)) {
+                continue;
+            }
             
             if ($dao->deny) {
                 /* a denial */
@@ -211,8 +230,10 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
      */
     public static function getClause($table, $id, &$tables) {
         $ssTable = CRM_Contact_BAO_SavedSearch::getTableName();
-       
-        if ($table !== $ssTable) {
+
+        if (empty($table)) {
+            return null;
+        } elseif ($table !== $ssTable) {
             if (!empty($id)) {
                 $tables[$table] = true;
                 return "$table.id = $id";
