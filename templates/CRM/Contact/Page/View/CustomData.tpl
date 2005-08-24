@@ -33,7 +33,7 @@
                 {if $editCustomData}
                 <div class="action-link">
                 {if $groupId}
-                <a href="{crmURL p='civicrm/contact/view/cd/`$groupId` q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                <a href="{crmURL p="civicrm/contact/view/cd/`$groupId`" q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 {else}
                 <a href="{crmURL p='civicrm/contact/view/cd q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
                 {/if}
