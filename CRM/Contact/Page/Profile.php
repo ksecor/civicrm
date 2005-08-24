@@ -54,14 +54,6 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
     protected $_fields;
 
     /**
-     * list of all the fields that influence the search criteria
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_values;
-
-    /**
      * extracts the parameters from the request and constructs information for
      * the selectror object to do a query
      *
@@ -84,15 +76,23 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
             if ( isset( $value ) ) {
                 $criteria[$field['title']] = $value;
                 $this->_fields[$key]['value'] = $value;
-                $this->_values[$key] = $value;
 
-                $value = strtolower( $value ); 
-                $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
+                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {
+                    $params[$cfID] = $value;
+                    $sql = CRM_Core_BAO_CustomValue::whereClause($params);  
+                    if ( $sql ) { 
+                        $this->_tables['civicrm_custom_value'] = 1; 
+                        $where[] = $sql; 
+                    } 
+                } else {
+                    $value = strtolower( $value ); 
+                    $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
 
-                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
-                if ( isset( $tableName ) ) {
-                    $this->_tables[$tableName] = 1; 
-                } 
+                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
+                    if ( isset( $tableName ) ) {
+                        $this->_tables[$tableName] = 1; 
+                    }
+                }
             }
         }
         
