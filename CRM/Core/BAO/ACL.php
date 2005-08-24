@@ -106,7 +106,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     
-                    WHERE       {$t['ACL']}.entity_table    = {$t['Domain']}
+                    WHERE       {$t['ACL']}.entity_table    = '{$t['Domain']}'
                             AND {$t['ACL']}.entity_id       = $domainId
                             AND ($where)";
 
@@ -134,7 +134,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                     FROM        {$t['ACL']}
                     
                     INNER JOIN  {$t['Contact']}
-                            ON  ({$t['ACL']}.entity_table = {$t['Contact']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['Contact']}'
                             AND     {$t['ACL']}.entity_id = {$t['Contact']}.id)
                     
                     WHERE       {$t['Contact']}.id          = $contact_id 
@@ -163,7 +163,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                     FROM        {$t['ACL']}
                     
                     INNER JOIN  {$t['GroupContact']}
-                            ON  ({$t['ACL']}.entity_table = {$t['Group']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['Group']}'
                             AND     {$t['ACL']}.entity_id =
                                     {$t['GroupContact']}.group_id)
                     
@@ -541,14 +541,14 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
     public static function &getAllByContact($contact_id) {
         $result = array();
 
-        /* First, get the domain-level ACL rules */
-        $result += self::getACLs(null, null, true);
-
-        /* Then the contact-specific ACLs */
+        /* First, the contact-specific ACLs, including ACL Groups */
         $result += self::getACLs($contact_id, null, true);
 
-        /* Finally, all ACLs granted through group membership */
+        /* Then, all ACLs granted through group membership */
         $result += self::getGroupACLs($contact_id, true);
+
+        /* Finally, get the domain-level ACL rules */
+        $result += self::getACLs(null, null, true);
 
         return $result;
     }
