@@ -105,9 +105,19 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $customValue->copyValues($params);
         
         switch($params['type']) {
-            case 'String':
             case 'StateProvince':
+                $states =& CRM_Core_PseudoConstant::stateProvince();
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($params['value'], $states);
+                $customValue->char_data = $params['value'];
+                break;
             case 'Country':
+                $countries =& CRM_Core_PseudoConstant::country();
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($params['value'], $countries);
+                $customValue->char_data = $params['value'];
+                break;
+            case 'String':
                 $customValue->char_data = $params['value'];
                 break;
             case 'Boolean':

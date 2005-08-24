@@ -381,7 +381,9 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             break;
         }
     }
-   
+  
+    if (is_array($values['location'])) {
+    
     foreach ($values['location'] as $updateLocation) {
         $emptyBlock = $contactLocationBlock = null;
         
@@ -529,8 +531,12 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         
     }
 
+    }
+
     
     /* Custom data */
+    if (is_array($values['custom'])) {
+
     foreach ($values['custom'] as $customValue) {
         /* get the field for the data type */
         $field = CRM_Core_BAO_CustomValue::typeToField($customValue['type']);
@@ -573,6 +579,9 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             CRM_Core_BAO_CustomValue::create($cvParams);
         }
     }
+
+    }
+
     return $contact;
 }
 
