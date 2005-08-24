@@ -127,7 +127,9 @@ foreach ($tables as $key => $value) {
     }
 
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        $frTable[$value['name']][$v1['table']] = $v1['name'];
+        if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
+            $frTable[$value['name']][$v1['table']] = $v1['name'];
+        }
     }
 }
 
@@ -163,7 +165,6 @@ foreach($frTable as $key => $val) {
         $domainTree->addData($k, $key, $fKey);
     }
 }
-
 
 $tempTree = $domainTree->getTree();
 
@@ -211,7 +212,7 @@ function domainDump( &$tree, $nameArray, $frTable)
     
     $command = "mysql ".$MYSQL_USER ." civicrm -e '".$strQuery."'";
     
-    //echo $command."\n\n";
+    echo $command."\n\n";
     
     system($command);
    
