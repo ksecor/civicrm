@@ -36,6 +36,10 @@ if ( empty($argv[2]) ){
 
 if ( empty($argv[3]) ){ 
     $error[] = "Set the mysql user details eg: -uUsername -pPassword\n";    
+} else {
+    if ( !preg_match("/-u/", $argv[3]) ) {
+        $error[] = "Incorrect parameter for Mysql user details!!\n";    
+    }
 }
 
 if ( isset($argv[2]) && !is_writeable($argv[2]) ) {
@@ -50,21 +54,35 @@ if ( !empty($error) ) {
     exit(1);
 }
 
-
 //set the /path/to/backup and domain id 
 $DOMAIN_ID = $argv[1];
 $BACKUP_PATH = $argv[2];
 $MYSQL_USER = $argv[3];
 
 if ( isset($argv[4]) ) {
-   $MYSQL_USER = $MYSQL_USER . " " . $argv[4];
+    if ( !preg_match("/-p/", $argv[4]) ) {
+        echo "Incorrect parameter for Mysql user details!!\n\n";
+        exit(1);
+    }
+    $MYSQL_USER = $MYSQL_USER . " " . $argv[4];
 }
+
 
 require_once '../modules/config.inc.php';
 require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
+
+//test wether the supplied username and password are correct
+$dsn_domain  = "mysql://".str_replace('-u', '', $argv[3]).":".str_replace('-p', '', $argv[4])."@localhost/civicrm";
+$db_domain = DB::connect($dsn_domain);
+if ( DB::isError( $db_domain ) ) {
+    die( "Cannot connect to civicrm db , " . $db_domain->getMessage( ) ."\n");
+}
+
+$db_domain->disconnect( );
+
 
 $file = 'schema/Schema.xml';
 
@@ -208,9 +226,11 @@ function domainDump( &$tree, $nameArray, $frTable)
     fclose($fp);
     //end of write to file
 
-    foreach($node['children'] as &$childNode) {
-        domainDump($childNode, $nameArray, $frTable, $domainId);      
-    }    
+    if ( !empty($node['children']) ) {
+        foreach($node['children'] as &$childNode) {
+            domainDump($childNode, $nameArray, $frTable, $domainId);      
+        }    
+    }
 }
 
 
