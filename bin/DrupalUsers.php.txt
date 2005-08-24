@@ -6,6 +6,10 @@ require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/BAO/UFMatch.php';
 
+function user_access( $string ) {
+    return true;
+}
+
 $config =& CRM_Core_Config::singleton( );
 
 /**
