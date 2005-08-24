@@ -271,6 +271,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     $cv->entity_table = 'civicrm_contact';
                     $cv->entity_id = $this->_id;
                     if ( ! $cv->find( true ) ) {
+                        $defaults[$name] = $cf->default_value;
                         continue;
                     }
 
