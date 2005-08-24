@@ -189,14 +189,17 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      * @return string the mysql type
      * @access public
      */
-    public function getField( &$isBool ) {
-        $cf =& new CRM_Core_BAO_CustomField();
-        $cf->id = $this->custom_field_id;
+    public function getField( &$isBool, $cf = null) {
+        if ($cf == null) {
+            $cf =& new CRM_Core_BAO_CustomField();
+            $cf->id = $this->custom_field_id;
 
-        if (! $cf->find(true)) {
-            return null;
+            if (! $cf->find(true)) {
+                return null;
+            }
         }
-        $isBool = $cf->data_type == Boolean ? true : false;
+
+        $isBool = $cf->data_type == 'Boolean' ? true : false;
 
         return $this->typeToField($cf->data_type);
     }
@@ -266,12 +269,40 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         
         $customValue->find(true);
 
-        $isBool = false;
-        $field = $customValue->getField($isBool);
-        if ($isBool) {
-            $value = CRM_Utils_String::strtobool($value);
+        $cf =& new CRM_Core_BAO_CustomField();
+        $cf->id = $cfId;
+        $cf->find(true);
+
+        if ($cf->data_type == 'StateProvince') {
+            $states =& CRM_Core_PseudoConstant::stateProvince();
+            if (CRM_Utils_Rule::integer($value)) {
+                $customValue->int_data = $value;
+                $customValue->char_data = 
+                    CRM_Utils_Array::value($value, $states);
+            } else {
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($value, $states);
+                $customValue->char_data = $value;
+            }
+        } elseif ($cf->data_type == 'Country') {
+            $countries =& CRM_Core_PseudoConstant::country();
+            if (CRM_Utils_Rule::integer($value)) {
+                $customValue->int_data = $value;
+                $customValue->char_data = 
+                    CRM_Utils_Array::value($value, $countries);
+            } else {
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($value, $countries);
+                $customValue->char_data = $value;
+            }
+        } else {
+            $isBool = false;
+            $field = $customValue->getField($isBool, $cf);
+            if ($isBool) {
+                $value = CRM_Utils_String::strtobool($value);
+            }
+            $customValue->$field = $value;
         }
-        $customValue->$field = $value;
         
         $customValue->save();
     }
