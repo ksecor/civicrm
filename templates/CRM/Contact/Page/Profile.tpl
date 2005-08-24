@@ -1,5 +1,19 @@
 {include file="CRM/pager.tpl" location="top"}
 
+{* show profile listings criteria *}
+{if $criteria}
+ <p>
+ <div id="search-status">
+    Displaying contacts where:
+    <ul>
+    {foreach from=$criteria key=key item=item}
+      <li>{$key} is &quot;{$item}&quot;</li>
+    {/foreach}
+    </ul>
+ </div>
+ </p>
+{/if}
+
 {strip}
 <table>
   <tr class="columnheader">
