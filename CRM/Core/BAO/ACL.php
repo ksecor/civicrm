@@ -63,12 +63,14 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
             'ACLGroup'      => CRM_Core_DAO_ACLGroup::getTableName(),
             'ACLGroupJoin'  => CRM_Core_DAO_ACLGroupJoin::getTableName(),
             'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
+            'Domain'        => CRM_Core_DAO_Domain::getTableName(),
             'Group'         => CRM_Contact_DAO_Group::getTableName(),
             'GroupContact'  => CRM_Contact_DAO_GroupContact::getTableName()
         );
 
-        $session =& CRM_Core_Session::singleton();
-        $contactId = $session->get('userID');
+        $session    =& CRM_Core_Session::singleton();
+        $contactId  = $session->get('userID');
+        $domainId   = $session->get('domainID');
         
         $where = " {$t['ACL']}.operation = '" .
                     CRM_Utils_Type::escape($operation, 'String') ."'";
@@ -101,12 +103,12 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         
         $query = array();
         
-        /* Query for permissions granted to all contacts */
+        /* Query for permissions granted to all contacts in the domain */
         $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     
-                    WHERE       {$t['ACL']}.entity_table = {$t['Contact']}
-                            AND {$t['ACL']}.entity_id IS null
+                    WHERE       {$t['ACL']}.entity_table = {$t['Domain']}
+                            AND {$t['ACL']}.entity_id = $domainId
                             AND ($where)";
 
         /* Query for permissions granted to all contacts through an ACL group */
@@ -117,10 +119,15 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                             ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
                             AND     {$t['ACL']}.entity_id = 
                                     {$t['ACLGroupJoin']}.acl_group_id)
+                                    
+                    INNER JOIN  {$t['ACLGroup']}
+                            ON      {$t['ACL']}.entity_id = 
+                                    {$t['ACLGroup']}.id
                     
                     WHERE       {$t['ACLGroupJoin']}.entity_table =
-                                    '{$t['Contact']}'
-                            AND {$t['ACLGroupJoin']}.entity_id IS null
+                                    '{$t['Domain']}'
+                            AND {$t['ACLGroup']}.is_active = 1
+                            AND {$t['ACLGroupJoin']}.entity_id = $domainId
                             AND ($where)";
         
         /* Query for permissions granted directly to the contact */
@@ -143,8 +150,12 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                             AND     {$t['ACL']}.entity_id =
                                     {$t['ACLGroupJoin']}.acl_group_id)
                     
+                    INNER JOIN  {$t['ACLGroup']}
+                            ON  {$t['ACL']}.entity_id = {$t['ACLGroup']}.id
+                    
                     WHERE       {$t['ACLGroupJoin']}.entity_table = 
                                     '{$t['Contact']}' 
+                        AND     {$t['ACLGroup']}.is_active = 1
                         AND     {$t['ACLGroupJoin']}.entity_id = $contactId
                         AND     ($where)";
 
@@ -171,7 +182,10 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                             ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
                             AND     {$t['ACL']}.entity_id = 
                                     {$t['ACLGroupJoin']}.acl_group_id)
-                    
+                   
+                    INNER JOIN  {$t['ACLGroup']}
+                            ON  {$t['ACL']}.entity_id = {$t['ACLGroup']}.id
+                   
                     INNER JOIN  {$t['GroupContact']}
                             ON  ({$t['ACLGroupJoin']}.entity_table =
                                     '{$t['Group']}'
@@ -179,6 +193,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
                                     {$t['GroupContact']}.group_id)
                     
                     WHERE       ($where)
+                        AND     {$t['ACLGroup']}.is_active = 1
                         AND     {$t['GroupContact']}.contact_id = $contactId
                         AND     {$t['GroupContact']}.status = 'Added'";
                     
@@ -264,93 +279,146 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
         return null;
     }
 
-
-    /** 
-     * Get all ACLs for a given contact
+    /**
+     * Construct an associative array of an ACL rule's properties
      *
-     * @param int $contact_id   -   The contact ID
-     * @param array $acl        -   Assoc array of the contact's ACLs
-     * @param array $groups     -   Assoc array of the contact's ACL groups
-     * @return none
+     * @param none
+     * @return array    - Assoc. array of the ACL rule's properties
+     * @access public
+     */
+    public function &toArray() {
+        $result = array();
+        
+        foreach (array('deny', 'entity_table', 'entity_id', 'object_table',
+        'object_id', 'acl_table', 'acl_id') as $field) {
+            $result[$field] = $this->$field;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Retrieve ACLs for a contact or group
+     *
+     * @param int $contact_id       -   ID of a contact to search for
+     * @param int $group_id         -   ID of a group to search for
+     * @param boolean $aclGroups    -   Should we include ACL Groups
+     * @return array                -   Array of assoc. arrays of ACL rules 
      * @access public
      * @static
      */
-    public static function getContactACL($contact_id, &$acl, &$groups) {
-
-        $t = array(
-            'ACL'           => self::getTableName(),
-            'ACLGroup'      => CRM_Core_DAO_ACLGroup::getTableName(),
-            'ACLGroupJoin'  => CRM_Core_DAO_ACLGroupJoin::getTableName(),
-            'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
-            'Group'         => CRM_Contact_DAO_Group::getTableName(),
-            'GroupContact'  => CRM_Contact_DAO_GroupContact::getTableName()
-        );
-
-        $dao =& new CRM_Core_DAO_ACL();
-
-        $dao->entity_table = $t['Contact'];
-        $dao->entity_id = $contact_id;
-        $dao->find();
+    public static function &getACLs($contact_id = null, $group_id = null, $aclGroups = false) {
+        $rule =& new CRM_Core_BAO_ACL();
         
-        while ($dao->fetch()) {
-            $acl[] = clone($dao);
-        }
-
-        $dao->reset();
-
-        $dao->query( "  SELECT      {$t['ACL']}.*
-                        FROM        {$t['ACL']}
-                        INNER JOIN  {$t['GroupContact']}
-                            ON  ({$t['ACL']}.entity_table = {$t['Group']}
-                            AND {$t['ACL']}.entity_id =
-                                {$t['GroupContact']}.group_id)
-                        INNER JOIN  {$t['Contact']}
-                            ON  {$t['GroupContact']}.contact_id =
-                                {$t['Contact']}.id
-                        WHERE   {$t['Contact']}.id = $contact_id
-                            AND {$t['GroupContact']}.status = 'Added'");
-
-        while ($dao->fetch()) {
-            $acl[] = clone($dao);
-        }
-
-
-        $dao->reset();
-
-        $dao->query("SELECT     {$t['ACL']}.*
-                    FROM        {$t['ACL']}
-                    INNER JOIN  {$t['ACLGroupJoin']}
-                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
-                            AND {$t['ACL']}.entity_id =
-                                {$t['ACLGroupJoin']}.acl_group_id)
-                    INNER JOIN  {$t['Contact']}
-                            ON  {$t['ACLGroupJoin']}.entity_table =
-                                '{$t['Contact']}'
-                    WHERE       {$t['ACLGroupJoin']}.entity_id = $contact_id");
-
-        while ($dao->fetch()) {
-            $groups[] = clone($dao);
-        }
-
-        $dao->reset();
+        $acl        = self::getTableName();
+        $contact    = CRM_Contact_BAO_Contact::getTableName();
+        $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
+        $domain     = CRM_Core_BAO_Domain::getTableName();
+        $group      = CRM_Contact_BAO_Group::getTableName();
         
-        $dao->query("SELECT     {$t['ACL']}.*
-                    FROM        {$t['ACL']}
-                    INNER JOIN  {$t['ACLGroupJoin']}
-                        ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
-                        AND     {$t['ACL']}.entity_id = 
-                                {$t['ACLGroupJoin']}.acl_group_id)
-                    INNER JOIN  {$t['GroupContact']}
-                        ON  ({$t['ACLGroupJoin']}.entity_table = '{$t['Group']}'
-                        AND {$t['ACLGroupJoin']}.entity_id =
-                             {$t['GroupContact']}.group_id)
-                    WHERE       {$t['GroupContact']}.contact_id = $contact_id
-                        AND     {$t['GroupContact']}.status = 'Added'");
-       
-        while ($dao->fetch()) {
-            $groups[] = clone($dao);
+        $session    =& CRM_Core_Session::singleton();
+        $domainId   = $session->get('domainID');
+        
+        $query      = " SELECT      $acl.*
+                        FROM        $acl ";
+        
+        if (!empty($group_id)) {
+            
+            $query .= " INNER JOIN  $c2g
+                            ON      $acl.entity_id = $c2g.group_id
+                        WHERE       $acl.entity_table = '$group'
+                            AND     $c2g.group_id = $group_id";
+                        
+            if (!empty($contact_id)) {
+                $query .= " AND     $c2g.contact_id = $contact_id";
+            }
+            
+        } else {
+            
+            if (!empty($contact_id)) {
+                $query .= " WHERE   $acl.entity_table = '$contact'
+                            AND     $acl.entity_id = $contact_id";
+            
+            } else {
+                $query .= " WHERE   $acl.entity_table = '$domain'
+                            AND     $acl.entity_id = $domainId";
+                
+            }
         }
 
+        $rule->query($query);
+        
+        $results = array();
+        while ($rule->fetch()) {
+            $results[] =& $rule->toArray();
+        }
+
+        if ($aclGroups) {
+            $results += self::getACLGroups($contact_id, $group_id);
+        }
+
+        return $results;
+    }
+    
+    /**
+     * Get all of the base-level ACLs given to all contacts through ACL groups
+     *
+     * @param int $contact_id   -   ID of a contact to search for
+     * @param int $group_id     -   ID of a group to search for
+     * @return array            -   Array of assoc. arrays of ACL rules
+     * @access public
+     * @static
+     */
+    public static function &getACLGroups($contact_id = null, $group_id = null) {
+        $rule =& new CRM_Core_BAO_ACL();
+        $acl        = self::getTableName();
+        $aclGroup   = CRM_Core_BAO_ACLGroup::getTableName();
+        $contact    = CRM_Contact_BAO_Contact::getTableName();
+        $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
+        $group      = CRM_Contact_BAO_Group::getTableName();
+        
+        
+        $query =    "   SELECT          $acl.* 
+                        FROM            $acl
+                        INNER JOIN      $aclGroup
+                                ON      $acl.entity_table   = '$aclGroup'
+                                AND     $acl.entity_id      = $aclGroup.id";
+                                
+        if (!empty($group_id)) {
+            
+            $query .= " INNER JOIN  $c2g
+                            ON      $aclGroup.entity_id     = $c2g.group_id
+                        WHERE       $aclGroup.entity_table  = '$group'
+                            AND     $aclGroup.is_active = 1
+                            AND     $c2g.group_id = $group_id";
+                        
+            if (!empty($contact_id)) {
+                $query .= " AND     $c2g.contact_id = $contact_id";
+            }
+            
+        } else {
+            
+            $query .= " WHERE       $aclGroup.entity_table  = '$contact'
+                            AND     $aclGroup.is_active = 1";
+            
+            if (!empty($contact_id)) {
+                $query .= " AND     $aclGroup.entity_id     = $contact_id";
+            
+            } else {
+                $query .= " AND     $aclGroup.entity_id     IS null";
+                
+            }
+        }
+
+        $results = array();
+        
+        $rule->query($query);
+        
+        while ($rule->fetch()) {
+            $results[] =& $rule->toArray();
+        }
+        
+        return $results;
     }
 }
 
