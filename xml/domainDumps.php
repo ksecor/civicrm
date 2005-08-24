@@ -12,16 +12,50 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
-if ( empty($argv[1]) && empty($argv[2])) {
-    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> \n\n";
+
+/*if ( empty($argv) ) {
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    echo "mysqluser details ===> -u<username> -p<password>\n\n";
+    exit(1);
+}*/
+
+/*if ( empty($argv[3])) {
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    echo "mysqluser details ===> -u<username> -p<password>\n\n";
+    exit(1);
+}*/
+$error = array();
+if ( empty($argv[1]) ){ 
+    $error[] = "Set the domain Id\n";
+
+}
+
+if ( empty($argv[2]) ){ 
+    $error[] = "Set the path to dump the backup \n"; 
+}
+
+if ( empty($argv[3]) ){ 
+    $error[] = "Set the mysql user details eg: -uUsername -pPassword\n";    
+}
+
+if ( isset($argv[2]) && !is_writeable($argv[2]) ) {
+    $error[] = "You need write permissions to dir ". $argv[2]."\n";
+}
+
+if ( !empty($error) ) { 
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    foreach ( $error as $v) {
+        echo $v."\n";
+    }
     exit(1);
 }
+
 
 //set the /path/to/backup and domain id 
 $DOMAIN_ID = $argv[1];
 $BACKUP_PATH = $argv[2];
-//$MYSQL_USER = $argv[3];
-//$MYSQL_PASSWORD = $argv[4];
+$MYSQL_USER = $argv[3];
+
 
 
 require_once '../modules/config.inc.php';
@@ -123,7 +157,6 @@ function domainDump( &$tree, $nameArray, $frTable)
     global $BACKUP_PATH;
     global $DOMAIN_ID;
     global $MYSQL_USER;
-    global $MYSQL_PASSWORD;
 
     $node = $tree;
 
@@ -156,21 +189,21 @@ function domainDump( &$tree, $nameArray, $frTable)
 
     $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "'. $fileName .'" FROM '. $tables .' WHERE '. $whereClause ;
     
-    $command = "mysql -uroot civicrm -e '".$strQuery."'";
+    $command = "mysql ".$MYSQL_USER ." civicrm -e '".$strQuery."'";
     
     echo $command."\n\n";
     
     system($command);
 
     //handle the mysql stat error
-    chmod($fileName, 0755); 
+    //chmod($fileName, 0755);  
     
     // mysql query to load data from files
     $loadFilePath = $BACKUP_PATH.'LOADBACKUP.sql';
     
     $fp = fopen($loadFilePath, 'a+');
 
-    $loadQuery = "mysql -uroot civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
+    $loadQuery = "mysql ".$MYSQL_USER." civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
     
     fwrite($fp, $loadQuery);
     fclose($fp);
