@@ -42,7 +42,7 @@ require_once 'CRM/Core/PseudoConstant.php';
  * This class is for state country widget using JPSpan.
  *
  */
-class CRM_Contact_Server_StateCountryServer  
+class CRM_Contact_Server_StateCountry  
 {
     /**
      * This function is to get the state name based on the search criteria

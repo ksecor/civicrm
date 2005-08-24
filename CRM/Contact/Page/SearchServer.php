@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Contact/Server/StateCountry.php';
+require_once 'CRM/Contact/Server/Search.php';
 
 define ('JPSPAN_ERROR_DEBUG',TRUE);
 
@@ -43,12 +43,12 @@ require_once 'JPSpan.php';
 
 require_once JPSPAN . 'Server/PostOffice.php';
 
-class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page { 
+class CRM_Contact_Page_SearchServer extends CRM_Core_Page { 
 
     function run ($set) 
     {
         $S = & new JPSpan_Server_PostOffice();
-        $S->addHandler(new CRM_Contact_Server_StateCountry());
+        $S->addHandler(new CRM_Contact_Server_Search());
         
         if ( $set ) {
             // Compress the Javascript

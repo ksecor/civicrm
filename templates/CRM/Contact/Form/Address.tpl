@@ -3,7 +3,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 {* @var location.$index Contains the current location id, and assigned in the Location.tpl file *}
 
-<script type="text/javascript" src="{crmURL p='civicrm/contact/StateCountryServer' q="set=1&path=civicrm/contact/StateCountryServer"}"></script>
+<script type="text/javascript" src="{crmURL p='civicrm/server/stateCountry' q="set=1&path=civicrm/server/stateCountry"}"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/StateCountry.js"></script>
  
 <fieldset><legend>{ts}Address{/ts}</legend>
@@ -97,8 +97,3 @@
 <div class="spacer"></div>
 </fieldset>
 
-{literal}
-<script language="javascript">
-getState(this,event, false);
-</script>
-{/literal}

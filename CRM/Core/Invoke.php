@@ -81,6 +81,8 @@ class CRM_Core_Invoke {
         case 'mailing' : return self::mailing ( $args );
 
         case 'profile' : return self::profile ( $args );
+        
+        case 'server' :  return self::server  ( $args );
 
         default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
@@ -97,22 +99,6 @@ class CRM_Core_Invoke {
      */
     static function contact( $args ) {
        
-        //code added for testing ajax
-        if ($args[2] == 'StateCountryServer') {
-            $server =& new CRM_Contact_Page_StateCountryServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
-               
-                $path= '?q='.$path;
-                $session =& new CRM_Core_Session();
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
-       
-       
-        
         //code added for testing ajax
         if ($args[2] == 'test') {
             $wrapper =& new CRM_Utils_Wrapper( );
@@ -499,6 +485,46 @@ class CRM_Core_Invoke {
         exit();
     }
 
+
+    /**
+     * This function contains the action for server pages (ajax)
+     *
+     * @params $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
+    static function server( $args ) {
+
+        //this code is for state country widget
+        if ($args[2] == 'stateCountry') {
+            $server =& new CRM_Contact_Page_StateCountryServer( );
+            $set = CRM_Utils_Request::retrieve('set', $form);
+            if ($set) {
+                $path = CRM_Utils_Request::retrieve('path', $form );
+               
+                $path= '?q='.$path;
+                $session =& new CRM_Core_Session();
+                $session->set('path', $path);
+            }
+            return $server->run( $set );
+        }
+
+        //this code is for search widget
+        if ($args[2] == 'search') {
+            $server =& new CRM_Contact_Page_SearchServer( );
+            $set = CRM_Utils_Request::retrieve('set', $form);
+            if ($set) {
+                $path = CRM_Utils_Request::retrieve('path', $form );
+               
+                $path= '?q='.$path;
+                $session =& new CRM_Core_Session();
+                $session->set('path', $path);
+            }
+            return $server->run( $set );
+        }
+
+    }
 }
 
 ?>

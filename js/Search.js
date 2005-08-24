@@ -34,8 +34,9 @@
  *
  */
 
-function getState(input, evt, status) 
+function getSearchResult(input, evt) 
 {
+
     if (input.value.length == 0) {
         return;
     }
@@ -70,7 +71,7 @@ function getState(input, evt, status)
     CompletionHandler.lastLength = input.value.length;
       
     /*Create the remote client*/
-    var a = new crm_contact_server_statecountry (CompletionHandler);
+    var a = new crm_contact_server_search (CompletionHandler);
 
     /*Set a timeout for responses which take too long*/
     a.timeout = 3000;
@@ -85,20 +86,7 @@ function getState(input, evt, status)
     }
 
     /*Call the remote method*/
-    a.getstate(input.value, 0);
-  
-    /*  set the state id */
-    if (status == true) {
-
-	var input1 = document.getElementById('location[1][address][country_id]');
-	var countryId = input1.options[input1.selectedIndex].value;
-
-	var input2 = document.getElementById('location[1][address][state]');
-
-	var c = new crm_contact_server_statecountry (CompletionHandler);
-	c.getstate(input2.value, countryId );
-    }
-    
+    a.getsearchresult(input.value);
 }
 
 /*Callback handler*/
@@ -107,67 +95,19 @@ var CompletionHandler = {
     lastLength: 0,
     
     /*Callback method*/
-    getstate: function(result) {
+    getsearchresult: function(result) {
 	
         if (result.length < 1 ) {
             return;
         }        
 
-	if (isNaN(result)) { 
-	    var input = document.getElementById('location[1][address][state]');
-	    input.value = result.pop();
-	    var b = new crm_contact_server_statecountry (CompletionHandlerCountry);
-	    b.getcountry( input.value);
-	} else {
-	    var input2 = document.getElementById('location[1][address][state_province_id]');
-	    input2.value = result;
-	}
+	var input = document.getElementById('sort_name');
+	input.value = result;
 
         try {
             input.setSelectionRange(this.lastLength, input.value.length);
         } catch(e) {
         }
     }
-
-}
-
- /*Callback handler*/
-var CompletionHandlerCountry = {
-
-    lastLength: 0,
-
-    /*Callback method*/
-    getcountry: function(result) {
-        
-        if (result.length < 1 ) {
-            return;
-        }
-
-	var strCountry = result.toString();
-
-        strCountry = strCountry.replace("[","");
-        strCountry = strCountry.replace("]","");
-        strCountryArray = strCountry.split(",");
-
-        var input = document.getElementById('location[1][address][country_id]');
-
-	var optLen = input.options.length;
-	
-	for (i = optLen ; i > 0 ; i-- ) {
-	    input.remove(i);
-	}
-
-	for(var i=0; i<strCountryArray.length; i++)
-	{
-	    val = strCountryArray[i].split(":");
-     	    input.options[i] = new Option(val[1], val[0], true);
-	}
-	
-	input.focus();
-
-        try {
-            input.setSelectionRange(this.lastLength, input.value.length);
-        } catch(e) {
-        }
-    }
+    
 }

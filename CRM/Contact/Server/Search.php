@@ -34,33 +34,44 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
-require_once 'CRM/Contact/Server/StateCountry.php';
+//require_once 'CRM/Core/Error.php'; 
+//require_once 'CRM/Core/DAO.php'; 
+//require_once 'CRM/Core/PseudoConstant.php'; 
 
-define ('JPSPAN_ERROR_DEBUG',TRUE);
-
-require_once 'JPSpan.php';
-
-require_once JPSPAN . 'Server/PostOffice.php';
-
-class CRM_Contact_Page_StateCountryServer extends CRM_Core_Page { 
-
-    function run ($set) 
+/**
+ * This class is for search widget using JPSpan.
+ *
+ */
+class CRM_Contact_Server_Search
+{
+    /**
+     * This function is to get the contact name / email  based on the search criteria
+     * @param string $fragment this is the search string
+     *
+     * @return contact name / email  depending on search criteria
+     * @access public
+     */
+    function getSearchResult($fragment='') 
     {
-        $S = & new JPSpan_Server_PostOffice();
-        $S->addHandler(new CRM_Contact_Server_StateCountry());
-        
-        if ( $set ) {
-            // Compress the Javascript
-            // define('JPSPAN_INCLUDE_COMPRESS',TRUE);
-                        
-            $S->displayClient();
-        } else {
-            // Include error handler - PHP errors, warnings and notices serialized to JS
-            require_once 'packages/JPSpan/ErrorHandler.php';
-            $S->serve();
+        $fraglen = strlen($fragment);
+        $searchValues = array();
+        $searchRows = array();
+        $searchValues['sort_name'] = $fragment;         
+
+        $contactBAO  =& new CRM_Contact_BAO_Contact( );
+        $searchResult = $contactBAO->searchQuery($searchValues, 0, 50, null, false );
+        while($searchResult->fetch()) {
+            $searchRows[] = $searchResult->sort_name;    
         }
+        
+        for ( $i = $fraglen; $i > 0; $i-- ) {
+            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i', $searchRows);
+            
+            if ( count($matches) > 0 ) {
+                return array_shift($matches);
+            }
+        }
+        return '';
     }
 }
-
 ?>

@@ -1,5 +1,8 @@
 {* Search criteria form elements *}
 
+<script type="text/javascript" src="{crmURL p='civicrm/server/search' q="set=1&path=civicrm/server/search"}"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
+
 <fieldset>
     <legend>
         {if $context EQ 'smog'}{ts}Find Members of this Group{/ts}
