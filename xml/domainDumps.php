@@ -56,7 +56,9 @@ $DOMAIN_ID = $argv[1];
 $BACKUP_PATH = $argv[2];
 $MYSQL_USER = $argv[3];
 
-
+if ( isset($argv[4]) ) {
+   $MYSQL_USER = $MYSQL_USER . " " . $argv[4];
+}
 
 require_once '../modules/config.inc.php';
 require_once('DB.php');
@@ -191,13 +193,10 @@ function domainDump( &$tree, $nameArray, $frTable)
     
     $command = "mysql ".$MYSQL_USER ." civicrm -e '".$strQuery."'";
     
-    echo $command."\n\n";
+    //echo $command."\n\n";
     
     system($command);
-
-    //handle the mysql stat error
-    //chmod($fileName, 0755);  
-    
+   
     // mysql query to load data from files
     $loadFilePath = $BACKUP_PATH.'LOADBACKUP.sql';
     
@@ -207,7 +206,8 @@ function domainDump( &$tree, $nameArray, $frTable)
     
     fwrite($fp, $loadQuery);
     fclose($fp);
-    
+    //end of write to file
+
     foreach($node['children'] as &$childNode) {
         domainDump($childNode, $nameArray, $frTable, $domainId);      
     }    
