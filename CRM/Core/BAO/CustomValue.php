@@ -101,7 +101,6 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      */
     public static function create(&$params) {
         $customValue =& new CRM_Core_BAO_CustomValue();
-        CRM_Core_Error::debug( 'p', $params );
 
         $customValue->copyValues($params);
         
@@ -287,15 +286,9 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      * @access public
      * @static
      */
-    public static function whereClause(&$customField)
+    public static function whereClause( &$params )
     {
-        CRM_Core_Error::le_method();
-
-
-        CRM_Core_Error::debug_var('customField', $customField);
-
         /*
-
         The query below works fine (using self joins)
 
 SELECT t1.entity_id
@@ -313,57 +306,85 @@ WHERE t1.custom_field_id = 1
   AND t3.char_data LIKE '%PhD%'
  
   AND t1.entity_id = t2.entity_id
-  AND t2.entity_id = t3.entity_id;
-
+  AND t1.entity_id = t3.entity_id;
         */
 
 
         // get number of tables needed
-        $numTable = count($customField);
-        if(!$numTable) {
-            return "";
+        if ( ! is_array( $params ) && empty( $params ) ) {
+            return;
         }
 
-        $strSelect = 'SELECT t1.entity_id';
-        $strFrom = 'FROM';
-        $customFieldId = array_keys($customField);
-        CRM_Core_Error::debug_var('customFieldId', $customFieldId);
+        $select = ' SELECT t1.entity_id ';
 
-        for($i=1; $i<=$numTable; $i++) { 
-            CRM_Core_Error::debug_log_message("processing loop $i");           
-            $fieldId = $customFieldId[$i-1];
-            CRM_Core_Error::debug_var('fieldId', $fieldId);
-            $strFrom .= " civicrm_custom_value t$i,";
-            $strWhere1 .= " t$i.custom_field_id = $fieldId AND"; 
-            // need to make it work for others besides char data
-            //$strWhere2 .= " t$i.?? AND";
-            $strWhere2 .= " t$i.char_data LIKE '%". $customField[$fieldId] . "%' AND";
-            if($i==$numTable) {
-                continue;
+        $where = array( );
+        $from  = array( );
+        $index = 1;
+        foreach ( $params as $key => $value ) {
+            $clause  = self::getFieldWhereClause( $key, $index, $value );
+            if ( $clause ) { 
+                $from[]  = "civicrm_custom_value t$index";
+                $where[] = "t$index.custom_field_id = $key"; 
+                $where[] = $clause;
+                $index++;
             }
-            $strWhere3 .= " t$i.entity_id = t" . ($i+1) . '.entity_id AND';
+        }
+
+        // add equality clause for table entities
+        for ( $i = 2; $i < $index; $i++) {  
+            $where[] = ' t1.entity_id = t' . $i . '.entity_id'; 
+            $where[] = ' t1.entity_table = t' . $i . '.entity_table'; 
         }
         
-        $strFrom = rtrim($strFrom, ',');
+        $from  = " FROM "  . implode( ', '   , $from  );
+        $where = " WHERE " . implode( ' AND ', $where );
 
-        //preg_replace($pattern, $replacement, $string)
-        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
-        $strWhere3 = preg_replace("/(.*) AND$/", '$1', $strWhere3);
-        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
-
-        CRM_Core_Error::debug_var('strSelect', $strSelect);
-        CRM_Core_Error::debug_var('strFrom', $strFrom);
-        CRM_Core_Error::debug_var('strWhere1', $strWhere1);
-        CRM_Core_Error::debug_var('strWhere2', $strWhere2);
-        CRM_Core_Error::debug_var('strWhere3', $strWhere3);
-
-        $customValueSQL = " AND civicrm_contact.id IN ( $strSelect $strFrom WHERE $strWhere1 $strWhere2 $strWhere3 )";
-
-        CRM_Core_Error::debug_var('customValueSQL', $customValueSQL);
-
-        return $customValueSQL;
-
-        CRM_Core_Error::ll_method();
+        return " civicrm_contact.id IN ( $select $from $where ) ";
     }
+
+    static function getFieldWhereClause( $id, $index, $value ) {
+
+        // retrieve the field object
+        $cf =& new CRM_Core_DAO_CustomField( ); 
+        $cf->id = $id;
+        if ( $cf->find( true ) ) {
+            switch ( $cf->data_type ) {
+            case 'String':
+                $sql = ' t' . $index . '.char_data LIKE ';
+                if ( $cf->html_type == 'CheckBox' ) {
+                    return $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value ) ) . '"';
+                } else {
+                    return $sql . "'%" . $value . "%'";
+                } 
+
+            case 'Int':
+                return ' t' . $index . '.int_data = ' . $value;
+            case 'Boolean':
+                $value = ( $value == 'yes' ) ? 1 : 0;
+                return ' t' . $index . '.int_data = ' . $value; 
+
+            case 'Float':
+                return ' t' . $index . '.float_data = ' . $value;  
+
+            case 'Money':
+                return ' t' . $index . '.decimal_data = ' . $value;
+
+            case 'Memo':
+                return ' t' . $index . '.memo_data LIKE ' . "'%" . $value . "%'";
+
+            case 'Date':
+                return null;
+
+            case 'StateProvince': 
+                return ' t' . $index . '.int_data = ' . $value;  
+
+            case 'Country':
+                return ' t' . $index . '.int_data = ' . $value;  
+            }
+        }
+        return null;
+    }
+
 }
+
 ?>

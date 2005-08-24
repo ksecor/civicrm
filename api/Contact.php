@@ -360,7 +360,25 @@ function crm_delete_contact( &$contact ) {
     CRM_Contact_BAO_Contact::deleteContact( $contact->id );
 }
 
+/** 
+ * Get all the groups that a contact is a member of with the given status
+ * 
+ * @param CRM_Contact $contact Contact object whose groups we are interested in
+ *  
+ * @return void|CRM_Core_Error  An error if 'contact' is invalid, 
+ *  
+ * @access public 
+ * 
+ */ 
+function crm_contact_groups( &$contact, $status = null ) { 
+    _crm_initialize( ); 
 
+    if ( ! isset( $contact->id ) ) {
+        return _crm_error( 'Invalid contact object passed in' ); 
+    }
 
+    $values =& CRM_Contact_BAO_GroupContact::getContactGroup( $contact->id, $status, null, false );
+    return $values;
+}
 
 ?>

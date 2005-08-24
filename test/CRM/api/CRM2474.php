@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfGetGroupContacts extends UnitTestCase 
+class TestOfCRM2474 extends UnitTestCase 
 {
 
     
@@ -14,7 +14,7 @@ class TestOfGetGroupContacts extends UnitTestCase
     {
     }
 
-    function testGetGroupContacts()
+    function testCRM2474()
     {
         
         $group = new CRM_Contact_DAO_Group();

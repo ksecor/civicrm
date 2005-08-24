@@ -797,27 +797,25 @@ WHERE t1.custom_field_id = 1
         CRM_Core_Error::debug_var('fv', $fv);
         $params = array();
 
-        foreach ($fv as $k => $v) {
-            if ( substr( $k, 0, 10 ) != 'customData' ) {
-                continue;
+        if ( is_array( $fv ) && ! empty( $fv ) ) {
+            foreach ($fv as $k => $v) {
+                if ( substr( $k, 0, 10 ) != 'customData' ) {
+                    continue;
+                }
+                
+                list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
+                if ($v != '') {
+                    $params[$fieldId] = $v;
+                }
             }
-            
-            list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
 
-            CRM_Core_Error::debug_log_message("\$k = $k       \$v = $v .");
-
-            //if ( $str == 'customData' && $v != '') {
-            if ($v != '') {
-                CRM_Core_Error::debug_log_message("Adding \$k = $k       \$v = $v .");
-                $params[$fieldId] = $v;
+            if ( ! empty( $params ) ) {
+                $tables['civicrm_custom_value'] = 1;
+                $sql = CRM_Core_BAO_CustomValue::whereClause($params); 
+                if ( $sql ) {
+                    $andArray['custom_value'] = $sql;
+                }
             }
-        }
-
-        //CRM_Core_Error::debug_var('params', $params);
-        if (count($params)) {
-            $tables['civicrm_custom_value'] = 1;
-            $customValueSQL = CRM_Core_BAO_CustomValue::whereClause($params);
-            CRM_Core_Error::debug_var('customValueSQL', $customValueSQL);
         }
 
 
