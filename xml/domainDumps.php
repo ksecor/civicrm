@@ -12,11 +12,77 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
+
+/*if ( empty($argv) ) {
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    echo "mysqluser details ===> -u<username> -p<password>\n\n";
+    exit(1);
+}*/
+
+/*if ( empty($argv[3])) {
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    echo "mysqluser details ===> -u<username> -p<password>\n\n";
+    exit(1);
+}*/
+$error = array();
+if ( empty($argv[1]) ){ 
+    $error[] = "Set the domain Id\n";
+
+}
+
+if ( empty($argv[2]) ){ 
+    $error[] = "Set the path to dump the backup \n"; 
+}
+
+if ( empty($argv[3]) ){ 
+    $error[] = "Set the mysql user details eg: -uUsername -pPassword\n";    
+} else {
+    if ( !preg_match("/-u/", $argv[3]) ) {
+        $error[] = "Incorrect parameter for Mysql user details!!\n";    
+    }
+}
+
+if ( isset($argv[2]) && !is_writeable($argv[2]) ) {
+    $error[] = "You need write permissions to dir ". $argv[2]."\n";
+}
+
+if ( !empty($error) ) { 
+    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
+    foreach ( $error as $v) {
+        echo $v."\n";
+    }
+    exit(1);
+}
+
+//set the /path/to/backup and domain id 
+$DOMAIN_ID = $argv[1];
+$BACKUP_PATH = $argv[2];
+$MYSQL_USER = $argv[3];
+
+if ( isset($argv[4]) ) {
+    if ( !preg_match("/-p/", $argv[4]) ) {
+        echo "Incorrect parameter for Mysql user details!!\n\n";
+        exit(1);
+    }
+    $MYSQL_USER = $MYSQL_USER . " " . $argv[4];
+}
+
+
 require_once '../modules/config.inc.php';
 require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';
 require_once 'CRM/Core/Error.php';
+
+//test wether the supplied username and password are correct
+$dsn_domain  = "mysql://".str_replace('-u', '', $argv[3]).":".str_replace('-p', '', $argv[4])."@localhost/civicrm";
+$db_domain = DB::connect($dsn_domain);
+if ( DB::isError( $db_domain ) ) {
+    die( "Cannot connect to civicrm db , " . $db_domain->getMessage( ) ."\n");
+}
+
+$db_domain->disconnect( );
+
 
 $file = 'schema/Schema.xml';
 
@@ -40,14 +106,6 @@ $tables = orderTables( $tables );
 
 $tree1 = array();
 
-if ( empty($argv[1]) ) {
-    echo "Usage: php domainDumps.php <domain value> \n\n";
-    exit(1);
-}
-
-$domainId = $argv[1];
-$backupPath = $argv[2]; 
-
 foreach ($tables as $k => $v) {
     $tableName = $k;
     $tree1[$tableName] = array();
@@ -69,7 +127,9 @@ foreach ($tables as $key => $value) {
     }
 
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        $frTable[$value['name']][$v1['table']] = $v1['name'];
+        if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
+            $frTable[$value['name']][$v1['table']] = $v1['name'];
+        }
     }
 }
 
@@ -106,16 +166,18 @@ foreach($frTable as $key => $val) {
     }
 }
 
-
 $tempTree = $domainTree->getTree();
 
-domainDump($tempTree['rootNode'], null, $frTable, $domainId);
+domainDump($tempTree['rootNode'], null, $frTable);
 
-function domainDump( &$tree, $nameArray, $frTable, $domainId )
+function domainDump( &$tree, $nameArray, $frTable)
 {
     if ( !isset($nameArray) ) {
         $nameArray = array();
     }
+    global $BACKUP_PATH;
+    global $DOMAIN_ID;
+    global $MYSQL_USER;
 
     $node = $tree;
 
@@ -133,43 +195,45 @@ function domainDump( &$tree, $nameArray, $frTable, $domainId )
         $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
     }
     
-    $whereCondition[] = "civicrm_domain.id = ".$domainId;
+    $whereCondition[] = "civicrm_domain.id = ".$DOMAIN_ID;
     
     $whereClause = implode(" AND ", $whereCondition);
 
-    $fileName = '/home/siddharth/backupsql/'. $tempNameArray[0].".sql";
+    $fileName = $BACKUP_PATH. $tempNameArray[0].".sql";
 
     //file exist counter
     $counter = 0;
     while  ( file_exists($fileName) ) {
         ++$counter;
-        $fileName = '/home/siddharth/backupsql/'.$tempNameArray[0]."".$counter.".sql";
+        $fileName =  $BACKUP_PATH.$tempNameArray[0]."".$counter.".sql";
     }
 
     $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "'. $fileName .'" FROM '. $tables .' WHERE '. $whereClause ;
     
-    $command = "mysql -uroot civicrm -e '".$strQuery."'";
+    $command = "mysql ".$MYSQL_USER ." civicrm -e '".$strQuery."'";
     
     echo $command."\n\n";
     
     system($command);
-
-    //handle the mysql stat error
-    chmod($fileName, 0755); 
-
+   
     // mysql query to load data from files
+    $loadFilePath = $BACKUP_PATH.'LOADBACKUP.sql';
     
-    $fp = fopen('/home/siddharth/backupsql/LOADBACKUP.SQL', 'a+');
+    $fp = fopen($loadFilePath, 'a+');
 
-    $loadQuery = "mysql -uroot civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
+    $loadQuery = "mysql ".$MYSQL_USER." civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
     
     fwrite($fp, $loadQuery);
     fclose($fp);
-    
-    foreach($node['children'] as &$childNode) {
-        domainDump($childNode, $nameArray, $frTable, $domainId);      
-    }    
+    //end of write to file
+
+    if ( !empty($node['children']) ) {
+        foreach($node['children'] as &$childNode) {
+            domainDump($childNode, $nameArray, $frTable, $domainId);      
+        }    
+    }
 }
+
 
 exit(1);
 

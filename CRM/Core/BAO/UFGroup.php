@@ -491,6 +491,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     continue;
                 }
 
+                $index = $cf->label;
+                $values[$index] = null;
                 // make sure the custom value exists
                 $cv =& new CRM_Core_BAO_CustomValue();
                 $cv->custom_field_id = $cfID;
@@ -500,7 +502,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     continue;
                 }
 
-                $index = $cf->label;
                 switch($cf->html_type) {
 
                 case "Radio":

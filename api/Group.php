@@ -248,17 +248,20 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'Ad
  *
  * @access public
  */
-function crm_delete_group_contacts(&$group, $contacts,$method = 'Admin') {
+function crm_delete_group_contacts(&$group, $contacts, $method = 'Admin') {
     _crm_initialize( );
-     
-    foreach($contacts as $contact){
+
+    $contactID = array( );
+    foreach ( $contacts as $contact ) {
         if ( ! isset($contact->id)) {
             return _crm_error( 'Invalid contact object passed in' );
         }
         $contactID[] = $contact->id;
-    } 
-  
-    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method);
+    }
+
+    if ( ! empty( $contactID ) ) {
+        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method);
+    }
     return null;
 }
 

@@ -109,7 +109,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function &getValues( &$params, &$values, &$ids ) {
 
-        //$groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , 3 );
         $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'Added' , 3 );
 
         // get the total count of groups
@@ -176,6 +175,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
+        if ( ! is_array( $contactIds ) ) {
+            return array( 0, 0, 0 );
+        }
+
         $date = date('YmdHis');
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
@@ -201,8 +204,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
                 $groupContact->status     = $status;
-//                 $groupContact->out_method = 'Admin';
-//                 $groupContact->out_date   = $date;
                 $groupContact->save( );
                 $numContactsRemoved++;
             } else {
@@ -308,8 +309,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $groupContact->query($sql);
 
         if ( $count ) {
-            // does not work for php4
-            //$row = $groupContact->getDatabaseResult()->fetchRow();
             $result = $groupContact->getDatabaseResult();
             $row    = $result->fetchRow();
             return $row[0];

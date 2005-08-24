@@ -156,9 +156,16 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
     function &getColumnHeaders($action = null, $output = null) 
     {
         if ( ! isset( self::$_columnHeaders ) ) {
-            self::$_columnHeaders = array( );
-            foreach ( $this->_fields as $field ) {
-                self::$_columnHeaders[] = array( 'name'=> $field['title'] );
+            // this is a gross hack, we get the values and use the keys as column headers
+            $result = $this->query(false, 0, 1);
+            if ( $result->fetch( ) ) { 
+                $row = array( ); 
+                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row ); 
+
+                self::$_columnHeaders = array( );
+                foreach ( $row as $name => $value ) {
+                    self::$_columnHeaders[] = array( 'name'=> $name );
+                }
             }
         }
         return self::$_columnHeaders;

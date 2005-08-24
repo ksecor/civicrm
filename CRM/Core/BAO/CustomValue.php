@@ -101,14 +101,23 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      */
     public static function create(&$params) {
         $customValue =& new CRM_Core_BAO_CustomValue();
-        CRM_Core_Error::debug( 'p', $params );
 
         $customValue->copyValues($params);
         
         switch($params['type']) {
-            case 'String':
             case 'StateProvince':
+                $states =& CRM_Core_PseudoConstant::stateProvince();
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($params['value'], $states);
+                $customValue->char_data = $params['value'];
+                break;
             case 'Country':
+                $countries =& CRM_Core_PseudoConstant::country();
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($params['value'], $countries);
+                $customValue->char_data = $params['value'];
+                break;
+            case 'String':
                 $customValue->char_data = $params['value'];
                 break;
             case 'Boolean':
@@ -180,14 +189,17 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      * @return string the mysql type
      * @access public
      */
-    public function getField( &$isBool ) {
-        $cf =& new CRM_Core_BAO_CustomField();
-        $cf->id = $this->custom_field_id;
+    public function getField( &$isBool, $cf = null) {
+        if ($cf == null) {
+            $cf =& new CRM_Core_BAO_CustomField();
+            $cf->id = $this->custom_field_id;
 
-        if (! $cf->find(true)) {
-            return null;
+            if (! $cf->find(true)) {
+                return null;
+            }
         }
-        $isBool = $cf->data_type == Boolean ? true : false;
+
+        $isBool = $cf->data_type == 'Boolean' ? true : false;
 
         return $this->typeToField($cf->data_type);
     }
@@ -257,14 +269,163 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         
         $customValue->find(true);
 
-        $isBool = false;
-        $field = $customValue->getField($isBool);
-        if ($isBool) {
-            $value = CRM_Utils_String::strtobool($value);
+        $cf =& new CRM_Core_BAO_CustomField();
+        $cf->id = $cfId;
+        $cf->find(true);
+
+        if ($cf->data_type == 'StateProvince') {
+            $states =& CRM_Core_PseudoConstant::stateProvince();
+            if (CRM_Utils_Rule::integer($value)) {
+                $customValue->int_data = $value;
+                $customValue->char_data = 
+                    CRM_Utils_Array::value($value, $states);
+            } else {
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($value, $states);
+                $customValue->char_data = $value;
+            }
+        } elseif ($cf->data_type == 'Country') {
+            $countries =& CRM_Core_PseudoConstant::country();
+            if (CRM_Utils_Rule::integer($value)) {
+                $customValue->int_data = $value;
+                $customValue->char_data = 
+                    CRM_Utils_Array::value($value, $countries);
+            } else {
+                $customValue->int_data = 
+                    CRM_Utils_Array::key($value, $countries);
+                $customValue->char_data = $value;
+            }
+        } else {
+            $isBool = false;
+            $field = $customValue->getField($isBool, $cf);
+            if ($isBool) {
+                $value = CRM_Utils_String::strtobool($value);
+            }
+            $customValue->$field = $value;
         }
-        $customValue->$field = $value;
         
         $customValue->save();
     }
+
+
+    /**
+     * Get the 'SELECT' query for getting contacts id's 
+     * which match all the field_id => value parameters
+     *
+     * For example given the following parameter
+     *       custom_field_1 => value1
+     *       custom_field_2 => value2
+     *
+     * The function returns a select statement which will
+     * return contact id's which have a value1 and value2
+     * for custom_field_1 and custom_field_2
+     *
+     * @param array(ref)  $customField
+     *
+     * @return string $customValueSQL
+     *
+     * @access public
+     * @static
+     */
+    public static function whereClause( &$params )
+    {
+        /*
+        The query below works fine (using self joins)
+
+SELECT t1.entity_id
+
+FROM civicrm_custom_value t1,
+     civicrm_custom_value t2,
+     civicrm_custom_value t3
+ 
+WHERE t1.custom_field_id = 1
+  AND t2.custom_field_id = 2
+  AND t3.custom_field_id = 5
+ 
+  AND t1.int_data = 1
+  AND t2.char_data LIKE '%Congress%'
+  AND t3.char_data LIKE '%PhD%'
+ 
+  AND t1.entity_id = t2.entity_id
+  AND t1.entity_id = t3.entity_id;
+        */
+
+
+        // get number of tables needed
+        if ( ! is_array( $params ) && empty( $params ) ) {
+            return;
+        }
+
+        $select = ' SELECT t1.entity_id ';
+
+        $where = array( );
+        $from  = array( );
+        $index = 1;
+        foreach ( $params as $key => $value ) {
+            $clause  = self::getFieldWhereClause( $key, $index, $value );
+            if ( $clause ) { 
+                $from[]  = "civicrm_custom_value t$index";
+                $where[] = "t$index.custom_field_id = $key"; 
+                $where[] = $clause;
+                $index++;
+            }
+        }
+
+        // add equality clause for table entities
+        for ( $i = 2; $i < $index; $i++) {  
+            $where[] = ' t1.entity_id = t' . $i . '.entity_id'; 
+            $where[] = ' t1.entity_table = t' . $i . '.entity_table'; 
+        }
+        
+        $from  = " FROM "  . implode( ', '   , $from  );
+        $where = " WHERE " . implode( ' AND ', $where );
+
+        return " civicrm_contact.id IN ( $select $from $where ) ";
+    }
+
+    static function getFieldWhereClause( $id, $index, $value ) {
+
+        // retrieve the field object
+        $cf =& new CRM_Core_DAO_CustomField( ); 
+        $cf->id = $id;
+        if ( $cf->find( true ) ) {
+            switch ( $cf->data_type ) {
+            case 'String':
+                $sql = ' t' . $index . '.char_data LIKE ';
+                if ( $cf->html_type == 'CheckBox' ) {
+                    return $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value ) ) . '"';
+                } else {
+                    return $sql . "'%" . $value . "%'";
+                } 
+
+            case 'Int':
+                return ' t' . $index . '.int_data = ' . $value;
+            case 'Boolean':
+                $value = ( $value == 'yes' ) ? 1 : 0;
+                return ' t' . $index . '.int_data = ' . $value; 
+
+            case 'Float':
+                return ' t' . $index . '.float_data = ' . $value;  
+
+            case 'Money':
+                return ' t' . $index . '.decimal_data = ' . $value;
+
+            case 'Memo':
+                return ' t' . $index . '.memo_data LIKE ' . "'%" . $value . "%'";
+
+            case 'Date':
+                return null;
+
+            case 'StateProvince': 
+                return ' t' . $index . '.int_data = ' . $value;  
+
+            case 'Country':
+                return ' t' . $index . '.int_data = ' . $value;  
+            }
+        }
+        return null;
+    }
+
 }
+
 ?>

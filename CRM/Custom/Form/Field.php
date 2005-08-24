@@ -307,9 +307,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 break;
 
             case 'Boolean':
-                $default = ucfirst( strtolower($default) );
-                if ( $default != ts('Yes') && $default != ts('No') ) {
-                    $errors['default_value'] = ts( 'Please enter yes or no as default value.' );
+                if ( ! CRM_Utils_Rule::integer( $default ) &&
+                     ( $default != '1' || $default != '0' ) ) {
+                    $errors['default_value'] = ts( 'Please enter 1 or 0 as default value.' );
                 }
                 break;
 
