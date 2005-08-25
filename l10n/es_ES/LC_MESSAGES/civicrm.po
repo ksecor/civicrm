@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-22 13:03+0200\n"
+"POT-Creation-Date: 2005-08-25 12:14+0200\n"
 "PO-Revision-Date: 2005-08-23 22:41+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -2735,20 +2735,13 @@ msgstr "Por Favor, introduce un número válido como valor por defecto."
 msgid ""
 "Please enter a valid date as default value using YYYY-MM-DD format. Example: "
 "2004-12-31."
-msgstr "Por Favor, introduce una fecha válida como valor por defecto usando el formato AAA-MM-DD."
-"Por ejemplo:"
-"2004-12-31"
+msgstr ""
+"Por Favor, introduce una fecha válida como valor por defecto usando el "
+"formato AAA-MM-DD.Por ejemplo:2004-12-31"
 
 #: CRM/Custom/Form/Field.php
-msgid "yes"
-msgstr "sí"
-
-#: CRM/Custom/Form/Field.php
-msgid "no"
-msgstr "no"
-
-#: CRM/Custom/Form/Field.php
-msgid "Please enter yes or no as default value."
+#, fuzzy
+msgid "Please enter 1 or 0 as default value."
 msgstr "Por Favor, introduce sí o no como valor por defecto."
 
 #: CRM/Custom/Form/Field.php
@@ -2857,14 +2850,6 @@ msgstr ""
 "¿Estás seguro que quieres deshabilitar este campo de datos personalizado?"
 
 #: CRM/Custom/Page/Field.php
-msgid "Preview Field Display"
-msgstr "Previsualizar Visualización de campo"
-
-#: CRM/Custom/Page/Field.php
-msgid "Preview Custom Field"
-msgstr "Previsualizar Campo personalizado"
-
-#: CRM/Custom/Page/Field.php
 msgid "Edit Field"
 msgstr "Editar Campo"
 
@@ -2879,6 +2864,14 @@ msgstr "Editr Opciones Multi-Elección"
 #: CRM/Custom/Page/Field.php
 msgid "List Custom Options"
 msgstr "Listar Opciones Personalizadas"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Field Display"
+msgstr "Previsualizar Visualización de campo"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Custom Field"
+msgstr "Previsualizar Campo personalizado"
 
 #: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
@@ -2926,16 +2919,16 @@ msgstr ""
 "¿Estás seguro que quieres deshabilitar esta opción de dato personalizado?"
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
-msgstr "Ver Opción Personalizada"
-
-#: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr "Editar Opción"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Custom Option"
 msgstr "Editar Opción Personalizada"
+
+#: CRM/Custom/Page/Option.php
+msgid "View Custom Option"
+msgstr "Ver Opción Personalizada"
 
 #: CRM/Custom/Page/Option.php
 msgid "Enable Custom Option"
@@ -3317,7 +3310,8 @@ msgid ""
 "\n"
 "You have a pending subscription to %1.  To confirm this \n"
 "subscription, reply to this message."
-msgstr "\n"
+msgstr ""
+"\n"
 "Tienes una suscripción pendiente a %1.  Para confirmar la \n"
 "subscripción, responde a este mensaje."
 
@@ -3774,7 +3768,8 @@ msgstr "La dirección postal de tu organización"
 
 #: CRM/Utils/Token.php
 msgid "Link to allow contacts to opt out of your organization"
-msgstr "Enlace para permitir contactos de salida opcionales fuera de tu organización"
+msgstr ""
+"Enlace para permitir contactos de salida opcionales fuera de tu organización"
 
 #: CRM/Utils/Token.php
 msgid ""
@@ -3877,7 +3872,9 @@ msgstr "Ver Actividad Programada"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Activity will be moved to Activity History when status is 'Completed'."
-msgstr "La Actividad se moverá al Historial de Actividad cuando el estado sea 'Completado'"
+msgstr ""
+"La Actividad se moverá al Historial de Actividad cuando el estado sea "
+"'Completado'"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
@@ -3951,9 +3948,17 @@ msgid ""
 "using 'Advanced Search'. Other applications may record activities for "
 "CiviCRM contacts using our APIs. For more information, refer to our "
 "Administrator Documentation.</p>"
-msgstr "<p>Las Actividades son 'interacciones con contactos' los cuales quieres registrar y monitorizar. CiviCRM tiene varios tipos de actividades reservados (citas, Llamadas, emails enviados). Crea 'tipos de actividad' adicionales aquí si necesitas registrar otros tipos de actividades. Por ejemplo, puede que quieras incluir 'Nuevo Producto de Cliente', o 'Site Intervenido', etc. ...como tipo de actividades traceables.</p>\n"
-"    <p>Las Actividades finalizadas se pueden buscar por tipo y/o fecha de actividad usando la 'Busqueda Avanzada'. Otras aplicaciones pueden guardar actividades para los contactos CiviCRM usando nuestras APIs. Para más información, revisa nuestra Documentación de "
-"Administrador.</p>"
+msgstr ""
+"<p>Las Actividades son 'interacciones con contactos' los cuales quieres "
+"registrar y monitorizar. CiviCRM tiene varios tipos de actividades "
+"reservados (citas, Llamadas, emails enviados). Crea 'tipos de actividad' "
+"adicionales aquí si necesitas registrar otros tipos de actividades. Por "
+"ejemplo, puede que quieras incluir 'Nuevo Producto de Cliente', o 'Site "
+"Intervenido', etc. ...como tipo de actividades traceables.</p>\n"
+"    <p>Las Actividades finalizadas se pueden buscar por tipo y/o fecha de "
+"actividad usando la 'Busqueda Avanzada'. Otras aplicaciones pueden guardar "
+"actividades para los contactos CiviCRM usando nuestras APIs. Para más "
+"información, revisa nuestra Documentación de Administrador.</p>"
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -3991,8 +3996,9 @@ msgstr "Estado"
 msgid ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
 "a>."
-msgstr "No Existen tipos de Actividades personalizadas introducidos. Puedes <a href=\"%1\">añadir "
-"uno</a>."
+msgstr ""
+"No Existen tipos de Actividades personalizadas introducidos. Puedes <a href="
+"\"%1\">añadir uno</a>."
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid ""
@@ -4179,16 +4185,15 @@ msgstr ""
 "\">añadir uno</a>."
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
+#, fuzzy
 msgid ""
-"<p>This sandbox site is running code in active development towards our 1.1 "
-"release. Some functions may not be fully operational. Check out our <a href="
-"\"%2\" target=\"_blank\">Demo site</a> if you'd like to try out our latest "
-"stable release.</p>\n"
-"     <p>To see a list of features and fixes under development, please review "
-"the open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</"
-"a>.</p>\n"
+"<p>This site is running the 1.1 Beta release. All functions should be "
+"operational.</p>\n"
+"     <p>To see a list of known bugs and issues, and to report new bugs, "
+"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
+"p>\n"
 "     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%3\">CiviCRM Comments Page</a>.</p>"
+"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
 "<p>Esta aplicación está en continuo desarrollo. Algunas funciones pueden no "
 "estar completamente operativas. Comprueba nuestro <a href=\"%2\" target="
@@ -4221,7 +4226,9 @@ msgstr ""
 msgid ""
 "Enter optional 'add-on' code after the dash ('plus 4' code for U.S. "
 "addresses)."
-msgstr "Introduce el 'añadido' opcional después del guión ('más 4' código para las direcciones de U.S.)."
+msgstr ""
+"Introduce el 'añadido' opcional después del guión ('más 4' código para las "
+"direcciones de U.S.)."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Communication Preferences"
@@ -4415,7 +4422,8 @@ msgstr "Editar criterio de búsqueda"
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
+msgstr ""
+"Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
 "nombre Y apellidos, introduce 'apellidos, nombre'. Ejemplo 'Lopez Garcia, "
 "Antonio'."
 
@@ -4423,8 +4431,9 @@ msgstr "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos 
 msgid ""
 "%1 has no members which match your search criteria. You can <a href=\"%2"
 "\">add members here.</a>"
-msgstr "%1 no existen miembros que coincidan con tu criterio de búsqueda. Puedes <a href=\"%2\">añadir miembros aquí."
-"</a>"
+msgstr ""
+"%1 no existen miembros que coincidan con tu criterio de búsqueda. Puedes <a "
+"href=\"%2\">añadir miembros aquí.</a>"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "No matches found for:"
@@ -4476,8 +4485,13 @@ msgid ""
 "members who have been 'Removed' from this group.</p>\n"
 "        <p>Use the <a href=\"%2\">Add Members...</a> screen if you want to "
 "add new members to this group.</p>"
-msgstr "<p>Los miembros del Grupo <strong>%1</strong> están listados debajo. Usa 'Encontrar Miembros...' para buscar miembros específicos. Usa los checkboxes 'Estado del Grupo...' para ver los miebros con estado 'Pendiente' y/o miembros que han sido 'Eliminados' de este grupo.</p>\n"
-"        <p>Usa la pantalla <a href=\"%2\">Añadir Miembros...</a> si quieres añadir nuevos miembros a este grupo.</p>"
+msgstr ""
+"<p>Los miembros del Grupo <strong>%1</strong> están listados debajo. Usa "
+"'Encontrar Miembros...' para buscar miembros específicos. Usa los checkboxes "
+"'Estado del Grupo...' para ver los miebros con estado 'Pendiente' y/o "
+"miembros que han sido 'Eliminados' de este grupo.</p>\n"
+"        <p>Usa la pantalla <a href=\"%2\">Añadir Miembros...</a> si quieres "
+"añadir nuevos miembros a este grupo.</p>"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
@@ -4487,7 +4501,8 @@ msgstr "Añadir Miembros a %1"
 msgid ""
 "Use the Search form to find contacts to add to %1. Mark the contacts you "
 "want to add and click 'Add Contacts...'."
-msgstr "Usa el formulario Buscar para encontrar contactos para añadir a %1. Marca "
+msgstr ""
+"Usa el formulario Buscar para encontrar contactos para añadir a %1. Marca "
 "los contactos que quieras añadir y haz clic en el botón 'Añadir "
 "Contactos...'."
 
@@ -4754,7 +4769,8 @@ msgstr "Miembros del Grupo"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
 "No current group memberships. You can <a href=\"%1\">add %2 to a group</a>."
-msgstr "No pertenece a ningún Grupo. Puedes <a href=\"%1\">añadir %2 a un grupo</a>."
+msgstr ""
+"No pertenece a ningún Grupo. Puedes <a href=\"%1\">añadir %2 a un grupo</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No current group memberships."
@@ -4786,7 +4802,8 @@ msgstr "Nuevo miembro del Grupo"
 msgid ""
 "There are no Notes. You can <a href=\"%1\">enter notes</a> about this "
 "contact."
-msgstr "Sin Notas. Puedes <a href=\"%1\">introducir notas</a> sobre este contacto."
+msgstr ""
+"Sin Notas. Puedes <a href=\"%1\">introducir notas</a> sobre este contacto."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no Notes for this contact."
@@ -4811,10 +4828,6 @@ msgid "New Note"
 msgstr "Nueva Nota"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
-msgid "Edit custom data"
-msgstr "Editar datos personalizados"
-
-#: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
 "Contact. You can either <a href=\"%1\">add Custom Group</a> or <a href=\"%2"
@@ -4835,7 +4848,8 @@ msgstr ""
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
 "Contact."
-msgstr "No hay o Grupos Personalizados o Campos Personalizados para este contacto."
+msgstr ""
+"No hay o Grupos Personalizados o Campos Personalizados para este contacto."
 
 #: templates/CRM/Contact/Page/View/Email.tpl
 msgid "Date Sent"
@@ -4972,7 +4986,10 @@ msgid ""
 "Select the type of data you want to collect and store for this contact. Then "
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
-msgstr "Selecciona el tipo de datos que quieres recoger y almacenar para este contacto. Luego selecciona los campos de entrada HTML disponibles (las opciones se basan en el tipo de dato que se está recogiendo)."
+msgstr ""
+"Selecciona el tipo de datos que quieres recoger y almacenar para este "
+"contacto. Luego selecciona los campos de entrada HTML disponibles (las "
+"opciones se basan en el tipo de dato que se está recogiendo)."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5144,8 +5161,9 @@ msgstr "Nuevo campo personalizado"
 msgid ""
 "There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
 "a>."
-msgstr "No hay campos personalizados para el Grupo Personalizado \"%1\", <a href=\"%2\">añade uno</"
-"a>."
+msgstr ""
+"No hay campos personalizados para el Grupo Personalizado \"%1\", <a href=\"%2"
+"\">añade uno</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
@@ -5532,6 +5550,10 @@ msgstr ""
 "El formato del fichero debe tener los valores separados por coma (CSV)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Maximum Upload File Size: %1 MB"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
@@ -5718,13 +5740,15 @@ msgid ""
 "other users and site visitors.</p>\n"
 "    <p>Each 'CiviCRM Profile' is presented as a separate form when new users "
 "register for an account, as well as when they edit an existing account.</p>"
-msgstr "<p>Configurando 'Perfil CiviCRM', se permite a los usuarios finales editar y/"
+msgstr ""
+"<p>Configurando 'Perfil CiviCRM', se permite a los usuarios finales editar y/"
 "o ver campos específicos de su propia información de contactos. "
-"Adicionalmente, los campos del 'Perfil CiviCRM' controla los datos usados para "
-"asociar un registro con un usuario. También puedes marcar campos 'Perfil CiviCRM' como visibles por otros usuarios y visitantes.</p>\n"
-"    <p>Cada 'Perfil CiviCRM' es presentado como un formulario "
-"separado cuando nuevos usuarios registran una cuenta, así como cuando editan "
-"una cuenta existente.</p>"
+"Adicionalmente, los campos del 'Perfil CiviCRM' controla los datos usados "
+"para asociar un registro con un usuario. También puedes marcar campos "
+"'Perfil CiviCRM' como visibles por otros usuarios y visitantes.</p>\n"
+"    <p>Cada 'Perfil CiviCRM' es presentado como un formulario separado "
+"cuando nuevos usuarios registran una cuenta, así como cuando editan una "
+"cuenta existente.</p>"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -5738,12 +5762,22 @@ msgstr "Nuevo Perfil CiviCRM"
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
 "now</a>."
-msgstr "Todavía no se han creado Perfiles CiviCRM. Puedes <a href=\"%1"
-"\">añadir uno ahora</a>."
+msgstr ""
+"Todavía no se han creado Perfiles CiviCRM. Puedes <a href=\"%1\">añadir uno "
+"ahora</a>."
 
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(paso %1 de %2)"
+
+#~ msgid "yes"
+#~ msgstr "sí"
+
+#~ msgid "no"
+#~ msgstr "no"
+
+#~ msgid "Edit custom data"
+#~ msgstr "Editar datos personalizados"
 
 #~ msgid "In"
 #~ msgstr "Dentro"
@@ -5818,4 +5852,3 @@ msgstr "(paso %1 de %2)"
 #~ msgstr ""
 #~ "<label>Reemplazar:</label> Reemplaza las coincidencias en la base de "
 #~ "datos con los contactos importados."
-

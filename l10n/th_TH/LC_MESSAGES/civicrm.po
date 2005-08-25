@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-22 13:03+0200\n"
+"POT-Creation-Date: 2005-08-25 12:14+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2779,16 +2779,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
-msgid "yes"
-msgstr "ใช่"
-
-#: CRM/Custom/Form/Field.php
-msgid "no"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Please enter yes or no as default value."
+msgid "Please enter 1 or 0 as default value."
 msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 
 #: CRM/Custom/Form/Field.php
@@ -2897,14 +2888,6 @@ msgid "Are you sure you want to disable this custom data field?"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
-msgid "Preview Field Display"
-msgstr ""
-
-#: CRM/Custom/Page/Field.php
-msgid "Preview Custom Field"
-msgstr ""
-
-#: CRM/Custom/Page/Field.php
 msgid "Edit Field"
 msgstr ""
 
@@ -2918,6 +2901,14 @@ msgstr ""
 
 #: CRM/Custom/Page/Field.php
 msgid "List Custom Options"
+msgstr ""
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Field Display"
+msgstr ""
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Custom Field"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
@@ -2966,15 +2957,15 @@ msgid "Are you sure you want to disable this custom data option?"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
-msgstr ""
-
-#: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Custom Option"
+msgstr ""
+
+#: CRM/Custom/Page/Option.php
+msgid "View Custom Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
@@ -4201,15 +4192,13 @@ msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
 msgid ""
-"<p>This sandbox site is running code in active development towards our 1.1 "
-"release. Some functions may not be fully operational. Check out our <a href="
-"\"%2\" target=\"_blank\">Demo site</a> if you'd like to try out our latest "
-"stable release.</p>\n"
-"     <p>To see a list of features and fixes under development, please review "
-"the open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</"
-"a>.</p>\n"
+"<p>This site is running the 1.1 Beta release. All functions should be "
+"operational.</p>\n"
+"     <p>To see a list of known bugs and issues, and to report new bugs, "
+"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
+"p>\n"
 "     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%3\">CiviCRM Comments Page</a>.</p>"
+"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
 
 #: templates/CRM/common/recentlyViewed.tpl
@@ -4786,10 +4775,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/CustomData.tpl
-msgid "Edit custom data"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
@@ -5401,6 +5386,10 @@ msgid "File format must be comma-separated-values (CSV)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Maximum Upload File Size: %1 MB"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
@@ -5574,6 +5563,10 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "yes"
+#~ msgstr "ใช่"
 
 #, fuzzy
 #~ msgid "Bounce Type"

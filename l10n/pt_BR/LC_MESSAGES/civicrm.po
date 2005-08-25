@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-22 13:03+0200\n"
+"POT-Creation-Date: 2005-08-25 12:14+0200\n"
 "PO-Revision-Date: 2005-08-24 23:44+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -1130,7 +1130,8 @@ msgid ""
 "Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
 "no longer be able to select this value when adding or editing contact IM "
 "screen names."
-msgstr "Tem certeza que deseja desabilitar o Serviço de Mensagem Instantanea ?\n"
+msgstr ""
+"Tem certeza que deseja desabilitar o Serviço de Mensagem Instantanea ?\n"
 "\n"
 "Usuários não serão mais capazes de selecionar este valor quando adicionar ou "
 "editar IM em contatos"
@@ -1524,7 +1525,9 @@ msgstr "Somente uma localização deve ser marcada como Primária."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr "O tipo de Localização deve ser escolhido, caso essa Localização contenha informações"
+msgstr ""
+"O tipo de Localização deve ser escolhido, caso essa Localização contenha "
+"informações"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -1650,17 +1653,23 @@ msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] "%count registro de relacionamento não criado devido ao tipo de contato "
+msgstr[0] ""
+"%count registro de relacionamento não criado devido ao tipo de contato "
 "destino inválido."
-msgstr[1] "%count registros de relacionamentos não criados devido o tipo de contato destino inválido."
+msgstr[1] ""
+"%count registros de relacionamentos não criados devido o tipo de contato "
+"destino inválido."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr[0] "%count registro de relacionamento não criado - Relacionamento duplicado."
-msgstr[1] "%count registro de relacionamento não criado, duplicata de relacionamento existente."
+msgstr[0] ""
+"%count registro de relacionamento não criado - Relacionamento duplicado."
+msgstr[1] ""
+"%count registro de relacionamento não criado, duplicata de relacionamento "
+"existente."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
@@ -2780,16 +2789,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
-msgid "yes"
-msgstr "Sim"
-
-#: CRM/Custom/Form/Field.php
-msgid "no"
-msgstr "Não"
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Please enter yes or no as default value."
+msgid "Please enter 1 or 0 as default value."
 msgstr "Entre com um Nome Válido"
 
 #: CRM/Custom/Form/Field.php
@@ -2899,14 +2899,6 @@ msgid "Are you sure you want to disable this custom data field?"
 msgstr "Você tem certeza de que deseja desabilitar este campo customizado?"
 
 #: CRM/Custom/Page/Field.php
-msgid "Preview Field Display"
-msgstr "Pré-visualizar amostragem de Campo"
-
-#: CRM/Custom/Page/Field.php
-msgid "Preview Custom Field"
-msgstr "Pré-visualizar campo customizado"
-
-#: CRM/Custom/Page/Field.php
 msgid "Edit Field"
 msgstr "Editar campo"
 
@@ -2921,6 +2913,14 @@ msgstr "Editar opções de múltipla escolha"
 #: CRM/Custom/Page/Field.php
 msgid "List Custom Options"
 msgstr "Listar opções customizadas"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Field Display"
+msgstr "Pré-visualizar amostragem de Campo"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Custom Field"
+msgstr "Pré-visualizar campo customizado"
 
 #: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
@@ -2970,16 +2970,16 @@ msgstr ""
 "Você tem certeza de que deseja desabilitar este dado de opção customizado?"
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
-msgstr "Ver opções customizadas"
-
-#: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr "Editar opções"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Custom Option"
 msgstr "Editar opção customizada"
+
+#: CRM/Custom/Page/Option.php
+msgid "View Custom Option"
+msgstr "Ver opções customizadas"
 
 #: CRM/Custom/Page/Option.php
 msgid "Enable Custom Option"
@@ -4269,15 +4269,13 @@ msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
 msgid ""
-"<p>This sandbox site is running code in active development towards our 1.1 "
-"release. Some functions may not be fully operational. Check out our <a href="
-"\"%2\" target=\"_blank\">Demo site</a> if you'd like to try out our latest "
-"stable release.</p>\n"
-"     <p>To see a list of features and fixes under development, please review "
-"the open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</"
-"a>.</p>\n"
+"<p>This site is running the 1.1 Beta release. All functions should be "
+"operational.</p>\n"
+"     <p>To see a list of known bugs and issues, and to report new bugs, "
+"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
+"p>\n"
 "     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%3\">CiviCRM Comments Page</a>.</p>"
+"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
 
 #: templates/CRM/common/recentlyViewed.tpl
@@ -4902,10 +4900,6 @@ msgid "New Note"
 msgstr "Nova nota"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
-msgid "Edit custom data"
-msgstr "Editar dado customizado"
-
-#: templates/CRM/Contact/Page/View/CustomData.tpl
 #, fuzzy
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
@@ -5069,7 +5063,10 @@ msgid ""
 "Select the type of data you want to collect and store for this contact. Then "
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
-msgstr "Selecione os tipos de dados que deseja coletar e armazenar deste contato.Então selecione os tipos de camapos de entrada HTML disponíveis (a escolha é baseada no tipo de dado coletado)."
+msgstr ""
+"Selecione os tipos de dados que deseja coletar e armazenar deste contato."
+"Então selecione os tipos de camapos de entrada HTML disponíveis (a escolha é "
+"baseada no tipo de dado coletado)."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5091,7 +5088,9 @@ msgstr "Texto de explicativo que será mostrado aos usuários neste campo."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "If you want to mark this field as search field in advanced search."
-msgstr "Se você quer marcar este campo, como um campo de pesquisa na Pesquisa Avançada."
+msgstr ""
+"Se você quer marcar este campo, como um campo de pesquisa na Pesquisa "
+"Avançada."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -5168,7 +5167,9 @@ msgstr "outra escolha"
 msgid ""
 "\"If you need additional options - you can add them after you save your "
 "current entries.\""
-msgstr "\"Se você precisa de opções adicionais - pode adiciona-las após salvar a entrada atual.\""
+msgstr ""
+"\"Se você precisa de opções adicionais - pode adiciona-las após salvar a "
+"entrada atual.\""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
@@ -5501,7 +5502,8 @@ msgstr ""
 msgid ""
 "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
 "contact records.  "
-msgstr "CiviCRM detectou %1 registros duplicados nos registros de contatos já "
+msgstr ""
+"CiviCRM detectou %1 registros duplicados nos registros de contatos já "
 "existentes. Estes registros não foram importados."
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5598,6 +5600,10 @@ msgstr ""
 "O arquivo deve estar no formato CSV, campos delimitados por ponto e virgula."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Maximum Upload File Size: %1 MB"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
@@ -5667,8 +5673,9 @@ msgstr "Rótulos atuais estão realçados."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
-msgstr "Marque ou desmarque as caixas de Seleção, e clique 'Atulizar Rótulos' para modificar "
-"rótulos."
+msgstr ""
+"Marque ou desmarque as caixas de Seleção, e clique 'Atulizar Rótulos' para "
+"modificar rótulos."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
@@ -5701,7 +5708,9 @@ msgstr ""
 msgid ""
 "Is this field visible on Public User Pages, or only to User Administrators "
 "and the user themself?"
-msgstr "Este campo é visivel em Páginas Públicas de Usuário, ou somente para usuários e Administradores ?"
+msgstr ""
+"Este campo é visivel em Páginas Públicas de Usuário, ou somente para "
+"usuários e Administradores ?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5789,6 +5798,16 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(passo %1 de %2)"
+
+#, fuzzy
+#~ msgid "yes"
+#~ msgstr "Sim"
+
+#~ msgid "no"
+#~ msgstr "Não"
+
+#~ msgid "Edit custom data"
+#~ msgstr "Editar dado customizado"
 
 #~ msgid "add one"
 #~ msgstr "adicionar um"
@@ -5896,4 +5915,3 @@ msgstr "(passo %1 de %2)"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
-
