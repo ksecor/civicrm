@@ -521,7 +521,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         //$customField->default_value = $params['default_value'];
         //store the primary key for State/Province or Country as default value.
-        if ( !empty($params['default_value'])) {
+        if ( strlen(trim($params['default_value']))) {
             switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
             case 'StateProvince':
                 $daoState =& new CRM_Core_DAO();
@@ -541,9 +541,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $customField->default_value = $daoCountry->id;            
                 break;
                 
-            case 'Radio':
-                $customField->default_value = strtolower( $params['default_value'] );
-
             default:     
                 $customField->default_value = $params['default_value'];
 
@@ -571,7 +568,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         //Start Storing the values of Option field if the selected option is Multi Select
          if ($this->_action & CRM_Core_Action::ADD) {
-             if($customField->data_type == 'String' || $customField->data_type == 'Int' || $customField->data_type == 'Float' || $customField->data_type == 'Money') {
+             if($customField->data_type == 'String' ||
+                $customField->data_type == 'Int' ||
+                $customField->data_type == 'Float' ||
+                $customField->data_type == 'Money') {
                  if($customField->html_type != 'Text') {                
                      foreach ($params['option_value'] as $k => $v) {
                          if ($v) {
