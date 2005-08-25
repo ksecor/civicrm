@@ -42,23 +42,23 @@
 
     {if $action eq 1}
 	{if $optionRowError}
-	<div id='showOptionError' style='display: none'>{ include file="CRM/Custom/Form/OptionFieldsError.tpl"}</div>
+	<div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/OptionFieldsError.tpl"}</div>
 	{else}
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
 	{/if}
-        {/if}
+    {/if}
 
         <dl>
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
-        <dt id="hideDefaultValTxt" name="hideDefaultValTxt" {if $action eq 2 && $form.data_type.value.0 < 4}style="display: none"{/if}>{$form.default_value.label}</dt>
-        <dd id="hideDefaultValDef" name="hideDefaultValDef" {if $action eq 2 && $form.data_type.value.0 < 4}style="display: none"{/if}>{$form.default_value.html}</dd>
+        <dt id="hideDefaultValTxt" name="hideDefaultValTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.label}</dt>
+        <dd id="hideDefaultValDef" name="hideDefaultValDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.html}</dd>
         {if $action neq 4}
-        <dt id="hideDescTxt" name="hideDescTxt" {if $action eq 2 && $form.data_type.value.0 < 4}style="display: none"{/if}>&nbsp;</dt>
-        <dd id="hideDescDef" name="hideDescDef" {if $action eq 2 && $form.data_type.value.0 < 4}style="display: none"{/if}><span class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</span></dd>
+        <dt id="hideDescTxt" name="hideDescTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>&nbsp;</dt>
+        <dd id="hideDescDef" name="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}><span class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</span></dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
         {if $action neq 4}
@@ -84,16 +84,13 @@
 </fieldset>
 	
 <script type="text/javascript">
-	{if $optionRowError AND $action eq 1}
-	    show('showOptionError');
-	{/if}
-	{if $fieldError AND $action eq 1}
-	    show('showoption');	
+	{if ($optionRowError OR $fieldError) AND $action eq 1}
+         custom_option_html_type(document.getElementById('Field'));
 	{/if}
 	</script>
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
-{if $action eq 2 AND ($html_type eq 'Checkbox' OR $html_type eq 'Radio' OR $html_type eq 'Select') }
+{if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select') }
     <div class="action-link">
-        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; Multiple Choice Options</a>
+        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
     </div>
 {/if}
