@@ -21,29 +21,8 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
-*//*
- +----------------------------------------------------------------------+
- | CiviCRM version 1.0                                                  |
- +----------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                    |
- +----------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                      |
- |                                                                      |
- | CiviCRM is free software; you can redistribute it and/or modify it   |
- | under the terms of the Affero General Public License Version 1,      |
- | March 2002.                                                          |
- |                                                                      |
- | CiviCRM is distributed in the hope that it will be useful, but       |
- | WITHOUT ANY WARRANTY; without even the implied warranty of           |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
- | See the Affero General Public License for more details at            |
- | http://www.affero.org/oagpl.html                                     |
- |                                                                      |
- | A copy of the Affero General Public License has been been            |
- | distributed along with this program (affero_gpl.txt)                 |
- +----------------------------------------------------------------------+
 */
 
 /**
@@ -116,5 +95,76 @@ function &crm_create_custom_group(&$params)
     return $customGroup;
 }
 
+/**                
+ * Get all the user framework groups 
+ * 
+ * @access public                                         
+ * @return array - array reference of all groups. 
+ * @static 
+ */ 
+function &crm_uf_get_profile_groups( ) {
+    return CRM_Core_PseudoConstant::ufGroup( );
+}
+
+/** 
+ * Get the form title. 
+ * 
+ * @param int $id id of uf_form 
+ * @return string title 
+ * 
+ * @access public 
+ * @static 
+ * 
+ */ 
+function crm_uf_get_profile_title ( $id ) {
+    return CRM_Core_BAO_UFGroup::getTitle( $id );
+}
+
+/** 
+ * get all the fields that belong to the group with the named title 
+ * 
+ * @param int $id       the id of the UF group 
+ * @param int $register are we interested in registration fields 
+ * @param int $action   what action are we doing 
+ * @param int $match    are we interested in match fields 
+ * @param string $visibility visibility of fields we are interested in 
+ * 
+ * @return array the fields that belong to this title 
+ * @static 
+ * @access public 
+ */ 
+function crm_uf_get_profile_fields ( $id, $register = false, $action = null, $match = false, $visibility = null ) {
+    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, $match, $visibility );
+}
+
+/** 
+ * get the html for the form that represents this particular group 
+ * 
+ * @param int     $userID   the user id that we are actually editing 
+ * @param string  $title    the title of the group we are interested in 
+ * @param int     $action   the action of the form 
+ * @param boolean $register is this the registration form 
+ * @param boolean $reset    should we reset the form? 
+ * 
+ * @return string       the html for the form 
+ * @static 
+ * @access public 
+ */ 
+function crm_uf_get_profile_html  ( $userID, $title, $action = null, $register = false, $reset = false ) {
+    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, $action, $register, $reset );
+}
+
+/** 
+ * get the contact_id given a uf_id 
+ * 
+ * @param int $ufID
+ * 
+ * @return int contact_id 
+ * @access public    
+ * @static 
+ */ 
+function crm_uf_get_match_id ( $ufID ) {
+    return CRM_Core_BAO_UFMatch::getContactId( $ufID );
+}
 
 ?>
