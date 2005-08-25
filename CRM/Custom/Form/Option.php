@@ -261,11 +261,16 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         // need the FKEY - custom field id
         $customOption->custom_field_id = $this->_fid;
         
+        $customField =& new CRM_Core_DAO_CustomField();
+        $customField->id = $this->_fid;
         if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
-            $customField =& new CRM_Core_DAO_CustomField();
-            $customField->id = $this->_fid;
             $customField->default_value = $customOption->value;
             $customField->save();
+        } else if ( $customField->find( true ) &&
+                    $customField->default_value == $customOption->value ) {
+            // this is the case where this option is the current default value and we have been reset
+            $customField->default_value = 'null';
+            $customField->save(); 
         }
 	
         $customOption->save();
