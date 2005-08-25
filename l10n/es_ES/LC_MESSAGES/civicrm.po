@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 12:14+0200\n"
+"POT-Creation-Date: 2005-08-25 16:21+0200\n"
 "PO-Revision-Date: 2005-08-23 22:41+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -4419,6 +4419,10 @@ msgid "Edit Search Criteria"
 msgstr "Editar criterio de búsqueda"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+msgid "(for %1)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
@@ -5503,8 +5507,16 @@ msgid "Import to Groups"
 msgstr "Importar a Grupos"
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "%count contact added to this %2 group."
-msgid_plural "%count contacts added to this %2 group."
+#, fuzzy
+msgid "%count contact added to this new group."
+msgid_plural "%count contacts added to this new group."
+msgstr[0] "%count contacto añadido a este %2 grupo."
+msgstr[1] "%count contactos añadidos a este %2 grupo."
+
+#: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
+msgid "%count contact added to this existing group."
+msgid_plural "%count contacts added to this existing group."
 msgstr[0] "%count contacto añadido a este %2 grupo."
 msgstr[1] "%count contactos añadidos a este %2 grupo."
 
