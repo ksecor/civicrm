@@ -284,7 +284,7 @@ abstract class CRM_Import_Parser {
 
             /* trim whitespace around the values */
             foreach ($values as $k => $v) {
-                $values[$k] = trim($v);
+                $values[$k] = trim($v, " \t\r\n");
             }
             
             //if ( $mode != self::MODE_IMPORT ) {
