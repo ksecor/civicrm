@@ -325,14 +325,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch($field['html_type']) {
 
                 case 'Radio':
-                    if ($field['data_type'] != 'Boolean' ) {
-                        $defaults[$elementName] = $value;
-                    } else if ( isset( $value ) ) {
-                        if ( is_numeric( $value ) ) {
-                            $value = $value ? 'yes' : 'no';
-                        }
-                        $defaults[$elementName] = strtolower( $value );
-                    }
+                    $defaults[$elementName] = $value;
                     break;
                     
                 case 'Select':
