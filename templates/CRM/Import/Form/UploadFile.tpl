@@ -20,7 +20,7 @@
        <dt> </dt>
           <dd class="description">{ts}File format must be comma-separated-values (CSV).{/ts}</dd>
        <dt> </dt>
-	  <dd>Maximum Upload File Size : {$uploadSize} MB</dd>
+	  <dd>{ts 1=$uploadSize}Maximum Upload File Size: %1 MB{/ts}</dd>
        <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
        <dt> </dt>
           <dd class="description">
