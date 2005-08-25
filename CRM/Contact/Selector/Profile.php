@@ -160,7 +160,7 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
             $result = $this->query(false, 0, 1);
             if ( $result->fetch( ) ) { 
                 $row = array( ); 
-                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row ); 
+                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
 
                 self::$_columnHeaders = array( );
                 foreach ( $row as $name => $value ) {

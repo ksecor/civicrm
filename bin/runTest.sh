@@ -19,12 +19,12 @@ logEMT=maxqError
 # Function to Create Log Folder if it does not Exists.
 create_log()
 {
-    cd $ORIGPWD/../
+    cd $ORIGPWD/../test/
     
     PATH4LOG=`pwd` 
     
-    if [ ! -d "LOG" ] ; then 
-	mkdir LOG
+    if [ ! -d "Result" ] ; then 
+	mkdir Result
     fi
 }
 
@@ -33,7 +33,7 @@ run_UnitTest()
 {
     cd $ORIGPWD/../test
     # Running Unit Tests
-    php UnitTests.php > $ORIGPWD/../LOG/$logUT
+    php UnitTests.php > $PATH4LOG/Result/$logUT
 }
 
 # Function to Run maxQ Tests.
@@ -41,7 +41,7 @@ run_maxQScript()
 {
     cd $ORIGPWD/
     # running script for maxq generated scripts
-    ./test_sandbox.sh 2>$ORIGPWD/../LOG/$logEMT 1>$ORIGPWD/../LOG/$logSMT
+    ./test_sandbox.sh 2>$PATH4LOG/Result/$logEMT 1>$PATH4LOG/Result/$logSMT
 }
 
 # Function to Run Stress Test.
@@ -83,7 +83,7 @@ case $option in
     "U" | "u" )
 	echo "Running Unit Tests"; echo;
 	run_UnitTest
-	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/LOG/$logUT; echo;
+	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logUT; echo;
 	;;
     
     # maxQ Tests
@@ -91,7 +91,7 @@ case $option in
 	echo "Running maxQ generated Scripts"; echo;
 	echo "(This will take few Minutes)"; echo;
 	run_maxQScript
-	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/LOG/$logEMT " and " $PATH4LOG/LOG/$logSMT; echo;
+	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logEMT " and " $PATH4LOG/Result/$logSMT; echo;
 	;;
     
     # Stress Tests
@@ -106,11 +106,11 @@ case $option in
 	echo "Running all three Tests i.e. Unit Tests, maxQ Tests and Stress Test "; echo;
 	echo "Running Unit Tests"; echo;
 	run_UnitTest
-	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/$logUT; echo;
+	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logUT; echo;
 	echo "Running maxQ generated Scripts"; echo;
 	echo "(This will take few Minutes)"; echo;
 	run_maxQScript
-	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/$logEMT " and " $PATH4LOG/$logSMT; echo;
+	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logEMT " and " $PATH4LOG/Result/$logSMT; echo;
 	echo "Running Stress Tests"; echo;
 	run_stressTest
 	echo "Stress Tests Successfully Completed."; echo;

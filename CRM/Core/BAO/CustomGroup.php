@@ -626,9 +626,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO->orderBy('weight, title');
         if ($customGroupDAO->find(1)) {
             $menu = array();
-            $menu['path']    = "$path/0";
+            $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";
-            $menu['qs']      = 'reset=1&cid=%%cid%%';
+            $menu['qs']      = 'reset=1&gid=0&cid=%%cid%%';
             $menu['type']    = CRM_Utils_Menu::CALLBACK;
             $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
@@ -652,9 +652,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // process each group with menu tab
         while($customGroupDAO->fetch()) {
             $menu = array();
-            $menu['path']    = "$path/$customGroupDAO->id";
+            $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";
-            $menu['qs']      = 'reset=1&cid=%%cid%%';
+            $menu['qs']      = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
             $menu['type']    = CRM_Utils_Menu::CALLBACK;
             $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;

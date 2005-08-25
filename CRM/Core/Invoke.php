@@ -151,7 +151,7 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             case 'cd':
-                $view =& new CRM_Contact_Page_View_CustomData($fourthArg);
+                $view =& new CRM_Contact_Page_View_CustomData( );
                 break;
             case 'activity':
                 $activityId = CRM_Utils_Request::retrieve('activity_id', $form);

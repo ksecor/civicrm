@@ -453,10 +453,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * Given a contact id and a field set, return the values from the db
      * for this contact
      *
-     * @param int   $id     the contact id
-     * @param array $fields the profile fields of interest
-     * @param array $values the values for the above fields
-     *
+     * @param int     $id       the contact id
+     * @param array   $fields   the profile fields of interest
+     * @param array   $values   the values for the above fields
+
      * @return void
      * @access public
      * @static
@@ -467,21 +467,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             return;
         }
 
+        $params = array( );
         foreach ( $fields as $name => $field ) {
             $objName = $field['name'];
 
             $index = $field['title'];
             if ( $objName == 'state_province_id' ) {
+                $values[$index] = null;
                 if ( $contact->state ) {
                     $values[$index] = $contact->state;
-                } else {
-                    $values[$index] = null;
                 }
             } else if ( $objName == 'country_id' ) {
+                $values[$index] = null;
                 if ( $contact->country ) {
                     $values[$index] = $contact->country;
-                } else {
-                    $values[$index] = null;
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
@@ -505,12 +504,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 switch($cf->html_type) {
 
                 case "Radio":
-                    if($cf->data_type == 'Boolean') {
-                        $customValue = $cv->getValue(true)? 'yes' : 'no';
-                    } else {
-                        $customValue = $cv->getValue(true);
-                    }
-                    $values[$index] = $customValue;
+                    $values[$index] = $cv->getValue(true);
                     break;
 
                 case "CheckBox":
@@ -518,15 +512,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $value = $cv->getValue(true);
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                     $v = array( );
+                    $p = array( );
                     foreach($customOption as $val) {
                         $checkVal = $val['value'];
                         $checkName = $index . '[' . $checkVal .']';
                         if (in_array($val['value'], $checkedData)) {
                             $v[] = $val['label'];
+                            $p[] = $val['value'];
                         }
                     }
                     if ( ! empty( $v ) ) {
-                        $values[$index] = implode( ', ', $v );
+                        $values[$index] = implode( ',', $v );
+                        $params[$index] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $p );
                     }
                     break;
 
@@ -535,8 +532,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 default:
-                    $customValue = $cv->getValue(true);
-                    $values[$index] = $customValue;
+                    $values[$index] = $cv->getValue(true);
                     break;
                 }
             } else {
@@ -544,11 +540,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
 
             if ( $field['visibility'] == "Public User Pages and Listings" ) {
+                if ( ! CRM_Utils_Array::value( $index, $params ) ) {
+                    $params[$index] = $values[$index];
+                }
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&' . 
                                               urlencode( $field['name'] ) .
                                               '=' .
-                                              urlencode( $values[$index] ) );
+                                              urlencode( $params[$index] ) );
                 $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
             }
         }

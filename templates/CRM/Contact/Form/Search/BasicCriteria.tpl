@@ -16,7 +16,7 @@
             <td class="font-size12pt">{$form.contact_type.label}</td><td>{$form.contact_type.html}</td>
             <td class="label">
                 {if $context EQ 'smog'}
-                    {$form.cb_group_contact_status.label}<br>(for {$form.group.html})
+                    {$form.cb_group_contact_status.label}<br>{ts 1=$form.group.html}(for %1){/ts}
                 {else}
                     {$form.group.label}
                 {/if}

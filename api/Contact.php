@@ -378,7 +378,19 @@ function crm_contact_groups( &$contact, $status = null ) {
     }
 
     $values =& CRM_Contact_BAO_GroupContact::getContactGroup( $contact->id, $status, null, false );
-    return $values;
+    
+    $groups = array( );
+    foreach ( $values as $value ) {
+        $group =& new CRM_Contact_DAO_Group( );
+        foreach ( $value as $k => $v ) {
+            if ( ! empty( $v ) ) {
+                $group->$k = $v;
+            }
+        }
+        $groups[] = $group;
+    }
+
+    return $groups;
 }
 
 ?>

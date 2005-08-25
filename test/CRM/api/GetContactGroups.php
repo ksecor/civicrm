@@ -19,7 +19,7 @@ class TestOfGetContactGroups extends UnitTestCase
         
         $contact = new CRM_Contact_DAO_Contact();
         $contact->id = 42;
-        $groups = crm_contact_groups( $contact );
+        $groups = crm_contact_groups( $contact, 'Added' );
         foreach($groups as $group) {
             print_r( $group );
         }

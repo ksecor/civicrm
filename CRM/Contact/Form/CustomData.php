@@ -168,7 +168,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
-        $this->assign('groupId', $this->_groupId);
 
         // u need inactive options only when editing stuff, not when displaying them
         // on a per contact basis
@@ -326,14 +325,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch($field['html_type']) {
 
                 case 'Radio':
-                    if ($field['data_type'] != 'Boolean' ) {
-                        $defaults[$elementName] = $value;
-                    } else if ( isset( $value ) ) {
-                        if ( is_numeric( $value ) ) {
-                            $value = $value ? 'yes' : 'no';
-                        }
-                        $defaults[$elementName] = strtolower( $value );
-                    }
+                    $defaults[$elementName] = $value;
                     break;
                     
                 case 'Select':
