@@ -365,26 +365,27 @@ WHERE t1.custom_field_id = 1
         $keyArray = array();
         $valueArray = array();
         $idx = array();
+        $idxCounter = array();
 
         foreach ( $params as $key => $value ) {
             $keyArray[] = $key;
-            $valueArray[] = $value;
+            $valueArray[$key] = $value;
             $from[]  = "civicrm_custom_value t$index";
             $where[] = "t$index.custom_field_id = $key"; 
-            $idx[] = $index++;
+            $idxCounter[$key] = $index++;
         }
 
         //$clause  = self::getFieldWhereClause( $key, $index, $value );
-        $clause  = self::getFieldWhereClause( $keyArray, $idx, $valueArray );
+        $clause  = self::getFieldWhereClause( $keyArray, $idxCounter, $valueArray );
 
         if ( $clause ) {
             $where[] = $clause;            
         }
 
         // add equality clause for table entities
-        for ( $i = 1; $i < count($idx); $i++) {  
-            $where[] = ' t1.entity_id = t' . $idx[$i] . '.entity_id'; 
-            $where[] = ' t1.entity_table = t' . $idx[$i] . '.entity_table'; 
+        foreach ($idxCounter as $v) {            
+            $where[] = ' t1.entity_id = t' . $v . '.entity_id'; 
+            $where[] = ' t1.entity_table = t' . $v . '.entity_table'; 
         }
         
         
@@ -405,63 +406,64 @@ WHERE t1.custom_field_id = 1
      *
      */
     static function getFieldWhereClause( $id, $index, $value ) {
+        
         $clause = array();
 
-        // retrieve the field object
-        foreach ( $id as $k => $v ) {
-            $cf =& new CRM_Core_DAO_CustomField( );
-            $cf->id = $v;
+        $fieldIds = implode(",",$id);
+        $cf =& new CRM_Core_DAO();
 
-            if ( $cf->find( true ) ) {
-                switch ( $cf->data_type ) {
-                case 'String':
-                    $sql = ' t' . $index[$k] . '.char_data LIKE ';
-                    if ( $cf->html_type == 'CheckBox' ) {
-                        $clause[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value[$k] ) ) . '"';
-                    } else {
-                        $clause[] = $sql . "'%" . $value[$k] . "%'";
-                    } 
-                    continue;
-
-                case 'Int':
-                    $clause[] = ' t' . $index[$k] . '.int_data = ' . $value[$k];
-                    continue;
-
-                case 'Boolean':                    
-                    $value[$k] = ( $value[$k] == 'yes' ) ? 1 : 0;
-                    $clause[] = ' t' . $index[$k] . '.int_data = ' . $value[$k]; 
-                    continue;
-
-                case 'Float':
-                    $clause[] = ' t' . $index[$k] . '.float_data = ' . $value[$k];  
-                    continue;                    
-
-                case 'Money':
-                    $clause[] = ' t' . $index[$k] . '.decimal_data = ' . $value[$k];
-                    continue;
-             
-                case 'Memo':
-                    $clause[] = ' t' . $index[$k] . '.memo_data LIKE ' . "'%" . $value[$k] . "%'";
-                    continue;
-                    
-                case 'Date':
-                    $clause[] = null;
-                    continue;
-                    
-                case 'StateProvince': 
-                    $clause[] = ' t' . $index[$k] . '.int_data = ' . $value[$k];                      
-                    continue;
-                    
-                case 'Country':
-                    $clause[] = ' t' . $index[$k] . '.int_data = ' . $value[$k]; 
-                    continue;
-                }
-            }            
+        $sql = "SELECT * FROM civicrm_custom_field WHERE id IN ( ".$fieldIds ." ) ";
+        $cf->query($sql);
+        
+        while($cf->fetch()) {
+            
+            switch ( $cf->data_type ) {
+            case 'String':
+                $sql = ' t' . $index[$cf->id] . '.char_data LIKE ';
+                if ( $cf->html_type == 'CheckBox' ) {
+                    $clause[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value[$cf->id] ) ) . '"';
+                } else {
+                    $clause[] = $sql . "'%" . $value[$cf->id] . "%'";
+                } 
+                continue;
+                
+            case 'Int':
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];
+                continue;
+                
+            case 'Boolean':                    
+                $value[$cf->id] = ( $value[$cf->id] == 'yes' ) ? 1 : 0;
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id]; 
+                continue;
+                
+            case 'Float':
+                $clause[] = ' t' . $index[$cf->id] . '.float_data = ' . $value[$cf->id];  
+                continue;                    
+                
+            case 'Money':
+                $clause[] = ' t' . $index[$cf->id] . '.decimal_data = ' . $value[$cf->id];
+                continue;
+                
+            case 'Memo':
+                $clause[] = ' t' . $index[$cf->id] . '.memo_data LIKE ' . "'%" . $value[$cf->id] . "%'";
+                continue;
+                
+            case 'Date':
+                $clause[] = null;
+                continue;
+                
+            case 'StateProvince': 
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];                      
+                continue;
+                
+            case 'Country':
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id]; 
+                continue;
+            }
         }
         
+              
         $whereClause =  implode( ' AND ', $clause );
-        
-        //echo $whereClause."<br>";
         
         return $whereClause;       
     }
