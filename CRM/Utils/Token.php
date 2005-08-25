@@ -40,14 +40,26 @@ class CRM_Utils_Token {
     static $_requiredTokens = null;
 
     static $_tokens = array(
-        'action' => array( 
-                        'donate', 'forward', 'optOut', 'reply', 'unsubscribe'
-                    ),
-        'contact' => null,  // populate this dynamically
-        'domain' => array( 
-                        'name', 'phone', 'address', 'email'
-                    ),
-        'unsubscribe' => array('group'),
+        'action'        => array( 
+                            'donate', 
+                            'forward', 
+                            'optOut', 
+                            'reply', 
+                            'unsubscribe'
+                        ),
+        'contact'       => null,  // populate this dynamically
+        'domain'        => array( 
+                            'name', 
+                            'phone', 
+                            'address', 
+                            'email'
+                        ),
+        'subscribe'     => array(
+                            'group'
+                        ),
+        'unsubscribe'   => array(
+                            'group'
+                        ),
     );
 
     
@@ -307,6 +319,24 @@ class CRM_Utils_Token {
         }
         return $str;
     }
+
+    /**
+     * Replace subscription-confirmation-request tokens
+     * 
+     * @param string $str           The string with tokens to be replaced
+     * @param string $group         The name of the group being subscribed
+     * @param boolean $html         Replace tokens with html or plain text
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceSubscribeTokens($str, $group, $html) {
+        if (self::token_match('subscribe', 'group', $str)) {
+            self::token_replace('subscribe', 'group', $group, $str);
+        }
+        return $str;
+    }
+
 
     /**
      * Find unprocessed tokens (call this last)

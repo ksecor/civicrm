@@ -164,15 +164,27 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             'Reply-to'  => $confirm,
             'Return-path'   => "do-not-reply@{$domain->email_domain}"
         );
+        
+        $component =& new CRM_Mailing_BAO_Component();
+        $component->domain_id = $domain->id;
+        $component->is_default = 1;
+        $component->is_active = 1;
+        $component->component_type = 'Subscribe';
 
-        /* TODO: pull this from a component */
-        $body = ts('
-You have a pending subscription to %1.  To confirm this 
-subscription, reply to this message.', 
-            array(1 => $group->name, 2 => $confirm));
+        $component->find(true);
+
+        $html = $component->body_html;
+        $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
+        $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
+                                                        $group->name, true);
+        $text = $component->body_text;
+        $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+        $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
+                                                        $group->name, false);
 
         $message =& new Mail_Mime("\n");
-        $message->setTxtBody($body);
+        $message->setHTMLBody($html);
+        $message->setTxtBody($text);
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
