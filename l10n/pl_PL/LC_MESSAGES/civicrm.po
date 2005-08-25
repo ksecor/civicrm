@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-22 13:03+0200\n"
+"POT-Creation-Date: 2005-08-25 12:14+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1704,7 +1704,7 @@ msgstr "Akcje: "
 
 #: CRM/Contact/Form/Search.php templates/CRM/pager.tpl
 msgid "Go"
-msgstr "Idź"
+msgstr "Wykonaj"
 
 #: CRM/Contact/Form/Search.php
 msgid "Export"
@@ -2733,20 +2733,12 @@ msgid ""
 "Please enter a valid date as default value using YYYY-MM-DD format. Example: "
 "2004-12-31."
 msgstr ""
-"Wprowadź poprawną datę jako wartość domyślną, używając notacji RRRR-MM-DD. Przykład: "
-"2004-12-31."
+"Wprowadź poprawną datę jako wartość domyślną, używając notacji RRRR-MM-DD. "
+"Przykład: 2004-12-31."
 
 #: CRM/Custom/Form/Field.php
-msgid "yes"
-msgstr "tak"
-
-#: CRM/Custom/Form/Field.php
-msgid "no"
-msgstr "nie"
-
-#: CRM/Custom/Form/Field.php
-msgid "Please enter yes or no as default value."
-msgstr "Wprowadź yes lub no jako wartość domyślną."
+msgid "Please enter 1 or 0 as default value."
+msgstr "Wprowadź 1 lub 0 jako wartość domyślną."
 
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for Country Data Type"
@@ -2853,14 +2845,6 @@ msgid "Are you sure you want to disable this custom data field?"
 msgstr "Na pewno wyłączyć to pole dodatkowych danych?"
 
 #: CRM/Custom/Page/Field.php
-msgid "Preview Field Display"
-msgstr "Podejrzyj wyświetlanie pola"
-
-#: CRM/Custom/Page/Field.php
-msgid "Preview Custom Field"
-msgstr "Podejrzyj pole dodatkowe"
-
-#: CRM/Custom/Page/Field.php
 msgid "Edit Field"
 msgstr "Edytuj pole"
 
@@ -2875,6 +2859,14 @@ msgstr "Edytuj opcje wielokrotnego wyboru"
 #: CRM/Custom/Page/Field.php
 msgid "List Custom Options"
 msgstr "Wypisz opcje dodatkowe"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Field Display"
+msgstr "Podejrzyj wyświetlanie pola"
+
+#: CRM/Custom/Page/Field.php
+msgid "Preview Custom Field"
+msgstr "Podejrzyj pole dodatkowe"
 
 #: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
@@ -2921,16 +2913,16 @@ msgid "Are you sure you want to disable this custom data option?"
 msgstr "Na pewno wyłączyć tę grupę danych dodatkowych?"
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
-msgstr "Zobacz opcję dodatkową"
-
-#: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr "Edytuj opcję"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Custom Option"
 msgstr "Edytuj opcję dodatkową"
+
+#: CRM/Custom/Page/Option.php
+msgid "View Custom Option"
+msgstr "Zobacz opcję dodatkową"
 
 #: CRM/Custom/Page/Option.php
 msgid "Enable Custom Option"
@@ -2986,7 +2978,7 @@ msgstr "Grupa „%1” została zapisana."
 
 #: CRM/Group/Page/Group.php
 msgid "Show Group Members"
-msgstr "Pokaż członków grupy"
+msgstr "Pokaż członków"
 
 #: CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -4188,25 +4180,18 @@ msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
 msgid ""
-"<p>This sandbox site is running code in active development towards our 1.1 "
-"release. Some functions may not be fully operational. Check out our <a href="
-"\"%2\" target=\"_blank\">Demo site</a> if you'd like to try out our latest "
-"stable release.</p>\n"
-"     <p>To see a list of features and fixes under development, please review "
-"the open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</"
-"a>.</p>\n"
+"<p>This site is running the 1.1 Beta release. All functions should be "
+"operational.</p>\n"
+"     <p>To see a list of known bugs and issues, and to report new bugs, "
+"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
+"p>\n"
 "     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%3\">CiviCRM Comments Page</a>.</p>"
+"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
-"<p>Ta instalacja oparta jest o kod, który aktywnie rozwijamy w celu wydania "
-"wersji 1.1. Część funkcjonalności może nie działać poprawnie. Zapraszamy do "
-"odwiedzenia naszej <a href=\"%2\" target=\"_blank\">strony testowej</a>, na "
-"której znajduje się najnowsze stabilne wydanie CiviCRM-a.</p>\n"
-"     <p>Informacje o nowej funkcjonalności i poprawioych błędach można "
-"zobaczyć w postaci otwartych problemów w naszym <a href=\"%1\" target="
-"\"_blank\">systemie śledzenia błędów</a>.</p>\n"
-"     <p>Prosimy o dodawanie komentarzy o wyglądzie i działaniu CiviCRM-a na "
-"<a href=\"%3\">stronie komentarzy</a>.</p>"
+"<p>Ta instalacja oparta jest o wersję 1.1 beta. Cała funkcjonalność powinna działać poprawnie.</p>\n"
+"     <p>W naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</a> można znaleźć listę znanych błędów i problemów oraz zgłaszać nowe..</"
+"p>\n"
+"     <p>Prosimy o zgłaszanie komentarzy na temat wyglądu i działania CiviCRM-a na <a href=\"%2\">stronie komentarzy</a>.</p>"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
@@ -4508,7 +4493,7 @@ msgstr ""
 "Skorzystaj z formularza kryteriów wyszukiwania by znaleźć kontakty według "
 "nazwy, typu, przynależności do grupy, znaczników itp. Można następnie "
 "zobaczyć lub edytować szczegóły kontaktów, wydrukować ich listę, przypisać "
-"im znaczniki, wyeksportować dane kontaktów do arkusza kalulacyjnego itp."
+"im znaczniki, wyeksportować dane kontaktów do arkusza kalkulacyjnego itp."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "(saved search)"
@@ -4820,10 +4805,6 @@ msgstr "Zobacz wszystkie notatki…"
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
 msgstr "Nowa notatka"
-
-#: templates/CRM/Contact/Page/View/CustomData.tpl
-msgid "Edit custom data"
-msgstr "Edytuj dodatkowe dane"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
@@ -5536,6 +5517,10 @@ msgid "File format must be comma-separated-values (CSV)."
 msgstr "Plik musi być w formacie CSV (dane oddzielone przecinkami)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Maximum Upload File Size: %1 MB"
+msgstr "Maksymalna wielkość wgrywanego pliku: %1 MB"
+
+#: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
@@ -5749,6 +5734,15 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
+
+#~ msgid "yes"
+#~ msgstr "tak"
+
+#~ msgid "no"
+#~ msgstr "nie"
+
+#~ msgid "Edit custom data"
+#~ msgstr "Edytuj dodatkowe dane"
 
 #~ msgid ""
 #~ "<label>Replace:</label> Replaces the entire matching record in the "

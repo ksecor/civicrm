@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-04 09:06+0200\n"
-"PO-Revision-Date: 2005-08-04 09:13+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2005-08-18 23:11+0200\n"
+"Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 msgid "add contacts"
 msgstr "adicionar contatos"
@@ -36,14 +37,13 @@ msgstr "administrar CiviCRM"
 msgid "access CiviCRM"
 msgstr "administrar CiviCRM"
 
-#, fuzzy
 msgid "edit %group"
-msgstr "editar grupos"
+msgstr "editar %grupo"
 
-#, fuzzy
 msgid "view %group"
-msgstr "editar grupos"
+msgstr "editar %grupo"
 
 #, fuzzy
 #~ msgid "edit "
 #~ msgstr "editar grupos"
+
