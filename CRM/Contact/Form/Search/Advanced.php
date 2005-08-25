@@ -215,8 +215,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             $choice[] = $this->addElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
                     } else {
-                        $choice[] = $this->addElement('radio', null, '', ts('Yes'), 'yes', $field['attributes']);
-                        $choice[] = $this->addElement('radio', null, '', ts('No') , 'no' , $field['attributes']);
+                        $choice[] = $this->addElement('radio', null, '', ts('Yes'), 1, $field['attributes']);
+                        $choice[] = $this->addElement('radio', null, '', ts('No') , 0, $field['attributes']);
                     }
                     $this->addGroup($choice, $elementName, $field['label']);
                     break;

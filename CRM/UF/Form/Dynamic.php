@@ -278,12 +278,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     switch($cf->html_type) {
 
                     case "Radio":
-                        if($cf->data_type == 'Boolean') {
-                            $customValue = $cv->getValue(true)? 'yes' : 'no';
-                        } else {
-                            $customValue = $cv->getValue(true);
-                        }
-                        $defaults[$name] = $customValue;
+                        $defaults[$name] = $cv->getValue(true); 
                         break;
                             
                     case "CheckBox":
