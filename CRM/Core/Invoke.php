@@ -335,7 +335,7 @@ class CRM_Core_Invoke {
                     } else {
                         $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
                         $url  = CRM_Utils_System::url( 'civicrm/admin/custom/group/field' );
-                        $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Custom Data Field') . '</a>';
+                        $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Custom Data Fields') . '</a>';
                         CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
                     }
                 }
