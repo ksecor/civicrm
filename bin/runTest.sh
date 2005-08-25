@@ -106,11 +106,11 @@ case $option in
 	echo "Running all three Tests i.e. Unit Tests, maxQ Tests and Stress Test "; echo;
 	echo "Running Unit Tests"; echo;
 	run_UnitTest
-	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/$logUT; echo;
+	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/LOG/$logUT; echo;
 	echo "Running maxQ generated Scripts"; echo;
 	echo "(This will take few Minutes)"; echo;
 	run_maxQScript
-	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/$logEMT " and " $PATH4LOG/$logSMT; echo;
+	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/LOG/$logEMT " and " $PATH4LOG/LOG/$logSMT; echo;
 	echo "Running Stress Tests"; echo;
 	run_stressTest
 	echo "Stress Tests Successfully Completed."; echo;
