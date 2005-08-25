@@ -168,7 +168,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
-        $this->assign('groupId', $this->_groupId);
 
         // u need inactive options only when editing stuff, not when displaying them
         // on a per contact basis

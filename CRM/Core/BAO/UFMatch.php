@@ -237,9 +237,9 @@ WHERE     civicrm_contact.id = "
     }
 
     /**
-     * get the contact_id given a uf_if
+     * get the contact_id given a uf_id
      *
-     * @param int $uf_id 
+     * @param int $ufID
      *
      * @return int contact_id
      * @access public

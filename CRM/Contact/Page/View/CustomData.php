@@ -52,17 +52,28 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
     /**
      * class constructor
      *
-     * @param int $groupId - group Id of the custom group
-     *
      * @return CRM_Contact_Page_View_CustomData
      */
-    public function __construct($groupId)
+    public function __construct( )
     {
-        $this->_groupId = $groupId;
         parent::__construct();
     }
 
 
+    /**
+     * add a few specific things to view contact
+     *
+     * @return void 
+     * @access public 
+     * 
+     */ 
+    function preProcess( ) 
+    { 
+        parent::preProcess( );
+
+        $this->_groupId = CRM_Utils_Request::retrieve( 'gid', $this, true ); 
+        $this->assign( 'groupId', $this->_groupId );
+    }
 
     /**
      * Run the page.
@@ -91,9 +102,9 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $controller->setEmbedded(true);
 
         // set the userContext stack
-        $doneURL = 'civicrm/contact/view/cd/' . $this->_groupId;
+        $doneURL = 'civicrm/contact/view/cd';
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url($doneURL, 'action=browse'));
+        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&gid=' . $this->_groupId ) );
 
         $controller->set('tableId'   , $this->_contactId );
         $controller->set('groupId'   , $this->_groupId);
