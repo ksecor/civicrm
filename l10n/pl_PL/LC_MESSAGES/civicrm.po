@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 12:14+0200\n"
+"POT-Creation-Date: 2005-08-25 14:57+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1960,7 +1960,7 @@ msgstr "Edytuj szczegóły kontaktu"
 
 #: CRM/Contact/Selector.php
 msgid "Map"
-msgstr "Zaznacz na mapie"
+msgstr "Mapa"
 
 #: CRM/Contact/Selector.php
 msgid "Contact Id"
@@ -4188,10 +4188,12 @@ msgid ""
 "     <p>Please add any comments on the look and feel of these pages, along "
 "with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
-"<p>Ta instalacja oparta jest o wersję 1.1 beta. Cała funkcjonalność powinna działać poprawnie.</p>\n"
-"     <p>W naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</a> można znaleźć listę znanych błędów i problemów oraz zgłaszać nowe..</"
-"p>\n"
-"     <p>Prosimy o zgłaszanie komentarzy na temat wyglądu i działania CiviCRM-a na <a href=\"%2\">stronie komentarzy</a>.</p>"
+"<p>Ta instalacja oparta jest o wersję 1.1 beta. Cała funkcjonalność powinna "
+"działać poprawnie.</p>\n"
+"     <p>W naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</"
+"a> można znaleźć listę znanych błędów i problemów oraz zgłaszać nowe..</p>\n"
+"     <p>Prosimy o zgłaszanie komentarzy na temat wyglądu i działania CiviCRM-"
+"a na <a href=\"%2\">stronie komentarzy</a>.</p>"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
@@ -4398,6 +4400,10 @@ msgstr "Historia zdarzeń"
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit Search Criteria"
 msgstr "Edytuj kryteria wyszukiwania"
+
+#: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+msgid "(for %1)"
+msgstr "(dla %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
@@ -5469,11 +5475,18 @@ msgid "Import to Groups"
 msgstr "Importuj do grup"
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "%count contact added to this %2 group."
-msgid_plural "%count contacts added to this %2 group."
-msgstr[0] "%count kontakt dodany do grupy %2."
-msgstr[1] "%count kontakty dodane do grupy %2."
-msgstr[2] "%count kontaktów dodanych do grupy %2."
+msgid "%count contact added to this new group."
+msgid_plural "%count contacts added to this new group."
+msgstr[0] "%count kontakt dodany do nowej grupy."
+msgstr[1] "%count kontakty dodane do nowej grupy."
+msgstr[2] "%count kontaktów dodanych do nowej grupy."
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "%count contact added to this existing group."
+msgid_plural "%count contacts added to this existing group."
+msgstr[0] "%count kontakt dodany do istniejącej grupy."
+msgstr[1] "%count kontakty dodane do istniejącej grupy."
+msgstr[2] "%count kontaktów dodanych do istniejącej grupy."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "%count contact NOT added (already in this group)."
