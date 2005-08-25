@@ -504,9 +504,30 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 switch($cf->html_type) {
 
                 case "Radio":
-                    $values[$index] = $cv->getValue(true);
+                    if ( $cf->data_type == Boolean ) {
+                        $values[$index] = $cv->getValue(true) ? ts('Yes') : ts('No');
+                    } else {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id); 
+                        $params[$index] = $cv->getValue(true);
+                        foreach ( $customOption as $o ) {
+                            if ( $params[$index] == $o['value'] ) {
+                                $values[$index] = $o['label'];
+                                break;
+                            }
+                        }
+                    }
                     break;
 
+                case "Select":
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);  
+                    $params[$index] = $cv->getValue(true); 
+                    foreach ( $customOption as $o ) { 
+                        if ( $params[$index] == $o['value'] ) { 
+                            $values[$index] = $o['label']; 
+                            break; 
+                        } 
+                    } 
+                    
                 case "CheckBox":
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);
                     $value = $cv->getValue(true);

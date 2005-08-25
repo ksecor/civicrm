@@ -433,7 +433,8 @@ WHERE t1.custom_field_id = 1
             switch ( $cf->data_type ) {
             case 'String':
                 $sql = ' t' . $index[$cf->id] . '.char_data LIKE ';
-                if ( $cf->html_type == 'CheckBox' ) {
+                // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
+                if ( $cf->html_type == 'CheckBox' && is_array( $value[$cf->id] ) ) { 
                     $clause[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value[$cf->id] ) ) . '"';
                 } else {
                     $clause[] = $sql . "'%" . $value[$cf->id] . "%'";
@@ -441,12 +442,8 @@ WHERE t1.custom_field_id = 1
                 continue;
                 
             case 'Int':
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];
-                continue;
-                
             case 'Boolean':                    
-                $value[$cf->id] = ( $value[$cf->id] == 'yes' ) ? 1 : 0;
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id]; 
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];
                 continue;
                 
             case 'Float':

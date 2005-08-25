@@ -427,18 +427,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
                 case 'Radio':
-                    if($this->_groupTree[$groupId]['fields'][$fieldId]['data_type'] == 'Boolean') {
-                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
-                    } else {
-                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
-                    }                    
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
 
                 case 'Select':
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
+
                 case 'CheckBox':  
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                     break;
 
                 case 'Select Date':

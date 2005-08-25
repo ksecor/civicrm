@@ -160,10 +160,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                          $this->addGroup($choice, $elementName, $field['label']);
                      } else {
                          $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
-                                                          ts('Yes'), 'yes',
+                                                          ts('Yes'), 1,
                                                           CRM_Utils_Array::value( 'attributes', $field ) );
                          $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
-                                                          ts('No') , 'no' ,
+                                                          ts('No') , 0,
                                                           CRM_Utils_Array::value( 'attributes', $field ) );
                          $this->addGroup($choice, $elementName, $field['label']);
                      }
