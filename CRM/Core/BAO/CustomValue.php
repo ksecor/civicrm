@@ -392,7 +392,20 @@ WHERE t1.custom_field_id = 1
         $from  = " FROM "  . implode( ', '   , $from  );
         $where = " WHERE " . implode( ' AND ', $where );
 
-        return " civicrm_contact.id IN ( $select $from $where ) ";
+        // subqueries are supported since MySQL 4.1 version, for 
+        // 4.0 we need to fire the query and send the result
+        $config =& CRM_Core_Config::singleton( );
+        if ($config->mysqlVersion >= 4.1) {
+            return " civicrm_contact.id IN ( $select $from $where ) ";
+        } else {
+            $dao =& new CRM_Core_DAO();
+            $dao->query("$select $from $where");
+            $inVal = array();
+            while ($dao->fetch()) {
+                $inVal[] = $dao->entity_id;
+            }
+            return " civicrm_contact.id IN ( ". implode(', ', $inVal)  . " ) ";
+        }
     }
 
     /**
