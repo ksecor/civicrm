@@ -97,7 +97,7 @@ class CRM_Utils_Rule {
 
     static function date($value, $default = null) {
         if (is_string($value) &&
-            preg_match('/^\d\d\d\d-\d\d-\d\d$/', $value)) {
+            preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value)) {
             return $value;
         }
         return $default;
