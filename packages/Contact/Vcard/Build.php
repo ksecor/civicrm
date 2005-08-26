@@ -540,6 +540,26 @@ class Contact_Vcard_Build extends PEAR {
         
         return $text;
     }
+
+
+    /**
+     * Add encoding and charset info (currently - hardcoded 8BIT and
+     * UTF-8, respectively) to the specified component and iteration
+     *
+     * @param string $comp  The component to set the value for
+     * @param int    $iter  The component-iteration to set the value for
+     *
+     * @return void
+     */
+    function addEncoding($comp, $iter) {
+        $meta = $this->getMeta($comp, $iter);
+        if (substr_count($meta, 'ENCODING') == 0) {
+            $this->addParam('ENCODING', '8BIT', $comp, $iter);
+        }
+        if (substr_count($meta, 'CHARSET') == 0) {
+            $this->addParam('CHARSET', 'UTF-8', $comp, $iter);
+        }
+    }
     
     
     /**
@@ -571,6 +591,11 @@ class Contact_Vcard_Build extends PEAR {
         $comp = strtoupper($comp);
         settype($text, 'array');
         $this->value[$comp][$iter][$part] = $text;
+        foreach ($text as $val) {
+            if (preg_match('/[^\x00-\x7f]/', $val)) {
+                $this->addEncoding($comp, $iter);
+            }
+        }
         $this->autoparam = $comp;
     }
     
@@ -605,6 +630,9 @@ class Contact_Vcard_Build extends PEAR {
         settype($text, 'array');
         foreach ($text as $val) {
             $this->value[$comp][$iter][$part][] = $val;
+            if (preg_match('/[^\x00-\x7f]/', $val)) {
+                $this->addEncoding($comp, $iter);
+            }
         }
         $this->autoparam = $comp;
     }
