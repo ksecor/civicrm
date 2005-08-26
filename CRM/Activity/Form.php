@@ -119,9 +119,9 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
             $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_entity_id']);
+
             $this->assign('sourceName', $sourceName);
             $this->assign('targetName', $targetName);
-
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {

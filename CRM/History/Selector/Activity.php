@@ -126,13 +126,13 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                         CRM_Core_Action::VIEW   => array(
                                                                          'name'     => ts('Details'),
                                                                          'url'      => 'civicrm/history/activity/detail',
-                                                                         'qs'       => 'callback=%%callback%%&module=%%module%%&activity_id=%%activity_id%%',
+                                                                         'qs'       => 'callback=%%callback%%&module=%%module%%&activity_id=%%activity_id%%&cid=%%cid%%',
                                                                          'title'    => ts('View Activity Details'),
                                                                          ),
                                         CRM_Core_Action::DELETE => array(
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/contact/view/activity',
-                                                                         'qs'       => 'show=1&action=delete&id=%%id%%',
+                                                                         'qs'       => 'show=1&action=delete&id=%%id%%&cid=%%cid%%',
                                                                          'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\')) this.href+=\'&confirmed=1\'; else return false;"',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
@@ -220,7 +220,13 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ($row['callback']) {
-                    $row['action'] = CRM_Core_Action::formLink($links, $mask, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
+                    $row['action'] = CRM_Core_Action::formLink($links,
+                                                               $mask,
+                                                               array( 'id' => $k,
+                                                                      'callback' => $row['callback'],
+                                                                      'module'   => $row['module'],
+                                                                      'activity_id'=>$row['activity_id'],
+                                                                      'cid' => $this->_entityId ) );                    
                 } else {
                     $actionLinks = $links;
                     unset($actionLinks[CRM_Core_Action::VIEW]);

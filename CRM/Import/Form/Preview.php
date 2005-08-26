@@ -66,13 +66,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
         
 
-        if ( $invalidRowCount > 0 ) {
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
-        }
-        if ( $conflictRowCount > 0 ) {
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
-        }
-
         $groups =& CRM_Core_PseudoConstant::group();
         $this->set('groups', $groups);
         
@@ -230,7 +223,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             fclose($fd);
 
             $this->set('errorFile', $errorFile);
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
         }
+
     }
 
 
