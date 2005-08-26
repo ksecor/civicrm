@@ -212,7 +212,6 @@ function domainDump( &$tree, $nameArray, $frTable)
     } 
 }
 
-print_r($UNION_ARRAY['civicrm_activity_history']);
 
 //start dumping data to a file
 foreach ($UNION_ARRAY as $key => $val) {
@@ -249,6 +248,7 @@ foreach ($UNION_ARRAY as $key => $val) {
     //end of write to file    
 }
 
+echo "Complete Dump process!! \n\n ";
 $db_domain->disconnect( );
 
 exit(1);
