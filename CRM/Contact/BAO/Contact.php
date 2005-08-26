@@ -1103,8 +1103,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     static function resolveDefaults( &$defaults, $reverse = false ) {
         // hack for birth_date
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
-            $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );
-        }
+            if (is_array($defaults['birth_date'])) {
+                $defaults['birth_date'] = CRM_Utils_Date::format( 
+                                            $defaults['birth_date'], '-' 
+                                        );
+            }
+        } 
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];

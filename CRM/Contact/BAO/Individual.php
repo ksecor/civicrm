@@ -71,10 +71,25 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
        
         $individual->copyValues($params);
 
-        // fix gender and date
-        $individual->gender = CRM_Utils_Array::value( 'gender', $params );
+        $genders = array(
+                'Male' => ts('Male'),
+                'Female' => ts('Female'),
+                'Transgender' => ts('Transgender')
+            );
+        $gender = CRM_Utils_Array::value( 'gender', $params );
+        
+        if (! CRM_Utils_Array::value($gender, $genders)) {
+            $gender = CRM_Utils_Array::key($gender, $genders);
+        }
+        
+        $individual->gender = $gender;
+        
         $date = CRM_Utils_Array::value('birth_date', $params);
-        $individual->birth_date = CRM_Utils_Date::format( CRM_Utils_Array::value('birth_date', $params) );
+        if (is_array($date)) {
+            $individual->birth_date = CRM_Utils_Date::format( $date );
+        } else {
+            $individual->birth_date = preg_replace('/[^0-9]/', '', $date);
+        }
         $individual->middle_name = CRM_Utils_Array::value('middle_name', $params);
         // hack to make db_do save a null value to a field
         if ( ! $individual->birth_date ) {

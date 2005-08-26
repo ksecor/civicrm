@@ -61,7 +61,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/prefix|title/i</headerPattern>
+       <headerPattern>/prefix/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Prefix to Name.</comment>
   </field>
