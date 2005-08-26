@@ -162,6 +162,47 @@ class CRM_Utils_System_Drupal {
         global $base_url;
         return $base_url;
     }
+
+    /**
+     * Authenticate the user against the drupal db
+     *
+     * @param string $name     the user name
+     * @param string $password the password for the above user name
+     *
+     * @return mixed false if no auth
+     *               array( contactID, ufID, unique string ) if success
+     * @access public
+     * @static
+     */
+    static function authenticate( $name, $password ) {
+        require_once 'DB.php';
+
+        $config =& CRM_Core_Config::singleton( );
+        
+        $dbDrupal = DB::connect( $config->userFrameworkDSN );
+        if ( DB::isError( $db_drupal ) ) {
+            CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbDrupal>getMessage( ) ); 
+        }                                                      
+
+        $password  = md5( $password );
+        $name      = strtolower( $name );
+        $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
+            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password'";
+        $query = $dbDrupal->query( $sql );
+
+        $user = null;
+        // need to change this to make sure we matched only one row
+        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) { 
+            CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], 'Drupal' );
+            $contactID = CRM_Core_BAO_UFMatch::getContactId( $row['uid'] );
+            if ( ! $contactID ) {
+                return false;
+            }
+            return array( $contactID, $row['uid'], $_COOKIE['PHPSESSID'] );
+        }
+        return false;
+    }
+
 }
 
 ?>

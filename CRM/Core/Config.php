@@ -195,10 +195,13 @@ class CRM_Core_Config {
     /**
      * Default user framework
      */
-    public $userFramework       = 'Drupal';
-    public $userFrameworkClass  = 'CRM_Utils_System_Drupal';
-    public $userPermissionClass = 'CRM_Core_Permission_Drupal';
-    public $userFrameworkURLVar = 'q';
+    public $userFramework               = 'Drupal';
+    public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
+    public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
+    public $userFrameworkURLVar         = 'q';
+    public $userFrameworkDSN            = null;
+    public $userFrameworkUsersTableName = 'users';
+    public $userFrameworkBaseURL        = null;
 
     /**
      * The default mysql version that we are using
@@ -286,6 +289,14 @@ class CRM_Core_Config {
 
         if (defined('CIVICRM_DSN')) {
             $this->dsn = CIVICRM_DSN;
+        }
+
+        if (defined('UF_DSN')) {
+            $this->ufDSN = UF_DSN;
+        }
+
+        if (defined('UF_USERTABLENAME')) {
+            $this->ufUserTableName = UF_USERTABLENAME;
         }
 
         if (defined('CIVICRM_Core_DAO_DEBUG') ) {
@@ -384,14 +395,26 @@ class CRM_Core_Config {
             $this->smtpServer = CIVICRM_SMTP_SERVER;
         }
 
-        if ( defined( 'CIVICRM_USERFRAMEWORK' ) ) {
-            $this->userFramework       = CIVICRM_USERFRAMEWORK;
+        if ( defined( 'CIVICRM_UF' ) ) {
+            $this->userFramework       = CIVICRM_UF;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
         }
 
-        if ( defined( 'CIVICRM_USERFRAMEWORK_URLVAR' ) ) {
-            $this->userFrameworkURLVar = CIVICRM_USERFRAMEWORK_URLVAR;
+        if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
+            $this->userFrameworkURLVar = CIVICRM_UF_URLVAR;
+        }
+
+        if ( defined( 'CIVICRM_UF_DSN' ) ) { 
+            $this->userFrameworkDSN = CIVICRM_UF_DSN;
+        }
+
+        if ( defined( 'CIVICRM_UF_USERSTABLENAME' ) ) {
+            $this->userFrameworkUsersTableName = CIVICRM_UF_USERSTABLENAME;
+        }
+
+        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
+            $this->userFrameworkBaseURL = CIVICRM_UF_BASEURL;
         }
 
         if ( defined( 'CIVICRM_MYSQL_VERSION' ) ) {

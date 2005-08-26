@@ -3,19 +3,20 @@
  * CiviCRM configuration file.
  */
 
-global $civicrm_root;
-
 /**
  * Content Management System (CMS) Host:
  *
  * CiviCRM can be hosted in either Drupal or Mambo. Retain the default settings
  * for Drupal.
  * Settings for Mambo:
- *      define( 'CIVICRM_USERFRAMEWORK'       , 'Mambo' );
- *      define( 'CIVICRM_USERFRAMEWORK_URLVAR', 'task'  );
+ *      define( 'CIVICRM_UF'       , 'Mambo' );
+ *      define( 'CIVICRM_UF_URLVAR', 'task'  );
  */
-define( 'CIVICRM_USERFRAMEWORK'       , 'Drupal' );
-define( 'CIVICRM_USERFRAMEWORK_URLVAR', 'q'  );
+define( 'CIVICRM_UF'               , 'Drupal' );
+define( 'CIVICRM_UF_URLVAR'        , 'q'  );
+define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
+define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
+define( 'CIVICRM_UF_BASEURL'       , 'http://localhost/drupal' );
 
 /**
  * File system paths for this install:
@@ -53,6 +54,7 @@ define( 'CIVICRM_USERFRAMEWORK_URLVAR', 'q'  );
  * web server user has write access to that directory
  *
  */
+global $civicrm_root;
 $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
 define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
@@ -79,7 +81,7 @@ define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
  * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
  *
- * Define the database URL (CIVICRM_DSN) for the CiviCRM database.
+ * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Mambo database
  * Database URL format:
  *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
  *
@@ -90,11 +92,13 @@ define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
  *      define( 'CIVICRM_DSN'         , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
  *
  * EXAMPLE: Drupal and CiviCRM running in separate databases...
+ *      Drupal  DB Name = drupal, DB User = drupal
  *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
  *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+ *
  */
 define( 'CIVICRM_MYSQL_VERSION', 4.1 );
-define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
 
 /**
  * SMTP Server:

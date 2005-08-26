@@ -413,6 +413,23 @@ class CRM_Utils_System {
             eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
     }
 
+    /** 
+     * Authenticate the user against the uf db 
+     * 
+     * @param string $name     the user name 
+     * @param string $password the password for the above user name 
+     * 
+     * @return mixed false if no auth 
+     *               array( contactID, ufID, unique string ) if success 
+     * @access public 
+     * @static 
+     */ 
+    static function authenticate( $name, $password ) {
+        $config =& CRM_Core_Config::singleton( ); 
+        return  
+            eval( 'return ' . $config->userFrameworkClass . "::authenticate($name, $password);" ); 
+
+    }
 
     /**
      * Set a status message in the session, then bounce back to the referrer.
