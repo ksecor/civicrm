@@ -59,17 +59,17 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         list($className, $methodName) = explode('::', $callback);
         $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
     
-        if (!include_once($fileName)) {
+        if (! include_once($fileName)) {
             // we could not include the file
             $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
-            $this->_processError($errorString);
+            return $this->_processError($errorString);
         }
 
         // file is included so lets move on to checking if class exists
         if (!class_exists($className)) {
             // we could not find the class
             $errorString .= ts('Cannot find class "%1"', array(1 => $className));
-            $this->_processError($errorString);
+            return $this->_processError($errorString);
         }
 
         // instantiate the class
@@ -103,7 +103,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         $this->assign( 'errorString', $errorString);
 
         // Call the parents run method
-        parent::run();
+        return parent::run();
     }
 }
 

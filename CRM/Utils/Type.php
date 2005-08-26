@@ -125,6 +125,7 @@ class CRM_Utils_Type {
                     return $data;
                 }
                 break;
+
             case 'Timestamp':
                 if (preg_match('/^\d{14}$/', $data)) {
                     return $data;

@@ -592,6 +592,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $mask = null;
             if ( $links ) {
                 $mask = array_sum( array_keys( $links ) );
+                if ( $mask & CRM_Core_Action::DISABLE ) {
+                    $mask -= CRM_Core_Action::DISABLE ;
+                }
+                if ( $mask & CRM_Core_Action::ENABLE ) {
+                    $mask -= CRM_Core_Action::ENABLE ;
+                }
 
                 if ( $status == self::CURRENT ) {
                     $mask |= CRM_Core_Action::DISABLE;

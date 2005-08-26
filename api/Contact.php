@@ -387,7 +387,7 @@ function crm_contact_groups( &$contact, $status = null ) {
                 $group->$k = $v;
             }
         }
-        $groups[] = $group;
+        $groups[$group->id] = $group;
     }
 
     return $groups;

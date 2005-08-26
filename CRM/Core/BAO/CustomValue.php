@@ -103,7 +103,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $customValue =& new CRM_Core_BAO_CustomValue();
 
         $customValue->copyValues($params);
-        
+
         switch($params['type']) {
             case 'StateProvince':
                 $states =& CRM_Core_PseudoConstant::stateProvince();
@@ -111,19 +111,23 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
                     CRM_Utils_Array::key($params['value'], $states);
                 $customValue->char_data = $params['value'];
                 break;
+
             case 'Country':
                 $countries =& CRM_Core_PseudoConstant::country();
                 $customValue->int_data = 
                     CRM_Utils_Array::key($params['value'], $countries);
                 $customValue->char_data = $params['value'];
                 break;
+
             case 'String':
                 $customValue->char_data = $params['value'];
                 break;
+
             case 'Boolean':
                 $customValue->int_data = 
                 CRM_Utils_String::strtobool($params['value']);
                 break;
+
             case 'Int':
                 $customValue->int_data = $params['value'];
                 break;
@@ -139,9 +143,11 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
             case 'Memo':
                 $customValue->memo_data = $params['value'];
                 break;
+
             case 'Date':
                 $customValue->date_data = $params['value'];
                 break;
+
         }
         $customValue->save();
         
