@@ -12,18 +12,6 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
-
-/*if ( empty($argv) ) {
-    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
-    echo "mysqluser details ===> -u<username> -p<password>\n\n";
-    exit(1);
-}*/
-
-/*if ( empty($argv[3])) {
-    echo "Usage: php domainDumps.php <domain value> </path/to/backup_dir/> <mysqluser details>\n\n";
-    echo "mysqluser details ===> -u<username> -p<password>\n\n";
-    exit(1);
-}*/
 $error = array();
 if ( empty($argv[1]) ){ 
     $error[] = "Set the domain Id\n";
@@ -81,7 +69,7 @@ if ( DB::isError( $db_domain ) ) {
     die( "Cannot connect to civicrm db , " . $db_domain->getMessage( ) ."\n");
 }
 
-$db_domain->disconnect( );
+
 
 
 $file = 'schema/Schema.xml';
@@ -127,9 +115,9 @@ foreach ($tables as $key => $value) {
     }
 
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
+        //if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
             $frTable[$value['name']][$v1['table']] = $v1['name'];
-        }
+            //}
     }
 }
 
@@ -175,9 +163,12 @@ function domainDump( &$tree, $nameArray, $frTable)
     if ( !isset($nameArray) ) {
         $nameArray = array();
     }
-    global $BACKUP_PATH;
+    
+    //bad hack 
+    if ( !isset($UNION_ARRAY) ) {
+        global $UNION_ARRAY;
+    }
     global $DOMAIN_ID;
-    global $MYSQL_USER;
 
     $node = $tree;
 
@@ -193,47 +184,54 @@ function domainDump( &$tree, $nameArray, $frTable)
     for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
         $foreignKey = $tempNameArray[$idx+1];
         $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
-    }
-    
-    $whereCondition[] = "civicrm_domain.id = ".$DOMAIN_ID;
-    
+    }    
+    $whereCondition[] = "civicrm_domain.id = ".$DOMAIN_ID;    
     $whereClause = implode(" AND ", $whereCondition);
 
-    $fileName = $BACKUP_PATH. $tempNameArray[0].".sql";
-
-    //file exist counter
-    $counter = 0;
-    while  ( file_exists($fileName) ) {
-        ++$counter;
-        $fileName =  $BACKUP_PATH.$tempNameArray[0]."".$counter.".sql";
-    }
-
-    $strQuery = 'SELECT '. $tempNameArray[0] .'.* INTO OUTFILE "'. $fileName .'" FROM '. $tables .' WHERE '. $whereClause ;
+    //store the queries traversed thru different path
+    $sql = 'SELECT '. $tempNameArray[0] .'.id FROM '. $tables .' WHERE '. $whereClause ;
+    $UNION_ARRAY[$tempNameArray[0]][] = $sql;
     
-    $command = "mysql ".$MYSQL_USER ." civicrm -e '".$strQuery."'";
-    
-    echo $command."\n\n";
-    
-    system($command);
-   
-    // mysql query to load data from files
-    $loadFilePath = $BACKUP_PATH.'LOADBACKUP.sql';
-    
-    $fp = fopen($loadFilePath, 'a+');
-
-    $loadQuery = "mysql ".$MYSQL_USER." civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$tempNameArray[0]."'\n";
-    
-    fwrite($fp, $loadQuery);
-    fclose($fp);
-    //end of write to file
 
     if ( !empty($node['children']) ) {
         foreach($node['children'] as &$childNode) {
             domainDump($childNode, $nameArray, $frTable, $domainId);      
         }    
-    }
+    } 
 }
 
+foreach ($UNION_ARRAY as $key => $val) {
+    $tableName = $key;
+    $fileName = $BACKUP_PATH.$tableName.".sql";
+
+    if (is_array($val)) {        
+        $sql = implode(" UNION ", $val);
+    }
+        
+    $query = $db_domain->query($sql);
+
+    if ($query) {
+        $ids = array();
+        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $ids[] = $row['id']; 
+        }
+    }
+    
+    $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' WHERE '.$tableName.'.id IN ( '.implode(",", $ids).' ) '; 
+    $db_domain->query($dumpSql);
+    
+    //write to file the queries to push the dump back into db
+    $loadFilePath = $BACKUP_PATH."LOADBACKUP.sql";
+    $fp = fopen($loadFilePath, 'a+');
+    
+    $loadQuery = "mysql ".$MYSQL_USER." civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$key."'\n";
+    
+    fwrite($fp, $loadQuery);
+    fclose($fp);
+    //end of write to file    
+}
+
+$db_domain->disconnect( );
 
 exit(1);
 
