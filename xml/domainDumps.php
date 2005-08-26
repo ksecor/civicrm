@@ -184,17 +184,25 @@ function domainDump( &$tree, $nameArray, $frTable)
         $table[] = $nameArray[$idx];
     }
     
-    $tables = implode(", ",$table);
-    for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
-        $foreignKey = $tempNameArray[$idx+1];
-        $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
-    }    
-    $whereCondition[] = "civicrm_domain.id = ".$DOMAIN_ID;    
+    if ( $tempNameArray[0] != 'civicrm_activity_history' ) { 
+        $tables = implode(",", $table);
+        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+            $foreignKey = $tempNameArray[$idx+1];
+            $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
+        } 
+        $whereCondition[] = "civicrm_domain.id = ".$DOMAIN_ID;    
+    } else {
+        $tables = ' civicrm_domain, civicrm_contact, civicrm_activity_history';
+        $whereCondition[] = "". $tempNameArray[0] .".entity_id = civicrm_contact.id AND civicrm_contact.domain_id = civicrm_domain.id AND civicrm_domain.id = 1 ";
+    }
+    
     $whereClause = implode(" AND ", $whereCondition);
 
     //store the queries traversed thru different path
-    $sql = 'SELECT '. $tempNameArray[0] .'.id FROM '. $tables .' WHERE '. $whereClause ;
+    $sql = 'SELECT '. $tempNameArray[0] .'.id FROM '. $tables .' WHERE '. $whereClause ;       
+    
     $UNION_ARRAY[$tempNameArray[0]][] = $sql;
+
     
 
     if ( !empty($node['children']) ) {
@@ -203,6 +211,8 @@ function domainDump( &$tree, $nameArray, $frTable)
         }    
     } 
 }
+
+print_r($UNION_ARRAY['civicrm_activity_history']);
 
 //start dumping data to a file
 foreach ($UNION_ARRAY as $key => $val) {
@@ -224,9 +234,8 @@ foreach ($UNION_ARRAY as $key => $val) {
     $fileName = $BACKUP_PATH.$tableName.".sql";
     if ( !empty($ids) ) {
         $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' WHERE '.$tableName.'.id IN ( '.implode(",", $ids).' ) '; 
-    } else {
-        $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' '; 
-    }
+    } 
+
     $db_domain->query($dumpSql);
     
     //write to file the queries to push the dump back into db
