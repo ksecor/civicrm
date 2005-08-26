@@ -1254,7 +1254,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      *
      * @param  int    $id id of the contact
      *
-     * @return null|string     display name of the contact if found
+     * @return array    tuple of display_name and email if found, or (null,null)
      * @static
      * @access public
      */

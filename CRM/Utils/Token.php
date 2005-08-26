@@ -60,6 +60,9 @@ class CRM_Utils_Token {
         'unsubscribe'   => array(
                             'group'
                         ),
+        'welcome'       => array(
+                            'group'
+                        ),
     );
 
     
@@ -336,6 +339,26 @@ class CRM_Utils_Token {
         }
         return $str;
     }
+
+
+    /**
+     * Replace welcome/confirmation tokens
+     * 
+     * @param string $str           The string with tokens to be replaced
+     * @param string $group         The name of the group being subscribed
+     * @param boolean $html         Replace tokens with html or plain text
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceWelcomeTokens($str, $group, $html) {
+        if (self::token_match('welcome', 'group', $str)) {
+            self::token_replace('welcome', 'group', $group, $str);
+        }
+        return $str;
+    }
+
+
 
 
     /**
