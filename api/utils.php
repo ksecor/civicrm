@@ -280,7 +280,6 @@ function _crm_format_params( &$params, &$values ) {
             }
 
             /* validate the data against the CF type */
-            
             $valid = CRM_Core_BAO_CustomValue::typecheck(
                             $customFields[$customFieldID][2], $value);
 
@@ -289,6 +288,11 @@ function _crm_format_params( &$params, &$values ) {
                     $customFields[$customFieldID][1]);
             }
             
+            // fix the date field if so
+            if ( $customFields[$customFieldID][2] == 'Date' ) {
+                $value = str_replace( '-', '', $value );
+            }
+
             $values['custom_data'][$customFieldID] = array( 
                 'value' => $value,
                 'extends' => $customFields[$customFieldID][3],
@@ -296,6 +300,7 @@ function _crm_format_params( &$params, &$values ) {
             );
         }
     }
+
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
     return null;
 }
@@ -958,7 +963,7 @@ function _crm_validate_formatted_contact(&$params) {
 
     /* Validate custom data fields */
     if (is_array($params['custom'])) {
-        foreach ($params['custom'] as $custom) {
+        foreach ($params['custom'] as $key => $custom) {
             if (is_array($custom)) {
                 $valid = CRM_Core_BAO_CustomValue::typecheck(
                     $custom['type'], $custom['value']);
@@ -966,9 +971,13 @@ function _crm_validate_formatted_contact(&$params) {
                     return _crm_error('Invalid value for custom field \'' .
                         $custom['name']. '\'');
                 }
+                if ( $custom['type'] == 'Date' ) {
+                    $params['custom'][$key]['value'] = str_replace( '-', '', $params['custom'][$key]['value'] );
+                }
             }
         }
     }
+
     return true;
 }
 

@@ -634,7 +634,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $name = trim($fv['sort_name']);
             $sub  = array( );
             // if we have a comma in the string, search for the entire string
-            if ( strpos( $name, ',' ) === false ) {
+            if ( strpos( $name, ',' ) !== false ) {
                 $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )";
                 $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes($name)) . "%' )";
                 $tables['civicrm_location'] = 1;

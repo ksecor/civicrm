@@ -74,7 +74,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
             $nullObject = null;
             $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
             if ( isset( $value ) ) {
-                $criteria[$field['title']] = $value;
+                $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
 
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {

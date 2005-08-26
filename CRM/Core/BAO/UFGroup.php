@@ -410,11 +410,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         foreach ( self::$_matchClause as $field ) {
             $value = CRM_Utils_Array::value( $field['name'], $params );
             if ( $value ) {
-                if (is_array($value)) {
+                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) { 
+                    $p = array( );
+                    $p[$cfID] = $value;
+                    $sql = CRM_Core_BAO_CustomValue::whereClause($p);   
+                    if ( $sql ) {  
+                        $tables['civicrm_custom_value'] = 1;  
+                        $where[] = $sql;  
+                    }  
+                } else if (is_array($value)) {
                     $where[] = 'LOWER(' . $field['where'] . ') IN (' . implode(',', $value) . ')';
                 } else {
                     $value = strtolower( $value );
-                    $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"';
+                    $where[] = 'LOWER(' . $field['where'] . ') = "' . CRM_Utils_Type::escape( $value, 'String' ) . '"';
                 }
                 list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );
                 if ( isset( $tableName ) ) {
@@ -560,7 +568,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $values[$index] = $contact->$objName;
             }
 
-            if ( $field['visibility'] == "Public User Pages and Listings" ) {
+            if ( $field['visibility'] == "Public User Pages and Listings" &&
+                 CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings' ) ) {
+
                 if ( ! CRM_Utils_Array::value( $index, $params ) ) {
                     $params[$index] = $values[$index];
                 }

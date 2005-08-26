@@ -7,19 +7,19 @@
         {/if}
         <dt>{$form.is_required.label}</dt><dd>{$form.is_required.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Are users required to complete this field?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Are users required to complete this field?{/ts}</dd>
         {/if}
         <dt>{$form.is_view.label}</dt><dd>{$form.is_view.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}If checked, users can view but not edit this field for their account.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}If checked, users can view but not edit this field for their account.{/ts}</dd>
         {/if}
         <dt>{$form.is_registration.label}</dt><dd>{$form.is_registration.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Do you want to include this field in the new account registration form?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Do you want to include this field in the new account registration form?{/ts}</dd>
         {/if}
         <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Is this field visible on Public User Pages, or only to User Administrators and the user themself?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? If public, can it be used to aggregate Profile Listing Pages?{/ts}</dd>
         {/if}
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
         {if $action neq 4}
@@ -33,11 +33,11 @@
         *}
         <dt>{$form.is_match.label}</dt><dd>&nbsp;{$form.is_match.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Is this field used to map a newly registered user to an existing contact record?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Is this field used to map a newly registered user to an existing contact record?{/ts}</dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Explanatory text displayed to users for this field. All fields marked as 'Key to Contacts' will be combined when evaluating a match.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed to users for this field. All fields marked as 'Key to Contacts' will be combined when evaluating a match.{/ts}</dd>
         {/if}
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
