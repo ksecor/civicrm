@@ -87,6 +87,7 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         $primaryPhone = '';
         $emailAddresses = array();
         $primaryEmail = '';
+
         foreach ($defaults['location'] as $location) {
 
             // we don't keep PO boxes in separate fields
