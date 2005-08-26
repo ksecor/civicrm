@@ -115,12 +115,15 @@ foreach ($tables as $key => $value) {
     }
 
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        //if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
+        if ( is_array($frTable[$value['name']]) ) {
+            if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
+                $frTable[$value['name']][$v1['table']] = $v1['name'];
+            }
+        } else {
             $frTable[$value['name']][$v1['table']] = $v1['name'];
-            //}
+        }
     }
 }
-
 
 $tree2 = array();
 foreach ($tree1 as $k => $v) {
@@ -135,6 +138,7 @@ foreach ($tree1 as $k => $v) {
     }
 }
 
+//create the domain tree
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 
 foreach($tree2 as $key => $val) {
@@ -200,14 +204,14 @@ function domainDump( &$tree, $nameArray, $frTable)
     } 
 }
 
+//start dumping data to a file
 foreach ($UNION_ARRAY as $key => $val) {
     $tableName = $key;
-    $fileName = $BACKUP_PATH.$tableName.".sql";
-
+    
     if (is_array($val)) {        
         $sql = implode(" UNION ", $val);
     }
-        
+    
     $query = $db_domain->query($sql);
 
     if ($query) {
@@ -217,7 +221,12 @@ foreach ($UNION_ARRAY as $key => $val) {
         }
     }
     
-    $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' WHERE '.$tableName.'.id IN ( '.implode(",", $ids).' ) '; 
+    $fileName = $BACKUP_PATH.$tableName.".sql";
+    if ( !empty($ids) ) {
+        $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' WHERE '.$tableName.'.id IN ( '.implode(",", $ids).' ) '; 
+    } else {
+        $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' '; 
+    }
     $db_domain->query($dumpSql);
     
     //write to file the queries to push the dump back into db
