@@ -57,10 +57,6 @@ class CRM_Core_Invoke {
             return;
         }
 
-        $foo = CRM_Utils_System::authenticate( 'lobo', 'mayinga' );
-        CRM_Core_Error::debug( 'foo', $foo );
-        exit( );
-
         $config =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Mambo' ) {
             CRM_Core_Mambo::sidebarLeft( );
