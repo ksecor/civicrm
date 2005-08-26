@@ -8451,7 +8451,7 @@ sub init() {
     
     $soapClient = SOAP::Lite
         -> proxy($civicrm_soap_proxy)
-        -> uri('http://localhost');
+        -> uri('urn:civicrm');
     
     do_log(1, "CiviCRM: done");
 }

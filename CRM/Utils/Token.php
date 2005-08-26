@@ -296,7 +296,6 @@ class CRM_Utils_Token {
     {
         if (self::token_match('unsubscribe', 'group', $str)) {
             if (! empty($groups)) {
-                // FIXME: This won't work under SOAP mode
                 $base = CRM_Utils_System::baseURL();
                 
                 if ($html) {
