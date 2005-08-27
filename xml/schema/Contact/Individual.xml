@@ -61,7 +61,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/prefix|title/i</headerPattern>
+       <headerPattern>/prefix/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Prefix to Name.</comment>
   </field>
@@ -90,15 +90,27 @@
        <name>job_title</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
+       <headerPattern>/^(job.*)?title$/i</headerPattern>
+       <dataPattern>//</dataPattern>
+       <comment>Job Title</comment>
   </field>
   <field>
        <name>gender</name>
        <type>enum</type>
        <values>Female, Male, Transgender</values>
+       <import>true</import>
+       <headerPattern>/gender|sex/i</headerPattern>
+       <dataPattern>/^(f|m|(fe)?male)$/</dataPattern>
+       <comment>Gender</comment>
   </field>
   <field>
        <name>birth_date</name>
        <type>date</type>
+       <import>true</import>
+       <headerPattern>/birth/i</headerPattern>
+       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
+       <comment>Date of birth</comment>
   </field>
   <field>
        <name>is_deceased</name>

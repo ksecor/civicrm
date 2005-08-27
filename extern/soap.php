@@ -18,15 +18,16 @@ $config =& CRM_Core_Config::singleton();
 $ufClass = $config->userFrameworkClass;
 $config->userFramework          = 'Soap';
 $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-$config->userPermissionClass    = 'CRM_Core_Permission_Soap';
+// $config->userPermissionClass    = 'CRM_Core_Permission_Soap';
+
+session_start();
 
 $session =& CRM_Core_Session::singleton();
-
 
 function authenticate($name, $password) {
     global $ufClass;
 
-    eval('$result = ' . $ufClass . '::authenticate($name, $password);');
+    eval('$result =& ' . $ufClass . '::authenticate($name, $password);');
 
     if (empty($result)) {
         return null;

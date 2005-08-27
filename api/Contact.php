@@ -163,7 +163,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
     if (is_a( $error, 'CRM_Core_Error')) {
         return $error;
     }
-    
+
     if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
         $error = _crm_duplicate_formatted_contact($params);
         if (is_a( $error, 'CRM_Core_Error')) {
