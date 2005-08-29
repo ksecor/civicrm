@@ -169,6 +169,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             }
         }
 
+        if ($this->_action & CRM_Core_Action::ADD) {
+            $cf =& new CRM_Core_DAO();
+            $sql = "SELECT weight FROM civicrm_custom_field  WHERE custom_group_id = ". $this->_gid ." ORDER BY weight  DESC LIMIT 0, 1"; 
+            $cf->query($sql);
+            while( $cf->fetch( ) ) {
+                $defaults['weight'] = $cf->weight + 1;
+            }
+            
+            if ( empty($defaults['weight']) ) {
+                $defaults['weight'] = 1;
+            }
+        }
         
         return $defaults;
     }
@@ -227,7 +239,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
+
+            //for checkbox handling of default option
+            $this->add('checkbox', 'default_option['.$i.']', null);
         }
+
         $_showHide->addToTemplate();                
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
@@ -509,16 +525,73 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function postProcess()
     {
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
+        /*echo "<pre>";
+        print_r($params);
+        echo "</pre>";*/
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-        $customField->weight        = $params['weight'];
         
+        //$customField->weight        = $params['weight'];
+        
+        // fix for CRM-316
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+
+            $cf =& new CRM_Core_DAO_CustomField();
+            $cf->id = $this->_id;
+            $cf->find();
+
+            
+            if ( $cf->fetch() && $cf->weight != $params['weight'] ) {
+                    
+                $searchWeight =& new CRM_Core_DAO_CustomField();
+                $searchWeight->custom_group_id = $this->_gid;
+                $searchWeight->weight = $params['weight'];
+                
+                if ( $searchWeight->find() ) {                   
+                    $fieldIds = array();
+                    while($searchWeight->fetch()) {
+                        $fieldIds[] = $searchWeight->id; 
+                    }
+                    
+                    if ( !empty($fieldIds) ) {
+                        $cfDAO =& new CRM_Core_DAO();
+                        $updateSql = "UPDATE civicrm_custom_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                        $cfDAO->query($updateSql);                    
+                    }
+                }
+            }                
+                        
+            $customField->weight  = $params['weight'];
+            
+        } else {
+            $cf =& new CRM_Core_DAO_CustomField();
+            $cf->custom_group_id = $this->_gid;
+            $cf->weight = $params['weight'];
+            
+            if ( $cf->find() ) {
+                $fieldIds = array();                
+                while($cf->fetch()) {
+                    $fieldIds[] = $tempDAO->id;                
+                }                
+            }
+
+            
+            if ( !empty($fieldIds) ) {
+                $cfDAO =& new CRM_Core_DAO();
+                $updateSql = "UPDATE civicrm_custom_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                $cfDAO->query($updateSql);
+            }
+
+            $customField->weight         = $params['weight'];             
+        }
+
         //$customField->default_value = $params['default_value'];
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {

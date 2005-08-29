@@ -184,30 +184,25 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $cg->id = $this->_id;
             $cg->find();
 
-            if ( $cg->fetch() ) {
-                if ($cg->weight != $params['weight']) {
+            if ( $cg->fetch() && $cg->weight != $params['weight'] ) {
+                
+                $searchWeight =& new CRM_Core_DAO_CustomGroup();
+                $searchWeight->domain_id = CRM_Core_Config::domainID( );
+                $searchWeight->weight = $params['weight'];
+                
+                if ( $searchWeight->find() ) {
+                    $groupIds = array();
                     
-                    $searchWeight =& new CRM_Core_DAO_CustomGroup();
-                    $searchWeight->domain_id = CRM_Core_Config::domainID( );
-                    $searchWeight->weight = $params['weight'];
-                                        
-                    if ( $searchWeight->find() ) {
-                        
-                        $tempDAO =& new CRM_Core_DAO();
-                        $query = "SELECT id FROM civicrm_custom_group WHERE weight >= ".$params['weight'].""; 
-                        $tempDAO->query($query);
-                        
-                        $groupIds = array();
-                        while($tempDAO->fetch()) {
-                            $groupIds[] = $tempDAO->id; 
-                        }
-                        if ( !empty($groupIds) ) {
-                            $cgDAO =& new CRM_Core_DAO();
-                            $updateSql = "UPDATE civicrm_custom_group SET weight = weight + 1 WHERE id IN ( ".implode(",", $groupIds)." ) ";
-                            $cgDAO->query($updateSql);                    
-                        }
+                    while($searchWeight->fetch()) {
+                        $groupIds[] = $tempDAO->id; 
                     }
-                }                
+                    
+                    if ( !empty($groupIds) ) {
+                        $cgDAO =& new CRM_Core_DAO();
+                        $updateSql = "UPDATE civicrm_custom_group SET weight = weight + 1 WHERE id IN ( ".implode(",", $groupIds)." ) ";
+                        $cgDAO->query($updateSql);                    
+                    }
+                }
             }
             
             $group->weight  = $params['weight'];
@@ -219,13 +214,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             
             if ( $cg->find() ) {
                 
-                $tempDAO =& new CRM_Core_DAO();
-                $query = "SELECT id FROM civicrm_custom_group WHERE weight >= ".$params['weight'].""; 
-                $tempDAO->query($query);
-                
                 $groupIds = array();
-                while($tempDAO->fetch()) {
-                    $groupIds[] = $tempDAO->id; 
+                while($cg->fetch()) {
+                    $groupIds[] = $cg->id; 
                 }
                 
                 if ( !empty($groupIds) ) {
@@ -233,7 +224,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                     $updateSql = "UPDATE civicrm_custom_group SET weight = weight + 1 WHERE id IN ( ".implode(",", $groupIds)." ) ";
                     $cgDAO->query($updateSql);
                 }
-                $group->weight         = $params['weight'];                
+                $group->weight = $params['weight'];                
             } 
         } 
     
