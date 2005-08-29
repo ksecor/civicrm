@@ -359,7 +359,7 @@ WHERE t1.custom_field_id = 1
 
         // get number of tables needed
         if ( ! is_array( $params ) && empty( $params ) ) {
-            return;
+            return null;
         }
 
         $select = ' SELECT t1.entity_id ';
@@ -368,33 +368,36 @@ WHERE t1.custom_field_id = 1
         $from  = array( );
         $index = 1;
 
-        $keyArray = array();
+        $keyArray   = array();
         $valueArray = array();
-        $idx = array();
-        $idxCounter = array();
+        $idx        = array();
 
         foreach ( $params as $key => $value ) {
             $keyArray[] = $key;
             $valueArray[$key] = $value;
-            $from[]  = "civicrm_custom_value t$index";
-            $where[] = "t$index.custom_field_id = $key"; 
-            $idxCounter[$key] = $index++;
+            $from[]           = "civicrm_custom_value t$index";
+            $where[]          = "t$index.custom_field_id = $key"; 
+            $idx[$key]        = $index++;
         }
 
-        //$clause  = self::getFieldWhereClause( $key, $index, $value );
-        $clause  = self::getFieldWhereClause( $keyArray, $idxCounter, $valueArray );
+        $clause  = self::getFieldWhereClause( $keyArray, $idx, $valueArray );
 
         if ( $clause ) {
             $where[] = $clause;            
         }
 
         // add equality clause for table entities
-        foreach ($idxCounter as $v) {            
-            $where[] = ' t1.entity_id = t' . $v . '.entity_id'; 
-            $where[] = ' t1.entity_table = t' . $v . '.entity_table'; 
+        foreach ($idx as $v) {
+            if ( $v != 1 ) {
+                $where[] = ' t1.entity_id = t' . $v . '.entity_id'; 
+                $where[] = ' t1.entity_table = t' . $v . '.entity_table'; 
+            }
         }
         
-        
+        if ( empty( $where ) ) {
+            return null;
+        }
+
         $from  = " FROM "  . implode( ', '   , $from  );
         $where = " WHERE " . implode( ' AND ', $where );
 
@@ -410,7 +413,12 @@ WHERE t1.custom_field_id = 1
             while ($dao->fetch()) {
                 $inVal[] = $dao->entity_id;
             }
-            return " civicrm_contact.id IN ( ". implode(', ', $inVal)  . " ) ";
+            if ( empty( $inVal ) ) {
+                // we did not find any contacts ids that matched the criteria, hence return 0
+                return ' ( 0 ) ';
+            } else {
+                return " civicrm_contact.id IN ( ". implode(', ', $inVal)  . " ) ";
+            } 
         }
     }
 

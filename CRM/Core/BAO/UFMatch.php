@@ -114,7 +114,7 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
                                 civicrm_email.is_primary = 1    )
-SET civicrm_email.email = '" . $user->$mail . '" WHERE civicrm_contact.id = ' . $ufmatch->contact_id;
+SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . $ufmatch->contact_id;
                 
                 $dao =& new CRM_Core_DAO( );
                 $dao->query( $query );
