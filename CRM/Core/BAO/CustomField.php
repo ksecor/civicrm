@@ -299,6 +299,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             case 'Select':
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
                 $selectOption = array();
+                $selectOption[] = '(select)';
                 foreach ($customOption as $v) {
                     $selectOption[$v['value']] = $v['label'];
                 }
