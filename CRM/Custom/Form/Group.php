@@ -84,7 +84,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // title
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
-        $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
