@@ -69,14 +69,26 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $groups =& CRM_Core_PseudoConstant::group();
         $this->set('groups', $groups);
         
+                             
+        if ($invalidRowCount) {
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+        }
+
+        if ($conflictRowCount) {
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+        }
         $properties = array( 'mapper', 'locations', 'phones',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
-                             'downloadErrorRecordsUrl', 'downloadConflictRecordsUrl');
+                             'downloadErrorRecordsUrl',
+                             'downloadConflictRecordsUrl'
+                    );
+                             
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
+                             
     }
 
     /**
