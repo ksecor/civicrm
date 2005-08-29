@@ -33,6 +33,12 @@
        <comment>Importable field key</comment>
   </field>
   <field>
+        <name>column_number</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Column number for mapping set</comment>
+  </field>
+  <field>
        <name>location_type_id</name>
        <type>int unsigned</type>
        <comment>Location type of this mapping, if required</comment>
