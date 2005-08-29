@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-08-25 16:21+0200\n"
-"PO-Revision-Date: 2005-08-23 22:41+0200\n"
+"PO-Revision-Date: 2005-08-26 19:59+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 0.6.3.20050808\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
@@ -565,7 +565,7 @@ msgstr "Seleccionar Grupo"
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Selected Contact(s): %1"
-msgstr "Contactos Seleccionados en Total: %1"
+msgstr "Contacto(s) Seleccionados en Total: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -576,14 +576,13 @@ msgstr "Nuevo registro de relaciones creado: %1."
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr ""
-"Registro de relaciones no creado debido a un tipo de contacto no válido: %1"
+msgstr "Registro de relaciones no creado debido a un tipo de contacto destino no válido: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
-msgstr "Registro de relaciones no creado - relación duplicada: %1"
+msgstr "Registro de relaciones no creado - relación duplicada: %1."
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -2119,7 +2118,7 @@ msgstr "Email enviado"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
-msgstr "A: %1, asunto %2"
+msgstr "A: %1; Asunto: %2"
 
 #: CRM/Core/BAO/Meeting.php
 msgid "Selected Meeting has been deleted."
@@ -2740,9 +2739,8 @@ msgstr ""
 "formato AAA-MM-DD.Por ejemplo:2004-12-31"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Please enter 1 or 0 as default value."
-msgstr "Por Favor, introduce sí o no como valor por defecto."
+msgstr "Por Favor, introduce 1 o 0 como valor por defecto."
 
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for Country Data Type"
@@ -4185,7 +4183,6 @@ msgstr ""
 "\">añadir uno</a>."
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
-#, fuzzy
 msgid ""
 "<p>This site is running the 1.1 Beta release. All functions should be "
 "operational.</p>\n"
@@ -4194,17 +4191,11 @@ msgid ""
 "p>\n"
 "     <p>Please add any comments on the look and feel of these pages, along "
 "with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
-msgstr ""
-"<p>Esta aplicación está en continuo desarrollo. Algunas funciones pueden no "
-"estar completamente operativas. Comprueba nuestro <a href=\"%2\" target="
-"\"_blank\">Sitio Demo</a> si te gustaría probar nuesta última versión "
-"estable.</p>\n"
-"     <p>Para ver una lista de características y reparaciones bajo "
-"desarrollo, por favorrevisa los fallos abiertos en nuestro <a href=\"%1\" "
-"target=\"_blank\">bug-tracking system</a>.</p>\n"
-"     <p>Por Favor, añade cualquier comentario en el look and feel de estas "
-"páginas, en los fallos con el flujo de trabajo, en <a href=\"%3\">Página de "
-"Comentarios CiviCRM</a>.</p>"
+msgstr "<p>Esta aplicación es la versión 1.1 Beta. Todas las funciones deberían funcionar.</p>\n"
+"     <p>Para ver una lista de errores conocidos, y reportar nuevos fallos, "
+"por favor, usa nuestro <a href=\"%1\" target=\"_blank\">sistema de incidencias</a>.</"
+"p>\n"
+"     <p>Por favor, añade cualquier comentario sobre la apariencia de estas páginas, así como de los flujos de trabajo, en la <a href=\"%2\">Página de comentarios CiviCRM</a>.</p>"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
@@ -4420,15 +4411,14 @@ msgstr "Editar criterio de búsqueda"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "(for %1)"
-msgstr ""
+msgstr "(por %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr ""
-"Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
-"nombre Y apellidos, introduce 'apellidos, nombre'. Ejemplo 'Lopez Garcia, "
+msgstr "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
+"nombre Y apellidos,<br> introduce 'apellidos, nombre'. Ejemplo 'Lopez Garcia, "
 "Antonio'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -4544,7 +4534,7 @@ msgstr "Sólo registros seleccionados"
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "the found record"
 msgid_plural "all %count records"
-msgstr[0] "Registros encontrados"
+msgstr[0] "El Registro encontrado"
 msgstr[1] "todos los %count registros"
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
@@ -5507,18 +5497,16 @@ msgid "Import to Groups"
 msgstr "Importar a Grupos"
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "%count contact added to this new group."
 msgid_plural "%count contacts added to this new group."
-msgstr[0] "%count contacto añadido a este %2 grupo."
-msgstr[1] "%count contactos añadidos a este %2 grupo."
+msgstr[0] "%count contacto añadido a este nuevo grupo."
+msgstr[1] "%count contactos añadidos a este nuevo grupo."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "%count contact added to this existing group."
 msgid_plural "%count contacts added to this existing group."
-msgstr[0] "%count contacto añadido a este %2 grupo."
-msgstr[1] "%count contactos añadidos a este %2 grupo."
+msgstr[0] "%count contacto añadido a este grupo existente."
+msgstr[1] "%count contactos añadidos a este grupo existente."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "%count contact NOT added (already in this group)."
@@ -5563,7 +5551,7 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Maximum Upload File Size: %1 MB"
-msgstr ""
+msgstr "Tamaño máximo del fichero de subida: %1 MB"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -5585,8 +5573,7 @@ msgstr ""
 msgid ""
 "<label>Skip:</label> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
-msgstr ""
-"<label>Saltar:</label> Informa y luego salta as filas duplicadas del fichero "
+msgstr "<label>Saltar:</label> Informa y luego salta las filas duplicadas del fichero "
 "de importación - dejando las coincidencias en la base de datos tal cual (por "
 "defecto)."
 
@@ -5595,10 +5582,9 @@ msgid ""
 "<label>Update:</label> Updates database fields with available import data. "
 "Fields in the database which are NOT included in the import row are left as-"
 "is."
-msgstr ""
-"<label>Actualizar:</label> Actualiza los campos de la base de datos con los "
+msgstr "<label>Actualizar:</label> Actualiza los campos de la base de datos con los "
 "datos de importación. Los campos en la base de datos NO incluidos en las "
-"filas de la importación s edejan sin tocar."
+"filas de la importación se dejan sin tocar."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -5864,3 +5850,4 @@ msgstr "(paso %1 de %2)"
 #~ msgstr ""
 #~ "<label>Reemplazar:</label> Reemplaza las coincidencias en la base de "
 #~ "datos con los contactos importados."
+
