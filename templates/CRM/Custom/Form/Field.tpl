@@ -41,12 +41,8 @@
         </dl>
 
     {if $action eq 1}
-	{if $optionRowError}
-	<div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/OptionFieldsError.tpl"}</div>
-	{else}
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
-	{/if}
     {/if}
 
         <dl>

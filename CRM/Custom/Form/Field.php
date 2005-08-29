@@ -430,7 +430,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     } else {
                         if ($fields['option_weight'][$i]) {
                             $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
-                            $errors['option_value['.$i.']'] = ts( 'Option label cannot be empty' );
+                            $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
                             $_flagOption = 1;
                         } else {
                             //The Custom Option row is empty
