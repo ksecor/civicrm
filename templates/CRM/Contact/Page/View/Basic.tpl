@@ -65,7 +65,7 @@
    </div>
 
    <div class="col2">
-    {if $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
+    {if $config->googleMapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
         <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
     {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
