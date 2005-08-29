@@ -1,6 +1,7 @@
 <fieldset><legend>{ts}Multiple Choice Options{/ts}</legend>
     <div class="description">
         {ts}Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice). If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form, while the option 'value' is stored in the contact record. The label and value may be the same or different. Inactive options are hidden when the field is presented.{/ts}
+    </div>
 	{strip}
 	<table>
 	<tr>
