@@ -368,11 +368,13 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      *
      * @param array $tables tables that need to be included in this from clause
      *                      if null, return mimimal from clause (i.e. civicrm_contact)
+     * @param array $inner  tables that should be inner-joined
+     * @param array $right  tables that should be right-joined
      * @return string the from clause
      * @access public
      * @static
      */
-    static function fromClause( &$tables ) {
+    static function fromClause( &$tables , $inner = null, &$right = null) {
         $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
             return $from;
@@ -392,12 +394,14 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         }
 
         // add group_contact table if group table is present
-        if ( CRM_Utils_Array::value( 'civicrm_group', $tables ) ) {
+        if ( CRM_Utils_Array::value( 'civicrm_group', $tables ) &&
+            !CRM_Utils_Array::value('civicrm_group_contact', $tables)) {
             $tables['civicrm_group_contact'] = 1;
         }
 
         // add group_contact and group table is subscription history is present
-        if ( CRM_Utils_Array::value( 'civicrm_subscription_history', $tables ) ) {
+        if ( CRM_Utils_Array::value( 'civicrm_subscription_history', $tables )
+            && !CRM_Utils_Array::value('civicrm_group', $tables)) {
             $tables = array_merge( array( 'civicrm_group'         => 1,
                                           'civicrm_group_contact' => 1 ),
                                    $tables );
@@ -408,67 +412,75 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 continue;
             }
 
+            if (CRM_Utils_Array::value($name, $inner)) {
+                $side = 'INNER';
+            } elseif (CRM_Utils_Array::value($name, $right)) {
+                $side = 'RIGHT';
+            } else {
+                $side = 'LEFT';
+            }
+
             if ( $value != 1 ) {
-                $from .= " LEFT JOIN $name ON ( $value ) ";
+                $from .= " $side JOIN $name ON ( $value ) ";
                 continue;
             }
                 
             switch ( $name ) {
             case 'civicrm_individual':
-                $from .= ' LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ';
+                $from .= " $side JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ";
                 continue;
 
             case 'civicrm_location':
-                $from .= " LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
                                                           civicrm_contact.id = civicrm_location.entity_id  AND
                                                           civicrm_location.is_primary = 1)";
                 continue;
 
             case 'civicrm_address':
-                $from .= ' LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id ';
+                $from .= " $side JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id ";
                 continue;
 
             case 'civicrm_phone':
-                $from .= ' LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) ';
+                $from .= " $side JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) ";
                 continue;
 
             case 'civicrm_email':
-                $from .= ' LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ';
+                $from .= " $side JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ";
                 continue;
 
             case 'civicrm_state_province':
-                $from .= ' LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ';
+                $from .= " $side JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ";
                 continue;
 
             case 'civicrm_country':
-                $from .= ' LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ';
+                $from .= " $side JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ";
                 continue;
 
             case 'civicrm_group':
-                $from .= ' LEFT JOIN civicrm_group ON civicrm_group.id =  civicrm_group_contact.group_id ';
+                $from .= " $side JOIN civicrm_group ON civicrm_group.id =  civicrm_group_contact.group_id ";
                 continue;
 
             case 'civicrm_group_contact':
-                $from .= ' LEFT JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ';
+                $from .= " $side JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ";
                 continue;
 
             case 'civicrm_entity_tag':
-                $from .= " LEFT JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
+                $from .= " $side JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
                                                              civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
                 continue;
 
             case 'civicrm_activity_history':
-                $from .= " LEFT JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
+                $from .= " $side JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
                                                                civicrm_contact.id = civicrm_activity_history.entity_id ) ";
                 continue;
 
             case 'civicrm_custom_value':
-                $from .= " LEFT JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
+                $from .= " $side JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
                                                           civicrm_contact.id = civicrm_custom_value.entity_id )";
                 continue;
                 
             case 'civicrm_subscription_history':
-                $from .= " RIGHT JOIN civicrm_subscription_history
+                $from .= " $side JOIN civicrm_subscription_history
                                    ON civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id
                                   AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
                 continue;
