@@ -32,7 +32,8 @@
         <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
     </tr>
     
-    <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Rows with Errors{/ts}</td>
+    {if $invalidRowCount}
+    <tr class="error"><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
             {if $invalidRowCount}
@@ -40,8 +41,10 @@
             {/if}
         </td>
     </tr>
+    {/if}
     
-    <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows{/ts}</td>
+    {if $conflictRowCount}
+    <tr class="error"><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses within this file. These rows will be skipped (not imported).{/ts}
             {if $conflictRowCount}
@@ -49,6 +52,7 @@
             {/if}
         </td>
     </tr>
+    {/if}
 
     <tr><td class="label">{ts}Valid Rows{/ts}</td>
         <td class="data">{$validRowCount}</td>

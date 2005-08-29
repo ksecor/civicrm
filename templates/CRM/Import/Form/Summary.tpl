@@ -44,7 +44,8 @@
         <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
     </tr>
 
-    <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
+    {if $invalidRowCount }
+    <tr class="error"><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
             {if $invalidRowCount}
@@ -52,8 +53,10 @@
             {/if}
         </td>
     </tr>
+    {/if}
     
-    <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
+    {if $conflictRowCount}
+    <tr class="error"><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses (NOT imported).{/ts}
             {if $conflictRowCount}
@@ -61,8 +64,10 @@
             {/if}
         </td>
     </tr>
+    {/if}
 
-    <tr{if $duplicateRowCount && $dupeError} class="error"{/if}><td class="label">{ts}Duplicate Rows{/ts}</td>
+    {if $duplicateRowCount && $dupeError}
+    <tr class="error"><td class="label">{ts}Duplicate Rows{/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
         <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records.  {/ts}{$dupeActionString}
             {if $duplicateRowCount}
@@ -70,6 +75,8 @@
             {/if}
         </td>
     </tr>
+    {/if}
+    
     <tr><td class="label">{ts}Records Imported{/ts}</td>
         <td class="data">{$validRowCount}</td>
         <td class="explanation">{ts}Rows imported successfully.{/ts}</td>

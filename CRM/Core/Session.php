@@ -262,14 +262,14 @@ class CRM_Core_Session {
     /**
      * adds a userContext to the stack
      *
-     * @param string the url to return to when done
-     *
+     * @param string  $userContext the url to return to when done
+     * @param boolean $check       should we do a dupe checking with the top element
      * @return void
      *
      * @access public
      * 
      */
-    function pushUserContext( $userContext ) {
+    function pushUserContext( $userContext, $check = true ) {
         if ( empty( $userContext ) ) {
             return;
         }
@@ -286,7 +286,7 @@ class CRM_Core_Session {
 
         // see if there is a match between the new UC and the top one. the match needs to be
         // fuzzy since we use the referer at times
-        if ( $topUC && CRM_Utils_String::match( $topUC, $userContext ) ) {
+        if ( $check && $topUC && CRM_Utils_String::match( $topUC, $userContext ) ) {
             array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC );
         } else {
             if ( $topUC ) {

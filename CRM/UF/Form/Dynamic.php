@@ -120,8 +120,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         // should we restrict what we display
         $admin = false;
         $session  =& CRM_Core_Session::singleton( );
+        // show all fields that are visibile: if we are a admin or the same user or in registration mode
         if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
-             $this->_id == $session->get( 'userID' ) ) {
+             $this->_id == $session->get( 'userID' )                 ||
+             $this->get( 'register' ) ) {
             $admin = true;
         }
         
@@ -151,7 +153,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
             }
         }
-        
+
         $this->addButtons(array(
                                 array ('type'      => 'submit',
                                        'name'      => ts('Save'),

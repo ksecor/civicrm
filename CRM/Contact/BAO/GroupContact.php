@@ -408,10 +408,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
         );
         
+        $inner = array(
+            CRM_Contact_BAO_Group::getTableName() => true
+        );
         
         $where = CRM_Contact_BAO_Contact::whereClause($fv, false, $tables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
-        $from = CRM_Contact_BAO_Contact::fromClause($tables);
+        $from = CRM_Contact_BAO_Contact::fromClause($tables, $inner);
         $query .= " $from WHERE $permission AND $where ";
         
         if ( $sort != null ) {

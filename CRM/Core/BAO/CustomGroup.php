@@ -632,6 +632,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu['type']    = CRM_Utils_Menu::CALLBACK;
             $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
+            $menu['extra' ]  = array( 'gid' => 0 );
             $menus[] = $menu;
         }
 
@@ -658,6 +659,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu['type']    = CRM_Utils_Menu::CALLBACK;
             $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
+            $menu['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $menus[] = $menu;
         }
         

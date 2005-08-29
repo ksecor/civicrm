@@ -543,22 +543,38 @@ class Contact_Vcard_Build extends PEAR {
 
 
     /**
-     * Add encoding and charset info (currently - hardcoded 8BIT and
-     * UTF-8, respectively) to the specified component and iteration
+     * Recode the string to the 'smallest' encoding and add the info
+     *
+     * As, surprise surprise, Microsoft Outlook does not seem to be able to
+     * handle properly tagged UTF-8 vCards, we try to represent the text in
+     * smallest charset 'covering' the text in full (currently the test goes
+     * 'US-ASCII' -> 'ISO-8859-1' -> 'UTF-8')
      *
      * @param string $comp  The component to set the value for
      * @param int    $iter  The component-iteration to set the value for
+     * @param string $val   The string guilty of not being pure-US-ASCII
      *
-     * @return void
+     * @return string  The $val string converted to the 'smallest' charset
      */
-    function addEncoding($comp, $iter) {
+    function addCharset($comp, $iter, $val) {
+        $charset = '';
+        $iconvd = '';
+        $strlen = mb_strlen($val, 'UTF-8');
+        foreach (array('US-ASCII', 'ISO-8859-1', 'UTF-8') as $set) {
+            $iconvd = iconv('UTF-8', $set, $val);
+            if (mb_strlen($iconvd, $set) == $strlen) {
+                $charset = $set;
+                break;
+            }
+        }
         $meta = $this->getMeta($comp, $iter);
-        if (substr_count($meta, 'ENCODING') == 0) {
+        if ($charset != 'US-ASCII' and substr_count($meta, 'ENCODING') == 0) {
             $this->addParam('ENCODING', '8BIT', $comp, $iter);
         }
-        if (substr_count($meta, 'CHARSET') == 0) {
-            $this->addParam('CHARSET', 'UTF-8', $comp, $iter);
+        if ($charset != 'US-ASCII' and substr_count($meta, 'CHARSET') == 0) {
+            $this->addParam('CHARSET', $charset, $comp, $iter);
         }
+        return $iconvd;
     }
     
     
@@ -590,12 +606,10 @@ class Contact_Vcard_Build extends PEAR {
     {
         $comp = strtoupper($comp);
         settype($text, 'array');
-        $this->value[$comp][$iter][$part] = $text;
-        foreach ($text as $val) {
-            if (preg_match('/[^\x00-\x7f]/', $val)) {
-                $this->addEncoding($comp, $iter);
-            }
+        foreach ($text as $key => $val) {
+            $text[$key] = $this->addCharset($comp, $iter, $val);
         }
+        $this->value[$comp][$iter][$part] = $text;
         $this->autoparam = $comp;
     }
     
@@ -629,10 +643,8 @@ class Contact_Vcard_Build extends PEAR {
         $comp = strtoupper($comp);
         settype($text, 'array');
         foreach ($text as $val) {
+            $val = $this->addCharset($comp, $iter, $val);
             $this->value[$comp][$iter][$part][] = $val;
-            if (preg_match('/[^\x00-\x7f]/', $val)) {
-                $this->addEncoding($comp, $iter);
-            }
         }
         $this->autoparam = $comp;
     }

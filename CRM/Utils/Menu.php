@@ -457,8 +457,17 @@ class CRM_Utils_Menu {
                     $index = $item['index'];
                     $klass = '';
                     if ( strpos( $path, self::$_items[$index]['path'] ) !== false ||
-                         ( self::$_items[$root ]['path'] == $path && $item['isDefault'] ) ) {
-                        $klass = 'active';
+                         ( self::$_items[$root ]['path'] == $path && CRM_Utils_Array::value( 'isDefault', $item ) ) ) {
+                        $extra = CRM_Utils_Array::value( 'extra', self::$_items[$index] );
+                        if ( $extra ) {
+                            foreach ( $extra as $k => $v ) {
+                                if ( CRM_Utils_Array::value( $k, $_GET ) == $v ) {
+                                    $klass = 'active';
+                                }
+                            }
+                        } else {
+                            $klass = 'active';
+                        }
                     }
                     $qs  = CRM_Utils_Array::value( 'qs', self::$_items[$index] );
                     if ( self::$_params ) {

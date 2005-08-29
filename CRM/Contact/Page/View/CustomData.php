@@ -104,7 +104,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         // set the userContext stack
         $doneURL = 'civicrm/contact/view/cd';
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&gid=' . $this->_groupId ) );
+        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&gid=' . $this->_groupId ), false );
 
         $controller->set('tableId'   , $this->_contactId );
         $controller->set('groupId'   , $this->_groupId);

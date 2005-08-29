@@ -232,23 +232,14 @@ foreach ($UNION_ARRAY as $key => $val) {
     
     $fileName = $BACKUP_PATH.$tableName.".sql";
     if ( !empty($ids) ) {
-        $dumpSql = 'SELECT '.$key.'.* INTO OUTFILE "'. $fileName .'" FROM '. $tableName .' WHERE '.$tableName.'.id IN ( '.implode(",", $ids).' ) '; 
-    } 
 
-    $db_domain->query($dumpSql);
-    
-    //write to file the queries to push the dump back into db
-    $loadFilePath = $BACKUP_PATH."LOADBACKUP.sql";
-    $fp = fopen($loadFilePath, 'a+');
-    
-    $loadQuery = "mysql ".$MYSQL_USER." civicrm -e 'LOAD DATA INFILE \"".$fileName."\" IGNORE INTO TABLE ".$key."'\n";
-    
-    fwrite($fp, $loadQuery);
-    fclose($fp);
-    //end of write to file    
+        $dumpCommand = "mysqldump  ".$MYSQL_USER." --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' > " . $fileName;
+
+        system($dumpCommand);   
+    } 
 }
 
-echo "Complete Dump process!! \n\n ";
+echo " \nDump process Complete!! \n\n";
 $db_domain->disconnect( );
 
 exit(1);
