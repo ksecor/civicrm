@@ -256,6 +256,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
+        /* Dirty session hack to get at the context */
+        $session =& CRM_Core_Session::singleton();
+        $context = $session->get('context', 'CRM_Contact_Controller_Search');
+
         while ($result->fetch()) {
             $row = array();
 
@@ -270,10 +274,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
             
-            if (empty($result->status)) {
-                $row['status'] = ts('Smart');
-            } else {
-                $row['status'] = $gc[$result->status];
+            
+            if ($output != CRM_Core_Selector_Controller::EXPORT || $context ==
+            'smog') {
+                if (empty($result->status)) {
+                    $row['status'] = ts('Smart');
+                } else {
+                    $row['status'] = $gc[$result->status];
+                }
             }
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
