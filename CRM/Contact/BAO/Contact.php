@@ -370,11 +370,12 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
      *                      if null, return mimimal from clause (i.e. civicrm_contact)
      * @param array $inner  tables that should be inner-joined
      * @param array $right  tables that should be right-joined
+     *
      * @return string the from clause
      * @access public
      * @static
      */
-    static function fromClause( &$tables , $inner = null, &$right = null) {
+    static function fromClause( &$tables , $inner = null, $right = null) {
         $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
             return $from;

@@ -11,7 +11,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testAdminEditCustomData(PyHttpTestCase):
+class testAdminAddActivity(PyHttpTestCase):
     def setUp(self):
         global db
         db = commonAPI.dbStart()
@@ -36,7 +36,7 @@ class testAdminEditCustomData(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        url = "%s/civicrm/admin/custom/group" % drupal_path
+        url = "%s/civicrm/admin/activityType" % drupal_path
         self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
@@ -45,59 +45,58 @@ class testAdminEditCustomData(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        name      = 'Test Group'
-        query     = 'select id from civicrm_custom_group where title=\'%s\'' % name  
-        customGID = db.loadVal(query)
+        params = [
+            ('''action''', '''add'''),
+            ('''reset''', '''1'''),]
+        url = "%s/civicrm/admin/activityType" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
         
-        if customGID : 
-            CGID   = '''%s''' % customGID
-            params = [
-                ('''action''', '''update'''),
-                ('''reset''', '''1'''),
-                ('''id''', CGID),]
-            url = "%s/civicrm/admin/custom/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
+        params = [
+            ('''_qf_default''', '''ActivityType:next'''),
+            ('''name''', '''Test Activity'''),
+            ('''description''', '''This is test activity'''),
+            ('''is_active''', '''1'''),
+            ('''_qf_ActivityType_next''', '''Save'''),]
+        subject = params[1][1] 
+        url = "%s/civicrm/admin/activityType" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        
+        queryID = 'select id from civicrm_activity_type where name=\'%s\'' % subject
+        qid     = db.loadVal(queryID)
+        
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
+        if qid :
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-            
-            params = [
-                ('''_qf_default''', '''Group:next'''),
-                ('''title''', '''Test Group Edit'''),
-                ('''extends''', '''Individual'''),
-                ('''weight''', '''5'''),
-                ('''style''', '''Tab'''),
-                ('''collapse_display''', '''1'''),
-                ('''help_pre''', ''''''),
-                ('''is_active''', '''1'''),
-                ('''_qf_Group_next''', '''Save'''),]
-            url = "%s/civicrm/admin/custom/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            print "******************************************************************"
-            print "Custom Data Group \'%s\' Edited Successfully" % name
-            print "******************************************************************"
-            
-            
-            params = [
-                ('''action''', '''browse'''),]
-            url = "%s/civicrm/admin/custom/group/" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
+            print "****************************************************************"
+            print "Activity \'%s\' already exists." % subject
+            print "****************************************************************"
         else :
-            print "******************************************************************"
-            print "Custom Data Group \'%s\' not found" % name
-            print "******************************************************************"
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            params = [
+                ('''reset''', '''1'''),
+                ('''action''', '''browse'''),]
+            url = "%s/civicrm/admin/activityType" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            print "****************************************************************"
+            print "Activity \'%s\' Added Successfully." % subject
+            print "****************************************************************"
+        
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
@@ -105,5 +104,5 @@ class testAdminEditCustomData(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testAdminEditCustomData("testAdminEditCustomData")
+    test = testAdminAddActivity("testAdminAddActivity")
     test.Run()

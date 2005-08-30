@@ -130,7 +130,6 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 	
         // value
         $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
-        //$this->addRule('value', ts('Please enter a valid value') , 'title');
         
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);

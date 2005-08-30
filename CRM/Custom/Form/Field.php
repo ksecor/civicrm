@@ -198,7 +198,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-        $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
         $this->addRule( 'label', ts('Name already exists in Database.'), 
                         'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
 

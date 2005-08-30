@@ -79,6 +79,7 @@ class testSearchByLNameIndividual(PyHttpTestCase):
         WHERE (civicrm_contact.sort_name LIKE \'%%%s%%\') AND civicrm_contact.contact_type=\'%s\' AND  1 ' % (name, contact)
         
         noOfContact = db.loadVal(query)
+        print "Hello %s" % noOfContact
         if noOfContact == '1' :
             string = "Found %s contact" % noOfContact
         else :
