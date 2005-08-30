@@ -176,8 +176,9 @@ class Contact_Vcard_Build extends PEAR {
             $text = preg_replace("/$regex/i", "\\;", $text);
             
             // escape commas not led by a backslash
-            $regex = '(?<!\\\\)(\,)';
-            $text = preg_replace("/$regex/i", "\\,", $text);
+// commented out as a possible fix for Outlook compatibility            
+//          $regex = '(?<!\\\\)(\,)';
+//          $text = preg_replace("/$regex/i", "\\,", $text);
             
             // escape newlines
             $regex = '\\n';
@@ -2332,14 +2333,15 @@ class Contact_Vcard_Build extends PEAR {
         }
         
         // fold lines at 75 characters
-        $regex = "(.{1,75})";
-           foreach ($lines as $key => $val) {
-            if (strlen($val) > 75) {
-                // we trim to drop the last newline, which will be added
-                // again by the implode function at the end of fetch()
-                $lines[$key] = trim(preg_replace("/$regex/i", "\\1$newline ", $val));
-            }
-        }
+// commented out as a possible fix for Outlook compatibility            
+//      $regex = "(.{1,75})";
+//         foreach ($lines as $key => $val) {
+//          if (strlen($val) > 75) {
+//              // we trim to drop the last newline, which will be added
+//              // again by the implode function at the end of fetch()
+//              $lines[$key] = trim(preg_replace("/$regex/i", "\\1$newline ", $val));
+//          }
+//      }
         
         // compile the array of lines into a single text block
         // and return (with a trailing newline)
