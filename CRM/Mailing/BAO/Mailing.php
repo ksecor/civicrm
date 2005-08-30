@@ -691,20 +691,37 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'unsubscribe'   =>
                             CRM_Mailing_Event_BAO_Unsubscribe::getTableName(),
                 'bounce'    => CRM_Mailing_Event_BAO_Bounce::getTableName(),
+                'url'       => CRM_Mailing_BAO_TrackableURL::getTableName(),
+                'urlopen'   =>
+                    CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
             );
                 
         /* FIXME: put some permissioning in here */
         $mailing->query("
-            SELECT          {$t['mailing']}.*,
+            SELECT          {$t['mailing']}.*
+            FROM            {$t['mailing']}
+            WHERE           {$t['mailing']}.id = $mailing_id");
+            
+        $mailing->fetch();
+        
+        $report = array();
+
+        $report['mailing'] = array();
+
+        foreach (array_keys(self::fields()) as $field) {
+            $report['mailing'][$field] = $mailing->$field;
+        }
+       
+        $mailing->query("
+            SELECT          {$t['job']}.*,
                             COUNT({$t['queue']}.id) as queue,
                             COUNT({$t['delivered']}.id) as delivered,
                             COUNT({$t['opened']}.id) as opened,
                             COUNT({$t['reply']}.id) as reply,
                             COUNT({$t['unsubscribe']}.id) as unsubscribe,
-                            COUNT({$t['bounce']}.id) as bounce
-            FROM            {$t['mailing']}
-            INNER JOIN      {$t['job']}
-                    ON      {$t['job']}.mailing_id = {$t['mailing']}.id
+                            COUNT({$t['bounce']}.id) as bounce,
+                            COUNT({$t['urlopen']}.id) as url
+            FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
             LEFT JOIN       {$t['delivered']}
@@ -714,21 +731,57 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             LEFT JOIN       {$t['reply']}
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['unsubscribe']}
-                    ON      {$t['unsubscribe']}.event_queue_id = {$t['queue']}.id
+                    ON      {$t['unsubscribe']}.event_queue_id = 
+                                                            {$t['queue']}.id
             LEFT JOIN       {$t['bounce']}
                     ON      {$t['bounce']}.event_queue_id = {$t['queue']}.id
 
-            WHERE           {$t['mailing']}.id = $mailing_id
-            GROUP BY        {$t['mailing']}.id");
-        $mailing->fetch();
+            LEFT JOIN       {$t['urlopen']}
+                    ON      {$t['urlopen']}.event_queue_id = {$t['queue']}.id
+                    
+            WHERE           {$t['job']}.mailing_id = $mailing_id
+            GROUP BY        {$t['job']}.id");
         
-        $values = array();
-        foreach(array('queue', 'delivered', 'opened', 'reply', 'unsubscribe',
-        'bounce') + array_keys(self::fields()) as $field) {
-            $values[$field] = $mailing->$field;
+        $report['jobs'] = array();
+        
+        $report['event_totals'] = array();
+        
+        while ($mailing->fetch()) {
+            $row = array();
+            foreach(array(  'queue', 'delivered',   'opened', 'url',
+                            'reply', 'unsubscribe', 'bounce') as $field) {
+                $row[$field] = $mailing->$field;
+                $report['event_totals'][$field] += $mailing->$field;
+            }
+            foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
+                $row[$field] = $mailing->$field;
+            }
+            $report['jobs'][] =& $row;
         }
+        
+        $mailing->query("
+            SELECT      {$t['url']}.url,
+                        COUNT({$t['urlopen']}.id) as clicks
+            FROM        {$t['url']}
+            INNER JOIN  {$t['urlopen']}
+                    ON  {$t['urlopen']}.trackable_url_id = {$t['url']}.id
+            INNER JOIN  {$t['queue']}
+                    ON  {$t['urlopen']}.event_queue_id = {$t['queue']}.id
+            INNER JOIN  {$t['job']}
+                    ON  {$t['queue']}.job_id = {$t['job']}.id
+            INNER JOIN  {$t['mailing']}
+                    ON  {$t['job']}.mailing_id = {$t['mailing']}.id
+            WHERE       {$t['mailing']}.id = $mailing_id
+            GROUP BY    {$t['url']}.id");
+        
+        $report['click_through'] = array();
 
-        return $values;
+        while ($mailing->fetch()) {
+            $report['click_through'][] = array('url' => $mailing->url,
+                                                'clicks' => $mailing->clicks);
+        }
+        
+        return $report;
     }
 
     /**
