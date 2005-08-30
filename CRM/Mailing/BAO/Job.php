@@ -201,6 +201,30 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             }
         }
     }
+
+
+    /**
+     * Return a translated status enum string
+     *
+     * @param string $status        The status enum
+     * @return string               The translated version
+     * @access public
+     * @static
+     */
+    public static function status($status) {
+        static $translation = null;
+
+        if (empty($translation)) {
+            $translation = array(
+                'Scheduled' =>  ts('Scheduled'),
+                'Running'   =>  ts('Running'),
+                'Complete'  =>  ts('Complete'),
+                'Paused'    =>  ts('Paused'),
+                'Canceled'  =>  ts('Canceled'),
+            );
+        }
+        return CRM_Utils_Array::value($status, $translation, ts('Unknown'));
+    }
 }
 
 ?>

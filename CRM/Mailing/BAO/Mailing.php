@@ -730,6 +730,76 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         return $values;
     }
+
+    /**
+     * Get the count of mailings 
+     *
+     * @param none
+     * @return int              Count
+     * @access public
+     */
+    public function getCount() {
+        $this->selectAdd();
+        $this->selectAdd('COUNT(id) as count');
+        
+        $session =& CRM_Core_Session::singleton();
+        $this->domain_id = $session->get('domainID');
+        
+        $this->find(true);
+        
+        return $this->count;
+    }
+
+
+    /**
+     * Get the rows for a browse operation
+     *
+     * @param int $offset       The row number to start from
+     * @param int $rowCount     The nmber of rows to return
+     * @param string $sort      The sql string that describes the sort order
+     * 
+     * @return array            The rows
+     * @access public
+     */
+    public function &getRows($offset, $rowCount, $sort) {
+        $mailing    = self::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+
+        $session    =& CRM_Core_Session::singleton();
+        $domain_id  = $session->get('domainID');
+
+        $query = "
+            SELECT      $mailing.name, 
+                        $job.status, 
+                        $job.scheduled_date, 
+                        $job.start_date,
+                        $job.end_date
+            FROM        $mailing
+            INNER JOIN  $job
+                    ON  $job.mailing_id = $mailing.id
+            WHERE       $mailing.domain_id = $domain_id
+            GROUP BY    $job.id
+            ORDER BY    $mailing.id, $job.end_date";
+
+        if ($rowCount) {
+            $query .= " LIMIT $offset, $rowCount ";
+        }
+    
+        $this->query($query);
+
+        $rows = array();
+
+        while ($this->fetch()) {
+            $rows[] = array(
+                            $this->name, 
+                            CRM_Mailing_BAO_Job::status($this->status), 
+                            CRM_Utils_Date::customFormat($this->scheduled_date),
+                            CRM_Utils_Date::customFormat($this->start_date), 
+                            CRM_Utils_Date::customFormat($this->end_date)
+                    );
+        }
+        return $rows;
+    }
 }
 
 ?>

@@ -412,7 +412,10 @@ class CRM_Core_Invoke {
             $view =& new CRM_Mailing_Page_Component( );
             return $view->run( );
         }
-
+        if ( $args[2] == 'browse' ) {
+            $view =& new CRM_Mailing_Page_Browse( );
+            return $view->run( );
+        }
         if ( $args[2] == 'report' ) {
             $view =& new CRM_Mailing_Page_Report( );
             return $view->run();
