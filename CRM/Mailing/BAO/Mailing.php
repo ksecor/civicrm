@@ -683,6 +683,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $t = array(
                 'mailing'   => self::getTableName(),
+                'mailing_group'  => CRM_Mailing_DAO_Group::getTableName(),
+                'group'     => CRM_Contact_BAO_Group::getTableName(),
                 'job'       => CRM_Mailing_BAO_Job::getTableName(),
                 'queue'     => CRM_Mailing_Event_BAO_Queue::getTableName(),
                 'delivered' => CRM_Mailing_Event_BAO_Delivered::getTableName(),
@@ -695,8 +697,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'urlopen'   =>
                     CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
             );
+        
+        
+        $report = array();
                 
         /* FIXME: put some permissioning in here */
+        /* Get the mailing info */
         $mailing->query("
             SELECT          {$t['mailing']}.*
             FROM            {$t['mailing']}
@@ -704,14 +710,58 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
         $mailing->fetch();
         
-        $report = array();
 
         $report['mailing'] = array();
-
         foreach (array_keys(self::fields()) as $field) {
             $report['mailing'][$field] = $mailing->$field;
         }
        
+        
+        /* Get the recipient group info */
+        $mailing->query("
+            SELECT          {$t['mailing_group']}.group_type as group_type,
+                            {$t['group']}.id as group_id,
+                            {$t['group']}.name as group_name,
+                            {$t['mailing']}.id as mailing_id,
+                            {$t['mailing']}.name as mailing_name
+            FROM            {$t['mailing_group']}
+            LEFT JOIN       {$t['group']}
+                    ON      {$t['mailing_group']}.entity_id = {$t['group']}.id
+                    AND     {$t['mailing_group']}.entity_table =
+                                                                '{$t['group']}'
+            LEFT JOIN       {$t['mailing']}
+                    ON      {$t['mailing_group']}.entity_id =
+                                                            {$t['mailing']}.id
+                    AND     {$t['mailing_group']}.entity_table =
+                                                            '{$t['mailing']}'
+
+            WHERE           {$t['mailing_group']}.mailing_id = $mailing_id
+            ");
+        
+        $report['group'] = array('include' => array(), 'exclude' => array());
+        while ($mailing->fetch()) {
+            $row = array();
+            if (isset($mailing->group_id)) {
+                $row['id'] = $mailing->group_id;
+                $row['name'] = $mailing->group_name;
+                $row['link'] = CRM_Utils_System::url('civicrm/group/search',
+                            "reset=1&force=1&context=smog&gid={$row['id']}");
+            } else {
+                $row['id'] = $mailing->mailing_id;
+                $row['name'] = $mailing->mailing_name;
+                $row['mailing'] = true;
+                $row['link'] = CRM_Utils_System::url('civicrm/mailing/report',
+                                                    "mid={$row['id']}");
+            }
+            
+            if ($mailing->group_type == 'Include') {
+                $report['group']['include'][] = $row;
+            } else {
+                $report['group']['exclude'][] = $row;
+            }
+        }
+
+        /* Get the event totals, grouped by job (retries) */
         $mailing->query("
             SELECT          {$t['job']}.*,
                             COUNT({$t['queue']}.id) as queue,
@@ -726,6 +776,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON      {$t['queue']}.job_id = {$t['job']}.id
             LEFT JOIN       {$t['delivered']}
                     ON      {$t['delivered']}.event_queue_id = {$t['queue']}.id
+                    AND     {$t['bounce']}.id IS null
             LEFT JOIN       {$t['opened']}
                     ON      {$t['opened']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['reply']}
@@ -742,10 +793,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             WHERE           {$t['job']}.mailing_id = $mailing_id
             GROUP BY        {$t['job']}.id");
         
+
+        
         $report['jobs'] = array();
-        
         $report['event_totals'] = array();
-        
         while ($mailing->fetch()) {
             $row = array();
             foreach(array(  'queue', 'delivered',   'opened', 'url',
@@ -756,14 +807,20 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
                 $row[$field] = $mailing->$field;
             }
-            $report['jobs'][] =& $row;
+
+            foreach (array('scheduled_date', 'start_date', 'end_date') as $key) {
+                $row[$key] = CRM_Utils_Date::customFormat($row[$key]);
+            }
+            $report['jobs'][] = $row;
         }
+
         
+        /* Get the click-through totals, grouped by URL */
         $mailing->query("
             SELECT      {$t['url']}.url,
                         COUNT({$t['urlopen']}.id) as clicks
             FROM        {$t['url']}
-            INNER JOIN  {$t['urlopen']}
+            LEFT JOIN   {$t['urlopen']}
                     ON  {$t['urlopen']}.trackable_url_id = {$t['url']}.id
             INNER JOIN  {$t['queue']}
                     ON  {$t['urlopen']}.event_queue_id = {$t['queue']}.id
@@ -825,14 +882,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             SELECT      $mailing.id,
                         $mailing.name, 
                         $job.status, 
-                        $job.scheduled_date, 
-                        $job.start_date,
-                        $job.end_date
+                        MIN($job.scheduled_date) as scheduled_date, 
+                        MIN($job.start_date) as start_date,
+                        MAX($job.end_date) as end_date
             FROM        $mailing
             INNER JOIN  $job
                     ON  $job.mailing_id = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
-            GROUP BY    $job.id
+            GROUP BY    $mailing.id
             ORDER BY    $mailing.id, $job.end_date";
 
         if ($rowCount) {
