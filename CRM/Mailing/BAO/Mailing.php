@@ -780,6 +780,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['unsubscribe']}
                     ON      {$t['unsubscribe']}.event_queue_id = 
+                                {$t['queue']}.id
             LEFT JOIN       {$t['bounce']}
                     ON      {$t['bounce']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['delivered']}
