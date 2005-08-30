@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 16:21+0200\n"
+"POT-Creation-Date: 2005-08-30 10:43+0200\n"
 "PO-Revision-Date: 2005-08-24 23:44+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 0.6.3.20050808\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1 ? 1 : 0);\n"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
@@ -214,7 +214,7 @@ msgid "Enabled?"
 msgstr "Habilitado ?"
 
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php
-#: CRM/Admin/Form/Tag.php CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
+#: CRM/Admin/Form/Tag.php CRM/UF/Form/Group.php
 msgid "Please enter a valid name."
 msgstr "Entre com um Nome Válido"
 
@@ -291,6 +291,21 @@ msgstr "dono(a) de casa"
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Organização"
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
+#: CRM/Contact/Form/Individual.php
+msgid "Male"
+msgstr "Masculino"
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
+#: CRM/Contact/Form/Individual.php
+msgid "Female"
+msgstr "Feminino"
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
+#: CRM/Contact/Form/Individual.php
+msgid "Transgender"
+msgstr "Trans sexual"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 msgid "Contact Type"
@@ -396,18 +411,6 @@ msgstr "Cargo"
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Gender"
 msgstr "Sexo"
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Female"
-msgstr "Feminino"
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Male"
-msgstr "Masculino"
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Transgender"
-msgstr "Trans sexual"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
@@ -529,7 +532,8 @@ msgid "%1 is not a valid date."
 msgstr "%1 não é uma data válida"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
-#: CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
@@ -540,7 +544,8 @@ msgid "Yes"
 msgstr "Sim"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
-#: CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
@@ -880,6 +885,10 @@ msgstr "CiviCRM Perfil"
 msgid "Advanced Search"
 msgstr "Pesquisa Avançada"
 
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Custom Data Fields"
+msgstr "Campos de Dados Customizados"
+
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
 msgstr "Perfil de Grupo CiviCRM"
@@ -919,10 +928,6 @@ msgstr "Campo ajuda"
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "Editar %1"
-
-#: CRM/Custom/Page/Field.php CRM/Custom/Page/Option.php
-msgid "Disable Custom Field"
-msgstr "Desabilitar campo Customizado"
 
 #: CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php
 msgid "Preview"
@@ -2452,6 +2457,11 @@ msgstr ""
 msgid "IM Screen Name"
 msgstr "IM nome de tela"
 
+#: CRM/Core/DAO/ImportMappingField.php
+#, fuzzy
+msgid "Column Number"
+msgstr "Núm. Fone"
+
 #: CRM/Core/DAO/IMProvider.php
 msgid "IM Provider Name"
 msgstr "Nome do Serviço de Mensagem Instantanea IM"
@@ -2759,10 +2769,6 @@ msgid "Field Label"
 msgstr "Rótulo do Campo"
 
 #: CRM/Custom/Form/Field.php
-msgid "Please enter a valid label for this field."
-msgstr "Entre com um rótulo válido para este campo."
-
-#: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Data and Input Field Type"
 msgstr "Tipo de Campo entrada"
@@ -2923,6 +2929,10 @@ msgid "Preview Custom Field"
 msgstr "Pré-visualizar campo customizado"
 
 #: CRM/Custom/Page/Field.php
+msgid "Disable Custom Field"
+msgstr "Desabilitar campo Customizado"
+
+#: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
 msgstr "Habilitar campos customizados"
 
@@ -2965,7 +2975,9 @@ msgid "Custom Group"
 msgstr "Grupo Customizado"
 
 #: CRM/Custom/Page/Option.php
-msgid "Are you sure you want to disable this custom data option?"
+#, fuzzy
+msgid ""
+"Are you sure you want to disable this custom data multiple choice option?"
 msgstr ""
 "Você tem certeza de que deseja desabilitar este dado de opção customizado?"
 
@@ -2974,16 +2986,24 @@ msgid "Edit Option"
 msgstr "Editar opções"
 
 #: CRM/Custom/Page/Option.php
-msgid "Edit Custom Option"
-msgstr "Editar opção customizada"
+#, fuzzy
+msgid "Edit Multiple Choice Option"
+msgstr "Editar opções de múltipla escolha"
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
-msgstr "Ver opções customizadas"
+#, fuzzy
+msgid "View Multiple Choice Option"
+msgstr "Opções de múltipla escolha"
 
 #: CRM/Custom/Page/Option.php
-msgid "Enable Custom Option"
-msgstr "Habilitar opção customizada"
+#, fuzzy
+msgid "Enable Mutliple Choice Option"
+msgstr "Opções de múltipla escolha"
+
+#: CRM/Custom/Page/Option.php
+#, fuzzy
+msgid "Disable Multiple Choice Option"
+msgstr "Opções de múltipla escolha"
 
 #: CRM/Custom/Page/Option.php
 msgid "Custom Option"
@@ -3761,10 +3781,6 @@ msgstr "Tipo de atividade"
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Custom Data"
 msgstr "Dados customizados"
-
-#: CRM/Utils/Menu.php
-msgid "Custom Data Fields"
-msgstr "Campos de Dados Customizados"
 
 #: CRM/Utils/Menu.php
 msgid "CiviCRM Profile Fields"
@@ -5096,6 +5112,11 @@ msgstr ""
 "Se você quer marcar este campo, como um campo de pesquisa na Pesquisa "
 "Avançada."
 
+#: templates/CRM/Custom/Form/Field.tpl
+#, fuzzy
+msgid "View / Edit Multiple Choice Options"
+msgstr "Editar opções de múltipla escolha"
+
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
 "Use this form to setup the title, group-level help, and display "
@@ -5717,11 +5738,10 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
-"Is this field visible on Public User Pages, or only to User Administrators "
-"and the user themself?"
+"Is this field visible only to User Administrators and the user themself, or "
+"is it visible to others (Public User Pages)? If public, can it be used to "
+"aggregate Profile Listing Pages?"
 msgstr ""
-"Este campo é visivel em Páginas Públicas de Usuário, ou somente para "
-"usuários e Administradores ?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5809,6 +5829,25 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(passo %1 de %2)"
+
+#~ msgid "Please enter a valid label for this field."
+#~ msgstr "Entre com um rótulo válido para este campo."
+
+#~ msgid "Edit Custom Option"
+#~ msgstr "Editar opção customizada"
+
+#~ msgid "View Custom Option"
+#~ msgstr "Ver opções customizadas"
+
+#~ msgid "Enable Custom Option"
+#~ msgstr "Habilitar opção customizada"
+
+#~ msgid ""
+#~ "Is this field visible on Public User Pages, or only to User "
+#~ "Administrators and the user themself?"
+#~ msgstr ""
+#~ "Este campo é visivel em Páginas Públicas de Usuário, ou somente para "
+#~ "usuários e Administradores ?"
 
 #, fuzzy
 #~ msgid "yes"
