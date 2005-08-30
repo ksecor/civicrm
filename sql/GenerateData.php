@@ -1083,7 +1083,7 @@ class CRM_GCD {
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
 
-            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory =& new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
@@ -1102,7 +1102,7 @@ class CRM_GCD {
             $groupContact->contact_id = $this->individual[$i+60];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
-            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory =& new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
@@ -1122,7 +1122,7 @@ class CRM_GCD {
             $groupContact->contact_id = $this->individual[$i*7];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
-            $subscriptionHistory = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistory =& new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistory->contact_id = $groupContact->contact_id;
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
@@ -1180,7 +1180,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $contactDAO = new CRM_Contact_DAO_Contact();
+        $contactDAO =& new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
@@ -1194,7 +1194,7 @@ class CRM_GCD {
                 break;
             }
             for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
-                $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
+                $activityHistoryDAO =& new CRM_Core_DAO_ActivityHistory();
                 $activityHistoryDAO->entity_table  = 'civicrm_contact';
                 $activityHistoryDAO->entity_id     = $contactDAO->id;
                 $activityHistoryDAO->activity_type = $this->_getRandomElement($this->activity_type);
@@ -1216,7 +1216,7 @@ class CRM_GCD {
 
         if ( ! isset( $stateMap ) ) {
             $query = 'SELECT id, abbreviation from civicrm_state_province where country_id = 1228';
-            $dao = new CRM_Core_DAO( );
+            $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
             $stateMap = array( );
             while ( $dao->fetch( ) ) {
@@ -1226,7 +1226,7 @@ class CRM_GCD {
 
         $offset = mt_rand( 1, 43000 );
         $query = "SELECT city, state, zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
-        $dao = new CRM_Core_DAO( );
+        $dao =& new CRM_Core_DAO( );
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
             if ( $stateMap[$dao->state] ) {

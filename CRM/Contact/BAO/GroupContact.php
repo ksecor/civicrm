@@ -377,7 +377,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     {
         $query = "SELECT * FROM civicrm_group WHERE id = {$group->id}";
        
-        $groupDAO = new CRM_Contact_DAO_Group();
+        $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
             return CRM_Core_Error::fatal( "Could not locate group with id: $id" );

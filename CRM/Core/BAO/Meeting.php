@@ -150,11 +150,11 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
     public static function deleteContact($id)
     {
         // need to delete for both source and target
-        $dao = new CRM_Core_DAO_Meeting();
+        $dao =& new CRM_Core_DAO_Meeting();
         $dao->source_contact_id = $id;
         $dao->delete();
 
-        $dao = new CRM_Core_DAO_Meeting();
+        $dao =& new CRM_Core_DAO_Meeting();
         $dao->target_entity_table = 'civicrm_contact';
         $dao->target_entity_id    = $id;        
         $dao->delete();

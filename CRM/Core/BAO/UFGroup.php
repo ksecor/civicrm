@@ -174,11 +174,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @access public
      */
     static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
-        $group = new CRM_Core_DAO_UFGroup( );
+        $group =& new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
         if ( $group->find( true ) ) {
-            $field = new CRM_Core_DAO_UFField( );
+            $field =& new CRM_Core_DAO_UFField( );
             $field->uf_group_id = $group->id;
             $field->is_active   = 1;
             if ( $register ) {
@@ -258,7 +258,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             return $controller->validate( );
         } else {
             // make sure we have a valid group
-            $group = new CRM_Core_DAO_UFGroup( );
+            $group =& new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );
@@ -305,7 +305,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             return trim( $template->fetch( 'CRM/UF/Form/Dynamic.tpl' ) );
         } else {
             // make sure we have a valid group
-            $group = new CRM_Core_DAO_UFGroup( );
+            $group =& new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );

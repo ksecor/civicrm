@@ -307,7 +307,7 @@ ORDER BY
             return $queryString;
         }
         
-        $crmDAO = new CRM_Core_DAO();
+        $crmDAO =& new CRM_Core_DAO();
 
         $crmDAO->query($queryString);
 
@@ -1718,7 +1718,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $queryString = $select . $from . $where;
         //CRM_Core_Error::debug_var('queryString', $queryString);
         
-        $dao = new CRM_Core_DAO();
+        $dao =& new CRM_Core_DAO();
         
         $dao->query($queryString);
         $count = 0;

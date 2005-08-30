@@ -195,7 +195,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         $config =& CRM_Core_Config::singleton( );
         $values =  array( );
 
-        $object = new CRM_Contact_BAO_Group( );
+        $object =& new CRM_Contact_BAO_Group( );
         $object->domain_id = $config->domainID( );
         $object->is_active = 1;
         $object->orderBy ( 'title asc' );

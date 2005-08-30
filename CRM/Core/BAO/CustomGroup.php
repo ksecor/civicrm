@@ -613,7 +613,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entityType, $path, $startWeight)
     {
-        $customGroupDAO = new CRM_Core_DAO_CustomGroup();
+        $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
         $menus = array();
 
         // get only 'Inline' groups
@@ -637,7 +637,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
 
         // for Tab's
-        $customGroupDAO = new CRM_Core_DAO_CustomGroup();
+        $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
 
         // get only 'Tab' groups
         $customGroupDAO->whereAdd("style = 'Tab'");

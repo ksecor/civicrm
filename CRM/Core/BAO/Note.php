@@ -193,13 +193,13 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     public static function deleteContact($id)
     {
         // need to delete for both entity_id
-        $dao = new CRM_Core_DAO_Note();
+        $dao =& new CRM_Core_DAO_Note();
         $dao->entity_table = 'civicrm_contact';
         $dao->entity_id   = $id;
         $dao->delete();
 
         // and the creator contact id
-        $dao = new CRM_Core_DAO_Note();
+        $dao =& new CRM_Core_DAO_Note();
         $dao->contact_id = $id;        
         $dao->delete();
     }
