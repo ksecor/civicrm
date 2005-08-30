@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 16:21+0200\n"
+"POT-Creation-Date: 2005-08-30 10:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -105,7 +105,7 @@ msgstr ""
 msgid "Enabled?"
 msgstr ""
 
-#: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
+#: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php CRM/UF/Form/Group.php
 msgid "Please enter a valid name."
 msgstr ""
 
@@ -147,6 +147,18 @@ msgstr ""
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
+msgstr ""
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+msgid "Male"
+msgstr ""
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+msgid "Female"
+msgstr ""
+
+#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+msgid "Transgender"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
@@ -223,18 +235,6 @@ msgstr ""
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Gender"
-msgstr ""
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Female"
-msgstr ""
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Male"
-msgstr ""
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Transgender"
 msgstr ""
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
@@ -325,11 +325,11 @@ msgstr ""
 msgid "%1 is not a valid date."
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr ""
 
@@ -601,6 +601,10 @@ msgstr ""
 msgid "Advanced Search"
 msgstr ""
 
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Custom Data Fields"
+msgstr ""
+
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
 msgstr ""
@@ -635,10 +639,6 @@ msgstr ""
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
-msgstr ""
-
-#: CRM/Custom/Page/Field.php CRM/Custom/Page/Option.php
-msgid "Disable Custom Field"
 msgstr ""
 
 #: CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php
@@ -2061,6 +2061,10 @@ msgstr ""
 msgid "IM Screen Name"
 msgstr ""
 
+#: CRM/Core/DAO/ImportMappingField.php
+msgid "Column Number"
+msgstr ""
+
 #: CRM/Core/DAO/IMProvider.php
 msgid "IM Provider Name"
 msgstr ""
@@ -2362,10 +2366,6 @@ msgid "Field Label"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-msgid "Please enter a valid label for this field."
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
 msgstr ""
 
@@ -2514,6 +2514,10 @@ msgid "Preview Custom Field"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
+msgid "Disable Custom Field"
+msgstr ""
+
+#: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
 msgstr ""
 
@@ -2554,7 +2558,7 @@ msgid "Custom Group"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
-msgid "Are you sure you want to disable this custom data option?"
+msgid "Are you sure you want to disable this custom data multiple choice option?"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
@@ -2562,15 +2566,19 @@ msgid "Edit Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
-msgid "Edit Custom Option"
+msgid "Edit Multiple Choice Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
-msgid "View Custom Option"
+msgid "View Multiple Choice Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
-msgid "Enable Custom Option"
+msgid "Enable Mutliple Choice Option"
+msgstr ""
+
+#: CRM/Custom/Page/Option.php
+msgid "Disable Multiple Choice Option"
 msgstr ""
 
 #: CRM/Custom/Page/Option.php
@@ -3283,10 +3291,6 @@ msgstr ""
 
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Custom Data"
-msgstr ""
-
-#: CRM/Utils/Menu.php
-msgid "Custom Data Fields"
 msgstr ""
 
 #: CRM/Utils/Menu.php
@@ -4311,6 +4315,10 @@ msgstr ""
 msgid "If you want to mark this field as search field in advanced search."
 msgstr ""
 
+#: templates/CRM/Custom/Form/Field.tpl
+msgid "View / Edit Multiple Choice Options"
+msgstr ""
+
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Use this form to setup the title, group-level help, and display characteristics of each group of Custom Data fields. The 'Display Style' you select determines whether this group is edited and displayed together with other Custom Data Groups on a single consolidated form ('Inline' style), or has it's own menu tab ('Tab' style)."
 msgstr ""
@@ -4732,7 +4740,7 @@ msgid "Do you want to include this field in the new account registration form?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "Is this field visible on Public User Pages, or only to User Administrators and the user themself?"
+msgid "Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? If public, can it be used to aggregate Profile Listing Pages?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
