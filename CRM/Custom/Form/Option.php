@@ -85,11 +85,18 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
             $this->_fid = $defaults['custom_field_id'];
             
-            $paramsField = array('id' => $this->_fid);
+            $paramsField = array('id' => $this->_fid);            
             CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
-            if( $fieldDefaults['default_value'] == $defaults['value'] ) {
-                $defaults['default_value'] = 1;
-            }                
+
+            if ( $fieldDefaults['html_type'] == 'CheckBox' ) {
+                $defaultCheckValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $fieldDefaults['default_value']);
+                if ( in_array($defaults['value'], $defaultCheckValues ) ) 
+                    $defaults['default_value'] = 1;
+            } else {
+                if( $fieldDefaults['default_value'] == $defaults['value'] ) {
+                    $defaults['default_value'] = 1;
+                }               
+            }
         } else {
             $defaults['is_active'] = 1;
         }
@@ -263,14 +270,31 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $this->_fid;
-        if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
-            $customField->default_value = $customOption->value;
-            $customField->save();
-        } else if ( $customField->find( true ) &&
-                    $customField->default_value == $customOption->value ) {
-            // this is the case where this option is the current default value and we have been reset
-            $customField->default_value = 'null';
-            $customField->save(); 
+        if ( $customField->find( true ) && $customField->html_type == 'CheckBox') {
+            $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customField->default_value);
+            if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
+                if ( !in_array($customOption->value, $defVal) ) {                
+                    $customField->default_value .= CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.$customOption->value;
+                    $customField->save();             
+                }
+            } else if ( in_array($customOption->value, $defVal) ) {
+                foreach ($defVal as $v ) {
+                    if ($v != $customOption->value)
+                    $tempVal[] = $v;
+                }
+                
+                $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $tempVal);
+                $customField->save(); 
+            }           
+        } else {            
+            if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
+                $customField->default_value = $customOption->value;
+                $customField->save();
+            } else if ( $customField->find( true ) && $customField->default_value == $customOption->value ) {
+                // this is the case where this option is the current default value and we have been reset
+                $customField->default_value = 'null';
+                $customField->save(); 
+            }
         }
 	
         $customOption->save();

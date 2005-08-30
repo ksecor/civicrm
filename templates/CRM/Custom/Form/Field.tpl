@@ -7,25 +7,45 @@
         var data_type = document.getElementsByName("data_type[0]")[0];
         if (data_type.selectedIndex < 4) {
             if (html_type_name != "Text") {
-            document.getElementById("showoption").style.display="block";
+	    document.getElementById("showoption").style.display="block";		
             document.getElementById("hideDefaultValTxt").style.display="none";
             document.getElementById("hideDefaultValDef").style.display="none";
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
             } else {
-            document.getElementById("showoption").style.display="none";
+	    document.getElementById("showoption").style.display="none";
+	    document.getElementById("showoption").style.display="none";
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
             document.getElementById("hideDescTxt").style.display="block";
             document.getElementById("hideDescDef").style.display="block";
             }
         } else {
-            document.getElementById("showoption").style.display="none";
+	    document.getElementById("showoption").style.display="none";
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
             document.getElementById("hideDescTxt").style.display="block";
             document.getElementById("hideDescDef").style.display="block";
         }
+	
+	var radioOption, checkBoxOption;
+
+	for (var i=1; i<=11; i++) {
+	    radioOption = 'radio'+i;
+	    checkBoxOption = 'checkbox'+i	
+	    if (data_type.selectedIndex < 4) {
+                 if (html_type_name != "Text") {
+		     if (html_type_name == "CheckBox") {
+	                 document.getElementById(checkBoxOption).style.display="block";
+		         document.getElementById(radioOption).style.display="none";
+		     } else {
+                         document.getElementById(radioOption).style.display="block";	
+		         document.getElementById(checkBoxOption).style.display="none";
+		     }
+		 }
+	    }
+	} 
+
     }
 </script>
 {/literal}

@@ -75,7 +75,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     
     private static $_dataToHTML = array(
             array(  'Text' => 'Text', 'Select' => 'Select', 
-                    'Radio' => 'Radio', 'Checkbox' => 'Checkbox'),
+                    'Radio' => 'Radio', 'CheckBox' => 'CheckBox'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
@@ -107,7 +107,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if (self::$_dataToLabels == null) {
             self::$_dataToLabels = array(
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio'), 'Checkbox' => ts('Checkbox')),
+                        'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox')),
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
                         'Radio' => ts('Radio')),
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -238,10 +238,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
+
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
 
             //for checkbox handling of default option
-            $this->add('checkbox', 'default_option['.$i.']', null);
+            $this->add('checkbox', 'default_checkbox_option['.$i.']', null);
         }
 
         $_showHide->addToTemplate();                
@@ -525,7 +526,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function postProcess()
     {
-        
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
 
@@ -535,8 +535,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-        
-        //$customField->weight        = $params['weight'];
         
         // fix for CRM-316
         if ($this->_action & CRM_Core_Action::UPDATE) {
@@ -662,7 +660,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                              $customOptionDAO->save();
                          }
                      }
-                     $customField->default_value = $params['option_value'][$params['default_option']];
+                     if ( $customField->html_type == 'CheckBox' ) {
+                         $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($params['default_checkbox_option']) );
+                     } else {
+                         $customField->default_value = $params['option_value'][$params['default_option']];
+                     }
+                     
                      $customField->save();
                  }
              }

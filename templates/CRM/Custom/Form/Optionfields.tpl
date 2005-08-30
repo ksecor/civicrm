@@ -20,7 +20,14 @@
             <a onclick="hiderow('optionField[{$index}]'); return false;" name="optionField[{$index}]" href="#optionField[{$index}]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a>
         {/if}
         </td>
-	    <td> {$form.default_option[$index].html}</td>
+	    <td> 
+		<div id="radio{$index}" style="display:none">
+		     {$form.default_option[$index].html} 
+		</div>
+		<div id="checkbox{$index}" style="display:none">
+		     {$form.default_checkbox_option.$index.html} 
+		</div>
+	    </td>
 	    <td> {$form.option_label.$index.html}</td>
 	    <td> {$form.option_value.$index.html}</td>
 	    <td> {$form.option_weight.$index.html}</td>

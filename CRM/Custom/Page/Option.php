@@ -136,8 +136,10 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $customFieldBAO->find();
         while($customFieldBAO->fetch()) {
             $defaultValue = $customFieldBAO->default_value;
+            $fieldHtmlType = $customFieldBAO->html_type; 
         }
-       
+        $defVal = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultValue);
+
         while ($customOptionBAO->fetch()) {
             $customOption[$customOptionBAO->id] = array();
             CRM_Core_DAO::storeValues( $customOptionBAO, $customOption[$customOptionBAO->id]);
@@ -150,11 +152,18 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
-            
-            if ( $defaultValue == $customOptionBAO->value ) {
-                $customOption[$customOptionBAO->id]['default_value'] = '[x]';
+            if ( $fieldHtmlType == 'CheckBox' ) {                
+                if ( in_array($customOptionBAO->value, $defVal) ) {
+                    $customOption[$customOptionBAO->id]['default_value'] = '[x]';
+                } else {
+                    $customOption[$customOptionBAO->id]['default_value'] = '';
+                }
             } else {
-                $customOption[$customOptionBAO->id]['default_value'] = '';
+                if ( $defaultValue == $customOptionBAO->value ) {
+                    $customOption[$customOptionBAO->id]['default_value'] = '[x]';
+                } else {
+                    $customOption[$customOptionBAO->id]['default_value'] = '';
+                }
             }
             
             $customOption[$customOptionBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
