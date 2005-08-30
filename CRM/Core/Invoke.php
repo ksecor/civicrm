@@ -413,6 +413,11 @@ class CRM_Core_Invoke {
             return $view->run( );
         }
 
+        if ( $args[2] == 'report' ) {
+            $view =& new CRM_Mailing_Page_Report( );
+            return $view->run();
+        }
+
         if ( $args[2] == 'send' ) {
             $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
             return $controller->run( );

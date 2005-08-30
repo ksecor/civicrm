@@ -665,6 +665,71 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         CRM_Core_DAO::transaction('COMMIT');
         return $mailing;
     }
+
+
+    /**
+     * Generate a report.  Fetch event count information, mailing data, and job
+     * status.
+     *
+     * @param int $id       The mailing id to report
+     * @return array        Associative array of reporting data
+     * @access public
+     * @static
+     */
+    public static function &report($id) {
+        $mailing_id = CRM_Utils_Type::escape($id, 'Integer');
+        
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        
+        $t = array(
+                'mailing'   => self::getTableName(),
+                'job'       => CRM_Mailing_BAO_Job::getTableName(),
+                'queue'     => CRM_Mailing_Event_BAO_Queue::getTableName(),
+                'delivered' => CRM_Mailing_Event_BAO_Delivered::getTableName(),
+                'opened'    => CRM_Mailing_Event_BAO_Opened::getTableName(),
+                'reply'     => CRM_Mailing_Event_BAO_Reply::getTableName(),
+                'unsubscribe'   =>
+                            CRM_Mailing_Event_BAO_Unsubscribe::getTableName(),
+                'bounce'    => CRM_Mailing_Event_BAO_Bounce::getTableName(),
+            );
+                
+        /* FIXME: put some permissioning in here */
+        $mailing->query("
+            SELECT          {$t['mailing']}.*,
+                            COUNT({$t['queue']}.id) as queue,
+                            COUNT({$t['delivered']}.id) as delivered,
+                            COUNT({$t['opened']}.id) as opened,
+                            COUNT({$t['reply']}.id) as reply,
+                            COUNT({$t['unsubscribe']}.id) as unsubscribe,
+                            COUNT({$t['bounce']}.id) as bounce
+            FROM            {$t['mailing']}
+            INNER JOIN      {$t['job']}
+                    ON      {$t['job']}.mailing_id = {$t['mailing']}.id
+            LEFT JOIN       {$t['queue']}
+                    ON      {$t['queue']}.job_id = {$t['job']}.id
+            LEFT JOIN       {$t['delivered']}
+                    ON      {$t['delivered']}.event_queue_id = {$t['queue']}.id
+            LEFT JOIN       {$t['opened']}
+                    ON      {$t['opened']}.event_queue_id = {$t['queue']}.id
+            LEFT JOIN       {$t['reply']}
+                    ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
+            LEFT JOIN       {$t['unsubscribe']}
+                    ON      {$t['unsubscribe']}.event_queue_id = {$t['queue']}.id
+            LEFT JOIN       {$t['bounce']}
+                    ON      {$t['bounce']}.event_queue_id = {$t['queue']}.id
+
+            WHERE           {$t['mailing']}.id = $mailing_id
+            GROUP BY        {$t['mailing']}.id");
+        $mailing->fetch();
+        
+        $values = array();
+        foreach(array('queue', 'delivered', 'opened', 'reply', 'unsubscribe',
+        'bounce') + array_keys(self::fields()) as $field) {
+            $values[$field] = $mailing->$field;
+        }
+
+        return $values;
+    }
 }
 
 ?>
