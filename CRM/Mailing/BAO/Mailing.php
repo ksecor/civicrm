@@ -774,19 +774,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
-            LEFT JOIN       {$t['delivered']}
-                    ON      {$t['delivered']}.event_queue_id = {$t['queue']}.id
-                    AND     {$t['bounce']}.id IS null
             LEFT JOIN       {$t['opened']}
                     ON      {$t['opened']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['reply']}
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['unsubscribe']}
                     ON      {$t['unsubscribe']}.event_queue_id = 
-                                                            {$t['queue']}.id
             LEFT JOIN       {$t['bounce']}
                     ON      {$t['bounce']}.event_queue_id = {$t['queue']}.id
-
+            LEFT JOIN       {$t['delivered']}
+                    ON      {$t['delivered']}.event_queue_id = {$t['queue']}.id
+                    AND     {$t['bounce']}.id IS null
             LEFT JOIN       {$t['urlopen']}
                     ON      {$t['urlopen']}.event_queue_id = {$t['queue']}.id
                     

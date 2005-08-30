@@ -128,7 +128,7 @@
 {/if}
 </fieldset>
 
-{if $report.mailing.url_tracking}
+{if $report.mailing.url_tracking && $report.click_through|@count > 0}
 <fieldset>
 <legend>{ts}Click-through Statistics{/ts}</legend>
 <table>
