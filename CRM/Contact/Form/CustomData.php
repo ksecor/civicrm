@@ -366,8 +366,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 }
                             }
                         } else {
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                             foreach($customOption as $val) {
-                                if ($val['value'] == $field['default_value']) {
+                                if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = 1;
                                 } else {
                                     $defaults[$elementName][$val['value']] = 0;

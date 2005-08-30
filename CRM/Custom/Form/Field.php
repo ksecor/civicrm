@@ -660,7 +660,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                              $customOptionDAO->save();
                          }
                      }
-                     if ( $customField->html_type == 'CheckBox' ) {
+                     if ( $customField->html_type == 'CheckBox' &&  isset($params['default_checkbox_option'])) {
                          $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($params['default_checkbox_option']) );
                      } else {
                          $customField->default_value = $params['option_value'][$params['default_option']];
