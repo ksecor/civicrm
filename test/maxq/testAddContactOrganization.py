@@ -107,24 +107,31 @@ class testAddContactOrganization(PyHttpTestCase):
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
+            print "******************************************************************"
+            print "Organization Contact \'%s\' already exists" % params[1][1]
+            print "******************************************************************"
         else :
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
             self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
+            print "******************************************************************"
+            print "Organization Contact \'%s\' Added Successfully" % params[1][1]
+            print "******************************************************************"
+            cid = db.loadVal(queryID)
         
-        #params = [
-        #    ('''reset''', '''1'''),
-        #    ('''cid''', '''112'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
-        #url = "%s/civicrm/contact/view" % drupal_path
-        #self.msg("Testing URL: %s" % url)
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
+        CID = '''%s''' % cid
+        params = [
+           ('''reset''', '''1'''),
+           ('''cid''', CID),]
+        url = "%s/civicrm/contact/view" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
         
         commonAPI.logout(self)
         self.msg("Test successfully complete")

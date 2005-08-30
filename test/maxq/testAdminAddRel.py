@@ -21,15 +21,14 @@ class testAdminAddRel(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
         params = [
             ('''action''', '''add'''),
             ('''reset''', '''1'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/reltype?action=add&reset=1''') % drupal_path)
         url = "%s/civicrm/admin/reltype" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
@@ -42,7 +41,7 @@ class testAdminAddRel(PyHttpTestCase):
         queryID        = 'select max(id) from civicrm_relationship_type'
         relName = db.loadRows(queryName)
         relNum  = db.loadVal(queryID)
- 
+        
         params = [
             ('''_qf_default''', '''RelationshipType:next'''),
             ('''name_a_b''', '''Test A B'''),
@@ -51,7 +50,6 @@ class testAdminAddRel(PyHttpTestCase):
             ('''contact_type_b''', '''Individual'''),
             ('''description''', '''This is test Relationship '''),
             ('''_qf_RelationshipType_next''', '''Save'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/reltype?_qf_default=RelationshipType:next&name_a_b=Test A B&name_b_a=Test B A&contact_type_a=Organization&contact_type_b=Individual&description=This is test Relationship &_qf_RelationshipType_next=Save''') % drupal_path)
         url = "%s/civicrm/admin/reltype" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
@@ -75,7 +73,6 @@ class testAdminAddRel(PyHttpTestCase):
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/reltype?reset=1&action=browse''') % drupal_path)
         url = "%s/civicrm/admin/reltype" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)

@@ -21,7 +21,7 @@ class testDeleteRelByRelTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
 
         commonAPI.login(self)
@@ -37,8 +37,7 @@ class testDeleteRelByRelTab(PyHttpTestCase):
                 queryRID = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
                 relID    = db.loadVal(queryRID)
                 RID      = '''%s''' % relID
-                print relID
-
+                
                 params = [
                     ('''reset''', '''1'''),
                     ('''cid''', CID),]
@@ -87,7 +86,7 @@ class testDeleteRelByRelTab(PyHttpTestCase):
             print ("**************************************************************************************")
             print " Individual \'Zope, Manish\' do not Exists"
             print ("**************************************************************************************")
-
+        
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)

@@ -105,24 +105,31 @@ class testAddContactHousehold(PyHttpTestCase):
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
+            print "******************************************************************"
+            print "Household Contact \'%s\' already exists" % params[1][1]
+            print "******************************************************************"
         else :
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
             self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 8 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #params = [
-        #    ('''reset''', '''1'''),
-        #    ('''cid''', '''103'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=104''')% drupal_path)
-        #url = "%s/civicrm/contact/view" % drupal_path 
-        #self.msg("Testing URL: %s" % url)
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
+            print "******************************************************************"
+            print "Household Contact \'%s\' Added Successfully" % params[1][1]
+            print "******************************************************************"
+            cid     = db.loadVal(queryID)
+                
+        CID = '''%s''' % cid
+        params = [
+            ('''reset''', '''1'''),
+            ('''cid''', CID),]
+        url = "%s/civicrm/contact/view" % drupal_path 
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
         
         commonAPI.logout(self)
         self.msg("Test successfully complete")

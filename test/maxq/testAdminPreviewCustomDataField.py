@@ -11,7 +11,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testAdminEditCustomDataField(PyHttpTestCase):
+class testAdminAddCustomDataField(PyHttpTestCase):
     def setUp(self):
         global db
         db = commonAPI.dbStart()
@@ -53,6 +53,7 @@ class testAdminEditCustomDataField(PyHttpTestCase):
         
         gid       = db.loadVal(queryGID)
         cfid      = db.loadVal(queryCFID)
+        
         if gid :
             GID       = '''%s''' % gid
             params = [
@@ -66,11 +67,11 @@ class testAdminEditCustomDataField(PyHttpTestCase):
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-
+            
             if cfid :
                 CFID   = '''%s''' % cfid
                 params = [
-                    ('''action''', '''update'''),
+                    ('''action''', '''preview'''),
                     ('''reset''', '''1'''),
                     ('''gid''', GID),
                     ('''id''', CFID),]
@@ -83,19 +84,10 @@ class testAdminEditCustomDataField(PyHttpTestCase):
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
-                    ('''_qf_default''', '''Field:next'''),
-                    ('''label''', '''Test field 1'''),
-                    ('''data_type[0]''', '''1'''),
-                    ('''data_type[1]''', '''Select'''),
-                    ('''weight''', '''1'''),
-                    ('''default_value''', '''34'''),
-                    ('''help_post''', '''Field Tested for Editing'''),
-                    ('''is_required''', '''1'''),
-                    ('''is_searchable''', '''1'''),
-                    ('''is_active''', '''1'''),
-                    ('''_qf_Field_next''', '''Save'''),]
+                    ('''_qf_default''', '''Preview:cancel'''),
+                    ('''0_9_Test_field_1''', '''23'''),
+                    ('''_qf_Preview_cancel''', '''Done with Preview'''),]
                 url = "%s/civicrm/admin/custom/group/field" % drupal_path
-                self.msg("Testing URL: %s" % url)
                 Validator.validateRequest(self, self.getMethod(), "post", url, params)
                 self.post(url, params)
                 self.msg("Response code: %s" % self.getResponseCode())
@@ -114,15 +106,15 @@ class testAdminEditCustomDataField(PyHttpTestCase):
                 self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 print "****************************************************************"
-                print "Custom Data Field \'%s\' Edited successfully." % name
+                print "Custom Group Field \'%s\' successfully Previewed." % name
                 print "****************************************************************"
             else :
                 print "****************************************************************"
-                print "Custom Data Field \'%s\' not found." % name
+                print "Custom Group Field \'%s\' not found." % name
                 print "****************************************************************"
         else :
             print "****************************************************************"
-            print "Required Group not found."
+            print "Required Custom Group not found." % name
             print "****************************************************************"
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
@@ -131,5 +123,5 @@ class testAdminEditCustomDataField(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testAdminEditCustomDataField("testAdminEditCustomDataField")
+    test = testAdminAddCustomDataField("testAdminAddCustomDataField")
     test.Run()

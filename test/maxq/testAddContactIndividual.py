@@ -41,8 +41,8 @@ class addIndividual_complete(PyHttpTestCase):
         params = [
             ('''_qf_default''', '''Edit:next'''),
             ('''prefix''', '''Dr'''),
-            ('''first_name''', '''Manish'''),
-            ('''middle_name''', '''L'''),
+            ('''first_name''', '''Lalit'''),
+            ('''middle_name''', '''S'''),
             ('''last_name''', '''Zope'''),
             ('''suffix''', '''none'''),
             ('''job_title''', '''SE'''),
@@ -63,8 +63,8 @@ class addIndividual_complete(PyHttpTestCase):
             ('''location[1][phone][2][phone]''', '''2345567'''),
             ('''location[1][phone][3][phone_type]''', ''''''),
             ('''location[1][phone][3][phone]''', ''''''),
-            ('''location[1][email][1][email]''', '''manish@lycos.com'''),
-            ('''location[1][email][2][email]''', '''manish@indiatimes.com'''),
+            ('''location[1][email][1][email]''', '''manish111@lycos.com'''),
+            ('''location[1][email][2][email]''', '''manish111@indiatimes.com'''),
             ('''location[1][email][3][email]''', ''''''),
             ('''location[1][im][1][provider_id]''', '''2'''),
             ('''location[1][im][1][name]''', '''HOLA'''),
@@ -118,6 +118,7 @@ class addIndividual_complete(PyHttpTestCase):
         
         queryID = "select id from civicrm_contact where sort_name=\'%s, %s\'" % (params[4][1], params[2][1])
         cid     = db.loadVal(queryID)
+        print "%s" % queryID
         print "%s" % cid
         if cid :
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
@@ -137,19 +138,21 @@ class addIndividual_complete(PyHttpTestCase):
             print "******************************************************************"
             print "Individual Contact \'%s, %s\' Added Successfully" % (params[4][1], params[2][1])
             print "******************************************************************"
+            cid = db.loadVal(queryID)
         
-        #params = [
-        #    ('''reset''', '''1'''),
-        #    ('''cid''', '''102'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=102''') % drupal_path)
-        #url = "%s/civicrm/contact/view" % drupal_path
-        #self.msg("Testing URL: %s" % url)
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-
+        print "%s" % cid
+        CID = '''%s''' % cid
+        params = [
+           ('''reset''', '''1'''),
+           ('''cid''', CID),]
+        url = "%s/civicrm/contact/view" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
         commonAPI.logout(self)
         self.msg("Test successfully complete")
     # ^^^ Insert new recordings here.  (Do not remove this line.)

@@ -21,91 +21,88 @@ class testAdminEnableDisableCustomDataField(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group''') % drupal_path)
+        
+        params = [
+            ('''reset''', '''1'''),]
+        url = "%s/civicrm/admin" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''reset''', '''1'''),]
         url = "%s/civicrm/admin/custom/group" % drupal_path
         self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        name      = 'Test Field'
-        queryCFID = 'select id from civicrm_custom_field where label like \'%%%s%%\'' % name
-        queryGID  = 'select custom_group_id from civicrm_custom_field where label like \'%%%s%%\'' % name
-
-        GID       = '''%s''' % db.loadVal(queryGID)
-        CDFID     = '''%s''' % db.loadVal(queryCFID)
-        params = [
-            ('''reset''', '''1'''),
-            ('''action''', '''browse'''),
-            ('''gid''', GID),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?reset=1&action=browse&gid=2''') % drupal_path)
-        url = "%s/civicrm/admin/custom/group/field" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
+        name      = 'Test Field 1'
+        queryCFID = 'select id from civicrm_custom_field where label like \'%%%s%%\'' % name
+        queryGID  = 'select custom_group_id from civicrm_custom_field where label like \'%%%s%%\'' % name
         
-        params = [
-            ('''action''', '''disable'''),
-            ('''id''', CDFID),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?action=disable&id=9''') % drupal_path)
-        url = "%s/civicrm/admin/custom/group/field" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        gid       = db.loadVal(queryGID)
+        cfid      = db.loadVal(queryCFID)
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''action''', '''enable'''),
-            ('''id''', CDFID),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?action=enable&id=9''') % drupal_path)
-        url = "%s/civicrm/admin/custom/group/field" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        if gid :
+            GID       = '''%s''' % gid
+            params = [
+                ('''reset''', '''1'''),
+                ('''action''', '''browse'''),
+                ('''gid''', GID),]
+            url = "%s/civicrm/admin/custom/group/field" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            if cfid :
+                CDFID     = '''%s''' % cfid
+                params = [
+                    ('''action''', '''disable'''),
+                    ('''reset''', '''1'''),
+                    ('''gid''', GID),
+                    ('''id''', CDFID),]
+                url = "%s/civicrm/admin/custom/group/field" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''action''', '''enable'''),
+                    ('''reset''', '''1'''),
+                    ('''gid''', GID),
+                    ('''id''', CDFID),]
+                url = "%s/civicrm/admin/custom/group/field" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+            else :
+                print "****************************************************************"
+                print "Custom Group Field \'%s\' not found." % name
+                print "****************************************************************"
+        else :
+            print "****************************************************************"
+            print "Required Custom Group not found."
+            print "****************************************************************"
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
