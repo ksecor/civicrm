@@ -2412,9 +2412,8 @@ msgid "IM Screen Name"
 msgstr "Identyfikator w komunikatorze"
 
 #: CRM/Core/DAO/ImportMappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Numer telefonu"
+msgstr "Numer kolumny"
 
 #: CRM/Core/DAO/IMProvider.php
 msgid "IM Provider Name"
@@ -2919,34 +2918,30 @@ msgid "Custom Group"
 msgstr "Grupa dodatkowa"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this custom data multiple choice option?"
-msgstr "Na pewno wyłączyć tę grupę danych dodatkowych?"
+msgstr ""
+"Na pewno wyłączyć tę opcję wielokrotnego wyboru danych dodatkowych?"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr "Edytuj opcję"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Edit Multiple Choice Option"
-msgstr "Edytuj opcje wielokrotnego wyboru"
+msgstr "Edytuj opcję wielokrotnego wyboru"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "View Multiple Choice Option"
-msgstr "Opcje wielokrotnego wyboru"
+msgstr "Zobacz opcję wielokrotnego wyboru"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Enable Mutliple Choice Option"
-msgstr "Opcje wielokrotnego wyboru"
+msgstr "Włącz opcję wielokrotnego wyboru"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Disable Multiple Choice Option"
-msgstr "Opcje wielokrotnego wyboru"
+msgstr "Wyłącz opcję wielokrotnego wyboru"
 
 #: CRM/Custom/Page/Option.php
 msgid "Custom Option"
@@ -5013,9 +5008,8 @@ msgstr ""
 "zaawansowanym."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid "View / Edit Multiple Choice Options"
-msgstr "Edytuj opcje wielokrotnego wyboru"
+msgstr "Zobacz / Edytuj opcje wielokrotnego wyboru"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -5672,6 +5666,9 @@ msgid ""
 "is it visible to others (Public User Pages)? If public, can it be used to "
 "aggregate Profile Listing Pages?"
 msgstr ""
+"Czy to pole powinno być widoczne tylko dla administratorów użytkowników i samego "
+"użytkownika, czy powinno być widoczne dla innych (publiczne srony użytkowników)? "
+"Jeśli ma być publiczne, to czy powinno być użyte do agregowania stron spisów profili?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
