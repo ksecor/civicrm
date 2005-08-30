@@ -769,7 +769,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $domain_id  = $session->get('domainID');
 
         $query = "
-            SELECT      $mailing.name, 
+            SELECT      $mailing.id,
+                        $mailing.name, 
                         $job.status, 
                         $job.scheduled_date, 
                         $job.start_date,
@@ -791,12 +792,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         while ($this->fetch()) {
             $rows[] = array(
-                            $this->name, 
-                            CRM_Mailing_BAO_Job::status($this->status), 
-                            CRM_Utils_Date::customFormat($this->scheduled_date),
-                            CRM_Utils_Date::customFormat($this->start_date), 
-                            CRM_Utils_Date::customFormat($this->end_date)
-                    );
+                'id'        =>  $this->id,
+                'name'      =>  $this->name, 
+                'status'    => CRM_Mailing_BAO_Job::status($this->status), 
+                'scheduled' => CRM_Utils_Date::customFormat($this->scheduled_date),
+                'start'     => CRM_Utils_Date::customFormat($this->start_date), 
+                'end'       => CRM_Utils_Date::customFormat($this->end_date)
+            );
         }
         return $rows;
     }

@@ -144,6 +144,9 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     'name' => ts('Completed Date'),
                 ), 
             );
+            if ($output != CRM_Core_Selector_Controller::EXPORT) {
+                self::$_columnHeaders[] = array('name' => ts('Action'));
+            }
         }
         return self::$_columnHeaders;
     }
@@ -175,9 +178,36 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $mailing =& new CRM_Mailing_BAO_Mailing();
+        static $actionLinks = null;
         
-        return $mailing->getRows($offset, $rowCount, $sort);
+        if (empty($actionLinks)) {
+            $actionLinks = array(
+                CRM_Core_Action::VIEW => array(
+                    'name'  => ts('Report'),
+                    'url'   => 'civicrm/mailing/report',
+                    'qs'    => 'mid=%%mid%%',
+                    'title' => ts('View Mailing Report')
+                )
+            );
+        }
+        $actionMask = CRM_Core_Action::VIEW;
+
+        
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        $rows =& $mailing->getRows($offset, $rowCount, $sort);
+
+        if ($output != CRM_Core_Selector_Controller::EXPORT) {
+            foreach ($rows as $key => $row) {
+                $rows[$key]['action'] = 
+                    CRM_Core_Action::formLink(  $actionLinks,
+                                                $actionMask,
+                                                array('mid' => $row['id']));
+                unset($rows[$key]['id']);
+            }
+        }
+
+        return $rows;
+        
     }
 
     /**
