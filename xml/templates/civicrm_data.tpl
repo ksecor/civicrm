@@ -283,7 +283,7 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1025", "Montana", "MT", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1026", "Nebraska", "NE", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1027", "Nevada", "NV", 1228);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1028", "New Hampshire", "NV", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1028", "New Hampshire", "NH", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1029", "New Jersey", "NJ", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1030", "New Mexico", "NM", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1031", "New York", "NY", 1228);
