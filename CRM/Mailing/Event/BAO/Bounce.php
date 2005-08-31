@@ -117,7 +117,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
         $job        = CRM_Mailing_BAO_Job::getTableName();
 
         $query = "
-            SELECT      COUNT(*) as bounce
+            SELECT      COUNT($bounce.id) as bounce
             FROM        $bounce
             INNER JOIN  $queue
                     ON  $bounce.event_queue_id = $queue.id
@@ -183,7 +183,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                     ON  $queue.email_id = $email.id
             INNER JOIN  $bounce
                     ON  $bounce.event_queue_id = $queue.id
-            INNER JOIN  $bounceType
+            LEFT JOIN   $bounceType
                     ON  $bounce.bounce_type_id = $bounceType.id
             INNER JOIN  $job
                     ON  $queue.job_id = $job.id
@@ -220,7 +220,9 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                 'name'      => "<a href=\"$url\">{$dao->display_name}</a>",
                 'email'     => $dao->email,
                 'date'      => CRM_Utils_Date::customFormat($dao->date),
-                'type'      => $dao->bounce_type,   // FIXME: translate this
+                            // FIXME: translate this
+                'type'      => (empty($dao->bounce_type) 
+                            ? ts('Unknown') : $dao->bounce_type),
                 'reason'    => $dao->bounce_reason
             );
         }

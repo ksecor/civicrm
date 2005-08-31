@@ -86,7 +86,7 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
         $job        = CRM_Mailing_BAO_Job::getTableName();
 
         $query = "
-            SELECT      COUNT(*) as delivered
+            SELECT      COUNT($delivered.id) as delivered
             FROM        $delivered
             INNER JOIN  $queue
                     ON  $delivered.event_queue_id = $queue.id
