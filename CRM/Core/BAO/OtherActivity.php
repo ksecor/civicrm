@@ -150,11 +150,11 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
     public static function deleteContact($id)
     {
         // need to delete for both source and target
-        $dao = new CRM_Core_DAO_Activity();
+        $dao =& new CRM_Core_DAO_Activity();
         $dao->source_contact_id = $id;
         $dao->delete();
 
-        $dao = new CRM_Core_DAO_Activity();
+        $dao =& new CRM_Core_DAO_Activity();
         $dao->target_contact_id = $id;        
         $dao->delete();
     }

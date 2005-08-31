@@ -82,7 +82,7 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
             } else {
                 // we need to add an additional filter for $type
                 self::$component[$name] = array( );
-                $object = new CRM_Mailing_DAO_Component( );
+                $object =& new CRM_Mailing_DAO_Component( );
                 $object->domain_id = CRM_Core_Config::domainID( );
                 $object->component_type = $type;
                 $object->selectAdd( );

@@ -113,7 +113,7 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      */
     static function &getActivityDescription() {
         $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 3";
-        $dao   = new CRM_Core_DAO_ActivityType();
+        $dao   =& new CRM_Core_DAO_ActivityType();
         $dao->query($query);
         $description =array();
         while($dao->fetch()) {

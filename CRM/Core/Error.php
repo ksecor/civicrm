@@ -152,7 +152,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
             // execute a dummy query to clear error stack
             $query = 'select 1';
-            $dao = new CRM_Core_DAO( );
+            $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
         }
 

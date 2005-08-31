@@ -157,7 +157,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      */
     public static function deleteContact($id)
     {
-        $dao = new CRM_Core_DAO_EmailHistory();
+        $dao =& new CRM_Core_DAO_EmailHistory();
         $dao->contact_id = $id;
         $dao->delete();
     }
