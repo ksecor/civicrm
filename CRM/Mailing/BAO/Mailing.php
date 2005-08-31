@@ -880,7 +880,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON  {$t['urlopen']}.trackable_url_id = {$t['url']}.id
             INNER JOIN  {$t['queue']}
                     ON  {$t['urlopen']}.event_queue_id = {$t['queue']}.id
-            INNER JOIN  {$t['job']}
+            RIGHT JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
             WHERE       {$t['job']}.mailing_id = $mailing_id
             GROUP BY    {$t['url']}.id");
