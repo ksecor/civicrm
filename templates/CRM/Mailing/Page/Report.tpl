@@ -75,12 +75,12 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <th>{ts}End Date{/ts}</th>
 <th>{ts}Queued{/ts}</th>
 <th>{ts}Delivered{/ts}</th>
-{if $report.mailing.open_tracking}
-<th>{ts}Opened{/ts}</th>
-{/if}
 <th>{ts}Bounces{/ts}</th>
-<th>{ts}Replies{/ts}</th>
 <th>{ts}Unsubscriptions{/ts}</th>
+<th>{ts}Replies{/ts}</th>
+{if $report.mailing.open_tracking}
+<th>{ts}Opens{/ts}</th>
+{/if}
 {if $report.mailing.url_tracking}
 <th>{ts}Click-throughs{/ts}</th>
 {/if}
@@ -93,12 +93,12 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <td>{$job.end_date|date_format}</td>
 <td>{$job.queue}</td>
 <td>{$job.delivered}</td>
+<td>{$job.bounce}</td>
+<td>{$job.unsubscribe}</td>
+<td>{$job.reply}</td>
 {if $report.mailing.open_tracking}
 <td>{$job.opened}</td>
 {/if}
-<td>{$job.bounce}</td>
-<td>{$job.reply}</td>
-<td>{$job.unsubscribe}</td>
 {if $report.mailing.url_tracking}
 <td>{$job.url}</td>
 {/if}
@@ -108,12 +108,12 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <th class="label" colspan=4>{ts}Totals{/ts}</th>
 <th>{$report.event_totals.queue}</th>
 <th>{$report.event_totals.delivered}</th>
+<th>{$report.event_totals.bounce}</th>
+<th>{$report.event_totals.unsubscribe}</th>
+<th>{$report.event_totals.reply}</th>
 {if $report.mailing.open_tracking}
 <th>{$report.event_totals.opened}</th>
 {/if}
-<th>{$report.event_totals.bounce}</th>
-<th>{$report.event_totals.reply}</th>
-<th>{$report.event_totals.unsubscribe}</th>
 {if $report.mailing.url_tracking}
 <th>{$report.event_totals.url}</th>
 {/if}
@@ -121,11 +121,7 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <tr>
 <th colspan=5>{ts}Percentages{/ts}</th>
 <th>{$report.event_totals.delivered_rate}%</th>
-{if $report.mailing.open_tracking}
-<th>{$report.event_totals.opened_rate}%</th>
-{/if}
 <th>{$report.event_totals.bounce_rate}%</th>
-<th>{$report.event_totals.reply_rate}%</th>
 <th>{$report.event_totals.unsubscribe_rate}%</th>
 </tr>
 </table>
@@ -137,13 +133,12 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
 <tr><td class="label">{ts}Intended Recipients{/ts}</td><td>{$report.jobs.0.queue}</td></tr>
 <tr><td class="label">{ts}Succesful Deliveries{/ts}</td><td>{$report.jobs.0.delivered}</td><td>{$report.jobs.0.delivered_rate}%</td></tr>
-{if $report.mailing.open_tracking}
-<tr><td class="label">{ts}Tracked Opens{/ts}</td><td>{$report.jobs.0.opened}</td><td>{$report.jobs.0.opened_rate}%</td></tr>
-{/if}
 <tr><td class="label">{ts}Bounces{/ts}</td><td>{$report.jobs.0.bounce}</td><td>{$report.jobs.0.bounce_rate}%</td></tr>
-<tr><td class="label">{ts}Replies{/ts}</td><td>{$report.jobs.0.reply}</td><td>
-{$report.jobs.0.reply_rate}%</td></tr>
 <tr><td class="label">{ts}Unsubscriptions{/ts}</td><td>{$report.jobs.0.unsubscribe}</td><td>{$report.jobs.0.unsubscribe_rate}%</td></tr>
+<tr><td class="label">{ts}Replies{/ts}</td><td>{$report.jobs.0.reply}</td></tr>
+{if $report.mailing.open_tracking}
+<tr><td class="label">{ts}Tracked Opens{/ts}</td><td>{$report.jobs.0.opened}</td></tr>
+{/if}
 {if $report.mailing.url_tracking}
 <tr><td class="label">{ts}Click-throughs{/ts}</td><td>{$report.jobs.0.url}</td></tr>
 {/if}

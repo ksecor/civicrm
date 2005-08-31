@@ -844,20 +844,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             if ($mailing->queue) {
                 $row['delivered_rate'] = (100.0 * $mailing->delivered ) /
                     $mailing->queue;
-                /* FIXME: this should be unique */
-                $row['opened_rate'] = (100.0 * $mailing->opened ) /
-                    $mailing->queue;
                 $row['bounce_rate'] = (100.0 * $mailing->bounce ) /
-                    $mailing->queue;
-                $row['reply_rate'] = (100.0 * $mailing->reply ) /
                     $mailing->queue;
                 $row['unsubscribe_rate'] = (100.0 * $mailing->unsubscribe ) /
                     $mailing->queue;
             } else {
                 $row['delivered_rate'] = 0;
-                $row['opened_rate'] = 0;
                 $row['bounce_rate'] = 0;
-                $row['reply_rate'] = 0;
                 $row['unsubscribe_rate'] = 0;
             }
             
@@ -869,15 +862,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         if ($report['event_totals']['queue']) {
             $report['event_totals']['delivered_rate'] = (100.0 * $report['event_totals']['delivered']) / $report['event_totals']['queue'];
-            $report['event_totals']['opened_rate'] = (100.0 * $report['event_totals']['opened']) / $report['event_totals']['queue'];
             $report['event_totals']['bounce_rate'] = (100.0 * $report['event_totals']['bounce']) / $report['event_totals']['queue'];
-            $report['event_totals']['reply_rate'] = (100.0 * $report['event_totals']['reply']) / $report['event_totals']['queue'];
             $report['event_totals']['unsubscribe_rate'] = (100.0 * $report['event_totals']['unsubscribe']) / $report['event_totals']['queue'];
         } else {
             $report['event_totals']['delivered_rate'] = 0;
-            $report['event_totals']['opened_rate'] = 0;
             $report['event_totals']['bounce_rate'] = 0;
-            $report['event_totals']['reply_rate'] = 0;
             $report['event_totals']['unsubscribe_rate'] = 0;
         }
 
