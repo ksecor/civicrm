@@ -46,9 +46,12 @@ require_once 'CRM/Contact/BAO/Contact.php';
 
 
 /**
- * This class is used to browse past mailings.
+ * This class is used to retrieve and display a range of
+ * contacts that match the given criteria (specifically for
+ * results of advanced search options.
+ *
  */
-class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base 
+class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base 
                                     implements CRM_Core_Selector_API 
 {
     /**
@@ -60,23 +63,56 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     static $_links = null;
 
     /**
+     * what event type are we browsing?
+     */
+    private $_event;
+
+    /**
+     * should we only count distinct contacts?
+     */
+    private $_is_distinct;
+    
+    /**
+     * which mailing are we browsing events from?
+     */
+    private $_mailing_id;
+
+    /**
+     * do we want events tied to a specific job?
+     */
+    private $_job_id;
+
+    /**
+     * for click-through events, do we only want those from a specific url?
+     */
+    private $_url_id;
+    
+    /**
      * we use desc to remind us what that column is, name is used in the tpl
      *
      * @var array
-     * @static
      */
-    static $_columnHeaders;
+    public $_columnHeaders;
 
     /**
      * Class constructor
      *
-     * @param none
+     * @param string $event         The event type (queue/delivered/open...)
+     * @param boolean $distinct     Count only distinct contact events?
+     * @param int $mailing          ID of the mailing to query
+     * @param int $job              ID of the job to query.  If null, all jobs from $mailing are queried.
+     * @param int $url              If the event type is a click-through, do we want only those from a specific url?
      *
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( )
+    function __construct($event, $distinct, $mailing, $job = null, $url = null )
     {
+        $this->_event_type  = $event;
+        $this->_is_distinct = $distinct;
+        $this->_mailing_id  = $mailing;
+        $this->_job_id      = $job;
+        $this->_url_id      = $url;
     }//end of constructor
 
 
@@ -85,7 +121,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      *
      * @return array
      * @access public
-     *
+     * @static
      */
     static function &links()
     {
@@ -123,29 +159,42 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     {
         $mailing = CRM_Mailing_BAO_Mailing::getTableName();
         $job = CRM_Mailing_BAO_Job::getTableName();
-        if ( ! isset( self::$_columnHeaders ) ) {
-            self::$_columnHeaders = array( 
+        if ( ! isset( $this->_columnHeaders ) ) {
+            $this->_columnHeaders = array( 
                 array(
-                    'name'  => ts('Mailing Name'),
+                    'name'  => ts('Contact'),
                 ), 
                 array(
-                    'name' => ts('Status'),
+                    'name' => ts('Email Address'),
                 ), 
                 array(
-                    'name' => ts('Scheduled Date'),
-                ), 
-                array(
-                    'name' => ts('Start Date'),
-                ), 
-                array(
-                    'name' => ts('Completed Date'),
+                    'name' => ts('Date'),
                 ), 
             );
-            if ($output != CRM_Core_Selector_Controller::EXPORT) {
-                self::$_columnHeaders[] = array('name' => ts('Action'));
+            if ($this->_event_type == 'bounce') {
+                $this->_columnHeaders += array(
+                    array(
+                        'name'  => ts('Bounce Type'),
+                    ),
+                    array(
+                        'name'  => ts('Bounce Reason'),
+                    ),
+                );
+            } elseif ($this->_event_type == 'unsubscribe') {
+                $this->_columnHeaders += array(
+                    array(
+                        'name'  => ts('Opt-Out'),
+                    ),
+                );
+            } elseif ($this->_event_type == 'url') {
+                $this->_columnHeaders += array(
+                    array(
+                        'name'  => ts('URL'),
+                    ),
+                );
             }
         }
-        return self::$_columnHeaders;
+        return $this->_columnHeaders;
     }
 
 
@@ -158,9 +207,6 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        
-        return $mailing->getCount();
     }
 
     /**
@@ -175,36 +221,6 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        static $actionLinks = null;
-        
-        if (empty($actionLinks)) {
-            $actionLinks = array(
-                CRM_Core_Action::VIEW => array(
-                    'name'  => ts('Report'),
-                    'url'   => 'civicrm/mailing/report',
-                    'qs'    => 'mid=%%mid%%',
-                    'title' => ts('View Mailing Report')
-                )
-            );
-        }
-        $actionMask = CRM_Core_Action::VIEW;
-
-        
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        $rows =& $mailing->getRows($offset, $rowCount, $sort);
-
-        if ($output != CRM_Core_Selector_Controller::EXPORT) {
-            foreach ($rows as $key => $row) {
-                $rows[$key]['action'] = 
-                    CRM_Core_Action::formLink(  $actionLinks,
-                                                $actionMask,
-                                                array('mid' => $row['id']));
-                unset($rows[$key]['id']);
-            }
-        }
-
-        return $rows;
-        
     }
 
     /**
@@ -214,7 +230,6 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @return string name of the file
      */
     function getExportFileName( $output = 'csv') {
-        return ts('CiviMail Mailings');
     }
     
 }//end of class

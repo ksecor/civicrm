@@ -844,6 +844,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             if ($mailing->queue) {
                 $row['delivered_rate'] = (100.0 * $mailing->delivered ) /
                     $mailing->queue;
+                /* FIXME: this should be unique */
                 $row['opened_rate'] = (100.0 * $mailing->opened ) /
                     $mailing->queue;
                 $row['bounce_rate'] = (100.0 * $mailing->bounce ) /
