@@ -172,7 +172,7 @@ class CRM_Core_Block {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
-            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) ) );
+            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ) ) );
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) ,
@@ -195,13 +195,13 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
              $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                        'qs'    => 'c_type=Individual&reset=1',
+                                        'qs'    => 'c_type=Individual&amp;reset=1',
                                         'title' => ts('New Individual') ),
                                  array( 'path'  => 'civicrm/contact/addO',
-                                        'qs'    => 'c_type=Organization&reset=1',
+                                        'qs'    => 'c_type=Organization&amp;reset=1',
                                         'title' => ts('New Organization') ),
                                  array( 'path'  => 'civicrm/contact/addH',
-                                        'qs'    => 'c_type=Household&reset=1',
+                                        'qs'    => 'c_type=Household&amp;reset=1',
                                         'title' => ts('New Household') ),
                                  array( 'path'  => 'civicrm/group/add',
                                         'qs'    => 'reset=1',
