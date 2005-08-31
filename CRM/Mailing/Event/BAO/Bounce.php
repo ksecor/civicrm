@@ -112,7 +112,6 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
         $dao =& new CRM_Core_DAO();
         
         $bounce     = self::getTableName();
-        $bounceType = CRM_Mailing_DAO_BounceType::getTableName();
         $queue      = CRM_Mailing_Event_BAO_Queue::getTableName();
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
@@ -121,7 +120,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
             SELECT      COUNT(*) as bounce
             FROM        $bounce
             INNER JOIN  $queue
-                    ON  bounce.event_queue_id = $queue.id
+                    ON  $bounce.event_queue_id = $queue.id
             INNER JOIN  $job
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
