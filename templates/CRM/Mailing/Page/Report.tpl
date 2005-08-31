@@ -132,10 +132,11 @@
 <fieldset>
 <legend>{ts}Click-through Statistics{/ts}</legend>
 <table>
-<tr><th>Clicks</th><th>{ts}URL{/ts}</th></tr>
+<tr><th>{ts}Clicks{/ts}</th><th>{ts}Unique Clicks{/ts}</th><th>{ts}URL{/ts}</th></tr>
 {foreach from=$report.click_through item=row}
 <tr class="{cycle values="odd-row,even-row"}">
 <td>{$row.clicks}</td>
+<td>{$row.unique}</td>
 <td><a href="{$row.url}">{$row.url}</a></td>
 </tr>
 {/foreach}

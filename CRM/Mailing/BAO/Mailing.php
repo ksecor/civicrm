@@ -825,9 +825,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON  {$t['urlopen']}.event_queue_id = {$t['queue']}.id
             INNER JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
-            INNER JOIN  {$t['mailing']}
-                    ON  {$t['job']}.mailing_id = {$t['mailing']}.id
-            WHERE       {$t['mailing']}.id = $mailing_id
+            WHERE       {$t['job']}.mailing_id = $mailing_id
             GROUP BY    {$t['url']}.id");
         
         $report['click_through'] = array();
