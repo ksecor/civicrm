@@ -549,7 +549,7 @@ class Contact_Vcard_Build extends PEAR {
      * As, surprise surprise, Microsoft Outlook does not seem to be able to
      * handle properly tagged UTF-8 vCards, we try to represent the text in
      * smallest charset 'covering' the text in full (currently the test goes
-     * 'US-ASCII' -> 'ISO-8859-1' -> 'UTF-8')
+     * 'US-ASCII' -> 'ISO-8859-1' -> 'ISO-8859-2' -> 'UTF-8')
      *
      * @param string $comp  The component to set the value for
      * @param int    $iter  The component-iteration to set the value for
@@ -560,12 +560,21 @@ class Contact_Vcard_Build extends PEAR {
     function addCharset($comp, $iter, $val) {
         $charset = '';
         $iconvd = '';
-        $strlen = mb_strlen($val, 'UTF-8');
-        foreach (array('US-ASCII', 'ISO-8859-1', 'UTF-8') as $set) {
-            $iconvd = iconv('UTF-8', $set, $val);
-            if (mb_strlen($iconvd, $set) == $strlen) {
-                $charset = $set;
-                break;
+        if (function_exists('mb_strlen') and function_exists('iconv')) {
+            $strlen = mb_strlen($val, 'UTF-8');
+            foreach (array('US-ASCII', 'ISO-8859-1', 'ISO-8859-2', 'UTF-8') as $set) {
+                $iconvd = iconv('UTF-8', $set, $val);
+                if (mb_strlen($iconvd, $set) == $strlen) {
+                    $charset = $set;
+                    break;
+                }
+            }
+        } else {
+            $iconvd = $val;
+            if (preg_match('/[^\x00-\x7f]/', $val)) {
+                $charset = 'UTF-8';
+            } else {
+                $charset = 'US-ASCII';
             }
         }
         $meta = $this->getMeta($comp, $iter);
