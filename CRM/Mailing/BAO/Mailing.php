@@ -901,7 +901,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $report['click_through'][] = array('url' => $mailing->url,
                                     'clicks' => $mailing->clicks,
                                     'unique' => $mailing->unique_clicks,
-                                    'rate'   => $report['event_totals']['queue'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['queue'] : 0
+                                    'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
         }
         
