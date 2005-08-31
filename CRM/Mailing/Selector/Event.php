@@ -172,14 +172,14 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                 ), 
             );
             if ($this->_event_type == 'bounce') {
-                $this->_columnHeaders += array(
+                $this->_columnHeaders = array_merge($this->_columnHeaders, array(
                     array(
                         'name'  => ts('Bounce Type'),
                     ),
                     array(
                         'name'  => ts('Bounce Reason'),
                     ),
-                );
+                ));
             } elseif ($this->_event_type == 'unsubscribe') {
                 $this->_columnHeaders += array(
                     array(
@@ -207,6 +207,52 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
+        switch($this->_event_type) {
+            case 'queue':
+                    $event =& new CRM_Mailing_Event_BAO_Queue();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id );
+                break;
+            case 'delivered':
+                    $event =& new CRM_Mailing_Event_BAO_Delivered();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
+                break;
+            case 'opened':
+                    $event =& new CRM_Mailing_Event_BAO_Opened();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
+                break;
+            case 'bounce':
+                    $event =& new CRM_Mailing_Event_BAO_Bounce();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
+                break;
+            case 'reply':
+                    $event =& new CRM_Mailing_Event_BAO_Reply();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
+                break;
+            case 'unsubscribe':
+                    $event =& new CRM_Mailing_Event_BAO_Unsubscribe();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
+                break;
+            case 'click':
+                    $event =& new CRM_Mailing_Event_BAO_TrackableURLOpen();
+                    return $event->getTotalCount(   $this->_mailing_id, 
+                                                    $this->_job_id,
+                                                    $this->_is_distinct,
+                                                    $this->_url_id );
+                break;
+            default:
+                return 0;
+        }
     }
 
     /**
@@ -221,6 +267,53 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
+        switch($this->_event_type) {
+            case 'queue':
+                    return
+                    CRM_Mailing_Event_BAO_Queue::getRows($this->_mailing_id,
+                                    $this->_job_id, $offset, $rowCount, $sort);
+                break;
+            case 'delivered':
+                    return
+                    CRM_Mailing_Event_BAO_Delivered::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
+
+                break;
+            case 'opened':
+                    return
+                    CRM_Mailing_Event_BAO_Opened::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
+                break;
+            case 'bounce':
+                    return
+                    CRM_Mailing_Event_BAO_Bounce::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
+                break;
+            case 'reply':
+                    return
+                    CRM_Mailing_Event_BAO_Reply::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
+                break;
+            case 'unsubscribe':
+                    return
+                    CRM_Mailing_Event_BAO_Unsubscribe::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
+                break;
+            case 'click':
+                    return
+                    CRM_Mailing_Event_BAO_TrackableURLOpen::getRows(
+                                    $this->_mailing_id, $this->_job_id, 
+                                    $this->_is_distinct, $this->_url_id,
+                                    $offset, $rowCount, $sort);
+                break;
+            default:
+                return null;
+        }
     }
 
     /**

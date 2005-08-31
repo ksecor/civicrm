@@ -124,6 +124,106 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         return $q->email;
     }
 
+    /**
+     * Count up events given a mailing id and optional job id
+     *
+     * @param int $mailing_id       ID of the mailing to count
+     * @param int $job_id           Optional ID of a job to limit results
+     * @return int                  Number of matching events
+     * @access public
+     * @static
+     */
+    public static function getTotalCount($mailing_id, $job_id = null) {
+        $dao =& new CRM_Core_DAO();
+        
+        $queue      = self::getTableName();
+        $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+
+        $dao->query("
+            SELECT      COUNT(*) as queued
+            FROM        $queue
+            INNER JOIN  $job
+                    ON  $queue.job_id = $job.id
+            INNER JOIN  $mailing
+                    ON  $job.mailing_id = $mailing.id
+            WHERE       $mailing.id = " 
+            . CRM_Utils_Type::escape($mailing_id, 'Integer') 
+            . ($job_id ? " AND $job.id = " . CRM_Utils_Type::escape($job_id,
+            'Integer') : ''));
+
+        $dao->fetch();
+        return $dao->queued;
+    }
+
+
+    /**
+     * Get rows for the event browser
+     *
+     * @param int $mailing_id       ID of the mailing
+     * @param int $job_id           optional ID of the job
+     * @param int $offset           Offset
+     * @param int $rowCount         Number of rows
+     * @param array $sort           sort array
+     * @return array                Result set
+     * @access public
+     * @static
+     */
+    public static function &getRows($mailing_id, $job_id = null, $offset = null,
+                                    $rowCount = null, $sort = null) {
+        $dao =& new CRM_Core_Dao();
+        
+        $queue      = self::getTableName();
+        $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+        $contact    = CRM_Contact_BAO_Contact::getTableName();
+        $email      = CRM_Core_BAO_Email::getTableName();
+
+        $query =    "
+            SELECT      $contact.display_name as display_name,
+                        $contact.id as contact_id,
+                        $email.email as email,
+                        $job.start_date as date
+            FROM        $contact
+            INNER JOIN  $queue
+                    ON  $queue.contact_id = $contact.id
+            INNER JOIN  $email
+                    ON  $queue.email_id = $email.id
+            INNER JOIN  $job
+                    ON  $queue.job_id = $job.id
+            INNER JOIN  $mailing
+                    ON  $job.mailing_id = $mailing.id
+            WHERE       $mailing.id = " 
+            . CRM_Utils_Type::escape($mailing_id, 'Integer');
+    
+        if (!empty($job_id)) {
+            $query .= " AND $job.id = " 
+                    . CRM_Utils_Type::escape($job_id, 'Integer');
+        }
+
+        $query .= " ORDER BY $contact.sort_name ";
+
+        if ($offset) {
+            $query .= ' LIMIT ' 
+                    . CRM_Utils_Type::escape($offset, 'Integer') . ', ' 
+                    . CRM_Utils_Type::escape($rowCount, 'Integer');
+        }
+
+        $dao->query($query);
+        
+        $results = array();
+
+        while ($dao->fetch()) {
+            $url = CRM_Utils_System::url('civicrm/contact/view',
+                                "reset=1&cid={$dao->contact_id}");
+            $results[] = array(
+                'name'      => "<a href=\"$url\">{$dao->display_name}</a>",
+                'email'     => $dao->email,
+                'date'      => CRM_Utils_Date::customFormat($dao->date)
+            );
+        }
+        return $results;
+    }
 }
 
 ?>
