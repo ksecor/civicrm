@@ -807,7 +807,7 @@ WHERE t1.custom_field_id = 1
 
         */
 
-        CRM_Core_Error::debug_var('fv', $fv);
+//         CRM_Core_Error::debug_var('fv', $fv);
         $params = array();
 
         if ( is_array( $fv ) && ! empty( $fv ) ) {
