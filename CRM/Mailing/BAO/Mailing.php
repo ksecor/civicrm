@@ -817,7 +817,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get the click-through totals, grouped by URL */
         $mailing->query("
             SELECT      {$t['url']}.url,
-                        COUNT({$t['urlopen']}.id) as clicks
+                        COUNT({$t['urlopen']}.id) as clicks,
+                        COUNT(DISTINCT {$t['queue']}.id) as unique_clicks
             FROM        {$t['url']}
             LEFT JOIN   {$t['urlopen']}
                     ON  {$t['urlopen']}.trackable_url_id = {$t['url']}.id
@@ -827,12 +828,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON  {$t['queue']}.job_id = {$t['job']}.id
             WHERE       {$t['job']}.mailing_id = $mailing_id
             GROUP BY    {$t['url']}.id");
-        
+       
         $report['click_through'] = array();
 
         while ($mailing->fetch()) {
             $report['click_through'][] = array('url' => $mailing->url,
-                                                'clicks' => $mailing->clicks);
+                                    'clicks' => $mailing->clicks,
+                                    'unique' => $mailing->unique_clicks);
         }
         
         return $report;
