@@ -696,6 +696,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'url'       => CRM_Mailing_BAO_TrackableURL::getTableName(),
                 'urlopen'   =>
                     CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
+                'component' =>  CRM_Mailing_BAO_Component::getTableName()
             );
         
         
@@ -715,7 +716,40 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         foreach (array_keys(self::fields()) as $field) {
             $report['mailing'][$field] = $mailing->$field;
         }
-       
+
+
+        /* Get the component info */
+        $query = array();
+        
+        $components = array(
+                        'header'        => ts('Header'),
+                        'footer'        => ts('Footer'),
+                        'reply'         => ts('Reply'),
+                        'unsubscribe'   => ts('Unsubscribe'),
+                        'optout'        => ts('Opt-Out')
+                    );
+        foreach(array_keys($components) as $type) {
+            $query[] = "SELECT          {$t['component']}.name as name,
+                                        '$type' as type,
+                                        {$t['component']}.id as id
+                        FROM            {$t['component']}
+                        INNER JOIN      {$t['mailing']}
+                                ON      {$t['mailing']}.{$type}_id =
+                                                {$t['component']}.id
+                        WHERE           {$t['mailing']}.id = $mailing_id";
+        }
+        $q = '(' . implode(') UNION (', $query) . ')';
+        $mailing->query($q);
+
+        $report['component'] = array();
+        while ($mailing->fetch()) {
+            $report['component'][] = array(
+                                    'type'  => $components[$mailing->type],
+                                    'name'  => $mailing->name,
+                                    'link'  =>
+                                    CRM_Utils_System::url('civicrm/mailing/component', "reset=1&action=update&id={$mailing->id}"),
+                                    );
+        }
         
         /* Get the recipient group info */
         $mailing->query("
@@ -806,14 +840,46 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
                 $row[$field] = $mailing->$field;
             }
-
+            
+            if ($mailing->queue) {
+                $row['delivered_rate'] = (100.0 * $mailing->delivered ) /
+                    $mailing->queue;
+                $row['opened_rate'] = (100.0 * $mailing->opened ) /
+                    $mailing->queue;
+                $row['bounce_rate'] = (100.0 * $mailing->bounce ) /
+                    $mailing->queue;
+                $row['reply_rate'] = (100.0 * $mailing->reply ) /
+                    $mailing->queue;
+                $row['unsubscribe_rate'] = (100.0 * $mailing->unsubscribe ) /
+                    $mailing->queue;
+            } else {
+                $row['delivered_rate'] = 0;
+                $row['opened_rate'] = 0;
+                $row['bounce_rate'] = 0;
+                $row['reply_rate'] = 0;
+                $row['unsubscribe_rate'] = 0;
+            }
+            
             foreach (array('scheduled_date', 'start_date', 'end_date') as $key) {
                 $row[$key] = CRM_Utils_Date::customFormat($row[$key]);
             }
             $report['jobs'][] = $row;
         }
 
-        
+        if ($report['event_totals']['queue']) {
+            $report['event_totals']['delivered_rate'] = (100.0 * $report['event_totals']['delivered']) / $report['event_totals']['queue'];
+            $report['event_totals']['opened_rate'] = (100.0 * $report['event_totals']['opened']) / $report['event_totals']['queue'];
+            $report['event_totals']['bounce_rate'] = (100.0 * $report['event_totals']['bounce']) / $report['event_totals']['queue'];
+            $report['event_totals']['reply_rate'] = (100.0 * $report['event_totals']['reply']) / $report['event_totals']['queue'];
+            $report['event_totals']['unsubscribe_rate'] = (100.0 * $report['event_totals']['unsubscribe']) / $report['event_totals']['queue'];
+        } else {
+            $report['event_totals']['delivered_rate'] = 0;
+            $report['event_totals']['opened_rate'] = 0;
+            $report['event_totals']['bounce_rate'] = 0;
+            $report['event_totals']['reply_rate'] = 0;
+            $report['event_totals']['unsubscribe_rate'] = 0;
+        }
+
         /* Get the click-through totals, grouped by URL */
         $mailing->query("
             SELECT      {$t['url']}.url,
@@ -834,7 +900,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         while ($mailing->fetch()) {
             $report['click_through'][] = array('url' => $mailing->url,
                                     'clicks' => $mailing->clicks,
-                                    'unique' => $mailing->unique_clicks);
+                                    'unique' => $mailing->unique_clicks,
+                                    'rate'   => $report['event_totals']['queue'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['queue'] : 0
+                                );
         }
         
         return $report;

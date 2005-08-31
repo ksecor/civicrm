@@ -8,12 +8,23 @@
 <tr><td class="label">{ts}From{/ts}</td><td>{$report.mailing.from_name} &lt;{$report.mailing.from_email}&gt;</td></tr>
 <tr><td class="label">{ts}Reply-to email{/ts}</td><td>&lt;{$report.mailing.replyto_email}&gt;</td></tr>
 
-<tr><td class="label">{ts}URL Clickthrough tracking{/ts}</td><td>{if $report.mailing.url_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
+<tr><td class="label">{ts}URL Click-through tracking{/ts}</td><td>{if $report.mailing.url_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}Forward replies{/ts}</td><td>{if $report.mailing.forward_replies}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}Auto-respond to replies{/ts}</td><td>{if $report.mailing.auto_responder}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}Open tracking{/ts}</td><td>{if $report.mailing.open_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 </table>
 </fieldset>
+
+<fieldset>
+<legend>{ts}Content / Components{/ts}</legend>
+<table class="form-layout">
+{foreach from=$report.component item=component}
+<tr><td class="label">{$component.type}</td><td><a
+href="{$component.link}">{$component.name}</a></td></tr>
+{/foreach}
+</table>
+</fieldset>
+
 
 <fieldset>
 <legend>{ts}Recipients{/ts}</legend>
@@ -107,20 +118,32 @@
 <th>{$report.event_totals.url}</th>
 {/if}
 </tr>
+<tr>
+<th colspan=5>{ts}Percentages{/ts}</th>
+<th>{$report.event_totals.delivered_rate}%</th>
+{if $report.mailing.open_tracking}
+<th>{$report.event_totals.opened_rate}%</th>
+{/if}
+<th>{$report.event_totals.bounce_rate}%</th>
+<th>{$report.event_totals.reply_rate}%</th>
+<th>{$report.event_totals.unsubscribe_rate}%</th>
+</tr>
 </table>
 {else}
 <table class="form-layout">
 <tr><td class="label">{ts}Scheduled Date{/ts}</td><td>{$report.jobs.0.scheduled_date}</td></tr>
 <tr><td class="label">{ts}Start Date{/ts}</td><td>{$report.jobs.0.start_date}</td></tr>
 <tr><td class="label">{ts}End Date{/ts}</td><td>{$report.jobs.0.end_date}</td></tr>
+<tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
 <tr><td class="label">{ts}Intended Recipients{/ts}</td><td>{$report.jobs.0.queue}</td></tr>
-<tr><td class="label">{ts}Succesful Deliveries{/ts}</td><td>{$report.jobs.0.delivered}</td></tr>
+<tr><td class="label">{ts}Succesful Deliveries{/ts}</td><td>{$report.jobs.0.delivered}</td><td>{$report.jobs.0.delivered_rate}%</td></tr>
 {if $report.mailing.open_tracking}
-<tr><td class="label">{ts}Tracked Opens{/ts}</td><td>{$report.jobs.0.opened}</td></tr>
+<tr><td class="label">{ts}Tracked Opens{/ts}</td><td>{$report.jobs.0.opened}</td><td>{$report.jobs.0.opened_rate}%</td></tr>
 {/if}
-<tr><td class="label">{ts}Bounces{/ts}</td><td>{$report.jobs.0.bounce}</td></tr>
-<tr><td class="label">{ts}Replies{/ts}</td><td>{$report.jobs.0.reply}</td></tr>
-<tr><td class="label">{ts}Unsubscriptions{/ts}</td><td>{$report.jobs.0.unsubscribe}</td></tr>
+<tr><td class="label">{ts}Bounces{/ts}</td><td>{$report.jobs.0.bounce}</td><td>{$report.jobs.0.bounce_rate}%</td></tr>
+<tr><td class="label">{ts}Replies{/ts}</td><td>{$report.jobs.0.reply}</td><td>
+{$report.jobs.0.reply_rate}%</td></tr>
+<tr><td class="label">{ts}Unsubscriptions{/ts}</td><td>{$report.jobs.0.unsubscribe}</td><td>{$report.jobs.0.unsubscribe_rate}%</td></tr>
 {if $report.mailing.url_tracking}
 <tr><td class="label">{ts}Click-throughs{/ts}</td><td>{$report.jobs.0.url}</td></tr>
 {/if}
@@ -132,11 +155,16 @@
 <fieldset>
 <legend>{ts}Click-through Statistics{/ts}</legend>
 <table>
-<tr><th>{ts}Clicks{/ts}</th><th>{ts}Unique Clicks{/ts}</th><th>{ts}URL{/ts}</th></tr>
+<tr>
+<th>{ts}Clicks{/ts}</th>
+<th>{ts}Unique Clicks{/ts}</th>
+<th>{ts}Success Rate{/ts}</th>
+<th>{ts}URL{/ts}</th></tr>
 {foreach from=$report.click_through item=row}
 <tr class="{cycle values="odd-row,even-row"}">
 <td>{$row.clicks}</td>
 <td>{$row.unique}</td>
+<td>{$row.rate}%</td>
 <td><a href="{$row.url}">{$row.url}</a></td>
 </tr>
 {/foreach}
