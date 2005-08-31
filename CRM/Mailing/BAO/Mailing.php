@@ -764,13 +764,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get the event totals, grouped by job (retries) */
         $mailing->query("
             SELECT          {$t['job']}.*,
-                            COUNT({$t['queue']}.id) as queue,
-                            COUNT({$t['delivered']}.id) as delivered,
-                            COUNT({$t['opened']}.id) as opened,
-                            COUNT({$t['reply']}.id) as reply,
-                            COUNT({$t['unsubscribe']}.id) as unsubscribe,
-                            COUNT({$t['bounce']}.id) as bounce,
-                            COUNT({$t['urlopen']}.id) as url
+                            COUNT(DISTINCT {$t['queue']}.id) as queue,
+                            COUNT(DISTINCT {$t['delivered']}.id) as delivered,
+                            COUNT(DISTINCT {$t['opened']}.id) as opened,
+                            COUNT(DISTINCT {$t['reply']}.id) as reply,
+                            COUNT(DISTINCT {$t['unsubscribe']}.id) as unsubscribe,
+                            COUNT(DISTINCT {$t['bounce']}.id) as bounce,
+                            COUNT(DISTINCT {$t['urlopen']}.id) as url
             FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
