@@ -910,11 +910,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             FROM        {$t['url']}
             LEFT JOIN   {$t['urlopen']}
                     ON  {$t['urlopen']}.trackable_url_id = {$t['url']}.id
-            INNER JOIN  {$t['queue']}
+            LEFT JOIN  {$t['queue']}
                     ON  {$t['urlopen']}.event_queue_id = {$t['queue']}.id
-            RIGHT JOIN  {$t['job']}
+            LEFT JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
-            WHERE       {$t['job']}.mailing_id = $mailing_id
+            WHERE       {$t['url']}.mailing_id = $mailing_id
             GROUP BY    {$t['url']}.id");
        
         $report['click_through'] = array();
