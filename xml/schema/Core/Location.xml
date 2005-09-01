@@ -5,11 +5,13 @@
   <class>Location</class>
   <name>civicrm_location</name>
   <comment>Define location specific properties</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique Location ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,29 +23,34 @@
        <length>64</length>
        <required>true</required>
        <comment>Name of table where item being referenced is stored.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>entity_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
+       <add>1.1</add>
   </field>
   <index>
        <name>index_entity</name>
        <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
+       <add>1.1</add>
   </index>
   <field>
       <name>location_type_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Location Type ID</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>location_type_id</name>
        <table>civicrm_location_type</table>
        <key>id</key>
        <import>true</import>
+       <add>1.1</add>
   </foreignKey>
   <index>
        <name>index_entity_location_type</name>
@@ -51,11 +58,13 @@
        <fieldName>entity_id</fieldName>
        <fieldName>location_type_id</fieldName>
        <unique/>
+       <add>1.1</add>
   </index>
   <field>
        <name>is_primary</name>
        <type>boolean</type>
        <default>0</default>
        <comment>Is this the primary location for the contact. (allow only ONE primary location / contact.)</comment>
+       <add>1.1</add>
   </field>
 </table>

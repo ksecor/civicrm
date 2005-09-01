@@ -5,11 +5,13 @@
   <class>Group</class>
   <name>civicrm_group</name>
   <comment>Provide grouping of related contacts</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Group ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,61 +22,72 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this group</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Internal name of Group.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>title</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Name of Group.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
        <comment>Optional verbose description of the group.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>source</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Module or process which created this group.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>saved_search_id</name>
       <type>int unsigned</type>
       <comment>FK to saved search table.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>saved_search_id</name>
        <table>civicrm_saved_search</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this entry active?</comment>
+       <add>1.1</add>
   </field>
   <index>
     <name>UI_title_domain_id</name>
     <fieldName>title</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add> 
   </index>
 </table>

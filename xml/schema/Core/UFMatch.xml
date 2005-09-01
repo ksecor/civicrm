@@ -5,11 +5,13 @@
   <class>UFMatch</class>
   <name>civicrm_uf_match</name>
   <comment>The mapping from an user framework (UF) object to a CRM object.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>System generated ID.</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,28 +22,33 @@
        <type>int unsigned</type>
        <required>true</required>
        <comment>UF ID</comment>
+      <add>1.1</add>
   </field>
   <field>
        <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Contact ID</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this contact (cached here for ease of use reasons)</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>email</name>
@@ -49,5 +56,6 @@
        <length>64</length>
        <rule>email</rule>
        <comment>Email address</comment>
+      <add>1.1</add>
   </field>
 </table>

@@ -5,11 +5,13 @@
   <class>Note</class>
   <name>civicrm_note</name>
   <comment>Notes can be linked to any object in the application.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Note ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,17 +23,21 @@
        <length>64</length>
        <required>true</required>
        <comment>Name of table where item being referenced is stored.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>entity_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
+       <add>1.1</add>
   </field>
   <index>
        <name>index_entity</name>
+       <add>1.1</add>
        <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
+       <add>1.1</add>
   </index>
   <field>
        <name>note</name>
@@ -43,21 +49,25 @@
        <import>true</import>
        <headerPattern>/Note|Comment/i</headerPattern>
        <dataPattern>//</dataPattern>
+       <add>1.1</add>
   </field>
   <field>
        <name>contact_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>FK to Contact ID creator</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>modified_date</name>
        <type>date</type>
        <comment>When was this note last modified/edited</comment>
+       <add>1.1</add>
   </field>
 </table>

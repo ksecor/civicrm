@@ -5,11 +5,13 @@
   <class>Household</class>
   <name>civicrm_household</name>
   <comment>Define household specific properties</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique Household ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,11 +22,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Contact ID</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>household_name</name>
@@ -32,15 +36,18 @@
        <length>128</length>
        <comment>Household Name.</comment>
        <fulltext/>
+       <add>1.1</add>
   </field>
   <field>
       <name>primary_contact_id</name>
       <type>int unsigned</type>
       <comment>Optional FK to Primary Contact for this household.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>primary_contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

@@ -5,11 +5,13 @@
   <class>UFGroup</class>
   <name>civicrm_uf_group</name>
   <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in civicrm_uf_fields table. Initially will be used for CiviCRM Profile form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique table ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,28 +22,33 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this form.</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>is_active</name>
        <type>boolean</type>
         <default>1</default>
        <comment>Is this form currently active? If false, hide all related fields for all sharing contexts.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>form_type</name>
        <type>enum</type>
        <values>CiviCRM Profile</values>
        <comment>Type of form.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>title</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Form title.</comment>
+       <add>1.1</add>
   </field>
 </table>

@@ -5,11 +5,13 @@
   <class>IMProvider</class>
   <name>civicrm_im_provider</name>
   <comment>IM Provider catalogue.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>IM Provider ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -24,32 +26,38 @@
        <headerPattern>/im(\s)(type|service|prov.*)/i</headerPattern>
        <dataPattern>/aol|msn|yahoo|jabber/i</dataPattern>
        <comment>Name of IM Provider.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this contact</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>is_reserved</name>
        <type>boolean</type>
        <comment>Is this entry a predefined system option?</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this entry active?</comment>
+       <add>1.1</add>
   </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
 </table>

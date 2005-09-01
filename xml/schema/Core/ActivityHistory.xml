@@ -5,11 +5,13 @@
   <class>ActivityHistory</class>
   <name>civicrm_activity_history</name>
   <comment>Record history for an entity in the crm module</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>table record id</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
       <name>id</name>
@@ -20,72 +22,85 @@
       <type>varchar</type>
       <length>64</length>
       <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to entity table specified in entity_table column</comment>
+       <add>1.1</add>
   </field>
   <index>
        <name>index_entity</name>
        <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
+       <add>1.1</add>
   </index>
   <field>
       <name>activity_type</name>
       <type>varchar</type>
       <length>64</length>
       <comment>sortable label for this activity assigned be registering module or user (e.g. Phone Call)</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>module</name>
       <type>varchar</type>
       <length>64</length>
       <comment>Display name of module which registered this activity</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>callback</name>
       <type>varchar</type>
       <length>64</length>
       <comment>Function to call which will return URL for viewing details</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>activity_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to details item - passed to callback</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>activity_summary</name>
        <type>varchar</type>
        <length>255</length>
        <comment>brief description of activity for summary display - as populated by registering module</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>activity_date</name>
        <type>datetime</type>
        <default>0</default>
        <comment>when did this activity occur</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>relationship_id</name>
        <type>int unsigned</type>
        <comment>OPTIONAL FK to civicrm_relationship.id. Which relationship (of this contact) potentially triggered this activity, i.e. he donated because he was a Board Member of Org X / Employee of Org Y</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>relationship_id</name>
        <table>civicrm_relationship</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>group_id</name>
        <type>int unsigned</type>
        <comment>OPTIONAL FK to civicrm_group.id. Was this part of a group communication that triggered this activity?</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>group_id</name>
        <table>civicrm_group</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

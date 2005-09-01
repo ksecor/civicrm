@@ -5,11 +5,13 @@
   <class>UFField</class>
   <name>civicrm_uf_field</name>
   <comment>User Framework fields and their properties.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique table ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,35 +22,41 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which form does this field belong to.</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>uf_group_id</name>
        <table>civicrm_uf_group</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>field_name</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Name for CiviCRM field which is being exposed for sharing.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <default>1</default>
        <comment>Is this field currently shareable? If false, hide the field for all sharing contexts.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_view</name>
        <type>boolean</type>
        <default>0</default>
        <comment>the field is view only and not editable in user forms.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_required</name>
        <type>boolean</type>
         <default>0</default>
        <comment>Is this field required when included in a user or registration form?</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>weight</name>
@@ -56,23 +64,27 @@
       <required>true</required>
       <default>1</default>
       <comment>Controls field display order when user framework fields are displayed in registration and account editing forms.</comment>
+      <add>1.1</add>
   </field>
   <field>
      <name>help_post</name>
      <type>text</type>
      <comment>Description and/or help text to display after this field.</comment>
+     <add>1.1</add>
   </field>
   <field>
        <name>is_registration</name>
        <type>boolean</type>
        <default>0</default>
        <comment>Is this field included in new user registration forms?</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_match</name>
        <type>boolean</type>
        <default>0</default>
        <comment>Is this field part of the key for matching users to contacts?</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>visibility</name>
@@ -80,11 +92,13 @@
        <values>User and User Admin Only,Public User Pages,Public User Pages and Listings</values>
        <default>'User and User Admin Only'</default>
        <comment>In what context(s) is this field visible.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>listings_title</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Page title for listings page (users who share a common value for this property).</comment>
+       <add>1.1</add>
   </field>
 </table>

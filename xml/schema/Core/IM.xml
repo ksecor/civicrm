@@ -5,11 +5,13 @@
   <class>IM</class>
   <name>civicrm_im</name>
   <comment>IM information for a specific location.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique IM ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,11 +22,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Location does this IM identifier belong to.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>location_id</name>
        <table>civicrm_location</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>name</name>
@@ -35,22 +39,26 @@
        <headerPattern>/I(nstant )?M(ess.*)?|screen(\s+)?name/i</headerPattern>
        <dataPattern>/^[A-Za-z][0-9A-Za-z]{20,}$/</dataPattern>
        <comment>IM screen name</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>provider_id</name>
       <type>int unsigned</type>
       <comment>Which IM Provider does this screen name belong to.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>provider_id</name>
        <table>civicrm_im_provider</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>is_primary</name>
        <type>boolean</type>
        <default>0</default>
        <comment>Is this the primary IM for this contact and location.</comment>
+       <add>1.1</add>
   </field>
 
 </table>

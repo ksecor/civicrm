@@ -5,11 +5,13 @@
   <class>GroupContact</class>
   <name>civicrm_group_contact</name>
   <comment>Join table sets membership for 'static' groups. Also used to store 'opt-out' entries for 'query' type groups (status = 'OUT')</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>primary key</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,47 +22,56 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to civicrm_group</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>group_id</name>
        <table>civicrm_group</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
       <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to civicrm_contact</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>status</name>
        <type>enum</type>
        <values>Added, Removed, Pending</values>
        <comment>status of contact relative to membership in group</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>location_id</name>
        <type>int unsigned</type>
        <comment>Optional location to associate with this membership</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
     <name>location_id</name>
     <table>civicrm_location</table>
     <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
       <name>email_id</name>
       <type>int unsigned</type>
       <comment>Optional email to associate with this membership</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
     <name>email_id</name>
     <table>civicrm_email</table>
     <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

@@ -4,11 +4,13 @@
   <class>Activity</class>
   <name>civicrm_activity</name>
   <comment>Other Activity  details stored here include contact, location, details.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique  Other Activity ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -19,11 +21,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Contact ID of person scheduling or logging this Activity. This will generally an authenticated user.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>source_contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   
   <field>
@@ -31,11 +35,13 @@
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>activity_type_id</name>
        <table>civicrm_activity_type</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   
   <field>
@@ -44,12 +50,14 @@
        <length>64</length>
        <required>true</required>
        <comment>Name of table where item being referenced is stored.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>target_entity_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
+       <add>1.1</add>
   </field>
 
  <field>
@@ -57,47 +65,56 @@
       <type>varchar</type>
       <length>64</length>
       <comment>The subject/purpose of this meeting.</comment>
+       <add>1.1</add>
   </field>
   <field>
      <name>scheduled_date_time</name>
      <type>datetime</type>
      <comment>Date and time meeting is scheduled to occur.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>duration_hours</name>
       <type>int unsigned</type>
       <comment>Planned or actual duration of meeting - hours.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>duration_minutes</name>
       <type>int unsigned</type>
       <comment>Planned or actual duration of meeting - minutes.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>location</name>
       <type>varchar</type>
       <length>255</length>
       <comment>Where will the meeting be held ?</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>details</name>
       <type>text</type>
       <comment>Details about the meeting (agenda, notes, etc).</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>status</name>
       <type>enum</type>
       <values>Scheduled, Completed</values>
       <comment>What is the status of this meeting? Completed meeting status results in activity history entry.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>
       <comment>Parent meeting ID (if this is a follow-up item). This is not currently implemented</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>parent_id</name>
        <table>civicrm_activity</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

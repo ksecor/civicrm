@@ -5,11 +5,13 @@
   <class>CustomOption</class>
   <name>civicrm_custom_option</name>
   <comment>Stores info about options for custom fields of type 'Select' and 'Radio'</comment>
+  <add>1.1</add>
     <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique Custom Option ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,23 +22,27 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to civicrm_custom_field.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>custom_field_id</name>
        <table>civicrm_custom_field</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
      <name>label</name>
      <type>varchar</type>
      <length>64</length>
      <comment>Label for option</comment>
+       <add>1.1</add>
   </field>
   <field>
      <name>value</name>
      <type>varchar</type>
      <length>64</length>
      <comment>Value of the option (when form is submitted)</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>weight</name>
@@ -44,16 +50,19 @@
       <required>true</required>
       <default>1</default>
       <comment>Order in which the options are displayed</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this option active ?</comment>
+       <add>1.1</add>
   </field>
   <index>
     <name>UI_label_custom_field_id</name>
     <fieldName>value</fieldName>
     <fieldName>custom_field_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
 </table>
