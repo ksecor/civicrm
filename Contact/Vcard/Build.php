@@ -168,8 +168,9 @@ class Contact_Vcard_Build extends PEAR {
         } else {
         
             // escape colons not led by a backslash
-            $regex = '(?<!\\\\)(\:)';
-            $text = preg_replace("/$regex/i", "\\:", $text);
+// commented out as a possible fix for Outlook compatibility            
+//          $regex = '(?<!\\\\)(\:)';
+//          $text = preg_replace("/$regex/i", "\\:", $text);
             
             // escape semicolons not led by a backslash
             $regex = '(?<!\\\\)(\;)';
@@ -544,38 +545,58 @@ class Contact_Vcard_Build extends PEAR {
 
 
     /**
-     * Recode the string to the 'smallest' encoding and add the info
+     * Recode the lines to the 'smallest' encoding and add the charset info
      *
      * As, surprise surprise, Microsoft Outlook does not seem to be able to
      * handle properly tagged UTF-8 vCards, we try to represent the text in
      * smallest charset 'covering' the text in full (currently the test goes
-     * 'US-ASCII' -> 'ISO-8859-1' -> 'UTF-8')
+     * 'US-ASCII' -> 'ISO-8859-1' -> 'CP1250' and falls back to 'UTF-8')
      *
-     * @param string $comp  The component to set the value for
-     * @param int    $iter  The component-iteration to set the value for
-     * @param string $val   The string guilty of not being pure-US-ASCII
+     * @param array $lines  the vCard's lines
      *
-     * @return string  The $val string converted to the 'smallest' charset
+     * @return array  the recoded and properly tagged lines
      */
-    function addCharset($comp, $iter, $val) {
-        $charset = '';
-        $iconvd = '';
-        $strlen = mb_strlen($val, 'UTF-8');
-        foreach (array('US-ASCII', 'ISO-8859-1', 'UTF-8') as $set) {
-            $iconvd = iconv('UTF-8', $set, $val);
-            if (mb_strlen($iconvd, $set) == $strlen) {
-                $charset = $set;
-                break;
+    function charsetRecode($lines) {
+
+        $charsets = array('US-ASCII', 'ISO-8859-1', 'CP1250');
+
+        if (function_exists('mb_strlen') and function_exists('iconv')) {
+
+            // for each line, get the character length of the UTF-8 string
+            // and try to recode it to every charset in turn; iconv() returns
+            // truncated strings on recode errors, so if the character length
+            // after the recode equals the one before - we've found a valid
+            // charset
+            foreach ($lines as $number => $line) {
+                $lineCharset = 'UTF-8';
+                $strlen = mb_strlen($line, 'UTF-8');
+                foreach ($charsets as $charset) {
+                    $iconvd = iconv('UTF-8', $charset, $line);
+                    if (strlen($iconvd) == $strlen) {
+                        $lineCharset = $charset;
+                        $line = $iconvd;
+                        break;
+                    }
+                }
+                // tag the non-US-ASCII-only, recoded lines properly
+                if ($lineCharset != 'US-ASCII') {
+                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=$lineCharset:", $line, 1);
+                }
             }
+
+        } else {
+
+            // if there's no mb_strings or iconv support,
+            // simply tag the non-US-ASCII-only lines as UTF-8
+            foreach ($lines as $number => $line) {
+                if (preg_match('/[^\x00-\x7f]/', $line)) {
+                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=UTF-8:", $line, 1);
+                }
+            }
+
         }
-        $meta = $this->getMeta($comp, $iter);
-        if ($charset != 'US-ASCII' and substr_count($meta, 'ENCODING') == 0) {
-            $this->addParam('ENCODING', '8BIT', $comp, $iter);
-        }
-        if ($charset != 'US-ASCII' and substr_count($meta, 'CHARSET') == 0) {
-            $this->addParam('CHARSET', $charset, $comp, $iter);
-        }
-        return $iconvd;
+
+        return $lines;
     }
     
     
@@ -607,9 +628,6 @@ class Contact_Vcard_Build extends PEAR {
     {
         $comp = strtoupper($comp);
         settype($text, 'array');
-        foreach ($text as $key => $val) {
-            $text[$key] = $this->addCharset($comp, $iter, $val);
-        }
         $this->value[$comp][$iter][$part] = $text;
         $this->autoparam = $comp;
     }
@@ -644,7 +662,6 @@ class Contact_Vcard_Build extends PEAR {
         $comp = strtoupper($comp);
         settype($text, 'array');
         foreach ($text as $val) {
-            $val = $this->addCharset($comp, $iter, $val);
             $this->value[$comp][$iter][$part][] = $val;
         }
         $this->autoparam = $comp;
@@ -2343,6 +2360,9 @@ class Contact_Vcard_Build extends PEAR {
 //          }
 //      }
         
+        // recode the lines from UTF-8 to lowest covering charset
+        $lines = $this->charsetRecode($lines);
+
         // compile the array of lines into a single text block
         // and return (with a trailing newline)
         return implode($newline, $lines). $newline;
