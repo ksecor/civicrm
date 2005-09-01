@@ -21,40 +21,56 @@ class testAddContactOrganization(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
         params = [
-            ('''reset''', '''1'''),]
-        url = "%s/civicrm/contact/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
         params = [
             ('''c_type''', '''Organization'''),
             ('''reset''', '''1'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addO?c_type=Organization&reset=1''') % drupal_path)
         url = "%s/civicrm/contact/addO" % drupal_path
-        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/stateCountry'''),]
+        url = "%s/civicrm/server/stateCountry" % drupal_path
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/stateCountry'''),]
+        url = "%s/civicrm/server/stateCountry" % drupal_path
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
             ('''_qf_default''', '''Edit:next'''),
             ('''organization_name''', '''Zope Organization'''),
             ('''legal_name''', '''Zope Pvt. ltd'''),
-            ('''nick_name''', '''Zope Companies'''),
-            ('''sic_code''', '''20'''),
+            ('''home_URL''', '''www.zope.com'''),
+            ('''nick_name''', ''''''),
+            ('''sic_code''', ''''''),
+            ('''__privacy[do_not_phone]''', '''1'''),
             ('''privacy[do_not_phone]''', '''1'''),
+            ('''privacy[do_not_email]''', ''''''),
+            ('''privacy[do_not_mail]''', ''''''),
+            ('''__privacy[do_not_trade]''', '''1'''),
+            ('''privacy[do_not_trade]''', '''1'''),
             ('''preferred_communication_method''', '''Email'''),
             ('''location[1][location_type_id]''', '''2'''),
             ('''location[1][is_primary]''', '''1'''),
@@ -71,50 +87,59 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''location[1][address][street_address]''', '''123, Zope Garden Estates, Chandivali , Khirane road, Pune '''),
             ('''location[1][address][supplemental_address_1]''', ''''''),
             ('''location[1][address][supplemental_address_2]''', ''''''),
-            ('''location[1][address][city]''', '''Pune'''),
-            ('''location[1][address][state_province_id]''', '''1113'''),
-            ('''location[1][address][postal_code]''', '''452630'''),
+            ('''location[1][address][city]''', ''''''),
+            ('''location[1][address][state_province_id]''', '''1200'''),
+            ('''location[1][address][postal_code]''', ''''''),
+            ('''location[1][address][postal_code_suffix]''', ''''''),
             ('''location[1][address][country_id]''', '''1101'''),
-            ('''location[2][location_type_id]''', '''1'''),
-            ('''location[2][phone][1][phone_type]''', '''Phone'''),
-            ('''location[2][phone][1][phone]''', '''456789'''),
+            ('''location[1][address][geo_code_1]''', ''''''),
+            ('''location[1][address][geo_code_2]''', ''''''),
+            ('''location[2][location_type_id]''', '''2'''),
+            ('''location[2][phone][1][phone_type]''', ''''''),
+            ('''location[2][phone][1][phone]''', ''''''),
             ('''location[2][phone][2][phone_type]''', ''''''),
             ('''location[2][phone][2][phone]''', ''''''),
-            ('''location[2][email][1][email]''', '''zope_home@zope.com'''),
+            ('''location[2][phone][3][phone_type]''', ''''''),
+            ('''location[2][phone][3][phone]''', ''''''),
+            ('''location[2][email][1][email]''', ''''''),
             ('''location[2][email][2][email]''', ''''''),
-            ('''location[2][im][1][provider_id]''', '''3'''),
-            ('''location[2][im][1][name]''', '''This is Zope Organization'''),
+            ('''location[2][email][3][email]''', ''''''),
+            ('''location[2][im][1][provider_id]''', ''''''),
+            ('''location[2][im][1][name]''', ''''''),
             ('''location[2][im][2][provider_id]''', ''''''),
             ('''location[2][im][2][name]''', ''''''),
-            ('''location[2][address][street_address]''', '''23, Zope Villa, Parvati Nagar, Paud Road, Kothrud, Pune'''),
+            ('''location[2][im][3][provider_id]''', ''''''),
+            ('''location[2][im][3][name]''', ''''''),
+            ('''location[2][address][street_address]''', ''''''),
             ('''location[2][address][supplemental_address_1]''', ''''''),
             ('''location[2][address][supplemental_address_2]''', ''''''),
-            ('''location[2][address][city]''', '''Pune'''),
-            ('''location[2][address][state_province_id]''', '''1113'''),
-            ('''location[2][address][postal_code]''', '''456230'''),
-            ('''location[2][address][country_id]''', '''1101'''),
-            ('''note''', '''Zope Companies welcomes you'''),
-            ('''_qf_Edit_next''', '''Save'''),]
+            ('''location[2][address][city]''', ''''''),
+            ('''location[2][address][state_province_id]''', ''''''),
+            ('''location[2][address][postal_code]''', ''''''),
+            ('''location[2][address][postal_code_suffix]''', ''''''),
+            ('''location[2][address][country_id]''', ''''''),
+            ('''location[2][address][geo_code_1]''', ''''''),
+            ('''location[2][address][geo_code_2]''', ''''''),
+            ('''note''', '''Zope Companies Welcomes you'''),
+            ('''_qf_Edit_next_view''', '''Save'''),]
         url = "%s/civicrm/contact/addO" % drupal_path
         self.msg("Testing URL: %s" % url)
 
         queryID = "select id from civicrm_contact where sort_name=\'%s\'" % params[1][1]
         cid     = db.loadVal(queryID)
         
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
         if cid :
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             print "******************************************************************"
             print "Organization Contact \'%s\' already exists" % params[1][1]
             print "******************************************************************"
         else :
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             print "******************************************************************"
             print "Organization Contact \'%s\' Added Successfully" % params[1][1]
@@ -130,7 +155,7 @@ class testAddContactOrganization(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         commonAPI.logout(self)

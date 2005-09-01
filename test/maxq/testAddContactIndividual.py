@@ -27,22 +27,50 @@ class addIndividual_complete(PyHttpTestCase):
         commonAPI.login(self)
 
         params = [
-            ('''c_type''', '''Individual'''),
-            ('''reset''', '''1'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addI?c_type=Individual&reset=1''') % drupal_path)
-        url = "%s/civicrm/contact/addI" % drupal_path
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
-
+        
+        params = [
+            ('''c_type''', '''Individual'''),
+            ('''reset''', '''1'''),]
+        url = "%s/civicrm/contact/addI" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/stateCountry'''),]
+        url = "%s/civicrm/server/stateCountry" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/stateCountry'''),]
+        url = "%s/civicrm/server/stateCountry" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
         params = [
             ('''_qf_default''', '''Edit:next'''),
             ('''prefix''', '''Dr'''),
-            ('''first_name''', '''Lalit'''),
-            ('''middle_name''', '''S'''),
+            ('''first_name''', '''Manish'''),
+            ('''middle_name''', '''L'''),
             ('''last_name''', '''Zope'''),
             ('''suffix''', '''none'''),
             ('''job_title''', '''SE'''),
@@ -76,23 +104,24 @@ class addIndividual_complete(PyHttpTestCase):
             ('''location[1][address][supplemental_address_1]''', ''''''),
             ('''location[1][address][supplemental_address_2]''', ''''''),
             ('''location[1][address][city]''', '''Pune'''),
-            ('''location[1][address][state_province_id]''', '''1113'''),
-            ('''location[1][address][postal_code]''', '''7689385'''),
+            ('''location[1][address][state_province_id]''', '''1200'''),
+            ('''location[1][address][postal_code]''', ''''''),
+            ('''location[1][address][postal_code_suffix]''', ''''''),
             ('''location[1][address][country_id]''', '''1101'''),
             ('''location[1][address][geo_code_1]''', ''''''),
             ('''location[1][address][geo_code_2]''', ''''''),
             ('''location[2][location_type_id]''', '''2'''),
-            ('''location[2][phone][1][phone_type]''', '''Pager'''),
-            ('''location[2][phone][1][phone]''', '''34-346777755'''),
-            ('''location[2][phone][2][phone_type]''', '''Phone'''),
-            ('''location[2][phone][2][phone]''', '''163837843'''),
+            ('''location[2][phone][1][phone_type]''', ''''''),
+            ('''location[2][phone][1][phone]''', ''''''),
+            ('''location[2][phone][2][phone_type]''', ''''''),
+            ('''location[2][phone][2][phone]''', ''''''),
             ('''location[2][phone][3][phone_type]''', ''''''),
             ('''location[2][phone][3][phone]''', ''''''),
-            ('''location[2][email][1][email]''', '''xyz@yahoo.com'''),
+            ('''location[2][email][1][email]''', ''''''),
             ('''location[2][email][2][email]''', ''''''),
             ('''location[2][email][3][email]''', ''''''),
-            ('''location[2][im][1][provider_id]''', '''5'''),
-            ('''location[2][im][1][name]''', '''Namste'''),
+            ('''location[2][im][1][provider_id]''', ''''''),
+            ('''location[2][im][1][name]''', ''''''),
             ('''location[2][im][2][provider_id]''', ''''''),
             ('''location[2][im][2][name]''', ''''''),
             ('''location[2][im][3][provider_id]''', ''''''),
@@ -118,29 +147,25 @@ class addIndividual_complete(PyHttpTestCase):
         
         queryID = "select id from civicrm_contact where sort_name=\'%s, %s\'" % (params[4][1], params[2][1])
         cid     = db.loadVal(queryID)
-        print "%s" % queryID
-        print "%s" % cid
+                
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
         if cid :
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             print "******************************************************************"
             print "Individual Contact \'%s, %s\' already exists" % (params[4][1], params[2][1])
             print "******************************************************************"
         else :
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             print "******************************************************************"
             print "Individual Contact \'%s, %s\' Added Successfully" % (params[4][1], params[2][1])
             print "******************************************************************"
             cid = db.loadVal(queryID)
         
-        print "%s" % cid
         CID = '''%s''' % cid
         params = [
            ('''reset''', '''1'''),
@@ -150,7 +175,7 @@ class addIndividual_complete(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         commonAPI.logout(self)
