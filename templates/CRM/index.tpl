@@ -7,6 +7,9 @@
 {if $smarty.get.sessionDebug}
 {$session->debug($smarty.get.sessionDebug)}
 {/if}
+{if $smarty.get.directoryCleanup} 
+{$config->cleanup($smarty.get.directoryCleanup)}
+{/if}
 
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>

@@ -494,6 +494,28 @@ class CRM_Core_Config {
         return self::$_domainID;
     }
 
+    /**
+     * delete the web server writable directories
+     *
+     * @param int $value 1 - clean templates_c, 2 - clean upload, 3 - clean both
+     *
+     * @access public
+     * @return void
+     */
+    public function cleanup( $value ) {
+        $value = (int ) $value;
+
+        if ( $value & 1 ) {
+            // clean templates_c
+            CRM_Utils_File::cleanDir( $this->templateCompileDir );
+        }
+        if ( $value & 2 ) {
+            // clean upload dir
+            CRM_Utils_File::cleanDir( $this->uploadDir );
+        }
+    }
+
+
 } // end CRM_Core_Config
 
 ?>

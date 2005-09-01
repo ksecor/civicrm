@@ -115,6 +115,37 @@ class CRM_Utils_File {
         CRM_Utils_File::createDir( dirname( $path ) );
         mkdir( $path, 0777 );
     }
+
+    /** 
+     * delete a directory given a path name, delete children directories
+     * and files if needed 
+     *  
+     * @param string $path  the path name 
+     * 
+     * @return void 
+     * @access public 
+     * @static 
+     */ 
+    public function cleanDir( $target ) {
+        static $exceptions = array( '.', '..' );
+
+        if ( $sourcedir = @opendir( $target ) ) {
+            while ( false !== ( $sibling = readdir( $sourcedir ) ) ) {
+                if ( ! in_array( $sibling, $exceptions ) ) {
+                    $object = $target . DIRECTORY_SEPARATOR . $sibling;
+                    
+                    if ( is_dir( $object ) ) {
+                        CRM_Utils_File::cleanDir( $object );
+                    } else if ( is_file( $object ) ) {
+                        $result = @unlink( $object );
+                    }
+                }
+            }
+            closedir( $sourcedir );
+            $result = @rmdir( $target );
+        }
+    }
+
 }
 
 ?>
