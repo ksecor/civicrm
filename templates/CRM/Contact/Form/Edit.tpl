@@ -24,9 +24,9 @@
 	</tr>
 	<tr>
 		<td>{$form.prefix.html}</td>
-		<td>{$form.first_name.html}</td>
-		<td>{$form.middle_name.html}</td>
-		<td>{$form.last_name.html}</td>
+		<td>{$form.first_name.html|crmReplace:class:big}</td>
+		<td>{$form.middle_name.html|crmReplace:class:big}</td>
+		<td>{$form.last_name.html|crmReplace:class:big}</td>
 		<td>{$form.suffix.html}</td>
 	</tr>
     <tr>
@@ -37,9 +37,9 @@
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.job_title.html}</td>
-        <td>{$form.greeting_type.html}</td>
-        <td colspan="2">{$form.nick_name.html}</td>
+        <td>{$form.job_title.html|crmReplace:class:big}</td>
+        <td>{$form.greeting_type.html|crmReplace:class:big}</td>
+        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -64,14 +64,14 @@
     <div class="form-item">
         <span class="labels">{$form.household_name.label}</span>
         <span class="fields">
-            {$form.household_name.html}
+            {$form.household_name.html|crmReplace:class:big}
         </span>
     </div>
 
     <div class="form-item">
         <span class="labels">{$form.nick_name.label}</span>
         <span class="fields">
-            {$form.nick_name.html}
+            {$form.nick_name.html|crmReplace:class:big}
         </span>
     </div>
 
