@@ -370,14 +370,18 @@ abstract class CRM_Import_Parser {
                     $customHeaders[$key] = $customfields[$id][0];
                 }
             }
-            $headers = array_merge( array(  ts('Record Number'),
-                                            ts('Reason')), 
-                                    $customHeaders);
             if ($this->_invalidRowCount) {
+                $headers = array_merge( array(  ts('Record Number'),
+                                                ts('Reason'),
+                                                ts('View Contact URL')), 
+                                    $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
             if ($this->_conflictCount) {
+                $headers = array_merge( array(  ts('Record Number'),
+                                                ts('Reason')), 
+                                        $customHeaders);
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
