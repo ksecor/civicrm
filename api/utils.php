@@ -87,11 +87,11 @@ function _crm_update_object(&$object, &$values)
 }
 
 
-function _crm_update_from_object(&$object, &$values) {
+function _crm_update_from_object(&$object, &$values, $empty = false) {
     $fields =& $object->fields();
 
     foreach ($fields as $name => $field) {
-        if ($name == 'id') {
+        if ($name == 'id' || ($empty && empty($object->$name))) {
             continue;
         }
 
@@ -418,7 +418,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         
         /* If we're not overwriting, copy old data back before updating */
         if (! $overwrite) {
-            _crm_update_from_object($contact->location[$contactLocationBlock], $updateLocation);
+            _crm_update_from_object($contact->location[$contactLocationBlock], $updateLocation, true);
         }
         
         /* Make sure we only have one primary location */
@@ -436,7 +436,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         $updateLocation['address']['location_id'] = $contact->location[$contactLocationBlock]->id;
         
         if (! $overwrite) {
-            _crm_update_from_object($contact->location[$contactLocationBlock]->address, $updateLocation['address']);
+            _crm_update_from_object($contact->location[$contactLocationBlock]->address, $updateLocation['address'], true);
         }
         _crm_update_object( $contact->location[$contactLocationBlock]->address, $updateLocation['address'] );
     
@@ -472,7 +472,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
                 $property['location_id'] = $contact->location[$contactLocationBlock]->id;
         
                 if (! $overwrite) {
-                    _crm_update_from_object($contact->location[$contactLocationBlock]->{$name}[$propertyBlock], $property);
+                    _crm_update_from_object($contact->location[$contactLocationBlock]->{$name}[$propertyBlock], $property, true);
                 }
 
                 if ($primary == null && $property['is_primary']) {
@@ -521,7 +521,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     
                 $phone['location_id'] = $contact->location[$contactLocationBlock]->id;
                 if (! $overwrite) {
-                    _crm_update_from_object($contact->location[$contactLocationBlock]->phone[$contactPhoneBlock], $phone);
+                    _crm_update_from_object($contact->location[$contactLocationBlock]->phone[$contactPhoneBlock], $phone, true);
                 }
                 
                 if ($primary_phone == null && $phone['is_primary']) {
