@@ -81,6 +81,7 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         if ($defaults['nick_name'])  $vcard->addNickname($defaults['nick_name']);
         if ($defaults['job_title'])  $vcard->setTitle($defaults['job_title']);
         if ($defaults['birth_date']) $vcard->setBirthday($defaults['birth_date']);
+        if ($defaults['home_URL'])   $vcard->setURL($defaults['home_URL']);
         // TODO: $vcard->setGeo($lat, $lon);
 
         $phoneNumbers = array();
