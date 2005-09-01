@@ -203,7 +203,7 @@ class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_Track
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name ";
+        $query .= " ORDER BY $contact.sort_name, $url.id, $click.time_stamp ";
 
         if ($offset) {
             $query .= ' LIMIT ' 

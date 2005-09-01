@@ -201,7 +201,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
                     . CRM_Utils_Type::escape($job_id, 'Integer');
         }
 
-        $query .= " ORDER BY $contact.sort_name ";
+        $query .= " ORDER BY $contact.sort_name, $job.start_date ";
 
         if ($offset) {
             $query .= ' LIMIT ' 

@@ -163,7 +163,7 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name ";
+        $query .= " ORDER BY $contact.sort_name, $open.time_stamp ";
 
         if ($offset) {
             $query .= ' LIMIT ' 

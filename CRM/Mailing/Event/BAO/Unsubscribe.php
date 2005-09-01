@@ -391,7 +391,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name ";
+        $query .= " ORDER BY $contact.sort_name, $unsub.time_stamp ";
 
         if ($offset) {
             $query .= ' LIMIT ' 
