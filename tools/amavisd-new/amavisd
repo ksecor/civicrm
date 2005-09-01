@@ -8463,14 +8463,14 @@ sub init() {
 }
 
 sub authenticate() {
-    $soapKey = 
+    my $result = 
         $soapClient->authenticate($civicrm_soap_login, $civicrm_soap_pass);
     
-    if ($soapKey->fault) {
+    if ($result->fault) {
         # Authentication error, fail!
-        soapError($soapKey->faultstring);
+        soapError($result->faultstring);
     }
-    $soapKey = $soapKey->result;
+    $soapKey = $result->result;
 
 }
 
