@@ -89,8 +89,8 @@
 		<td>{$form.sic_code.label}</td>
     </tr>
     <tr>
-        <td>{$form.organization_name.html}</td>
-        <td>{$form.legal_name.html}</td>
+        <td>{$form.organization_name.html|crmReplace:class:big}</td>
+        <td>{$form.legal_name.html|crmReplace:class:big}</td>
         <td>{$form.sic_code.html}</td>
     </tr>
     <tr>
@@ -99,7 +99,7 @@
 	</tr>
     <tr>
         <td>{$form.home_URL.html}</td>
-        <td colspan="2">{$form.nick_name.html}</td>
+        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
     </tr>
     </table>
 </fieldset>

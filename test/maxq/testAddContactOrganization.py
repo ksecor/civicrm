@@ -124,27 +124,17 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''_qf_Edit_next_view''', '''Save'''),]
         url = "%s/civicrm/contact/addO" % drupal_path
         self.msg("Testing URL: %s" % url)
-
-        queryID = "select id from civicrm_contact where sort_name=\'%s\'" % params[1][1]
-        cid     = db.loadVal(queryID)
-        
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
-        if cid :
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            print "******************************************************************"
-            print "Organization Contact \'%s\' already exists" % params[1][1]
-            print "******************************************************************"
-        else :
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            print "******************************************************************"
-            print "Organization Contact \'%s\' Added Successfully" % params[1][1]
-            print "******************************************************************"
-            cid = db.loadVal(queryID)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        print "******************************************************************"
+        print "Organization Contact \'%s\' Added Successfully" % params[1][1]
+        print "******************************************************************"
+        
+        queryID = "select id from civicrm_contact where sort_name=\'%s\'" % params[1][1]
+        cid = db.loadVal(queryID)
         
         CID = '''%s''' % cid
         params = [

@@ -86,12 +86,6 @@ maxq -q -r testAddNoteByContactTab.py
 maxq -q -r testEditNoteByContactTab.py
 maxq -q -r testDeleteNoteByNoteTab.py
 
-########################
-# Test for Custom Data # 
-########################
-
-maxq -r -q testCustomDataAllByTab.py
-
 #######################
 # Test for Admin Tags # 
 #######################
@@ -138,23 +132,31 @@ maxq -q -r testAdminEnableDisableRel.py
 maxq -q -r adminDeleteRel.py
 
 ####################################
-# Test for Admin Custom Data Field # 
-####################################
-
-maxq -q -r testAdminViewCustomDataField.py 
-maxq -q -r testAdminAddCustomDataField.py 
-maxq -q -r testAdminEditCustomDataField.py 
-maxq -q -r testAdminEnableDisableCustomDataField.py
-maxq -q -r adminDeleteCustomDataField.py
-
-####################################
 # Test for Admin Custom Data Group # 
 ####################################
 
 maxq -q -r testAdminAddCustomDataGroup.py 
 maxq -q -r testAdminEditCustomDataGroup.py 
 maxq -q -r testAdminEnableDisableCustomDataGroup.py
+maxq -q -r testAdminPreviewCustomDataGroup.py
 maxq -q -r adminDeleteCustomDataGroup.py
+
+####################################
+# Test for Admin Custom Data Field # 
+####################################
+
+maxq -q -r testAdminAddCustomDataField.py 
+maxq -q -r testAdminEditCustomDataField.py 
+maxq -q -r testAdminEnableDisableCustomDataField.py
+maxq -q -r testAdminPreviewCustomDataField.py
+
+########################
+# Test for Custom Data # 
+########################
+
+maxq -r -q testEditCustomDataInline.py
+
+maxq -q -r adminDeleteCustomDataField.py
 
 ##########################
 # Test for Basic Search  # 
