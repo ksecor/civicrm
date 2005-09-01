@@ -84,11 +84,6 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         if ($defaults['home_URL'])   $vcard->setURL($defaults['home_URL']);
         // TODO: $vcard->setGeo($lat, $lon);
 
-        $phoneNumbers = array();
-        $primaryPhone = '';
-        $emailAddresses = array();
-        $primaryEmail = '';
-
         foreach ($defaults['location'] as $location) {
 
             // we don't keep PO boxes in separate fields
@@ -107,25 +102,19 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
             if ($location['is_primary']) $vcard->addParam('TYPE', 'PREF');
 
             foreach ($location['phone'] as $phone) {
-                $phoneNumbers[] = $phone['phone'];
-                if ($phone['is_primary']) $primaryPhone = $phone['phone'];
+                $vcard->addTelephone($phone['phone']);
+                if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
+                if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+                if ($phone['is_primary']) $vcard->addParam('TYPE', 'PREF');
             }
 
             foreach ($location['email'] as $email) {
-                $emailAddresses[] = $email['email'];
-                if ($email['is_primary']) $primaryEmail = $email['email'];
+                $vcard->addEmail($email['email']);
+                if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
+                if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+                if ($email['is_primary']) $vcard->addParam('TYPE', 'PREF');
             }
 
-        }
-
-        foreach (array_unique($phoneNumbers) as $number) {
-            $vcard->addTelephone($number);
-            if ($number == $primaryPhone) $vcard->addParam('TYPE', 'PREF');
-        }
-
-        foreach (array_unique($emailAddresses) as $address) {
-            $vcard->addEmail($address);
-            if ($address == $primaryEmail) $vcard->addParam('TYPE', 'PREF');
         }
 
         // all that's left is sending the vCard to the browser
