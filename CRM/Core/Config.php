@@ -62,6 +62,12 @@ class CRM_Core_Config {
      */
     public $dsn;
 
+    /** 
+     * the debug level for civicrm
+     * @var int 
+     */ 
+    public $debug             = 0; 
+
     /**
      * the debug level for DB_DataObject
      * @var int
@@ -288,12 +294,16 @@ class CRM_Core_Config {
             $this->dsn = CIVICRM_DSN;
         }
 
-        if (defined('CIVICRM_Core_DAO_DEBUG') ) {
-            $this->daoDebug = CIVICRM_Core_DAO_DEBUG;
+        if (defined('CIVICRM_DEBUG') ) {
+            $this->debug = CIVICRM_DEBUG;
         }
 
-        if (defined('CIVICRM_Core_DAO_FACTORY_CLASS') ) {
-            $this->DAOFactoryClass = CIVICRM_Core_DAO_FACTORY_CLASS;
+        if (defined('CIVICRM_DAO_DEBUG') ) {
+            $this->daoDebug = CIVICRM_DAO_DEBUG;
+        }
+
+        if (defined('CIVICRM_DAO_FACTORY_CLASS') ) {
+            $this->DAOFactoryClass = CIVICRM_DAO_FACTORY_CLASS;
         }
 
         if (defined('CIVICRM_SMARTYDIR')) {
