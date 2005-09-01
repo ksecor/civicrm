@@ -198,7 +198,7 @@ class CRM_Utils_System_Drupal {
             if ( ! $contactID ) {
                 return false;
             }
-            return array( $contactID, $row['uid'], $_COOKIE['PHPSESSID'] );
+            return array( $contactID, $row['uid'], mt_rand() ); //$_COOKIE['PHPSESSID'] );
         }
         return false;
     }
