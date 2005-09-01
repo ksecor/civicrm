@@ -181,17 +181,17 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                     ),
                 ));
             } elseif ($this->_event_type == 'unsubscribe') {
-                $this->_columnHeaders += array(
+                $this->_columnHeaders = array_merge($this->_columnHeaders, array(
                     array(
                         'name'  => ts('Opt-Out'),
                     ),
-                );
-            } elseif ($this->_event_type == 'url') {
-                $this->_columnHeaders += array(
+                ));
+            } elseif ($this->_event_type == 'click') {
+                $this->_columnHeaders = array_merge($this->_columnHeaders, array(
                     array(
                         'name'  => ts('URL'),
                     ),
-                );
+                ));
             }
         }
         return $this->_columnHeaders;
