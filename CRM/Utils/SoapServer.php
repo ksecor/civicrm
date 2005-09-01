@@ -41,12 +41,6 @@ require_once 'api/Mailer.php';
 
 class CRM_Utils_SoapServer
 {
-    const
-        INVALID_LOGIN   =   1,
-        INVALID_KEY     =   2,
-        EXPIRED_KEY     =   4;
-
-
     /**
      * Number of seconds we should let a soap process idle
      * @static
@@ -94,13 +88,13 @@ class CRM_Utils_SoapServer
         $t = time();
         
         if ( $key !== sha1($soap_key) ) {
-            throw new SoapFault(self::INVALID_KEY, 'Invalid key');
+            throw new SoapFault('Client', 'Invalid key');
         }
         
 
         if (    self::$soap_timeout && 
                 $t > ($session->get('soap_time') + self::$soap_timeout)) {
-            throw new SoapFault(self::EXPIRED_KEY, 'Expired key');
+            throw new SoapFault('Client', 'Expired key');
         }
         
         /* otherwise, we're ok.  update the timestamp */
@@ -120,7 +114,7 @@ class CRM_Utils_SoapServer
         eval ('$result =& ' . $this->ufClass . '::authenticate($name, $pass);');
 
         if (empty($result)) {
-            throw new SoapFault(self::INVALID_LOGIN, 'Invalid login');
+            throw new SoapFault('Client', 'Invalid login');
         }
         
         $session =& CRM_Core_Session::singleton();
