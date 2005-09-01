@@ -69,7 +69,7 @@ cp $SRC/affero_gpl.txt $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "CiviCRM version rev$REV snapshot for Drupal on PHP4" > $TRG/version.txt
+echo "CiviCRM version 1.1 rev$REV snapshot for Drupal on PHP4" > $TRG/version.txt
 
 
 
