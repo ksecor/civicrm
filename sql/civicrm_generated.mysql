@@ -299,7 +299,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_location_type` DISABLE KEYS */;
 LOCK TABLES `civicrm_location_type` WRITE;
-INSERT INTO `civicrm_location_type` VALUES (1,1,'Home',NULL,'Place of residence',1,1,NULL),(2,1,'Work',NULL,'Work location',1,1,1),(3,1,'Main',NULL,'Main office location',0,1,NULL),(4,1,'Other',NULL,'Another location',0,1,NULL);
+INSERT INTO `civicrm_location_type` VALUES (1,1,'Home','HOME','Place of residence',1,1,NULL),(2,1,'Work','WORK','Work location',1,1,1),(3,1,'Main',NULL,'Main office location',0,1,NULL),(4,1,'Other',NULL,'Another location',0,1,NULL);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_location_type` ENABLE KEYS */;
 

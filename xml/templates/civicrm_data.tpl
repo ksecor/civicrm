@@ -345,10 +345,10 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_domain( name, contact_name, email_domain ) 
     VALUES ( 'CRM Test Domain', 'Mr System Administrator', 'FIXME.ORG' );
 
-INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Home', 'Place of residence', 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active, is_default ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Work', 'Work location', 1, 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Main', 'Main office location', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Other', 'Another location', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Home', 'HOME', 'Place of residence', 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Work', 'WORK', 'Work location', 1, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Main', NULL, 'Main office location', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Other', NULL, 'Another location', 0, 1 );
 
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( %%CIVICRM_DOMAIN_ID%%, 'Child of', 'Parent of', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
