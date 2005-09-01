@@ -308,10 +308,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {
                     return CRM_Import_Parser::DUPLICATE; 
                 }
-            } 
-            /* Not a dupe, so we had an error */
-            array_unshift($values, $newContact->_errors[0]['message']);
-            return CRM_Import_Parser::ERROR;
+            } else { 
+                /* Not a dupe, so we had an error */
+                array_unshift($values, $newContact->_errors[0]['message']);
+                return CRM_Import_Parser::ERROR;
+            }
         }
         
         $this->_newContacts[] = $newContact->id;
