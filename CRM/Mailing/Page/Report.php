@@ -61,7 +61,7 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
     }
 
     function editName() {
-        return 'Mailing Report';
+        return 'CiviMail Report';
     }
 
     /**
@@ -74,6 +74,10 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         return 'civicrm/mailing/report';
     }
 
+    function userContextParams($mode = null) {
+        return 'reset=1&mid=' . $this->_mailing_id;
+    }
+
 
     function run() {
         $this->_mailing_id = CRM_Utils_Request::retrieve('mid', $this);
@@ -81,6 +85,8 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         $report =& CRM_Mailing_BAO_Mailing::report($this->_mailing_id);
         
         $this->assign('report', $report);
+        CRM_Utils_System::setTitle(ts('CiviMail Report: %1', array(1 =>
+        $report['mailing']['name'])));
 
         parent::run();
     }

@@ -324,7 +324,33 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
      */
     function getExportFileName( $output = 'csv') {
     }
-    
+
+    function eventToTitle() {
+        static $events = null;
+
+        if (empty($events)) {
+            $events = array(
+                'queue'     => ts('Intended Recipients'),
+                'delivered' => ts('Succesful Deliveries'),
+                'bounce'    => ts('Bounces'),
+                'reply'     => $this->_is_distinct 
+                            ? ts('Unique Replies') 
+                            : ts('Replies'),
+                'unsubscribe' => ts('Unsubscriptions'),
+                'click'     => $this->_is_distinct 
+                            ? ts('Unique Click-throughs') 
+                            : ts('Click-throughs'),
+                'opened'    => $this->_is_distinct
+                            ? ts('Unique Tracked Opens')
+                            : ts('Tracked Opens')
+            );
+        }
+        return $events[$this->_event_type];
+    }
+
+    function getTitle() {
+        return $this->eventToTitle();
+    }
 }//end of class
 
 ?>

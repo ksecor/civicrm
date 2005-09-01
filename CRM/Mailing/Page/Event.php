@@ -67,6 +67,8 @@ class CRM_Mailing_Page_Event extends CRM_Core_Page {
             CRM_Utils_Request::retrieve('uid', $this)
         );
         
+        CRM_Utils_System::setTitle($selector->getTitle());
+        
         $controller =& new CRM_Core_Selector_Controller(
                         $selector ,
                         $this->get( CRM_Utils_Pager::PAGE_ID ),
@@ -77,7 +79,7 @@ class CRM_Mailing_Page_Event extends CRM_Core_Page {
 
         $controller->setEmbedded( true );
         $controller->run( );
-
+        
         return parent::run( );
     }
 

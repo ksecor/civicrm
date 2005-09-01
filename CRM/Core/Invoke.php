@@ -417,10 +417,19 @@ class CRM_Core_Invoke {
             return $view->run( );
         }
         if ( $args[2] == 'event' ) {
+            CRM_Utils_System::appendBreadCrumb(
+                ts('<a href="%1">Mailings</a>', array(1 =>
+                CRM_Utils_System::url('civicrm/mailing/browse'))));
+            CRM_Utils_System::appendBreadCrumb(
+                ts('<a href="%1">Report</a>', array(1 =>
+                CRM_Utils_System::url('civicrm/mailing/report'))));
             $view =& new CRM_Mailing_Page_Event( );
             return $view->run( );
         }
         if ( $args[2] == 'report' ) {
+            CRM_Utils_System::appendBreadCrumb(
+                ts('<a href="%1">Mailings</a>', array(1 =>
+                CRM_Utils_System::url('civicrm/mailing/browse'))));
             $view =& new CRM_Mailing_Page_Report( );
             return $view->run();
         }

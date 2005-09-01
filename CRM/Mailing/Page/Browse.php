@@ -59,6 +59,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      * @return void 
      */ 
     function run( ) {
+        CRM_Utils_System::setTitle(ts('Mailings'));
+
         $selector =& new CRM_Mailing_Selector_Browse( );
         
         $controller =& new CRM_Core_Selector_Controller(
