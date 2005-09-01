@@ -880,7 +880,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         "reset=1&event=reply&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'opened'        => CRM_Utils_System::url(
-                        'civicrm/mailing//event',
+                        'civicrm/mailing/event',
                         "reset=1&event=opened&mid=$mailing_id&jid={$mailing->id}"
                 ),
             );
@@ -964,7 +964,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             "reset=1&event=reply&mid=$mailing_id"
             ),
             'opened'        => CRM_Utils_System::url(
-                            'civicrm/mailing//event',
+                            'civicrm/mailing/event',
                             "reset=1&event=opened&mid=$mailing_id"
             ),
         );
