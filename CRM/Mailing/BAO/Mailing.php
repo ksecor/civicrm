@@ -873,6 +873,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get the click-through totals, grouped by URL */
         $mailing->query("
             SELECT      {$t['url']}.url,
+                        {$t['url']}.id,
                         COUNT({$t['urlopen']}.id) as clicks,
                         COUNT(DISTINCT {$t['queue']}.id) as unique_clicks
             FROM        {$t['url']}
@@ -888,11 +889,30 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $report['click_through'] = array();
 
         while ($mailing->fetch()) {
-            $report['click_through'][] = array('url' => $mailing->url,
+            $report['click_through'][] = array(
+                                    'url' => $mailing->url,
+                                    'link' =>
+                                    CRM_Utils_System::url(
+                    'civicrm/mailing/event',
+                    "reset=1&event=click&mid=$mailing_id&uid={$mailing->id}"),
+                                    'link_unique' =>
+                                    CRM_Utils_System::url(
+                    'civicrm/mailing/event',
+                    "reset=1&event=click&mid=$mailing_id&uid={$mailing->id}&distinct=1"),
                                     'clicks' => $mailing->clicks,
                                     'unique' => $mailing->unique_clicks,
                                     'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
+        $report['links'] = array(
+            'clicks' => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=click&mid=$mailing_id"
+            ),
+            'clicks_unique' => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=click&mid=$mailing_id&distinct=1"
+            ),
+        );
         }
         
         return $report;

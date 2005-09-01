@@ -8,10 +8,11 @@
 <tr><td class="label">{ts}From{/ts}</td><td>{$report.mailing.from_name} &lt;{$report.mailing.from_email}&gt;</td></tr>
 <tr><td class="label">{ts}Reply-to email{/ts}</td><td>&lt;{$report.mailing.replyto_email}&gt;</td></tr>
 
-<tr><td class="label">{ts}URL Click-through tracking{/ts}</td><td>{if $report.mailing.url_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}Forward replies{/ts}</td><td>{if $report.mailing.forward_replies}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}Auto-respond to replies{/ts}</td><td>{if $report.mailing.auto_responder}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
+
 <tr><td class="label">{ts}Open tracking{/ts}</td><td>{if $report.mailing.open_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
+<tr><td class="label">{ts}URL Click-through tracking{/ts}</td><td>{if $report.mailing.url_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 </table>
 </fieldset>
 
@@ -151,14 +152,14 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <legend>{ts}Click-through Statistics{/ts}</legend>
 <table>
 <tr>
-<th>{ts}Clicks{/ts}</th>
-<th>{ts}Unique Clicks{/ts}</th>
+<th><a href="{$report.links.clicks}">{ts}Clicks{/ts}</a></th>
+<th><a href="{$report.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
 <th>{ts}Success Rate{/ts}</th>
 <th>{ts}URL{/ts}</th></tr>
 {foreach from=$report.click_through item=row}
 <tr class="{cycle values="odd-row,even-row"}">
-<td>{$row.clicks}</td>
-<td>{$row.unique}</td>
+<td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
+<td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
 <td>{$row.rate}%</td>
 <td><a href="{$row.url}">{$row.url}</a></td>
 </tr>
