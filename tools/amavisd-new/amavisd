@@ -8470,6 +8470,8 @@ sub authenticate() {
         # Authentication error, fail!
         soapError($soapKey->faultstring);
     }
+    $soapKey = $soapKey->result;
+
 }
 
 sub soapError($) {
