@@ -854,7 +854,38 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $row['unsubscribe_rate'] = 0;
             }
             
-            foreach (array('scheduled_date', 'start_date', 'end_date') as $key) {
+            $row['links'] = array(
+                'clicks' => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=click&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'queue' =>  CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=queue&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'delivered' => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=delivered&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'bounce'    => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=bounce&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'unsubscribe'   => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=unsubscribe&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'reply'         => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=reply&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'opened'        => CRM_Utils_System::url(
+                        'civicrm/mailing//event',
+                        "reset=1&event=opened&mid=$mailing_id&jid={$mailing->id}"
+                ),
+            );
+
+        foreach (array('scheduled_date', 'start_date', 'end_date') as $key) {
                 $row[$key] = CRM_Utils_Date::customFormat($row[$key]);
             }
             $report['jobs'][] = $row;
@@ -903,7 +934,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     'unique' => $mailing->unique_clicks,
                                     'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
-        $report['links'] = array(
+        $report['event_totals']['links'] = array(
             'clicks' => CRM_Utils_System::url(
                             'civicrm/mailing/event',
                             "reset=1&event=click&mid=$mailing_id"
@@ -911,6 +942,30 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'clicks_unique' => CRM_Utils_System::url(
                             'civicrm/mailing/event',
                             "reset=1&event=click&mid=$mailing_id&distinct=1"
+            ),
+            'queue' =>  CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=queue&mid=$mailing_id"
+            ),
+            'delivered' => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=delivered&mid=$mailing_id"
+            ),
+            'bounce'    => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=bounce&mid=$mailing_id"
+            ),
+            'unsubscribe'   => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=unsubscribe&mid=$mailing_id"
+            ),
+            'reply'         => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=reply&mid=$mailing_id"
+            ),
+            'opened'        => CRM_Utils_System::url(
+                            'civicrm/mailing//event',
+                            "reset=1&event=opened&mid=$mailing_id"
             ),
         );
         }

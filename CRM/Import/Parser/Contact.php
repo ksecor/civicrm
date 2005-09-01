@@ -260,6 +260,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
             _crm_add_formatted_param($value, $formatted);
         }
+        CRM_Core_Error::debug('v', $formatted);
 
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
 //         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {

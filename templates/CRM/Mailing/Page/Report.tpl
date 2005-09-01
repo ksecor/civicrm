@@ -17,17 +17,6 @@
 </fieldset>
 
 <fieldset>
-<legend>{ts}Content / Components{/ts}</legend>
-<table class="form-layout">
-{foreach from=$report.component item=component}
-<tr><td class="label">{$component.type}</td><td><a
-href="{$component.link}">{$component.name}</a></td></tr>
-{/foreach}
-</table>
-</fieldset>
-
-
-<fieldset>
 <legend>{ts}Recipients{/ts}</legend>
 {if $report.group.include|@count}
 <span class="label">{ts}Included{/ts}</span>
@@ -65,7 +54,7 @@ href="{$component.link}">{$component.name}</a></td></tr>
 </fieldset>
 
 <fieldset>
-<legend>{ts}Delivery Statistics{/ts}</legend>
+<legend>{ts}Delivery Summary{/ts}</legend>
 
 {if $report.jobs|@count > 1}
 <table>
@@ -92,31 +81,31 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <td>{$job.scheduled_date|date_format}</td>
 <td>{$job.start_date|date_format}</td>
 <td>{$job.end_date|date_format}</td>
-<td>{$job.queue}</td>
-<td>{$job.delivered}</td>
-<td>{$job.bounce}</td>
-<td>{$job.unsubscribe}</td>
-<td>{$job.reply}</td>
+<td><a href="{$job.links.queue}">{$job.queue}</a></td>
+<td><a href="{$job.links.delivered}">{$job.delivered}</a></td>
+<td><a href="{$job.links.bounce}">{$job.bounce}</a></td>
+<td><a href="{$job.links.unsubscribe}">{$job.unsubscribe}</a></td>
+<td><a href="{$job.links.reply}">{$job.reply}</a></td>
 {if $report.mailing.open_tracking}
-<td>{$job.opened}</td>
+<td><a href="{$job.links.opened}">{$job.opened}</a></td>
 {/if}
 {if $report.mailing.url_tracking}
-<td>{$job.url}</td>
+<td><a href="{$job.links.clicks}">{$job.url}</a></td>
 {/if}
 </tr>
 {/foreach}
 <tr>
 <th class="label" colspan=4>{ts}Totals{/ts}</th>
-<th>{$report.event_totals.queue}</th>
-<th>{$report.event_totals.delivered}</th>
-<th>{$report.event_totals.bounce}</th>
-<th>{$report.event_totals.unsubscribe}</th>
-<th>{$report.event_totals.reply}</th>
+<th><a href="{$report.event_totals.links.queue}">{$report.event_totals.queue}</a></th>
+<th><a href="{$report.event_totals.links.delivered}">{$report.event_totals.delivered}</a></th>
+<th><a href="{$report.event_totals.links.bounce}">{$report.event_totals.bounce}</a></th>
+<th><a href="{$report.event_totals.links.unsubscribe}">{$report.event_totals.unsubscribe}</a></th>
+<th><a href="{$report.event_totals.links.reply}">{$report.event_totals.reply}</a></th>
 {if $report.mailing.open_tracking}
-<th>{$report.event_totals.opened}</th>
+<th><a href="{$report.event_totals.links.opened}">{$report.event_totals.opened}</a></th>
 {/if}
 {if $report.mailing.url_tracking}
-<th>{$report.event_totals.url}</th>
+<th><a href="{$report.event_totals.links.clicks}">{$report.event_totals.url}</a></th>
 {/if}
 </tr>
 <tr>
@@ -132,16 +121,19 @@ href="{$component.link}">{$component.name}</a></td></tr>
 <tr><td class="label">{ts}Start Date{/ts}</td><td>{$report.jobs.0.start_date}</td></tr>
 <tr><td class="label">{ts}End Date{/ts}</td><td>{$report.jobs.0.end_date}</td></tr>
 <tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
-<tr><td class="label">{ts}Intended Recipients{/ts}</td><td>{$report.jobs.0.queue}</td></tr>
-<tr><td class="label">{ts}Succesful Deliveries{/ts}</td><td>{$report.jobs.0.delivered}</td><td>{$report.jobs.0.delivered_rate}%</td></tr>
-<tr><td class="label">{ts}Bounces{/ts}</td><td>{$report.jobs.0.bounce}</td><td>{$report.jobs.0.bounce_rate}%</td></tr>
-<tr><td class="label">{ts}Unsubscriptions{/ts}</td><td>{$report.jobs.0.unsubscribe}</td><td>{$report.jobs.0.unsubscribe_rate}%</td></tr>
-<tr><td class="label">{ts}Replies{/ts}</td><td>{$report.jobs.0.reply}</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered}
+{$report.jobs.0.delivered_rate}%</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.bounce}">{ts}Bounces{/ts}</a></td><td>{$report.jobs.0.bounce} 
+{$report.jobs.0.bounce_rate}%</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscriptions{/ts}</a></td><td>{$report.jobs.0.unsubscribe}
+{$report.jobs.0.unsubscribe_rate}%</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.reply}">{ts}Replies{/ts}</a></td><td>{$report.jobs.0.reply}</td></tr>
 {if $report.mailing.open_tracking}
-<tr><td class="label">{ts}Tracked Opens{/ts}</td><td>{$report.jobs.0.opened}</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.opened}">{ts}Tracked Opens{/ts}</a></td><td>{$report.jobs.0.opened}</td></tr>
 {/if}
 {if $report.mailing.url_tracking}
-<tr><td class="label">{ts}Click-throughs{/ts}</td><td>{$report.jobs.0.url}</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.clicks}">{ts}Click-throughs{/ts}</a></td><td>{$report.jobs.0.url}</td></tr>
 {/if}
 </table>
 {/if}
@@ -149,11 +141,11 @@ href="{$component.link}">{$component.name}</a></td></tr>
 
 {if $report.mailing.url_tracking && $report.click_through|@count > 0}
 <fieldset>
-<legend>{ts}Click-through Statistics{/ts}</legend>
+<legend>{ts}Click-through Summary{/ts}</legend>
 <table>
 <tr>
-<th><a href="{$report.links.clicks}">{ts}Clicks{/ts}</a></th>
-<th><a href="{$report.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
+<th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
+<th><a href="{$report.event_totals.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
 <th>{ts}Success Rate{/ts}</th>
 <th>{ts}URL{/ts}</th></tr>
 {foreach from=$report.click_through item=row}
@@ -167,3 +159,18 @@ href="{$component.link}">{$component.name}</a></td></tr>
 </table>
 </fieldset>
 {/if}
+
+
+<fieldset>
+<legend>{ts}Content / Components{/ts}</legend>
+<table class="form-layout">
+{foreach from=$report.component item=component}
+<tr><td class="label">{$component.type}</td><td><a
+href="{$component.link}">{$component.name}</a></td></tr>
+{/foreach}
+</table>
+</fieldset>
+
+
+
+
