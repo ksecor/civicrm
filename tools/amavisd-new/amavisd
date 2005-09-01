@@ -237,6 +237,8 @@ BEGIN {
 	)],
     'civicrm' => [qw(
         $civicrm_soap_proxy
+        $civicrm_soap_login
+        $civicrm_soap_pass
     )],
 	'platform' => [qw(
 	    $can_truncate
@@ -431,6 +433,8 @@ $sa_debug = 0;
 $sa_timeout = 120;		# timeout in seconds for a call to SpamAssassin
 
 $civicrm_soap_proxy = undef;
+$civicrm_soap_login = undef;
+$civicrm_soap_pass  = undef;
 
 # See amavisd.conf and README.lookups for details.
 
@@ -8439,7 +8443,7 @@ use Mail::Address;
 use Mail::Verp;
 
 use subs @EXPORT_OK;
-use vars qw($soapClient);
+use vars qw($soapClient, $soapKey);
 
 BEGIN {
     import Amavis::Conf qw(:platform :civicrm);
@@ -8453,7 +8457,26 @@ sub init() {
         -> proxy($civicrm_soap_proxy)
         -> uri('urn:civicrm');
     
+    authenticate();
+    
     do_log(1, "CiviCRM: done");
+}
+
+sub authenticate() {
+    $soapKey = 
+        $soapClient->authenticate($civicrm_soap_login, $civicrm_soap_pass);
+    
+    if ($soapKey->fault) {
+        # Authentication error, fail!
+        soapError($soapKey->faultstring);
+    }
+}
+
+sub soapError($) {
+    my $error = shift;
+
+    do_log(0, "CiviCRM: SOAP Error: $error");
+    die;
 }
 
 sub process($$) {
@@ -8465,14 +8488,27 @@ sub process($$) {
     
     my $result;
     
+    my $attempt = 0;
+    
     if (defined($hash)) {
         if ($dest eq 'bounce') {
             # bounce
             my $body = join('', @{$msginfo->mime_entity->body});
-            $result = 
-                $soapClient->crm_mailer_event_bounce(   $jobId, $qId, 
-                                                        $hash, $body);
 
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_bounce( $soapKey, $jobId, $qId, 
+                                                        $hash, $body);
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate();
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+            
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful bounce event: $verpInfo");
             } else {
@@ -8483,10 +8519,23 @@ sub process($$) {
             my $body = join('', @{$msginfo->mime_entity->body});
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
-            
-            $result = 
-                $soapClient->crm_mailer_event_reply(    $jobId, $qId, $hash,
+           
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_reply($soapKey,  
+                                                        $jobId, $qId, $hash,
                                                         $body, $replyto);
+                
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate();
+                    $attempt++;
+                    next;
+                } 
+                soapError($result->faultstring);
+            }
+
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful reply event: $verpInfo");
             } else {
@@ -8494,8 +8543,21 @@ sub process($$) {
             }
         } elsif ($dest eq 'unsubscribe') {
             # unsubscription
-            $result = 
-                $soapClient->crm_mailer_event_unsubscribe($jobId, $qId, $hash);
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_unsubscribe($soapKey,
+                                                        $jobId, $qId, $hash);
+
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate();
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful unsubscribe event: $verpInfo");
             } else {
@@ -8503,8 +8565,21 @@ sub process($$) {
             }
         } elsif ($dest eq 'confirm') {
             # opt-in
-            $result = 
-                $soapClient->crm_mailer_event_confirm(  $jobId, $qId, $hash);
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_confirm(  $soapKey,
+                                                        $jobId, $qId, $hash);
+
+                last unless $result->fault;
+
+                if ($attempt < 1) {
+                    authenticate();
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+            
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful confirm event: $verpInfo");
             } else {
@@ -8512,9 +8587,21 @@ sub process($$) {
             }
         } elsif ($dest eq 'optOut') {
             # opt-out
-            $result = 
-                $soapClient->crm_mailer_event_domain_unsubscribe(   
-                                $jobId, $qId, $hash);
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_domain_unsubscribe(
+                                            $soapKey, $jobId, $qId, $hash);
+            
+                last unless $result->fault;
+                if ($attempt< 1) {
+                    authenticate();
+                    $attempt++;
+                    next;
+                }
+                
+                soapError($result->faultstring);
+            }
+            
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful opt-out event: $verpInfo");
             } else {
@@ -8529,8 +8616,19 @@ sub process($$) {
             MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
         my $from = ((Mail::Address->parse($email))[0])->address;
         
-        $result = 
-            $soapClient->crm_mailer_event_subscribe( $from, $dId, $gId);
+        while (1) {
+            $result = 
+                $soapClient->mailer_event_subscribe( 
+                                        $soapKey, $from, $dId, $gId);
+
+            last unless $result->fault;
+            if ($attempt < 1) {
+                authenticate();
+                $attempt++;
+                next;
+            }
+            soapError($result->faultstring);
+        }     
         if ($result->result == 1) {
             do_log(2, "CiviCRM: succesful subscribe event: $verpInfo");
         } else {

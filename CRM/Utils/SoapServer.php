@@ -51,7 +51,7 @@ class CRM_Utils_SoapServer
      * Number of seconds we should let a soap process idle
      * @static
      */
-    static $soap_timeout = 1;
+    static $soap_timeout = 0;
     
     /**
      * Cache the actual UF Class
@@ -94,13 +94,13 @@ class CRM_Utils_SoapServer
         $t = time();
         
         if ( $key !== sha1($soap_key) ) {
-            return new SoapFault(self::INVALID_KEY, 'Invalid key');
+            throw new SoapFault(self::INVALID_KEY, 'Invalid key');
         }
         
 
         if (    self::$soap_timeout && 
                 $t > ($session->get('soap_time') + self::$soap_timeout)) {
-            return new SoapFault(self::EXPIRED_KEY, 'Expired key');
+            throw new SoapFault(self::EXPIRED_KEY, 'Expired key');
         }
         
         /* otherwise, we're ok.  update the timestamp */
@@ -120,7 +120,7 @@ class CRM_Utils_SoapServer
         eval ('$result =& ' . $this->ufClass . '::authenticate($name, $pass);');
 
         if (empty($result)) {
-            return new SoapFault(self::INVALID_LOGIN, 'Invalid login');
+            throw new SoapFault(self::INVALID_LOGIN, 'Invalid login');
         }
         
         $session =& CRM_Core_Session::singleton();
