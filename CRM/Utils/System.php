@@ -352,7 +352,7 @@ class CRM_Utils_System {
      */
     static function checkPermission( $str ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( $str ); ' );
     }
 
     /**
