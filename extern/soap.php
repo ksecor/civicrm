@@ -19,13 +19,7 @@ $config->userFramework          = 'Soap';
 $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 // $config->userPermissionClass    = 'CRM_Core_Permission_Soap';
 
-
-$session =& CRM_Core_Session::singleton();
-
-$session->set('key', 'abcde');
-
 $server->setPersistence(SOAP_PERSISTENCE_SESSION);
-
 
 // /* Contact functions */
 // $contact_api = array('crm_get_contact');

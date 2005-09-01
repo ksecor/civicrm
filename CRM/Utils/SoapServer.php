@@ -53,6 +53,7 @@ class CRM_Utils_SoapServer
      * @param  string $uf       The userframework class
      */
     public function __construct() {
+        session_start();
         $this->ufClass = array_shift(func_get_args());
     }
 
@@ -64,9 +65,7 @@ class CRM_Utils_SoapServer
      * @access public
      */
     public function ping($var) {
-        $session =& CRM_Core_Session::singleton();
-        $key = $session->get('key');
-        return "PONG: $var ($key)";
+        return "PONG: $var";
     }
 
     
@@ -80,16 +79,11 @@ class CRM_Utils_SoapServer
      * @static
      */
     public function authenticate($name, $pass) {
-        if (empty($this->ufClass)) {
-            return null;
-        }
-
         eval ('$result =& ' . $this->ufClass . '::authenticate($name, $pass);');
 
         if (empty($result)) {
             return null;
         }
-        return $_SESSION;
 
         return $result[2];
     }
