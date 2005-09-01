@@ -550,7 +550,7 @@ class Contact_Vcard_Build extends PEAR {
      * As, surprise surprise, Microsoft Outlook does not seem to be able to
      * handle properly tagged UTF-8 vCards, we try to represent the text in
      * smallest charset 'covering' the text in full (currently the test goes
-     * 'US-ASCII' -> 'ISO-8859-1' -> 'ISO-8859-2' -> 'UTF-8')
+     * 'US-ASCII' -> 'ISO-8859-1' -> 'CP1250' and falls back to 'UTF-8')
      *
      * @param array $lines  the vCard's lines
      *
@@ -558,7 +558,7 @@ class Contact_Vcard_Build extends PEAR {
      */
     function charsetRecode($lines) {
 
-        $sets = array('US-ASCII', 'ISO-8859-1', 'ISO-8859-2', 'UTF-8');
+        $charsets = array('US-ASCII', 'ISO-8859-1', 'CP1250');
 
         if (function_exists('mb_strlen') and function_exists('iconv')) {
 
@@ -568,19 +568,19 @@ class Contact_Vcard_Build extends PEAR {
             // after the recode equals the one before - we've found a valid
             // charset
             foreach ($lines as $number => $line) {
-                $charset = '';
+                $lineCharset = 'UTF-8';
                 $strlen = mb_strlen($line, 'UTF-8');
-                foreach ($sets as $set) {
-                    $iconvd = iconv('UTF-8', $set, $line);
-                    if (mb_strlen($iconvd, $set) == $strlen) {
-                        $charset = $set;
+                foreach ($charsets as $charset) {
+                    $iconvd = iconv('UTF-8', $charset, $line);
+                    if (strlen($iconvd) == $strlen) {
+                        $lineCharset = $charset;
                         $line = $iconvd;
                         break;
                     }
                 }
                 // tag the non-US-ASCII-only, recoded lines properly
-                if ($charset != 'US-ASCII') {
-                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=$charset:", $line, 1);
+                if ($lineCharset != 'US-ASCII') {
+                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=$lineCharset:", $line, 1);
                 }
             }
 
