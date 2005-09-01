@@ -560,7 +560,7 @@ class Contact_Vcard_Build extends PEAR {
 
         $charsets = array('US-ASCII', 'ISO-8859-1', 'CP1250');
 
-        if (function_exists('mb_strlen') and function_exists('iconv')) {
+        if ((function_exists('iconv_strlen') or function_exists('mb_strlen')) and function_exists('iconv')) {
 
             // for each line, get the character length of the UTF-8 string
             // and try to recode it to every charset in turn; iconv() returns
@@ -569,7 +569,11 @@ class Contact_Vcard_Build extends PEAR {
             // charset
             foreach ($lines as $number => $line) {
                 $lineCharset = 'UTF-8';
-                $strlen = mb_strlen($line, 'UTF-8');
+                if (function_exists('iconv_strlen')) {
+                    $strlen = iconv_strlen($line, 'UTF-8');
+                } else {
+                    $strlen = mb_strlen($line, 'UTF-8');
+                }
                 foreach ($charsets as $charset) {
                     $iconvd = iconv('UTF-8', $charset, $line);
                     if (strlen($iconvd) == $strlen) {
