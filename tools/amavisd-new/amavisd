@@ -8441,6 +8441,7 @@ use MIME::WordDecoder;
 use MIME::Entity;
 use Mail::Address;
 use Mail::Verp;
+use HTTP::Cookies;
 
 use subs @EXPORT_OK;
 use vars qw($soapClient $soapKey);
@@ -8454,7 +8455,8 @@ sub init() {
     do_log(1, "CiviCRM: initializing");
     
     $soapClient = SOAP::Lite
-        -> proxy($civicrm_soap_proxy)
+        -> proxy($civicrm_soap_proxy, 
+            cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
         -> uri('urn:civicrm');
     
     authenticate();
