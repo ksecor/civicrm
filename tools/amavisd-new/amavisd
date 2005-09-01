@@ -8443,7 +8443,7 @@ use Mail::Address;
 use Mail::Verp;
 
 use subs @EXPORT_OK;
-use vars qw($soapClient, $soapKey);
+use vars qw($soapClient $soapKey);
 
 BEGIN {
     import Amavis::Conf qw(:platform :civicrm);
