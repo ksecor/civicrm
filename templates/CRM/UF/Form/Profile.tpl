@@ -1,6 +1,9 @@
 {if ! empty( $fields )}
-<div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
-
+<p>If you think people may be worried about you (and believe me, they
+/ we are), tell us where you're from and where you're hiding out so
+that we can know you're all right.</p> 
+<p>Please be aware that all information collected here will be
+accessible to the world.</p> 
     <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}
         {assign var=n value=$field.name}
@@ -12,5 +15,4 @@
     {/foreach}
     <tr><td></td><td>{$form.buttons.html}</td></tr>
     </table>
-</div> {* end crm-container div *}
 {/if} {* fields array is not empty *}

@@ -314,37 +314,47 @@ class CRM_UF_Form_Profile extends CRM_Core_Form
             return;
         }
 
+        CRM_Core_DAO::transaction( 'BEGIN' ); 
+
         $edit['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
 
         $edit['contact_id'] = $contact->id;
         CRM_Contact_BAO_Individual::add( $edit, $ids );
-        if ( CRM_Utils_Array::value( 'location', $ids ) ) {
-            $address =& new CRM_Core_BAO_Address();
-            CRM_Core_BAO_Address::fixAddress( $edit );
+
+        $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
+        $locationTypeId =  $locationType->id;
+
+        $location =& new CRM_Core_BAO_Location( );
+        $location->location_type_id = $locationTypeId;
+        $location->is_primary = 1;
+        $location->entity_table = 'civicrm_contact';
+        $location->entity_id    = $contact->id;
+        $location->save( );
+        
+        $address =& new CRM_Core_BAO_Address();
+        CRM_Core_BAO_Address::fixAddress( $edit );
             
- 	    if ( ! $address->copyValues( $edit ) ) {
-                $address->id = CRM_Utils_Array::value( 'address', $ids );
-                $address->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $address->save( );
-            }
+        if ( ! $address->copyValues( $edit ) ) {
+            $address->id = CRM_Utils_Array::value( 'address', $ids );
+            $address->location_id = $location->id;
+            $address->save( );
+        }
 
-            $phone =& new CRM_Core_BAO_Phone();
-            if ( ! $phone->copyValues( $edit ) ) {
-                $phone->id = CRM_Utils_Array::value( 'phone', $ids );
-                $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $phone->is_primary = true;
-                $phone->save( );
-            }
-
-            $email =& new CRM_Core_BAO_Email();
-            if ( ! $email->copyValues( $edit ) ) {
-                $email->id = CRM_Utils_Array::value( 'email', $ids );
-                $email->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $email->is_primary = true;
-                $email->save( );
-            }
-
+        $phone =& new CRM_Core_BAO_Phone();
+        if ( ! $phone->copyValues( $edit ) ) {
+            $phone->id = CRM_Utils_Array::value( 'phone', $ids );
+            $phone->location_id = $location->id;
+            $phone->is_primary = true;
+            $phone->save( );
+        }
+        
+        $email =& new CRM_Core_BAO_Email();
+        if ( ! $email->copyValues( $edit ) ) {
+            $email->id = CRM_Utils_Array::value( 'email', $ids );
+            $email->location_id = $location->id;
+            $email->is_primary = true;
+            $email->save( );
         }
 
         /* Process custom field values */
@@ -374,6 +384,8 @@ class CRM_UF_Form_Profile extends CRM_Core_Form
             
             CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
         }
+
+        CRM_Core_DAO::transaction( 'COMMIT' ); 
 
         CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
     }

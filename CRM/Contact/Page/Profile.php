@@ -72,8 +72,8 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
         $where[] = " ( civicrm_contact.contact_type = 'Individual' ) ";
         foreach ( $this->_fields as $key => $field ) {
             $nullObject = null;
-            $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
-            if ( isset( $value ) ) {
+            $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject, false, null, 'REQUEST' );
+            if ( isset( $value ) && $value != null ) {
                 $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
 
@@ -108,7 +108,12 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      */ 
     function run( ) {
         $this->preProcess( );
-        
+
+        $formController =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Profile', 'Search Profile', CRM_Core_Action::ADD );
+        $formController->setEmbedded( true );
+        $formController->process( ); 
+        $formController->run( ); 
+
         $selector =& new CRM_Contact_Selector_Profile( $this->_clause, $this->_tables );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
