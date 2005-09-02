@@ -31,7 +31,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -423,12 +423,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     static function debug_log_message($message="", $log=true)
     {
         $config =& CRM_Core_Config::singleton( );
-        $file_log = Log::singleton('file', $config->uploadDir . 'CRM.LOG');
+        //$file_log = Log::singleton('file', $config->uploadDir . 'CRM.LOG');
+        $file_log = Log::singleton('file', '/tmp/CRM.LOG');
         $file_log->log("$message\n");
         // $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
         if ($log) {
-            // echo $out;
+            //echo $out;
         }
         return $out;
     }

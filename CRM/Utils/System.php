@@ -29,7 +29,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -352,7 +352,7 @@ class CRM_Utils_System {
      */
     static function checkPermission( $str ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( $str ); ' );
     }
 
     /**

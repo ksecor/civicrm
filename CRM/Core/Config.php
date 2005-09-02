@@ -32,7 +32,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -61,6 +61,12 @@ class CRM_Core_Config {
      * @var string
      */
     public $dsn;
+
+    /** 
+     * the debug level for civicrm
+     * @var int 
+     */ 
+    public $debug             = 0; 
 
     /**
      * the debug level for DB_DataObject
@@ -299,12 +305,16 @@ class CRM_Core_Config {
             $this->ufUserTableName = UF_USERTABLENAME;
         }
 
-        if (defined('CIVICRM_Core_DAO_DEBUG') ) {
-            $this->daoDebug = CIVICRM_Core_DAO_DEBUG;
+        if (defined('CIVICRM_DEBUG') ) {
+            $this->debug = CIVICRM_DEBUG;
         }
 
-        if (defined('CIVICRM_Core_DAO_FACTORY_CLASS') ) {
-            $this->DAOFactoryClass = CIVICRM_Core_DAO_FACTORY_CLASS;
+        if (defined('CIVICRM_DAO_DEBUG') ) {
+            $this->daoDebug = CIVICRM_DAO_DEBUG;
+        }
+
+        if (defined('CIVICRM_DAO_FACTORY_CLASS') ) {
+            $this->DAOFactoryClass = CIVICRM_DAO_FACTORY_CLASS;
         }
 
         if (defined('CIVICRM_SMARTYDIR')) {
@@ -516,6 +526,28 @@ class CRM_Core_Config {
     static function domainID( ) {
         return self::$_domainID;
     }
+
+    /**
+     * delete the web server writable directories
+     *
+     * @param int $value 1 - clean templates_c, 2 - clean upload, 3 - clean both
+     *
+     * @access public
+     * @return void
+     */
+    public function cleanup( $value ) {
+        $value = (int ) $value;
+
+        if ( $value & 1 ) {
+            // clean templates_c
+            CRM_Utils_File::cleanDir( $this->templateCompileDir );
+        }
+        if ( $value & 2 ) {
+            // clean upload dir
+            CRM_Utils_File::cleanDir( $this->uploadDir );
+        }
+    }
+
 
 } // end CRM_Core_Config
 

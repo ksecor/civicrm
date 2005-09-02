@@ -1,11 +1,5 @@
-{if $smarty.get.smartyDebug}
-{debug}
-{/if}
-{if $smarty.get.sessionReset}
-{$session->reset()}
-{/if}
-{if $smarty.get.sessionDebug}
-{$session->debug($smarty.get.sessionDebug)}
+{if $config->debug}
+{include file="CRM/common/debug.tpl"}
 {/if}
 
 <div id="crm-container">

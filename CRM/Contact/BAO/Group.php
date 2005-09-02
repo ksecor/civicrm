@@ -29,7 +29,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -153,86 +153,30 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
     static function getGroups($params = null, $returnProperties = null) 
     {
-        $queryString = "SELECT";
-        if ($returnProperties == null) {
-            $queryString .= " *";
-        } else {
-            
-            if (!is_array($returnProperties)) {
-                return _crm_error('$returnProperties is not an array');
-            }
-            $count = count($returnProperties);
-            $counter = 1;
-            foreach($returnProperties as $retProp) {
-                if($retProp == 'member_count') {
-                    $count--;
-                    break;
-                }
-            }
-            if($count == 0) {
-                $queryString .= " *";
-            }
-            foreach($returnProperties as $retProp) {
-                if($counter < $count) {
-                    if($retProp != 'member_count') {
-                        $queryString .=" ".$retProp.",";
-                    }
+        $dao =& new CRM_Contact_DAO_Group();
+        $dao->is_active = 1;
+        if ( $params ) {
+            foreach ( $params as $k => $v ) {
+                if ( $k == 'name' || $k == 'title' ) {
+                    $dao->whereAdd( $k . ' LIKE "' . addslashes( $v ) . '"' );
                 } else {
-                    if($retProp != 'member_count') {
-                        $queryString .=" ".$retProp.',id';
-                    }
-                }
-                $counter++;
-            }
-        }
-        $queryString .= " FROM civicrm_group";
-        if ($params != null) {
-            if (!is_array($params)) {
-                return _crm_error('$params is not an array');
-            }
-            
-            $total = count($params);
-            $counter = 1;
-            $queryString .= " WHERE";
-            foreach($params as $key => $param) {
-                if($counter < $total) {
-                    $queryString .=" $key". " LIKE". " '%$param%' ,";
-                } else {
-                    $queryString .=" $key". " LIKE". " '%$param%' ";
-                }
-                $counter++;
-            }
-        }
-        
-        $crmDAO =& new CRM_Contact_DAO_Group();
-        $error = $crmDAO->query($queryString);
-        
-        if($error) {
-            return _crm_error($error);
-        }
-        $groupArray = array();
-        $flag = 0;
-        if($returnProperties != null) {
-            foreach($returnProperties as $ret) {
-                if($ret == 'member_count'){
-                    $flag = 1;
+                    $dao->$k = $v;
                 }
             }
-            
         }
+        $dao->find( );
+
+        $flag = $returnProperties && in_array( 'member_count', $returnProperties ) ? 1 : 0;
+
         $groups =array();
-        while($crmDAO->fetch()) { 
-            $group =new CRM_Contact_DAO_Group();
-            if($flag) {
-                $count=CRM_Contact_BAO_Group::memberCount($crmDAO->id);
-                $crmDAO->member_count = $count;
+        while ( $dao->fetch( ) ) { 
+            $group =& new CRM_Contact_DAO_Group();
+            if ( $flag ) {
+                $dao->member_count = CRM_Contact_BAO_Group::memberCount( $dao->id );
             }
-            $group = clone($crmDAO);
-            $groups[] = $group;
-                        
+            $groups[] = clone( $dao );
         }
         return $groups;
-    
     }
 
     /**
