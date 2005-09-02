@@ -1,5 +1,6 @@
 
-Search for people here by entering their name and/or home location
+Search for people here by entering their name (full or partial) and/or home location.
+
 <p>
     <table class="form-layout-compressed">
     {assign var=count value=0}
@@ -12,7 +13,7 @@ Search for people here by entering their name and/or home location
         </td>
         {if $count % 2}</tr>{/if}
         {if $count eq 6}
-           </tr><tr><td colspan=4><p>Search by current location</td></tr>
+           </tr><tr><td colspan=4><p>Search by current location.</td></tr>
            {assign var=count value=$count+1}
         {/if}
         {assign var=count value=$count+1}

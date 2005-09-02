@@ -170,7 +170,7 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
                 self::$_columnHeaders = array( array( 'name' => 'Name' ),
                                                array( 'name' => 'From' ),
                                                array( 'name' => '&nbsp;' ),
-                                               array( 'name' => 'Current Status' ),
+                                               array( 'name' => 'Current Status / Source' ),
                                                array( 'name' => 'Current Contact Info' ),
                                                array( 'name' => 'Current Location' ) );
             }
@@ -261,6 +261,11 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         $newRow[1] = $this->combine( $row, array( 6, 5 ), '<br />' );
         $newRow[2] = $this->combine( $row, array( 3, 4, 7 ) );
         $newRow[3] = $this->combine( $row, array( 8, 9 ) );
+        $vinfo = $this->combine( $row, array( 14, 15, 16 ) );
+        if ( ! empty( $vinfo ) ) {
+            $vinfo = ' <div class="description font-italic">' . $vinfo . '</div>';
+            $newRow[3] .= $vinfo;
+        }
         $newRow[4] = $this->combine( $row, array( 13, 12 ), '<br />' );
         $newRow[5] = $this->combine( $row, array( 10, 11 ) );
         return $newRow;

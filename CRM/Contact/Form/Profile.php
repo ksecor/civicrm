@@ -72,7 +72,7 @@ class CRM_Contact_Form_Profile extends CRM_Core_Form
      * @access public
      * @return None
      */
-    function setDefaultValues( ) 
+    function &setDefaultValues( ) 
     {
     }
 
