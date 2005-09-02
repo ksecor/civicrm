@@ -117,6 +117,28 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         $email =& new CRM_Core_BAO_Email( );
         return CRM_Core_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
     }
+
+    /**
+     * Delete email address records from a location
+     *
+     * @param int $locationId       Location ID to delete for
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function deleteLocation( $locationId ) {
+        $dao =& new CRM_Core_DAO_Email();
+        $dao->location_id = $locationId;
+        $dao->find();
+
+        while ($dao->fetch()) {
+            CRM_Mailer_Event_BAO_Queue::deleteEmail( $dao->id );
+        }
+        
+        $dao->reset();
+        $dao->location_id = $locationId;
+        $dao->delete();
+    }
 }
 
 ?>

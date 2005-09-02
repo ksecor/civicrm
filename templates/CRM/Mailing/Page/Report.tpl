@@ -53,6 +53,8 @@
 {/if}
 </fieldset>
 
+
+{if $report.jobs.0.start_date}
 <fieldset>
 <legend>{ts}Delivery Summary{/ts}</legend>
 
@@ -138,6 +140,8 @@
 </table>
 {/if}
 </fieldset>
+
+{/if}
 
 {if $report.mailing.url_tracking && $report.click_through|@count > 0}
 <fieldset>

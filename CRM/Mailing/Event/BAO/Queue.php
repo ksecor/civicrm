@@ -224,6 +224,34 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         }
         return $results;
     }
+
+
+    /**
+     * Delete a queue event keyed by email
+     *
+     * @param int $emailId      ID of the email address being deleted
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function deleteEmail( $emailId ) {
+        $dao =& new CRM_Mailing_Event_BAO_Queue();
+        $dao->email_id = $emailId;
+        $dao->find();
+
+        while ($dao->fetch()) {
+            foreach (array('Bounce', 'Delivered', 'Opened', 'Reply',
+                'TrackableURLOpen', 'Unsubscribe') as $event) {
+                eval('$object =& new CRM_Mailing_Event_BAO_' . $event . '();');
+                $object->event_queue_id = $dao->id;
+                $object->delete();
+            }
+        }
+        
+        $dao->reset();
+        $dao->email_id = $emailId;
+        $dao->delete( );
+    }
 }
 
 ?>

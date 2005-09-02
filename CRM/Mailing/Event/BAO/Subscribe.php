@@ -194,6 +194,32 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
     }
+
+    /**
+     * Delete subscription records for a contact
+     * 
+     * @param int $contactId        ID of the contact being deleted
+     * @return none
+     * @access public
+     * @static
+     */
+    public static function deleteContact( $contactId ) {
+        $dao =& new CRM_Mailing_Event_DAO_Subscribe();
+        $dao->contact_id = $contactId;
+        $dao->find();
+
+        $object =& new CRM_Mailing_Event_DAO_Confirm();
+
+        while ($dao->fetch()) {
+            $object->reset();
+            $object->event_subscribe_id = $dao->id;
+            $object->delete();
+        }
+
+        $dao->reset();
+        $dao->contact_id = $contactId;
+        $dao->delete();
+    }
 }
 
 ?>
