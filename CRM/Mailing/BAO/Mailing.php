@@ -496,10 +496,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             $this, true);
         }
         
+        $html = $this->html;
+        $text = $this->text;
+        
         if (!$test && $this->url_tracking) {
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($this->html,
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
                                 $this->id, $event_queue_id);
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($this->text,
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
                                 $this->id, $event_queue_id);
         }
         
@@ -515,7 +518,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $contact['preferred_mail_format'] == 'Both') 
         {
             $text = CRM_Utils_Token::replaceContactTokens(
-                                        $this->text, $contact, false);
+                                        $text, $contact, false);
             $text = CRM_Utils_Token::replaceActionTokens( $text,
                                         $verp, false);
                                         
@@ -530,7 +533,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $contact['preferred_mail_format'] == 'Both')
         {
             $html = CRM_Utils_Token::replaceContactTokens(
-                                        $this->html, $contact, true);
+                                        $html, $contact, true);
             $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, true);
             
             if ($this->open_tracking) {
