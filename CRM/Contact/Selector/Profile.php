@@ -169,7 +169,10 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
 
                 self::$_columnHeaders = array( array( 'name' => 'Name' ),
                                                array( 'name' => 'From' ),
-                                               array( 'name' => 'Current Contact Info' ) );
+                                               array( 'name' => '&nbsp;' ),
+                                               array( 'name' => 'Current Status' ),
+                                               array( 'name' => 'Current Contact Info' ),
+                                               array( 'name' => 'Current Location' ) );
             }
         }
         return self::$_columnHeaders;
@@ -254,20 +257,23 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
     function mungeRow( $row ) {
         $newRow = array( );
         $row = array_values( $row );
-        $newRow[0] = $this->combine( $row, array( 1, 0 ) );
-        $newRow[1] = $this->combine( $row, array( 5, 4, 2, 3, 6 ) );
-        $newRow[2] = $this->combine( $row, array( 7, 8, 11, 9, 10, 12, 13 ) );
+        $newRow[0] = $this->combine( $row, array( 2, 1 ) );
+        $newRow[1] = $this->combine( $row, array( 6, 5 ), '<br />' );
+        $newRow[2] = $this->combine( $row, array( 3, 4, 7 ) );
+        $newRow[3] = $this->combine( $row, array( 8, 9 ) );
+        $newRow[4] = $this->combine( $row, array( 13, 12 ), '<br />' );
+        $newRow[5] = $this->combine( $row, array( 10, 11 ) );
         return $newRow;
     }
 
-    function combine( $row, $items ) {
+    function combine( $row, $items, $seperator = ', ' ) {
         $item = array( );
         foreach ( $items as $idx ) {
             if ( ! empty( $row[$idx] ) ) {
                 $item[] = $row[$idx];
             }
         }
-        return implode( ', ', $item );
+        return implode( $seperator, $item );
     }
 
     /**

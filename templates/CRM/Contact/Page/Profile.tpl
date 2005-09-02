@@ -1,3 +1,5 @@
+{include file="CRM/Contact/Form/Profile.tpl"}
+
 {include file="CRM/pager.tpl" location="top"}
 
 {* show profile listings criteria *}

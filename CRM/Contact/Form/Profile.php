@@ -89,9 +89,10 @@ class CRM_Contact_Form_Profile extends CRM_Core_Form
 
         // add the form elements 
         foreach ($this->_fields as $name => $field ) { 
-            if ( $field['name'] === 'state_province_id' ) { 
-                $this->add('select', $field['name'], $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), false );
+            if ( $field['name'] === 'state_province_id' ) {
+                $this->add('select', $field['name'], $field['title'],
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(),
+                           false );
             } else if ( $field['name'] === 'country_id' ) {                            
                 $this->add('select', $field['name'], $field['title'],  
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), false );

@@ -456,7 +456,7 @@ class CRM_Core_Invoke {
         if ( $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile' ) ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
 
             $wrapper =& new CRM_Utils_Wrapper( ); 
             return $wrapper->run( 'CRM_UF_Form_Profile', ts( 'Create Profile' ), CRM_Core_Action::ADD );

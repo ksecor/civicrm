@@ -1,5 +1,4 @@
 <?php 
-
 /* 
  +--------------------------------------------------------------------+ 
  | CiviCRM version 1.1                                                | 
@@ -55,7 +54,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
 
     /**
      * extracts the parameters from the request and constructs information for
-     * the selectror object to do a query
+     * the selector object to do a query
      *
      * @return void 
      * @access public 
@@ -71,8 +70,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
 
         $where[] = " ( civicrm_contact.contact_type = 'Individual' ) ";
         foreach ( $this->_fields as $key => $field ) {
-            $nullObject = null;
-            $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject, false, null, 'REQUEST' );
+            $value = CRM_Utils_Request::retrieve( $field['name'], $this, false, null, 'REQUEST' );
             if ( isset( $value ) && $value != null ) {
                 $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
@@ -85,7 +83,18 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                         $where[] = $sql; 
                     } 
                 } else {
-                    $value = strtolower( $value ); 
+                    if ( $field['name'] === 'state_province_id' ) {
+                        if ( is_numeric( $value ) ) {
+                            $states =& CRM_Core_PseudoConstant::stateProvince();
+                            $value  =  $states[$value];
+                        }
+                    } else if ( $field['name'] === 'country_id' ) {
+                        if ( is_numeric( $value ) ) {
+                            $countries =& CRM_Core_PseudoConstant::country( );
+                            $value     =  $countries[$value];
+                        }
+                    }
+                    $value = strtolower( $value );
                     $where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . addslashes( $value ) . '%"'; 
 
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
@@ -109,11 +118,6 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $formController =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Profile', 'Search Profile', CRM_Core_Action::ADD );
-        $formController->setEmbedded( true );
-        $formController->process( ); 
-        $formController->run( ); 
-
         $selector =& new CRM_Contact_Selector_Profile( $this->_clause, $this->_tables );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
@@ -122,7 +126,13 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
         $controller->setEmbedded( true );
         $controller->run( );
 
+        $formController =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Profile', 'Search Profile', CRM_Core_Action::ADD );
+        $formController->setEmbedded( true );
+        $formController->process( ); 
+        $formController->run( ); 
+
         return parent::run( );
+
     }
 
 }

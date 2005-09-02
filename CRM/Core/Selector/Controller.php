@@ -307,7 +307,6 @@ class CRM_Core_Selector_Controller {
                 self::$_template->assign_by_ref( 'rows'         , $rows          );
             }
         } else {
-
             // output requires paging/sorting capability
             // get rows with paging criteria
             $rows          =& $this->_object->getRows( $this->_action,
