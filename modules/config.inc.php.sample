@@ -189,6 +189,29 @@ define('CIVICRM_GEOCODE_METHOD', '' );
  */
 define('CIVICRM_DOMAIN_ID' , 1 );
 
+/**
+ * Debugging
+ *
+ * Enable CIVICRM_DEBUG (value = 1) when you need to use one of the debug-related tools. These are 
+ * triggered via URL parameters - IF CIVICRM_DEBUG is turned on.
+ *
+ * Debugging tools:
+ * Smarty Debug Window - Loads all variables available to the current page template into a pop-up
+ * window. To trigger, add '&smartyDebug=1' to any CiviCRM URL query string.
+ *
+ * Session Reset - Resets all values in your client session. To trigger, add '&sessionReset=2'
+ *
+ * Directory Cleanup - Empties template cache and/or upload file folders.
+ *  To empty template cache (civicrm/templates_c folder), add '&directoryCleanup=1'
+ *  To remove temporary upload files (civicrm/upload folder), add '&directoryCleanup=2'
+ *  To cleanup both, add '&directoryCleanup=3'
+ *
+ * WARNING: Do not leave debugging enabled by default as it can be used to expose configuration
+ * information to unauthorized browsers.
+ */
+define( 'CIVICRM_DEBUG', 0 );
+ 
+ 
 include_once 'config.main.php';
 
 ?>

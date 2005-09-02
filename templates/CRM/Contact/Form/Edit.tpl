@@ -25,7 +25,7 @@
 	<tr>
 		<td>{$form.prefix.html}</td>
 		<td>{$form.first_name.html}</td>
-		<td>{$form.middle_name.html}</td>
+		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
 		<td>{$form.last_name.html}</td>
 		<td>{$form.suffix.html}</td>
 	</tr>
@@ -39,7 +39,7 @@
         <td>&nbsp;</td>
         <td>{$form.job_title.html}</td>
         <td>{$form.greeting_type.html}</td>
-        <td colspan="2">{$form.nick_name.html}</td>
+        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -71,7 +71,7 @@
     <div class="form-item">
         <span class="labels">{$form.nick_name.label}</span>
         <span class="fields">
-            {$form.nick_name.html}
+            {$form.nick_name.html|crmReplace:class:big}
         </span>
     </div>
 
@@ -89,8 +89,8 @@
 		<td>{$form.sic_code.label}</td>
     </tr>
     <tr>
-        <td>{$form.organization_name.html}</td>
-        <td>{$form.legal_name.html}</td>
+        <td>{$form.organization_name.html|crmReplace:class:big}</td>
+        <td>{$form.legal_name.html|crmReplace:class:big}</td>
         <td>{$form.sic_code.html}</td>
     </tr>
     <tr>
@@ -98,8 +98,8 @@
 		<td colspan="2">{$form.nick_name.label}</td>
 	</tr>
     <tr>
-        <td>{$form.home_URL.html}</td>
-        <td colspan="2">{$form.nick_name.html}</td>
+        <td>{$form.home_URL.html|crmReplace:class:big}</td>
+        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
     </tr>
     </table>
 </fieldset>
