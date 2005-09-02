@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -42,6 +42,7 @@ require_once 'test/RSTest/Common.php';
 
 class test_RSTest_GroupSearch
 {
+    
     private $_groupName;
     private $_groupNo;
     private $_group = array();
@@ -63,7 +64,7 @@ class test_RSTest_GroupSearch
     
     private function _parseForGroups()
     {
-        $sampleData        = simplexml_load_file(test_RSTest_Common::DATA_FILENAME);
+        $sampleData         = simplexml_load_file(test_RSTest_Common::DATA_FILENAME);
         
         // group
         foreach ($sampleData->groups->group as $group) {
@@ -83,7 +84,7 @@ class test_RSTest_GroupSearch
         echo "--------------------------------------------\n";
     }
 
-    function run($groupNO)
+    function run()
     {
         $this->_parseForGroups();
         $this->_display();
@@ -92,16 +93,15 @@ class test_RSTest_GroupSearch
             $groupNO = fgetc(STDIN);
         }
         echo "\n**********************************************************************************\n";
-        $this->_groupNo = $groupNO;
-        $this->_groupName = $this->_group[$groupNO-1];
-
-        $result = array();
-        $result['criteria'] = array('group' => $this->_groupName);
-        $this->_startTimeGS          = microtime(true);
-        $result['count'] = $this->_search();
-        $this->_endTimeGS            = microtime(true);
-        $this->_groupSearchTime = $this->_endTimeGS - $this->_startTimeGS;
-        $result['time'] = $this->_groupSearchTime;
+        $this->_groupNo         = $groupNO;
+        $this->_groupName       = $this->_group[$groupNO-1];
+        $result                 = array();
+        $result['criteria']     = array('group' => $this->_groupName);
+        $startTimeGS            = microtime(true);
+        $result['count']        = $this->_search();
+        $endTimeGS              = microtime(true);
+        $this->_groupSearchTime = $endTimeGS - $startTimeGS;
+        $result['time']         = $this->_groupSearchTime;
         return $result;
     }
 }

@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -66,9 +66,13 @@ class test_RSTest_PartialNameSearch
         } while (trim($name) == '');
         echo "\n**********************************************************************************\n";
         $this->_partialName = $name;
-        $result = array();
-        $result['criteria'] = array('name' => $this->_partialName);
-        $result['count'] = $this->_search();
+        $result             = array();
+        $result['criteria']           = array('name' => $this->_partialName);
+        $startTimePNS                 = microtime(true);        
+        $result['count']              = $this->_search();
+        $endTimePNS                   = microtime(true);
+        $this->_partialNameSearchTime = $endTimePNS - $startTimePNS;
+        $result['time']               = $this->_partialNameSearchTime;        
         return $result;
     }
 }

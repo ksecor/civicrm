@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
@@ -70,37 +70,6 @@ class test_RSTest_AddContactToGroup
         }
     }
     
-    /**
-     * Adding Group Contact Status Details. 
-     *
-     * This helper method is used to add details for group contact details.
-     * This method can not be called statically.
-     *
-     * @param   groupContactDAO    group Contact DAO object
-     *
-     * @return  none
-     *
-     * @access  private
-     *//*
-    private function _setGroupContactStatus($groupContactDAO)
-    {
-        switch ($groupContactDAO->status) {
-        case 'Pending':
-            $groupContactDAO->pending_date   = test_RSTest_Common::getRandomDate();
-            $groupContactDAO->pending_method = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
-            break;
-        case 'Added':
-            $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate();
-            $groupContactDAO->in_method      = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
-            break;
-        case 'Removed':
-            $groupContactDAO->out_date       = test_RSTest_Common::getRandomDate();
-            $groupContactDAO->in_date        = test_RSTest_Common::getRandomDate(0, strtotime($groupContactDAO->out_date));
-            $groupContactDAO->out_method     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupMethod), test_RSTest_Common::ARRAY_DIRECT_USE);
-            break;
-        } 
-    }
-       */
     /** 
      * Add contact to Group.
      *
@@ -121,10 +90,17 @@ class test_RSTest_AddContactToGroup
             $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
             $groupContactDAO->contact_id = $id;
             $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
-            
+
+            $subscriptionHistoryDAO             = new CRM_Contact_DAO_SubscriptionHistory();
+            $subscriptionHistoryDAO->contact_id = $groupContactDAO->contact_id;
+            $subscriptionHistoryDAO->group_id   = $groupContactDAO->group_id;
+            $subscriptionHistoryDAO->status     = $groupContactDAO->status;
+            $subscriptionHistoryDAO->method     = test_RSTest_Common::getRandomElement((test_RSTest_Common::$subscriptionHistoryMethod), test_RSTest_Common::ARRAY_DIRECT_USE); // method
+            $subscriptionHistoryDAO->date       = test_RSTest_Common::getRandomDate();
             if ($groupContactDAO->status != 'Pending') {
                 test_RSTest_Common::_insert($groupContactDAO);
             }
+            test_RSTest_Common::_insert($subscriptionHistoryDAO);
         }
     }
     
