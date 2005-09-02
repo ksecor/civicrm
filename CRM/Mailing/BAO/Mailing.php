@@ -470,7 +470,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'Subject'   => $this->subject,
             'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
             'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
-            'Return-path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
+            'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
         );
 
         if ($this->html == null || $this->text == null) {

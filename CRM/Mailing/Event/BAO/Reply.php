@@ -134,7 +134,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             'To'            => $mailing->replyto_email,
             'From'          => $from,
             'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
-            'Return-path'   => "do-not-reply@{$domain->email_domain}",
+            'Return-Path'   => "do-not-reply@{$domain->email_domain}",
         );
         $message->setTxtBody($body);
         $b = $message->get();
@@ -188,7 +188,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
                         array(  '1' => $domain->name,
                                 '2' => "do-not-reply@{$domain->email_domain}")),
             'Reply-To'  => "do-not-reply@{$domain->email_domain}",
-            'Return-path' => "do-not-reply@{$domain->email_domain}"
+            'Return-Path' => "do-not-reply@{$domain->email_domain}"
         );
 
         /* TODO: do we need reply tokens? */

@@ -98,8 +98,8 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
             'From'      => ts('"%1 Administrator" <do-not-reply@%2>',
                             array(  1 => $domain->name,
                                     2 => $domain->email_domain)),
-            'Reply-to'  => "do-not-reply@{$domain->email_domain}",
-            'Return-path'  => "do-not-reply@{$domain->email_domain}",
+            'Reply-To'  => "do-not-reply@{$domain->email_domain}",
+            'Return-Path'  => "do-not-reply@{$domain->email_domain}",
         );
 
         $html = $component->body_html;

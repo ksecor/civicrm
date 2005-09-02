@@ -276,7 +276,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                         2 => "do-not-reply@{$domain->email_domain}")),
             'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-            'Return-path'   => "do-not-reply@{$domain->email_domain}"
+            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
         );
 
         $b = $message->get();
