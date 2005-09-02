@@ -6,6 +6,10 @@
 
  {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+ <link rel="stylesheet" type="text/css" media="all" href="{$config->resourceBase}css/skins/aqua/theme.css" title="Aqua" />
+ <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
+ <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-en.js"></script>
+ <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script>
  
  <div class="crm-submit-buttons">
     {$form.buttons.html}
@@ -131,7 +135,24 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}
+		{$form.birth_date.html}<button id="trigger">...</button>
+{literal}
+<script type="text/javascript">
+  var obj = new Date();
+  var currentYear = obj.getFullYear();
+
+  Calendar.setup(
+    {
+      dateField   : "birth_date[d]",
+      monthField  : "birth_date[M]",
+      yearField   : "birth_date[Y]",
+      button      : "trigger",
+      range       : [1905, currentYear]  
+    }
+  );
+</script>
+{/literal}
+    
         </span>
     </div>
 	<div class="form-item">
