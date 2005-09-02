@@ -195,13 +195,13 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
              $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                        'qs'    => 'c_type=Individual&reset=1',
+                                        'qs'    => 'c_type=Individual&amp;reset=1',
                                         'title' => ts('New Individual') ),
                                  array( 'path'  => 'civicrm/contact/addO',
-                                        'qs'    => 'c_type=Organization&reset=1',
+                                        'qs'    => 'c_type=Organization&amp;reset=1',
                                         'title' => ts('New Organization') ),
                                  array( 'path'  => 'civicrm/contact/addH',
-                                        'qs'    => 'c_type=Household&reset=1',
+                                        'qs'    => 'c_type=Household&amp;reset=1',
                                         'title' => ts('New Household') ),
                                  array( 'path'  => 'civicrm/group/add',
                                         'qs'    => 'reset=1',
