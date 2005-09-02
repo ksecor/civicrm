@@ -121,17 +121,19 @@ class CRM_Core_Selector_Base {
             $this->_order = array( );
             $start  = 2;
             $firstElementNotFound = true;
-            foreach ($columnHeaders as $k => $header) {
-                $header =& $columnHeaders[$k];
-                if (array_key_exists( 'sort', $header)) {
-                    if ( $firstElementNotFound && $header['direction'] != CRM_Utils_Sort::DONTCARE ) {
-                        $this->_order[1] =& $header;
-                        $firstElementNotFound = false;
-                    } else {
-                        $this->_order[$start++] =& $header;
+            if ( ! empty( $columnHeaders ) ) {
+                foreach ($columnHeaders as $k => $header) {
+                    $header =& $columnHeaders[$k];
+                    if (array_key_exists( 'sort', $header)) {
+                        if ( $firstElementNotFound && $header['direction'] != CRM_Utils_Sort::DONTCARE ) {
+                            $this->_order[1] =& $header;
+                            $firstElementNotFound = false;
+                        } else {
+                            $this->_order[$start++] =& $header;
+                        }
                     }
+                    unset($header);
                 }
-                unset($header);
             }
             if ( $firstElementNotFound ) {
                 // CRM_Core_Error::fatal( "Could not find a valid sort directional element" );

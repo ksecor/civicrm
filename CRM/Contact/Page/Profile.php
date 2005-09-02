@@ -86,7 +86,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                     } 
                 } else {
                     $value = strtolower( $value ); 
-                    $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
+                    $where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . addslashes( $value ) . '%"'; 
 
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) {

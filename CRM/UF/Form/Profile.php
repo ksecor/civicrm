@@ -27,7 +27,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -45,7 +44,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Dynamic extends CRM_Core_Form
+class CRM_UF_Form_Profile extends CRM_Core_Form
 {
     /**
      * The contact id that we are editing
@@ -89,13 +88,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     function preProcess()
     {
         $this->_id      = $this->get( 'id'  );
-        $this->_gid     = $this->get( 'gid' );
-        if ( $this->get( 'register' ) ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
-        } else {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action );
-        }
-
+        $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
         $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
     }
 
@@ -107,7 +100,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        $this->assign( 'action',  $this->_action );
+        $this->assign( 'action', $this->_action );
         $this->assign( 'fields', $this->_fields );
 
         // do we need inactive options ?
@@ -117,23 +110,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
-        // should we restrict what we display
-        $admin = false;
-        $session  =& CRM_Core_Session::singleton( );
-        // show all fields that are visibile: if we are a admin or the same user or in registration mode
-        if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
-             $this->_id == $session->get( 'userID' )                 ||
-             $this->get( 'register' ) ) {
-            $admin = true;
-        }
-        
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
-            // make sure that there is enough permission to expose this field
-            if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
-                continue;
-            }
-
             if ( $field['name'] === 'state_province_id' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);
@@ -155,8 +133,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         $this->addButtons(array(
-                                array ('type'      => 'submit',
+                                array ('type'      => 'next',
                                        'name'      => ts('Save'),
+                                       'isDefault' => true),
+                                array ('type'      => 'cancel',
+                                       'name'      => ts('Cancel'),
                                        'isDefault' => true)
                                 )
                           );
@@ -165,8 +146,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
-
-        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
+        
+        $this->addFormRule( array( 'CRM_UF_Form_Profile', 'formRule' ), $this->_id );
     }
 
     /**
@@ -196,8 +177,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         // hack add the email, does not work in registration, we need the real user object
-        global $user;
-        $fields['edit']['email'] = $user->mail;
         $cid = null;
         if ( $options ) {
             $cid = (int ) $options;
@@ -319,7 +298,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( 'Dynamic' );
+        $params = $this->controller->exportValues( 'Profile' );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
@@ -395,6 +374,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             
             CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
         }
+
+        CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
     }
 }
 

@@ -166,6 +166,10 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
                 foreach ( $row as $name => $value ) {
                     self::$_columnHeaders[] = array( 'name'=> $name );
                 }
+
+                self::$_columnHeaders = array( array( 'name' => 'Name' ),
+                                               array( 'name' => 'From' ),
+                                               array( 'name' => 'Current Contact Info' ) );
             }
         }
         return self::$_columnHeaders;
@@ -241,9 +245,29 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         while ($result->fetch()) {
             $row = array( );
             CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-            $rows[] = $row;
+            // $rows[] = $row;
+            $rows[] = $this->mungeRow( $row );
         }
         return $rows;
+    }
+
+    function mungeRow( $row ) {
+        $newRow = array( );
+        $row = array_values( $row );
+        $newRow[0] = $this->combine( $row, array( 1, 0 ) );
+        $newRow[1] = $this->combine( $row, array( 5, 4, 2, 3, 6 ) );
+        $newRow[2] = $this->combine( $row, array( 7, 8, 11, 9, 10, 12, 13 ) );
+        return $newRow;
+    }
+
+    function combine( $row, $items ) {
+        $item = array( );
+        foreach ( $items as $idx ) {
+            if ( ! empty( $row[$idx] ) ) {
+                $item[] = $row[$idx];
+            }
+        }
+        return implode( ', ', $item );
     }
 
     /**

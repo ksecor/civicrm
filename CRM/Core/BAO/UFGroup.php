@@ -579,7 +579,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                               urlencode( $field['name'] ) .
                                               '=' .
                                               urlencode( $params[$index] ) );
-                $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+                if ( ! empty( $values[$index] ) ) {
+                    $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+                }
             }
         }
     }

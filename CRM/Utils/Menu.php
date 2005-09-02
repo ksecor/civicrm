@@ -407,6 +407,15 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
+                            'path'    => 'civicrm/profile/create',
+                            'title'   => ts( 'CiviCRM Profile Create' ),
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0,
+                            ),
+
+                      array(
                             'path'    => 'civicrm/mailing/component',
                             'title'   => ts('Mailing Header / Footer'),
                             'type'    => self::CALLBACK,
