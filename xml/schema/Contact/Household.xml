@@ -30,6 +30,9 @@
        <name>household_name</name>
        <type>varchar</type>
        <length>128</length>
+       <import>true</import>
+       <headerPattern>/^household|(h(ousehold\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
        <comment>Household Name.</comment>
        <fulltext/>
   </field>

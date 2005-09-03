@@ -63,6 +63,14 @@ abstract class CRM_Import_Parser {
         DUPLICATE_FILL = 8,
         DUPLICATE_NOCHECK = 16;
 
+    /**
+     * various Contact types
+     */
+    const
+        CONTACT_INDIVIDUAL     = 1,
+        CONTACT_HOUSEHOLD      = 2,
+        CONTACT_ORGANIZATION   = 4;
+
     protected $_fileName;
 
     /**#@+
@@ -205,6 +213,16 @@ abstract class CRM_Import_Parser {
      */
     protected $_duplicateFileName;
 
+
+    /**
+     * contact type
+     *
+     * @var int
+     */
+
+    public $_contactType;
+    
+
     function __construct() {
         $this->_maxLinesToProcess = 0;
         $this->_maxErrorCount = self::MAX_ERRORS;
@@ -217,9 +235,21 @@ abstract class CRM_Import_Parser {
                   &$mapper,
                   $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
-                  $onDuplicate = self::DUPLICATE_SKIP) {
-        $this->init();
+                  $contactType = self::CONTACT_INDIVIDUAL,
+                  $onDuplicate = self::DUPLICATE_SKIP ) {
+        switch ($contactType) {
+        case CRM_Import_Parser::CONTACT_INDIVIDUAL :
+            $this->_contactType = 'Individual';
+            break;
+        case CRM_Import_Parser::CONTACT_HOUSEHOLD :
+            $this->_contactType = 'Household';
+            break;
+        case CRM_Import_Parser::CONTACT_ORGANIZATION :
+            $this->_contactType = 'Organization';
+        }
 
+        $this->init();
+      
         $this->_seperator = $seperator;
 
         $fd = fopen( $fileName, "r" );
@@ -364,7 +394,7 @@ abstract class CRM_Import_Parser {
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
             
-            $customfields =& CRM_Core_BAO_CustomField::getFields();
+            $customfields =& CRM_Core_BAO_CustomField::getFields($this->_contactType);
             foreach ($customHeaders as $key => $value) {
                 if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
                     $customHeaders[$key] = $customfields[$id][0];
@@ -422,7 +452,6 @@ abstract class CRM_Import_Parser {
     }
 
     function setActiveFieldValues( $elements ) {
-//          CRM_Core_Error::debug('f', $this->_activeFields);
         for ( $i = 0; $i < count( $elements ); $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
         }
@@ -565,6 +594,18 @@ abstract class CRM_Import_Parser {
             $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
             $store->set( 'conflictRowCount', $this->_conflictCount );
             
+
+
+            switch ($this->_contactType) {
+            case 'Individual':
+                $store->set( 'contactType', CRM_Import_Parser::CONTACT_INDIVIDUAL );    
+                break;
+            case 'Household' :
+                $store->set( 'contactType', CRM_Import_Parser::CONTACT_HOUSEHOLD );    
+                break;
+            case 'Organization':
+                $store->set( 'contactType', CRM_Import_Parser::CONTACT_ORGANIZATION );    
+            }
                             
             if ($this->_invalidRowCount) {
                 $store->set( 'errorsFileName', $this->_errorFileName );

@@ -180,7 +180,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    public static function &getFields( ) {
+    public static function &getFields($contactType = 'Individual' ) {
+        
         if (!(self::$_importFields)) {
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
@@ -193,7 +194,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      WHERE $cfTable.is_active = 1
                      AND   $cgTable.is_active = 1
                      AND   $cgTable.extends IN 
-                            ('Individual', 'Contact')
+                            ('".$contactType."', 'Contact')
                      ORDER BY $cgTable.weight, $cgTable.id,
                               $cfTable.weight, $cfTable.id";
                  
@@ -214,13 +215,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Return the field ids and names (with groups) for import purposes.
      *
+     * @param int $contactType contact type
+     *
      * @return array $fields - 
      *
      * @access public
      * @static
      */
-    public static function &getFieldsForImport( ) {
-        $fields = self::getFields();
+    public static function &getFieldsForImport($contactType = 'Individual') {
+        $fields = self::getFields($contactType);
         
         $importableFields = array();
         foreach ($fields as $id => $values) {

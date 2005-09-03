@@ -1453,19 +1453,21 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * The ordering is important, since currently we do not have a weight
      * scheme. Adding weight is super important and should be done in the
      * next week or so, before this can be called complete.
+     * @param int $contactType contact Type
      *
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( ) {
+    function &importableFields( $contactType = 'Individual' ) {
         if ( ! self::$_importableFields ) {
             self::$_importableFields = array();
             
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    array('' => array( 'title' => ts('-do not import-'))) );
             
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Individual::import( ) );
+             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
+            
+            eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
 
             $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                             CRM_Core_DAO_Phone::import( ),
@@ -1482,7 +1484,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_DAO_Note::import());
             self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Core_BAO_CustomField::getFieldsForImport() );
+                                                   CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
         }
         return self::$_importableFields;
     }

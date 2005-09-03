@@ -26,6 +26,7 @@
           <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
           </dd> 
+       <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
        <dt>&nbsp;</dt>
             <dd class="description">

@@ -30,6 +30,9 @@
        <name>organization_name</name>
        <type>varchar</type>
        <length>128</length>
+       <import>true</import>
+       <headerPattern>/^organization|(o(rganization\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
        <comment>Organization Name.</comment>
        <fulltext/>
   </field>

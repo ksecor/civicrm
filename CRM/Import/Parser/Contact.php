@@ -51,6 +51,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_firstNameIndex;
     protected $_lastNameIndex;
 
+    protected $_householdNameIndex;
+    protected $_organizationNameIndex;
+
     protected $_allEmails;
 
     protected $_phoneIndex;
@@ -80,8 +83,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function init( ) {
-        $fields =& CRM_Contact_BAO_Contact::importableFields( );
-        
+        $fields =& CRM_Contact_BAO_Contact::importableFields($this->_contactType);
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'], $field['hasLocationType'] );
         }
@@ -96,6 +98,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->_emailIndex = -1;
         $this->_firstNameIndex = -1;
         $this->_lastNameIndex = -1;
+        $this->_householdNameIndex = -1;
+        $this->_organizationNameIndex = -1;
 
         $index             = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
@@ -111,6 +115,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             if ( $key == 'last_name' ) { 
                 $this->_lastNameIndex = $index;
+            }
+            if ( $key == 'household_name' ) { 
+                $this->_householdNameIndex = $index;
+            }
+            if ( $key == 'organization_name' ) { 
+                $this->_organizationNameIndex = $index;
             }
             $index++;
         }
@@ -156,19 +166,42 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 //         if ( $response != self::VALID ) {
 //             return $response;
 //         }
-        if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
-            $noFirstLast = true;
-        } else {
-            $noFirstLast = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
-                        ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
+        $errorRequired = false;
+        switch ($this->_contactType) { 
+        case 'Individual' :
+            if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
+                $errorRequired = true;
+            } else {
+                $errorRequired = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
+                    ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
+            }
+            break;
+        case 'Household' :
+            if ( $this->_householdNameIndex < 0 ) {
+                $errorRequired = true;
+            } else {
+                $errorRequired = ! CRM_Utils_Array::value($this->_householdNameIndex, $values);
+            }
+            break;
+        case 'Organization' :
+            if ( $this->_organizationNameIndex < 0 ) {
+                $errorRequired = true;
+            } else {
+                $errorRequired = ! CRM_Utils_Array::value($this->_organizationNameIndex, $values);
+            }
+            break;
         }
+        
         if ( $this->_emailIndex >= 0 ) {
             /* If we don't have the required fields, bail */
-            if ($noFirstLast && ! CRM_Utils_Array::value('email', $values)) {
-                array_unshift($values, ts('Missing required fields'));
-//                 return self::ERROR;
-                return CRM_Import_Parser::ERROR;
+            if ($this->_contactType == 'Individual') {
+                if ($errorRequired && ! CRM_Utils_Array::value('email', $values)) {
+                    array_unshift($values, ts('Missing required fields'));
+                    //                 return self::ERROR;
+                    return CRM_Import_Parser::ERROR;
+                }
             }
+            
             $email = CRM_Utils_Array::value( $this->_emailIndex, $values );
             if ( $email ) {
                 /* If the email address isn't valid, bail */
@@ -187,7 +220,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = $this->_lineCount;
             }
-        } else if ($noFirstLast) {
+        } else if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
 //             return self::ERROR;
             return CRM_Import_Parser::ERROR;
@@ -227,11 +260,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         $params =& $this->getActiveFieldParams( );
-        $formatted = array('contact_type' => 'Individual');
+        $formatted = array('contact_type' => $this->_contactType);
         
         static $indieFields = null;
         if ($indieFields == null) {
-            $indieFields =& CRM_Contact_DAO_Individual::import();
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $this->_contactType) . ".php");
+            eval('$indieFields =& CRM_Contact_DAO_'.$this->_contactType.'::import();');
         }
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
@@ -255,12 +289,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             
             $value = array($key => $field);
             if (array_key_exists($key, $indieFields)) {
-                $value['contact_type'] = 'Individual';
+                $value['contact_type'] = $this->_contactType;
             }
 
             _crm_add_formatted_param($value, $formatted);
         }
-        CRM_Core_Error::debug('v', $formatted);
+        //CRM_Core_Error::debug('v', $formatted);
 
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
 //         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
