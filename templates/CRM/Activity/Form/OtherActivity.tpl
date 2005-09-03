@@ -35,14 +35,14 @@
         <script type="text/javascript">
           var obj = new Date();
           var currentYear = obj.getFullYear();
-
+          var endYear     = currentYear + 3 ;
           Calendar.setup(
             {
               dateField   : "scheduled_date_time[d]",
               monthField  : "scheduled_date_time[M]",
               yearField   : "scheduled_date_time[Y]",
               button      : "trigger",
-              range       : [currentYear, 2008]  
+              range       : [currentYear, endYear]  
             }
           );
         </script>
