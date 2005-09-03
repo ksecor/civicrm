@@ -133,7 +133,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/contact/view/activity',
                                                                          'qs'       => 'show=1&action=delete&id=%%id%%&cid=%%cid%%',
-                                                                         'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\')) this.href+=\'&confirmed=1\'; else return false;"',
+                                                                         'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
                                         );
