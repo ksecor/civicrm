@@ -26,26 +26,25 @@
     {if $action eq 4}
         <dt>{$form.scheduled_date_time.label}</dt><dd>{$scheduled_date_time|crmDate}</dd>
     {else}
-        <dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}
-<button id="trigger">...</button>
-{literal}
-<script type="text/javascript">
-  var obj = new Date();
-  var currentYear = obj.getFullYear();
+        <dt>{$form.scheduled_date_time.label}</dt>
+        <dd>{$form.scheduled_date_time.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+        {literal}
+        <script type="text/javascript">
+          var obj = new Date();
+          var currentYear = obj.getFullYear();
 
-  Calendar.setup(
-    {
-      dateField   : "scheduled_date_time[d]",
-      monthField  : "scheduled_date_time[M]",
-      yearField   : "scheduled_date_time[Y]",
-      button      : "trigger",
-      range       : [currentYear, 2008]  
-    }
-  );
-</script>
-{/literal}
-
-</dd>
+          Calendar.setup(
+            {
+              dateField   : "scheduled_date_time[d]",
+              monthField  : "scheduled_date_time[M]",
+              yearField   : "scheduled_date_time[Y]",
+              button      : "trigger",
+              range       : [currentYear, 2008]  
+            }
+          );
+        </script>
+        {/literal}
+        </dd>
     {/if}
 	<dt>{ts}Duration{/ts}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>

@@ -135,24 +135,23 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}<button id="trigger">...</button>
-{literal}
-<script type="text/javascript">
-  var obj = new Date();
-  var currentYear = obj.getFullYear();
+		{$form.birth_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+        {literal}
+        <script type="text/javascript">
+          var obj = new Date();
+          var currentYear = obj.getFullYear();
 
-  Calendar.setup(
-    {
-      dateField   : "birth_date[d]",
-      monthField  : "birth_date[M]",
-      yearField   : "birth_date[Y]",
-      button      : "trigger",
-      range       : [1905, currentYear]  
-    }
-  );
-</script>
-{/literal}
-    
+          Calendar.setup(
+            {
+              dateField   : "birth_date[d]",
+              monthField  : "birth_date[M]",
+              yearField   : "birth_date[Y]",
+              button      : "trigger",
+              range       : [1905, currentYear]  
+            }
+          );
+        </script>
+        {/literal}
         </span>
     </div>
 	<div class="form-item">

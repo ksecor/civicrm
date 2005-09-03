@@ -105,38 +105,38 @@
         {if $searchRows OR $action EQ 2}
             <div class="form-item">
                 <dl>
-                <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}
-<button id="trigger">...</button>
-{literal}
-<script type="text/javascript">
-  Calendar.setup(
-    {
-      dateField   : "start_date[d]",
-      monthField  : "start_date[M]",
-      yearField   : "start_date[Y]",
-      button      : "trigger",
-      range       : [1985, 2025]  
-    }
-  );
-</script>
-{/literal}
-</dd>
-                <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}
-<button id="trigger">...</button>
-{literal}
-<script type="text/javascript">
-  Calendar.setup(
-    {
-      dateField   : "end_date[d]",
-      monthField  : "end_date[M]",
-      yearField   : "end_date[Y]",
-      button      : "trigger",
-      range       : [1985, 2025]  
-    }
-  );
-</script>
-{/literal}
-</dd>
+                <dt>{$form.start_date.label}</dt>
+                <dd>{$form.start_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+                {literal}
+                <script type="text/javascript">
+                  Calendar.setup(
+                    {
+                      dateField   : "start_date[d]",
+                      monthField  : "start_date[M]",
+                      yearField   : "start_date[Y]",
+                      button      : "trigger",
+                      range       : [1985, 2025]  
+                    }
+                  );
+                </script>
+                {/literal}
+                </dd>
+                <dt>{$form.end_date.label}</dt>
+                <dd>{$form.end_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+                {literal}
+                <script type="text/javascript">
+                  Calendar.setup(
+                    {
+                      dateField   : "end_date[d]",
+                      monthField  : "end_date[M]",
+                      yearField   : "end_date[Y]",
+                      button      : "trigger",
+                      range       : [1985, 2025]  
+                    }
+                  );
+                </script>
+                {/literal}
+                </dd>
                 <dt> </dt>
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
