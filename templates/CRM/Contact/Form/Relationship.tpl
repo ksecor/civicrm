@@ -13,7 +13,7 @@
 	    {foreach from=$viewRelationship item="row"}
             <dl>
             <dt>{$row.relation}</dt> 
-            <dd class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.cid`"}">{$row.name}</a></dd>
+            <dd class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$row.cid`"}">{$row.name}</a></dd>
             {if $row.start_date}
                 <dt>{ts}Start Date:{/ts}</dt><dd>{$row.start_date|crmDate}</dd>
             {/if}
@@ -22,7 +22,7 @@
             {/if}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             <dt></dt>
-            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
+            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"/></dd>
             </dl>
             {/foreach}
         </div>

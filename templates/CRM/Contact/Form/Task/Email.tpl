@@ -14,5 +14,6 @@
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
 {/if}
 <dt></dt><dd>{$form.buttons.html}</dd>
+</dl>
 </fieldset>
 </div>
