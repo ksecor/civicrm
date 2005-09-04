@@ -4416,13 +4416,12 @@ msgid "(for %1)"
 msgstr "(dla %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
-#, fuzzy
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 "Pełna lub częściowa nazwa kontaktu lub adres email. By znaleźć osoby podając "
-"imię i nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
+"<br />imię i nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
@@ -5771,168 +5770,148 @@ msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Home"
-msgstr "URL strony domowej"
+msgstr "Dom"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Miejsce zamieszkania"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Work"
-msgstr "lub"
+msgstr "Praca"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Work location"
-msgstr "Lokalizacja"
+msgstr "Lokalizacja pracy"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Main"
-msgstr "min."
+msgstr "Główna"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Lokalizacja głównego biura"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Another location"
-msgstr "inny email"
+msgstr "Inna lokalizacja"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Rodzicem jest"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Dzieckiem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Parent/child relationship."
-msgstr "Poprzednie powiązania"
+msgstr "Powiązanie rodzic/dziecko."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Małżonkiem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Spousal relationship."
-msgstr "Zapisz powiązanie"
+msgstr "Powiązanie małżeńskie."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Rodzeństwem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Sibling relationship."
-msgstr "Wyłącz powiązanie"
+msgstr "Powiązanie rodzeństwa."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Pracodawcą jest"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Pracownikiem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Employment relationship."
-msgstr "Powiązanie just istniejące."
+msgstr "Powiązanie pracy."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Volunteer for"
-msgstr "Informacje o głosującym"
+msgstr "Wolontariusz dla"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Wolontariuszem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Volunteer relationship."
-msgstr "Powiązanie just istniejące."
+msgstr "Powiązanie wolontariatu."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of Household for"
-msgstr "Dodaj do mieszkania"
+msgstr "Główny lokator mieszkania"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of Household is"
-msgstr "Dodaj do mieszkania"
+msgstr "Głównym lokatorem jest"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of household."
-msgstr "Dodaj do mieszkania"
+msgstr "Główny lokator."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household Member of"
-msgstr "Nazwa mieszkania"
+msgstr "Mieszka w"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household Member is"
-msgstr "Nazwa mieszkania"
+msgstr "Zamieszkane przez"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household membership."
-msgstr "Nazwa mieszkania"
+msgstr "Zamieszkanie."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Non-profit"
-msgstr ""
+msgstr "Non-profit"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Any not-for-profit organization."
-msgstr "Dodaj kontakty do organizacji"
+msgstr "Dowolna orgranizacja non-profit."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Company"
-msgstr ""
+msgstr "Firma"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "For-profit organization."
-msgstr "Znajdź organizację docelową"
+msgstr "Organizacja for-profit."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "Jednostka rządowa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Any governmental entity."
-msgstr ""
+msgstr "Dowolna jednostka rządowa."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Major Donor"
-msgstr ""
+msgstr "Główny sponsor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "High-value supporter of our organization."
-msgstr ""
+msgstr "Poważny sponsor naszej organizacji."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Volunteer"
-msgstr "Kraj"
+msgstr "Wolontariusz"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "Aktywni wolontariusze."
 
 #~ msgid "Please enter a valid label for this field."
 #~ msgstr "Wprowadź poprawną etykietę dla tego pola."
