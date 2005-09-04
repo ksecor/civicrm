@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-30 10:43+0200\n"
+"POT-Creation-Date: 2005-09-04 12:17+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1395,7 +1395,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php
+#: CRM/Contact/DAO/Individual.php xml/templates/civicrm_data.tpl
 msgid "Other"
 msgstr ""
 
@@ -4414,7 +4414,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
-"<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -4791,6 +4791,10 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Edit custom data"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
@@ -5590,6 +5594,159 @@ msgstr ""
 
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Home"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Place of residence"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Work"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work location"
+msgstr "สถานที่"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Main"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Main office location"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Another location"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Child of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Parent of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Parent/child relationship."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Spouse of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Spousal relationship."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sibling of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sibling relationship."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employee of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employer of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employment relationship."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer for"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer is"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer relationship."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household for"
+msgstr "ครัวเรือนใหม่"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household is"
+msgstr "ครัวเรือนใหม่"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of household."
+msgstr "ครัวเรือน"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member of"
+msgstr "ชื่อครัวเรือน"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member is"
+msgstr "ชื่อครัวเรือน"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household membership."
+msgstr "ชื่อครัวเรือน"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Non-profit"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Any not-for-profit organization."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Company"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "For-profit organization."
+msgstr "หน่วยงาน"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Government Entity"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Any governmental entity."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Major Donor"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "High-value supporter of our organization."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer"
+msgstr "ประเทศ"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Active volunteers."
 msgstr ""
 
 #, fuzzy
