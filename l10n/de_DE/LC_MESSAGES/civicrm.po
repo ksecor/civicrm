@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-30 10:43+0200\n"
+"POT-Creation-Date: 2005-09-04 12:17+0200\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -1383,7 +1383,7 @@ msgstr "Ehrend"
 msgid "Custom"
 msgstr "Eigene"
 
-#: CRM/Contact/DAO/Individual.php
+#: CRM/Contact/DAO/Individual.php xml/templates/civicrm_data.tpl
 msgid "Other"
 msgstr "Andere"
 
@@ -4459,9 +4459,10 @@ msgid "(for %1)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#, fuzzy
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
-"<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 "Kompletter ODER Teil des Namens ODER Email. Um nach dem Vornamen und dem "
 "Nachnamen zu suchen<br>geben Sie folgendes ein 'Nachname, Vorname'. "
@@ -4877,6 +4878,10 @@ msgstr "Alle Notizen ansehen..."
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
 msgstr "Neue Notiz"
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Edit custom data"
+msgstr "Eigene Daten bearbeiten"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
@@ -5839,6 +5844,169 @@ msgstr ""
 msgid "(step %1 of %2)"
 msgstr "(Schritt %1 von %2)"
 
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Home"
+msgstr "Website"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Place of residence"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work"
+msgstr "oder"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work location"
+msgstr "Standort"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Main"
+msgstr "Min."
+
+#: xml/templates/civicrm_data.tpl
+msgid "Main office location"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Another location"
+msgstr "eine andere Emailadresse"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Child of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Parent of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Parent/child relationship."
+msgstr "Letzte Bezeihungen"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Spouse of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Spousal relationship."
+msgstr "Beziehung speichern"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sibling of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Sibling relationship."
+msgstr "Beziehung deaktivieren"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employee of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employer of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Employment relationship."
+msgstr "Doppelte Beziehung."
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer for"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer is"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer relationship."
+msgstr "Doppelte Beziehung."
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household for"
+msgstr "Zu Haushalt hinzufügen"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household is"
+msgstr "Zu Haushalt hinzufügen"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of household."
+msgstr "Zu Haushalt hinzufügen"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member of"
+msgstr "Haushaltsname"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member is"
+msgstr "Haushaltsname"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household membership."
+msgstr "Haushaltsname"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Non-profit"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Any not-for-profit organization."
+msgstr "Kontakte zu Organisation hinzufügen"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Company"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "For-profit organization."
+msgstr "Zielorganisation finden"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Government Entity"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Any governmental entity."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Major Donor"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "High-value supporter of our organization."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer"
+msgstr "Land"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Active volunteers."
+msgstr ""
+
 #~ msgid "Please enter a valid label for this field."
 #~ msgstr "Bitte geben Sie einen gültigen Namen für das Feld ein."
 
@@ -5857,9 +6025,6 @@ msgstr "(Schritt %1 von %2)"
 #~ msgstr ""
 #~ "Ist dieses Feld sichtbar auf den öffentlichen Benutzerseiten, oder nur "
 #~ "für Administratoren und die Benutzer selbst?"
-
-#~ msgid "Edit custom data"
-#~ msgstr "Eigene Daten bearbeiten"
 
 #~ msgid ""
 #~ "<label>Replace:</label> Replaces the entire matching record in the "
