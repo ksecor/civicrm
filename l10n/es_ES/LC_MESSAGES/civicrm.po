@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-30 10:43+0200\n"
-"PO-Revision-Date: 2005-08-26 19:59+0200\n"
+"POT-Creation-Date: 2005-09-04 12:17+0200\n"
+"PO-Revision-Date: 2005-08-31 23:49+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 0.6.3.20050808\n"
-"Plural-Forms: nplurals=2; plural=(n != 1 ? 1 : 0);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
@@ -1374,7 +1374,7 @@ msgstr "Honorífico"
 msgid "Custom"
 msgstr "A medida"
 
-#: CRM/Contact/DAO/Individual.php
+#: CRM/Contact/DAO/Individual.php xml/templates/civicrm_data.tpl
 msgid "Other"
 msgstr "Otro"
 
@@ -2416,9 +2416,8 @@ msgid "IM Screen Name"
 msgstr "Nombre en pantalla IM"
 
 #: CRM/Core/DAO/ImportMappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Número de Teléfono"
+msgstr "Número de Columna"
 
 #: CRM/Core/DAO/IMProvider.php
 msgid "IM Provider Name"
@@ -2924,35 +2923,31 @@ msgid "Custom Group"
 msgstr "Grupo Personalizado"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this custom data multiple choice option?"
 msgstr ""
-"¿Estás seguro que quieres deshabilitar esta opción de dato personalizado?"
+"¿Estás seguro que quieres deshabilitar esta opción de dato personalizado de "
+"multiple elección?"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Option"
 msgstr "Editar Opción"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Edit Multiple Choice Option"
-msgstr "Editr Opciones Multi-Elección"
+msgstr "Editar Opción Multi-Elección"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "View Multiple Choice Option"
-msgstr "Opciones Multi-Elección"
+msgstr "Ver opción Multi-Elección"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Enable Mutliple Choice Option"
-msgstr "Opciones Multi-Elección"
+msgstr "Habilitar opción Multi-Elección"
 
 #: CRM/Custom/Page/Option.php
-#, fuzzy
 msgid "Disable Multiple Choice Option"
-msgstr "Opciones Multi-Elección"
+msgstr "Deshabilitar opción Multi-Elección"
 
 #: CRM/Custom/Page/Option.php
 msgid "Custom Option"
@@ -4436,9 +4431,10 @@ msgid "(for %1)"
 msgstr "(por %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#, fuzzy
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
-"<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
 "nombre Y apellidos,<br> introduce 'apellidos, nombre'. Ejemplo 'Lopez "
@@ -4845,6 +4841,10 @@ msgid "New Note"
 msgstr "Nueva Nota"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Edit custom data"
+msgstr "Editar datos personalizados"
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
 "Contact. You can either <a href=\"%1\">add Custom Group</a> or <a href=\"%2"
@@ -5034,9 +5034,8 @@ msgstr ""
 "avanzada."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid "View / Edit Multiple Choice Options"
-msgstr "Editr Opciones Multi-Elección"
+msgstr "Ver/Editar Opciones Multi-Elección"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -5701,6 +5700,9 @@ msgid ""
 "is it visible to others (Public User Pages)? If public, can it be used to "
 "aggregate Profile Listing Pages?"
 msgstr ""
+"¿Es este campo visible para los administrador y los propios usuarios, o es "
+"visible para todos (páginas públicas)? si es pública, ¿se puede usar para "
+"añadir páginas de listado de perfiles?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5797,6 +5799,169 @@ msgstr ""
 msgid "(step %1 of %2)"
 msgstr "(paso %1 de %2)"
 
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Home"
+msgstr "URL principal"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Place of residence"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work"
+msgstr "o"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work location"
+msgstr "Localidad"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Main"
+msgstr "Min"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Main office location"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Another location"
+msgstr "otro email"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Child of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Parent of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Parent/child relationship."
+msgstr "Relaciones Pasadas"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Spouse of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Spousal relationship."
+msgstr "Guardar relación"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sibling of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Sibling relationship."
+msgstr "Deshabilitar Relación"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employee of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employer of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Employment relationship."
+msgstr "Duplicar relación"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer for"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer is"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer relationship."
+msgstr "Duplicar relación"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household for"
+msgstr "Añadir a Hogar"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household is"
+msgstr "Añadir a Hogar"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of household."
+msgstr "Añadir a Hogar"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member of"
+msgstr "Nombre de la Familia"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member is"
+msgstr "Nombre de la Familia"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household membership."
+msgstr "Nombre de la Familia"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Non-profit"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Any not-for-profit organization."
+msgstr "Añadir Contactos a Organización"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Company"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "For-profit organization."
+msgstr "Encontrar Organización Destino"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Government Entity"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Any governmental entity."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Major Donor"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "High-value supporter of our organization."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer"
+msgstr "País"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Active volunteers."
+msgstr ""
+
 #~ msgid "Please enter a valid label for this field."
 #~ msgstr "Por Favor, introduce una etiqueta válida para este campo."
 
@@ -5821,9 +5986,6 @@ msgstr "(paso %1 de %2)"
 
 #~ msgid "no"
 #~ msgstr "no"
-
-#~ msgid "Edit custom data"
-#~ msgstr "Editar datos personalizados"
 
 #~ msgid "In"
 #~ msgstr "Dentro"
