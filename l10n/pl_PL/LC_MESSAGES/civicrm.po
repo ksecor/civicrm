@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-30 10:43+0200\n"
+"POT-Creation-Date: 2005-09-04 12:17+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1367,7 +1367,7 @@ msgstr "Honorowy"
 msgid "Custom"
 msgstr "Własny"
 
-#: CRM/Contact/DAO/Individual.php
+#: CRM/Contact/DAO/Individual.php xml/templates/civicrm_data.tpl
 msgid "Other"
 msgstr "Inny"
 
@@ -2920,8 +2920,7 @@ msgstr "Grupa dodatkowa"
 #: CRM/Custom/Page/Option.php
 msgid ""
 "Are you sure you want to disable this custom data multiple choice option?"
-msgstr ""
-"Na pewno wyłączyć tę opcję wielokrotnego wyboru danych dodatkowych?"
+msgstr "Na pewno wyłączyć tę opcję wielokrotnego wyboru danych dodatkowych?"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Option"
@@ -4417,9 +4416,10 @@ msgid "(for %1)"
 msgstr "(dla %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#, fuzzy
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
-"<br>enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 "Pełna lub częściowa nazwa kontaktu lub adres email. By znaleźć osoby podając "
 "imię i nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
@@ -4822,6 +4822,10 @@ msgstr "Zobacz wszystkie notatki…"
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
 msgstr "Nowa notatka"
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Edit custom data"
+msgstr "Edytuj dodatkowe dane"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
@@ -5666,9 +5670,10 @@ msgid ""
 "is it visible to others (Public User Pages)? If public, can it be used to "
 "aggregate Profile Listing Pages?"
 msgstr ""
-"Czy to pole powinno być widoczne tylko dla administratorów użytkowników i samego "
-"użytkownika, czy powinno być widoczne dla innych (publiczne srony użytkowników)? "
-"Jeśli ma być publiczne, to czy powinno być użyte do agregowania stron spisów profili?"
+"Czy to pole powinno być widoczne tylko dla administratorów użytkowników i "
+"samego użytkownika, czy powinno być widoczne dla innych (publiczne srony "
+"użytkowników)? Jeśli ma być publiczne, to czy powinno być użyte do "
+"agregowania stron spisów profili?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -5765,6 +5770,170 @@ msgstr ""
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
 
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Home"
+msgstr "URL strony domowej"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Place of residence"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work"
+msgstr "lub"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Work location"
+msgstr "Lokalizacja"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Main"
+msgstr "min."
+
+#: xml/templates/civicrm_data.tpl
+msgid "Main office location"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Another location"
+msgstr "inny email"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Child of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Parent of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Parent/child relationship."
+msgstr "Poprzednie powiązania"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Spouse of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Spousal relationship."
+msgstr "Zapisz powiązanie"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sibling of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Sibling relationship."
+msgstr "Wyłącz powiązanie"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employee of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Employer of"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Employment relationship."
+msgstr "Powiązanie just istniejące."
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer for"
+msgstr "Informacje o głosującym"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Volunteer is"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer relationship."
+msgstr "Powiązanie just istniejące."
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household for"
+msgstr "Dodaj do mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of Household is"
+msgstr "Dodaj do mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Head of household."
+msgstr "Dodaj do mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member of"
+msgstr "Nazwa mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household Member is"
+msgstr "Nazwa mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Household membership."
+msgstr "Nazwa mieszkania"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Non-profit"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Any not-for-profit organization."
+msgstr "Dodaj kontakty do organizacji"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Company"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "For-profit organization."
+msgstr "Znajdź organizację docelową"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Government Entity"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Any governmental entity."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Major Donor"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "High-value supporter of our organization."
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Volunteer"
+msgstr "Kraj"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Active volunteers."
+msgstr ""
+
 #~ msgid "Please enter a valid label for this field."
 #~ msgstr "Wprowadź poprawną etykietę dla tego pola."
 
@@ -5789,9 +5958,6 @@ msgstr "(krok %1 z %2)"
 
 #~ msgid "no"
 #~ msgstr "nie"
-
-#~ msgid "Edit custom data"
-#~ msgstr "Edytuj dodatkowe dane"
 
 #~ msgid ""
 #~ "<label>Replace:</label> Replaces the entire matching record in the "
@@ -5944,9 +6110,6 @@ msgstr "(krok %1 z %2)"
 #~ msgstr ""
 #~ "Pola danych dodatkowych nie są aktualnie używane dla tego rodzaju "
 #~ "kontaktów."
-
-#~ msgid "Voter Info"
-#~ msgstr "Informacje o głosującym"
 
 #~ msgid "another row"
 #~ msgstr "inny rząd"
