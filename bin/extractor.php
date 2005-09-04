@@ -16,7 +16,7 @@
  */
 
 $phpPot = `find CRM packages/HTML/QuickForm -iname '*.php' | grep -v '^CRM/Core/I18n\.php$' | grep -v '^CRM/Core/Smarty/plugins/block\.ts\.php$' | sort | xargs ./bin/php-extractor.php`;
-$smartyPot = `find templates -iname '*.tpl' | sort | xargs ./bin/smarty-extractor.php`;
+$smartyPot = `find templates xml -iname '*.tpl' | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
 
