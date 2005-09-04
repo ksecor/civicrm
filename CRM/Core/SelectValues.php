@@ -335,8 +335,8 @@ class CRM_Core_SelectValues {
             $minOffset = 20;
             $maxOffset = 20;
         } elseif ($type == 'custom') {
-            $minOffset = 100;
-            $maxOffset = 20;
+            $minOffset = 0;
+            $maxOffset = 3;
         } elseif ($type == 'mailing') {
             $minOffset = 0;
             $maxOffset = 1;
@@ -346,7 +346,7 @@ class CRM_Core_SelectValues {
             $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;
-            $maxOffset = 3;
+            $maxOffset = 0;
         } elseif ($type =='duration') {
             $newDate['format'] = 'H i';
             $newDate['optionIncrement']['i'] = 15;

@@ -460,10 +460,19 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( ); 
             return $wrapper->run( 'CRM_UF_Form_Profile', ts( 'Create Profile' ), CRM_Core_Action::ADD );
-        } else {
-            $page =& new CRM_Contact_Page_Profile( );
+        } 
+
+        if ( $secondArg == 'note' ) {
+            // set the userContext stack 
+            $session =& CRM_Core_Session::singleton();  
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) );  
+
+            $page =& new CRM_Profile_Page_Note( );
             return $page->run( );
         }
+
+        $page =& new CRM_Contact_Page_Profile( );
+        return $page->run( );
     }
     
     /**

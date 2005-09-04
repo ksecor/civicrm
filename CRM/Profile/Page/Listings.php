@@ -34,7 +34,7 @@
  * 
  */ 
 
-require_once 'CRM/Contact/Selector/Profile.php';
+require_once 'CRM/Profile/Selector/Listings.php';
 require_once 'CRM/Core/Selector/Controller.php';
 
 /**
@@ -42,7 +42,7 @@ require_once 'CRM/Core/Selector/Controller.php';
  * object to do the actual dispay. The fields displayd are controlled by
  * the admin
  */
-class CRM_Contact_Page_Profile extends CRM_Core_Page {
+class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
     /**
      * all the fields that are listings related
@@ -118,7 +118,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $selector =& new CRM_Contact_Selector_Profile( $this->_clause, $this->_tables );
+        $selector =& new CRM_Profile_Selector_Listings( $this->_clause, $this->_tables );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                         $this->get( CRM_Utils_Sort::SORT_ID  ),

@@ -416,6 +416,15 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
+                            'path'    => 'civicrm/profile/note',
+                            'title'   => ts( 'Notes about the Person' ),
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0,
+                            ),
+
+                      array(
                             'path'    => 'civicrm/mailing/component',
                             'title'   => ts('Mailing Header / Footer'),
                             'type'    => self::CALLBACK,

@@ -51,10 +51,10 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * results of advanced search options.
  *
  */
-class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
-     * array of supported links, currenly null
+     * array of supported links, currenly view and edit
      *
      * @var array
      * @static
@@ -122,6 +122,22 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
      */
     static function &links()
     {
+        if ( ! self::$_links ) {
+            self::$_links = array( 
+                                  CRM_Core_Action::VIEW   => array(  
+                                                                   'name'     => ts('View Notes'),  
+                                                                   'url'      => 'civicrm/profile/note',  
+                                                                   'qs'       => 'reset=1&action=browse&cid=%%id%%',  
+                                                                   'title'    => ts('View Notes'),  
+                                                                   ), 
+                                  CRM_Core_Action::ADD    => array(   
+                                                                   'name'     => ts('Add Note'),
+                                                                   'url'      => 'civicrm/profile/note',   
+                                                                   'qs'       => 'reset=1&action=add&cid=%%id%%',   
+                                                                   'title'    => ts('Add Note'),   
+                                                                   ) 
+                                  ); 
+        }
         return self::$_links;
     } //end of function
 
@@ -172,7 +188,8 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
                                                array( 'name' => '&nbsp;' ),
                                                array( 'name' => 'Current Status / Source' ),
                                                array( 'name' => 'Current Contact Info' ),
-                                               array( 'name' => 'Current Location' ) );
+                                               array( 'name' => 'Current Location' ),
+                                               array( 'name' => 'Additional Notes' ) );
             }
         }
         return self::$_columnHeaders;
@@ -245,16 +262,18 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         // process the result of the query
         $rows = array( );
 
+        $links =& self::links( );
         while ($result->fetch()) {
-            $row = array( );
             CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-            // $rows[] = $row;
-            $rows[] = $this->mungeRow( $row );
+            $row = $this->mungeRow( $row, $result->contact_id, $links );
+            if ( $row ) {
+                $rows[] = $row;
+            }
         }
         return $rows;
     }
 
-    function mungeRow( $row ) {
+    function mungeRow( $row, $cid, &$links ) {
         $newRow = array( );
         $row = array_values( $row );
         $newRow[0] = $this->combine( $row, array( 2, 1 ) );
@@ -268,7 +287,18 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         }
         $newRow[4] = $this->combine( $row, array( 13, 12 ), '<br />' );
         $newRow[5] = $this->combine( $row, array( 10, 11 ) );
-        return $newRow;
+        // make sure we have some data to display, else return null
+        // note that this throws off the rowcount a bit, and hence the pager
+        $newRow[6] = CRM_Core_Action::formLink( $links, null, array( 'id' => $cid ) );
+
+        for ( $i = 0; $i <= 5; $i++ ) {
+            if ( ! empty( $row[$i] ) ) {
+                return $newRow;
+            }
+        }
+
+        // hey looks like all the data string were empty
+        return null;
     }
 
     function combine( $row, $items, $seperator = ', ' ) {
