@@ -44,7 +44,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Profile extends CRM_Core_Form
+class CRM_Profile_Form_Edit extends CRM_Core_Form
 {
     /**
      * The contact id that we are editing
@@ -138,7 +138,7 @@ class CRM_UF_Form_Profile extends CRM_Core_Form
             $this->freeze();
         }
         
-        $this->addFormRule( array( 'CRM_UF_Form_Profile', 'formRule' ), $this->_id );
+        $this->addFormRule( array( 'CRM_Profile_Form_Edit', 'formRule' ), $this->_id );
     }
 
     /**
@@ -221,7 +221,7 @@ class CRM_UF_Form_Profile extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( 'Profile' );
+        $params = $this->controller->exportValues( $this->_name );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );

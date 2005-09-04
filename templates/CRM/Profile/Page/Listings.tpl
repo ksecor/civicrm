@@ -1,4 +1,4 @@
-{include file="CRM/Contact/Form/Profile.tpl"}
+{include file="CRM/Profile/Form/Search.tpl"}
 
 {include file="CRM/pager.tpl" location="top"}
 

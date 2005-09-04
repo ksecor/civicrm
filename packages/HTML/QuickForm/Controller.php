@@ -471,6 +471,7 @@ class HTML_QuickForm_Controller
         } else {
             $pages = array_keys($data['values']);
         }
+
         foreach ($pages as $page) {
             // skip elements representing actions
             foreach ($data['values'][$page] as $key => $value) {

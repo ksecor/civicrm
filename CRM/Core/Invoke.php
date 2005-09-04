@@ -459,7 +459,7 @@ class CRM_Core_Invoke {
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
 
             $wrapper =& new CRM_Utils_Wrapper( ); 
-            return $wrapper->run( 'CRM_Profile_Form_Create', ts( 'Create Profile' ), CRM_Core_Action::ADD );
+            return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
         } 
 
         if ( $secondArg == 'note' ) {

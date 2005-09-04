@@ -319,7 +319,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( 'Dynamic' );
+        $params = $this->controller->exportValues( $this->_name );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
