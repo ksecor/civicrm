@@ -175,14 +175,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             // this is a gross hack, we get the values and use the keys as column headers
             $result = $this->query(false, 0, 1);
             if ( $result->fetch( ) ) { 
-                $row = array( ); 
-                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-
-                self::$_columnHeaders = array( );
-                foreach ( $row as $name => $value ) {
-                    self::$_columnHeaders[] = array( 'name'=> $name );
-                }
-
                 self::$_columnHeaders = array( array( 'name' => 'Name' ),
                                                array( 'name' => 'From' ),
                                                array( 'name' => '&nbsp;' ),
@@ -264,6 +256,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
         $links =& self::links( );
         while ($result->fetch()) {
+            $row = array( );
             CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
             $row = $this->mungeRow( $row, $result->contact_id, $links );
             if ( $row ) {
