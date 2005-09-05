@@ -642,7 +642,6 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $tables['civicrm_entity_tag'] = 1;
         }
         
-        // check for last name, as of now only working with sort name
         if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
             $name = trim($fv['sort_name']);
             $sub  = array( );
@@ -657,7 +656,10 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 $pieces =  explode( ' ', $name );
                 foreach ( $pieces as $piece ) {
                     $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) ";
+                    $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes(trim($piece))) . "%' )";
                 }
+                $tables['civicrm_location'] = 1;
+                $tables['civicrm_email']    = 1;
             }
             $andArray['sort_name'] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
         }
