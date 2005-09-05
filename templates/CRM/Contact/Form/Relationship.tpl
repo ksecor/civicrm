@@ -106,7 +106,7 @@
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+                <dd>{$form.start_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
                 {literal}
                 <script type="text/javascript">
                   Calendar.setup(
@@ -122,7 +122,7 @@
                 {/literal}
                 </dd>
                 <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+                <dd>{$form.end_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
                 {literal}
                 <script type="text/javascript">
                   Calendar.setup(

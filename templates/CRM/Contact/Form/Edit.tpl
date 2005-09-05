@@ -135,7 +135,7 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+		{$form.birth_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
         {literal}
         <script type="text/javascript">
           var obj = new Date();

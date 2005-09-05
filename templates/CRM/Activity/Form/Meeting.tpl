@@ -27,7 +27,7 @@
         <dt>{$form.scheduled_date_time.label}</dt><dd>{$scheduled_date_time|crmDate}</dd>
     {else}
         <dt>{$form.scheduled_date_time.label}</dt>
-        <dd>{$form.scheduled_date_time.html}<img src={$config->resourceBase}i/cal.gif id="trigger" />
+        <dd>{$form.scheduled_date_time.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
         {literal}
         <script type="text/javascript">
           var obj = new Date();
