@@ -87,7 +87,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_amtgID;
 
     /**
-     * the saved search IDretrieved from the GET vars
+     * the saved search ID retrieved from the GET vars
      *
      * @var int
      * @access protected
@@ -397,7 +397,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         // we only force stuff once :)
         $this->set( 'force', false );
-
 
         $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
         $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
