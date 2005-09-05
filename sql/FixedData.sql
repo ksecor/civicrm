@@ -547,6 +547,8 @@ INSERT INTO civicrm_mailing_bounce_type
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
+    (6, 'Empty group|Group name did not validate'),
+    (6, 'Validation failed'),
     (6, '(user|recipient( name)?) is not recognized'),
     (6, '554 delivery error'),
     (6, 'address does not exist'),

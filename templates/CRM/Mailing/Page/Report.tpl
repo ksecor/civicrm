@@ -156,7 +156,7 @@
 <tr class="{cycle values="odd-row,even-row"}">
 <td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
 <td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
-<td>{$row.rate}%</td>
+<td>{$row.rate|string_format:"%0.2f"}%</td>
 <td><a href="{$row.url}">{$row.url}</a></td>
 </tr>
 {/foreach}
