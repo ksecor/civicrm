@@ -473,7 +473,6 @@ WHERE t1.custom_field_id = 1
                 continue;
                 
             case 'Date':
-                $clause[] = null;
                 continue;
                 
             case 'StateProvince': 
