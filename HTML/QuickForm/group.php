@@ -443,11 +443,12 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
             
             if ($this->_appendName) {
                 $elementName = $element->getName();
+                $fullName = $name;
                 if (isset($elementName)) {
-                    $element->setName($name . '['. (strlen($elementName)? $elementName: $key) .']');
-                } else {
-                    $element->setName($name);
+                    $fullName = $name . '['. (strlen($elementName)? $elementName: $key) .']';
                 }
+                $element->setName($fullName);
+                $element->updateAttributes(array('id' => $fullName ));
             }
 
             $required = !$element->isFrozen() && in_array($element->getName(), $this->_required);
