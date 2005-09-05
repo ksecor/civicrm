@@ -596,9 +596,9 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, 'Meeting', 'Schedule a Meeting', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, 'Phone Call', 'Schedule a Phone Call', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, 'Email', 'Email Sent', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Meeting{/ts}', '{ts}Schedule a Meeting{/ts}', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Phone Call{/ts}', '{ts}Schedule a Phone Call{/ts}', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Email{/ts}', '{ts}Email Sent{/ts}', 1, 1);
 
 
 INSERT INTO civicrm_mailing_component

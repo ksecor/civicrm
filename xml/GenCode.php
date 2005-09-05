@@ -102,6 +102,7 @@ foreach ($locales as $locale) {
     if ($locale == 'en_US') {
         $filename = 'civicrm_data.mysql';
     } else {
+        $data = "SET NAMES 'utf8';\n\n" . $data;
         $filename = "civicrm_data.$locale.mysql";
     }
     $fd = fopen( $sqlCodePath . $filename, "w" );
