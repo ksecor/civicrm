@@ -112,9 +112,9 @@
 </tr>
 <tr>
 <th colspan=5>{ts}Percentages{/ts}</th>
-<th>{$report.event_totals.delivered_rate}%</th>
-<th>{$report.event_totals.bounce_rate}%</th>
-<th>{$report.event_totals.unsubscribe_rate}%</th>
+<th>{$report.event_totals.delivered_rate|string_format:"%0.2f"}%</th>
+<th>{$report.event_totals.bounce_rate|string_format:"%0.2f"}%</th>
+<th>{$report.event_totals.unsubscribe_rate|string_format:"%0.2f"}%</th>
 </tr>
 </table>
 {else}
@@ -125,11 +125,11 @@
 <tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered}
-{$report.jobs.0.delivered_rate}%</td></tr>
+{$report.jobs.0.delivered_rate|string_format:"%0.2f"}%</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.bounce}">{ts}Bounces{/ts}</a></td><td>{$report.jobs.0.bounce} 
-{$report.jobs.0.bounce_rate}%</td></tr>
+{$report.jobs.0.bounce_rate|string_format:"%0.2f"}%</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscriptions{/ts}</a></td><td>{$report.jobs.0.unsubscribe}
-{$report.jobs.0.unsubscribe_rate}%</td></tr>
+{$report.jobs.0.unsubscribe_rate|string_format:"%0.2f"}%</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.reply}">{ts}Replies{/ts}</a></td><td>{$report.jobs.0.reply}</td></tr>
 {if $report.mailing.open_tracking}
 <tr><td class="label"><a href="{$report.event_totals.links.opened}">{ts}Tracked Opens{/ts}</a></td><td>{$report.jobs.0.opened}</td></tr>
