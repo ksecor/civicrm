@@ -13,7 +13,9 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.street_address.html}
-    <div class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</div>
+    {*<div class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</div>*}
+    <br class="spacer"/>
+    <span class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</span>
     </span>
 </div>
 
@@ -23,7 +25,9 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.supplemental_address_1.html}
-    <div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>
+    {*<div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>*}
+    <br class="spacer"/>
+    <span class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
     </span>
 </div>
 
@@ -33,7 +37,9 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.supplemental_address_2.html}
-    <div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>
+    {*<div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>*}
+    <br class="spacer"/>
+    <span class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
     </span>
 </div>
 
@@ -70,7 +76,9 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.postal_code.html}- {$form.location.$index.address.postal_code_suffix.html}
-    <div class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</div>
+    {*<div class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</div>*}
+    <br class="spacer"/>
+    <span class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</span>
     </span>
 </div>
 		 

@@ -107,6 +107,7 @@
     </tr>
     </table>
 </fieldset>
+</div>
 {/if}
 
 {* Plugging the Communication preferences block *} 
