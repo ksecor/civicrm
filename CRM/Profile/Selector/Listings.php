@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Social Source Foundation (c) 2005
+ * @copyright Donald A. Lobo 01/15/2005
  * $Id: Selector.php 2609 2005-08-17 00:16:37Z lobo $
  *
  */
@@ -51,10 +51,10 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * results of advanced search options.
  *
  */
-class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
-     * array of supported links, currenly null
+     * array of supported links, currenly view and edit
      *
      * @var array
      * @static
@@ -122,6 +122,22 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
      */
     static function &links()
     {
+        if ( ! self::$_links ) {
+            self::$_links = array( 
+                                  CRM_Core_Action::VIEW   => array(  
+                                                                   'name'     => ts('View Notes'),  
+                                                                   'url'      => 'civicrm/profile/note',  
+                                                                   'qs'       => 'reset=1&action=browse&cid=%%id%%',  
+                                                                   'title'    => ts('View Notes'),  
+                                                                   ), 
+                                  CRM_Core_Action::ADD    => array(   
+                                                                   'name'     => ts('Add Note'),
+                                                                   'url'      => 'civicrm/profile/note',   
+                                                                   'qs'       => 'reset=1&action=add&cid=%%id%%',   
+                                                                   'title'    => ts('Add Note'),   
+                                                                   ) 
+                                  ); 
+        }
         return self::$_links;
     } //end of function
 
@@ -159,13 +175,13 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
             // this is a gross hack, we get the values and use the keys as column headers
             $result = $this->query(false, 0, 1);
             if ( $result->fetch( ) ) { 
-                $row = array( ); 
-                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-
-                self::$_columnHeaders = array( );
-                foreach ( $row as $name => $value ) {
-                    self::$_columnHeaders[] = array( 'name'=> $name );
-                }
+                self::$_columnHeaders = array( array( 'name' => 'Name' ),
+                                               array( 'name' => 'From' ),
+                                               array( 'name' => '&nbsp;' ),
+                                               array( 'name' => 'Current Status / Source' ),
+                                               array( 'name' => 'Current Contact Info' ),
+                                               array( 'name' => 'Current Location' ),
+                                               array( 'name' => 'Additional Notes' ) );
             }
         }
         return self::$_columnHeaders;
@@ -238,12 +254,54 @@ class CRM_Contact_Selector_Profile extends CRM_Core_Selector_Base implements CRM
         // process the result of the query
         $rows = array( );
 
+        $links =& self::links( );
         while ($result->fetch()) {
             $row = array( );
             CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-            $rows[] = $row;
+            $row = $this->mungeRow( $row, $result->contact_id, $links );
+            if ( $row ) {
+                $rows[] = $row;
+            }
         }
         return $rows;
+    }
+
+    function mungeRow( $row, $cid, &$links ) {
+        $newRow = array( );
+        $row = array_values( $row );
+        $newRow[0] = $this->combine( $row, array( 2, 1 ) );
+        $newRow[1] = $this->combine( $row, array( 6, 5 ), '<br />' );
+        $newRow[2] = $this->combine( $row, array( 3, 4, 7 ) );
+        $newRow[3] = $this->combine( $row, array( 8, 9 ) );
+        $vinfo = $this->combine( $row, array( 14, 15, 16 ) );
+        if ( ! empty( $vinfo ) ) {
+            $vinfo = ' <div class="description font-italic">' . $vinfo . '</div>';
+            $newRow[3] .= $vinfo;
+        }
+        $newRow[4] = $this->combine( $row, array( 13, 12 ), '<br />' );
+        $newRow[5] = $this->combine( $row, array( 10, 11 ) );
+        // make sure we have some data to display, else return null
+        // note that this throws off the rowcount a bit, and hence the pager
+        $newRow[6] = CRM_Core_Action::formLink( $links, null, array( 'id' => $cid ) );
+
+        for ( $i = 0; $i <= 5; $i++ ) {
+            if ( ! empty( $row[$i] ) ) {
+                return $newRow;
+            }
+        }
+
+        // hey looks like all the data string were empty
+        return null;
+    }
+
+    function combine( $row, $items, $seperator = ', ' ) {
+        $item = array( );
+        foreach ( $items as $idx ) {
+            if ( ! empty( $row[$idx] ) ) {
+                $item[] = $row[$idx];
+            }
+        }
+        return implode( $seperator, $item );
     }
 
     /**

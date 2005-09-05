@@ -1,4 +1,4 @@
-<form action="{crmURL p='civicrm/profile'}" method="POST">
+{include file="CRM/Profile/Form/Search.tpl"}
 
 {include file="CRM/pager.tpl" location="top"}
 
@@ -38,5 +38,3 @@
 {/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}
-
-</form>

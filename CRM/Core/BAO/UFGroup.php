@@ -226,6 +226,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                               'weight'      => $field->weight,
                               'help_post'   => $field->help_post,
                               'visibility'  => $field->visibility,
+                              'default'     => $field->default_value,
                               'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                               );
                 }
@@ -579,7 +580,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                               urlencode( $field['name'] ) .
                                               '=' .
                                               urlencode( $params[$index] ) );
-                $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+                if ( ! empty( $values[$index] ) ) {
+                    $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+                }
             }
         }
     }

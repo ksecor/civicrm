@@ -27,10 +27,9 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Social Source Foundation (c) 2005
+ * @copyright Donald A. Lobo 01/15/2005
  * $Id$
  *
  */
@@ -45,7 +44,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Dynamic extends CRM_Core_Form
+class CRM_Profile_Form_Edit extends CRM_Core_Form
 {
     /**
      * The contact id that we are editing
@@ -69,13 +68,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     protected $_fields;
 
     /**
-     * The contact object being edited
-     *
-     * @var object
-     */
-    protected $_contact;
-
-    /**
      * pre processing work done here.
      *
      * gets session variables for table name, id of entity in table, type of entity and stores them.
@@ -88,15 +80,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_id      = $this->get( 'id'  );
-        $this->_gid     = $this->get( 'gid' );
-        if ( $this->get( 'register' ) ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
-        } else {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action );
-        }
-
-        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
+        $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
     }
 
     /**
@@ -107,7 +91,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        $this->assign( 'action',  $this->_action );
+        $this->assign( 'action', $this->_action );
         $this->assign( 'fields', $this->_fields );
 
         // do we need inactive options ?
@@ -117,23 +101,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
-        // should we restrict what we display
-        $admin = false;
-        $session  =& CRM_Core_Session::singleton( );
-        // show all fields that are visibile: if we are a admin or the same user or in registration mode
-        if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
-             $this->_id == $session->get( 'userID' )                 ||
-             $this->get( 'register' ) ) {
-            $admin = true;
-        }
-        
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
-            // make sure that there is enough permission to expose this field
-            if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
-                continue;
-            }
-
             if ( $field['name'] === 'state_province_id' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);
@@ -155,8 +124,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         $this->addButtons(array(
-                                array ('type'      => 'submit',
+                                array ('type'      => 'next',
                                        'name'      => ts('Save'),
+                                       'isDefault' => true),
+                                array ('type'      => 'cancel',
+                                       'name'      => ts('Cancel'),
                                        'isDefault' => true)
                                 )
                           );
@@ -165,8 +137,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
-
-        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
+        
+        $this->addFormRule( array( 'CRM_Profile_Form_Edit', 'formRule' ), $this->_id );
     }
 
     /**
@@ -196,8 +168,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         // hack add the email, does not work in registration, we need the real user object
-        global $user;
-        $fields['edit']['email'] = $user->mail;
         $cid = null;
         if ( $options ) {
             $cid = (int ) $options;
@@ -236,77 +206,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function &setDefaultValues()
     {
-        $defaults = array();
-
-        if ( $this->_contact ) {
-            foreach ( $this->_fields as $name => $field ) {
-                $objName = $field['name'];
-                if ( $objName == 'state_province_id' ) {
-                    $states =& CRM_Core_PseudoConstant::stateProvince( );
-                    if ( $this->_contact->state ) {
-                        $defaults[$name] = array_search( $this->_contact->state, $states );
-                    }
-                } else if ( $objName == 'country_id' ) {
-                    $country =& CRM_Core_PseudoConstant::country( );
-                    if ( $this->_contact->country ) {
-                        $defaults[$name] = array_search( $this->_contact->country, $country );
-                    }
-                } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-
-                    // make sure the custom field exists
-                    $cf =& new CRM_Core_BAO_CustomField();
-                    $cf->id = $cfID;
-                    if ( ! $cf->find( true ) ) {
-                        continue;
-                    }
-
-                    // make sure the custom value exists
-                    $cv =& new CRM_Core_BAO_CustomValue();
-                    $cv->custom_field_id = $cfID;
-                    $cv->entity_table = 'civicrm_contact';
-                    $cv->entity_id = $this->_id;
-                    if ( ! $cv->find( true ) ) {
-                        $defaults[$name] = $cf->default_value;
-                        continue;
-                    }
-
-                    switch($cf->html_type) {
-
-                    case "Radio":
-                        $defaults[$name] = $cv->getValue(true); 
-                        break;
-                            
-                    case "CheckBox":
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);    
-                        $value = $cv->getValue(true);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
-                        foreach($customOption as $val) {
-                            $checkVal = $val['value'];
-                            $checkName = $name.'['.$checkVal.']';
-                            if (in_array($val['value'], $checkedData)) {
-                                $defaults[$checkName] = 1;
-                            } else {
-                                $defaults[$checkName] = 0;
-                            }
-                        }
-                        break;
-
-                    case "Select Date":
-                        $date = CRM_Utils_Date::unformat($cv->getValue(true));
-                        $customValue = $date;
-                        $defaults[$name] = $customValue;
-                        break;
-
-                    default:
-                        $customValue = $cv->getValue(true);
-                        $defaults[$name] = $customValue;
-                        break;
-                    }
-                } else {
-                    $defaults[$name] = $this->_contact->$objName;
-                }
-            }
-        }
+        $defaults = array( );
+        $defaults['edit[custom_16]'] = $defaults['edit[custom_20]'] = date( "Y-m-d" );
+        $defaults['edit[custom_11]'] = $defaults['edit[state_province_id]'] = 1017;
         return $defaults;
     }
 
@@ -323,49 +225,53 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
-        foreach ( $objects as $name ) {
-            $id = $name . '_id';
-            if ( $this->_contact->$id ) {
-                $ids[$name] = $this->_contact->$id;
-            }
-        }
 
         $edit = CRM_Utils_Array::value( 'edit', $params );
         if ( ! $edit ) {
             return;
         }
 
+        CRM_Core_DAO::transaction( 'BEGIN' ); 
+
         $edit['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
 
         $edit['contact_id'] = $contact->id;
         CRM_Contact_BAO_Individual::add( $edit, $ids );
-        if ( CRM_Utils_Array::value( 'location', $ids ) ) {
-            $address =& new CRM_Core_BAO_Address();
-            CRM_Core_BAO_Address::fixAddress( $edit );
+
+        $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
+        $locationTypeId =  $locationType->id;
+
+        $location =& new CRM_Core_BAO_Location( );
+        $location->location_type_id = $locationTypeId;
+        $location->is_primary = 1;
+        $location->entity_table = 'civicrm_contact';
+        $location->entity_id    = $contact->id;
+        $location->save( );
+        
+        $address =& new CRM_Core_BAO_Address();
+        CRM_Core_BAO_Address::fixAddress( $edit );
             
- 	    if ( ! $address->copyValues( $edit ) ) {
-                $address->id = CRM_Utils_Array::value( 'address', $ids );
-                $address->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $address->save( );
-            }
+        if ( ! $address->copyValues( $edit ) ) {
+            $address->id = CRM_Utils_Array::value( 'address', $ids );
+            $address->location_id = $location->id;
+            $address->save( );
+        }
 
-            $phone =& new CRM_Core_BAO_Phone();
-            if ( ! $phone->copyValues( $edit ) ) {
-                $phone->id = CRM_Utils_Array::value( 'phone', $ids );
-                $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $phone->is_primary = true;
-                $phone->save( );
-            }
-
-            $email =& new CRM_Core_BAO_Email();
-            if ( ! $email->copyValues( $edit ) ) {
-                $email->id = CRM_Utils_Array::value( 'email', $ids );
-                $email->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $email->is_primary = true;
-                $email->save( );
-            }
-
+        $phone =& new CRM_Core_BAO_Phone();
+        if ( ! $phone->copyValues( $edit ) ) {
+            $phone->id = CRM_Utils_Array::value( 'phone', $ids );
+            $phone->location_id = $location->id;
+            $phone->is_primary = true;
+            $phone->save( );
+        }
+        
+        $email =& new CRM_Core_BAO_Email();
+        if ( ! $email->copyValues( $edit ) ) {
+            $email->id = CRM_Utils_Array::value( 'email', $ids );
+            $email->location_id = $location->id;
+            $email->is_primary = true;
+            $email->save( );
         }
 
         /* Process custom field values */
@@ -395,6 +301,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             
             CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
         }
+
+        CRM_Core_DAO::transaction( 'COMMIT' ); 
+
+        CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
     }
 }
 

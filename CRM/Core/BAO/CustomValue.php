@@ -373,7 +373,7 @@ WHERE t1.custom_field_id = 1
         $idx        = array();
 
         foreach ( $params as $key => $value ) {
-            $keyArray[] = $key;
+            $keyArray[]       = $key;
             $valueArray[$key] = $value;
             $from[]           = "civicrm_custom_value t$index";
             $where[]          = "t$index.custom_field_id = $key"; 
@@ -439,12 +439,12 @@ WHERE t1.custom_field_id = 1
         $fieldIds = implode(",",$id);
         $cf =& new CRM_Core_DAO();
 
-        $sql = "SELECT * FROM civicrm_custom_field WHERE id IN ( ".$fieldIds ." ) ";
+        $sql = "SELECT * FROM civicrm_custom_field WHERE id IN ( " . $fieldIds . " ) ";
         $cf->query($sql);
         
         while($cf->fetch()) {
-            
             switch ( $cf->data_type ) {
+
             case 'String':
                 $sql = ' t' . $index[$cf->id] . '.char_data LIKE ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
@@ -476,12 +476,24 @@ WHERE t1.custom_field_id = 1
                 $clause[] = null;
                 continue;
                 
-            case 'StateProvince': 
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];                      
+            case 'StateProvince':
+                $value = $value[$cf->id];
+                if ( ! is_numeric( $value ) ) {
+                    $states =& CRM_Core_PseudoConstant::stateProvince();
+                    $value  = array_search( $value, $states );
+                }
+                if ( $value ) {
+                    $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value;
+                }
                 continue;
                 
             case 'Country':
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id]; 
+                $value = $value[$cf->id];
+                if ( ! is_numeric( $value ) ) {
+                    $states =& CRM_Core_PseudoConstant::countries();
+                    $value  = array_search( $value, $countries );
+                }
+                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value;
                 continue;
             }
         }

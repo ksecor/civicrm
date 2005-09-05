@@ -1,5 +1,4 @@
 <?php 
-
 /* 
  +--------------------------------------------------------------------+ 
  | CiviCRM version 1.1                                                | 
@@ -30,12 +29,12 @@
  * 
  * @package CRM 
  * @author Donald A. Lobo <lobo@yahoo.com> 
- * @copyright Social Source Foundation (c) 2005 
+ * @copyright Donald A. Lobo 01/15/2005 
  * $Id$ 
  * 
  */ 
 
-require_once 'CRM/Contact/Selector/Profile.php';
+require_once 'CRM/Profile/Selector/Listings.php';
 require_once 'CRM/Core/Selector/Controller.php';
 
 /**
@@ -43,7 +42,7 @@ require_once 'CRM/Core/Selector/Controller.php';
  * object to do the actual dispay. The fields displayd are controlled by
  * the admin
  */
-class CRM_Contact_Page_Profile extends CRM_Core_Page {
+class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
     /**
      * all the fields that are listings related
@@ -55,7 +54,7 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
 
     /**
      * extracts the parameters from the request and constructs information for
-     * the selectror object to do a query
+     * the selector object to do a query
      *
      * @return void 
      * @access public 
@@ -71,9 +70,8 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
 
         $where[] = " ( civicrm_contact.contact_type = 'Individual' ) ";
         foreach ( $this->_fields as $key => $field ) {
-            $nullObject = null;
-            $value = CRM_Utils_Request::retrieve( $field['name'], $nullObject );
-            if ( isset( $value ) ) {
+            $value = CRM_Utils_Request::retrieve( $field['name'], $this, false, null, 'REQUEST' );
+            if ( isset( $value ) && $value != null ) {
                 $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
 
@@ -85,8 +83,19 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
                         $where[] = $sql; 
                     } 
                 } else {
-                    $value = strtolower( $value ); 
-                    $where[] = 'LOWER(' . $field['where'] . ') = "' . addslashes( $value ) . '"'; 
+                    if ( $field['name'] === 'state_province_id' ) {
+                        if ( is_numeric( $value ) ) {
+                            $states =& CRM_Core_PseudoConstant::stateProvince();
+                            $value  =  $states[$value];
+                        }
+                    } else if ( $field['name'] === 'country_id' ) {
+                        if ( is_numeric( $value ) ) {
+                            $countries =& CRM_Core_PseudoConstant::country( );
+                            $value     =  $countries[$value];
+                        }
+                    }
+                    $value = strtolower( $value );
+                    $where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . addslashes( $value ) . '%"'; 
 
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) {
@@ -108,8 +117,8 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
      */ 
     function run( ) {
         $this->preProcess( );
-        
-        $selector =& new CRM_Contact_Selector_Profile( $this->_clause, $this->_tables );
+
+        $selector =& new CRM_Profile_Selector_Listings( $this->_clause, $this->_tables );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                         $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -117,7 +126,13 @@ class CRM_Contact_Page_Profile extends CRM_Core_Page {
         $controller->setEmbedded( true );
         $controller->run( );
 
+        $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', 'Search Profile', CRM_Core_Action::ADD );
+        $formController->setEmbedded( true );
+        $formController->process( ); 
+        $formController->run( ); 
+
         return parent::run( );
+
     }
 
 }
