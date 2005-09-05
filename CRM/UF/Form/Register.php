@@ -148,11 +148,6 @@ class CRM_UF_Form_Register extends CRM_Core_Form
             }
         }
 
-        $s =& CRM_Core_Session::singleton( );
-        $s->debug( );
-
-        CRM_Core_Error::debug( 'ids', $ids    );
-        CRM_Core_Error::debug( 'p'  , $params );
         $edit = $params['edit'];
         $edit['contact_type'] = 'Individual';
         CRM_Contact_BAO_Contact::add   ( $edit, $ids );

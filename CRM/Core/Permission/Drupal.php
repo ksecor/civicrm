@@ -195,12 +195,6 @@ class CRM_Core_Permission_Drupal {
     public static function whereClause( $type, &$tables ) {
         self::group( );
 
-        /***
-        CRM_Core_Error::debug( self::$_editAdminUser, self::$_viewAdminUser );
-        CRM_Core_Error::debug( self::$_editPermission, self::$_viewPermission );
-        CRM_Core_Error::debug( 'EG', self::$_editPermissionedGroups );
-        CRM_Core_Error::debug( 'VG', self::$_viewPermissionedGroups );
-        **/
         return self::groupClause( $type, $tables );
     }
 
