@@ -93,7 +93,7 @@
                     {/if}
                 {else} {* no valid matches for name + contact_type *}
                         </div></fieldset>
-                        {capture assign=infoMessage}{ts 1=$form.name.value 2=$contact_type_display}No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></ul><br />Check your spelling, or try fewer letters for the target contact name.{/ts}{/capture}
+                        {capture assign=infoMessage}{ts 1=$form.name.value 2=$contact_type_display}No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></ul>Check your spelling, or try fewer letters for the target contact name.{/ts}{/capture}
                         {include file="CRM/common/info.tpl"}                
                 {/if} {* end if searchCount *}
               {else}

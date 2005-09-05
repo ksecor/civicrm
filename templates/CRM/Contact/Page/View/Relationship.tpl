@@ -9,7 +9,7 @@
 {if $currentRelationships}
     {* show browse table for any action *}
       <div id="current-relationships">
-        <p>
+        <p></p>
         <div><label>{ts}Current Relationships{/ts}</label></div>
         {strip}
         <table>
@@ -32,7 +32,7 @@
           {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
@@ -42,8 +42,7 @@
         {/foreach}
         </table>
         {/strip}
-        </p>
-      </div>
+        </div>
 {/if}
 {* end of code to show current relationships *}
 
@@ -69,7 +68,7 @@
   <div>
     {if $action NEQ 1 AND $action NEQ 2 AND $permission EQ 'edit'}
             <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
+                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&amp;action=add&amp;reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
             </div>
         {/if}
   </div>
@@ -81,7 +80,7 @@
 {if $pastRelationships}
     {* show browse table for any action *}
       <div id="past-relationships">
-        <p>
+        <p></p>
         <div class="label font-red">{ts}Past Relationships{/ts}</div>
         <div class="description">{ts}These relationships have a past End Date.{/ts}</div>
 
@@ -106,7 +105,7 @@
           {/if}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
@@ -116,8 +115,7 @@
         {/foreach}
         </table>
         {/strip}
-        </p>
-      </div>    
+        </div>    
 {/if}
 {* end of code to show past relationships *}
 
@@ -125,7 +123,7 @@
 {if $disableRelationships}
     {* show browse table for any action *}
       <div id="disabled-relationships">
-        <p>
+        <p></p>
         <div class="label font-red">{ts}Disabled Relationships{/ts}</div>
         <div class="description">{ts}These relationships have been marked as disabled (no longer active).{/ts}</div>
         {strip}
@@ -149,7 +147,7 @@
           {/if}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
@@ -159,7 +157,6 @@
         {/foreach}
         </table>
         {/strip}
-        </p>
-      </div>    
+        </div>    
 {/if}
 {* end of code to show disabled relationships *}
