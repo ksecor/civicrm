@@ -345,47 +345,47 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_domain( name, contact_name, email_domain ) 
     VALUES ( 'CRM Test Domain', 'Mr System Administrator', 'FIXME.ORG' );
 
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Home', 'HOME', 'Place of residence', 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Work', 'WORK', 'Work location', 1, 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Main', NULL, 'Main office location', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( %%CIVICRM_DOMAIN_ID%%, 'Other', NULL, 'Another location', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( {$civicrmDomainId}, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 1, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Other{/ts}', NULL, '{ts}Another location{/ts}', 0, 1 );
 
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Child of', 'Parent of', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Child of{/ts}', '{ts}Parent of{/ts}', '{ts}Parent/child relationship.{/ts}', 'Individual', 'Individual', 1 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Spouse of', 'Spouse of', 'Spousal relationship.', 'Individual', 'Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Spouse of{/ts}', '{ts}Spouse of{/ts}', '{ts}Spousal relationship.{/ts}', 'Individual', 'Individual', 1 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Sibling of','Sibling of', 'Sibling relationship.','Individual','Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Sibling of{/ts}','{ts}Sibling of{/ts}', '{ts}Sibling relationship.{/ts}','Individual','Individual', 1 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Employee of', 'Employer of', 'Employment relationship.','Individual','Organization', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Employee of{/ts}', '{ts}Employer of{/ts}', '{ts}Employment relationship.{/ts}','Individual','Organization', 1 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Volunteer for', 'Volunteer is', 'Volunteer relationship.','Individual','Organization', 0 );
+    VALUES( {$civicrmDomainId}, '{ts}Volunteer for{/ts}', '{ts}Volunteer is{/ts}', '{ts}Volunteer relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Head of Household for', 'Head of Household is', 'Head of household.','Individual','Household', 0 );
+    VALUES( {$civicrmDomainId}, '{ts}Head of Household for{/ts}', '{ts}Head of Household is{/ts}', '{ts}Head of household.{/ts}','Individual','Household', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Household Member of', 'Household Member is', 'Household membership.','Individual','Household', 0 );
+    VALUES( {$civicrmDomainId}, '{ts}Household Member of{/ts}', '{ts}Household Member is{/ts}', '{ts}Household membership.{/ts}','Individual','Household', 0 );
 
 -- Sample Tags
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Non-profit', 'Any not-for-profit organization.', NULL );
+    VALUES( {$civicrmDomainId}, '{ts}Non-profit{/ts}', '{ts}Any not-for-profit organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Company', 'For-profit organization.', NULL );
+    VALUES( {$civicrmDomainId}, '{ts}Company{/ts}', '{ts}For-profit organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Government Entity', 'Any governmental entity.', NULL );
+    VALUES( {$civicrmDomainId}, '{ts}Government Entity{/ts}', '{ts}Any governmental entity.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Major Donor', 'High-value supporter of our organization.', NULL );
+    VALUES( {$civicrmDomainId}, '{ts}Major Donor{/ts}', '{ts}High-value supporter of our organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( %%CIVICRM_DOMAIN_ID%%, 'Volunteer', 'Active volunteers.', NULL );
+    VALUES( {$civicrmDomainId}, '{ts}Volunteer{/ts}', '{ts}Active volunteers.{/ts}', NULL );
 
 
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', %%CIVICRM_DOMAIN_ID%%, 1, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', %%CIVICRM_DOMAIN_ID%%, 1, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', %%CIVICRM_DOMAIN_ID%%, 1, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', %%CIVICRM_DOMAIN_ID%%, 0, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', {$civicrmDomainId}, 0, 1);
 
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', %%CIVICRM_DOMAIN_ID%%, 1, 1);
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', %%CIVICRM_DOMAIN_ID%%, 1, 1);
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Cingular', %%CIVICRM_DOMAIN_ID%%, 0, 1);
+INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Cingular', {$civicrmDomainId}, 0, 1);
 
 INSERT INTO civicrm_county (name, state_province_id) VALUES ('Alameda', 1004);
 INSERT INTO civicrm_county (name, state_province_id) VALUES ('Contra Costa', 1004);
@@ -596,19 +596,19 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Meeting', 'Schedule a Meeting', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Phone Call', 'Schedule a Phone Call', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( %%CIVICRM_DOMAIN_ID%%, 'Email', 'Email Sent', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Meeting{/ts}', '{ts}Schedule a Meeting{/ts}', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Phone Call{/ts}', '{ts}Schedule a Phone Call{/ts}', 1, 1);
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Email{/ts}', '{ts}Email Sent{/ts}', 1, 1);
 
 
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%,'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Subscribe Message','Subscribe','Subscription confirmation request','You have a pending subscription to {subscribe.group}.  To confirm this subscription, reply to this email.','You have a pending subscription to {subscribe.group}.  To confirm this subscription, reply to this email.',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Welcome Message','Welcome','Welcome','Welcome to {welcome.group}!','Welcome to {welcome.group}!',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Unsubscribe Message','Unsubscribe','Unsubscribe results','You have been unsubscribed from {unsubscribe.group}.','You have been unsubscribed from {unsubscribe.group}.',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Opt-out Message','OptOut','Goodbye','You have been removed from {domain.name}.  Goodbye.','You have been removed from {domain.name}.  Goodbye.',1,1),
-    (%%CIVICRM_DOMAIN_ID%%,'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
+    ({$civicrmDomainId},'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
+    ({$civicrmDomainId},'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1),
+    ({$civicrmDomainId},'Subscribe Message','Subscribe','Subscription confirmation request','You have a pending subscription to {ldelim}subscribe.group{rdelim}.  To confirm this subscription, reply to this email.','You have a pending subscription to {ldelim}subscribe.group{rdelim}.  To confirm this subscription, reply to this email.',1,1),
+    ({$civicrmDomainId},'Welcome Message','Welcome','Welcome','Welcome to {ldelim}welcome.group{rdelim}!','Welcome to {ldelim}welcome.group{rdelim}!',1,1),
+    ({$civicrmDomainId},'Unsubscribe Message','Unsubscribe','Unsubscribe results','You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.','You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.',1,1),
+    ({$civicrmDomainId},'Opt-out Message','OptOut','Goodbye','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.',1,1),
+    ({$civicrmDomainId},'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
 

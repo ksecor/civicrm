@@ -1,8 +1,11 @@
-<?
+<?php
+
 require_once '../modules/config.inc.php';
 require_once 'CRM/Core/Config.php';
 
 global $ufClass;
+
+session_start( );
 
 $server =& new SoapServer(null, 
             array('uri' => 'urn:civicrm', 'soap_version' => SOAP_1_2));

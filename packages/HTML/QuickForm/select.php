@@ -482,6 +482,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                 $attrString = $this->_getAttrString($this->_attributes);
                 $this->setName($myName);
             }
+
             $strHtml .= $tabs . '<select' . $attrString . ">\n";
 
             foreach ($this->_options as $option) {

@@ -1,3 +1,5 @@
+<form action="{crmURL p='civicrm/profile'}" method="POST">
+
 {include file="CRM/pager.tpl" location="top"}
 
 {* show profile listings criteria *}
@@ -36,3 +38,5 @@
 {/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}
+
+</form>

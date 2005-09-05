@@ -71,7 +71,10 @@ class CRM_Utils_SoapServer
      * @access public
      */
     public function ping($var) {
-        return $var;
+        $session =& CRM_Core_Session::singleton();
+        $key = $session->get('key');
+        $session->set( 'key', $var );
+        return "PONG: $var ($key)";
     }
 
 
@@ -84,6 +87,7 @@ class CRM_Utils_SoapServer
      */
     public function verify($key) {
         $session =& CRM_Core_Session::singleton();
+
         $soap_key = $session->get('soap_key');
         $t = time();
         

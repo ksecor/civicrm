@@ -1,6 +1,6 @@
 <?php
 
-ini_set( 'include_path', ".:../packages" );
+ini_set( 'include_path', ".:../packages:.." );
 
 if ( substr( phpversion( ), 0, 1 ) != 5 ) {
     echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
@@ -14,6 +14,12 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
 
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
+
+// for SQL l10n use
+define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
+require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/I18n.php';
+
 
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
@@ -74,12 +80,38 @@ $fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
-// write the civicrm data file fixing the domain id variable
-$data = file_get_contents( $smarty->template_dir . '/civicrm_data.tpl' );
-$data = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $data );
-$fd = fopen( $sqlCodePath . "civicrm_data.mysql", "w" );
-fputs( $fd, $data );
-fclose( $fd );
+
+
+// write the civicrm data file fixing the domain
+// id variable and translate the {ts}-tagged strings
+$smarty->clear_all_assign();
+$smarty->assign('civicrmDomainId', 1);
+
+$config =& CRM_Core_Config::singleton();
+
+$locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
+
+foreach ($locales as $locale) {
+
+    $config->lcMessages = $locale;
+
+    $data = $smarty->fetch('civicrm_data.tpl');
+
+    // write the data file
+    if ($locale == 'en_US') {
+        $filename = 'civicrm_data.mysql';
+    } else {
+        $data = "SET NAMES 'utf8';\n\n" . $data;
+        $filename = "civicrm_data.$locale.mysql";
+    }
+    $fd = fopen( $sqlCodePath . $filename, "w" );
+    fputs( $fd, $data );
+    fclose( $fd );
+
+}
+
+
 
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
 $sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );

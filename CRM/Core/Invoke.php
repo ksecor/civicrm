@@ -523,9 +523,8 @@ class CRM_Core_Invoke {
             $set = CRM_Utils_Request::retrieve('set', $form);
             if ($set) {
                 $path = CRM_Utils_Request::retrieve('path', $form );
-               
                 $path= '?q='.$path;
-                $session =& new CRM_Core_Session();
+                $session =& CRM_Core_Session::singleton( );
                 $session->set('path', $path);
             }
             return $server->run( $set );
@@ -537,9 +536,8 @@ class CRM_Core_Invoke {
             $set = CRM_Utils_Request::retrieve('set', $form);
             if ($set) {
                 $path = CRM_Utils_Request::retrieve('path', $form );
-               
                 $path= '?q='.$path;
-                $session =& new CRM_Core_Session();
+                $session =& CRM_Core_Session::singleton( ); 
                 $session->set('path', $path);
             }
             return $server->run( $set );

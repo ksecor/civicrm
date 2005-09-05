@@ -38,6 +38,16 @@
 require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
 class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
+ 
+    /** 
+     * We only need one instance of this object. So we use the singleton 
+     * pattern and cache the instance in this variable 
+     * 
+     * @var object 
+     * @static 
+     */ 
+    static private $_singleton = null; 
+
     static $_sizeMapper = array(
                                 2  => 'two',
                                 4  => 'four',
@@ -48,6 +58,28 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
                                 45 => 'huge',
                                );
 
+    /** 
+     * Constructor 
+     * 
+     * @access public 
+     */  
+    function __construct( ) {
+        $template =& CRM_Core_Smarty::singleton( );
+        parent::__construct( $template );
+    }
+
+    /** 
+     * Static instance provider. 
+     * 
+     * Method providing static instance of as in Singleton pattern. 
+     */ 
+    static function &singleton( ) { 
+        if ( ! isset( self::$_singleton ) ) { 
+            self::$_singleton =& new CRM_Core_Form_Renderer( );
+        }
+        return self::$_singleton; 
+    } 
+ 
     /*
      * Creates an array representing an element containing
      * the key for storing this. We allow the parent to do most of the
