@@ -110,8 +110,6 @@ foreach ($locales as $locale) {
 
 }
 
-exit;
-
 
 
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
