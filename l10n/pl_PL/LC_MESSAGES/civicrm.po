@@ -5907,7 +5907,7 @@ msgstr "Poważny sponsor naszej organizacji."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer"
-msgstr "Wolontariusz"
+msgstr "Wolontariat"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Active volunteers."
