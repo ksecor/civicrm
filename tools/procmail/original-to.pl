@@ -11,10 +11,10 @@ use MIME::Entity;
 
 my $parser = new MIME::Parser;
 
-$entity = $parser->parse(\*STDIN);
+my $entity = $parser->parse(\*STDIN);
 
-$orig = $entity->head->get('X-Original-To',0);
-$to = $entity->head->get('To',0);
+my $orig = $entity->head->get('X-Original-To',0);
+my $to = $entity->head->get('To',0);
 
 $entity->head->replace('To', $orig);
 $entity->head->replace('X-Original-To', $to);
