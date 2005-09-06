@@ -434,7 +434,7 @@ WHERE t1.custom_field_id = 1
         
         $clause = array();
 
-        $fieldIds = implode(",",$id);
+        $fieldIds = implode( ',', $id );
         $cf =& new CRM_Core_DAO();
 
         $sql = 'SELECT * FROM civicrm_custom_field WHERE id IN ( ' . $fieldIds . ' ) ';
@@ -494,10 +494,8 @@ WHERE t1.custom_field_id = 1
                 continue;
             }
         }
-        
               
         $whereClause =  implode( ' AND ', $clause );
-        
         return $whereClause;       
     }
 

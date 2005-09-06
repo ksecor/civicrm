@@ -173,16 +173,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     {
         if ( ! isset( self::$_columnHeaders ) ) {
             // this is a gross hack, we get the values and use the keys as column headers
-            $result = $this->query(false, 0, 1);
-            if ( $result->fetch( ) ) { 
-                $row = array( );  
-                CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row ); 
- 
-                self::$_columnHeaders = array( ); 
-                foreach ( $row as $name => $value ) { 
-                    self::$_columnHeaders[] = array( 'name'=> $name ); 
-                } 
-            }
+            // $result = $this->query(false, 0, 1);
+            // if ( $result->fetch( ) ) { 
+            // $row = array( );  
+            // CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row ); 
+
+            self::$_columnHeaders = array( ); 
+            foreach ( $this->_fields as $name => $field ) { 
+                self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
+            } 
         }
         return self::$_columnHeaders;
     }
@@ -210,19 +209,65 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int|CRM_CORE_DAO   the total number of contacts or a dao object
      */
     function query( $count, $offset, $rowCount ) {
+
         if ( $count ) {
-            $sql = ' SELECT count( DISTINCT( civicrm_contact.id ) ) ';
-        } else {
-            $sql = ' SELECT DISTINCT( civicrm_contact.id ) as contact_id ';
+            $select = ' SELECT count( DISTINCT( civicrm_contact.id ) ) '; 
+            $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
+       } else {
+            $customSelect = $customJoin = '';
+            $select = "
+SELECT DISTINCT 
+  civicrm_contact.id as contact_id, 
+  civicrm_contact.home_URL            as home_URL      , 
+  civicrm_contact.image_URL           as image_URL     , 
+  civicrm_contact.legal_identifier    as legal_identifier, 
+  civicrm_contact.external_identifier as external_identifier, 
+  civicrm_contact.nick_name           as nick_name     , 
+  civicrm_individual.id               as individual_id , 
+  civicrm_location.id                 as location_id   , 
+  civicrm_address.id                  as address_id    , 
+  civicrm_email.id                    as email_id      , 
+  civicrm_phone.id                    as phone_id      , 
+  civicrm_individual.first_name       as first_name    , 
+  civicrm_individual.middle_name      as middle_name   , 
+  civicrm_individual.last_name        as last_name     , 
+  civicrm_individual.prefix           as prefix        , 
+  civicrm_individual.suffix           as suffix        , 
+  civicrm_address.street_address      as street_address, 
+  civicrm_address.supplemental_address_1 as supplemental_address_1, 
+  civicrm_address.supplemental_address_2 as supplemental_address_2, 
+  civicrm_address.city                as city          , 
+  civicrm_address.postal_code         as postal_code   , 
+  civicrm_address.postal_code_suffix  as postal_code_suffix, 
+  civicrm_state_province.name         as state         , 
+  civicrm_country.name                as country       , 
+  civicrm_email.email                 as email         , 
+  civicrm_phone.phone                 as phone         "; 
+            $tables = array( 'civicrm_individual'     => 1, 
+                             'civicrm_location'       => 1, 
+                             'civicrm_address'        => 1, 
+                             'civicrm_email'          => 1, 
+                             'civicrm_phone'          => 1, 
+                             'civicrm_state_province' => 1, 
+                             'civicrm_country'        => 1, 
+                             ); 
+            $this->_tables = array_merge( $tables, $this->_tables );
+            $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
+            CRM_Core_BAO_UFGroup::selectFromClause( $this->_fields, $customSelect, $customFrom );
+            if ( $customSelect ) {
+                $select .= ", $customSelect ";
+                $from   .= " $customFrom ";
+            }
         }
 
-        $sql .= CRM_Contact_BAO_Contact::fromClause( $this->_tables );
-        $sql .= ' WHERE ' . $this->_clause;
-        $sql .= ' ORDER BY civicrm_contact.sort_name ASC ';
+        $where = 'WHERE ' . $this->_clause;
+        $order = 'ORDER BY civicrm_contact.sort_name ASC';
 
+        $limit = '';
         if ( $rowCount > 0 ) {
-            $sql .= " LIMIT $offset, $rowCount ";
+            $limit = " LIMIT $offset, $rowCount ";
         }
+        $sql = "$select $from $where $order $limit";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($sql);
@@ -255,26 +300,24 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $rows = array( );
 
         $links =& self::links( );
+        $names = array( );
+        foreach ( $this->_fields as $key => $field ) {
+            $names[] = $field['name'];
+        }
         while ($result->fetch()) {
             $row = array( );
-            CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row );
-            $row = $this->mungeRow( $row, $result->contact_id, $links );
-            if ( $row ) {
+            $empty = true;
+            foreach ($names as $name) {
+                $row[] = $result->$name;
+            }
+            if ( ! empty( $result->$name ) ) {
+                $empty = false;
+            }
+            if ( ! $empty ) {
                 $rows[] = $row;
             }
         }
         return $rows;
-    }
-
-    function mungeRow( $row, $cid, &$links ) {
-        foreach ( $row as $key => $value ) {
-            if ( ! empty( $value ) ) {
-                return $row;
-            }
-        }
-        
-        // hey looks like all the data string were empty
-        return null;
     }
 
     /**

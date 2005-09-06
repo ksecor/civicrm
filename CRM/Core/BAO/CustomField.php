@@ -209,6 +209,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
         }
         
+        // CRM_Core_Error::debug( 's', self::$_importFields );
         return self::$_importFields;
     }
 

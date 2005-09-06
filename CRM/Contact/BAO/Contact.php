@@ -155,9 +155,8 @@ SELECT DISTINCT
                          );
 
         $from = self::fromClause( $tables );
-        
-
         $where = " WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+        $query = "$select $from $where";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);

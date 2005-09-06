@@ -120,7 +120,6 @@ class CRM_Profile_Form_Search extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        
     }
 }
 
