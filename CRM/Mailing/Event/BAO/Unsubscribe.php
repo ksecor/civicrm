@@ -215,7 +215,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      */
     public static function send_unsub_response($queue_id, $groups, $is_domain = false, $job) {
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
 
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();

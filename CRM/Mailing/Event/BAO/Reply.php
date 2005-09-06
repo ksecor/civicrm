@@ -103,7 +103,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
     public static function send($queue_id, &$mailing, &$body, $replyto) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
         
         $emails = CRM_Core_BAO_Email::getTableName();
         $eq = CRM_Mailing_Event_BAO_Queue::getTableName();
@@ -180,7 +180,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         $component->find(true);
 
         $message =& new Mail_Mime("\n");
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Core_BAO_Domain::getDomainById($mailing->domain_id);
         $headers = array(
             'Subject'   => $component->subject,
             'To'        => $to,

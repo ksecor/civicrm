@@ -220,6 +220,34 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $dao->contact_id = $contactId;
         $dao->delete();
     }
+
+    /**
+     * Get the domain object given a subscribe event
+     * 
+     * @param int $subscribe_id     ID of the subscribe event
+     * @return object $domain       The domain owning the event
+     * @access public
+     * @static
+     */
+    public static function &getDomain($subscribe_id) {
+        $dao =& new  CRM_Core_Dao();
+
+        $subscribe  = self::getTableName();
+        $group      = CRM_Contact_BAO_Group::getTableName();
+        
+        $dao->query("SELECT     $group.domain_id as domain_id
+                        FROM    $group
+                    INNER JOIN  $subscribe
+                            ON  $subscribe.group_id = $group.id
+                        WHERE   $subscribe.id = " .
+                        CRM_Utils_Type::escape($subscribe_id, 'Integer'));
+        $dao->fetch();
+        if (empty($dao->domain_id)) {
+            return null;
+        }
+
+        return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
+    }
 }
 
 ?>

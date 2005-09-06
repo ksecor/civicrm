@@ -76,7 +76,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         CRM_Core_DAO::transaction('COMMIT');
 
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Mailing_Event_BAO_Subscribe::getDomain($subscribe_id);
         
         list($display_name, $email) =
                 CRM_Contact_BAO_Contact::getEmailDetails($se->contact_id);

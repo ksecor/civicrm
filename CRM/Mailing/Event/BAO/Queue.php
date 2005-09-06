@@ -256,6 +256,38 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $dao->email_id = $emailId;
         $dao->delete( );
     }
+
+    /**
+     * Get a domain object given a queue event
+     * 
+     * @param int $queue_id     The ID of the queue event
+     * @return object $domain   The domain owning the event
+     * @access public
+     * @static
+     */
+    public static function &getDomain($queue_id) {
+        $dao =& new CRM_Core_Dao();
+        
+        $queue      = self::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+        $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
+        
+        $dao->query("SELECT         $mailing.domain_id as domain_id
+                        FROM        $mailing
+                        INNER JOIN  $job 
+                                ON  $job.mailing_id = $mailing.id
+                        INNER JOIN  $queue
+                                ON  $queue.job_id = $job.id
+                        WHERE       $queue = " 
+                                . CRM_Utils_Type::escape($queue_id, 'Integer'));
+
+        $dao->fetch();
+        if (empty($dao->domain_id)) {
+            return null;
+        }
+        
+        return CRM_Core_BAO_Domain:getDomainById($dao->domain_id);
+    }
 }
 
 ?>
