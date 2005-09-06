@@ -277,16 +277,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         return null;
     }
 
-    function combine( $row, $items, $seperator = ', ' ) {
-        $item = array( );
-        foreach ( $items as $idx ) {
-            if ( ! empty( $row[$idx] ) ) {
-                $item[] = $row[$idx];
-            }
-        }
-        return implode( $seperator, $item );
-    }
-
     /**
      * name of export file.
      *

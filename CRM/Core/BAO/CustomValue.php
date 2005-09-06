@@ -353,11 +353,11 @@ WHERE t1.custom_field_id = 1
   AND t3.char_data LIKE '%PhD%'
  
   AND t1.entity_id = t2.entity_id
-  AND t1.entity_id = t3.entity_id;
+  AND t1.entity_table = t2.entity_table
+  AND t1.entity_id = t3.entity_id
+  AND t1.entity_table = t3.entity_table;
         */
 
-
-        // get number of tables needed
         if ( ! is_array( $params ) && empty( $params ) ) {
             return null;
         }
@@ -381,6 +381,9 @@ WHERE t1.custom_field_id = 1
         }
 
         $clause  = self::getFieldWhereClause( $keyArray, $idx, $valueArray );
+        if ( empty( $clause ) ) {
+            return;
+        }
 
         if ( $clause ) {
             $where[] = $clause;            
@@ -394,10 +397,6 @@ WHERE t1.custom_field_id = 1
             }
         }
         
-        if ( empty( $where ) ) {
-            return null;
-        }
-
         $from  = " FROM "  . implode( ', '   , $from  );
         $where = " WHERE " . implode( ' AND ', $where );
 
@@ -414,7 +413,6 @@ WHERE t1.custom_field_id = 1
                 $inVal[] = $dao->entity_id;
             }
             if ( empty( $inVal ) ) {
-                // we did not find any contacts ids that matched the criteria, hence return 0
                 return ' ( 0 ) ';
             } else {
                 return " civicrm_contact.id IN ( ". implode(', ', $inVal)  . " ) ";
@@ -439,7 +437,7 @@ WHERE t1.custom_field_id = 1
         $fieldIds = implode(",",$id);
         $cf =& new CRM_Core_DAO();
 
-        $sql = "SELECT * FROM civicrm_custom_field WHERE id IN ( " . $fieldIds . " ) ";
+        $sql = 'SELECT * FROM civicrm_custom_field WHERE id IN ( ' . $fieldIds . ' ) ';
         $cf->query($sql);
         
         while($cf->fetch()) {
@@ -473,7 +471,6 @@ WHERE t1.custom_field_id = 1
                 continue;
                 
             case 'Date':
-                $clause[] = null;
                 continue;
                 
             case 'StateProvince':

@@ -586,6 +586,28 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
     }
+
+    static function getSelectClause( &$fields, &$tables ) {
+        $clause = array( );
+        foreach ( $fields as $name => $field ) { 
+            $objName = $field['name']; 
+            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+            } else {
+                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
+                if ( isset( $tableName ) ) { 
+                    $tables[$tableName] = 1; 
+                }
+                if ( $objName == 'state_province_id' ) {
+                    $clause[] = $field['where'] . ' as state';
+                } else if ( $objName == 'country_id' ) { 
+                    $clause[] = $field['where'] . ' as country';
+                } else {
+                    $clause[] = $field['where'] . ' as ' $fieldName;
+                }
+            }
+        }
+    }
+
 }
 
 ?>

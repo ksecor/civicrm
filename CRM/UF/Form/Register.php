@@ -98,7 +98,6 @@ class CRM_UF_Form_Register extends CRM_Core_Form
         $this->assign( 'fields', $this->_fields );
 
         // add the form elements
-        // CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field ) {
             if ( $field['name'] === 'state_province_id' ) {
                 $this->add('select', $name, $field['title'],
@@ -148,11 +147,6 @@ class CRM_UF_Form_Register extends CRM_Core_Form
             }
         }
 
-        $s =& CRM_Core_Session::singleton( );
-        $s->debug( );
-
-        CRM_Core_Error::debug( 'ids', $ids    );
-        CRM_Core_Error::debug( 'p'  , $params );
         $edit = $params['edit'];
         $edit['contact_type'] = 'Individual';
         CRM_Contact_BAO_Contact::add   ( $edit, $ids );

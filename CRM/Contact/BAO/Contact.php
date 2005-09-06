@@ -73,7 +73,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     {
         parent::__construct();
     }
-
+    
     /**
      * check if the logged in user has permissions for the operation type
      *
@@ -101,11 +101,11 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         $row    = $result->fetchRow();
         return ( $row[0] > 0 ) ? true : false;
     }
-
+    
     /**
      * given an id return the relevant contact details
      *
-     * @param int $id contact id
+     * @param int $id           contact id
      *
      * @return the contact object
      * @static
@@ -115,8 +115,8 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         if ( ! $id ) {
             return null;
         }
-
-        $query = "
+        
+        $select = "
 SELECT DISTINCT
   civicrm_contact.id as contact_id,
   civicrm_contact.home_URL            as home_URL      ,
@@ -154,10 +154,10 @@ SELECT DISTINCT
                          'civicrm_country'        => 1,
                          );
 
-        $query .= self::fromClause( $tables );
+        $from = self::fromClause( $tables );
+        
 
-        $query .= " WHERE civicrm_contact.id = " 
-                . CRM_Utils_Type::escape($id, 'Integer');
+        $where = " WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -288,7 +288,6 @@ ORDER BY
         }
 
         $from = self::fromClause( $tables );
-
         if (!$count) {
             if ($sort) {
                 $order = " ORDER BY " . $sort->orderBy(); 
@@ -362,7 +361,7 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
   civicrm_contact.contact_type as contact_type
 ";
     }
-
+    
     /**
      * create the from clause
      *
@@ -420,12 +419,12 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             } else {
                 $side = 'LEFT';
             }
-
+            
             if ( $value != 1 ) {
                 $from .= " $side JOIN $name ON ( $value ) ";
                 continue;
             }
-                
+            
             switch ( $name ) {
             case 'civicrm_individual':
                 $from .= " $side JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ";
@@ -642,7 +641,6 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             $tables['civicrm_entity_tag'] = 1;
         }
         
-        // check for last name, as of now only working with sort name
         if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
             $name = trim($fv['sort_name']);
             $sub  = array( );
@@ -657,7 +655,10 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
                 $pieces =  explode( ' ', $name );
                 foreach ( $pieces as $piece ) {
                     $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) ";
+                    $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes(trim($piece))) . "%' )";
                 }
+                $tables['civicrm_location'] = 1;
+                $tables['civicrm_email']    = 1;
             }
             $andArray['sort_name'] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
         }
@@ -823,9 +824,9 @@ WHERE t1.custom_field_id = 1
             }
 
             if ( ! empty( $params ) ) {
-                $tables['civicrm_custom_value'] = 1;
                 $sql = CRM_Core_BAO_CustomValue::whereClause($params); 
                 if ( $sql ) {
+                    $tables['civicrm_custom_value'] = 1;
                     $andArray['custom_value'] = $sql;
                 }
             }
@@ -1657,7 +1658,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         }
         return $values;
     }
-
+    
     /**
      * Get unique contact id for input parameters.
      * Currently the parameters allowed are
@@ -1677,8 +1678,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     static function _crm_get_contact_id($params)
     {
         if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
-            //CRM_Core_Error::debug_log_message('$params must contain either email, phone or city to obtain contact id');
-            //CRM_Core_Error::ll_function();
             return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
         }
 
@@ -1698,7 +1697,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $andArray[] = "civicrm_location.entity_table = 'civicrm_contact'";
         $andArray[] = "civicrm_contact.id = civicrm_location.entity_id";
         
-
         if (isset($params['email'])) {// is email present ?
             $from .= ', civicrm_email';
             $andArray[] = "civicrm_location.id = civicrm_email.location_id";
@@ -1729,26 +1727,22 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         while($dao->fetch()) {
             $count++;
             if ($count > 1) {
-
                 return _crm_error( 'more than one contact id matches $params' );
             }
             
         }
-        //$result = $dao->getDatabaseResult();
-        //$rows = $result->fetchRow();
     
         if ($count == 0) {
-            //CRM_Core_Error::debug_log_message('more than one contact id matches $params  email, phone or city to obtain contact id');
-            //CRM_Core_Error::ll_function();
             return _crm_error( 'No contact found for given $params ' );
         }
         
-        //CRM_Core_Error::debug_var('contactId', $rows[0]);
-        //CRM_Core_Error::ll_function();
         return $dao->id;
     }
-    
-    
+
+
+    static function getContactAPI( $params ) {
+    }
+
 }
 
 ?>
