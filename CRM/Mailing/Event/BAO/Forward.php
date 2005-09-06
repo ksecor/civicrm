@@ -233,7 +233,6 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                         $contact.id as from_id,
                         $email.email as from_email,
                         dest_queue.id as dest_id,
-                        dest_contact.display_name as dest_name,
                         dest_email.email as dest_email,
                         $forward.time_stamp as date
             FROM        $contact
@@ -285,8 +284,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $results[] = array(
                 'from_name'      => "<a href=\"$from_url\">{$dao->from_name}</a>",
                 'from_email'     => $dao->from_email,
-                'dest_name'      => "<a href=\"$dest_url\">{$dao->dest_name}</a>",
-                'dest_email'     => $dao->dest_email,
+                'dest_email'      => "<a href=\"$dest_url\">{$dao->dest_email}</a>",
                 'date'      => CRM_Utils_Date::customFormat($dao->date)
             );
         }

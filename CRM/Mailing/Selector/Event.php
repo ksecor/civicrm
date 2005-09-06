@@ -193,9 +193,6 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                 $this->_columnHeaders = array_merge($this->_columnHeaders,
                 array(
                     array(
-                        'name'  => ts('Forwarded Contact'),
-                    ),
-                    array(
                         'name'  => ts('Forwarded Email'),
                     ),
                 ));
