@@ -5,11 +5,13 @@
   <class>SavedSearch</class>
   <name>civicrm_saved_search</name>
   <comment>Users can save their complex SQL queries and use them later.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Saved search ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,11 +22,13 @@
        <type>int unsigned</type>
        <required>true</required>
        <comment>which organization/domain owns this search</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>query</name>
@@ -32,6 +36,7 @@
        <type>text</type>
        <import>true</import>
        <comment>SQL query for this search</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>form_values</name>
@@ -39,10 +44,12 @@
        <type>text</type>
        <import>true</import>
        <comment>Submitted form values for this search</comment>
+       <add>1.1</add>
   </field>
 <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this entry active?</comment>
+       <add>1.1</add>
   </field>
 </table>

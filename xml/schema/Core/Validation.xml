@@ -5,7 +5,7 @@
   <class>Validation</class>
   <name>civicrm_validation</name>
   <comment>Stores core info about an extended (custom) property. Input form-related info is kept separately (in contact_form_field), so a property may be 'presented' in multiple form fields.</comment>
-    <field>
+  <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>

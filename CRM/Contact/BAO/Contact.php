@@ -807,7 +807,7 @@ WHERE t1.custom_field_id = 1
 
         */
 
-        CRM_Core_Error::debug_var('fv', $fv);
+//         CRM_Core_Error::debug_var('fv', $fv);
         $params = array();
 
         if ( is_array( $fv ) && ! empty( $fv ) ) {
@@ -1084,13 +1084,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $image  =  '<img src="' . $config->resourceBase . 'i/contact_';
             switch ( $dao->contact_type ) {
             case 'Individual' :
-                $image .= 'ind.gif" alt="' . ts('Individual') . '"/>';
+                $image .= 'ind.gif" alt="' . ts('Individual') . '" />';
                 break;
             case 'Household' :
-                $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16"/>';
+                $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
                 break;
             case 'Organization' :
-                $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18"/>';
+                $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                 break;
             }
             // use email if display_name is empty

@@ -5,11 +5,13 @@
   <class>MobileProvider</class>
   <name>civicrm_mobile_provider</name>
   <comment>Mobile Provider catalogue.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Mobile Provider ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,32 +22,38 @@
        <type>varchar</type>
        <length>64</length>
        <comment>Name of Mobile Provider.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this contact</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>is_reserved</name>
        <type>boolean</type>
        <comment>Is this entry a predefined system option?</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this entry active?</comment>
+       <add>1.1</add>
   </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
 </table>

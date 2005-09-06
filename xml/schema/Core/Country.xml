@@ -4,11 +4,13 @@
   <base>CRM/Core</base>
   <class>Country</class>
   <name>civicrm_country</name>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Country Id</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -23,35 +25,41 @@
        <headerPattern>/country/i</headerPattern>
        <dataPattern>/^[A-Z][a-z]+\.?(\s+[A-Z][a-z]+){0,3}$/</dataPattern>
        <comment>Country Name</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>iso_code</name>
        <type>char</type>
        <length>2</length>
        <comment>ISO Code</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>country_code</name>
        <type>varchar</type>
        <length>4</length>
        <comment>National prefix to be used when dialing TO this country.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>idd_prefix</name>
        <type>varchar</type>
        <length>4</length>
        <comment>International direct dialing prefix from within the country TO another country</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>ndd_prefix</name>
        <type>varchar</type>
        <length>4</length>
        <comment>Access prefix to call within a country to a different area</comment>
+       <add>1.1</add>
   </field>
   <index>
     <name>UI_name_iso_code</name>
     <fieldName>name</fieldName>
     <fieldName>iso_code</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
 </table>

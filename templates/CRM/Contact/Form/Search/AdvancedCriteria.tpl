@@ -139,12 +139,7 @@
     </tr>
     </table>
     {/strip}
-	{*
-    <div class="element-right">{$form.buttons.html}</div>
-    <div>&nbsp;</div>
-    <div class="spacer"></div>
     </div>
-    *}
 </fieldset>
 
 <script type="text/javascript">

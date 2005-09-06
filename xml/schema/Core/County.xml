@@ -4,11 +4,13 @@
   <base>CRM/Core</base>
   <class>County</class>
   <name>civicrm_county</name>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
        <comment>County ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,6 +22,7 @@
        <type>varchar</type>
        <length>64</length>
        <comment>Name of County</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>abbreviation</name>
@@ -27,22 +30,26 @@
        <type>varchar</type>
        <length>4</length>
        <comment>2-4 Character Abbreviation of County</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>state_province_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>ID of State / Province that County belongs</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>state_province_id</name>
        <table>civicrm_state_province</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <index>
     <name>UI_name_state_id</name>
     <fieldName>name</fieldName>
     <fieldName>state_province_id</fieldName>
     <unique>true</unique>
+    <add>1.1</add>
   </index>
 </table>

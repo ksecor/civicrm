@@ -5,11 +5,13 @@
   <class>Phone</class>
   <name>civicrm_phone</name>
   <comment>Phone information for a specific location.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique Phone ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,11 +22,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Location does this phone belong to.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>location_id</name>
        <table>civicrm_location</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>phone</name>
@@ -34,6 +38,7 @@
        <headerPattern>/phone/i</headerPattern>
        <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
        <comment>Complete phone number.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>phone_type</name>
@@ -42,21 +47,25 @@
        <headerPattern>/phone\s+type/i</headerPattern>
        <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
        <comment>What type of telecom device is this.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_primary</name>
        <type>boolean</type>
        <default>0</default>
        <comment>Is this the primary phone for this contact and location.</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>mobile_provider_id</name>
       <type>int unsigned</type>
       <comment>Which Mobile Provider does this phone belong to.</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>mobile_provider_id</name>
        <table>civicrm_mobile_provider</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

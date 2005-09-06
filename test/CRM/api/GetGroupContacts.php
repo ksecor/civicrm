@@ -30,13 +30,16 @@ class TestOfGetGroupContacts extends UnitTestCase
     {
        
         $group = new CRM_Contact_DAO_Group();
-        $group->id = 1;
+        $group->id = 3;
         $sort = array("date" => "DESC");
-        $returnProperties =array('method','date');
+//        $returnProperties =array('method','display_name','do_not_email');
+        $returnProperties =array();
         $contacts = crm_get_group_contacts(&$group, $returnProperties ,'Added',$sort, $offset = 0, $row_count = 25 );
         
         foreach($contacts as $contact) {
             $this->assertIsA($contact,'CRM_Contact_DAO_Contact');
+            echo $contact->civicrm_contact_id . ',' . $contact->display_name . ',' . $contact->do_not_email . '<br />';
+            CRM_Core_Error::debug('contact',$contact);
         }
         
 

@@ -5,11 +5,13 @@
   <class>EmailHistory</class>
   <name>civicrm_email_history</name>
   <comment>Email History can be linked to any object in the application.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Email History ID</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,6 +22,7 @@
        <type>varchar</type>
        <length>255</length>
        <comment>Subject of the email.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>message</name>
@@ -28,21 +31,25 @@
        <htmlType>textarea</htmlType>
        <rows>20</rows>
        <cols>80</cols>
+       <add>1.1</add>
   </field>
   <field>
        <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Contact who is sending this email</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>sent_date</name>
        <type>date</type>
        <comment>When was this email sent</comment>
+       <add>1.1</add>
   </field>
 </table>

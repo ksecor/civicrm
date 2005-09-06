@@ -172,7 +172,7 @@ class CRM_Core_Block {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
-            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) ) );
+            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ) ) );
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) ,

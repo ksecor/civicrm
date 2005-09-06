@@ -5,11 +5,13 @@
   <class>Contact</class>
   <name>civicrm_contact</name>
   <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
+  <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique Contact ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,17 +22,20 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this contact</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
   <field>
        <name>contact_type</name>
        <type>enum</type>
        <values>Individual, Organization, Household</values>
        <comment>Type of Contact.</comment>
+      <add>1.1</add>
   </field>
   <field>
        <name>legal_identifier</name>
@@ -40,6 +45,7 @@
        <headerPattern>/legal\s?id/i</headerPattern>
        <dataPattern>/\w+?\d{5,}/</dataPattern>
        <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
+      <add>1.1</add>
   </field>
   <field>
        <name>external_identifier</name>
@@ -49,22 +55,26 @@
        <headerPattern>/external\s?id/i</headerPattern>
        <dataPattern>/^\d{11,}$/</dataPattern>
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
+      <add>1.1</add>
   </field>
   <field>
        <name>sort_name</name>
        <type>varchar</type>
        <length>128</length>
        <comment>Name used for sorting different contact types</comment>
+      <add>1.1</add>
   </field>
   <index>
        <name>index_sort_name</name>
        <fieldName>sort_name</fieldName>
+       <add>1.1</add>
   </index>
   <field>
        <name>display_name</name>
        <type>varchar</type>
        <length>128</length>
        <comment>Formatted name representing preferred format for display/print/other output.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>nick_name</name>
@@ -75,6 +85,7 @@
        <dataPattern>/^\w+$/</dataPattern>
        <comment>Nick Name.</comment>
        <fulltext/>
+       <add>1.1</add>
   </field>
   <field>
        <name>home_URL</name>
@@ -83,24 +94,28 @@
        <length>128</length>
        <import>true</import>
        <comment>optional "home page" URL for this contact.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>image_URL</name>
        <type>varchar</type>
        <length>128</length>
        <comment>optional URL for preferred image (photo, logo, etc.) to display for this contact.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>source</name>
        <type>varchar</type>
        <length>255</length>
        <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>preferred_communication_method</name>
        <type>enum</type>
        <values>Phone, Email, Post</values>
        <comment>What is the preferred mode of communication.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>preferred_mail_format</name>
@@ -108,32 +123,38 @@
        <values>Text, HTML, Both</values>
        <default>"Text"</default>
        <comment>What is the preferred mode of sending an email.</comment>
+       <add>1.1</add>
   </field>
   <field>
        <name>do_not_phone</name>
        <type>boolean</type>
        <default>0</default>
+       <add>1.1</add>
   </field>
   <field>
        <name>do_not_email</name>
        <type>boolean</type>
        <default>0</default>
+       <add>1.1</add>
   </field>
   <field>
        <name>do_not_mail</name>
        <type>boolean</type>
        <default>0</default>
+       <add>1.1</add>
   </field>
   <field>
        <name>do_not_trade</name>
        <type>boolean</type>
        <default>0</default>
+       <add>1.1</add>
   </field>
   <field>
       <name>hash</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Key for validating requests related to this contact.</comment>
+      <add>1.1</add>
   </field>
   <field>
     <name>is_opt_out</name>
@@ -141,5 +162,6 @@
     <default>0</default>
     <required>true</required>
     <comment>Has the contact opted out from the org?</comment>
+    <add>1.1</add>
   </field>
 </table>

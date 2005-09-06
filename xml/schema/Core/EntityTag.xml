@@ -10,6 +10,7 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>primary key</comment>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,27 +21,32 @@
        <type>varchar</type>
        <length>64</length>
        <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
+       <add>1.1</add>
   </field>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to entity table specified in entity_table column.</comment>
+       <add>1.1</add>
   </field>
   <index>
        <name>index_entity</name>
        <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
+       <add>1.1</add>
   </index>
   <field>
       <name>tag_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to civicrm_tag</comment>
+       <add>1.1</add>
   </field>
   <foreignKey>
        <name>tag_id</name>
        <table>civicrm_tag</table>
        <key>id</key>
+       <add>1.1</add>
   </foreignKey>
 </table>

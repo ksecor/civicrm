@@ -157,7 +157,26 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $groupContact->save( );
                 $numContactsAdded++;
             } else {
-                $numContactsNotAdded++;
+                $groupContact->fetch();
+                if ($groupContact->status == 'Added') {
+                    $numContactsNotAdded++;
+                } else {
+                    $historyParams = array(
+                        'contact_id' => $contactId, 
+                        'group_id' => $groupId, 
+                        'method' => $method,
+                        'status' => $status,
+                        'date' => $date,
+                        'tracking' => $tracking,
+                    );
+                    CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
+                    $groupContact->status    = $status;
+                    $groupContact->in_method = 'Admin';
+                    $groupContact->in_date   = $date;
+ 
+                    $groupContact->save( );
+                    $numContactsAdded++;
+                }
             }
         }
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
@@ -390,7 +409,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $query = '';
         if ( empty($returnProperties) ) {
-            $query = "SELECT * , civicrm_contact.id as civicrm_contact_id";
+            $query = "SELECT * , civicrm_contact.id as civicrm_contact_id,
+                        civicrm_email.email as email";
         } else {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
             $query .= implode( ',', $returnProperties );
@@ -404,6 +424,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $tables = array(
             self::getTableName() => true,
+            CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
             CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
         );

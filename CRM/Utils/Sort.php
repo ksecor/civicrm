@@ -237,7 +237,7 @@ class CRM_Utils_Sort {
                 $class     = '"sort-none"';
             }
 
-            $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $newDirection ) . '" class=' . $class . '>' . $item['title'] . '</a>';
+            $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $newDirection ) . '" class="' . $class . '">' . $item['title'] . '</a>';
         }
     }
 
