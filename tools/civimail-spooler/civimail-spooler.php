@@ -5,10 +5,10 @@ $options = getopt('bcht:');
 
 if (isset($options['h'])) {
 print("\nUsage: php civimail-spooler.php [-bh] [-c <config>] [-t <period>]\n");
-print(" -b      Run this process continuously\n");
-print(" -c      Path to CiviCRM config.inc.php\n");
-print(" -h      Print this help message\n");
-print(" -t      In continuous mode, the period to wait between queue events\n\n");
+print("   -b  Run this process continuously\n");
+print("   -c  Path to CiviCRM config.inc.php\n");
+print("   -h  Print this help message\n");
+print("   -t  In continuous mode, the period (in seconds) to wait between queue events\n\n");
 exit();
 }
 
@@ -23,12 +23,15 @@ require_once \'CRM/Core/Config.php\';
 
 $config =& CRM_Core_Config::singleton();
 
-if (is_int($options['t'])) {
+if (is_int($options['t']) && $options['t'] > 0) {
     $config->mailerPeriod = $options['t'];
 }
 
 if (isset($options['b'])) {
     while (true) {
+        /* TODO: put some syslog calls in here.  Also, we may want to fork the
+         * process into the background and provide init.d scripts */
+
         CRM_Mailing_BAO_Job::runJobs();
         sleep($config->mailerPeriod);
     }
