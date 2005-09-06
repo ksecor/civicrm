@@ -116,11 +116,9 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $forward->save();
     
         $dao->reset();
-        $dao->query("   SELECT      id as mailing_id 
-                        FROM        $mailing 
-                        INNER JOIN  $job 
-                                ON $job.mailing_id = $mailing.id 
-                        WHERE $job.id = " . 
+        $dao->query("   SELECT  $job.mailing_id as mailing_id 
+                        FROM    $job
+                        WHERE   $job.id = " . 
                         CRM_Utils_Type::escape($job_id, 'Integer'));
         $dao->fetch();
         $mailing_obj =& new CRM_Mailing_BAO_Mailing();
