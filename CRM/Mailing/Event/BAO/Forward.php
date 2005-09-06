@@ -65,6 +65,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $dao->query("
                 SELECT      $contact.id as contact_id,
                             $email.id as email_id,
+                            $contact.do_not_email as do_not_email,
                             $queue.id as queue_id
                 FROM        $email, $job as temp_job
                 INNER JOIN  $location
@@ -82,8 +83,10 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                     CRM_Utils_Type::escape($forward_email, 'String') . "'");
 
         $dao->fetch();
-        if (isset($dao->queue_id)) {
-            /* We already sent this mailing to $forward_email, give up */
+        if (isset($dao->queue_id) || $dao->do_not_email == 1) {
+            /* We already sent this mailing to $forward_email, or we should
+             * never email this contact.  Give up. */
+
             return false;
         } elseif (empty($dao->contact_id)) {
             /* No contact found, we'll have to create a new one */
@@ -119,7 +122,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                         CRM_Utils_Type::escape($job_id, 'Integer'));
         $dao->fetch();
         $mailing =& new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $dao->mailing_id();
+        $mailing->id = $dao->mailing_id;
         $mailing->find(true);
 
         $config =& CRM_Core_Config::singleton();
