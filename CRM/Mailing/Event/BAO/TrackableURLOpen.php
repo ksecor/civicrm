@@ -221,8 +221,8 @@ class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_Track
             $results[] = array(
                 'name'      => "<a href=\"$url\">{$dao->display_name}</a>",
                 'email'     => $dao->email,
-                'date'      => CRM_Utils_Date::customFormat($dao->date),
-                'url'       => $dao->url
+                'url'       => $dao->url,
+                'date'      => CRM_Utils_Date::customFormat($dao->date)
             );
         }
         return $results;

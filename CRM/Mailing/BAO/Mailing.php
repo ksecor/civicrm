@@ -696,6 +696,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'unsubscribe'   =>
                             CRM_Mailing_Event_BAO_Unsubscribe::getTableName(),
                 'bounce'    => CRM_Mailing_Event_BAO_Bounce::getTableName(),
+                'forward'   => CRM_Mailing_Event_BAO_Forward::getTableName(),
                 'url'       => CRM_Mailing_BAO_TrackableURL::getTableName(),
                 'urlopen'   =>
                     CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
@@ -806,6 +807,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             COUNT(DISTINCT {$t['opened']}.id) as opened,
                             COUNT(DISTINCT {$t['reply']}.id) as reply,
                             COUNT(DISTINCT {$t['unsubscribe']}.id) as unsubscribe,
+                            COUNT(DISTINCT {$t['forward']}.id) as forward,
                             COUNT(DISTINCT {$t['bounce']}.id) as bounce,
                             COUNT(DISTINCT {$t['urlopen']}.id) as url
             FROM            {$t['job']}
@@ -815,6 +817,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON      {$t['opened']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['reply']}
                     ON      {$t['reply']}.event_queue_id = {$t['queue']}.id
+            LEFT JOIN       {$t['forward']}
+                    ON      {$t['forward']}.event_queue_id = {$t['queue']}.id
             LEFT JOIN       {$t['unsubscribe']}
                     ON      {$t['unsubscribe']}.event_queue_id = 
                                 {$t['queue']}.id
@@ -835,7 +839,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $report['event_totals'] = array();
         while ($mailing->fetch()) {
             $row = array();
-            foreach(array(  'queue', 'delivered',   'opened', 'url',
+            foreach(array(  'queue', 'delivered',   'opened', 'url', 'forward',
                             'reply', 'unsubscribe', 'bounce') as $field) {
                 $row[$field] = $mailing->$field;
                 $report['event_totals'][$field] += $mailing->$field;
@@ -877,6 +881,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'unsubscribe'   => CRM_Utils_System::url(
                         'civicrm/mailing/event',
                         "reset=1&event=unsubscribe&mid=$mailing_id&jid={$mailing->id}"
+                ),
+                'forward'       => CRM_Utils_System::url(
+                        'civicrm/mailing/event',
+                        "reset=1&event=forward&mid=$mailing_id&jid={$mailing->id}"
                 ),
                 'reply'         => CRM_Utils_System::url(
                         'civicrm/mailing/event',
@@ -961,6 +969,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'unsubscribe'   => CRM_Utils_System::url(
                             'civicrm/mailing/event',
                             "reset=1&event=unsubscribe&mid=$mailing_id"
+            ),
+            'forward'         => CRM_Utils_System::url(
+                            'civicrm/mailing/event',
+                            "reset=1&event=forward&mid=$mailing_id"
             ),
             'reply'         => CRM_Utils_System::url(
                             'civicrm/mailing/event',

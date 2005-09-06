@@ -174,4 +174,18 @@ function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
     return true;
 }
 
+/**
+ * Handle a forward event
+ *
+ * @param int $job_id           The job ID
+ * @param int $queue_id         The queue ID
+ * @param string $hash          Security hash
+ * @param string $email         Forward destination address
+ * @return boolean              True on success
+ */
+function crm_mailer_event_forward($job_id, $queue_id, $hash, $email) {
+    return CRM_Mailing_Event_BAO_Forward::forward($job_id, $queue_id, $hash,
+                                                    $email);
+}
+
 ?>

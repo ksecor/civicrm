@@ -409,8 +409,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $results[] = array(
                 'name'      => "<a href=\"$url\">{$dao->display_name}</a>",
                 'email'     => $dao->email,
-                'date'      => CRM_Utils_Date::customFormat($dao->date),
-                'org'       => $dao->org_unsubscribe
+                'org'       => $dao->org_unsubscribe,
+                'date'      => CRM_Utils_Date::customFormat($dao->date)
             );
         }
         return $results;

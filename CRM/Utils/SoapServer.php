@@ -160,6 +160,10 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_reply($job, $queue, $hash, $body, $rt);
     }
 
+    public function mailer_event_forward($key, $job, $queue, $hash, $email) {
+        $this->verify($key);
+        return crm_mailer_event_forward($job, $queue, $hash, $email);
+    }
 
 }
 

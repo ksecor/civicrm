@@ -167,9 +167,6 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                 array(
                     'name' => ts('Email Address'),
                 ), 
-                array(
-                    'name' => ts('Date'),
-                ), 
             );
             if ($this->_event_type == 'bounce') {
                 $this->_columnHeaders = array_merge($this->_columnHeaders, array(
@@ -192,7 +189,24 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                         'name'  => ts('URL'),
                     ),
                 ));
+            } elseif ($this->_event_type == 'forward') {
+                $this->_columnHeaders = array_merge($this->_columnHeaders,
+                array(
+                    array(
+                        'name'  => ts('Forwarded Contact'),
+                    ),
+                    array(
+                        'name'  => ts('Forwarded Email'),
+                    ),
+                ));
             }
+
+            $this->_columnHeaders = array_merge($this->_columnHeaders,
+                array(
+                    array(
+                        'name' => ts('Date'),
+                    ), 
+                ));
         }
         return $this->_columnHeaders;
     }
@@ -231,6 +245,11 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                                                     $this->_job_id,
                                                     $this->_is_distinct );
                 break;
+            case 'forward':
+                    $event =& new CRM_Mailing_Event_BAO_Forward();
+                    return $event->getTotalCount(   $this->_mailing_id,
+                                                    $this->_job_id,
+                                                    $this->_is_distinct );
             case 'reply':
                     $event =& new CRM_Mailing_Event_BAO_Reply();
                     return $event->getTotalCount(   $this->_mailing_id, 
@@ -292,6 +311,11 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                                     $this->_job_id, $this->_is_distinct,
                                     $offset, $rowCount, $sort);
                 break;
+            case 'forward':
+                    return
+                    CRM_Mailing_Event_BAO_Forward::getRows($this->_mailing_id,
+                                    $this->_job_id, $this->_is_distinct,
+                                    $offset, $rowCount, $sort);
             case 'reply':
                     return
                     CRM_Mailing_Event_BAO_Reply::getRows($this->_mailing_id,
@@ -333,6 +357,7 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
                 'queue'     => ts('Intended Recipients'),
                 'delivered' => ts('Succesful Deliveries'),
                 'bounce'    => ts('Bounces'),
+                'forward'   => ts('Forwards'),
                 'reply'     => $this->_is_distinct 
                             ? ts('Unique Replies') 
                             : ts('Replies'),

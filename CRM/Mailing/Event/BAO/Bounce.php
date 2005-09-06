@@ -219,11 +219,11 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
             $results[] = array(
                 'name'      => "<a href=\"$url\">{$dao->display_name}</a>",
                 'email'     => $dao->email,
-                'date'      => CRM_Utils_Date::customFormat($dao->date),
                             // FIXME: translate this
                 'type'      => (empty($dao->bounce_type) 
                             ? ts('Unknown') : $dao->bounce_type),
-                'reason'    => $dao->bounce_reason
+                'reason'    => $dao->bounce_reason,
+                'date'      => CRM_Utils_Date::customFormat($dao->date),
             );
         }
         return $results;

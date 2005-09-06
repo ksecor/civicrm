@@ -56,6 +56,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $eq->copyValues($params);
         $eq->hash = self::hash($params);
         $eq->save();
+        return $eq;
     }
 
     /**
@@ -240,12 +241,15 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $dao->find();
 
         while ($dao->fetch()) {
-            foreach (array('Bounce', 'Delivered', 'Opened', 'Reply',
+            foreach (array('Bounce', 'Delivered', 'Forward', 'Opened', 'Reply',
                 'TrackableURLOpen', 'Unsubscribe') as $event) {
                 eval('$object =& new CRM_Mailing_Event_BAO_' . $event . '();');
                 $object->event_queue_id = $dao->id;
                 $object->delete();
             }
+            $object =& new CRM_Mailing_Event_BAO_Forward();
+            $object->dest_queue_id = $dao->id;
+            $object->delete();
         }
         
         $dao->reset();
