@@ -303,7 +303,7 @@ class CRM_Utils_Token {
                     foreach ($groups as $gid => $name) {
                         $value .= ts(
                         "<li>%1 (<a href=\"%2\">re-subscribe</a>)</li>\n", 
-                        array('1' => $name, '2' =>
+                        array(1 => $name, 2 =>
                         "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
                     }
                     $value .= '</ul>';
@@ -311,7 +311,7 @@ class CRM_Utils_Token {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
                         $value .= ts("\t* %1 (re-subscribe: %2 )\n", 
-                        array('1' => $name, '2' => 
+                        array(1 => $name, 2 => 
                         "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
                     }
                     $value .= "\n";

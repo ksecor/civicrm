@@ -185,8 +185,8 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             'Subject'   => $component->subject,
             'To'        => $to,
             'From'      => ts('"%1 Administrator" <%2>',
-                        array(  '1' => $domain->name,
-                                '2' => "do-not-reply@{$domain->email_domain}")),
+                        array(  1 => $domain->name,
+                                2 => "do-not-reply@{$domain->email_domain}")),
             'Reply-To'  => "do-not-reply@{$domain->email_domain}",
             'Return-Path' => "do-not-reply@{$domain->email_domain}"
         );
