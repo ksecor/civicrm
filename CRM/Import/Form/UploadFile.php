@@ -93,7 +93,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $contactOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Individual'), CRM_Import_Parser::CONTACT_INDIVIDUAL);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('HouseHold'), CRM_Import_Parser::CONTACT_HOUSEHOLD);
+            null, null, ts('Household'), CRM_Import_Parser::CONTACT_HOUSEHOLD);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Organization'), CRM_Import_Parser::CONTACT_ORGANIZATION);
 
