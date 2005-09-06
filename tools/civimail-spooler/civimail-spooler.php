@@ -1,7 +1,5 @@
 <?
-// $config_file = "/home/bmcfee/svn/civicrm/modules/config.inc.php";
-
-$options = getopt('bcht:');
+$options = getopt('bc:ht:');
 
 if (isset($options['h'])) {
 print("\nUsage: php civimail-spooler.php [-bh] [-c <config>] [-t <period>]\n");
@@ -17,8 +15,8 @@ if (isset($options['c'])) {
 }
 
 eval('
-require_once $config_file;
-require_once \'CRM/Core/Config.php\';
+require_once "$config_file";
+require_once "CRM/Core/Config.php";
 ');
 
 $config =& CRM_Core_Config::singleton();
