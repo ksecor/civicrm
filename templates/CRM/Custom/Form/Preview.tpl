@@ -13,7 +13,7 @@
 {strip}
 
 {foreach from=$groupTree item=cd_edit key=group_id}
-    <p>
+    <p></p>
     <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
@@ -27,11 +27,10 @@
     {/foreach}
     </dl>
     </fieldset>
-    </p>
 {/foreach}
 {/strip}
 
 <dl>
   <dt></dt><dd>{$form.buttons.html}</dd>
-</dl>  
+</dl>
 </div>

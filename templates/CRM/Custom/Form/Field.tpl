@@ -84,11 +84,11 @@
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
-        <dt id="hideDefaultValTxt" name="hideDefaultValTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.label}</dt>
-        <dd id="hideDefaultValDef" name="hideDefaultValDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.html}</dd>
+        <dt id="hideDefaultValTxt" title="hideDefaultValTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.label}</dt>
+        <dd id="hideDefaultValDef" title="hideDefaultValDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>{$form.default_value.html}</dd>
         {if $action neq 4}
-        <dt id="hideDescTxt" name="hideDescTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>&nbsp;</dt>
-        <dd id="hideDescDef" name="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}><span class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</span></dd>
+        <dt id="hideDescTxt" title="hideDescTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}>&nbsp;</dt>
+        <dd id="hideDescDef" title="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}style="display: none"{/if}><span class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</span></dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
         {if $action neq 4}
@@ -121,6 +121,6 @@
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select') }
     <div class="action-link">
-        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
+        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&amp;action=browse&amp;fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
     </div>
 {/if}

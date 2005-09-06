@@ -6,9 +6,10 @@
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $action ne 4}
-        <div id="crm-submit-buttons">
-        <dt></dt><dd>{$form.buttons.html}</dd>
-        </div>
+        <dt></dt>
+        <dd>
+        <div id="crm-submit-buttons">{$form.buttons.html}</div>
+        </dd>
     {else}
         <div id="crm-done-button">
         <dt></dt><dd>{$form.done.html}</dd>
@@ -18,9 +19,8 @@
     </fieldset>
 </div>
 {if $action eq 2 or $action eq 4} {* Update or View*}
-    <p>
+    <p></p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
+    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&amp;reset=1&amp;gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
     </div>
-    </p>
 {/if}

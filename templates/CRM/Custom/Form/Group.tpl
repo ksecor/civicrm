@@ -22,21 +22,22 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the group fieldset.{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $action ne 4}
-        <div id="crm-submit-buttons">
-        <dt></dt><dd>{$form.buttons.html}</dd>
-        </div>
+        <dt></dt>
+        <dd>
+        <div id="crm-submit-buttons">{$form.buttons.html}</div>
+        </dd>
     {else}
-        <div id="crm-done-button">
-        <dt></dt><dd>{$form.done.html}</dd>
-        </div>
+        <dt></dt>
+        <dd>
+        <div id="crm-done-button">{$form.done.html}</div>
+        </dd>
     {/if} {* $action ne view *}
     </dl>
     </fieldset>
 </div>
 {if $action eq 2 or $action eq 4} {* Update or View*}
-    <p>
+    <p></p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/custom/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}Custom Fields for this Group{/ts}</a>
+    <a href="{crmURL p='civicrm/admin/custom/group/field' q="action=browse&amp;reset=1&amp;gid=$gid"}">&raquo;  {ts}Custom Fields for this Group{/ts}</a>
     </div>
-    </p>
 {/if}

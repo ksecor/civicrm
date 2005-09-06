@@ -50,7 +50,7 @@
     {else}
         <dt>&nbsp;</dt><dd>{$form.done.html}</dd>
     {/if} {* $action ne view *}
-    <dl>
+    </dl>
     </div>
 
 </fieldset>

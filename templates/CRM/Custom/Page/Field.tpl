@@ -3,7 +3,7 @@
 {else}
     {if $customField}
     <div id="field_page">
-     <p>
+     <p></p>
         <div class="form-item">
         {strip}
         <table>
@@ -31,19 +31,18 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New Custom Field{/ts}</a>
+            <a href="{crmURL q="reset=1&amp;action=add&amp;gid=$gid"}">&raquo; {ts}New Custom Field{/ts}</a>
         </div>
 
         </div>
-     </p>
-    </div>
+     </div>
 
     {else}
         {if $action eq 16}
         <div class="messages status">
         <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field q="action=add&reset=1&gid=$gid"}{/capture}
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+        {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field q="action=add&amp;reset=1&amp;gid=$gid"}{/capture}
         <dd>{ts 1=$groupTitle 2=$crmURL}There are no custom fields for custom group "%1", <a href="%2">add one</a>.{/ts}</dd>
         </dl>
         </div>

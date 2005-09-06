@@ -3,7 +3,7 @@
 {else}
     {if $ufField}
     <div id="field_page">
-     <p>
+     <p></p>
         <div class="form-item">
         {strip}
         <table>
@@ -36,19 +36,18 @@
         
         {if $action eq 16 or $action eq 4}
             <div class="action-link">
-            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
+            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&amp;action=add&amp;gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
             </div>
         {/if}
         </div>
-     </p>
-    </div>
+     </div>
 
     {else}
         {if $action eq 16}
-        {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}{/capture}
+        {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&amp;action=add&amp;gid=$gid"}{/capture}
         <div class="messages status">
         <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         <dd>{ts 1=$groupTitle 2=$crmURL}There are no CiviCRM Profile Fields for "%1", you can <a href="%2">add one now</a>.{/ts}</dd>
         </dl>
         </div>

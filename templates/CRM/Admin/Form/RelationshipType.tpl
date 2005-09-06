@@ -1,8 +1,7 @@
 {* this template is used for adding/editing relationship types  *}
-<p>
+<div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Relationship Type{/ts}{elseif $action eq 2}{ts}Edit Relationship Type{/ts}{else}{ts}View Relationship Type{/ts}{/if}</legend>
-	<div class="form-item">
-        <dl>
+	    <dl>
         <dt>{$form.name_a_b.label}</dt><dd>{$form.name_a_b.html}</dd>
         <dt>{$form.name_b_a.label}</dt><dd>{$form.name_b_a.html}</dd>
         <dt>{$form.contact_type_a.label}</dt><dd>{$form.contact_type_a.html}</dd>
@@ -15,6 +14,5 @@
             <dt></dt><dd>{$form.done.html}</dd>
         {/if}
         </dl>
-    </div>
 </fieldset>
-</p>
+</div>
