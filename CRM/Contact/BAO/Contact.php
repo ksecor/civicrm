@@ -825,9 +825,9 @@ WHERE t1.custom_field_id = 1
             }
 
             if ( ! empty( $params ) ) {
-                $tables['civicrm_custom_value'] = 1;
                 $sql = CRM_Core_BAO_CustomValue::whereClause($params); 
                 if ( $sql ) {
+                    $tables['civicrm_custom_value'] = 1;
                     $andArray['custom_value'] = $sql;
                 }
             }
