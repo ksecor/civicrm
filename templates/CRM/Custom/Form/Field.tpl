@@ -44,7 +44,18 @@
 		     }
 		 }
 	    }
-	} 
+	}
+
+	if (data_type.selectedIndex < 4) {	
+		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
+			document.getElementById("optionsPerLine").style.display="block";
+			document.getElementById("optionsPerLineDef").style.display="block";
+		} else {
+			document.getElementById("optionsPerLine").style.display="none";
+			document.getElementById("optionsPerLineDef").style.display="none";
+		}
+	}
+			 
 
     }
 </script>
@@ -66,6 +77,9 @@
     {/if}
 
         <dl>
+	<dt id="optionsPerLine" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}style="display: block"{else} style="display: none" {/if}>{$form.options_per_line.label}</dt>	
+	<dd id="optionsPerLineDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}style="display: block"{else} style="display: none" {/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
+
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>

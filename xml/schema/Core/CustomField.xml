@@ -116,6 +116,11 @@
        <type>boolean</type>
        <comment>Is this property active?</comment>
   </field>
+  <field>
+       <name>options_per_line</name>
+       <type>int unsigned</type>
+       <comment>number of options per line for checkbox and radio</comment>
+  </field>
   <index>
     <name>UI_label_custom_group_id</name>
     <fieldName>label</fieldName>

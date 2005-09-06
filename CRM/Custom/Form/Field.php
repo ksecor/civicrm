@@ -255,6 +255,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // is required ?
         $this->add('checkbox', 'is_required', ts('Required?') );
 
+        // checkbox / radio options per line
+        $this->add('text', 'options_per_line', ts('Number of Options Per Line'));
+
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
         $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
@@ -622,11 +625,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             }
         } 
        
-        $customField->help_post     = $params['help_post'];
-        $customField->mask          = $params['mask'];
-        $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
-        $customField->is_searchable = CRM_Utils_Array::value( 'is_searchable', $params, false );
-        $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
+        $customField->help_post        = $params['help_post'];
+        $customField->mask             = $params['mask'];
+        $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
+        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
+        $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
+        $customField->options_per_line = $params['options_per_line'];
 
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
             $customField->attributes = 'rows=4, cols=80';
