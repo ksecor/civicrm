@@ -61,7 +61,9 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $job        =   CRM_Mailing_BAO_Job::getTableName();
         $mailing    =   CRM_Mailing_BAO_Mailing::getTableName();
         $forward    =   self::getTableName();
-        
+       
+        $domain     =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+       
         $dao =& new CRM_Core_Dao();
         $dao->query("
                 SELECT      $contact.id as contact_id,
@@ -84,6 +86,9 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                     CRM_Utils_Type::escape($forward_email, 'String') . "'");
 
         $dao->fetch();
+        
+        CRM_Core_DAO::transaction('BEGIN');
+        
         if (isset($dao->queue_id) || $dao->do_not_email == 1) {
             /* We already sent this mailing to $forward_email, or we should
              * never email this contact.  Give up. */
@@ -93,13 +98,19 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             /* No contact found, we'll have to create a new one */
             $contact_params = array('email' => $forward_email);
             $contact =& crm_create_contact($contact_params);
+            if (is_a($contact, 'CRM_Core_Error')) {
+                return false;
+            }
+            /* This is an ugly hack, but the API doesn't really support
+             * overriding the domain ID any other way */
+            $contact->domain_id = $domain->id;
+            $contact->save();
             $contact_id = $contact->id;
             $email_id = $contact->location[1]->email[1]->id;
         } else {
             $contact_id = $dao->contact_id;
             $email_id = $dao->email_id;
         }
-        CRM_Core_DAO::transaction('BEGIN');
 
         /* Create a new queue event */
         $queue_params = array(
