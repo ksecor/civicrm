@@ -112,7 +112,7 @@ class CRM_Core_Invoke {
            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
        }
        
-        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>',array(1=>$breadCrumbPath));
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
        
         
         if ( $args[1] !== 'contact' ) {
@@ -418,18 +418,18 @@ class CRM_Core_Invoke {
         }
         if ( $args[2] == 'event' ) {
             CRM_Utils_System::appendBreadCrumb(
-                ts('<a href="%1">Mailings</a>', array(1 =>
-                CRM_Utils_System::url('civicrm/mailing/browse'))));
+                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
+            );
             CRM_Utils_System::appendBreadCrumb(
-                ts('<a href="%1">Report</a>', array(1 =>
-                CRM_Utils_System::url('civicrm/mailing/report'))));
+                '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
+            );
             $view =& new CRM_Mailing_Page_Event( );
             return $view->run( );
         }
         if ( $args[2] == 'report' ) {
             CRM_Utils_System::appendBreadCrumb(
-                ts('<a href="%1">Mailings</a>', array(1 =>
-                CRM_Utils_System::url('civicrm/mailing/browse'))));
+                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
+            );
             $view =& new CRM_Mailing_Page_Report( );
             return $view->run();
         }
