@@ -235,6 +235,13 @@ class CRM_Core_Config {
     public $geocodeMethod    = '';
 
     /**
+     * How long should we wait before checking for new outgoing mailings?
+     *
+     * @var int
+     */
+    public $mailerPeriod    = 180;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -260,6 +267,7 @@ class CRM_Core_Config {
      * @static
      */
     private static $_singleton = null;
+
 
     /**
      * singleton function used to manage this object
@@ -444,6 +452,10 @@ class CRM_Core_Config {
                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC' ) {
                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
             }
+        }
+
+        if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
+            $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
 
         // initialize the framework

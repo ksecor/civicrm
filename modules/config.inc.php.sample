@@ -215,7 +215,16 @@ define('CIVICRM_DOMAIN_ID' , 1 );
  */
 define( 'CIVICRM_DEBUG', 0 );
  
- 
+
+/**
+ * Mailer settings
+ *
+ * CIVICRM_MAILER_SPOOL_PERIOD -  Number of seconds between delivery attempts
+ * for new outgoing mailings.
+ */
+define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
+
+
 include_once 'config.main.php';
 
 ?>
