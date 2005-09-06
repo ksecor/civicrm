@@ -39,6 +39,12 @@
  */
 class CRM_Utils_System_Soap {
 
+    /** 
+     * UF container variables
+     */
+    static $uf = null;
+    static $ufClass = null;
+
     /**
      * sets the title of the page
      *
@@ -92,7 +98,12 @@ class CRM_Utils_System_Soap {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
-        return null;
+        if (isset(self::$ufClass)) {
+            eval('$url = ' . self::$ufClass . '::url($path, $query, $absolute, $fragment);');
+            return $url;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -120,16 +131,58 @@ class CRM_Utils_System_Soap {
     }
 
     /**
-     * FIXME Stub function to generate the base URL
+     * Generate the base URL
      * 
      * @return string
      * @access public
      * @static
      */
     static function baseURL() {
-        return null;
+        if (isset(self::$ufClass)) {
+            eval('$url = ' . self::$ufClass . '::baseURL();');
+            return $url;
+        } else {
+            return null;
+        }
     }
 
+    
+    /**
+     * Authenticate a user against the real UF
+     *
+     * @param string $name      Login name
+     * @param string $pass      Login password
+     * @return array            Result array
+     * @access public
+     * @static
+     */
+    static function &authenticate($name, $pass) {
+        if (isset(self::$ufClass)) {
+            eval('$result =& ' . self::$ufClass . '::authenticate($name, $pass);');
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
+    
+    
+
+    /**
+     * Swap the current UF for soap
+     *
+     * @access public
+     * @static
+     */
+    public static function swapUF() {
+        $config =& CRM_Core_Config::singleton();
+        
+        self::$uf       = $config->userFramework;
+        $config->userFramework = 'Soap';
+        
+        self::$ufClass  = $config->userFrameworkClass;
+        $config->userFrameworkClass = 'CRM_Utils_System_Soap';
+    }
 }
 
 ?>

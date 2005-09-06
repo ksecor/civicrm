@@ -22,8 +22,7 @@ require_once "CRM/Core/Config.php";
 $config =& CRM_Core_Config::singleton();
 
 /* Temporary permissioning hack for now */
-$config->userFramework          = 'Soap';
-$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
+CRM_Utils_System_Soap::swapUF();
 
 if (isset($options['t']) && is_int($options['t']) && $options['t'] > 0) {
     $config->mailerPeriod = $options['t'];
