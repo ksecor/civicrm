@@ -90,7 +90,8 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             return false;
         } elseif (empty($dao->contact_id)) {
             /* No contact found, we'll have to create a new one */
-            $contact =& crm_create_contact(array('email' => $forward_email));
+            $contact_params = array('email' => $forward_email);
+            $contact =& crm_create_contact($contact_params);
             $contact_id = $contact->id;
             $email_id = $contact->location[1]->email[1]->id;
         } else {
