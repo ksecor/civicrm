@@ -301,18 +301,13 @@ class CRM_Utils_Token {
                 if ($html) {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
-                        $value .= ts(
-                        "<li>%1 (<a href=\"%2\">re-subscribe</a>)</li>\n", 
-                        array(1 => $name, 2 =>
-                        "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
+                        $value .= "<li>$name (<a href=\"$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}\">" . ts("re-subscribe") . "</a>)</li>\n";
                     }
                     $value .= '</ul>';
                 } else {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
-                        $value .= ts("\t* %1 (re-subscribe: %2 )\n", 
-                        array(1 => $name, 2 => 
-                        "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}"));
+                        $value .= "\t* $name " . ts("(re-subscribe: %1)", array(1 => "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}")) . "\n";
                     }
                     $value .= "\n";
                 }
