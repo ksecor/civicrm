@@ -232,7 +232,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             SELECT      $contact.display_name as from_name,
                         $contact.id as from_id,
                         $email.email as from_email,
-                        dest_queue.id as dest_id,
+                        dest_contact.id as dest_id,
                         dest_email.email as dest_email,
                         $forward.time_stamp as date
             FROM        $contact
