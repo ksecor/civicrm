@@ -1149,8 +1149,8 @@ class DB_common extends PEAR
      */
     function &query($query, $params = array())
     {
-        static $index = 0;
-        echo "INDEX: " . $index++ . " $query<p>";
+//         static $index = 0;
+//         echo "INDEX: " . $index++ . " $query<p>";
 
         if (sizeof($params) > 0) {
             $sth = $this->prepare($query);

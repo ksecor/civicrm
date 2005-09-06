@@ -255,7 +255,7 @@ use Errno qw(ENOENT);
 
 use vars @EXPORT;
 
-$myversion = 'amavisd-new-20030616-p10';
+$myversion = 'amavisd-new-20030616-p10-civicrm';
 
 $eol = "\n";  # native record separator in files: LF or CRLF or even CR
 $unicode_aware = $]>=5.008 && length("\x{263a}")==1 && eval { require Encode };
