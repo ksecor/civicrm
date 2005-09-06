@@ -76,7 +76,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                         AND $location.entity_id = $contact.id
                 LEFT JOIN   $queueTable
                         ON  $email.id = $queueTable.email_id
-                INNER JOIN  $job
+                LEFT JOIN   $job
                         ON  $queueTable.job_id = $job.id
                         AND temp_job.mailing_id = $job.mailing_id
                 WHERE       temp_job.id = $job_id
