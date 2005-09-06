@@ -57,8 +57,9 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $contact    =   CRM_Contact_BAO_Contact::getTableName();
         $location   =   CRM_Core_BAO_Location::getTableName();
         $email      =   CRM_Core_BAO_Email::getTableName();
-        $queue      =   CRM_Mailing_Event_BAO_Queue::getTableName();
-        $job        =   CRM_Mailing_Event_BAO_Job::getTableName();
+        $queueTable =   CRM_Mailing_Event_BAO_Queue::getTableName();
+        $job        =   CRM_Mailing_BAO_Job::getTableName();
+        $mailing    =   CRM_Mailing_BAO_Mailing::getTableName();
         $forward    =   self::getTableName();
         
         $dao =& new CRM_Core_Dao();
@@ -66,17 +67,17 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                 SELECT      $contact.id as contact_id,
                             $email.id as email_id,
                             $contact.do_not_email as do_not_email,
-                            $queue.id as queue_id
+                            $queueTable.id as queue_id
                 FROM        $email, $job as temp_job
                 INNER JOIN  $location
                         ON  $email.location_id = $location.id
                 INNER JOIN  $contact
                         ON  $location.entity_table = '$contact'
                         AND $location.entity_id = $contact.id
-                LEFT JOIN   $queue
-                        ON  $email.id = $queue.email_id
+                LEFT JOIN   $queueTable
+                        ON  $email.id = $queueTable.email_id
                 INNER JOIN  $job
-                        ON  $queue.job_id = $job.id
+                        ON  $queueTable.job_id = $job.id
                         AND temp_job.mailing_id = $job.mailing_id
                 WHERE       temp_job.id = $job_id
                     AND     $email.email = '" .
@@ -122,15 +123,15 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                         WHERE $job.id = " . 
                         CRM_Utils_Type::escape($job_id, 'Integer'));
         $dao->fetch();
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $dao->mailing_id;
-        $mailing->find(true);
+        $mailing_obj =& new CRM_Mailing_BAO_Mailing();
+        $mailing_obj->id = $dao->mailing_id;
+        $mailing_obj->find(true);
 
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
 
         $recipient = null;
-        $message =& $mailing->compose($job_id, $queue->id, $queue->hash,
+        $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
             $queue->contact_id, $forward_email, $recipient);
 
         $body = $message->get();
@@ -155,6 +156,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         }
 
         CRM_Core_DAO::transaction('COMMIT');        
+        return true;
     }
 
     /**
