@@ -420,6 +420,7 @@ class CRM_Core_SelectValues {
         if (! $components ) {
             $components = array( 'Header'      => 'Header',
                                  'Footer'      => 'Footer',
+                                 'Reply'       => 'Reply Auto-responder',
                                  'Subscribe'   => 'Subscription Message to organization',
                                  'Welcome'     => 'Welcome Message',
                                  'Unsubscribe' => 'Farewell Message',
