@@ -439,7 +439,18 @@ class CRM_Utils_Menu {
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
                             ),
+                      
+                      array(
+                            'path'    => 'civicrm/mailing/forward',
+                            'title'   => ts( 'Forward Mailing' ),
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0, 
+                            ),
+
                       );
+                      
             
             self::initialize( );
         }
