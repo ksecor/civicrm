@@ -203,12 +203,13 @@ class CRM_Utils_Token {
      *
      * @param string $str       The string with tokens to be replaced
      * @param array $addresses  Assoc. array of VERP event addresses
+     * @param array $urls       Assoc. array of action URLs
      * @param boolean $html     Replace tokens with HTML or plain text
      * @return string           The processed string
      * @access public
      * @static
      */
-    public static function &replaceActionTokens($str, &$addresses, $html = false) {
+    public static function &replaceActionTokens($str, &$addresses, &$urls, $html = false) {
         foreach (self::$_tokens['action'] as $token) {
             if (! self::token_match('action', $token, $str)) {
                 continue;
@@ -217,7 +218,10 @@ class CRM_Utils_Token {
             /* If the token is an email action, use it.  Otherwise, find the
              * appropriate URL */
             if (($value = CRM_Utils_Array::value($token, $addresses)) == null) {
-                /* TODO Get $value from the URL constructor */
+                if (($value == CRM_Utils_Array::value($token, $urls)) == null)
+                {
+                    continue;
+                } 
             } else {
                 if ($html) {
                     $value = "mailto:$value";

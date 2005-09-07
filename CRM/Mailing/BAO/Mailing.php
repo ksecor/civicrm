@@ -453,7 +453,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  reply:          user replied to mailing
          *  bounce:         email address bounced
          *  unsubscribe:    contact opts out of all target lists for the mailing
-         *  opt-out:        contact unsubscribes from the domain
+         *  optOut:         contact unsubscribes from the domain
          */
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
         {
@@ -469,14 +469,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $urls = array(
             'forward' => CRM_Utils_System::url('civicrm/mailing/forward', 
-                    "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}"),
+                    "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                    true),
         );
 
         $headers = array(
-            'Subject'   => $this->subject,
-            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
             'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
             'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
+            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
+            'Subject'   => $this->subject,
         );
 
         if ($this->html == null || $this->text == null) {
