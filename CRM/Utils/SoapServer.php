@@ -145,14 +145,14 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
     }
 
-    public function mailer_event_subscribe($key, $email, $domain_id, $group_id) {
+    public function mailer_event_subscribe($key, $email, $domain, $group) {
         $this->verify($key);
-        return crm_mailer_event_subscribe($email, $domain_id, $group_id);
+        return crm_mailer_event_subscribe($email, $domain, $group);
     }
 
     public function mailer_event_confirm($key, $contact, $subscribe, $hash) {
         $this->verify($key);
-        return crm_mailer_event_confirm($contact_id, $subscribe_id, $hash);
+        return crm_mailer_event_confirm($contact, $subscribe, $hash);
     }
 
     public function mailer_event_reply($key, $job, $queue, $hash, $body, $rt) {
