@@ -409,8 +409,9 @@ class CRM_Utils_System {
      */
     static function baseURL() {
         $config =& CRM_Core_Config::singleton( );
-        return 
-            eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
+        return $config->userFrameworkBaseURL;
+//         return 
+//             eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
     }
 
     /** 
