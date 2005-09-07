@@ -278,7 +278,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
                                 ON  $job.mailing_id = $mailing.id
                         INNER JOIN  $queue
                                 ON  $queue.job_id = $job.id
-                        WHERE       $queue = " 
+                        WHERE       $queue.id = " 
                                 . CRM_Utils_Type::escape($queue_id, 'Integer'));
 
         $dao->fetch();
