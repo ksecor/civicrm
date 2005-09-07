@@ -218,7 +218,7 @@ class CRM_Utils_Token {
             /* If the token is an email action, use it.  Otherwise, find the
              * appropriate URL */
             if (($value = CRM_Utils_Array::value($token, $addresses)) == null) {
-                if (($value == CRM_Utils_Array::value($token, $urls)) == null)
+                if (($value = CRM_Utils_Array::value($token, $urls)) == null)
                 {
                     continue;
                 } 
