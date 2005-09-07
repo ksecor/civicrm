@@ -12138,11 +12138,11 @@ msgstr "Northern Marianas"
 
 #. name for PL-DS
 #, fuzzy
-msgid "Dolnoślaskie"
+msgid "Dolnośląskie"
 msgstr "España"
 
 #. name for PL-KP
-msgid "Kujawsksöo-pomorskie"
+msgid "Kujawsko-pomorskie"
 msgstr ""
 
 #. name for PL-LU
@@ -12155,7 +12155,7 @@ msgstr ""
 
 #. name for PL-LD
 #, fuzzy
-msgid "Łodzkie"
+msgid "Łódzkie"
 msgstr "Usuario:"
 
 #. name for PL-MA
@@ -12186,15 +12186,15 @@ msgstr "Comores"
 
 #. name for PL-SL
 #, fuzzy
-msgid "Ślaskie"
+msgid "Śląskie"
 msgstr "España"
 
 #. name for PL-SK
-msgid "Świetokrzyskie"
+msgid "Świętokrzyskie"
 msgstr ""
 
 #. name for PL-WN
-msgid "Warminsko-mazurskie"
+msgid "Warmińsko-mazurskie"
 msgstr ""
 
 #. name for PL-WP
@@ -12202,7 +12202,7 @@ msgid "Wielkopolskie"
 msgstr ""
 
 #. name for PL-ZP
-msgid "Zachodniopomorskie "
+msgid "Zachodniopomorskie"
 msgstr ""
 
 #. name for PS

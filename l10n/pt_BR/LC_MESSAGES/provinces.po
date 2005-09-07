@@ -11619,11 +11619,11 @@ msgstr "Coréia do Norte"
 
 #. name for PL-DS
 #, fuzzy
-msgid "Dolnoślaskie"
+msgid "Dolnośląskie"
 msgstr "Eslováquia"
 
 #. name for PL-KP
-msgid "Kujawsksöo-pomorskie"
+msgid "Kujawsko-pomorskie"
 msgstr ""
 
 #. name for PL-LU
@@ -11635,7 +11635,7 @@ msgid "Lubuskie"
 msgstr ""
 
 #. name for PL-LD
-msgid "Łodzkie"
+msgid "Łódzkie"
 msgstr ""
 
 #. name for PL-MA
@@ -11664,15 +11664,15 @@ msgstr ""
 
 #. name for PL-SL
 #, fuzzy
-msgid "Ślaskie"
+msgid "Śląskie"
 msgstr "Eslováquia"
 
 #. name for PL-SK
-msgid "Świetokrzyskie"
+msgid "Świętokrzyskie"
 msgstr ""
 
 #. name for PL-WN
-msgid "Warminsko-mazurskie"
+msgid "Warmińsko-mazurskie"
 msgstr ""
 
 #. name for PL-WP
@@ -11680,7 +11680,7 @@ msgid "Wielkopolskie"
 msgstr ""
 
 #. name for PL-ZP
-msgid "Zachodniopomorskie "
+msgid "Zachodniopomorskie"
 msgstr ""
 
 #. name for PS
