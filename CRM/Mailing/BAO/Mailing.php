@@ -466,6 +466,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         )
                     ) . '@' . $this->_domain->email_domain;
         }
+
+        $urls = array(
+            'forward' => CRM_Utils_System::url('civicrm/mailing/forward', 
+                    "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}"),
+        );
+
         $headers = array(
             'Subject'   => $this->subject,
             'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
@@ -520,7 +526,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = CRM_Utils_Token::replaceContactTokens(
                                         $text, $contact, false);
             $text = CRM_Utils_Token::replaceActionTokens( $text,
-                                        $verp, false);
+                                        $verp, $urls, false);
                                         
             $message->setTxtBody($text);
         }
@@ -534,7 +540,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $html = CRM_Utils_Token::replaceContactTokens(
                                         $html, $contact, true);
-            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, true);
+            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
             
             if ($this->open_tracking) {
                 $html .= '<img src="' . CRM_Utils_System::baseURL() .

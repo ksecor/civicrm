@@ -407,6 +407,13 @@ class CRM_Core_Invoke {
         if ( $args[1] !== 'mailing' ) {
             return;
         }
+        
+        if ( $args[2] == 'forward' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::baseURL());
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
+        }
 
         if ( $args[2] == 'component' ) {
             $view =& new CRM_Mailing_Page_Component( );
@@ -435,11 +442,15 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'send' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
             $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
             return $controller->run( );
         }
 
         if ( $args[2] == 'queue' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
             CRM_Mailing_BAO_Job::runJobs();
             return;
         }

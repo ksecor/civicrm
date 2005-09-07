@@ -2,7 +2,7 @@
 
 <div class="form-item">
 <fieldset>
-  <legend></legend>
+  <legend>{ts}Settings and Content{/ts}</legend>
   <dl>
     <dt class="label">{$form.from_name.label}</dt><dd>{$form.from_name.html}</dd>
     <dt class="label">{$form.from_email.label}</dt><dd>{$form.from_email.html}</dd>

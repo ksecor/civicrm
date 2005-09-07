@@ -88,11 +88,13 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
      */
     public static function &verify($job_id, $queue_id, $hash) {
         $q =& new CRM_Mailing_Event_BAO_Queue();
-        $q->id = $queue_id;
-        $q->job_id = $job_id;
-        $q->hash = $hash;
-        if ($q->find(true)) {
-            return $q;
+        if (!empty($job_id) && !empty($queue_id) && !empty($hash)) {
+            $q->id = $queue_id;
+            $q->job_id = $job_id;
+            $q->hash = $hash;
+            if ($q->find(true)) {
+                return $q;
+            }
         }
         return null;
     }
@@ -287,6 +289,32 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         }
         
         return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
+    }
+
+
+    /**
+     * Get the mailing object for this queue event instance
+     * 
+     * @param none
+     * @return object           Mailing BAO
+     * @access public
+     */
+    public function &getMailing() {
+        $mailing    =& new CRM_Mailing_BAO_Mailing();
+        $jobs       = CRM_Mailing_BAO_Job::getTableName();
+        $mailings   = CRM_Mailing_BAO_Mailing::getTableName();
+        $queue      = self::getTableName();
+
+        $mailing->query("
+                SELECT      $mailings.*
+                FROM        $mailings
+                INNER JOIN  $jobs
+                        ON  $jobs.mailing_id = $mailings.id
+                INNER JOIN  $queue
+                        ON  $queue.job_id = $jobs.id
+                WHERE       $queue.id = {$this->id}");
+        $mailing->fetch();
+        return $mailing;
     }
 }
 
