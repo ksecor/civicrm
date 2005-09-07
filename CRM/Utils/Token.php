@@ -283,6 +283,7 @@ class CRM_Utils_Token {
      * Replace unsubscribe tokens
      *
      * @param string $str           the string with tokens to be replaced
+     * @param object $domain        The domain BAO
      * @param array $groups         The groups (if any) being unsubscribed
      * @param boolean $html         Replace tokens with html or plain text
      * @param int $contact_id       The contact ID
@@ -291,7 +292,7 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceUnsubscribeTokens($str, &$groups, $html,
+    public static function &replaceUnsubscribeTokens($str, &$domain, &$groups, $html,
         $contact_id, $hash) 
     {
         if (self::token_match('unsubscribe', 'group', $str)) {
@@ -301,13 +302,15 @@ class CRM_Utils_Token {
                 if ($html) {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
-                        $value .= "<li>$name (<a href=\"$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}\">" . ts("re-subscribe") . "</a>)</li>\n";
+//                         $value .= "<li>$name (<a href=\"$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}\">" . ts("re-subscribe") . "</a>)</li>\n";
+                        $value .= "<li>$name (<a href=\"mailto:subscribe.{$domain->id}.{$gid}@{$domain->email_domain}\">" . ts("re-subscribe") . "</a>)</li>\n";
                     }
                     $value .= '</ul>';
                 } else {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
-                        $value .= "\t* $name " . ts("(re-subscribe: %1)", array(1 => "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}")) . "\n";
+//                         $value .= "\t* $name " . ts("(re-subscribe: %1)", array(1 => "$base/modules/civicrm/extern/subscribe.php?cid={$contact_id}&gid={$gid}&hash={$hash}")) . "\n";
+                        $value .= "\t* $name " . ts("(re-subscribe: %1)", array( 1 => "subscribe.{$domain->id}.{$gid}@{$domain->email_domain}")) . "\n";
                     }
                     $value .= "\n";
                 }
