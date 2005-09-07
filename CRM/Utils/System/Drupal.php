@@ -118,7 +118,7 @@ class CRM_Utils_System_Drupal {
             $fragment = '#'. $fragment;
         }
 
-        $base = ($absolute ? $config->httpBase : '');
+        $base = ($absolute ? $config->userFrameworkBaseURL: '');
 
         if (! $config->cleanURL ) {
             if ( isset( $path ) ) {
@@ -149,18 +149,6 @@ class CRM_Utils_System_Drupal {
                 }
             }
         }
-    }
-
-    /**
-     * Get the base URL from Drupal's configuration
-     *
-     * @return string
-     * @access public
-     * @static
-     */
-    static function baseURL() {
-        global $base_url;
-        return $base_url;
     }
 
     /**

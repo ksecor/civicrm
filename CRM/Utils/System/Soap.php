@@ -130,22 +130,6 @@ class CRM_Utils_System_Soap {
     function setEmail( &$user ) {
     }
 
-    /**
-     * Generate the base URL
-     * 
-     * @return string
-     * @access public
-     * @static
-     */
-    static function baseURL() {
-        if (isset(self::$ufClass)) {
-            eval('$url = ' . self::$ufClass . '::baseURL();');
-            return $url;
-        } else {
-            return null;
-        }
-    }
-
     
     /**
      * Authenticate a user against the real UF

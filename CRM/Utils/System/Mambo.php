@@ -149,10 +149,10 @@ class CRM_Utils_System_Mambo {
      * @access public
      * @static
      */
-    static function baseURL() {
-        global $mosConfig_live_site;
-        return $mosConfig_live_site;
-    }
+//     static function baseURL() {
+//         global $mosConfig_live_site;
+//         return $mosConfig_live_site;
+//     }
 
 }
 

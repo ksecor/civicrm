@@ -305,12 +305,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
-                $base = CRM_Utils_System::baseURL() . '/';
+//                 $base = CRM_Utils_System::baseURL() . '/';
             
                 foreach ($newContact->_errors[0]['params'] as $cid) {
-                    $urls[] = $base 
-                            . CRM_Utils_System::url('civicrm/contact/view',
-                                    'reset=1&cid=' . $cid, false);
+                    $urls[] = CRM_Utils_System::url('civicrm/contact/view',
+                                    'reset=1&cid=' . $cid, true);
                 }
             
                 $url_string = implode("\n", $urls);
