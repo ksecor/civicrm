@@ -81,7 +81,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         list($display_name, $email) =
                 CRM_Contact_BAO_Contact::getEmailDetails($se->contact_id);
                 
-        $group =& new CRM_Core_DAO_Group();
+        $group =& new CRM_Contact_DAO_Group();
         $group->id = $se->group_id;
         $group->find(true);
         
