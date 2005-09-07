@@ -137,8 +137,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         CRM_Contact_BAO_Contact::retrieve($values,$contact,$id);
         
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
+        foreach($verp as $key => $value) {
+            $verp[$key]++;
+        }
+        
         $urls = array_flip(array( 'forward' ) );
-
+        foreach($urls as $key => $value) {
+            $urls[$key]++;
+        }
+        
         $header =& new CRM_Mailing_BAO_Component();
         $header->id = $params['header_id'];
         $header->find(true);
@@ -178,7 +185,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
              * and domain. */
             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
             $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $forward);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
 
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
