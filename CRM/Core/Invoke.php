@@ -474,7 +474,7 @@ class CRM_Core_Invoke {
         if ( $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/create', 'reset=1' ) ); 
 
             $wrapper =& new CRM_Utils_Wrapper( ); 
             return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
@@ -483,7 +483,7 @@ class CRM_Core_Invoke {
         if ( $secondArg == 'note' ) {
             // set the userContext stack 
             $session =& CRM_Core_Session::singleton();  
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) );  
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/create', 'reset=1' ) );  
 
             $page =& new CRM_Profile_Page_Note( );
             return $page->run( );
