@@ -4743,7 +4743,7 @@ msgstr "Oznacz kontakt(y)"
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
-"Are you sure you want to Delete the selected contacts. A Delete operation "
+"Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
 msgstr "Na pewno usunąć wybrane kontakty? Tej operacji nie można cofnąć."
 

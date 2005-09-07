@@ -4076,7 +4076,7 @@ msgid "Tag Contact(s)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
-msgid "Are you sure you want to Delete the selected contacts. A Delete operation cannot be undone."
+msgid "Are you sure you want to Delete the selected contacts? A Delete operation cannot be undone."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl templates/CRM/Contact/Page/View/ActivityLinks.tpl

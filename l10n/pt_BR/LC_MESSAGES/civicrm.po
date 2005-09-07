@@ -4835,7 +4835,7 @@ msgstr "Rotular Contato(s)"
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
-"Are you sure you want to Delete the selected contacts. A Delete operation "
+"Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
 msgstr ""
 "Tem certeza de que deseja Excluir os contatos selecionados. A operação de "
