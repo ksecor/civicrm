@@ -489,6 +489,15 @@ class CRM_Core_Invoke {
             return $page->run( );
         }
 
+        if ( $secondArg == 'dojo' ) { 
+            // set the userContext stack  
+            $session =& CRM_Core_Session::singleton();   
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/create', 'reset=1' ) );   
+ 
+            $wrapper =& new CRM_Utils_Wrapper( );  
+            return $wrapper->run( 'CRM_Profile_Form_Dojo', ts( 'Create Profile' ), CRM_Core_Action::ADD ); 
+        } 
+
         $page =& new CRM_Profile_Page_Listings( );
         return $page->run( );
     }
