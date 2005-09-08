@@ -120,7 +120,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( ! $fromEmail ) {
             CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
         }
-        $from = "'$fromDisplayName' <$fromEmail>";
+        $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $this->assign( 'from', $from );
         
         $this->add( 'text'    , 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' ), true );

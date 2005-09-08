@@ -49,10 +49,11 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        MENU      = 1,
-        SHORTCUTS = 2,
-        SEARCH    = 4,
-        ADD       = 8;
+        MENU      =  1,
+        SHORTCUTS =  2,
+        SEARCH    =  4,
+        ADD       =  8,
+        MAIL      = 16;
 
     /**
      * template file names for the above blocks
@@ -89,6 +90,10 @@ class CRM_Core_Block {
                                        self::MENU        => array( 'template' => 'Menu.tpl',
                                                                    'info'     => ts('CiviCRM Menu'),
                                                                    'subject'  => ts('CiviCRM'),
+                                                                   'active'   => true ),
+                                       self::MAIL        => array( 'template' => 'Mail.tpl',
+                                                                   'info'     => ts('CiviMail Menu'),
+                                                                   'subject'  => ts('CiviMail'),
                                                                    'active'   => true ),
                                        );
         }
@@ -172,15 +177,22 @@ class CRM_Core_Block {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
-            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ) ) );
+            self::setProperty( self::ADD,
+                               'templateValues',
+                               array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI',
+                                                                          'reset=1&amp;c_type=Individual' ) ) );
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
-                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) ,
-                'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' )
+                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
+                                                              'reset=1' ) ,
+                'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
+                                                              'reset=1' )
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
+        } else if ( $id == self::MAIL ) {  
+            self::setTemplateMailValues( ); 
         }
     }
 
@@ -216,6 +228,35 @@ class CRM_Core_Block {
             $values[] = $value;
         }
         self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
+    }
+
+    /**
+     * create the list of mail urls for the application and format is as a block
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateMailValues( ) {
+        static $shortCuts = null;
+        
+        if (!($shortCuts)) {
+             $shortCuts = array( array( 'path'  => 'civicrm/mailing/send',
+                                        'qs'    => 'reset=1',
+                                        'title' => ts('Send Mailing') ),
+                                 array( 'path'  => 'civicrm/mailing/browse',
+                                        'qs'    => 'reset=1',
+                                        'title' => ts('Browse Sent Mailings') ),
+                                 );
+        }
+
+        $values = array( );
+        foreach ( $shortCuts as $short ) {
+            $value = array( );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['title'] = $short['title'];
+            $values[] = $value;
+        }
+        self::setProperty( self::MAIL, 'templateValues', array( 'shortCuts' => $values ) );
     }
 
     /**

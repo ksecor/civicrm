@@ -63,7 +63,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( ! $fromEmail ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
-        $from = "'$fromDisplayName' <$fromEmail>";
+        $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
 
         // create the meta level record first
         $email             =& new CRM_Core_BAO_EmailHistory( );
@@ -112,7 +112,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         
         $headers = array( );
         $headers['From']    = $from;
-        $headers['To'  ]    = "'$toDisplayName' <$toEmail>";
+        $headers['To'  ]    = '"' . $toDisplayName . '"' . "<$toEmail>";
         $headers['subject'] = $subject;
 
         $mailer = CRM_Core_Config::getMailer( );

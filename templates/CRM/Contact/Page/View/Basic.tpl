@@ -5,13 +5,13 @@
 <div id="name" class="data-group">
    <div>
     <label>{$displayName}</label>
-    {if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}
+    {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
     {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="vCard" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
-    {if $contactTag}<br />{$contactTag}{/if}
+    {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
    </div>
 </div>
 
@@ -70,6 +70,7 @@
     {/if}
     {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
     {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
+    {if $loc.address.supplemental_address_2}{$loc.address.supplemental_address_2}<br />{/if}
     {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}
         {if $loc.address.city}{$loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}{if $loc.address.postal_code_suffix}-{$loc.address.postal_code_suffix}{/if}<br />
     {/if}
