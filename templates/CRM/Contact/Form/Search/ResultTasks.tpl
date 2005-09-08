@@ -41,4 +41,4 @@
      {$form.radio_ts.ts_sel.html} <b>{ts}selected records only{/ts}</b>&nbsp; {$form.radio_ts.ts_all.html} <b>{ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</b>
    </div>
  </div>  
- <p>
+

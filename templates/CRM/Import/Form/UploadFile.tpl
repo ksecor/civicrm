@@ -34,7 +34,7 @@
             </dd>
        <dt>&nbsp;</dt>
             <dd class="description">
-            {ts}<label>Skip:</label> Reports and then Skips duplicate import file rows - leaving the matching record in the database as-is (default).{/ts}</dd>
+            {ts}<label>Skip:</label> Reports and then Skips duplicate import file rows - leaving the matching record in the database as-is (default).{/ts}
             </dd>
        <dt>&nbsp;</dt>
             <dd class="description">

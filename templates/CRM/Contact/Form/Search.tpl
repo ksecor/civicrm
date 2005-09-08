@@ -17,9 +17,9 @@
        {include file="CRM/Contact/Form/Search/ResultTasks.tpl"}
 
        {* This section displays the rows along and includes the paging controls *}
-       <p>
+       <p></p>
        {include file="CRM/Contact/Form/Selector.tpl"}
-       </p>
+       
 
     </fieldset>
     {* END Actions/Results section *}
