@@ -69,6 +69,7 @@
 <th>{ts}Delivered{/ts}</th>
 <th>{ts}Bounces{/ts}</th>
 <th>{ts}Unsubscriptions{/ts}</th>
+<th>{ts}Forwards{/ts}</th>
 <th>{ts}Replies{/ts}</th>
 {if $report.mailing.open_tracking}
 <th>{ts}Opens{/ts}</th>
