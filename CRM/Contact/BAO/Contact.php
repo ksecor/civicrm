@@ -916,6 +916,25 @@ WHERE t1.custom_field_id = 1
             $contact->display_name =
                 trim( $prefix . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix );
             $contact->display_name = str_replace( '  ', ' ', $contact->display_name );
+
+            foreach ($params['location'] as $locBlock) {
+                if (! $locBlock['is_primary']) {
+                    continue;
+                }
+                $email = $locBlock['email'][1]['email'];
+                break;
+            }
+
+            if (empty($contact->display_name)) {
+                if (isset($email)) {
+                    $contact->display_name = $email;
+                }
+            }
+            if (empty($contact->sort_name)) {
+                if (isset($email)) {
+                    $contact->sort_name = $email;
+                }
+            }
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
