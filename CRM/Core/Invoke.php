@@ -414,6 +414,21 @@ class CRM_Core_Invoke {
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
         }
+        
+        if ( $args[2] == 'retry' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(
+                CRM_Utils_System::url('civicrm/mailing/browse'));
+            CRM_Utils_System::appendBreadCrumb(
+                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
+            );
+            CRM_Utils_System::appendBreadCrumb(
+                '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
+            );
+            $wrapper =& new CRM_Utils_Wrapper();
+            return $wrapper->run( 'CRM_Mailing_Form_Retry', 
+                                    ts('Retry Mailing'), null);
+        }
 
         if ( $args[2] == 'component' ) {
             $view =& new CRM_Mailing_Page_Component( );

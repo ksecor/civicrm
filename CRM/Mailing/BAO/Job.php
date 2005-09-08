@@ -130,6 +130,25 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         }
     }
 
+    /**
+     * Create a retry job for a mailing
+     *
+     * @param int $mailing_id           ID of the mailing to retry
+     * @param string $start_date        Start date
+     * @return object                    The job object
+     * @access public
+     * @static
+     */
+    public static function retry($mailing_id, $start_date) {
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $mailing_id;
+        $job->scheduled_date = $start_date;
+        $job->status = 'Scheduled';
+        $job->is_retry = true;
+        $job->save();
+        
+        return $job;
+    }
 
     /**
      * Send the mailing

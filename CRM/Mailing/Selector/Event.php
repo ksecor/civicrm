@@ -139,7 +139,9 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
     {
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
-
+        $params['status']       = ts('%1 %%Status Message%%', array(1 =>
+        $this->eventToTitle()));
+        
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
     }//end of function

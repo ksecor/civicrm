@@ -365,6 +365,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $queue      = CRM_Mailing_Event_BAO_Queue::getTableName();
         $bounce     = CRM_Mailing_Event_BAO_Bounce::getTableName();
+        $delivered  = CRM_Mailing_Event_BAO_Delivered::getTableName();
         $email      = CRM_Core_BAO_Email::getTableName();
         $contact    = CRM_Contact_BAO_Contact::getTableName();
         
@@ -379,12 +380,19 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         ON          $queue.contact_id = $contact.id
                 INNER JOIN          $email
                         ON          $queue.email_id = $email.id
+                LEFT JOIN           $queue as queue_d
+                        ON          queue_d.contact_id = $queue.contact_id
+                LEFT JOIN           $delivered
+                        ON          $delivered.event_queue_id = queue_d.id
+                LEFT JOIN           $bounce as bounce_d
+                        ON          bounce_d.event_queue_id = queue_d.id
                 WHERE               
                                     $job.mailing_id = {$this->id}
                     AND             $job.id <> $job_id
                     AND             $contact.do_not_email = 0
                     AND             $contact.is_opt_out = 0
                     AND             $email.on_hold = 0
+                    AND             bounce_d.id IS NOT NULL
                 GROUP BY            $queue.email_id";
 
         $eq->query($query);
@@ -986,7 +994,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             ),
         );
         }
-        
+        $report['retry'] = CRM_Utils_System::url(
+                            'civicrm/mailing/retry',
+                            "reset=1&mid=$mailing_id");
         return $report;
     }
 

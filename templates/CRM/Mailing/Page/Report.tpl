@@ -142,6 +142,7 @@
 {/if}
 </table>
 {/if}
+<a href="{$report.retry}">{ts}Retry Mailing{/ts}</a>
 </fieldset>
 
 {/if}
