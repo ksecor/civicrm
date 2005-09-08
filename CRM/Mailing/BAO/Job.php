@@ -192,8 +192,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
             if (is_a($result, PEAR_Error)) {
                 /* Register the bounce event */
-                $params +=
-                    CRM_Mailing_BAO_BouncePattern::match($result->getMessage());
+                $params = array_merge($params, 
+                  CRM_Mailing_BAO_BouncePattern::match($result->getMessage()));
                 CRM_Mailing_Event_BAO_Bounce::create($params);
             } else {
                 /* Register the delivery event */
