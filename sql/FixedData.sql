@@ -635,6 +635,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (9, 'relay (not permitted|access denied)'),
     (9, 'relayed mail to .+? not allowed'),
     (9, 'sender ip must resolve'),
+    (9, 'unsupported mail destination'),
     (9, 'unable to relay');
 
 INSERT INTO civicrm_mailing_bounce_type 
