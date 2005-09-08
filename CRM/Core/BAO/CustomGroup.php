@@ -131,7 +131,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                       'is_required', 'help_post'),
+                                                       'is_required', 'help_post','options_per_line'),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'collapse_display'),
                            );
 

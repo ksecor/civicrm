@@ -20,10 +20,40 @@
                 <fieldset><legend><a href="#" onclick="hide('{$cd.title}'); show('{$cd.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
+			{if $element.options_per_line > 1 }
+			  {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}			
+			  <dt>{$element.label}</dt>
+			  <dd>
+			      {assign var="count" value="1"}
+			      <table class="form-layout">
+			      {section name=rowLoop start=1 loop=$form.$element_name}
+			      {assign var=index value=$smarty.section.rowLoop.index}
+			      {if $form.$element_name.$index.html != "" }
+				 {if $smarty.section.rowLoop.first}
+				    <tr>
+			         {/if} 
+				 <td>{$form.$element_name.$index.html}</td>
+
+		                {if $count == $element.options_per_line}
+				   	</tr><tr>
+					{assign var="count" value="1"}
+			        {else}
+					{assign var="count" value=`$count+1`}
+		                {/if}
+
+			        {if $smarty.section.rowLoop.last}
+				   </tr>
+			        {/if}
+		               {/if}
+			       {/section}
+			       </table>
+			 </dd>
+		    {else}
                     {assign var="name" value=`$cd_value.name`} 
                     {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
                     <dt>{$cd_value.label}</dt>
                     <dd>&nbsp;{$form.$element_name.html}</dd>
+		    {/if}
                     {/foreach}
                     </dl>
                 </fieldset>
