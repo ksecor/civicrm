@@ -120,11 +120,14 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $recipients =& $mailing->getRecipients($this->id);
         }
         
-        foreach ($recipients as $recipient) {
+//         foreach ($recipients as $recipient) {
+        while ($recipients->fetch()) {
             $params = array(
                 'job_id'        => $this->id,
-                'email_id'      => $recipient['email_id'],
-                'contact_id'    => $recipient['contact_id']
+//                 'email_id'      => $recipient['email_id'],
+//                 'contact_id'    => $recipient['contact_id']
+                'email_id'      => $recipient->email_id,
+                'contact_id'    => $recipient->contact_id
             );
             CRM_Mailing_Event_BAO_Queue::create($params);
         }

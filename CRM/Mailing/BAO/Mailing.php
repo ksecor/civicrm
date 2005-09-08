@@ -76,7 +76,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * Find all intended recipients of a mailing
      *
      * @param int $job_id       Job ID
-     * @return array            Tuples of Contact IDs and Email IDs
+     * @return object           A DAO loaded with results of the form
+     *                              (email_id, contact_id)
      */
     function &getRecipients($job_id) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
@@ -334,30 +335,33 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         
         $results = array();
 
-        $mailingGroup->reset();
-        $mailingGroup->query("  SELECT * 
-                                FROM I_$job_id 
-                                ORDER BY contact_id, email_id");
+        $eq =& new CRM_Mailing_Event_BAO_Queue();
         
-        while ($mailingGroup->fetch()) {
-            $results[] =    
-                array(  'email_id'  => $mailingGroup->email_id,
-                        'contact_id'=> $mailingGroup->contact_id
-                );
-        }
+        $eq->query("SELECT contact_id, email_id 
+                    FROM I_$job_id 
+                    ORDER BY contact_id, email_id");
+        
+//         while ($mailingGroup->fetch()) {
+//             $results[] =    
+//                 array(  'email_id'  => $mailingGroup->email_id,
+//                         'contact_id'=> $mailingGroup->contact_id
+//                 );
+//         }
         
         /* Delete the temp table */
+        $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
         $mailingGroup->query("DROP TEMPORARY TABLE I_$job_id");
 
-        return $results;
+//         return $results;
+        return $eq;
     }
 
     /**
      * Generate an event queue for a retry job (ie the contacts who bounced)
      *
      * @param int $job_id       The job marked retry
-     * @return array            Tuples of Email ID and Contact ID
+     * @return object           A DAO loaded with email_id/contact_id results
      * @access public
      */
     public function retryRecipients($job_id) {
@@ -370,7 +374,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $contact    = CRM_Contact_BAO_Contact::getTableName();
         
         $query = 
-                "SELECT             $queue.email_id, $queue.contact_id
+                "SELECT             $queue.email_id as email_id, 
+                                    $queue.contact_id as contact_id
                 FROM                $queue
                 INNER JOIN          $job
                         ON          $queue.job_id = $job.id
@@ -396,16 +401,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 GROUP BY            $queue.email_id";
 
         $eq->query($query);
-        
-        $results = array();
-        while ($eq->fetch()) {
-            $results[] = array(
-                'email_id' => $eq->email_id,
-                'contact_id' => $eq->contact_id,
-            );
-        }
+        return $eq;
 
-        return $results;
+//         $results = array();
+//         while ($eq->fetch()) {
+//             $results[] = array(
+//                 'email_id' => $eq->email_id,
+//                 'contact_id' => $eq->contact_id,
+//             );
+//         }
+
+//         return $results;
     }
 
     /**
