@@ -370,7 +370,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $contact    = CRM_Contact_BAO_Contact::getTableName();
         
         $query = 
-                "SELECT             email_id, contact_id
+                "SELECT             $queue.email_id, $queue.contact_id
                 FROM                $queue
                 INNER JOIN          $job
                         ON          $queue.job_id = $job.id
