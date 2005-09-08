@@ -129,7 +129,6 @@ class CRM_Utils_SoapServer
     }
 
     /*** MAILER API ***/
-
     public function mailer_event_bounce($key, $job, $queue, $hash, $body) {
         $this->verify($key);
         return crm_mailer_event_bounce($job, $queue, $hash, $body);

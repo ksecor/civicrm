@@ -108,10 +108,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     SELECT              $g2contact.contact_id
                     FROM                $g2contact
                     INNER JOIN          $mg
-                            ON          $g2contact.group_id = $mg.entity_id
+                            ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
                     WHERE
                                         $mg.mailing_id = {$this->id}
-                        AND             $mg.entity_table = '$group'
                         AND             $g2contact.status = 'Added'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
@@ -125,10 +124,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $job
                             ON          $eq.job_id = $job.id
                     INNER JOIN          $mg
-                            ON          $job.mailing_id = $mg.entity_id
+                            ON          $job.mailing_id = $mg.entity_id AND $mg.entity_table = '$mailing'
                     WHERE
                                         $mg.mailing_id = {$this->id}
-                        AND             $mg.entity_table = '$mailing'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
         
@@ -168,7 +166,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $ss->saved_search_id, $tables);
             $from = CRM_Contact_BAO_Contact::fromClause($tables);
             $mailingGroup->query(
-                    "INSERT IGNORE INTO X_$job_id (contact id)
+                    "INSERT IGNORE INTO X_$job_id (contact_id)
                     SELECT              $contact.id
                                     $from
                     WHERE               $where");
@@ -232,13 +230,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $job
                             ON          $eq.job_id = $job.id
                     INNER JOIN          $mg
-                            ON          $job.mailing_id = $mg.mailing_id
+                            ON          $job.mailing_id = $mg.entity_id AND $mg.entity_table = '$mailing'
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE
-                                        $mg.entity_table = '$mailing'
-                        AND             $mg.group_type = 'Include'
-                        
+                                        $mg.group_type = 'Include'
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
@@ -498,7 +494,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
                             $this->_domain, false);
-            
             $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
                             $this, true);
         }

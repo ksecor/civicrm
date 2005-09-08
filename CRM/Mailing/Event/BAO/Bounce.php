@@ -66,6 +66,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
         $queueTable     = CRM_Mailing_Event_BAO_Queue::getTableName();
         
         $bounce->reset();
+        // might want to put distinct inside the count
         $query =
                 "SELECT     count($bounceTable.id) as bounces,
                             $bounceType.hold_threshold as threshold
