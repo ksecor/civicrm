@@ -9,11 +9,11 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-09-04 12:17+0200\n"
-"PO-Revision-Date: 2005-09-04 12:17+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2005-09-08 12:34-0000\n"
+"Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1 ? 1 : 0);\n"
 
@@ -448,7 +448,7 @@ msgstr "City"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Test.php
 msgid "State / Province"
-msgstr "State / Province"
+msgstr "County"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Search/Advanced.php
@@ -503,7 +503,7 @@ msgstr "Street Name"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr "State/Province"
+msgstr "County"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Import/Base.php
 #: CRM/Core/DAO/Address.php
@@ -613,7 +613,7 @@ msgstr "Update Saved Search"
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "State"
-msgstr "State"
+msgstr "County"
 
 #: CRM/Contact/Import/Base.php CRM/Core/DAO/Phone.php
 #: CRM/Core/SelectValues.php
@@ -816,7 +816,7 @@ msgstr "Select Date"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select State/Province"
-msgstr "Select State/Province"
+msgstr "Select County"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Country"
@@ -1433,7 +1433,7 @@ msgstr "Addt'l Address 2"
 
 #: CRM/Contact/Form/Address.php
 msgid "Zip / Postal Code"
-msgstr "Zip / Postal Code"
+msgstr "Postal Code"
 
 #: CRM/Contact/Form/Address.php
 msgid "Add-on Code"
@@ -1648,7 +1648,7 @@ msgstr "Contact Type(s)"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid " - any state/province - "
-msgstr " - any state/province - "
+msgstr " - any county - "
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid " - any country - "
@@ -1861,7 +1861,7 @@ msgstr "Your search has been saved as \"%1\"."
 
 #: CRM/Contact/Form/Test.php
 msgid "State / Province Id"
-msgstr "State / Province Id"
+msgstr "County Id"
 
 #: CRM/Contact/Import/Base.php
 msgid "Street"
@@ -2012,7 +2012,7 @@ msgstr "City Name like - \"%1\""
 
 #: CRM/Contact/Selector.php
 msgid "State - \"%1\""
-msgstr "State - \"%1\""
+msgstr "County - \"%1\""
 
 #: CRM/Contact/Selector.php
 msgid "Country - \"%1\""
@@ -2428,7 +2428,7 @@ msgstr "Modified Date"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr "State Abbreviation"
+msgstr "County Abbreviation"
 
 #: CRM/Core/DAO/UFField.php
 msgid "Field Name"
@@ -2592,7 +2592,7 @@ msgstr "Dear [title] [last]"
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
-msgstr "Customized"
+msgstr "Customised"
 
 #: CRM/Core/SelectValues.php
 msgid "-select-"
@@ -2676,7 +2676,7 @@ msgstr "Date selector"
 
 #: CRM/Core/SelectValues.php
 msgid "State / Province selector"
-msgstr "State / Province selector"
+msgstr "County selector"
 
 #: CRM/Core/SelectValues.php
 msgid "Country selector"
@@ -2746,7 +2746,7 @@ msgstr "The invalid default value for Country Data Type"
 
 #: CRM/Custom/Form/Field.php
 msgid "The invalid default value for State/Province data type"
-msgstr "The invalid default value for State/Province data type"
+msgstr "The invalid default value for County data type"
 
 #: CRM/Custom/Form/Field.php
 msgid "Duplicate Option values"
