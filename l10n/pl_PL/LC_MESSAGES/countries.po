@@ -199,7 +199,7 @@ msgstr "Benin"
 # KR
 #. official_name for BEN
 msgid "Republic of Benin"
-msgstr ""
+msgstr "Republika Beninu"
 
 # BM
 #. name for BMU
@@ -231,7 +231,7 @@ msgstr "Bośnia i Hercegowina"
 
 #. official_name for BIH
 msgid "Republic of Bosnia and Herzegovina"
-msgstr ""
+msgstr "Republika Bośni i Hercegowiny"
 
 # BW
 #. name for BWA
@@ -431,7 +431,7 @@ msgstr "Chorwacja"
 
 #. official_name for HRV
 msgid "Republic of Croatia"
-msgstr ""
+msgstr "Republika Chorwacji"
 
 # CU
 #. name for CUB
@@ -534,7 +534,7 @@ msgstr "Gwinea Równikowa"
 
 #. official_name for GNQ
 msgid "Republic of Equatorial Guinea"
-msgstr ""
+msgstr "Republika Gwinei Równikowej"
 
 # ER
 #. name for ERI
@@ -764,7 +764,7 @@ msgstr "Hongkong"
 
 #. official_name for HKG
 msgid "Hong Kong Special Administrative Region of China"
-msgstr ""
+msgstr "Specjalny Region Administracyjny ChRL Hongkong"
 
 # HU
 #. name for HUN
@@ -1042,7 +1042,7 @@ msgstr "Malawi"
 # KR
 #. official_name for MWI
 msgid "Republic of Malawi"
-msgstr ""
+msgstr "Republika Malawi"
 
 # MY
 #. name for MYS
@@ -1056,7 +1056,7 @@ msgstr "Malediwy"
 
 #. official_name for MDV
 msgid "Republic of Maldives"
-msgstr ""
+msgstr "Republika Malediwów"
 
 # ML
 #. name for MLI
@@ -1269,7 +1269,7 @@ msgstr "Nigeria"
 # KR
 #. official_name for NGA
 msgid "Federal Republic of Nigeria"
-msgstr ""
+msgstr "Federacyjna Republika Nigerii"
 
 # NU
 #. name for NIU
@@ -1293,7 +1293,7 @@ msgstr "Północne Mariany"
 
 #. official_name for MNP
 msgid "Commonwealth of the Northern Mariana Islands"
-msgstr ""
+msgstr "Wspólnota Marianów Północnych"
 
 # NO
 #. name for NOR
@@ -1362,7 +1362,7 @@ msgstr "Paragwaj"
 
 #. official_name for PRY
 msgid "Republic of Paraguay"
-msgstr ""
+msgstr "Republika Paragwaju"
 
 # PE
 #. name for PER
@@ -1496,7 +1496,7 @@ msgstr "Wyspy Świętego Tomasza i Książęca"
 
 #. official_name for STP
 msgid "Democratic Republic of Sao Tome and Principe"
-msgstr ""
+msgstr "Demokratyczna Republika Wysp Świętego Tomasza i Książęcej"
 
 # SA
 #. name for SAU
@@ -1523,7 +1523,7 @@ msgstr "Seszele"
 
 #. official_name for SYC
 msgid "Republic of Seychelles"
-msgstr ""
+msgstr "Republika Seszeli"
 
 # SL
 #. name for SLE
@@ -1532,7 +1532,7 @@ msgstr "Sierra Leone"
 
 #. official_name for SLE
 msgid "Republic of Sierra Leone"
-msgstr ""
+msgstr "Republika Sierra Leone"
 
 # SG
 #. name for SGP
@@ -1541,7 +1541,7 @@ msgstr "Singapur"
 
 #. official_name for SGP
 msgid "Republic of Singapore"
-msgstr ""
+msgstr "Republika Singapuru"
 
 # SK
 #. name for SVK
@@ -1617,7 +1617,7 @@ msgstr "Sudan"
 
 #. official_name for SDN
 msgid "Republic of the Sudan"
-msgstr ""
+msgstr "Republika Sudanu"
 
 # SR
 #. name for SUR
@@ -1626,7 +1626,7 @@ msgstr "Surinam"
 
 #. official_name for SUR
 msgid "Republic of Suriname"
-msgstr ""
+msgstr "Republika Surinamu"
 
 # SJ
 #. name for SJM
@@ -1683,7 +1683,7 @@ msgstr "Tadżykistan"
 # TJ
 #. official_name for TJK
 msgid "Republic of Tajikistan"
-msgstr ""
+msgstr "Republika Tadżykistanu"
 
 # KR
 #. name for TZA
@@ -1725,7 +1725,7 @@ msgstr "Tonga"
 
 #. official_name for TON
 msgid "Kingdom of Tonga"
-msgstr ""
+msgstr "Królestwo Tonga"
 
 # TT
 #. name for TTO
@@ -1778,7 +1778,7 @@ msgstr "Uganda"
 # KR
 #. official_name for UGA
 msgid "Republic of Uganda"
-msgstr ""
+msgstr "Republika Ugandy"
 
 # UA
 #. name for UKR
@@ -1916,7 +1916,7 @@ msgstr "Zimbabwe"
 
 #. official_name for ZWE
 msgid "Republic of Zimbabwe"
-msgstr ""
+msgstr "Republika Zimbabwe"
 
 #. name for SCG
 msgid "Serbia and Montenegro"
