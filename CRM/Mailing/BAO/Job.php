@@ -126,8 +126,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 'job_id'        => $this->id,
 //                 'email_id'      => $recipient['email_id'],
 //                 'contact_id'    => $recipient['contact_id']
-                'email_id'      => $recipient->email_id,
-                'contact_id'    => $recipient->contact_id
+                'email_id'      => $recipients->email_id,
+                'contact_id'    => $recipients->contact_id
             );
             CRM_Mailing_Event_BAO_Queue::create($params);
         }
