@@ -1,0 +1,42 @@
+# Drupal-CiviCRM British English file
+# Copyright (C) 2005 Donald A. Lobo
+# This file is distributed under the same license as the CiviCRM package.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM trunk\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-08-04 09:06+0200\n"
+"PO-Revision-Date: 2005-08-04 09:06+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1 ? 1 : 0);\n"
+
+msgid "add contacts"
+msgstr "add contacts"
+
+msgid "view all contacts"
+msgstr "view all contacts"
+
+msgid "edit all contacts"
+msgstr "edit all contacts"
+
+msgid "edit groups"
+msgstr "edit groups"
+
+msgid "administer CiviCRM"
+msgstr "administer CiviCRM"
+
+msgid "access CiviCRM"
+msgstr "access CiviCRM"
+
+msgid "edit %group"
+msgstr "edit %group"
+
+msgid "view %group"
+msgstr "view %group"
