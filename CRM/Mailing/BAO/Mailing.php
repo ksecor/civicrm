@@ -400,8 +400,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $results = array();
         while ($eq->fetch()) {
             $results[] = array(
-                'email_id' => $eq.email_id,
-                'contact_id' => $eq.contact_id,
+                'email_id' => $eq->email_id,
+                'contact_id' => $eq->contact_id,
             );
         }
 
