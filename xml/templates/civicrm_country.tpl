@@ -58,7 +58,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1047", "Cocos (Keeling) 
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1048", "Colombia", "CO");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1049", "Comoros", "KM");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1050", "Congo, The Democratic Republic of the", "CD");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1051", "Congo", "CF");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1051", "Congo", "CG");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1052", "Cook Islands", "CK");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1053", "Costa Rica", "CR");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1054", "Côte d\'Ivoire", "CI");
@@ -79,7 +79,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1068", "Eritrea", "ER");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1069", "Estonia", "EE");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1070", "Ethiopia", "ET");
 -- INSERT INTO civicrm_country (id, name,iso_code) VALUES("1071", "European Union", "EU");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1072", "Falkland Islands (Malvinas)", "YY");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1072", "Falkland Islands (Malvinas)", "FK");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1073", "Faroe Islands", "FO");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1074", "Fiji", "FJ");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1075", "Finland", "FI");
@@ -209,7 +209,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1198", "Spain", "ES");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1199", "Sri Lanka", "LK");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1200", "Sudan", "SD");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1201", "Suriname", "SR");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1202", "Svalbard and Jan Mayen", "YY");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1202", "Svalbard and Jan Mayen", "SJ");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1203", "Swaziland", "SZ");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1204", "Sweden", "SE");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1205", "Switzerland", "CH");
@@ -248,7 +248,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1237", "Yemen", "YE");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1238", "Serbia and Montenegro", "CS");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1239", "Zambia", "ZM");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1240", "Zimbabwe", "ZW");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1241", "Åland Islands", "FO");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1241", "Åland Islands", "AX");
 
 
 
