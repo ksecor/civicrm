@@ -1,4 +1,4 @@
-S<?php
+<?php
 
 /*******************************************************
  * This class generates data for the schema located in Contact.sql
