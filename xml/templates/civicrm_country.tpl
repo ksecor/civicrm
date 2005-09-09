@@ -121,7 +121,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1110", "Jordan", "JO");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1111", "Kazakhstan", "KZ");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1112", "Kenya", "KE");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1113", "Kiribati", "KI");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1114", "Korea, Democratic People's Republic of", "KP");
+INSERT INTO civicrm_country (id, name,iso_code) VALUES("1114", "Korea, Democratic People\'s Republic of", "KP");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1115", "Korea, Republic of", "KR");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1116", "Kuwait", "KW");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1117", "Kyrgyzstan", "KG");
