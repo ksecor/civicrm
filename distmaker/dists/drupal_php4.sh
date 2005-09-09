@@ -31,7 +31,7 @@ for E in CRM api modules; do
 done
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin mambo; do
+for CODE in css i js l10n packages PEAR templates bin mambo extern; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
