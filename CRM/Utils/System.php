@@ -205,7 +205,8 @@ class CRM_Utils_System {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
-        if ( ! empty( $query ) ) {
+        // we have a valid query and it has not yet been transformed
+        if ( ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
             $query = htmlentities( $query );
         }
         $config   =& CRM_Core_Config::singleton( );

@@ -123,7 +123,7 @@ class CRM_Utils_System_Drupal {
         if (! $config->cleanURL ) {
             if ( isset( $path ) ) {
                 if ( isset( $query ) ) {
-                    return $base . $script .'?q=' . $path .'&'. $query . $fragment;
+                    return $base . $script .'?q=' . $path .'&amp;'. $query . $fragment;
                 } else {
                     return $base . $script .'?q=' . $path . $fragment;
                 }

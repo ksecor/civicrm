@@ -387,7 +387,8 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
         // add location table if address / phone / email is set
         if ( ( CRM_Utils_Array::value( 'civicrm_address' , $tables ) ||
                CRM_Utils_Array::value( 'civicrm_phone'   , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_email'   , $tables ) ) &&
+               CRM_Utils_Array::value( 'civicrm_email'   , $tables ) ||
+               CRM_Utils_Array::value( 'civicrm_im'      , $tables ) ) &&
              ! CRM_Utils_Array::value( 'civicrm_location', $tables ) ) {
             $tables = array_merge( array( 'civicrm_location' => 1 ), $tables ); 
         }
@@ -445,6 +446,10 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
 
             case 'civicrm_email':
                 $from .= " $side JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ";
+                continue;
+
+            case 'civicrm_im':
+                $from .= " $side JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1) ";
                 continue;
 
             case 'civicrm_state_province':
