@@ -191,6 +191,19 @@ class CRM_Core_I18n
     }
 
     /**
+     * Localizes (destructively) array values
+     *
+     * @param $array array  this array's values should be localized
+     * @return void
+     */
+    function localizeArray(&$array)
+    {
+        foreach ($array as $key => $value) {
+            $array[$key] = $this->_phpgettext->translate($value);
+        }
+    }
+
+    /**
      * Static instance provider.
      *
      * Method providing static instance of SmartTemplate, as

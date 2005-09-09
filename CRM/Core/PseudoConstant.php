@@ -329,6 +329,12 @@ class CRM_Core_PseudoConstant {
                 return null;
             }
         }
+        $config =& CRM_Core_Config::singleton();
+        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+            $i18n =& CRM_Core_I18n::singleton();
+            $i18n->localizeArray(self::$country);
+            asort(self::$country);
+        }
         return self::$country;
     }
 
