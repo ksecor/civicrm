@@ -97,9 +97,9 @@ foreach ($locales as $locale) {
     $config->lcMessages = $locale;
 
     $data = "SET NAMES 'utf8';\n\n";
-    $data .= $smarty->fetch('civicrm_data.tpl');
     $data .= $smarty->fetch('civicrm_country.tpl');
     $data .= $smarty->fetch('civicrm_state_province.tpl');
+    $data .= $smarty->fetch('civicrm_data.tpl');
 
     // write the data file
     if ($locale == 'en_US') {

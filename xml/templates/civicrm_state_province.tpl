@@ -86,3 +86,7 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1300", "mazowieckie", "MZ", 1172);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1301", "pomorskie", "PM", 1172);
 
+
+
+
+
