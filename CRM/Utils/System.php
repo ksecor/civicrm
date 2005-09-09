@@ -205,6 +205,9 @@ class CRM_Utils_System {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+        if ( ! empty( $query ) ) {
+            $query = htmlentities( $query );
+        }
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment );' );
 
@@ -365,8 +368,11 @@ class CRM_Utils_System {
      * @static
      */
     static function redirect( $url ) {
+        // replace the &amp; characters with &
+        // this is kinda hackish but not sure how to do it right
+        $url = str_replace( '&amp;', '&', $url );
         header( 'Location: ' . $url );
-        exit( 1 );
+        exit( );
     }
 
     /**

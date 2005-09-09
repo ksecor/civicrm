@@ -80,8 +80,8 @@ class CRM_Core_QuickForm_Action_Jump extends CRM_Core_QuickForm_Action {
         $url    = $action . (false === strpos($action, '?')? '?': '&') .
                   $current->getButtonName('display') . '=true' .
                   ((!defined('SID') || '' == SID)? '': '&' . SID);
-        header('Location: ' . $url);
-        exit();
+
+        CRM_Utils_System::redirect( $url ); 
     }
 
 }

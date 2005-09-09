@@ -72,8 +72,7 @@ class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
             $userContext = $config->mainMenu;
         }
 
-        header( "Location: $userContext" );
-        exit();
+        CRM_Utils_System::redirect( $userContext );
     }
 
 }

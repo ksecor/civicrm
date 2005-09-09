@@ -285,7 +285,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&amp;action=browse&amp;gid=" . $this->_gid . "'"));
+            $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid );
+            $this->addElement( 'button',
+                               'done',
+                               ts('Done'),
+                               array( 'onClick' => "location.href='$url'" ) );
         }
     }
     
