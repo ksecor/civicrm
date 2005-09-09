@@ -34,7 +34,14 @@
  *
  */
 
-require_once 'Smarty/Smarty.class.php';
+/**
+ * Fix for bug CRM-392. Not sure if this is the best fix or it will impact
+ * other similar PEAR packages. doubt it
+ */
+if ( ! class_exists( 'Smarty' ) ) {
+    require_once 'Smarty/Smarty.class.php';
+}
+
 
 /**
  *
