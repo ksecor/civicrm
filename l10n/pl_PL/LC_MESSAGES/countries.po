@@ -1802,7 +1802,7 @@ msgstr "Zjednoczone Królestwo Wielkiej Brytanii i Irlandii Północnej"
 # US
 #. name for USA
 msgid "United States"
-msgstr "Stany Zjednoczone Ameryki"
+msgstr "Stany Zjednoczone"
 
 # US
 #. official_name for USA
