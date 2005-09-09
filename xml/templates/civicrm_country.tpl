@@ -78,7 +78,7 @@ INSERT INTO civicrm_country (id, name,iso_code) VALUES("1067", "Equatorial Guine
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1068", "Eritrea", "ER");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1069", "Estonia", "EE");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1070", "Ethiopia", "ET");
-INSERT INTO civicrm_country (id, name,iso_code) VALUES("1071", "European Union", "EU");
+-- INSERT INTO civicrm_country (id, name,iso_code) VALUES("1071", "European Union", "EU");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1072", "Falkland Islands (Malvinas)", "YY");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1073", "Faroe Islands", "FO");
 INSERT INTO civicrm_country (id, name,iso_code) VALUES("1074", "Fiji", "FJ");
