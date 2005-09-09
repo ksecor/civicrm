@@ -96,13 +96,15 @@ foreach ($locales as $locale) {
 
     $config->lcMessages = $locale;
 
-    $data = $smarty->fetch('civicrm_data.tpl');
+    $data = "SET NAMES 'utf8';\n\n";
+    $data .= $smarty->fetch('civicrm_data.tpl');
+    $data .= $smarty->fetch('civicrm_country.tpl');
+    $data .= $smarty->fetch('civicrm_state_province.tpl');
 
     // write the data file
     if ($locale == 'en_US') {
         $filename = 'civicrm_data.mysql';
     } else {
-        $data = "SET NAMES 'utf8';\n\n" . $data;
         $filename = "civicrm_data.$locale.mysql";
     }
     $fd = fopen( $sqlCodePath . $filename, "w" );
