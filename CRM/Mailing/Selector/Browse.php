@@ -103,7 +103,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     {
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
-        $params['status']       = ts('Mailings %%Status Message%%');
+        $params['status']       = ts('Mailings %%StatusMessage%%');
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
     }//end of function
