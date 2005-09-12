@@ -164,6 +164,11 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_forward($job, $queue, $hash, $email);
     }
 
+    public function get_contact($key, $params, $returnProperties) { 
+        $this->verify($key); 
+        return crm_get_contact( $params, $returnProperties );
+    }
+
 }
 
 ?>
