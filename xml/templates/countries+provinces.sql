@@ -166,8 +166,8 @@ CREATE FUNCTION cipher_exists(text) RETURNS boolean
 --
 
 CREATE TABLE countries (
-    id integer NOT NULL,
-    name text,
+    country_id integer NOT NULL,
+    country_name text,
     country_iso_code text
 );
 
@@ -178,10 +178,10 @@ CREATE TABLE countries (
 --
 
 CREATE TABLE provinces (
-    id serial NOT NULL,
+    province_id serial NOT NULL,
     country_iso_code text,
     province_iso_code text,
-    name text,
+    province_name text,
     country_id integer
 );
 
@@ -191,7 +191,7 @@ CREATE TABLE provinces (
 -- Name: countries; Type: TABLE DATA; Schema: public; Owner: shot
 --
 
-COPY countries (id, name, country_iso_code) FROM stdin;
+COPY countries (country_id, country_name, country_iso_code) FROM stdin;
 1001	Afghanistan	AF
 1002	Albania	AL
 1003	Algeria	DZ
@@ -440,7 +440,9 @@ COPY countries (id, name, country_iso_code) FROM stdin;
 -- Name: provinces; Type: TABLE DATA; Schema: public; Owner: shot
 --
 
-COPY provinces (id, country_iso_code, province_iso_code, name, country_id) FROM stdin;
+COPY provinces (province_id, country_iso_code, province_iso_code, province_name, country_id) FROM stdin;
+7626	US	US-MD	Maryland	1228
+7627	US	US-MT	Montana	1228
 3849	AE	AE-AZ	Abu Zaby	1225
 3850	AE	AE-AJ	'Ajman	1225
 3851	AE	AE-FU	Al Fujayrah	1225
@@ -4227,7 +4229,7 @@ COPY provinces (id, country_iso_code, province_iso_code, name, country_id) FROM 
 --
 
 ALTER TABLE ONLY countries
-    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (country_id);
 
 
 --
@@ -4236,7 +4238,7 @@ ALTER TABLE ONLY countries
 --
 
 ALTER TABLE ONLY provinces
-    ADD CONSTRAINT provinces_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT provinces_pkey PRIMARY KEY (province_id);
 
 
 --
@@ -4244,7 +4246,7 @@ ALTER TABLE ONLY provinces
 -- Name: provinces_id_seq; Type: SEQUENCE SET; Schema: public; Owner: shot
 --
 
-SELECT pg_catalog.setval('provinces_id_seq', 7625, true);
+SELECT pg_catalog.setval('provinces_id_seq', 7627, true);
 
 
 SET SESSION AUTHORIZATION 'postgres';
