@@ -166,7 +166,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $this->freeze();
         }
 
-        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
+        if ( $this->get( 'register' ) ) {
+            $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), -1 );
+        } else {
+            $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
+        }
     }
 
     /**
@@ -198,13 +202,23 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         // hack add the email, does not work in registration, we need the real user object
         global $user;
         $fields['edit']['email'] = $user->mail;
-        $cid = null;
+        $cid = $register = null;
+
+        // hack we use a -1 in options to indicate that its registration
         if ( $options ) {
-            $cid = (int ) $options;
+            $options = (int ) $options;
+            if ( $options > 0 ) {
+                $cid = $options;
+            } else {
+                $register = true;
+            }
         }
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );
-        if ( $ids ) {
-            $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+        // dont check for duplicates during registration validation: CRM-375
+        if ( ! $register ) {
+            $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );
+            if ( $ids ) {
+                $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+            }
         }
         
         // Validate Country - State list

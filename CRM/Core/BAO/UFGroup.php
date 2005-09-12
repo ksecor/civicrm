@@ -253,8 +253,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
-            $controller->set( 'gid'  , $group->id );
-            $controller->set( 'id'   , $userID );
+            $controller->set( 'gid'     , $group->id );
+            $controller->set( 'id'      , $userID );
+            $controller->set( 'register', 1 );
             $controller->process( );
             return $controller->validate( );
         } else {
@@ -266,8 +267,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             
             if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
-                $controller->set( 'gid'  , $group->id );
-                $controller->set( 'id'   , $userID );
+                $controller->set( 'gid'     , $group->id );
+                $controller->set( 'id'      , $userID );
+                $controller->set( 'register', 0 );
                 $controller->process( );
                 return $controller->validate( );
             }
