@@ -27,17 +27,6 @@ class addIndividual_complete(PyHttpTestCase):
         commonAPI.login(self)
 
         params = [
-            ('''set''', '''1'''),
-            ('''path''', '''civicrm/server/search'''),]
-        url = "%s/civicrm/server/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
             ('''c_type''', '''Individual'''),
             ('''reset''', '''1'''),]
         url = "%s/civicrm/contact/addI" % drupal_path

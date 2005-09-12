@@ -47,7 +47,7 @@ class testAdminEnableDisableCustomData(PyHttpTestCase):
             params = [
                 ('''action''', '''disable'''),
                 ('''reset''', '''1'''),
-                ('''id''', CDGID),]
+                ('''id''', GID),]
             url = "%s/civicrm/admin/custom/group" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
@@ -59,7 +59,7 @@ class testAdminEnableDisableCustomData(PyHttpTestCase):
             params = [
                 ('''action''', '''enable'''),
                 ('''reset''', '''1'''),
-                ('''id''', CDGID),]
+                ('''id''', GID),]
             url = "%s/civicrm/admin/custom/group" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)

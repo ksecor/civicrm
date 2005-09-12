@@ -27,15 +27,10 @@ class testAddContactOrganization(PyHttpTestCase):
         commonAPI.login(self)
         
         params = [
-            ('''set''', '''1'''),
-            ('''path''', '''civicrm/server/search'''),]
-        url = "%s/civicrm/server/search" % drupal_path
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        params = [
             ('''c_type''', '''Organization'''),
             ('''reset''', '''1'''),]
         url = "%s/civicrm/contact/addO" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -46,12 +41,14 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''set''', '''1'''),
             ('''path''', '''civicrm/server/stateCountry'''),]
         url = "%s/civicrm/server/stateCountry" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         params = [
             ('''set''', '''1'''),
             ('''path''', '''civicrm/server/stateCountry'''),]
         url = "%s/civicrm/server/stateCountry" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())

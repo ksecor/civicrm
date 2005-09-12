@@ -13,19 +13,21 @@ class adminDeleteCustomDataField(PyHttpTestCase):
         commonAPI.dbStop(db)
     
     def runTest(self):
-        nameCDF       = 'Test Field'
-        queryCDFID    = 'select id from civicrm_custom_field where label like \'%%%s%%\'' % nameCDF
+        nameCDF       = 'Test Field 1'
+        queryCDFID    = 'select id from civicrm_custom_field where label=\'%s\'' % nameCDF
         customDataFID = db.loadVal(queryCDFID)
-        queryD        = 'delete from civicrm_custom_field where id=%s' % customDataFID
-
+        
         if customDataFID :
-            if db.execute(queryD) :
+            queryDO = 'delete from civicrm_custom_option where custom_field_id=%s' % int(customDataFID)
+            queryDF = 'delete from civicrm_custom_field where id=%s' % customDataFID
+            
+            if db.execute(queryDF) :
                 print "***************************************************************"
-                print "\'%s\' Custom Data Grop Deleted Successfully" % nameCDF
+                print "\'%s\' Custom Data Field Deleted Successfully" % nameCDF
                 print "***************************************************************"
             else :
                 print "***************************************************************"
-                print "Some Problem while Deleteing \'%s\' Custom Data Group" % nameCDF
+                print "Some Problem while Deleteing \'%s\' Custom Data Field" % nameCDF
                 print "***************************************************************"
         else :
             print "***************************************************************"

@@ -14,14 +14,6 @@ cd ../test/maxq
 # For all other options, fire $ maxq --help   
 
 
-#############################
-# Test for Viewing Contacts # 
-#############################
-
-maxq -q -r testViewContactIndividual.py 
-maxq -q -r testViewContactHousehold.py 
-maxq -q -r testViewContactOrganization.py
-
 ############################
 # Test for Adding Contacts # 
 ############################
@@ -38,13 +30,21 @@ maxq -q -r testEditContactIndividual.py
 maxq -q -r testEditContactHousehold.py 
 maxq -q -r testEditContactOrganization.py
 
+#############################
+# Test for Viewing Contacts # 
+#############################
+
+maxq -q -r testViewContactIndividual.py 
+maxq -q -r testViewContactHousehold.py 
+maxq -q -r testViewContactOrganization.py
+
 #############################################
 # Test for Relationship By Relationship Tab # 
 #############################################
 
-maxq -q -r testViewRelByRelTab.py 
-maxq -q -r testEditRelByRelTab.py 
 maxq -q -r testAddRelByRelTab.py 
+maxq -q -r testEditRelByRelTab.py 
+maxq -q -r testViewRelByRelTab.py 
 maxq -q -r testDisableEnableRelByRelTab.py
 maxq -q -r testDeleteRelByRelTab.py 
 
@@ -52,9 +52,9 @@ maxq -q -r testDeleteRelByRelTab.py
 # Test for Relationship By Contact Tab # 
 #########################################
 
-maxq -q -r testViewRelByContactTab.py 
-maxq -q -r testEditRelByContactTab.py 
 maxq -q -r testAddRelByContactTab.py
+maxq -q -r testEditRelByContactTab.py 
+maxq -q -r testViewRelByContactTab.py 
 
 ###############################
 # Test for Group By Group Tab # 
@@ -73,9 +73,9 @@ maxq -q -r testTagsAllByTagsTab.py
 # Test for Notes By Note Tab # 
 ##############################
 
-maxq -q -r testViewNoteByNoteTab.py 
 maxq -q -r testAddNoteByNoteTab.py 
 maxq -q -r testEditNoteByNoteTab.py 
+maxq -q -r testViewNoteByNoteTab.py 
 maxq -q -r testDeleteNoteByNoteTab.py
 
 #################################
@@ -125,9 +125,9 @@ maxq -q -r adminDeleteIMProvider.py
 # Test for Admin Relationship Types # 
 #####################################
 
-maxq -q -r testAdminViewRel.py 
 maxq -q -r testAdminAddRel.py 
 maxq -q -r testAdminEditRel.py 
+maxq -q -r testAdminViewRel.py 
 maxq -q -r testAdminEnableDisableRel.py
 maxq -q -r adminDeleteRel.py
 
@@ -139,7 +139,6 @@ maxq -q -r testAdminAddCustomDataGroup.py
 maxq -q -r testAdminEditCustomDataGroup.py 
 maxq -q -r testAdminEnableDisableCustomDataGroup.py
 maxq -q -r testAdminPreviewCustomDataGroup.py
-maxq -q -r adminDeleteCustomDataGroup.py
 
 ####################################
 # Test for Admin Custom Data Field # 
@@ -157,6 +156,7 @@ maxq -q -r testAdminPreviewCustomDataField.py
 maxq -r -q testEditCustomDataInline.py
 
 maxq -q -r adminDeleteCustomDataField.py
+maxq -q -r adminDeleteCustomDataGroup.py
 
 ##########################
 # Test for Basic Search  # 

@@ -21,128 +21,160 @@ class testEditContactHousehold(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
         params = [
             ('''_qf_default''', '''Search:refresh'''),
             ('''contact_type''', ''''''),
             ('''group''', ''''''),
             ('''tag''', ''''''),
-            ('''sort_name''', '''Zope'''),
+            ('''sort_name''', ''''''),
             ('''_qf_Search_refresh''', '''Search'''),]
-        url = "%s/civicrm/contact/search" % drupal_path
+        url = "%s/civicrm/contact/search/basic" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
             ('''_qf_Search_display''', '''true'''),]
-        url = "%s/civicrm/contact/search" % drupal_path
+        url = "%s/civicrm/contact/search/basic" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''q''', '''civicrm/contact/search/basic'''),
+            ('''force''', '''1'''),
+            ('''sortByCharacter''', '''Z'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         name    = 'Zope House'
         queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
         
         cid     = db.loadVal(queryID)
-        CID     = '''%s''' % cid
-
+        
         if cid :
+            CID     = '''%s''' % cid
             params = [
                 ('''reset''', '''1'''),
+                ('''action''', '''update'''),
                 ('''cid''', CID),]
             url = "%s/civicrm/contact/view" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 12 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-        
+            
             params = [
-                ('''reset''', '''1'''),
-                ('''cid''', CID),]
-            url = "%s/civicrm/contact/edit" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-        
-            params = [
-                ('''_qf_default''', '''Edit:next'''),
-                ('''household_name''', '''Zope House'''),
-                ('''nick_name''', '''Zope Villa'''),
-                ('''__privacy[do_not_phone]''', '''1'''),
-                ('''privacy[do_not_phone]''', '''1'''),
-                ('''privacy[do_not_email]''', ''''''),
-                ('''privacy[do_not_mail]''', ''''''),
-                ('''preferred_communication_method''', '''Phone'''),
-                ('''location[1][location_type_id]''', '''1'''),
-                ('''location[1][is_primary]''', '''1'''),
-                ('''location[1][phone][1][phone_type]''', '''Phone'''),
-                ('''location[1][phone][1][phone]''', '''93590827'''),
-                ('''location[1][phone][2][phone_type]''', '''Mobile'''),
-                ('''location[1][phone][2][phone]''', '''69066533'''),
-                ('''location[1][phone][3][phone_type]''', ''''''),
-                ('''location[1][phone][3][phone]''', ''''''),
-                ('''location[1][email][1][email]''', ''''''),
-                ('''location[1][email][2][email]''', ''''''),
-                ('''location[1][email][3][email]''', ''''''),
-                ('''location[1][im][1][provider_id]''', '''1'''),
-                ('''location[1][im][1][name]''', '''Welcome to Zope House'''),
-                ('''location[1][im][2][provider_id]''', ''''''),
-                ('''location[1][im][2][name]''', ''''''),
-                ('''location[1][im][3][provider_id]''', ''''''),
-                ('''location[1][im][3][name]''', ''''''),
-                ('''location[1][address][street_address]''', '''W 722K Niepodległości Rd SE'''),
-                ('''location[1][address][supplemental_address_1]''', '''Attn: Accounting'''),
-                ('''location[1][address][supplemental_address_2]''', ''''''),
-                ('''location[1][address][city]''', ''''''),
-                ('''location[1][address][state_province_id]''', ''''''),
-                ('''location[1][address][postal_code]''', '''449394'''),
-                ('''location[1][address][country_id]''', ''''''),
-                ('''location[2][location_type_id]''', '''1'''),
-                ('''location[2][phone][1][phone_type]''', ''''''),
-                ('''location[2][phone][1][phone]''', ''''''),
-                ('''location[2][phone][2][phone_type]''', ''''''),
-                ('''location[2][phone][2][phone]''', ''''''),
-                ('''location[2][phone][3][phone_type]''', ''''''),
-                ('''location[2][phone][3][phone]''', ''''''),
-                ('''location[2][email][1][email]''', ''''''),
-                ('''location[2][email][2][email]''', ''''''),
-                ('''location[2][email][3][email]''', ''''''),
-                ('''location[2][im][1][provider_id]''', ''''''),
-                ('''location[2][im][1][name]''', ''''''),
-                ('''location[2][im][2][provider_id]''', ''''''),
-                ('''location[2][im][2][name]''', ''''''),
-                ('''location[2][im][3][provider_id]''', ''''''),
-                ('''location[2][im][3][name]''', ''''''),
-                ('''location[2][address][street_address]''', ''''''),
-                ('''location[2][address][supplemental_address_1]''', ''''''),
-                ('''location[2][address][supplemental_address_2]''', ''''''),
-                ('''location[2][address][city]''', ''''''),
-                ('''location[2][address][state_province_id]''', ''''''),
-                ('''location[2][address][postal_code]''', ''''''),
-                ('''location[2][address][country_id]''', ''''''),
-                ('''_qf_Edit_next''', '''Save'''),]
-            url = "%s/civicrm/contact/edit" % drupal_path
+            ('''_qf_default''', '''Edit:next'''),
+            ('''household_name''', '''Zope House'''),
+            ('''nick_name''', '''Zope Villa'''),
+            ('''__privacy[do_not_phone]''', '''1'''),
+            ('''privacy[do_not_phone]''', '''1'''),
+            ('''privacy[do_not_email]''', ''''''),
+            ('''__privacy[do_not_mail]''', '''1'''),
+            ('''privacy[do_not_mail]''', '''1'''),
+            ('''privacy[do_not_trade]''', ''''''),
+            ('''preferred_communication_method''', '''Post'''),
+            ('''location[1][location_type_id]''', '''1'''),
+            ('''location[1][is_primary]''', '''1'''),
+            ('''location[1][phone][1][phone_type]''', '''Phone'''),
+            ('''location[1][phone][1][phone]''', '''567890'''),
+            ('''location[1][phone][2][phone_type]''', '''Mobile'''),
+            ('''location[1][phone][2][phone]''', '''1345678090'''),
+            ('''location[1][phone][3][phone_type]''', ''''''),
+            ('''location[1][phone][3][phone]''', ''''''),
+            ('''location[1][email][1][email]''', '''zh@yahoo.com'''),
+            ('''location[1][email][2][email]''', '''zope_house@zope.com'''),
+            ('''location[1][email][3][email]''', ''''''),
+            ('''location[1][im][1][provider_id]''', '''4'''),
+            ('''location[1][im][1][name]''', '''Nice to see u'''),
+            ('''location[1][im][2][provider_id]''', ''''''),
+            ('''location[1][im][2][name]''', ''''''),
+            ('''location[1][im][3][provider_id]''', ''''''),
+            ('''location[1][im][3][name]''', ''''''),
+            ('''location[1][address][street_address]''', '''23, jagjivandas colony, sector no 23, kothrud'''),
+            ('''location[1][address][supplemental_address_1]''', '''gdggxvxv'''),
+            ('''location[1][address][supplemental_address_2]''', ''''''),
+            ('''location[1][address][city]''', ''''''),
+            ('''location[1][address][state_province_id]''', '''1200'''),
+            ('''location[1][address][postal_code]''', ''''''),
+            ('''location[1][address][postal_code_suffix]''', ''''''),
+            ('''location[1][address][country_id]''', '''1101'''),
+            ('''location[1][address][geo_code_1]''', ''''''),
+            ('''location[1][address][geo_code_2]''', ''''''),
+            ('''location[2][location_type_id]''', '''1'''),
+            ('''location[2][phone][1][phone_type]''', ''''''),
+            ('''location[2][phone][1][phone]''', ''''''),
+            ('''location[2][phone][2][phone_type]''', ''''''),
+            ('''location[2][phone][2][phone]''', ''''''),
+            ('''location[2][phone][3][phone_type]''', ''''''),
+            ('''location[2][phone][3][phone]''', ''''''),
+            ('''location[2][email][1][email]''', ''''''),
+            ('''location[2][email][2][email]''', ''''''),
+            ('''location[2][email][3][email]''', ''''''),
+            ('''location[2][im][1][provider_id]''', ''''''),
+            ('''location[2][im][1][name]''', ''''''),
+            ('''location[2][im][2][provider_id]''', ''''''),
+            ('''location[2][im][2][name]''', ''''''),
+            ('''location[2][im][3][provider_id]''', ''''''),
+            ('''location[2][im][3][name]''', ''''''),
+            ('''location[2][address][street_address]''', ''''''),
+            ('''location[2][address][supplemental_address_1]''', ''''''),
+            ('''location[2][address][supplemental_address_2]''', ''''''),
+            ('''location[2][address][city]''', ''''''),
+            ('''location[2][address][state_province_id]''', ''''''),
+            ('''location[2][address][postal_code]''', ''''''),
+            ('''location[2][address][postal_code_suffix]''', ''''''),
+            ('''location[2][address][country_id]''', ''''''),
+            ('''location[2][address][geo_code_1]''', ''''''),
+            ('''location[2][address][geo_code_2]''', ''''''),
+            ('''_qf_Edit_next_view''', '''Save'''),]
+            url = "%s/civicrm/contact/view" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
             self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 13 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             params = [
@@ -153,18 +185,18 @@ class testEditContactHousehold(PyHttpTestCase):
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 14 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             print ("**************************************************************************************")
             print "Household \'%s\' Edited Successfully" % name
             print ("**************************************************************************************")
-
+        
         else :
             print "****************************************************************"
             print "Household \'%s\' can not be Found" % name
             print "****************************************************************"
-
+        
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
