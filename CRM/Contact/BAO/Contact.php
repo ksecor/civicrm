@@ -922,12 +922,14 @@ WHERE t1.custom_field_id = 1
                 trim( $prefix . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix );
             $contact->display_name = str_replace( '  ', ' ', $contact->display_name );
 
-            foreach ($params['location'] as $locBlock) {
-                if (! $locBlock['is_primary']) {
-                    continue;
+            if ( CRM_Utils_Array::value( 'location', $params ) ) {
+                foreach ($params['location'] as $locBlock) {
+                    if (! $locBlock['is_primary']) {
+                        continue;
+                    }
+                    $email = $locBlock['email'][1]['email'];
+                    break;
                 }
-                $email = $locBlock['email'][1]['email'];
-                break;
             }
 
             if (empty($contact->display_name)) {
