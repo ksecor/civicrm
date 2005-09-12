@@ -7,7 +7,7 @@
 <span lat="{$span.lat}" lng="{$span.lng}"/>
 <overlay panelStyle="{$panelStyle}">
 {foreach from=$locations key=id item=location}
-<location id="location_{$id}" infoStyle="/maps?file=gi&amp;hl=en">
+<location id="location_{$id}" infoStyle="/maps?file=gi&hl=en">
   <point lat="{$location.lat}" lng="{$location.lng}"/>
   <icon class="local" image="http://maps.google.com/mapfiles/marker.png"/>
   <info>

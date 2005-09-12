@@ -1,6 +1,6 @@
 {* Search criteria form elements *}
 
-<script type="text/javascript" src="{crmURL p='civicrm/server/search' q="set=1&amp;path=civicrm/server/search"}"></script>
+<script type="text/javascript" src="{crmURL p='civicrm/server/search' q="set=1&path=civicrm/server/search"}"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
 
 <fieldset>
@@ -44,9 +44,9 @@
         <tr>
             <td class="label" colspan={if $context EQ 'smog'}"8"{else}"6"{/if}>
                 {if $context EQ 'smog'}
-                     <a href="{crmURL p='civicrm/group/search/advanced' q="gid=`$group.id`&amp;reset=1&amp;force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
+                     <a href="{crmURL p='civicrm/group/search/advanced' q="gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
                 {elseif $context EQ 'amtg'}
-                     <a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amp;amtgID=`$group.id`&amp;reset=1&amp;force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
+                     <a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a>
                 {else}
                      <a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; {ts}Advanced Search{/ts}</a>
                 {/if}

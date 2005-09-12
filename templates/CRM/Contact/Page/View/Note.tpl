@@ -48,7 +48,7 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-		        <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&amp;action=view"}">{ts}(more){/ts}</a>
+		        <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
@@ -60,7 +60,7 @@
 
        {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
        <div class="action-link">
-    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&amp;action=add"}">&raquo; {ts}New Note{/ts}</a>
+    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
        </div>
        {/if}
     </div>

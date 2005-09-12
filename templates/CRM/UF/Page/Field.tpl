@@ -36,7 +36,7 @@
         
         {if $action eq 16 or $action eq 4}
             <div class="action-link">
-            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&amp;action=add&amp;gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
+            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
             </div>
         {/if}
         </div>
@@ -44,7 +44,7 @@
 
     {else}
         {if $action eq 16}
-        {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&amp;action=add&amp;gid=$gid"}{/capture}
+        {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}{/capture}
         <div class="messages status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>

@@ -21,6 +21,6 @@
 {if $action eq 2 or $action eq 4} {* Update or View*}
     <p></p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&amp;reset=1&amp;gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
+    <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
     </div>
 {/if}

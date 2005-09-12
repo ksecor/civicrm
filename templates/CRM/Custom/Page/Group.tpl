@@ -34,7 +34,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p></p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&amp;reset=1"}">&raquo;  {ts}New Custom Data Group{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">&raquo;  {ts}New Custom Data Group{/ts}</a>
         </div>
         {/if}
 
@@ -45,7 +45,7 @@
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
-         {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='action=add&amp;reset=1'}{/capture}
+         {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}{/capture}
          {ts 1=$crmURL}No custom data groups have been created yet. You can <a href="%1">add one</a>.{/ts}
        </div>
        {/if}

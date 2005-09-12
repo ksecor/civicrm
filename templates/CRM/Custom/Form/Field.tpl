@@ -121,6 +121,6 @@
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select') }
     <div class="action-link">
-        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&amp;action=browse&amp;fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
+        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; {ts}View / Edit Multiple Choice Options{/ts}</a>
     </div>
 {/if}

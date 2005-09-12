@@ -32,7 +32,7 @@
           {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
@@ -68,7 +68,7 @@
   <div>
     {if $action NEQ 1 AND $action NEQ 2 AND $permission EQ 'edit'}
             <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&amp;action=add&amp;reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
+                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
             </div>
         {/if}
   </div>
@@ -105,7 +105,7 @@
           {/if}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
@@ -147,7 +147,7 @@
           {/if}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&amp;cid=`$rel.cid`"}">{$rel.name}</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
