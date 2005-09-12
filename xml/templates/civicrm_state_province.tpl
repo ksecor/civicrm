@@ -60,10 +60,14 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1055", "Northern Mariana Islands", "MP", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1056", "Puerto Rico", "PR", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1057", "Virgin Islands", "VI", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1558", "United States Minor Outlying Islands", "UM", 1228);
 
 -- additional US-related inserts (Army Post Office and the now-independent Marshall Islands)
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1051", "APO", "XX", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1054", "Marshall Islands", "MH", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1559", "Armed Forces Europe", "AE", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1560", "Armed Forces Americas", "AA", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1561", "Armed Forces Pacific", "AP", 1228);
 
 -- Canadian Provinces
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1100", "Alberta", "AB", 1039);
@@ -80,13 +84,59 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1111", "Saskatchewan", "SK", 1039);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1112", "Yukon Territory", "YT", 1039);
 
--- Indian States.
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1200", "Maharashtra", "MM", 1101);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1201", "Karnataka", "KA", 1101);
+-- Indian States
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1200, 1101, "MM", "Maharashtra");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1201, 1101, "KA", "Karnataka");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1202, 1101, "AP", "Andhra Pradesh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1203, 1101, "AR", "Arunachal Pradesh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1204, 1101, "AS", "Assam");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1205, 1101, "BR", "Bihar");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1206, 1101, "CH", "Chhattisgarh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1207, 1101, "GA", "Goa");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1208, 1101, "GJ", "Gujarat");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1209, 1101, "HR", "Haryana");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1210, 1101, "HP", "Himachal Pradesh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1211, 1101, "JK", "Jammu and Kashmir");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1212, 1101, "JH", "Jharkhand");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1213, 1101, "KL", "Kerala");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1214, 1101, "MP", "Madhya Pradesh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1215, 1101, "MN", "Manipur");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1216, 1101, "ML", "Meghalaya");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1217, 1101, "MZ", "Mizoram");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1218, 1101, "NL", "Nagaland");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1219, 1101, "OR", "Orissa");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1220, 1101, "PB", "Punjab");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1221, 1101, "RJ", "Rajasthan");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1222, 1101, "SK", "Sikkim");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1223, 1101, "TN", "Tamil Nadu");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1224, 1101, "TR", "Tripura");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1225, 1101, "UL", "Uttaranchal");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1226, 1101, "UP", "Uttar Pradesh");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1227, 1101, "WB", "West Bengal");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1228, 1101, "AN", "Andaman and Nicobar Islands");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1229, 1101, "DN", "Dadra and Nagar Haveli");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1230, 1101, "DD", "Daman and Diu");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1231, 1101, "DL", "Delhi");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1232, 1101, "LD", "Lakshadweep");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1233, 1101, "PY", "Pondicherry");
 
--- Polish States
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1300", "Mazowieckie", "MZ", 1172);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1301", "Pomorskie", "PM", 1172);
+-- Polish Voivodships
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1300, 1172, "MZ", "Mazowieckie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1301, 1172, "PM", "Pomorskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1302, 1172, "DS", "Dolnośląskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1303, 1172, "KP", "Kujawsko-pomorskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1304, 1172, "LU", "Lubelskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1305, 1172, "LB", "Lubuskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1306, 1172, "LD", "Łódzkie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1307, 1172, "MA", "Małopolskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1308, 1172, "OP", "Opolskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1309, 1172, "PK", "Podkarpackie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1310, 1172, "PD", "Podlaskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1311, 1172, "SL", "Śląskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1312, 1172, "SK", "Świętokrzyskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1313, 1172, "WN", "Warmińsko-mazurskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1314, 1172, "WP", "Wielkopolskie");
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (1315, 1172, "ZP", "Zachodniopomorskie");
 
 
 
