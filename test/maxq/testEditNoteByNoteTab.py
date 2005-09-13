@@ -21,14 +21,73 @@ class testEditNoteByNoteTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
+        
+        params = [
+            ('''_qf_default''', '''Search:refresh'''),
+            ('''contact_type''', ''''''),
+            ('''group''', ''''''),
+            ('''tag''', ''''''),
+            ('''sort_name''', ''''''),
+            ('''_qf_Search_refresh''', '''Search'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''_qf_Search_display''', '''true'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''q''', '''civicrm/contact/search/basic'''),
+            ('''force''', '''1'''),
+            ('''sortByCharacter''', '''Z'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
         
         name    = 'Zope, Manish'
         queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
-
+        
         contactID = db.loadVal(queryID)
         if contactID :
             CID = '''%s''' % contactID
@@ -36,14 +95,14 @@ class testEditNoteByNoteTab(PyHttpTestCase):
             note      = 'This is Test Note From Note Tab'
             queryID   = 'select id from civicrm_note where note like \'%%%s%%\'' % note
             noteID    = db.loadVal(queryID)
-            print noteID
+            
             if noteID :
                 NID = '''%s''' % noteID
                 
                 params = [
                     ('''reset''', '''1'''),
                     ('''cid''', CID),]
-                url = "http://localhost/drupal/civicrm/contact/view"
+                url = "%s/civicrm/contact/view" % drupal_path
                 self.msg("Testing URL: %s" % url)
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)
                 self.get(url, params)
@@ -52,14 +111,27 @@ class testEditNoteByNoteTab(PyHttpTestCase):
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
-                    ('''nid''', NID),
-                    ('''action''', '''update'''),]
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),]
                 url = "%s/civicrm/contact/view/note" % drupal_path
                 self.msg("Testing URL: %s" % url)
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)
                 self.get(url, params)
                 self.msg("Response code: %s" % self.getResponseCode())
-                self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+                self.assertEquals("Assert number 13 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''action''', '''update'''),
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),
+                    ('''id''', NID),]
+                url = "%s/civicrm/contact/view/note" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 15 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
@@ -76,7 +148,8 @@ class testEditNoteByNoteTab(PyHttpTestCase):
                 
                 editNote = params[1][1]
                 params = [
-                    ('''action''', '''browse'''),]
+                    ('''action''', '''browse'''),
+                    ('''cid''', CID),]
                 url = "%s/civicrm/contact/view/note" % drupal_path
                 self.msg("Testing URL: %s" % url)
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)

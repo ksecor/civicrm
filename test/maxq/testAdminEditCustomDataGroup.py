@@ -45,59 +45,69 @@ class testAdminEditCustomData(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        name      = 'Test Group'
-        query     = 'select id from civicrm_custom_group where title=\'%s\'' % name  
-        customGID = db.loadVal(query)
+        name1      = 'Test Group'
+        name2      = 'Test Group Edit'
+        query1     = 'select id from civicrm_custom_group where title=\'%s\'' % name1
+        query2     = 'select id from civicrm_custom_group where title=\'%s\'' % name2
+        customGID1 = db.loadVal(query1)
+        customGID2 = db.loadVal(query2)
         
-        if customGID : 
-            CGID   = '''%s''' % customGID
-            params = [
-                ('''action''', '''update'''),
-                ('''reset''', '''1'''),
-                ('''id''', CGID),]
-            url = "%s/civicrm/admin/custom/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            
-            params = [
-                ('''_qf_default''', '''Group:next'''),
-                ('''title''', '''Test Group Edit'''),
-                ('''extends''', '''Individual'''),
-                ('''weight''', '''5'''),
-                ('''style''', '''Tab'''),
-                ('''collapse_display''', '''1'''),
-                ('''help_pre''', ''''''),
-                ('''is_active''', '''1'''),
-                ('''_qf_Group_next''', '''Save'''),]
-            url = "%s/civicrm/admin/custom/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
+        if customGID2 :
             print "******************************************************************"
-            print "Custom Data Group \'%s\' Edited Successfully" % name
+            print "Custom Data Group \'%s\' already exists" % name2
             print "******************************************************************"
-            
-            
-            params = [
-                ('''action''', '''browse'''),]
-            url = "%s/civicrm/admin/custom/group/" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
+        
         else :
-            print "******************************************************************"
-            print "Custom Data Group \'%s\' not found" % name
-            print "******************************************************************"
+            if customGID1 : 
+                CGID   = '''%s''' % customGID1
+                params = [
+                    ('''action''', '''update'''),
+                    ('''reset''', '''1'''),
+                    ('''id''', CGID),]
+                url = "%s/civicrm/admin/custom/group" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''_qf_default''', '''Group:next'''),
+                    ('''title''', '''Test Group Edit'''),
+                    ('''extends''', '''Individual'''),
+                    ('''weight''', '''5'''),
+                    ('''style''', '''Inline'''),
+                    ('''collapse_display''', '''1'''),
+                    ('''help_pre''', ''''''),
+                    ('''is_active''', '''1'''),
+                    ('''_qf_Group_next''', '''Save'''),]
+                url = "%s/civicrm/admin/custom/group" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "post", url, params)
+                self.post(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                print "******************************************************************"
+                print "Custom Data Group \'%s\' Edited Successfully" % name1
+                print "******************************************************************"
+                
+                
+                params = [
+                    ('''action''', '''browse'''),]
+                url = "%s/civicrm/admin/custom/group/" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+            else :
+                print "******************************************************************"
+                print "Custom Data Group \'%s\' not found" % name1
+                print "******************************************************************"
+        
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)

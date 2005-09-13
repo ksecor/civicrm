@@ -21,39 +21,98 @@ class testAddNoteByContactTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
+        params = [
+            ('''_qf_default''', '''Search:refresh'''),
+            ('''contact_type''', ''''''),
+            ('''group''', ''''''),
+            ('''tag''', ''''''),
+            ('''sort_name''', ''''''),
+            ('''_qf_Search_refresh''', '''Search'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''_qf_Search_display''', '''true'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''q''', '''civicrm/contact/search/basic'''),
+            ('''force''', '''1'''),
+            ('''sortByCharacter''', '''Z'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
         name    = 'Zope, Manish'
         queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
-
+        
         contactID = db.loadVal(queryID)
         if contactID :
             CID = '''%s''' % contactID    
             params = [
                 ('''reset''', '''1'''),
                 ('''cid''', CID),]
-            #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/drupal/civicrm/contact/view?reset=1&cid=44'''))
-            url = "http://localhost/drupal/civicrm/contact/view"
+            url = "%s/civicrm/contact/view" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 12 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             params = [
-                ('''action''', '''add'''),]
+                ('''action''', '''add'''),
+                ('''cid''', CID),]
             url = "%s/civicrm/contact/view/note" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 13 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-        
+            
             params = [
                 ('''_qf_default''', '''Note:next'''),
                 ('''note''', '''This is Test Note From Contact Tab'''),
@@ -63,19 +122,20 @@ class testAddNoteByContactTab(PyHttpTestCase):
             Validator.validateRequest(self, self.getMethod(), "post", url, params)
             self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 14 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-        
+            
             params = [
-                ('''action''', '''browse'''),]
+            ('''action''', '''browse'''),
+            ('''cid''', CID),]
             url = "%s/civicrm/contact/view/note" % drupal_path
             self.msg("Testing URL: %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 15 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-
+            
             print "********************************************************************************"
             print "Note for \"%s\" Contact Added Successfully" % name
             print "********************************************************************************"

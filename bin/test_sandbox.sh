@@ -54,7 +54,6 @@ maxq -q -r testDeleteRelByRelTab.py
 
 maxq -q -r testAddRelByContactTab.py
 maxq -q -r testEditRelByContactTab.py 
-maxq -q -r testViewRelByContactTab.py 
 
 ###############################
 # Test for Group By Group Tab # 

@@ -34,7 +34,7 @@ class testDeleteRelByRelTab(PyHttpTestCase):
         if contactA :
             CID = '''%s''' % contactA
             if contactB :
-                queryRID = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
+                queryRID = 'select id from civicrm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
                 relID    = db.loadVal(queryRID)
                 RID      = '''%s''' % relID
                 

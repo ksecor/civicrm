@@ -20,6 +20,7 @@ class adminDeleteCustomDataField(PyHttpTestCase):
         if customDataFID :
             queryDO = 'delete from civicrm_custom_option where custom_field_id=%s' % int(customDataFID)
             queryDF = 'delete from civicrm_custom_field where id=%s' % customDataFID
+            db.execute(queryDO)
             
             if db.execute(queryDF) :
                 print "***************************************************************"
