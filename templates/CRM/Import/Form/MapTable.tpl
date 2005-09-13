@@ -12,10 +12,8 @@
     </div>
     
     <script type="text/javascript">
-	{if $loadedMapping eq ''}
 	hide('savedMappingOption');
 	document.getElementById("savedMapping").disabled = true;	
-	{/if}
 	{literal}
 	function mappingOption() {
 		if (document.getElementById("savedMappingOption").style.display == "block") {
@@ -36,7 +34,7 @@
     <table>
         <tr class="columnheader">
             {section name=rows loop=$rowDisplayCount}
-		    {if $skipColumnHeader }
+		   {if $skipColumnHeader }
                    { if $smarty.section.rows.iteration == 1 }
                      <th>Column Headers</th>
                    {else}
