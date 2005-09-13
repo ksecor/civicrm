@@ -151,9 +151,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             $template->assign_by_ref( 'mysql_code', $mysql_error );
 
             // execute a dummy query to clear error stack
-            $query = 'select 1';
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
+            mysql_query( 'select 1' );
         }
 
         $template->assign_by_ref('error', $error);

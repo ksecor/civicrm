@@ -97,8 +97,10 @@ class PHP_DownGrade {
                                
                                 if(strcmp($this->tokens[$back][1],"parent")!=0)
                                     { 
-                                        $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                        $this->filecount++;
+                                        if ( $this->tokens[$back][1] != 'CRM_Core_DAO' ) {
+                                            $this->filenames[$this->filecount]=$this->tokens[$back][1];
+                                            $this->filecount++;
+                                        }
                                     }
                             }
                         $flag = 0;
@@ -120,9 +122,10 @@ class PHP_DownGrade {
                         
                         if($flag==0)
                             {
-                                //echo $this->tokens[$back][1];
-                                $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                $this->filecount++;
+                                if ( $this->tokens[$back][1] != 'CRM_Core_DAO' ) {
+                                    $this->filenames[$this->filecount]=$this->tokens[$back][1];
+                                    $this->filecount++;
+                                }
                                 
                             }
                         $flag = 0;
