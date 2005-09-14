@@ -11618,69 +11618,67 @@ msgid "Northern Areas"
 msgstr "Korea Północna"
 
 #. name for PL-DS
-#, fuzzy
-msgid "Dolnośląskie"
-msgstr "Słowacki"
+msgid "dolnośląskie"
+msgstr ""
 
 #. name for PL-KP
-msgid "Kujawsko-pomorskie"
+msgid "kujawsko-pomorskie"
 msgstr ""
 
 #. name for PL-LU
-msgid "Lubelskie"
+msgid "lubelskie"
 msgstr ""
 
 #. name for PL-LB
-msgid "Lubuskie"
+msgid "lubuskie"
 msgstr ""
 
 #. name for PL-LD
-msgid "Łódzkie"
+msgid "łódzkie"
 msgstr ""
 
 #. name for PL-MA
-msgid "Małopolskie"
+msgid "małopolskie"
 msgstr ""
 
 #. name for PL-MZ
-msgid "Mazowieckie"
+msgid "mazowieckie"
 msgstr ""
 
 #. name for PL-OP
-msgid "Opolskie"
+msgid "opolskie"
 msgstr ""
 
 #. name for PL-PK
-msgid "Podkarpackie"
+msgid "podkarpackie"
 msgstr ""
 
 #. name for PL-PD
-msgid "Podlaskie"
+msgid "podlaskie"
 msgstr ""
 
 #. name for PL-PM
-msgid "Pomorskie"
+msgid "pomorskie"
 msgstr ""
 
 #. name for PL-SL
-#, fuzzy
-msgid "Śląskie"
-msgstr "Słowacki"
+msgid "śląskie"
+msgstr ""
 
 #. name for PL-SK
-msgid "Świętokrzyskie"
+msgid "świętokrzyskie"
 msgstr ""
 
 #. name for PL-WN
-msgid "Warmińsko-mazurskie"
+msgid "warmińsko-mazurskie"
 msgstr ""
 
 #. name for PL-WP
-msgid "Wielkopolskie"
+msgid "wielkopolskie"
 msgstr ""
 
 #. name for PL-ZP
-msgid "Zachodniopomorskie"
+msgid "zachodniopomorskie"
 msgstr ""
 
 #. name for PS
@@ -15627,7 +15625,7 @@ msgid "Treinta y Tres"
 msgstr ""
 
 #. name for UZ-TK
-msgid "Toshkent "
+msgid "Toshkent (city)"
 msgstr ""
 
 #. name for UZ-QR

@@ -11012,68 +11012,68 @@ msgid "Northern Areas"
 msgstr "Northern Areas"
 
 #. name for PL-DS
-msgid "Dolnośląskie"
-msgstr "Dolnośląskie"
+msgid "dolnośląskie"
+msgstr "dolnośląskie"
 
 #. name for PL-KP
-msgid "Kujawsko-pomorskie"
-msgstr "Kujawsko-pomorskie"
+msgid "kujawsko-pomorskie"
+msgstr "kujawsko-pomorskie"
 
 #. name for PL-LU
-msgid "Lubelskie"
-msgstr "Lubelskie"
+msgid "lubelskie"
+msgstr "lubelskie"
 
 #. name for PL-LB
-msgid "Lubuskie"
-msgstr "Lubuskie"
+msgid "lubuskie"
+msgstr "lubuskie"
 
 #. name for PL-LD
-msgid "Łódzkie"
-msgstr "Łódzkie"
+msgid "łódzkie"
+msgstr "łódzkie"
 
 #. name for PL-MA
-msgid "Małopolskie"
-msgstr "Małopolskie"
+msgid "małopolskie"
+msgstr "małopolskie"
 
 #. name for PL-MZ
-msgid "Mazowieckie"
-msgstr "Mazowieckie"
+msgid "mazowieckie"
+msgstr "mazowieckie"
 
 #. name for PL-OP
-msgid "Opolskie"
-msgstr "Opolskie"
+msgid "opolskie"
+msgstr "opolskie"
 
 #. name for PL-PK
-msgid "Podkarpackie"
-msgstr "Podkarpackie"
+msgid "podkarpackie"
+msgstr "podkarpackie"
 
 #. name for PL-PD
-msgid "Podlaskie"
-msgstr "Podlaskie"
+msgid "podlaskie"
+msgstr "podlaskie"
 
 #. name for PL-PM
-msgid "Pomorskie"
-msgstr "Pomorskie"
+msgid "pomorskie"
+msgstr "pomorskie"
 
 #. name for PL-SL
-msgid "Śląskie"
-msgstr "Śląskie"
+msgid "śląskie"
+msgstr "śląskie"
 
 #. name for PL-SK
-msgid "Świętokrzyskie"
-msgstr "Świętokrzyskie"
+msgid "świętokrzyskie"
+msgstr "świętokrzyskie"
 
 #. name for PL-WN
-msgid "Warmińsko-mazurskie"
-msgstr "Warmińsko-mazurskie"
+msgid "warmińsko-mazurskie"
+msgstr "warmińsko-mazurskie"
 
 #. name for PL-WP
-msgid "Wielkopolskie"
-msgstr "Wielkopolskie"
+msgid "wielkopolskie"
+msgstr "wielkopolskie"
 
 #. name for PL-ZP
-msgid "Zachodniopomorskie"
-msgstr "Zachodniopomorskie"
+msgid "zachodniopomorskie"
+msgstr "zachodniopomorskie"
 
 #. name for PS
 msgid "Palestinian Territory, Occupied"
@@ -14800,8 +14800,8 @@ msgid "Treinta y Tres"
 msgstr "Treinta y Tres"
 
 #. name for UZ-TK
-msgid "Toshkent "
-msgstr "Toshkent "
+msgid "Toshkent (city)"
+msgstr "Toshkent (city)"
 
 #. name for UZ-QR
 msgid "Qoraqalpogiston Respublikasi"
