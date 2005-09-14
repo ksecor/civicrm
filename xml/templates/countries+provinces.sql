@@ -4043,10 +4043,6 @@ COPY provinces (legacy_id, country_id, province_id, country_iso_code, province_i
 \N	1227	7391	UM	UM-95	Palmyra Atoll
 \N	1227	7392	UM	UM-79	Wake Ialand
 1014	1228	7410	US	US-IA	Iowa
-1558	1228	7439	US	US-UM	United States Minor Outlying Islands
-1559	1228	7448	US	US-AE	Armed Forces Europe
-1560	1228	7449	US	US-AA	Armed Forces Americas
-1561	1228	7450	US	US-AP	Armed Forces Pacific
 \N	1229	7451	UY	UY-AR	Artigsa
 \N	1229	7452	UY	UY-CA	Canelones
 \N	1229	7453	UY	UY-CL	Cerro Largo
@@ -4221,6 +4217,10 @@ COPY provinces (legacy_id, country_id, province_id, country_iso_code, province_i
 \N	1240	7623	ZW	ZW-MN	Matabeleland North
 \N	1240	7624	ZW	ZW-MS	Matabeleland South
 \N	1240	7625	ZW	ZW-MI	Midlands
+1058	1228	7439	US	US-UM	United States Minor Outlying Islands
+1059	1228	7448	US	US-AE	Armed Forces Europe
+1060	1228	7449	US	US-AA	Armed Forces Americas
+1061	1228	7450	US	US-AP	Armed Forces Pacific
 \.
 
 

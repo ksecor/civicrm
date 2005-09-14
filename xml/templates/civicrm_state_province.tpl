@@ -60,14 +60,14 @@ INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1055", "Northern Mariana Islands", "MP", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1056", "Puerto Rico", "PR", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1057", "Virgin Islands", "VI", 1228);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1558", "United States Minor Outlying Islands", "UM", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1058", "United States Minor Outlying Islands", "UM", 1228);
 
 -- additional US-related inserts (Army Post Office and the now-independent Marshall Islands)
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1051", "APO", "XX", 1228);
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1054", "Marshall Islands", "MH", 1228);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1559", "Armed Forces Europe", "AE", 1228);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1560", "Armed Forces Americas", "AA", 1228);
-INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1561", "Armed Forces Pacific", "AP", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1059", "Armed Forces Europe", "AE", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1060", "Armed Forces Americas", "AA", 1228);
+INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1061", "Armed Forces Pacific", "AP", 1228);
 
 -- Canadian Provinces
 INSERT INTO civicrm_state_province (id, name, abbreviation, country_id) VALUES("1100", "Alberta", "AB", 1039);
