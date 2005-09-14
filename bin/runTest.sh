@@ -40,8 +40,14 @@ run_UnitTest()
 run_maxQScript()
 {
     cd $ORIGPWD/
-    # running script for maxq generated scripts
+    # running script for maxq generated scripts.
+    # If different log files are required for Errors and Success, uncomment first command and comment second command.
+    # If Errors and Success are to be logged in same log file, comment first command and uncomment second command.
+    
+    ## 1 ##
     ./test_sandbox.sh 2>$PATH4LOG/Result/$logEMT 1>$PATH4LOG/Result/$logSMT
+    ## 2 ##
+    #./test_sandbox.sh 2>1 1>$PATH4LOG/Result/$logSMT
 }
 
 # Function to Run Stress Test.
@@ -84,6 +90,7 @@ case $option in
 	echo "Running Unit Tests"; echo;
 	run_UnitTest
 	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logUT; echo;
+	echo " **************************************************************************** ";
 	;;
     
     # maxQ Tests
@@ -92,6 +99,7 @@ case $option in
 	echo "(This will take few Minutes)"; echo;
 	run_maxQScript
 	echo "maxQ Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logEMT " and " $PATH4LOG/Result/$logSMT; echo;
+	echo " **************************************************************************** ";
 	;;
     
     # Stress Tests
@@ -114,5 +122,6 @@ case $option in
 	echo "Running Stress Tests"; echo;
 	run_stressTest
 	echo "Stress Tests Successfully Completed."; echo;
+	echo " **************************************************************************** ";
 	;;
 esac

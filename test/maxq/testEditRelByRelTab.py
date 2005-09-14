@@ -21,21 +21,80 @@ class testEditRelByRelTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
+        params = [
+            ('''_qf_default''', '''Search:refresh'''),
+            ('''contact_type''', ''''''),
+            ('''group''', ''''''),
+            ('''tag''', ''''''),
+            ('''sort_name''', ''''''),
+            ('''_qf_Search_refresh''', '''Search'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''_qf_Search_display''', '''true'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''q''', '''civicrm/contact/search/basic'''),
+            ('''force''', '''1'''),
+            ('''sortByCharacter''', '''Z'''),]
+        url = "%s/civicrm/contact/search/basic" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''set''', '''1'''),
+            ('''path''', '''civicrm/server/search'''),]
+        url = "%s/civicrm/server/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
         nameI      = 'Zope, Manish'
         nameH      = 'Zope House'
         queryCA    = 'select id from civicrm_contact where sort_name like \'%s\' and contact_type=\'Individual\'' % nameI
         contactIID = db.loadVal(queryCA)
-
+        
         if contactIID :
             CID = '''%s''' % contactIID
             queryCB    = 'select id from civicrm_contact where sort_name like \'%s\' and contact_type=\'Household\'' % nameH
             contactHID = db.loadVal(queryCB)
-
+            
             if contactHID :
                 queryRID  = 'select id from civicrm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
                 relID      = db.loadVal(queryRID)
@@ -46,9 +105,9 @@ class testEditRelByRelTab(PyHttpTestCase):
                     RTID = '''6_a_b'''
                 else :
                     RTID = '''7_a_b'''
-                        
+                
                 RID = '''%s''' % relID 
-
+                
                 params = [
                     ('''reset''', '''1'''),
                     ('''cid''', CID),]
@@ -57,28 +116,32 @@ class testEditRelByRelTab(PyHttpTestCase):
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)
                 self.get(url, params)
                 self.msg("Response code: %s" % self.getResponseCode())
-                self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+                self.assertEquals("Assert number 12 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
+                params = [
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),]
                 url = "%s/civicrm/contact/view/rel" % drupal_path
                 self.msg("Testing URL: %s" % url)
-                params = None
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)
                 self.get(url, params)
                 self.msg("Response code: %s" % self.getResponseCode())
-                self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+                self.assertEquals("Assert number 13 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
                     ('''action''', '''update'''),
-                    ('''rid''', RID),
-                    ('''rtype''', '''b_a'''),]
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),
+                    ('''id''', RID),
+                    ('''rtype''', '''a_b'''),]
                 url = "%s/civicrm/contact/view/rel" % drupal_path
                 self.msg("Testing URL: %s" % url)
                 Validator.validateRequest(self, self.getMethod(), "get", url, params)
                 self.get(url, params)
                 self.msg("Response code: %s" % self.getResponseCode())
-                self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+                self.assertEquals("Assert number 14 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
@@ -97,45 +160,36 @@ class testEditRelByRelTab(PyHttpTestCase):
                 self.post(url, params)
                 if relTID :
                     self.msg("Response code: %s" % self.getResponseCode())
-                    self.assertEquals("Assert number 8 failed", 302, self.getResponseCode())
+                    self.assertEquals("Assert number 15 failed", 302, self.getResponseCode())
                     Validator.validateResponse(self, self.getMethod(), url, params)
                     
-                    params = [
-                        ('''action''', '''browse'''),]
-                    url = "%s/civicrm/contact/view/rel" % drupal_path
-                    self.msg("Testing URL: %s" % url)
-                    Validator.validateRequest(self, self.getMethod(), "get", url, params)
-                    self.get(url, params)
-                    self.msg("Response code: %s" % self.getResponseCode())
-                    self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-                    Validator.validateResponse(self, self.getMethod(), url, params)
                     print ("**************************************************************************************")
                     print "Relationship between \" \'%s\' and \'%s\' \" is Updated Successfully" % (nameI, nameH)
                     print ("**************************************************************************************")
                 else :
                     self.msg("Response code: %s" % self.getResponseCode())
-                    self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+                    self.assertEquals("Assert number 16 failed", 200, self.getResponseCode())
                     Validator.validateResponse(self, self.getMethod(), url, params)
                     print ("**************************************************************************************")
                     print " No Relationship Between \'%s\' and \'%s\'" % (nameI, nameH)
                     print ("**************************************************************************************")
-                    
-                    params = [
-                        ('''action''', '''browse'''),]
-                    url = "%s/civicrm/contact/view/rel" % drupal_path
-                    self.msg("Testing URL: %s" % url)
-                    Validator.validateRequest(self, self.getMethod(), "get", url, params)
-                    self.get(url, params)
-                    self.msg("Response code: %s" % self.getResponseCode())
-                    self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
-                    Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''action''', '''browse'''),]
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 17 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
             else :
                 print ("**************************************************************************************")
                 print " Household \'%s\' do not Exists" % nameH
                 print ("**************************************************************************************")
         else :
             print ("**************************************************************************************")
-            print " Individual \'%s\' do not Exists" % nameI
+            print "Individual \'%s\' do not Exists" % nameI
             print ("**************************************************************************************")
         
         commonAPI.logout(self)
