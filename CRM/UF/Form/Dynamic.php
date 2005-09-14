@@ -213,6 +213,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 $register = true;
             }
         }
+
         // dont check for duplicates during registration validation: CRM-375
         if ( ! $register ) {
             $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );

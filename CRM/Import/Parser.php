@@ -283,7 +283,6 @@ abstract class CRM_Import_Parser {
             }
         }
         
-//         $email = array();
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
 
@@ -297,17 +296,6 @@ abstract class CRM_Import_Parser {
                     continue;
             }
 
-// XXX:    2005-06-27 17:01:13 by Brian McFee <brmcfee@gmail.com>
-// What the hell was this block of code for? 
-//
-//             if ( $mode == self::MODE_IMPORT ) {
-//                 if ( in_array($values[$emailKey], $email)) {
-//                     continue;
-//                 } else {
-//                     array_push($email, $values[$emailKey]);
-//                 }
-//             }
-            
             if ( ! $values || empty( $values ) ) {
                 continue;
             }
@@ -317,10 +305,8 @@ abstract class CRM_Import_Parser {
                 $values[$k] = trim($v, " \t\r\n");
             }
             
-            //if ( $mode != self::MODE_IMPORT ) {
-                $this->_totalCount++;
-                //}
-
+            $this->_totalCount++;
+            
             if ( $mode == self::MODE_MAPFIELD ) {
                 $returnCode = $this->mapField( $values );
             } else if ( $mode == self::MODE_PREVIEW ) {
@@ -578,45 +564,42 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     function set( $store, $mode = self::MODE_SUMMARY ) {
-//         if ($mode == self::MODE_SUMMARY ) {
-            $store->set( 'fileSize'   , $this->_fileSize          );
-            $store->set( 'lineCount'  , $this->_lineCount         );
-            $store->set( 'seperator'  , $this->_seperator         );
-            $store->set( 'fields'     , $this->getSelectValues( ) );
-            $store->set( 'fieldTypes' , $this->getSelectTypes( )  );
+        $store->set( 'fileSize'   , $this->_fileSize          );
+        $store->set( 'lineCount'  , $this->_lineCount         );
+        $store->set( 'seperator'  , $this->_seperator         );
+        $store->set( 'fields'     , $this->getSelectValues( ) );
+        $store->set( 'fieldTypes' , $this->getSelectTypes( )  );
+        
+        $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
+        $store->set( 'dataPatterns', $this->getDataPatterns( ) );
+        $store->set( 'columnCount', $this->_activeFieldCount  );
+        
+        $store->set( 'totalRowCount'    , $this->_totalCount     );
+        $store->set( 'validRowCount'    , $this->_validCount     );
+        $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
+        $store->set( 'conflictRowCount', $this->_conflictCount );
+        
+        switch ($this->_contactType) {
+        case 'Individual':
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_INDIVIDUAL );    
+            break;
+        case 'Household' :
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_HOUSEHOLD );    
+            break;
+        case 'Organization':
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_ORGANIZATION );    
+        }
+        
+        if ($this->_invalidRowCount) {
+            $store->set( 'errorsFileName', $this->_errorFileName );
+        }
+        if ($this->_conflictCount) {
+            $store->set( 'conflictsFileName', $this->_conflictFileName );
+        }
+        if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
+            $store->set( 'dataValues', $this->_rows );
+        }
 
-            $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
-            $store->set( 'dataPatterns', $this->getDataPatterns( ) );
-            $store->set( 'columnCount', $this->_activeFieldCount  );
-
-            $store->set( 'totalRowCount'    , $this->_totalCount     );
-            $store->set( 'validRowCount'    , $this->_validCount     );
-            $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
-            $store->set( 'conflictRowCount', $this->_conflictCount );
-            
-
-
-            switch ($this->_contactType) {
-            case 'Individual':
-                $store->set( 'contactType', CRM_Import_Parser::CONTACT_INDIVIDUAL );    
-                break;
-            case 'Household' :
-                $store->set( 'contactType', CRM_Import_Parser::CONTACT_HOUSEHOLD );    
-                break;
-            case 'Organization':
-                $store->set( 'contactType', CRM_Import_Parser::CONTACT_ORGANIZATION );    
-            }
-                            
-            if ($this->_invalidRowCount) {
-                $store->set( 'errorsFileName', $this->_errorFileName );
-            }
-            if ($this->_conflictCount) {
-                $store->set( 'conflictsFileName', $this->_conflictFileName );
-            }
-            if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
-                $store->set( 'dataValues', $this->_rows );
-            }
-//         } else 
         if ($mode == self::MODE_IMPORT) {
             $store->set( 'duplicateRowCount', $this->_duplicateCount );
             if ($this->_duplicateCount) {
@@ -667,11 +650,9 @@ abstract class CRM_Import_Parser {
         if (empty($values)) 
             return;
 
-//         CRM_Core_Error::debug('pre scrub', $values);
         foreach ($values as $k => $v) {
             $values[$k] = preg_replace("/^$enclosure(.*)$enclosure$/", '$1', $v);
         }
-//         CRM_Core_Error::debug('post scrub', $values);
     }
 
 }

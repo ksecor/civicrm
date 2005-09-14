@@ -136,7 +136,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function mapField( &$values ) {
-//         return self::VALID;
         return CRM_Import_Parser::VALID;
     }
 
@@ -150,7 +149,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function preview( &$values ) {
-//         return self::VALID;
         return $this->summary($values);
     }
 
@@ -164,9 +162,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function summary( &$values ) {
         $response = $this->setActiveFieldValues( $values );
-//         if ( $response != self::VALID ) {
-//             return $response;
-//         }
+
         $errorRequired = false;
         switch ($this->_contactType) { 
         case 'Individual' :
@@ -192,13 +188,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             break;
         }
-        
+
         if ( $this->_emailIndex >= 0 ) {
             /* If we don't have the required fields, bail */
             if ($this->_contactType == 'Individual') {
-                if ($errorRequired && ! CRM_Utils_Array::value('email', $values)) {
+                if ($errorRequired && ! CRM_Utils_Array::value($this->_emailIndex, $values)) {
                     array_unshift($values, ts('Missing required fields'));
-                    //                 return self::ERROR;
                     return CRM_Import_Parser::ERROR;
                 }
             }
@@ -208,13 +203,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 /* If the email address isn't valid, bail */
                 if (! CRM_Utils_Rule::email($email)) {
                     array_unshift($values, ts('Invalid Email address'));
-//                     return self::ERROR;
                     return CRM_Import_Parser::ERROR;
                 }
                 /* If it's a dupe, bail */
                 if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
                     array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
-//                     return self::CONFLICT;
                     return CRM_Import_Parser::CONFLICT;
                 }
 
@@ -223,23 +216,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
         } else if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
-//             return self::ERROR;
             return CRM_Import_Parser::ERROR;
         }
 
-//  Block removed due to bug CRM-150, internationalization/wew.
-//
-//         if ( $this->_phone_index >= 0) { 
-//             $phone = CRM_Utils_Array::value( $this->_phoneIndex, $values );
-//             if ($phone) {
-//                 if (! CRM_Utils_Rule::phone($phone)) {
-//                     $values[] = ts('Invalid phone number');
-//                     return self::ERROR;
-//                 }
-//             }
-//         }
-
-//         return self::VALID;
         return CRM_Import_Parser::VALID;
     }
 
@@ -255,7 +234,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function import( $onDuplicate, &$values) {
         // first make sure this is a valid line
         $response = $this->summary( $values );
-//         if ( $response != self::VALID ) {
         if ( $response != CRM_Import_Parser::VALID ) {
             return $response;
         }
@@ -295,23 +273,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
             _crm_add_formatted_param($value, $formatted);
         }
-        //CRM_Core_Error::debug('v', $formatted);
 
-        //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
-//         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
-        if ( is_a($newContact = crm_create_contact_formatted( $formatted, $onDuplicate ),
-                    CRM_Core_Error)) 
+        $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
+        if ( is_a( $newContact, CRM_Core_Error ) ) 
         {    
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
-//                 $base = CRM_Utils_System::baseURL() . '/';
             
                 foreach ($newContact->_errors[0]['params'] as $cid) {
                     $urls[] = CRM_Utils_System::url('civicrm/contact/view',
-                                    'reset=1&cid=' . $cid, true);
+                                                    'reset=1&cid=' . $cid, true);
                 }
-            
+                
                 $url_string = implode("\n", $urls);
                 array_unshift($values, $url_string); 
                 
@@ -319,8 +293,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 if (count($newContact->_errors[0]['params']) > 1) {
                     array_unshift($values, ts('Record duplicates multiple contacts'));
                     return CRM_Import_Parser::ERROR;
-//                     CRM_Import_Parser::DUPLICATE |
-//                                 CRM_Import_Parser::MULTIPLE_DUPE;
                 }
            
                 /* Params only had one id, so shift it out */
@@ -335,7 +307,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     $newContact = crm_update_contact_formatted($contactId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
-//             return self::DUPLICATE;
                 if (! is_a($newContact, CRM_Core_Error)) {
                     $this->_newContacts[] = $newContact->id;
                 }
@@ -351,7 +322,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
         
         $this->_newContacts[] = $newContact->id;
-//         return self::VALID;
         return CRM_Import_Parser::VALID;
     }
    
