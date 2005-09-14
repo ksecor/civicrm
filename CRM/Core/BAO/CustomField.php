@@ -186,7 +186,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
             $query ="SELECT $cfTable.id, $cfTable.label,
-                            $cgTable.title, $cfTable.data_type,
+                            $cgTable.title, $cfTable.data_type, $cfTable.options_per_line,
                             $cgTable.extends
                      FROM $cfTable
                      INNER JOIN $cgTable
@@ -236,6 +236,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 'headerPattern' => '/' . preg_quote($regexp, '/') . '/',
                 'import' => 1,
                 'custom_field_id' => $id,
+                'options_per_line' => $values[3]
             );
         }
 
@@ -286,10 +287,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 $choice = array();
                 if($field->data_type != 'Boolean') {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+                    
                     foreach ($customOption as $v) {
                         $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
                     }
+                    
                     $qf->addGroup($choice, $elementName, $field->label);
+                    
                 } else {
                     $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
                     $choice[] = $qf->createElement('radio', null, '', ts('No') , '0' , $field->attributes);
