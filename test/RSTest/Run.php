@@ -537,7 +537,7 @@ class test_RSTest_Run
 
             $this->_callCommon();
 
-            //$this->_callGenDataset();
+            $this->_callGenDataset();
 
             switch ($selection) {
 
@@ -552,8 +552,7 @@ class test_RSTest_Run
 
             case 'I':
                 // Inserting Contact.
-                //$this->_callInsertContact();
-                $this->_callGenDataset();
+                $this->_callInsertContact();
                 break;
             case 'U':
                 // Updating Contact.
