@@ -56,7 +56,7 @@
 		</table>
 	</dd>
 	{else}
-        <tr><td class="label">{$form.edit.$n.label}</td><td>{$form.edit.$n.html}{debug}</td></tr>
+        <tr><td class="label">{$form.edit.$n.label}</td><td>{$form.edit.$n.html}</td></tr>
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}
             <tr><td>&nbsp;</td><td class="description">{ts}{$field.help_post}{/ts}</td></tr>
