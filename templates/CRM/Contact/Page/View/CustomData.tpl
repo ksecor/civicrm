@@ -25,14 +25,13 @@
 			            <dt>{$cd_value.label} </dt>
 			            <dd>
 			            {assign var="count" value="1"}
-			            <table class="form-layout">
+                        {strip}
+			            <table class="form-layout-compressed">
+                        <tr>
 			            {section name=rowLoop start=1 loop=$form.$element_name}
 			            {assign var=index value=$smarty.section.rowLoop.index}
 			            {if $form.$element_name.$index.html != "" }
-				            {if $smarty.section.rowLoop.first}
-				            <tr>
-			                {/if} 
-				            <td>{$form.$element_name.$index.html}</td>
+				            <td class="label font-light">{$form.$element_name.$index.html}</td>
                             {if $count == $cd_value.options_per_line}
 				   	        </tr>
                             <tr>
@@ -40,13 +39,11 @@
 			                {else}
 					        {assign var="count" value=`$count+1`}
 		                    {/if}
-                    
-			                {if $smarty.section.rowLoop.last}
-				            </tr>
-			                {/if}
 		                {/if}
 			            {/section}
-			            </table>
+			            </tr>
+                        </table>
+                        {/strip}
 			            </dd>
 		            {else}
                         {assign var="name" value=`$cd_value.name`} 

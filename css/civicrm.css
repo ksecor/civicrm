@@ -228,6 +228,10 @@ div.spacer {
   font-weight: bold;
 }
 
+#crm-container .font-light {
+  font-weight: lighter;
+}
+
 .font-italic {
   font-style: italic
 }
@@ -513,25 +517,6 @@ div.crm-pager a {
 }
 
 /*
-** style for showing three borders coloured
-** and one border lightly coloured (like the page for advanced search) 
-*/
-
-#crm-container .top-light-coloured {
-  border-top: 0.1px solid #B0B0B0;
-  border-left: 2px solid #4C4C4C;
-  border-right: 2px solid #4C4C4C; 
-  border-bottom: 2px solid #4C4C4C;  
-}
-
-#crm-container .bottom-light-coloured {
-  border-top: 2px solid #4C4C4C;
-  border-left: 2px solid #4C4C4C;
-  border-right: 2px solid #4C4C4C; 
-  border-bottom: 0.1px solid #B0B0B0;
-}
-
-/*
 ** overflowing for elements (e.g. Advanced Search page)
 */
 #crm-container .listing-box{
@@ -551,7 +536,7 @@ div.crm-pager a {
 
 /*
 ** Style for hiding  
-/*
+*/
 #crm-container .hide-block {
   display: none
 }
