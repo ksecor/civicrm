@@ -1,19 +1,19 @@
 <?php
 
-if( isset( $GLOBALS['_ENV']['DM_SOURCEDIR'] ) ) {
-    $sourceCheckoutDir = $GLOBALS['_ENV']['DM_SOURCEDIR'];
+if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
+    $sourceCheckoutDir = $GLOBALS['_SERVER']['DM_SOURCEDIR'];
 } else {
     // backward compatibility
-    // $sourceCheckoutDir = $GLOBALS['_ENV']['HOME'] . '/svn/crm';
+    // $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm';
     $sourceCheckoutDir = $argv[1];
 }
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
-if( isset( $GLOBALS['_ENV']['DM_TMPDIR'] ) ) {
-    $targetDir = $GLOBALS['_ENV']['DM_TMPDIR'] . '/com_civicrm/civicrm';
+if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
+    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/civicrm';
 } else {
     // backward compatibility
-    //$targetDir = $GLOBALS['_ENV']['HOME'] . '/com_civicrm/civicrm';
+    //$targetDir = $GLOBALS['_SERVER']['HOME'] . '/com_civicrm/civicrm';
     $targetDir = $argv[2];
 }
 $targetDirLength = strlen( $targetDir );
