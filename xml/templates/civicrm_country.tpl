@@ -1,3 +1,5 @@
+{if $mysql eq 'modern'}SET NAMES 'utf8';{/if}
+
 /*******************************************************
 *
 * civicrm_county (!! TBD)

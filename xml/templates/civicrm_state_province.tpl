@@ -1,4 +1,5 @@
-LOCK TABLES civicrm_state_province WRITE;
+{if $mysql eq 'modern'}SET NAMES 'utf8';{/if}
+
 INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (1000, 1228, "AL", "Alabama"),
 (1001, 1228, "AK", "Alaska"),
@@ -3779,4 +3780,3 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5153, 1240, "MN", "Matabeleland North"),
 (5154, 1240, "MS", "Matabeleland South"),
 (5155, 1240, "MI", "Midlands");
-UNLOCK TABLES;
