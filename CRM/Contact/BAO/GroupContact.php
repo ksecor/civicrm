@@ -310,7 +310,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
         $where .= " AND $permission ";
         
-        $from = CRM_Contact_BAO_Contact::fromClause( $tables );
+        $from = CRM_Contact_BAO_Query::fromClause( $tables );
 
         $order = $limit = '';
         if (! $count ) {
@@ -412,7 +412,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $query .= implode( ',', $returnProperties );
         }
         
-//         if ( $groupDAO->saved_search_id != NULL ) {
         $fv = array(
             'cb_group'                  => array($group->id => true),
             'cb_group_contact_status'   => array($status => true)
@@ -431,7 +430,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $where = CRM_Contact_BAO_Contact::whereClause($fv, false, $tables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
-        $from = CRM_Contact_BAO_Contact::fromClause($tables, $inner);
+        $from = CRM_Contact_BAO_Query::fromClause($tables, $inner);
         $query .= " $from WHERE $permission AND $where ";
         
         if ( $sort != null ) {

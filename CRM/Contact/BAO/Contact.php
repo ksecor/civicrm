@@ -87,7 +87,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) {
         $tables     = array( );
         $permission = CRM_Core_Permission::whereClause( $type, $tables );
-        $from       = self::fromClause( $tables );
+        $from       = CRM_Contact_BAO_Query::fromClause( $tables );
         $query = "
 SELECT count(DISTINCT civicrm_contact.id) 
        $from
@@ -156,7 +156,7 @@ SELECT DISTINCT
                          'civicrm_country'        => 1,
                          );
 
-        $from = self::fromClause( $tables );
+        $from = CRM_Contact_BAO_Query::fromClause( $tables );
         $where = " WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $query = "$select $from $where";
 
@@ -182,7 +182,7 @@ SELECT DISTINCT
     static function matchContact( $matchClause, &$tables, $id = null ) {
         $config =& CRM_Core_Config::singleton( );
         $query  = "SELECT DISTINCT civicrm_contact.id as id";
-        $query .= self::fromClause( $tables );
+        $query .= CRM_Contact_BAO_Query::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
             $query .= " AND civicrm_contact.id != " . CRM_Utils_Type::escape($id, 'Integer') ;
@@ -288,7 +288,7 @@ ORDER BY
             $where = " WHERE $where AND $permission ";
         }
 
-        $from = self::fromClause( $tables );
+        $from = CRM_Contact_BAO_Query::fromClause( $tables );
         if (!$count) {
             if ($sort) {
                 $order = " ORDER BY " . $sort->orderBy(); 
@@ -301,31 +301,27 @@ ORDER BY
         }
 
         // building the query string
-        $queryString = $select . $from . $where . $order . $limit;
-        //echo "<pre>$queryString</pre>";
+        $query = $select . $from . $where . $order . $limit;
+        //echo "<pre>$query</pre>";
         if ($returnQuery) {
-            return $queryString;
+            return $query;
         }
         
-        $crmDAO =& new CRM_Core_DAO();
+        if ( $count ) {
+            return CRM_Core_DAO::singleValueQuery( $query );
+        }
+        
 
-        $crmDAO->query($queryString);
-
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
             $ids = array( );
-            while ( $crmDAO->fetch( ) ) {
+            while ( $dao->fetch( ) ) {
                 $ids[] = $crmDAO->id;
             }
             return implode( ',', $ids );
         }
         
-        if ( $count ) {
-            $result = $crmDAO->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
-        }
-        
-        return $crmDAO;
+        return $dao;
     }
 
     /**
@@ -363,144 +359,6 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
 ";
     }
     
-    /**
-     * create the from clause
-     *
-     * @param array $tables tables that need to be included in this from clause
-     *                      if null, return mimimal from clause (i.e. civicrm_contact)
-     * @param array $inner  tables that should be inner-joined
-     * @param array $right  tables that should be right-joined
-     *
-     * @return string the from clause
-     * @access public
-     * @static
-     */
-    static function fromClause( &$tables , $inner = null, $right = null) {
-        $from = ' FROM civicrm_contact ';
-        if ( empty( $tables ) ) {
-            return $from;
-        }
-        
-        if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ) &&
-             ! CRM_Utils_Array::value( 'civicrm_address'       , $tables ) ) {
-            $tables = array_merge( array( 'civicrm_address' => 1 ), $tables );
-        }
-        // add location table if address / phone / email is set
-        if ( ( CRM_Utils_Array::value( 'civicrm_address' , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_phone'   , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_email'   , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_im'      , $tables ) ) &&
-             ! CRM_Utils_Array::value( 'civicrm_location', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_location' => 1 ), $tables ); 
-        }
-
-        // add group_contact table if group table is present
-        if ( CRM_Utils_Array::value( 'civicrm_group', $tables ) &&
-            !CRM_Utils_Array::value('civicrm_group_contact', $tables)) {
-            $tables['civicrm_group_contact'] = 1;
-        }
-
-        // add group_contact and group table is subscription history is present
-        if ( CRM_Utils_Array::value( 'civicrm_subscription_history', $tables )
-            && !CRM_Utils_Array::value('civicrm_group', $tables)) {
-            $tables = array_merge( array( 'civicrm_group'         => 1,
-                                          'civicrm_group_contact' => 1 ),
-                                   $tables );
-        }
-
-        foreach ( $tables as $name => $value ) {
-            if ( ! $value ) {
-                continue;
-            }
-
-            if (CRM_Utils_Array::value($name, $inner)) {
-                $side = 'INNER';
-            } elseif (CRM_Utils_Array::value($name, $right)) {
-                $side = 'RIGHT';
-            } else {
-                $side = 'LEFT';
-            }
-            
-            if ( $value != 1 ) {
-                // if there is already a join statement in value, use value itself
-                if ( strpos( $value, 'JOIN' ) ) { 
-                    $from .= " $value ";
-                } else {
-                    $from .= " $side JOIN $name ON ( $value ) ";
-                }
-                continue;
-            }
-            
-            switch ( $name ) {
-            case 'civicrm_individual':
-                $from .= " $side JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ";
-                continue;
-
-            case 'civicrm_location':
-                $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                          civicrm_contact.id = civicrm_location.entity_id  AND
-                                                          civicrm_location.is_primary = 1)";
-                continue;
-
-            case 'civicrm_address':
-                $from .= " $side JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id ";
-                continue;
-
-            case 'civicrm_phone':
-                $from .= " $side JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) ";
-                continue;
-
-            case 'civicrm_email':
-                $from .= " $side JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ";
-                continue;
-
-            case 'civicrm_im':
-                $from .= " $side JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1) ";
-                continue;
-
-            case 'civicrm_state_province':
-                $from .= " $side JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ";
-                continue;
-
-            case 'civicrm_country':
-                $from .= " $side JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ";
-                continue;
-
-            case 'civicrm_group':
-                $from .= " $side JOIN civicrm_group ON civicrm_group.id =  civicrm_group_contact.group_id ";
-                continue;
-
-            case 'civicrm_group_contact':
-                $from .= " $side JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ";
-                continue;
-
-            case 'civicrm_entity_tag':
-                $from .= " $side JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
-                                                             civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
-                continue;
-
-            case 'civicrm_activity_history':
-                $from .= " $side JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
-                                                               civicrm_contact.id = civicrm_activity_history.entity_id ) ";
-                continue;
-
-            case 'civicrm_custom_value':
-                $from .= " $side JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
-                                                          civicrm_contact.id = civicrm_custom_value.entity_id )";
-                continue;
-                
-            case 'civicrm_subscription_history':
-                $from .= " $side JOIN civicrm_subscription_history
-                                   ON civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id
-                                  AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
-                continue;
-            }
-
-        }
-        return $from;
-    }
-
     /**
      * create the where clause for a contact search
      *

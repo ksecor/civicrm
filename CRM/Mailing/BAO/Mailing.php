@@ -165,7 +165,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $tables = array($contact => 1);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
                 $ss->saved_search_id, $tables);
-            $from = CRM_Contact_BAO_Contact::fromClause($tables);
+            $from = CRM_Contact_BAO_Query::fromClause($tables);
             $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact_id)
                     SELECT              $contact.id
@@ -258,7 +258,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $tables = array($contact => 1, $location => 1, $email => 1);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
                                     $ss->saved_search_id, $tables);
-            $from = CRM_Contact_BAO_Contact::fromClause($tables);
+            $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id 

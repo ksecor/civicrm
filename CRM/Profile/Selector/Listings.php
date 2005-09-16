@@ -212,7 +212,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
         if ( $count ) {
             $select = ' SELECT count( DISTINCT( civicrm_contact.id ) ) '; 
-            $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
+            $from  = CRM_Contact_BAO_Query::fromClause( $this->_tables );
        } else {
             $select = "
 SELECT DISTINCT 
@@ -251,7 +251,7 @@ SELECT DISTINCT
                              'civicrm_country'        => 1, 
                              ); 
             $this->_tables = array_merge( $tables, $this->_tables );
-            $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
+            $from  = CRM_Contact_BAO_Query::fromClause( $this->_tables );
 
             $customSelect = $customFrom = null;
             CRM_Core_BAO_CustomGroup::getSelectFromClause( $this->_fields, $customSelect, $customFrom );
