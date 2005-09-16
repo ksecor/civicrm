@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -118,38 +118,40 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         
         $select = "
 SELECT DISTINCT
-  civicrm_contact.id as contact_id,
-  civicrm_contact.home_URL            as home_URL      ,
-  civicrm_contact.image_URL           as image_URL     ,
-  civicrm_contact.legal_identifier    as legal_identifier,
-  civicrm_contact.external_identifier as external_identifier,
-  civicrm_contact.nick_name           as nick_name     ,
-  civicrm_individual.id               as individual_id ,
-  civicrm_location.id                 as location_id   ,
-  civicrm_address.id                  as address_id    ,
-  civicrm_email.id                    as email_id      ,
-  civicrm_phone.id                    as phone_id      ,
-  civicrm_individual.first_name       as first_name    ,
-  civicrm_individual.middle_name      as middle_name   ,
-  civicrm_individual.last_name        as last_name     ,
-  civicrm_individual.prefix           as prefix        ,
-  civicrm_individual.suffix           as suffix        ,
-  civicrm_address.street_address      as street_address,
+  civicrm_contact.id                  as contact_id               ,
+  civicrm_contact.home_URL            as home_URL                 ,
+  civicrm_contact.image_URL           as image_URL                ,
+  civicrm_contact.legal_identifier    as legal_identifier         ,
+  civicrm_contact.external_identifier as external_identifier      ,
+  civicrm_contact.nick_name           as nick_name                ,
+  civicrm_individual.id               as individual_id            ,
+  civicrm_location.id                 as location_id              ,
+  civicrm_address.id                  as address_id               ,
+  civicrm_email.id                    as email_id                 ,
+  civicrm_phone.id                    as phone_id                 ,
+  civicrm_individual.first_name       as first_name               ,
+  civicrm_individual.middle_name      as middle_name              ,
+  civicrm_individual.last_name        as last_name                ,
+  civicrm_individual.prefix           as prefix                   ,
+  civicrm_individual.suffix           as suffix                   ,
+  civicrm_address.street_address      as street_address           ,
   civicrm_address.supplemental_address_1 as supplemental_address_1,
   civicrm_address.supplemental_address_2 as supplemental_address_2,
-  civicrm_address.city                as city          ,
-  civicrm_address.postal_code         as postal_code   ,
-  civicrm_address.postal_code_suffix  as postal_code_suffix,
-  civicrm_state_province.name         as state         ,
-  civicrm_country.name                as country       ,
-  civicrm_email.email                 as email         ,
-  civicrm_phone.phone                 as phone         ";
+  civicrm_address.city                as city                     ,
+  civicrm_address.postal_code         as postal_code              ,
+  civicrm_address.postal_code_suffix  as postal_code_suffix       ,
+  civicrm_state_province.name         as state                    ,
+  civicrm_country.name                as country                  ,
+  civicrm_email.email                 as email                    ,
+  civicrm_phone.phone                 as phone                    ,
+  civicrm_im.name                     as im                       ";
 
         $tables = array( 'civicrm_individual'     => 1,
                          'civicrm_location'       => 1,
                          'civicrm_address'        => 1,
                          'civicrm_email'          => 1,
                          'civicrm_phone'          => 1,
+                         'civicrm_im'             => 1,
                          'civicrm_state_province' => 1,
                          'civicrm_country'        => 1,
                          );
@@ -421,7 +423,12 @@ SELECT DISTINCT civicrm_contact.id as contact_id,
             }
             
             if ( $value != 1 ) {
-                $from .= " $side JOIN $name ON ( $value ) ";
+                // if there is already a join statement in value, use value itself
+                if ( strpos( $value, 'JOIN' ) ) { 
+                    $from .= " $value ";
+                } else {
+                    $from .= " $side JOIN $name ON ( $value ) ";
+                }
                 continue;
             }
             
@@ -1529,38 +1536,27 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
 
         // this is not sufficient way to do.
 
-        $query1 = "SELECT count(*) FROM civicrm_meeting 
-                    WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
-                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ."
-                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
-                    AND status != 'Completed'";
-        $dao =& new CRM_Core_DAO();
-        $dao->query($query1);
-        $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
+        $query = "SELECT count(*) FROM civicrm_meeting 
+                  WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
+                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ."
+                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND status != 'Completed'";
+        $rowMeeting = CRM_Core_DAO::singleValueQuery( $query );
         
-        $rowMeeting = $row[0];
+        $query = "SELECT count(*) FROM civicrm_phonecall 
+                  WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
+                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
+                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND status != 'Completed'";
+        $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query ); 
         
-        $query2 = "SELECT count(*) FROM civicrm_phonecall 
-                    WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
-                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
-                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
-                    AND status != 'Completed'";
-        $dao->query($query2);
-        $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
-        $rowPhonecall = $row[0];
-        
-        $query3 = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
-                    WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
-                    AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
-                    OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
-                    AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
-                    AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
-        $dao->query($query3);
-        $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
-        $rowActivity = $row[0];
+        $query = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
+                  WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
+                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
+                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
+                  AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
+        $rowActivity = CRM_Core_DAO::singleValueQuery( $query ); 
 
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
@@ -1762,10 +1758,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         }
         
         return $dao->id;
-    }
-
-
-    static function getContactAPI( $params ) {
     }
 
 }

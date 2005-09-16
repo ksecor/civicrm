@@ -284,8 +284,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * $access public
      */
     static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false ) {
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
@@ -325,13 +323,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $sql = $select . $from . $where . $order . $limit;
 
-        $groupContact->query($sql);
-
         if ( $count ) {
-            $result = $groupContact->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
+            return CRM_Core_DAO::singleValueQuery( $sql ); 
         } else {
+            $groupContact =& new CRM_Contact_DAO_GroupContact( );
+            $groupContact->query($sql);
             $values = array( );
             while ( $groupContact->fetch() ) {
                 $id                            = $groupContact->civicrm_group_contact_id;

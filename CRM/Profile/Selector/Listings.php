@@ -214,7 +214,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $select = ' SELECT count( DISTINCT( civicrm_contact.id ) ) '; 
             $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
        } else {
-            $customSelect = $customJoin = '';
             $select = "
 SELECT DISTINCT 
   civicrm_contact.id as contact_id, 
@@ -253,7 +252,9 @@ SELECT DISTINCT
                              ); 
             $this->_tables = array_merge( $tables, $this->_tables );
             $from  = CRM_Contact_BAO_Contact::fromClause( $this->_tables );
-            CRM_Core_BAO_UFGroup::selectFromClause( $this->_fields, $customSelect, $customFrom );
+
+            $customSelect = $customFrom = null;
+            CRM_Core_BAO_CustomGroup::getSelectFromClause( $this->_fields, $customSelect, $customFrom );
             if ( $customSelect ) {
                 $select .= ", $customSelect ";
                 $from   .= " $customFrom ";
@@ -269,15 +270,10 @@ SELECT DISTINCT
         }
         $sql = "$select $from $where $order $limit";
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query($sql);
-
         if ( $count ) {
-            $result = $dao->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
+            return CRM_Core_DAO::singleValueQuery( $sql );
         } else {
-            return $dao;
+            return CRM_Core_DAO::executeQuery( $sql );
         }
     }
 

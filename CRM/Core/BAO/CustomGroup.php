@@ -154,9 +154,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
             $tableName = self::_getTableName($entityType);
-            $strFrom .= " LEFT JOIN civicrm_custom_value ON (civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
-                                                     AND civicrm_custom_value.entity_table = '$tableName' 
-                                                     AND civicrm_custom_value.entity_id = $entityId)";
+            $strFrom .= " LEFT JOIN civicrm_custom_value
+                                 ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
+                                AND   civicrm_custom_value.entity_table = '$tableName' 
+                                AND   civicrm_custom_value.entity_id = $entityId )";
         }
 
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
@@ -385,25 +386,18 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function getNumValue($groupId)
     {
-         $queryString = "SELECT count(*) 
-                         FROM   civicrm_custom_value, civicrm_custom_field 
-                         WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
-                                civicrm_custom_field.custom_group_id = " 
-                      . CRM_Utils_Type::escape($groupId, 'Integer');
+         $query = "SELECT count(*) 
+                   FROM   civicrm_custom_value, civicrm_custom_field 
+                   WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
+                          civicrm_custom_field.custom_group_id = " 
+                 . CRM_Utils_Type::escape($groupId, 'Integer');
 
          // this might be faster
-         // $queryString = "SELECT count(*) 
+         // $query = "SELECT count(*) 
          // FROM   crm_custom_value
          // WHERE  crm_custom_value.custom_field_id IN (SELECT id FROM crm_custom_field WHERE custom_group_id = $groupId)";
 
-        // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
-        // does not work for php4
-        //$row = $crmDAO->getDatabaseResult()->fetchRow();
-        $result = $crmDAO->getDatabaseResult();
-        $row    = $result->fetchRow();
-        return $row[0];
+         return CRM_Core_DAO::singleValueQuery( $query );
     }
 
 
@@ -731,5 +725,51 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             break;
         }
     }
+
+    static function getSelectFromClause( &$fields, &$select, &$from ) {
+        $custom = array( );
+        $cfIDs  = array( );
+
+        foreach ( $fields as $name => $field ) { 
+            $objName = $field['name']; 
+            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+                $cfIDs[] = $cfID;
+            }
+        }
+
+        if ( empty( $cfIDs ) ) {
+            return;
+        }
+
+        return self::selectFromClause( $cfIDs, $select, $from );
+    }
+
+    static function selectFromClause( $cfIDs, &$select, &$from ) { 
+        $values = array( );
+        $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' . implode( ',', $cfIDs ) . ' ) ';
+
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $values[$dao->id] = array( 'id'      => $dao->id,
+                                       'extends' => 'civicrm_contact',
+                                       'type'    => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) );
+        }
+
+        if ( empty( $values ) ) {
+            return;
+        }
+
+        $s = array( );
+        $f = array( );
+        foreach ( $values as $key => $value ) {
+            $tName = 't_' . $value['id'];
+            $s[] = $tName . '.' . $value['type'] . ' as custom_' . $value['id'];
+            $f[] = "LEFT JOIN civicrm_custom_value $tName ON $tName.custom_field_id = " . $value['id'] .
+                   " AND $tName.entity_table = 'civicrm_contact' AND $tName.entity_id = civicrm_contact.id ";
+        }
+        $select = implode( ',', $s );
+        $from   = implode( ' ', $f );
+    }
+
 }
 ?>

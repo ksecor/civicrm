@@ -339,29 +339,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             case 'Country':
                 if( !empty($default) ) {
                     $fieldCountry = addslashes( $fields['default_value'] );
-                    $daoCountry =& new CRM_Core_DAO();
-                    $query = "SELECT * FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    $daoCountry->query($query);
-                    
-                    $result = $daoCountry->getDatabaseResult();
-                    $row    = $result->fetchRow();
-                    if (!($row))
-                        $errors['default_value'] = ts( 'The invalid default value for Country Data Type' );
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
+                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                        $errors['default_value'] = ts( 'Invalid default value for country.' );
+                    }
                 }
                 break;
 
             case 'StateProvince':
                 if( !empty($default) ) {
                     $fieldStateProvince = addslashes( $fields['default_value'] );
-                    $daoState =& new CRM_Core_DAO();
-                    $query = "SELECT * FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
-                    //echo "$query";
-                    $daoState->query($query);
-                    
-                    $result = $daoState->getDatabaseResult();
-                    $row    = $result->fetchRow();
-                    if (!($row))
+                    $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
                         $errors['default_value'] = ts( 'The invalid default value for State/Province data type' );
+                    }
                 }
                 break;
             }

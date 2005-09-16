@@ -76,6 +76,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 $this->_fields[$key]['value'] = $value;
 
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {
+                    $params = array( );
                     $params[$cfID] = $value;
                     $sql = CRM_Core_BAO_CustomValue::whereClause($params);  
                     if ( $sql ) { 

@@ -554,5 +554,29 @@ class CRM_Core_DAO extends DB_DataObject {
         return $dao;
     }
 
+    /**
+     * execute a query and get the singleton result
+     *
+     * @param string $query query to be executed 
+     * 
+     * @return string the result of the query
+     * @static 
+     * @access public 
+     */ 
+    static function singleValueQuery( $query ) {
+        $dao =& new CRM_Core_DAO( ); 
+        $dao->query( $query ); 
+        
+        $result = $dao->getDatabaseResult();
+        if ( $result ) {
+            $row = $result->fetchRow();
+            if ( $row ) {
+                return $row[0];
+            }
+        }
+        return null;
+    }
+
 }
+
 ?>

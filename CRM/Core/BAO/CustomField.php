@@ -142,19 +142,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     public static function getNumValue($fieldId)
     {
         $cvTable = CRM_Core_DAO_CustomValue::getTableName();
-        $queryString = "SELECT count(*) 
-                        FROM   $cvTable 
-                        WHERE  $cvTable.custom_field_id = " .
-                        CRM_Utils_Type::escape($fieldId, 'Integer');
+        $query = "SELECT count(*) 
+                  FROM   $cvTable 
+                  WHERE  $cvTable.custom_field_id = " .
+                  CRM_Utils_Type::escape($fieldId, 'Integer');
 
-        // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
-        // does not work for php4
-        //$row = $crmDAO->getDatabaseResult()->fetchRow();
-        $result = $crmDAO->getDatabaseResult();
-        $row    = $result->fetchRow();
-        return $row[0];
+        return CRM_Core_DAO::singleValueQuery( $query );
     }
     
     /**

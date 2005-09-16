@@ -590,48 +590,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         }
     }
 
-    static function selectFromClause( &$fields, &$select, &$from ) {
-        $custom = array( );
-        $cfIDs  = array( );
-
-        foreach ( $fields as $name => $field ) { 
-            $objName = $field['name']; 
-            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                $cfIDs[] = $cfID;
-            }
-        }
-
-        if ( empty( $cfIDs ) ) {
-            return;
-        }
-
-        $values = array( );
-        $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' . implode( ',', $cfIDs ) . ' ) ';
-
-        $dao =& CRM_Core_DAO::executeQuery( $query );
-        while ( $dao->fetch( ) ) {
-            $values[$dao->id] = array( 'id'      => $dao->id,
-                                       'extends' => 'civicrm_contact',
-                                       'type'    => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) );
-        }
-
-        if ( empty( $values ) ) {
-            return;
-        }
-
-        $index = 1;
-        $s = array( );
-        $f = array( );
-        foreach ( $values as $key => $value ) {
-            $tName = 't' . $index;
-            $s[] = $tName . '.' . $value['type'] . ' as custom_' . $value['id'];
-            $f[] = "LEFT JOIN civicrm_custom_value $tName ON $tName.custom_field_id = " . $value['id'] .
-                " AND $tName.entity_table = 'civicrm_contact' AND $tName.entity_id = civicrm_contact.id ";
-            $index++;
-        }
-        $select = implode( ',', $s );
-        $from   = implode( ' ', $f );
-    }
 
 }
 
