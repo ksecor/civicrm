@@ -109,6 +109,21 @@ define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicr
 define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
 /**
+ * Province availability:
+ *
+ * CiviCRM ships with a set of provinces derived from the ISO 3166-2 standard;
+ * the civicrm_state_province table includes almost 3800 provinces. The
+ * CIVICRM_PROVINCE_LIMIT option selects which countries' provinces are
+ * available to the users of this CiviCRM install. The format of this option
+ * is a space-separated list of country ISO codes (US for United States, PL for
+ * Poland, etc.). If you're not sure what is the code for a given country, you
+ * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
+ * file. The default limits the province list to United States, India and
+ * Poland.
+ */
+define( 'CIVICRM_PROVINCE_LIMIT' , 'US IN PL' );
+
+/**
  * Localisation:
  *
  * Localisation for CiviCRM's user interface is supported via GNU gettext i18n library.

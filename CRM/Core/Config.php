@@ -133,6 +133,12 @@ class CRM_Core_Config {
     public $cleanURL = false;
 
     /**
+     * List of country codes limiting the province list.
+     * @var string
+     */
+    public $provinceLimit = 'US IN PL';
+
+    /**
      * Locale for the application to run with.
      * @var string
      */
@@ -369,6 +375,10 @@ class CRM_Core_Config {
             $this->cleanURL = CIVICRM_CLEANURL;
         }
 
+        if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
+            $this->provinceLimit = CIVICRM_PROVINCE_LIMIT;
+        }
+        
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
         }

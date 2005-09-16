@@ -142,11 +142,12 @@ class CRM_Core_PseudoConstant {
      *
      * Note: any database errors will be trapped by the DAO.
      *
-     * @param array   $var      the associative array we will fill
-     * @param string  $name     the name of the DAO
-     * @param boolean $all      get all objects. default is to get only active ones.
-     * @param string  $retrieve the field that we are interested in (normally name, differs in some objects)
-     * @param string  $filter   the field that we want to filter the result set with
+     * @param array   $var        the associative array we will fill
+     * @param string  $name       the name of the DAO
+     * @param boolean $all        get all objects. default is to get only active ones.
+     * @param string  $retrieve   the field that we are interested in (normally name, differs in some objects)
+     * @param string  $filter     the field that we want to filter the result set with
+     * @param string  $condition  the condition that gets passed to the final query as the WHERE clause
      *
      * @return void
      * @access protected
@@ -262,7 +263,18 @@ class CRM_Core_PseudoConstant {
     public static function &stateProvince($id = false)
     {
         if (!self::$stateProvince) {
-            self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true );
+
+            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            $config =& CRM_Core_Config::singleton();
+            $countryIsoCodes = self::countryIsoCode();
+            $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
+            $limitIds = array();
+            foreach ($limitCodes as $code) {
+                $limitIds[] = array_shift(array_keys($countryIsoCodes, $code));
+            }
+            $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+
+            self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
         }
         if ($id) {
             if (array_key_exists($id, self::$stateProvince)) {
@@ -287,8 +299,18 @@ class CRM_Core_PseudoConstant {
     public static function &stateProvinceAbbreviation($id = false)
     {
         if (!self::$stateProvinceAbbreviation) {
-            self::populate( self::$stateProvinceAbbreviation,
-            'CRM_Core_DAO_StateProvince', true, 'abbreviation');
+
+            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            $config =& CRM_Core_Config::singleton();
+            $countryIsoCodes = self::countryIsoCode();
+            $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
+            $limitIds = array();
+            foreach ($limitCodes as $code) {
+                $limitIds[] = array_shift(array_keys($countryIsoCodes, $code));
+            }
+            $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
+
+            self::populate( self::$stateProvinceAbbreviation, 'CRM_Core_DAO_StateProvince', true, 'abbreviation', 'is_active', $whereClause );
         }
         if ($id) {
             if (array_key_exists($id, self::$stateProvince)) {
