@@ -106,10 +106,22 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 $defaults[$elementName] = CRM_Utils_Array::value( 'default_value', $field );
+                
                 //handle checkboxes default checked
                 if($field['html_type'] == 'CheckBox') {
-                    $defaults[$elementName] = '';                    
-                }
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    
+                    $defaults[$elementName] = array();
+                    $defaultCheckValue = CRM_Utils_Array::value( 'default_value', $field );
+                    $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultCheckValue);
+                    foreach($customOption as $val) {
+                        if ( in_array($val['value'], $checkedValue) ) {
+                            $defaults[$elementName][$val['value']] = 1;
+                        } else {
+                            $defaults[$elementName][$val['value']] = 0;
+                        }
+                    }                            
+                }              
             }
         }
         return $defaults;

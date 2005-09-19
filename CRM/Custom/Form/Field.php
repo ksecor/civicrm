@@ -659,7 +659,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                          }
                      }
                      if ( $customField->html_type == 'CheckBox' &&  isset($params['default_checkbox_option'])) {
-                         $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($params['default_checkbox_option']) );
+                         $tempArray = array_keys($params['default_checkbox_option']);
+                         $defaultArray = array();
+                         foreach ($tempArray as $k => $v) {
+                             if ( $params['option_label'][$v] ) {
+                                 $defaultArray[] = $params['option_label'][$v];
+                             }
+                         }
+                         $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) ;
                      } else {
                          $customField->default_value = $params['option_value'][$params['default_option']];
                      }
