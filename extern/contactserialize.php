@@ -1495,8 +1495,16 @@ function create_contact1($user_name, $first_name, $last_name, $email_address ,$a
 	//$contact->column_fields[title]=$title;
 	$contact['email']=$email_address;
 	$contact['city']=$primary_address_city;
-	
-	//$contact->column_fields[mobile]=$phone_mobile;
+	/*$contact['phone_type']='Mobile';
+	$contact['phone']=$phone_mobile;*/
+    $contact['phone_type']='Home';
+    $contact['phone'] = $home_phone;
+    $contact['street_address'] = $primary_address_street;
+    $contact['country'] = $primary_address_country;
+    $contact['state'] = $primary_address_state;
+    $contact['postal_code']=$primary_address_postalcode;
+
+
 	//$contact->column_fields[reports_to_id] =retrievereportsto($reports_to,$user_id,$account_id);// NOT FIXED IN SAVEENTITY.PHP
 	//$contact['street_address']=$primary_address_street;
 	//$contact['city']=$primary_address_city;
