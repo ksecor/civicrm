@@ -1,4 +1,4 @@
-{if $mysql eq 'modern'}SET NAMES 'utf8';{/if}
+/*!40101 SET NAMES utf8 */;
 
 INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (1000, 1228, "AL", "Alabama"),

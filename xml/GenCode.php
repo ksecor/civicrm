@@ -92,29 +92,23 @@ $config =& CRM_Core_Config::singleton();
 $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
-foreach (array('modern', 'simple') as $mysql) {
+foreach ($locales as $locale) {
 
-    $smarty->assign('mysql', $mysql);
+    $config->lcMessages = $locale;
 
-    foreach ($locales as $locale) {
+    $data = '';
+    $data .= $smarty->fetch('civicrm_country.tpl');
+    $data .= $smarty->fetch('civicrm_state_province.tpl');
+    $data .= $smarty->fetch('civicrm_data.tpl');
 
-        $config->lcMessages = $locale;
+    // write the data file
+    $filename = 'civicrm_data';
+    if ($locale != 'en_US') $filename .= ".$locale";
+    $filename .= '.mysql';
+    $fd = fopen( $sqlCodePath . $filename, "w" );
+    fputs( $fd, $data );
+    fclose( $fd );
 
-        $data = '';
-        $data .= $smarty->fetch('civicrm_country.tpl');
-        $data .= $smarty->fetch('civicrm_state_province.tpl');
-        $data .= $smarty->fetch('civicrm_data.tpl');
-
-        // write the data file
-        $filename = 'civicrm_data';
-        if ($locale != 'en_US') $filename .= ".$locale";
-        if ($mysql == 'simple') $filename .= '.40';
-        $filename .= '.mysql';
-        $fd = fopen( $sqlCodePath . $filename, "w" );
-        fputs( $fd, $data );
-        fclose( $fd );
-
-    }
 }
 
 
