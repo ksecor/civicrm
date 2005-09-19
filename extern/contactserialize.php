@@ -27,6 +27,7 @@ require_once('/home/anil/vtiger_crm/include/nusoap/nusoap.php');
 
 require_once '../modules/config.inc.php';
 require_once 'CRM/Core/Config.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 require_once('api/Contact.php');
 require_once 'api/utils.php';
 session_start();
@@ -99,7 +100,7 @@ $server->wsdl->addComplexType(
 		'contact_name' => array('name'=>'contact_name','type'=>'xsd:string'),
         'id' => array('name'=>'id','type'=>'xsd:string'),
 
-    )
+        )
 );
     
 $server->wsdl->addComplexType(
@@ -1107,21 +1108,21 @@ function contact_by_range($user_name,$from_index,$offset)
                                             "id" => $contact->id,
                                             "email_address" => $contact->location[1]->email[1]->email,
                                             "salutation"=>$contact->contact_type_object->prefix,//$contact[salutation],
-                                            //"title"=>$contact[title],
+                                            "title"=>$contact->job_title,
                                             //"phone_mobile"=>$contact[phone_mobile],
                                             //"reports_to"=>$contact[reports_to_name],
                                             "primary_address_street"=>$contact->location[1]->address->street_address,
                                             "primary_address_city"=>$contact->location[1]->address->city,
-                                            "primary_address_state"=> $contact->location[1]->address->state_province_id,
+                                            //"primary_address_state"=> $contact->location[1]->address->state_province_id,
                                             "primary_address_postalcode"=>$contact->location[1]->address->postal_code,
-                                            "primary_address_country"=>$contact->location[1]->address->country_id,
+                                            //"primary_address_country"=>$contact->location[1]->address->country_id,
                                             "alt_address_city"=>$contact->location[2]->address->city,
                                             "alt_address_street"=>$contact->location[2]->address->street_address,
                                             //"alt_address_city"=>$contact[alt_address_city],
-                                            "alt_address_state"=> $contact->location[2]->address->state_province_id,
+                                            //"alt_address_state"=> $contact->location[2]->address->state_province_id,
                                             "alt_address_postalcode"=>$contact->location[2]->address->postal_code,
-                                            "alt_address_country"=>$contact->location[2]->address->country_id,
-                                            "office_phone"=>$contact->location[2]->phone[1]->phone,
+                                            //"alt_address_country"=>$contact->location[2]->address->country_id,
+                                            "office_phone"=>$contact->location[1]->phone[1]->phone,
                                             "home_phone"=>$contact->location[1]->phone[1]->phone,
                                             "other_phone"=>$contact->location[1]->phone[2]->phone,
                                             //"fax"=>$contact[fax],
@@ -1464,78 +1465,70 @@ function create_contact($user_name, $first_name, $last_name, $email_address ,$ac
 
 function create_contact1($user_name, $first_name, $last_name, $email_address ,$account_name , $salutation , $title, $phone_mobile, $reports_to,$primary_address_street,$primary_address_city,$primary_address_state,$primary_address_postalcode,$primary_address_country,$alt_address_city,$alt_address_street,$alt_address_state,$alt_address_postalcode,$alt_address_country,$office_phone,$home_phone,$other_phone,$fax,$department,$birthdate,$assistant_name,$assistant_phone,$description)
 {
-	//global $adb;
-	//global $current_user;
-	//require_once('modules/Users/User.php');
-	//$seed_user = new User();
-	//$user_id = $seed_user->retrieve_user_id($user_name);
-	//$current_user = $seed_user;
-	//$current_user->retrieve($user_id);
-	//$adb->println("OUTLOOK: The user id is ".$current_user->id);
-	
-	//require_once('modules/Contacts/Contact.php');
-	//$contact = new Contact();
+
     $contact = array();
-	$contact['first_name']=$first_name;
+	$contact['prefix']=$salutation; 
+    $contact['first_name']=$first_name;
 	$contact['last_name']=$last_name;
-		
-	/*if($account_name=='')
-	{
-		$account_name="Vtiger_Crm";
-	}
-	else if($account_name==null)
-	{
-		$account_name="Vtiger_Crm";
-	}*/
-	
-	//$contact->column_fields[account_id]=retrieve_account_id($account_name,$user_id);// NULL value is not supported NEED TO FIX
-	
-	$contact['prefix']=$salutation;
-	// EMAIL IS NOT ADDED
-	//$contact->column_fields[title]=$title;
-	$contact['email']=$email_address;
-	$contact['city']=$primary_address_city;
-	/*$contact['phone_type']='Mobile';
-	$contact['phone']=$phone_mobile;*/
-    $contact['phone_type']='Home';
-    $contact['phone'] = $home_phone;
-    $contact['street_address'] = $primary_address_street;
-    $contact['country'] = $primary_address_country;
-    $contact['state'] = $primary_address_state;
-    $contact['postal_code']=$primary_address_postalcode;
+	$contact['birth_date']=$birthdate;
+    $contact['job_title']=$title;
+    $contact['contact_type']="Individual";
+	$contact['location']=array(
+                               "1"=>array("location_type_id"=>1,
+                                          "is_primary" => 1,
+                                          "address"=>array("street_address"    =>$primary_address_street,
+                                                           "city"              =>$primary_address_city,
+                                                           "postal_code"       =>$primary_address_postalcode,
+                                                           "state_province_id" =>"",
+                                                           "country_id"        =>"",
+                                                           ),
+                                          "phone"  =>array(
+                                                           "1"=>array(
+                                                                      "phone_type"=>"Phone",
+                                                                      "phone"     =>$home_phone
+                                                                      ),
+                                                           "2"=>array(
+                                                                      "phone_type"=>"Mobile",
+                                                                      "phone"     =>$phone_mobile
+                                                                      )
+                                                           
+                                                           ),
+                                          "email" =>array(
+                                                          "1"=>array(
+                                                                     "email"=>$email_address
+                                                                     )
+                                                          )
+                                          ),
 
+                               "2"=>array("location_type_id"=>2,
+                                          
+                                          "address"=>array("street_address"    =>$alt_address_street,
+                                                           "city"              =>$alt_address_city,
+                                                           "postal_code"       =>$alt_address_postalcode,
+                                                           "state_province_id" =>"",
+                                                           "country_id"        =>"",
+                                                           ),
+                                          "phone"  =>array(
+                                                           "1"=>array(
+                                                                      "phone_type"=>"Phone",
+                                                                      "phone"     =>$office_phone
+                                                                      ),
+                                                           "2"=>array(
+                                                                      "phone_type"=>"Fax",
+                                                                      "phone"     =>$fax
+                                                                      )
+                                                           
+                                                           ),
+                                         
+                                          )
 
-	//$contact->column_fields[reports_to_id] =retrievereportsto($reports_to,$user_id,$account_id);// NOT FIXED IN SAVEENTITY.PHP
-	//$contact['street_address']=$primary_address_street;
-	//$contact['city']=$primary_address_city;
-	//$contact['country_id']=$primary_address_country;
-	//$contact['state_province_id']=$primary_address_state;
-	//$contact['postal_code']=$primary_address_postalcode;
+                               );
 
-	//$contact['supplemental_address1']=$alt_address_street;
-	//$contact['supplemental_address2']=$alt_address_city;
-	//$contact['supplemental_address3']=$alt_address_country;
-	//$contact->column_fields[otherstate]=$alt_address_state;
-	//$contact->column_fields[otherzip]=$alt_address_postalcode;
+    //$new=crm_create_contact( &$contact, $contact_type = 'Individual' );
+    $ids=array();
+    $con = CRM_Contact_BAO_Contact::create($contact, $ids,"2");
 
-	//$contact->column_fields[assigned_user_id]=$user_id;
-
-    // new Fields
-    //$contact['phone']= $office_phone;
-    //$contact->column_fields[homephone]= $home_phone;
-    //$contact->column_fields[otherphone]= $other_phone;
-    //$contact->column_fields[fax]= $fax;
-    //$contact->column_fields[department]=$department;
-    //$contact['birth_day']= getDisplayDate($birthdate);
-    //$contact->column_fields[assistant]= $assistant_name;
-    //$contact->column_fields[assistantphone]= $assistant_phone;
-    //$contact->column_fields[description]= $description;
-
-	//$contact->saveentity("Contacts");
-	//$contact->save("Contacts");
-    $new=crm_create_contact( &$contact, $contact_type = 'Individual' );
-
-	return $new->id;
+	return $con->id;
 }
 
 function create_ticket($title,$description,$priority,$severity,$category,$user_name,$parent_id,$product_id)
@@ -1955,8 +1948,10 @@ function update_contact($user_name,$id, $first_name, $last_name, $email_address 
 	$contact->save("Contacts");
 	
 	return "Suceeded";.*/
+    
+    
    
-    $contact = array();
+    /*$contact = array();
     $contactId = $id ;
     
     $contact['id']= $id;
@@ -1964,11 +1959,74 @@ function update_contact($user_name,$id, $first_name, $last_name, $email_address 
 	$contact['last_name']=$last_name;
     $contact['prefix']=$salutation;
 	$contact['city'] = $primary_address_city;
-	$contact['email']=$email_address;
-    crm_update_contact_formatted($contactId, &$contact);
+	$contact['email']=$email_address;*/
+
+    $contactId = $id ;
+    $contact = array();
+	$contact['prefix']=$salutation; 
+    $contact['first_name']=$first_name;
+	$contact['last_name']=$last_name;
+	$contact['birth_date']=$birthdate;
+    $contact['job_title']=$title;
+    $contact['contact_type']="Individual";
+	$contact['location']=array(
+                               "1"=>array("location_type_id"=>1,
+                                          "is_primary" => 1,
+                                          "address"=>array("street_address"    =>$primary_address_street,
+                                                           "city"              =>$primary_address_city,
+                                                           "postal_code"       =>$primary_address_postalcode,
+                                                           "state_province_id" =>"",
+                                                           "country_id"        =>"",
+                                                           ),
+                                          "phone"  =>array(
+                                                           "1"=>array(
+                                                                      "phone_type"=>"Phone",
+                                                                      "phone"     =>$home_phone
+                                                                      ),
+                                                           "2"=>array(
+                                                                      "phone_type"=>"Mobile",
+                                                                      "phone"     =>$phone_mobile
+                                                                      )
+                                                           
+                                                           ),
+                                          "email" =>array(
+                                                          "1"=>array(
+                                                                     "email"=>$email_address
+                                                                     )
+                                                          )
+                                          ),
+
+                               "2"=>array("location_type_id"=>2,
+                                          
+                                          "address"=>array("street_address"    =>$alt_address_street,
+                                                           "city"              =>$alt_address_city,
+                                                           "postal_code"       =>$alt_address_postalcode,
+                                                           "state_province_id" =>"",
+                                                           "country_id"        =>"",
+                                                           ),
+                                          "phone"  =>array(
+                                                           "1"=>array(
+                                                                      "phone_type"=>"Phone",
+                                                                      "phone"     =>$office_phone
+                                                                      ),
+                                                           "2"=>array(
+                                                                      "phone_type"=>"Fax",
+                                                                      "phone"     =>$fax
+                                                                      )
+                                                           
+                                                           ),
+                                         
+                                          )
+
+                               );
+
+    crm_update_contact($contactId, &$contact);
         //$new=crm_create_contact( &$contact, $contact_type = 'Individual' );
 
     //	return $new->id;
+
+    
+
 
 
 
