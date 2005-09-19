@@ -104,7 +104,8 @@ class CRM_Contact_BAO_Query {
      * @param array $returnProperties associative array of values that
      * need to be returned 
      * 
-     * @return void 
+     * @return the sql string for that query (this will most likely
+     * change soon)
      * @access public 
      * @static 
      */ 
@@ -125,9 +126,7 @@ class CRM_Contact_BAO_Query {
             $where = "WHERE $where";
         }
         
-        $sql = "$select $from $where";
-        print_r( $sql );
-        echo "\n\n";
+        return "$select $from $where";
     }
 
     /** 
