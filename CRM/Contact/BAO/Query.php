@@ -103,29 +103,38 @@ class CRM_Contact_BAO_Query {
      * @param array $params           associative array of conditions 
      * @param array $returnProperties associative array of values that
      * need to be returned 
+     * @param boolean $count          do we want just a count returned?
      * 
      * @return the sql string for that query (this will most likely
      * change soon)
      * @access public 
      * @static 
      */ 
-    static function query( $params, $returnProperties ) {
+    static function query( $params = null, $returnProperties = null, $count = false ) {
+        // CRM_Core_Error::debug( 'p', $params );
+        
         $fields =& CRM_Contact_BAO_Contact::importableFields( 'Individual' );
 
         $select = array( 'civicrm_contact.id as contact_id' );
         $tables = array( 'civicrm_contact' => 1 );
-        
+
         self::selectClause( $params,
                             $returnProperties,
                             $fields, $select, $tables );
-        
-        $select = 'SELECT ' . implode( ', ', $select );
+        if ( $count ) {
+            $select = 'SELECT count(DISTINCT civicrm_contact.id)'; 
+        } else {
+            $select = 'SELECT ' . implode( ', ', $select );
+        }
+
         $where  = self::whereClause( $params, $fields, $select, $tables );
         $from   = CRM_Contact_BAO_Query::fromClause( $tables );
         if ( $where ) {
             $where = "WHERE $where";
         }
         
+        // CRM_Core_Error::debug( "$select $from $where", $where );
+
         return "$select $from $where";
     }
 
@@ -306,6 +315,11 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
                                                              civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
                 continue;
+
+            case 'civicrm_note':
+                $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contact' AND
+                                                        civicrm_contact.id = civicrm_note.entity_id ) "; 
+                continue; 
 
             case 'civicrm_activity_history':
                 $from .= " $side JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  

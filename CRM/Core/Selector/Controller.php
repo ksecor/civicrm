@@ -393,10 +393,10 @@ class CRM_Core_Selector_Controller {
         
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
         
-        self::$_template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        self::$_template->assign_by_ref( 'rows'         , $this->_store->get('rows')            );
-        self::$_template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
-        self::$_template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
+        self::$_template->assign( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
+        self::$_template->assign( 'rows'         , $this->_store->get('rows')            );
+        self::$_template->assign( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
+        self::$_template->assign( 'qill'         , $this->_store->get( 'qill' )          );
 
         if ( $this->_embedded ) {
             return;

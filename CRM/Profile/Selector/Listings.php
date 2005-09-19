@@ -70,20 +70,12 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     static $_columnHeaders;
 
     /**
-     * The sql clause we use to get the list of contacts
+     * The sql params we use to get the list of contacts
      *
      * @var string
      * @access protected
      */
-    protected $_clause;
-
-    /**
-     * The tables involved in the query
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_tables;
+    protected $_params;
 
     /**
      * the public visible fields to be shown to the user
@@ -96,16 +88,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     /**
      * Class constructor
      *
-     * @param string clause the query where clause
-     * @param array  tables the tables involved in the query
+     * @param string params the params for the where clause
      *
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$clause, &$tables )
+    function __construct( &$params )
     {
-        $this->_clause = $clause;
-        $this->_tables = $tables;
+        $this->_params = $params;
 
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
@@ -140,7 +130,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         }
         return self::$_links;
     } //end of function
-
 
     /**
      * getter for array of the parameters required for creating pager.
@@ -210,65 +199,39 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function query( $count, $offset, $rowCount ) {
 
-        if ( $count ) {
-            $select = ' SELECT count( DISTINCT( civicrm_contact.id ) ) '; 
-            $from  = CRM_Contact_BAO_Query::fromClause( $this->_tables );
-       } else {
-            $select = "
-SELECT DISTINCT 
-  civicrm_contact.id as contact_id, 
-  civicrm_contact.home_URL            as home_URL      , 
-  civicrm_contact.image_URL           as image_URL     , 
-  civicrm_contact.legal_identifier    as legal_identifier, 
-  civicrm_contact.external_identifier as external_identifier, 
-  civicrm_contact.nick_name           as nick_name     , 
-  civicrm_individual.id               as individual_id , 
-  civicrm_location.id                 as location_id   , 
-  civicrm_address.id                  as address_id    , 
-  civicrm_email.id                    as email_id      , 
-  civicrm_phone.id                    as phone_id      , 
-  civicrm_individual.first_name       as first_name    , 
-  civicrm_individual.middle_name      as middle_name   , 
-  civicrm_individual.last_name        as last_name     , 
-  civicrm_individual.prefix           as prefix        , 
-  civicrm_individual.suffix           as suffix        , 
-  civicrm_address.street_address      as street_address, 
-  civicrm_address.supplemental_address_1 as supplemental_address_1, 
-  civicrm_address.supplemental_address_2 as supplemental_address_2, 
-  civicrm_address.city                as city          , 
-  civicrm_address.postal_code         as postal_code   , 
-  civicrm_address.postal_code_suffix  as postal_code_suffix, 
-  civicrm_state_province.name         as state         , 
-  civicrm_country.name                as country       , 
-  civicrm_email.email                 as email         , 
-  civicrm_phone.phone                 as phone         "; 
-            $tables = array( 'civicrm_individual'     => 1, 
-                             'civicrm_location'       => 1, 
-                             'civicrm_address'        => 1, 
-                             'civicrm_email'          => 1, 
-                             'civicrm_phone'          => 1, 
-                             'civicrm_state_province' => 1, 
-                             'civicrm_country'        => 1, 
-                             ); 
-            $this->_tables = array_merge( $tables, $this->_tables );
-            $from  = CRM_Contact_BAO_Query::fromClause( $this->_tables );
+        $returnProperties = array(
+                                  'home_URL'               => 1,
+                                  'image_URL'              => 1,
+                                  'legal_identifier'       => 1,
+                                  'external_identifier'    => 1,
+                                  'nick_name'              => 1,
+                                  'first_name'             => 1,
+                                  'middle_name'            => 1,
+                                  'last_name'              => 1,
+                                  'prefix'                 => 1,
+                                  'suffix'                 => 1,
+                                  'street_address'         => 1,
+                                  'supplemental_address_1' => 1,
+                                  'supplemental_address_2' => 1,
+                                  'city'                   => 1,
+                                  'postal_code'            => 1,
+                                  'postal_code_suffix'     => 1,
+                                  'state_province_id'      => 1,
+                                  'country_id'             => 1,
+                                  'email'                  => 1,
+                                  'phone'                  => 1,
+                                  'im'                     => 1,
+                                  );
 
-            $customSelect = $customFrom = null;
-            CRM_Core_BAO_CustomGroup::getSelectFromClause( $this->_fields, $customSelect, $customFrom );
-            if ( $customSelect ) {
-                $select .= ", $customSelect ";
-                $from   .= " $customFrom ";
-            }
-        }
+        $sql = CRM_Contact_BAO_Query::query( $this->_params, $returnProperties, $count );
 
-        $where = 'WHERE ' . $this->_clause;
         $order = 'ORDER BY civicrm_contact.sort_name ASC';
 
         $limit = '';
         if ( $rowCount > 0 ) {
             $limit = " LIMIT $offset, $rowCount ";
         }
-        $sql = "$select $from $where $order $limit";
+        $sql = "$sql $order $limit";
 
         if ( $count ) {
             return CRM_Core_DAO::singleValueQuery( $sql );

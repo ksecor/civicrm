@@ -337,7 +337,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $defaults['sort_name'] = CRM_Utils_Array::value( 'sort_name', $this->_formValues );
         foreach (self::$csv as $v) {
             if ( CRM_Utils_Array::value( 'cb_' . $v, $this->_formValues ) && is_array( $this->_formValues['cb_' . $v] ) ) {
-                $defaults[$v] = array_pop( array_keys( $this->_formValues['cb_' . $v] ) );
+                $tmpArray = array_keys( $this->_formValues['cb_' . $v] );
+                $defaults[$v] = array_pop( $tmpArray );
             } else {
                 $defaults[$v] = '';
             }

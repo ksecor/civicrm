@@ -53,6 +53,14 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     protected $_fields;
 
     /**
+     * The input params from the request
+     *
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_params;
+
+    /**
      * extracts the parameters from the request and constructs information for
      * the selector object to do a query
      *
@@ -64,51 +72,20 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
 
-        $where  = array( );
         $criteria = array( );
-        $this->_tables = array( );
+        $this->_params   = array( );
 
-        $where[] = " ( civicrm_contact.contact_type = 'Individual' ) ";
         foreach ( $this->_fields as $key => $field ) {
             $value = CRM_Utils_Request::retrieve( $field['name'], $this, false, null, 'REQUEST' );
             if ( isset( $value ) && $value != null ) {
                 $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
-
-                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {
-                    $params = array( );
-                    $params[$cfID] = $value;
-                    $sql = CRM_Core_BAO_CustomValue::whereClause($params);  
-                    if ( $sql ) { 
-                        $this->_tables['civicrm_custom_value'] = 1; 
-                        $where[] = $sql; 
-                    } 
-                } else {
-                    if ( $field['name'] === 'state_province_id' ) {
-                        if ( is_numeric( $value ) ) {
-                            $states =& CRM_Core_PseudoConstant::stateProvince();
-                            $value  =  $states[$value];
-                        }
-                    } else if ( $field['name'] === 'country_id' ) {
-                        if ( is_numeric( $value ) ) {
-                            $countries =& CRM_Core_PseudoConstant::country( );
-                            $value     =  $countries[$value];
-                        }
-                    }
-                    $value = strtolower( $value );
-                    $where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . addslashes( $value ) . '%"'; 
-
-                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
-                    if ( isset( $tableName ) ) {
-                        $this->_tables[$tableName] = 1; 
-                    }
-                }
+                $this->_params[$field['name']] = $value;
             }
         }
         
         $template = CRM_Core_Smarty::singleton( );
         $template->assign( 'criteria', $criteria );
-        $this->_clause = implode( ' AND ', $where ); 
    }
 
     /** 
@@ -119,7 +96,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $selector =& new CRM_Profile_Selector_Listings( $this->_clause, $this->_tables );
+        $selector =& new CRM_Profile_Selector_Listings( $this->_params );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                         $this->get( CRM_Utils_Sort::SORT_ID  ),
