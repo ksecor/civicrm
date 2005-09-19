@@ -107,8 +107,8 @@
 
     {include file="CRM/pager.tpl" location="bottom"}
     </form>
+    </fieldset>
 {/if}
-</fieldset>
 
 {if $history NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
