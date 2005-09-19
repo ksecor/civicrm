@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-06 12:47+0200\n"
+"POT-Creation-Date: 2005-09-19 11:56+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -35,7 +35,7 @@ msgid "Please enter a valid subject."
 msgstr "Please enter a valid subject."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php
+#: CRM/Activity/Form/Phonecall.php CRM/Profile/Form/Dojo.php
 msgid "Date and Time"
 msgstr "Date and Time"
 
@@ -105,7 +105,8 @@ msgstr "Activity Type"
 #: CRM/Core/DAO/Domain.php CRM/Core/DAO/ImportMapping.php
 #: CRM/Core/DAO/LocationType.php CRM/Core/DAO/Tag.php
 #: CRM/Core/DAO/Validation.php CRM/History/Selector/Activity.php
-#: CRM/Mailing/DAO/BounceType.php templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php
+#: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
 #: templates/CRM/Contact/Page/SavedSearch.tpl
@@ -158,10 +159,11 @@ msgstr "Save"
 #: CRM/History/Form/Activity.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php
 #: CRM/Mailing/Form/Component.php CRM/Mailing/Form/Group.php
-#: CRM/Mailing/Form/Name.php CRM/Mailing/Form/Schedule.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
-#: CRM/Note/Form/Note.php CRM/Profile/Form/Edit.php CRM/Tag/Form/Tag.php
-#: CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: CRM/Mailing/Form/Name.php CRM/Mailing/Form/Retry.php
+#: CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php CRM/Note/Form/Note.php
+#: CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php
+#: CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -182,9 +184,9 @@ msgstr "Delete"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/Domain.php CRM/Core/DAO/ImportMappingField.php
 #: CRM/Core/DAO/ImportMapping.php CRM/Core/DAO/MobileProvider.php
-#: CRM/Core/DAO/Tag.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php
-#: templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Core/DAO/Tag.php CRM/Import/Form/MapField.php
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/DAO/Mailing.php
+#: CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -200,8 +202,8 @@ msgstr "Name"
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php
 #: CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Custom/Form/Field.php
-#: CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php
-#: CRM/Mailing/Form/Name.php
+#: CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php
+#: CRM/Mailing/Form/Component.php CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
 msgstr "Name already exists in Database."
 
@@ -411,6 +413,7 @@ msgid "Suffix"
 msgstr "Suffix"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Import/Base.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Job Title"
 msgstr "Job Title"
 
@@ -483,9 +486,17 @@ msgstr "- select -"
 #: CRM/Contact/Import/Base.php CRM/Contact/Selector.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
 #: CRM/Core/DAO/County.php CRM/Core/DAO/CustomField.php
-#: templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Profile/Form/Dojo.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "Country"
+
+#: CRM/Contact/Form/Email.php CRM/Profile/Form/ForwardMailing.php
+msgid "Email is not valid."
+msgstr "Email is not valid."
+
+#: CRM/Contact/Form/Individual.php CRM/Profile/Form/Dojo.php
+msgid "Date of birth"
+msgstr "Date of birth"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Website"
@@ -509,8 +520,8 @@ msgstr "Relationship Type"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 #: CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php
-#: CRM/Group/Page/Group.php CRM/Profile/Form/Search.php
-#: templates/CRM/Block/Search.tpl
+#: CRM/Group/Page/Group.php CRM/Profile/Form/Dojo.php
+#: CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr "Search"
 
@@ -522,9 +533,18 @@ msgstr "Find..."
 msgid "Street Name"
 msgstr "Street Name"
 
+#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
+msgid " - any state/province - "
+msgstr " - any state/province - "
+
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
+#: CRM/Profile/Form/Dojo.php
 msgid "State/Province"
 msgstr "State/Province"
+
+#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
+msgid " - any country - "
+msgstr " - any country - "
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Import/Base.php
 #: CRM/Core/DAO/Address.php
@@ -547,6 +567,7 @@ msgstr "%1 is not a valid date."
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: CRM/Mailing/Event/BAO/Unsubscribe.php
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -559,6 +580,7 @@ msgstr "Yes"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: CRM/Mailing/Event/BAO/Unsubscribe.php
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -572,6 +594,14 @@ msgstr "No"
 #: CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members: %1"
 msgstr "Add Members: %1"
+
+#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
+msgid " - any group - "
+msgstr " - any group - "
+
+#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
+msgid "Name or email"
+msgstr "Name or email"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -753,6 +783,10 @@ msgstr "New Organization"
 msgid "New Household"
 msgstr "New Household"
 
+#: CRM/Core/Block.php CRM/Core/Invoke.php
+msgid "Send Mailing"
+msgstr "Send Mailing"
+
 #: CRM/Core/DAO/ACLGroupJoin.php CRM/Core/DAO/ACL.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomValue.php
 #: CRM/Core/DAO/EntityTag.php CRM/Core/DAO/Location.php CRM/Core/DAO/Note.php
@@ -921,9 +955,15 @@ msgstr "CiviCRM Profile Field"
 msgid "Import Contacts"
 msgstr "Import Contacts"
 
-#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+#: CRM/Core/Invoke.php CRM/Profile/Form/Dojo.php CRM/Utils/Menu.php
 msgid "Groups"
 msgstr "Groups"
+
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+#: templates/CRM/Profile/Form/ForwardMailing.tpl
+#, fuzzy
+msgid "Forward Mailing"
+msgstr "Forwarded Email"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
@@ -932,6 +972,12 @@ msgstr "Mailings"
 #: CRM/Core/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
 msgstr "Report"
+
+#: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Retry Mailing"
+msgstr "Test Mailing"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -1096,6 +1142,10 @@ msgstr "\"%1 Administrator\" <%2>"
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
 msgstr "Next >>"
+
+#: CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php
+msgid "Send Immediately"
+msgstr "Send Immediately"
 
 #: CRM/Note/Form/Note.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1637,10 +1687,6 @@ msgstr "another email"
 msgid "hide this email"
 msgstr "hide this email"
 
-#: CRM/Contact/Form/Email.php
-msgid "Email is not valid."
-msgstr "Email is not valid."
-
 #: CRM/Contact/Form/GroupContact.php
 msgid "- select group -"
 msgstr "- select group -"
@@ -1684,10 +1730,6 @@ msgstr "Job title"
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
 msgstr "Contact is deceased"
-
-#: CRM/Contact/Form/Individual.php
-msgid "Date of birth"
-msgstr "Date of birth"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -1781,14 +1823,6 @@ msgid "Contact Type(s)"
 msgstr "Contact Type(s)"
 
 #: CRM/Contact/Form/Search/Advanced.php
-msgid " - any state/province - "
-msgstr " - any state/province - "
-
-#: CRM/Contact/Form/Search/Advanced.php
-msgid " - any country - "
-msgstr " - any country - "
-
-#: CRM/Contact/Form/Search/Advanced.php
 msgid "Enter valid Postal Code"
 msgstr "Enter valid Postal Code"
 
@@ -1849,10 +1883,6 @@ msgid "Print"
 msgstr "Print"
 
 #: CRM/Contact/Form/Search.php
-msgid " - any group - "
-msgstr " - any group - "
-
-#: CRM/Contact/Form/Search.php
 msgid "in"
 msgstr "in"
 
@@ -1863,10 +1893,6 @@ msgstr " - any tag - "
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
 msgstr "Tagged"
-
-#: CRM/Contact/Form/Search.php
-msgid "Name or email"
-msgstr "Name or email"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members to A Group"
@@ -2297,9 +2323,29 @@ msgstr "Contact Search"
 msgid "CiviCRM Menu"
 msgstr "CiviCRM Menu"
 
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "CiviMail Menu"
+msgstr "CiviCRM Menu"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "CiviMail"
+msgstr "CiviCRM"
+
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
 msgstr "New Group"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "Browse Sent Mailings"
+msgstr "Send Mailing"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "Process Mailing Queue"
+msgstr "Test Mailing: "
 
 #: CRM/Core/DAO/ACL.php
 msgid "Deny"
@@ -2432,6 +2478,11 @@ msgstr "Attributes"
 #: CRM/Core/DAO/CustomField.php
 msgid "Javascript"
 msgstr "Javascript"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Options Per Line"
+msgstr "Option Label"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
@@ -2682,10 +2733,6 @@ msgid "View Groups"
 msgstr "View Groups"
 
 #: CRM/Core/Invoke.php
-msgid "Send Mailing"
-msgstr "Send Mailing"
-
-#: CRM/Core/Invoke.php
 msgid "Create Profile"
 msgstr "Create Profile"
 
@@ -2862,6 +2909,10 @@ msgid "Data and Input Field Type"
 msgstr "Data and Input Field Type"
 
 #: CRM/Custom/Form/Field.php
+msgid "Number of Options Per Line"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
 msgstr "Is this Field Searchable?"
 
@@ -2886,7 +2937,8 @@ msgid "Please enter 1 or 0 as default value."
 msgstr "Please enter 1 or 0 as default value."
 
 #: CRM/Custom/Form/Field.php
-msgid "The invalid default value for Country Data Type"
+#, fuzzy
+msgid "Invalid default value for country."
 msgstr "The invalid default value for Country Data Type"
 
 #: CRM/Custom/Form/Field.php
@@ -3172,6 +3224,29 @@ msgid "History %%StatusMessage%%"
 msgstr "History %%StatusMessage%%"
 
 #: CRM/Import/Form/MapField.php
+#, fuzzy
+msgid "Mapping Option"
+msgstr "Edit Option"
+
+#: CRM/Import/Form/MapField.php
+#, fuzzy
+msgid "Load Mapping"
+msgstr "Log a Meeting"
+
+#: CRM/Import/Form/MapField.php
+msgid "Save this field mapping"
+msgstr ""
+
+#: CRM/Import/Form/MapField.php
+#, fuzzy
+msgid "Update this field mapping"
+msgstr "hide this email"
+
+#: CRM/Import/Form/MapField.php
+msgid "Save as a new field mapping"
+msgstr ""
+
+#: CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
 msgstr "Mapper for Field %1"
 
@@ -3450,9 +3525,24 @@ msgstr "Mailing Template?"
 msgid "Name Mailing"
 msgstr "Name Mailing"
 
-#: CRM/Mailing/Form/Schedule.php
-msgid "Send Immediately"
-msgstr "Send Immediately"
+#: CRM/Mailing/Form/Retry.php
+#, fuzzy
+msgid "Invalid Mailing ID"
+msgstr "Send Mailing"
+
+#: CRM/Mailing/Form/Retry.php
+#, fuzzy
+msgid "Retry Date"
+msgstr "Reset Date"
+
+#: CRM/Mailing/Form/Retry.php
+#, fuzzy
+msgid "Retry"
+msgstr "Relay"
+
+#: CRM/Mailing/Form/Retry.php
+msgid "Retry scheduled for mailing: %1"
+msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Start date cannot be earlier than the current time."
@@ -3578,6 +3668,11 @@ msgstr "Enable Mailing Component"
 msgid "CiviMail Report: %1"
 msgstr "CiviMail Report: %1"
 
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "Mailings %%StatusMessage%%"
+msgstr "History %%StatusMessage%%"
+
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Name"
 msgstr "Mailing Name"
@@ -3597,6 +3692,11 @@ msgstr "View Mailing Report"
 #: CRM/Mailing/Selector/Browse.php
 msgid "CiviMail Mailings"
 msgstr "CiviMail Mailings"
+
+#: CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "%1 %%StatusMessage%%"
+msgstr "Contact %%StatusMessage%%"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Email Address"
@@ -3661,6 +3761,21 @@ msgstr "Your Note has been saved."
 #: CRM/Profile/Form/Edit.php
 msgid "Thank you. Your contact information has been saved."
 msgstr "Thank you. Your contact information has been saved."
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Invalid form parameters."
+msgstr "Invalid Email address"
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Forward Mailing: %1"
+msgstr "Forwarded Email"
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Email %1"
+msgstr "Email"
 
 #: CRM/Profile/Selector/Listings.php
 msgid "View Notes"
@@ -3788,7 +3903,8 @@ msgstr "Enable CiviCRM Profile Group"
 msgid "Administer CiviCRM"
 msgstr "Administer CiviCRM"
 
-#: CRM/Utils/Menu.php templates/CRM/Tag/Form/Tag.tpl
+#: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
 msgstr "Tags"
 
@@ -5455,10 +5571,6 @@ msgstr ""
 "file that you want ignored."
 
 #: templates/CRM/Import/Form/MapTable.tpl
-msgid "Import Data -&gt; CiviCRM Contact Fields"
-msgstr "Import Data -&gt; CiviCRM Contact Fields"
-
-#: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
 msgstr "Import Data (row %1)"
 
@@ -5767,9 +5879,18 @@ msgstr ""
 msgid "New Mailing Component"
 msgstr "New Mailing Component"
 
+#: templates/CRM/Mailing/Form/Retry.tpl
+#, fuzzy
+msgid "Retry Mailing: %1"
+msgstr "Test Mailing: "
+
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "The test mailing will be sent to "
 msgstr "The test mailing will be sent to "
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid "Settings and Content"
+msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -5866,6 +5987,41 @@ msgstr "Content / Components"
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
 msgstr "Rows per page:"
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"name goes back to the server and gets the next 5 items which match the "
+"prefix."
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"state is a dynamic combo box which also affects the below country box. The "
+"values of the combo box are fetched from the server based on the user's "
+"locale etc"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "country is either dependent on the above or can be independely filled."
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "birth day is a simple date field"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "scheduled date and time is a more complex datetime field"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"we'd like to place this element somewhere in the below list (before/after). "
+"So a clean widget to do it would be awesome."
+msgstr ""
+
+#: templates/CRM/Profile/Form/ForwardMailing.tpl
+msgid "Please enter up to 5 email addresses to receive the mailing."
+msgstr ""
 
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Return to Find People"
@@ -6159,3 +6315,52 @@ msgstr "Volunteer"
 #: xml/templates/civicrm_data.tpl
 msgid "Active volunteers."
 msgstr "Active volunteers."
+
+#: xml/templates/civicrm_data.tpl
+msgid "AOL Terms of Service complaint"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Recipient is on vacation"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Unable to resolve recipient domain"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Unable to deliver to desintation mail server"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "User account is no longer active"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Email address is not valid"
+msgstr "Email is not valid."
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Mail routing error"
+msgstr "Mailing Header"
+
+#: xml/templates/civicrm_data.tpl
+msgid "User inbox is full"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Unable to reach destination mail server"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Message caught by a content filter"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Error in SMTP transaction"
+msgstr ""
+
+#~ msgid "Import Data -&gt; CiviCRM Contact Fields"
+#~ msgstr "Import Data -&gt; CiviCRM Contact Fields"
