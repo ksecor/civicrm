@@ -59,7 +59,9 @@ $tables = orderTables( $tables );
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
-$smarty->assign_by_ref( 'dropOrder', array_reverse( array_keys( $tables ) ) );
+$tmpArray = array_keys( $tables );
+$tmpArray = array_reverse( $tmpArray );
+$smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
 
 echo "Generating sql file\n";

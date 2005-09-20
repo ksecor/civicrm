@@ -94,12 +94,7 @@ SELECT count(DISTINCT civicrm_contact.id)
 WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . 
 " AND $permission";
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query($query);
-        
-        $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
-        return ( $row[0] > 0 ) ? true : false;
+        return ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) ? true : false;
     }
     
     /**
