@@ -535,9 +535,15 @@ div.crm-pager a {
 }
 
 /*
-** Style for hiding  
+** Style for hiding block
 */
 #crm-container .hide-block {
-  display: none
+  display: none;
 }
 
+/*
+** Style for showing block
+*/
+#crm-container .show-block {
+  display: block;
+}
