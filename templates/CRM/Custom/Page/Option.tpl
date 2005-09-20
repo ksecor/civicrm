@@ -4,7 +4,7 @@
 
 {if $customOption}
     <div id="field_page">
-     <p>
+     <p></p>
         <div class="form-item">
         {strip}
         <table>
@@ -34,8 +34,7 @@
         </div>
 
         </div>
-     </p>
-    </div>
+     </div>
 
 {else}
     {if $action eq 16}

@@ -2,6 +2,7 @@
 <legend>
     {ts}Mailing Settings{/ts}
 </legend>
+{strip}
 <table class="form-layout">
 <tr><td class="label">{ts}Mailing Name{/ts}</td><td>{$report.mailing.name}</td></tr>
 <tr><td class="label">{ts}Subject{/ts}</td><td>{$report.mailing.subject}</td></tr>
@@ -14,12 +15,14 @@
 <tr><td class="label">{ts}Open tracking{/ts}</td><td>{if $report.mailing.open_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 <tr><td class="label">{ts}URL Click-through tracking{/ts}</td><td>{if $report.mailing.url_tracking}{ts}On{/ts}{else}{ts}Off{/ts}{/if}</td></tr>
 </table>
+{/strip}
 </fieldset>
 
 <fieldset>
 <legend>{ts}Recipients{/ts}</legend>
 {if $report.group.include|@count}
 <span class="label">{ts}Included{/ts}</span>
+{strip}
 <table>
 {foreach from=$report.group.include item=group}
 <tr class="{cycle values="odd-row,even-row"}">
@@ -33,10 +36,12 @@
 </tr>
 {/foreach}
 </table>
+{/strip}
 {/if}
 
 {if $report.group.exclude|@count}
 <span class="label">{ts}Excluded{/ts}</span>
+{strip}
 <table>
 {foreach from=$report.group.exclude item=group}
 <tr class="{cycle values="odd-row,even-row"}">
@@ -50,6 +55,7 @@
 </tr>
 {/foreach}
 </table>
+{/strip}
 {/if}
 </fieldset>
 
@@ -59,6 +65,7 @@
 <legend>{ts}Delivery Summary{/ts}</legend>
 
 {if $report.jobs|@count > 1}
+{strip}
 <table>
 <tr>
 <th>{ts}Status{/ts}</th>
@@ -120,7 +127,9 @@
 <th>{$report.event_totals.unsubscribe_rate|string_format:"%0.2f"}%</th>
 </tr>
 </table>
+{/strip}
 {else}
+{strip}
 <table class="form-layout">
 <tr><td class="label">{ts}Scheduled Date{/ts}</td><td>{$report.jobs.0.scheduled_date}</td></tr>
 <tr><td class="label">{ts}Start Date{/ts}</td><td>{$report.jobs.0.start_date}</td></tr>
@@ -142,6 +151,7 @@
 <tr><td class="label"><a href="{$report.event_totals.links.clicks}">{ts}Click-throughs{/ts}</a></td><td>{$report.jobs.0.url}</td></tr>
 {/if}
 </table>
+{/strip}
 {/if}
 <a href="{$report.retry}">{ts}Retry Mailing{/ts}</a>
 </fieldset>
@@ -151,6 +161,7 @@
 {if $report.mailing.url_tracking && $report.click_through|@count > 0}
 <fieldset>
 <legend>{ts}Click-through Summary{/ts}</legend>
+{strip}
 <table>
 <tr>
 <th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
@@ -166,18 +177,21 @@
 </tr>
 {/foreach}
 </table>
+{/strip}
 </fieldset>
 {/if}
 
 
 <fieldset>
 <legend>{ts}Content / Components{/ts}</legend>
+{strip}
 <table class="form-layout">
 {foreach from=$report.component item=component}
 <tr><td class="label">{$component.type}</td><td><a
 href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}
 </table>
+{/strip}
 </fieldset>
 
 

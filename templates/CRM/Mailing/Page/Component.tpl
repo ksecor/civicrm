@@ -3,7 +3,7 @@
 {/if}
 
 <div id="ltype">
- <p>
+ <p></p>
     <div class="form-item">
        {strip}
        <table>
@@ -39,5 +39,4 @@
        </div>
        {/if}
     </div>
- </p>
 </div>
