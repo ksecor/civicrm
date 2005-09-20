@@ -370,7 +370,7 @@ function crm_delete_contact( &$contact ) {
  * @access public 
  * 
  */ 
-function crm_contact_groups( &$contact, $status = null ) { 
+ function crm_contact_groups( &$contact, $status = null ) {  
     _crm_initialize( ); 
 
     if ( ! isset( $contact->id ) ) {
@@ -393,4 +393,31 @@ function crm_contact_groups( &$contact, $status = null ) {
     return $groups;
 }
 
+
+/** 
+ * Get all the contact_ids 
+ * 
+ * @return $Contacts Array of contact ids 
+ *  
+ * @access public 
+ * 
+ */ 
+
+
+
+ function crm_get_contacts() {
+
+     
+     $query = 'SELECT * FROM civicrm_contact';
+     $dao =  $dao =& new CRM_Core_DAO( );
+     $dao->query( $query );
+     $Contacts = array();
+     while ( $dao->fetch( ) ) {
+         //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
+         $Contacts[$dao->id]= $dao->id;
+        
+         
+     }
+     return $Contacts;
+ }
 ?>
