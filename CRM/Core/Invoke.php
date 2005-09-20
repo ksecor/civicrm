@@ -526,6 +526,12 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function export( $args ) {
+        $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+        if ($secondArg == 'contact') {
+            $controller =& new CRM_Export_Controller(ts('Export Contacts'));
+            return $controller->run();
+        }
+
         // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
         // This function is a dirty, dirty hack.  It should live in its own
         // file.

@@ -97,6 +97,7 @@ class CRM_Utils_System {
                                                 'uploadfile'         => 'UploadFile',
                                                 'uf'                 => 'UF',
                                                 'otheractivity'      => 'OtherActivity',
+                                                'selectfield'        => 'SelectField',
                                                 );
     
     /**

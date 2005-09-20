@@ -1618,6 +1618,48 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         return $dao->id;
     }
 
+
+    /**
+     * combine all the exportable fields from the lower levels object
+     * 
+     * currentlty we are using importable fields as exportable fields
+     *
+     * @param int $contactType contact Type
+     *
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( $contactType = 'Individual' ) {
+        
+        $exportableFields = array();
+        
+        $exportableFields = array_merge($exportableFields,
+                                               array('' => array( 'title' => ts('-do not export-'))) );
+        
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
+        
+        eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+        
+        $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
+                                        CRM_Core_DAO_Phone::import( ),
+                                        CRM_Core_DAO_Email::import( ),
+                                        CRM_Core_DAO_IM::import( true ));
+        foreach ($locationFields as $key => $field) {
+            $locationFields[$key]['hasLocationType'] = true;
+        }
+        
+        $exportableFields = array_merge($exportableFields, $locationFields);
+        
+        $exportableFields = array_merge($exportableFields,
+                                               CRM_Contact_DAO_Contact::import( ) );
+        $exportableFields = array_merge($exportableFields,
+                                               CRM_Core_DAO_Note::import());
+        $exportableFields = array_merge($exportableFields,
+                                               CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
+        return $exportableFields;
+    }
+
+
 }
 
 ?>
