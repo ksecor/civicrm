@@ -76,7 +76,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 if ( $item['is_primary'] ) {
                     $this->_emails[$email] .= ' (preferred)';
                 }
-                $this->_emails[$email] = htmlentities( $this->_emails[$email] );
+                $this->_emails[$email] = htmlspecialchars( $this->_emails[$email] );
             }
         } else {
             parent::preProcess( );
