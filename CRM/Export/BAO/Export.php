@@ -47,14 +47,17 @@ class CRM_Export_BAO_Export {
      *
      * @access public
      */
-    function exportContacts( ) {
-        $fields      = array();
+    function exportContacts($fields = '') {
+        //$fields      = array();
         $headerRows  = array();
         $returnProperties = array();
 
          //get all the exportable fields for contact types.
-        $fields = CRM_Export_BAO_Export::getExportableFields();
-        
+        if(!$fields) {
+            $fields  = CRM_Export_BAO_Export::getExportableFields();
+            
+        }
+       
         foreach ($fields as $key => $varValue) {
             foreach ($varValue as $key1 => $var) {
                 if ($key1) {
@@ -65,6 +68,8 @@ class CRM_Export_BAO_Export {
                 }
             }
         }
+        
+        // print_r($returnProperties);
         
         $session =& new CRM_Core_Session();
         $contactIds = $session->get('contactIds');
@@ -86,7 +91,7 @@ class CRM_Export_BAO_Export {
             }
         }
         
-        print_r($contactDetails);
+        // print_r($contactDetails);
 
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
         exit();

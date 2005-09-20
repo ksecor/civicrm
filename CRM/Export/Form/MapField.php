@@ -109,8 +109,8 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
-                $this->_mapperFields[$key1] = $value1['title'];
-                $hasLocationTypes[$key1]    = $value1['hasLocationType'];
+                $this->_mapperFields[$key][$key1] = $value1['title'];
+                $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
             }
         }
         
@@ -122,7 +122,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         }
         */
 
-        print_r($this->_mapperFields);
+        // print_r($this->_mapperFields);
 
         // $this->_mapperFields = $fields;
               
@@ -146,29 +146,41 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                 $this->_location_types;
         }
         
-        $sel4 = array( '' => '-do not export-' , 'Individual' => 'Individual', 'Household' => 'Household', 'Organization' => 'Organization');
-        $sel1 = $this->_mapperFields;
-
-        $sel2[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
-        foreach ($this->_location_types as $key => $value) {
-            $sel3['phone'][$key] =& $phoneTypes;
+        $sel1 = array( '' => '-do not export-' , 'Individual' => 'Individual', 'Household' => 'Household', 'Organization' => 'Organization');
+        
+        foreach($sel1 as $key=>$sel ) {
+            if($key) {
+                $sel2[$key] = $this->_mapperFields[$key];
+            }
         }
+        // print_r($sel2);
+        $sel3[''] = null;
+        $phoneTypes = CRM_Core_SelectValues::phoneType();
 
-        foreach ($mapperKeys as $key) {
-            if ($hasLocationTypes[$key]) {
-                $sel2[$key] = $this->_location_types;
-            } else {
-                $sel2[$key] = null;
+        foreach($sel1 as $k=>$sel ) {
+            if($k) {
+                foreach ($this->_location_types as $key => $value) {                        
+                    $sel4[$k]['phone'][$key] =& $phoneTypes;
+                }
+            }
+        }
+        //print_r($hasLocationTypes);
+        foreach($sel1 as $k=>$sel ) {
+            if($k) {
+                foreach ($this->_mapperFields[$k]  as $key=>$value) {
+                    // echo "---------";
+                    if ($hasLocationTypes[$k][$key]) {
+                        // echo "++++++";
+                        $sel3[$k][$key] = $this->_location_types;
+                    } else {
+                        $sel3[$key] = null;
+                    }
+                }
             }
         }
 
-        //print_r($sel1);
-        //echo "<br><br>";
-        // print_r($sel2);
-        //echo "<br><br>";
         // print_r($sel3);
-        
+
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
@@ -181,7 +193,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             //$this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
             //$this->_defaults["mapper[$i]"] = $mapperKeys[$i];
 
-            $sel->setOptions(array($sel1, $sel2, $sel3));
+            $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
         }
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
@@ -212,7 +224,16 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
     public function postProcess( ) {
         // $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        // print_r($mapperKeys);
+        //print_r($mapperKeys);
+        $fields = array();
+        foreach($mapperKeys as $key) {
+            if($key[1]) {
+                $fields[$key[1]]= array();
+            }
+        }
+        $returnFields = array($fields);
+        // print_r($returnFields);
+        CRM_Export_BAO_Export::exportContacts($returnFields);
     }
 
     /**
