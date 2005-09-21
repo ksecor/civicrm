@@ -120,7 +120,7 @@
 	    <dl>
 	    {foreach from=$cd_edit.fields item=element key=field_id}
 	        {assign var="name" value=`$element.name`} 
-	        {assign var="element_name" value='customData_'|cat:$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
+	        {assign var="element_name" value='custom_'|cat:$field_id}
 	        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
 	    {/foreach}
 	    </dl>

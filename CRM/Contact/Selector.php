@@ -490,19 +490,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // Custom Data 
         if ( ! empty( $fv ) ) {
             foreach ($fv as $k => $v) {
-                if ( substr( $k, 0, 10 ) != 'customData' ) {
+                if ( substr( $k, 0, 7 ) != 'custom_' ) {
                     continue;
                 }
                 
                 if ( $v != '' ) {
-                    list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
-                    
-                    // Custom Group DAO
-                    $cgDAO =& new CRM_Core_DAO_CustomGroup( );
-                    $cgDAO->id = $groupId;
-                    if ( $cgDAO->find( true ) ) {
-                        $groupName = $cgDAO->title;
-                    }
+                    list($str, $fieldId) = explode('_', $k, 2);
                     
                     // Custom Field DAO
                     $cfDAO =& new CRM_Core_DAO_CustomField();
@@ -521,7 +514,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $v = '"' . $v . '"';
                     }
 
-                    $qill[] = $cgDAO->title . ': ' . $fieldLabel . " - $v";
+                    $qill[] = $fieldLabel . " - $v";
                 }
             }
         }

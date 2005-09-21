@@ -124,6 +124,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                self::$_fields = array (
 {foreach from=$table.fields item=field}
                                             '{$field.name}' => array( 
+                                                                      'name'      => '{$field.name}',
                                                                       'type'      => {$field.crmType},
 {if $field.title}
                                                                       'title'     => ts('{$field.title}'),

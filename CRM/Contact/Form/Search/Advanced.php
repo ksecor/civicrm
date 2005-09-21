@@ -192,16 +192,16 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             foreach ($group['fields'] as $field) {
 
                 $fieldId = $field['id'];                
-                $elementName = 'customData_' . $groupId . '_' . $fieldId . '_' . $field['name']; 
+                $elementName = 'custom_' . $fieldId;
                 
                 switch($field['html_type']) {
 
                 case 'Text':
                 case 'TextArea':
                     $this->addElement(strtolower($field['html_type']), $elementName, $field['label'],
-                                          $field['attributes']);
+                                      $field['attributes']);
                     break;
-
+                    
                 case 'Select Date':
                     $this->addElement('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ));
                     $this->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field['label'])), 'qfDate');
@@ -220,6 +220,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     }
                     $this->addGroup($choice, $elementName, $field['label']);
                     break;
+
                 case 'Select':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     $selectOption = array();

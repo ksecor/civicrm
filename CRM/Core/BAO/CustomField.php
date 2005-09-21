@@ -227,12 +227,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $key = "custom_$id";
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
             $importableFields[$key] = array(
-                'title' => "$values[1]: $values[0]",
-                'headerPattern' => '/' . preg_quote($regexp, '/') . '/',
-                'import' => 1,
-                'custom_field_id' => $id,
-                'options_per_line' => $values[3]
-            );
+                                            'name' => $key,
+                                            'title' => "$values[1]: $values[0]",
+                                            'headerPattern' => '/' . preg_quote($regexp, '/') . '/',
+                                            'import' => 1,
+                                            'custom_field_id' => $id,
+                                            'options_per_line' => $values[3]
+                                            );
         }
          
         return $importableFields;

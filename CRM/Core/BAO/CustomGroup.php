@@ -731,12 +731,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $cfIDs  = array( );
 
         foreach ( $fields as $name => $field ) { 
-            $objName = $field['name']; 
-            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {
                 $cfIDs[] = $cfID;
             }
         }
-
+        
         if ( empty( $cfIDs ) ) {
             return;
         }

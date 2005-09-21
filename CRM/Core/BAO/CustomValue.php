@@ -315,182 +315,76 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
 
 
     /**
-     * Get the 'SELECT' query for getting contacts id's 
-     * which match all the field_id => value parameters
-     *
-     * For example given the following parameter
-     *       custom_field_1 => value1
-     *       custom_field_2 => value2
-     *
-     * The function returns a select statement which will
-     * return contact id's which have a value1 and value2
-     * for custom_field_1 and custom_field_2
-     *
-     * @param array(ref)  $customField
-     *
-     * @return string $customValueSQL
-     *
-     * @access public
-     * @static
-     */
-    public static function whereClause( &$params )
-    {
-        /*
-        The query below works fine (using self joins)
-
-SELECT t1.entity_id
-
-FROM civicrm_custom_value t1,
-     civicrm_custom_value t2,
-     civicrm_custom_value t3
- 
-WHERE t1.custom_field_id = 1
-  AND t2.custom_field_id = 2
-  AND t3.custom_field_id = 5
- 
-  AND t1.int_data = 1
-  AND t2.char_data LIKE '%Congress%'
-  AND t3.char_data LIKE '%PhD%'
- 
-  AND t1.entity_id = t2.entity_id
-  AND t1.entity_table = t2.entity_table
-  AND t1.entity_id = t3.entity_id
-  AND t1.entity_table = t3.entity_table;
-        */
-
-        if ( ! is_array( $params ) && empty( $params ) ) {
-            return null;
-        }
-
-        $select = ' SELECT t1.entity_id ';
-
-        $where = array( );
-        $from  = array( );
-        $index = 1;
-
-        $keyArray   = array();
-        $valueArray = array();
-        $idx        = array();
-
-        foreach ( $params as $key => $value ) {
-            $keyArray[]       = $key;
-            $valueArray[$key] = $value;
-            $from[]           = "civicrm_custom_value t$index";
-            $where[]          = "t$index.custom_field_id = $key"; 
-            $idx[$key]        = $index++;
-        }
-
-        $clause  = self::getFieldWhereClause( $keyArray, $idx, $valueArray );
-        if ( empty( $clause ) ) {
-            return;
-        }
-
-        if ( $clause ) {
-            $where[] = $clause;            
-        }
-
-        // add equality clause for table entities
-        foreach ($idx as $v) {
-            if ( $v != 1 ) {
-                $where[] = ' t1.entity_id = t' . $v . '.entity_id'; 
-                $where[] = ' t1.entity_table = t' . $v . '.entity_table'; 
-            }
-        }
-        
-        $from  = " FROM "  . implode( ', '   , $from  );
-        $where = " WHERE " . implode( ' AND ', $where );
-
-        // subqueries are supported since MySQL 4.1 version, for 
-        // 4.0 we need to fire the query and send the result
-        $config =& CRM_Core_Config::singleton( );
-        if ($config->mysqlVersion >= 4.1) {
-            return " civicrm_contact.id IN ( $select $from $where ) ";
-        } else {
-            $dao =& new CRM_Core_DAO();
-            $dao->query("$select $from $where");
-            $inVal = array();
-            while ($dao->fetch()) {
-                $inVal[] = $dao->entity_id;
-            }
-            if ( empty( $inVal ) ) {
-                return ' ( 0 ) ';
-            } else {
-                return " civicrm_contact.id IN ( ". implode(', ', $inVal)  . " ) ";
-            } 
-        }
-    }
-
-    /**
      * get the column type from custom_value table
      *
-     * @param id          array of field ids
-     * @param index       array of integer
-     * @param value       array of values
+     * @param values array of customFieldID to value
      *
      * return whereClause string for where clause 
      *
      */
-    static function getFieldWhereClause( $id, $index, $value ) {
+    static function whereClause( $values ) {
         
         $clause = array();
 
-        $fieldIds = implode( ',', $id );
-        $cf =& new CRM_Core_DAO();
+        $fieldIds = implode( ',', array_keys( $values ) );
+        $cf =& CRM_Core_DAO::executeQuery( "SELECT * FROM civicrm_custom_field WHERE id IN ( $fieldIds )" );        
 
-        $sql = 'SELECT * FROM civicrm_custom_field WHERE id IN ( ' . $fieldIds . ' ) ';
-        $cf->query($sql);
-        
         while($cf->fetch()) {
+
+            if ( ! CRM_Utils_Array::value( $cf->id, $values ) ) {
+                continue;
+            }
+
             switch ( $cf->data_type ) {
 
             case 'String':
-                $sql = ' t' . $index[$cf->id] . '.char_data LIKE ';
+                $sql = ' t_' . $cf->id . '.char_data LIKE ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
-                if ( $cf->html_type == 'CheckBox' && is_array( $value[$cf->id] ) ) { 
-                    $clause[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value[$cf->id] ) ) . '"';
+                if ( $cf->html_type == 'CheckBox' && is_array( $values[$cf->id] ) ) { 
+                    $clause[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $values[$cf->id] ) ) . '"';
                 } else {
-                    $clause[] = $sql . "'%" . $value[$cf->id] . "%'";
+                    $clause[] = $sql . "'%" . $values[$cf->id] . "%'";
                 } 
                 continue;
                 
             case 'Int':
             case 'Boolean':                    
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value[$cf->id];
+                $clause[] = ' t_' . $cf->id . '.int_data = ' . $values[$cf->id];
                 continue;
                 
             case 'Float':
-                $clause[] = ' t' . $index[$cf->id] . '.float_data = ' . $value[$cf->id];  
+                $clause[] = ' t_' . $cf->id . '.float_data = ' . $values[$cf->id];  
                 continue;                    
                 
             case 'Money':
-                $clause[] = ' t' . $index[$cf->id] . '.decimal_data = ' . $value[$cf->id];
+                $clause[] = ' t_' . $cf->id . '.decimal_data = ' . $values[$cf->id];
                 continue;
                 
             case 'Memo':
-                $clause[] = ' t' . $index[$cf->id] . '.memo_data LIKE ' . "'%" . $value[$cf->id] . "%'";
+                $clause[] = ' t_' . $cf->id . '.memo_data LIKE ' . "'%" . $values[$cf->id] . "%'";
                 continue;
                 
             case 'Date':
                 continue;
                 
             case 'StateProvince':
-                $value = $value[$cf->id];
+                $value = $values[$cf->id];
                 if ( ! is_numeric( $value ) ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince();
                     $value  = array_search( $value, $states );
                 }
                 if ( $value ) {
-                    $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value;
+                    $clause[] = ' t_' . $cf->id . '.int_data = ' . $value;
                 }
                 continue;
                 
             case 'Country':
-                $value = $value[$cf->id];
+                $value = $values[$cf->id];
                 if ( ! is_numeric( $value ) ) {
                     $states =& CRM_Core_PseudoConstant::countries();
                     $value  = array_search( $value, $countries );
                 }
-                $clause[] = ' t' . $index[$cf->id] . '.int_data = ' . $value;
+                $clause[] = ' t_' . $cf->id . '.int_data = ' . $value;
                 continue;
             }
         }

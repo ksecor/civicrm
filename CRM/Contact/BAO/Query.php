@@ -72,9 +72,10 @@ class CRM_Contact_BAO_Query {
             $this->_returnProperties =& $returnProperties;
         }
 
-        $this->_count         = $count;
-        $this->_sortByChar    = $sortByChar;
-        $this->_groupContacts = $groupContacts;
+        $this->_count             = $count;
+        $this->_includeContactIds = $includeContactIds;
+        $this->_sortByChar        = $sortByChar;
+        $this->_groupContacts     = $groupContacts;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -197,6 +198,9 @@ class CRM_Contact_BAO_Query {
             $this->_where[] = "civicrm_contact.id = $id";
         }
 
+        $cfIDs = array( );
+        // CRM_Core_Error::debug( 'p', $this->_params );
+        // CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ( $this->_fields as $name => $field ) { 
             $value = CRM_Utils_Array::value( $name, $this->_params );
                 
@@ -205,12 +209,7 @@ class CRM_Contact_BAO_Query {
             }
 
             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) { 
-                $params = array( );
-                $params[$cfID] = $value; 
-                $sql = CRM_Core_BAO_CustomValue::whereClause($params);   
-                if ( $sql ) {  
-                    $this->_where[] = $sql;  
-                }  
+                $cfIDs[$cfID] = $value; 
             } else {
                 if ( $field['name'] === 'state_province_id' && is_numeric( $value ) ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince(); 
@@ -228,6 +227,14 @@ class CRM_Contact_BAO_Query {
                     $this->_tables[$tableName] = 1;  
                 }
             }
+
+            if ( ! empty( $cfIDs ) ) {
+                $sql = CRM_Core_BAO_CustomValue::whereClause( $cfIDs );
+                if ( $sql ) {
+                    $this->_where[] = $sql;
+                }
+            }
+
         }
 
         return implode( ' AND ', $this->_where );
@@ -555,11 +562,11 @@ class CRM_Contact_BAO_Query {
     }
 
     function includeContactIDs( ) {
-        $contactIds = array( ); 
-        if ( empty( $this->_params ) ) {
+        if ( ! $this->_includeContactIds || empty( $this->_params ) ) {
             return;
         }
 
+        $contactIds = array( ); 
         foreach ( $this->_params as $name => $value ) { 
             if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) { 
                 $contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
