@@ -105,7 +105,7 @@ class CRM_Profile_Page_Note extends CRM_Core_Page
         $session = CRM_Core_Session::singleton( );
         $session->set( 'userID', $this->_contactId );
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', ts('Contact Notes'), $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack

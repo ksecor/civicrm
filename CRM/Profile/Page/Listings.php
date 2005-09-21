@@ -104,7 +104,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $controller->setEmbedded( true );
         $controller->run( );
 
-        $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', 'Search Profile', CRM_Core_Action::ADD );
+        $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', ts('Search Profile'), CRM_Core_Action::ADD );
         $formController->setEmbedded( true );
         $formController->process( ); 
         $formController->run( ); 

@@ -90,7 +90,7 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
 
         $this->addButtons( array(
                             array( 'type' => 'next',
-                                    'name'  => 'Forward',
+                                    'name'  => ts('Forward'),
                                     'isDefault' => true),
                             array( 'type' => 'cancel',
                                     'name' => ts('Cancel'))));

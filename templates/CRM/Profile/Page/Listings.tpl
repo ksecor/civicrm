@@ -6,10 +6,10 @@
 {if $criteria}
  <p>
  <div id="search-status">
-    Displaying contacts where:
+    {ts}Displaying contacts where:{/ts}
     <ul>
     {foreach from=$criteria key=key item=item}
-      <li>{$key} is &quot;{$item}&quot;</li>
+      <li>{ts 1=$key 2=$item}%1 is "%2"{/ts}</li>
     {/foreach}
     </ul>
  </div>
