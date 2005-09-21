@@ -601,8 +601,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             // do export stuff
             if ( $buttonName == $this->_exportButtonName ) {
-                $output = CRM_Core_Selector_Controller::EXPORT;
-                //return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/export/contact') );
+                //$output = CRM_Core_Selector_Controller::EXPORT;
+                return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/export/contact') );
             } else {
                 $output = CRM_Core_Selector_Controller::SESSION;
             }

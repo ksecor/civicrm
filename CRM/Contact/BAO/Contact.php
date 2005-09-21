@@ -1628,8 +1628,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         
         $exportableFields = array();
         
-        $exportableFields = array_merge($exportableFields,
-                                               array('' => array( 'title' => ts('-do not export-'))) );
+        //$exportableFields = array_merge($exportableFields, array('' => array( 'title' => ts('-do not export-'))) );
         
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
         
