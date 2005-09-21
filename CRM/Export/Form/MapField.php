@@ -105,8 +105,9 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
-        // print_r($fields);
-        
+        //print_r($fields);
+        //print_r(CRM_Contact_BAO_Contact::exportableFields('Household'));
+
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
@@ -153,7 +154,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                 $sel2[$key] = $this->_mapperFields[$key];
             }
         }
-        // print_r($sel2);
+       
         $sel3[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
 
@@ -164,13 +165,13 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                 }
             }
         }
-        //print_r($hasLocationTypes);
+        
         foreach($sel1 as $k=>$sel ) {
             if($k) {
                 foreach ($this->_mapperFields[$k]  as $key=>$value) {
-                    // echo "---------";
+                   
                     if ($hasLocationTypes[$k][$key]) {
-                        // echo "++++++";
+                       
                         $sel3[$k][$key] = $this->_location_types;
                     } else {
                         $sel3[$key] = null;
@@ -222,10 +223,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        // $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
-        $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        //print_r($mapperKeys);
+        
+        $mapperKeys = $_POST['mapper'];
+        //$mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
+        
         $fields = array();
+        //print_r($mapperKeys);
         foreach($mapperKeys as $key) {
             if($key[1]) {
                 $fields[$key[1]]= array();
@@ -234,6 +237,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $returnFields = array($fields);
         // print_r($returnFields);
         CRM_Export_BAO_Export::exportContacts($returnFields);
+        
     }
 
     /**

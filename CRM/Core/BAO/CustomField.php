@@ -175,7 +175,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static function &getFields($contactType = 'Individual' ) {
         
-        if (!(self::$_importFields)) {
+        // if (!(self::$_importFields)) {
+           
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
             $query ="SELECT $cfTable.id, $cfTable.label,
@@ -200,7 +201,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 $id = array_shift($row);
                 self::$_importFields[$id] = $row;
             }
-        }
+            // }
         
         // CRM_Core_Error::debug( 's', self::$_importFields );
         return self::$_importFields;
@@ -217,6 +218,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFieldsForImport($contactType = 'Individual') {
+        
         $fields = self::getFields($contactType);
         
         $importableFields = array();
@@ -232,7 +234,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 'options_per_line' => $values[3]
             );
         }
-
+         
         return $importableFields;
     }
 

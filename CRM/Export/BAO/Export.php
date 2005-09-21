@@ -61,9 +61,9 @@ class CRM_Export_BAO_Export {
         foreach ($fields as $key => $varValue) {
             foreach ($varValue as $key1 => $var) {
                 if ($key1) {
-                    if (!in_array($key1, $headerRows )) { 
+                    /* if (!in_array($key1, $headerRows )) { 
                         $headerRows[] = $key1;
-                    }
+                    }*/
                     $returnProperties[$key1] = 1;
                 }
             }
@@ -87,13 +87,16 @@ class CRM_Export_BAO_Export {
             foreach ($dao as $key => $varValue) {
                 if (array_key_exists($key, $returnProperties)) {
                     $contactDetails[$id][$key] = $varValue;
+                    if (!in_array($key, $headerRows )) { 
+                        $headerRows[] = $key;
+                    }
+                    
                 }
             }
         }
         
-        // print_r($contactDetails);
-
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
+       
         exit();
     }
 
