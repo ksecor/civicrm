@@ -75,7 +75,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @static
      */
     static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
-                                'city', 'state', 'postal_code', 'country',
+                                'city', 'state_province', 'postal_code', 'country',
                                 'email', 'phone', 'status' );
 
     /**
@@ -275,6 +275,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
                 $row[$property] = $result->$property;
             }
+
             if (!empty ($result->postal_code_suffix)) {
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
@@ -578,7 +579,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                 ),
                                         array(
                                               'name'      => ts('State'),
-                                              'sort'      => 'state',
+                                              'sort'      => 'state_province',
                                               'direction' => CRM_Utils_Sort::DONTCARE,
                                              ),
                                         array(

@@ -38,7 +38,7 @@
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td>{$row.street_address|mb_truncate:22:"...":true}</td>
     <td>{$row.city}</td>
-    <td>{$row.state}</td>
+    <td>{$row.state_province}</td>
     <td>{$row.postal_code}</td>
     <td>{$row.country}</td>
     <td>{$row.email|mb_truncate:17:"...":true}</td>

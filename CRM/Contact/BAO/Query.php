@@ -81,7 +81,6 @@ class CRM_Contact_BAO_Query {
         } else {
             $this->_fields = CRM_Contact_BAO_Contact::importableFields( 'All' );
         }
-
         $this->_select = array( );
         $this->_tables = array( );
         $this->_where  = array( );
@@ -321,8 +320,17 @@ class CRM_Contact_BAO_Query {
             }
             
             switch ( $name ) {
+
             case 'civicrm_individual':
                 $from .= " $side JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ";
+                continue;
+
+            case 'civicrm_household':
+                $from .= " $side JOIN civicrm_household ON (civicrm_contact.id = civicrm_household.contact_id) ";
+                continue;
+
+            case 'civicrm_organization':
+                $from .= " $side JOIN civicrm_organization ON (civicrm_contact.id = civicrm_organization.contact_id) ";
                 continue;
 
             case 'civicrm_location':
@@ -548,6 +556,10 @@ class CRM_Contact_BAO_Query {
 
     function includeContactIDs( ) {
         $contactIds = array( ); 
+        if ( empty( $this->_params ) ) {
+            return;
+        }
+
         foreach ( $this->_params as $name => $value ) { 
             if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) { 
                 $contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
@@ -664,8 +676,8 @@ class CRM_Contact_BAO_Query {
                                                     'city'                   => 1, 
                                                     'postal_code'            => 1, 
                                                     'postal_code_suffix'     => 1, 
-                                                    'state_province_id'      => 1, 
-                                                    'country_id'             => 1, 
+                                                    'state_province'         => 1, 
+                                                    'country'                => 1, 
                                                     'email'                  => 1, 
                                                     'phone'                  => 1, 
                                                     'im'                     => 1, 
