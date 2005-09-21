@@ -343,8 +343,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         // contact type
         $str = ts('Contact Type -');
-        if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
-            foreach ($fv['cb_contact_type']  as $k => $v) {
+        if ( CRM_Utils_Array::value( 'contact_type', $fv ) ) {
+            foreach ($fv['contact_type']  as $k => $v) {
                 $str .= ' ' . $k . ' ' . ts('or');
             }
             $str = preg_replace($patternOr, $replacement, $str);
@@ -354,19 +354,19 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $qill[] = $str;
         
         // check for group restriction
-        if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
+        if ( CRM_Utils_Array::value( 'group', $fv ) ) {
             $group =& CRM_Core_PseudoConstant::group();
             $str = ts('Member of Group -');
-            foreach ($fv['cb_group']  as $k => $v) {
+            foreach ($fv['group']  as $k => $v) {
                 $str .= ' "' . $group[$k] . '" ' . ts('or');
             }
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
 
-            if (CRM_Utils_Array::value('cb_group_contact_status', $fv)) {
+            if (CRM_Utils_Array::value('group_contact_status', $fv)) {
                 $str = ts('Group Status -');
                 $gc =& CRM_Core_SelectValues::groupContactStatus();
-                foreach ($fv['cb_group_contact_status'] as $k => $v) {
+                foreach ($fv['group_contact_status'] as $k => $v) {
                     $str .= ' "' . $gc[$k] . '" ' . ts('or');
                 }
                 $str = preg_replace($patternOr, $replacement, $str);
@@ -375,10 +375,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         // check for tag restriction
-        if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
+        if ( CRM_Utils_Array::value( 'tag', $fv ) ) {
             $tag =& CRM_Core_PseudoConstant::tag();
             $str = ts('Tagged as -');
-            foreach ($fv['cb_tag'] as $k => $v) {
+            foreach ($fv['tag'] as $k => $v) {
                 $str .= ' "' . $tag[$k] . '" ' . ts('or');
             }
             $str = preg_replace($patternOr, $replacement, $str);
@@ -432,11 +432,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
 
         // location type processing
-        if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
+        if ( CRM_Utils_Array::value( 'location_type', $fv ) ) {
             $locationType =& CRM_Core_PseudoConstant::locationType();
             $str = ts('Location type -');
-            if (!$fv['cb_location_type']['any']) {
-                foreach ($fv['cb_location_type']  as $k => $v) {
+            if (!$fv['location_type']['any']) {
+                foreach ($fv['location_type']  as $k => $v) {
                     $str .= ' ' . $locationType[$k] . ' ' . ts('or');
                 }
                 $str = preg_replace($patternOr, $replacement, $str);
@@ -447,7 +447,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         // primary location processing
-        if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
+        if ( CRM_Utils_Array::value( 'primary_location', $fv ) ) {
             $qill[] = ts('Primary Location only? - Yes');
         }
         

@@ -307,7 +307,8 @@ class CRM_Core_PseudoConstant {
             $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
             $limitIds = array();
             foreach ($limitCodes as $code) {
-                $limitIds[] = array_shift(array_keys($countryIsoCodes, $code));
+                $tmpArray   = array_keys($countryIsoCodes, $code);
+                $limitIds[] = array_shift($tmpArray);
             }
             $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
 

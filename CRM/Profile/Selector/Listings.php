@@ -161,12 +161,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     function &getColumnHeaders($action = null, $output = null) 
     {
         if ( ! isset( self::$_columnHeaders ) ) {
-            // this is a gross hack, we get the values and use the keys as column headers
-            // $result = $this->query(false, 0, 1);
-            // if ( $result->fetch( ) ) { 
-            // $row = array( );  
-            // CRM_Core_BAO_UFGroup::getValues( $result->contact_id, $this->_fields, $row ); 
-
             self::$_columnHeaders = array( ); 
             foreach ( $this->_fields as $name => $field ) { 
                 self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
@@ -198,32 +192,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int|CRM_CORE_DAO   the total number of contacts or a dao object
      */
     function query( $count, $offset, $rowCount ) {
-
-        $returnProperties = array(
-                                  'home_URL'               => 1,
-                                  'image_URL'              => 1,
-                                  'legal_identifier'       => 1,
-                                  'external_identifier'    => 1,
-                                  'nick_name'              => 1,
-                                  'first_name'             => 1,
-                                  'middle_name'            => 1,
-                                  'last_name'              => 1,
-                                  'prefix'                 => 1,
-                                  'suffix'                 => 1,
-                                  'street_address'         => 1,
-                                  'supplemental_address_1' => 1,
-                                  'supplemental_address_2' => 1,
-                                  'city'                   => 1,
-                                  'postal_code'            => 1,
-                                  'postal_code_suffix'     => 1,
-                                  'state_province_id'      => 1,
-                                  'country_id'             => 1,
-                                  'email'                  => 1,
-                                  'phone'                  => 1,
-                                  'im'                     => 1,
-                                  );
-
-        $sql = CRM_Contact_BAO_Query::query( $this->_params, $returnProperties, $count );
+        $sql = CRM_Contact_BAO_Query::query( $this->_params, null, $count );
 
         $order = 'ORDER BY civicrm_contact.sort_name ASC';
 

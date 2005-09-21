@@ -57,23 +57,23 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     function buildQuickForm( ) 
     {
         // add checkboxes for contact type
-        $cb_contact_type = array( );
+        $contact_type = array( );
         foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
             if ( ! empty( $k ) ) {
-                $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
+                $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
             }
         }
-        $this->addGroup($cb_contact_type, 'cb_contact_type', ts('Contact Type(s)'), '<br />');
+        $this->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
         
         // checkboxes for groups
-        $cb_group = array();
+        $group = array();
         foreach ($this->_group as $groupID => $groupName) {
-            $this->_groupElement =& $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
+            $this->_groupElement =& $this->addElement('checkbox', "group[$groupID]", null, $groupName);
         }
 
         // checkboxes for categories
         foreach ($this->_tag as $tagID => $tagName) {
-            $this->_tagElement =& $this->addElement('checkbox', "cb_tag[$tagID]", null, $tagName);
+            $this->_tagElement =& $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
         }
 
         // add text box for last name, first name, street name, city
@@ -100,15 +100,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addRule('postal_code_high', ts('Enter valid To range of Postal Code'), 'numeric' );
 
         // checkboxes for location type
-        $cb_location_type = array();
+        $location_type = array();
         $locationType = CRM_Core_PseudoConstant::locationType( );
         foreach ($locationType as $locationTypeID => $locationTypeName) {
-            $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
+            $location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
-        $this->addGroup($cb_location_type, 'cb_location_type', ts('Location Types'), '&nbsp;');
+        $this->addGroup($location_type, 'location_type', ts('Location Types'), '&nbsp;');
         
         // checkbox for primary location only
-        $this->addElement('checkbox', 'cb_primary_location', null, ts('Search primary locations only'));        
+        $this->addElement('checkbox', 'primary_location', null, ts('Search primary locations only'));        
 
         // textbox for Activity Type
         $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
@@ -315,8 +315,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
-        if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'cb_group', $this->_formValues ) ) {
-            $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
+        if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
+            $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
 
         $this->postProcessCommon( );

@@ -19,22 +19,22 @@
         </tr>
 		<tr>
             <td><label>{ts}Contact Type(s){/ts}</label><br />
-                {$form.cb_contact_type.html}
+                {$form.contact_type.html}
             </td>
             <td><label>{ts}Group(s){/ts}</label><br />
                 <div class="listing-box">
-                    {foreach from=$form.cb_group item="cb_group_val"}
+                    {foreach from=$form.group item="group_val"}
                     <div class="{cycle values="odd-row,even-row"}">
-                    {$cb_group_val.html}
+                    {$group_val.html}
                     </div>
                     {/foreach}
                 </div>
             </td>
             <td><label>{ts}Tag(s){/ts}</label><br />
                 <div class="listing-box">
-                    {foreach from=$form.cb_tag item="cb_tag_val"} 
+                    {foreach from=$form.tag item="tag_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
-                    {$cb_tag_val.html}
+                    {$tag_val.html}
                     </div>
                     {/foreach}
                 </div>
@@ -66,9 +66,9 @@
         </tr>
 		<tr>
         
-            <td class="label">{$form.cb_location_type.label}</td>
+            <td class="label">{$form.location_type.label}</td>
             <td colspan="3">
-                {$form.cb_location_type.html}
+                {$form.location_type.html}
             </td>
         </tr>
 
@@ -76,7 +76,7 @@
         <tr>
             <td></td>
             <td colspan="2">
-                {$form.cb_primary_location.html}<br />
+                {$form.primary_location.html}<br />
                 <span class="description font-italic">
                 {ts}Ignore any contact locations not marked as primary for this search.{/ts}
                 </span>

@@ -45,13 +45,6 @@ require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
 
-
-
-/**
- * rare case where because of inheritance etc, we actually store a reference
- * to the dao object rather than inherit from it
- */
-
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
     /**
@@ -110,57 +103,11 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         if ( ! $id ) {
             return null;
         }
-        
-        $select = "
-SELECT DISTINCT
-  civicrm_contact.id                  as contact_id               ,
-  civicrm_contact.home_URL            as home_URL                 ,
-  civicrm_contact.image_URL           as image_URL                ,
-  civicrm_contact.legal_identifier    as legal_identifier         ,
-  civicrm_contact.external_identifier as external_identifier      ,
-  civicrm_contact.nick_name           as nick_name                ,
-  civicrm_individual.id               as individual_id            ,
-  civicrm_location.id                 as location_id              ,
-  civicrm_address.id                  as address_id               ,
-  civicrm_email.id                    as email_id                 ,
-  civicrm_phone.id                    as phone_id                 ,
-  civicrm_individual.first_name       as first_name               ,
-  civicrm_individual.middle_name      as middle_name              ,
-  civicrm_individual.last_name        as last_name                ,
-  civicrm_individual.prefix           as prefix                   ,
-  civicrm_individual.suffix           as suffix                   ,
-  civicrm_address.street_address      as street_address           ,
-  civicrm_address.supplemental_address_1 as supplemental_address_1,
-  civicrm_address.supplemental_address_2 as supplemental_address_2,
-  civicrm_address.city                as city                     ,
-  civicrm_address.postal_code         as postal_code              ,
-  civicrm_address.postal_code_suffix  as postal_code_suffix       ,
-  civicrm_state_province.name         as state                    ,
-  civicrm_country.name                as country                  ,
-  civicrm_email.email                 as email                    ,
-  civicrm_phone.phone                 as phone                    ,
-  civicrm_im.name                     as im                       ";
 
-        $tables = array( 'civicrm_individual'     => 1,
-                         'civicrm_location'       => 1,
-                         'civicrm_address'        => 1,
-                         'civicrm_email'          => 1,
-                         'civicrm_phone'          => 1,
-                         'civicrm_im'             => 1,
-                         'civicrm_state_province' => 1,
-                         'civicrm_country'        => 1,
-                         );
-
-        $from = CRM_Contact_BAO_Query::fromClause( $tables );
-        $where = " WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
-        $query = "$select $from $where";
-
-        $dao =& new CRM_Core_DAO( );
-        $dao->query($query);
-        if ( $dao->fetch( ) ) {
-            return $dao;
-        }
-        return null;
+        $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
+        $sql    = CRM_Contact_BAO_Query::query( $params, null, false );
+        $dao    = CRM_Core_DAO::executeQuery( $sql );
+        return ( $dao->fetch( ) ) ? $dao : null;
     }
 
     /**
@@ -183,9 +130,8 @@ SELECT DISTINCT
             $query .= " AND civicrm_contact.id != " . CRM_Utils_Type::escape($id, 'Integer') ;
         }
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query($query);
         $ids = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
             $ids[] = $dao->id;
         }
@@ -218,12 +164,11 @@ WHERE
 ORDER BY
   civicrm_location.is_primary DESC, civicrm_email.is_primary DESC";
         
-        $dao =& new CRM_Core_DAO( );
-        $dao->query($query);
         $emails = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
             $emails[$dao->email] = array( 'locationType' => $dao->locationType,
-                                          'is_primary'      => $dao->is_primary );
+                                          'is_primary'   => $dao->is_primary );
         }
         return $emails;
     }
@@ -247,44 +192,20 @@ ORDER BY
                          $count = false, $includeContactIds = false, $sortByChar = false,
                          $groupContacts = false, $returnQuery = false )
     {
-//         my_print_r($fv, 'FormVal');
-//         my_print_r($offset, 'Offset');
-//         my_print_r($rowCount, 'RowCount');
-//         my_print_r($sort, 'Sort');
-//         my_print_r($count, 'Count');
-//         my_print_r($includeContactIds, 'IncludeContactId');
-//         my_print_r($sortByChar, 'SortByChar');
-//         my_print_r($groupContacts, 'GroupContacts');
-        
-        $config =& CRM_Core_Config::singleton( );
+        $query =& new CRM_Contact_BAO_Query( $fv, null, null,
+                                             $count, $includeContactIds,
+                                             $sortByChar, $groupContacts );
+        list( $select, $from, $where ) = $query->query( );
 
-        $select = $from = $where = $order = $limit = '';
-
-        $tables = array( );
-        if( $count ) {
-            $select = "SELECT count(DISTINCT civicrm_contact.id) ";
-        } else if ( $sortByChar ) {
-            $select = "SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name";
-        } else if ( $groupContacts ) {
-            $select  = "SELECT DISTINCT civicrm_contact.id as id";
-        } else {
-            $select = self::selectClause( $tables );
-
-            if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
-                $select .= ', civicrm_group_contact.status as status';
-            }
-        }
-        $where      = self::whereClause( $fv, $includeContactIds, $tables );
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
         
         if ( empty( $where ) ) {
             $where = " WHERE $permission ";
         } else {
-            $where = " WHERE $where AND $permission ";
+            $where = " $where AND $permission ";
         }
 
-        $from = CRM_Contact_BAO_Query::fromClause( $tables );
-        if (!$count) {
+        if ( ! $count ) {
             if ($sort) {
                 $order = " ORDER BY " . $sort->orderBy(); 
             } else if ($sortByChar) { 
@@ -298,14 +219,13 @@ ORDER BY
         // building the query string
         $query = $select . $from . $where . $order . $limit;
         //echo "<pre>$query</pre>";
-        if ($returnQuery) {
+        if ( $returnQuery ) {
             return $query;
         }
         
         if ( $count ) {
             return CRM_Core_DAO::singleValueQuery( $query );
         }
-        
 
         $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
@@ -1350,10 +1270,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    array('' => array( 'title' => ts('-do not import-'))) );
-            
-             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-            
-            eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+
+            if ( $contactType != 'All' ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
+                eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+            } else {
+                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
+                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
+                    eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$type.'::import( ));');
+                }
+            }
 
             $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                             CRM_Core_DAO_Phone::import( ),
@@ -1369,8 +1295,15 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                                    CRM_Contact_DAO_Contact::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_DAO_Note::import());
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
+            if ( $contactType != 'All' ) { 
+                self::$_importableFields = array_merge(self::$_importableFields,
+                                                       CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
+            } else {
+                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
+                    self::$_importableFields = array_merge(self::$_importableFields, 
+                                                           CRM_Core_BAO_CustomField::getFieldsForImport($type));
+                }
+            }
         }
         return self::$_importableFields;
     }

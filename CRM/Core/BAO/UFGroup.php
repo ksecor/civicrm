@@ -368,38 +368,39 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @access public
      */
     static function getMatchClause( $params, &$tables, $flatten = false ) {
-        if ( $flatten ) {
-            if (is_array($params['location'])) {
-                $params['email'] = array();
-                $params['phone'] = array();
+        if ( $flatten && is_array( $params['location'] ) ) {
+            $params['email'] = array();
+            $params['phone'] = array();
+            $params['im']    = array();
             
-                foreach($params['location'] as $loc) {
-                    foreach (array('email', 'phone') as $key) {
-                        if (is_array($loc[$key])) {
-                            foreach ($loc[$key] as $value) {
-                                if ( ! empty( $value[$key] ) ) {
-                                    $value[$key] = strtolower( $value[$key] );
-                                    $params[$key][] = 
-                                        '"' . addslashes($value[$key]) . '"';
-                                }
+            foreach($params['location'] as $loc) {
+                foreach (array('email', 'phone', 'im') as $key) {
+                    if (is_array($loc[$key])) {
+                        foreach ($loc[$key] as $value) {
+                            if ( ! empty( $value[$key] ) ) {
+                                $value[$key] = strtolower( $value[$key] );
+                                $params[$key][] = 
+                                    '"' . addslashes($value[$key]) . '"';
                             }
                         }
                     }
                 }
+            }
             
-                foreach (array('email', 'phone') as $key) {
-                    if (count($params[$key]) == 0) {
-                        unset($params[$key]);
-                    }
+            foreach (array('email', 'phone', 'im') as $key) {
+                if (count($params[$key]) == 0) {
+                    unset($params[$key]);
                 }
+            }
             
-                foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                        'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+                if ( ! empty( $params['location'][1]['address'][$fld] ) ) {
                     $params[$fld] = $params['location'][1]['address'][$fld];
                 }
             }
         }
-
+        
         if ( ! self::$_matchClause ) {
             $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
@@ -410,35 +411,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
 
-        $where  = array( );
-        foreach ( self::$_matchClause as $field ) {
-            $value = CRM_Utils_Array::value( $field['name'], $params );
-            if ( $value ) {
-                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) { 
-                    $p = array( );
-                    $p[$cfID] = $value;
-                    $sql = CRM_Core_BAO_CustomValue::whereClause($p);   
-                    if ( $sql ) {  
-                        $tables['civicrm_custom_value'] = 1;  
-                        $where[] = $sql;  
-                    }  
-                } else if (is_array($value)) {
-                    $where[] = 'LOWER(' . $field['where'] . ') IN (' . implode(',', $value) . ')';
-                } else {
-                    $value = strtolower( $value );
-                    $where[] = 'LOWER(' . $field['where'] . ') = "' . CRM_Utils_Type::escape( $value, 'String' ) . '"';
-                }
-                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );
-                if ( isset( $tableName ) ) {
-                    $tables[$tableName] = 1;
-                }
-            }
-        }
-        $clause = null;
-        if ( ! empty( $where ) ) {
-            $clause = implode( ' AND ', $where );
-        }
-        return $clause;
+        $cfIDs  = array( );
+
+        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchClause, $tables );
     }
 
     /**

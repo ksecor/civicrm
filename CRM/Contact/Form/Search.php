@@ -224,16 +224,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set the group title
             $groupValues = array( 'id' => $this->_groupID, 'title' => $this->_group[$this->_groupID] );
             $this->assign_by_ref( 'group', $groupValues );
-            $cb_group_contact_status = array();
+            $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {
-                    $cb_group_contact_status[] =
+                    $group_contact_status[] =
                         HTML_QuickForm::createElement('checkbox', $k, null, $v);
                 }
             }
-            $this->addGroup($cb_group_contact_status,
-                            'cb_group_contact_status', ts('Group Status'));
-            $this->addGroupRule('cb_group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
+            $this->addGroup($group_contact_status,
+                            'group_contact_status', ts('Group Status'));
+            $this->addGroupRule('group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
         }
@@ -336,8 +336,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $defaults['sort_name'] = CRM_Utils_Array::value( 'sort_name', $this->_formValues );
         foreach (self::$csv as $v) {
-            if ( CRM_Utils_Array::value( 'cb_' . $v, $this->_formValues ) && is_array( $this->_formValues['cb_' . $v] ) ) {
-                $tmpArray = array_keys( $this->_formValues['cb_' . $v] );
+            if ( CRM_Utils_Array::value( $v, $this->_formValues ) && is_array( $this->_formValues[$v] ) ) {
+                $tmpArray = array_keys( $this->_formValues[$v] );
                 $defaults[$v] = array_pop( $tmpArray );
             } else {
                 $defaults[$v] = '';
@@ -351,7 +351,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( $this->_context === 'smog' ) {
-            $defaults['cb_group_contact_status[Added]'] = true;
+            $defaults['group_contact_status[Added]'] = true;
         }
 
         return $defaults;
@@ -483,8 +483,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['group'] = $this->_groupID;
 
             // add group_contact_status as added if not present
-            if ( ! CRM_Utils_Array::value( 'cb_group_contact_status', $this->_formValues ) ) {
-                $this->_formValues['cb_group_contact_status'] = array( 'Added' => true );
+            if ( ! CRM_Utils_Array::value( 'group_contact_status', $this->_formValues ) ) {
+                $this->_formValues['group_contact_status'] = array( 'Added' => true );
             }
         } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
@@ -506,21 +506,21 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function normalizeFormValues( ) {
         $contactType = CRM_Utils_Array::value( 'contact_type', $this->_formValues );
         if ( $contactType ) {
-            $this->_formValues['cb_contact_type'][$contactType] = 1;
+            unset( $this->_formValues['contact_type'] );
+            $this->_formValues['contact_type'][$contactType] = 1;
         }
-        unset( $this->_formValues['contact_type'] );
 
         $group = CRM_Utils_Array::value( 'group', $this->_formValues );
         if ( $group ) {
-            $this->_formValues['cb_group'][$group] = 1;
+            unset( $this->_formValues['group'] );
+            $this->_formValues['group'][$group] = 1;
         }
-        unset( $this->_formValues['group'] );
 
         $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
         if ( $tag ) {
-            $this->_formValues['cb_tag'][$tag] = 1;
+            unset( $this->_formValues['tag'] );
+            $this->_formValues['tag'][$tag] = 1;
         }
-        unset( $this->_formValues['tag'] );
 
         return;
     }
