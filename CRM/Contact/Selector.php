@@ -263,6 +263,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
+        // CRM_Core_Error::debug( 'p', self::$_properties );
+
         while ($result->fetch()) {
             $row = array();
 
@@ -278,8 +280,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             }
             
             
-            if ($output != CRM_Core_Selector_Controller::EXPORT || $context ==
-            'smog') {
+            if ($output != CRM_Core_Selector_Controller::EXPORT ||
+                $context == 'smog') {
                 if (empty($result->status)) {
                     $row['status'] = ts('Smart');
                 } else {

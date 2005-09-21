@@ -87,6 +87,15 @@ class CRM_Contact_BAO_Query {
         $this->_where  = array( );
     }
 
+    function addSpecialFields( ) {
+        static $special = array( 'contact_type', 'sort_name', 'display_name' );
+        foreach ( $special as $name ) {
+            if ( CRM_Utils_Array::value( $name, $this->_returnProperties ) ) { 
+                $this->_select[] = 'civicrm_contact.' . $name . ' as ' . $name;
+            }
+        }
+    }
+
     /**
      * Given a list of conditions in params and a list of desired
      * return Properties generate the required select and from
@@ -100,6 +109,8 @@ class CRM_Contact_BAO_Query {
     function selectClause( ) {
         $properties = array( );
         $cfIDs      = array( );
+
+        $this->addSpecialFields( );
 
         foreach ($this->_fields as $name => $field) {
             // if we need to get the value for this param or we need all values
@@ -637,13 +648,16 @@ class CRM_Contact_BAO_Query {
                                                     'home_URL'               => 1, 
                                                     'image_URL'              => 1, 
                                                     'legal_identifier'       => 1, 
-                                                    'external_identifier'    => 1, 
+                                                    'external_identifier'    => 1,
+                                                    'contact_type'           => 1,
+                                                    'sort_name'              => 1,
+                                                    'display_name'           => 1,
                                                     'nick_name'              => 1, 
                                                     'first_name'             => 1, 
                                                     'middle_name'            => 1, 
                                                     'last_name'              => 1, 
                                                     'prefix'                 => 1, 
-                                                    'suffix'                 => 1, 
+                                                    'suffix'                 => 1,
                                                     'street_address'         => 1, 
                                                     'supplemental_address_1' => 1, 
                                                     'supplemental_address_2' => 1, 
