@@ -179,7 +179,7 @@ class CRM_Commerce_Donation_Page_DonationPage extends CRM_Core_Page {
      */
     function preview($id)
     {
-        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_Preview', 'Preview Donation Page', $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_Preview', ts('Preview Donation Page'), $action);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/donation', 'action=browse'));
         $controller->set('donationPageId', $id);

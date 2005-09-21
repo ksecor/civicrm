@@ -45,7 +45,7 @@ class CRM_Contact_Page_View_Tag extends CRM_Contact_Page_View {
      * @access public
      */
     function browse( ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', ts('Contact Tags'), $this->_action );
         $controller->setEmbedded( true );
         
         // set the userContext stack

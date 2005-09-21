@@ -104,7 +104,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
     function edit( ) {
        
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', ts('Contact Notes'), $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack

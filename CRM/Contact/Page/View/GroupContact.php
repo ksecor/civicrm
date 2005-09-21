@@ -69,7 +69,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * @access public
      */
     function edit( $groupId = null ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', ts('Contact GroupContacts'), $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack

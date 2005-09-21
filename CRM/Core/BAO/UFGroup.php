@@ -253,7 +253,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             $controller->set( 'gid'     , $group->id );
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
@@ -267,7 +267,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
@@ -295,7 +295,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             if ( $reset ) {
                 $controller->reset( );
             }
@@ -315,7 +315,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
                     $controller->reset( );
                 }
@@ -346,7 +346,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     static function getRegisterHTML( $userID, $action = null ) {
         $session =& CRM_Core_Session::singleton( );
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', 'Registration Form Creator', $action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', ts('Registration Form Creator'), $action );
         $controller->set( 'id'      , $userID );
         $controller->process( );
         $controller->setEmbedded( true );

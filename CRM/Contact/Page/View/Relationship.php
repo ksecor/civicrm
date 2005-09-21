@@ -95,7 +95,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
      * @access public
      */
     function edit( ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Relationship', 'Contact Relationships', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Relationship', ts('Contact Relationships'), $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack

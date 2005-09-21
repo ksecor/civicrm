@@ -64,7 +64,7 @@ class CRM_Contact_Page_View_Phonecall extends CRM_Contact_Page_View
             CRM_Utils_System::redirect($url);
         }
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Phonecall', 'Contact Calls', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Phonecall', ts('Contact Calls'), $this->_action );
         $controller->reset( );
         $controller->setEmbedded( true );
 

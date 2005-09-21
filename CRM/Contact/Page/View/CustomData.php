@@ -98,7 +98,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
 
         $this->assign('editCustomData', $editCustomData);
 
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $this->_action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', ts('Custom Data'), $this->_action);
         $controller->setEmbedded(true);
 
         // set the userContext stack

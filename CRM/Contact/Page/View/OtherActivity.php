@@ -64,7 +64,7 @@ class CRM_Contact_Page_View_OtherActivity extends CRM_Contact_Page_View
             CRM_Utils_System::redirect($url);
         }
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_OtherActivity', 'Contact Other Activity', $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_OtherActivity', ts('Contact Other Activity'), $this->_action );
         $controller->reset( );
         $controller->setEmbedded( true );
 
