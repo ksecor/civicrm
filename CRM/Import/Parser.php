@@ -471,6 +471,30 @@ abstract class CRM_Import_Parser {
         }
     }
 
+    function setActiveFieldRelated( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_related = $elements[$i];
+        }       
+    }
+    
+    function setActiveFieldRelatedContactType( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_relatedContactType = $elements[$i];
+        }
+    }
+    
+    function setActiveFieldRelatedContactDetails( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {            
+            $this->_activeFields[$i]->_relatedContactDetails = $elements[$i];
+        }
+    }
+    
+    function setActiveFieldRelatedContactEmailType( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_relatedContactEmailType = $elements[$i];
+        }        
+    }    
+    
     /**
      * function to format the field values for input to the api
      *
@@ -500,8 +524,29 @@ abstract class CRM_Import_Parser {
                     $params[$this->_activeFields[$i]->_name][] = $value;
                 }
                 if (!isset($params[$this->_activeFields[$i]->_name])) {
-                    $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                    if ( !isset($this->_activeFields[$i]->_related) ) {
+                        $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                    }
                 }
+
+                //relationship values
+                if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
+                    
+                    $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 
+                        $this->_activeFields[$i]->_value;
+                    
+                    if ( !isset($params[$this->_activeFields[$i]->_related]['contact_type']) && !empty($this->_activeFields[$i]->_relatedContactType) ) {
+                        $params[$this->_activeFields[$i]->_related]['contact_type'] = $this->_activeFields[$i]->_relatedContactType;
+                    }
+
+                    if ( $this->_activeFields[$i]->_relatedContactDetails == 'email' && !empty($this->_activeFields[$i]->_value) )  {
+                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
+                        $value = array('email' => $this->_activeFields[$i]->_value,
+                                       'location_type_id' => $this->_activeFields[$i]->_relatedContactEmailType);
+                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
+                    }
+                }
+
             }
         }
         return $params;

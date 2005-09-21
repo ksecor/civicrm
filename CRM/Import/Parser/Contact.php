@@ -46,6 +46,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_mapperKeys;
     protected $_mapperLocType;
     protected $_mapperPhoneType;
+    protected $_mapperRelated;
+    protected $_mapperRelatedContactType;
+    protected $_mapperRelatedContactDetails;
+    protected $_mapperRelatedContactEmailType;
 
     protected $_emailIndex;
     protected $_firstNameIndex;
@@ -69,11 +73,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * class constructor
      */
     function __construct( &$mapperKeys, $mapperLocType = null, 
-                            $mapperPhoneType = null) {
+                          $mapperPhoneType = null, $mapperRelated = null, $mapperRelatedContactType=null,
+                          $mapperRelatedContactDetails = null, $mapperRelatedContactEmailType = null) {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         $this->_mapperLocType =& $mapperLocType;
         $this->_mapperPhoneType =& $mapperPhoneType;
+        $this->_mapperRelated =& $mapperRelated;
+        $this->_mapperRelatedContactType =& $mapperRelatedContactType;
+        $this->_mapperRelatedContactDetails =& $mapperRelatedContactDetails;
+        $this->_mapperRelatedContactEmailType =& $mapperRelatedContactEmailType;
     }
 
     /**
@@ -85,6 +94,22 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function init( ) {
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
 
+        //Relationship importables
+        $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
+        
+        foreach ($relations as $key => $var) {
+            list( $type ) = explode( '_', $key );
+            $relationshipType[$key]['title'] = $var;
+            $relationshipType[$key]['headerPattern'] = '/' . $var . '/';
+            $relationshipType[$key]['import'] = true;
+            $relationshipType[$key]['relationship_type_id'] = $type;
+            $relationshipType[$key]['related'] = true;
+        }
+
+        if ( !empty($relationshipType) ) {
+            $fields = array_merge($fields, array(array('title' => '- related contact info -')) + $relationshipType);
+        }
+
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'], $field['hasLocationType'] );
         }
@@ -94,6 +119,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->setActiveFields( $this->_mapperKeys );
         $this->setActiveFieldLocationTypes( $this->_mapperLocType );
         $this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
+
+        //related info
+        $this->setActiveFieldRelated( $this->_mapperRelated );
+        $this->setActiveFieldRelatedContactType( $this->_mapperRelatedContactType );
+        $this->setActiveFieldRelatedContactDetails( $this->_mapperRelatedContactDetails );
+        $this->setActiveFieldRelatedContactEmailType( $this->_mapperRelatedContactEmailType );
         
         $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
@@ -253,11 +284,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             if (is_array($field)) {
                 foreach ($field as $value) {
                     $break = false;
-                    foreach ($value as $testForEmpty) {
-                        if ($testForEmpty === '' || $testForEmpty == null) {
-                            $break = true;
-                            break;
+                    if ( is_array($value) ) {
+                        foreach ($value as $testForEmpty) {
+                            if ($testForEmpty === '' || $testForEmpty == null) {
+                                $break = true;
+                                break;
+                            }
                         }
+                    } else {
+                        $break = true;
                     }
                     if (! $break) {                        
                         _crm_add_formatted_param($value, $formatted);
@@ -275,6 +310,92 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
+
+        //relationship contact insert
+        foreach ($params as $key => $field) {
+
+            list($id, $first, $second) = explode('_', $key);
+            if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
+                continue;
+            }
+     
+            $formatting = array('contact_type' => $params[$key]['contact_type']);
+
+            $contactFields = null;
+            if ($contactFields == null) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params[$key]['contact_type']) . ".php");
+                eval('$contactFields =& CRM_Contact_DAO_'.$params[$key]['contact_type'].'::import();');
+            }
+
+            foreach ($field as $k => $v) {
+                if ($v == null || $v === '') {
+                    continue;
+                }
+                
+                if (is_array($v)) {
+                    foreach ($v as $value) {
+                        $break = false;
+                        foreach ($value as $testForEmpty) {
+                            if ($testForEmpty === '' || $testForEmpty == null) {
+                                $break = true;
+                                break;
+                            }                        
+                        }
+                        if (! $break) {
+                            _crm_add_formatted_param($value, $formatting);
+                        }
+                    }
+                    continue;
+                }
+            
+                $value = array($k => $v);
+                if (array_key_exists($k, $contactFields)) {
+                    $value['contact_type'] = $params[$key]['contact_type'];
+                }                
+                _crm_add_formatted_param($value, $formatting);
+            }
+
+            $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );            
+            if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
+                foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
+                    $contact_id = $cid;
+                }
+            } else {
+                $contact_id = $relatedNewContact->id;
+            }
+            
+            if ( $params[$key]['contact_type'] == 'Individual' ) {
+                $householdName = $formatting['first_name']." ".$formatting['last_name']."'s home";
+                $householdFormatting = array( 'contact_type' => 'Household', 'household_name' => $householdName );
+                $householdContact = crm_create_contact_formatted( $householdFormatting, $onDuplicate );
+                if ( is_a( $householdContact, CRM_Core_Error ) ) {
+                    foreach ($householdContact->_errors[0]['params'] as $cid) {
+                        $household_id = $cid;
+                    }
+                } else {
+                    $household_id = $householdContact->id;
+                }
+                $relationParams = array();
+                // adding household relationship
+                $relType = '7_'.$second.'_'.$first;
+
+                $relationParams = array('relationship_type_id' => $relType,
+                                        'contact_check'        => array( $contact_id => 1,
+                                                                         $newContact->id => 1)
+                                        );
+                $relationIds = array('contact' => $household_id);
+
+                CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
+            }
+            $relationParams = array();
+            $relationParams = array('relationship_type_id' => $key, 
+                                    'contact_check' => array( $contact_id => 1)
+                                    );
+            
+            $relationIds = array('contact' => $newContact->id);
+            CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
+        }
+
         if ( is_a( $newContact, CRM_Core_Error ) ) 
         {    
             $code = $newContact->_errors[0]['code'];

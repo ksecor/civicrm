@@ -61,7 +61,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function create( &$params, &$ids ) 
     {
-
         $valid = $invalid = $duplicate = $saved = 0;
 
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
@@ -71,7 +70,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             if ( ! $dataExists ) {
                 return null;
             }
-
             
             foreach ( $params['contact_check'] as $key => $value) {
                 $errors = '';
@@ -191,18 +189,19 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @param string $strContact it's  values are 'a or b' if value is 'a' then selected contact is the value of contac_id_a 
      *               for the relationship and if value is 'b' then selected contact is the value of contac_id_b for the relationship
      * @param string $relationshipId the id of the existing relationship if any
+     * @param string $contactType contact type
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType( $contactId, $contactSuffix, $relationshipId )
+    function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, $contactType = null )
     {
         $allRelationshipType = array();
         $relationshipType    = array();
         $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
-
+        
         $otherContactType = null;
         if ( $relationshipId ) {
             $relationship =& new CRM_Contact_DAO_Relationship( );
@@ -216,27 +215,33 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
         }
 
-        $contact     =& new CRM_Contact_BAO_Contact();
-        $contact->id = $contactId;
-        if ( $contact->find(true) ) {
-            foreach ($allRelationshipType as $key => $value) {
-                // the contact type is required or matches
-                if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contact->contact_type ) &&
-                     // the other contact type is required or present or matches
-                     ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
-                    $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
-                } 
-                
-                if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contact->contact_type ) &&
-                     ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
-                    $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
-                }
-            }
-
-            // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
-            $relationshipType = array_unique( $relationshipType );
-            return $relationshipType;
+        if ($contactId) {
+            $contact     =& new CRM_Contact_BAO_Contact();
+            $contact->id = $contactId;
+            if ( $contact->find(true) ) {
+                $contactType = $contact->contact_type;
+            } 
         }
+        
+        foreach ($allRelationshipType as $key => $value) {
+            // the contact type is required or matches
+            if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contactType ) &&
+                 // the other contact type is required or present or matches
+                 ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
+                $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
+            } 
+            
+            if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contactType ) &&
+                 ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
+                $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
+            }
+        }
+        
+        // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
+        $relationshipType = array_unique( $relationshipType );
+        return $relationshipType;
+        //}
+        
         return null;
     }
 

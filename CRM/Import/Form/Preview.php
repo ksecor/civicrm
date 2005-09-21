@@ -37,7 +37,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class previews the uplaoded file and returns summary
+ * This class previews the uploaded file and returns summary
  * statistics
  */
 class CRM_Import_Form_Preview extends CRM_Core_Form {
@@ -82,13 +82,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
                              'downloadErrorRecordsUrl',
-                             'downloadConflictRecordsUrl'
+                             'downloadConflictRecordsUrl',
+                             'related', 'relatedContactDetails', 'relatedContactEmailType'
                     );
                              
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
-                             
     }
 
     /**
@@ -156,23 +156,52 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapperKeys = array();
         $mapperLocTypes = array();
         $mapperPhoneTypes = array();
-        
+        $mapperRelated = array();
+        $mapperRelatedContactType = array();
+        $mapperRelatedContactDetails = array();
+        $mapperRelatedContactEmailType = array();
+
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
-            $mapperLocTypes[$key] = $mapper[$key][1];
-            $mapperPhoneTypes[$key] = $mapper[$key][2];
+            if (is_numeric($mapper[$key][1])) {
+                $mapperLocTypes[$key] = $mapper[$key][1];
+            } else {
+                $mapperLocTypes[$key] = null;
+            }
+            
+            if (!is_numeric($mapper[$key][2])) {
+                $mapperPhoneTypes[$key] = $mapper[$key][2];
+            } else {
+                $mapperPhoneTypes[$key] = null;
+            }
+
+            list($id, $first, $second) = explode('_', $mapper[$key][0]);
+            if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                $relationType =& new CRM_Contact_DAO_RelationshipType();
+                $relationType->id = $id;
+                $relationType->find(true);
+                eval( '$mapperRelatedContactType[$key] = $relationType->contact_type_'.$second.';');
+                $mapperRelated[$key] = $mapper[$key][0];
+                $mapperRelatedContactDetails[$key] = $mapper[$key][1];
+                $mapperRelatedContactEmailType[$key] = $mapper[$key][2];
+            } else {
+                $mapperRelated[$key] = null;
+                $mapperRelatedContactType[$key] = null;
+                $mapperRelatedContactDetails[$key] = null;
+                $mapperRelatedContactEmailType[$key] = null;
+            }
         }
 
         $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
-                                                $mapperPhoneTypes);
+                                                  $mapperPhoneTypes, $mapperRelated, $mapperRelatedContactType,
+                                                  $mapperRelatedContactDetails, $mapperRelatedContactEmailType);
         $parser->run( $fileName, $seperator, 
                       $mapperKeys,
                       $skipColumnHeader,
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
                       $onDuplicate);
-
-
+        
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
         
@@ -180,16 +209,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($newGroup) {
             /* Create a new group */
             $gParams = array(
-                'domain_id'     => CRM_Core_Config::domainID(),
-                'name'          => $newGroupName,
-                'title'         => $newGroupName,
-                'description'   => $newGroupDesc,
-                'is_active'     => true,
-            );
+                             'domain_id'     => CRM_Core_Config::domainID(),
+                             'name'          => $newGroupName,
+                             'title'         => $newGroupName,
+                             'description'   => $newGroupDesc,
+                             'is_active'     => true,
+                             );
             $group =& CRM_Contact_BAO_Group::create($gParams);
             $groups[] = $newGroupId = $group->id;
         }
-
+        
         if(is_array($groups)) {
             $groupAdditions = array();
             foreach ($groups as $groupId) {
@@ -202,27 +231,27 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                     $new = false;
                 }
                 $groupAdditions[] = array(
-                    'name'  => $name,
-                    'added' => $addCount[1],
-                    'notAdded' => $addCount[2],
-                    'new'   => $new
-                );
+                                          'name'  => $name,
+                                          'added' => $addCount[1],
+                                          'notAdded' => $addCount[2],
+                                          'new'   => $new
+                                          );
             }
             $this->set('groupAdditions', $groupAdditions);
         }
-
+        
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
-
+        
         // check if there is any error occured
-
+        
         $errorStack =& CRM_Core_Error::singleton();
         $errors     = $errorStack->getErrors();
-
+        
         $errorMessage = array();
         
         $config =& CRM_Core_Config::singleton( );
-
+        
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
@@ -234,12 +263,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 fwrite($fd, implode('\n', $errorMessage));
             }
             fclose($fd);
-
+            
             $this->set('errorFile', $errorFile);
             $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
         }
-
     }
 
 

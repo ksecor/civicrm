@@ -281,11 +281,32 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         foreach ($this->_location_types as $key => $value) {
             $sel3['phone'][$key] =& $phoneTypes;
         }
+
         foreach ($mapperKeys as $key) {
-            if ($hasLocationTypes[$key]) {
-                $sel2[$key] = $this->_location_types;
+            list($id, $first, $second) = explode('_', $key);
+            if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                $contactRelation =& new CRM_Contact_DAO_RelationshipType();
+                $contactRelation->id = $id;
+                $contactRelation->find(true);
+                eval( '$contactType = $contactRelation->contact_type_'.$second.';');
+                switch($contactType) {
+                case 'Individual':
+                    $sel2[$key] = array('first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'Email');
+                    $sel3[$key]['email'] = $this->_location_types;                        
+                    break;
+                case 'Household':
+                    $sel2[$key] = array('household_name' => 'Household Name');                                            
+                    break;
+                case 'Organization':
+                    $sel2[$key] = array('organization_name' => 'Organization Name');
+                    break;
+                }
             } else {
-                $sel2[$key] = null;
+                if ($hasLocationTypes[$key]) {
+                    $sel2[$key] = $this->_location_types;
+                } else {
+                    $sel2[$key] = null;
+                }
             }
         }
 
@@ -418,21 +439,59 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperLocType      = array();
         $mapperPhoneType    = array();
         
+        // print_r($mapperKeys);
+
         $locations = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
-            $mapperLocType[$i] = $mapperKeys[$i][1];
+            //$mapperLocType[$i] = $mapperKeys[$i][1];
+            
+            if (is_numeric($mapperKeys[$i][1])) {
+                $mapperLocType[$i] = $mapperKeys[$i][1];
+            } else {
+                $mapperLocType[$i] = null;
+            }
+
             $locations[$i]  =   isset($mapperLocType[$i])
                             ?   $this->_location_types[$mapperLocType[$i]]
                             :   null;
 
-            $mapperPhoneType[$i] = $mapperKeys[$i][2];
+            //$mapperPhoneType[$i] = $mapperKeys[$i][2];
+            if ( !is_numeric($mapperKeys[$i][2])) {
+                $mapperPhoneType[$i] = $mapperKeys[$i][2];
+            } else {
+                $mapperPhoneType[$i] = null;
+            }
+
+            //relationship info
+            list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+            if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
+                $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
+                $relatedContactEmailType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
+                $relationType =& new CRM_Contact_DAO_RelationshipType();
+                $relationType->id = $id;
+                $relationType->find(true);
+                eval( '$relatedContactType[$i] = $relationType->contact_type_'.$second.';');
+            } else {
+                $related[$i] = null;
+                $relatedContactType[$i] = null;
+                $relatedContactDetails[$i] = null;
+                $relatedContactEmailType[$i] = null;                
+            }            
         }
+        
         $this->set( 'mapper'    , $mapper     );
         $this->set( 'locations' , $locations  );
         $this->set( 'phones', $mapperPhoneType);
+
+        //relationship info
+        $this->set( 'related'    , $related     );
+        $this->set( 'relatedContactType',$relatedContactType );
+        $this->set( 'relatedContactDetails',$relatedContactDetails );
+        $this->set( 'relatedContactEmailType',$relatedContactEmailType );
         
         $params = $this->controller->exportValues( 'MapField' );
   
@@ -454,9 +513,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $importMappingFields->find();
                 while($importMappingFields->fetch()) {
                     $importMappingFieldsId = $importMappingFields->id;
-
                 }
-
+                
                 $updateImportMappingFields =& new CRM_Core_DAO_ImportMappingField();
                 $updateImportMappingFields->id = $importMappingFields->id;
                 $updateImportMappingFields->import_mapping_id = $params['importMappingId'];
@@ -491,7 +549,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             }
         }
 
-        $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType );
+        $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
+                                                   $related, $relatedContactType, $relatedContactDetails,$relatedContactEmailType  );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         
