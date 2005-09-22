@@ -1,6 +1,9 @@
 {* Export Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
  <div id="map-field">
-    <h4>{ts}Export Data -&gt; CiviCRM Contact Fields{/ts}</h4>
+    <p></p>
+    <div class="font-size11pt label">{ts}Export Data -&gt; CiviCRM Contact Fields{/ts}</div>
+    <br class="spacer"/>
+    {strip}
     <table>
         <tr class="columnheader">
             <th>{ts}Matching CiviCRM Field{/ts}</th>
@@ -28,4 +31,5 @@
            </td>
         </tr>            
     </table>
+    {/strip}
  </div>

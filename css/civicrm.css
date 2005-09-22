@@ -236,6 +236,10 @@ div.spacer {
   font-style: italic
 }
 
+.font-size11pt {
+  font-size: 1.1em;
+}
+
 .font-size12pt {
   font-size: 1.2em;
 }
@@ -390,6 +394,13 @@ div.spacer {
 
 #crm-container #search-status ul, #crm-container td ul {
  margin: 0em 0em 0em -2.0em;
+}
+
+#crm-container #search-status ul li{
+ display: list-item;
+ margin-left: 0.5em;
+ list-style-position: inside;
+ /*margin-left: 40px;*/
 }
 
 div.crm-pager {
