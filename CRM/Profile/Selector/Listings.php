@@ -192,7 +192,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int|CRM_CORE_DAO   the total number of contacts or a dao object
      */
     function query( $count, $offset, $rowCount ) {
-        $sql = CRM_Contact_BAO_Query::query( $this->_params, null, $count );
+        $sql = CRM_Contact_BAO_Query::getQuery( $this->_params, null, $count );
 
         $order = 'ORDER BY civicrm_contact.sort_name ASC';
 

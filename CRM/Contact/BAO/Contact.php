@@ -105,7 +105,7 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         }
 
         $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
-        $sql    = CRM_Contact_BAO_Query::query( $params, null, false );
+        $sql    = CRM_Contact_BAO_Query::getQuery( $params, null, false );
         $dao    = CRM_Core_DAO::executeQuery( $sql );
         return ( $dao->fetch( ) ) ? $dao : null;
     }
@@ -204,6 +204,8 @@ ORDER BY
         } else {
             $where = " $where AND $permission ";
         }
+
+        $order = $limit = '';
 
         if ( ! $count ) {
             if ($sort) {

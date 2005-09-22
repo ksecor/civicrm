@@ -116,8 +116,7 @@ LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id 
                                 civicrm_email.is_primary = 1    )
 SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . $ufmatch->contact_id;
                 
-                $dao =& new CRM_Core_DAO( );
-                $dao->query( $query );
+                CRM_Core_DAO::executeQuery( $query );
             }
         }
     }

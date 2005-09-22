@@ -19,7 +19,8 @@ class TestOfGetContactFlat extends UnitTestCase
         $params = array( 'email' => 'yahoo' );
         $returnProperties = array( 'email' => 1, 'custom_1' => 1, 'custom_3' => 1 );
  
-        CRM_Contact_BAO_Query::query( $params, $returnProperties ); 
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties );
+        print_r( $query->query( ) );
     } 
  
 } 

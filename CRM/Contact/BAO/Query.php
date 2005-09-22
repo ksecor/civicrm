@@ -244,6 +244,14 @@ class CRM_Contact_BAO_Query {
         return $this->_tables;
     }
 
+    static function getQuery( $params = null, $returnProperties = null, $count = false ) {
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null,
+                                            $count, false, 
+                                            false, false );
+        list( $select, $from, $where ) = $query->query( );
+        return "$select $from $where";
+    }
+
     static function getWhereClause( &$params, &$fields, &$tables ) {
         $query = new CRM_Contact_BAO_Query( $params, null, $fields,
                                             false, false,
