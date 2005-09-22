@@ -54,7 +54,7 @@ if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
 fi
 for F in $SRC/sql/civicrm_*.mysql; do 
-	cp $SRC/sql/$F $TRG/sql
+	cp $F $TRG/sql
 done
 
 # delete any setup.sh or setup.php4.sh if present
