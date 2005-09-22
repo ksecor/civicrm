@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfGetContactFlat extends UnitTestCase  
+class TestOfGetContactHierachical extends UnitTestCase  
 { 
  
      
@@ -35,12 +35,12 @@ class TestOfGetContactFlat extends UnitTestCase
                                                                          'im_1'           => 1, 
                                                                          'email_1'        => 1, 
                                                                          ) 
-                                                        )
+                                                        ),
                                    'custom_1' => 1, 'custom_3' => 1
                                    );
  
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties );
-        print_r( $query->query( ) );
+        $query = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties );
+        print_r( $query );
     } 
  
 } 

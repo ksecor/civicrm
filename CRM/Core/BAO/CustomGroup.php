@@ -171,28 +171,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.id = " 
+            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = " 
                       .  CRM_Utils_Type::escape($groupId, 'Integer');
-            $strWhere .= " AND civicrm_custom_group.style = 'Tab'";
-            $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
         } else if ($groupId == 0){
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
-            // for inline we are ordering by - group weight, group title and then field weight
-            $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_group.title, civicrm_custom_field.weight";
-        } else if ($groupId == -1) {
-            // since groupId is -1 we need to show all groups
-            // $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
-            // for inline we are ordering by - group weight, group title and then field weight
-            $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_group.title, civicrm_custom_field.weight";
         }
+        $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_group.title, civicrm_custom_field.weight, civicrm_custom_field.label ";
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
+        
         // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
+        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString );
 
         // process records
         while($crmDAO->fetch()) {

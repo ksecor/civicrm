@@ -173,9 +173,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      */
     static function formRule( &$fields ) {
 
+        $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
+        $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
         if (CRM_Core_Action::ADD && $fields['optionId'] == '') {
-            $optionLabel = $fields['label'];
-            $optionValue = $fields['value'];
             $fieldId = $fields['fieldId'];
             
             //check label duplicates within a custom field
@@ -195,10 +195,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         //capture duplicate entries while updating Custom Options
         if (CRM_Core_Action::UPDATE) {
 
-            $optionLabel = $fields['label'];
-            $optionValue = $fields['value'];
-            $optionId = $fields['optionId'];
-            $fieldId = $fields['fieldId'];
+            $optionId = CRM_Utils_Type::escape( $fields['optionId'], 'Integer' );
+            $fieldId  = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
 
             //check label duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND label = '$optionLabel'";

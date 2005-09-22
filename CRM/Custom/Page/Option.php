@@ -127,7 +127,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         
         // fkey is fid
         $customOptionBAO->custom_field_id = $this->_fid;
-        $customOptionBAO->orderBy('weight');
+        $customOptionBAO->orderBy('weight, label');
         $customOptionBAO->find();
         
         //get the default value from custom fields

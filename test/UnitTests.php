@@ -20,7 +20,8 @@ class UnitTests extends GroupTest {
         // contact api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM369.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM2474.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );

@@ -175,8 +175,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static function &getFields($contactType = 'Individual' ) {
         
-        // if (!(self::$_importFields)) {
-           
+        if ( ! self::$_importFields || ! CRM_Utils_Array::value( $contactType, self::$_importFields ) ) { 
+            
+            if ( ! self::$_importFields ) {
+                self::$_importFields = array( );
+            }
+
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
             $query ="SELECT $cfTable.id, $cfTable.label,
@@ -189,22 +193,25 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      AND   $cgTable.is_active = 1
                      AND   $cgTable.extends IN 
                             ('".$contactType."', 'Contact')
-                     ORDER BY $cgTable.weight, $cgTable.id,
-                              $cfTable.weight, $cfTable.id";
+                     ORDER BY $cgTable.weight, $cgTable.title,
+                              $cfTable.weight, $cfTable.label";
                  
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
             $result = $crmDAO->getDatabaseResult();
             self::$_importFields = array();
         
+            $fields = array( );
             while (($row = $result->fetchRow()) != null) {
                 $id = array_shift($row);
-                self::$_importFields[$id] = $row;
+                $fields[$id] = $row;
             }
-            // }
+
+            self::$_importFields[$contactType] = $fields;
+        }
         
         // CRM_Core_Error::debug( 's', self::$_importFields );
-        return self::$_importFields;
+        return self::$_importFields[$contactType];
     }
 
     /**
@@ -218,7 +225,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFieldsForImport($contactType = 'Individual') {
-        
         $fields = self::getFields($contactType);
         
         $importableFields = array();

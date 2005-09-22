@@ -126,7 +126,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         
         // fkey is gid
         $customFieldBAO->custom_group_id = $this->_gid;
-        $customFieldBAO->orderBy('weight');
+        $customFieldBAO->orderBy('weight, label');
         $customFieldBAO->find();
        
         while ($customFieldBAO->fetch()) {

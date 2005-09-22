@@ -130,12 +130,54 @@ class CRM_Contact_BAO_Query {
             }
         }
 
+        // check if location is present in return Properties and if so, is it an
+        // array
+        if ( CRM_Utils_Array::value( 'location', $this->_returnProperties ) &&
+             is_array( $this->_returnProperties['location'] ) ) {
+            $this->addHierarchicalElements( );
+        }
+
         if ( ! empty( $cfIDs ) ) {
             $customSelect = $customFrom = null;
             CRM_Core_BAO_CustomGroup::selectFromClause( $cfIDs, $customSelect, $customFrom ); 
             if ( $customSelect ) {
                 $this->_select[] = $customSelect;
                 $this->_tables['civicrm_custom_value'] = $customFrom;
+            }
+        }
+    }
+
+    function addHierarchicalElements( ) {
+        if ( ! CRM_Utils_Array::value( 'location', $this->_returnProperties ) ) {
+            return;
+        }
+        if ( ! is_array( $this->_returnProperties['location'] ) ) {
+            return;
+        }
+
+        $locationTypes = CRM_Core_PseudoConstant::locationType( );
+        $processed     = array( );
+        foreach ( $this->_returnProperties['location'] as $name => $elements ) {
+            $locationTypeId = array_search( $name, $locationTypes );
+            if ( $locationTypeId === false ) {
+                continue;
+            }
+
+            $lName = 'location_' . $name;
+            $this->_tables[ 'civicrm_location_' . $name ] = "LEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND civicrm_contact.id = $lName.entity_id AND $lName.location_type_id = $locationTypeId )";
+            foreach ( $elements as $elementName => $dontCare ) {
+                $field = CRM_Utils_Array::value( $elementName, $this->_fields );
+                if ( $field && isset( $field['where'] ) ) {
+                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+                    $tName = substr( $tableName, 8 ) . '_' . $name;
+                    if ( isset( $tableName ) ) {  
+                        $this->_select[] = "$tName.$fieldName as $tName_$fieldName";
+                        if ( ! CRM_Utils_Array::value( $tName, $processed ) ) {
+                            $processed[$tName] = 1;
+                            $this->_tables[$tName] = "LEFT JOIN $tableName $tName ON $lName.id = $tName.location_id";
+                        }
+                    }
+                }
             }
         }
     }

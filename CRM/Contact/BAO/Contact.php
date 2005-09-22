@@ -1,39 +1,39 @@
 <?php
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 1.1                                                |
- +--------------------------------------------------------------------+
- | Copyright (c) 2005 Social Source Foundation                        |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
- |                                                                    |
- | You should have received a copy of the Affero General Public       |
- | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
- | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
- +--------------------------------------------------------------------+
-*/
+  /*
+   +--------------------------------------------------------------------+
+   | CiviCRM version 1.1                                                |
+   +--------------------------------------------------------------------+
+   | Copyright (c) 2005 Social Source Foundation                        |
+   +--------------------------------------------------------------------+
+   | This file is a part of CiviCRM.                                    |
+   |                                                                    |
+   | CiviCRM is free software; you can copy, modify, and distribute it  |
+   | under the terms of the Affero General Public License Version 1,    |
+   | March 2002.                                                        |
+   |                                                                    |
+   | CiviCRM is distributed in the hope that it will be useful, but     |
+   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+   | See the Affero General Public License for more details.            |
+   |                                                                    |
+   | You should have received a copy of the Affero General Public       |
+   | License along with this program; if not, contact the Social Source |
+   | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
+   | questions about the Affero General Public License or the licensing |
+   | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
+   | at http://www.openngo.org/faqs/licensing.html                      |
+   +--------------------------------------------------------------------+
+  */
 
-/**
- *
- *
- * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Social Source Foundation (c) 2005
- * $Id$
- *
- */
+  /**
+   *
+   *
+   * @package CRM
+   * @author Donald A. Lobo <lobo@yahoo.com>
+   * @copyright Social Source Foundation (c) 2005
+   * $Id$
+   *
+   */
 
 require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Form.php';
@@ -85,7 +85,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 SELECT count(DISTINCT civicrm_contact.id) 
        $from
 WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . 
-" AND $permission";
+            " AND $permission";
 
         return ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) ? true : false;
     }
@@ -255,8 +255,7 @@ ORDER BY
      * @access public
      * @static
      */
-    static function add(&$params, &$ids)
-    {
+    static function add(&$params, &$ids) {
         $contact =& new CRM_Contact_BAO_Contact();
         
         $contact->copyValues($params);
@@ -411,73 +410,73 @@ ORDER BY
      * @static
      */
     static function create(&$params, &$ids, $maxLocationBlocks)
-    {
-        CRM_Core_DAO::transaction('BEGIN');
+        {
+            CRM_Core_DAO::transaction('BEGIN');
         
-        $contact = self::add($params, $ids);
+            $contact = self::add($params, $ids);
 
-        $params['contact_id'] = $contact->id;
+            $params['contact_id'] = $contact->id;
 
-        // invoke the add operator on the contact_type class
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
-        eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
+            // invoke the add operator on the contact_type class
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
+            eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
-        $location = array();
-        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
-        }
-        $contact->location = $location;
+            $location = array();
+            for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
+                $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
+            }
+            $contact->location = $location;
 	
-        // add notes
-        if ( CRM_Utils_Array::value( 'note', $params ) ) {
-            if (is_array($params['note'])) {
-                foreach ($params['note'] as $note) {  
-                    $noteParams = array(
-                                        'entity_id'     => $contact->id,
-                                        'entity_table'  => 'civicrm_contact',
-                                        'note'          => $note['note']
-                                        );
-                    CRM_Core_BAO_Note::add($noteParams);
-                }
-            } else {
+            // add notes
+            if ( CRM_Utils_Array::value( 'note', $params ) ) {
+                if (is_array($params['note'])) {
+                    foreach ($params['note'] as $note) {  
+                        $noteParams = array(
+                                            'entity_id'     => $contact->id,
+                                            'entity_table'  => 'civicrm_contact',
+                                            'note'          => $note['note']
+                                            );
+                        CRM_Core_BAO_Note::add($noteParams);
+                    }
+                } else {
                     $noteParams = array(
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
                                         'note'          => $params['note']
                                         );
                     CRM_Core_BAO_Note::add($noteParams);
+                }
             }
-        }
-        // update the UF email if that has changed
-        CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
+            // update the UF email if that has changed
+            CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
 
 
-        // add custom field values
-        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                    'entity_table' => 'civicrm_contact',
-                    'entity_id' => $contact->id,
-                    'value' => $customValue['value'],
-                    'type' => $customValue['type'],
-                    'custom_field_id' => $customValue['custom_field_id'],
-                );
+            // add custom field values
+            if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+                foreach ($params['custom'] as $customValue) {
+                    $cvParams = array(
+                                      'entity_table' => 'civicrm_contact',
+                                      'entity_id' => $contact->id,
+                                      'value' => $customValue['value'],
+                                      'type' => $customValue['type'],
+                                      'custom_field_id' => $customValue['custom_field_id'],
+                                      );
                 
-                CRM_Core_BAO_CustomValue::create($cvParams);
+                    CRM_Core_BAO_CustomValue::create($cvParams);
+                }
             }
+        
+            $subscriptionParams = array('contact_id' => $contact->id,
+                                        'status' => 'Added',
+                                        'method' => 'Admin');
+            CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
+
+            CRM_Core_DAO::transaction('COMMIT');
+        
+            $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
+
+            return $contact;
         }
-        
-        $subscriptionParams = array('contact_id' => $contact->id,
-                                    'status' => 'Added',
-                                    'method' => 'Admin');
-        CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
-
-        CRM_Core_DAO::transaction('COMMIT');
-        
-        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
-
-        return $contact;
-    }
 
     /**
      * Get the display name and image of a contact
@@ -540,8 +539,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
             if (is_array($defaults['birth_date'])) {
                 $defaults['birth_date'] = CRM_Utils_Date::format( 
-                                            $defaults['birth_date'], '-' 
-                                        );
+                                                                 $defaults['birth_date'], '-' 
+                                                                 );
             }
         } 
 
@@ -633,7 +632,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
         $locParams = $params + array('entity_id' => $params['contact_id'],
-                'entity_table' => self::getTableName());
+                                     'entity_table' => self::getTableName());
         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
@@ -875,8 +874,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * The ordering is important, since currently we do not have a weight
      * scheme. Adding weight is super important and should be done in the
      * next week or so, before this can be called complete.
-     * @param int $contactType contact Type
      *
+     * @param int $contactType contact Type
      * @return array array of importable Fields
      * @access public
      */
@@ -885,20 +884,20 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         // if the importableFields are once set then they do not
         // allow to set with different contactTypes
 
-        //if ( ! self::$_importableFields ) {
+        if ( ! self::$_importableFields || ! CRM_Utils_Array::value( $contactType, self::$_importableFields ) ) {
+            if ( ! self::$_importableFields ) {
+                self::$_importableFields = array();
+            }
 
-            self::$_importableFields = array();
-            
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   array('' => array( 'title' => ts('-do not import-'))) );
+            $fields = array( '' => array( 'title' => ts('-do not import-') ) );
 
             if ( $contactType != 'All' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-                eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+                eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::import( ));');
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
                     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
-                    eval('self::$_importableFields = array_merge(self::$_importableFields, CRM_Contact_DAO_'.$type.'::import( ));');
+                    eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
                 }
             }
 
@@ -910,23 +909,25 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 $locationFields[$key]['hasLocationType'] = true;
             }
 
-            self::$_importableFields = array_merge(self::$_importableFields, $locationFields);
+            $fields = array_merge($fields, $locationFields);
 
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Contact::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Core_DAO_Note::import());
+            $fields = array_merge($fields,
+                                  CRM_Contact_DAO_Contact::import( ) );
+            $fields = array_merge($fields,
+                                  CRM_Core_DAO_Note::import());
             if ( $contactType != 'All' ) { 
-                self::$_importableFields = array_merge(self::$_importableFields,
-                                                       CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
+                $fields = array_merge($fields,
+                                      CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
-                    self::$_importableFields = array_merge(self::$_importableFields, 
-                                                           CRM_Core_BAO_CustomField::getFieldsForImport($type));
+                    $fields = array_merge($fields, 
+                                          CRM_Core_BAO_CustomField::getFieldsForImport($type));
                 }
             }
-        //}
-        return self::$_importableFields;
+
+            self::$_importableFields[$contactType] = $fields;
+        }
+        return self::$_importableFields[$contactType];
     }
 
     /**
@@ -938,29 +939,29 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @static
      * @access public
      */
-    static function getNumOpenActivity($id)
-    {
+    static function getNumOpenActivity($id) {
 
         // this is not sufficient way to do.
+        $id = CRM_Utils_Type::escape($id, 'Integer');
 
         $query = "SELECT count(*) FROM civicrm_meeting 
                   WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ."
-                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND target_entity_id = $id
+                  OR source_contact_id = $id
                   AND status != 'Completed'";
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query );
         
         $query = "SELECT count(*) FROM civicrm_phonecall 
                   WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
-                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND target_entity_id = $id
+                  OR source_contact_id = $id
                   AND status != 'Completed'";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query ); 
         
         $query = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
                   WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = " . CRM_Utils_Type::escape($id, 'Integer') ." 
-                  OR source_contact_id = " . CRM_Utils_Type::escape($id, 'Integer') .") 
+                  AND target_entity_id = $id
+                  OR source_contact_id = $id )
                   AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
                   AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query ); 
@@ -982,10 +983,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @access public
      * @static
      */
-    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
-    {
+    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity') {
         $dao =& new CRM_Core_DAO();
-        $contactId = $params['contact_id'];
+        $contactId = CRM_Utils_Type::escape( $params['contact_id'], 'Integer' );
         
         $query = "
 ( SELECT
@@ -1005,8 +1005,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     civicrm_phonecall.source_contact_id = source.id AND
     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
     civicrm_phonecall.target_entity_id = target.id AND
-    ( civicrm_phonecall.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
-    OR civicrm_phonecall.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) 
+    ( civicrm_phonecall.source_contact_id = $contactId
+    OR civicrm_phonecall.target_entity_id = $contactId )
     AND civicrm_phonecall.status != 'Completed'
  ) UNION
 ( SELECT   
@@ -1026,8 +1026,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     civicrm_meeting.source_contact_id = source.id AND
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
     civicrm_meeting.target_entity_id = target.id AND
-    ( civicrm_meeting.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ."
-    OR civicrm_meeting.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) 
+    ( civicrm_meeting.source_contact_id = $contactId
+    OR civicrm_meeting.target_entity_id = $contactId )
     AND civicrm_meeting.status != 'Completed'
 ) UNION
 ( SELECT   
@@ -1046,8 +1046,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     civicrm_activity.source_contact_id = source.id AND
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
     civicrm_activity.target_entity_id = target.id AND
-    ( civicrm_activity.source_contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
-    OR civicrm_activity.target_entity_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." ) AND
+    ( civicrm_activity.source_contact_id = $contactId
+    OR civicrm_activity.target_entity_id = $contactId ) AND
     civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
 )
@@ -1109,61 +1109,19 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
         }
 
-        if (!isset($params['domain_id'])) {
-            $config =& CRM_Core_Config::singleton( );
-            $domain_id = CRM_Core_Config::domainID( );
-        } else {
-            $domain_id = $params['domain_id'];
+        $returnProperties = array( 'id' );
+        $query = CRM_Contact_BAO_Contact::getQuery( $params, $returnProperties );
+
+        $dao = CRM_Core_DAO::executeQuery( $query );
+
+        if ( ! $dao->fetch( ) ) {
+            return _crm_error( "No contact found for given $params" );
+        }
+        
+        if ($dao->N > 1 ) {
+            return _crm_error( 'more than one contact id matches $params' );
         }
 
-        $queryString = $select = $from = $where = '';
-        
-        $select = 'SELECT civicrm_contact.id';
-        $from   = ' FROM civicrm_contact, civicrm_location';
-        $andArray = array("civicrm_contact.domain_id = $domain_id");
-        
-        $andArray[] = "civicrm_location.entity_table = 'civicrm_contact'";
-        $andArray[] = "civicrm_contact.id = civicrm_location.entity_id";
-        
-        if (isset($params['email'])) {// is email present ?
-            $from .= ', civicrm_email';
-            $andArray[] = "civicrm_location.id = civicrm_email.location_id";
-            $andArray[] = "civicrm_email.email = '" . $params['email'] . "'";
-        }
-
-        if (isset($params['phone'])) { // is phone present ?
-            $from .= ', civicrm_phone';
-            $andArray[] = 'civicrm_location.id = civicrm_phone.location_id';
-            $andArray[] = "civicrm_phone.phone = '" . $params['phone'] . "'";
-        }
-        
-        if (isset($params['city'])) { // is city present ?
-            $from .= ', civicrm_address';
-            $andArray[] = 'civicrm_location.id = civicrm_address.location_id';
-            $andArray[] = "civicrm_address.city = '" . $params['city'] . "'";
-        }
-
-        $where = " WHERE " . implode(" AND ", $andArray);
-        
-        $queryString = $select . $from . $where;
-        //CRM_Core_Error::debug_var('queryString', $queryString);
-        
-        $dao =& new CRM_Core_DAO();
-        
-        $dao->query($queryString);
-        $count = 0;
-        while($dao->fetch()) {
-            $count++;
-            if ($count > 1) {
-                return _crm_error( 'more than one contact id matches $params' );
-            }
-            
-        }
-    
-        if ($count == 0) {
-            return _crm_error( 'No contact found for given $params ' );
-        }
-        
         return $dao->id;
     }
 
@@ -1179,15 +1137,15 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @access public
      */
     function &exportableFields( $contactType = 'Individual' ) {
-        
+    
         $exportableFields = array();
-        
+    
         //$exportableFields = array_merge($exportableFields, array('' => array( 'title' => ts('-do not export-'))) );
-        
+    
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-        
+    
         eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
-        
+    
         $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                         CRM_Core_DAO_Phone::import( ),
                                         CRM_Core_DAO_Email::import( ),
@@ -1195,18 +1153,17 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         foreach ($locationFields as $key => $field) {
             $locationFields[$key]['hasLocationType'] = true;
         }
-        
+    
         $exportableFields = array_merge($exportableFields, $locationFields);
-        
+    
         $exportableFields = array_merge($exportableFields,
-                                               CRM_Contact_DAO_Contact::import( ) );
+                                        CRM_Contact_DAO_Contact::import( ) );
         $exportableFields = array_merge($exportableFields,
-                                               CRM_Core_DAO_Note::import());
+                                        CRM_Core_DAO_Note::import());
         $exportableFields = array_merge($exportableFields,
-                                               CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
+                                        CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
         return $exportableFields;
     }
-
 
 }
 

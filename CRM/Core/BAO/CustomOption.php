@@ -101,7 +101,7 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         if (!$inactiveNeeded) {
             $customOptionDAO->is_active = 1;
         }
-        $customOptionDAO->orderBy('weight ASC');
+        $customOptionDAO->orderBy('weight ASC, label ASC');
         $customOptionDAO->find();
         
         $customOption = array();
