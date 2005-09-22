@@ -53,7 +53,11 @@
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
-	    <td>{$note.createdBy}</td>
+	    <td>
+	    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$note.contact_id`"}">
+		 {$note.createdBy}
+	     </a>
+	    </td>
             <td class="nowrap">{$note.action}</td>
         </tr>
         {/foreach}
