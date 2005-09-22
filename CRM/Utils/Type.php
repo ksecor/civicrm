@@ -133,6 +133,7 @@ class CRM_Utils_Type {
                 break;
         }
 
+        debug_print_backtrace( );
         CRM_Core_Error::fatal(ts('Data-type mismatch: "%1" is not of type "%2"', array(1 => $data, 2 => $type)));
     }
 }

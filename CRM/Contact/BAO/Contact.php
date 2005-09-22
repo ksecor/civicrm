@@ -218,7 +218,7 @@ ORDER BY
 
         // building the query string
         $query = $select . $from . $where . $order . $limit;
-        //echo "<pre>$query</pre>";
+        // echo "<pre>$query</pre>";
         if ( $returnQuery ) {
             return $query;
         }
@@ -231,7 +231,7 @@ ORDER BY
         if ( $groupContacts ) {
             $ids = array( );
             while ( $dao->fetch( ) ) {
-                $ids[] = $crmDAO->id;
+                $ids[] = $dao->id;
             }
             return implode( ',', $ids );
         }
