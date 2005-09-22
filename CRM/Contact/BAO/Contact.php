@@ -879,7 +879,12 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @access public
      */
     function &importableFields( $contactType = 'Individual' ) {
-        if ( ! self::$_importableFields ) {
+        // the line below is commented coz,
+        // if the importableFields are once set then they do not
+        // allow to set with different contactTypes
+
+        //if ( ! self::$_importableFields ) {
+
             self::$_importableFields = array();
             
             self::$_importableFields = array_merge(self::$_importableFields,
@@ -918,7 +923,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                                            CRM_Core_BAO_CustomField::getFieldsForImport($type));
                 }
             }
-        }
+        //}
         return self::$_importableFields;
     }
 

@@ -437,7 +437,7 @@ class CRM_Contact_BAO_Query {
                 $clause[] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
             }
         } else {
-            $clause[] = "'" . CRM_Utils_Type::escape( $this->_params['contact_type'] ) . "'";
+            $clause[] = "'" . CRM_Utils_Type::escape( $this->_params['contact_type'], 'String' ) . "'";
         }
         $this->_where[] = 'civicrm_contact.contact_type IN (' . implode( ',', $clause ) . ')';
     }
