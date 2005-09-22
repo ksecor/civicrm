@@ -33,6 +33,8 @@ $smarty->compile_dir  = '/tmp/templates_c';
 
 createDir( $smarty->compile_dir );
 
+$smarty->clear_all_cache();
+
 $file = 'schema/Schema.xml';
 
 $sqlCodePath = '../sql/';
