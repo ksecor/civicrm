@@ -77,11 +77,12 @@ class CRM_Export_BAO_Export {
         foreach ($contactIds as $id) { 
             $params = array();
             $params['id'] = $id;
-
-            $queryString = CRM_Contact_BAO_Query::query( $params, $returnProperties ); 
-            
+           
+            $queryObject =& new  CRM_Contact_BAO_Query( $params, $returnProperties ); 
+            $queryString = $queryObject->query();
+            $queryString = implode(" ",$queryString);
             $dao =& new CRM_Core_DAO();
-            
+           
             $dao->query($queryString);
             $dao->fetch();
             foreach ($dao as $key => $varValue) {
