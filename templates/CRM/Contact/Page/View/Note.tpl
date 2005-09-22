@@ -39,6 +39,7 @@
         <tr class="columnheader">
 	        <th>{ts}Note{/ts}</th>
 	        <th>{ts}Date{/ts}</th>
+	        <th>{ts}Created By{/ts}</th>
 	        <th></th>
         </tr>
         {foreach from=$notes item=note}
@@ -52,6 +53,7 @@
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
+	    <td>{$note.createdBy}</td>
             <td class="nowrap">{$note.action}</td>
         </tr>
         {/foreach}
