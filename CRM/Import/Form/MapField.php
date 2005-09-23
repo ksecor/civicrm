@@ -288,19 +288,26 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $contactRelation =& new CRM_Contact_DAO_RelationshipType();
                 $contactRelation->id = $id;
                 $contactRelation->find(true);
-                eval( '$contactType = $contactRelation->contact_type_'.$second.';');
-                switch($contactType) {
-                case 'Individual':
-                    $sel2[$key] = array('first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'Email');
-                    $sel3[$key]['email'] = $this->_location_types;                        
-                    break;
-                case 'Household':
-                    $sel2[$key] = array('household_name' => 'Household Name');                                            
-                    break;
-                case 'Organization':
-                    $sel2[$key] = array('organization_name' => 'Organization Name');
-                    break;
+                eval( '$cType = $contactRelation->contact_type_'.$second.';');
+
+                $relatedFields = array();
+                $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType );
+
+                $values = array();
+                foreach ($relatedFields as $name => $field ) {
+                    $values[$name] = $field['title'];
+                    if ($hasLocationTypes[$name]) {
+                        $sel3[$key][$name] = $this->_location_types;
+                    } else {
+                        $sel3[$name] = null;
+                    }
                 }
+                $sel2[$key] = $values;
+
+                foreach ($this->_location_types as $k => $value) {
+                    $sel4[$key]['phone'][$k] =& $phoneTypes;
+                }
+                
             } else {
                 if ($hasLocationTypes[$key]) {
                     $sel2[$key] = $this->_location_types;
@@ -366,7 +373,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 }
             }
 
-            $sel->setOptions(array($sel1, $sel2, $sel3));
+            $sel->setOptions(array($sel1, $sel2, $sel3, $sel4));
         }
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
@@ -439,13 +446,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperLocType      = array();
         $mapperPhoneType    = array();
         
-        // print_r($mapperKeys);
-
         $locations = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
+
             //$mapperLocType[$i] = $mapperKeys[$i][1];
             
             if (is_numeric($mapperKeys[$i][1])) {
@@ -482,19 +488,20 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $relatedContactEmailType[$i] = null;                
             }            
         }
-        
+
         $this->set( 'mapper'    , $mapper     );
         $this->set( 'locations' , $locations  );
         $this->set( 'phones', $mapperPhoneType);
 
         //relationship info
+        
         $this->set( 'related'    , $related     );
         $this->set( 'relatedContactType',$relatedContactType );
         $this->set( 'relatedContactDetails',$relatedContactDetails );
         $this->set( 'relatedContactEmailType',$relatedContactEmailType );
         
         $params = $this->controller->exportValues( 'MapField' );
-  
+          
         //reload the mapfield if load mapping is pressed
         if( !empty($params['savedMapping']) ) {            
             $this->set('savedMapping', $params['savedMapping']);
