@@ -271,8 +271,15 @@ VALUES
     ({$civicrmDomainId},'Opt-out Message','OptOut','Goodbye','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.',1,1),
     ({$civicrmDomainId},'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
 
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Mrs{/ts}', 1, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Ms{/ts}', 2, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Mr{/ts}', 3, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Dr{/ts}', 4, 1);
 
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Jr{/ts}', 1, 1);
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Sr{/ts}', 2, 1);
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}II{/ts}', 3, 1);
 
-
-
-
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Female{/ts}', 1, 1);
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Male{/ts}', 2, 1);
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Transgender{/ts}', 3, 1);
