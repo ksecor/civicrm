@@ -133,6 +133,7 @@ class CRM_Core_Invoke {
         }
 
         if ($args[2] == 'view') {
+            
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
@@ -150,6 +151,7 @@ class CRM_Core_Invoke {
             case 'tag':
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
+            
             case 'cd':
                 $view =& new CRM_Contact_Page_View_CustomData( );
                 break;
@@ -192,6 +194,10 @@ class CRM_Core_Invoke {
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
                 break;
+            case 'delete':
+                $view =& new CRM_Contact_Page_View_Delete( );
+               
+                break;        
             default:
                 $view =& new CRM_Contact_Page_View_Basic( );
                 break;

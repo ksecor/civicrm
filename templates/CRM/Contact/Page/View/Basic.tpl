@@ -11,11 +11,13 @@
         &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="vCard" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
+    &nbsp; &nbsp; <input type="button" value="Delete" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
    </div>
 </div>
 
 {* Include links to enter Activities if session has 'edit' permission *}
+
 {if $permission EQ 'edit'}
     {include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
 {/if}
