@@ -172,7 +172,7 @@ class CRM_Contact_BAO_Query {
             foreach ( $elements as $elementName => $dontCare ) {
                 $isPrimary = '1';
                 $elementType = '';
-                if ( strpos( $elementName, '_' ) ) {
+                if ( strpos( $elementName, '_1' ) || strpos( $elementName, '_2' ) ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '_', $elementName );
                     if ( $elementType == '2' ) {
