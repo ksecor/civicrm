@@ -947,14 +947,14 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $query = "SELECT count(*) FROM civicrm_meeting 
                   WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
                   AND target_entity_id = $id
-                  OR source_contact_id = $id
+                  OR source_contact_id = $id)
                   AND status != 'Completed'";
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query );
         
         $query = "SELECT count(*) FROM civicrm_phonecall 
                   WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
                   AND target_entity_id = $id
-                  OR source_contact_id = $id
+                  OR source_contact_id = $id)
                   AND status != 'Completed'";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query ); 
         
