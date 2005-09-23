@@ -1,7 +1,8 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
-    <h4>{ts}Import Data -&gt; CiviCRM Contact Fields {if $loadedMapping}Using Saved Mapping: {$savedName} {/if} {/ts}</h4>
+    <p></p>
+    <div class="font-11pt, label">{ts}Import Data -&gt; CiviCRM Contact Fields {if $loadedMapping}Using Saved Mapping: {$savedName} {/if} {/ts}</div>
     {if $savedMapping}
     <div>
 	<a href="#" onclick="mappingOption(); return false;" > >> Load Saved Field Mapping </a>
@@ -31,6 +32,7 @@
     </script>
     
     {/if}
+    {strip}
     <table>
         <tr class="columnheader">
             {section name=rows loop=$rowDisplayCount}
@@ -84,11 +86,11 @@
         {/section}
                 
     </table>
-	
+	{/strip}
     {if $warning}
 	<div class="messages status">
   	<dl>
-	    <dt><img src="/drupal/modules/civicrm/i/Inform.gif" alt="status"></dt>
+	    <dt><img src="/drupal/modules/civicrm/i/Inform.gif" alt="status"/></dt>
 	    <dd>WARNING: The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing.</dd>
 	</dl>
 	</div>
