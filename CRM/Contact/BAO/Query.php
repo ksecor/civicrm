@@ -163,10 +163,10 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            $lName = 'location-' . $name;
-            $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location `$lName` ON ('$lName.entity_table' = 'civicrm_contact' AND '$lName.entity_id' = civicrm_contact.id AND '$lName.location_type_id' = $locationTypeId )";
-            $aName = 'address-' . $name;
-            $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address `$aName` ON ('$aName.location_id' = '$lName.id')";
+            $lName = "`$name-location`";
+            $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lName.location_type_id = $locationTypeId )";
+            $aName = "`$name-address`";
+            $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
             $processed[$lName] = $processed[$aName] = 1;
 
             foreach ( $elements as $elementName => $dontCare ) {
@@ -177,6 +177,8 @@ class CRM_Contact_BAO_Query {
                     list( $elementName, $elementType ) = explode( '-', $elementName );
                     if ( $elementType == '2' ) {
                         $isPrimary = '0';
+                    } else {
+                        $phoneType = "'$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }
@@ -184,29 +186,28 @@ class CRM_Contact_BAO_Query {
                 $field = CRM_Utils_Array::value( $elementName, $this->_fields );
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-                    $tName = substr( $tableName, 8 ) . '-' . $name . $elementType;
+                    $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
                     $fieldName = $fieldName;
                     if ( isset( $tableName ) ) {  
-                        $this->_select[] = "'$tName.$fieldName' as `{$tName}-$fieldName`";
-                        if ( ! CRM_Utils_Array::value( $tName, $processed ) ) {
-                            $processed[$tName] = 1;
+                        $this->_select[] = "`$tName`.$fieldName as `{$name}-{$fieldName}{$elementType}`";
+                        if ( ! CRM_Utils_Array::value( "`$tName`", $processed ) ) {
+                            $processed["`$tName`"] = 1;
                             switch ( $tableName ) {
-                            case 'civicrm_address':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON '$lName.id' = '$tName.location_id'";
+                            case 'civicrm_phone':
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.phone_type = $phoneType";
                                 break;
 
-                            case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON '$lName.id' = '$tName.location_id' AND '$tName.is_primary' = $isPrimary";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.is_primary = $isPrimary";
                                 break;
 
                             case 'civicrm_state_province':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON '$tName.id' = '$aName.state_province_id'";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
                                 break;
 
                             case 'civicrm_country':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON '$tName.id' = '$aName.country_id'";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
                                 break;
                             }
                         }
