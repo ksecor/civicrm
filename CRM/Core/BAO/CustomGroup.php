@@ -717,23 +717,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
     }
 
-    static function getSelectFromClause( &$fields, &$select, &$from ) {
-        $custom = array( );
-        $cfIDs  = array( );
-
-        foreach ( $fields as $name => $field ) { 
-            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) {
-                $cfIDs[] = $cfID;
-            }
-        }
-        
-        if ( empty( $cfIDs ) ) {
-            return;
-        }
-
-        return self::selectFromClause( $cfIDs, $select, $from );
-    }
-
     static function selectFromClause( $cfIDs, &$select, &$from ) { 
         $values = array( );
         $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' . implode( ',', $cfIDs ) . ' ) ';
