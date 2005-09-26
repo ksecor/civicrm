@@ -108,21 +108,27 @@
 	      </dl>
 	</div>
 	
-	{literal}
+
 	<script type="text/javascript">
-	     hide('saveDetails');
+         {if $mappingDetailsError }
+            show('saveDetails');    
+         {else}
+    	    hide('saveDetails');
+         {/if}
+
+	     {literal}   
  	     function showSaveDetails(chkbox) {
-		 if (chkbox.checked) {
-			document.getElementById("saveDetails").style.display = "block";
-			document.getElementById("saveMappingName").disabled = false;
-			document.getElementById("saveMappingDesc").disabled = false;
-		 } else {
-			document.getElementById("saveDetails").style.display = "none";
-			document.getElementById("saveMappingName").disabled = true;
-			document.getElementById("saveMappingDesc").disabled = true;
-		 }
-	     }
+    		 if (chkbox.checked) {
+    			document.getElementById("saveDetails").style.display = "block";
+    			document.getElementById("saveMappingName").disabled = false;
+    			document.getElementById("saveMappingDesc").disabled = false;
+    		 } else {
+    			document.getElementById("saveDetails").style.display = "none";
+    			document.getElementById("saveMappingName").disabled = true;
+    			document.getElementById("saveMappingDesc").disabled = true;
+    		 }
+         }
+         {/literal}	     
 	</script>
-	{/literal}
     </div>
  </div>
