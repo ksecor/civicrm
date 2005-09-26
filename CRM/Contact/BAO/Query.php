@@ -180,11 +180,18 @@ class CRM_Contact_BAO_Query {
                 $lCond = "$lName.location_type_id = $locationTypeId";
             }
 
+            $tName = "$name-location";
+            $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
+            $this->_element["{$tName}_id"] = 1; 
             $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
-            $aName = "`$name-address`";
-            $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-            $processed[$lName] = $processed[$aName] = 1;
 
+            $aName = "`$name-address`";
+            $tName = "$name-address";
+            $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
+            $this->_element["{$tName}_id"] = 1; 
+            $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
+
+            $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $cond = "is_primary = 1";
                 $elementName = $elementFullName;
@@ -205,7 +212,7 @@ class CRM_Contact_BAO_Query {
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
                     $fieldName = $fieldName;
                     if ( isset( $tableName ) ) {
-                        $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}-id`";
+                        $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}_id`";
                         $this->_element["{$tName}_id"]                  = 1;
                         $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
                         $this->_element["{$name}-{$elementFullName}"] = 1;
@@ -333,6 +340,29 @@ class CRM_Contact_BAO_Query {
         return implode( ' AND ', $this->_where );
     }
 
+    function store( $dao ) {
+        $value = array( );
+        foreach ( $this->_element as $key => $dontCare ) {
+            if ( isset( $dao->$key ) ) {
+                if ( strpos( $key, '-' ) ) {
+                    $values = explode( '-', $key );
+                    $lastElement = array_pop( $values );
+                    $current =& $value;
+                    foreach ( $values as $v ) {
+                        if ( ! array_key_exists( $v, $current ) ) {
+                            $current[$v] = array( );
+                        }
+                        $current =& $current[$v];
+                    }
+                    $current[$lastElement] = $dao->$key;
+                } else {
+                    $value[$key] = $dao->$key;
+                }
+            }
+        }
+        return $value;
+    }
+
     function tables( ) {
         return $this->_tables;
     }
@@ -343,6 +373,20 @@ class CRM_Contact_BAO_Query {
                                             false, false );
         list( $select, $from, $where ) = $query->query( );
         return "$select $from $where";
+    }
+
+    static function apiQuery( $params = null, $returnProperties = null, $count = false ) {
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null, 
+                                            $count, false,  
+                                            false, false ); 
+        list( $select, $from, $where ) = $query->query( ); 
+        $sql = "$select $from $where";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $values = array( );
+        while ( $dao->fetch( ) ) {
+            $values[$dao->contact_id] = $query->store( $dao );
+        }
+        return $values;
     }
 
     static function getWhereClause( &$params, &$fields, &$tables ) {
