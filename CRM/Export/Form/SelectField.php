@@ -79,6 +79,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
                                           false, false, false,
                                           true, false );
             $this->_contactIds = explode( ',', $ids );
+            $session->set('selectedAll',true);
         } else if($values['radio_ts'] == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts
@@ -87,6 +88,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
                     $this->_contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
+            $session->set('selectedAll',false);
         }
         
         $session->set('contactIds', $this->_contactIds);
