@@ -272,8 +272,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     function search(&$params) {
         //max records that will be listed
         $searchValues = array();
-        $searchValues['sort_name'] = $params['name']; 
-        $searchValues['cb_contact_type'] = $params['contact_type'];
+        $searchValues['sort_name']    = $params['name']; 
+        $searchValues['contact_type'] = $params['contact_type'];
 
         
         $excludedContactIds = array( $this->_contactId );
@@ -298,13 +298,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
                 $this->set( 'contact_type', $type );
                 if ( $type == 'Individual' ) {
-                    $searchValues['cb_contact_type'] = array( $type => 1 ); 
+                    $searchValues['contact_type'] = array( $type => 1 ); 
                 } else if ( $type == 'Household' ) {
-                    $searchValues['cb_contact_type'] = array( $type => 2 );
+                    $searchValues['contact_type'] = array( $type => 2 );
                 }  else if ( $type == 'Organization' ) {
-                    $searchValues['cb_contact_type'] = array( $type => 3 );
+                    $searchValues['contact_type'] = array( $type => 3 );
                 }
-                $searchValues['cb_contact_type'] = array( $type => 2 );
+                $searchValues['contact_type'] = array( $type => 2 );
                 $relationship->find( );
                 while ( $relationship->fetch( ) ) {
                     $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
