@@ -461,8 +461,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $index = $field['title'];
             if ( $objName == 'state_province_id' ) {
                 $values[$index] = null;
-                if ( $contact->state ) {
-                    $values[$index] = $contact->state;
+                if ( $contact->state_province ) {
+                    $values[$index] = $contact->state_province;
                 }
             } else if ( $objName == 'country_id' ) {
                 $values[$index] = null;
@@ -563,6 +563,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 }
             }
         }
+
     }
 
 
