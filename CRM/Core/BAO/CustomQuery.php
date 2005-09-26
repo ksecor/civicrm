@@ -90,8 +90,11 @@ class CRM_Core_BAO_CustomQuery {
 
         foreach ( $this->_fields as $id => $field ) {
             $name = self::PREFIX . $field['id'];
-            $this->_select[]  = $name . '.' . $field['db_field'] . ' as custom_' . $field['id'];
-            $this->_element[] = 'custom_' . $field['id'];
+            $fieldName = 'custom_' . $field['id'];
+            $this->_select["{$name}_id"]  = "{$name}.id as {$name}_id";
+            $this->_element["{$name}_id"] = 1;
+            $this->_select[$fieldName]    = $name . '.' . $field['db_field'] . " as $fieldName";
+            $this->_element[$fieldName]   = 1;
             $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                 " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = civicrm_contact.id ";
         }

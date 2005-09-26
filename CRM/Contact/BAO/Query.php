@@ -97,8 +97,8 @@ class CRM_Contact_BAO_Query {
         static $special = array( 'contact_type', 'sort_name', 'display_name' );
         foreach ( $special as $name ) {
             if ( CRM_Utils_Array::value( $name, $this->_returnProperties ) ) { 
-                $this->_select[]  = 'civicrm_contact.' . $name . ' as ' . $name;
-                $this->_element[] = $name;
+                $this->_select[$name]  = 'civicrm_contact.' . $name . ' as ' . $name;
+                $this->_element[$name] = 1;
             }
         }
     }
@@ -130,20 +130,23 @@ class CRM_Contact_BAO_Query {
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
-                        $this->_select[] = $field['where']. ' as ' . $name;
-                        $this->_element[] = $name;
-                        $this->_tables[$tableName] = 1;
+                        $this->_tables[$tableName]         = 1;
+
+                        // also get the id of the tableName
+                        $tName = substr($tableName, 8 );
+                        $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
+                        $this->_element["{$tName}_id"] = 1;
+
+                        $this->_select[$name]              = $field['where'] . " as $name";
+                        $this->_element[$name]             = 1;
+
                     }
                 }
             }
         }
 
-        // check if location is present in return Properties and if so, is it an
-        // array
-        if ( CRM_Utils_Array::value( 'location', $this->_returnProperties ) &&
-             is_array( $this->_returnProperties['location'] ) ) {
-            $this->addHierarchicalElements( );
-        }
+        // add location as hierarchical elements
+        $this->addHierarchicalElements( );
 
         if ( ! empty( $cfIDs ) ) {
             $this->_customQuery = new CRM_Core_BAO_CustomQuery( $cfIDs );
@@ -165,13 +168,19 @@ class CRM_Contact_BAO_Query {
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
         $processed     = array( );
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
-            $locationTypeId = array_search( $name, $locationTypes );
-            if ( $locationTypeId === false ) {
-                continue;
+            $lName = "`$name-location`";
+            $lCond = self::getPrimaryCondition( $name );
+            if ( $lCond ) {
+                $lCond = "$lName." . $lCond;
+            } else {
+                $locationTypeId = array_search( $name, $locationTypes );
+                if ( $locationTypeId === false ) {
+                    continue;
+                }
+                $lCond = "$lName.location_type_id = $locationTypeId";
             }
 
-            $lName = "`$name-location`";
-            $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lName.location_type_id = $locationTypeId )";
+            $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
             $aName = "`$name-address`";
             $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
             $processed[$lName] = $processed[$aName] = 1;
@@ -183,11 +192,8 @@ class CRM_Contact_BAO_Query {
                 if ( strpos( $elementName, '-' ) ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
-                    if ( $elementType == '1' ) {
-                        $cond = "is_primary = 1";
-                    } else if ( $elementType == '2' ) { 
-                        $cond = "is_primary = 0"; 
-                    } else {
+                    $cond = self::getPrimaryCondition( $elementType );
+                    if ( ! $cond ) {
                         $cond = "phone_type = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
@@ -198,9 +204,11 @@ class CRM_Contact_BAO_Query {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
                     $fieldName = $fieldName;
-                    if ( isset( $tableName ) ) {  
-                        $this->_select[] = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
-                        $this->_element[] = "{$name}-{$elementFullName}";
+                    if ( isset( $tableName ) ) {
+                        $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}-id`";
+                        $this->_element["{$tName}_id"]                  = 1;
+                        $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
+                        $this->_element["{$name}-{$elementFullName}"] = 1;
                         if ( ! CRM_Utils_Array::value( "`$tName`", $processed ) ) {
                             $processed["`$tName`"] = 1;
                             switch ( $tableName ) {
@@ -234,11 +242,13 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */ 
     function query( ) {
-        $this->_select[]                  = 'civicrm_contact.id as contact_id';
-        $this->_element[]                 = 'contact_id';
+        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id';
+        $this->_element['contact_id']     = 1;
         $this->_tables['civicrm_contact'] = 1;
         
         $this->selectClause( );
+        $where  = $this->whereClause( );
+        $from   = self::fromClause( $this->_tables );
 
         if ( $this->_count ) {
             $select = 'SELECT count(DISTINCT civicrm_contact.id)'; 
@@ -248,15 +258,15 @@ class CRM_Contact_BAO_Query {
             $select  = 'SELECT DISTINCT civicrm_contact.id as id'; 
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
-                $this->_select[]                        = 'civicrm_group_contact.status as status';
-                $this->_element[]                       = 'status';
+                $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
+                $this->_element['group_contact_id']     = 1;
+                $this->_select['status']                = 'civicrm_group_contact.status as status';
+                $this->_element['status']               = 1;
                 $this->_tables['civicrm_group_contact'] = 1;
             }
             $select = 'SELECT ' . implode( ', ', $this->_select );
         }
 
-        $where  = $this->whereClause( );
-        $from   = self::fromClause( $this->_tables );
         if ( $where ) {
             $where = "WHERE $where";
         }
@@ -784,4 +794,11 @@ class CRM_Contact_BAO_Query {
         return self::$_defaultReturnProperties;
     }
 
+    static function getPrimaryCondition( $value ) {
+        if ( is_numeric( $value ) ) {
+            $value = (int ) $value;
+            return ( $value == 1 ) ?'is_primary = 1' : 'is_primary = 0';
+        }
+        return null;
+    }
 }

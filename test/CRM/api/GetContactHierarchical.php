@@ -16,8 +16,8 @@ class TestOfGetContactHierachical extends UnitTestCase
  
     function testGetContactFlat() 
     { 
-        $params = array( 'id' => 1 );
-        $returnProperties = array( 'location' => array( 'Home' => array (
+        $params = array( 'id' => 101 );
+        $returnProperties = array( 'location' => array( '1' => array (
                                                                          'street_address' => 1,
                                                                          'city'           => 1,
                                                                          'state_province' => 1,
@@ -31,7 +31,7 @@ class TestOfGetContactHierachical extends UnitTestCase
                                                                          'email-1'        => 1,
                                                                          'email-2'        => 1,
                                                                          ),
-                                                        'Main' => array ( 
+                                                        '2' => array ( 
                                                                          'street_address' => 1, 
                                                                          'city'           => 1, 
                                                                          'state_province' => 1, 
@@ -50,6 +50,7 @@ class TestOfGetContactHierachical extends UnitTestCase
  
         $query = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties );
         print_r( $query );
+        echo "\n";
     } 
  
 } 

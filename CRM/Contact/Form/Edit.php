@@ -161,7 +161,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
                 sort( $locationTypeKeys );
                 
-
                 // also set the location types for each location block
                 for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
                     $defaults['location'][$i+1] = array( );
@@ -173,6 +172,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     } else {
                         $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     }
+                    $defaults['location'][$i+1]['address'] = array( );
+                    $defaults['location'][$i+1]['address']['country_id'] = 1228;
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }

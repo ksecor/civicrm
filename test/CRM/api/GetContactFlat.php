@@ -17,10 +17,10 @@ class TestOfGetContactFlat extends UnitTestCase
     function testGetContactFlat() 
     { 
         $params = array( 'email' => 'yahoo' );
-        $returnProperties = array( 'email' => 1, 'custom_1' => 1, 'custom_3' => 1 );
+        $returnProperties = array( 'first_name' => 1, 'email' => 1, 'custom_1' => 1, 'custom_3' => 1, 'state_province' => 1, 'country' => 1 );
  
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties );
-        print_r( $query->query( ) );
+        print_r( implode( "\n", $query->query( ) ) );
     } 
  
 } 
