@@ -225,8 +225,8 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
     public function postProcess( ) {
         
         $mapperKeys = $_POST['mapper'];
-        //$mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-       
+        /*//$mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
+        print_r($mapperKeys);
         $fields = array();
         //print_r($mapperKeys);
         foreach($mapperKeys as $key) {
@@ -236,8 +236,8 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         }
         $returnFields = array($fields);
         // print_r($returnFields);
-       
-        CRM_Export_BAO_Export::exportContacts($returnFields);
+        */
+        CRM_Export_BAO_Export::exportContacts($mapperKeys);
         
     }
 
