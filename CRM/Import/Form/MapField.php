@@ -213,13 +213,16 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $mapping->find();
 
             $mappingName = array();
+            $mappingLocation = array();
             while($mapping->fetch()) {
                 $mappingName[] = $mapping->name;                
                 if ( !empty($mapping->location_type_id ) ) {
-                    $mappingLocation = $mapping->location_type_id;
+                    $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
                 }
             }
+
             $this->assign('loadedMapping', $savedMapping);
+
             $getMappingName =&  new CRM_Core_DAO_ImportMapping();
             $getMappingName->id = $savedMapping;
             $getMappingName->find();
@@ -264,10 +267,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     array($defaultLocationType->id => $defaultLocation) + 
                     $this->_location_types;
             }
-        } else {            
-            $defaultLocation = $this->_location_types[$mappingLocation];
-            unset($this->_location_types[$mappingLocation]);
-            $this->_location_types = array($mappingLocation => $defaultLocation) + $this->_location_types;
+        } else {
+            foreach ($mappingLocation as $k => $v) {
+                $defaultLocation = $this->_location_types[$mappingLocation[$k]];
+                unset($this->_location_types[$mappingLocation[$k]]);
+                $this->_location_types = array($mappingLocation[$k] => $defaultLocation) + $this->_location_types;
+            }
         }
 
         /* Initialize all field usages to false */
@@ -335,10 +340,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 
                 $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
                 if ( isset($mappingName[$i]) ) {
-                    $this->_defaults["mapper[$i]"] = array(
-                                                           $this->defaultFromHeader($mappingName[$i], $headerPatterns),
-                                                           $locationId
-                                                           );
+                    if ( $mappingName[$i] != '-do not import-') {
+                        $this->_defaults["mapper[$i]"] = array(
+                                                               $this->defaultFromHeader($mappingName[$i], $headerPatterns),
+                                                               $locationId
+                                                               );
+                    } else {
+                        $this->_defaults["mapper[$i]"] = array();
+                    }
                 } else {
                     if ($hasHeaders) {
                         $this->_defaults["mapper[$i]"] = array(
