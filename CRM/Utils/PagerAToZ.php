@@ -38,16 +38,16 @@ class CRM_Utils_PagerAToZ
     /**
      * returns the alphabetic array for sorting by character
      *
-     * @param array  $params          The form values for search
+     * @param array  $query           The query object
      * @param string $sortByCharacter The character that we are potentially sorting on
      *
      * @return string                 The html formatted string
      * @access public
      * @static
      */
-    static function getAToZBar ( &$params, $sortByCharacter ) 
+    static function getAToZBar ( &$query, $sortByCharacter ) 
     {
-        $AToZBar = self::createLinks( $params, $sortByCharacter );
+        $AToZBar = self::createLinks( $query, $sortByCharacter );
         return $AToZBar;
     }
     
@@ -72,10 +72,9 @@ class CRM_Utils_PagerAToZ
      * @access private
      * @static
      */
-    static function getDynamicCharacters (&$params) 
+    static function getDynamicCharacters (&$query) 
     {
-        $contact =& new CRM_Contact_BAO_Contact();
-        $result = $contact->searchQuery($params, null, null, null, false, null, true);
+        $result =& $query->searchQuery( null, null, null, false, false, true );
         $dynamicAlphabets = array( );
         while ($result->fetch()) { 
             $dynamicAlphabets[] = $result->sort_name;
@@ -87,17 +86,17 @@ class CRM_Utils_PagerAToZ
     /**
      * create the links 
      *
-     * @param array  $params          The form values for search
+     * @param array  $query          The form values for search
      * @param string $sortByCharacter The character that we are potentially sorting on
      *
      * @return array with links
      * @access private
      * @static
      */
-    function createLinks ( &$params, $sortByCharacter ) 
+    function createLinks ( &$query, $sortByCharacter ) 
     {
         $AToZBar          = self::getStaticCharacters();
-        $dynamicAlphabets = self::getDynamicCharacters($params);
+        $dynamicAlphabets = self::getDynamicCharacters($query);
 
         $AToZBar = array_merge ( $AToZBar, $dynamicAlphabets );
         $AToZBar = array_unique( $AToZBar );

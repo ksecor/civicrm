@@ -537,28 +537,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->_done = true;
 
-        // need to collapse the custom data groups 
-        // if some values entered to search        
-        if ( !empty($this->_formValues) ) {
-            $customDataCriteria = array();
-            foreach ($this->_formValues as $k => $v) {
-                if ( substr( $k, 0, 10 ) != 'customData' ) {
-                    continue;
-                }
-                if ( $v != '' ) {
-                    list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
-
-                    // Custom Group DAO
-                    $cgDAO =& CRM_Core_DAO::executeQuery( "SELECT title FROM civicrm_custom_group WHERE id = " . CRM_Utils_Type::escape($groupId, 'Integer') );
-                    while($cgDAO->fetch()) {
-                        $groupName = $cgDAO->title;
-                    }
-                    $customDataCriteria[] = $groupName;
-                }
-            }
-            $this->set('customDataSearch',$customDataCriteria);
-        }
-
         //get the button name
         $buttonName = $this->controller->getButtonName( );
 
@@ -573,13 +551,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
         }
             
-        // added the sorting  character to the form array
-        // lets recompute the aToZ bar without the sortByCharacter
-        // we need this in most cases except when just pager or sort values change, which
-        // we'll ignore for now
-        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
-        $this->set( 'AToZBar', $aToZBar );
-
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
         
@@ -602,6 +573,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // create the selector, controller and run - store results in session
             $selector =& new CRM_Contact_Selector($this->_formValues, $this->_action);
+
+            // added the sorting  character to the form array
+            // lets recompute the aToZ bar without the sortByCharacter
+            // we need this in most cases except when just pager or sort values change, which
+            // we'll ignore for now
+            $query =& $selector->getQuery( );
+            $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
+            $this->set( 'AToZBar', $aToZBar );
+
+
             $sortID = null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
                 $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
