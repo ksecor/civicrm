@@ -286,7 +286,7 @@ class CRM_Core_Block {
                 } else {
                     $value['active'] = '';
                 }
-                $values[$item['weight']] = $value;
+                $values[$item['weight'] . '.' . $item['title']] = $value;
             }
         }
         ksort($values);

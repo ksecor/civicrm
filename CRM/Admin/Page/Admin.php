@@ -53,9 +53,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
                     $value = array( 'title' => $item['title'],
                                     'path'  => $item['path'],
                                     'icon'  => $item['icon']);
-                    $adminPanel[$group][] = $value;
+                    $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;
                 }
             }
+            ksort( $adminPanel[$group] );
         }
         $this->assign('adminPanel', $adminPanel);
         return parent::run( );

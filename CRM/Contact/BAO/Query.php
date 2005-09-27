@@ -57,14 +57,14 @@ class CRM_Contact_BAO_Query {
     protected $_element;
     protected $_tables;
     protected $_where;
+    protected $_whereClause;
+    protected $_fromClause;
     protected $_fields;
-    protected $_count;
-    protected $_includeContactIds;
-    protected $_sortByChar;
-    protected $_groupContacts;
     protected $_qill;
 
     protected $_customQuery;
+
+    protected $_includeContactIds;
 
     static $_dependencies = array( 'civicrm_state_province' => 1,
                                    'civicrm_country'        => 1,
@@ -74,8 +74,7 @@ class CRM_Contact_BAO_Query {
                                    'civicrm_im'             => 1, );
 
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $count = false, $includeContactIds = false,
-                          $sortByChar = false, $groupContacts = false ) {
+                          $includeContactIds = false ) {
         $this->_params =& $params;
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( ); 
@@ -83,23 +82,35 @@ class CRM_Contact_BAO_Query {
             $this->_returnProperties =& $returnProperties;
         }
 
-        $this->_count             = $count;
         $this->_includeContactIds = $includeContactIds;
-        $this->_sortByChar        = $sortByChar;
-        $this->_groupContacts     = $groupContacts;
 
         if ( $fields ) {
             $this->_fields =& $fields;
         } else {
             $this->_fields = CRM_Contact_BAO_Contact::importableFields( 'All' );
         }
-        $this->_select  = array( );
-        $this->_element = array( );
-        $this->_tables  = array( );
-        $this->_where   = array( );
-        $this->_qill    = array( );
+ 
+        // basically do all the work once, and then reuse it
+        $this->initialize( );
+    }
 
-        $this->_customQuery = null;
+    function initialize( ) {
+        $this->_select  = array( ); 
+        $this->_element = array( ); 
+        $this->_tables  = array( ); 
+        $this->_where   = array( ); 
+        $this->_qill    = array( ); 
+ 
+        $this->_customQuery = null; 
+ 
+        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id'; 
+        $this->_element['contact_id']     = 1; 
+        $this->_tables['civicrm_contact'] = 1; 
+         
+        $this->selectClause( ); 
+        $this->_whereClause = $this->whereClause( ); 
+        $this->_fromClause  = self::fromClause( $this->_tables ); 
+
     }
 
     function addSpecialFields( ) {
@@ -266,20 +277,12 @@ class CRM_Contact_BAO_Query {
      * change soon)
      * @access public 
      */ 
-    function query( ) {
-        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id';
-        $this->_element['contact_id']     = 1;
-        $this->_tables['civicrm_contact'] = 1;
-        
-        $this->selectClause( );
-        $where  = $this->whereClause( );
-        $from   = self::fromClause( $this->_tables );
-
-        if ( $this->_count ) {
+    function query( $count = false, $sortByChar = false, $groupContacts = false ) {
+        if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_contact.id)'; 
-        } else if ( $this->_sortByChar ) {  
+        } else if ( $sortByChar ) {  
             $select = 'SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name';
-        } else if ( $this->_groupContacts ) { 
+        } else if ( $groupContacts ) { 
             $select  = 'SELECT DISTINCT civicrm_contact.id as id'; 
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
@@ -292,12 +295,8 @@ class CRM_Contact_BAO_Query {
             $select = 'SELECT ' . implode( ', ', $this->_select );
         }
 
-        if ( $where ) {
-            $where = "WHERE $where";
-        }
-
         // CRM_Core_Error::debug( "$select, $from", $where );
-        return array( $select, $from, $where );
+        return array( $select, $this->_fromClause, $this->_whereClause );
     }
 
     /** 
@@ -362,7 +361,10 @@ class CRM_Contact_BAO_Query {
             }
         }
 
-        return implode( ' AND ', $this->_where );
+        if ( ! empty( $this->_where ) ) {
+            return 'WHERE ' . implode( ' AND ', $this->_where );
+        }
+        return null;
     }
 
     function store( $dao ) {
