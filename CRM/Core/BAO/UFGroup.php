@@ -541,6 +541,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $values[$index] = CRM_Utils_Date::customFormat($cv->getValue());
                     break;
 
+                case 'Select State/Province':
+                    $values[$index] = $cv->getValue();
+                    $params[$index] = $cv->int_data;
+                    break;
+
+                case 'Select Country':
+                    $values[$index] = $cv->getValue();
+                    $params[$index] = $cv->int_data;
+                    break;
+
                 default:
                     $values[$index] = $cv->getValue(true);
                     break;
