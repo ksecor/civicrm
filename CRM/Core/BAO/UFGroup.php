@@ -536,7 +536,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case "Select Date":
-                    $values[$index] = $cv->getValue( true );
+                    $values[$index] = CRM_Utils_Date::customFormat($cv->getValue());
                     break;
 
                 default:
