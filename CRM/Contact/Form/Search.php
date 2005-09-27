@@ -554,7 +554,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                     list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
 
                     // Custom Group DAO
-                    $cgDAO =& CRM_Core_DAO::executeQuery( "SELECT title FROM civicrm_custom_group WHERE id = $groupId" );
+                    $cgDAO =& CRM_Core_DAO::executeQuery( "SELECT title FROM civicrm_custom_group WHERE id = " . CRM_Utils_Type::escape($groupId, 'Integer') );
                     while($cgDAO->fetch()) {
                         $groupName = $cgDAO->title;
                     }

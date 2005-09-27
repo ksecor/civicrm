@@ -63,8 +63,8 @@ class CRM_Contact_Server_StateCountry
             $queryString = "SELECT civicrm_state_province.id as civicrm_state_province_id  
                             FROM civicrm_country , civicrm_state_province 
                             WHERE civicrm_state_province.country_id = civicrm_country.id
-                              AND civicrm_country.id = ".$countryId."
-                              AND civicrm_state_province.name ='".$fragment."'";  
+                              AND civicrm_country.id = " . CRM_Utils_Type::escape($countryId, 'Integer') . "
+                              AND civicrm_state_province.name ='" . CRM_Utils_Type::escape($fragment, 'String') . "'";  
 
             $DAOobj =& new CRM_Core_DAO();
             
@@ -100,7 +100,7 @@ class CRM_Contact_Server_StateCountry
         $queryString = "SELECT civicrm_country.id as civicrm_country_id, civicrm_country.name as civicrm_country_name 
                         FROM civicrm_country , civicrm_state_province 
                         WHERE civicrm_state_province.country_id = civicrm_country.id
-                          AND civicrm_state_province.name ='".$stateProvince."'";  
+                          AND civicrm_state_province.name ='" . CRM_Utils_Type::escape($stateProvince, 'String') . "'";  
 
         $DAOobj =& new CRM_Core_DAO();
         

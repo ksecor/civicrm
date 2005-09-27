@@ -643,7 +643,7 @@ class CRM_Contact_BAO_Query {
                     /* FIXME: bug with multiple group searches */ 
                     $ssWhere[] = "($ssw AND
                                    (civicrm_group_contact.id is null OR
-                                     (civicrm_group_contact.group_id = $group_id AND
+                                     (civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($group_id, 'Integer') . "AND
                                       civicrm_group_contact.status = 'Added')))"; 
                 }
             }

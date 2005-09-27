@@ -390,7 +390,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function getGroupContacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null)
     {
-        $query = "SELECT * FROM civicrm_group WHERE id = {$group->id}";
+        $query = "SELECT * FROM civicrm_group WHERE id = " . CRM_Utils_Type::escape($group->id, 'Integer');
        
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;

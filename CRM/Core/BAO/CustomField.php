@@ -192,7 +192,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      WHERE $cfTable.is_active = 1
                      AND   $cgTable.is_active = 1
                      AND   $cgTable.extends IN 
-                            ('".$contactType."', 'Contact')
+                            ('" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact')
                      ORDER BY $cgTable.weight, $cgTable.title,
                               $cfTable.weight, $cfTable.label";
                  
