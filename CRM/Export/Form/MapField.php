@@ -40,13 +40,6 @@ require_once 'CRM/Core/Form.php';
  * This class gets the name of the file to upload
  */
 class CRM_Export_Form_MapField extends CRM_Core_Form {
-    /**
-     * cache of preview data values
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_dataValues;
     
     /**
      * mapper fields
@@ -64,35 +57,19 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      */
     protected $_columnCount;
 
-    /**
-     * column headers, if we have them
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_columnHeaders;
-
-    /**
-     * an array of booleans to keep track of whether a field has been used in
-     * form building already.
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_fieldUsed;
-    
+   
     /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
-    
     public function preProcess() {
-        $this->_columnCount = 10;
-        if (CRM_Utils_Request::retrieve( 'more', $form )) {
-            $currentCount = $this->get('columnCount');
-            $this->_columnCount =  $currentCount + 10;
+        $this->_columnCount = $this->get('columnCount');
+        if (!$this->_columnCount) {
+            $this->_columnCount = 10;
+        } else {
+            $this->_columnCount = $this->_columnCount + 10;
         }
     }
     
@@ -223,24 +200,10 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        
-        $mapperKeys = $_POST['mapper'];
-        /*//$mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        print_r($mapperKeys);
-        $fields = array();
-        //print_r($mapperKeys);
-        foreach($mapperKeys as $key) {
-            if($key[1]) {
-                $fields[$key[1]]= array($key[2],$key[3]);
-            }
-        }
-        $returnFields = array($fields);
-        // print_r($returnFields);
-        */
+        $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         CRM_Export_BAO_Export::exportContacts($mapperKeys);
-        
     }
-
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *
