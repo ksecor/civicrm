@@ -67,7 +67,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
         $this->_contactIds = array( );
 
         //get the no of contacts selected from the session
-        $session = new CRM_Core_Session();
+        $session = & CRM_Core_Session::singleton();
         $values = $session->get('formValues', 'CRM_Contact_Controller_Search');
 
         // all contacts or action = save a search
