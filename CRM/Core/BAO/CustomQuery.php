@@ -123,33 +123,33 @@ class CRM_Core_BAO_CustomQuery {
                 } else {
                     $this->_where[] = $sql . "'%" . $value . "%'";
                 } 
-                $this->_qill[] = $fieldLabel . " like - $value";
+                $this->_qill[] = $field['label'] . " like - $value";
                 continue;
                 
             case 'Int':
                 $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
-                $this->_qill[]  = $fieldLabel . " - $value";
+                $this->_qill[]  = $field['label'] . " - $value";
                 continue;
                 
             case 'Boolean':                    
                 $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
                 $value = $value ? ts('Yes') : ts('No');
-                $this->_qill[]  = $fieldLabel . " - $value";
+                $this->_qill[]  = $field['label'] . " - $value";
                 continue;
 
             case 'Float':
                 $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . $value;  
-                $this->_qill[]  = $fieldLabel . " - $value";
+                $this->_qill[]  = $field['label'] . " - $value";
                 continue;                    
                 
             case 'Money':
                 $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . $value;
-                $this->_qill[]  = $fieldLabel . " - $value";
+                $this->_qill[]  = $field['label'] . " - $value";
                 continue;
                 
             case 'Memo':
                 $this->_where[] = self::PREFIX . $field['id'] . '.memo_data LIKE ' . "'%" . $value . "%'";
-                $this->_qill[]  = $fieldLabel . " like - $value";
+                $this->_qill[]  = $field['label'] . " like - $value";
                 continue;
                 
             case 'Date':
@@ -162,7 +162,7 @@ class CRM_Core_BAO_CustomQuery {
                 }
                 if ( $value ) {
                     $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
-                    $this->_qill[]  = $fieldLabel . " - {$states[$value]}";
+                    $this->_qill[]  = $field['label'] . " - {$states[$value]}";
                 }
                 continue;
                 
@@ -173,7 +173,7 @@ class CRM_Core_BAO_CustomQuery {
                 }
                 if ( $value ) {
                     $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
-                    $this->_qill[]  = $fieldLabel . " - {$countries[$value]}";
+                    $this->_qill[]  = $field['label'] . " - {$countries[$value]}";
                 }
                 continue;
             }

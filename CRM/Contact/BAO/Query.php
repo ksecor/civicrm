@@ -329,30 +329,33 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field['name'] ) ) { 
+            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) { 
                 $cfIDs[$cfID] = $value; 
             } else {
-                if ( $field['name'] === 'state_province_id' ) {
+                $value = strtolower( $value ); 
+                if ( $name === 'state_province' ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince(); 
                     if ( is_numeric( $value ) ) {
                         $value  =  $states[(int ) $value];
                     }
                     $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
-                } else if ( $field['name'] === 'country_id' ) {
+                } else if ( $name === 'country' ) {
                     $countries =& CRM_Core_PseudoConstant::country( ); 
                     if ( is_numeric( $value ) ) { 
                         $value     =  $countries[(int ) $value]; 
                     }
                     $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
-                } 
+                } else {
+                    $this->_qill[]  = ts( $field['title'] . ' like "%1"', array( 1 => $value ) );
+                }
 
-                $value = strtolower( $value ); 
                 $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
-                $this->_qill[]  = ts( $field['title'] . ' like = "%1"', array( 1 => $value ) );
                 list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                 if ( isset( $tableName ) ) { 
                     $this->_tables[$tableName] = 1;  
                 }
+                // CRM_Core_Error::debug( 'f', $field );
+                // CRM_Core_Error::debug( $value, $this->_qill );
             }
 
             if ( $this->_customQuery ) {
