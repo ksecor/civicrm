@@ -193,52 +193,11 @@ ORDER BY
                          $groupContacts = false, $returnQuery = false )
     {
         $query =& new CRM_Contact_BAO_Query( $fv, null, null,
-                                             $count, $includeContactIds,
-                                             $sortByChar, $groupContacts );
-        list( $select, $from, $where ) = $query->query( );
-
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
-        
-        if ( empty( $where ) ) {
-            $where = " WHERE $permission ";
-        } else {
-            $where = " $where AND $permission ";
-        }
-
-        $order = $limit = '';
-
-        if ( ! $count ) {
-            if ($sort) {
-                $order = " ORDER BY " . $sort->orderBy(); 
-            } else if ($sortByChar) { 
-                $order = " ORDER BY LEFT(civicrm_contact.sort_name, 1) ";
-            }
-            if ( $rowCount > 0 ) {
-                $limit = " LIMIT $offset, $rowCount ";
-            }
-        }
-
-        // building the query string
-        $query = $select . $from . $where . $order . $limit;
-        // echo "<pre>$query</pre>";
-        if ( $returnQuery ) {
-            return $query;
-        }
-        
-        if ( $count ) {
-            return CRM_Core_DAO::singleValueQuery( $query );
-        }
-
-        $dao =& CRM_Core_DAO::executeQuery( $query );
-        if ( $groupContacts ) {
-            $ids = array( );
-            while ( $dao->fetch( ) ) {
-                $ids[] = $dao->id;
-            }
-            return implode( ',', $ids );
-        }
-        
-        return $dao;
+                                             $includeContactIds );
+        return $query->searchQuery( $offset, $rowCount, $sort,
+                                    $count, $includeContactids,
+                                    $sortByChar, $groupContacts,
+                                    $returnQuery );
     }
     
     /**

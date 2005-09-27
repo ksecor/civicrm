@@ -150,8 +150,6 @@ class CRM_Contact_BAO_Query {
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
-                        $this->_tables[$tableName]         = 1;
-
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
                             $this->_tables['civicrm_location'] = 1;
                             $this->_select['location_id']      = 'civicrm_location.id as location_id';
@@ -161,6 +159,8 @@ class CRM_Contact_BAO_Query {
                             $this->_select['address_id']      = 'civicrm_address.id as address_id';
                             $this->_element['address_id']     = 1;
                         }
+                        $this->_tables[$tableName]         = 1;
+
                         // also get the id of the tableName
                         $tName = substr($tableName, 8 );
                         $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
@@ -307,7 +307,7 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */ 
     function whereClause( ) {
-        $this->search( );
+        $this->searchWhereClause( );
 
         // CRM_Core_Error::debug( 'p', $this->_params );
         // domain id is always part of the where clause
@@ -571,7 +571,7 @@ class CRM_Contact_BAO_Query {
         return $from;
     }
 
-    function search( ) {
+    function searchWhereClause( ) {
         $this->contactType( );
 
         $this->group( );
@@ -616,7 +616,7 @@ class CRM_Contact_BAO_Query {
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
-        foreach ( $this->_params['group'] as $id ) {
+        foreach ( $this->_params['group'] as $id => $dontCare ) {
             $names[] = $groupNames[$id];
         }
         $this->_qill[]  = ts('Member of Group -') . implode( ts(' or '), $names );
@@ -695,7 +695,7 @@ class CRM_Contact_BAO_Query {
  
         $names = array( );
         $tagNames =& CRM_Core_PseudoConstant::tag();
-        foreach ( $this->_params['tag'] as $id ) {
+        foreach ( $this->_params['tag'] as $id => $dontCare ) {
             $names[] = $tagNames[$id];
         }
         $this->_qill[]  = ts('Tagged as -') . implode( ts(' or '), $names ); 
@@ -756,6 +756,7 @@ class CRM_Contact_BAO_Query {
         } 
         if ( ! empty( $contactIds ) ) { 
             $this->_where[] = " ( civicrm_contact.id in (" . implode( ',', $contactIds ) . " ) ) "; 
+            $this->whereClause = 'WHERE ' . implode( ' AND ', $this->_where ); 
         }
     }
 
@@ -928,6 +929,7 @@ class CRM_Contact_BAO_Query {
     }
 
 
+
     /**
      * create and query the db for an contact search
      *
@@ -943,14 +945,17 @@ class CRM_Contact_BAO_Query {
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function searchQuery(&$fv, $offset, $rowCount, $sort, 
-                         $count = false, $includeContactIds = false, $sortByChar = false,
-                         $groupContacts = false, $returnQuery = false )
-    {
-        $query =& new CRM_Contact_BAO_Query( $fv, null, null,
-                                             $count, $includeContactIds,
-                                             $sortByChar, $groupContacts );
-        list( $select, $from, $where ) = $query->query( );
+    function searchQuery( $offset, $rowCount, $sort, 
+                          $count = false, $includeContactIds = false,
+                          $sortByChar = false, $groupContacts = false,
+                          $returnQuery = false ) {
+
+        if ( $includeContactIds ) {
+            $this->_includeContactIds = true;
+            $this->includeContactIds( );
+        }
+
+        list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
 
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
         
@@ -992,8 +997,12 @@ class CRM_Contact_BAO_Query {
             }
             return implode( ',', $ids );
         }
-        
+
         return $dao;
+    }
+
+    function qill( ) {
+        return $this->_qill;
     }
 
 }
