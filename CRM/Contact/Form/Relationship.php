@@ -326,11 +326,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         // get the count of contact
        
         $contactBAO  =& new CRM_Contact_BAO_Contact( );
-        $searchCount = $contactBAO->searchQuery($searchValues, 0, 0, null, true );
+        $query =& new CRM_Contact_BAO_Query( $searchValues );
+        $searchCount = $query->searchQuery(0, 0, null, true );
         $this->set( 'searchCount', $searchCount );
         if ( $searchCount <= self::MAX_RELATIONSHIPS ) {
             // get the result of the search
-            $result = $contactBAO->searchQuery($searchValues, 0, 50, null, false );
+            $result = $query->searchQuery(0, 50, null);
 
             $config =& CRM_Core_Config::singleton( );
             $searchRows = array( );
