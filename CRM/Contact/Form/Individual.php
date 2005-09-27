@@ -56,7 +56,7 @@ class CRM_Contact_Form_Individual {
         $form->applyFilter('__ALL__','trim');
         
         // prefix
-        $form->addElement('select', 'prefix', ts('Prefix'), CRM_Core_SelectValues::prefixName());
+        $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('-title-')) + CRM_Core_PseudoConstant::individualPrefix());
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
@@ -70,7 +70,7 @@ class CRM_Contact_Form_Individual {
         $form->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
         
         // suffix
-        $form->addElement('select', 'suffix', ts('Suffix'), CRM_Core_SelectValues::suffixName());
+        $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('-suffix-')) + CRM_Core_PseudoConstant::individualSuffix());
         
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'),
@@ -81,13 +81,14 @@ class CRM_Contact_Form_Individual {
         
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
-        
+
         // radio button for gender
         $genderOptions = array( );
-        $genderOptions[] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts('Female'), 'Female');
-        $genderOptions[] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts('Male'), 'Male');
-        $genderOptions[] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts('Transgender'), 'Transgender');
-        $form->addGroup($genderOptions, 'gender', ts('Gender'));
+        $gender =CRM_Core_PseudoConstant::gender();
+        foreach ($gender as $key => $var) {
+            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts($var), $key);
+        }
+        $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
         
         $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'));
         

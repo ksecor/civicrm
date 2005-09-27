@@ -548,6 +548,18 @@ class CRM_Contact_BAO_Query {
                                    ON civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id
                                   AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
                 continue;
+
+            case 'civicrm_individual_prefix':
+                $from .= " $side JOIN civicrm_individual_prefix ON civicrm_individual.prefix_id = civicrm_individual_prefix.id ";
+                continue;
+            
+            case 'civicrm_individual_suffix':
+                $from .= " $side JOIN civicrm_individual_suffix ON civicrm_individual.suffix_id = civicrm_individual_suffix.id ";
+                continue;
+
+            case 'civicrm_gender':
+                $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
+                continue;
             }
 
         }

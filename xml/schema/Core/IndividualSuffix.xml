@@ -35,6 +35,8 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/suffix/i</headerPattern>
+       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
        <comment>Individual Suffix Name.</comment>
        <add>1.1</add>
   </field>

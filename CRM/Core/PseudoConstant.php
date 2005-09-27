@@ -60,7 +60,27 @@ class CRM_Core_PseudoConstant {
      * @static
      */
     private static $activityType;
+  
+    /**
+     * individual prefix
+     * @var array
+     * @static
+     */
+    private static $individualPrefix;
+
+    /**
+     * individual suffix
+     * @var array
+     * @static
+     */
+    private static $individualSuffix;
     
+    /**
+     * gender
+     * @var array
+     * @static
+     */
+    private static $gender;
 
     /**
      * im protocols
@@ -153,7 +173,7 @@ class CRM_Core_PseudoConstant {
      * @access protected
      * @static
      */
-    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active', $condition = null ) {
+    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active', $condition = null, $orderby = null ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
        
@@ -164,7 +184,11 @@ class CRM_Core_PseudoConstant {
             $object->whereAdd($condition);
         }
         
-        $object->orderBy( $retrieve );
+        if (!$orderby) {
+            $object->orderBy( $retrieve );
+        } else {
+            $object->orderBy( $orderby );
+        }
 
         if ( ! $all ) {
             $object->$filter = 1;
@@ -219,6 +243,69 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all, 'name', 'is_active', 'id > 3' );
         }
         return self::$activityType;
+    }
+
+    /**
+     * Get all Individual Prefix.
+     *
+     * The static array individualPrefix is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Individual Prefix - default is to get only active ones.
+     *
+     * @return array - array reference of all individual prefix.
+     *
+     */
+    public static function &individualPrefix( $all=false )
+    {
+        if ( ! self::$individualPrefix ) {
+            self::populate( self::$individualPrefix, 'CRM_Core_DAO_IndividualPrefix', $all, 'name', 'is_active', null, 'weight ASC' );
+        }
+        return self::$individualPrefix;
+    }
+
+    /**
+     * Get all Individual Suffix.
+     *
+     * The static array individualSuffix is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Individual Suffix - default is to get only active ones.
+     *
+     * @return array - array reference of all individual suffix.
+     *
+     */
+    public static function &individualSuffix( $all=false )
+    {
+        if ( ! self::$individualSuffix ) {
+            self::populate( self::$individualSuffix, 'CRM_Core_DAO_IndividualSuffix', $all, 'name', 'is_active', null, 'weight ASC' );
+        }
+        return self::$individualSuffix;
+    }
+
+    /**
+     * Get all Gender.
+     *
+     * The static array gender is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Gender - default is to get only active ones.
+     *
+     * @return array - array reference of all gender.
+     *
+     */
+    public static function &gender( $all=false )
+    {
+        if ( ! self::$gender ) {
+            self::populate( self::$gender, 'CRM_Core_DAO_Gender', $all, 'name', 'is_active', null, 'weight ASC' );
+        }
+        return self::$gender;
     }
 
 

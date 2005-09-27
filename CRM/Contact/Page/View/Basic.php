@@ -97,6 +97,10 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
+        if (CRM_Utils_Array::value( 'gender_id',  $defaults )) {
+            $gender =CRM_Core_PseudoConstant::gender();
+            $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
+        }
 
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
@@ -143,7 +147,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
-            if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
+            if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $showHide->addShow( 'demographics' );

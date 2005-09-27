@@ -268,8 +268,8 @@ ORDER BY
             $firstName  = CRM_Utils_Array::value('first_name', $params, '');
             $middleName = CRM_Utils_Array::value('middle_name', $params, '');
             $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
-            $prefix     = CRM_Utils_Array::value('prefix'    , $params, '');
-            $suffix     = CRM_Utils_Array::value('suffix'    , $params, '');
+            $prefix_id  = CRM_Utils_Array::value('prefix_id'    , $params, '');
+            $suffix_id  = CRM_Utils_Array::value('suffix_id'    , $params, '');
             
             // a comma should only be present if both first_name and last name are present.
             if ($firstName && $lastName) {
@@ -284,8 +284,8 @@ ORDER BY
                     while($individual->fetch()) {
                         $individualLastName = $individual->last_name;
                         $individualFirstName = $individual->first_name;
-                        $individualPrefix = $individual->prefix;
-                        $individualSuffix = $individual->suffix;
+                        $individualPrefix = $individual->prefix_id;
+                        $individualSuffix = $individual->suffix_id;
                         $individualMiddleName = $individual->middle_name;
                     }
                     
@@ -297,7 +297,7 @@ ORDER BY
                         $firstName = $individualFirstName;
                     }
                                                             
-                    if (empty($prefix) && !empty($individualPrefix)) {
+                    if (empty($prefix_id) && !empty($individualPrefix)) {
                         $prefix = $individualPrefix;
                     }
                     
@@ -305,7 +305,7 @@ ORDER BY
                         $middleName = $individualMiddleName;
                     }
                     
-                    if (empty($suffix) && !empty($individualSuffix)) {
+                    if (empty($suffix_id) && !empty($individualSuffix)) {
                         $suffix = $individualSuffix;
                     }
                     
@@ -313,8 +313,13 @@ ORDER BY
                 }
             }
             $contact->sort_name    = trim($sortName);
+            
+            // get prefix and suffix names
+            $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $suffix = CRM_Core_PseudoConstant::individualSuffix();
+            
             $contact->display_name =
-                trim( $prefix . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix );
+                trim( $prefix[$prefix_id] . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix[$suffix_id] );
             $contact->display_name = str_replace( '  ', ' ', $contact->display_name );
 
             if ( CRM_Utils_Array::value( 'location', $params ) ) {
@@ -540,9 +545,21 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             if (is_array($defaults['birth_date'])) {
                 $defaults['birth_date'] = CRM_Utils_Date::format( 
                                                                  $defaults['birth_date'], '-' 
-                                                                 );
+                                                                );
             }
         } 
+
+        if ( CRM_Utils_Array::value( 'prefix', $defaults ) ) {
+            self::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
+        }  
+
+        if ( CRM_Utils_Array::value( 'suffix', $defaults ) ) {
+            self::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
+        }  
+
+        if ( CRM_Utils_Array::value( 'gender', $defaults ) ) {
+            self::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
+        }
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
@@ -901,10 +918,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 }
             }
 
+            $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
+                                   CRM_Core_DAO_IndividualSuffix::import( true ) ,
+                                   CRM_Core_DAO_Gender::import( true ) );
+            
+
             $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                             CRM_Core_DAO_Phone::import( ),
                                             CRM_Core_DAO_Email::import( ),
-                                            CRM_Core_DAO_IM::import( true ));
+                                            CRM_Core_DAO_IM::import( true )
+                                            );
             foreach ($locationFields as $key => $field) {
                 $locationFields[$key]['hasLocationType'] = true;
             }
@@ -924,6 +947,10 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                           CRM_Core_BAO_CustomField::getFieldsForImport($type));
                 }
             }
+
+            $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::import( ),
+                                   CRM_Core_DAO_IndividualSuffix::import( ),
+                                   CRM_Core_DAO_Gender::import( ));
 
             self::$_importableFields[$contactType] = $fields;
         }
@@ -1146,6 +1173,10 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     
         eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
     
+        $exportableFields = array_merge( $exportableFields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
+                                         CRM_Core_DAO_IndividualSuffix::import( true ) ,
+                                         CRM_Core_DAO_Gender::import( true ) );
+
         $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                         CRM_Core_DAO_Phone::import( ),
                                         CRM_Core_DAO_Email::import( ),

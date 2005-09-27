@@ -35,6 +35,8 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/gender|sex/i</headerPattern>
+       <dataPattern>/^(f|m|(fe)?male)$/</dataPattern>
        <comment>Gender Name.</comment>
        <add>1.1</add>
   </field>

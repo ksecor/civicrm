@@ -698,7 +698,8 @@ function _crm_add_formatted_param(&$values, &$params) {
     if ($fields == null) {
         $fields = array();
     }
-    
+    //print_r($values); 
+    //print_r($params);
     if (isset($values['contact_type'])) {
         /* we're an individual/household/org property */
         if (!isset($fields[$values['contact_type']])) {
@@ -714,6 +715,21 @@ function _crm_add_formatted_param(&$values, &$params) {
         return true;
     }
     
+    if (isset($values['individual_prefix'])) {
+        $params['prefix'] = $values['individual_prefix'];
+        return true;
+    }
+
+    if (isset($values['individual_suffix'])) {
+        $params['suffix'] = $values['individual_suffix'];
+        return true;
+    }
+
+    if (isset($values['gender'])) {
+        $params['gender'] = $values['gender'];
+        return true;
+    }
+
     if (isset($values['location_type_id'])) {
         /* find and/or initialize the correct location block in $params */
         $locBlock = null;

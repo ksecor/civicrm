@@ -230,7 +230,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         // is there any demographics data?
-        if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
+        if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
              CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
              CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
             $this->_showHide->addShow( 'demographics' );

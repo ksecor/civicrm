@@ -196,8 +196,8 @@ class CRM_Core_Invoke {
                 break;
             case 'delete':
                 $view =& new CRM_Contact_Page_View_Delete( );
-               
-                break;        
+                break;     
+            
             default:
                 $view =& new CRM_Contact_Page_View_Basic( );
                 break;
@@ -350,6 +350,19 @@ class CRM_Core_Invoke {
         case 'tag':
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
+
+        case 'prefix':
+            $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
+            break;
+            
+        case 'suffix':
+            $view =& new CRM_Admin_Page_IndividualSuffix(ts('View Individual Suffix'));
+            break;
+                
+        case 'gender':
+            $view =& new CRM_Admin_Page_Gender(ts('View Gender'));
+            break;   
+            
         default:
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
             // CRM_Core_Error::debug('r',$view);

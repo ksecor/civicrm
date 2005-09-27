@@ -40,45 +40,6 @@
 class CRM_Core_SelectValues {
 
     /**
-     * prefix names
-     * @static
-     */
-    static function &prefixName()
-    {
-        static $prefixName = null;
-        if (!$prefixName) {
-            $prefixName = array(
-                ''    => ts('-title-'),
-                'Mrs' => ts('Mrs.'),
-                'Ms'  => ts('Ms.'),
-                'Mr'  => ts('Mr.'),
-                'Dr'  => ts('Dr.'),
-                ' '   => ts('(none)')
-            );
-        }
-        return $prefixName;
-    }
-
-    /**
-     * suffix names
-     * @static
-     */
-    static function &suffixName()
-    {
-        static $suffixName = null;
-        if (!$suffixName) {
-            $suffixName = array(
-                ''   => ts('-suffix-'),
-                'Jr' => ts('Jr.'),
-                'Sr' => ts('Sr.'),
-                'II' =>ts('II'),
-                ' '  => ts('(none)')
-            );
-        }
-        return $suffixName;
-    }
-
-    /**
      * greetings
      * @static
      */

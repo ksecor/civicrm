@@ -20,18 +20,18 @@
  <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.prefix.label}</td>
+		<td>{$form.prefix_id.label}</td>
 		<td>{$form.first_name.label}</td>
 		<td>{$form.middle_name.label}</td>
 		<td>{$form.last_name.label}</td>
-		<td>{$form.suffix.label}</td>
+		<td>{$form.suffix_id.label}</td>
 	</tr>
 	<tr>
-		<td>{$form.prefix.html}</td>
+		<td>{$form.prefix_id.html}</td>
 		<td>{$form.first_name.html}</td>
 		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
 		<td>{$form.last_name.html}</td>
-		<td>{$form.suffix.html}</td>
+		<td>{$form.suffix_id.html}</td>
 	</tr>
     <tr>
         <td>&nbsp;</td>
@@ -125,10 +125,10 @@
  <fieldset><legend>{$demographics.hide}{ts}Demographics{/ts}</legend>
     <div class="form-item">
         <span class="labels">
-        {$form.gender.label}
+        {$form.gender_id.label}
         </span>
         <span class="fields">
-        {$form.gender.html}
+        {$form.gender_id.html}
         </span>
     </div>
 	<div class="form-item">

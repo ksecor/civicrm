@@ -64,25 +64,29 @@
       <add>1.1</add>
   </field>
   <field>
-       <name>prefix</name>
-       <type>varchar</type>
-       <length>64</length>
-       <import>true</import>
-       <headerPattern>/prefix/i</headerPattern>
-       <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
-       <comment>Prefix to Name.</comment>
+      <name>prefix_id</name>
+      <type>int unsigned</type>
+      <comment>FK to prefix ID</comment>
       <add>1.1</add>
   </field>
+  <foreignKey>
+       <name>prefix_id</name>
+       <table>civicrm_individual_prefix</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
   <field>
-       <name>suffix</name>
-       <type>varchar</type>
-       <length>64</length>
-       <import>true</import>
-       <headerPattern>/^suffix$/i</headerPattern>
-       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
-       <comment>Suffix to Name.</comment>
+      <name>suffix_id</name>
+      <type>int unsigned</type>
+      <comment>FK to suffix ID</comment>
       <add>1.1</add>
   </field>
+  <foreignKey>
+       <name>suffix_id</name>
+       <table>civicrm_individual_suffix</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
   <field>
        <name>greeting_type</name>
        <type>enum</type>
@@ -107,16 +111,19 @@
        <comment>Job Title</comment>
       <add>1.1</add>
   </field>
+
   <field>
-       <name>gender</name>
-       <type>enum</type>
-       <values>Female, Male, Transgender</values>
-       <import>true</import>
-       <headerPattern>/gender|sex/i</headerPattern>
-       <dataPattern>/^(f|m|(fe)?male)$/</dataPattern>
-       <comment>Gender</comment>
+      <name>gender_id</name>
+      <type>int unsigned</type>
+       <comment>FK to gender ID</comment>
       <add>1.1</add>
   </field>
+  <foreignKey>
+       <name>gender_id</name>
+       <table>civicrm_gender</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
   <field>
        <name>birth_date</name>
        <type>date</type>
