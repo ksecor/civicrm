@@ -105,7 +105,8 @@ class CRM_Core_BAO_CustomQuery {
     }
 
     function where( ) {
-        // CRM_Core_Error::debug( 'ids', $this->_fields );
+        // CRM_Core_Error::debug( 'fld', $this->_fields );
+        // CRM_Core_Error::debug( 'ids', $this->_ids );
         foreach ( $this->_ids as $id => $value ) {
 
             if ( $value === null || ! CRM_Utils_Array::value( $id, $this->_fields ) ) {
@@ -153,6 +154,10 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
                 
             case 'Date':
+                $this->_where[] = self::PREFIX . $field['id'] . '.date_data = ' .
+                    CRM_Utils_Date::format( $value );
+                $this->_qill[]  = $field['label'] . ' - ' .
+                    CRM_Utils_Date::format( $value, '-' );
                 continue;
                 
             case 'StateProvince':
