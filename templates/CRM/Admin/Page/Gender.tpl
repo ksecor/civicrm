@@ -1,5 +1,6 @@
 <div id="help">
-    {ts}<p>Gender.</p>{/ts}
+    {ts}<p>CiviCRM is pre-configured with standard options for individual gender (e.g. Male, Female, Transgender).
+    You can use this page to customize these options and add new options as needed for your installation.</p>{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2}
@@ -31,7 +32,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Gender{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Gender Option{/ts}</a>
         </div>
         {/if}
     </div>

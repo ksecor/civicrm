@@ -144,7 +144,7 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
 
-        $dao->orderBy('name');
+        $dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {

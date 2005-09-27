@@ -1,5 +1,6 @@
 <div id="help">
-    {ts}<p>Individual Prefix.</p>{/ts}
+    {ts}<p>CiviCRM is pre-configured with standard options for individual contact titles / prefixes (e.g. Ms., Mr., Dr. etc.).
+    You can use this page to customize these options and add new ones as needed for your installation.</p>{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2}
@@ -31,7 +32,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Individual Prefix{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Individual Title Option{/ts}</a>
         </div>
         {/if}
     </div>
@@ -41,7 +42,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/individualPrefix' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Individual Prefix entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Individual Titles entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

@@ -242,7 +242,7 @@ class CRM_Utils_Menu {
     
                       array(
                             'path'    => 'civicrm/admin/prefix',
-                            'title'   => ts('Personal Titles (Ms,Mr...)'),
+                            'title'   => ts('Individual Titles (Ms,Mr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
@@ -252,7 +252,7 @@ class CRM_Utils_Menu {
                       
                       array(
                             'path'    => 'civicrm/admin/suffix',
-                            'title'   => ts('Personal Suffixes (Jr,Sr...)'),
+                            'title'   => ts('Individual Suffixes (Jr,Sr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',

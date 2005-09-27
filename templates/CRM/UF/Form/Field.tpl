@@ -33,7 +33,7 @@
         *}
         <dt>{$form.is_match.label}</dt><dd>&nbsp;{$form.is_match.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">{ts}Is this field used to map a newly registered user to an existing contact record?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Is this field part of the data set used to identify potential duplicate contact records?{/ts}</dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
         {if $action neq 4}

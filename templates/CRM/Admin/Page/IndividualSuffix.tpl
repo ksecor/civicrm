@@ -1,5 +1,6 @@
 <div id="help">
-    {ts}<p>Individual Suffix.</p>{/ts}
+    {ts}<p>CiviCRM is pre-configured with standard options for individual contact name suffixes (e.g. Jr., Sr., II etc.).
+    You can use this page to customize these options and add new ones as needed for your installation.</p>{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2}
@@ -31,7 +32,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Individual Suffix{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Individual Suffix Option{/ts}</a>
         </div>
         {/if}
     </div>
@@ -41,7 +42,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/individualSuffix' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Individual Suffix entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Individual Suffixes entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

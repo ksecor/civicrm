@@ -1,6 +1,6 @@
-{* this template is used for adding/editing individual prefix  *}
+{* this template is used for adding/editing individual title/ prefix  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Individual Prefix{/ts}{else}{ts}Edit Individual Prefix{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Individual Title Option{/ts}{else}{ts}Edit Individual Title Option{/ts}{/if}</legend>
   <dl>
 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
 	<dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
