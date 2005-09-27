@@ -83,7 +83,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                              'invalidRowCount', 'conflictRowCount',
                              'downloadErrorRecordsUrl',
                              'downloadConflictRecordsUrl',
-                             'related', 'relatedContactDetails', 'relatedContactEmailType'
+                             'related', 'relatedContactDetails', 'relatedContactLocType',
+                             'relatedContactPhoneType'
                     );
                              
         foreach ( $properties as $property ) {
@@ -159,7 +160,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapperRelated = array();
         $mapperRelatedContactType = array();
         $mapperRelatedContactDetails = array();
-        $mapperRelatedContactEmailType = array();
+        $mapperRelatedContactLocType = array();
+        $mapperRelatedContactPhoneType = array();
 
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
@@ -183,18 +185,21 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 eval( '$mapperRelatedContactType[$key] = $relationType->contact_type_'.$second.';');
                 $mapperRelated[$key] = $mapper[$key][0];
                 $mapperRelatedContactDetails[$key] = $mapper[$key][1];
-                $mapperRelatedContactEmailType[$key] = $mapper[$key][2];
+                $mapperRelatedContactLocType[$key] = $mapper[$key][2];
+                $mapperRelatedContactPhoneType[$key] = $mapper[$key][3];
             } else {
                 $mapperRelated[$key] = null;
                 $mapperRelatedContactType[$key] = null;
                 $mapperRelatedContactDetails[$key] = null;
-                $mapperRelatedContactEmailType[$key] = null;
+                $mapperRelatedContactLocType[$key] = null;
+                $mapperRelatedContactPhoneType[$key] = null;
             }
         }
 
         $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
                                                   $mapperPhoneTypes, $mapperRelated, $mapperRelatedContactType,
-                                                  $mapperRelatedContactDetails, $mapperRelatedContactEmailType);
+                                                  $mapperRelatedContactDetails, $mapperRelatedContactLocType, 
+                                                  $mapperRelatedContactPhonetype);
         $parser->run( $fileName, $seperator, 
                       $mapperKeys,
                       $skipColumnHeader,

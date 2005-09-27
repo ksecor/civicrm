@@ -74,7 +74,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function __construct( &$mapperKeys, $mapperLocType = null, 
                           $mapperPhoneType = null, $mapperRelated = null, $mapperRelatedContactType=null,
-                          $mapperRelatedContactDetails = null, $mapperRelatedContactEmailType = null) {
+                          $mapperRelatedContactDetails = null, $mapperRelatedContactLocType = null, 
+                          $mapperRelatedContactPhoneType = null) {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         $this->_mapperLocType =& $mapperLocType;
@@ -82,7 +83,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->_mapperRelated =& $mapperRelated;
         $this->_mapperRelatedContactType =& $mapperRelatedContactType;
         $this->_mapperRelatedContactDetails =& $mapperRelatedContactDetails;
-        $this->_mapperRelatedContactEmailType =& $mapperRelatedContactEmailType;
+        $this->_mapperRelatedContactLocType =& $mapperRelatedContactLocType;
+        $this->_mapperRelatedContactPhoneType =& $mapperRelatedContactPhoneType;
     }
 
     /**
@@ -124,7 +126,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->setActiveFieldRelated( $this->_mapperRelated );
         $this->setActiveFieldRelatedContactType( $this->_mapperRelatedContactType );
         $this->setActiveFieldRelatedContactDetails( $this->_mapperRelatedContactDetails );
-        $this->setActiveFieldRelatedContactEmailType( $this->_mapperRelatedContactEmailType );
+        $this->setActiveFieldRelatedContactLocType( $this->_mapperRelatedContactLocType );
+        $this->setActiveFieldRelatedContactPhoneType( $this->_mapperRelatedContactPhoneType );
         
         $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
@@ -354,7 +357,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }                
                 _crm_add_formatted_param($value, $formatting);
             }
-
+            
             $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
             //print_r($relatedNewContact);
             if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {

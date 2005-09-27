@@ -63,8 +63,8 @@
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
                 <td class="form-item even-row{if $wizard.currentStepTitle == 'Preview'} labels{/if}">
                     {if $wizard.currentStepTitle == 'Preview'}
-            			{if $relatedContactEmailType}
-			                {$relatedContactEmailType[$i]}
+            			{if $relatedContactLocType}
+			                {$relatedContactLocType[$i]}
             			{/if}
 			            {if $relatedContactDetails}
             			    {$relatedContactDetails[$i]}

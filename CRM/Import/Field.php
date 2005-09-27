@@ -112,14 +112,20 @@ class CRM_Import_Field {
     public $_relatedContactDetails;
 
     /**
-     * does this field have a related Contact info of Email Type
+     * does this field have a related Contact info of Location Type
+     * @var int
+     */
+    public $_relatedContactLocType;
+
+    /**
+     * does this field have a related Contact info of Phone Type
      * @var string
      */
-    public $_relatedContactEmailType;
+    public $_relatedContactPhoneType;
 
 
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = null, $phoneType = null, $related=null, $relatedContactType=null, $relatedContactDetails=null, $relatedContactEmailType=null) {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = null, $phoneType = null, $related=null, $relatedContactType=null, $relatedContactDetails=null, $relatedContactLocType=null, $relatedContactPhoneType=null) {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
@@ -130,7 +136,8 @@ class CRM_Import_Field {
         $this->_related = $related;
         $this->_relatedContactType = $relatedContactType;
         $this->_relatedContactDetails = $relatedContactDetails;
-        $this->_relatedContactEmailType = $relatedContactEmailType;    
+        $this->_relatedContactLocType = $relatedContactLocType;    
+        $this->_relatedContactPhoneType = $relatedContactPhoneType;    
     
         $this->_value     = null;
     }

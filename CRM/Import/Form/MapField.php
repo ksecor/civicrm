@@ -489,7 +489,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
                 $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
-                $relatedContactEmailType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
+                $relatedContactLocType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
+                $relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
                 $relationType =& new CRM_Contact_DAO_RelationshipType();
                 $relationType->id = $id;
                 $relationType->find(true);
@@ -498,7 +499,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $related[$i] = null;
                 $relatedContactType[$i] = null;
                 $relatedContactDetails[$i] = null;
-                $relatedContactEmailType[$i] = null;                
+                $relatedContactLocType[$i] = null;                
+                $relatedContactPhoneType[$i] = null;
             }            
         }
 
@@ -507,11 +509,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->set( 'phones', $mapperPhoneType);
 
         //relationship info
-        
         $this->set( 'related'    , $related     );
         $this->set( 'relatedContactType',$relatedContactType );
         $this->set( 'relatedContactDetails',$relatedContactDetails );
-        $this->set( 'relatedContactEmailType',$relatedContactEmailType );
+        $this->set( 'relatedContactLocType',$relatedContactLocType );
+        $this->set( 'relatedContactPhoneType',$relatedContactPhoneType );
         
         $params = $this->controller->exportValues( 'MapField' );
           
@@ -593,7 +595,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
 
         $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
-                                                   $related, $relatedContactType, $relatedContactDetails,$relatedContactEmailType  );
+                                                   $related, $relatedContactType, $relatedContactDetails, 
+                                                   $relatedContactLocType, $relatedContactPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         

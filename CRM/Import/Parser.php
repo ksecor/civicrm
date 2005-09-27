@@ -489,12 +489,19 @@ abstract class CRM_Import_Parser {
         }
     }
     
-    function setActiveFieldRelatedContactEmailType( $elements ) {
+    function setActiveFieldRelatedContactLocType( $elements ) {
         for ($i = 0; $i < count( $elements ); $i++) {
-            $this->_activeFields[$i]->_relatedContactEmailType = $elements[$i];
-        }        
+            $this->_activeFields[$i]->_relatedContactLocType = $elements[$i];
+        }
+        
     }    
     
+    function setActiveFieldRelatedContactPhoneType( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_relatedContactPhoneType = $elements[$i];
+        }        
+    }
+
     /**
      * function to format the field values for input to the api
      *
@@ -539,10 +546,10 @@ abstract class CRM_Import_Parser {
                         $params[$this->_activeFields[$i]->_related]['contact_type'] = $this->_activeFields[$i]->_relatedContactType;
                     }
 
-                    if ( $this->_activeFields[$i]->_relatedContactDetails == 'email' && !empty($this->_activeFields[$i]->_value) )  {
+                    if ( isset($this->_activeFields[$i]->_relatedContactLocType)  && !empty($this->_activeFields[$i]->_value) )  {
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
-                        $value = array('email' => $this->_activeFields[$i]->_value,
-                                       'location_type_id' => $this->_activeFields[$i]->_relatedContactEmailType);
+                        $value = array($this->_activeFields[$i]->_relatedContactDetails => $this->_activeFields[$i]->_value,
+                                       'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
                     }
                 }
