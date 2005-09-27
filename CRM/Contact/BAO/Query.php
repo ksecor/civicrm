@@ -307,8 +307,6 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */ 
     function whereClause( ) {
-        $this->searchWhereClause( );
-
         // CRM_Core_Error::debug( 'p', $this->_params );
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
@@ -319,9 +317,10 @@ class CRM_Contact_BAO_Query {
             $this->_where[] = "civicrm_contact.id = $id";
         }
 
-        $cfIDs = array( );
-        // CRM_Core_Error::debug( 'p', $this->_params );
-        // CRM_Core_Error::debug( 'f', $this->_fields );
+        $this->searchWhereClause( );
+
+        //CRM_Core_Error::debug( 'p', $this->_params );
+        //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ( $this->_fields as $name => $field ) { 
             $value = CRM_Utils_Array::value( $name, $this->_params );
                 
@@ -329,39 +328,39 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) { 
-                $cfIDs[$cfID] = $value; 
+            if ( CRM_Core_BAO_CustomField::getKeyID( $name ) ) { 
+                continue;
+            }
+
+            $value = strtolower( $value ); 
+            if ( $name === 'state_province' ) {
+                $states =& CRM_Core_PseudoConstant::stateProvince(); 
+                if ( is_numeric( $value ) ) {
+                    $value  =  $states[(int ) $value];
+                }
+                $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
+            } else if ( $name === 'country' ) {
+                $countries =& CRM_Core_PseudoConstant::country( ); 
+                if ( is_numeric( $value ) ) { 
+                    $value     =  $countries[(int ) $value]; 
+                }
+                $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
             } else {
-                $value = strtolower( $value ); 
-                if ( $name === 'state_province' ) {
-                    $states =& CRM_Core_PseudoConstant::stateProvince(); 
-                    if ( is_numeric( $value ) ) {
-                        $value  =  $states[(int ) $value];
-                    }
-                    $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
-                } else if ( $name === 'country' ) {
-                    $countries =& CRM_Core_PseudoConstant::country( ); 
-                    if ( is_numeric( $value ) ) { 
-                        $value     =  $countries[(int ) $value]; 
-                    }
-                    $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
-                } else {
-                    $this->_qill[]  = ts( $field['title'] . ' like "%1"', array( 1 => $value ) );
-                }
-
-                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
-                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-                if ( isset( $tableName ) ) { 
-                    $this->_tables[$tableName] = 1;  
-                }
-                // CRM_Core_Error::debug( 'f', $field );
-                // CRM_Core_Error::debug( $value, $this->_qill );
+                $this->_qill[]  = ts( $field['title'] . ' like "%1"', array( 1 => $value ) );
             }
-
-            if ( $this->_customQuery ) {
-                $this->_where = array_merge( $this->_where  , $this->_customQuery->_where );
-                $this->_qill  = array_merge( $this->_qill   , $this->_customQuery->_qill  );
+            
+            $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
+            list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+            if ( isset( $tableName ) ) { 
+                $this->_tables[$tableName] = 1;  
             }
+            // CRM_Core_Error::debug( 'f', $field );
+            // CRM_Core_Error::debug( $value, $this->_qill );
+        }
+
+        if ( $this->_customQuery ) {
+            $this->_where = array_merge( $this->_where  , $this->_customQuery->_where );
+            $this->_qill  = array_merge( $this->_qill   , $this->_customQuery->_qill  );
         }
 
         if ( ! empty( $this->_where ) ) {
@@ -992,6 +991,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query );
         }
 
+        // CRM_Core_Error::debug( 'q', $query );
         $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
             $ids = array( );

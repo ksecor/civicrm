@@ -215,8 +215,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             $choice[] = $this->addElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
                     } else {
-                        $choice[] = $this->addElement('radio', null, '', ts('Yes'), 1, $field['attributes']);
-                        $choice[] = $this->addElement('radio', null, '', ts('No') , 0, $field['attributes']);
+                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 1, $field['attributes']);
+                        // if we set the value to '0' QF automatically selects it, which we dont want
+                        $choice[] = $this->createElement('radio', null, '', ts('No') , 2, $field['attributes']);
                     }
                     $this->addGroup($choice, $elementName, $field['label']);
                     break;
@@ -237,7 +238,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     $check = array();
                     foreach ($customOption as $v) {
                         $checked = array();
-                        $check[] = $this->addElement('checkbox', $v['value'], null, $v['label']);
+                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
                     }
                     $this->addGroup($check, $elementName, $field['label']);
                     break;
@@ -273,9 +274,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
         
-        // note that we do this so we over-ride the default/post/submitted values to get
-        // consisten behavior between search and advanced search
-        // $this->setConstants( $defaults );
         return $defaults;
     }
 
@@ -305,7 +303,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
- 
             // also reset the sort by character 
             $this->_sortByCharacter = null; 
             $this->set( 'sortByCharacter', null ); 

@@ -132,7 +132,11 @@ class CRM_Core_BAO_CustomQuery {
                 $this->_qill[]  = $field['label'] . " - $value";
                 continue;
                 
-            case 'Boolean':                    
+            case 'Boolean':
+                $value = (int ) $value;
+                // note that to avoid QF's issue with value 0 (and setting the default)
+                // we make boolean 2 as the value of NO
+                $value = ( $value == 1 ) ? 1 : 0;
                 $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
                 $value = $value ? ts('Yes') : ts('No');
                 $this->_qill[]  = $field['label'] . " - $value";
@@ -154,10 +158,14 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
                 
             case 'Date':
-                $this->_where[] = self::PREFIX . $field['id'] . '.date_data = ' .
-                    CRM_Utils_Date::format( $value );
+                $date = CRM_Utils_Date::format( $value );
+                if ( ! $date ) {
+                    continue;
+                }
+                $this->_where[] = self::PREFIX . $field['id'] . ".date_data = $date";
+                $date = CRM_Utils_Date::format( $value, '-' );
                 $this->_qill[]  = $field['label'] . ' - ' .
-                    CRM_Utils_Date::format( $value, '-' );
+                    CRM_Utils_Date::customFormat( $date );
                 continue;
                 
             case 'StateProvince':
