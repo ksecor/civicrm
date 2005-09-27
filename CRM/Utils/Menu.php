@@ -109,7 +109,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -90
+                            'weight'  => 110
                             ),
 
                       array(
@@ -118,7 +118,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -80
+                            'weight'  => 120
                             ),
                       
                       array(
@@ -127,17 +127,77 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -70
+                            'weight'  => 130
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/tag',
-                            'title'   => ts('Tags'),
+                            'path'    => 'civicrm/admin/activityType',
+                            'title'   => ts('Activity Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -10
+                            'weight'  => 210
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/uf/group',
+                            'title'   => ts('CiviCRM Profile'),
+                            'qs'      => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'Configure',
+                            'icon'    => 'admin/DataStore.gif',
+                            'weight'  => 220
+                            ),
+                      
+                      array(
+                            'path'   => 'civicrm/admin/uf/group/field',
+                            'title'  => ts('CiviCRM Profile Fields'),
+                            'qs'     => 'reset=1',
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
+                            'weight' => 221
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/custom/group',
+                            'title'   => ts('Custom Data'),
+                            'qs'      => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'Configure',
+                            'icon'    => 'admin/DataStore.gif',
+                            'weight'  => 230
+                            ),
+                      
+                      array(
+                            'path'   => 'civicrm/admin/custom/group/field',
+                            'title'  => ts('Custom Data Fields'),
+                            'qs'     => 'reset=1',
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
+                            'weight' => 231
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/locationType',
+                            'title'   => ts('Location Types (Home,Work...)'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'Configure',
+                            'icon'    => 'admin/DataStore.gif',
+                            'weight'  => 240
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/tag',
+                            'title'   => ts('Tags (Categories)'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'Configure',
+                            'icon'    => 'admin/DataStore.gif',
+                            'weight'  => 260
                             ),
 
                       array(
@@ -147,117 +207,57 @@ class CRM_Utils_Menu {
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -9
+                            'weight'  => 250
                             ),
 
                       array(
-                            'path'    => 'civicrm/admin/locationType',
-                            'title'   => ts('Location Types'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -8
-                            ),
-        
-                      array(
-                            'path'    => 'civicrm/admin/activityType',
-                            'title'   => ts('Activity Types'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -7
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/admin/custom/group',
-                            'title'   => ts('Custom Data'),
-                            'qs'      => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -6
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/admin/custom/group/field',
-                            'title'  => ts('Custom Data Fields'),
-                            'qs'     => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'weight' => 3
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/admin/uf/group',
-                            'title'   => ts('CiviCRM Profile'),
-                            'qs'      => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -5
-                            ),
-
-                      array(
-                            'path'   => 'civicrm/admin/uf/group/field',
-                            'title'  => ts('CiviCRM Profile Fields'),
-                            'qs'     => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'weight' => 3
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/admin/IMProvider',
-                            'title'   => ts('IM Services'),
+                            'path'    => 'civicrm/admin/gender',
+                            'title'   => ts('Gender Options (Male,Female...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -4
+                            'weight'  => 310
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/IMProvider',
+                            'title'   => ts('Instant Messenger Services'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'Setup',
+                            'icon'    => 'admin/DataStore.gif',
+                            'weight'  => 320
                             ),
 
                       array(
                             'path'    => 'civicrm/admin/mobileProvider',
-                            'title'   => ts('Mobile Providers'),
+                            'title'   => ts('Mobile Phone Providers'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -3
+                            'weight'  => 339
                             ),
     
                       array(
-                            'path'    => 'civicrm/admin/gender',
-                            'title'   => ts('Gender (Male,Female...)'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -2
-                            ),
-                      
-                      array(
                             'path'    => 'civicrm/admin/prefix',
-                            'title'   => ts('Titles (Ms,Mr...)'),
+                            'title'   => ts('Personal Titles (Ms,Mr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => -1
+                            'weight'  => 340
                             ),
                       
                       array(
                             'path'    => 'civicrm/admin/suffix',
-                            'title'   => ts('Name Suffixes (Jr,Sr...)'),
+                            'title'   => ts('Personal Suffixes (Jr,Sr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
                             'icon'    => 'admin/DataStore.gif',
-                            'weight'  => 0
+                            'weight'  => 350
                             ),
                       
                       array(
