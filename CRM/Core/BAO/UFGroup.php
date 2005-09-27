@@ -463,11 +463,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $values[$index] = null;
                 if ( $contact->state_province ) {
                     $values[$index] = $contact->state_province;
+                    $params[$index] = $contact->state_province_id;
                 }
             } else if ( $objName == 'country_id' ) {
                 $values[$index] = null;
                 if ( $contact->country ) {
                     $values[$index] = $contact->country;
+                    $params[$index] = $contact->country_id;
                 }
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
