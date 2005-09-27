@@ -383,11 +383,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                           civicrm_custom_field.custom_group_id = " 
                  . CRM_Utils_Type::escape($groupId, 'Integer');
 
-         // this might be faster
-         // $query = "SELECT count(*) 
-         // FROM   crm_custom_value
-         // WHERE  crm_custom_value.custom_field_id IN (SELECT id FROM crm_custom_field WHERE custom_group_id = $groupId)";
-
          return CRM_Core_DAO::singleValueQuery( $query );
     }
 
@@ -717,32 +712,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
     }
 
-    static function selectFromClause( $cfIDs, &$select, &$from ) { 
-        $values = array( );
-        $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' . implode( ',', $cfIDs ) . ' ) ';
-
-        $dao =& CRM_Core_DAO::executeQuery( $query );
-        while ( $dao->fetch( ) ) {
-            $values[$dao->id] = array( 'id'      => $dao->id,
-                                       'extends' => 'civicrm_contact',
-                                       'type'    => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) );
-        }
-
-        if ( empty( $values ) ) {
-            return;
-        }
-
-        $s = array( );
-        $f = array( );
-        foreach ( $values as $key => $value ) {
-            $tName = 't_' . $value['id'];
-            $s[] = $tName . '.' . $value['type'] . ' as custom_' . $value['id'];
-            $f[] = "LEFT JOIN civicrm_custom_value $tName ON $tName.custom_field_id = " . $value['id'] .
-                   " AND $tName.entity_table = 'civicrm_contact' AND $tName.entity_id = civicrm_contact.id ";
-        }
-        $select = implode( ',', $s );
-        $from   = implode( ' ', $f );
-    }
-
 }
+
 ?>
