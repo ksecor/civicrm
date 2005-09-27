@@ -133,7 +133,7 @@ div.spacer {
   text-align: left;
 } 
 
-#crm-container table.form-layout {
+#crm-container table.form-layout, #crm-container table.control-panel {
   margin: 0em;
   // width: auto;
   width: 98%;	
@@ -152,6 +152,14 @@ div.spacer {
   padding: 3px;
   white-space: nowrap;
   border: none;
+}
+
+#crm-container .control-panel td {
+  padding: 3px;
+  width: 33%;
+  white-space: nowrap;
+  border: none;
+  text-align: center;
 }
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label {

@@ -347,8 +347,12 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Commerce_Donation_Page_DonationPage(ts('Donation Page'));
             }
             break;
-        default:
+        case 'tag':
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
+            break;
+        default:
+            $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
+            // CRM_Core_Error::debug('r',$view);
             break;
         }
         if ( $view ) {
