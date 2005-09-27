@@ -52,6 +52,7 @@ class CRM_Core_BAO_CustomQuery {
     public $_element;
     public $_tables;
     public $_where;
+    public $_qill;
 
     protected $_fields;
 
@@ -62,6 +63,7 @@ class CRM_Core_BAO_CustomQuery {
         $this->_element = array( ); 
         $this->_tables  = array( ); 
         $this->_where   = array( );
+        $this->_qill    = array( );
 
         $this->_fields  = array( );
 
@@ -75,7 +77,8 @@ class CRM_Core_BAO_CustomQuery {
             implode( ',', $tmpArray ) . ' ) ';
         $dao =& CRM_Core_DAO::executeQuery( $query ); 
         while ( $dao->fetch( ) ) {
-            $this->_fields[$dao->id] = array( 'id'        => $dao->id, 
+            $this->_fields[$dao->id] = array( 'id'        => $dao->id,
+                                              'label'     => $dao->label,
                                               'extends'   => 'civicrm_contact',
                                               'data_type' => $dao->data_type,
                                               'html_type' => $dao->html_type,
@@ -108,7 +111,7 @@ class CRM_Core_BAO_CustomQuery {
             if ( $value === null || ! CRM_Utils_Array::value( $id, $this->_fields ) ) {
                 continue;
             }
-            
+
             $field = $this->_fields[$id];
             switch ( $field['data_type'] ) {
 
@@ -120,45 +123,57 @@ class CRM_Core_BAO_CustomQuery {
                 } else {
                     $this->_where[] = $sql . "'%" . $value . "%'";
                 } 
+                $this->_qill[] = $fieldLabel . " like - $value";
                 continue;
                 
             case 'Int':
-            case 'Boolean':                    
                 $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                $this->_qill[]  = $fieldLabel . " - $value";
                 continue;
                 
+            case 'Boolean':                    
+                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                $value = $value ? ts('Yes') : ts('No');
+                $this->_qill[]  = $fieldLabel . " - $value";
+                continue;
+
             case 'Float':
                 $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . $value;  
+                $this->_qill[]  = $fieldLabel . " - $value";
                 continue;                    
                 
             case 'Money':
                 $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . $value;
+                $this->_qill[]  = $fieldLabel . " - $value";
                 continue;
                 
             case 'Memo':
                 $this->_where[] = self::PREFIX . $field['id'] . '.memo_data LIKE ' . "'%" . $value . "%'";
+                $this->_qill[]  = $fieldLabel . " like - $value";
                 continue;
                 
             case 'Date':
                 continue;
                 
             case 'StateProvince':
+                $states =& CRM_Core_PseudoConstant::stateProvince();
                 if ( ! is_numeric( $value ) ) {
-                    $states =& CRM_Core_PseudoConstant::stateProvince();
                     $value  = array_search( $value, $states );
                 }
                 if ( $value ) {
                     $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_qill[]  = $fieldLabel . " - {$states[$value]}";
                 }
                 continue;
                 
             case 'Country':
+                $countries =& CRM_Core_PseudoConstant::countries();
                 if ( ! is_numeric( $value ) ) {
-                    $states =& CRM_Core_PseudoConstant::countries();
                     $value  = array_search( $value, $countries );
                 }
                 if ( $value ) {
                     $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_qill[]  = $fieldLabel . " - {$countries[$value]}";
                 }
                 continue;
             }

@@ -70,8 +70,10 @@ class CRM_Utils_Geocode_ZipTable {
             return false;
         }
         
-        $query = 'SELECT latitude, longitude FROM zipcodes WHERE zip = ' . addslashes( $values['postal_code'] );
+        $query = 'SELECT latitude, longitude FROM zipcodes WHERE zip = ' .
+            CRM_Utils_Type::esape( $values['postal_code'], 'String' );
         $dao =& CRM_Core_DAO::executeQuery( $query );
+
         if ( $dao->fetch( ) ) {
             $values['geo_code_1'] = $dao->latitude ;
             $values['geo_code_2'] = $dao->longitude;
