@@ -258,8 +258,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 $objName = $field['name'];
                 if ( $objName == 'state_province_id' ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince( );
-                    if ( $this->_contact->state ) {
-                        $defaults[$name] = array_search( $this->_contact->state, $states );
+                    if ( $this->_contact->state_province ) {
+                        $defaults[$name] = array_search( $this->_contact->state_province, $states );
                     }
                 } else if ( $objName == 'country_id' ) {
                     $country =& CRM_Core_PseudoConstant::country( );
@@ -345,6 +345,12 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             }
         }
 
+        $rParams = array('contact_id' => $this->_id);
+        $rValues = array();
+        $rIds = array();
+        CRM_Contact_BAO_Contact::retrieve($rParams, $rValues, $rIds);
+        if (isset($rIds['location'][1]['id'])) $ids['location'] = $rIds['location'][1]['id'];
+
         $edit = CRM_Utils_Array::value( 'edit', $params );
         if ( ! $edit ) {
             return;
@@ -354,7 +360,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
 
         $edit['contact_id'] = $contact->id;
-        $ids['individual'] = $contact->id;
         CRM_Contact_BAO_Individual::add( $edit, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {
             $address =& new CRM_Core_BAO_Address();
