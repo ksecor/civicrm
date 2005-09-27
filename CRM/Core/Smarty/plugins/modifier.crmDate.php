@@ -42,28 +42,10 @@
  * @return string human readable date format | invalid date message
  * @access public
  */
-function smarty_modifier_crmDate($dateString, $dateFormat = '')
+function smarty_modifier_crmDate($dateString, $dateFormat = null)
 {
     if ($dateString) {
-
-        if ($dateFormat != '') {
-            return CRM_Utils_Date::customFormat($dateString, $dateFormat);
-        }
-        
-        $config =& CRM_Core_Config::singleton();
-
-        $month  = (int) substr($dateString,  5, 2);
-        $day    = (int) substr($dateString,  8, 2);
-
-        if (strlen($dateString) > 10) {
-            return CRM_Utils_Date::customFormat($dateString, $config->dateformatDatetime);
-        } elseif ($day > 0) {
-            return CRM_Utils_Date::customFormat($dateString, $config->dateformatFull);
-        } elseif ($month > 0) {
-            return CRM_Utils_Date::customFormat($dateString, $config->dateformatPartial);
-        } else {
-            return CRM_Utils_Date::customFormat($dateString, $config->dateformatYear);
-        }
+        return CRM_Utils_Date::customFormat($dateString, $dateFormat);
     }
     return '';
 }

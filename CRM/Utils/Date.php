@@ -268,13 +268,28 @@ class CRM_Utils_Date {
      *
      * @static
      */
-    static function customFormat($dateString, $format = '%B %E%f, %Y %I:%M %P')
+    static function customFormat($dateString, $format = null)
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
         $fullMonths = self::getFullMonthNames();
 
-        if ($dateString and $format) {
+        if (!$format) {
+            $config =& CRM_Core_Config::singleton();
+            $month  = (int) substr($dateString,  5, 2);
+            $day    = (int) substr($dateString,  8, 2);
+            if (strlen($dateString) > 10) {
+                $format = $config->dateformatDatetime;
+            } elseif ($day > 0) {
+                $format = $config->dateformatFull;
+            } elseif ($month > 0) {
+                $format = $config->dateformatPartial;
+            } else {
+                $format = $config->dateformatYear;
+            }
+        }
+
+        if ($dateString) {
 
             $year   = (int) substr($dateString,  0, 4);
             $month  = (int) substr($dateString,  5, 2);
