@@ -537,12 +537,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case 'Select State/Province':
-                    $values[$index] = $cv->getValue();
+                    $values[$index] = $cv->char_data;
                     $params[$index] = $cv->int_data;
                     break;
 
                 case 'Select Country':
-                    $values[$index] = $cv->getValue();
+                    $values[$index] = $cv->char_data;
                     $params[$index] = $cv->int_data;
                     break;
 

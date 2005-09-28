@@ -312,6 +312,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                         $defaults[$name] = $customValue;
                         break;
 
+                    case 'Select State/Province':
+                    case 'Select Country':
+                        $defaults[$name] = $cv->int_data;
+                        break;
+
                     default:
                         $customValue = $cv->getValue(true);
                         $defaults[$name] = $customValue;
