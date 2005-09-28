@@ -34,21 +34,23 @@
  *
  */
 
-class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
+class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType 
+{
 
     /**
      * static holder for the default LT
      */
     static $_defaultActivityType = null;
-
+    
 
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
-
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -63,7 +65,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
+    static function retrieve( &$params, &$defaults ) 
+    {
         $activityType =& new CRM_Core_DAO_ActivityType( );
         $activityType->copyValues( $params );
         if ( $activityType->find( true ) ) {
@@ -82,7 +85,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @return Object             DAO object on sucess, null otherwise
      * @static
      */
-    static function setIsActive( $id, $is_active ) {
+    static function setIsActive( $id, $is_active ) 
+    {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_ActivityType', $id, 'is_active', $is_active );
     }
 
@@ -95,7 +99,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @static
      * @access public
      */
-    static function &getDefault() {
+    static function &getDefault() 
+    {
         if (self::$_defaultActivityType == null) {
             $params = array('is_default' => 1);
             $defaults = array();
@@ -111,7 +116,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @static
      * @access public
      */
-    static function &getActivityDescription() {
+    static function &getActivityDescription() 
+    {
         $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 3 ORDER BY name";
         $dao   =& new CRM_Core_DAO_ActivityType();
         $dao->query($query);
@@ -135,7 +141,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids) {
+    static function add(&$params, &$ids) 
+    {
         
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
@@ -157,6 +164,46 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType {
         return $activityType;
     }
     
+    /**
+     * Function to delete activity Types 
+     * 
+     * @param int $activityTypeId
+     * @static
+     */
+    
+    static function del($activityTypeId) 
+    {
+        //check dependencies
+        
+        $activityIds = array( );
+        //get the list of activities from civicrm_activity for this activity type
+        $activity =& new CRM_Core_DAO_Activity( );
+        $activity->activity_type_id = $activityTypeId;
+        $activity->find();
+        while ($activity->fetch()) {
+            $activityIds[$activity->id] = $activity->id;
+        }
+        
+        foreach ($activityIds as $key) {
+            //delete from civicrm_activity
+            $activity->id = $key;
+            $activity->delete();
+        }
+        
+        //delete from civicrm_activity_history
+        /*      
+        $activityHistory =& new CRM_Core_DAO_ActivityHistory( );
+        $activityHistory->activity_id = $activityId;
+        $activityHistory->delete();
+        */
+
+        //delete from activity Type table
+        $activityType =& new CRM_Core_DAO_ActivityType( );
+        $activityType->id = $activityTypeId;
+        $activityType->delete();
+
+    }
+
 }
 
 ?>

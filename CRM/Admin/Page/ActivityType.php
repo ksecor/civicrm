@@ -89,6 +89,12 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/activityType',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Activity Type') 
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/activityType',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Activity Type') 
                                                                    )
                                  );
         }

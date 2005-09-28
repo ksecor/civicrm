@@ -152,10 +152,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
-        if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE)) {
-            $this->edit($action, $id);                               // use edit form for view, add or update
-        } else if ($action & CRM_Core_Action::DELETE) { 
-            $this->delete($action, $id );                            // delete the id
+        if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE | CRM_Core_Action::DELETE)) {
+            $this->edit($action, $id);                               // use edit form for view, add or update or delete
         } else if ($action & CRM_Core_Action::DISABLE) {
             eval($this->getBAOName( ) . "::setIsActive( $id, 0 );"); //disable
         } else if ( $action & CRM_Core_Action::ENABLE ) {
@@ -291,41 +289,6 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         }
         $controller->set('BAOName', $this->getBAOName());
         $this->addValues($controller);
-        $controller->setEmbedded( true );
-        $controller->process( );
-        $controller->run( );
-    }
-
-
-    /**
-     * delete this entity.
-     *
-     * @param int $mode - what mode for the form ?
-     * @param int $id - id of the entity (for update, view operations)
-     * @return void
-     */
-    function delete( $mode, $id = null )
-    {
-        $controller =& new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
-
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        
-        $url = CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) );
-        
-        $session->pushUserContext( $url );
-
-        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
-            eval( $this->getBAOName() . '::del( $id );' );
-            CRM_Utils_System::redirect($url);
-        }
-
-        if ( $id ) {
-            $controller->set( 'id'   , $id );
-        }
-        $controller->set( 'BAOName', $this->getBAOName( ) );
-        $this->addValues( $controller );
         $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );

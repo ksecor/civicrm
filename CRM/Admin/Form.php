@@ -104,7 +104,18 @@ class CRM_Admin_Form extends CRM_Core_Form
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-        
+     
+        if($this->_action & CRM_Core_Action::DELETE) {
+            $this->addButtons(array(
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Delete'),
+                                           'isDefault' => true),
+                                    array ('type'      => 'cancel',
+                                           'name'      => ts('Cancel')),
+                                    )
+                              );
+        }
+   
     }
 
 }
