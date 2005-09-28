@@ -76,8 +76,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->_params   = array( );
 
         foreach ( $this->_fields as $key => $field ) {
-            $value = CRM_Utils_Request::retrieve( $field['name'], $this, false, null, 'REQUEST' );
+            $name = $field['name'];
+            if (substr_count($name, 'country'))        $name = str_replace('country', 'country_id', $name);
+            if (substr_count($name, 'state_province')) $name = str_replace('state_province', 'state_province_id', $name);
+            $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
             if ( isset( $value ) && $value != null ) {
+                if (substr_count($name, 'country'))        $value = CRM_Core_PseudoConstant::country($value);
+                if (substr_count($name, 'state_province')) $value = CRM_Core_PseudoConstant::stateProvince($value);
                 $criteria[$field['title']] = str_replace( "", ', ', $value );
                 $this->_fields[$key]['value'] = $value;
                 $this->_params[$field['name']] = $value;
