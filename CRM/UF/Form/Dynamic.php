@@ -134,10 +134,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 continue;
             }
 
-            if ( $field['name'] === 'state_province_id' ) {
+            if ( $field['name'] === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);
-            } else if ( $field['name'] === 'country_id' ) {
+            } else if ( $field['name'] === 'country' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
@@ -256,12 +256,12 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         if ( $this->_contact ) {
             foreach ( $this->_fields as $name => $field ) {
                 $objName = $field['name'];
-                if ( $objName == 'state_province_id' ) {
+                if ( $objName == 'state_province' ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince( );
                     if ( $this->_contact->state_province ) {
                         $defaults[$name] = array_search( $this->_contact->state_province, $states );
                     }
-                } else if ( $objName == 'country_id' ) {
+                } else if ( $objName == 'country' ) {
                     $country =& CRM_Core_PseudoConstant::country( );
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
@@ -335,6 +335,13 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
+        foreach ($params['edit'] as $key => $value) {
+            // under 'country' and 'state_province' we actually get the ids
+            if (in_array($key, array('country', 'state_province'))) {
+                $params['edit'][$key . '_id'] = $value;
+                unset($params['edit'][$key]);
+            }
+        }
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
