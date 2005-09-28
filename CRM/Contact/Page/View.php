@@ -186,39 +186,41 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                         }
                     }
                 } else {
-                    switch ($field['data_type']) {
-
-                    case 'Boolean':
-
-                        $freezeString = "( )";
-                        $freezeStringChecked = "(x)";
-                        if ( isset($field['customValue']['data']) ) {
-                            if ( $field['customValue']['data'] == '1' ) {
-                                $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                    if ( isset($field['customValue']['data']) ) {
+                        switch ($field['data_type']) {
+                            
+                        case 'Boolean':
+                            
+                            $freezeString = "( )";
+                            $freezeStringChecked = "(x)";
+                            if ( isset($field['customValue']['data']) ) {
+                                if ( $field['customValue']['data'] == '1' ) {
+                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                                } else {
+                                    $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeStringChecked."</tt>No\n";
+                                }
                             } else {
-                                $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeStringChecked."</tt>No\n";
-                            }
-                        } else {
-                            $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
-                        }                        
-
-                        break;
-
-                    case 'StateProvince':
-                        $form[$elementName]['html'] = CRM_Core_PseudoConstant::stateProvince( $field['customValue']['data'] );
-                        break;
-
-                    case 'Country':
-                        $form[$elementName]['html'] = CRM_Core_PseudoConstant::country( $field['customValue']['data'] );
-                        break;
-                        
-                    case 'Date':
-                        $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data']);
-                        break;
-
-                    default:
-                        $form[$elementName]['html'] = $field['customValue']['data'];
-                    }                    
+                                $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                            }                        
+                            
+                            break;
+                            
+                        case 'StateProvince':
+                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::stateProvince( $field['customValue']['data'] );
+                            break;
+                            
+                        case 'Country':
+                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::country( $field['customValue']['data'] );
+                            break;
+                            
+                        case 'Date':
+                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data']);
+                            break;
+                            
+                        default:
+                            $form[$elementName]['html'] = $field['customValue']['data'];
+                        }                    
+                    }
                 }
             }
 
