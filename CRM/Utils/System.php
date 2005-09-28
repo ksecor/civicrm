@@ -98,6 +98,8 @@ class CRM_Utils_System {
                                                 'uf'                 => 'UF',
                                                 'otheractivity'      => 'OtherActivity',
                                                 'selectfield'        => 'SelectField',
+                                                'individualprefix'   => 'IndividualPrefix',
+                                                'individualsuffix'   => 'IndividualSuffix',
                                                 );
     
     /**
