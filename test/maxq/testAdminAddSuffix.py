@@ -11,7 +11,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testAdminAddTags(PyHttpTestCase):
+class testAdminAddTitle(PyHttpTestCase):
     def setUp(self):
         global db
         db = commonAPI.dbStart()
@@ -36,7 +36,7 @@ class testAdminAddTags(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        url = "%s/civicrm/admin/tag" % drupal_path
+        url = "%s/civicrm/admin/suffix" % drupal_path
         self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
@@ -48,7 +48,7 @@ class testAdminAddTags(PyHttpTestCase):
         params = [
             ('''action''', '''add'''),
             ('''reset''', '''1'''),]
-        url = "%s/civicrm/admin/tag" % drupal_path
+        url = "%s/civicrm/admin/suffix" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -56,24 +56,25 @@ class testAdminAddTags(PyHttpTestCase):
         self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        queryName = 'select name from civicrm_tag'          
-        queryID   = 'select max(id) from civicrm_tag'
-        tagName   = db.loadRows(queryName)
-        tagNum    = db.loadVal(queryID)
+        queryName = 'select name from civicrm_individual_suffix'          
+        queryID   = 'select max(id) from civicrm_individual_suffix'
+        suffixName = db.loadRows(queryName)
+        suffixNum  = db.loadVal(queryID)
         
         params = [
-            ('''_qf_default''', '''Tag:next'''),
-            ('''name''', '''New Tag'''),
-            ('''description''', '''This is Test Tag'''),
-            ('''_qf_Tag_next''', '''Save'''),]
-        url = "%s/civicrm/admin/tag" % drupal_path
+            ('''_qf_default''', '''IndividualSuffix:next'''),
+            ('''name''', '''New Suffix'''),
+            ('''weight''', '''4'''),
+            ('''is_active''', '''1'''),
+            ('''_qf_IndividualSuffix_next''', '''Save'''),]
+        url = "%s/civicrm/admin/suffix" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
-        for i in range(int(tagNum)) :
-            if tagName[i].values()[0] == params[1][1] :
+        for i in range(int(suffixNum)) :
+            if suffixName[i].values()[0] == params[1][1] :
                 print ("**************************************************************************************")
-                print ("Tag \'" + tagName[i].values()[0] + "\' already exists")
+                print ("Suffix \'" + suffixName[i].values()[0] + "\' already exists")
                 print ("**************************************************************************************")
                 self.msg("Response code: %s" % self.getResponseCode())
                 self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
@@ -83,7 +84,7 @@ class testAdminAddTags(PyHttpTestCase):
                 continue
         else :
             print ("**************************************************************************************")
-            print ("Tag \'" + params[1][1] + "\' Added")
+            print ("Suffix \'" + params[1][1] + "\' Added")
             print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 11 failed", 302, self.getResponseCode())
@@ -92,7 +93,7 @@ class testAdminAddTags(PyHttpTestCase):
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),]
-        url = "%s/civicrm/admin/tag" % drupal_path
+        url = "%s/civicrm/admin/suffix" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -107,5 +108,5 @@ class testAdminAddTags(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testAdminAddTags("testAdminAddTags")
+    test = testAdminAddTitle("testAdminAddTitle")
     test.Run()

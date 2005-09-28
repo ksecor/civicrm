@@ -21,7 +21,7 @@ class testAdminEditTags(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
 
         commonAPI.login(self)
