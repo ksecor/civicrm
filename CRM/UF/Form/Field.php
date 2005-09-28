@@ -316,7 +316,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (CRM_Core_Action::ADD && empty($fields['field_id'])) {
             $fieldName = $fields['field_name'];
             $groupId = $fields['group_id'];
-            $query = "SELECT count(*) FROM civicrm_uf_field WHERE uf_group_id = " . CRM_Utils_Type::escape($groupId, 'Integer')  . "AND field_name = '" . CRM_Utils_Type::escape($fieldName, 'String') . "'";
+            $query = "SELECT count(*) FROM civicrm_uf_field WHERE uf_group_id = " . CRM_Utils_Type::escape($groupId, 'Integer')  . " AND field_name = '" . CRM_Utils_Type::escape($fieldName, 'String') . "'";
 
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {
                 $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
