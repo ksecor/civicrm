@@ -72,7 +72,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
     function edit( ) {
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view/note', 'action=browse&cid=' . $this->_contactId );
+        $url = CRM_Utils_System::url('civicrm/contact/view/basic', 'action=browse&cid=' . $this->_contactId );
         $session->pushUserContext( $url );
         
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Edit', ts('Contact Page'), CRM_Core_Action::UPDATE );

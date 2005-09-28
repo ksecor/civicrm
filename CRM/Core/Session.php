@@ -273,7 +273,7 @@ class CRM_Core_Session {
         if ( empty( $userContext ) ) {
             return;
         }
-
+        
         $this->createScope( self::USER_CONTEXT );
 
         // hack, reset if too big
