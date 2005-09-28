@@ -6,7 +6,7 @@
 
  <div id="help">
     <p>
-    {ts}Select the fields which you want to expot. All the selects with '-do not export-' will be ignored.{/ts}
+    {ts}Select the fields which you want to export. All the selects with '-do not export-' will be ignored.{/ts}
     </p>
 </div>
  {* Table for mapping data to CRM fields *}

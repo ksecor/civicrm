@@ -295,8 +295,13 @@ class CRM_Contact_BAO_Query {
             $select = 'SELECT ' . implode( ', ', $this->_select );
         }
 
+        $where = '';
+        if ( ! empty( $this->_whereClause ) ) {
+            $where = "WHERE {$this->_whereClause}";
+        }
+ 
         // CRM_Core_Error::debug( "$select, $from", $where );
-        return array( $select, $this->_fromClause, $this->_whereClause );
+        return array( $select, $this->_fromClause, $where );
     }
 
     /** 
@@ -923,7 +928,7 @@ class CRM_Contact_BAO_Query {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null, 
                                             $count, false,  
                                             false, false ); 
-        list( $select, $from, $where ) = $query->query( ); 
+        list( $select, $from, $where ) = $query->query( );
         $sql = "$select $from $where";
         $dao = CRM_Core_DAO::executeQuery( $sql );
         $values = array( );
@@ -965,9 +970,9 @@ class CRM_Contact_BAO_Query {
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
         
         if ( empty( $where ) ) {
-            $where = " WHERE $permission ";
+            $where = " $permission ";
         } else {
-            $where = " WHERE $where AND $permission ";
+            $where = " $where AND $permission ";
         }
 
         $order = $limit = '';

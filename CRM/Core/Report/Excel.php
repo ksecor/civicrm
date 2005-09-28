@@ -122,7 +122,7 @@ class CRM_Core_Report_Excel {
         }
     } // end of the 'getTableCsv()' function
 
-    function writeCSVFile( &$fileName, &$header, &$rows ) {
+    function writeCSVFile( $fileName, &$header, &$rows ) {
     
         $now       = gmdate('D, d M Y H:i:s') . ' GMT';
         $mime_type = 'text/x-csv';

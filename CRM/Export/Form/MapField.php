@@ -66,11 +66,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      */
     public function preProcess() {
         $this->_columnCount = $this->get('columnCount');
-        if (!$this->_columnCount) {
+        if (! $this->_columnCount ) {
             $this->_columnCount = 10;
         } else {
             $this->_columnCount = $this->_columnCount + 10;
         }
+        $this->set( 'columnCount', $this->_columnCount );
     }
     
     public function buildQuickForm( ) {
@@ -176,7 +177,6 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         $this->assign('columnCount', $this->_columnCount);
-        $this->set('columnCount', $this->_columnCount);
 
         $this->setDefaults( $this->_defaults );       
 
