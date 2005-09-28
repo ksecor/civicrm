@@ -296,8 +296,8 @@ class CRM_Core_SelectValues {
             $minOffset = 20;
             $maxOffset = 20;
         } elseif ($type == 'custom') {
-            $minOffset = 0;
-            $maxOffset = 3;
+            $minOffset = 10;
+            $maxOffset = 10;
         } elseif ($type == 'mailing') {
             $minOffset = 0;
             $maxOffset = 1;

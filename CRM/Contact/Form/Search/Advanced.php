@@ -203,8 +203,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     break;
                     
                 case 'Select Date':
-                    $this->addElement('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ));
-                    $this->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field['label'])), 'qfDate');
+                    $dates = array( );
+                    $dates[] = $this->createElement('date', 'from',
+                                                    $field['label'] . ts(' From'),
+                                                    CRM_Core_SelectValues::date( 'custom' ));
+                    $dates[] = $this->createElement('date', 'to',
+                                                    $field['label'] . ts(' To'),
+                                                    CRM_Core_SelectValues::date( 'custom' ));
+                    $this->addGroup($dates, $elementName, $field['label'] . ts(' - From'), '&nbsp;&nbsp;<strong>' . ts('To') . '</strong>&nbsp;&nbsp;');
                     break;
 
                 case 'Radio':
@@ -237,7 +243,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     $check = array();
                     foreach ($customOption as $v) {
-                        $checked = array();
                         $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
                     }
                     $this->addGroup($check, $elementName, $field['label']);

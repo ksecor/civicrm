@@ -158,14 +158,37 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
                 
             case 'Date':
-                $date = CRM_Utils_Date::format( $value );
-                if ( ! $date ) {
-                    continue;
+                $fromValue = CRM_Utils_Array::value( 'from', $value );
+                $toValue   = CRM_Utils_Array::value( 'to'  , $value );
+                if ( ! $fromValue && ! $toValue ) {
+                    $date = CRM_Utils_Date::format( $value );
+                    if ( ! $date ) { 
+                        continue; 
+                    } 
+                    
+                    $this->_where[] = self::PREFIX . $field['id'] . ".date_data = $date";
+                    $date = CRM_Utils_Date::format( $value, '-' ); 
+                    $this->_qill[]  = $field['label'] . ' = ' . 
+                        CRM_Utils_Date::customFormat( $date ); 
+                } else {
+                    $fromDate = CRM_Utils_Date::format( $fromValue );
+                    $toDate   = CRM_Utils_Date::format( $toValue   );
+                    if ( ! $fromDate && ! $toDate ) {
+                        continue;
+                    }
+                    if ( $fromDate ) {
+                        $this->_where[] = self::PREFIX . $field['id'] . ".date_data >= $fromDate";
+                        $fromDate = CRM_Utils_Date::format( $fromValue, '-' );
+                        $this->_qill[]  = $field['label'] . ' >= ' .
+                            CRM_Utils_Date::customFormat( $fromDate );
+                    }
+                    if ( $toDate ) {
+                        $this->_where[] = self::PREFIX . $field['id'] . ".date_data <= $toDate";
+                        $toDate = CRM_Utils_Date::format( $toValue, '-' );
+                        $this->_qill[]  = $field['label'] . ' <= ' .
+                            CRM_Utils_Date::customFormat( $toDate );
+                    }
                 }
-                $this->_where[] = self::PREFIX . $field['id'] . ".date_data = $date";
-                $date = CRM_Utils_Date::format( $value, '-' );
-                $this->_qill[]  = $field['label'] . ' - ' .
-                    CRM_Utils_Date::customFormat( $date );
                 continue;
                 
             case 'StateProvince':

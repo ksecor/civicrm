@@ -412,3 +412,20 @@ function showrow()
         }
     }
 }
+
+/**
+ * reset all the radio buttons with a given name
+ *
+ * @param string fieldName
+ * @param object form
+ * @return null
+ */
+function unselectRadio(fieldName, form)
+{
+  for( i=0; i < document.forms[form].elements.length; i++) {
+    if (document.forms[form].elements[i].name == fieldName) {
+      document.forms[form].elements[i].checked = false;
+    }
+  }
+  return;
+} 

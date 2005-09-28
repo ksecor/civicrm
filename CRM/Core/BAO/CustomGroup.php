@@ -560,7 +560,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
 
             foreach ($tableData['civicrm_custom_field'] as $v) {
-                //if ($v == 'id') {
                 $fullField = "civicrm_custom_field_" . $v;
                 if ($v == 'id' || is_null($crmDAO->$fullField)) {
                     continue;

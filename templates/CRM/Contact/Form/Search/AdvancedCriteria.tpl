@@ -119,9 +119,13 @@
 	    <fieldset><legend><a href="#" onClick="hide('{$cd_edit.title}'); show('{$cd_edit.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}{$cd_edit.title}{/ts}</legend>
 	    <dl>
 	    {foreach from=$cd_edit.fields item=element key=field_id}
-	        {assign var="name" value=`$element.name`} 
+	        {assign var="type" value=`$element.html_type`}
 	        {assign var="element_name" value='custom_'|cat:$field_id}
-	        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
+	        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
+                  {if $element.html_type eq 'Radio'}
+&nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >unselect</a>
+                  {/if}
+                </dd>
 	    {/foreach}
 	    </dl>
 	    </fieldset>
