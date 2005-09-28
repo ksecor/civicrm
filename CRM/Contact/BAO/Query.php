@@ -110,7 +110,6 @@ class CRM_Contact_BAO_Query {
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
         $this->_fromClause  = self::fromClause( $this->_tables ); 
-
     }
 
     function addSpecialFields( ) {
@@ -633,7 +632,7 @@ class CRM_Contact_BAO_Query {
              is_array( $this->_params['group_contact_status'] ) ) {
             foreach ( $this->_params['group_contact_status'] as $k => $v ) {
                 if ( $v ) {
-                    if ( $k = 'Added' ) {
+                    if ( $k == 'Added' ) {
                         $in = true;
                     }
                     $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
@@ -966,10 +965,15 @@ class CRM_Contact_BAO_Query {
             $this->includeContactIds( );
         }
 
+        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
+
+        // regenerate fromClause since permission might have added tables
+        if ( $permission ) {
+            $this->_fromClause  = self::fromClause( $this->_tables ); 
+        }
+
         list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
 
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
-        
         if ( empty( $where ) ) {
             $where = " $permission ";
         } else {
