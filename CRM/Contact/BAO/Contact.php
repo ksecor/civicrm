@@ -107,7 +107,16 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
         $sql    = CRM_Contact_BAO_Query::getQuery( $params, null, false );
         $dao    = CRM_Core_DAO::executeQuery( $sql );
-        return ( $dao->fetch( ) ) ? $dao : null;
+        if ($dao->fetch()) {
+            if (isset($dao->country)) {
+                // the query returns the untranslated country name
+                $i18n =& CRM_Core_I18n::singleton();
+                $dao->country = $i18n->translate($dao->country);
+            }
+            return $dao;
+        } else {
+            return null;
+        }
     }
 
     /**

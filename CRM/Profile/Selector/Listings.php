@@ -230,9 +230,19 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $links =& self::links( );
         $names = array( );
         foreach ( $this->_fields as $key => $field ) {
-            $names[] = $field['name'];
+            $name = $field['name'];
+            // if we queried for country_id or state_province_id,
+            // we actually want to display country and state_province
+            if ($name == 'country_id') $name = 'country';
+            if ($name == 'state_province_id') $name = 'state_province';
+            $names[] = $name;
         }
         while ($result->fetch()) {
+            if (isset($result->country)) {
+                // the query returns the untranslated country name
+                $i18n =& CRM_Core_I18n::singleton();
+                $result->country = $i18n->translate($result->country);
+            }
             $row = array( );
             $empty = true;
             foreach ($names as $name) {
