@@ -118,8 +118,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
 
         $this->assign( $defaults );
-
-        $this->setShowHide( $defaults );
+        $this->setShowHide( $defaults );        
     }
 
 

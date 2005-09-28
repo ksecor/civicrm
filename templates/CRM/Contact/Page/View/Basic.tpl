@@ -105,6 +105,11 @@
  </fieldset>
 </div>
 
+{* Display only those custom groups having style as Inline*}
+ <div>
+    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+ </div>
+
  {if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group">
   <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics{/ts}</label><br />
