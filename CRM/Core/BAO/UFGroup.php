@@ -208,13 +208,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
-                    if ( $field->field_name == 'state_province' ) {
-                        $name = 'state_province_id';
-                    } else if ( $field->field_name == 'country' ) {
-                        $name = 'country_id';
-                    } else {
-                        $name = $field->field_name;
-                    }
+                    $name = $field->field_name;
                     $fields['edit[' . $name . ']'] =
                         array('name'        => $name,
                               'title'       => $importableFields[$field->field_name]['title'],
@@ -459,13 +453,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $objName = $field['name'];
 
             $index = $field['title'];
-            if ( $objName == 'state_province_id' ) {
+            if ( $objName == 'state_province' ) {
                 $values[$index] = null;
                 if ( $contact->state_province ) {
                     $values[$index] = $contact->state_province;
                     $params[$index] = $contact->state_province_id;
                 }
-            } else if ( $objName == 'country_id' ) {
+            } else if ( $objName == 'country' ) {
                 $values[$index] = null;
                 if ( $contact->country ) {
                     $values[$index] = $contact->country;
@@ -566,9 +560,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 if ( ! CRM_Utils_Array::value( $index, $params ) ) {
                     $params[$index] = $values[$index];
                 }
+                $fieldName = $field['name'];
+                // if we're working with country or state_province, we want to search with the id
+                if ($fieldName == 'country')        $fieldName = 'country_id';
+                if ($fieldName == 'state_province') $fieldName = 'state_province_id';
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&' . 
-                                              urlencode( $field['name'] ) .
+                                              urlencode( $fieldName ) .
                                               '=' .
                                               urlencode( $params[$index] ) );
                 if ( ! empty( $values[$index] ) ) {

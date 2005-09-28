@@ -231,10 +231,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $names = array( );
         foreach ( $this->_fields as $key => $field ) {
             $name = $field['name'];
-            // if we queried for country_id or state_province_id,
-            // we actually want to display country and state_province
-            if ($name == 'country_id') $name = 'country';
-            if ($name == 'state_province_id') $name = 'state_province';
             $names[] = $name;
         }
         while ($result->fetch()) {
