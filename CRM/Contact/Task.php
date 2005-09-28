@@ -95,6 +95,20 @@ class CRM_Contact_Task {
         return self::$_tasks;
     }
 
+    static function &permissionedTasks( $permission ) {
+        if ( $permission == CRM_Core_Permission::EDIT ) {
+            return self::tasks( );
+        } else {
+            $tasks = array( 
+                           128  => ts( 'Send Email to Contacts'        ), 
+                           16   => ts( 'New Saved Search'              ),
+                           2048 => ts( 'Map Contacts using Google Maps'),
+                           );
+            return $tasks;
+
+        }
+    }
+
     /**
      * These tasks get added based on the context the user is in
      *
