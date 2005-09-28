@@ -363,10 +363,7 @@ class CRM_Contact_BAO_Query {
             $this->_qill  = array_merge( $this->_qill   , $this->_customQuery->_qill  );
         }
 
-        if ( ! empty( $this->_where ) ) {
-            return 'WHERE ' . implode( ' AND ', $this->_where );
-        }
-        return null;
+        return  implode( ' AND ', $this->_where );
     }
 
     function store( $dao ) {
@@ -396,13 +393,14 @@ class CRM_Contact_BAO_Query {
         return $this->_tables;
     }
 
-    static function getWhereClause( &$params, &$fields, &$tables ) {
+    static function getWhereClause( $params, $fields, &$tables ) {
         $query = new CRM_Contact_BAO_Query( $params, null, $fields,
                                             false, false,
                                             false, false );
 
         $sql    = $query->whereClause( );
         $tables = array_merge( $query->tables( ), $tables );
+        return $sql;
     }
 
     /**
@@ -613,8 +611,8 @@ class CRM_Contact_BAO_Query {
             return;
         }
 
-        $this->_where[] = 'civicrm_group_contact.group_id IN (' .
-            implode( ',', array_keys($this->_params['group']) ) . ')';
+        $groupClause = 'civicrm_group_contact.group_id IN (' . 
+            implode( ',', array_keys($this->_params['group']) ) . ')'; 
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
@@ -640,16 +638,22 @@ class CRM_Contact_BAO_Query {
             $in = true; 
         }
 
-        $this->_where[] = 'civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
+        $groupClause .= ' AND civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
         $this->_tables['civicrm_group_contact'] = 1;
         $this->_qill[] = ts('Group Status -') . implode( ts(' or '), $statii );
 
         if ( $in ) {
-            $this->savedSearch( );
+            $ssClause = $this->savedSearch( );
+            if ( $ssClause ) {
+                $groupClause = "( ( $groupClause ) OR ( $ssClause ) )";
+            }
         }
+        
+        $this->_where[] = $groupClause;
     }
 
     function savedSearch( ) {
+        $config =& CRM_Core_Config::singleton( );
         $ssWhere = array(); 
         $group =& new CRM_Contact_BAO_Group(); 
         foreach ( array_keys( $this->_params['group'] ) as $group_id ) { 
@@ -667,27 +671,26 @@ class CRM_Contact_BAO_Query {
                             SELECT contact_id FROM civicrm_group_contact 
                             WHERE civicrm_group_contact.group_id = "  
                         . CRM_Utils_Type::escape($group_id, 'Integer')
-                        . "AND civicrm_group_contact.status = 'Removed'))"; 
+                        . " AND civicrm_group_contact.status = 'Removed'))"; 
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables);
                     /* FIXME: bug with multiple group searches */ 
                     $ssWhere[] = "($ssw AND
                                    (civicrm_group_contact.id is null OR
-                                     (civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($group_id, 'Integer') . "AND
+                                     (civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($group_id, 'Integer') . " AND
                                       civicrm_group_contact.status = 'Added')))"; 
                 }
             }
             $group->reset(); 
             $group->selectAdd('*'); 
         }
-        if (count($ssWhere)) { 
+        if ( ! empty( $ssWhere ) ) {
             $this->_tables['civicrm_group_contact'] =  
                 "civicrm_contact.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
                 implode(',', array_keys($this->_params['group'])) . ')'; 
-            $this->_where[]  = "(({$andArray['group']}) OR (" 
-                . implode(' OR ', $ssWhere)  
-                . '))'; 
-        } 
+            return implode(' OR ', $ssWhere);
+        }
+        return null;
     }
 
     function tag( ) {
@@ -964,7 +967,7 @@ class CRM_Contact_BAO_Query {
         if ( empty( $where ) ) {
             $where = " WHERE $permission ";
         } else {
-            $where = " $where AND $permission ";
+            $where = " WHERE $where AND $permission ";
         }
 
         $order = $limit = '';

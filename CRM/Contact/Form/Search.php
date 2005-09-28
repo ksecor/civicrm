@@ -468,6 +468,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
+            $this->normalizeFormValues( );
 
             // also reset the sort by character
             $this->_sortByCharacter = null;
@@ -475,7 +476,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
-            $this->_formValues['group'] = $this->_groupID;
+            $this->_formValues['group'][$this->_groupID] = 1;
 
             // add group_contact_status as added if not present
             if ( ! CRM_Utils_Array::value( 'group_contact_status', $this->_formValues ) ) {
@@ -486,7 +487,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
-        $this->normalizeFormValues( );
         $this->postProcessCommon( );
     }
 
