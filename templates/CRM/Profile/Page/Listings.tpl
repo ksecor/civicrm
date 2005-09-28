@@ -8,8 +8,8 @@
  <div id="search-status">
     {ts}Displaying contacts where:{/ts}
     <ul>
-    {foreach from=$criteria key=key item=item}
-      <li>{ts 1=$key 2=$item}%1 is "%2"{/ts}</li>
+    {foreach from=$criteria item=item}
+      <li>{ts}{$item}{/ts}</li>
     {/foreach}
     </ul>
  </div>

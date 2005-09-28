@@ -209,7 +209,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name = $field->field_name;
-                    $fields['edit[' . $name . ']'] =
+                    $fields[$name] =
                         array('name'        => $name,
                               'title'       => $importableFields[$field->field_name]['title'],
                               'where'       => $importableFields[$field->field_name]['where'],

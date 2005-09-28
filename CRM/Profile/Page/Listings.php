@@ -75,22 +75,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $criteria = array( );
         $this->_params   = array( );
 
-        foreach ( $this->_fields as $key => $field ) {
-            $name = $field['name'];
-            if (substr_count($name, 'country'))        $name = str_replace('country', 'country_id', $name);
-            if (substr_count($name, 'state_province')) $name = str_replace('state_province', 'state_province_id', $name);
+        foreach ( $this->_fields as $name => $field ) {
             $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
             if ( isset( $value ) && $value != null ) {
-                if (substr_count($name, 'country'))        $value = CRM_Core_PseudoConstant::country($value);
-                if (substr_count($name, 'state_province')) $value = CRM_Core_PseudoConstant::stateProvince($value);
-                $criteria[$field['title']] = str_replace( "", ', ', $value );
-                $this->_fields[$key]['value'] = $value;
-                $this->_params[$field['name']] = $value;
+                $this->_fields[$name]['value'] = $value;
+                $this->_params[$name] = $value;
             }
         }
-        
-        $template = CRM_Core_Smarty::singleton( );
-        $template->assign( 'criteria', $criteria );
    }
 
     /** 

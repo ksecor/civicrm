@@ -198,7 +198,8 @@ class CRM_Core_I18n
      */
     function translate($string)
     {
-        return $this->_phpgettext->translate($string);
+        return ( $this->_phpgettext ) ?
+            $this->_phpgettext->translate($string) : $string;
     }
 
     /**

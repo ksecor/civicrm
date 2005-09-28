@@ -57,7 +57,8 @@ class CRM_Profile_Form_Search extends CRM_Core_Form
 
     function preProcess( ) 
     {
-        $fields = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
+        $fields = CRM_Core_BAO_UFGroup::getListingFields( $this->_action,
+                                                          CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
         foreach ($fields as $name => $field ) {
             if ( $field['visibility'] == 'Public User Pages and Listings' ) {
                 $this->_fields[$name] = $field;
@@ -89,11 +90,11 @@ class CRM_Profile_Form_Search extends CRM_Core_Form
 
         // add the form elements 
         foreach ($this->_fields as $name => $field ) { 
-            if ( $field['name'] === 'state_province_id' ) {
+            if ( $field['name'] === 'state_province' ) {
                 $this->add('select', $field['name'], $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(),
                            false );
-            } else if ( $field['name'] === 'country_id' ) {                            
+            } else if ( $field['name'] === 'country' ) {                            
                 $this->add('select', $field['name'], $field['title'],  
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), false );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) { 

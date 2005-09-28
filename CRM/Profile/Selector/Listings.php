@@ -86,6 +86,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     protected $_fields;
 
     /**
+     * cache the query object
+     *
+     * @var object
+     * @access protected
+     */
+    protected $_query;
+
+    /**
      * Class constructor
      *
      * @param string params the params for the where clause
@@ -100,6 +108,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
+        $returnProperties = array( );
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $returnProperties[$name] = 1;
+        }
+        $this->_query =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
     }//end of constructor
 
 
@@ -179,7 +192,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        return $this->query( true, 0, 0 );
+        return $this->_query->searchQuery( 0, 0, null, true );
     }
 
     /**
@@ -222,8 +235,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $result = $this->query(false, $offset, $rowCount);
+        // HACK: fix this soon not sure who initialize sort
+        $result = $this->_query->searchQuery( $offset, $rowCount, null );
 
+        // HACK: add qill to template
+        $template = CRM_Core_Smarty::singleton( ); 
+        $template->assign( 'criteria', $this->_query->qill( ) );
+        
         // process the result of the query
         $rows = array( );
 
@@ -233,6 +251,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $name = $field['name'];
             $names[] = $name;
         }
+
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name

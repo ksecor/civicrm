@@ -139,12 +139,13 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
+        // CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
             // if we need to get the value for this param or we need all values
             if ( CRM_Utils_Array::value( $name, $this->_params )           ||
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ||
                  ( ! $this->_params ) ) {
-                $cfID = CRM_Utils_Array::value( 'custom_field_id', $field );
+                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
                     $cfIDs[$cfID] = CRM_Utils_Array::value( $name, $this->_params );
                 } else if ( isset( $field['where'] ) ) {
@@ -990,7 +991,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = $select . $from . $where . $order . $limit;
-        // echo "<pre>$query</pre>";
+        // CRM_Core_Error::debug( 'q', $query );
         if ( $returnQuery ) {
             return $query;
         }

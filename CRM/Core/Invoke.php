@@ -58,6 +58,10 @@ class CRM_Core_Invoke {
         }
 
         $config =& CRM_Core_Config::singleton( );
+
+        // also initialize the i18n framework
+        $i18n   =& CRM_Core_I18n::singleton( );
+
         if ( $config->userFramework == 'Mambo' ) {
             CRM_Core_Mambo::sidebarLeft( );
         }
