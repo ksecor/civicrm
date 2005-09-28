@@ -121,7 +121,7 @@ class CRM_Contact_Form_Address
                 if ($stateProvinceDAO->country_id != $countryId) {
                     // countries mismatch hence display error
                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                    $countries = CRM_Core_PseudoConstant::country();
+                    $countries =& CRM_Core_PseudoConstant::country();
                     $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
                 }
             }

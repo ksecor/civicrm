@@ -280,7 +280,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if ($stateProvinceDAO->country_id != $countryId) {
                         // countries mismatch hence display error
                         $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                        $countries = CRM_Core_PseudoConstant::country();
+                        $countries =& CRM_Core_PseudoConstant::country();
                         $errors[$stateProvince] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
                     }
                 }

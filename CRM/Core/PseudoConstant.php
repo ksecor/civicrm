@@ -432,6 +432,12 @@ class CRM_Core_PseudoConstant {
     {
         if (!self::$country) {
             self::populate( self::$country, 'CRM_Core_DAO_Country', true );
+            $config =& CRM_Core_Config::singleton();
+            if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+                $i18n =& CRM_Core_I18n::singleton();
+                $i18n->localizeArray(self::$country);
+                asort(self::$country);
+            }
         }
         if ($id) {
             if (array_key_exists($id, self::$country)) {
@@ -439,12 +445,6 @@ class CRM_Core_PseudoConstant {
             } else {
                 return null;
             }
-        }
-        $config =& CRM_Core_Config::singleton();
-        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
-            $i18n =& CRM_Core_I18n::singleton();
-            $i18n->localizeArray(self::$country);
-            asort(self::$country);
         }
         return self::$country;
     }
