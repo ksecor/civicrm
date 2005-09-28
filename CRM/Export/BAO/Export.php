@@ -69,9 +69,9 @@ class CRM_Export_BAO_Export {
                     } else if($field[3] == 'Mobile') {
                         $phone_type = $field[1]."-"."Mobile";
                     } else if($field[3] == 'Fax') {
-                        $phone_type = $field[1]."-"."1";
+                        $phone_type = $field[1]."-"."Fax";
                     } else if($field[3] == 'Pager') {
-                        $phone_type = $field[1]."-"."2";
+                        $phone_type = $field[1]."-"."Pager";
                     }
                     
                     $phoneFlag = true ;
