@@ -203,7 +203,7 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
                 
             case 'Country':
-                $countries =& CRM_Core_PseudoConstant::countries();
+                $countries =& CRM_Core_PseudoConstant::country();
                 if ( ! is_numeric( $value ) ) {
                     $value  = array_search( $value, $countries );
                 }
