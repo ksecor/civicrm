@@ -166,9 +166,10 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
     public static function typeToField($type) {
         switch ($type) {
             case 'String':
+                return 'char_data';
             case 'StateProvince':
             case 'Country':
-                return 'char_data';
+                return 'int_data';
             case 'Boolean':
             case 'Int':
                 return 'int_data';
