@@ -105,12 +105,12 @@ class CRM_GCD {
     private $preferredCommunicationMethod = array('Phone', 'Email', 'Post');
     private $greetingType = array('Formal', 'Informal', 'Honorific', 'Custom', 'Other');
     private $contactType = array('Individual', 'Household', 'Organization');
-    private $gender = array('Female', 'Male', 'Transgender');    
     private $phoneType = array('Phone', 'Mobile', 'Fax', 'Pager');    
 
-    // almost enums
-    private $prefix = array('Mr', 'Mrs', 'Ms', 'Dr');
-    private $suffix = array('Jr', 'Sr');
+    // customizable enums (foreign keys)
+    private $prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
+    private $suffix = array(1 => 'Jr', 2 => 'Sr');
+    private $gender = array(1 => 'Female', 2 =>'Male');    
 
     // store domain id's
     private $domain = array();
@@ -215,6 +215,12 @@ class CRM_GCD {
     {
         return $array1[mt_rand(1, count($array1))-1];
     }
+    
+    private function _getRandomIndex(&$array1)
+    {
+        return mt_rand(1, count($array1));
+    }
+    
     
     // country state city combo
     private function _getRandomCSC()
@@ -558,13 +564,13 @@ class CRM_GCD {
     }
     
     public function randomName() {
-        $prefix = $this->_getRandomElement($this->prefix);
+        $prefix = $this->_getRandomIndex($this->prefix);
         $first_name = ucfirst($this->_getRandomElement($this->firstName));
         $middle_name = ucfirst($this->_getRandomChar());
         $last_name = ucfirst($this->_getRandomElement($this->lastName));
-        $suffix = $this->_getRandomElement($this->suffix);
+        $suffix = $this->_getRandomIndex($this->suffix);
 
-        return "$prefix $first_name $middle_name $last_name $suffix";
+        return $this->prefix[$prefix] . " $first_name $middle_name $last_name " .  $this->suffix[$suffix];
     }
     /*******************************************************
      *
@@ -632,17 +638,17 @@ class CRM_GCD {
             $individual->first_name = ucfirst($this->_getRandomElement($this->firstName));
             $individual->middle_name = ucfirst($this->_getRandomChar());
             $individual->last_name = ucfirst($this->_getRandomElement($this->lastName));
-            $individual->prefix = $this->_getRandomElement($this->prefix);
-            $individual->suffix = $this->_getRandomElement($this->suffix);
+            $individual->prefix_id = $this->_getRandomIndex($this->prefix);
+            $individual->suffix_id = $this->_getRandomIndex($this->suffix);
             $individual->greeting_type = $this->_getRandomElement($this->greetingType);
-            $individual->gender = $this->_getRandomElement($this->gender);
+            $individual->gender_id = $this->_getRandomIndex($this->gender);
             $individual->birth_date = date("Ymd", mt_rand(0, time()));
             $individual->is_deceased = mt_rand(0, 1);
             $this->_insert($individual);
 
             // also update the sort name for the contact id.
             $contact->id = $individual->contact_id;
-            $contact->display_name = trim( "$individual->prefix $individual->first_name $individual->middle_name $individual->last_name $individual->suffix" );
+            $contact->display_name = trim( $this->prefix[$individual->prefix_id] . " $individual->first_name $individual->middle_name $individual->last_name " . $this->suffix[$individual->suffix_id] );
             $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
