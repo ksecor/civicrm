@@ -2,7 +2,7 @@
 {if $rows}
 <div id="group">
 <p></p>
-{if $action eq 16} {* browse *}
+{if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}
    {strip}
    <table>
    <tr class="columnheader">
@@ -11,7 +11,7 @@
     <th></th>
    </tr>
    {foreach from=$rows item=row}
-     <tr class="{cycle values="odd-row,even-row"}">
+     <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>	
         <td>
             {$row.description|mb_truncate:80:"...":true}

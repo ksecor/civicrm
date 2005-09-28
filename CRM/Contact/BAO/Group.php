@@ -82,16 +82,25 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      *
      */
     static function discard ( $id ) {
+
+        // delete all Subscription  records with the selected group id
+        $subHistory = & new CRM_Contact_DAO_SubscriptionHistory( );
+        $subHistory ->group_id = $id;
+        $subHistory->delete();
+
+
         // delete all crm_group_contact records with the selected group id
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
-        //$groupContact->delete();
+        $groupContact->delete();
+
+        
 
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
-        $group->is_active = 0;
-        $group->save();
+        //$group->is_active = 0;
+        $group->delete();
     }
 
     /**
@@ -250,7 +259,19 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return $newGroup;
 
     }
-
+    
+     /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
+    }
     
 }
 

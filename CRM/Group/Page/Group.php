@@ -57,6 +57,8 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
 
     function &links()
     {
+        $disableExtra = ts('Are you sure you want to disable this Group?');
+
         if (!(self::$_links)) {
             self::$_links = array(
                 CRM_Core_Action::VIEW => array(
@@ -71,12 +73,26 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                     'qs'    => 'reset=1&action=update&id=%%id%%',
                     'title' => ts('Edit Group')
                 ),
+                CRM_Core_Action::DISABLE => array( 
+                     'name'  => ts('Disable'),
+                     'url'   => 'civicrm/group',
+                     'qs'    => 'reset=1&action=disable&id=%%id%%',
+                     'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
+                     'title' => ts('Disable Group') 
+                ),
+                CRM_Core_Action::ENABLE  => array( 
+                     'name'  => ts('Enable'),
+                     'url'   => 'civicrm/group',
+                     'qs'    => 'reset=1&action=enable&id=%%id%%',
+                     'title' => ts( 'Enable Group' ) 
+                 ),
                 CRM_Core_Action::DELETE => array(
-                    'name'  => ts('Delete'),
-                    'url'   => 'civicrm/group',
-                    'qs'    => 'reset=1&action=delete&id=%%id%%',
-                    'title' => ts('Delete Group')
+                     'name'  => ts('Delete'),
+                     'url'   => 'civicrm/group',
+                     'qs'    => 'reset=1&action=delete&id=%%id%%',
+                     'title' => ts('Delete Group')
                 )
+                
             );
         }
         return self::$_links;
@@ -197,7 +213,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
 
         $object =& new CRM_Contact_BAO_Group( );
         $object->domain_id = $config->domainID( );
-        $object->is_active = 1;
+        //$object->is_active = 1;
         $object->orderBy ( 'title asc' );
         $object->find();
 
@@ -209,21 +225,36 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
+                    
                     $links =& $this->links( );
+                    
                 } else {
                     $links =& $this->links( );
+                   
                 }
                 if ( $action == null ) {
                     $action = array_sum(array_keys($links));
                 }
+               
+                
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
+                $newAction = $action;
+                if ( array_key_exists( 'is_active', $object ) ) {
+                    if ( $object->is_active ) {
+                        
+                        $newAction -= CRM_Core_Action::ENABLE;
+                    } else {
+                        $newAction -= CRM_Core_Action::DISABLE;
+                    }
+                }
+                
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                            $action,
+                                                                            $newAction,
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
         }
-
+        
         $this->assign( 'rows', $values );
     }           
 
