@@ -191,6 +191,17 @@ class CRM_Core_I18n
     }
 
     /**
+     * translates a string to the current locale
+     *
+     * @param $string string  this string should be translated
+     * @return        string  the translated string
+     */
+    function translate($string)
+    {
+        return $this->_phpgettext->translate($string);
+    }
+
+    /**
      * Localizes (destructively) array values
      *
      * @param $array array  this array's values should be localized
