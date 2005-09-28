@@ -365,6 +365,38 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 break;
         }
     }
+    
+    /**
+     * Delete the Custom Field.
+     *
+     * @param int    id  Field Id 
+     * 
+     * @return void
+     *
+     * @access public
+     * @static
+     *
+     */
+
+  public static function deleteGroup($id) 
+    { 
+        //delete first all custon values
+        $custonValue = & new CRM_Core_DAO_CustomValue();
+        $custonValue->custom_field_id = $id;
+        $custonValue->delete();
+        
+        //delete first all custom option
+        $custonOption = & new CRM_Core_DAO_CustomOption();
+        $custonOption->custom_field_id = $id;
+        $custonOption->delete();
+        
+        
+        //delete  custom field
+        $field = & new CRM_Core_DAO_CustomField();
+        $field->id = $id; 
+        $field->delete();
+        return true;
+    }
 
 }
 ?>

@@ -1,5 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
     {include file="CRM/Custom/Form/Field.tpl"}
+{elseif $action eq 8}
+    {include file="CRM/Custom/Form/DeleteField.tpl"}
 {else}
     {if $customField}
     <div id="field_page">

@@ -106,6 +106,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'qs'    => 'action=enable&reset=1&gid=%%gid%%&id=%%id%%',
                                                                           'title' => ts('Enable Custom Field'),
                                                                           ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=delete&reset=1&gid=%%gid%%&id=%%id%%',
+                                                                          'title' => ts('Enable Custom Field'),
+                                                                          ),
                         
                                         );
         }
@@ -218,8 +224,25 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function run()
     {
+        
+       
+        
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
+        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+       
+        if ($action & CRM_Core_Action::DELETE) {
+            
+            $session = & CRM_Core_Session::singleton();
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteField',"Delete Cutom Field", $mode );
+            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            $controller->set('id', $id);
+            $controller->setEmbedded( true );
+            $controller->process( );
+            $controller->run( );
+        }
+
         if ($this->_gid) {
             $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
@@ -228,7 +251,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         }
 
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        
 
         // assign vars to templates
         $this->assign('action', $action);
