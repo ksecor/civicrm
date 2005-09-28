@@ -711,6 +711,37 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
     }
 
+
+    /**
+     * Delete the Custom Group.
+     *
+     * @param int    id  Group Id 
+     * 
+     * @return void
+     *
+     * @access public
+     * @static
+     *
+     */
+
+  public static function deleteGroup($id) 
+    { 
+        //check wheter this contain any custom fields
+        $custonField = & new CRM_Core_DAO_CustomField();
+        $custonField->custom_group_id = $id;
+        $custonField->find();
+        while($custonField->fetch()) {
+            return false;
+            
+        }
+        //delete  custom group
+        $group = & new CRM_Core_DAO_CustomGroup();
+        $group->id = $id; 
+        $group->delete();
+        return true;
+    }
+
+
 }
 
 ?>
