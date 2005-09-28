@@ -244,6 +244,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                         
                         $newAction -= CRM_Core_Action::ENABLE;
                     } else {
+                        $newAction -= CRM_Core_Action::VIEW;
                         $newAction -= CRM_Core_Action::DISABLE;
                     }
                 }
