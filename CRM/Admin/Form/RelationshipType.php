@@ -51,6 +51,13 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
+        parent::buildQuickForm( );
+       
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            
+            return;
+        }
+        
         $this->applyFilter('__ALL__', 'trim');
   
         $this->add('text', 'name_a_b'       , ts('Relationship Label-A to B')       ,
@@ -72,7 +79,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        parent::buildQuickForm( );
+       
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
@@ -90,20 +97,25 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        $params = array();
-        $ids    = array();
+        if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Contact_BAO_RelationshipType::del($this->_id);
+            CRM_Core_Session::setStatus( ts('Selected Relationship type has been deleted.') );
+        } else {
+            $params = array();
+            $ids    = array();
+            
+            // store the submitted values in an array
+            $params = $this->exportValues();
+            $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+            
+            if ($this->_action & CRM_Core_Action::UPDATE ) {
+                $ids['relationshipType'] = $this->_id;
+            }    
         
-        // store the submitted values in an array
-        $params = $this->exportValues();
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
-        
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['relationshipType'] = $this->_id;
-        }    
-        
-        CRM_Contact_BAO_RelationshipType::add($params, $ids);
+            CRM_Contact_BAO_RelationshipType::add($params, $ids);
 
-        CRM_Core_Session::setStatus( ts('The Relationship Type has been saved.') );
+            CRM_Core_Session::setStatus( ts('The Relationship Type has been saved.') );
+        }
     }//end of function
 }
 

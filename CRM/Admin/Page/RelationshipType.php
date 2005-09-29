@@ -97,6 +97,12 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Relationship Type') 
                                                                    ),
+                                   CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/reltype',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Reletionship Type') 
+                                                                   )
                                  );
         }
         return self::$_links;

@@ -3,7 +3,7 @@
     <p>You can define as many additional relationships types as needed to cover the types of relationships you want to track.</p>{/ts}
 </div>
 
-{if $action eq 1 or $action eq 2 or $action eq 4}
+{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}
    {include file="CRM/Admin/Form/RelationshipType.tpl"}	
 {/if}
 
