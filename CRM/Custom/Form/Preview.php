@@ -115,7 +115,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     $defaultCheckValue = CRM_Utils_Array::value( 'default_value', $field );
                     $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultCheckValue);
                     foreach($customOption as $val) {
-                        if ( in_array($val['value'], $checkedValue) ) {
+                        if ( in_array($val['label'], $checkedValue) ) {
                             $defaults[$elementName][$val['value']] = 1;
                         } else {
                             $defaults[$elementName][$val['value']] = 0;

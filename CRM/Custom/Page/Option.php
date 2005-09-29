@@ -153,7 +153,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                 $action -= CRM_Core_Action::DISABLE;
             }
             if ( $fieldHtmlType == 'CheckBox' ) {                
-                if ( in_array($customOptionBAO->value, $defVal) ) {
+                if ( in_array($customOptionBAO->label, $defVal) ) {
                     $customOption[$customOptionBAO->id]['default_value'] = '[x]';
                 } else {
                     $customOption[$customOptionBAO->id]['default_value'] = '';
