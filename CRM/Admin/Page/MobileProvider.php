@@ -91,6 +91,12 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/mobileProvider',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Mobile Phone Service Provider') 
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/mobileProvider',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Mobile Provider') 
                                                                    )
                                  );
         }

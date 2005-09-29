@@ -2,7 +2,7 @@
     {ts}When recording mobile phone numbers for contacts, it may be useful to include the Mobile Phone Service Provider (e.g. Cingular, Sprint, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators may define as many additional providers as needed.{/ts}
 </div>
 
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/MobileProvider.tpl"}
 {/if}
 

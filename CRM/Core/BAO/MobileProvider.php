@@ -80,6 +80,27 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_MobileProvider', $id, 'is_active', $is_active );
     }
 
+     /**
+     * Function to delete Mobile Provider  Types 
+     * 
+     * @param int $mobileProviderId
+     * @static
+     */
+    
+    static function del($mobileProviderId) 
+    {
+        //check dependencies
+        $phone = & new CRM_Core_DAO_Phone();
+        $phone->mobile_provider_id = $mobileProviderId;
+        $phone->delete();
+        
+        $phone = & new CRM_Core_DAO_MobileProvider();
+        $phone->id = $mobileProviderId;
+        $phone->delete();
+        
+        
+    }
+
 }
 
 ?>
