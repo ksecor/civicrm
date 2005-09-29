@@ -333,11 +333,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             
-//             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
-//             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
-
             if( $this->get('savedMapping') ) {
-                
                 $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
                 if ( isset($mappingName[$i]) ) {
                     if ( $mappingName[$i] != '-do not import-') {
@@ -380,7 +376,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                                                            );
                 }
             }
-
             $sel->setOptions(array($sel1, $sel2, $sel3, $sel4));
         }
         $js .= "</script>\n";
@@ -392,7 +387,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
 
         if ( $warning != 0 && $this->get('savedMapping') ) {
-            $this->assign('warning',$warning);
+            $session =& CRM_Core_Session::singleton( );
+            $session->setStatus( ts( 'The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing.' ) );
         }
 
         $this->setDefaults( $this->_defaults );       

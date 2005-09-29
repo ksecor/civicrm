@@ -87,14 +87,6 @@
                 
     </table>
 	{/strip}
-    {if $warning}
-	<div class="messages status">
-  	<dl>
-	    <dt><img src="/drupal/modules/civicrm/i/Inform.gif" alt="status"/></dt>
-	    <dd>WARNING: The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing.</dd>
-	</dl>
-	</div>
-    {/if}
 
     <div>
 	{if $loadedMapping}
