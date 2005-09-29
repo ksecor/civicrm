@@ -327,19 +327,21 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $formName = 'document.forms.' . $this->_name;
         
         //used to warn for mismatch column count or mismatch mapping 
-
+        
         $warning = 0;
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             
             if( $this->get('savedMapping') ) {
-                $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
-                if ( isset($mappingName[$i]) ) {
+                $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;                
+                if ( isset($mappingName[$i]) ) {                    
                     if ( $mappingName[$i] != '-do not import-') {
-                        $this->_defaults["mapper[$i]"] = array(
-                                                               $this->defaultFromHeader($mappingName[$i], $headerPatterns),
-                                                               $locationId
+                        
+                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
+                        
+                        $this->_defaults["mapper[$i]"] = array( $mappingHeader[0],
+                                                                $locationId
                                                                );
                     } else {
                         $this->_defaults["mapper[$i]"] = array();
