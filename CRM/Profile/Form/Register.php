@@ -45,7 +45,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Register extends CRM_Core_Form
+class CRM_Profile_Form_Register extends CRM_Core_Form
 {
     /**
      * The contact id that we are editing

@@ -45,7 +45,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Dynamic extends CRM_Core_Form
+class CRM_Profile_Form_Dynamic extends CRM_Core_Form
 {
     /**
      * The contact id that we are editing
@@ -167,9 +167,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         if ( $this->get( 'register' ) ) {
-            $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), -1 );
+            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), -1 );
         } else {
-            $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
+            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this->_id );
         }
     }
 
@@ -188,20 +188,12 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $errors = array( );
 
         // if no values, return
-        if ( ! CRM_Utils_Array::value( 'edit', $fields ) ) {
+        if ( empty( $fields ) ) {
             return true;
         }
-
-        // dirty and temporal workaround for CRM-144
-        $fieldName = null;
-        foreach ( $fields['edit'] as $name => $dontCare ) {
-            $fieldName = 'edit[' . $name . ']';
-            break;
-        }
-
-        // hack add the email, does not work in registration, we need the real user object
+        
         global $user;
-        $fields['edit']['email'] = $user->mail;
+        $fields['email'] = $user->mail;
         $cid = $register = null;
 
         // hack we use a -1 in options to indicate that its registration
@@ -216,15 +208,15 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375
         if ( ! $register ) {
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
             if ( $ids ) {
                 $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
             }
         }
         
         // Validate Country - State list
-        $countryId = $fields['edit']['country_id'];
-        $stateProvinceId = $fields['edit']['state_province_id'];
+        $countryId = $fields['country_id'];
+        $stateProvinceId = $fields['state_province_id'];
 
         if ($stateProvinceId && $countryId) {
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
@@ -235,7 +227,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 // country mismatch hence display error
                 $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                 $countries =& CRM_Core_PseudoConstant::country();
-                $errors['edit[state_province_id]'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                $errors['state_province_id'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
             }
         }
 
@@ -340,11 +332,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-        foreach ($params['edit'] as $key => $value) {
+        foreach ($params as $key => $value) {
             // under 'country' and 'state_province' we actually get the ids
             if (in_array($key, array('country', 'state_province'))) {
-                $params['edit'][$key . '_id'] = $value;
-                unset($params['edit'][$key]);
+                $params[$key . '_id'] = $value;
+                unset($params[$key]);
             }
         }
 
@@ -363,28 +355,23 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         CRM_Contact_BAO_Contact::retrieve($rParams, $rValues, $rIds);
         if (isset($rIds['location'][1]['id'])) $ids['location'] = $rIds['location'][1]['id'];
 
-        $edit = CRM_Utils_Array::value( 'edit', $params );
-        if ( ! $edit ) {
-            return;
-        }
+        $params['contact_type'] = 'Individual';
+        $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
 
-        $edit['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
-
-        $edit['contact_id'] = $contact->id;
-        CRM_Contact_BAO_Individual::add( $edit, $ids );
+        $params['contact_id'] = $contact->id;
+        CRM_Contact_BAO_Individual::add( $params, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {
             $address =& new CRM_Core_BAO_Address();
-            CRM_Core_BAO_Address::fixAddress( $edit );
+            CRM_Core_BAO_Address::fixAddress( $params );
             
-            if ( ! $address->copyValues( $edit ) ) {
+            if ( ! $address->copyValues( $params ) ) {
                 $address->id = CRM_Utils_Array::value( 'address', $ids );
                 $address->location_id = CRM_Utils_Array::value( 'location', $ids );
                 $address->save( );
             }
 
             $phone =& new CRM_Core_BAO_Phone();
-            if ( ! $phone->copyValues( $edit ) ) {
+            if ( ! $phone->copyValues( $params ) ) {
                 $phone->id = CRM_Utils_Array::value( 'phone', $ids );
                 $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
                 $phone->is_primary = true;
@@ -392,7 +379,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             }
 
             $email =& new CRM_Core_BAO_Email();
-            if ( ! $email->copyValues( $edit ) ) {
+            if ( ! $email->copyValues( $params ) ) {
                 $email->id = CRM_Utils_Array::value( 'email', $ids );
                 $email->location_id = CRM_Utils_Array::value( 'location', $ids );
                 $email->is_primary = true;
@@ -402,7 +389,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         }
 
         /* Process custom field values */
-        foreach ($params['edit'] as $key => $value) {
+        foreach ($params as $key => $value) {
             if (($cfID = CRM_Core_BAO_CustomField::getKeyID($key)) == null) {
                 continue;
             }
@@ -418,9 +405,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     }
                     $customValue = $date;
                     break;
+
                 case 'CheckBox':
                     $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
                     break;
+
                 default:
                     $customValue = $value;
                 }

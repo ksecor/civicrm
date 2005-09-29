@@ -103,10 +103,10 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
 
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
-            if ( $field['name'] === 'state_province_id' ) {
+            if ( $field['name'] === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);
-            } else if ( $field['name'] === 'country_id' ) {
+            } else if ( $field['name'] === 'country' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
@@ -114,6 +114,15 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
                 if ($field['is_required']) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
+            } else if ( $field['name'] === 'birth_date' ) { 
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') ); 
+            } else if ( $field['name'] === 'gender' ) { 
+                $genderOptions = array( );  
+                $gender =CRM_Core_PseudoConstant::gender();  
+                foreach ($gender as $key => $var) {  
+                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts($var), $key);  
+                }  
+                $this->addGroup($genderOptions, $field['name'], $field['title'] ); 
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
             }
@@ -156,15 +165,8 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
         $errors = array( );
 
         // if no values, return
-        if ( ! CRM_Utils_Array::value( 'edit', $fields ) ) {
+        if ( empty( $fields ) ) {
             return true;
-        }
-
-        // dirty and temporal workaround for CRM-144
-        $fieldName = null;
-        foreach ( $fields['edit'] as $name => $dontCare ) {
-            $fieldName = 'edit[' . $name . ']';
-            break;
         }
 
         // hack add the email, does not work in registration, we need the real user object
@@ -172,14 +174,14 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
         if ( $options ) {
             $cid = (int ) $options;
         }
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );
+        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
         if ( $ids ) {
             $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
         }
         
         // Validate Country - State list
-        $countryId = $fields['edit']['country_id'];
-        $stateProvinceId = $fields['edit']['state_province_id'];
+        $countryId = $fields['country_id'];
+        $stateProvinceId = $fields['state_province_id'];
 
         if ($stateProvinceId && $countryId) {
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
@@ -190,7 +192,7 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
                 // country mismatch hence display error
                 $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                 $countries =& CRM_Core_PseudoConstant::country();
-                $errors['edit[state_province_id]'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                $errors['state_province_id'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
             }
         }
 
@@ -207,8 +209,6 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array( );
-        $defaults['edit[custom_16]'] = $defaults['edit[custom_20]'] = date( "Y-m-d" );
-        $defaults['edit[custom_11]'] = $defaults['edit[state_province_id]'] = 1017;
         return $defaults;
     }
 
@@ -223,21 +223,31 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
+        // hack the params for now
+        if ( CRM_Utils_Array::value( 'state_province', $params ) ) {
+            $params['state_province_id'] = $params['state_province'];
+        }
+        if ( CRM_Utils_Array::value( 'country', $params ) ) {
+            $params['country_id'] = $params['country'];
+        }
+        if ( CRM_Utils_Array::value( 'gender', $params ) ) {
+            $params['gender_id'] = $params['gender'];
+        }
+            
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
 
-        $edit = CRM_Utils_Array::value( 'edit', $params );
-        if ( ! $edit ) {
+        if ( empty( $params ) ) {
             return;
         }
 
         CRM_Core_DAO::transaction( 'BEGIN' ); 
 
-        $edit['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
+        $params['contact_type'] = 'Individual';
+        $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
 
-        $edit['contact_id'] = $contact->id;
-        CRM_Contact_BAO_Individual::add( $edit, $ids );
+        $params['contact_id'] = $contact->id;
+        CRM_Contact_BAO_Individual::add( $params, $ids );
 
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
@@ -250,16 +260,16 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
         $location->save( );
         
         $address =& new CRM_Core_BAO_Address();
-        CRM_Core_BAO_Address::fixAddress( $edit );
+        CRM_Core_BAO_Address::fixAddress( $params );
             
-        if ( ! $address->copyValues( $edit ) ) {
+        if ( ! $address->copyValues( $params ) ) {
             $address->id = CRM_Utils_Array::value( 'address', $ids );
             $address->location_id = $location->id;
             $address->save( );
         }
 
         $phone =& new CRM_Core_BAO_Phone();
-        if ( ! $phone->copyValues( $edit ) ) {
+        if ( ! $phone->copyValues( $params ) ) {
             $phone->id = CRM_Utils_Array::value( 'phone', $ids );
             $phone->location_id = $location->id;
             $phone->is_primary = true;
@@ -267,7 +277,7 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
         }
         
         $email =& new CRM_Core_BAO_Email();
-        if ( ! $email->copyValues( $edit ) ) {
+        if ( ! $email->copyValues( $params ) ) {
             $email->id = CRM_Utils_Array::value( 'email', $ids );
             $email->location_id = $location->id;
             $email->is_primary = true;
@@ -275,7 +285,7 @@ class CRM_Profile_Form_Edit extends CRM_Core_Form
         }
 
         /* Process custom field values */
-        foreach ($params['edit'] as $key => $value) {
+        foreach ($params as $key => $value) {
             if (($cfID = CRM_Core_BAO_CustomField::getKeyID($key)) == null) {
                 continue;
             }

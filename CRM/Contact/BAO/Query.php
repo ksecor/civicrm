@@ -355,7 +355,7 @@ class CRM_Contact_BAO_Query {
                 $genders =& CRM_Core_PseudoConstant::gender( );  
                 if ( is_numeric( $value ) ) {  
                     $value     =  $genders[(int ) $value];  
-                } 
+                }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
                 $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) ); 
             } else if ( $name === 'birth_date' ) {

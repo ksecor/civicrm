@@ -348,7 +348,7 @@ function civicrm_view_data($user ) {
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
         foreach ( $ufGroups as $id => $title ) {
-            $page =& new CRM_UF_Page_Dynamic( $userID, $id );
+            $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
             $data[$title] = $page->run( );
         }
     }

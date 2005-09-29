@@ -44,7 +44,7 @@ require_once 'CRM/Core/Page.php';
  * page.
  *
  */
-class CRM_UF_Page_Dynamic extends CRM_Core_Page {
+class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
     
     /**
      * The contact id of the person we are viewing
