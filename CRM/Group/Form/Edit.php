@@ -47,7 +47,14 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @var int
      */
     protected $_id;
-   
+ 
+    /**
+     * The title of the group being deleted
+     *
+     * @var string
+     */
+    protected $_title;
+  
     /**
      * set up variables to build the form
      *
@@ -55,11 +62,19 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @acess protected
      */
     function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
-        if ( isset($this->_id) ) {
-            $groupValues = array( 'id' => $this->_id, 'title' => $group[$this->_id] );
-            $this->assign_by_ref( 'group', $groupValues );
-            
+        if ($this->_action == CRM_Core_Action::DELETE) {    
+            $this->_id    = $this->get( 'id' );
+            if ( isset($this->_id) ) {
+                //$groupValues = array( 'id' => $this->_id, 'title' => $group[$this->_id] );
+                //$this->assign_by_ref( 'group', $groupValues );
+                $params   = array( 'id' => $this->_id );
+                CRM_Contact_BAO_Group::retrieve( $params, $defaults );
+                
+                $this->_title = $defaults['title'];
+                $this->assign( 'name' , $this->_title );
+                $this->assign( 'count', CRM_Contact_BAO_Group::memberCount( $this->_id ) );
+                CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
+            }
         }
     }
     
@@ -88,25 +103,38 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
+        
+        if ($this->_action == CRM_Core_Action::DELETE) {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Delete Group'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'       => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+            
+        } else {
 
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'title'       , ts('Name: ') ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
-        $this->addRule( 'title', ts('Group name is required.'), 'required' );
-        $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
-
-        $this->add('text', 'description', ts('Description: '), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+            $this->applyFilter('__ALL__', 'trim');
+            $this->add('text', 'title'       , ts('Name: ') ,
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+            $this->addRule( 'title', ts('Group name is required.'), 'required' );
+            $this->addRule( 'title', ts('Name already exists in Database.'),
+                            'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+            
+            $this->add('text', 'description', ts('Description: '), 
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+            
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'       => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+        }
     }
 
     /**
@@ -116,34 +144,41 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        // store the submitted values in an array
-        $params = $this->exportValues();
+        
+        if ($this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Contact_BAO_Group::discard( $this->_id );
+            CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
+        } else {
 
-        // action is taken depending upon the mode
-        $group               =& new CRM_Contact_DAO_Group( );
-        $group->domain_id    = CRM_Core_Config::domainID( );
-        $group->name         = $params['title'];
-        $group->title        = $params['title'];
-        $group->description  = $params['description'];
-        $group->is_active    = 1;
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $group->id = $this->_id;
-        }
-
-        $group->save( );
-
-        CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->name)) );        
-
-        /*
-         * Add context to the session, in case we are adding members to the group
-         */
-        if ($this->_action & CRM_Core_Action::ADD ) {
-            $this->set( 'context', 'amtg' );
-            $this->set( 'amtgID' , $group->id );
+            // store the submitted values in an array
+            $params = $this->exportValues();
             
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ) );
+            // action is taken depending upon the mode
+            $group               =& new CRM_Contact_DAO_Group( );
+            $group->domain_id    = CRM_Core_Config::domainID( );
+            $group->name         = $params['title'];
+            $group->title        = $params['title'];
+            $group->description  = $params['description'];
+            $group->is_active    = 1;
+            
+            if ($this->_action & CRM_Core_Action::UPDATE ) {
+                $group->id = $this->_id;
+            }
+            
+            $group->save( );
+            
+            CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->name)) );        
+            
+            /*
+             * Add context to the session, in case we are adding members to the group
+             */
+            if ($this->_action & CRM_Core_Action::ADD ) {
+                $this->set( 'context', 'amtg' );
+                $this->set( 'amtgID' , $group->id );
+                
+                $session =& CRM_Core_Session::singleton( );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ) );
+            }
         }
     }
 
