@@ -27,7 +27,8 @@
     
         <tr>
            <td>
-              <a href="{crmURL p='civicrm/export/contact' q="_qf_MapField_display=true"}">Give me more columns</a>
+               {$form._qf_MapField_refresh.html}
+              <!--a href="{crmURL p='civicrm/export/contact' q="_qf_MapField_display=true"}">Give me more columns</a-->
            </td>
         </tr>            
     </table>

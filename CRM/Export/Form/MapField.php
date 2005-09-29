@@ -180,6 +180,8 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
 
         $this->setDefaults( $this->_defaults );       
 
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Give me more colums'), array( 'class' => 'form-submit' ) );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -200,8 +202,14 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+        
+        if ( $this->controller->exportValue( $this->_name, '_qf_MapField_refresh' ) )  {
+            return;
+        }
+        
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         CRM_Export_BAO_Export::exportContacts($mapperKeys);
+        
     }
     
     /**
