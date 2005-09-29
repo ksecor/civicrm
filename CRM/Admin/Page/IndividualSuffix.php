@@ -89,6 +89,12 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/suffix',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Individual Suffix') 
+                                                                    ),
+                                   CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/suffix',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Individual Suffix') 
                                                                    )
                                  );
         }

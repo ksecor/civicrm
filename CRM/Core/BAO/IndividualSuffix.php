@@ -131,6 +131,40 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         $individualSuffix->save( );
         return $individualSuffix;
     }
+
+
+    /**
+     * Function to delete Individual Suffix
+     * 
+     * @param int $suffixId
+     * @static
+     */
+    
+    static function del($suffixId) 
+    {
+        //check dependencies
+        $individual = & new CRM_Contact_DAO_Individual();
+        $individual->suffix_id = $suffixId;
+        $individual->find();
+        while($individual->fetch()) {
+            $contactId = $individual->contact_id;
+           
+            $session =& CRM_Core_Session::singleton( );
+            $currentUserId = $session->get( 'userID' );
+                       if ($currentUserId !=$contactId) {
+                CRM_Contact_BAO_Contact::deleteContact( $contactId );
+          
+            }else {
+                return false;
+            }
+        }
+        
+        $suffix = & new CRM_Core_DAO_IndividualSuffix();
+        $suffix->id = $suffixId;
+        $suffix->delete();
+        return true;
+    }
+    
     
 }
 

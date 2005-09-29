@@ -51,6 +51,12 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
+        parent::buildQuickForm( );
+        
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            
+            return;
+        }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_IndividualSuffix', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid individual suffix name.'), 'required' );
@@ -61,7 +67,7 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        parent::buildQuickForm( );
+        
     }
 
        
@@ -73,17 +79,25 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        $params = $ids = array( );
-        // store the submitted values in an array
-        $params = $this->exportValues();
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['individualSuffix'] = $this->_id;
+        if($this->_action & CRM_Core_Action::DELETE) {
+            if(CRM_Core_BAO_IndividualSuffix::del($this->_id)) {
+                CRM_Core_Session::setStatus( ts('Selected Individual Suffix  has been deleted.') );
+            } else {
+                CRM_Core_Session::setStatus( ts('Selected Individual Suffix  has not been deleted.') );
+            }
+        } else {
+            $params = $ids = array( );
+            // store the submitted values in an array
+            $params = $this->exportValues();
+            
+            if ($this->_action & CRM_Core_Action::UPDATE ) {
+                $ids['individualSuffix'] = $this->_id;
+            }
+            
+            $individualSuffix = CRM_Core_BAO_IndividualSuffix::add($params, $ids);
+            
+            CRM_Core_Session::setStatus( ts('The Individual Suffix "%1" has been saved.', array( 1 => $individualSuffix->name )) );
         }
-
-        $individualSuffix = CRM_Core_BAO_IndividualSuffix::add($params, $ids);
-
-        CRM_Core_Session::setStatus( ts('The Individual Suffix "%1" has been saved.', array( 1 => $individualSuffix->name )) );
     }
 }
 
