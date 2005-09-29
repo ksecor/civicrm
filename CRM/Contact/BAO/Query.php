@@ -337,24 +337,40 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            $value = strtolower( $value ); 
             if ( $name === 'state_province' ) {
                 $states =& CRM_Core_PseudoConstant::stateProvince(); 
                 if ( is_numeric( $value ) ) {
                     $value  =  $states[(int ) $value];
                 }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
             } else if ( $name === 'country' ) {
                 $countries =& CRM_Core_PseudoConstant::country( ); 
                 if ( is_numeric( $value ) ) { 
                     $value     =  $countries[(int ) $value]; 
                 }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
+            } else if ( $name === 'gender' ) {
+                $genders =& CRM_Core_PseudoConstant::gender( );  
+                if ( is_numeric( $value ) ) {  
+                    $value     =  $genders[(int ) $value];  
+                } 
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
+                $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) ); 
+            } else if ( $name === 'birth_date' ) {
+                $date = CRM_Utils_Date::format( $value );
+                if ( ! $date ) {
+                    continue;
+                }
+                $this->_where[] = $field['where'] . " = $date";
+                $date = CRM_Utils_Date::customFormat( $value );
+                $this->_qill[]  = ts( $field['title'] . ' "%1"', array( 1 => $date ) ); 
             } else {
+                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
                 $this->_qill[]  = ts( $field['title'] . ' like "%1"', array( 1 => $value ) );
             }
             
-            $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
             if ( isset( $tableName ) ) { 
                 $this->_tables[$tableName] = 1;  

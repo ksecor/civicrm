@@ -97,6 +97,15 @@ class CRM_Profile_Form_Search extends CRM_Core_Form
             } else if ( $field['name'] === 'country' ) {                            
                 $this->add('select', $field['name'], $field['title'],  
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), false );
+            } else if ( $field['name'] === 'birth_date' ) {
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') );
+            } else if ( $field['name'] === 'gender' ) {
+                $genderOptions = array( ); 
+                $gender =CRM_Core_PseudoConstant::gender(); 
+                foreach ($gender as $key => $var) { 
+                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts($var), $key); 
+                } 
+                $this->addGroup($genderOptions, $field['name'], $field['title'] );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) { 
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $field['name'], $customFieldID, $inactiveNeeded, false); 
             } else { 
