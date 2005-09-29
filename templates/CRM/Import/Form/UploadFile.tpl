@@ -17,16 +17,20 @@
  <fieldset><legend>{ts}Upload Data File{/ts}</legend>
     <dl>
        <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
-       <dt> </dt>
+       <dt>&nbsp;</dt>
           <dd class="description">{ts}File format must be comma-separated-values (CSV).{/ts}</dd>
-       <dt> </dt>
+       <dt>&nbsp;</dt>
 	  <dd>{ts 1=$uploadSize}Maximum Upload File Size: %1 MB{/ts}</dd>
        <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
-       <dt> </dt>
+       <dt>&nbsp;</dt>
           <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
           </dd> 
        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
+       <dt>&nbsp;</dt>
+          <dd class="description">
+            {ts}Select 'Individual' if each record in your file represents and individual person - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.). Select 'Organization' or 'Household' if each record in your file represents a contact of that type.{/ts}
+          </dd> 
        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
        <dt>&nbsp;</dt>
             <dd class="description">

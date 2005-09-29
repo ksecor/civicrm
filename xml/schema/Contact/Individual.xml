@@ -4,7 +4,7 @@
   <base>CRM/Contact</base>
   <class>Individual</class>
   <name>civicrm_individual</name>
-  <comment>Define individual specific properties</comment>
+  <comment>Define contact-individual specific properties. Extends civicrm_contact.</comment>
   <add>1.1</add>
   <field>
       <name>id</name>
@@ -66,27 +66,49 @@
   <field>
       <name>prefix_id</name>
       <type>int unsigned</type>
-      <comment>FK to prefix ID</comment>
-      <add>1.1</add>
+      <comment>Prefix or Title for name (Ms, Mr...). FK to prefix ID</comment>
+      <add>1.2</add>
   </field>
   <foreignKey>
        <name>prefix_id</name>
        <table>civicrm_individual_prefix</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
   <field>
       <name>suffix_id</name>
       <type>int unsigned</type>
-      <comment>FK to suffix ID</comment>
-      <add>1.1</add>
+      <comment>Suffix for name (Jr, Sr...). FK to suffix ID</comment>
+      <add>1.2</add>
   </field>
   <foreignKey>
        <name>suffix_id</name>
        <table>civicrm_individual_suffix</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
+  <field>
+       <name>prefix</name>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <headerPattern>/prefix/i</headerPattern>
+       <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
+       <comment>Prefix to Name.</comment>
+       <add>1.1</add>
+       <drop>1.2</drop>
+  </field>
+  <field>
+       <name>suffix</name>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <headerPattern>/^suffix$/i</headerPattern>
+       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
+       <comment>Suffix to Name.</comment>
+       <add>1.1</add>
+       <drop>1.2</drop>
+  </field>
   <field>
        <name>greeting_type</name>
        <type>enum</type>
@@ -116,14 +138,21 @@
       <name>gender_id</name>
       <type>int unsigned</type>
        <comment>FK to gender ID</comment>
-      <add>1.1</add>
+      <add>1.2</add>
   </field>
   <foreignKey>
        <name>gender_id</name>
        <table>civicrm_gender</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
+  <field>
+       <name>gender</name>
+       <type>enum</type>
+       <values>Female, Male, Transgender</values>
+       <add>1.1</add>
+       <drop>1.2</drop>
+  </field>
   <field>
        <name>birth_date</name>
        <type>date</type>
@@ -131,13 +160,13 @@
        <headerPattern>/birth/i</headerPattern>
        <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
        <comment>Date of birth</comment>
-      <add>1.1</add>
+       <add>1.1</add>
   </field>
   <field>
        <name>is_deceased</name>
        <type>boolean</type>
        <default>0</default>
-      <add>1.1</add>
+       <add>1.1</add>
   </field>
   <field>
       <name>phone_to_household_id</name>
