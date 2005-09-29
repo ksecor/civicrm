@@ -104,6 +104,46 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
         return self::$_defaultLocationType;
     }
 
+
+    /**
+     * Function to delete location Types 
+     * 
+     * @param int $locationTypeId
+     * @static
+     */
+    
+    static function del($locationTypeId) 
+    {
+        //check dependencies
+        $location = & new CRM_Core_DAO_Location();
+        $location->location_type_id = $locationTypeId;
+        $location->find();
+        while($location->fetch()){
+            //delete address
+            $address  = & new CRM_Core_DAO_Address();
+            $address->location_id = $location->id;
+            $address->delete();
+            //delete Im
+            $im = & new CRM_Core_DAO_IM();
+            $im->location_id = $location->id;
+            $im->delete();
+            //delete Phone 
+            $phone = & new CRM_Core_DAO_Phone();
+            $phone->location_id = $location->id;
+            $phone->delete();
+            //delete Email
+            $email = & new CRM_Core_DAO_Email();
+            $email->location_id = $location->id;
+            $email->delete();
+        }
+        $location = & new CRM_Core_DAO_Location();
+        $location->location_type_id = $locationTypeId;
+        $location->delete();
+        $locationType = & new CRM_Core_DAO_LocationType();
+        $locationType->id = $locationTypeId;
+        $locationType->delete();
+    }
+
 }
 
 ?>

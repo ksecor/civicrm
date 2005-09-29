@@ -89,8 +89,14 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/locationType',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Location Type') 
+                                                                    ),
+                                   CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Location Type') 
                                                                    )
-                                 );
+                                  );
         }
         return self::$_links;
     }
@@ -108,15 +114,16 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function run()
     {
+        
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-        
+
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD )) {
             $this->edit($action, $id) ;
         } 
         // finally browse the custom groups
@@ -155,6 +162,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
             if ($dao->is_reserved) {
                 $action -= CRM_Core_Action::ENABLE;
                 $action -= CRM_Core_Action::DISABLE;
+                $action -= CRM_Core_Action::DELETE;
             } else {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;

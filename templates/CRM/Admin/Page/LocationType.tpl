@@ -2,7 +2,7 @@
     {ts}Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes several commonly used 'reserved' types (Home and Work). Administrators may define as many additional types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...).{/ts}
 </div>
 
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/LocationType.tpl"}
 {/if}
 
