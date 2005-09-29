@@ -89,6 +89,12 @@ class CRM_Admin_Page_IndividualPrefix extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/prefix',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Individual Prefix') 
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/prefix',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Individual Prefix') 
                                                                    )
                                  );
         }

@@ -132,6 +132,39 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
         return $individualPrefix;
     }
     
+    /**
+     * Function to delete Gender Title
+     * 
+     * @param int $titleId
+     * @static
+     */
+    
+    static function del($titleId) 
+    {
+        //check dependencies
+        $individual = & new CRM_Contact_DAO_Individual();
+        $individual->prefix_id = $titleId;
+        $individual->find();
+        while($individual->fetch()) {
+            $contactId = $individual->contact_id;
+           
+            $session =& CRM_Core_Session::singleton( );
+            $currentUserId = $session->get( 'userID' );
+                       if ($currentUserId !=$contactId) {
+                CRM_Contact_BAO_Contact::deleteContact( $contactId );
+          
+            }else {
+                return false;
+            }
+        }
+        
+        $prefix = & new CRM_Core_DAO_IndividualPrefix();
+        $prefix->id = $titleId;
+        $prefix->delete();
+        return true;
+    }
+
+    
 }
 
 ?>
