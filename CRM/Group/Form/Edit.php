@@ -62,11 +62,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @acess protected
      */
     function preProcess( ) {
+        $this->_id    = $this->get( 'id' );
+
         if ($this->_action == CRM_Core_Action::DELETE) {    
-            $this->_id    = $this->get( 'id' );
             if ( isset($this->_id) ) {
-                //$groupValues = array( 'id' => $this->_id, 'title' => $group[$this->_id] );
-                //$this->assign_by_ref( 'group', $groupValues );
                 $params   = array( 'id' => $this->_id );
                 CRM_Contact_BAO_Group::retrieve( $params, $defaults );
                 
@@ -75,6 +74,9 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $this->assign( 'count', CRM_Contact_BAO_Group::memberCount( $this->_id ) );
                 CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
             }
+        } else {
+            $groupValues = array( 'id' => $this->_id, 'title' => $group[$this->_id] );
+            $this->assign_by_ref( 'group', $groupValues );
         }
     }
     
