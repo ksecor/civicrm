@@ -89,6 +89,12 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/gender',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Gender') 
+                                                                    ),
+                                   CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/gender',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete Gender Type') 
                                                                    )
                                  );
         }

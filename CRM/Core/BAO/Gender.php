@@ -131,7 +131,38 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
         $gender->save( );
         return $gender;
     }
+     /**
+     * Function to delete Gender 
+     * 
+     * @param int $genderId
+     * @static
+     */
     
+    static function del($genderId) 
+    {
+        //check dependencies
+        $individual = & new CRM_Contact_DAO_Individual();
+        $individual->gender_id = $genderId;
+        $individual->find();
+        while($individual->fetch()) {
+            $contactId = $individual->contact_id;
+           
+            $session =& CRM_Core_Session::singleton( );
+            $currentUserId = $session->get( 'userID' );
+                       if ($currentUserId !=$contactId) {
+                CRM_Contact_BAO_Contact::deleteContact( $contactId );
+          
+            }else {
+                return false;
+            }
+        }
+        
+        $gender = & new CRM_Core_DAO_Gender();
+        $gender->id = $genderId;
+        $gender->delete();
+        return true;
+    }
+
 }
 
 ?>

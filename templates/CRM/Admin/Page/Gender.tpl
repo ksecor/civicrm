@@ -3,7 +3,7 @@
     You can use this page to customize these options and add new options as needed for your installation.</p>{/ts}
 </div>
 
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/Gender.tpl"}
 {/if}
 
