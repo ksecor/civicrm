@@ -628,10 +628,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     if ( $params['option_label'][$v] ) {
                         $defaultArray[] = $params['option_label'][$v];
                     }
-                }
-                
+                }                
                 $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray);                
-            } 
+            } else {
+                if ( isset($params['option_value'][$params['default_option']]) ) {
+                    $customField->default_value = $params['option_value'][$params['default_option']];
+                } else {
+                    $customField->default_value = $params['default_value'];
+                }
+            }
         }
         
         $customField->help_post        = $params['help_post'];
