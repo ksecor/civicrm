@@ -90,6 +90,12 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts( 'Enable IM Service Provider' ) 
                                                                    ),
+                                   CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/IMProvider',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'title' => ts('Delete IM Provider') 
+                                                                   )
                                  );
         }
         return self::$_links;

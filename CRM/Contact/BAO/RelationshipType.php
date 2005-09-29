@@ -113,20 +113,20 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
     /**
      * Function to delete Relationship Types 
      * 
-     * @param int $locationTypeId
+     * @param int $relationshipTypeId
      * @static
      */
     
-    static function del($locationTypeId) 
+    static function del($relationshipTypeId) 
     {
         //check dependencies
         $relationship = & new CRM_Contact_DAO_Relationship();
-        $relationship->relationship_type_id = $locationTypeId;
+        $relationship->relationship_type_id = $relationshipTypeId;
         $relationship->delete();
 
-        //check dependencies
+        
         $relationshipType = & new CRM_Contact_DAO_RelationshipType();
-        $relationshipType->id = $locationTypeId;
+        $relationshipType->id = $relationshipTypeId;
         $relationshipType->delete();
 
 

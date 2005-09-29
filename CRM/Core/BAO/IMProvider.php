@@ -80,6 +80,24 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_IMProvider', $id, 'is_active', $is_active );
     }
 
+     /**
+     * Function to delete IMProvider Types 
+     * 
+     * @param int $impProviderTypeId
+     * @static
+     */
+    
+    static function del($imProviderTypeId) 
+    {
+        //check dependencies
+        $im = & new CRM_Core_DAO_IM();
+        $im->provider_id= $imProviderTypeId;
+        $im->delete();
+        
+        $imProvider = & new CRM_Core_DAO_IMProvider();
+        $imProvider->id = $imProviderTypeId;
+        $imProvider->delete();
+    }
 }
 
 ?>

@@ -51,6 +51,13 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
+        parent::buildQuickForm( );
+       
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+             
+            return;
+        }
+
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_IMProvider', 'name' ) );
@@ -59,7 +66,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        parent::buildQuickForm( );
+        
     }
     
        
@@ -70,24 +77,32 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        // store the submitted values in an array
-        $params = $this->exportValues();
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         
-        // action is taken depending upon the mode
-        $IMProvider               =& new CRM_Core_DAO_IMProvider( );
-        $IMProvider->name         = $params['name'];
-        $IMProvider->is_active    = $params['is_active'];
-        $IMProvider->domain_id    = CRM_Core_Config::domainID( );
-        
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $IMProvider->id = $this->_id;
+        if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Core_BAO_IMProvider::del($this->_id);
+            CRM_Core_Session::setStatus( ts('Selected IMProvider has been deleted.') );
+        } else {
+
+            // store the submitted values in an array
+            $params = $this->exportValues();
+            $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+            
+            // action is taken depending upon the mode
+            $IMProvider               =& new CRM_Core_DAO_IMProvider( );
+            $IMProvider->name         = $params['name'];
+            $IMProvider->is_active    = $params['is_active'];
+            $IMProvider->domain_id    = CRM_Core_Config::domainID( );
+            
+            if ($this->_action & CRM_Core_Action::UPDATE ) {
+                $IMProvider->id = $this->_id;
+            }
+            
+            $IMProvider->save( );
+            
+            CRM_Core_Session::setStatus( ts('The IM Provider "%1" has been saved.',
+                                            array( 1 => $IMProvider->name ) ) );
         }
-
-        $IMProvider->save( );
-
-        CRM_Core_Session::setStatus( ts('The IM Provider "%1" has been saved.',
-					array( 1 => $IMProvider->name ) ) );
+        
     }//end of function
 
 
