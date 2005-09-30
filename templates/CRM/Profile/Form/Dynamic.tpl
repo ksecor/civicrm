@@ -29,16 +29,16 @@
     {assign var=n value=$field.name}
 	{if $field.options_per_line > 1}
 	<tr>
-	    {*<td class="label">{$form.edit.$n.label} </td>*}
-        <td>{$form.edit.$n.label} </td>
+	    {*<td class="label">{$form.$n.label} </td>*}
+        <td>{$form.$n.label} </td>
 	    <td>
 		{assign var="count" value="1"}
 	    <table class="form-layout">
             <tr>
-	        {section name=rowLoop start=1 loop=$form.edit.$n}
+	        {section name=rowLoop start=1 loop=$form.$n}
 	        {assign var=index value=$smarty.section.rowLoop.index}
-	        {if $form.edit.$n.$index.html != "" }
-		        <td class="label">{$form.edit.$n.$index.html}</td>
+	        {if $form.$n.$index.html != "" }
+		        <td class="label">{$form.$n.$index.html}</td>
                 {if $count == $field.options_per_line}
 				</tr>
                 <tr>
@@ -54,10 +54,10 @@
 	    </td>
     </tr>
 	{else}
-        <tr><td class="label">{$form.edit.$n.label}</td><td>{$form.edit.$n.html}</td></tr>
+        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}
-            <tr><td>&nbsp;</td><td class="description">{ts}{$field.help_post}{/ts}</td></tr>
+            <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
 	{/if}
     {/foreach}
