@@ -10,7 +10,7 @@
     </div>
     <div class="form-item">
         <!-- <label for="quick_search">Name:</label> -->
-        <input type="text" name="sort_name" class="form-text required" value="{ts}-exact or partial name-{/ts}" onfocus="clearFldVal(this);" />
+        <input type="text" name="sort_name" class="form-text required" value="{ts}-exact or partial name-{/ts}" onClick="this.value ='';" />
         <br />
         <input type="submit" name="_qf_Search_refresh" value="{ts}Search{/ts}" class="form-submit" />
         <br />
