@@ -92,6 +92,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable CiviCRM Profile Group'),
                                                                           ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/admin/uf/group',
+                                                                          'qs'    => 'action=delete&id=%%id%%',
+                                                                          'title' => ts('Delete CiviCRM Profile Group'),
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;
@@ -119,7 +125,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
             $this->edit($id, $action) ;
         } else {
             // if action is enable or disable to the needful.

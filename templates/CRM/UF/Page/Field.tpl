@@ -1,4 +1,4 @@
-{if $action eq 1 or $action eq 2 or $action eq 4}
+{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8 }
     {include file="CRM/UF/Form/Field.tpl"}
 {else}
     {if $ufField}

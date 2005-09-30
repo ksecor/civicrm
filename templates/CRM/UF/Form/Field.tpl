@@ -1,5 +1,15 @@
-<fieldset><legend>{ts}CiviCRM Profile Field{/ts}</legend>
+<fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
     <div class="form-item">
+    {if $action eq 8}
+      	<div class="messages status">
+        <dl>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dd>    
+          {ts}"WARNING:Deleting this profile field will remove it from Profile forms and listings . Dou you want to continue"{/ts}
+          </dd>
+       </dl>
+      </div>
+    {else}
         <dl>
         <dt>{$form.field_name.label}</dt><dd>{$form.field_name.html}</dd>
         {if $action neq 4}
@@ -45,6 +55,7 @@
     
     <div id="crm-submit-buttons" class="form-item">
     <dl>
+    {/if}
     {if $action ne 4}
         <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
     {else}

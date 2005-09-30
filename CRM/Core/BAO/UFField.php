@@ -84,6 +84,29 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField {
     static function setIsActive($id, $is_active) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
     }
+
+     /**
+     * Delete the profile Field.
+     *
+     * @param int    id  Field Id 
+     * 
+     * @return void
+     *
+     * @access public
+     * @static
+     *
+     */
+
+  public static function del($id) 
+    { 
+       
+        //delete  field field
+        $field = & new CRM_Core_DAO_UFField();
+        $field->id = $id; 
+        $field->delete();
+        return true;
+    }
+    
     
 }
 

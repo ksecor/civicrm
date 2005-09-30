@@ -100,6 +100,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable CiviCRM Profile Field'),
                                                                           ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/admin/uf/group/field',
+                                                                          'qs'    => 'action=delete&id=%%id%%',
+                                                                          'title' => ts('Enable CiviCRM Profile Field'),
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;
@@ -207,8 +213,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
-            $this->edit($action);   // no browse for edit/update/view
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
+            $this->edit($action);   // no browse for edit/update/view/delete
         } else {
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_UFField::setIsActive($id, 0);

@@ -577,6 +577,36 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
     }
 
+     /**
+     * Delete the profile Group.
+     *
+     * @param int id profile Id 
+     * 
+     * @return void
+     *
+     * @access public
+     * @static
+     *
+     */
+
+  public static function del($id) 
+    { 
+        //check wheter this group contains  any profile fields
+        $profileField = & new CRM_Core_DAO_UFField();
+        $profileField->uf_group_id = $id;
+        $profileField->find();
+        while($profileField->fetch()) {
+            return false;
+            
+        }
+        //delete profile group
+        $group = & new CRM_Core_DAO_UFGroup();
+        $group->id = $id; 
+        $group->delete();
+        return true;
+    }
+
+
 
 }
 

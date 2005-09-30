@@ -49,6 +49,15 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      * @access protected
      */
     protected $_id;
+    
+    /**
+     * the title for group
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_title;
+
 
     /**
      * Function to set variables up before form is built
@@ -66,6 +75,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle( ts( 'Edit %1', array(1 => $title ) ) );
+        } else if($this->_action == CRM_Core_Action::DELETE ) {
+            $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
+            CRM_Utils_System::setTitle( ts( 'Delete %1', array(1 => $title ) ) );
+            $this->_title = $title;
+            $this-> assign('title',$title);
         } else {
             CRM_Utils_System::setTitle( ts('New CiviCRM Profile Group') );
         }
@@ -79,6 +93,20 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        if($this->_action & CRM_Core_Action::DELETE) {
+            $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => ts('Delete Profile Group '),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
+                                )
+                          );
+            return;
+
+        }
+        
         $this->applyFilter('__ALL__', 'trim');
 
         // title
@@ -134,6 +162,15 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function postProcess()
     {
+        if($this->_action & CRM_Core_Action::DELETE) {
+            if (CRM_Core_BAO_UFGroup::del($this->_id)) {
+                CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been deleted.', array(1 => $this->_title)));
+            } else {
+                CRM_Core_Session::setStatus(ts('You must delete all profile fields for "%1" prior to deleting the profile.', array(1 => $this->_title)));
+            }
+            
+            return;
+        }
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
 

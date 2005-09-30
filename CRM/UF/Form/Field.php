@@ -63,7 +63,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      * @var array
      * @access protected
      */
+    
     protected $_fields;
+
+    /**
+     * the title for field
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_title;
 
     /**
      * The set of fields sent to the select element
@@ -83,6 +92,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     {
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+       
 
         $this->_fields =& CRM_Contact_BAO_Contact::importableFields( );
 
@@ -142,6 +152,21 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+         
+        if($this->_action & CRM_Core_Action::DELETE) {
+            $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => ts('Delete Profile Field '),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'cancel',
+                                        'name'      => ts('Cancel') ),
+                                )
+                          );
+            return;
+
+        }
+        
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
@@ -199,6 +224,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     public function postProcess()
     {
+        if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Core_BAO_UFField::del($this->_id);
+            CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
+            return;
+        }
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
 
