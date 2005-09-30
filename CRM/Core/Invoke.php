@@ -366,6 +366,10 @@ class CRM_Core_Invoke {
         case 'gender':
             $view =& new CRM_Admin_Page_Gender(ts('View Gender'));
             break;   
+
+        case 'synchUser':
+            $view =& new CRM_Admin_Page_DrupalUser(ts('Sync Drupal Users'));
+            break;   
             
         default:
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));

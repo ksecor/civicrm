@@ -88,6 +88,9 @@ class CRM_Utils_Menu {
      * @access public
      */
     static function &items( ) {
+        // helper variable for nicer formatting
+        $drupalSyncExtra = ts('Synchronize Users to Contacts: CiviCRM will check each user record for a contact record. A new contact records will be created for each user where on exist. Do you want to continue?');
+        
         if ( ! self::$_items ) {
             // This is the minimum information you can provide for a menu item.
             self::$_items =
@@ -104,7 +107,7 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
-                            'path'    => 'admin/access',
+                            'path'    => 'civicrm/admin/access',
                             'title'   => ts('Access Control'),
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
@@ -113,7 +116,7 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
-                            'path'    => 'admin/backup',
+                            'path'    => 'civicrm/admin/backup',
                             'title'   => ts('Backup Data'),
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
@@ -122,9 +125,10 @@ class CRM_Utils_Menu {
                             ),
                       
                       array(
-                            'path'    => 'admin/synchUsers',
+                            'path'    => 'civicrm/admin/synchUser',
                             'title'   => ts('Synchronize Users-to-Contacts'),
                             'type'    => self::CALLBACK,
+                            'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/DataStore.gif',
                             'weight'  => 130
