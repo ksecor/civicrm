@@ -142,6 +142,7 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
     static function del($titleId) 
     {
         //check dependencies
+        $deleteContactId = array();
         $individual = & new CRM_Contact_DAO_Individual();
         $individual->prefix_id = $titleId;
         $individual->find();
@@ -150,14 +151,17 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
            
             $session =& CRM_Core_Session::singleton( );
             $currentUserId = $session->get( 'userID' );
-                       if ($currentUserId !=$contactId) {
-                CRM_Contact_BAO_Contact::deleteContact( $contactId );
-          
+            if ($currentUserId !=$contactId) {
+                $deleteContactId[] = $contactId;
+                
             }else {
                 return false;
             }
         }
         
+        foreach($deleteContactId as $cid) {
+            CRM_Contact_BAO_Contact::deleteContact( $cid );
+        }
         $prefix = & new CRM_Core_DAO_IndividualPrefix();
         $prefix->id = $titleId;
         $prefix->delete();
