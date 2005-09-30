@@ -125,7 +125,7 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             $template->assign_by_ref( 'row', $values );
         }
 
-        return trim( $template->fetch( 'CRM/UF/Page/Dynamic.tpl' ) ); 
+        return trim( $template->fetch( 'CRM/Profile/Page/Dynamic.tpl' ) ); 
     }
 }
 
