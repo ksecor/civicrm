@@ -58,8 +58,9 @@ class CRM_Contact_Server_Search
         $searchRows = array();
         $searchValues['sort_name'] = $fragment;         
 
-        $contactBAO  =& new CRM_Contact_BAO_Contact( );
-        $searchResult = $contactBAO->searchQuery($searchValues, 0, 50, null, false );
+        $contactBAO  =& new CRM_Contact_BAO_Query($searchValues);
+
+        $searchResult = $contactBAO->searchQuery(0, 50, null, false );
         while($searchResult->fetch()) {
             $searchRows[] = $searchResult->sort_name;    
         }
