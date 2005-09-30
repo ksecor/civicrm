@@ -337,6 +337,12 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
+            // FIXME: the LOWER/strtolower pairs below most probably won't work
+            // with non-US-ASCII characters, as even if MySQL does the proper
+            // thing with LOWER-ing them (4.0 almost certainly won't), PHP
+            // won't do the proper thing with strtolower-ing them; we should
+            // use mb_strtolower(), but then we'd require mb_strings support;
+            // we could wrap this in function_exist(), though
             if ( $name === 'state_province' ) {
                 $states =& CRM_Core_PseudoConstant::stateProvince(); 
                 if ( is_numeric( $value ) ) {
@@ -357,7 +363,7 @@ class CRM_Contact_BAO_Query {
                     $value     =  $genders[(int ) $value];  
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
-                $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) ); 
+                $this->_qill[] = ts('Gender - "%1"', array( 1 => $value ) ); 
             } else if ( $name === 'birth_date' ) {
                 $date = CRM_Utils_Date::format( $value );
                 if ( ! $date ) {
@@ -365,10 +371,10 @@ class CRM_Contact_BAO_Query {
                 }
                 $this->_where[] = $field['where'] . " = $date";
                 $date = CRM_Utils_Date::customFormat( $value );
-                $this->_qill[]  = ts( $field['title'] . ' "%1"', array( 1 => $date ) ); 
+                $this->_qill[]  = "$field[title] \"$date\"";
             } else {
                 $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
-                $this->_qill[]  = ts( $field['title'] . ' like "%1"', array( 1 => $value ) );
+                $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
             }
             
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  

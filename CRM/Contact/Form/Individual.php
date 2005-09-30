@@ -86,7 +86,7 @@ class CRM_Contact_Form_Individual {
         $genderOptions = array( );
         $gender =CRM_Core_PseudoConstant::gender();
         foreach ($gender as $key => $var) {
-            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts($var), $key);
+            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
         }
         $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
         

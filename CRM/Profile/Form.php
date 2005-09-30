@@ -171,7 +171,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $genderOptions = array( );   
                 $gender =CRM_Core_PseudoConstant::gender();   
                 foreach ($gender as $key => $var) {   
-                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), ts($var), $key);   
+                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {

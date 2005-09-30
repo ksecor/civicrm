@@ -9,7 +9,7 @@
     {ts}Displaying contacts where:{/ts}
     <ul>
     {foreach from=$criteria item=item}
-      <li>{ts}{$item}{/ts}</li>
+      <li>{$item}</li>
     {/foreach}
     </ul>
  </div>
