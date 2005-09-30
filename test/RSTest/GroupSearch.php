@@ -52,13 +52,18 @@ class test_RSTest_GroupSearch
 
     private function _search()
     {
-        $arrayForSearch = array ('sort_name' => '',
-                                 'cb_group'  => array(
-                                                      $this->_groupNo => 1
-                                                      ) 
+        $arrayForSearch = array (
+                                 'contact_type' => '',
+                                 'tag'          => '',
+                                 'sort_name'    => '',
+                                 'task'         => '',
+                                 'radio_ts'     => 'ts_sel',
+                                 'group'        => array(
+                                                         $this->_groupNo => 1
+                                                         )
                                  );
-        $contactBAO     = new CRM_Contact_BAO_Contact();
-        $count          = $contactBAO->searchQuery($arrayForSearch, 0, 0, null, true);
+        $contactBAO     =& new CRM_Contact_BAO_Query($arrayForSearch);
+        $count          = $contactBAO->searchQuery(0, 0, null, true);
         return $count;
     }
     

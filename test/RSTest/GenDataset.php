@@ -714,7 +714,7 @@ class test_RSTest_GenDataset
     {
         // add contacts
         $contactDAO =& new CRM_Contact_DAO_Contact();
-
+        
         for ($id=1; $id<=$this->numContact; $id++) {
             echo ".";
             ob_flush();
@@ -744,9 +744,13 @@ class test_RSTest_GenDataset
      */
     public function addIndividual()
     {
+        $prefixArray   = test_RSTest_Common::getPrefixArray();
+        $suffixArray   = test_RSTest_Common::getSuffixArray();
+        $genderArray   = test_RSTest_Common::getGenderArray();
+        
         $individualDAO =& new CRM_Contact_DAO_Individual();
         $contactDAO    =& new CRM_Contact_DAO_Contact();
-
+        
         for ($id=1; $id<=$this->numIndividual; $id++) {
             echo ".";
             ob_flush();
@@ -756,17 +760,17 @@ class test_RSTest_GenDataset
             $individualDAO->first_name    = ucfirst(test_RSTest_Common::getRandomElement($this->firstName, test_RSTest_Common::ARRAY_DIRECT_USE));
             $individualDAO->middle_name   = ucfirst(test_RSTest_Common::getRandomChar());
             $individualDAO->last_name     = ucfirst(test_RSTest_Common::getRandomElement($this->lastName, test_RSTest_Common::ARRAY_DIRECT_USE));
-            $individualDAO->prefix        = ucfirst(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('prefixType'), test_RSTest_Common::ARRAY_SHIFT_USE));
-            $individualDAO->suffix        = ucfirst(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('suffixType'), test_RSTest_Common::ARRAY_SHIFT_USE));
+            $individualDAO->prefix_id     = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('prefixType'), test_RSTest_Common::ARRAY_SHIFT_USE);
+            $individualDAO->suffix_id     = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('suffixType'), test_RSTest_Common::ARRAY_SHIFT_USE);
             $individualDAO->greeting_type = ucfirst(test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('greetingType'), test_RSTest_Common::ARRAY_SHIFT_USE));
-            $individualDAO->gender        = test_RSTest_Common::getRandomElement(test_RSTest_Common::$genderType, test_RSTest_Common::ARRAY_DIRECT_USE);
+            $individualDAO->gender        = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('gender'), test_RSTest_Common::ARRAY_DIRECT_USE);
             $individualDAO->birth_date    = date("Ymd", mt_rand(0, time()));
             $individualDAO->is_deceased   = mt_rand(0, 1);
             test_RSTest_Common::_insert($individualDAO);
-
+            
             // also update the sort name for the contact id.
             $contactDAO->id               = $individualDAO->contact_id;
-            $contactDAO->display_name     = trim("$individualDAO->prefix $individualDAO->first_name $individualDAO->middle_name $individualDAO->last_name $individualDAO->suffix");
+            $contactDAO->display_name     = trim($prefixArray[$individualDAO->prefix_id] . " $individualDAO->first_name $individualDAO->middle_name $individualDAO->last_name " . $suffixArray[$individualDAO->suffix_id]);
             $contactDAO->sort_name        = $individualDAO->last_name . ', ' . $individualDAO->first_name;
             $contactDAO->hash             = crc32($contactDAO->sort_name);
             test_RSTest_Common::_update($contactDAO);
@@ -1170,6 +1174,33 @@ class test_RSTest_GenDataset
      */
     public function run($ID=0) 
     {
+//         $this->initID($ID);
+//         $this->parseDataFile();
+//         $this->initDB();
+        
+//         //$try1 = test_RSTest_Common::getRandomElement(test_RSTest_Common::$genderType, test_RSTest_Common::ARRAY_DIRECT_USE);
+//         //echo " Hello Gender is : " . $try1 . "\n";
+        
+//         $try2 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('gender'), test_RSTest_Common::ARRAY_DIRECT_USE);
+//         //$try2 = test_RSTest_Common::getValue('gender');
+//         echo " Hello Gender is : " . $try2 . "\n";
+//         $try3 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('prefixType'), test_RSTest_Common::ARRAY_DIRECT_USE);
+//         echo " Hello Prefix is : " . $try3 . "\n";
+//         $try4 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('suffixType'), test_RSTest_Common::ARRAY_DIRECT_USE);
+//         echo " Hello Suffix is : " . $try4 . "\n";
+        
+        
+//         $prefixArray   = test_RSTest_Common::getPrefixArray();
+        
+//         $suffixArray   = test_RSTest_Common::getSuffixArray();
+        
+//         $genderArray   = test_RSTest_Common::getGenderArray();
+        
+//         $display_name     = $prefixArray[$try3] . " first_name middle_name last_name " . $suffixArray[$try4];
+//         echo " " . $display_name . "\n";
+        
+//         echo " " . test_RSTest_Common::getRandomName('manish', 'zope') . "\n";
+        
         $this->initID($ID);
         //echo "Hello 1 \n";
         $this->parseDataFile();

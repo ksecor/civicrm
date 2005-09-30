@@ -63,9 +63,6 @@ class test_RSTest_Common
     const ARRAY_DIRECT_USE             =    1;
     const ARRAY_SHIFT_USE              =    2;
     
-    // gender types
-    public static $genderType                = array('Male','Female','Transgender');
-    
     //group contact enums
     public static $groupStatus               = array('1' => 'Pending',
                                                      '2' => 'Added',
@@ -178,10 +175,13 @@ class test_RSTest_Common
             $typeValue         = CRM_Core_SelectValues::phoneType();
             break;
         case 'prefixType'      :
-            $typeValue         = CRM_Core_SelectValues::prefixName();
+            $typeValue         = self::getPrefixArray();
             break;
         case 'suffixType'      :
-            $typeValue         = CRM_Core_SelectValues::suffixName();
+            $typeValue         = self::getSuffixArray();
+            break;
+        case 'gender'          :
+            $typeValue         = self::getGenderArray();
             break;
         case 'greetingType'    :
             $typeValue         = CRM_Core_SelectValues::greeting();        
@@ -315,17 +315,36 @@ class test_RSTest_Common
         // none are defined
         return date($dateFormat, mt_rand($today-$numSecond, $today));
     }
-
+    
+    public static function getPrefixArray()
+    {
+        $prefixArray = CRM_Core_PseudoConstant::individualPrefix();
+        return $prefixArray;
+    }
+    
+    public static function getSuffixArray()
+    {
+        $suffixArray = CRM_Core_PseudoConstant::individualSuffix();
+        return $suffixArray;
+    }
+    
+    public static function getGenderArray()
+    {
+        $genderArray = CRM_Core_PseudoConstant::gender();
+        return $genderArray;
+    }
+    
     public static function getRandomName($firstName, $lastName)
     {
         $first_name    = ucfirst(self::getRandomElement($firstName, self::ARRAY_DIRECT_USE));
         $middle_name   = ucfirst(self::getRandomChar());
         $last_name     = ucfirst(self::getRandomElement($lastName, self::ARRAY_DIRECT_USE));
-        $prefix        = ucfirst(self::getRandomElement(self::getValue('prefixType'), self::ARRAY_SHIFT_USE));
-        $suffix        = ucfirst(self::getRandomElement(self::getValue('suffixType'), self::ARRAY_SHIFT_USE));
+        $prefixArray   = self::getPrefixArray();
+        $suffixArray   = self::getSuffixArray();
+        $prefix        = $prefixArray[self::getRandomElement(self::getValue('prefixType'), self::ARRAY_DIRECT_USE)];
+        $suffix        = $suffixArray[self::getRandomElement(self::getValue('suffixType'), self::ARRAY_DIRECT_USE)];
         return "$prefix $first_name $middle_name $last_name $suffix"; 
     }
-    
     
     /**
      *  Insert data into the database

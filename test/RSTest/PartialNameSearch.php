@@ -51,9 +51,15 @@ class test_RSTest_PartialNameSearch
 
     private function _search()
     {
-        $arrayForSearch = array ('sort_name' => $this->_partialName);
-        $contactBAO     = new CRM_Contact_BAO_Contact();
-        $count          = $contactBAO->searchQuery($arrayForSearch, 0, 0, null, true);
+        $arrayForSearch = array (
+                                 'contact_type' => '',
+                                 'group'        => '',
+                                 'tag'          => '',
+                                 'sort_name'    => $this->_partialName
+                                 );
+        
+        $contactBAO     =& new CRM_Contact_BAO_Query($arrayForSearch);
+        $count          = $contactBAO->searchQuery(0, 0, null, true);
         return $count;
     }
     

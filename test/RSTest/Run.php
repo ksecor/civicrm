@@ -62,7 +62,7 @@ class test_RSTest_Run
      * @var    int
      * @access private 
      */
-    private $_sizeOfDS = 3; // 5
+    private $_sizeOfDS = 1; //3; // 5
     
     /**
      * Variable for Step of Dataset Generation.
@@ -536,11 +536,11 @@ class test_RSTest_Run
             echo "\nStress Test Started \n";
 
             $this->_callCommon();
-
+            
             $this->_callGenDataset();
-
+            
             switch ($selection) {
-
+                
             case 'L':
                 // All Operations will be done for Stress Test except Searching Options.
                 $this->_callInsertContact();
@@ -549,7 +549,7 @@ class test_RSTest_Run
                 $this->_callAddContactToGroup();
                 $this->_callDeleteContact();
                 break;
-
+                
             case 'I':
                 // Inserting Contact.
                 $this->_callInsertContact();
