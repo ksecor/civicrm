@@ -113,7 +113,7 @@
 {* Plugging the Communication preferences block *} 
  {include file="CRM/Contact/Form/CommPrefs.tpl"}
  
-{* Plugging the Communication preferences block *} 
+{* Conditionally insert any inline custom data groups *} 
  {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
 
 {* Plugging the Location block *}

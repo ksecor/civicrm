@@ -9,7 +9,7 @@
  {assign var=index value=$smarty.section.locationLoop.index}
 
  <div id="location[{$index}][show]" class="data-group label">
-    {$form.location.$index.show.html} {if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
+    {$form.location.$index.show.html}{if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
  </div>
 
 <div id="location[{$index}]">

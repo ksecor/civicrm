@@ -89,7 +89,7 @@ class CRM_Utils_Menu {
      */
     static function &items( ) {
         // helper variable for nicer formatting
-        $drupalSyncExtra = ts('Synchronize Users to Contacts: CiviCRM will check each user record for a contact record. A new contact records will be created for each user where on exist. Do you want to continue?');
+        $drupalSyncExtra = ts('Synchronize Users to Contacts: CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.\n\nDo you want to continue?');
         
         if ( ! self::$_items ) {
             // This is the minimum information you can provide for a menu item.
