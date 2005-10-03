@@ -45,59 +45,27 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_Profile_Form_Dynamic extends CRM_Core_Form
+class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
 {
-    /**
-     * The contact id that we are editing
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * The title of the category we are editing
-     *
-     * @var string
-     */
-    protected $_title;
-
-    /**
-     * the fields needed to build this form
-     *
-     * @var array
-     */
-    protected $_fields;
-
-    /**
-     * The contact object being edited
-     *
-     * @var object
-     */
-    protected $_contact;
-
-    /**
-     * pre processing work done here.
-     *
-     * gets session variables for table name, id of entity in table, type of entity and stores them.
-     *
-     * @param none
-     * @return none
-     *
-     * @access public
-     *
-     */
-    function preProcess()
-    {
-        $this->_id      = $this->get( 'id'  );
-        $this->_gid     = $this->get( 'gid' );
+    /** 
+     * pre processing work done here. 
+     * 
+     * @param none 
+     * @return none 
+     * 
+     * @access public 
+     * 
+     */ 
+    function preProcess() 
+    { 
         if ( $this->get( 'register' ) ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
+            $this->_mode = CRM_Profile_Form::MODE_REGISTER;
         } else {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action );
+            $this->_mode = CRM_Profile_Form::MODE_EDIT;
         }
-
-        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
-    }
+         
+        parent::preProcess( ); 
+    } 
 
     /**
      * Function to actually build the form
@@ -107,53 +75,6 @@ class CRM_Profile_Form_Dynamic extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        $this->assign( 'action',  $this->_action );
-        $this->assign( 'fields', $this->_fields );
-
-        // do we need inactive options ?
-        if ($this->_action & CRM_Core_Action::VIEW ) {
-            $inactiveNeeded = true;
-        } else {
-            $inactiveNeeded = false;
-        }
-
-        // should we restrict what we display
-        $admin = false;
-        $session  =& CRM_Core_Session::singleton( );
-        // show all fields that are visibile: if we are a admin or the same user or in registration mode
-        if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
-             $this->_id == $session->get( 'userID' )                 ||
-             $this->get( 'register' ) ) {
-            $admin = true;
-        }
-        
-        // add the form elements
-        foreach ($this->_fields as $name => $field ) {
-            // make sure that there is enough permission to expose this field
-            if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
-                continue;
-            }
-
-            if ( $field['name'] === 'state_province' ) {
-                $this->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $field['is_required']);
-            } else if ( $field['name'] === 'country' ) {
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
-            } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
-                if ($field['is_required']) {
-                    $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
-                }
-            } else {
-                $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
-            }
-            
-            if ( $field['rule'] ) {
-                $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
-            }
-        }
-
         $this->addButtons(array(
                                 array ('type'      => 'submit',
                                        'name'      => ts('Save'),
@@ -161,12 +82,11 @@ class CRM_Profile_Form_Dynamic extends CRM_Core_Form
                                 )
                           );
 
-        // if view mode pls freeze it with the done button.
-        if ($this->_action & CRM_Core_Action::VIEW) {
-            $this->freeze();
-        }
+        // also add a hidden element for to trick drupal
+        $this->addElement('hidden', "edit[civicrm_dummy_field]", "CiviCRM Dummy Field for Drupal" );
+        parent::buildQuickForm( ); 
 
-        if ( $this->get( 'register' ) ) {
+        if ( $this->_mode == CRM_Profile_Form::MODE_REGISTER ) {
             $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), -1 );
         } else {
             $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this->_id );
@@ -186,54 +106,14 @@ class CRM_Profile_Form_Dynamic extends CRM_Core_Form
      */
     static function formRule( &$fields, &$files, $options ) {
         $errors = array( );
-
+        
         // if no values, return
-        if ( empty( $fields ) ) {
+        if ( empty( $fields ) || ! CRM_Utils_Array::value( 'edit', $fields ) ) {
             return true;
         }
-        
-        global $user;
-        $fields['email'] = $user->mail;
-        $cid = $register = null;
 
-        // hack we use a -1 in options to indicate that its registration
-        if ( $options ) {
-            $options = (int ) $options;
-            if ( $options > 0 ) {
-                $cid = $options;
-            } else {
-                $register = true;
-            }
-        }
-
-        // dont check for duplicates during registration validation: CRM-375
-        if ( ! $register ) {
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
-            if ( $ids ) {
-                $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
-            }
-        }
-        
-        // Validate Country - State list
-        $countryId = $fields['country_id'];
-        $stateProvinceId = $fields['state_province_id'];
-
-        if ($stateProvinceId && $countryId) {
-            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-            $stateProvinceDAO->id = $stateProvinceId;
-            $stateProvinceDAO->find(true);
-            
-            if ($stateProvinceDAO->country_id != $countryId) {
-                // country mismatch hence display error
-                $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                $countries =& CRM_Core_PseudoConstant::country();
-                $errors['state_province_id'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
-            }
-        }
-
-        return empty($errors) ? true : $errors;
+        return CRM_Profile_Form::formRule( $fields, $files, $options );
     }
-    
 
     /**
      * Set the default form values
@@ -259,7 +139,6 @@ class CRM_Profile_Form_Dynamic extends CRM_Core_Form
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-
                     // make sure the custom field exists
                     $cf =& new CRM_Core_BAO_CustomField();
                     $cf->id = $cfID;
@@ -331,93 +210,9 @@ class CRM_Profile_Form_Dynamic extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( $this->_name );
-        foreach ($params as $key => $value) {
-            // under 'country' and 'state_province' we actually get the ids
-            if (in_array($key, array('country', 'state_province'))) {
-                $params[$key . '_id'] = $value;
-                unset($params[$key]);
-            }
-        }
-
-        $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
-        $ids = array( );
-        foreach ( $objects as $name ) {
-            $id = $name . '_id';
-            if ( $this->_contact->$id ) {
-                $ids[$name] = $this->_contact->$id;
-            }
-        }
-
-        $rParams = array('contact_id' => $this->_id);
-        $rValues = array();
-        $rIds = array();
-        CRM_Contact_BAO_Contact::retrieve($rParams, $rValues, $rIds);
-        if (isset($rIds['location'][1]['id'])) $ids['location'] = $rIds['location'][1]['id'];
-
-        $params['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
-
-        $params['contact_id'] = $contact->id;
-        CRM_Contact_BAO_Individual::add( $params, $ids );
-        if ( CRM_Utils_Array::value( 'location', $ids ) ) {
-            $address =& new CRM_Core_BAO_Address();
-            CRM_Core_BAO_Address::fixAddress( $params );
-            
-            if ( ! $address->copyValues( $params ) ) {
-                $address->id = CRM_Utils_Array::value( 'address', $ids );
-                $address->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $address->save( );
-            }
-
-            $phone =& new CRM_Core_BAO_Phone();
-            if ( ! $phone->copyValues( $params ) ) {
-                $phone->id = CRM_Utils_Array::value( 'phone', $ids );
-                $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $phone->is_primary = true;
-                $phone->save( );
-            }
-
-            $email =& new CRM_Core_BAO_Email();
-            if ( ! $email->copyValues( $params ) ) {
-                $email->id = CRM_Utils_Array::value( 'email', $ids );
-                $email->location_id = CRM_Utils_Array::value( 'location', $ids );
-                $email->is_primary = true;
-                $email->save( );
-            }
-
-        }
-
-        /* Process custom field values */
-        foreach ($params as $key => $value) {
-            if (($cfID = CRM_Core_BAO_CustomField::getKeyID($key)) == null) {
-                continue;
-            }
-            $custom_field_id = $cfID;
-            $cf =& new CRM_Core_BAO_CustomField();
-            $cf->id = $custom_field_id;
-            if ( $cf->find( true ) ) {
-                switch($cf->html_type) {
-                case 'Select Date':
-                    $date = CRM_Utils_Date::format( $value );
-                    if ( ! $date ) {
-                        $date = '';
-                    }
-                    $customValue = $date;
-                    break;
-
-                case 'CheckBox':
-                    $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
-                    break;
-
-                default:
-                    $customValue = $value;
-                }
-            }
-            
-            CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
-        }
+        parent::postProcess( );
     }
+
 }
 
 ?>

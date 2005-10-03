@@ -175,7 +175,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
     CRM_Contact_BAO_Contact::resolveDefaults($params, true);
 
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
-        count($params['location']));
+                                                count($params['location']));
     return $contact;
 }
 

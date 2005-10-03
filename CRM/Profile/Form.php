@@ -207,7 +207,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options ) {
+    static function formRule( &$fields, &$files, $options = null ) {
         $errors = array( );
 
         // if no values, return
@@ -216,35 +216,52 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         // hack add the email, does not work in registration, we need the real user object
+        global $user; 
+        $fields['email'] = $user->mail; 
+        $cid = $register = null; 
+
+        // hack we use a -1 in options to indicate that its registration 
+        if ( $options ) { 
+            $options = (int ) $options; 
+            if ( $options > 0 ) { 
+                $cid = $options; 
+            } else { 
+                $register = true; 
+            } 
+        }  
+
         $cid = null;
         if ( $options ) {
             $cid = (int ) $options;
         }
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
-        if ( $ids ) {
-            $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+
+        // dont check for duplicates during registration validation: CRM-375 
+        if ( ! $register ) { 
+            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            if ( $ids ) {
+                $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+            }
         }
-        
+
         // Validate Country - State list
-        $countryId = $fields['country_id'];
-        $stateProvinceId = $fields['state_province_id'];
+        $countryId = $fields['country'];
+        $stateProvinceId = $fields['state_province'];
 
         if ($stateProvinceId && $countryId) {
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
             $stateProvinceDAO->id = $stateProvinceId;
             $stateProvinceDAO->find(true);
-            
+
             if ($stateProvinceDAO->country_id != $countryId) {
                 // country mismatch hence display error
                 $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                 $countries =& CRM_Core_PseudoConstant::country();
-                $errors['state_province_id'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                $errors['state_province'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
             }
         }
 
         return empty($errors) ? true : $errors;
     }
-    
 
     /**
      * Process the user submitted custom data values.
@@ -267,12 +284,12 @@ class CRM_Profile_Form extends CRM_Core_Form
             $params['gender_id'] = $params['gender'];
         }
             
-        $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
-        $ids = array( );
-
         if ( empty( $params ) ) {
             return;
         }
+
+        $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
+        $ids = array( );
 
         CRM_Core_DAO::transaction( 'BEGIN' ); 
 

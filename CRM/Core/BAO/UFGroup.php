@@ -328,29 +328,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     }
 
     /**
-     * get the html for the form that represents this particular group
-     *
-     * @param int    $userID  the user id that we are actually editing
-     * @param int    $action  the action of the form
-     *
-     * @return string       the html for the form
-     * @static
-     * @access public
-     */
-    static function getRegisterHTML( $userID, $action = null ) {
-        $session =& CRM_Core_Session::singleton( );
-
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Register', ts('Registration Form Creator'), $action );
-        $controller->set( 'id'      , $userID );
-        $controller->process( );
-        $controller->setEmbedded( true );
-        $controller->run( );
-            
-        $template =& CRM_Core_Smarty::singleton( );
-        return $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' );
-    }
-    
-    /**
      * Get the UF match clause 
      *
      * @param array   $params  the list of values to be used in the where clause
@@ -404,8 +381,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 self::$_matchClause = array_merge( self::$_matchClause, $subset );
             }
         }
-
-        $cfIDs  = array( );
 
         return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchClause, $tables );
     }

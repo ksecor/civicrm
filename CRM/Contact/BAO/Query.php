@@ -61,6 +61,7 @@ class CRM_Contact_BAO_Query {
     protected $_fromClause;
     protected $_fields;
     protected $_qill;
+    protected $_search = true;
 
     protected $_customQuery;
 
@@ -86,6 +87,7 @@ class CRM_Contact_BAO_Query {
 
         if ( $fields ) {
             $this->_fields =& $fields;
+            $this->_search = false;
         } else {
             $this->_fields = CRM_Contact_BAO_Contact::importableFields( 'All' );
         }
@@ -322,7 +324,11 @@ class CRM_Contact_BAO_Query {
             $this->_where[] = "civicrm_contact.id = $id";
         }
 
-        $this->searchWhereClause( );
+        // we should get the params only when we are coming from search. when we want to do a restricted query
+        // for permissioning etc, the params array is not importnat
+        if ( $this->_search ) {
+            $this->searchWhereClause( );
+        }
 
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
@@ -425,9 +431,8 @@ class CRM_Contact_BAO_Query {
                                             false, false,
                                             false, false );
 
-        $sql    = $query->whereClause( );
         $tables = array_merge( $query->tables( ), $tables );
-        return $sql;
+        return $query->_whereClause;
     }
 
     /**
