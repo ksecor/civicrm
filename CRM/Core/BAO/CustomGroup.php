@@ -181,7 +181,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-        
+
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString );
 
@@ -596,7 +596,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $menus = array();
 
         // get only 'Inline' groups
-        $customGroupDAO->whereAdd("style = 'Inline'");
         $customGroupDAO->whereAdd("is_active = 1");
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);

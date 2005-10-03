@@ -35,20 +35,22 @@
 		{assign var="count" value="1"}
 	    <table class="form-layout">
             <tr>
-	        {section name=rowLoop start=1 loop=$form.$n}
-	        {assign var=index value=$smarty.section.rowLoop.index}
-	        {if $form.$n.$index.html != "" }
-		        <td class="label">{$form.$n.$index.html}</td>
-                {if $count == $field.options_per_line}
-				</tr>
-                <tr>
-	            {assign var="count" value="1"}
-			    {else}
-			    {assign var="count" value=`$count+1`}
-		        {/if}
-                                    
-		     {/if}
-		     {/section}
+            {* sort by fails for option per line. Added a variable to iterate through the element array*}
+            {assign var="index" value="1"}
+            {foreach name=outer key=key item=item from=$form.$element_name}
+                {if $index < 10}
+                    {assign var="index" value=`$index+1`}
+                {else}
+              	    <td class="label font-light">{$form.$element_name.$key.html}</td>
+                    {if $count == $field.options_per_line}
+              	        </tr>
+                        <tr>
+                        {assign var="count" value="1"}
+           	        {else}
+          		        {assign var="count" value=`$count+1`}
+           	        {/if}
+                {/if}
+            {/foreach}
             </tr>
 		</table>
 	    </td>

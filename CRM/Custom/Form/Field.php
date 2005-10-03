@@ -166,6 +166,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $defaults['is_active'] = 1;
             for($i=1; $i<=self::NUM_OPTION; $i++) {
                 $defaults['option_status['.$i.']'] = 1;
+                $defaults['option_weight['.$i.']'] = $i;
             }
         }
 
@@ -426,14 +427,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                         $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
                         $_flagOption = 1;
                     } else {
-                        if ($fields['option_weight'][$i]) {
-                            $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
-                            $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
-                            $_flagOption = 1;
-                        } else {
-                            //The Custom Option row is empty
-                            $_emptyRow = 1;
-                        }
+                        $_emptyRow = 1;
                     }
                 } else {
                     if (!$fields['option_value'][$i]) {

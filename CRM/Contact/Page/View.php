@@ -160,6 +160,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                         
                         $coDAO =& new CRM_Core_DAO_CustomOption();
                         $coDAO->custom_field_id = $field['id'];
+                        $coDAO->orderBy('weight ASC, label ASC');
                         $coDAO->find( );                    
                         
                         $counter = 1;
@@ -174,6 +175,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                         if ( $field['html_type'] == 'Select' ) {
                             $coDAO =& new CRM_Core_DAO_CustomOption();
                             $coDAO->custom_field_id = $field['id'];
+                            $coDAO->orderBy('weight ASC, label ASC');
                             $coDAO->find( );
                             
                             while($coDAO->fetch()) {

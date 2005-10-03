@@ -23,27 +23,24 @@
 	<dt>{$element.label} </dt>
 	<dd>
 		{assign var="count" value="1"}
-	        <table class="form-layout">
-	            {section name=rowLoop start=1 loop=$form.$element_name}
-	            {assign var=index value=$smarty.section.rowLoop.index}
-	            {if $form.$element_name.$index.html != "" }
-		            {if $smarty.section.rowLoop.first}
-		            <tr>
-	                    {/if} 
-			         <td>{$form.$element_name.$index.html}</td>
-                            {if $count == $element.options_per_line}
+	        <table class="form-layout-compressed">
+               {* sort by fails for option per line. Added a variable to iterate through the element array*}
+               {assign var="index" value="1"}
+               {foreach name=outer key=key item=item from=$form.$element_name}
+                    {if $index < 10}
+                        {assign var="index" value=`$index+1`}
+                    {else}
+                        <td class="label font-light">{$form.$element_name.$key.html}</td>
+                        {if $count == $element.options_per_line}
+                             </tr>
+                             <tr>
+                             {assign var="count" value="1"}
+                    	{else}
+                    	     {assign var="count" value=`$count+1`}
+                    	{/if}
+                     {/if}
+                {/foreach}
 				</tr>
-	                        <tr>
-	                        {assign var="count" value="1"}
-			    {else}
-			        {assign var="count" value=`$count+1`}
-		            {/if}
-                    
-			    {if $smarty.section.rowLoop.last}
-				</tr>
-			    {/if}
-		     {/if}
-		     {/section}
 		</table>
 	</dd>
 	{else}
