@@ -12,7 +12,7 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
-	{if $element.options_per_line > 1 }
+	{if $element.options_per_line != 0 }
 	{assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}			
 	<dt>{$element.label}</dt>
 	<dd>

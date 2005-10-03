@@ -10,7 +10,8 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
-	{if $element.options_per_line > 1 }
+	{if $element.options_per_line != 0}
+    
         {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}			
         <dt>{$element.label}</dt>
         <dd>
@@ -18,19 +19,22 @@
         {strip}
         <table class="form-layout-compressed">
         <tr>
-            {section name=rowLoop start=1 loop=$form.$element_name}
-            {assign var=index value=$smarty.section.rowLoop.index}
-            {if $form.$element_name.$index.html != "" }
-                <td class="label font-light">{$form.$element_name.$index.html}</td>
+            {* sort by fails for option per line. Added a variable to iterate through the element array*}
+            {assign var="index" value="1"}
+            {foreach name=outer key=key item=item from=$form.$element_name}
+            {if $index < 10}
+                {assign var="index" value=`$index+1`}
+            {else}
+        	    <td class="label font-light">{$form.$element_name.$key.html}</td>
                 {if $count == $element.options_per_line}
-                </tr>
-                <tr>
-                {assign var="count" value="1"}
-                {else}
-                {assign var="count" value=`$count+1`}
-                {/if}
+                   </tr>
+                   <tr>
+                   {assign var="count" value="1"}
+           	    {else}
+            	   {assign var="count" value=`$count+1`}
+        	    {/if}
             {/if}
-            {/section}
+            {/foreach}
         </tr>
         </table>
         {/strip}

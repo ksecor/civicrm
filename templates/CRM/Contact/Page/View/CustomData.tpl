@@ -20,7 +20,7 @@
                 <fieldset><legend><a href="#" onclick="hide('{$cd.title}'); show('{$cd.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
-			        {if $cd_value.options_per_line > 1 }
+			        {if $cd_value.options_per_line != 0 }
 			            {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}			
 			            <dt>{$cd_value.label} </dt>
 			            <dd>
