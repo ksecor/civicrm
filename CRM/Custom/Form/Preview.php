@@ -115,10 +115,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     $defaultCheckValue = CRM_Utils_Array::value( 'default_value', $field );
                     $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultCheckValue);
                     foreach($customOption as $val) {
-                        if ( in_array($val['label'], $checkedValue) ) {
-                            $defaults[$elementName][$val['value']] = 1;
+                        if ( in_array($val['value'], $checkedValue) ) {
+                            $defaults[$elementName][$val['label']] = 1;
                         } else {
-                            $defaults[$elementName][$val['value']] = 0;
+                            $defaults[$elementName][$val['label']] = 0;
                         }
                     }                            
                 }              
@@ -198,10 +198,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     $check = array();
                     foreach ($customOption as $v) {
                         $checked = array();
-                        if ( $elementData == $v['value'] ) {
-                            $checked = array('checked' => 'checked');
-                        }
-                            $check[] = $this->createElement('checkbox', $v['value'], null, $v['label'], $checked);                        
+                        $check[] = $this->createElement('checkbox', $v['label'], null, $v['label'], $checked);                      
                     }
                     $this->addGroup($check, $elementName, $field['label']);
                     if ($field['is_required']) {

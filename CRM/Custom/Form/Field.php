@@ -625,8 +625,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $tempArray = array_keys($params['default_checkbox_option']);
                 $defaultArray = array();
                 foreach ($tempArray as $k => $v) {
-                    if ( $params['option_label'][$v] ) {
-                        $defaultArray[] = $params['option_label'][$v];
+                    if ( $params['option_value'][$v] ) {
+                        $defaultArray[] = $params['option_value'][$v];
                     }
                 }                
                 $customField->default_value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray);                

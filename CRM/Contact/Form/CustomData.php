@@ -342,15 +342,15 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                             foreach($customOption as $val) {
                                 if (is_array($customValues)) {
                                     if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['value']] = 1;
+                                        $defaults[$elementName][$val['label']] = 1;
                                     } else {
-                                        $defaults[$elementName][$val['value']] = 0;
+                                        $defaults[$elementName][$val['label']] = 0;
                                     }
                                 }
                             }
                         } else {
                             foreach($customOption as $val) {
-                                $defaults[$elementName][$val['value']] = 0;
+                                $defaults[$elementName][$val['label']] = 0;
                             }
                         }
                     } else {
@@ -360,18 +360,18 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                             $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['value']] = 1;
+                                    $defaults[$elementName][$val['label']] = 1;
                                 } else {
-                                    $defaults[$elementName][$val['value']] = 0;
+                                    $defaults[$elementName][$val['label']] = 0;
                                 }
                             }
                         } else {
                             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                             foreach($customOption as $val) {
-                                if ( in_array($val['label'], $checkedValue) ) {
-                                    $defaults[$elementName][$val['value']] = 1;
+                                if ( in_array($val['value'], $checkedValue) ) {
+                                    $defaults[$elementName][$val['label']] = 1;
                                 } else {
-                                    $defaults[$elementName][$val['value']] = 0;
+                                    $defaults[$elementName][$val['label']] = 0;
                                 }
                             }                            
                         }
@@ -436,8 +436,21 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'CheckBox':  
+                    $optionDAO =& new CRM_Core_DAO_CustomOption();
+                    $optionDAO->custom_field_id = $fieldId;
+                    $optionDAO->find();
+                    $optionValue = array();
+                    while($optionDAO->fetch() ) {
+                        $optionValue[$optionDAO->label] = $optionDAO->value;
+                    }
+                    
+                    $customValue = array();
+                    foreach (array_keys($v) as $key) {
+                        $customValue[] = $optionValue[$key];
+                    }
+                    
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
                     break;
 
                 case 'Select Date':
