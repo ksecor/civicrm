@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>Mapping</class>
+  <name>civicrm_mapping</name>
+  <comment>Store field mappings in import or export for reuse</comment>
+  <add>1.2</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Mapping ID</comment>
+      <add>1.2</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+      <add>1.2</add>
+  </primaryKey>
+  <field>
+        <name>domain_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Domain to which this mapping belongs</comment>
+      <add>1.2</add>
+  </field>
+  <foreignKey>
+        <name>domain_id</name>
+        <table>civicrm_domain</table>
+        <key>id</key>
+      <add>1.2</add>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Name of Mapping</comment>
+      <add>1.2</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Description of Mapping.</comment>
+      <add>1.2</add>
+  </field>
+  <field>
+       <name>mapping_type</name>
+       <type>enum</type>
+       <values>Export, Import</values>
+       <comment>Type of Mapping.</comment>
+      <add>1.2</add>
+  </field>
+  <index>
+    <name>UI_name</name>
+    <fieldName>name</fieldName>
+    <unique>true</unique>
+      <add>1.2</add>
+  </index>
+</table>
