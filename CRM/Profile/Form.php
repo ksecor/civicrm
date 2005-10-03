@@ -104,8 +104,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY ); 
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
-            $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id ); 
         } 
+        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id ); 
     } 
     
     /** 
@@ -274,11 +274,11 @@ class CRM_Profile_Form extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
 
         // hack the params for now
-        if ( CRM_Utils_Array::value( 'state_province', $params ) ) {
-            $params['state_province_id'] = $params['state_province'];
-        }
         if ( CRM_Utils_Array::value( 'country', $params ) ) {
             $params['country_id'] = $params['country'];
+        }
+        if ( CRM_Utils_Array::value( 'state_province', $params ) ) {
+            $params['state_province_id'] = $params['state_province'];
         }
         if ( CRM_Utils_Array::value( 'gender', $params ) ) {
             $params['gender_id'] = $params['gender'];
@@ -289,8 +289,14 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
-        $ids = array( );
-
+        $ids = array( ); 
+        foreach ( $objects as $name ) { 
+            $id = $name . '_id'; 
+            if ( $this->_contact->$id ) { 
+                $ids[$name] = $this->_contact->$id; 
+            } 
+        } 
+        
         CRM_Core_DAO::transaction( 'BEGIN' ); 
 
         $params['contact_type'] = 'Individual';
@@ -302,13 +308,19 @@ class CRM_Profile_Form extends CRM_Core_Form
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
 
-        $location =& new CRM_Core_BAO_Location( );
+        $location =& new CRM_Core_DAO_Location( );
         $location->location_type_id = $locationTypeId;
-        $location->is_primary = 1;
         $location->entity_table = 'civicrm_contact';
         $location->entity_id    = $contact->id;
+        if ( $location->find( true ) ) {
+            if ( ! $location->is_primary ) {
+                $location->is_primary = true;
+            }
+        } else {
+            $location->is_primary = true;
+        }
         $location->save( );
-        
+       
         $address =& new CRM_Core_BAO_Address();
         CRM_Core_BAO_Address::fixAddress( $params );
             

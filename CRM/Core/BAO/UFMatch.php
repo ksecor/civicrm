@@ -159,7 +159,9 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                 if ( $uf == 'Mambo' ) {
                     CRM_Utils_System_Mambo::setEmail( $user );
                 }
-                $params= array( 'email' => $mail, 'location_type' => 'Home' );
+                
+                $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
+                $params= array( 'email' => $mail, 'location_type' => $locationType->name );
                 $contact =& crm_create_contact( $params, 'Individual' );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
