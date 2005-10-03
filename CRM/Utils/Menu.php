@@ -90,7 +90,8 @@ class CRM_Utils_Menu {
     static function &items( ) {
         // helper variable for nicer formatting
         $drupalSyncExtra = ts('Synchronize Users to Contacts: CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.\n\nDo you want to continue?');
-        
+        $backupDataExtra = ts('Backup Your Data: CiviCRM will create an SQL dump file with all of your existing data, and allow you to download it to your local computer. This process may take a long time and generate a very large file if you have a large number of records. \n\nDo you want to continue?');
+ 
         if ( ! self::$_items ) {
             // This is the minimum information you can provide for a menu item.
             self::$_items =
@@ -119,6 +120,7 @@ class CRM_Utils_Menu {
                             'path'    => 'civicrm/admin/backup',
                             'title'   => ts('Backup Data'),
                             'type'    => self::CALLBACK,
+                            'extra' => 'onclick = "if (confirm(\'' . $backupDataExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/DataStore.gif',
                             'weight'  => 120

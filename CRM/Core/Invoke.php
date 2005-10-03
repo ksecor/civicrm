@@ -370,6 +370,10 @@ class CRM_Core_Invoke {
         case 'synchUser':
             $view =& new CRM_Admin_Page_DrupalUser(ts('Sync Drupal Users'));
             break;   
+
+        case 'backup':
+            $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
+            break;   
             
         default:
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
