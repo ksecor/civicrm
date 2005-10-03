@@ -4,13 +4,13 @@
   <base>CRM/Core</base>
   <class>IndividualSuffix</class>
   <name>civicrm_individual_suffix</name>
-  <add>1.1</add>
+  <add>1.2</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Individual Suffix ID</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,13 +21,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this individual suffix.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
   <field>
        <name>name</name>
@@ -38,7 +38,7 @@
        <headerPattern>/suffix/i</headerPattern>
        <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
        <comment>Individual Suffix Name.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
       <name>weight</name>
@@ -46,19 +46,19 @@
       <required>true</required>
       <default>1</default>
       <comment>Controls Individual Suffix order in the select box.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this property active?</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
-   <add>1.1</add>
+   <add>1.2</add>
   </index>
 </table>

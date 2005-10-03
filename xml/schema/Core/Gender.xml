@@ -4,13 +4,13 @@
   <base>CRM/Core</base>
   <class>Gender</class>
   <name>civicrm_gender</name>
-  <add>1.1</add>
+  <add>1.2</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Gender ID</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,13 +21,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this gender.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
   <field>
        <name>name</name>
@@ -38,7 +38,7 @@
        <headerPattern>/gender|sex/i</headerPattern>
        <dataPattern>/^(f|m|(fe)?male)$/</dataPattern>
        <comment>Gender Name.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
       <name>weight</name>
@@ -46,19 +46,19 @@
       <required>true</required>
       <default>1</default>
       <comment>Controls Gender order in the select box.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this property active?</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
-   <add>1.1</add>
+   <add>1.2</add>
   </index>
 </table>

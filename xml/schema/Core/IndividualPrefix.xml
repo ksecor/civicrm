@@ -4,13 +4,13 @@
   <base>CRM/Core</base>
   <class>IndividualPrefix</class>
   <name>civicrm_individual_prefix</name>
-  <add>1.1</add>
+  <add>1.2</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Individual Prefix ID</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,13 +21,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain owns this individual prefix.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.2</add>
   </foreignKey>
   <field>
        <name>name</name>
@@ -38,7 +38,7 @@
        <headerPattern>/prefix/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Individual Prefix Name.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
       <name>weight</name>
@@ -46,19 +46,19 @@
       <required>true</required>
       <default>1</default>
       <comment>Controls Individual Prefix order in the select box.</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this property active?</comment>
-       <add>1.1</add>
+       <add>1.2</add>
   </field>
   <index>
     <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
-   <add>1.1</add>
+   <add>1.2</add>
   </index>
 </table>

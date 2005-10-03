@@ -2,6 +2,11 @@
 
 ini_set( 'include_path', ".:../packages:.." );
 
+$versionFile = "../bin/version.txt";
+$handle = fopen($versionFile,"r"); 
+$version =fread($handle,filesize($versionFile));
+$build_version = trim($version);
+
 if ( substr( phpversion( ), 0, 1 ) != 5 ) {
     echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
     echo "
@@ -42,7 +47,7 @@ $phpCodePath = '../';
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
-// print_r( $dbXML );
+//print_r( $dbXML );
 
 echo "Extracting database information\n";
 $database =& getDatabase( $dbXML );
@@ -65,6 +70,8 @@ $tmpArray = array_keys( $tables );
 $tmpArray = array_reverse( $tmpArray );
 $smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
+
+
 
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
@@ -90,6 +97,7 @@ fclose($fd);
 // id variable and translate the {ts}-tagged strings
 $smarty->clear_all_assign();
 $smarty->assign('civicrmDomainId', 1);
+$smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton();
 
@@ -181,10 +189,21 @@ function &getDatabase( &$dbXML ) {
 }
 
 function &getTables( &$dbXML, &$database ) {
+    global $build_version ;
     $tables = array();
     foreach ( $dbXML->tables as $tablesXML ) {
         foreach ( $tablesXML->table as $tableXML ) {
-            getTable( $tableXML, $database, $tables );
+            if ( $tableXML->drop > 0 and $tableXML->drop <= $build_version) {
+                continue;
+            }
+            if ( $tableXML->add <= $build_version) {
+                
+                getTable( $tableXML, $database, $tables );
+                
+            }
+            
+            
+
         }
     }
 
@@ -193,6 +212,7 @@ function &getTables( &$dbXML, &$database ) {
 
 function resolveForeignKeys( &$tables, &$classNames ) {
     foreach ( array_keys( $tables ) as $name ) {
+       
         resolveForeignKey( $tables, $classNames, $name );
     }
 }
@@ -244,7 +264,7 @@ function validTable( &$tables, &$valid, $name ) {
 
 function getTable( $tableXML, &$database, &$tables ) {
     global $classNames;
-
+    global $build_version ;
     $name  = trim((string ) $tableXML->name );
     $klass = trim((string ) $tableXML->class );
     $base  = value( 'base', $tableXML ) . '/DAO/';
@@ -264,10 +284,18 @@ function getTable( $tableXML, &$database, &$tables ) {
     
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
-        getField( $fieldXML, $fields );
+        
+        if ( $fieldXML->drop > 0 and $fieldXML->drop <= $build_version) {
+            continue;
+        }
+        if ( $fieldXML->add <= $build_version) {
+            getField( $fieldXML, $fields );
+        }
     }
+
     $table['fields' ] =& $fields;
-    
+    // print_r($table['fields' ]);
+    //Anil
     $table['hasEnum'] = false;
     foreach ($table['fields'] as $field) {
         if ($field['crmType'] == 'CRM_Utils_Type::T_ENUM') {
@@ -291,7 +319,16 @@ function getTable( $tableXML, &$database, &$tables ) {
     if ( value( 'foreignKey', $tableXML ) ) {
         $foreign   = array( );
         foreach ( $tableXML->foreignKey as $foreignXML ) {
-            getForeignKey( $foreignXML, $fields, $foreign );
+            // print_r($foreignXML);
+            
+            if ( $foreignXML->drop > 0 and $foreignXML->drop <= $build_version) {
+                continue;
+            }
+            if ( $foreignXML->add <= $build_version) {
+                
+                getForeignKey( $foreignXML, $fields, $foreign );
+            }
+            
         }
         $table['foreignKey' ] =& $foreign;
     }
@@ -301,6 +338,7 @@ function getTable( $tableXML, &$database, &$tables ) {
 }
 
 function getField( &$fieldXML, &$fields ) {
+   
     $name  = trim( (string ) $fieldXML->name );
     $field = array( 'name' => $name );
     
