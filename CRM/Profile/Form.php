@@ -155,9 +155,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
 
-            if ( $this->_mode == self::MODE_SEARCH ) {
-                $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
-            }
+            $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
             if ( $field['name'] === 'state_province' ) {
                 $this->add('select', $name, $field['title'],

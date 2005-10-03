@@ -318,7 +318,6 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
 
-
     if ( $userID ) {
         $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true, $reset );
     } else {
