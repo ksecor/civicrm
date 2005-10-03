@@ -137,6 +137,11 @@ class CRM_Core_BAO_DomainDump
         $tempPath = exec('whereis mysqldump');
         list ($temp, $mysqlDumpPath) = explode(":", $tempPath);
         
+        //we get the upload folder for storing the huge backup data
+        $config =& new CRM_Core_Config();
+        
+        $fileName = $config->uploadDir.'domainDump.sql';
+
         foreach ( $unionArray as $key => $val) {
             $tableName = $key;
             
@@ -153,21 +158,19 @@ class CRM_Core_BAO_DomainDump
             }
             
             //$fileName = $BACKUP_PATH.$tableName.".sql";
-            $fileName = '/tmp/domain_dump/'.$key.".sql";
+            //$fileName = '/tmp/domainDump.sql';
+            
             if ( !empty($ids) ) {
                 
                 //$dumpCommand = "mysqldump  ".$MYSQL_USER." --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' > " . $fileName;
                 
-                $dumpCommand = $mysqlDumpPath."  -ucivicrm -pMt\!Everest --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' > " . $fileName;
-                
+                $dumpCommand = $mysqlDumpPath."  -ucivicrm -pMt\!Everest --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
+
                 //echo "<br><br>";
-                exec($dumpCommand);   
+                exec($dumpCommand); 
             } 
         }
-        
-        // echo " \nDump process Complete!! \n\n";
-        //$db_domain->disconnect( );
-        
+
         //exit(1);
         CRM_Core_Session::setStatus( ts('Backup Database completed.') );
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
