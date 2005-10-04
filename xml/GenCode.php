@@ -2,10 +2,11 @@
 
 ini_set( 'include_path', ".:../packages:.." );
 
-$versionFile = "../bin/version.txt";
-$handle = fopen($versionFile,"r"); 
-$version =fread($handle,filesize($versionFile));
-$build_version = trim($version);
+
+$versionFile = "version.xml";
+$versionXML = & parseInput( $versionFile );
+$build_version = $versionXML->version_no;
+
 
 if ( substr( phpversion( ), 0, 1 ) != 5 ) {
     echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
