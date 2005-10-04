@@ -219,7 +219,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     static function debug( $name, &$variable, $log = true ) {
         $error =& self::singleton( );
 
-        $out = print_r( $variable, true );
+        $out = htmlspecialchars(print_r($variable, true));
 
         $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
         if ( $log ) {
