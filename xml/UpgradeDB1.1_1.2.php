@@ -50,7 +50,7 @@ $dbConnect = DB::connect($dsn);
 $sql = 'SELECT id , prefix , suffix , gender FROM civicrm_individual ';
 $query = $dbConnect->query($sql);
 $prefixSuffix =array();
-print_r($query);
+
 while($row = $query->fetchRow( DB_FETCHMODE_ASSOC )) {
     $prefixSuffix[$row['id']] = array($row['prefix'],$row['suffix'],$row['gender']);
 }
@@ -200,6 +200,12 @@ foreach ( array_keys( $tables ) as $name ) {
     
     $beautifier->save( );
 }
+$version = "<?xml version=\"1.03\" encoding=\"iso-8859-1\" ?>\n";
+$version .= "<version>\n";
+$version .=  "   <version_no>1.2</version_no>\n";
+$version .=  "</version>\n";
+$fp = fopen($versionFile,"w");
+fwrite($fp,$version);
 
 echo "upgradation completed !!!";
 
