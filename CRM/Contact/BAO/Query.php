@@ -345,10 +345,13 @@ class CRM_Contact_BAO_Query {
 
             // FIXME: the LOWER/strtolower pairs below most probably won't work
             // with non-US-ASCII characters, as even if MySQL does the proper
-            // thing with LOWER-ing them (4.0 almost certainly won't), PHP
-            // won't do the proper thing with strtolower-ing them; we should
-            // use mb_strtolower(), but then we'd require mb_strings support;
-            // we could wrap this in function_exist(), though
+            // thing with LOWER-ing them (4.0 almost certainly won't, but then
+            // we don't officially support 4.0 for non-US-ASCII data), PHP
+            // won't do the proper thing with strtolower-ing them unless the
+            // underlying operating system uses an UTF-8 locale for LC_CTYPE
+            // for the user the webserver runs at (or suEXECs); we should use
+            // mb_strtolower(), but then we'd require mb_strings support; we
+            // could wrap this in function_exist(), though
             if ( $name === 'state_province' ) {
                 $states =& CRM_Core_PseudoConstant::stateProvince(); 
                 if ( is_numeric( $value ) ) {

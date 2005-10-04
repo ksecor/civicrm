@@ -501,7 +501,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                         }
                     }
                     if ( ! empty( $v ) ) {
-                        $values[$index] = implode( ',', $v );
+                        $values[$index] = implode( ', ', $v );
                         $params[$index] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $p );
                     }
                     break;
@@ -512,12 +512,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case 'Select State/Province':
-                    $values[$index] = $cv->char_data;
+                    $values[$index] = CRM_Core_PseudoConstant::stateProvince($cv->int_data);
                     $params[$index] = $cv->int_data;
                     break;
 
                 case 'Select Country':
-                    $values[$index] = $cv->char_data;
+                    $values[$index] = CRM_Core_PseudoConstant::country($cv->int_data);
                     $params[$index] = $cv->int_data;
                     break;
 
