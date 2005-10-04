@@ -255,7 +255,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->buildQuickForm();
 
         $defaults =& $this->setDefaultValues( );
-        $this->setDefaults( $defaults );
+        if ( ! empty( $defaults ) ) {
+            $this->setDefaults( $defaults );
+        }
 
         $this->addRules();
     }

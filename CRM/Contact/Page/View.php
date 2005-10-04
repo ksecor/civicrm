@@ -243,10 +243,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->assign('showBlocks1',$showBlocks);
         $this->assign('hideBlocks1',$hideBlocks);
         $this->assign('groupTree', $_groupTree);
+
         //------------
-
-
-        
         // create menus ..
         $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;

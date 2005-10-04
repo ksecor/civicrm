@@ -155,6 +155,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
 
+            // since the CMS manages the email field, suppress the email display if in
+            // edit or register mode which occur within the CMS form
+            if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
+                 $name == 'email' ) {
+                continue;
+            }
+
             $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
             if ( $field['name'] === 'state_province' ) {

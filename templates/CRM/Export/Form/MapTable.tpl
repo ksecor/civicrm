@@ -10,7 +10,7 @@
     </div>
     <div id="savedMappingOption">
 	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>
-	<span>{$form._qf_MapField_refresh.html}</span>
+        <span>{$form.loadMapping.html}</span> 
     </div>
     
     <script type="text/javascript">

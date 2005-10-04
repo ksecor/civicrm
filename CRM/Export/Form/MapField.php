@@ -98,8 +98,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
 
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
-        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Load Mapping'), array( 'class' => 'form-submit' ) );
-
+        $this->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
         
         //to save the current mappings
         if ( !isset($this->_loadedMappingId) ) {
@@ -157,8 +156,6 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
-        //print_r($fields);
-        //print_r(CRM_Contact_BAO_Contact::exportableFields('Household'));
 
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -167,21 +164,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             }
         }
         
-        // print_r($hasLocationTypes);
-        /*
-        foreach ($fields as $key => $value) {
-            $this->_mapperFields[$key] = $value['title'];
-            $hasLocationTypes[$key] = $value['hasLocationType'];
-        }
-        */
-
-        // print_r($this->_mapperFields);
-
-        // $this->_mapperFields = $fields;
-              
         $mapperKeys      = array_keys( $this->_mapperFields );
-        //$mapperKeys      = array_keys( $fields );
-        
 
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         
@@ -199,8 +182,6 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                 $this->_location_types;
         }
         
-        //$sel1 = array( '' => '-do not export-' , 'Individual' => 'Individual', 
-        //               'Household' => 'Household', 'Organization' => 'Organization');
         $sel1 = array('' => '-do not export-') + CRM_Core_SelectValues::contactType();
         
         foreach($sel1 as $key=>$sel ) {
@@ -255,7 +236,6 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                                                             );
                 }
             }
-
             $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
 
             //set the defaults on load mapping
@@ -264,9 +244,10 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         $this->assign('columnCount', $this->_columnCount);
+        if ( empty( $_POST ) ) {
+            // CRM_Core_Error::debug( 'def', $defaults );
+        }
         $this->setDefaults($defaults);
-
-        //$this->addElement( 'submit', $this->getButtonName('refresh'), ts('Give me more colums'), array( 'class' => 'form-submit' ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -274,7 +255,9 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Continue >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true   ),
+                                         'isDefault' => false  ),
+                                 array(  'type'      => 'refresh',
+                                         'isDefault' => true ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
@@ -330,15 +313,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $params = $this->controller->exportValues( 'MapField' );
 
         //reload the mapfield if load mapping is pressed
-        if( $this->controller->exportValue( $this->_name, '_qf_MapField_refresh' ) ) {            
+        if ( CRM_Utils_Array::value( 'savedMapping', $params ) ) {
             $this->set('savedMapping', $params['savedMapping']);
+            $this->controller->resetPage( $this->_name );
             return;
         }
 
-        /*if ( $this->controller->exportValue( $this->_name, '_qf_MapField_refresh' ) )  {
-            return;
-        }*/
-        
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );        
 
         //Updating Mapping Records

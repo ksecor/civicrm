@@ -260,7 +260,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
             $row = array( );
             $empty = true;
-            foreach ($names as $name) {
+            foreach ( $names as $name ) {
                 $row[] = $result->$name;
 
                 if ( ! empty( $result->$name ) ) {
