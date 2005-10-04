@@ -2,14 +2,15 @@
 
 ini_set( 'include_path', ".:../packages:.." );
 
-
 $versionFile = "version.xml";
 $versionXML = & parseInput( $versionFile );
 $build_version = $versionXML->version_no;
-if ($build_version < 1.1) {
-    echo "The Database is not compatible for this version";
+If($build_version != 1.1) {
+    echo "Your current version is not 1.1\n";
     exit();
 }
+$build_version = 1.2 ;
+
 
 if ( substr( phpversion( ), 0, 1 ) != 5 ) {
     echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
@@ -21,13 +22,38 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
+// for SQL l10n use
+require_once '../modules/config.inc.php';
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
-
-// for SQL l10n use
-define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
+require_once 'DB.php';
+
+$coreConfig =& new CRM_Core_Config();
+$configValues = DB::parseDSN($coreConfig->dsn);
+$username  = $configValues['username'];
+$password  = $configValues['password'];
+$dbase  = $configValues['database'];
+
+
+//dump the 1.1 version data 
+echo "Dumping 1.1 database....\n";
+$mysqldumpPath = exec("which mysqldump"); 
+exec($mysqldumpPath." -t -n -u".$username." -p".$password." ". $dbase."  > generated_data_1.1.mysql");
+
+
+$dsn = 'mysql://'.$username.':'.$password.'@localhost/'.$dbase;
+$dbConnect = DB::connect($dsn);
+
+
+$sql = 'SELECT id , prefix , suffix , gender FROM civicrm_individual ';
+$query = $dbConnect->query($sql);
+$prefixSuffix =array();
+print_r($query);
+while($row = $query->fetchRow( DB_FETCHMODE_ASSOC )) {
+    $prefixSuffix[$row['id']] = array($row['prefix'],$row['suffix'],$row['gender']);
+}
 
 
 function createDir( $dir, $perm = 0755 ) {
@@ -51,11 +77,9 @@ $phpCodePath = '../';
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
-//print_r( $dbXML );
 
 echo "Extracting database information\n";
 $database =& getDatabase( $dbXML );
-// print_r( $database );
 
 $classNames = array( );
 
@@ -64,9 +88,6 @@ $tables   =& getTables( $dbXML, $database );
 resolveForeignKeys( $tables, $classNames );
 $tables = orderTables( $tables );
 
-// echo "\n\n\n\n\n*****************************************************************************\n\n";
-// print_r($tables);
-// exit(1);
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
@@ -76,12 +97,11 @@ $smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
 
 
-
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "civicrm_41.mysql", "w" );
+$fd = fopen( $sqlCodePath . "1.2_civicrm_41.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
@@ -91,49 +111,65 @@ echo "Generating mysql 4.0 file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
+$fd = fopen( $sqlCodePath . "1.2_civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
 
+$mysqlPath = exec("which mysql");
+echo "Creating the Database for 1.2\n";
+exec($mysqlPath." -u".$username." -p".$password." ". $dbase." < ../sql/1.2_civicrm_41.mysql");
+exec($mysqlPath." -u".$username." -p".$password." ". $dbase." < generated_data_1.1.mysql");
 
-// write the civicrm data file fixing the domain
-// id variable and translate the {ts}-tagged strings
-$smarty->clear_all_assign();
-$smarty->assign('civicrmDomainId', 1);
-$smarty->assign('build_version',$build_version);
+$prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
+$suffix = array(1 => 'Jr', 2 => 'Sr', 3 => 'II');
+$gender = array(1 => 'Female', 2 =>'Male',3 => 'Transgender');
 
-$config =& CRM_Core_Config::singleton();
+//add perfix in individual_prefix
+foreach($prefix as $key=>$value ){
+    $query = "INSERT INTO civicrm_individual_prefix(domain_id,name,weight,is_active) VALUES ( 1,'$value', $key, 1)";
+    $dbConnect->query($query);
+}
 
-$locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
-if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
+//add suffix in individual_suffix
+foreach($suffix as $key=>$value ){
+    $query = "INSERT INTO civicrm_individual_suffix(domain_id,name,weight,is_active) VALUES ( 1,'$value', $key, 1)";
+    $dbConnect->query($query);
+}
 
-foreach ($locales as $locale) {
+//add gender in individual_gender
+foreach($gender as $key=>$value ){
+    $query = "INSERT INTO civicrm_gender(domain_id,name,weight,is_active) VALUES ( 1,'$value', $key, 1)";
+    $dbConnect->query($query);
+}
 
-    $config->lcMessages = $locale;
+foreach($prefixSuffix as $key=>$value) {
+    $prefix_id = array_keys($prefix, $value[0]);
+    $suffix_id = array_keys($suffix, $value[1]);
+    $gender_id = array_keys($gender, $value[2]);
+    $updateColumn = array();
 
-    $data = '';
-    $data .= $smarty->fetch('civicrm_country.tpl');
-    $data .= $smarty->fetch('civicrm_state_province.tpl');
-    $data .= $smarty->fetch('civicrm_data.tpl');
+    if(count($prefix_id)) {
+        $updateColumn[] = ' prefix_id='.$prefix_id[0];
+    } 
 
-    // write the data file
-    $filename = 'civicrm_data';
-    if ($locale != 'en_US') $filename .= ".$locale";
-    $filename .= '.mysql';
-    $fd = fopen( $sqlCodePath . $filename, "w" );
-    fputs( $fd, $data );
-    fclose( $fd );
+    if(count($suffix_id)) {
+        $updateColumn[] = ' suffix_id='.$suffix_id[0];
+    } 
+
+    if(count($gender_id)) {
+        $updateColumn[] = ' gender_id='.$gender_id[0];
+    } 
+    
+    if ( count($updateColumn) ) {
+        $columns = implode(" , ", $updateColumn);
+        $query = "UPDATE civicrm_individual SET ". $columns ." WHERE id = ".$key;
+        $dbConnect->query($query);
+    }
 
 }
 
-
-
-$sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
-$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
-$fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
-fputs( $fd, $sample );
-fclose( $fd );
+$dbConnect->disconnect();
 
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
@@ -165,6 +201,8 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
+echo "upgradation completed !!!";
+
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );
     $dom->xinclude( );
@@ -183,7 +221,6 @@ function &getDatabase( &$dbXML ) {
     
     $tableAttributes = '';
     checkAndAppend( $tableAttributes, $dbXML, 'table_type', 'ENGINE=', '' );
-    //$database['tableAttributes'] = trim( $tableAttributes . ' ' . $attributes );
     $database['tableAttributes_modern'] = trim( $tableAttributes . ' ' . $attributes );
     $database['tableAttributes_simple'] = trim( $tableAttributes );
 
@@ -200,14 +237,12 @@ function &getTables( &$dbXML, &$database ) {
             if ( $tableXML->drop > 0 and $tableXML->drop <= $build_version) {
                 continue;
             }
-            if ( $tableXML->add <= $build_version) {
+            if ( $tableXML->add <= $build_version ) {
                 
                 getTable( $tableXML, $database, $tables );
                 
             }
-            
-            
-
+   
         }
     }
 
@@ -281,7 +316,6 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'objectName' => $klass,
                     'labelName'  => substr($name, 8),
                     'className'  => $classNames[$name],
-                    //'attributes' => trim($database['tableAttributes']),
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ) );
@@ -298,8 +332,7 @@ function getTable( $tableXML, &$database, &$tables ) {
     }
 
     $table['fields' ] =& $fields;
-    // print_r($table['fields' ]);
-    //Anil
+   
     $table['hasEnum'] = false;
     foreach ($table['fields'] as $field) {
         if ($field['crmType'] == 'CRM_Utils_Type::T_ENUM') {
@@ -323,7 +356,6 @@ function getTable( $tableXML, &$database, &$tables ) {
     if ( value( 'foreignKey', $tableXML ) ) {
         $foreign   = array( );
         foreach ( $tableXML->foreignKey as $foreignXML ) {
-            // print_r($foreignXML);
             
             if ( $foreignXML->drop > 0 and $foreignXML->drop <= $build_version) {
                 continue;
@@ -476,9 +508,7 @@ function getPrimaryKey( &$primaryXML, &$fields, &$table ) {
 
 function getIndex(&$indexXML, &$fields, &$indices)
 {
-    //echo "\n\n*******************************************************\n";
-    //echo "entering getIndex\n";
-
+  
     $index = array();
     $indexName = trim((string)$indexXML->name);   // empty index name is fine
     $index['name'] = $indexName;
@@ -495,8 +525,7 @@ function getIndex(&$indexXML, &$fields, &$indices)
         $index['unique'] = true;
     }
 
-    //echo "\$index = \n";
-    //print_r($index);
+   
 
     // field array cannot be empty
     if (empty($index['field'])) {
