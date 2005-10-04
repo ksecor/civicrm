@@ -275,94 +275,93 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
          * it was not working, so i munged it back into one big function - lobo
          */
         switch($field->html_type) {
-            case 'Text':
-            case 'TextArea':
-                $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
-                                        $field->attributes, ($useRequired && $field->is_required));
-                break;
-
-            case 'Select Date':
-                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
-                break;
-
-            case 'Radio':
-                $choice = array();
-                if($field->data_type != 'Boolean') {
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-                    
-                    foreach ($customOption as $v) {
-                        $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
-                    }
-                    $qf->addGroup($choice, $elementName, $field->label);
-                } else {
-                    $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
-                    // if we set the value to '0' QF automatically selects it, which we dont want
-                    $choice[] = $qf->createElement('radio', null, '', ts('No') , '2' , $field->attributes);
-                    $qf->addGroup($choice, $elementName, $field->label);
-                }
-                if ($useRequired && $field->is_required) {
-                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
-                }
-                break;
-
-            case 'Select':
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-                $selectOption = array();
-                $selectOption[] = '(select)';
-                foreach ($customOption as $v) {
-                    $selectOption[$v['value']] = $v['label'];
-                }
-                $qf->add('select', $elementName, $field->label, $selectOption, ($useRequired && $field->is_required));
-                break;
-
-            case 'CheckBox':
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-                $check = array();
-                foreach ($customOption as $v) {
-
-                    $check[] = $qf->createElement('checkbox', $v['label'], null, $v['label']);
-                }
-                $qf->addGroup($check, $elementName, $field->label);
-                if ($useRequired && $field->is_required) {
-                    $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
-                }
-                break;
-
-            case 'Select State/Province':
-                //Add State
-                if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                    $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
-                } else { 
-                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-                }
-                $qf->add('select', $elementName, $field->label, $stateOption, ($useRequired && $field->is_required));
-                break;
-
-            case 'Select Country':
-                //Add Country
-                if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                    $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
-                } else {
-                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-                }
-                $qf->add('select', $elementName, $field->label, $countryOption, ($useRequired && $field->is_required));
-                break;
-            }
+        case 'Text':
+        case 'TextArea':
+            $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+                                $field->attributes, ($useRequired && $field->is_required));
+            break;
                 
+        case 'Select Date':
+            $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
+            break;
+
+        case 'Radio':
+            $choice = array();
+            if($field->data_type != 'Boolean') {
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+                
+                foreach ($customOption as $v) {
+                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
+                }
+                $qf->addGroup($choice, $elementName, $field->label);
+            } else {
+                $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
+                // if we set the value to '0' QF automatically selects it, which we dont want
+                $choice[] = $qf->createElement('radio', null, '', ts('No') , '2' , $field->attributes);
+                $qf->addGroup($choice, $elementName, $field->label);
+            }
+            if ($useRequired && $field->is_required) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+            }
+            break;
+            
+        case 'Select':
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+            $selectOption = array();
+            $selectOption[] = '(select)';
+            foreach ($customOption as $v) {
+                $selectOption[$v['value']] = $v['label'];
+            }
+            $qf->add('select', $elementName, $field->label, $selectOption, ($useRequired && $field->is_required));
+            break;
+            
+        case 'CheckBox':
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+            $check = array();
+            foreach ($customOption as $v) {
+                $check[] = $qf->createElement('checkbox', $v['label'], null, $v['label']);
+            }
+            $qf->addGroup($check, $elementName, $field->label);
+            if ($useRequired && $field->is_required) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+            }
+            break;
+            
+        case 'Select State/Province':
+            //Add State
+            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
+            } else { 
+                $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+            }
+            $qf->add('select', $elementName, $field->label, $stateOption, ($useRequired && $field->is_required));
+            break;
+            
+        case 'Select Country':
+            //Add Country
+            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
+            } else {
+                $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+            }
+            $qf->add('select', $elementName, $field->label, $countryOption, ($useRequired && $field->is_required));
+            break;
+        }
+        
         switch ( $field->data_type ) {
-            case 'Int':
-                // integers will have numeric rule applied to them.
-                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
-                break;
-
-            case 'Date':
-                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
-                break;
-
-            case 'Float':
-            case 'Money':
-                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
-                break;
+        case 'Int':
+            // integers will have numeric rule applied to them.
+            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
+            break;
+            
+        case 'Date':
+            $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
+            break;
+            
+        case 'Float':
+        case 'Money':
+            $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
+            break;
         }
     }
     

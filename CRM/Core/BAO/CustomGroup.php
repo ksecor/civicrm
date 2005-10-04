@@ -596,13 +596,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $menus = array();
 
         // get only 'Inline' groups
+        $customGroupDAO->whereAdd("style = 'Inline'");
         $customGroupDAO->whereAdd("is_active = 1");
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
 
         // order by weight
         $customGroupDAO->orderBy('weight, title');
-        if ($customGroupDAO->find(1)) {
+        if ($customGroupDAO->find(true)) {
             $menu = array();
             $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";

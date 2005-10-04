@@ -448,7 +448,9 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
                     $fullName = $name . '['. (strlen($elementName)? $elementName: $key) .']';
                 }
                 $element->setName($fullName);
-                $element->updateAttributes(array('id' => $fullName ));
+                if ( ! $element->getAttribute('id') ) {
+                    $element->_generateId( );
+                }
             }
 
             $required = !$element->isFrozen() && in_array($element->getName(), $this->_required);
