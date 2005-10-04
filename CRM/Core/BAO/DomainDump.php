@@ -196,7 +196,7 @@ class CRM_Core_BAO_DomainDump
         readfile($tarFileName);
 
         //CRM_Core_Session::setStatus( ts('Backup Database completed.') );
-        //CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
+        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
         
     }
 
