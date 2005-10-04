@@ -37,6 +37,7 @@
 require_once 'CRM/Utils/System.php';
 require_once 'CRM/Core/DAO/EmailHistory.php';
 require_once 'api/crm.php';
+require_once 'CRM/Utils/Mail.php';
 
 /**
  * BAO object for crm_email_history table
@@ -63,7 +64,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( ! $fromEmail ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
-        $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
+        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
 
         // create the meta level record first
         $email             =& new CRM_Core_BAO_EmailHistory( );
@@ -111,9 +112,12 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         }
         
         $headers = array( );
-        $headers['From']    = $from;
-        $headers['To'  ]    = '"' . $toDisplayName . '"' . "<$toEmail>";
-        $headers['subject'] = $subject;
+        $headers['From']                      = $from;
+        $headers['To']                        = CRM_Utils_Mail::encodeAddressHeader($toDisplayName, $toEmail);
+        $headers['Subject']                   = CRM_Utils_Mail::encodeSubjectHeader($subject);
+        $headers['Content-Type']              = 'text/plain; charset=utf-8';
+        $headers['Content-Disposition']       = 'inline';
+        $headers['Content-Transfer-Encoding'] = '8bit';
 
         $mailer = CRM_Core_Config::getMailer( );
         if ($mailer->send($toEmail, $headers, $message) !== true) {
@@ -127,7 +131,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'module'           => 'CiviCRM',
                         'callback'         => 'CRM_Core_BAO_EmailHistory::showEmailDetails',
                         'activity_id'      => $activityID,
-                        'activity_summary' => ts('To: %1; Subject: %2', array(1 => $headers['To'], 2 => $headers['subject'])),
+                        'activity_summary' => ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject)),
                         'activity_date'    => date('YmdHis')
                         );
         
