@@ -139,8 +139,12 @@ class CRM_Core_BAO_DomainDump
         
         //we get the upload folder for storing the huge backup data
         $config =& new CRM_Core_Config();
+        chdir($config->uploadDir);
+        $fileName = 'domainDump.sql';
         
-        $fileName = $config->uploadDir.'domainDump.sql';
+        if ( is_file($fileName) ) {
+            unlink($fileName);
+        }
 
         foreach ( $unionArray as $key => $val) {
             $tableName = $key;
@@ -157,25 +161,40 @@ class CRM_Core_BAO_DomainDump
                 $ids[] = $dao->id; 
             }
             
-            //$fileName = $BACKUP_PATH.$tableName.".sql";
-            //$fileName = '/tmp/domainDump.sql';
-            
             if ( !empty($ids) ) {
                 
-                //$dumpCommand = "mysqldump  ".$MYSQL_USER." --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' > " . $fileName;
                 
                 $dumpCommand = $mysqlDumpPath."  -ucivicrm -pMt\!Everest --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
 
-                //echo "<br><br>";
                 exec($dumpCommand); 
             } 
         }
+
+        $tarFileName = 'backupData.tgz';
+
+        if ( is_file($tarFileName) ) {
+            unlink($tarFileName);
+        }
+
+        $tarCommand = 'tar -czf '.$tarFileName.' '.$fileName;
+        exec($tarCommand);
+        
+        $fileSize = filesize( $tarFileName );
+        
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Description: File Transfer');
+        header('ContentType Extension=".tgz" ContentType="application/x-compressed" ');
+        header('Content-Length: ' . $fileSize);
+        header('Content-Disposition: attachment; filename=backupData.tgz');
+
+        readfile($tarFileName);
 
         //exit(1);
         CRM_Core_Session::setStatus( ts('Backup Database completed.') );
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
         
     }
+
 
     function getDomainDump( &$tree, $nameArray, $frTable )
     {
