@@ -61,12 +61,14 @@ class CRM_Core_BAO_DrupalUser
         $sql   = "SELECT uid, mail FROM users where mail != ''";
         $query = $db_drupal->query( $sql );
         
-        $user  = null;
-        $uf    = 'Drupal';
-        $contactCount = 0;
+        $user           = null;
+        $uf             = 'Drupal';
+        $contactCount   = 0;
+        $contactCreated = 0;
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $contactCount++;
             if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], $uf ) ) {
-                $contactCount++;
+                $contactCreated++;
             }
         }
         
@@ -74,7 +76,7 @@ class CRM_Core_BAO_DrupalUser
         
         //end of schronization code
         
-        CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCount )) );
+        CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated )) );
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
    
     }
