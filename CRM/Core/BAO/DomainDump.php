@@ -44,7 +44,8 @@ class CRM_Core_BAO_DomainDump
 {
     static function backupData ( ) 
     {
-        $file = 'modules/civicrm/xml/schema/Schema.xml';
+        global $civicrm_root;
+        $file = $civicrm_root.'/xml/schema/Schema.xml';
         
         $dbXML = self::parseInput( $file );
         // print_r( $dbXML );
@@ -141,7 +142,14 @@ class CRM_Core_BAO_DomainDump
         $config =& new CRM_Core_Config();
         chdir($config->uploadDir);
         $fileName = 'domainDump.sql';
+
+        //get the username and password from dsn
+        $values = DB::parseDSN($config->dsn);
         
+        $username  = $values['username'];
+        $password  = $values['password'];
+        $database  = $values['database'];
+
         if ( is_file($fileName) ) {
             unlink($fileName);
         }
@@ -162,10 +170,8 @@ class CRM_Core_BAO_DomainDump
             }
             
             if ( !empty($ids) ) {
+                $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
                 
-                
-                $dumpCommand = $mysqlDumpPath."  -ucivicrm -pMt\!Everest --opt --single-transaction  civicrm ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
-
                 exec($dumpCommand); 
             } 
         }
@@ -189,7 +195,6 @@ class CRM_Core_BAO_DomainDump
 
         readfile($tarFileName);
 
-        //exit(1);
         CRM_Core_Session::setStatus( ts('Backup Database completed.') );
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
         
