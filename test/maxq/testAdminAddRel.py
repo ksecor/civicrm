@@ -44,8 +44,8 @@ class testAdminAddRel(PyHttpTestCase):
         
         params = [
             ('''_qf_default''', '''RelationshipType:next'''),
-            ('''name_a_b''', '''Test A B'''),
-            ('''name_b_a''', '''Test B A'''),
+            ('''name_a_b''', '''Owner Of'''),
+            ('''name_b_a''', '''Owner For'''),
             ('''contact_type_a''', '''Organization'''),
             ('''contact_type_b''', '''Individual'''),
             ('''description''', '''This is test Relationship '''),

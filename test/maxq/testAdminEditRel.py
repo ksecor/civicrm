@@ -45,7 +45,7 @@ class testAdminEditRel(PyHttpTestCase):
         #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
 
-        name       = '\'Test A B\''
+        name       = '\'Owner Of\''
         query      = 'select id from civicrm_relationship_type where name_a_b=%s' % name  
         relationID = db.loadVal(query)
 
@@ -73,8 +73,8 @@ class testAdminEditRel(PyHttpTestCase):
         
         params = [
             ('''_qf_default''', '''RelationshipType:next'''),
-            ('''name_a_b''', '''Test A B'''),
-            ('''name_b_a''', '''Test B A'''),
+            ('''name_a_b''', '''Owner Of'''),
+            ('''name_b_a''', '''Owner For'''),
             ('''contact_type_a''', '''Organization'''),
             ('''contact_type_b''', '''Individual'''),
             ('''description''', '''This is test Relationship...tested for editing relationship'''),
@@ -101,7 +101,7 @@ class testAdminEditRel(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
 
         print ("**************************************************************************************")
-        print "Relationship \'Test A B\' is Edited Successfully"
+        print "Relationship \'%s\' is Edited Successfully" % name
         print ("**************************************************************************************")
         
         commonAPI.logout(self)

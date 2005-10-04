@@ -91,7 +91,7 @@ maxq -q -r testDeleteNoteByNoteTab.py
 
 maxq -q -r testAdminAddTags.py 
 maxq -q -r testAdminEditTags.py 
-maxq -q -r testAdminDeleteTags.py
+maxq -q -r testAdminDeleteTag.py
 
 ################################
 # Test for Admin Location Type # 
@@ -100,7 +100,7 @@ maxq -q -r testAdminDeleteTags.py
 maxq -q -r testAdminAddLocationType.py 
 maxq -q -r testAdminEditLocationType.py 
 maxq -q -r testAdminEnableDisableLocationType.py
-maxq -q -r adminDeleteLocationType.py
+maxq -q -r testAdminDeleteLocationType.py
 
 ##################################
 # Test for Admin Mobile Provider # 
@@ -109,7 +109,7 @@ maxq -q -r adminDeleteLocationType.py
 maxq -q -r testAdminAddMobileProvider.py 
 maxq -q -r testAdminEditMobileProvider.py 
 maxq -q -r testAdminEnableDisableMobileProvider.py
-maxq -q -r adminDeleteMobileProvider.py
+maxq -q -r testAdminDeleteMobileProvider.py
 
 ##############################
 # Test for Admin IM Provider # 
@@ -118,7 +118,7 @@ maxq -q -r adminDeleteMobileProvider.py
 maxq -q -r testAdminAddIMProvider.py 
 maxq -q -r testAdminEditIMProvider.py
 maxq -q -r testAdminEnableDisableIMProvider.py
-maxq -q -r adminDeleteIMProvider.py
+maxq -q -r testAdminDeleteIMProvider.py
 
 #####################################
 # Test for Admin Relationship Types # 
@@ -128,7 +128,7 @@ maxq -q -r testAdminAddRel.py
 maxq -q -r testAdminEditRel.py 
 maxq -q -r testAdminViewRel.py 
 maxq -q -r testAdminEnableDisableRel.py
-maxq -q -r adminDeleteRel.py
+maxq -q -r testAdminDeleteRel.py
 
 ####################################
 # Test for Admin Custom Data Group # 
@@ -154,8 +154,8 @@ maxq -q -r testAdminPreviewCustomDataField.py
 
 maxq -r -q testEditCustomDataInline.py
 
-maxq -q -r adminDeleteCustomDataField.py
-maxq -q -r adminDeleteCustomDataGroup.py
+#maxq -q -r adminDeleteCustomDataField.py
+#maxq -q -r adminDeleteCustomDataGroup.py
 
 ##########################
 # Test for Basic Search  # 

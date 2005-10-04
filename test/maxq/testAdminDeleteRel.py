@@ -11,7 +11,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testDeleteGroup(PyHttpTestCase):
+class testAdminDeleteRel(PyHttpTestCase):
     def setUp(self):
         global db
         db = commonAPI.dbStart()
@@ -26,63 +26,70 @@ class testDeleteGroup(PyHttpTestCase):
         
         commonAPI.login(self)
         
-        name    = 'Test Group'
-        queryID = 'select id from civicrm_group where name=\'%s\'' % name
-        
-        qid     = db.loadVal(queryID)
+        name       = '\'Owner Of\''
+        query      = 'select id from civicrm_relationship_type where name_a_b=%s' % name  
+        relationID = db.loadVal(query)
         
         params = [
             ('''reset''', '''1'''),]
-        url = "%s/civicrm/group" % drupal_path
-        self.msg("Testing URL: %s" % url)
+        url = "%s/civicrm/admin" % drupal_path
+        self.msg("Testing URL : %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        if qid :
-            QID = '''%s''' % qid
+        url = "%s/civicrm/admin/reltype" % drupal_path
+        self.msg("Testing URL : %s" % url)
+        params = None
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        if relationID :
+            RID = '''%s''' % relationID 
             params = [
-                ('''reset''', '''1'''),
                 ('''action''', '''delete'''),
-                ('''id''', QID),]
-            url = "%s/civicrm/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            
-            params = [
-                ('''_qf_default''', '''Delete:next'''),
-                ('''_qf_Delete_next''', '''Delete Group'''),]
-            url = "%s/civicrm/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "post", url, params)
-            self.post(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 8 failed", 302, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
-            
-            params = [
-                ('''reset''', '''1'''),
-                ('''action''', '''browse'''),]
-            url = "%s/civicrm/group" % drupal_path
-            self.msg("Testing URL: %s" % url)
+                ('''id''', RID),]
+            url = "%s/civicrm/admin/reltype" % drupal_path
+            self.msg("Testing URL : %s" % url)
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
-            print "****************************************************************"
-            print "Group \'%s\' Deleted Successfully." % name
-            print "****************************************************************"
+            
+            params = [
+                ('''_qf_default''', '''RelationshipType:next'''),
+                ('''_qf_RelationshipType_next''', '''Delete'''),]
+            url = "%s/civicrm/admin/reltype" % drupal_path
+            self.msg("Testing URL : %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "post", url, params)
+            self.post(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            params = [
+                ('''reset''', '''1'''),
+                ('''action''', '''browse'''),]
+            url = "%s/civicrm/admin/reltype" % drupal_path
+            self.msg("Testing URL : %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            print ("**************************************************************************************")
+            print ("Relationship %s Deleted Successfully" % name)
+            print ("**************************************************************************************")
         else :
-            print "****************************************************************"
-            print "Group \'%s\' not found." % name
-            print "****************************************************************"
+            print ("**************************************************************************************")
+            print ("Relationship %s Does not Exists" % name)
+            print ("**************************************************************************************")
         
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
@@ -91,5 +98,5 @@ class testDeleteGroup(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testDeleteGroup("testDeleteGroup")
+    test = testAdminDeleteRel("testAdminDeleteRel")
     test.Run()

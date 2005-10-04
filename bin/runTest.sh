@@ -107,6 +107,7 @@ case $option in
 	echo "Running Stress Tests"; echo;
 	run_stressTest
 	echo "Stress Tests Successfully Completed."; echo;
+	echo " **************************************************************************** ";
 	;;
     
     # All the Tests will be Executed one after other 

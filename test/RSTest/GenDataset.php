@@ -1088,11 +1088,11 @@ class test_RSTest_GenDataset
                 test_RSTest_Common::_insert($groupDAO);
             }
         }
-
+        
         $newsLetter    = $this->numContact * 70 / 100;
         $volunteers    = $this->numContact * 15 / 100;
         $advisoryBoard = $this->numContact * 10 / 100;
-
+        
         for ($i=0; $i<$newsLetter; $i++) {
             echo ".";
             ob_flush();
@@ -1174,33 +1174,6 @@ class test_RSTest_GenDataset
      */
     public function run($ID=0) 
     {
-//         $this->initID($ID);
-//         $this->parseDataFile();
-//         $this->initDB();
-        
-//         //$try1 = test_RSTest_Common::getRandomElement(test_RSTest_Common::$genderType, test_RSTest_Common::ARRAY_DIRECT_USE);
-//         //echo " Hello Gender is : " . $try1 . "\n";
-        
-//         $try2 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('gender'), test_RSTest_Common::ARRAY_DIRECT_USE);
-//         //$try2 = test_RSTest_Common::getValue('gender');
-//         echo " Hello Gender is : " . $try2 . "\n";
-//         $try3 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('prefixType'), test_RSTest_Common::ARRAY_DIRECT_USE);
-//         echo " Hello Prefix is : " . $try3 . "\n";
-//         $try4 = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('suffixType'), test_RSTest_Common::ARRAY_DIRECT_USE);
-//         echo " Hello Suffix is : " . $try4 . "\n";
-        
-        
-//         $prefixArray   = test_RSTest_Common::getPrefixArray();
-        
-//         $suffixArray   = test_RSTest_Common::getSuffixArray();
-        
-//         $genderArray   = test_RSTest_Common::getGenderArray();
-        
-//         $display_name     = $prefixArray[$try3] . " first_name middle_name last_name " . $suffixArray[$try4];
-//         echo " " . $display_name . "\n";
-        
-//         echo " " . test_RSTest_Common::getRandomName('manish', 'zope') . "\n";
-        
         $this->initID($ID);
         //echo "Hello 1 \n";
         $this->parseDataFile();
