@@ -106,7 +106,7 @@
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
+                <dd>{$form.start_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger1" alt="{ts}Calender{/ts}"/>
                 {literal}
                 <script type="text/javascript">
                   Calendar.setup(
@@ -114,7 +114,7 @@
                       dateField   : "start_date[d]",
                       monthField  : "start_date[M]",
                       yearField   : "start_date[Y]",
-                      button      : "trigger",
+                      button      : "trigger1",
                       range       : [1985, 2025]  
                     }
                   );
@@ -122,7 +122,7 @@
                 {/literal}
                 </dd>
                 <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
+                <dd>{$form.end_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger2" alt="{ts}Calender{/ts}"/>
                 {literal}
                 <script type="text/javascript">
                   Calendar.setup(
@@ -130,7 +130,7 @@
                       dateField   : "end_date[d]",
                       monthField  : "end_date[M]",
                       yearField   : "end_date[Y]",
-                      button      : "trigger",
+                      button      : "trigger2",
                       range       : [1985, 2025]  
                     }
                   );
