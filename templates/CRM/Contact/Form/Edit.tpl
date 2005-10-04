@@ -183,7 +183,42 @@
      </div>
 {/if}
  <!-- End of "notes" div -->
- 
+
+ {* Groups and Tags block *} 
+  <div id="group[show]" class="data-group">
+    <a href="#" onclick="hide('group[show]'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
+ </div>
+
+ <div id = "group">
+    <fieldset><legend><a href="#" onclick="hide('group'); show('group[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Tags and Groups{/ts}</legend>
+      <div>
+        {strip}
+	    <table class="form-layout">
+     	  <tr>
+            <td><label>{ts}Group(s){/ts}</label><br />
+                <div class="listing-box">
+                    {foreach from=$form.group item="group_val"}
+                    <div class="{cycle values="odd-row,even-row"}">
+                    {$group_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+            </td>
+            <td><label>{ts}Tag(s){/ts}</label><br />
+                <div class="listing-box">
+                    {foreach from=$form.tag item="tag_val"} 
+                    <div class="{cycle values="odd-row,even-row"}">
+                    {$tag_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+            </td>
+		  </tr>
+       </table>
+       {/strip}
+      </div>
+ </div>
+
  <div class="crm-submit-buttons">
     {$form.buttons.html}
  </div>

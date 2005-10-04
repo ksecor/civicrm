@@ -314,7 +314,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function setShowHide( &$defaults, $force ) {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
-                                                        '') ;
+                                                         '') ;
 
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'demographics[show]' );
@@ -330,6 +330,23 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addShow( 'notes[show]' );
             $this->_showHide->addHide( 'notes' );
         }
+
+        //add group and tags
+        $contactGroup = $contactTag = array( );
+        if ($this->_contactId) {
+            $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
+            $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+        }
+        
+        if ( empty($contactGroup) || empty($contactTag) ) {
+            $this->_showHide->addShow( 'group[show]' );
+            $this->_showHide->addHide( 'group' );
+        } else {
+            $this->_showHide->addShow( 'group' );
+            $this->_showHide->addHide( 'group[show]' );
+        }
+
+
 
         // is there any demographics data?
         if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
@@ -389,6 +406,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ($this->_action & CRM_Core_Action::ADD) {
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
+
+        //add tags and groups block
+        $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId);
 
         //Custom Group Inline Edit form
         $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType);
@@ -482,6 +502,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $params['contact_type'] = $this->_contactType;
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
+
+        //add the contact to selected group and tags
+        // arrays for group and tags contains the posted values
+        // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
+        // even after unchecking them before submitting them
+        //$contactGroup = $params['group'];
+        //$contactTag   = $params['tag']
+        $contactGroup = $_POST['group'];
+        $contactTag   = $_POST['tag'];
+        $contactId    = $params['contact_id'];
+        //add contact to gruoup
+        CRM_Contact_BAO_GroupContact::create($contactGroup, $contactId);
+        //add contact to tags
+        CRM_Core_BAO_EntityTag::create($contactTag, $contactId);   
+        
         
         // here we replace the user context with the url to view this contact
         $config  =& CRM_Core_Config::singleton( );
