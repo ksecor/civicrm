@@ -34,7 +34,7 @@
         </table>
         {/strip}
         
-        {if $action eq 16 or $action eq 4}
+        {if not ($action eq 2 or $action eq 1)}
             <div class="action-link">
             <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
             </div>
