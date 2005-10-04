@@ -919,6 +919,8 @@ class CRM_Contact_BAO_Query {
                                                     'last_name'              => 1, 
                                                     'prefix'                 => 1, 
                                                     'suffix'                 => 1,
+                                                    'birth_date'             => 1,
+                                                    'gender'                 => 1,
                                                     'street_address'         => 1, 
                                                     'supplemental_address_1' => 1, 
                                                     'supplemental_address_2' => 1, 
@@ -992,19 +994,23 @@ class CRM_Contact_BAO_Query {
             $this->includeContactIds( );
         }
 
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
-
-        // regenerate fromClause since permission might have added tables
-        if ( $permission ) {
-            $this->_fromClause  = self::fromClause( $this->_tables ); 
+        // hack for now, add permission only if we are in search
+        $permission = ' ( 1 ) ';
+        if ( $this->_search ) {
+            $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables );
+            
+            // regenerate fromClause since permission might have added tables
+            if ( $permission ) {
+                $this->_fromClause  = self::fromClause( $this->_tables ); 
+            }
         }
 
         list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
-
+        
         if ( empty( $where ) ) {
-            $where = " $permission ";
+            $where = 'WHERE ' . $permission;
         } else {
-            $where = " $where AND $permission ";
+            $where = $where . ' AND ' . $permission;
         }
 
         $order = $limit = '';
