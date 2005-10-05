@@ -85,6 +85,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     protected $_fields;
 
+    /** 
+     * the custom fields for this domain
+     * 
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_customFields;
+
     /**
      * cache the query object
      *
@@ -101,13 +109,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params )
+    function __construct( &$params, &$customFields )
     {
         $this->_params = $params;
 
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
+        $this->_customFields =& $customFields;
+
         $returnProperties = array( );
         foreach ( $this->_fields as $name => $dontCare ) {
             $returnProperties[$name] = 1;

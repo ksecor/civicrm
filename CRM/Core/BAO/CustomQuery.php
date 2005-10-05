@@ -120,11 +120,12 @@ class CRM_Core_BAO_CustomQuery {
                 $sql = self::PREFIX . $field['id'] . '.char_data LIKE ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                 if ( $field['html_type'] == 'CheckBox' && is_array( $value ) ) { 
-                    $this->_where[] = $sql . '"' . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys( $value ) ) . '"';
+                    $this->_where[] = $sql . "'%" . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values( $value ) ) . "%'";
+                    $this->_qill[] = $field['label'] . " like - " . implode( ", ", array_keys( $value ) );
                 } else {
                     $this->_where[] = $sql . "'%" . $value . "%'";
+                    $this->_qill[] = $field['label'] . " like - $value";
                 } 
-                $this->_qill[] = $field['label'] . " like - $value";
                 continue;
                 
             case 'Int':

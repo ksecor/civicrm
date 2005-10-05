@@ -396,8 +396,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $session->setStatus( ts( 'The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing.' ) );
         }
 
-        CRM_Core_Error::debug( 'def', $this->_defaults );
-        
         $this->setDefaults( $this->_defaults );       
 
         $this->addButtons( array(

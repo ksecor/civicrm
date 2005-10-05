@@ -52,6 +52,14 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      */
     protected $_fields;
 
+    /** 
+     * the custom fields for this domain
+     * 
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_customFields;
+
     /**
      * The input params from the request
      *
@@ -71,17 +79,27 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function preProcess( ) {
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
+        $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
-        $criteria = array( );
         $this->_params   = array( );
-
         foreach ( $this->_fields as $name => $field ) {
             $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
+            $customField = CRM_Utils_Array::value( $name, $this->_customFields );
+            // reset checkbox because a form does not send null checkbox values
+            if ( $customField &&
+                 $customField['html_type'] == 'CheckBox' ) {
+                // only reset on a POST submission if we dont see any value
+                if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
+                    $value = null;
+                    $this->set( $name, $value );
+                }
+            }
             if ( isset( $value ) && $value != null ) {
                 $this->_fields[$name]['value'] = $value;
                 $this->_params[$name] = $value;
-            }
+            } 
         }
+
    }
 
     /** 
@@ -92,7 +110,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $selector =& new CRM_Profile_Selector_Listings( $this->_params );
+        $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                         $this->get( CRM_Utils_Sort::SORT_ID  ),

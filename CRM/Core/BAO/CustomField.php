@@ -184,7 +184,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
             $query ="SELECT $cfTable.id, $cfTable.label,
-                            $cgTable.title, $cfTable.data_type, $cfTable.options_per_line,
+                            $cgTable.title,
+                            $cfTable.data_type, $cfTable.html_type,
+                            $cfTable.options_per_line,
                             $cgTable.extends
                      FROM $cfTable
                      INNER JOIN $cgTable
@@ -238,7 +240,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                                             'headerPattern'    => '/' . preg_quote($regexp, '/') . '/',
                                             'import'           => 1,
                                             'custom_field_id'  => $id,
-                                            'options_per_line' => $values[3]
+                                            'options_per_line' => $values[4],
+                                            'data_type'        => $values[2],
+                                            'html_type'        => $values[3],
                                             );
         }
          
@@ -319,7 +323,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
             $check = array();
             foreach ($customOption as $v) {
-                $check[] = $qf->createElement('checkbox', $v['label'], null, $v['label']);
+                $element =& $qf->createElement('checkbox', $v['label'], null, $v['label']); 
+                $element->updateAttributes( array( 'value' => $v['value'] ) );
+                $check[] =& $element;
             }
             $qf->addGroup($check, $elementName, $field->label);
             if ($useRequired && $field->is_required) {
@@ -380,14 +386,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
   public static function deleteGroup($id) 
     { 
         //delete first all custon values
-        $custonValue = & new CRM_Core_DAO_CustomValue();
-        $custonValue->custom_field_id = $id;
-        $custonValue->delete();
+        $customValue = & new CRM_Core_DAO_CustomValue();
+        $customValue->custom_field_id = $id;
+        $customValue->delete();
         
         //delete first all custom option
-        $custonOption = & new CRM_Core_DAO_CustomOption();
-        $custonOption->custom_field_id = $id;
-        $custonOption->delete();
+        $customOption = & new CRM_Core_DAO_CustomOption();
+        $customOption->custom_field_id = $id;
+        $customOption->delete();
         
         
         //delete  custom field
