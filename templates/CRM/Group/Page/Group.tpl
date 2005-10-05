@@ -8,6 +8,7 @@
    <tr class="columnheader">
     <th>{ts}Name{/ts}</th>
     <th>{ts}Description{/ts}</th>
+    <th>{ts}Visibility{/ts}</th>
     <th></th>
    </tr>
    {foreach from=$rows item=row}
@@ -16,6 +17,7 @@
         <td>
             {$row.description|mb_truncate:80:"...":true}
         </td>
+        <td>{$row.visibility}</td>	
         <td>{$row.action}</td>
      </tr>
    {/foreach}

@@ -213,7 +213,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
 
         $object =& new CRM_Contact_BAO_Group( );
         $object->domain_id = $config->domainID( );
-        //$object->is_active = 1;
         $object->orderBy ( 'title asc' );
         $object->find();
 
@@ -225,23 +224,17 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-                    
                     $links =& $this->links( );
-                    
                 } else {
                     $links =& $this->links( );
-                   
                 }
                 if ( $action == null ) {
                     $action = array_sum(array_keys($links));
                 }
-               
-                
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 $newAction = $action;
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
-                        
                         $newAction -= CRM_Core_Action::ENABLE;
                     } else {
                         $newAction -= CRM_Core_Action::VIEW;

@@ -51,7 +51,8 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             foreach ( $items as $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
-                                    'path'  => $item['path'],
+                                    'url'   => CRM_Utils_System::url( $item['path'],
+                                                                      CRM_Utils_Array::value( 'qs', $item ) ),
                                     'icon'  => $item['icon'],
                                     'extra' => $item['extra']);
                     $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;

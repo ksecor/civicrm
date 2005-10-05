@@ -11,8 +11,8 @@
                 <tr>
             {/if}
             <td>
-                <a href="{crmURL p=$panelItem.path}"{if $panelItem.extra} {$panelItem.extra}{/if}><img src="{$config->resourceBase}i/{$panelItem.icon}" alt="{$panelItem.title}"/></a><br >
-                <a href="{crmURL p=$panelItem.path}"{if $panelItem.extra} {$panelItem.extra}{/if}>{$panelItem.title|replace:" ":"<br />"}</a>
+                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if}><img src="{$config->resourceBase}i/{$panelItem.icon}" alt="{$panelItem.title}"/></a><br >
+                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if}>{$panelItem.title|replace:" ":"<br />"}</a>
             </td>
             {if $i % $itemsPerRow eq 0}
                 </tr>

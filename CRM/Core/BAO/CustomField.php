@@ -300,8 +300,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 $qf->addGroup($choice, $elementName, $field->label);
             } else {
                 $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
-                // if we set the value to '0' QF automatically selects it, which we dont want
-                $choice[] = $qf->createElement('radio', null, '', ts('No') , '2' , $field->attributes);
+                $choice[] = $qf->createElement('radio', null, '', ts('No') , '0' , $field->attributes);
                 $qf->addGroup($choice, $elementName, $field->label);
             }
             if ($useRequired && $field->is_required) {

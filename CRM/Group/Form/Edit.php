@@ -127,6 +127,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $this->add('text', 'description', ts('Description: '), 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+            $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true ); 
             
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
@@ -161,6 +162,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $group->name         = $params['title'];
             $group->title        = $params['title'];
             $group->description  = $params['description'];
+            $group->visibility   = $params['visibility'];
             $group->is_active    = 1;
             
             if ($this->_action & CRM_Core_Action::UPDATE ) {

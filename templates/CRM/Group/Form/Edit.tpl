@@ -12,6 +12,7 @@
     <dl>
         <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+        <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
     </fieldset>
