@@ -93,7 +93,7 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
-       <headerPattern>/^(url|web|page)$/i</headerPattern>
+       <headerPattern>/^(url|web|site)/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <comment>optional "home page" URL for this contact.</comment>
        <add>1.1</add>
