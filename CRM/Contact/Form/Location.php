@@ -123,18 +123,19 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 continue;
                 }*/
             $location = $values[$locationId];
+            
             $locationFlag = false;
             foreach($location as $locationKey=>$locationEntity) {
                 if(is_array($locationEntity)) {
                     foreach($locationEntity as $entityKey=>$entity) {
                         if(is_array($entity)) {
-                            foreach($entity as $subEntity) {
+                            foreach($entity as $subkey=>$subEntity) {
                                 if($subEntity!='') {
                                     $locationFlag = true;
                                 }
                             }
                         } else {
-                            if($entity!='') {
+                            if($entity!='' and $entityKey!='country_id') {
                                 $locationFlag = true;
                             }
                         }
