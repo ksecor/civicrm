@@ -114,6 +114,10 @@ class CRM_Core_BAO_CustomQuery {
             }
 
             $field = $this->_fields[$id];
+            $qillValue = CRM_Core_BAO_CustomOption::getOptionLabel( $field['id'], 
+                                                                    $value, 
+                                                                    $field['html_type'] ); 
+            
             switch ( $field['data_type'] ) {
 
             case 'String':
@@ -124,7 +128,7 @@ class CRM_Core_BAO_CustomQuery {
                     $this->_qill[] = $field['label'] . " like - " . implode( ", ", array_keys( $value ) );
                 } else {
                     $this->_where[] = $sql . "'%" . $value . "%'";
-                    $this->_qill[] = $field['label'] . " like - $value";
+                    $this->_qill[] = $field['label'] . " like - $qillValue";
                 } 
                 continue;
                 
@@ -137,7 +141,7 @@ class CRM_Core_BAO_CustomQuery {
                 $value = (int ) $value;
                 // note that to avoid QF's issue with value 0 (and setting the default)
                 // we make boolean 2 as the value of NO
-                $value = ( $value == 1 ) ? 1 : 0;
+                $value = ( $value == 1 ) ? 1 : 2;
                 $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
                 $value = $value ? ts('Yes') : ts('No');
                 $this->_qill[]  = $field['label'] . " - $value";

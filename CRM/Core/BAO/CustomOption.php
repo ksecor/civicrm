@@ -132,5 +132,22 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $customValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$values);
         return $customValue;
     }
+
+    static function getOptionLabel( $fieldId, $value, $fieldType = null ) {
+        if ( $fieldType &&
+             $fieldType != 'Select' &&
+             $fieldType != 'Radio' ) {
+            return $value;
+        }
+
+        $dao =& new CRM_Core_DAO_CustomOption( );
+        $dao->custom_field_id = $fieldId; 
+        $dao->value = $value;
+        if ( $dao->find( true ) ) {
+            return $dao->label;
+        }
+        return $value;
+    }
+
 }
 ?>

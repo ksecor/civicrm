@@ -86,12 +86,19 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
             // reset checkbox because a form does not send null checkbox values
-            if ( $customField &&
-                 $customField['html_type'] == 'CheckBox' ) {
-                // only reset on a POST submission if we dont see any value
+            if ( $customField ) {
                 if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
-                    $value = null;
-                    $this->set( $name, $value );
+                    if ( $customField['html_type'] == 'CheckBox' ) {
+                        // only reset on a POST submission if we dont see any value
+                        $value = null;
+                        $this->set( $name, $value );
+                    }
+                }
+                if ( $customField['html_type'] == 'Select' || $customField['html_type'] == 'Radio' ) {
+                    if ( 0 == (int ) $value ) {
+                        $value = null; 
+                        $this->set( $name, $value ); 
+                    }
                 }
             }
             if ( isset( $value ) && $value != null ) {
