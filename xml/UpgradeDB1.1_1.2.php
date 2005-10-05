@@ -2,13 +2,7 @@
 
 ini_set( 'include_path', ".:../packages:.." );
 
-$versionFile = "version.xml";
-$versionXML = & parseInput( $versionFile );
-$build_version = $versionXML->version_no;
-If($build_version != 1.1) {
-    echo "Your current version is not 1.1\n";
-    exit();
-}
+
 $build_version = 1.2 ;
 
 
@@ -35,15 +29,15 @@ $configValues = DB::parseDSN($coreConfig->dsn);
 $username  = $configValues['username'];
 $password  = $configValues['password'];
 $dbase  = $configValues['database'];
-
+$host = $configValues['hostspec'];
 
 //dump the 1.1 version data 
 echo "Dumping 1.1 database....\n";
 $mysqldumpPath = exec("which mysqldump"); 
-exec($mysqldumpPath." -t -n -u".$username." -p".$password." ". $dbase."  > generated_data_1.1.mysql");
+exec($mysqldumpPath." -c -t -n -u".$username." -p".$password." ". $dbase."  > generated_data_1.1.mysql");
 
 
-$dsn = 'mysql://'.$username.':'.$password.'@localhost/'.$dbase;
+$dsn = 'mysql://'.$username.':'.$password.'@'.$host.'/'.$dbase;
 $dbConnect = DB::connect($dsn);
 
 
@@ -116,10 +110,30 @@ fputs( $fd, $sql );
 fclose($fd);
 
 
+$filename = "generated_data_1.1.mysql";
+$writeFilename = 'temp.mysql';
+
+$handleRead = fopen($filename , "r");
+$handleWrite = fopen($writeFilename,"w+");
+
+while (!feof($handleRead)) {
+    $buffer = fgets($handleRead, 4096);
+    $fields = array("prefix","suffix","gender","_suffix_id","_prefix_id","_gender_id");
+    $newfields = array("prefix_id","suffix_id","gender_id","_suffix","_prefix","_gender"); 
+    $newcontents = str_replace($fields,$newfields,$buffer);
+    fwrite($handleWrite,$newcontents);
+}
+fclose($handleRead);
+fclose($handleWrite);
+
 $mysqlPath = exec("which mysql");
 echo "Creating the Database for 1.2\n";
 exec($mysqlPath." -u".$username." -p".$password." ". $dbase." < ../sql/1.2_civicrm_41.mysql");
-exec($mysqlPath." -u".$username." -p".$password." ". $dbase." < generated_data_1.1.mysql");
+exec($mysqlPath." -u".$username." -p".$password." ". $dbase." < temp.mysql");
+
+unlink('temp.mysql');
+unlink('../sql/1.2_civicrm_40.mysql');
+unlink('../sql/1.2_civicrm_41.mysql');
 
 $prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
 $suffix = array(1 => 'Jr', 2 => 'Sr', 3 => 'II');
@@ -200,12 +214,6 @@ foreach ( array_keys( $tables ) as $name ) {
     
     $beautifier->save( );
 }
-$version = "<?xml version=\"1.03\" encoding=\"iso-8859-1\" ?>\n";
-$version .= "<version>\n";
-$version .=  "   <version_no>1.2</version_no>\n";
-$version .=  "</version>\n";
-$fp = fopen($versionFile,"w");
-fwrite($fp,$version);
 
 echo "upgradation completed !!!";
 
