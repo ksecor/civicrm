@@ -296,7 +296,11 @@ div.spacer {
   color: #000000;
   border: 1px solid #000000;
 }
-
+#crm-container tr.columnheader-dark {
+  background-color: #B0B0B0;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+}
 #crm-container th {
   padding: 8px 4px 4px 4px;
   border-bottom: 1px solid #000;

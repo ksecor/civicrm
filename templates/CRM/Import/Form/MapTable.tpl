@@ -1,11 +1,9 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
-    <p></p>
-    <div class="font-11pt, label">{ts}Import Data -&gt; CiviCRM Contact Fields {if $loadedMapping}Using Saved Mapping: {$savedName} {/if} {/ts}</div>
     {if $savedMapping}
     <div>
-	<a href="#" onclick="mappingOption(); return false;" > >> Load Saved Field Mapping </a>
+	<p><a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a></p>
     </div>
     <div id="savedMappingOption">
 	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>
@@ -29,11 +27,14 @@
 	}
 		
 	{/literal}
-    </script>
-    
+    </script>  
     {/if}
+
     {strip}
     <table>
+    {if $loadedMapping}
+        <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
+    {/if}
         <tr class="columnheader">
             {section name=rows loop=$rowDisplayCount}
 		   {if $skipColumnHeader }

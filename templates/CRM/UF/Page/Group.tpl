@@ -1,10 +1,31 @@
-{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} 
+{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}
+    {* Add or edit Profile Group form *}
     {include file="CRM/UF/Form/Group.tpl"}
-{else}
 
-{if $action eq 1024}
-<textarea rows="20" cols="120" name="preview" id="preview" class="huge">{$preview}</textarea>
-{/if}
+{elseif $action eq 1024}
+    {* Display HTML Code for standalone Profile form *}
+    <div id="help">
+    {ts}
+    <p>The HTML code below will display a form consisting of the selected Profile fields. You can copy this HTML
+    code and paste it into any block or page on ANY web site where you want to collect contact information.</p>
+    <p>You can control the web page that someone is directed to AFTER completing the form by modifying the
+    contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete
+    URL prior to saving the form code to the desired page(s).</p>
+    <p>EXAMPLE: <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
+    {/ts}
+    </div>
+    
+    <h3>{$rows.1.title} - {ts}HTML Form Code{/ts}</h3>
+    <form name="html_code">
+    <textarea rows="20" cols="80" name="preview" id="preview">{$preview}</textarea>
+    <br />
+    <a href="#" onclick="html_code.preview.select(); return false;">Select Code</a>
+    <p></p>
+    <div class="action-link">
+        <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
+    </div>
+
+{else}
 
     <div id="help">
     {ts}<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which data is used to match a contact record to a user. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.</p>
