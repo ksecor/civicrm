@@ -51,4 +51,30 @@
        <comment>Form title.</comment>
        <add>1.1</add>
   </field>
+  <field>
+     <name>help_pre</name>
+     <type>text</type>
+     <comment>Description and/or help text to display before fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+     <add>1.2</add>
+  </field>
+  <field>
+     <name>help_post</name>
+     <type>text</type>
+     <comment>Description and/or help text to display after fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+     <add>1.2</add>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Controls display order when multiple user framework groups are setup for concurrent display.</comment>
+      <add>1.2</add>
+  </field>
 </table>

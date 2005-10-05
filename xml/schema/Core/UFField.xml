@@ -101,4 +101,11 @@
        <comment>Page title for listings page (users who share a common value for this property).</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>in_selector</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this field included as a column in the selector table?</comment>
+       <add>1.2</add>
+  </field>
 </table>
