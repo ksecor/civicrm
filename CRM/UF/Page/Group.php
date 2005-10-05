@@ -98,6 +98,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=delete&id=%%id%%',
                                                                           'title' => ts('Delete CiviCRM Profile Group'),
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array( 
+                                                                          'name'  => ts('Get Form'), 
+                                                                          'url'   => 'civicrm/admin/uf/group', 
+                                                                          'qs'    => 'action=preview&id=%%id%%', 
+                                                                          'title' => ts('Get Form (HTML Code)'), 
+                                                                          ), 
                                         );
         }
         return self::$_actionLinks;
@@ -133,7 +139,9 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                 CRM_Core_BAO_UFGroup::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
-            }
+            } else if ( $action & (CRM_Core_Action::PREVIEW ) ) { 
+                $this->preview( $id ); 
+            } 
 
             // finally browse the uf groups
             $this->browse();
@@ -142,6 +150,19 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         parent::run();
     }
 
+    function preview( $id ) {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
+        $controller->reset( );
+        $controller->process( ); 
+        $controller->setEmbedded( true ); 
+        $controller->run( ); 
+        $template =& CRM_Core_Smarty::singleton( ); 
+        $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
+        $preview  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
+        $this->assign( 'preview', $preview );
+        $this->assign( 'action' , CRM_Core_Action::PREVIEW );
+        $this->assign( 'isForm' , 0 );
+    }
 
     /**
      * edit uf group

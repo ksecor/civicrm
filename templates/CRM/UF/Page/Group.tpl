@@ -1,7 +1,11 @@
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} 
     {include file="CRM/UF/Form/Group.tpl"}
-
 {else}
+
+{if $action eq 1024}
+<textarea rows="20" cols="120" name="preview" id="preview" class="huge">{$preview}</textarea>
+{/if}
+
     <div id="help">
     {ts}<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which data is used to match a contact record to a user. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.</p>
     <p>Each 'CiviCRM Profile' is presented as a separate form when new users register for an account, as well as when they edit an existing account.</p>{/ts}
