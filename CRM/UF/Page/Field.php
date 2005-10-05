@@ -135,6 +135,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                 $select[$name] = $field['title'];
             }
         }
+        $select['groups'] = ts('CiviCRM Groups'); 
+        $select['tags'  ] = ts('CiviCRM Tags');
 
         while ($ufFieldBAO->fetch()) {
             $ufField[$ufFieldBAO->id] = array();

@@ -106,6 +106,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 $this->_selectFields[$name] = $field['title'];
             }
         }
+        // lets add group and tag to this list
+        $this->_selectFields['groups'] = ts('CiviCRM Groups');
+        $this->_selectFields['tags'  ] = ts('CiviCRM Tags');
     }
 
     /**

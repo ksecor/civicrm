@@ -205,6 +205,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
+            $importableFields['groups']['title'] = ts('CiviCRM Groups');
+            $importableFields['groups']['where'] = null;
+            $importableFields['tags'  ]['title'] = ts('CiviCRM Tags');
+            $importableFields['tags'  ]['where'] = null;
 
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
@@ -441,6 +445,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $values[$index] = $contact->country;
                     $params[$index] = $contact->country_id;
                 }
+            } else if ( $objName == 'groups' ) {
+                $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
+                $title = array( );
+                foreach ( $groups as $g ) {
+                    $title[] = $g['title'];
+                }
+                $values[$index] = implode( ', ', $title );
+                $params[$index] = '';
+            } else if ( $objName == 'tags' ) {
+                $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
+                $allTags    =& CRM_Core_PseudoConstant::tag();
+                $title = array( );
+                foreach ( $entityTags as $tagId ) {
+                    $title[] = $allTags[$tagId];
+                }
+                $values[$index] = implode( ', ', $title );
+                $params[$index] = '';
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                 // make sure the custom field exists
                 $cf =& new CRM_Core_BAO_CustomField();
@@ -533,8 +554,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings' ) ) {
 
-                if ( ! CRM_Utils_Array::value( $index, $params ) ) {
+                if ( CRM_Utils_Array::value( $index, $params ) === null ) {
                     $params[$index] = $values[$index];
+                }
+                if ( empty( $params[$index] ) ) {
+                    continue;
                 }
                 $fieldName = $field['name'];
                 // if we're working with country or state_province, we want to search with the id
