@@ -92,7 +92,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/prefix/i</headerPattern>
+       <headerPattern>/^(prefix|title)/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Prefix to Name.</comment>
        <add>1.1</add>
@@ -128,7 +128,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^(job.*)?title$/i</headerPattern>
+       <headerPattern>/^job|(j(ob\s)?title)$/i</headerPattern>
        <dataPattern>//</dataPattern>
        <comment>Job Title</comment>
       <add>1.1</add>

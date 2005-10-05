@@ -536,7 +536,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->set( 'relatedContactLocType',$relatedContactLocType );
         $this->set( 'relatedContactPhoneType',$relatedContactPhoneType );
                
-             
+        // store mapping Id to display it in the preview page 
+        $this->set('loadMappingId', $params['mappingId']);
         
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {

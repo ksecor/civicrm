@@ -86,7 +86,7 @@
     <tr><td class="label">{ts}Import to Groups{/ts}</td>
         <td colspan="2" class="explanation">
             {foreach from="$groupAdditions" item="group"}
-                <label>{$group.name}</label>:
+                <label><a href="{$group.url}">{$group.name}</a></label>:
                 {if $group.new}
                     {ts count=$group.added plural='%count contacts added to this new group.'}%count contact added to this new group.{/ts}
                 {else}

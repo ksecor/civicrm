@@ -302,7 +302,7 @@ abstract class CRM_Import_Parser {
 
             /* trim whitespace around the values */
             foreach ($values as $k => $v) {
-                $values[$k] = trim($v, " \t\r\n");
+                $values[$k] = trim($v, " .\t\r\n");
             }
             
             $this->_totalCount++;

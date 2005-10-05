@@ -52,11 +52,22 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
     {
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
        
-        //get the data from the session
+        //get the data from the session             
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount  = $this->get('conflictRowCount');
+
+        //get the mapping name displayed if the mappingId is set
+        $mappingId = $this->get('loadMappingId');
+        if ( $mappingId ) {
+            $mapDAO =& new CRM_Core_DAO_Mapping();
+            $mapDAO->id = $mappingId;
+            $mapDAO->find( true );
+            $this->assign('loadedMapping', $mappingId);
+            $this->assign('savedName', $mapDAO->name);
+        }
+
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
@@ -236,6 +247,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                     $new = false;
                 }
                 $groupAdditions[] = array(
+                                          'url'   => 'civicrm/group/search?reset=1&force=1&context=smog&gid='.$group->id,
                                           'name'  => $name,
                                           'added' => $addCount[1],
                                           'notAdded' => $addCount[2],

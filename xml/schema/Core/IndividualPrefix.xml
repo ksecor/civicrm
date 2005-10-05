@@ -35,7 +35,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/prefix/i</headerPattern>
+       <headerPattern>/^(prefix|title)/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Individual Prefix Name.</comment>
        <add>1.2</add>
