@@ -125,10 +125,10 @@ class CRM_Core_BAO_CustomQuery {
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                 if ( $field['html_type'] == 'CheckBox' && is_array( $value ) ) { 
                     $this->_where[] = $sql . "'%" . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values( $value ) ) . "%'";
-                    $this->_qill[] = $field['label'] . " like - " . implode( ", ", array_keys( $value ) );
+                    $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => implode(', ', array_keys($value))));
                 } else {
                     $this->_where[] = $sql . "'%" . $value . "%'";
-                    $this->_qill[] = $field['label'] . " like - $qillValue";
+                    $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
                 } 
                 continue;
                 
@@ -159,7 +159,7 @@ class CRM_Core_BAO_CustomQuery {
                 
             case 'Memo':
                 $this->_where[] = self::PREFIX . $field['id'] . '.memo_data LIKE ' . "'%" . $value . "%'";
-                $this->_qill[]  = $field['label'] . " like - $value";
+                $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $value));
                 continue;
                 
             case 'Date':

@@ -138,6 +138,8 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
+                } else if ( $objName == 'gender' ) {
+                    $defaults[$name] = $this->_contact->gender_id;
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                     // make sure the custom field exists
                     $cf =& new CRM_Core_BAO_CustomField();

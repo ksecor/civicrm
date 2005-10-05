@@ -174,7 +174,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') );  
             } else if ( $field['name'] === 'gender' ) {  
                 $genderOptions = array( );   
-                $gender =CRM_Core_PseudoConstant::gender();   
+                $gender = CRM_Core_PseudoConstant::gender();   
                 foreach ($gender as $key => $var) {   
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
