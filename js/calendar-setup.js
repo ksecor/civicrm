@@ -66,8 +66,8 @@ Calendar.setup = function (params) {
     param_default("displayArea",    null);
     param_default("button",         null);
     param_default("eventName",      "click");
-    param_default("ifFormat",       "%Y/%m/%d");
-    param_default("daFormat",       "%Y/%m/%d");
+    param_default("ifFormat",       "%Y/%m/%d %I %M %p");
+    param_default("daFormat",       "%Y/%m/%d %I %M %p");
     param_default("singleClick",    true);
     param_default("disableFunc",    null);
     param_default("dateStatusFunc", params["disableFunc"]);	// takes precedence if both are defined
@@ -93,8 +93,11 @@ Calendar.setup = function (params) {
     param_default("dateField",      null);
     param_default("monthField",     null);
     param_default("yearField",      null);
+    param_default("hourField",      null);
+    param_default("minuteField",    null);
+    param_default("ampmField",      null);
     
-    var tmp = ["inputField", "displayArea", "button", "dateField", "monthField", "yearField"];
+    var tmp = ["inputField", "displayArea", "button", "dateField", "monthField", "yearField", "hourField", "minuteField", "ampmField"];
     for (var i in tmp) {
 	if (typeof params[tmp[i]] == "string") {
 	    params[tmp[i]] = document.getElementById(params[tmp[i]]);
@@ -110,11 +113,13 @@ Calendar.setup = function (params) {
 	var update = (cal.dateClicked || p.electric);
 	/*if (update && p.inputField) {*/
 	if (update && p.dateField) {
+	    p.dateField.value   = Math.abs(cal.date.print("%d"));
+	    p.monthField.value  = Math.abs(cal.date.print("%m"));
+	    p.yearField.value   = Math.abs(cal.date.print("%Y"));
+            p.hourField.value   = Math.abs(cal.date.print("%I"));
+            p.minuteField.value = Math.abs(cal.date.print("%M"));
+	    p.ampmField.value   = cal.date.print("%p");
 	    
-	    p.dateField.value = Math.abs(cal.date.print("%d"));
-	    p.monthField.value = Math.abs(cal.date.print("%m"));
-	    p.yearField.value = Math.abs(cal.date.print("%Y"));
-
 	    if (typeof p.dateField.onchange == "function")
 		p.dateField.onchange();
 	    
@@ -123,6 +128,15 @@ Calendar.setup = function (params) {
 	    
 	    if (typeof p.yearField.onchange == "function")
 		p.yearField.onchange();
+
+	    if (typeof p.hourField.onchange == "function")
+		p.hourField.onchange();
+
+	    if (typeof p.minuteField.onchange == "function")
+		p.minuteField.onchange();
+
+	    if (typeof p.ampmField.onchange == "function") 
+		p.ampmField.onchange();
 	}
 	if (update && p.displayArea)
 	p.displayArea.innerHTML = cal.date.print(p.daFormat);
@@ -168,9 +182,11 @@ Calendar.setup = function (params) {
     triggerEl["on" + params.eventName] = function() {
 	var tempDate = '';
 	if (params.yearField.value) {
-	    tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value;
+	    /*tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value ;*/
+	    tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value + ' ' + params.hourField.value  + ' ' + params.minuteField.value + ' ' + params.ampmField.value;
+
 	}
-	
+
 	/*	var dateEl = params.inputField || params.displayArea;*/
 	var dateFmt = params.inputField ? params.ifFormat : params.daFormat;
 	var mustCreate = false;
@@ -178,6 +194,7 @@ Calendar.setup = function (params) {
 	
 	if (params.yearField)
 	params.date = Date.parseDate(tempDate || params.yearField.innerHTML, dateFmt);
+
 	if (!(cal && params.cache)) {
 	    window.calendar = cal = new Calendar(params.firstDay,
 						 params.date,

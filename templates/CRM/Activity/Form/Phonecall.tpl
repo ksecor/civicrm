@@ -38,8 +38,13 @@
               dateField   : "scheduled_date_time[d]",
               monthField  : "scheduled_date_time[M]",
               yearField   : "scheduled_date_time[Y]",
+              hourField   : "scheduled_date_time[h]",
+              minuteField : "scheduled_date_time[i]",
+              ampmField   : "scheduled_date_time[A]",
               button      : "trigger",
-              range       : [currentYear, endYear]  
+              range       : [currentYear, endYear],
+              showsTime   : true,
+              timeFormat  : "12"
             }
           );
         </script>
