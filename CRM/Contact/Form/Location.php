@@ -115,13 +115,35 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         if ( empty( $values ) ) {
             return;
         }
-
+        
         $locationKeys = array_keys( $values );
+        
         foreach ( $locationKeys as $locationId ) {
-            if ( empty( $values[$locationId] ) ) {
+            /*if( empty( $values[$locationId])){
+                continue;
+                }*/
+            $location = $values[$locationId];
+            $locationFlag = false;
+            foreach($location as $locationKey=>$locationEntity) {
+                if(is_array($locationEntity)) {
+                    foreach($locationEntity as $entityKey=>$entity) {
+                        if(is_array($entity)) {
+                            foreach($entity as $subEntity) {
+                                if($subEntity!='') {
+                                    $locationFlag = true;
+                                }
+                            }
+                        } else {
+                            if($entity!='') {
+                                $locationFlag = true;
+                            }
+                        }
+                    }
+                } 
+            }
+            if(!$locationFlag) {
                 continue;
             }
-
             $showHide->addShow( "location[$locationId]" );
             if ( $locationId != 1 ) {
                 $showHide->addHide( "location[$locationId][show]" );
@@ -130,24 +152,35 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 $nextLocationId = $locationId + 1;
                 $showHide->addShow( "location[$nextLocationId][show]" );
             }
-
+            
             $commPrefs = array( 'phone', 'email', 'im' );
             foreach ( self::$_commPrefs as $block ) {
                 self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
                                                CRM_Utils_Array::value( $block, $values[$locationId] ) );
             }
         }
+        
     }
-
+    
     function updateShowHideSubBlocks( &$showHide, $name, $prefix, &$values ) {
         if ( empty( $values ) ) {
             return;
         }
-
         $blockKeys = array_keys( $values );
-
         foreach ( $blockKeys as $blockId ) {
-            if ( empty( $values[$blockId] ) ) {
+            
+            /* if ( empty( $values[$blockId] ) ) {
+                continue;
+            }*/
+            $blocks = $values[$blockId];
+            $blockFlag = false;
+            foreach($blocks as $block) {
+                if($block!='') {
+                    $blockFlag= true;
+                }
+            }
+
+            if (!$blockFlag) {
                 continue;
             }
 
@@ -164,7 +197,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             }
         }
     }
-
+    
 }
 
 ?>
