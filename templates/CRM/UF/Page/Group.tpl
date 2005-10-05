@@ -16,12 +16,14 @@
         <tr class="columnheader">
             <th>{ts}Profile Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{$row.weight}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

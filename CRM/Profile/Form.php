@@ -129,6 +129,15 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'action', $this->_action );
         $this->assign( 'fields', $this->_fields );
 
+        if ($this->_mode & self::MODE_EDIT) {
+            $group =& new CRM_Core_DAO_UFGroup();
+            $group->id = $this->_id;
+            if ($group->find(true)) {
+                $this->assign('help_pre',  $group->help_pre);
+                $this->assign('help_post', $group->help_post);
+            }
+        }
+
         // do we need inactive options ?
         if ($this->_action & CRM_Core_Action::VIEW ) {
             $inactiveNeeded = true;

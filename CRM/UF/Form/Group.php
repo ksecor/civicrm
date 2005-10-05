@@ -114,6 +114,14 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
+        // help text
+        $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_pre'));
+        $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
+
+        // weight
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
+        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
@@ -177,6 +185,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // create custom group dao, populate fields and then save.
         $ufGroup            =& new CRM_Core_DAO_UFGroup();
         $ufGroup->title     = $params['title'];
+        $ufGroup->weight    = $params['weight'];
+        $ufGroup->help_pre  = $params['help_pre'];
+        $ufGroup->help_post = $params['help_post'];
         $ufGroup->is_active = CRM_Utils_Array::value('is_active', $params, false);
         $ufGroup->domain_id = CRM_Core_Config::domainID( );
         

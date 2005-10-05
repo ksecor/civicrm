@@ -4,6 +4,7 @@
 {include file="CRM/common/form_body.tpl"}
 
     {strip}
+    {if $help_pre}<div class="messages help">{$help_pre}</div><br />{/if}
     <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}	
     {assign var=n value=$field.name}
@@ -44,6 +45,7 @@
 	{/if}
     {/foreach}
     </table>
+    {if $help_post}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}

@@ -7,13 +7,19 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-          {ts}Delete {$title} Profile ?{/ts}
+          {ts 1=$title}Delete %1 Profile?{/ts}
           </dd>
        </dl>
       </div>
     {else}
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
+    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the fieldset.{/ts}</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the fieldset.{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     
     </dl>
