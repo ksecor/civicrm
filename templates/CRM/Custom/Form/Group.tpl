@@ -20,6 +20,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the edit form is initially loaded (fields are hidden).{/ts}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the group fieldset.{/ts}</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the group fieldset.{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $action ne 4}
         <dt></dt>

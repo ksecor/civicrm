@@ -49,6 +49,7 @@
 	{/if}
     {/foreach}
     </dl>
+    {if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
     </fieldset>
     </div>
 {/foreach}

@@ -132,7 +132,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post','options_per_line'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'collapse_display'),
+                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post', 'collapse_display'),
                            );
 
         // since we have an entity id, lets get it's custom values too.
@@ -428,7 +428,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post','options_per_line'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre'),
+                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post'),
                            );
 
         // create select
@@ -469,6 +469,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 $groupTree[$groupId]['id'] = $groupId;
                 $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
+                $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
                 $groupTree[$groupId]['fields'] = array();
             }
             
