@@ -213,10 +213,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
-            $importableFields['groups']['title'] = ts('CiviCRM Groups');
-            $importableFields['groups']['where'] = null;
-            $importableFields['tags'  ]['title'] = ts('CiviCRM Tags');
-            $importableFields['tags'  ]['where'] = null;
+            $importableFields['group']['title'] = ts('CiviCRM Groups');
+            $importableFields['group']['where'] = null;
+            $importableFields['tag'  ]['title'] = ts('CiviCRM Tags');
+            $importableFields['tag'  ]['where'] = null;
 
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
@@ -454,7 +454,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $values[$index] = $contact->country;
                     $params[$index] = $contact->country_id;
                 }
-            } else if ( $objName == 'groups' ) {
+            } else if ( $objName == 'group' ) {
                 $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
                 $title = array( );
                 foreach ( $groups as $g ) {
@@ -462,7 +462,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 }
                 $values[$index] = implode( ', ', $title );
                 $params[$index] = '';
-            } else if ( $objName == 'tags' ) {
+            } else if ( $objName == 'tag' ) {
                 $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
                 $allTags    =& CRM_Core_PseudoConstant::tag();
                 $title = array( );

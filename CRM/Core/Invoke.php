@@ -198,9 +198,10 @@ class CRM_Core_Invoke {
             case 'vcard':
                 $view =& new CRM_Contact_Page_View_Vcard();
                 break;
+
             case 'delete':
-                $view =& new CRM_Contact_Page_View_Delete( );
-                break;     
+                $wrapper =& new CRM_Utils_Wrapper( ); 
+                return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
             
             default:
                 $view =& new CRM_Contact_Page_View_Basic( );

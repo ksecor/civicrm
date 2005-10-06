@@ -46,8 +46,6 @@ class CRM_Contact_Page_View_Delete extends CRM_Contact_Page_View {
      * @access public
      */
     function browse( ) {
-        //$this->_action = CRM_Core_Action::ADD;
-        
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Delete', ts('Contact Delete'),$this->_action);
         $controller->setEmbedded( true );
         
@@ -73,17 +71,8 @@ class CRM_Contact_Page_View_Delete extends CRM_Contact_Page_View {
      * @access public
      */
     function run( ) {
-        
         $this->preProcess( );
-        
-        //if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE) ) {
-
-             $this->browse( );
- 
-
-             // }
-        
-       
+        $this->browse( );
         return parent::run( );
     }
 

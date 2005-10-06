@@ -94,6 +94,7 @@ class CRM_Contact_BAO_Query {
  
         // basically do all the work once, and then reuse it
         $this->initialize( );
+        
     }
 
     function initialize( ) {
@@ -148,7 +149,10 @@ class CRM_Contact_BAO_Query {
                  ( ! $this->_params ) ) {
                 $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
-                    $cfIDs[$cfID] = CRM_Utils_Array::value( $name, $this->_params );
+                    $value = CRM_Utils_Array::value( $name, $this->_params );
+                    if ( $value !== null ) {
+                        $cfIDs[$cfID] = $value;
+                    }
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 

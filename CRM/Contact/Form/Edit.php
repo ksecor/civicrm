@@ -197,6 +197,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
+
+            // set the group and tag ids
+            CRM_Contact_Form_GroupTag::setDefaults( $this->_contactId,                      
+                                                    $defaults, 
+                                                    CRM_Contact_Form_GroupTag::ALL );
         }
         
         // use most recently posted values if any to display show hide blocks
@@ -505,20 +510,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $params['contact_type'] = $this->_contactType;
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
 
-        //add the contact to selected group and tags
-        // arrays for group and tags contains the posted values
-        // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
-        // even after unchecking them before submitting them
-        // we need to fix the above QF bug
-        //$contactGroup = $params['group'];
-        //$contactTag   = $params['tag']
-        $contactGroup = $_POST['group'];
-        $contactTag   = $_POST['tag'];
-        $contactId    = $params['contact_id'];
         //add contact to gruoup
-        CRM_Contact_BAO_GroupContact::create($contactGroup, $contactId);
+        CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+
         //add contact to tags
-        CRM_Core_BAO_EntityTag::create($contactTag, $contactId);   
+        CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
         
         
         // here we replace the user context with the url to view this contact

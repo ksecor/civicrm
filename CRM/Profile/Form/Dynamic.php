@@ -140,6 +140,14 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
                     }
                 } else if ( $objName == 'gender' ) {
                     $defaults[$name] = $this->_contact->gender_id;
+                } else if ( $objName == 'group' ) {
+                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
+                                                            $defaults,
+                                                            CRM_Contact_Form_GroupTag::GROUP ); 
+                } else if ( $objName == 'tag' ) { 
+                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
+                                                            $defaults,
+                                                            CRM_Contact_Form_GroupTag::TAG ); 
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
                     // make sure the custom field exists
                     $cf =& new CRM_Core_BAO_CustomField();
@@ -170,7 +178,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                         foreach($customOption as $val) {
                             $checkVal = $val['value'];
-                            $checkName = $name.'['.$checkVal.']';
+                            $checkName = $name . '[' . $val['label'] .']';
                             if (in_array($val['value'], $checkedData)) {
                                 $defaults[$checkName] = 1;
                             } else {

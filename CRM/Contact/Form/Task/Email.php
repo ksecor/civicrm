@@ -57,15 +57,16 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
     function preProcess( ) {
         $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
 
-        // also add the cid params to the Menu array
-        CRM_Utils_Menu::addParam( 'cid', $cid );
-
-        // create menus ..
-        $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
-        $startWeight++;
-        CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
-
         if ( $cid ) {
+            // not sure why this is needed :(
+            // also add the cid params to the Menu array
+            CRM_Utils_Menu::addParam( 'cid', $cid );
+            
+            // create menus ..
+            $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
+            $startWeight++;
+            CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
+
             $this->_contactIds = array( $cid );
             $this->_single     = true;
             $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );

@@ -188,10 +188,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
-            } else if ( $field['name'] === 'groups' ) {
+            } else if ( $field['name'] === 'group' ) {
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
                                                               CRM_Contact_Form_GroupTag::GROUP );
-            } else if ( $field['name'] === 'tags' ) {
+            } else if ( $field['name'] === 'tag' ) {
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
                                                               CRM_Contact_Form_GroupTag::TAG );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
@@ -366,32 +366,37 @@ class CRM_Profile_Form extends CRM_Core_Form
             $email->save( );
         }
 
-        /* Process custom field values */
+        /* process groups */
+
+        /* Process custom field values and other values */
         foreach ($params as $key => $value) {
-            if (($cfID = CRM_Core_BAO_CustomField::getKeyID($key)) == null) {
-                continue;
-            }
-            $custom_field_id = $cfID;
-            $cf =& new CRM_Core_BAO_CustomField();
-            $cf->id = $custom_field_id;
-            if ( $cf->find( true ) ) {
-                switch($cf->html_type) {
-                case 'Select Date':
-                    $date = CRM_Utils_Date::format( $value );
-                    if ( ! $date ) {
-                        $date = '';
+            if ( $key == 'group' ) {
+                CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
+            } else if ( $key == 'tag' ) {
+                CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+            } else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                $custom_field_id = $cfID;
+                $cf =& new CRM_Core_BAO_CustomField();
+                $cf->id = $custom_field_id;
+                if ( $cf->find( true ) ) {
+                    switch($cf->html_type) {
+                    case 'Select Date':
+                        $date = CRM_Utils_Date::format( $value );
+                        if ( ! $date ) {
+                            $date = '';
+                        }
+                        $customValue = $date;
+                        break;
+                    case 'CheckBox':
+                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values($value));
+                        break;
+                    default:
+                        $customValue = $value;
                     }
-                    $customValue = $date;
-                    break;
-                case 'CheckBox':
-                    $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
-                    break;
-                default:
-                    $customValue = $value;
                 }
-            }
             
-            CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
+                CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
+            }
         }
 
         CRM_Core_DAO::transaction( 'COMMIT' ); 

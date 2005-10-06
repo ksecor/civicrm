@@ -373,9 +373,10 @@ class CRM_Core_Session {
         $status = null;
         if ( array_key_exists( 'status', $this->_session[$this->_key] ) ) {
             $status = $this->_session[$this->_key]['status'];
-            if ( $reset ) {
-                unset( $this->_session[$this->_key]['status'] );
-            }
+        }
+        if ( $reset ) {
+            $this->_session[$this->_key]['status'] = null;
+            unset( $this->_session[$this->_key]['status'] );
         }
         return $status;
     }
