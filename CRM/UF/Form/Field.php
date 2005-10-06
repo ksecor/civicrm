@@ -183,6 +183,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
 
+        // should the field appear in selector?
+        $this->add('checkbox', 'in_selector', ts('In Selector?'));
+
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
@@ -245,6 +248,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $ufField->in_selector     = CRM_Utils_Array::value( 'in_selector'    , $params, false );
         //$ufField->weight          = CRM_Utils_Array::value( 'weight'         , $params, false );
         $ufField->is_view         = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );

@@ -225,6 +225,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                               'weight'      => $field->weight,
                               'help_post'   => $field->help_post,
                               'visibility'  => $field->visibility,
+                              'in_selector' => $field->in_selector,
                               'default'     => $field->default_value,
                               'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                               'options_per_line' => $importableFields[$field->field_name]['options_per_line']

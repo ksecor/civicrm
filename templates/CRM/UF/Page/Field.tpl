@@ -10,6 +10,7 @@
         <tr class="columnheader">
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
+            <th>{ts}In Selector?{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Active{/ts}</th>	
             <th>{ts}Required{/ts}</th>	
@@ -22,6 +23,7 @@
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.field_name}</td>
             <td>{$row.visibility}</td>
+            <td>{if $row.in_selector     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.weight}</td>
             <td>{if $row.is_active       eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

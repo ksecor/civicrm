@@ -31,6 +31,10 @@
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? If public, can it be used to aggregate Profile Listing Pages?{/ts}</dd>
         {/if}
+        <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>
+        {if $action neq 4}
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible in the selector table displayed in profile searches?{/ts}</dd>
+        {/if}
         <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
