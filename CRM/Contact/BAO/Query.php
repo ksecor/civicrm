@@ -384,8 +384,10 @@ class CRM_Contact_BAO_Query {
             } else if ( $name === 'email') {
                 // during dupe checking, for email $value is an array, 
                 // for email we are adding only primary email to where clause
-                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( str_replace( "\"", "",$value[0])  ) . '%"';  
-                $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value[0] ) );
+                // like is commented becasue generated data is not unqiue
+                //$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( str_replace( "\"", "",$value[0])  ) . '%"';  
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( str_replace( "\"", "",$value[0])  ) . '"';  
+                $this->_qill[]  = ts( '%1 = "%2"', array( 1 => $field['title'], 2 => $value[0] ) );
             } else {
                 $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
                 $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
