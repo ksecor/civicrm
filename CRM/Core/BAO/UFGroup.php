@@ -120,18 +120,26 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /** 
      * get all the listing fields 
      * 
-     * @param int $action   what action are we doing 
+     * @param int  $action            what action are we doing 
+     * @param int  $visibility        visibility of fields we are interested in
+     * @param bool $considerSelector  whether to consider the in_selector parameter
      * 
      * @return array the fields that are listings related
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility ) {
+    static function getListingFields( $action, $visibility, $considerSelector = false ) {
         $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
  
         $fields = array( ); 
         foreach ( $ufGroups as $id => $title ) { 
             $subset = self::getFields( $id, false, $action, false, $visibility );
+            if ($considerSelector) {
+                // drop the fields not meant for the selector
+                foreach ($subset as $name => $field) {
+                    if (!$field['in_selector']) unset($subset[$name]);
+                }
+            }
             $fields = array_merge( $fields, $subset ); 
         } 
         return $fields; 
@@ -167,7 +175,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @param int $register are we interested in registration fields
      * @param int $action   what action are we doing
      * @param int $match    are we interested in match fields
-     * @param string $visibility visibility of fields we are interested in
+     * @param int $visibility visibility of fields we are interested in
      *
      * @return array the fields that belong to this title
      * @static
