@@ -593,7 +593,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entityType, $path, $startWeight)
     {
-        $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
+        // The lines commented below are no longer used for Inline Custom Groups
+        // The code can be safely deleted 
+        
+        /*$customGroupDAO =& new CRM_Core_DAO_CustomGroup();
         $menus = array();
 
         // the line has been commented to remove inline Custom groups listing in menutabs
@@ -615,7 +618,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu['weight']  = $startWeight++;
             $menu['extra' ]  = array( 'gid' => 0 );
             $menus[] = $menu;
-        }
+        }*/
 
         // for Tab's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
