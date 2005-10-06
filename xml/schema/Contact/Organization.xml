@@ -45,6 +45,8 @@
        <name>legal_name</name>
        <type>varchar</type>
        <length>128</length>
+       <import>true</import>
+       <headerPattern>/^legal|(l(egal\s)?name)$/i</headerPattern>
        <comment>Legal Name.</comment>
        <fulltext/>
        <add>1.1</add>
@@ -53,6 +55,8 @@
        <name>sic_code</name>
        <type>varchar</type>
        <length>8</length>
+       <import>true</import>
+       <headerPattern>/^sic|(s(ic\s)?code)$/i</headerPattern>
        <comment>Standard Industry Classification Code.</comment>
        <add>1.1</add>
   </field>
