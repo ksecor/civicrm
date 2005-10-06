@@ -313,7 +313,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
                 $relatedFields = array();
                 $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType );
-
+                unset($relatedFields['']);
                 $values = array();
                 foreach ($relatedFields as $name => $field ) {
                     $values[$name] = $field['title'];
