@@ -197,17 +197,13 @@ function &getTables( &$dbXML, &$database ) {
     $tables = array();
     foreach ( $dbXML->tables as $tablesXML ) {
         foreach ( $tablesXML->table as $tableXML ) {
-            if ( $tableXML->drop > 0 and $tableXML->drop <= $build_version) {
+            if ( value( 'drop', $tableXML, 0 ) > 0 and value( 'drop', $tableXML, 0 ) <= $build_version) {
                 continue;
             }
-            if ( $tableXML->add <= $build_version) {
-                
-                getTable( $tableXML, $database, $tables );
-                
-            }
-            
-            
 
+            if ( value( 'add', $tableXML, 0 ) <= $build_version) {
+                getTable( $tableXML, $database, $tables );
+            }
         }
     }
 
@@ -216,7 +212,6 @@ function &getTables( &$dbXML, &$database ) {
 
 function resolveForeignKeys( &$tables, &$classNames ) {
     foreach ( array_keys( $tables ) as $name ) {
-       
         resolveForeignKey( $tables, $classNames, $name );
     }
 }
@@ -288,11 +283,10 @@ function getTable( $tableXML, &$database, &$tables ) {
     
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
-        
-        if ( $fieldXML->drop > 0 and $fieldXML->drop <= $build_version) {
+        if ( value( 'drop', $fieldXML, 0 ) > 0 and value( 'drop', $fieldXML, 0 ) <= $build_version) {
             continue;
         }
-        if ( $fieldXML->add <= $build_version) {
+        if ( value( 'add', $fieldXML, 0 ) <= $build_version) {
             getField( $fieldXML, $fields );
         }
     }
@@ -325,11 +319,10 @@ function getTable( $tableXML, &$database, &$tables ) {
         foreach ( $tableXML->foreignKey as $foreignXML ) {
             // print_r($foreignXML);
             
-            if ( $foreignXML->drop > 0 and $foreignXML->drop <= $build_version) {
+            if ( value( 'drop', $foreignXML, 0 ) > 0 and value( 'drop', $foreignXML, 0 ) <= $build_version) {
                 continue;
             }
-            if ( $foreignXML->add <= $build_version) {
-                
+            if ( value( 'add', $foreignXML, 0 ) <= $build_version) {
                 getForeignKey( $foreignXML, $fields, $foreign );
             }
             
@@ -342,10 +335,8 @@ function getTable( $tableXML, &$database, &$tables ) {
 }
 
 function getField( &$fieldXML, &$fields ) {
-   
     $name  = trim( (string ) $fieldXML->name );
     $field = array( 'name' => $name );
-    
     $type = (string ) $fieldXML->type;
     switch ( $type ) {
     case 'varchar':
