@@ -596,8 +596,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
         $menus = array();
 
-        // get only 'Inline' groups
-        $customGroupDAO->whereAdd("style = 'Inline'");
+        // the line has been commented to remove inline Custom groups listing in menutabs
+        // the line below was removed in r3237 but reappeared in r3270
+        //$customGroupDAO->whereAdd("style = 'Inline'");
         $customGroupDAO->whereAdd("is_active = 1");
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
