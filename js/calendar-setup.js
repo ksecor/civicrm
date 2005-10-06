@@ -183,10 +183,12 @@ Calendar.setup = function (params) {
 	var tempDate = '';
 	if (params.yearField.value) {
 	    /*tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value ;*/
-	    tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value + ' ' + params.hourField.value  + ' ' + params.minuteField.value + ' ' + params.ampmField.value;
-
+	    tempDate = params.yearField.value + '/' + params.monthField.value + '/' + params.dateField.value ;
 	}
 
+        if (params.hourField) {
+	   tempDate = tempDate + ' ' + params.hourField.value  + ' ' + params.minuteField.value + ' ' + params.ampmField.value;
+        }
 	/*	var dateEl = params.inputField || params.displayArea;*/
 	var dateFmt = params.inputField ? params.ifFormat : params.daFormat;
 	var mustCreate = false;
