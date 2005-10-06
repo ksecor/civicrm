@@ -647,8 +647,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menus[] = $menu;
         }
         
-        foreach($menus as $menu) {
-            CRM_Utils_Menu::add($menu);
+        if ( is_array($menus) ) {
+            foreach($menus as $menu) {
+                CRM_Utils_Menu::add($menu);
+            }
         }
     }
 
