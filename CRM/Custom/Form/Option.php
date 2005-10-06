@@ -115,11 +115,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
-        if (CRM_Core_Action::UPDATE) {
-            // hidden Option Id for validation use
-            $this->add('hidden', 'optionId', $this->_id);
-        }
-
+        // hidden Option Id for validation use
+        $this->add('hidden', 'optionId', $this->_id);
+        
         //hidden field ID for validation use
         $this->add('hidden', 'fieldId', $this->_fid); 
         
@@ -128,7 +126,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
 
         // the above value is used directly by QF, so the name has to be have a rule
-        $this->addRule('label', ts('Please enter a valid label for this field.'), 'variable');
+        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'variable');
 	
         // value
         $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
@@ -177,7 +175,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
-        if (CRM_Core_Action::ADD && $fields['optionId'] == '') {
+        if ( empty($fields['optionId'])) {
             $fieldId = $fields['fieldId'];
             
             //check label duplicates within a custom field
@@ -192,11 +190,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 $errors['value'] = 'There is an entry with the same value.';
             }
                 
-        }
+        } else {
 
-        //capture duplicate entries while updating Custom Options
-        if (CRM_Core_Action::UPDATE) {
-
+            //capture duplicate entries while updating Custom Options
             $optionId = CRM_Utils_Type::escape( $fields['optionId'], 'Integer' );
             $fieldId  = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
 
