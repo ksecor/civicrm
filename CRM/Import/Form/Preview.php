@@ -247,7 +247,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                     $new = false;
                 }
                 $groupAdditions[] = array(
-                                          'url'   => 'civicrm/group/search?reset=1&force=1&context=smog&gid='.$group->id,
+                                          'url'   => 'civicrm/group/search?reset=1&force=1&context=smog&gid='.$groupId,
                                           'name'  => $name,
                                           'added' => $addCount[1],
                                           'notAdded' => $addCount[2],
