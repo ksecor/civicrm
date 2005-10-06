@@ -30,7 +30,7 @@
                     {if $index < 10}
                         {assign var="index" value=`$index+1`}
                     {else}
-                        <td class="label font-light">{$form.$element_name.$key.html}</td>
+                        <td class="labels font-light">{$form.$element_name.$key.html}</td>
                         {if $count == $element.options_per_line}
                              </tr>
                              <tr>

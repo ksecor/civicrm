@@ -30,7 +30,7 @@
 			            {section name=rowLoop start=1 loop=$viewForm.$element_name}
 			            {assign var=index value=$smarty.section.rowLoop.index}
 			            {if $viewForm.$element_name.$index.html != "" }
-				            <td class="label font-light">{$viewForm.$element_name.$index.html}</td>
+				            <td class="labels font-light">{$viewForm.$element_name.$index.html}</td>
                             {if $count == $cd_value.options_per_line}
 				   	        </tr>
                             <tr>
