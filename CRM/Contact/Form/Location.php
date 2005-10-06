@@ -156,8 +156,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             
             $commPrefs = array( 'phone', 'email', 'im' );
             foreach ( self::$_commPrefs as $block ) {
+                $tmpArray = CRM_Utils_Array::value( $block, $values[$locationId] );
                 self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
-                                               CRM_Utils_Array::value( $block, $values[$locationId] ) );
+                                               $tmpArray );
             }
         }
         

@@ -38,6 +38,11 @@
 
 Class CRM_Contact_Form_GroupTag
 {
+    const
+        GROUP = 1,
+        TAG   = 2,
+        ALL   = 3;
+
     /**
      * This function is to build form elements
      * params object $form object of the form
@@ -46,46 +51,53 @@ Class CRM_Contact_Form_GroupTag
      * @access public
      */
     
-    static function buildGroupTagBlock(&$form, $contactId = 0) {
-        
-        // checkboxes for groups
-        //get groups for the contact id
-        if ($contactId) {
-            $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, 'Added' );
-        }
-
-        $group = array( );
-        $group  =& CRM_Core_PseudoConstant::group( );
-        foreach ($group as $groupID => $groupName) {
-            $groupChecked = '';
-            if (is_array($contactGroup)) {
-                foreach ($contactGroup as $key) { 
-                    if( $groupID == $key['group_id'] ) {
-                        $groupChecked = 'checked';
+    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL ) {
+        $type = (int ) $type;
+        if ( $type & CRM_Contact_Form_GroupTag::GROUP ) {
+            // checkboxes for groups
+            //get groups for the contact id
+            if ($contactId) {
+                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, 'Added' );
+            }
+            
+            $group = array( );
+            $group  =& CRM_Core_PseudoConstant::group( );
+            $elements = array( );
+            foreach ($group as $groupID => $groupName) {
+                $groupChecked = '';
+                if (is_array($contactGroup)) {
+                    foreach ($contactGroup as $key) { 
+                        if( $groupID == $key['group_id'] ) {
+                            $groupChecked = 'checked';
+                        }
                     }
                 }
+                $elements[] =& HTML_QuickForm::createElement('checkbox', $groupID, null, $groupName, $groupChecked);
             }
-            $form->addElement('checkbox', "group[$groupID]", null, $groupName, $groupChecked);
+            $form->addGroup( $elements, 'group', ts( 'Groups(s)' ), '<br />' );
         }
         
-        // checkboxes for categories
-        // get tags for the contact id
-        if ($contactId) {
-            $contactTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $contactId);
-        }
-        
-        $tag = array( );
-        $tag =& CRM_Core_PseudoConstant::tag  ( );
-        foreach ($tag as $tagID => $tagName) {
-            $tagChecked = '';
-            if (is_array($contactTag)) {
-                if( in_array($tagID, $contactTag)) {
-                    $tagChecked = 'checked';
+        if ( $type & CRM_Contact_Form_GroupTag::TAG ) {
+            // checkboxes for categories
+            // get tags for the contact id
+            if ($contactId) {
+                $contactTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $contactId);
+            }
+            
+            $tag = array( );
+            $elements = array( );
+            $tag =& CRM_Core_PseudoConstant::tag  ( );
+            foreach ($tag as $tagID => $tagName) {
+                $tagChecked = '';
+                if (is_array($contactTag)) {
+                    if( in_array($tagID, $contactTag)) {
+                        $tagChecked = 'checked';
+                    }
                 }
+                $elements[] =& HTML_QuickForm::createElement('checkbox', $tagID, null, $tagName, $tagChecked);
             }
-            $form->addElement('checkbox', "tag[$tagID]", null, $tagName, $tagChecked);
+            $form->addGroup( $elements, 'tag', ts( 'Tag(s)' ), '<br />' );
         }
-
     }
 
 }

@@ -75,7 +75,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
     public function preProcess() {
         $this->_columnCount = $this->get('columnCount');
         if (! $this->_columnCount ) {
-            $this->_columnCount = 10;
+             $this->_columnCount = 10;
         } else {
             $this->_columnCount = $this->_columnCount + 10;
         }
@@ -219,23 +219,35 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
 
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
-        $formName = 'document.forms.' . $this->_name;
+        $formName = "document.{$this->_name}";
         
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
-            
+            $jsSet = false;
              if( isset($this->_loadedMappingId) ) {
                 $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;                
                 if ( isset($mappingName[$i]) ) {                    
                     $mappingHeader = array_keys($this->_mapperFields[$mappingContactType[$i]], $mappingName[$i]);
                     $defaults["mapper[$i]"] = array( $mappingContactType[$i], $mappingHeader[0],
                                                             $locationId
-                                                            );
+                                                     );
+                    if ( ! $mappingHeader[0] ) {
+                        $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
+                    }
+                    if ( ! $locationId ) {
+                        $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
+                    }
+                    $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                    $jsSet = true;
                 }
             }
+             if ( ! $jsSet ) {
+                 for ( $k = 1; $k < 4; $k++ ) {
+                     $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+                 }
+             }
             $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
 
             //set the defaults on load mapping

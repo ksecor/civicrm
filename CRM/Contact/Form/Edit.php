@@ -357,8 +357,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $force ) {
+            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       CRM_Utils_Array::value( 'location', $defaults ),
+                                                       $locationDefaults,
                                                        self::LOCATION_BLOCKS );
         }
         
@@ -408,7 +409,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         //add tags and groups block
-        $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId);
+        $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId,
+                                                                   CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
         $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType);
@@ -507,6 +509,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // arrays for group and tags contains the posted values
         // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
         // even after unchecking them before submitting them
+        // we need to fix the above QF bug
         //$contactGroup = $params['group'];
         //$contactTag   = $params['tag']
         $contactGroup = $_POST['group'];

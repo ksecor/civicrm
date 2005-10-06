@@ -198,21 +198,13 @@
         <td>
         <div class="label">{ts}Group(s){/ts}</div>
         <div class="listing-box">
-        {foreach from=$form.group item="group_val"}
-            <div class="{cycle values="odd-row,even-row"}">
-            {$group_val.html}
-            </div>
-        {/foreach}
+	{$form.group.html}
         </div>
         </td>
         <td>
         <div class="label">{ts}Tag(s){/ts}</div>
         <div class="listing-box">
-        {foreach from=$form.tag item="tag_val"} 
-            <div class="{cycle values="odd-row,even-row"}">
-            {$tag_val.html}
-            </div>
-        {/foreach}
+	{$form.tag.html}
         </div>
         </td>
     </tr>

@@ -188,6 +188,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
+            } else if ( $field['name'] === 'groups' ) {
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
+                                                              CRM_Contact_Form_GroupTag::GROUP );
+            } else if ( $field['name'] === 'tags' ) {
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
+                                                              CRM_Contact_Form_GroupTag::TAG );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
                 if ($required) {

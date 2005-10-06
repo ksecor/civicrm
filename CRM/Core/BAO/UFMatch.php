@@ -172,9 +172,8 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                 $ufmatch->email      = $mail    ;
             }
             $ufmatch->save( );
-            return $ufmatch;
         }
-        return 0;
+        return $ufmatch;
     }
 
     /**
