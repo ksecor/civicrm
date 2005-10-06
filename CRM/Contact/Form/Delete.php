@@ -78,7 +78,7 @@ class CRM_Contact_Form_Delete extends CRM_Core_Form{
         if ($currentUserId !=$contactId) {
             CRM_Contact_BAO_Contact::deleteContact( $contactId );
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/basic', 'force=1&reset=1' ) );
-            $status = ts("Selected Contact Deleted Sucessfully");
+            $status = ts('Selected Contact was deleted sucessfully.');
         }else {
             $status = ts('Selected Contact cannot be deleted.');
         }
