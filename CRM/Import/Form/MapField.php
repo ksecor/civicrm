@@ -560,7 +560,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
                 $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
                 $relatedContactLocType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
-                $relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
+                //$relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
+                $relatedContactPhoneType[$i] = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
                 $relationType =& new CRM_Contact_DAO_RelationshipType();
                 $relationType->id = $id;
                 $relationType->find(true);
@@ -612,6 +613,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $updateMappingFields->column_number = $i;
 
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+                /*
                 if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                     $updateMappingFields->relationship_type_id = $id;
                     $updateMappingFields->name = $this->_mapperFields[$mapperKeys[$i][1]];
@@ -624,7 +626,22 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     $updateMappingFields->location_type_id = isset($location) ? $location[0] : null;                    
                     $updateMappingFields->phone_type = isset($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null; 
                 }
-                
+                */
+
+                if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                    $updateMappingFields->relationship_type_id = $id;
+                    $updateMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
+                    $updateMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;                 
+                    $updateMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;                  
+                } else {
+                    $updateMappingFields->name = $mapper[$i];
+                    $updateMappingFields->relationship_type_id = null;
+                    $location = array_keys($locationTypes, $locations[$i]);
+                    $updateMappingFields->location_type_id = isset($location) ? $location[0] : null;                    
+                    $updateMappingFields->phone_type = !is_numeric($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null; 
+                }
+
+
                 $updateMappingFields->update();                
             }
         }
@@ -648,6 +665,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields->column_number = $i;                             
                 
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+                /*
                 if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                     $saveMappingFields->name = $this->_mapperFields[$mapperKeys[$i][1]];
                     $saveMappingFields->relationship_type_id = $id;
@@ -660,7 +678,20 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     $saveMappingFields->phone_type = isset($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null;
                     $saveMappingFields->relationship_type_id = null;
                 }
-                
+                */
+                if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                    $saveMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
+                    $saveMappingFields->relationship_type_id = $id;
+                    $saveMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
+                    $saveMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;
+                } else {
+                    $saveMappingFields->name = $mapper[$i];
+                    $location_id = array_keys($locationTypes, $locations[$i]);
+                    $saveMappingFields->location_type_id = isset($location_id[0]) ? $location_id[0] : null;
+                    $saveMappingFields->phone_type = !is_numeric($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null;
+                    $saveMappingFields->relationship_type_id = null;
+                }
+
                 $saveMappingFields->save();
             }
         }

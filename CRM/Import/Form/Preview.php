@@ -210,7 +210,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
                                                   $mapperPhoneTypes, $mapperRelated, $mapperRelatedContactType,
                                                   $mapperRelatedContactDetails, $mapperRelatedContactLocType, 
-                                                  $mapperRelatedContactPhonetype);
+                                                  $mapperRelatedContactPhoneType);
         $parser->run( $fileName, $seperator, 
                       $mapperKeys,
                       $skipColumnHeader,

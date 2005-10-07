@@ -82,9 +82,10 @@
 
                             {if $phones[$i]}
                                 {$phones[$i]} - 
-                            {else}
-                                {$mapper[$i]}
                             {/if}
+                            {*else*}
+                                {$mapper[$i]}
+                            {*/if*}
                         {/if}
                     {else}
                         {$form.mapper[$i].html}
