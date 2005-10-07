@@ -138,18 +138,12 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     {
         if ( ! self::$_links ) {
             self::$_links = array( 
-                                  CRM_Core_Action::VIEW   => array(  
-                                                                   'name'     => ts('View Notes'),  
-                                                                   'url'      => 'civicrm/profile/note',  
-                                                                   'qs'       => 'reset=1&action=browse&cid=%%id%%',  
-                                                                   'title'    => ts('View Notes'),  
-                                                                   ), 
-                                  CRM_Core_Action::ADD    => array(   
-                                                                   'name'     => ts('Add Note'),
-                                                                   'url'      => 'civicrm/profile/note',   
-                                                                   'qs'       => 'reset=1&action=add&cid=%%id%%',   
-                                                                   'title'    => ts('Add Note'),   
-                                                                   ) 
+                                  CRM_Core_Action::VIEW   => array(
+                                                                   'name'  => ts('View'),
+                                                                   'url'   => 'civicrm/profile/view',
+                                                                   'qs'    => 'reset=1&cid=%%id%%',
+                                                                   'title' => ts('View Profile Details'),
+                                                                   ),
                                   ); 
         }
         return self::$_links;
@@ -189,6 +183,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             foreach ( $this->_fields as $name => $field ) { 
                 self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
             } 
+            self::$_columnHeaders[] = array('desc' => ts('Actions'));
         }
         return self::$_columnHeaders;
     }
@@ -256,6 +251,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         // process the result of the query
         $rows = array( );
 
+        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
         $links =& self::links( );
         $names = array( );
         foreach ( $this->_fields as $key => $field ) {
@@ -278,6 +274,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     $empty = false;
                 }
             }
+            $row['actions'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id));
 
             if ( ! $empty ) {
                 $rows[] = $row;

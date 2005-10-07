@@ -522,6 +522,14 @@ class CRM_Core_Invoke {
         } 
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
+
+        if ($secondArg == 'view') {
+            $session =& CRM_Core_Session::singleton();
+            $view =& new CRM_Profile_Page_View();
+            return $view->run();
+        }
+
+        
         if ( $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
