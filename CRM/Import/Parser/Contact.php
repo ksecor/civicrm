@@ -318,6 +318,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             foreach ($newContact->_errors[0]['params'] as $cid) {
                 $primaryContactId = $cid;
             }
+        } else {
+            $primaryContactId = $newContact->id;
         }
         
 
