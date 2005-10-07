@@ -314,6 +314,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
         $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
 
+        if ( is_a( $newContact, CRM_Core_Error ) ) {
+            foreach ($newContact->_errors[0]['params'] as $cid) {
+                $primaryContactId = $cid;
+            }
+        }
+        
+
         //relationship contact insert
         foreach ($params as $key => $field) {
 
@@ -362,19 +369,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             //print_r($relatedNewContact);
             if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
                 foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
-                    $contact_id = $cid;
+                    $relContactId = $cid;
                 }
             } else {
-                $contact_id = $relatedNewContact->id;
+                $relContactId = $relatedNewContact->id;
             }
             
             // now create the relationship record
             $relationParams = array();
             $relationParams = array('relationship_type_id' => $key, 
-                                    'contact_check' => array( $contact_id => 1)
+                                    'contact_check' => array( $relContactId => 1)
                                     );
             
-            $relationIds = array('contact' => $newContact->id);
+            $relationIds = array('contact' => $primaryContactId);
             CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
             
             //check if the two contacts are related and of type individual
@@ -384,20 +391,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 $householdContact = crm_create_contact_formatted( $householdFormatting, $onDuplicate );
                 if ( is_a( $householdContact, CRM_Core_Error ) ) {
                     foreach ($householdContact->_errors[0]['params'] as $cid) {
-                        $household_id = $cid;
+                        $householdId = $cid;
                     }
                 } else {
-                    $household_id = $householdContact->id;
+                    $householdId = $householdContact->id;
                 }
                 $relationParams = array();
                 // adding household relationship
                 $relType = '7_'.$second.'_'.$first;
 
                 $relationParams = array('relationship_type_id' => $relType,
-                                        'contact_check'        => array( $contact_id => 1,
-                                                                         $newContact->id => 1)
+                                        'contact_check'        => array( $relContactId => 1,
+                                                                         $primaryContactId => 1)
                                         );
-                $relationIds = array('contact' => $household_id);
+                $relationIds = array('contact' => $householdId);
 
                 CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
             }
