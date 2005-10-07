@@ -159,6 +159,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $template =& CRM_Core_Smarty::singleton( ); 
         $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
         $preview  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
+        // not sure how to circumvent our own navigation system to generate the right form url
+        $preview = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $preview );
         $this->assign( 'preview', $preview );
         $this->assign( 'action' , CRM_Core_Action::PREVIEW );
         $this->assign( 'isForm' , 0 );
