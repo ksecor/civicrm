@@ -221,9 +221,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             $choice[] = $this->addElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
                     } else {
-                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 1, $field['attributes']);
-                        // if we set the value to '0' QF automatically selects it, which we dont want
-                        $choice[] = $this->createElement('radio', null, '', ts('No') , 2, $field['attributes']);
+                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 1 );
+                        $choice[] = $this->createElement('radio', null, '', ts('No') , 0, $field['attributes']);
                     }
                     $this->addGroup($choice, $elementName, $field['label']);
                     break;

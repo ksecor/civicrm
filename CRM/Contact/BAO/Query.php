@@ -76,7 +76,11 @@ class CRM_Contact_BAO_Query {
 
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false ) {
+        // CRM_Core_Error::debug( 'params', $params );
+        // CRM_Core_Error::debug( 'post', $_POST );
+        // exit( );
         $this->_params =& $params;
+
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( ); 
         } else {
@@ -94,7 +98,7 @@ class CRM_Contact_BAO_Query {
  
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     function initialize( ) {
@@ -337,6 +341,13 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ( $this->_fields as $name => $field ) { 
+            // skip postal code processing for search since we tackle an
+            // extended version of this
+            if ( empty( $name ) ||
+                 ( $name == 'postal_code' && $this->_search ) ) {
+                continue;
+            }
+
             $value = CRM_Utils_Array::value( $name, $this->_params );
                 
             if ( ! isset( $value ) || $value == null ) {

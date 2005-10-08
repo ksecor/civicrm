@@ -408,7 +408,20 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
 
-        $this->_formValues = $this->get( 'formValues' );
+        // get user submitted values 
+        // get it from controller only if form has been submitted, else preProcess has set this 
+        if ( ! empty( $_POST ) ) {
+            $this->_formValues = $this->controller->exportValues($this->_name); 
+            $this->normalizeFormValues( );
+
+            // CRM_Core_Error::debug( 'fv', $this->_formValues );
+
+            // also reset the sort by character  
+            $this->_sortByCharacter = null;  
+            $this->set( 'sortByCharacter', null );  
+        } else {
+            $this->_formValues = $this->get( 'formValues' );
+        }
 
         // we only retrieve the saved search values if out current values are null
         if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
@@ -470,6 +483,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
+            // CRM_Core_Error::debug( 'fv', $this->_formValues );
 
             // also reset the sort by character
             $this->_sortByCharacter = null;
@@ -501,19 +515,19 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function normalizeFormValues( ) {
         $contactType = CRM_Utils_Array::value( 'contact_type', $this->_formValues );
-        if ( $contactType ) {
+        if ( $contactType && ! is_array( $contactType ) ) {
             unset( $this->_formValues['contact_type'] );
             $this->_formValues['contact_type'][$contactType] = 1;
         }
 
         $group = CRM_Utils_Array::value( 'group', $this->_formValues );
-        if ( $group ) {
+        if ( $group && ! is_array( $group ) ) {
             unset( $this->_formValues['group'] );
             $this->_formValues['group'][$group] = 1;
         }
 
         $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
-        if ( $tag ) {
+        if ( $tag && ! is_array( $tag ) ) {
             unset( $this->_formValues['tag'] );
             $this->_formValues['tag'][$tag] = 1;
         }

@@ -194,16 +194,16 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         switch ($event) {
             case 'updateValue':
-                // constant values override both default and submitted ones
-                // default values are overriden by submitted
-                $value = $this->_findValue($caller->_constantValues);
-                if (null === $value) {
-                    $value = $this->_findValue($caller->_submitValues);
-                    if (null === $value) {
-                        $value = $this->_findValue($caller->_defaultValues);
-                    }
-                }
-                if ($value == $this->getValue()) {
+                // constant values override both default and submitted ones 
+                // default values are overriden by submitted 
+                $value = $this->_findValue($caller->_constantValues); 
+                if (null === $value) { 
+                    $value = $this->_findValue($caller->_submitValues); 
+                    if (null === $value) { 
+                        $value = $this->_findValue($caller->_defaultValues); 
+                    } 
+                } 
+                if ($value == $this->getValue()) { 
                     $this->setChecked(true);
                 } else {
                     $this->setChecked(false);
@@ -232,7 +232,9 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         $value = $this->_findValue($submitValues);
         if (null === $value) {
-            $value = $this->getChecked()? $this->getValue(): null;
+            // commenting this since this kinda messes up when
+            // all radio buttons are unchecked - Lobo 10/08/05
+            // $value = $this->getChecked()? $this->getValue(): null;
         } elseif ($value != $this->getValue()) {
             $value = null;
         }
