@@ -56,6 +56,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
         $profileGroups = array();
         foreach ($ufGroups as $gid => $title) {
             $page =& new CRM_Profile_Page_Dynamic($id, $gid);
+            $profileGroup = array( );
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;

@@ -458,7 +458,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
                 $title = array( );
                 foreach ( $groups as $g ) {
-                    $title[] = $g['title'];
+                    if ( $g['visibility'] != 'User and User Admin Only' ) {
+                        $title[] = $g['title'];
+                    }
                 }
                 $values[$index] = implode( ', ', $title );
                 $params[$index] = '';

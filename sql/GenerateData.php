@@ -272,7 +272,7 @@ class CRM_GCD {
         
         // number of seconds per year
         $numSecond = 31536000;
-        $dateFormat = "Ymd";
+        $dateFormat = "Ymdhis";
         $today = time();
 
         // both are defined

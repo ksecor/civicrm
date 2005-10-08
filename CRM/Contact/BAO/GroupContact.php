@@ -283,6 +283,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $select = 'SELECT 
                     civicrm_group_contact.id as civicrm_group_contact_id, 
                     civicrm_group.title as group_title,
+                    civicrm_group.visibility as visibility,
                     civicrm_group_contact.status as status, 
                     civicrm_group.id as group_id,
                     civicrm_subscription_history.date as date,
@@ -327,6 +328,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $values[$id]['id']             = $id;
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;
+                $values[$id]['visibility']     = $groupContact->visibility;
                 switch($groupContact->status) {
                     case 'Added':
                         $prefix = 'in_';

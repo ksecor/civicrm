@@ -179,12 +179,16 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     function &getColumnHeaders($action = null, $output = null) 
     {
         static $skipFields = array( 'group', 'tag' );
+        $direction = CRM_Utils_Sort::ASCENDING;
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( ); 
             foreach ( $this->_fields as $name => $field ) { 
                 if ( $field['in_selector'] &&
                      ! in_array( $name, $skipFields ) ) {
-                    self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
+                    self::$_columnHeaders[] = array( 'name'     => $field['title'],
+                                                     'sort'     => $name,
+                                                     'direction' => $direction );
+                    $direction = CRM_Utils_Sort::DONTCARE;
                 }
             } 
             self::$_columnHeaders[] = array('desc' => ts('Actions'));
@@ -206,34 +210,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     }
 
     /**
-     * run a query to retrieve all the ids related to this search
-     *
-     * @param boolean count - are we only interested in the count
-     * @param int    $offset   the row number to start from
-     * @param int    $rowCount the number of rows to return
-     *
-     * @return int|CRM_CORE_DAO   the total number of contacts or a dao object
-     */
-    function query( $count, $offset, $rowCount ) {
-        $sql = CRM_Contact_BAO_Query::getQuery( $this->_params, null, $count );
-
-        $order = 'ORDER BY civicrm_contact.sort_name ASC';
-
-        $limit = '';
-        if ( $rowCount > 0 ) {
-            $limit = " LIMIT $offset, $rowCount ";
-        }
-        $sql = "$sql $order $limit";
-
-        if ( $count ) {
-            return CRM_Core_DAO::singleValueQuery( $sql );
-        } else {
-            return CRM_Core_DAO::executeQuery( $sql );
-        }
-    }
-
-
-    /**
      * returns all the rows in the given offset and rowCount
      *
      * @param enum   $action   the action being performed
@@ -245,8 +221,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        // HACK: fix this soon not sure who initialize sort
-        $result = $this->_query->searchQuery( $offset, $rowCount, null );
+        $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
 
         // HACK: add qill to template
         $template = CRM_Core_Smarty::singleton( ); 
