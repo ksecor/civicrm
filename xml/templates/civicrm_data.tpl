@@ -1,22 +1,22 @@
-#
+
 # insert some data for domain, reserved location_types, and reserved relationship_types
 #
 INSERT INTO civicrm_domain( name, contact_name, email_domain ) 
     VALUES ( 'CRM Test Domain', 'Mr System Administrator', 'FIXME.ORG' );
 
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( {$civicrmDomainId}, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 1, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( {$civicrmDomainId}, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Other{/ts}', NULL, '{ts}Another location{/ts}', 0, 1 );
 
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( {$civicrmDomainId}, '{ts}Child of{/ts}', '{ts}Parent of{/ts}', '{ts}Parent/child relationship.{/ts}', 'Individual', 'Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Child of{/ts}', '{ts}Parent of{/ts}', '{ts}Parent/child relationship.{/ts}', 'Individual', 'Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( {$civicrmDomainId}, '{ts}Spouse of{/ts}', '{ts}Spouse of{/ts}', '{ts}Spousal relationship.{/ts}', 'Individual', 'Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Spouse of{/ts}', '{ts}Spouse of{/ts}', '{ts}Spousal relationship.{/ts}', 'Individual', 'Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( {$civicrmDomainId}, '{ts}Sibling of{/ts}','{ts}Sibling of{/ts}', '{ts}Sibling relationship.{/ts}','Individual','Individual', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Sibling of{/ts}','{ts}Sibling of{/ts}', '{ts}Sibling relationship.{/ts}','Individual','Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( {$civicrmDomainId}, '{ts}Employee of{/ts}', '{ts}Employer of{/ts}', '{ts}Employment relationship.{/ts}','Individual','Organization', 1 );
+    VALUES( {$civicrmDomainId}, '{ts}Employee of{/ts}', '{ts}Employer of{/ts}', '{ts}Employment relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( {$civicrmDomainId}, '{ts}Volunteer for{/ts}', '{ts}Volunteer is{/ts}', '{ts}Volunteer relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
@@ -37,13 +37,13 @@ INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
     VALUES( {$civicrmDomainId}, '{ts}Volunteer{/ts}', '{ts}Active volunteers.{/ts}', NULL );
 
 
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', {$civicrmDomainId}, 1, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', {$civicrmDomainId}, 1, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', {$civicrmDomainId}, 0, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', {$civicrmDomainId}, 0, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', {$civicrmDomainId}, 0, 1);
 
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', {$civicrmDomainId}, 1, 1);
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', {$civicrmDomainId}, 1, 1);
+INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', {$civicrmDomainId}, 0, 1);
+INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Cingular', {$civicrmDomainId}, 0, 1);
 
 INSERT INTO civicrm_county (name, state_province_id) VALUES ('Alameda', 1004);

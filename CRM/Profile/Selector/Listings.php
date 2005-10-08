@@ -116,7 +116,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                                 true );
+                                                                 false );
         $this->_customFields =& $customFields;
 
         $returnProperties = array( );
@@ -178,10 +178,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
+        static $skipFields = array( 'group', 'tag' );
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( ); 
             foreach ( $this->_fields as $name => $field ) { 
-                self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
+                if ( $field['in_selector'] &&
+                     ! in_array( $name, $skipFields ) ) {
+                    self::$_columnHeaders[] = array( 'name' => $field['title'] ); 
+                }
             } 
             self::$_columnHeaders[] = array('desc' => ts('Actions'));
         }
@@ -254,9 +258,12 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
         $links =& self::links( );
         $names = array( );
+        static $skipFields = array( 'group', 'tag' ); 
         foreach ( $this->_fields as $key => $field ) {
-            $name = $field['name'];
-            $names[] = $name;
+            if ( $field['in_selector'] && 
+                 ! in_array( $name, $skipFields ) ) { 
+                $names[] = $field['name'];
+            }
         }
 
         while ($result->fetch()) {

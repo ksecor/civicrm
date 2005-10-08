@@ -76,9 +76,8 @@ class CRM_Contact_BAO_Query {
 
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false ) {
-        // CRM_Core_Error::debug( 'params', $params );
-        // CRM_Core_Error::debug( 'post', $_POST );
-        // exit( );
+        //CRM_Core_Error::debug( 'params', $params );
+        //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
@@ -145,7 +144,7 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
-        // CRM_Core_Error::debug( 'f', $this->_fields );
+        //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
             // if we need to get the value for this param or we need all values
             if ( CRM_Utils_Array::value( $name, $this->_params )           ||
@@ -188,6 +187,7 @@ class CRM_Contact_BAO_Query {
         $this->addHierarchicalElements( );
 
         if ( ! empty( $cfIDs ) ) {
+            //CRM_Core_Error::debug( 'cfIDs', $cfIDs );
             $this->_customQuery = new CRM_Core_BAO_CustomQuery( $cfIDs );
             $this->_customQuery->query( );
             $this->_select  = array_merge( $this->_select , $this->_customQuery->_select );
@@ -338,13 +338,20 @@ class CRM_Contact_BAO_Query {
             $this->searchWhereClause( );
         }
 
+        $this->group( );
+
+        $this->tag( );
+
+        $this->postalCode( );
+        
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
+        static $skipFields = array( 'postal_code', 'group', 'tag' );
         foreach ( $this->_fields as $name => $field ) { 
             // skip postal code processing for search since we tackle an
             // extended version of this
             if ( empty( $name ) ||
-                 ( $name == 'postal_code' && $this->_search ) ) {
+                 in_array( $name, $skipFields ) ) {
                 continue;
             }
 
@@ -631,17 +638,12 @@ class CRM_Contact_BAO_Query {
     function searchWhereClause( ) {
         $this->contactType( );
 
-        $this->group( );
-
-        $this->tag( );
-
         $this->sortName( );
 
         $this->sortByCharacter( );
 
         $this->includeContactIDs( );
 
-        $this->postalCode( );
     }
 
     function contactType( ) {
