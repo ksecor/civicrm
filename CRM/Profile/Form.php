@@ -190,7 +190,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
             } else if ( $field['name'] === 'group' ) {
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::GROUP );
+                                                              CRM_Contact_Form_GroupTag::GROUP,
+                                                              true );
             } else if ( $field['name'] === 'tag' ) {
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
                                                               CRM_Contact_Form_GroupTag::TAG );

@@ -50,36 +50,40 @@ Class CRM_Contact_Form_GroupTag
      * @static
      * @access public
      */
-    
-    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL ) {
+    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL, $visibility = false ) {
         $type = (int ) $type;
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) {
-
-            $group = array( );
-            $group  =& CRM_Core_PseudoConstant::group( );
             $elements = array( );
-            $groupChecked = '';
-            foreach ($group as $groupID => $groupName) {
-                $elements[] =& HTML_QuickForm::createElement('checkbox', $groupID, null, $groupName, $groupChecked);
+            $group  =& CRM_Core_PseudoConstant::group( );
+            foreach ($group as $id => $name) {
+                if ( $visibility ) {
+                    // make sure that this group has public visibility. not very efficient
+                    $dao =& new CRM_Contact_DAO_Group( );
+                    $dao->id = $id;
+                    if ( $dao->find( true ) ) {
+                        if ( $dao->visibility == 'User and User Admin Only' ) {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+                $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
-            $form->addGroup( $elements, 'group', ts( 'Group(s)' ), '<br />' );
+            if ( ! empty( $elements ) ) {
+                $form->addGroup( $elements, 'group', ts( 'Group(s)' ), '<br />' );
+            }
         }
         
         if ( $type & CRM_Contact_Form_GroupTag::TAG ) {
-            // checkboxes for categories
-            // get tags for the contact id
-            if ($contactId) {
-                $contactTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $contactId);
-            }
-            
-            $tag = array( );
             $elements = array( );
-            $tagChecked = '';
             $tag =& CRM_Core_PseudoConstant::tag  ( );
-            foreach ($tag as $tagID => $tagName) {
-                $elements[] =& HTML_QuickForm::createElement('checkbox', $tagID, null, $tagName, $tagChecked);
+            foreach ($tag as $id => $name) {
+                $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
-            $form->addGroup( $elements, 'tag', ts( 'Tag(s)' ), '<br />' );
+            if ( ! empty( $elements ) ) { 
+                $form->addGroup( $elements, 'tag', ts( 'Tag(s)' ), '<br />' );
+            }
         }
     }
 
