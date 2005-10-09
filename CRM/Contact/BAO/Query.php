@@ -153,9 +153,7 @@ class CRM_Contact_BAO_Query {
                 $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
                     $value = CRM_Utils_Array::value( $name, $this->_params );
-                    if ( $value !== null ) {
-                        $cfIDs[$cfID] = $value;
-                    }
+                    $cfIDs[$cfID] = $value;
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 

@@ -117,6 +117,9 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                                  false );
+        // CRM_Core_Error::debug( 'p', $this->_params );
+        // CRM_Core_Error::debug( 'f', $this->_fields );
+
         $this->_customFields =& $customFields;
 
         $returnProperties = array( );
@@ -124,6 +127,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $returnProperties[$name] = 1;
         }
         $this->_query =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
+        // CRM_Core_Error::debug( 'q', $this->_query );
     }//end of constructor
 
 
