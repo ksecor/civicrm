@@ -274,4 +274,24 @@
     <school>VIT</school>
   </schools>
 
+  <issue>
+    <status>Edu</status>
+    <status>Env</status>
+    <status>SocJus</status>
+  </issue>
+
+  <gotv>
+     <status>HM</status>
+     <status>PB</status>
+     <status>PW</status>
+     <status>SB</status>
+  </gotv>
+
+  <marital_status>
+     <status>S</status>
+     <status>M</status>
+     <status>D</status>
+     <status>W</status>
+     <status>O</status>
+  </marital_status>
 </sample_data>

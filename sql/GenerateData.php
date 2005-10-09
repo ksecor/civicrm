@@ -466,6 +466,21 @@ class CRM_GCD {
         foreach ($sampleData->schools->school as $school) {
             $this->school[] = trim($school); 
         }
+
+        // custom data - issue
+        foreach ($sampleData->issue->status as $status) {
+            $this->issue[] = trim($status); 
+        }
+
+        // custom data - gotv
+        foreach ($sampleData->gotv->status as $status) {
+            $this->gotv[] = trim($status); 
+        }
+
+        // custom data - marital_status
+        foreach ($sampleData->marital_status->status as $status) {
+            $this->marital_status[] = trim($status); 
+        }
     }
 
     public function getContactType($id)
@@ -666,12 +681,22 @@ class CRM_GCD {
      ******************************************************/
     private function addCustomDataValue($contact_id) {
                 
-        $randLength = mt_rand(0, 3);
+        $randLength = mt_rand(0, 7);
+        $done = array( );
+
         for($cnt = 0; $cnt <= $randLength; $cnt++) {
-            switch($cnt) {
+
+            $item = mt_rand(0, 7);
+            if ( $done[$item] ) {
+                continue;
+            }
+            $done[$item] = true;
+
+            switch($item) {
             case 0:
                 //do nothing
                 break;
+
             case 1:
                 $customData =& new CRM_Core_DAO_CustomValue();
                 $customData->entity_table = 'civicrm_contact';
@@ -687,22 +712,51 @@ class CRM_GCD {
                 $customData->char_data = $this->_getRandomElement($this->party_registration);
                 $this->_insert($customData);
                 break;
+
             case 2:
                 $customData =& new CRM_Core_DAO_CustomValue();
                 $customData->entity_table = 'civicrm_contact';
                 $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 5;
+                $customData->custom_field_id = 8;
                 $customData->char_data = $this->_getRandomElement($this->degree);
                 $this->_insert($customData);
                 break;
+
             case 3:
                 $customData =& new CRM_Core_DAO_CustomValue();
                 $customData->entity_table = 'civicrm_contact';
                 $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 6;
+                $customData->custom_field_id = 9;
                 $customData->char_data = $this->_getRandomElement($this->school);
                 $this->_insert($customData);
                 break;
+
+            case 5: 
+                $customData =& new CRM_Core_DAO_CustomValue(); 
+                $customData->entity_table = 'civicrm_contact'; 
+                $customData->entity_id = $contact_id; 
+                $customData->custom_field_id = 5; 
+                $customData->char_data = $this->_getRandomElement($this->issue); 
+                $this->_insert($customData); 
+                break; 
+
+            case 6: 
+                $customData =& new CRM_Core_DAO_CustomValue(); 
+                $customData->entity_table = 'civicrm_contact'; 
+                $customData->entity_id = $contact_id; 
+                $customData->custom_field_id = 6; 
+                $customData->char_data = $this->_getRandomElement($this->gotv); 
+                $this->_insert($customData); 
+                break; 
+
+            case 7: 
+                $customData =& new CRM_Core_DAO_CustomValue(); 
+                $customData->entity_table = 'civicrm_contact'; 
+                $customData->entity_id = $contact_id; 
+                $customData->custom_field_id = 7; 
+                $customData->char_data = $this->_getRandomElement($this->marital_status); 
+                $this->_insert($customData); 
+                break; 
             }
         }
     }
