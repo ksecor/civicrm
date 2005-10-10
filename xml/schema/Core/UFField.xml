@@ -100,6 +100,7 @@
        <length>64</length>
        <comment>Page title for listings page (users who share a common value for this property).</comment>
        <add>1.1</add>
+       <drop>1.2</drop>
   </field>
   <field>
        <name>in_selector</name>
