@@ -278,7 +278,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         static $indieFields = null;
         if ($indieFields == null) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $this->_contactType) . ".php");
-            eval('$indieFields =& CRM_Contact_DAO_'.$this->_contactType.'::import();');
+            eval('$tempIndieFields =& CRM_Contact_DAO_'.$this->_contactType.'::import();'); //modified for PHP4 issue
+            $indieFields = $tempIndieFields;
         }
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
