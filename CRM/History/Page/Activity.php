@@ -52,40 +52,45 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
      */
     function run()
     {
-        // get the callback and activity id
-        $callback = CRM_Utils_Request::retrieve( 'callback', $this );
-        $activityId = CRM_Utils_Request::retrieve('activity_id', $this );
-        $errorString = "";
-        list($className, $methodName) = explode('::', $callback);
-        $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-    
-        if (! include_once($fileName)) {
-            // we could not include the file
-            $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
-            return $this->_processError($errorString);
-        }
+        $id  = CRM_Utils_Request::retrieve( 'id', $this, true );
+        $dao =& new CRM_Core_DAO_ActivityHistory( );
+        $dao->id = $id;
+        if ( $dao->find( true ) ) {
+            // get the callback and activity id
+            $callback = $dao->callback;
+            $activityId = $dao->activity_id;
+            $errorString = "";
+            list($className, $methodName) = explode('::', $callback);
+            $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+            
+            if (! @include_once($fileName)) {
+                // we could not include the file
+                $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
+                return $this->_processError($errorString);
+            }
+            
+            // file is included so lets move on to checking if class exists
+            if (!class_exists($className)) {
+                // we could not find the class
+                $errorString .= ts('Cannot find class "%1"', array(1 => $className));
+                return $this->_processError($errorString);
+            }
 
-        // file is included so lets move on to checking if class exists
-        if (!class_exists($className)) {
-            // we could not find the class
-            $errorString .= ts('Cannot find class "%1"', array(1 => $className));
-            return $this->_processError($errorString);
+            // instantiate the class
+            $object =& new $className();
+            
+            // class exists so lets move on to checking if method exists
+            if (!method_exists($object, $methodName)) {
+                // we could not find the method
+                $errorString .= ts('Cannot find method "%1" for class "%2"', array(1 => $methodName, 2 => $className));
+                $this->_processError($errorString);
+            }
+            
+            // invoke the callback method and obtain the url to redirect to
+            $url = $object->$methodName($activityId);
+            // redirect to url
+            CRM_Utils_System::redirect($url);
         }
-
-        // instantiate the class
-        $object =& new $className();
-
-        // class exists so lets move on to checking if method exists
-        if (!method_exists($object, $methodName)) {
-            // we could not find the method
-            $errorString .= ts('Cannot find method "%1" for class "%2"', array(1 => $methodName, 2 => $className));
-            $this->_processError($errorString);
-        }
-        
-        // invoke the callback method and obtain the url to redirect to
-        $url = $object->$methodName($activityId);
-        // redirect to url
-        CRM_Utils_System::redirect($url);
     }
 
     /**

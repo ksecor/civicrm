@@ -126,7 +126,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                         CRM_Core_Action::VIEW   => array(
                                                                          'name'     => ts('Details'),
                                                                          'url'      => 'civicrm/history/activity/detail',
-                                                                         'qs'       => 'callback=%%callback%%&module=%%module%%&activity_id=%%activity_id%%&cid=%%cid%%',
+                                                                         'qs'       => 'id=%%id%%&activity_id=%%activity_id%%&cid=%%cid%%',
                                                                          'title'    => ts('View Activity Details'),
                                                                          ),
                                         CRM_Core_Action::DELETE => array(
@@ -223,8 +223,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                     $row['action'] = CRM_Core_Action::formLink($links,
                                                                $mask,
                                                                array( 'id' => $k,
-                                                                      'callback' => $row['callback'],
-                                                                      'module'   => $row['module'],
                                                                       'activity_id'=>$row['activity_id'],
                                                                       'cid' => $this->_entityId ) );                    
                 } else {
