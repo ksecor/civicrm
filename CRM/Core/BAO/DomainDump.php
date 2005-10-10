@@ -108,10 +108,10 @@ class CRM_Core_BAO_DomainDump
         
         //create the domain tree
         $domainTree =& new CRM_Utils_Tree('civicrm_domain');
-        
+        $temp = '';
         foreach($tree2 as $key => $val) {
             foreach($val as $k => $v) {
-                $node =& $domainTree->findNode($v);
+                $node =& $domainTree->findNode($v, $temp);
                 if(!$node) {
                     $node =& $domainTree->createNode($v);            
                 }
@@ -126,7 +126,8 @@ class CRM_Core_BAO_DomainDump
             }
         }
         
-        
+//         $domainTree->display();
+//         exit();
         $tempTree = $domainTree->getTree();
         
         self::getDomainDump($tempTree['rootNode'], null, $frTable);
@@ -176,13 +177,13 @@ class CRM_Core_BAO_DomainDump
             } 
         }
 
-        $tarFileName = 'backupData.tgz';
+        $tarFileName = 'backupData.tar';
 
         if ( is_file($tarFileName) ) {
             unlink($tarFileName);
         }
 
-        $tarCommand = 'tar -czf '.$tarFileName.' '.$fileName;
+        $tarCommand = 'tar -cf '.$tarFileName.' '.$fileName;
         exec($tarCommand);
         
         $fileSize = filesize( $tarFileName );
@@ -191,7 +192,7 @@ class CRM_Core_BAO_DomainDump
         header('Content-Description: File Transfer');
         header('ContentType Extension=".tgz" ContentType="application/x-compressed" ');
         header('Content-Length: ' . $fileSize);
-        header('Content-Disposition: attachment; filename=backupData.tgz');
+        header('Content-Disposition: attachment; filename=backupData.tar');
 
         readfile($tarFileName);
 
@@ -249,8 +250,9 @@ class CRM_Core_BAO_DomainDump
         
         
         if ( !empty($node['children']) ) {
-            foreach($node['children'] as &$childNode) {
-                self::getDomainDump($childNode, $nameArray, $frTable, $domainId);      
+            foreach($node['children'] as $key => $childNode) {
+                $cNode =& $node['children'][$key];                
+                self::getDomainDump($cNode, $nameArray, $frTable, $domainId);      
             }    
         } 
 

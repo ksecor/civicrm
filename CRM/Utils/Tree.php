@@ -109,7 +109,7 @@ class CRM_Utils_Tree {
      * @access public
      */
     //public function &findNode(&$parentNode, $name)
-    public function &findNode($name, &$parentNode="")
+    public function &findNode($name, &$parentNode)
     {
         // if no parent node specified, please start from root node
         if(!$parentNode) {
@@ -127,10 +127,9 @@ class CRM_Utils_Tree {
         }
 
         // search children of the subtree
-        foreach ($parentNode['children'] as &$childNode) {
-            //print_r($childNode);
-            //if ($node =& $this->findNode($childNode, $name)) {
-            if ($node =& $this->findNode($name, $childNode)) {
+        foreach ($parentNode['children'] as $key => $childNode) {
+            $cNode =& $parentNode['children'][$key];
+            if ($node =& $this->findNode($name, $cNode)) {
                 return $node;
             }
         }
@@ -177,13 +176,14 @@ class CRM_Utils_Tree {
      *
      * @param string $parentName - name of the parent ?
      * @param array  (ref)       - node to be added
-     * @return void
+     * @return none
      *
      * @access public
      */
     public function addNode($parentName, &$node)
     {
-        $parentNode =& $this->findNode($parentName);
+        $temp = '';
+        $parentNode =& $this->findNode($parentName,$temp);
      
         $parentNode['children'][] =& $node;
     }
@@ -194,16 +194,18 @@ class CRM_Utils_Tree {
      * @param string $parentName - name of the parent ?
      * @param mixed              - data to be added
      * @param string             - key to be used (optional)
-     * @return void
+     * @return none
      *
      * @access public
      */
     public function addData($parentName, $childName, $data)
     {
-        if ($parentNode =& $this->findNode($parentName)) {
-            foreach ($parentNode['children'] as &$childNode ) {
-                if ($childNode =& $this->findNode($childName, $parentNode) ) {
-                    $childNode['data']['fKey'] =& $data;
+        $temp = '';
+        if ($parentNode =& $this->findNode($parentName, $temp)) {
+            foreach ($parentNode['children'] as $key => $childNode ) {
+                $cNode =& $parentNode['children'][$key];
+                if ($cNode =& $this->findNode($childName, $parentNode) ) {
+                    $cNode['data']['fKey'] =& $data;
                 }
             }
         }
@@ -212,7 +214,7 @@ class CRM_Utils_Tree {
     /**
      * Get Tree
      *
-     * @param
+     * @param none
      * @return tree
      *
      * @access public
@@ -226,8 +228,8 @@ class CRM_Utils_Tree {
     /**
      * print the tree
      *
-     * @param
-     * @return void
+     * @param none
+     * @return none
      *
      * @access public
      */
