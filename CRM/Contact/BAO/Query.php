@@ -62,6 +62,7 @@ class CRM_Contact_BAO_Query {
     protected $_fields;
     protected $_qill;
     protected $_search = true;
+    protected $_strict = false;
 
     protected $_customQuery;
 
@@ -75,7 +76,7 @@ class CRM_Contact_BAO_Query {
                                    'civicrm_im'             => 1, );
 
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false ) {
+                          $includeContactIds = false, $strict = false ) {
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
@@ -87,6 +88,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->_includeContactIds = $includeContactIds;
+        $this->_strict            = $strict;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -95,6 +97,7 @@ class CRM_Contact_BAO_Query {
             $this->_fields = CRM_Contact_BAO_Contact::importableFields( 'All' );
         }
  
+
         // basically do all the work once, and then reuse it
         $this->initialize( );
         //CRM_Core_Error::debug( 'q', $this );
@@ -401,18 +404,20 @@ class CRM_Contact_BAO_Query {
                 $this->_where[] = $field['where'] . " = $date";
                 $date = CRM_Utils_Date::customFormat( $value );
                 $this->_qill[]  = "$field[title] \"$date\"";
-            } else if ( $name === 'email') {
-                // during dupe checking, for email $value is an array, 
-                // for email we are adding only primary email to where clause
-                // like is commented becasue generated data is not unqiue
-                //$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( str_replace( "\"", "",$value[0])  ) . '%"';  
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( str_replace( "\"", "",$value[0])  ) . '"';  
-                $this->_qill[]  = ts( '%1 = "%2"', array( 1 => $field['title'], 2 => $value[0] ) );
             } else {
-                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
-                $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
+                // sometime the value is an array, need to investigate and fix
+                if ( is_array( $value ) ) {
+                    $value = $value[0];
+                }
+
+                if ( $this->_strict ) {
+                    $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( str_replace( "\"", "", $value)  ) . '"';  
+                    $this->_qill[]  = ts( '%1 = "%2"', array( 1 => $field['title'], 2 => $value ) );
+                } else {
+                    $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
+                    $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
+                }
             }
-            
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
             if ( isset( $tableName ) ) { 
                 $this->_tables[$tableName] = 1;  
@@ -456,10 +461,9 @@ class CRM_Contact_BAO_Query {
         return $this->_tables;
     }
 
-    static function getWhereClause( $params, $fields, &$tables ) {
+    static function getWhereClause( $params, $fields, &$tables, $strict = false ) {
         $query = new CRM_Contact_BAO_Query( $params, null, $fields,
-                                            false, false,
-                                            false, false );
+                                            false, $strict );
 
         $tables = array_merge( $query->tables( ), $tables );
         return $query->_whereClause;
@@ -971,15 +975,14 @@ class CRM_Contact_BAO_Query {
     }
 
     static function getQuery( $params = null, $returnProperties = null, $count = false ) {
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false );
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false );
         list( $select, $from, $where ) = $query->query( );
         return "$select $from $where";
     }
 
     static function apiQuery( $params = null, $returnProperties = null, $count = false ) {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null, 
-                                            $count, false,  
-                                            false, false ); 
+                                            $count, false );
         list( $select, $from, $where ) = $query->query( );
         $sql = "$select $from $where";
         $dao = CRM_Core_DAO::executeQuery( $sql );

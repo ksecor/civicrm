@@ -98,12 +98,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=delete&id=%%id%%',
                                                                           'title' => ts('Delete CiviCRM Profile Group'),
                                                                           ),
-                                        CRM_Core_Action::PREVIEW => array( 
-                                                                          'name'  => ts('Get Form'), 
-                                                                          'url'   => 'civicrm/admin/uf/group', 
-                                                                          'qs'    => 'action=preview&id=%%id%%', 
-                                                                          'title' => ts('Get Form (HTML Code)'), 
-                                                                          ), 
                                         );
         }
         return self::$_actionLinks;
