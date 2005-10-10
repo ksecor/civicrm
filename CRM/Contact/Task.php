@@ -84,13 +84,18 @@ class CRM_Contact_Task {
                                   1    => ts( 'Add Contacts to a Group'       ),
                                   2    => ts( 'Remove Contacts from a Group'  ),
                                   4    => ts( 'Tag Contacts (assign tags)'    ),
-                                  128  => ts( 'Send Email to Contacts'        ),
+                                  128  => ts( 'Send Email to Contacts'        ), 
                                   8    => ts( 'Delete Contacts'               ),
                                   16   => ts( 'New Saved Search'              ),
                                   512  => ts( 'Add Contacts to Household'     ),
                                   1024 => ts( 'Add Contacts to Organization'  ),
                                   2048 => ts( 'Map Contacts using Google Maps'),
                                   );
+            $config =& CRM_Core_Config::singleton( );
+            if ( ! isset( $config->smtpServer ) ||
+                 $config->smtpServer == 'YOUR SMTP SERVER' ) {
+                unset( self::$_tasks[128] );
+            }
         }
         return self::$_tasks;
     }

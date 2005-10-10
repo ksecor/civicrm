@@ -99,13 +99,13 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
      * @static
      * @access public
      */
-    static function contactDetails( $id ) {
+    static function contactDetails( $id, $returnProperties = null ) {
         if ( ! $id ) {
             return null;
         }
 
         $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
-        $sql    = CRM_Contact_BAO_Query::getQuery( $params, null, false );
+        $sql    = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties, false );
         $dao    = CRM_Core_DAO::executeQuery( $sql );
         if ($dao->fetch()) {
             if (isset($dao->country)) {

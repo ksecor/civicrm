@@ -1328,6 +1328,10 @@ class CRM_GCD {
 
 }
 
+function user_access( $str = null ) {
+    return true;
+}
+
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
 $obj1->initID();

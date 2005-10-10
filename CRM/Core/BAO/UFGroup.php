@@ -432,7 +432,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      */
     public static function getValues( $id, &$fields, &$values ) {
-        $contact = CRM_Contact_BAO_Contact::contactDetails( $id );
+        $returnProperties = array( );
+        foreach ( $fields as $name => $dontCare ) {
+            $returnProperties[$name] = 1;
+        }
+        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $returnProperties );
         if ( ! $contact ) {
             return;
         }
@@ -483,23 +487,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
                 $index = $cf->label;
                 $values[$index] = null;
-                // make sure the custom value exists
-                $cv =& new CRM_Core_BAO_CustomValue();
-                $cv->custom_field_id = $cfID;
-                $cv->entity_table = 'civicrm_contact';
-                $cv->entity_id = $contact->contact_id;
-                if ( ! $cv->find( true ) ) {
-                    continue;
-                }
 
-                switch($cf->html_type) {
+                $value = $contact->$objName;
+
+                // this function should be moved to a centralized place
+                // once we consolidate custom value stuff
+                switch ( $cf->html_type ) {
 
                 case "Radio":
                     if ( $cf->data_type == Boolean ) {
-                        $values[$index] = $cv->getValue(true) ? ts('Yes') : ts('No');
+                        $values[$index] = $value ? ts('Yes') : ts('No');
                     } else {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id); 
-                        $params[$index] = $cv->getValue(true);
+                        $params[$index] = $value;
                         foreach ( $customOption as $o ) {
                             if ( $params[$index] == $o['value'] ) {
                                 $values[$index] = $o['label'];
@@ -508,10 +508,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                         }
                     }
                     break;
-
+                    
                 case "Select":
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);  
-                    $params[$index] = $cv->getValue(true); 
+                    $params[$index] = $value; 
                     foreach ( $customOption as $o ) { 
                         if ( $params[$index] == $o['value'] ) { 
                             $values[$index] = $o['label']; 
@@ -521,7 +521,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     
                 case "CheckBox":
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);
-                    $value = $cv->getValue(true);
+                    $value = $value;
                     $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                     $v = array( );
                     $p = array( );
@@ -540,22 +540,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     break;
 
                 case "Select Date":
-                    $values[$index] = CRM_Utils_Date::customFormat($cv->getValue());
-                    $params[$index] = $cv->getValue();
+                    $values[$index] = CRM_Utils_Date::customFormat($value);
+                    $params[$index] = $value;
                     break;
 
                 case 'Select State/Province':
-                    $values[$index] = CRM_Core_PseudoConstant::stateProvince($cv->int_data);
-                    $params[$index] = $cv->int_data;
+                    $values[$index] = CRM_Core_PseudoConstant::stateProvince($value);
+                    $params[$index] = $value;
                     break;
 
                 case 'Select Country':
-                    $values[$index] = CRM_Core_PseudoConstant::country($cv->int_data);
-                    $params[$index] = $cv->int_data;
+                    $values[$index] = CRM_Core_PseudoConstant::country($value);
+                    $params[$index] = $value;
                     break;
 
                 default:
-                    $values[$index] = $cv->getValue(true);
+                    $values[$index] = $value;
                     break;
                 }
             } else {
@@ -572,9 +572,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     continue;
                 }
                 $fieldName = $field['name'];
-                // if we're working with country or state_province, we want to search with the id
-                if ($fieldName == 'country')        $fieldName = 'country_id';
-                if ($fieldName == 'state_province') $fieldName = 'state_province_id';
                 $url = CRM_Utils_System::url( 'civicrm/profile',
                                               'reset=1&' . 
                                               urlencode( $fieldName ) .

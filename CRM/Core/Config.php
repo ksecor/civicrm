@@ -201,7 +201,7 @@ class CRM_Core_Config {
     /**
      * Default smtp server and port
      */
-    public $smtpServer         = 'localhost';
+    public $smtpServer         = null;
     public $smtpPort           = 25;
 
     /**

@@ -97,7 +97,7 @@ class CRM_Contact_BAO_Query {
  
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     function initialize( ) {
@@ -971,9 +971,7 @@ class CRM_Contact_BAO_Query {
     }
 
     static function getQuery( $params = null, $returnProperties = null, $count = false ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null,
-                                            $count, false, 
-                                            false, false );
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false );
         list( $select, $from, $where ) = $query->query( );
         return "$select $from $where";
     }

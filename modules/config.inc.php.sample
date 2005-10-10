@@ -104,9 +104,9 @@ define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicr
  * SMTP Server:
  *
  * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality
- * enter your smtp server address here (e.g.'smtp.example.com').
+ * uncomment the below line and enter your smtp server address here (e.g.'smtp.example.com'). 
  */
-define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
+// define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
 /**
  * Province availability:
@@ -118,10 +118,9 @@ define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
  * is a space-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The default limits the province list to United States, India and
- * Poland.
+ * file. The default limits the province list to United States
  */
-define( 'CIVICRM_PROVINCE_LIMIT' , 'US IN PL' );
+define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
 /**
  * Localisation:
