@@ -96,10 +96,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             $mappingArray[$mappingDAO->id] = $mappingDAO->name;
         }
 
-        $this->assign('savedMapping',$mappingArray);
-        $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
-        $this->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
-        
+        if ( !empty($mappingArray) ) {
+            $this->assign('savedMapping',$mappingArray);
+            $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
+            $this->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
+        }
+
         //to save the current mappings
         if ( !isset($this->_loadedMappingId) ) {
             $saveDetailsName = ts('Save this field mapping');
@@ -115,11 +117,15 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             $mappingName = array();
             $mappingLocation = array();
             $mappingContactType = array();
+            $mappingPhoneType = array();
             while($mapping->fetch()) {
                 $mappingName[] = $mapping->name;
                 $mappingContactType[] = $mapping->contact_type;                
                 if ( !empty($mapping->location_type_id ) ) {
                     $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
+                }
+                if ( !empty( $mapping->phone_type ) ) {
+                    $mappingPhoneType[$mapping->column_number] = $mapping->phone_type;
                 }
             }
 
@@ -142,12 +148,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             $this->add('text','saveMappingName',ts('Name'));
             $this->add('text','saveMappingDesc',ts('Description'));
         }
+        
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
         $this->addFormRule( array( 'CRM_Export_Form_MapField', 'formRule' ) );
 
         //-------- end of saved mapping stuff ---------
-
         
         $this->_defaults = array( );
         $hasLocationTypes= array();
@@ -228,10 +234,11 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
             $jsSet = false;
              if( isset($this->_loadedMappingId) ) {
                 $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;                
-                if ( isset($mappingName[$i]) ) {                    
+                if ( isset($mappingName[$i]) ) {
+                    $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
                     $mappingHeader = array_keys($this->_mapperFields[$mappingContactType[$i]], $mappingName[$i]);
                     $defaults["mapper[$i]"] = array( $mappingContactType[$i], $mappingHeader[0],
-                                                            $locationId
+                                                     $locationId, $phoneType
                                                      );
                     if ( ! $mappingHeader[0] ) {
                         $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
@@ -239,16 +246,19 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                     if ( ! $locationId ) {
                         $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
                     }
-                    $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                    if ( ! $phoneType ) {
+                        $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                    }
+                    //$js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                     $jsSet = true;
                 }
-            }
+             }
              if ( ! $jsSet ) {
                  for ( $k = 1; $k < 4; $k++ ) {
                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
                  }
              }
-            $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
+             $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
 
             //set the defaults on load mapping
                         
@@ -259,6 +269,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         if ( empty( $_POST ) ) {
             // CRM_Core_Error::debug( 'def', $defaults );
         }
+
         $this->setDefaults($defaults);
 
         $this->addButtons( array(
@@ -346,7 +357,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                     $mappingFieldsId[$mappingFields->column_number] = $mappingFields->id;
                 }
             }
-                
+
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
                 if ( !empty($mapperKeys[$i][0]) ) {
                     $updateMappingFields =& new CRM_Core_DAO_MappingField();
@@ -369,7 +380,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                     $phoneType = $mapperKeys[$i][3];
                     $updateMappingFields->phone_type = isset($phoneType) ? $phoneType : null;
                     
-                    $updateMappingFields->update();                
+                    $updateMappingFields->save();                
                 }
             }
         }
