@@ -478,7 +478,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/profile',
-                            'title'   => ts( 'Find People' ),
+                            'title'   => ts( 'Find Contacts' ),
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
@@ -487,7 +487,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/profile/create',
-                            'title'   => ts( 'Add Person to Database' ),
+                            'title'   => ts( 'Add Contact Information' ),
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
