@@ -257,8 +257,8 @@ class PHP_DownGrade {
                     }
 
                 }
-                $this->tokens[$i][1] = '';
-                $i++;
+                //$this->tokens[$i][1] = '';
+                // $i++;
                 break;
 
             
