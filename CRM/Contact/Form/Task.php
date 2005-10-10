@@ -61,7 +61,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     /**
      * build all the data structures needed to build the form
      *
-     * @param none
+     * @param
      * @return void
      * @access public
      */
@@ -109,7 +109,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      * the default values are retrieved from the database
      * 
      * @access public
-     * @return None
+     * @return void
      */
     function setDefaultValues( ) 
     {
@@ -121,7 +121,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     /**
      * This function is used to add the rules for form.
      *
-     * @return None
+     * @return void
      * @access public
      */
     function addRules( )
@@ -132,7 +132,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm( ) 
@@ -145,7 +145,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      * process the form after the input has been submitted and validated
      *
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess() 
     {

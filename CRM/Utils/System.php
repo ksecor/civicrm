@@ -411,7 +411,7 @@ class CRM_Utils_System {
     /**
      * Get the base URL from the system
      *
-     * @param void
+     * @param
      *
      * @return string
      * @access public

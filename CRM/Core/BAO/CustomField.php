@@ -63,7 +63,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Build and retrieve the list of data types and descriptions
      *
-     * @param none
+     * @param
      * @return array        Data type => Description
      * @access public
      * @static

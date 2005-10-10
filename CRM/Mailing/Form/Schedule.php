@@ -42,8 +42,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
     /**
      * Build the form for the last step of the mailing wizard
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      * @access public
      */
     public function buildQuickform() {
@@ -93,8 +93,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
     /**
      * Process the posted form values.  Create and schedule a mailing.
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      * @access public
      */
     public function postProcess() {

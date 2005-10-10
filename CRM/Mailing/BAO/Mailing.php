@@ -1009,7 +1009,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     /**
      * Get the count of mailings 
      *
-     * @param none
+     * @param
      * @return int              Count
      * @access public
      */

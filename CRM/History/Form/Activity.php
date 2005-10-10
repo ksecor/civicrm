@@ -48,8 +48,8 @@ class CRM_History_Form_Activity extends CRM_Core_Form
     /**
      * Function to build the form
      *
-     * @param none
-     * @return None
+     * @param
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -90,9 +90,9 @@ class CRM_History_Form_Activity extends CRM_Core_Form
     /**
      * Function to process the form
      *
-     * @param none
+     * @param
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess() 
     {

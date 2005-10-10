@@ -50,8 +50,8 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
     /** 
      * pre processing work done here. 
      * 
-     * @param none 
-     * @return none 
+     * @param 
+     * @return void 
      * 
      * @access public 
      * 
@@ -70,7 +70,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -216,7 +216,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
      * Process the user submitted custom data values.
      *
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess( ) 
     {

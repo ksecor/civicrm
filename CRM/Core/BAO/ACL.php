@@ -284,7 +284,7 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
     /**
      * Construct an associative array of an ACL rule's properties
      *
-     * @param none
+     * @param
      * @return array    - Assoc. array of the ACL rule's properties
      * @access public
      */

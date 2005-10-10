@@ -177,7 +177,7 @@ class CRM_Utils_Tree {
      *
      * @param string $parentName - name of the parent ?
      * @param array  (ref)       - node to be added
-     * @return none
+     * @return void
      *
      * @access public
      */
@@ -194,7 +194,7 @@ class CRM_Utils_Tree {
      * @param string $parentName - name of the parent ?
      * @param mixed              - data to be added
      * @param string             - key to be used (optional)
-     * @return none
+     * @return void
      *
      * @access public
      */
@@ -212,7 +212,7 @@ class CRM_Utils_Tree {
     /**
      * Get Tree
      *
-     * @param none
+     * @param
      * @return tree
      *
      * @access public
@@ -226,8 +226,8 @@ class CRM_Utils_Tree {
     /**
      * print the tree
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      *
      * @access public
      */

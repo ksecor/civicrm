@@ -508,7 +508,7 @@ class CRM_Core_Config {
     /**
      * returns the singleton logger for the applicationthe singleton logger for the application
      *
-     * @param none
+     * @param
      * @access private
      * @return object
      */
@@ -523,7 +523,7 @@ class CRM_Core_Config {
     /**
      * retrieve a mailer to send any mail from the applciation
      *
-     * @param none
+     * @param
      * @access private
      * @return object
      */
@@ -541,7 +541,7 @@ class CRM_Core_Config {
     /**
      * get the domain Id of the current user
      *
-     * @param none
+     * @param
      * @access private
      * @return int
      */

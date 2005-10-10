@@ -233,7 +233,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
      * Delete a queue event keyed by email
      *
      * @param int $emailId      ID of the email address being deleted
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -295,7 +295,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
     /**
      * Get the mailing object for this queue event instance
      * 
-     * @param none
+     * @param
      * @return object           Mailing BAO
      * @access public
      */

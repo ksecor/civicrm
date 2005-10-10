@@ -322,9 +322,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * Given the current formValues, gets the query in local
      * language
      *
-     * @param array reference $formValues submitted formValues
+     * @param  array(reference)   $formValues   submitted formValues
      *
-     * @return array $qill which contains an array of strings
+     * @return array              $qill         which contains an array of strings
      * @access public
      */
   

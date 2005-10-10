@@ -108,8 +108,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      *
      * gets session variables for table name, id of entity in table, type of entity and stores them.
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      *
      * @access public
      *
@@ -162,7 +162,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -396,7 +396,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * Process the user submitted custom data values.
      *
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess() 
     {

@@ -158,7 +158,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * on the is_searchable
      *
      * @access private
-     * @return none
+     * @return void
      */
     public function customDataSearch() {
         
@@ -293,9 +293,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * The processing consists of using a Selector / Controller framework for getting the
      * search results.
      *
-     * @param none
+     * @param
      *
-     * @return none 
+     * @return void 
      * @access public
      */
     function postProcess() 

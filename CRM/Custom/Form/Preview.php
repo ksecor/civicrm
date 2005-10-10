@@ -59,8 +59,8 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
      *
      * gets session variables for group or field id
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      *
      * @access public
      *
@@ -130,7 +130,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()

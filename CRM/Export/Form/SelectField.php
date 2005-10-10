@@ -58,7 +58,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
     /**
      * build all the data structures needed to build the form
      *
-     * @param none
+     * @param
      * @return void
      * @access public
      */
@@ -99,7 +99,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm( ) {

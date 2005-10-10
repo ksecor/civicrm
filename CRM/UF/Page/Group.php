@@ -56,7 +56,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     /**
      * Get the action links for this page.
      *
-     * @param none
+     * @param
      * @return array $_actionLinks
      *
      */
@@ -116,8 +116,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
      * type of action and executes that action.
      * Finally it calls the parent's run method.
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      * @access public
      *
      */
@@ -171,7 +171,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
      *
      * @param int $id uf group id
      * @param string $action the action to be invoked
-     * @return none
+     * @return void
      * @access public
      */
     function edit($id, $action)
@@ -192,8 +192,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     /**
      * Browse all uf data groups.
      *
-     * @param none
-     * @return none
+     * @param
+     * @return void
      * @access public
      * @static
      */

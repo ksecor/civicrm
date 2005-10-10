@@ -87,8 +87,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      * 
      * gets session variables for table name, id of entity in table, type of entity and stores them. 
      * 
-     * @param none 
-     * @return none 
+     * @param  
+     * @return void 
      * 
      * @access public 
      * 
@@ -113,7 +113,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * the default values are retrieved from the database 
      *  
      * @access public 
-     * @return None 
+     * @return void 
      */ 
     function &setDefaultValues( ) { 
     } 
@@ -121,7 +121,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @return void
      * @access public
      */
     public function buildQuickForm()
@@ -288,7 +288,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * Process the user submitted custom data values.
      *
      * @access public
-     * @return None
+     * @return void
      */
     public function postProcess( ) 
     {
