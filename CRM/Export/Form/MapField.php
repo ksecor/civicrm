@@ -73,14 +73,15 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function preProcess() {
+
         $this->_columnCount = $this->get('columnCount');
         if (! $this->_columnCount ) {
-             $this->_columnCount = 10;
+            $this->_columnCount = 10;
         } else {
             $this->_columnCount = $this->_columnCount + 10;
         }
+        
         $this->_loadedMappingId =  $this->get('savedMapping');
-        // $this->set( 'columnCount', $this->_columnCount );
     }
     
     public function buildQuickForm( ) {
@@ -272,6 +273,8 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
 
         $this->setDefaults($defaults);
 
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Select more fields'), array( 'class' => 'form-submit' ) );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -334,6 +337,12 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
     public function postProcess( ) {
 
         $params = $this->controller->exportValues( 'MapField' );
+
+        if ( $this->controller->exportValue( $this->_name, '_qf_MapField_refresh' ) )  {
+            $this->set( 'columnCount', $this->_columnCount );
+            //this->controller->resetPage( $this->_name );
+            return;
+        }
 
         //reload the mapfield if load mapping is pressed
         if ( CRM_Utils_Array::value( 'savedMapping', $params ) ) {
