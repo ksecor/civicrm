@@ -81,7 +81,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @var array 
      */ 
     protected $_fields; 
- 
+
     /** 
      * pre processing work done here. 
      * 
@@ -95,10 +95,11 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function preProcess() 
     { 
-        $this->_id      = $this->get( 'id'  ); 
-        $this->_gid     = $this->get( 'gid' ); 
+        $this->_id       = $this->get( 'id'  ); 
+        $this->_gid      = $this->get( 'gid' ); 
+
         if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action ); 
+            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action, 
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY ); 
@@ -126,8 +127,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        $this->assign( 'action', $this->_action );
-        $this->assign( 'fields', $this->_fields );
+        $this->assign( 'action'  , $this->_action   );
+        $this->assign( 'fields'  , $this->_fields   );
+        $this->assign( 'fieldset', $this->_fieldset ); 
 
         if ($this->_mode & self::MODE_EDIT) {
             $group =& new CRM_Core_DAO_UFGroup();

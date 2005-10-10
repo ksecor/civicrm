@@ -407,7 +407,7 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
     $output = array( );
     if ( $html ) {
 	$title = CRM_Core_BAO_UFGroup::getRegisteredTitle( );
-        $output[] = array( 'title' => $title, 'data' => $html, weight => 0 );
+        $output[] = array( 'title' => null, 'data' => $html, weight => 0 );
     }
 
     return $output;
@@ -428,7 +428,7 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
     // get all the data for this specific category
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
     if ( $html ) {
-        $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
+        $output[] = array( 'title' => null, 'data' => $html, weight => 0 );
     }
     
     return $output;
