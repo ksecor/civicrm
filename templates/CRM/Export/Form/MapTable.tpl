@@ -57,9 +57,8 @@
         {/section}
     
         <tr>
-           <td>
-               {*$form._qf_MapField_refresh.html*}
-              <!--a href="{crmURL p='civicrm/export/contact' q="_qf_MapField_display=true"}">Give me more columns</a-->
+           <td class="form-item even-row">
+               {$form._qf_MapField_refresh.html}
            </td>
         </tr>            
     </table>
