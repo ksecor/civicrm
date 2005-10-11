@@ -108,7 +108,7 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
-                            'path'    => 'civicrm/admin/access',
+                            'path'    => 'admin/access',
                             'title'   => ts('Access Control'),
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
