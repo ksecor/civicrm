@@ -213,9 +213,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
-            $importableFields['group']['title'] = ts('CiviCRM Groups');
+            $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
-            $importableFields['tag'  ]['title'] = ts('CiviCRM Tags');
+            $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
 
             while ( $field->fetch( ) ) {

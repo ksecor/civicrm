@@ -81,7 +81,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
                           );
 
         // add the hidden field to redirect the postProcess from
-        $postURL = CRM_Utils_Array::value( 'postURL', $postURL );
+        $postURL = $this->controller->exportValue( $this->_name, 'postURL' );
         if ( ! $postURL ) {
             $postURL = CRM_Utils_System::url('civicrm/profile/create', 'reset=1' );
         }
@@ -89,6 +89,10 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $postURL = str_replace( '&amp;', '&', $postURL );
         $this->addElement( 'hidden', 'postURL',
                            $postURL );
+
+        // replace the sesssion stack in case user cancels (and we dont go into postProcess)
+        $session =& CRM_Core_Session::singleton(); 
+        $session->replaceUserContext( $postURL ); 
 
         parent::buildQuickForm( );
 
@@ -106,12 +110,6 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         parent::postProcess( );
 
         CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
-        
-        $session =& CRM_Core_Session::singleton();
-        $postURL = $this->controller->exportValue( $this->_name, 'postURL' );
-        if ( $postURL ) {
-            $session->replaceUserContext( $postURL );
-        }
     }
 }
 

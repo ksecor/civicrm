@@ -1,7 +1,9 @@
 {if ! empty( $fields )}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
+{if ! $isForm}
 {include file="CRM/common/form_body.tpl"}
+{/if}
 
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div><br />{/if}
@@ -11,13 +13,21 @@
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table>
+           {if $field.groupHelpPost}
            <div class="messages help">{$groupHelpPost}</div>
+           {/if}
+	   {if $mode ne 8}
            </fieldset>
+           {/if}
         {/if}
+	{if $mode ne 8}
         <fieldset><legend>{$field.groupTitle}</legend>
+	{/if}
         {assign var=fieldset  value=`$field.groupTitle`}
         {assign var=groupHelpPost  value=`$field.groupHelpPost`}
+        {if $field.groupHelpPre}
         <div class="messages help">{$field.groupHelpPre}</div>
+        {/if}
         <table class="form-layout-compressed">
     {/if}
     {assign var=n value=$field.name}
@@ -57,9 +67,20 @@
 	{/if}
     {/foreach}
     </table>
+{if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
+{/if}
+{if $mode eq 4}
+<div class="crm-submit-buttons"> 
+     {$form.buttons.html}
+</div>
+{/if}
+    {if $mode ne 8}
     </fieldset>
+    {/if}
     {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
+
+
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}

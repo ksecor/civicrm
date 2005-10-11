@@ -127,6 +127,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        $this->assign( 'mode'    , $this->_mode     );
         $this->assign( 'action'  , $this->_action   );
         $this->assign( 'fields'  , $this->_fields   );
         $this->assign( 'fieldset', $this->_fieldset ); 
@@ -319,7 +320,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $ids[$name] = $this->_contact->$id; 
             } 
         } 
-        
+
+        // this should become ::create
         CRM_Core_DAO::transaction( 'BEGIN' ); 
 
         $params['contact_type'] = 'Individual';

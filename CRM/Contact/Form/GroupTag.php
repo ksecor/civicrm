@@ -54,7 +54,11 @@ Class CRM_Contact_Form_GroupTag
         $type = (int ) $type;
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) {
             $elements = array( );
-            $group  =& CRM_Core_PseudoConstant::group( );
+            if ( $visibility ) {
+                $group  =& CRM_Core_PseudoConstant::allGroup( );
+            } else {
+                $group  =& CRM_Core_PseudoConstant::group( );
+            }
             foreach ($group as $id => $name) {
                 if ( $visibility ) {
                     // make sure that this group has public visibility. not very efficient
