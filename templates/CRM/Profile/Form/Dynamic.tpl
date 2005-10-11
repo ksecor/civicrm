@@ -4,7 +4,7 @@
 {include file="CRM/common/form_body.tpl"}
 
     {strip}
-    {if $help_pre}<div class="messages help">{$help_pre}</div><br />{/if}
+    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div><br />{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}
@@ -55,7 +55,7 @@
     {/foreach}
     </table>
     </fieldset>
-    {if $help_post}<br /><div class="messages help">{$help_post}</div>{/if}
+    {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}
