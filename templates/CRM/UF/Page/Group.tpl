@@ -6,8 +6,8 @@
     {* Display HTML Code for standalone Profile form *}
     <div id="help">
     {ts}
-    <p>The HTML code below will display a form consisting of the selected Profile fields. You can copy this HTML
-    code and paste it into any block or page on ANY web site where you want to collect contact information.</p>
+    <p>The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML
+    code and paste it into any block or page on ANY website where you want to collect contact information.</p>
     <p>You can control the web page that someone is directed to AFTER completing the form by modifying the
     contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete
     URL prior to saving the form code to the desired page(s).</p>
@@ -15,7 +15,7 @@
     {/ts}
     </div>
     
-    <h3>{$rows.1.title} - {ts}HTML Form Code{/ts}</h3>
+    <h3>{ts}CiviCRM Profile - Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code">
     <textarea rows="20" cols="80" name="preview" id="preview">{$preview}</textarea>
     <br />
@@ -29,7 +29,9 @@
 
     <div id="help">
     {ts}<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which data is used to match a contact record to a user. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.</p>
-    <p>Each 'CiviCRM Profile' is presented as a separate form when new users register for an account, as well as when they edit an existing account.</p>{/ts}
+    <p>Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.</p>
+    <p>Use the <a href="{crmURL p='civicrm/admin/uf/group' q="action=preview"}">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile
+    form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}
     </div>
 
     {if $rows}
@@ -58,6 +60,9 @@
         <p></p>
         <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}">&raquo;  {ts}New CiviCRM Profile{/ts}</a>
+        </div>
+        <div class="action-link">
+        <a href="{crmURL p='civicrm/admin/uf/group' q="action=preview"}">&raquo;  {ts}Stand-alone Profile Form{/ts}</a>
         </div>
         {/if}
 
