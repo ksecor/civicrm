@@ -126,8 +126,8 @@ class CRM_Core_BAO_DomainDump
             }
         }
         
-//         $domainTree->display();
-//         exit();
+        // $domainTree->display();
+        // exit();
         $tempTree = $domainTree->getTree();
         
         self::getDomainDump($tempTree['rootNode'], null, $frTable);
@@ -164,15 +164,13 @@ class CRM_Core_BAO_DomainDump
             
             $dao =& new CRM_Core_DAO();
             $query = $dao->query($sql);
-            
-            $ids = array();
+            $ids = array( );
             while ( $dao->fetch(  ) ) {
                 $ids[] = $dao->id; 
             }
-            
+
             if ( !empty($ids) ) {
                 $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
-                
                 exec($dumpCommand); 
             } 
         }

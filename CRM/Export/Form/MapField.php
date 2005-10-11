@@ -250,11 +250,11 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
                     if ( ! $phoneType ) {
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                     }
-                    //$js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                     $jsSet = true;
                 }
              }
-             if ( ! $jsSet ) {
+             $formValues = $this->controller->exportValues( $this->_name );
+             if ( ! $jsSet && empty( $formValues ) ) {
                  for ( $k = 1; $k < 4; $k++ ) {
                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
                  }
@@ -267,23 +267,18 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         $this->assign('columnCount', $this->_columnCount);
-        if ( empty( $_POST ) ) {
-            // CRM_Core_Error::debug( 'def', $defaults );
-        }
 
         $this->setDefaults($defaults);
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Select more fields'), array( 'class' => 'form-submit' ) );
+        $this->setDefaultAction( 'refresh' );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Continue >>'),
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => false  ),
-                                 array(  'type'      => 'refresh',
-                                         'isDefault' => true ),
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
