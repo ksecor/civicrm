@@ -222,20 +222,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name = $field->field_name;
                     $fields[$name] =
-                        array('name'        => $name,
-                              'groupTitle'  => $group->title,
-                              'title'       => $importableFields[$field->field_name]['title'],
-                              'where'       => $importableFields[$field->field_name]['where'],
-                              'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
-                              'is_required' => $field->is_required,
-                              'is_view'     => $field->is_view,
-                              'is_match'    => $field->is_match,
-                              'weight'      => $field->weight,
-                              'help_post'   => $field->help_post,
-                              'visibility'  => $field->visibility,
-                              'in_selector' => $field->in_selector,
-                              'default'     => $field->default_value,
-                              'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
+                        array('name'             => $name,
+                              'groupTitle'       => $group->title,
+                              'groupHelpPre'     => $group->help_pre,
+                              'groupHelpPost'    => $group->help_post,
+                              'title'            => $importableFields[$field->field_name]['title'],
+                              'where'            => $importableFields[$field->field_name]['where'],
+                              'attributes'       => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
+                              'is_required'      => $field->is_required,
+                              'is_view'          => $field->is_view,
+                              'is_match'         => $field->is_match,
+                              'weight'           => $field->weight,
+                              'help_post'        => $field->help_post,
+                              'visibility'       => $field->visibility,
+                              'in_selector'      => $field->in_selector,
+                              'default'          => $field->default_value,
+                              'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                               'options_per_line' => $importableFields[$field->field_name]['options_per_line']
                               );
                 }

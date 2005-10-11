@@ -11,10 +11,13 @@
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table>
+           <div class="messages help">{$groupHelpPost}</div>
            </fieldset>
         {/if}
         <fieldset><legend>{$field.groupTitle}</legend>
         {assign var=fieldset  value=`$field.groupTitle`}
+        {assign var=groupHelpPost  value=`$field.groupHelpPost`}
+        <div class="messages help">{$field.groupHelpPre}</div>
         <table class="form-layout-compressed">
     {/if}
     {assign var=n value=$field.name}
@@ -54,6 +57,7 @@
 	{/if}
     {/foreach}
     </table>
+    <div class="messages help">{$field.groupHelpPost}</div>
     </fieldset>
     {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
