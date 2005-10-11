@@ -82,25 +82,24 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      *
      */
     static function discard ( $id ) {
+        CRM_Utils_Hook::pre( 'delete', 'Group', $id );
 
         // delete all Subscription  records with the selected group id
         $subHistory = & new CRM_Contact_DAO_SubscriptionHistory( );
         $subHistory ->group_id = $id;
         $subHistory->delete();
 
-
         // delete all crm_group_contact records with the selected group id
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         $groupContact->delete();
 
-        
-
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
-        //$group->is_active = 0;
         $group->delete();
+
+        CRM_Utils_Hook::post( 'delete', 'Group', $id, $group );
     }
 
     /**
@@ -220,15 +219,31 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    public static function create(&$params) {
-        $group =& new CRM_Contact_BAO_Group();
+    public static function &create(&$params) {
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Group', $params['id'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Group', null, $params ); 
+        }
+
+        $group =& new CRM_Contact_DAO_Group();
+
+        // form the name
+        $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
+
         $group->copyValues($params);
         $group->save();
-        
-        if ($group->id) {
-            return $group;
+        if ( ! $group->id ) {
+            return null;
         }
-        return null;
+
+        if ( CRM_Utils_Array::value( 'id', $params ) ) { 
+            CRM_Utils_Hook::pre( 'edit', 'Group', $group->id, $group );
+        } else { 
+            CRM_Utils_Hook::pre( 'create', 'Group', $group->id, $group );
+        }
+
+        return $group;
     }
 
     /**

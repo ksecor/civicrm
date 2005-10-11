@@ -135,27 +135,19 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         CRM_Core_Session::setStatus( ts('Your search has been saved as "%1".', array(1 => $formValues['name'])) );
 
         // also create a group that is associated with this saved search only if new saved search
-        if ( ! $this->_id ) {
-            $group                  =& new CRM_Contact_DAO_Group( );
-            $group->domain_id       =  CRM_Core_Config::domainID( );
-            $group->title           =  $formValues['name'];
-            $group->name            =  CRM_Utils_String::titleToVar( $group->title );
-            $group->description     =  $formValues['description'];
-            $group->saved_search_id =  $savedSearch->id;
-            $group->is_active = 1;
-            $group->save( );
-        } else {
-            // retrieve group
-            $group                  =& new CRM_Contact_DAO_Group( );
-            $group->saved_search_id =  $savedSearch->id;
-            if ( $group->find( true ) ) {
-                $group->title           =  $formValues['name'];
-                $group->name            =  CRM_Utils_String::titleToVar( $group->title );
-                $group->description     =  $formValues['description'];
-                $group->is_active = 1;
-                $group->save( );
-            }
+        $params = array( );
+        $params['domain_id'  ]     = CRM_Core_Config::domainID( );
+        $params['title'      ]     = $formValues['name'];
+        $params['description']     =  $formValues['description'];
+        $params['visibility' ]     = 'User and User Admin Only';
+        $params['saved_search_id'] = $savedSearch->id;
+        $params['is_active']       = 1;
+        
+        if ( $this->_id ) {
+            $params['id'] = $this->_id;
         }
+
+        $group =& CRM_Contact_BAO_Group::create( $params );
     }
 }
 

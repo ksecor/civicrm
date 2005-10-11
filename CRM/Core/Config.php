@@ -209,6 +209,7 @@ class CRM_Core_Config {
      */
     public $userFramework               = 'Drupal';
     public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
+    public $userHookClass               = 'CRM_Utils_Hook_Drupal';
     public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
     public $userFrameworkURLVar         = 'q';
     public $userFrameworkDSN            = null;
@@ -426,6 +427,7 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
+            $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
         }
 

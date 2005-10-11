@@ -382,74 +382,87 @@ ORDER BY
      * @access public
      * @static
      */
-    static function create(&$params, &$ids, $maxLocationBlocks)
-        {
-            CRM_Core_DAO::transaction('BEGIN');
+    static function create(&$params, &$ids, $maxLocationBlocks) {
+
+        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Contact', $ids['contact'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Contact', null, $params ); 
+        }
+
+        CRM_Core_DAO::transaction('BEGIN');
         
-            $contact = self::add($params, $ids);
+        $contact = self::add($params, $ids);
 
-            $params['contact_id'] = $contact->id;
+        $params['contact_id'] = $contact->id;
 
-            // invoke the add operator on the contact_type class
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
-            eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
+        // invoke the add operator on the contact_type class
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
+        eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
-            $location = array();
-            for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-                $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
-            }
-            $contact->location = $location;
+        $location = array();
+        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
+            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
+        }
+        $contact->location = $location;
 	
-            // add notes
-            if ( CRM_Utils_Array::value( 'note', $params ) ) {
-                if (is_array($params['note'])) {
-                    foreach ($params['note'] as $note) {  
-                        $noteParams = array(
-                                            'entity_id'     => $contact->id,
-                                            'entity_table'  => 'civicrm_contact',
-                                            'note'          => $note['note']
-                                            );
-                        CRM_Core_BAO_Note::add($noteParams);
-                    }
-                } else {
+        // add notes
+        if ( CRM_Utils_Array::value( 'note', $params ) ) {
+            if (is_array($params['note'])) {
+                foreach ($params['note'] as $note) {  
                     $noteParams = array(
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
-                                        'note'          => $params['note']
+                                        'note'          => $note['note']
                                         );
                     CRM_Core_BAO_Note::add($noteParams);
                 }
+            } else {
+                $noteParams = array(
+                                    'entity_id'     => $contact->id,
+                                    'entity_table'  => 'civicrm_contact',
+                                    'note'          => $params['note']
+                                    );
+                CRM_Core_BAO_Note::add($noteParams);
             }
-            // update the UF email if that has changed
-            CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
-
-
-            // add custom field values
-            if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-                foreach ($params['custom'] as $customValue) {
-                    $cvParams = array(
-                                      'entity_table' => 'civicrm_contact',
-                                      'entity_id' => $contact->id,
-                                      'value' => $customValue['value'],
-                                      'type' => $customValue['type'],
-                                      'custom_field_id' => $customValue['custom_field_id'],
-                                      );
-                
-                    CRM_Core_BAO_CustomValue::create($cvParams);
-                }
-            }
-        
-            $subscriptionParams = array('contact_id' => $contact->id,
-                                        'status' => 'Added',
-                                        'method' => 'Admin');
-            CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
-
-            CRM_Core_DAO::transaction('COMMIT');
-        
-            $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
-
-            return $contact;
         }
+        // update the UF email if that has changed
+        CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
+
+
+        // add custom field values
+        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table' => 'civicrm_contact',
+                                  'entity_id' => $contact->id,
+                                  'value' => $customValue['value'],
+                                  'type' => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  );
+                
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+        
+        $subscriptionParams = array('contact_id' => $contact->id,
+                                    'status' => 'Added',
+                                    'method' => 'Admin');
+        CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
+
+        CRM_Core_DAO::transaction('COMMIT');
+        
+
+        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Contact', $contact->id, $contact );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Contact', $contact->id, $contact );
+        }
+
+        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
+
+        return $contact;
+    }
 
     /**
      * Get the display name and image of a contact
@@ -772,6 +785,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             return false;
         }
             
+        CRM_Utils_Hook::pre( 'delete', 'Contact', $id );
+
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         // do a top down deletion
@@ -782,8 +797,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        // cannot use this one since we need to also delete note creator contact_id
-        //CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_Note', $id );
         CRM_Core_BAO_Note::deleteContact($id);
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
@@ -830,6 +843,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         CRM_Utils_Recent::del($id);
 
         CRM_Core_DAO::transaction( 'COMMIT' );
+
+        CRM_Utils_Hook::post( 'delete', 'Contact', $contact->id, $contact );
 
         return true;
     }

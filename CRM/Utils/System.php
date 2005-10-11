@@ -66,7 +66,6 @@ class CRM_Utils_System {
                                                 'customoption'       => 'CustomOption',
                                                 'customvalue'        => 'CustomValue',
                                                 'dao'                => 'DAO',
-                                                'dynamicgroup'       => 'DynamicGroup',
                                                 'donationpage'       => 'DonationPage',
                                                 'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
@@ -74,7 +73,6 @@ class CRM_Utils_System {
                                                 'emptyresults'       => 'EmptyResults',
                                                 'geocoord'           => 'GeoCoord',
                                                 'groupcontact'       => 'GroupContact',
-                                                'groupmember'        => 'GroupMember',
                                                 'gmapsinput'         => 'GMapsInput',
                                                 'im'                 => 'IM',
                                                 'improvider'         => 'IMProvider',
@@ -438,7 +436,7 @@ class CRM_Utils_System {
     static function authenticate( $name, $password ) {
         $config =& CRM_Core_Config::singleton( ); 
         return  
-            eval( 'return ' . $config->userFrameworkClass . "::authenticate($name, $password);" ); 
+            eval( 'return ' . $config->userFrameworkClass . '::authenticate($name, $password);' ); 
 
     }
 

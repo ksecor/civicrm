@@ -155,23 +155,17 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             // store the submitted values in an array
             $params = $this->exportValues();
-            
-            // action is taken depending upon the mode
-            $group               =& new CRM_Contact_DAO_Group( );
-            $group->domain_id    = CRM_Core_Config::domainID( );
-            $group->name         = $params['title'];
-            $group->title        = $params['title'];
-            $group->description  = $params['description'];
-            $group->visibility   = $params['visibility'];
-            $group->is_active    = 1;
+
+            $params['domain_id'] = CRM_Core_Config::domainID( );
+            $params['is_active'] = 1;
             
             if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $group->id = $this->_id;
+                $params['id'] = $this->_id;
             }
             
-            $group->save( );
+            $group =& CRM_Contact_BAO_Group::create( $params );
             
-            CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->name)) );        
+            CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             
             /*
              * Add context to the session, in case we are adding members to the group
