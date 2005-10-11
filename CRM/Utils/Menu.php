@@ -112,7 +112,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Access Control'),
                             'type'    => self::CALLBACK,
                             'adminGroup' => 'Manage',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/03.png',
                             'weight'  => 110
                             ),
 
@@ -122,7 +122,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'extra' => 'onclick = "if (confirm(\'' . $backupDataExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                             'adminGroup' => 'Manage',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/14.png',
                             'weight'  => 120
                             ),
                       
@@ -132,7 +132,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                             'adminGroup' => 'Manage',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/04.png',
                             'weight'  => 130
                             ),
                       
@@ -142,7 +142,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/05.png',
                             'weight'  => 210
                             ),
                       
@@ -153,7 +153,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/02.png',
                             'weight'  => 220
                             ),
                       
@@ -173,7 +173,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/12.png',
                             'weight'  => 230
                             ),
                       
@@ -192,7 +192,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/13.png',
                             'weight'  => 240
                             ),
                       
@@ -202,7 +202,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/11.png',
                             'weight'  => 260
                             ),
 
@@ -212,7 +212,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/06.png',
                             'weight'  => 250
                             ),
 
@@ -222,7 +222,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/01.png',
                             'weight'  => 310
                             ),
                       
@@ -232,7 +232,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/07.png',
                             'weight'  => 320
                             ),
 
@@ -242,7 +242,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/08.png',
                             'weight'  => 339
                             ),
     
@@ -252,7 +252,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/09.png',
                             'weight'  => 340
                             ),
                       
@@ -262,7 +262,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/DataStore.gif',
+                            'icon'    => 'admin/10.png',
                             'weight'  => 350
                             ),
                       
