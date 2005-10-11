@@ -35,14 +35,19 @@
  */
 
 /** 
- *  this file contains functions for gender
+ *  this file contains functions for synchronizing drupal users with CiviCRM contacts
  */
 
 require_once 'DB.php';
 
 class CRM_Core_BAO_DrupalUser  
 {
-
+    /**
+     * Function for synchronizing drupal users with CiviCRM contacts
+     * 
+     * @return null
+     * @static
+     */
     static function synchronize( ) 
     {
         //start of schronization code
@@ -61,26 +66,31 @@ class CRM_Core_BAO_DrupalUser
         $sql   = "SELECT uid, mail FROM users where mail != ''";
         $query = $db_drupal->query( $sql );
         
-        $user           = null;
-        $uf             = 'Drupal';
-        $contactCount   = 0;
-        $contactCreated = 0;
+        $user            = null;
+        $uf              = 'Drupal';
+        $contactCount    = 0;
+        $contactCreated  = 0;
+        $contactMatching = 0;
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $contactCount++;
-            if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], $uf ) ) {
+            if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], $uf, 1 ) ) {
                 $contactCreated++;
-            }
+            } else {
+                $contactMatching++;
+            } 
         }
         
         $db_drupal->disconnect( );
         
         //end of schronization code
-        
-        CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated )) );
+        if ($contactMatching) {
+            CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Found "%3" matching contact records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated, 3 => $contactMatching )) );
+        } else {
+            CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated )) );
+            
+        }
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
-   
     }
-  
 }
 
 ?>

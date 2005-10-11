@@ -129,16 +129,19 @@ SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . 
      * @param string  $userKey the id of the user from the uf object
      * @param string  $mail    the email address of the user
      * @param string  $uf      the name of the user framework
+     * @param integer $status  returns the status if user created or already exits (used for drupal sync)
      *
      * @return the ufmatch object that was found or created
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf ) {
+    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null ) {
+        $newContact = 0;
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
         if ( ! $ufmatch->find( true ) ) {
+            
             $query = "
 SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
 FROM      civicrm_contact
@@ -172,8 +175,13 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                 $ufmatch->email      = $mail    ;
             }
             $ufmatch->save( );
+            $newContact++;
         }
-        return $ufmatch;
+        if ($status) {
+            return $newContact;
+        } else {
+            return $ufmatch;
+        }
     }
 
     /**
