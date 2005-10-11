@@ -187,12 +187,22 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
  */
 function _crm_format_params( &$params, &$values ) {
     // copy all the contact and contact_type fields as is
+   
     $fields =& CRM_Contact_DAO_Contact::fields( );
+    
     _crm_store_values( $fields, $params, $values );
 
     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $values['contact_type']) . ".php");
     eval( '$fields =& CRM_Contact_DAO_' . $values['contact_type'] . '::fields( );' );
     _crm_store_values( $fields, $params, $values );
+    
+    $ids = array("prefix","suffix","gender"); 
+    foreach ( $ids as $id ) {
+        if ( array_key_exists( $id, $params ) ) {
+            $values[$id] = $params[$id];
+        }
+    }
+    
 
     $locationTypeNeeded = false;
 
@@ -210,6 +220,7 @@ function _crm_format_params( &$params, &$values ) {
 
     $values['location'][1]['address'] = array( );
     $fields =& CRM_Core_DAO_Address::fields( );
+    
     if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
         $locationTypeNeeded = true;
     }
@@ -220,7 +231,8 @@ function _crm_format_params( &$params, &$values ) {
             $locationTypeNeeded = true;
         }
     }
-
+   
+   
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
         $name = strtolower($block);
@@ -252,7 +264,7 @@ function _crm_format_params( &$params, &$values ) {
         $values['location'][1]['im'][1]['provider'] = $params['im_provider'];
         $locationTypeNeeded = true;
     }
-
+   
     if ( $locationTypeNeeded ) {
         if ( ! array_key_exists( 'location_type_id', $values['location'][1] ) ) 
         {
@@ -263,7 +275,8 @@ function _crm_format_params( &$params, &$values ) {
 
         $values['location'][1]['is_primary'] = true;
     }
-
+  
+   
     if ( array_key_exists( 'note', $params ) ) {
         $values['note'] = $params['note'];
     }
@@ -300,9 +313,12 @@ function _crm_format_params( &$params, &$values ) {
             );
         }
     }
-
+   
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
+   
     return null;
+   
+
 }
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) {
@@ -663,7 +679,6 @@ function _crm_check_required_fields(&$params, $daoName)
 
     return true;
 }
-
 
 /**
  * This function adds the contact variable in $values to the

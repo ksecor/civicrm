@@ -80,9 +80,8 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location->save( );
 
         $params['location'][$locationId]['id'] = $location->id;
-
-        CRM_Core_BAO_Address::add( $params, $ids, $locationId );
-
+        $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId );
+        $location->address = $address_object;
         // set this to true if this has been made the primary IM.
         // the rule is the first entered value is the primary object
         $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIM = true;
@@ -90,7 +89,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location->phone = array( );
         $location->email = array( );
         $location->im    = array( );
-
+        
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             $location->phone[$i] = CRM_Core_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
             $location->email[$i] = CRM_Core_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
