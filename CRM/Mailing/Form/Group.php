@@ -61,10 +61,10 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
 </table>';
         $groups =& CRM_Core_PseudoConstant::group();
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-            ts('Include group(s) '), $groups,
+            ts('Include group(s)') . ' ', $groups,
             array('size' => 5, 'style' => 'width:240px'));
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-            ts('Exclude group(s) '), $groups,
+            ts('Exclude group(s)') . ' ', $groups,
             array('size' => 5, 'style' => 'width:240px'));
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
@@ -79,10 +79,10 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-            ts('Include mailing(s) '), $mailings,
+            ts('Include mailing(s)') . ' ', $mailings,
             array('size' => 5, 'style' => 'width:240px'));
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-            ts('Exclude mailing(s) '), $mailings,
+            ts('Exclude mailing(s)') . ' ', $mailings,
             array('size' => 5, 'style' => 'width:240px'));
 
         $inM->setButtonAttributes('add', array('value' => ts('Add >>')));;

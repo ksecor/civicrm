@@ -85,7 +85,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for groups
-        $group = array( '' => ts(' - select group - ')) + CRM_Core_PseudoConstant::group( );
+        $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
         $this->_title  = $group[$this->_id];
 

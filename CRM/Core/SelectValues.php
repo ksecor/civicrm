@@ -66,7 +66,7 @@ class CRM_Core_SelectValues {
         static $phoneType = null;
         if (!$phoneType) {
             $phoneType = array(
-                ''       => ts('-select-'),
+                ''       => ts('- select -'),
                 'Phone'  => ts('Phone'),
                 'Mobile' => ts('Mobile'),
                 'Fax'    => ts('Fax'),
@@ -102,7 +102,7 @@ class CRM_Core_SelectValues {
         static $pcm = null;
         if (!$pcm) {
             $pcm = array(
-                ''      => ts('-no preference-'),
+                ''      => ts('- no preference -'),
                 'Phone' => ts('Phone'),
                 'Email' => ts('Email'), 
                 'Post'  => ts('Postal Mail')
@@ -202,7 +202,7 @@ class CRM_Core_SelectValues {
         static $customGroupExtends = null;
         if (!$customGroupExtends) {
             $customGroupExtends = array(
-                'Contact'      => ts('-all contact types-'),
+                'Contact'      => ts('- all contact types -'),
                 'Individual'   => ts('Individuals'),
                 'Household'    => ts('Households'),
                 'Organization' => ts('Organizations')

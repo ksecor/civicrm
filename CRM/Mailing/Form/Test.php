@@ -102,7 +102,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
                                 $options['from_name']));
         $mailing->from_email = $options['from_email'];
         $mailing->replyTo_email = $email;
-        $mailing->subject = ts('Test Mailing: ') . $options['subject'];
+        $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
         $mailing->body_text = file_get_contents($options['textFile']);

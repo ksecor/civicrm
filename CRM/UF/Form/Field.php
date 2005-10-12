@@ -159,7 +159,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if($this->_action & CRM_Core_Action::DELETE) {
             $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Delete Profile Field '),
+                                        'name'      => ts('Delete Profile Field'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',

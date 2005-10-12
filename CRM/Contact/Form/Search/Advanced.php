@@ -82,11 +82,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'city'));
 
         // select for state province
-        $stateProvince = array('' => ' - ' . ts('any state/province') . ' - ') + CRM_Core_PseudoConstant::stateProvince( );
+        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
         $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
 
         // select for country
-        $country = array('' => ' - ' . ts('any country') . ' - ') + CRM_Core_PseudoConstant::country( );
+        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
         $this->addElement('select', 'country', ts('Country'), $country);
 
         // add text box for postal code
@@ -234,7 +234,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
                     }
-                    $selectOption = array('' => '- ' . ts('select') . ' -') + $selectOption;
+                    $selectOption = array('' => ts('- select -')) + $selectOption;
                     $this->addElement('select', $elementName, $field['label'], $selectOption);
                     break;
 
@@ -248,12 +248,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     break;
 
                 case 'Select State/Province':
-                    $stateOption = array('' => '- ' . ts('select') . ' -') + CRM_Core_PseudoConstant::stateProvince();
+                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
                     $this->addElement('select', $elementName, $field['label'], $stateOption);
                     break;
 
                 case 'Select Country':
-                    $countryOption = array('' => '- ' . ts('select') . ' -') + CRM_Core_PseudoConstant::country();
+                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
                     $this->addElement('select', $elementName, $field['label'], $countryOption);
                     break;
                 }

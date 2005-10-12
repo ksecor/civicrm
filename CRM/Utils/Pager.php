@@ -158,17 +158,17 @@ class CRM_Utils_Pager extends Pager_Sliding {
         $params['excludeVars']           = array( 'reset' => 1 );
 
         // set previous and next text labels
-        $params['prevImg']    = ts(' &lt; Previous');
-        $params['nextImg']    = ts('Next &gt; ');
+        $params['prevImg']    = ' ' . ts('&lt; Previous');
+        $params['nextImg']    = ts('Next &gt;') . ' ';
 
 
         // set first and last text fragments
         $params['firstPagePre']  = '';
-        $params['firstPageText'] = ts(' &lt;&lt; First');
+        $params['firstPageText'] = ' ' . ts('&lt;&lt; First');
         $params['firstPagePost'] = '';
 
         $params['lastPagePre']   = '';
-        $params['lastPageText']  = ts('Last &gt;&gt; ');
+        $params['lastPageText']  = ts('Last &gt;&gt;') . ' ';
         $params['lastPagePost']  = '';
 
         $params['currentPage'] = $this->getPageID      ( $params['pageID'], $params );

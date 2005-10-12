@@ -74,17 +74,17 @@ class CRM_Profile_Form_Dojo extends CRM_Core_Form
         $this->add('text', 'sort_name', ts('Name or email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
  
        // select for state province 
-        $stateProvince = array('' => ts(' - any state/province - ')) + CRM_Core_PseudoConstant::stateProvince( ); 
+        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( ); 
         $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince); 
  
         // select for country 
-        $country = array('' => ts(' - any country - ')) + CRM_Core_PseudoConstant::country( ); 
+        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( ); 
         $this->addElement('select', 'country', ts('Country'), $country); 
          
         $this->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $this->addElement('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime')); 
 
-        $group               = array('' => ts(' - any group - ')) + CRM_Core_PseudoConstant::group( );
+        $group               = array('' => ts('- any group -')) + CRM_Core_PseudoConstant::group( );
         $this->addElement('select', 'group', ts('Groups'), $group); 
         
         $this->addButtons(array( 

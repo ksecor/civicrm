@@ -90,7 +90,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $this->addRule( 'scheduled_date_time', ts('Call Date and Time are required.'), 'required' );
 
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
-        $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
+        $this->add('text', 'phone_number'  , ' ' . ts('OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
         $this->add('select', 'duration_hours', '', CRM_Core_SelectValues::getHours());
         $this->add('select', 'duration_minutes', '', CRM_Core_SelectValues::getMinutes());
         

@@ -256,7 +256,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->add('hidden','task', CRM_Contact_Task::GROUP_CONTACTS );
 
         } else {
-            $this->add('select', 'task'   , ts('Actions: ')    , $tasks    );
+            $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    );
             $this->add('submit', $this->_actionButtonName, ts('Go'),
                        array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
@@ -312,11 +312,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->add('select', 'contact_type', ts('Find...'), CRM_Core_SelectValues::contactType());
 
         // add select for groups
-        $group               = array('' => ts(' - any group - ')) + $this->_group;
+        $group               = array('' => ts('- any group -')) + $this->_group;
         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
 
         // add select for categories
-        $tag = array('' => ts(' - any tag - ')) + $this->_tag;
+        $tag = array('' => ts('- any tag -')) + $this->_tag;
         $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
