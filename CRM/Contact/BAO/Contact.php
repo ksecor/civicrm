@@ -893,7 +893,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 self::$_importableFields = array();
             }
 
-            $fields = array( '' => array( 'title' => ts('-do not import-') ) );
+            $fields = array( '' => array( 'title' => '-' . ts('do not import') . '-' ) );
             //$fields = array();
 
             if ( $contactType != 'All' ) {

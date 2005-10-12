@@ -669,7 +669,7 @@ class CRM_Contact_BAO_Query {
             $clause[] = "'" . CRM_Utils_Type::escape( $this->_params['contact_type'], 'String' ) . "'";
         }
         $this->_where[] = 'civicrm_contact.contact_type IN (' . implode( ',', $clause ) . ')';
-        $this->_qill[]  = ts('Contact Type - ') . implode( ts(' or '), $clause );
+        $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
     }
 
     function group( ) {
@@ -685,7 +685,7 @@ class CRM_Contact_BAO_Query {
         foreach ( $this->_params['group'] as $id => $dontCare ) {
             $names[] = $groupNames[$id];
         }
-        $this->_qill[]  = ts('Member of Group -') . implode( ts(' or '), $names );
+        $this->_qill[]  = ts('Member of Group -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
         
         $statii = array(); 
         $in = false; 
@@ -706,7 +706,7 @@ class CRM_Contact_BAO_Query {
 
         $groupClause .= ' AND civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
         $this->_tables['civicrm_group_contact'] = 1;
-        $this->_qill[] = ts('Group Status -') . implode( ts(' or '), $statii );
+        $this->_qill[] = ts('Group Status -') . ' ' . implode( ' ' . ts('or') . ' ', $statii );
 
         if ( $in ) {
             $ssClause = $this->savedSearch( );
@@ -769,7 +769,7 @@ class CRM_Contact_BAO_Query {
         foreach ( $this->_params['tag'] as $id => $dontCare ) {
             $names[] = $tagNames[$id];
         }
-        $this->_qill[]  = ts('Tagged as -') . implode( ts(' or '), $names ); 
+        $this->_qill[]  = ts('Tagged as -') . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
 
         $this->_where[] = 'tag_id IN (' . implode( ',', array_keys( $this->_params['tag'] ) ) . ')';
         $this->_tables['civicrm_entity_tag'] = 1;                                          
@@ -868,7 +868,7 @@ class CRM_Contact_BAO_Query {
                     $this->_tables['civicrm_location'] = 1;
                     $this->_tables['civicrm_address' ] = 1;
 
-                    $this->_qill[]  = ts('Postal code - ') . implode( ts(' or '), $qill );
+                    $this->_qill[]  = ts('Postal code -') . ' ' . implode( ' ' . ts('or') . ' ', $qill );
                 }
             }
         }
@@ -886,7 +886,7 @@ class CRM_Contact_BAO_Query {
             foreach ( array_keys( $this->_params['location_type'] ) as $id ) {
                 $names[] = $locationType[$id];
             }
-            $this->_qill[] = ts('Location type -') . ' ' . implode( ts(' or '), $names );
+            $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
         }
 
         if ( CRM_Utils_Array::value( 'primary_location', $this->_params ) ) { 
@@ -933,7 +933,7 @@ class CRM_Contact_BAO_Query {
         }
         
         if ( ! empty( $qill ) ) {
-            $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' or ', $qill ) ) );
+            $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' ' . ts('or') . ' ', $qill ) ) );
         }
      }
 
