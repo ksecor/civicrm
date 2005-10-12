@@ -985,11 +985,17 @@ class CRM_Contact_BAO_Query {
         return "$select $from $where";
     }
 
-    static function apiQuery( $params = null, $returnProperties = null, $count = false ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null, 
-                                            $count, false );
+    static function apiQuery( $params = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
         $sql = "$select $from $where";
+        if ( ! empty( $sort ) ) {
+            $sql .= " ORDER BY $sort ";
+        }
+        if ( $row_count > 0 && $offset >= 0 ) {
+            $sql .= " LIMIT $offset, $row_count ";
+        }
+
         $dao = CRM_Core_DAO::executeQuery( $sql );
         $values = array( );
         while ( $dao->fetch( ) ) {
@@ -1052,7 +1058,7 @@ class CRM_Contact_BAO_Query {
             } else if ($sortByChar) { 
                 $order = " ORDER BY LEFT(civicrm_contact.sort_name, 1) ";
             }
-            if ( $rowCount > 0 ) {
+            if ( $rowCount > 0 && $offset >= 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
             }
         }

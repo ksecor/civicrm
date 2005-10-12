@@ -96,8 +96,6 @@ function civicrm_html_head()
  */
 function civicrm_help($section)
 {	
-    civicrm_require();
-
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
@@ -299,13 +297,14 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
+	if ( $type == 'load' ) {
+        return;
+    }
+
     // make sure the system is initialized
     civicrm_initialize( );
 
     switch ( $type ) {
-
-    case 'load':
-        return civicrm_load_data($user);
 
     case 'login':
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
@@ -344,9 +343,6 @@ function civicrm_categories( ) {
                          'weight' => 5 );
     }
     return $data;
-}
-
-function civicrm_load_data(&$user) {
 }
 
 function civicrm_register_data($edit, &$user, $category, $reset) {

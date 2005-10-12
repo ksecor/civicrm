@@ -152,7 +152,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         if ( ! self::$_links ) {
             self::$_links = array( 
                                   CRM_Core_Action::VIEW   => array(
-                                                                   'name'  => ts('View'),
+                                                                   'name'  => ts('Details'),
                                                                    'url'   => 'civicrm/profile/view',
                                                                    'qs'    => 'reset=1&cid=%%id%%',
                                                                    'title' => ts('View Profile Details'),

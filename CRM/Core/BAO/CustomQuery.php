@@ -135,9 +135,7 @@ class CRM_Core_BAO_CustomQuery {
             }
 
             $field = $this->_fields[$id];
-            $qillValue = CRM_Core_BAO_CustomOption::getOptionLabel( $field['id'], 
-                                                                    $value, 
-                                                                    $field['html_type'] ); 
+            $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
             
             switch ( $field['data_type'] ) {
 
@@ -145,7 +143,7 @@ class CRM_Core_BAO_CustomQuery {
                 $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) LIKE ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                 if ( $field['html_type'] == 'CheckBox' && is_array( $value ) ) { 
-                    $this->_where[] = $sql . "'%" . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values( $value ) ) . "%'";
+                    $this->_where[] = $sql . "'%" . implode( '%', array_values( $value ) ) . "%'";
                     $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => implode(', ', array_keys($value))));
                 } else {
                     $this->_where[] = $sql . "'%" . strtolower( $value ) . "%'";
