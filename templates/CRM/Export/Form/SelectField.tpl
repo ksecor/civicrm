@@ -8,7 +8,7 @@
  <fieldset><legend>{ts}Export Contacts{/ts}</legend>
     <dl>
        <dd class="description">
-         {ts 1=$totalSelectedContacts} %1 records selected for export {/ts}
+         {ts 1=$totalSelectedContacts}%1 records selected for export{/ts}
        </dd> 
        <dd>{$form.exportOption.html}</dd>
     </dl>

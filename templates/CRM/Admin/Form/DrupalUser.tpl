@@ -1,7 +1,7 @@
 {* this template is for synchronizing druapl user*}
 
 <div id="help">
-    {ts}<p>Synchronize Drupal Users</p>{/ts}
+    <p>{ts}Synchronize Drupal Users{/ts}</p>
 </div>
    
 <div class="messages status">

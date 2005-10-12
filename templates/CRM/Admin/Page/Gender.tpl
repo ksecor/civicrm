@@ -1,6 +1,5 @@
 <div id="help">
-    {ts}<p>CiviCRM is pre-configured with standard options for individual gender (e.g. Male, Female, Transgender).
-    You can use this page to customize these options and add new options as needed for your installation.</p>{/ts}
+    <p>{ts}CiviCRM is pre-configured with standard options for individual gender (e.g. Male, Female, Transgender). You can use this page to customize these options and add new options as needed for your installation.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}

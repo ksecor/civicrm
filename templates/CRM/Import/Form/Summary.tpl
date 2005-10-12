@@ -29,7 +29,7 @@
 
     {if $duplicateRowCount}
         <p {if $dupeError}class="error"{/if}>
-        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  {/ts}{$dupeActionString}
+        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.{/ts} {$dupeActionString}
         </p>
         <p {if $dupeError}class="error"{/if}>
         {ts 1=$downloadDuplicateRecordsUrl}You can <a href="%1">Download Duplicates</a>. You may then review these records to determine if they are actually duplicates, and correct the email address for those that are not.{/ts}
@@ -69,7 +69,7 @@
     {if $duplicateRowCount && $dupeError}
     <tr class="error"><td class="label">{ts}Duplicate Rows{/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
-        <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records.  {/ts}{$dupeActionString}
+        <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records.{/ts} {$dupeActionString}
             {if $duplicateRowCount}
                 <p><a href="{$downloadDuplicateRecordsUrl}">{ts}Download Duplicates{/ts}</a></p>
             {/if}

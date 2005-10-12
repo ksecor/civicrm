@@ -3,8 +3,7 @@
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
         <dd>
-    {ts 1=$name}"WARNING: Deleting this custom group will result in the loss of all %1 data. This action can not be undone. Do you want to continue?"{/ts}
-    
+          {ts 1=$name}WARNING: Deleting this custom group will result in the loss of all %1 data. This action can not be undone. Do you want to continue?{/ts}
         </dd>
       </dl>
     </div>

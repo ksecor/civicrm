@@ -5,14 +5,9 @@
 {elseif $action eq 1024}
     {* Display HTML Code for standalone Profile form *}
     <div id="help">
-    {ts}
-    <p>The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML
-    code and paste it into any block or page on ANY website where you want to collect contact information.</p>
-    <p>You can control the web page that someone is directed to AFTER completing the form by modifying the
-    contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete
-    URL prior to saving the form code to the desired page(s).</p>
-    <p>EXAMPLE: <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
-    {/ts}
+    <p>{ts}The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>
+    <p>{ts}You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s).{/ts}</p>
+    <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
     </div>
     
     <h3>{ts}CiviCRM Profile - Code for Stand-alone HTML Form{/ts}</h3>

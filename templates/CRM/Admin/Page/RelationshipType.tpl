@@ -1,6 +1,6 @@
 <div id="help">
-    {ts}<p>Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee).</p>
-    <p>You can define as many additional relationships types as needed to cover the types of relationships you want to track.</p>{/ts}
+    <p>{ts}Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee).{/ts}</p>
+    <p>{ts}You can define as many additional relationships types as needed to cover the types of relationships you want to track.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}

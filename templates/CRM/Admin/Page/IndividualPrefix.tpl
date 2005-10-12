@@ -1,6 +1,5 @@
 <div id="help">
-    {ts}<p>CiviCRM is pre-configured with standard options for individual contact titles / prefixes (e.g. Ms., Mr., Dr. etc.).
-    You can use this page to customize these options and add new ones as needed for your installation.</p>{/ts}
+    <p>{ts}CiviCRM is pre-configured with standard options for individual contact titles / prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these options and add new ones as needed for your installation.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}

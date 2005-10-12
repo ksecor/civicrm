@@ -1,7 +1,7 @@
 {* this template is for domain dump (backup data) *}
 
 <div id="help">
-    {ts}<p>Backup Database</p>{/ts}
+    <p>{ts}Backup Database{/ts}</p>
 </div>
    
 <div class="messages status">
