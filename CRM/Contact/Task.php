@@ -86,7 +86,7 @@ class CRM_Contact_Task {
                                   4    => ts( 'Tag Contacts (assign tags)'    ),
                                   128  => ts( 'Send Email to Contacts'        ), 
                                   8    => ts( 'Delete Contacts'               ),
-                                  16   => ts( 'New Saved Search'              ),
+                                  16   => ts( 'New Smart Group'              ),
                                   512  => ts( 'Add Contacts to Household'     ),
                                   1024 => ts( 'Add Contacts to Organization'  ),
                                   2048 => ts( 'Map Contacts using Google Maps'),
@@ -106,7 +106,7 @@ class CRM_Contact_Task {
         } else {
             $tasks = array( 
                            128  => ts( 'Send Email to Contacts'        ), 
-                           16   => ts( 'New Saved Search'              ),
+                           16   => ts( 'New Smart Group'              ),
                            2048 => ts( 'Map Contacts using Google Maps'),
                            );
             return $tasks;
@@ -125,7 +125,7 @@ class CRM_Contact_Task {
     {
         if (!(self::$_optionalTasks)) {
             self::$_optionalTasks = array(
-                32 => ts('Update Saved Search')
+                32 => ts('Update Smart Group')
             );
         }
         return self::$_optionalTasks;

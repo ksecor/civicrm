@@ -107,9 +107,9 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         }
         
         if ( isset( $this->_id ) ) {
-            $this->addDefaultButtons( ts('Update Saved Search') );
+            $this->addDefaultButtons( ts('Update Smart Group') );
         } else {
-            $this->addDefaultButtons( ts('Save Search') );
+            $this->addDefaultButtons( ts('Save Smart Group') );
         }
     }
 

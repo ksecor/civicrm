@@ -230,11 +230,6 @@ class CRM_Core_Invoke {
         $session =& CRM_Core_Session::singleton( );
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
 
-        if ( $thirdArg == 'saved' ) {
-            $page =& new CRM_Contact_Page_SavedSearch( );
-            return $page->run( );
-        }
-
         if ( $thirdArg == 'advanced' ) {
             // advanced search
             $mode  = CRM_Core_Action::ADVANCED;

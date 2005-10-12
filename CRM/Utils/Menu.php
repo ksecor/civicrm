@@ -305,15 +305,6 @@ class CRM_Utils_Menu {
                             'weight'  => 1
                             ),
                       array(
-                            'path'    => 'civicrm/contact/search/saved',
-                            'title'   => ts('Saved Searches'),
-                            'qs'      => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
-                            ),
-
-                      array(
                             'path'   => 'civicrm/contact/addI',
                             'title'  => ts('New Individual'),
                             'qs'     => 'reset=1',

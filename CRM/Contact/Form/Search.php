@@ -215,6 +215,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );
+            $this->assign( 'ssID', $this->_ssID );
         }
 
         if ( $this->_context === 'smog' ) {

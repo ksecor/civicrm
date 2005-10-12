@@ -100,7 +100,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
 
     function &savedSearchLinks( ) {
         if ( ! self::$_savedSearchLinks ) {
-            $deleteExtra = ts('Do you really want to remove this Saved Search?');
+            $deleteExtra = ts('Do you really want to remove this Smart Group?');
             self::$_savedSearchLinks =
                 array(
                       CRM_Core_Action::VIEW   => array(
