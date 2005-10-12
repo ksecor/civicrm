@@ -1,4 +1,4 @@
-# Spanish translations of ISO 3166 element names
+# Spanish translations of ISO 3166 province names
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Juan Manuel García Molina <juanmagm@mail.com>, 2001. 
 #     (translations from drakfw)

@@ -1,4 +1,4 @@
-# English translations for l package.
+# British English translations of ISO 3166 country names
 # Copyright (C) 2005
 # This file is distributed under the same license as the iso-codes package.
 # Automatically generated, 2005.
@@ -14,7 +14,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1 ? 1 : 0);\n"
 
 #. name for AFG
 msgid "Afghanistan"

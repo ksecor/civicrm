@@ -1,4 +1,4 @@
-# Traditional Chinese (zh_TW) translations of ISO 3166 place names
+# Traditional Chinese translations of ISO 3166 province names
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Alastair McKinstry <mckinstry@computer.org>, 2002
 # Translations from KDE:

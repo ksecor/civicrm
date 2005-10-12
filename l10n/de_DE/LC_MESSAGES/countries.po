@@ -1,4 +1,4 @@
-# German translations for ISO-3166 names
+# German translations of ISO 3166 country names
 # Copyright (C) 2004 Free Software Foundation, Inc.
 #   (translations from drakfw)
 #

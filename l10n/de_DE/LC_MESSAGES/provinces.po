@@ -1,4 +1,4 @@
-# German translations for l package.
+# German translations of ISO 3166 province names
 # Copyright (C) 2005
 # This file is distributed under the same license as the iso-codes package.
 # Automatically generated, 2005.
