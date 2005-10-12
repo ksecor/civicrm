@@ -35,10 +35,7 @@ msgstr "Assunto"
 #, fuzzy
 msgid "Please enter a valid subject."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Entre com um assunto válido.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Entre com um assunto Válido"
+"Entre com um assunto válido."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Profile/Form/Dojo.php
@@ -274,10 +271,7 @@ msgstr "é um campo numérico"
 #, fuzzy
 msgid "Please enter a valid name."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Entre com um Nome Válido.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Entre com um Nome Válido"
+"Entre com um Nome Válido."
 
 #: CRM/Admin/Form/LocationType.php CRM/Mailing/Form/Component.php
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -483,10 +477,7 @@ msgstr "sobre-nome"
 #, fuzzy
 msgid "Job Title"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Cargo Título\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Cargo"
+"Cargo Título"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
@@ -753,10 +744,7 @@ msgstr "Procurar Nome"
 #, fuzzy
 msgid "Update Saved Search"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Atualizar Pesquisa Salva\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Atualizar Pesquisa Gravada"
+"Atualizar Pesquisa Salva"
 
 #: CRM/Contact/Import/Base.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/StateProvince.php templates/CRM/Contact/Form/Relationship.tpl
@@ -767,10 +755,7 @@ msgstr ""
 #, fuzzy
 msgid "State"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"UF\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Estado"
+"UF"
 
 #: CRM/Contact/Import/Base.php CRM/Core/DAO/Phone.php
 #: CRM/Core/SelectValues.php
@@ -863,10 +848,7 @@ msgstr "Inteiro"
 #, fuzzy
 msgid "Money"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Moeda\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Dinheiro"
+"Moeda"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Address.php CRM/Core/DAO/Note.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -976,10 +958,7 @@ msgstr "Ajuda Postar"
 #, fuzzy
 msgid "Mask"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Máscara\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Mascara"
+"Máscara"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
@@ -1334,10 +1313,7 @@ msgstr "Selecione Núm. Telefone"
 #, fuzzy
 msgid "The Field Subject should not be Empty"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"O Campo Assunto não pode estar vazio\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"O Campo Assunto não pode estar em branco"
+"O Campo Assunto não pode estar vazio"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Call Date and Time are required."
@@ -1373,19 +1349,13 @@ msgstr "Selecione a Outra Atividade a ser excluída."
 #, fuzzy
 msgid "The activity type \"%1\" has been saved."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"O Tipo de Atividade \"%1\" foi salva.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Tipo de Atividade \"%1\" foi salva."
+"O Tipo de Atividade \"%1\" foi salva."
 
 #: CRM/Admin/Form/Gender.php
 #, fuzzy
 msgid "Please enter a valid gender name."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Entre com um Nome Válido.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Entre com um Nome Válido"
+"Entre com um Nome Válido."
 
 #: CRM/Admin/Form/Gender.php
 #, fuzzy
@@ -1435,10 +1405,7 @@ msgstr "Fornecedor de IM \"%1\" foi salvo."
 #, fuzzy
 msgid "Please enter a valid individual suffix name."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Entre com um Nome Válido.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Entre com um Nome Válido"
+"Entre com um Nome Válido."
 
 #: CRM/Admin/Form/IndividualSuffix.php
 #, fuzzy
@@ -1858,10 +1825,7 @@ msgstr "Tipo de Contato A"
 #, fuzzy
 msgid "Contact Type -"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Tipo de contato -\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Tipo de contato-"
+"Tipo de contato -"
 
 #: CRM/Contact/BAO/Query.php
 msgid "or"
@@ -1913,10 +1877,7 @@ msgstr "Tipo de Localização - "
 #, fuzzy
 msgid "Primary Location only? - Yes"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Somente localização Primária? - Sim\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Somente localização Primária? -Sim"
+"Somente localização Primária? - Sim"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Type like - \"%1\""
@@ -2130,12 +2091,8 @@ msgstr "Somente uma localização deve ser marcada como Primária."
 #, fuzzy
 msgid "The Location Type should be set if there is any location information"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "O Tipo de localização deverá ser escolhido caso houver qualquer informação "
-"de localização\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"O tipo de Localização deve ser escolhido, caso essa Localização contenha "
-"informações"
+"de localização"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -2272,17 +2229,10 @@ msgid ""
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
 msgstr[0] ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"%count registro de relacionamento não criado - Relacionamento duplicado.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
 "%count registro de relacionamento não criado - Relacionamento duplicado."
 msgstr[1] ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "%count registros de relacionamentos não criados, duplicatas de "
-"relacionamentos existente.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"%count registro de relacionamento não criado, duplicata de relacionamento "
-"existente."
+"relacionamentos existente."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
@@ -2348,10 +2298,7 @@ msgstr "Grupo Status"
 #, fuzzy
 msgid "Please select at least one membership status."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Selecione no minímo um Status para o membro.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Selecione no minímo um Status para o contato."
+"Selecione no minímo um Status para o membro."
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
@@ -2682,10 +2629,7 @@ msgstr "Remover contatos do Grupo"
 #, fuzzy
 msgid "Tag Contacts (assign tags)"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Rótular Contatos (designar)\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Rótulos Contatos (designar)"
+"Rótular Contatos (designar)"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -2939,10 +2883,7 @@ msgstr "Abreviação de País"
 #, fuzzy
 msgid "Data Type"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Tipo Dado\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Tipo de dado"
+"Tipo Dado"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Html Type"
@@ -3041,10 +2982,7 @@ msgstr "Manter Data"
 #, fuzzy
 msgid "Reset Date"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Limpar Data\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Data Limpar"
+"Limpar Data"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Type"
@@ -3479,19 +3417,13 @@ msgstr "Opção rótulo duplicado"
 #, fuzzy
 msgid "Option label cannot be empty"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"O Titulo da Opção não pode estar vazio\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Opção não pode estar em branco"
+"O Titulo da Opção não pode estar vazio"
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Option value cannot be empty"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"O valor da opção não pode estar vazio\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"O valor da opção não pode estar em branco"
+"O valor da opção não pode estar vazio"
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer."
@@ -3569,10 +3501,7 @@ msgstr "Pronto com o pré-visualizar"
 #, fuzzy
 msgid "Are you sure you want to disable this custom data field?"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Você tem certeza de que deseja desabilitar este campo de dado customizado?\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Você tem certeza de que deseja desabilitar este campo customizado?"
+"Você tem certeza de que deseja desabilitar este campo de dado customizado?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
@@ -3661,10 +3590,7 @@ msgstr "Editar Opção de múltipla escolha"
 #, fuzzy
 msgid "View Multiple Choice Option"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Visualizar opções de múltipla escolha\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Visualizar Opções de múltipla escolha"
+"Visualizar opções de múltipla escolha"
 
 #: CRM/Custom/Page/Option.php
 msgid "Enable Mutliple Choice Option"
@@ -3830,10 +3756,7 @@ msgstr "Entre com um nome válido para este grupo."
 #, fuzzy
 msgid "Group '%1' already exists."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Grupo '%1' já existente.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Grupo '%1' já existe."
+"Grupo '%1' já existente."
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
@@ -4411,10 +4334,7 @@ msgstr "Atualizar rótulos"
 #, fuzzy
 msgid "Your update(s) have been saved."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Sua(s) atualização(ões) foi(foram) salva(s).\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Sua(s) atualização(ões) fora(m) salva(s)."
+"Sua(s) atualização(ões) foi(foram) salva(s)."
 
 #: CRM/UF/Form/Field.php
 #, fuzzy
@@ -4620,10 +4540,7 @@ msgstr ""
 #, fuzzy
 msgid "Instant Messenger Services"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"IM Serviço de Mensagem Instantanea\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"IM Serviço e Mensagem Instantanea"
+"IM Serviço de Mensagem Instantanea"
 
 #: CRM/Utils/Menu.php
 #, fuzzy
@@ -4841,12 +4758,8 @@ msgstr "Min"
 #, fuzzy
 msgid "Meeting will be moved to Activity History when status is 'Completed'."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "A reunião será removida do Histórico de Atividades quando o Status estiver "
-"como \"Completo\"\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"A reunião será removida do Histórico de Atividades quando o Status estiver "
-"como \"Completado\""
+"como \"Completo\""
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -4887,10 +4800,7 @@ msgstr "Agendar uma chamada Telefônica"
 #, fuzzy
 msgid "Edit Scheduled Call"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Editar chamada Telefônica Agendada\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Editar chamada Telefônica"
+"Editar chamada Telefônica Agendada"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Delete Phone Call"
@@ -5179,10 +5089,7 @@ msgstr ""
 #, fuzzy
 msgid "Instant Messenger Service"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"IM Serviço de Mensagem Instantanea\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"IM Serviço e Mensagem Instantanea"
+"IM Serviço de Mensagem Instantanea"
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid ""
@@ -5236,15 +5143,9 @@ msgid ""
 "Work). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Tipos de localização fornecem rótulos convinientes para diferenciar "
 "localizações de contatos(s). CiviCRM inclui diversos tipos comuns "
 "'reservados' usados ( Residêncial e Comercial). Administradores podem "
-"definir tipos adicionais apropriados a suas necessidades.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Tipos de localização fornecem rótulos convinientes para diferente "
-"localizações de contatos.(s). CiviCRM inclui diversos tipos comuns "
-"'reservados' usados ( Residêncial e Comercial). Adninistradores podem "
 "definir tipos adicionais apropriados a suas necessidades."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -5337,10 +5238,7 @@ msgstr "Rótulo"
 #, fuzzy
 msgid "First Name:"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Nome:\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Pré Nome"
+"Nome:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
@@ -5359,10 +5257,7 @@ msgstr "-exato ou nome parcial-"
 #, fuzzy
 msgid "Go to Advanced Search"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Ir para a Pesquisa Avançada\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Ir para a pesquisa avançada"
+"Ir para a Pesquisa Avançada"
 
 #: templates/CRM/Commerce/Donation/Form/DonationPage.tpl
 #, fuzzy
@@ -5370,11 +5265,7 @@ msgid ""
 "Use this form to setup the name, description and more for a customized "
 "donation page."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Use este formulário para configurar o nome, descrição e outras informações "
-"da página de doação customizada.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Use este formulário para configurar o nome, descrição e outras informaçãoes "
 "da página de doação customizada."
 
 #: templates/CRM/Commerce/Donation/Form/DonationPage.tpl
@@ -5549,13 +5440,9 @@ msgid ""
 "Select the relationship type. Then locate target contact(s) for this "
 "relationship by entering a complete or partial name and clicking 'Search'."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Selecione o tipo de relacionamento. Então localize o(s) contato(s) destino "
 "para este relacionamento digitando o nome parcial ou completo, e clique em "
-"'Pesquisar'.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Selecione o tipo de relacionamento. Então localize o(s) contato(s) para este "
-"relacionamento digitando o nome parcial ou completo, e clique em 'Pesquisar'."
+"'Pesquisar'."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -5706,11 +5593,8 @@ msgstr ""
 #, fuzzy
 msgid "make sure you have enough privileges in the access control system"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Esteja certo de possuir permissões suficientes para acesso no controle do "
-"sistema\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Esteja certo de possuir direitos de acesso suficientes ao sistema"
+"sistema"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 #, fuzzy
@@ -5781,14 +5665,9 @@ msgstr "selecionar somente registros"
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"registro encontrado\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
 "registro encontrado"
 msgstr[1] ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Total %count registros\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
+"Total %count registros"
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 msgid "Add Members to a Group"
@@ -5854,10 +5733,7 @@ msgstr "Remover membros"
 #, fuzzy
 msgid "Saved Search"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Pesquisa salva\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Pesquisa salva."
+"Pesquisa salva"
 
 #: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
@@ -5907,10 +5783,7 @@ msgstr "Agendar Telefonema"
 #, fuzzy
 msgid "Schedule a Call"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Agendar uma chamada telefônica\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Agendar chamada telefônica"
+"Agendar uma chamada telefônica"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Call"
@@ -5928,10 +5801,7 @@ msgstr "(localização primária)"
 #, fuzzy
 msgid "Instant Messenger:"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Mensagem Instantânea:\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Mensagem Instantanea:"
+"Mensagem Instantânea:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Map Primary Address"
@@ -5996,10 +5866,7 @@ msgstr "Com"
 #, fuzzy
 msgid "View All Open Activities..."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Ver todas as atividades em Aberto...\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Ver todas as atividades em Aberto"
+"Ver todas as atividades em Aberto..."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No activity history."
@@ -6013,10 +5880,7 @@ msgstr "Histórico de atividade (3 de %1)"
 #, fuzzy
 msgid "View All Activity History..."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Ver todas os Históricos de Atividades...\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Ver todas os Históricos de Atividades"
+"Ver todas os Históricos de Atividades..."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
@@ -6305,13 +6169,8 @@ msgid ""
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Selecione os tipo de dado que deseja coletar e armazenar deste contato.Então "
 "selecione os tipos de camapos de entrada HTML disponíveis (a escolha é "
-"baseada no tipo de dado coletado).\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Selecione os tipos de dados que deseja coletar e armazenar deste contato."
-"Então selecione os tipos de camapos de entrada HTML disponíveis (a escolha é "
 "baseada no tipo de dado coletado)."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
@@ -6370,11 +6229,7 @@ msgstr ""
 msgid ""
 "Select the type of record that this group of custom data is available for."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Selecione o tipo de registro que este grupo de dados customizado esta "
-"disponível para.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Selecione o tipo de registro que este grupo de dados customizado que esta "
 "disponível para."
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -6744,10 +6599,7 @@ msgstr ""
 #, fuzzy
 msgid "Download Conflicts"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Conflitos do Download\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Conflitos de Download"
+"Conflitos do Download"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Valid Rows"
@@ -6763,11 +6615,7 @@ msgid ""
 "<strong>Import has completed successfully.</strong> The information below "
 "summarizes the results."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "<strong>Importação concluída com sucesso.</strong> As informações abaixo "
-"resumem os resultados\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"<strong>Importação completada com sucesso.</strong> As informações abaixo "
 "resumem os resultados"
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -7167,11 +7015,7 @@ msgid ""
 "Current tags for <strong>%1</strong> are highlighted. You can add or remove "
 "tags from <a href=\"%2\">Edit Tags</a>."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Rótulos atuais para<strong>%1</strong> estão em realce. Você pode adicionar "
-"ou remover Rótulos em <a href=\"%2\">Editar Rótulos</a>.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Rótulos atuais para<strong>%1</strong> estão em realce. Voc6e pode adicionar "
 "ou remover Rótulos em <a href=\"%2\">Editar Rótulos</a>."
 
 #: templates/CRM/Tag/Form/Tag.tpl
@@ -7215,12 +7059,8 @@ msgstr "Os usuários são obrigados a completar este campo?"
 #, fuzzy
 msgid "If checked, users can view but not edit this field for their account."
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Se marcado, usuários podem visualizar mas não podem editar este campo em "
-"suas contas.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Se marcado, usuários podem visualizar mas não podem editar o campo em suas "
-"contas."
+"suas contas."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to include this field in the new account registration form?"
@@ -7234,14 +7074,9 @@ msgid ""
 "is it visible to others (Public User Pages)? If public, can it be used to "
 "aggregate Profile Listing Pages?"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 "Este campo é visivel somente para usuários e administradores, ou é visivel "
 "para outros (Pág. Públicas de Usuários)? Se Pública, pode ser usada para "
-"agregar Páginas de Listagem de Perfis ?\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Este campo é visivel somente para usuáriose administradores, ou é visivel "
-"para outros (Pág. Públicas de Usuários)? SePública, pode ser usada para "
-"agregar Páginas de Listagem de Perfis ?"
+"agregar Páginas de Listagem de Perfis?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -7609,10 +7444,7 @@ msgstr "Jr."
 #, fuzzy
 msgid "Sr"
 msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Sr.\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Sir."
+"Sr."
 
 #: xml/templates/civicrm_data.tpl
 msgid "II"
@@ -7723,13 +7555,7 @@ msgstr "II"
 #~ "in the right-hand column. Select '-do not import-' for any columns in the "
 #~ "import file that you want ignored."
 #~ msgstr ""
-#~ "#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
 #~ "Rever os valores mostrados abaixo na linha 2 do arquivo de importação e "
-#~ "selecionar os campos correspondentes no CiviCRM na lista da caixa de "
-#~ "seleção da coluna à direita. Selecione '-não importar-' para qualquer "
-#~ "coluna no arquivo de importação que você  deseja que seja ignorada.\n"
-#~ "#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-#~ "Rever os valores mostrados abaixo na linha 3 do arquivo de importação e "
 #~ "selecionar os campos correspondentes no CiviCRM na lista da caixa de "
 #~ "seleção da coluna à direita. Selecione '-não importar-' para qualquer "
 #~ "coluna no arquivo de importação que você  deseja que seja ignorada."

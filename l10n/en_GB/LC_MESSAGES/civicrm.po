@@ -516,13 +516,8 @@ msgstr "City"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php
-#, fuzzy
 msgid "State / Province"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State / Province"
+msgstr "County"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/StateCountry.php
@@ -618,28 +613,17 @@ msgid "Street Name"
 msgstr "Street Name"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "- any state/province -"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-" - any county - \n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-" - any state/province - "
+msgstr "- any county -"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "State/Province"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State/Province"
+msgstr "County"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "- any country -"
-msgstr " - any country - "
+msgstr "- any country -"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Import/Base.php
 #: CRM/Core/DAO/Address.php
@@ -753,13 +737,8 @@ msgstr "Update Saved Search"
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "State"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State"
+msgstr "County"
 
 #: CRM/Contact/Import/Base.php CRM/Core/DAO/Phone.php
 #: CRM/Core/SelectValues.php
@@ -984,13 +963,8 @@ msgid "Select Date"
 msgstr "Select Date"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Select State/Province"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Select County\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Select State/Province"
+msgstr "Select County"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Country"
@@ -1781,13 +1755,8 @@ msgid "Transgender"
 msgstr "Transgender"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "State - \"%1\""
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County - \"%1\"\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State - \"%1\""
+msgstr "County - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country - \"%1\""
@@ -2021,11 +1990,7 @@ msgstr "Addt'l Address 2"
 #: CRM/Contact/Form/Address.php
 #, fuzzy
 msgid "Zip / Postal Code"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Postal Code\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Zip / Postal Code"
+msgstr "Postal Code"
 
 #: CRM/Contact/Form/Address.php
 msgid "Add-on Code"
@@ -2453,13 +2418,8 @@ msgid "Your search has been saved as \"%1\"."
 msgstr "Your search has been saved as \"%1\"."
 
 #: CRM/Contact/Form/Test.php
-#, fuzzy
 msgid "State / Province Id"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County Id\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State / Province Id"
+msgstr "County Id"
 
 #: CRM/Contact/Import/Base.php
 msgid "Street"
@@ -3047,13 +3007,8 @@ msgid "Modified Date"
 msgstr "Modified Date"
 
 #: CRM/Core/DAO/StateProvince.php
-#, fuzzy
 msgid "State Abbreviation"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County Abbreviation\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State Abbreviation"
+msgstr "County Abbreviation"
 
 #: CRM/Core/DAO/UFField.php
 msgid "Field Name"
@@ -3198,13 +3153,8 @@ msgid "Dear [title] [last]"
 msgstr "Dear [title] [last]"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Customized"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"Customised\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"Customized"
+msgstr "Customised"
 
 #: CRM/Core/SelectValues.php
 msgid "-select-"
@@ -3215,9 +3165,8 @@ msgid "San Francisco"
 msgstr "San Francisco"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "- no preference -"
-msgstr "-no preference-"
+msgstr "- no preference -"
 
 #: CRM/Core/SelectValues.php
 msgid "Postal Mail"
@@ -3288,13 +3237,8 @@ msgid "Date selector"
 msgstr "Date selector"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "State / Province selector"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"County selector\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"State / Province selector"
+msgstr "County selector"
 
 #: CRM/Core/SelectValues.php
 msgid "Country selector"
@@ -3394,13 +3338,8 @@ msgid "Invalid default value for country."
 msgstr "The invalid default value for Country Data Type"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "The invalid default value for State/Province data type"
-msgstr ""
-"#-#-#-#-#  civicrm.po (CiviCRM 1.1)  #-#-#-#-#\n"
-"The invalid default value for County data type\n"
-"#-#-#-#-#  civicrm.po (CiviCRM trunk)  #-#-#-#-#\n"
-"The invalid default value for State/Province data type"
+msgstr "The invalid default value for County data type"
 
 #: CRM/Custom/Form/Field.php
 msgid "Duplicate Option values"
