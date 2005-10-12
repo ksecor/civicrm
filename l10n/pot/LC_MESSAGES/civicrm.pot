@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-12 13:28+0200\n"
+"POT-Creation-Date: 2005-10-12 13:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -3974,31 +3974,31 @@ msgid "Data-type mismatch: \"%1\" is not of type \"%2\""
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- day of week -"
+msgid "-day of week-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- day -"
+msgid "-day-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- month -"
+msgid "-month-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- year -"
+msgid "-year-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- hour -"
+msgid "-hour-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- min -"
+msgid "-min-"
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
-msgid "- sec -"
+msgid "-sec-"
 msgstr ""
 
 #: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Contact/Page/View/ActivityLinks.tpl templates/CRM/Contact/Page/View/ActivityLinks.tpl
