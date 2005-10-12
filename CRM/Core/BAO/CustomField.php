@@ -382,8 +382,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      *
      */
 
-  public static function deleteGroup($id) 
-    { 
+    public static function deleteGroup($id) { 
         //delete first all custon values
         $customValue = & new CRM_Core_DAO_CustomValue();
         $customValue->custom_field_id = $id;
@@ -402,5 +401,57 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return true;
     }
 
+    static function getDisplayValue( $value, $id, $options ) {
+        $option     =& $options[$id];
+        $attributes =& $option['attributes'];
+        $html_type  =  $attributes['html_type'];
+        $data_type  =  $attributes['data_type'];
+        $index = $attributes['label'];
+
+        $display = $value;
+
+        switch ( $html_type ) {
+
+        case "Radio":
+            if ( $data_type == 'Boolean' ) {
+                $display = $value ? ts('Yes') : ts('No');
+            } else {
+                $display = $option[$value];
+            }
+            break;
+                    
+        case "Select":
+            $display = $option[$value];
+            break;
+                    
+        case "CheckBox":
+            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            $v = array( );
+            $p = array( );
+            foreach ( $checkedData as $dontCare => $val ) {
+                $p[] = $val;
+                $v[] = $option[$val];
+            }
+            if ( ! empty( $v ) ) {
+                $display = implode( ', ', $v );
+            }
+            break;
+
+        case "Select Date":
+            $display = CRM_Utils_Date::customFormat($value);
+            break;
+
+        case 'Select State/Province':
+            $display = CRM_Core_PseudoConstant::stateProvince($value);
+            break;
+
+        case 'Select Country':
+            $display = CRM_Core_PseudoConstant::country($value);
+            break;
+        }
+
+        // CRM_Core_Error::debug( "$display, $value, $id", $options );
+        return $display;
+    }
 }
 ?>

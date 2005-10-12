@@ -102,6 +102,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     protected $_query;
 
     /**
+     * cache the expanded options list if any
+     *
+     * @var object 
+     * @access protected 
+     */ 
+    protected $_options;
+
+    /**
      * Class constructor
      *
      * @param string params the params for the where clause
@@ -126,7 +134,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         foreach ( $this->_fields as $name => $dontCare ) {
             $returnProperties[$name] = 1;
         }
-        $this->_query =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
+        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
+        $this->_options =& $this->_query->_options;
         // CRM_Core_Error::debug( 'q', $this->_query );
     }//end of constructor
 
@@ -254,7 +263,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $row = array( );
             $empty = true;
             foreach ( $names as $name ) {
-                $row[] = $result->$name;
+                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                    $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
+                } else {
+                    $row[] = $result->$name;
+                }
 
                 if ( ! empty( $result->$name ) ) {
                     $empty = false;

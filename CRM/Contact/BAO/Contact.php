@@ -99,14 +99,18 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
      * @static
      * @access public
      */
-    static function contactDetails( $id, $returnProperties = null ) {
+    static function contactDetails( $id, &$options, $returnProperties = null) {
         if ( ! $id ) {
             return null;
         }
 
         $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
-        $sql    = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties, false );
-        $dao    = CRM_Core_DAO::executeQuery( $sql );
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false ); 
+        $options = $query->_options;
+
+        list( $select, $from, $where ) = $query->query( ); 
+        $sql = "$select $from $where"; 
+        $dao = CRM_Core_DAO::executeQuery( $sql );
         if ($dao->fetch()) {
             if (isset($dao->country)) {
                 // the query returns the untranslated country name

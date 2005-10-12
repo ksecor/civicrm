@@ -61,6 +61,9 @@ class CRM_Contact_BAO_Query {
     protected $_fromClause;
     protected $_fields;
     protected $_qill;
+
+    public    $_options;
+
     protected $_search = true;
     protected $_strict = false;
 
@@ -109,7 +112,8 @@ class CRM_Contact_BAO_Query {
         $this->_tables  = array( ); 
         $this->_where   = array( ); 
         $this->_qill    = array( ); 
- 
+        $this->_options = array( );
+
         $this->_customQuery = null; 
  
         $this->_select['contact_id']      = 'civicrm_contact.id as contact_id'; 
@@ -194,6 +198,7 @@ class CRM_Contact_BAO_Query {
             $this->_select  = array_merge( $this->_select , $this->_customQuery->_select );
             $this->_element = array_merge( $this->_element, $this->_customQuery->_element);
             $this->_tables  = array_merge( $this->_tables , $this->_customQuery->_tables );
+            $this->_options = $this->_customQuery->_options;
         }
     }
 

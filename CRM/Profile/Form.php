@@ -106,7 +106,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
-        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id ); 
+        $options = array( );
+        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id, $options ); 
     } 
     
     /** 

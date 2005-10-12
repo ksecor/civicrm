@@ -438,7 +438,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         foreach ( $fields as $name => $dontCare ) {
             $returnProperties[$name] = 1;
         }
-        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $returnProperties );
+        $options = array( );
+        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $options, $returnProperties );
         if ( ! $contact ) {
             return;
         }
@@ -480,86 +481,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $values[$index] = implode( ', ', $title );
                 $params[$index] = '';
             } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                // make sure the custom field exists
-                $cf =& new CRM_Core_BAO_CustomField();
-                $cf->id = $cfID;
-                if ( ! $cf->find( true ) ) {
-                    continue;
-                }
-
-                $index = $cf->label;
-                $values[$index] = null;
-
-                $value = $contact->$objName;
-
-                // this function should be moved to a centralized place
-                // once we consolidate custom value stuff
-                switch ( $cf->html_type ) {
-
-                case "Radio":
-                    if ( $cf->data_type == Boolean ) {
-                        $values[$index] = $value ? ts('Yes') : ts('No');
-                    } else {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id); 
-                        $params[$index] = $value;
-                        foreach ( $customOption as $o ) {
-                            if ( $params[$index] == $o['value'] ) {
-                                $values[$index] = $o['label'];
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                    
-                case "Select":
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);  
-                    $params[$index] = $value; 
-                    foreach ( $customOption as $o ) { 
-                        if ( $params[$index] == $o['value'] ) { 
-                            $values[$index] = $o['label']; 
-                            break; 
-                        } 
-                    } 
-                    
-                case "CheckBox":
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);
-                    $value = $value;
-                    $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
-                    $v = array( );
-                    $p = array( );
-                    foreach($customOption as $val) {
-                        $checkVal = $val['value'];
-                        $checkName = $index . '[' . $checkVal .']';
-                        if (in_array($val['value'], $checkedData)) {
-                            $v[] = $val['label'];
-                            $p[] = $val['value'];
-                        }
-                    }
-                    if ( ! empty( $v ) ) {
-                        $values[$index] = implode( ', ', $v );
-                        $params[$index] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $p );
-                    }
-                    break;
-
-                case "Select Date":
-                    $values[$index] = CRM_Utils_Date::customFormat($value);
-                    $params[$index] = $value;
-                    break;
-
-                case 'Select State/Province':
-                    $values[$index] = CRM_Core_PseudoConstant::stateProvince($value);
-                    $params[$index] = $value;
-                    break;
-
-                case 'Select Country':
-                    $values[$index] = CRM_Core_PseudoConstant::country($value);
-                    $params[$index] = $value;
-                    break;
-
-                default:
-                    $values[$index] = $value;
-                    break;
-                }
+                $params[$index] = $contact->$objName;
+                $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact->$objName, $cfID, $options );
             } else {
                 $values[$index] = $contact->$objName;
             }

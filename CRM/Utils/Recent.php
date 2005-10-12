@@ -143,8 +143,7 @@ class CRM_Utils_Recent {
         // make sure item is not already present in list
         for ( $i = 0; $i < count( $tempRecent ); $i++ ) {
             if ( $tempRecent[$i]['id' ] != $id ) {
-                // update title if changed
-                self::$_recent[$i] = $tempRecent[$i];
+                self::$_recent[] = $tempRecent[$i];
             }
         }
         

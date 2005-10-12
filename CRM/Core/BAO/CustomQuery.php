@@ -53,6 +53,7 @@ class CRM_Core_BAO_CustomQuery {
     public $_tables;
     public $_where;
     public $_qill;
+    public $_options;
 
     protected $_fields;
 
@@ -64,6 +65,7 @@ class CRM_Core_BAO_CustomQuery {
         $this->_tables  = array( ); 
         $this->_where   = array( );
         $this->_qill    = array( );
+        $this->_options = array( );
 
         $this->_fields  = array( );
 
@@ -75,7 +77,8 @@ class CRM_Core_BAO_CustomQuery {
         $tmpArray = array_keys( $this->_ids );
         $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' .
             implode( ',', $tmpArray ) . ' ) ';
-        $dao =& CRM_Core_DAO::executeQuery( $query ); 
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $optionIds = array( );
         while ( $dao->fetch( ) ) {
             $this->_fields[$dao->id] = array( 'id'        => $dao->id,
                                               'label'     => $dao->label,
@@ -83,7 +86,25 @@ class CRM_Core_BAO_CustomQuery {
                                               'data_type' => $dao->data_type,
                                               'html_type' => $dao->html_type,
                                               'db_field'  => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
+
+            $this->_options[$dao->id] = array( );
+            $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
+                                                             'data_type' => $dao->data_type, 
+                                                             'html_type' => $dao->html_type );
+            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' ) {
+                $optionIds[] = $dao->id;
+            }
         }
+
+        if ( ! empty( $optionIds ) ) {
+            $query = 'select custom_field_id, label, value from civicrm_custom_option where custom_field_id IN ( ' .
+                implode( ',', $optionIds ) . ' ) '; 
+            $dao =& CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                $this->_options[$dao->custom_field_id][$dao->value] = $dao->label;
+            }
+        }
+
     }
     
     function select( ) {
