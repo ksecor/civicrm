@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-19 11:56+0200\n"
+"POT-Creation-Date: 2005-10-12 13:35+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
-#: CRM/Mailing/DAO/MailingComponent.php templates/CRM/Mailing/Page/Report.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
 msgid "Subject"
 msgstr "หัวข้อ"
 
@@ -71,10 +71,10 @@ msgstr "รายละเอียด"
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
-#: templates/CRM/Contact/Form/Selector.tpl
+#: CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-#: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
 msgid "Status"
 msgstr "สถานะ"
 
@@ -102,15 +102,16 @@ msgstr "ประเภทกิจกรรม"
 #: CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/DAO/Group.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Task/SaveSearch.php
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityType.php
-#: CRM/Core/DAO/Domain.php CRM/Core/DAO/ImportMapping.php
-#: CRM/Core/DAO/LocationType.php CRM/Core/DAO/Tag.php
-#: CRM/Core/DAO/Validation.php CRM/History/Selector/Activity.php
-#: CRM/Mailing/DAO/BounceType.php templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Core/DAO/Domain.php CRM/Core/DAO/LocationType.php
+#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Validation.php
+#: CRM/Export/Form/MapField.php CRM/History/Selector/Activity.php
+#: CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php
+#: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Group/Page/Group.tpl CRM/Import/Form/MapField.php
+#: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr "รายการ"
 
@@ -128,9 +129,8 @@ msgstr "ลบที่ติดต่อ"
 #: CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/Task/Map.php
 #: CRM/Contact/Form/Task/Print.php CRM/Contact/Form/Task/Result.php
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
-#: CRM/Custom/Form/Option.php CRM/Group/Form/DynamicGroup.php
-#: CRM/Import/Form/Summary.php CRM/Mailing/Form/Schedule.php
-#: CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: CRM/Custom/Form/Option.php CRM/Import/Form/Summary.php
+#: CRM/Mailing/Form/Schedule.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
@@ -142,51 +142,65 @@ msgstr "เสร็จแล้ว"
 #: CRM/Contact/Form/Edit.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php
-#: CRM/Note/Form/Note.php CRM/UF/Form/Dynamic.php CRM/UF/Form/Field.php
-#: CRM/UF/Form/Group.php CRM/UF/Form/Register.php templates/CRM/Block/Add.tpl
-#: CRM/Profile/Form/Edit.php
+#: CRM/Note/Form/Note.php CRM/Profile/Form/Dynamic.php
+#: CRM/Profile/Form/Edit.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr "บันทึก"
 
-#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
+#: CRM/Activity/Form.php CRM/Admin/Form/DomainDump.php
+#: CRM/Admin/Form/DrupalUser.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
 #: CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/CustomData.php
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Task.php
+#: CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteGroup.php
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
-#: CRM/Custom/Form/Option.php CRM/Group/Form/Delete.php
-#: CRM/Group/Form/DynamicGroup.php CRM/Group/Form/Edit.php
+#: CRM/Custom/Form/Option.php CRM/Export/Form/MapField.php
+#: CRM/Export/Form/SelectField.php CRM/Group/Form/Edit.php
 #: CRM/History/Form/Activity.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php
 #: CRM/Mailing/Form/Component.php CRM/Mailing/Form/Group.php
-#: CRM/Mailing/Form/Name.php CRM/Mailing/Form/Schedule.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
-#: CRM/Note/Form/Note.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php
-#: CRM/UF/Form/Group.php CRM/Mailing/Form/Retry.php CRM/Profile/Form/Edit.php
-#: CRM/Profile/Form/ForwardMailing.php
+#: CRM/Mailing/Form/Name.php CRM/Mailing/Form/Retry.php
+#: CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php CRM/Note/Form/Note.php
+#: CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php
+#: CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: CRM/Activity/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/Tag.php
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php
-#: CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php
-#: CRM/Contact/Selector/Activity.php CRM/Group/Page/Group.php
-#: CRM/History/Form/Activity.php CRM/History/Selector/Activity.php
-#: CRM/Note/Form/Note.php CRM/Core/DAO/ACL.php
+#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
+#: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
+#: CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php
+#: CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php
+#: CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php
+#: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/ACL.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
+#: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
+#: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
+#: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Delete"
 msgstr "ลบ"
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/IMProvider.php
-#: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php
-#: CRM/Admin/Form/Tag.php CRM/Commerce/Donation/DAO/DonationPage.php
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
+#: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
+#: CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php
+#: CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php
+#: CRM/Commerce/Donation/DAO/DonationPage.php
 #: CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/DAO/Group.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/Domain.php CRM/Core/DAO/ImportMappingField.php
-#: CRM/Core/DAO/ImportMapping.php CRM/Core/DAO/MobileProvider.php
-#: CRM/Core/DAO/Tag.php CRM/Mailing/DAO/BounceType.php
+#: CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php
+#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/MobileProvider.php
+#: CRM/Core/DAO/Tag.php CRM/Export/Form/MapField.php
+#: CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php
 #: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php
 #: templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/Gender.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -194,29 +208,61 @@ msgstr "ลบ"
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
-#: templates/CRM/Mailing/Page/Component.tpl CRM/Import/Form/MapField.php
+#: templates/CRM/Mailing/Page/Component.tpl
 msgid "Name"
 msgstr "ชื่อ"
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/IMProvider.php
-#: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php
-#: CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php
-#: CRM/Contact/Form/Task/SaveSearch.php CRM/Custom/Form/Field.php
-#: CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php
-#: CRM/Mailing/Form/Name.php CRM/Custom/Form/Group.php
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
+#: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
+#: CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php
+#: CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php
+#: CRM/Admin/Form/Tag.php CRM/Contact/Form/Task/SaveSearch.php
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php
+#: CRM/Mailing/Form/Component.php CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
 msgstr "มีชื่อนี้อนู่ในฐานข้อมูลแล้ว."
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/IMProvider.php
-#: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php
-#: CRM/Admin/Form/RelationshipType.php CRM/Mailing/Form/Component.php
-#: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
+#: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
+#: CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php
+#: CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php
+#: CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Enabled?"
 msgstr "เปิดการทำงาน?"
+
+#: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
+msgid "Ok"
+msgstr ""
+
+#: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
+#: CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/CustomOption.php
+#: CRM/Core/DAO/Gender.php CRM/Core/DAO/IndividualPrefix.php
+#: CRM/Core/DAO/IndividualSuffix.php CRM/Core/DAO/UFField.php
+#: CRM/Core/DAO/UFGroup.php CRM/Custom/Form/Field.php
+#: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
+#: CRM/UF/Form/Group.php templates/CRM/Admin/Page/Gender.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
+#: templates/CRM/Custom/Form/Optionfields.tpl
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
+#: templates/CRM/UF/Page/Group.tpl
+msgid "Weight"
+msgstr "น้ำหนัก"
+
+#: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
+#: CRM/Admin/Form/IndividualSuffix.php CRM/Custom/Form/Field.php
+#: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
+#: CRM/UF/Form/Group.php
+msgid " is a numeric field"
+msgstr "นี่เป็นช่องข้อมูลตัวเลข"
 
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php
 #: CRM/Admin/Form/Tag.php CRM/UF/Form/Group.php
@@ -230,42 +276,57 @@ msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 msgid "Default?"
 msgstr "ค่าปริยาย"
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/IMProvider.php
-#: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php
-#: CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php
-#: CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php
-#: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
-#: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
-#: CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl
-#: CRM/Core/DAO/ACL.php
+#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type A"
+msgstr ""
+
+#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type B"
+msgstr ""
+
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
+#: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
+#: CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php
+#: CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php
+#: CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Note.php
+#: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php
+#: CRM/Contact/Selector.php CRM/Core/DAO/ACL.php CRM/Group/Page/Group.php
+#: CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/IMProvider.php
-#: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php
-#: CRM/Admin/Page/RelationshipType.php
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
+#: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
+#: CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php
+#: CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Commerce/Donation/Page/DonationPage.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php
 #: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
-#: CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
+#: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
 msgstr "ปิด"
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/IMProvider.php
-#: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php
-#: CRM/Admin/Page/RelationshipType.php
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
+#: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
+#: CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php
+#: CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Commerce/Donation/Page/DonationPage.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php
 #: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
-#: CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
+#: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr "เปิด"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
-#: CRM/Custom/Page/Option.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Page/View/Group.tpl CRM/Core/DAO/ACL.php
-#: CRM/Profile/Page/Note.php
+#: CRM/Core/DAO/ACL.php CRM/Custom/Page/Option.php CRM/Profile/Page/Note.php
+#: CRM/Profile/Selector/Listings.php CRM/UF/Page/Field.php
+#: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
 msgstr "มุมมอง"
 
@@ -289,36 +350,21 @@ msgstr "บุคคล"
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Edit.tpl
-#: CRM/Import/Form/UploadFile.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "ครัวเรือน"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Edit.tpl
-#: CRM/Import/Form/UploadFile.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "หน่วยงาน"
 
-#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
-#: CRM/Contact/Form/Individual.php
-msgid "Male"
-msgstr "ผู้ชาย"
-
-#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
-#: CRM/Contact/Form/Individual.php
-msgid "Female"
-msgstr "ผู้หญิง"
-
-#: CRM/Contact/BAO/Individual.php CRM/Contact/DAO/Individual.php
-#: CRM/Contact/Form/Individual.php
-msgid "Transgender"
-msgstr "อื่นๆ"
-
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
-#: CRM/Import/Form/UploadFile.php
+#: CRM/Core/DAO/MappingField.php CRM/Import/Form/UploadFile.php
 msgid "Contact Type"
 msgstr "ประเภทของการติดต่อ"
 
@@ -381,10 +427,28 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/UFGroup.php CRM/Core/DAO/ACLGroup.php
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/ACLGroup.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Title"
 msgstr "ชื่อเรื่อง"
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
+#: CRM/UF/Form/Field.php templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Field.tpl
+msgid "Visibility"
+msgstr "แสดง"
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+msgid "User and User Admin Only"
+msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+msgid "Public User Pages"
+msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+msgid "Public User Pages and Listings"
+msgstr ""
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
@@ -405,24 +469,10 @@ msgstr "ชื่อกลาง"
 msgid "Last Name"
 msgstr "นามสกุล"
 
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-#: CRM/Contact/Import/Base.php
-msgid "Prefix"
-msgstr "คำนำหน้า"
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-#: CRM/Contact/Import/Base.php
-msgid "Suffix"
-msgstr "คำลงท้าย"
-
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Import/Base.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Job Title"
 msgstr "ตำแหน่ง"
-
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
-msgid "Gender"
-msgstr "เพศ"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
@@ -434,21 +484,20 @@ msgstr "ชื่อทางการ"
 
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
 #: CRM/Mailing/DAO/Job.php CRM/Mailing/Form/Schedule.php
-#: CRM/Mailing/DAO/MailingJob.php CRM/Mailing/Selector/Browse.php
-#: templates/CRM/Mailing/Page/Report.tpl
+#: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Start Date"
 msgstr "เริ่มวันที่"
 
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
 #: CRM/Mailing/DAO/Job.php templates/CRM/Contact/Page/View/Relationship.tpl
-#: CRM/Mailing/DAO/MailingJob.php templates/CRM/Mailing/Page/Report.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
 msgid "End Date"
 msgstr "สิ้นสุดวันที่"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Note.tpl CRM/Mailing/Selector/Event.php
+#: CRM/Mailing/Selector/Event.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Date"
 msgstr "วันที่"
@@ -468,30 +517,69 @@ msgstr "ที่อยู่"
 msgid "City"
 msgstr "เมือง"
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Test.php
-#: CRM/Contact/Form/StateCountry.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
+#: CRM/Contact/Form/Test.php
 msgid "State / Province"
 msgstr ""
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php
-#: CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php
-#: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
-#: CRM/UF/Form/Dynamic.php CRM/UF/Form/Register.php
-#: CRM/Contact/Form/StateCountry.php CRM/Profile/Form/Edit.php
-#: CRM/Profile/Form/Search.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
+#: CRM/Custom/Form/Preview.php CRM/Profile/Form.php
 msgid "- select -"
 msgstr "-เลือก -"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
-#: CRM/Contact/Form/Test.php CRM/Contact/Import/Base.php
-#: CRM/Contact/Selector.php CRM/Core/BAO/CustomField.php
-#: CRM/Core/DAO/Country.php CRM/Core/DAO/County.php
-#: CRM/Core/DAO/CustomField.php templates/CRM/Contact/Form/Task/Print.tpl
-#: CRM/Contact/Form/StateCountry.php CRM/Profile/Form/Dojo.php
+#: CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php
+#: CRM/Contact/Import/Base.php CRM/Contact/Selector.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
+#: CRM/Core/DAO/County.php CRM/Core/DAO/CustomField.php
+#: CRM/Profile/Form/Dojo.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "ประเทศ"
+
+#: CRM/Contact/Form/Email.php CRM/Profile/Form/ForwardMailing.php
+msgid "Email is not valid."
+msgstr ""
+
+#: CRM/Contact/Form/GroupContact.php CRM/Contact/Form/Task/AddToGroup.php
+#: CRM/Contact/Form/Task/RemoveFromGroup.php
+msgid "- select group -"
+msgstr ""
+
+#: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
+#: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
+#: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#, fuzzy
+msgid "Group(s)"
+msgstr "กลุ่ม"
+
+#: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
+#: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
+#: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Tag(s)"
+msgstr ""
+
+#: CRM/Contact/Form/Individual.php CRM/Contact/Import/Base.php
+msgid "Prefix"
+msgstr "คำนำหน้า"
+
+#: CRM/Contact/Form/Individual.php CRM/Contact/Import/Base.php
+msgid "Suffix"
+msgstr "คำลงท้าย"
+
+#: CRM/Contact/Form/Individual.php CRM/Core/DAO/Gender.php
+#: CRM/Profile/Form.php
+msgid "Gender"
+msgstr "เพศ"
+
+#: CRM/Contact/Form/Individual.php CRM/Profile/Form/Dojo.php
+msgid "Date of birth"
+msgstr ""
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #, fuzzy
@@ -516,8 +604,8 @@ msgstr ""
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 #: CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php
-#: CRM/Group/Page/Group.php templates/CRM/Block/Search.tpl
-#: CRM/Profile/Form/Dojo.php CRM/Profile/Form/Search.php
+#: CRM/Group/Page/Group.php CRM/Profile/Form/Dojo.php
+#: CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr "ค้นหา"
 
@@ -529,10 +617,19 @@ msgstr "ค้นหา..."
 msgid "Street Name"
 msgstr "ชือถนน"
 
+#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
+#, fuzzy
+msgid "- any state/province -"
+msgstr "รัฐ/จังหวัด"
+
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Profile/Form/Dojo.php
 msgid "State/Province"
 msgstr "รัฐ/จังหวัด"
+
+#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
+msgid "- any country -"
+msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Import/Base.php
 #: CRM/Core/DAO/Address.php
@@ -544,38 +641,33 @@ msgstr "รหัสไปรษณีย์"
 msgid "To"
 msgstr "ถึง"
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Utils/Menu.php
-msgid "Location Types"
-msgstr "ประเภทสถานที่"
-
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
-#: CRM/Custom/Form/Preview.php
-msgid "%1 is not a valid date."
-msgstr "%1 ไม่ใช้วันที่ถูกต้อง."
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
-#: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: CRM/Core/BAO/CustomQuery.php CRM/Custom/Form/Preview.php
+#: CRM/Mailing/Event/BAO/Unsubscribe.php
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "Yes"
 msgstr "ใช่"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
-#: CRM/Core/BAO/UFGroup.php CRM/Custom/Form/Preview.php
+#: CRM/Core/BAO/CustomQuery.php CRM/Custom/Form/Preview.php
+#: CRM/Mailing/Event/BAO/Unsubscribe.php
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "No"
 msgstr "ไม่"
 
@@ -583,10 +675,18 @@ msgstr "ไม่"
 msgid "Add Members: %1"
 msgstr "เพิ่มสถาชิก: %1"
 
-#: CRM/Contact/Form/Task/AddToGroup.php
-#: CRM/Contact/Form/Task/RemoveFromGroup.php
-msgid " - select group - "
+#: CRM/Contact/Form/Search.php CRM/Core/DAO/Mapping.php
+msgid "Export"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
+#, fuzzy
+msgid "- any group -"
 msgstr "-เลือกกลุ่ม-"
+
+#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
+msgid "Name or email"
+msgstr ""
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -628,8 +728,9 @@ msgid "Message"
 msgstr "ข้อความ"
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php
-msgid "<a href=\"%1\">Search Results</a>"
-msgstr ""
+#, fuzzy
+msgid "Search Results"
+msgstr "ค้นหา"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Saved Search"
@@ -667,6 +768,22 @@ msgstr "ลบประวัติกิจกรรม"
 msgid "Contact Page"
 msgstr ""
 
+#: CRM/Contact/Page/View/CustomData.php CRM/Utils/Menu.php
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Custom Data"
+msgstr ""
+
+#: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "Contact Notes"
+msgstr ""
+
+#: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
+#: templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Profile/Page/Note.tpl
+msgid "View Note"
+msgstr ""
+
 #: CRM/Contact/Selector/Activity.php CRM/Utils/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Delete Activity"
@@ -683,12 +800,12 @@ msgstr "CiviCRM ประวัติกิจกรรม"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
 #: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
-#: CRM/Core/SelectValues.php CRM/Mailing/DAO/Job.php CRM/Mailing/BAO/Job.php
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Scheduled"
 msgstr "ตารางเวลา"
 
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
-#: CRM/History/Selector/Activity.php
+#: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
 msgid "Actions"
 msgstr "ปฏิบัติการ"
 
@@ -697,9 +814,12 @@ msgstr "ปฏิบัติการ"
 msgid "Map Contact"
 msgstr "ประเภทของการติดต่อ"
 
-#: CRM/Contact/Selector.php CRM/Contact/Selector/Profile.php
-#: CRM/Profile/Selector/Listings.php
+#: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
+msgstr ""
+
+#: CRM/Contact/Selector.php CRM/Export/BAO/Export.php
+msgid "CiviCRM Contact Search"
 msgstr ""
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
@@ -707,12 +827,6 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr ""
-
-#: CRM/Contact/Selector/Profile.php CRM/Utils/Menu.php
-#: CRM/Profile/Selector/Listings.php
-#, fuzzy
-msgid "CiviCRM Profile Listings"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -731,13 +845,17 @@ msgid "Note"
 msgstr "บันทึก"
 
 #: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
-#: CRM/UF/Form/Dynamic.php CRM/Profile/Form/Edit.php
+#: CRM/Profile/Form.php
 msgid "%1 is a required field."
 msgstr "%1 เป็นข้อมูลที่ต้องระบุ."
 
 #: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
 msgid "%1 must be an integer (whole number)."
 msgstr "%1 ต้องเป็นจำนวนเต็ม (ตัวเลขทั้งหมด)."
+
+#: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
+msgid "%1 is not a valid date."
+msgstr "%1 ไม่ใช้วันที่ถูกต้อง."
 
 #: CRM/Core/BAO/CustomField.php CRM/Custom/Form/Preview.php
 msgid "%1 must be a number (with or without decimal point)."
@@ -763,12 +881,21 @@ msgstr "หน่วยงานใหม่"
 msgid "New Household"
 msgstr "ครัวเรือนใหม่"
 
+#: CRM/Core/Block.php CRM/Core/Invoke.php
+msgid "Send Mailing"
+msgstr ""
+
+#: CRM/Core/DAO/ACLGroupJoin.php CRM/Core/DAO/ACL.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomValue.php
 #: CRM/Core/DAO/EntityTag.php CRM/Core/DAO/Location.php CRM/Core/DAO/Note.php
-#: CRM/Mailing/DAO/Group.php CRM/Core/DAO/ACLGroupJoin.php
-#: CRM/Core/DAO/ACL.php CRM/Mailing/DAO/MailingGroup.php
+#: CRM/Mailing/DAO/Group.php
 msgid "Entity Table"
 msgstr "ตารางแสดงเอกลักษณ์"
+
+#: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
+#, fuzzy
+msgid "Create"
+msgstr "วันที่"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
@@ -797,8 +924,7 @@ msgid "Completed"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php
-#: CRM/Custom/Form/Field.php templates/CRM/Custom/Form/OptionFieldsError.tpl
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Custom/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr "ป้ายชื่อ"
 
@@ -807,22 +933,12 @@ msgid "Default Value"
 msgstr "ค่าปริยาย"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/CustomOption.php CRM/Core/DAO/UFField.php
-#: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
-#: CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
-#: templates/CRM/Custom/Form/Optionfields.tpl
-#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
-msgid "Weight"
-msgstr "น้ำหนัก"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
 msgstr "ช่วย ก่อน"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/UFField.php
+#: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
 msgstr "ช่วย หลัง"
 
@@ -848,6 +964,10 @@ msgid "Radio"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "CheckBox"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Select Date"
 msgstr "เริ่มวันที่"
@@ -862,6 +982,11 @@ msgstr "รัฐ/จังหวัด"
 msgid "Select Country"
 msgstr "เลือกกลุ่ม"
 
+#: CRM/Core/DAO/CustomGroup.php CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Contact"
+msgstr "ประเภทของการติดต่อ"
+
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
 msgstr ""
@@ -871,12 +996,11 @@ msgid "Inline"
 msgstr ""
 
 #: CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
 msgstr "ค่า"
 
-#: CRM/Core/DAO/ImportMappingField.php CRM/Core/DAO/Phone.php
+#: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 msgid "Phone Type"
 msgstr ""
 
@@ -892,17 +1016,13 @@ msgstr ""
 msgid "Pager"
 msgstr ""
 
-#: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
-#: templates/CRM/UF/Page/Field.tpl
-msgid "Visibility"
-msgstr "แสดง"
-
-#: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
-msgid "Listings Title"
-msgstr "รายชือเรื่อง"
-
 #: CRM/Core/DAO/UFGroup.php CRM/Utils/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
+msgstr ""
+
+#: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "URL"
 msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php templates/CRM/Block/Search.tpl
@@ -923,23 +1043,46 @@ msgid "CiviCRM Profile Field"
 msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Administer CiviCRM"
+msgstr ""
+
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Import Contacts"
 msgstr "นำเข้าที่ติดต่อ"
 
-#: CRM/Core/Invoke.php CRM/Utils/Menu.php CRM/Profile/Form/Dojo.php
+#: CRM/Core/Invoke.php CRM/Profile/Form/Dojo.php CRM/Utils/Menu.php
 msgid "Groups"
 msgstr "กลุ่ม"
 
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+#: templates/CRM/Profile/Form/ForwardMailing.tpl
+#, fuzzy
+msgid "Forward Mailing"
+msgstr "อีเมล์"
+
+#: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
+#, fuzzy
+msgid "Mailings"
+msgstr "ข้อความ"
+
+#: CRM/Core/Invoke.php CRM/Mailing/Selector/Browse.php
+msgid "Report"
+msgstr ""
+
+#: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Retry Mailing"
+msgstr "ข้อความ"
+
+#: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
+msgid "The Group \"%1\" has been deleted."
+msgstr ""
+
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
 msgstr "ทำงาน?"
-
-#: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
-#: CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
-msgid " is a numeric field"
-msgstr "นี่เป็นช่องข้อมูลตัวเลข"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
@@ -954,11 +1097,59 @@ msgstr "ช่วยเหลือในช่องข้อมูล"
 msgid "Edit %1"
 msgstr "แก้ไข %1"
 
+#: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
+msgid "Pre-form Help"
+msgstr ""
+
+#: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
+msgid "Post-form Help"
+msgstr ""
+
+#: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
+msgid "Preview Custom Data"
+msgstr ""
+
 #: CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php
 msgid "Preview"
 msgstr ""
 
-#: CRM/Group/Form/Delete.php CRM/Group/Page/Group.php
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+#, fuzzy
+msgid "Mapping Option"
+msgstr "ข้อความ"
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Load Mapping"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Save this field mapping"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Update this field mapping"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Save as a new field mapping"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Mapper for Field %1"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/Preview.php CRM/Mailing/Form/Group.php
+#: CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Upload.php
+msgid "<< Previous"
+msgstr "<< ย้อนหลัง"
+
+#: CRM/Export/Form/MapField.php CRM/Export/Form/SelectField.php
+#: CRM/Import/Form/MapField.php CRM/Import/Form/UploadFile.php
+msgid "Continue >>"
+msgstr "ต่อไป >>"
+
+#: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "ลบกลุ่ม"
 
@@ -966,31 +1157,68 @@ msgstr "ลบกลุ่ม"
 msgid "Group Members"
 msgstr "สมาชิกกลุ่ม"
 
-#: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
-#: CRM/Mailing/Form/Upload.php
-msgid "<< Previous"
-msgstr "<< ย้อนหลัง"
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Running"
+msgstr ""
 
-#: CRM/Import/Form/MapField.php CRM/Import/Form/UploadFile.php
-msgid "Continue >>"
-msgstr "ต่อไป >>"
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Complete"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Paused"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+#, fuzzy
+msgid "Canceled"
+msgstr "ยกเลิก"
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
+#: CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Header"
+msgstr "เพศ"
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Footer"
+msgstr "บันทึก"
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+msgid "Reply"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+msgid "Unsubscribe"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
+msgid "Opt-Out"
+msgstr ""
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
-#: CRM/Mailing/DAO/MailingComponent.php
 #, fuzzy
 msgid "Component Type"
 msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#: CRM/Mailing/DAO/MailingComponent.php
 msgid "Body Html"
 msgstr ""
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
-#: CRM/Mailing/DAO/MailingComponent.php
 msgid "Body Text"
+msgstr ""
+
+#: CRM/Mailing/DAO/Job.php CRM/Mailing/Selector/Browse.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Scheduled Date"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
@@ -998,17 +1226,24 @@ msgstr ""
 msgid "From Email"
 msgstr "อีเมล์"
 
+#: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Subscribe.php
+msgid "\"%1 Administrator\" <do-not-reply@%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Reply.php CRM/Mailing/Event/BAO/Unsubscribe.php
+msgid "\"%1 Administrator\" <%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
+msgid "Bounce Reason"
+msgstr ""
+
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
 #: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
 #: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
 #: CRM/Mailing/Event/DAO/Subscribe.php
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#: CRM/Mailing/DAO/MailingEventBounce.php
-#: CRM/Mailing/DAO/MailingEventDelivered.php
-#: CRM/Mailing/DAO/MailingEventOpened.php
-#: CRM/Mailing/DAO/MailingEventTrackableUrlOpen.php
-#: CRM/Mailing/DAO/MailingEventUnsubscribe.php
 msgid "Time Stamp"
 msgstr ""
 
@@ -1017,15 +1252,15 @@ msgstr ""
 msgid "Next >>"
 msgstr ""
 
+#: CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php
+msgid "Send Immediately"
+msgstr ""
+
 #: CRM/Note/Form/Note.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes"
 msgstr "บันทึก"
-
-#: CRM/UF/Form/Dynamic.php CRM/UF/Form/Register.php CRM/Profile/Form/Edit.php
-msgid "Please enter a valid %1"
-msgstr "กรุณาใส่ข้อมลูนี้ให้ถูกต้อง %1"
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Meeting \"%1\" has been logged to Activity History."
@@ -1077,7 +1312,8 @@ msgid "Call Date and Time are required."
 msgstr "ต้องระบุวันและเวลาที่โทรหา"
 
 #: CRM/Activity/Form/Phonecall.php
-msgid " OR New Phone"
+#, fuzzy
+msgid "OR New Phone"
 msgstr "หรือ เบอร์ใหม่"
 
 #: CRM/Activity/Form/Phonecall.php
@@ -1099,11 +1335,81 @@ msgstr "กรุณาใส่ชื่อประเภทสถานที
 
 #: CRM/Admin/Form/ActivityType.php
 #, fuzzy
+msgid "Selected activity type  has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/ActivityType.php
+#, fuzzy
 msgid "The activity type \"%1\" has been saved."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
+#: CRM/Admin/Form/Gender.php
+#, fuzzy
+msgid "Please enter a valid gender name."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
+
+#: CRM/Admin/Form/Gender.php
+#, fuzzy
+msgid "Selected Gender type has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/Gender.php
+#, fuzzy
+msgid "Selected Gender type has not been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/Gender.php
+#, fuzzy
+msgid "The Gender \"%1\" has been saved."
+msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IMProvider.php
+#, fuzzy
+msgid "Selected IMProvider has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
 #: CRM/Admin/Form/IMProvider.php
 msgid "The IM Provider \"%1\" has been saved."
+msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualPrefix.php
+#, fuzzy
+msgid "Please enter a valid individual prefix name."
+msgstr "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
+
+#: CRM/Admin/Form/IndividualPrefix.php
+#, fuzzy
+msgid "Selected Individual Prefix type has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualPrefix.php
+#, fuzzy
+msgid "Selected Individual Prefix type has not been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualPrefix.php
+#, fuzzy
+msgid "The Individual Prefix \"%1\" has been saved."
+msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualSuffix.php
+#, fuzzy
+msgid "Please enter a valid individual suffix name."
+msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
+
+#: CRM/Admin/Form/IndividualSuffix.php
+#, fuzzy
+msgid "Selected Individual Suffix  has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualSuffix.php
+#, fuzzy
+msgid "Selected Individual Suffix  has not been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/IndividualSuffix.php
+#, fuzzy
+msgid "The Individual Suffix \"%1\" has been saved."
 msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/LocationType.php
@@ -1111,8 +1417,18 @@ msgid "Please enter a valid location type name."
 msgstr "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
 
 #: CRM/Admin/Form/LocationType.php
+#, fuzzy
+msgid "Selected Location type has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Admin/Form/MobileProvider.php
+#, fuzzy
+msgid "Selected Mobile Provider has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/MobileProvider.php
 msgid "The Mobile Provider \"%1\" has been saved."
@@ -1131,12 +1447,9 @@ msgid "Relationship Label-B to A"
 msgstr "ความสัมพันธ์ ชื่อ-B ถึง A"
 
 #: CRM/Admin/Form/RelationshipType.php
-msgid "Contact Type A "
-msgstr "การติดต่อ ประเภท A"
-
-#: CRM/Admin/Form/RelationshipType.php
-msgid "Contact Type B "
-msgstr "การติดต่อ ประเภท B"
+#, fuzzy
+msgid "Selected Relationship type has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "The Relationship Type has been saved."
@@ -1167,6 +1480,41 @@ msgstr "ประเภทกิจกรรม"
 msgid "Enable Activity Type"
 msgstr "ประเภทกิจกรรม"
 
+#: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
+#, fuzzy
+msgid "Delete Activity Type"
+msgstr "ลบกิจกรรม"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid ""
+"Are you sure you want to disable this Gender?\\n\\nUsers will no longer be "
+"able to select this value when adding or editing Gender."
+msgstr ""
+"คุณแน่ใจหรือว่าต้องการปิดประเภทสถานที่นี้\n"
+"\n"
+"ผู้ใช้จะไม่สามารถทำการเลือกค่านี้เมื่อเพิ่มหรือแก้ไขสถานที่ติดต่ออีกต่อไป"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid "Edit Gender"
+msgstr "เพศ"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid "Disable Gender"
+msgstr "ปิด"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid "Enable Gender"
+msgstr "เพศ"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid "Delete Gender Type"
+msgstr "ลบกลุ่ม"
+
 #: CRM/Admin/Page/IMProvider.php
 msgid ""
 "Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
@@ -1189,6 +1537,73 @@ msgstr "ปิดผู้ให้บริการ IM"
 msgid "Enable IM Service Provider"
 msgstr "เปิดผู้ให้บริการ IM"
 
+#: CRM/Admin/Page/IMProvider.php
+#, fuzzy
+msgid "Delete IM Provider"
+msgstr "ผู้ให้บริการ IM"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid ""
+"Are you sure you want to disable this Individual Prefix?\\n\\nUsers will no "
+"longer be able to select this value when adding or editing Individual Prefix."
+msgstr ""
+"คุณแน่ใจหรือว่าต้องการปิดประเภทสถานที่นี้\n"
+"\n"
+"ผู้ใช้จะไม่สามารถทำการเลือกค่านี้เมื่อเพิ่มหรือแก้ไขสถานที่ติดต่ออีกต่อไป"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid "Edit Individual Prefix"
+msgstr "บุคคล"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid "Disable Individual Prefix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid "Enable Individual Prefix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid "Delete Individual Prefix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
+msgid ""
+"Are you sure you want to disable this Individual Suffix?\\n\\nUsers will no "
+"longer be able to select this value when adding or editing Individual Suffix."
+msgstr ""
+"คุณแน่ใจหรือว่าต้องการปิดประเภทสถานที่นี้\n"
+"\n"
+"ผู้ใช้จะไม่สามารถทำการเลือกค่านี้เมื่อเพิ่มหรือแก้ไขสถานที่ติดต่ออีกต่อไป"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#, fuzzy
+msgid "Edit Individual Suffix"
+msgstr "บุคคล"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
+msgid "Disable Individual Suffix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
+msgid "Enable Individual Suffix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#, fuzzy
+msgid "Delete Individual Suffix"
+msgstr "บุคคลใหม่"
+
 #: CRM/Admin/Page/LocationType.php
 msgid ""
 "Are you sure you want to disable this location type?\\n\\nUsers will no "
@@ -1210,6 +1625,11 @@ msgstr "ปิดประเภทสถานที่"
 msgid "Enable Location Type"
 msgstr "เปิดประเภทสถานที่"
 
+#: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
+#, fuzzy
+msgid "Delete Location Type"
+msgstr "ปิดประเภทสถานที่"
+
 #: CRM/Admin/Page/MobileProvider.php
 msgid ""
 "Are you sure you want to disable this Mobile Phone Service Provider?\\n"
@@ -1229,6 +1649,12 @@ msgstr ""
 #: CRM/Admin/Page/MobileProvider.php
 msgid "Enable Mobile Phone Service Provider"
 msgstr ""
+
+#: CRM/Admin/Page/MobileProvider.php
+#: templates/CRM/Admin/Form/MobileProvider.tpl
+#, fuzzy
+msgid "Delete Mobile Provider"
+msgstr "ปิดผู้ให้บริการ IM"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid ""
@@ -1254,6 +1680,11 @@ msgstr ""
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Enable Relationship Type"
 msgstr ""
+
+#: CRM/Admin/Page/RelationshipType.php
+#, fuzzy
+msgid "Delete Reletionship Type"
+msgstr "ลบกิจกรรม"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
@@ -1334,7 +1765,107 @@ msgid "Enable Donation Page"
 msgstr "เปิดประเภทสถานที่"
 
 #: CRM/Contact/BAO/Contact.php
-msgid "-do not import-"
+msgid "- do not import -"
+msgstr ""
+
+#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "ผู้ชาย"
+
+#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "ผู้หญิง"
+
+#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "อื่นๆ"
+
+#: CRM/Contact/BAO/Query.php
+msgid "State - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Country - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
+msgid "Gender - \"%1\""
+msgstr "เพศ"
+
+#: CRM/Contact/BAO/Query.php
+msgid "%1 = \"%2\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "%1 like \"%2\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
+msgid "Contact Type - All"
+msgstr "การติดต่อ ประเภท A"
+
+#: CRM/Contact/BAO/Query.php
+msgid "Contact Type -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "or"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Member of Group -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
+msgid "Group Status -"
+msgstr "กลุ่ม"
+
+#: CRM/Contact/BAO/Query.php
+msgid "Tagged as -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Name or Email like - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Restricted to Contacts starting with: \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
+msgid "Postal code - \"%1\""
+msgstr "รหัสไปรษณีย์"
+
+#: CRM/Contact/BAO/Query.php
+msgid "greater than \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "less than \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Postal code -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Location type -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Primary Location only? - Yes"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Activity Type like - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Activity Date - %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Relationship.php
@@ -1448,16 +1979,6 @@ msgstr ""
 msgid "Name B A"
 msgstr ""
 
-#: CRM/Contact/DAO/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type A"
-msgstr ""
-
-#: CRM/Contact/DAO/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type B"
-msgstr ""
-
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "SQL Query"
 msgstr ""
@@ -1567,14 +2088,6 @@ msgstr ""
 msgid "hide this email"
 msgstr ""
 
-#: CRM/Contact/Form/Email.php CRM/Profile/Form/ForwardMailing.php
-msgid "Email is not valid."
-msgstr ""
-
-#: CRM/Contact/Form/GroupContact.php
-msgid "- select group -"
-msgstr ""
-
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add to a group"
 msgstr ""
@@ -1604,6 +2117,16 @@ msgid "- select service -"
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
+#, fuzzy
+msgid "- title -"
+msgstr "-เลือก -"
+
+#: CRM/Contact/Form/Individual.php
+#, fuzzy
+msgid "- suffix -"
+msgstr "คำลงท้าย"
+
+#: CRM/Contact/Form/Individual.php
 msgid "Greeting"
 msgstr ""
 
@@ -1613,10 +2136,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr ""
-
-#: CRM/Contact/Form/Individual.php CRM/Profile/Form/Dojo.php
-msgid "Date of birth"
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
@@ -1714,14 +2233,6 @@ msgstr ""
 msgid "Contact Type(s)"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-msgid " - any state/province - "
-msgstr ""
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-msgid " - any country - "
-msgstr ""
-
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Enter valid Postal Code"
 msgstr ""
@@ -1739,11 +2250,22 @@ msgid "Enter valid To range of Postal Code"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
+msgid "Location Types"
+msgstr "ประเภทสถานที่"
+
+#: CRM/Contact/Form/Search/Advanced.php
 msgid "Search primary locations only"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Activity Dates - From"
+msgstr ""
+
+#: CRM/Contact/Form/Search/Advanced.php
+#: templates/CRM/Contact/Form/Task/Email.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "From"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
@@ -1769,23 +2291,16 @@ msgid "Add Contacts to %1"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
-msgid "Actions: "
-msgstr ""
+#, fuzzy
+msgid "Actions:"
+msgstr "ปฏิบัติการ"
 
 #: CRM/Contact/Form/Search.php templates/CRM/pager.tpl
 msgid "Go"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
-msgid "Export"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php
 msgid "Print"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
-msgid " - any group - "
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
@@ -1793,15 +2308,11 @@ msgid "in"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
-msgid " - any tag - "
+msgid "- any tag -"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
-msgid "Name or email"
 msgstr ""
 
 #: CRM/Contact/Form/Task/AddToGroup.php
@@ -1874,6 +2385,16 @@ msgstr "ที่ติดต่อทั้งหมดที่เรื่อ
 msgid "Your contact record \"%1\" was not deleted."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
+#: CRM/Contact/Form/Task/Delete.php
+#, fuzzy
+msgid "Selected Contact was deleted sucessfully."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/Contact/Form/Task/Delete.php
+#, fuzzy
+msgid "Selected Contact cannot be deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
 #: CRM/Contact/Form/Task/Email.php
 msgid "Your user record does not have a valid email address"
 msgstr ""
@@ -1944,13 +2465,23 @@ msgstr ""
 msgid "Supplemental Address"
 msgstr ""
 
+#: CRM/Contact/Page/View/Delete.php
+#, fuzzy
+msgid "Contact Delete"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Contact/Page/View/GroupContact.php
+#, fuzzy
+msgid "Contact GroupContacts"
+msgstr "นำเข้าที่ติดต่อ"
+
+#: CRM/Contact/Page/View/Meeting.php
+#, fuzzy
+msgid "Contact Meetings"
+msgstr "ประเภทของการติดต่อ"
+
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
-msgstr ""
-
-#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
-#: CRM/Profile/Page/Note.php templates/CRM/Profile/Page/Note.tpl
-msgid "View Note"
 msgstr ""
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
@@ -1958,13 +2489,27 @@ msgstr ""
 msgid "Edit Note"
 msgstr ""
 
-#: CRM/Contact/Page/View/Note.php
+#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
 #, fuzzy
 msgid "Delete Note"
 msgstr "ลบ"
 
+#: CRM/Contact/Page/View/OtherActivity.php
+#, fuzzy
+msgid "Contact Other Activity"
+msgstr "ลบกิจกรรม"
+
+#: CRM/Contact/Page/View/Phonecall.php
+#, fuzzy
+msgid "Contact Calls"
+msgstr "ประเภทของการติดต่อ"
+
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
+msgstr ""
+
+#: CRM/Contact/Page/View/Relationship.php
+msgid "Contact Relationships"
 msgstr ""
 
 #: CRM/Contact/Page/View/Relationship.php
@@ -2001,6 +2546,11 @@ msgstr ""
 msgid "Delete Relationship"
 msgstr ""
 
+#: CRM/Contact/Page/View/Tag.php
+#, fuzzy
+msgid "Contact Tags"
+msgstr "ประเภทของการติดต่อ"
+
 #: CRM/Contact/Selector/Activity.php
 msgid "Are you sure you want to delete this activity?"
 msgstr ""
@@ -2017,6 +2567,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Created By"
 msgstr ""
 
@@ -2046,99 +2597,6 @@ msgstr ""
 #, fuzzy
 msgid "Smart"
 msgstr "เลือกกลุ่ม"
-
-#: CRM/Contact/Selector.php
-msgid "or"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "and"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Name like - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Contact Type -"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "All"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Member of Group -"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-#, fuzzy
-msgid "Group Status -"
-msgstr "กลุ่ม"
-
-#: CRM/Contact/Selector.php
-msgid "Tagged as -"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Street Name like - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "City Name like - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "State - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Country - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Postal code -"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "between \"%1\" and \"%2\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "greater than \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "less than \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Location type -"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Any"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Primary Location only? - Yes"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Activity Type like - \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Activity Date - %1"
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "Restricted to Contacts starting with: \"%1\""
-msgstr ""
-
-#: CRM/Contact/Selector.php
-msgid "CiviCRM Contact Search"
-msgstr ""
 
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
@@ -2188,6 +2646,22 @@ msgstr ""
 msgid "Yes or No"
 msgstr ""
 
+#: CRM/Core/BAO/CustomQuery.php
+msgid "%1 like - %2"
+msgstr ""
+
+#: CRM/Core/BAO/DrupalUser.php
+msgid ""
+"Synchronize Users to Contacts completed. Checked \"%1\" user records. Found "
+"\"%3\" matching contact records. Created \"%2\" new contact records."
+msgstr ""
+
+#: CRM/Core/BAO/DrupalUser.php
+msgid ""
+"Synchronize Users to Contacts completed. Checked \"%1\" user records. "
+"Created \"%2\" new contact records."
+msgstr ""
+
 #: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Email Sent"
@@ -2222,6 +2696,10 @@ msgstr ""
 msgid "The tag \"%1\" has been saved."
 msgstr ""
 
+#: CRM/Core/BAO/UFGroup.php
+msgid "Dynamic Form Creator"
+msgstr ""
+
 #: CRM/Core/BAO/UFMatch.php
 msgid "Please set the user framework variable"
 msgstr ""
@@ -2246,8 +2724,51 @@ msgstr ""
 msgid "CiviCRM Menu"
 msgstr ""
 
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "CiviMail Menu"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: CRM/Core/Block.php
+#, fuzzy
+msgid "CiviMail"
+msgstr "CiviCRM"
+
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
+msgstr ""
+
+#: CRM/Core/Block.php
+msgid "Browse Sent Mailings"
+msgstr ""
+
+#: CRM/Core/Block.php
+msgid "Process Mailing Queue"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Deny"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+#, fuzzy
+msgid "Operation"
+msgstr "ระยะเวลา"
+
+#: CRM/Core/DAO/ACL.php
+msgid "Object Table"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Acl Table"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Grant"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Revoke"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
@@ -2355,6 +2876,10 @@ msgid "Javascript"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
+msgid "Options Per Line"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php
 msgid "String"
 msgstr ""
 
@@ -2376,10 +2901,6 @@ msgstr ""
 msgid "StateProvince"
 msgstr "รัฐ/จังหวัด"
 
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "CheckBox"
-msgstr ""
-
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends"
 msgstr ""
@@ -2391,11 +2912,6 @@ msgstr ""
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Collapse Display"
 msgstr ""
-
-#: CRM/Core/DAO/CustomGroup.php CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Contact"
-msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Int Data"
@@ -2494,14 +3010,19 @@ msgstr ""
 msgid "IM Screen Name"
 msgstr ""
 
-#: CRM/Core/DAO/ImportMappingField.php
-#, fuzzy
-msgid "Column Number"
-msgstr "เบอร์โทรศัพท์"
-
 #: CRM/Core/DAO/IMProvider.php
 msgid "IM Provider Name"
 msgstr ""
+
+#: CRM/Core/DAO/IndividualPrefix.php
+#, fuzzy
+msgid "Individual Prefix"
+msgstr "บุคคล"
+
+#: CRM/Core/DAO/IndividualSuffix.php
+#, fuzzy
+msgid "Individual Suffix"
+msgstr "บุคคล"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "Location Type"
@@ -2511,6 +3032,20 @@ msgstr ""
 #, fuzzy
 msgid "vCard Location Type"
 msgstr "แก้ไขประเภทสถานที่"
+
+#: CRM/Core/DAO/MappingField.php
+#, fuzzy
+msgid "Column Number"
+msgstr "เบอร์โทรศัพท์"
+
+#: CRM/Core/DAO/Mapping.php
+#, fuzzy
+msgid "Mapping Type"
+msgstr "ข้อความ"
+
+#: CRM/Core/DAO/Mapping.php
+msgid "Import"
+msgstr ""
 
 #: CRM/Core/DAO/Note.php
 msgid "Modified Date"
@@ -2525,16 +3060,9 @@ msgid "Field Name"
 msgstr ""
 
 #: CRM/Core/DAO/UFField.php
-msgid "User and User Admin Only"
-msgstr ""
-
-#: CRM/Core/DAO/UFField.php
-msgid "Public User Pages"
-msgstr ""
-
-#: CRM/Core/DAO/UFField.php
-msgid "Public User Pages and Listings"
-msgstr ""
+#, fuzzy
+msgid "In Selector"
+msgstr "เลือกกลุ่ม"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
@@ -2550,11 +3078,6 @@ msgstr ""
 
 #: CRM/Core/DAO/Validation.php
 msgid "Function Name"
-msgstr ""
-
-#: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "URL"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
@@ -2592,6 +3115,11 @@ msgid "Email a Contact"
 msgstr ""
 
 #: CRM/Core/Invoke.php
+#, fuzzy
+msgid "Delete Contact"
+msgstr "ลบที่ติดต่อ"
+
+#: CRM/Core/Invoke.php
 msgid "View Location Types"
 msgstr ""
 
@@ -2625,52 +3153,40 @@ msgid "View Tags"
 msgstr ""
 
 #: CRM/Core/Invoke.php
+#, fuzzy
+msgid "View Individual Prefix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Core/Invoke.php
+#, fuzzy
+msgid "View Individual Suffix"
+msgstr "บุคคลใหม่"
+
+#: CRM/Core/Invoke.php
+#, fuzzy
+msgid "View Gender"
+msgstr "เพศ"
+
+#: CRM/Core/Invoke.php
+msgid "Sync Drupal Users"
+msgstr ""
+
+#: CRM/Core/Invoke.php templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Database"
+msgstr ""
+
+#: CRM/Core/Invoke.php
 msgid "View Groups"
 msgstr ""
 
-#: CRM/Core/Invoke.php CRM/Core/Block.php
-msgid "Send Mailing"
+#: CRM/Core/Invoke.php
+msgid "Create Profile"
 msgstr ""
 
-#: CRM/Core/SelectValues.php
-msgid "-title-"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Mrs."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Ms."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Mr."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Dr."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "(none)"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "-suffix-"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Jr."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Sr."
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "II"
-msgstr ""
+#: CRM/Core/Invoke.php templates/CRM/Export/Form/SelectField.tpl
+#, fuzzy
+msgid "Export Contacts"
+msgstr "นำเข้าที่ติดต่อ"
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -2697,7 +3213,7 @@ msgid "San Francisco"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "-no preference-"
+msgid "- no preference -"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -2720,7 +3236,7 @@ msgstr ""
 msgid "Do not trade"
 msgstr ""
 
-#: CRM/Core/SelectValues.php
+#: CRM/Core/SelectValues.php templates/CRM/Block/Search.tpl
 msgid "- all contacts -"
 msgstr ""
 
@@ -2777,8 +3293,9 @@ msgid "Country selector"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "-all contact types-"
-msgstr ""
+#, fuzzy
+msgid "- all contact types -"
+msgstr "การติดต่อ ประเภท A"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
@@ -2788,18 +3305,41 @@ msgstr ""
 msgid "Static"
 msgstr ""
 
-#: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/OptionFieldsError.tpl
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
 msgstr ""
 
-#: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/OptionFieldsError.tpl
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "hide field or section"
 msgstr ""
 
-#: CRM/Custom/Form/Field.php
-msgid "Checkbox"
+#: CRM/Custom/Form/DeleteField.php
+msgid "Confirm Custom Field Delete"
+msgstr ""
+
+#: CRM/Custom/Form/DeleteField.php
+#, fuzzy
+msgid "Delete Custom Field"
+msgstr "ปิดช่องข้อมูลกำหนดเอง"
+
+#: CRM/Custom/Form/DeleteField.php
+#, fuzzy
+msgid "The custom field \"%1\" has been deleted."
+msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Custom/Form/DeleteGroup.php
+msgid "Confirm Custom Group Delete"
+msgstr ""
+
+#: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
+msgid "Delete Custom Group"
+msgstr "ลบกลุ่ม"
+
+#: CRM/Custom/Form/DeleteGroup.php
+msgid ""
+"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"this group prior to deleting the group"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php templates/CRM/Custom/Page/Field.tpl
@@ -2808,6 +3348,10 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Number of Options Per Line"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
@@ -2836,7 +3380,7 @@ msgid "Please enter 1 or 0 as default value."
 msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 
 #: CRM/Custom/Form/Field.php
-msgid "The invalid default value for Country Data Type"
+msgid "Invalid default value for country."
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
@@ -2887,10 +3431,6 @@ msgstr "ชื่อกลุ่ม"
 
 #: CRM/Custom/Form/Group.php templates/CRM/Custom/Page/Group.tpl
 msgid "Used For"
-msgstr ""
-
-#: CRM/Custom/Form/Group.php
-msgid "Form Help"
 msgstr ""
 
 #: CRM/Custom/Form/Group.php
@@ -3043,37 +3583,50 @@ msgstr ""
 msgid "%1 - Multiple Choice Options"
 msgstr ""
 
-#: CRM/Group/Form/Delete.php
+#: CRM/Export/Form/MapField.php
+msgid "Select more fields"
+msgstr ""
+
+#: CRM/Export/Form/MapField.php
+msgid "Map Fields"
+msgstr ""
+
+#: CRM/Export/Form/SelectField.php
+#, fuzzy
+msgid "Export ALL contact fields"
+msgstr "นำเข้าที่ติดต่อ"
+
+#: CRM/Export/Form/SelectField.php
+msgid "Select fields for export"
+msgstr ""
+
+#: CRM/Export/Form/SelectField.php
+#, fuzzy
+msgid "Export Type"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Export/Form/SelectField.php
+#, fuzzy
+msgid "Select Fields"
+msgstr "เริ่มวันที่"
+
+#: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr ""
 
-#: CRM/Group/Form/Delete.php
-msgid "The Group \"%1\" has been deleted."
-msgstr ""
-
-#: CRM/Group/Form/DynamicGroup.php
-msgid "Saved Search: "
-msgstr ""
-
-#: CRM/Group/Form/DynamicGroup.php
-msgid "Previous"
-msgstr ""
-
-#: CRM/Group/Form/DynamicGroup.php
-msgid "Reset"
-msgstr ""
-
 #: CRM/Group/Form/Edit.php
-msgid "Name: "
-msgstr ""
+#, fuzzy
+msgid "Name:"
+msgstr "ชื่อ"
 
 #: CRM/Group/Form/Edit.php
 msgid "Group name is required."
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "Description: "
-msgstr ""
+#, fuzzy
+msgid "Description:"
+msgstr "รายการ"
 
 #: CRM/Group/Form/Edit.php
 msgid "Continue"
@@ -3084,12 +3637,26 @@ msgid "The Group \"%1\" has been saved."
 msgstr ""
 
 #: CRM/Group/Page/Group.php
+msgid "Are you sure you want to disable this Group?"
+msgstr ""
+
+#: CRM/Group/Page/Group.php
 msgid "Show Group Members"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr "แก้ไขกลุ่ม"
+
+#: CRM/Group/Page/Group.php
+#, fuzzy
+msgid "Disable Group"
+msgstr "ลบกลุ่ม"
+
+#: CRM/Group/Page/Group.php
+#, fuzzy
+msgid "Enable Group"
+msgstr "ลบกลุ่ม"
 
 #: CRM/Group/Page/Group.php
 #, fuzzy
@@ -3123,7 +3690,10 @@ msgid "History %%StatusMessage%%"
 msgstr ""
 
 #: CRM/Import/Form/MapField.php
-msgid "Mapper for Field %1"
+msgid ""
+"The data columns in this import file appear to be different from the saved "
+"mapping. Please verify that you have selected the correct saved mapping "
+"before continuing."
 msgstr ""
 
 #: CRM/Import/Form/MapField.php
@@ -3306,24 +3876,9 @@ msgstr ""
 msgid "Syntax"
 msgstr ""
 
-#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/BAO/Job.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/MailingComponent.php
+#: CRM/Mailing/DAO/Component.php
 msgid "Component Name"
 msgstr ""
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/BAO/Mailing.php
-#, fuzzy
-msgid "Header"
-msgstr "เพศ"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/BAO/Mailing.php
-#, fuzzy
-msgid "Footer"
-msgstr "บันทึก"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Subscribe"
@@ -3333,19 +3888,11 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/BAO/Mailing.php
-msgid "Unsubscribe"
-msgstr ""
-
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/BAO/Mailing.php
-msgid "Reply"
-msgstr ""
-
-#: CRM/Mailing/DAO/Group.php CRM/Mailing/DAO/MailingGroup.php
+#: CRM/Mailing/DAO/Group.php
 msgid "Group Type"
 msgstr ""
 
@@ -3356,29 +3903,6 @@ msgstr ""
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
 msgstr ""
-
-#: CRM/Mailing/DAO/Job.php templates/CRM/Contact/Page/View/Basic.tpl
-#: CRM/Mailing/DAO/MailingJob.php CRM/Mailing/Selector/Browse.php
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Scheduled Date"
-msgstr ""
-
-#: CRM/Mailing/DAO/Job.php CRM/Mailing/BAO/Job.php
-msgid "Running"
-msgstr ""
-
-#: CRM/Mailing/DAO/Job.php CRM/Mailing/BAO/Job.php
-msgid "Complete"
-msgstr ""
-
-#: CRM/Mailing/DAO/Job.php CRM/Mailing/BAO/Job.php
-msgid "Paused"
-msgstr ""
-
-#: CRM/Mailing/DAO/Job.php CRM/Mailing/BAO/Job.php
-#, fuzzy
-msgid "Canceled"
-msgstr "ยกเลิก"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3405,52 +3929,11 @@ msgstr ""
 msgid "Open Tracking"
 msgstr ""
 
-#: CRM/Mailing/DAO/TrackableURL.php CRM/Mailing/DAO/MailingTrackableUrl.php
+#: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
 msgstr ""
 
-#: CRM/Mailing/Event/BAO/Subscribe.php
-msgid "Subscribe confirmation request"
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Subscribe.php CRM/Mailing/Event/BAO/Confirm.php
-msgid "\"%1 Administrator\" <do-not-reply@%2>"
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Subscribe.php
-msgid ""
-"\n"
-"You have a pending subscription to %1.  To confirm this \n"
-"subscription, reply to this message."
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
-msgid "You have been unsubscribed from %1."
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
-msgid "You have been removed from the following groups: %1."
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
-msgid "You have been removed from %1."
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Unsubscribe.php
-msgid "Unsubscribe request completed"
-msgstr ""
-
-#: CRM/Mailing/Event/BAO/Unsubscribe.php CRM/Mailing/Event/BAO/Reply.php
-msgid "\"%1 Administrator\" <%2>"
-msgstr ""
-
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/DAO/MailingEventBounce.php
-#: CRM/Mailing/Selector/Event.php
-msgid "Bounce Reason"
-msgstr ""
-
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#: CRM/Mailing/DAO/MailingEventUnsubscribe.php
 msgid "Org Unsubscribe"
 msgstr ""
 
@@ -3468,11 +3951,11 @@ msgid "The mailing component \"%1\" has been saved."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Mailing/Form/Group.php
-msgid "Include group(s) "
+msgid "Include group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Exclude group(s) "
+msgid "Exclude group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -3484,11 +3967,12 @@ msgid "<< Remove"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Include mailing(s) "
-msgstr ""
+#, fuzzy
+msgid "Include mailing(s)"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Mailing/Form/Group.php
-msgid "Exclude mailing(s) "
+msgid "Exclude mailing(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -3511,8 +3995,22 @@ msgstr ""
 msgid "Name Mailing"
 msgstr ""
 
-#: CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Retry.php
-msgid "Send Immediately"
+#: CRM/Mailing/Form/Retry.php
+#, fuzzy
+msgid "Invalid Mailing ID"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: CRM/Mailing/Form/Retry.php
+#, fuzzy
+msgid "Retry Date"
+msgstr "เริ่มวันที่"
+
+#: CRM/Mailing/Form/Retry.php
+msgid "Retry"
+msgstr ""
+
+#: CRM/Mailing/Form/Retry.php
+msgid "Retry scheduled for mailing: %1"
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
@@ -3532,8 +4030,9 @@ msgid "CiviCRM Test Mailer (%1)"
 msgstr ""
 
 #: CRM/Mailing/Form/Test.php
-msgid "Test Mailing: "
-msgstr ""
+#, fuzzy
+msgid "Test Mailing:"
+msgstr "ข้อความ"
 
 #: CRM/Mailing/Form/Test.php
 msgid "The test mailing could not be delivered due to the following error:"
@@ -3639,6 +4138,105 @@ msgstr "ปิดประเภทสถานที่"
 msgid "Enable Mailing Component"
 msgstr ""
 
+#: CRM/Mailing/Page/Report.php
+msgid "CiviMail Report: %1"
+msgstr ""
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "Mailings %%StatusMessage%%"
+msgstr "ข้อความ"
+
+#: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Mailing Name"
+msgstr "ข้อความ"
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "Completed Date"
+msgstr "สิ้นสุดวันที่"
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "Action"
+msgstr "ปฏิบัติการ"
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "View Mailing Report"
+msgstr "ปิดประเภทสถานที่"
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "CiviMail Mailings"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: CRM/Mailing/Selector/Event.php
+msgid "%1 %%StatusMessage%%"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Email Address"
+msgstr "ที่อยู่"
+
+#: CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Bounce Type"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Forwarded Email"
+msgstr "อีเมล์"
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Intended Recipients"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Succesful Deliveries"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Bounces"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Forwards"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Unique Replies"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Replies"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Unsubscriptions"
+msgstr "รายการ"
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Unique Click-throughs"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Click-throughs"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Unique Tracked Opens"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
+msgid "Tracked Opens"
+msgstr ""
+
 #: CRM/Note/Form/Note.php
 msgid "Please enter note text."
 msgstr ""
@@ -3646,6 +4244,58 @@ msgstr ""
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
 msgstr ""
+
+#: CRM/Profile/Form/Edit.php
+#, fuzzy
+msgid "Thank you. Your contact information has been saved."
+msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Invalid form parameters."
+msgstr ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Forward Mailing: %1"
+msgstr "อีเมล์"
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Email %1"
+msgstr "อีเมล์"
+
+#: CRM/Profile/Form/ForwardMailing.php
+#, fuzzy
+msgid "Forward"
+msgstr "อีเมล์"
+
+#: CRM/Profile/Form.php
+msgid "Please enter a valid %1"
+msgstr "กรุณาใส่ข้อมลูนี้ให้ถูกต้อง %1"
+
+#: CRM/Profile/Form.php
+msgid "An account already exists with the same information."
+msgstr ""
+
+#: CRM/Profile/Page/Listings.php
+#, fuzzy
+msgid "Search Profile"
+msgstr "ค้นหา"
+
+#: CRM/Profile/Page/View.php
+#, fuzzy
+msgid "Contact's Profile"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Profile/Selector/Listings.php
+#, fuzzy
+msgid "View Profile Details"
+msgstr "ตำแหน่ง"
+
+#: CRM/Profile/Selector/Listings.php
+#, fuzzy
+msgid "CiviCRM Profile Listings"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
@@ -3655,13 +4305,23 @@ msgstr ""
 msgid "Your update(s) have been saved."
 msgstr ""
 
-#: CRM/UF/Form/Dynamic.php CRM/Profile/Form/Edit.php
-msgid "An account already exists with the same information."
-msgstr ""
+#: CRM/UF/Form/Field.php
+#, fuzzy
+msgid "Delete Profile Field"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
 msgstr ""
+
+#: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
+#, fuzzy
+msgid "In Selector?"
+msgstr "เลือกกลุ่ม"
+
+#: CRM/UF/Form/Field.php
+msgid "Listings Title"
+msgstr "รายชือเรื่อง"
 
 #: CRM/UF/Form/Field.php
 msgid ""
@@ -3682,12 +4342,27 @@ msgstr ""
 
 #: CRM/UF/Form/Field.php
 #, fuzzy
+msgid "Selected Profile Field has been deleted."
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: CRM/UF/Form/Field.php
+#, fuzzy
 msgid "Your civicrm profile field \"%1\" has been saved."
 msgstr "ผู้ให้บริการโทรศัพท์เคลื่อนที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/UF/Form/Group.php
+#, fuzzy
+msgid "Delete %1"
+msgstr "ลบ"
+
+#: CRM/UF/Form/Group.php
 msgid "New CiviCRM Profile Group"
 msgstr ""
+
+#: CRM/UF/Form/Group.php
+#, fuzzy
+msgid "Delete Profile Group"
+msgstr "ลบกลุ่ม"
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
@@ -3698,6 +4373,16 @@ msgstr "ชื่อกลาง"
 #, fuzzy
 msgid "Is this CiviCRM Profile active?"
 msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: CRM/UF/Form/Group.php
+#, fuzzy
+msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
+msgstr "ผู้ให้บริการโทรศัพท์เคลื่อนที่ \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/UF/Form/Group.php
+msgid ""
+"You must delete all profile fields for \"%1\" prior to deleting the profile."
+msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid "Your CiviCRM Profile Group \"%1\" has been saved."
@@ -3762,17 +4447,36 @@ msgstr ""
 msgid "Enable CiviCRM Profile Group"
 msgstr ""
 
-#: CRM/Utils/Menu.php
-msgid "Administer CiviCRM"
-msgstr ""
-
-#: CRM/Utils/Menu.php templates/CRM/Tag/Form/Tag.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Tags"
-msgstr ""
+#: CRM/UF/Page/Group.php
+#, fuzzy
+msgid "Delete CiviCRM Profile Group"
+msgstr "CiviCRM โครงร่างกลุ่ม"
 
 #: CRM/Utils/Menu.php
-msgid "Relationship Types"
+msgid ""
+"Synchronize Users to Contacts: CiviCRM will check each user record for a "
+"contact record. A new contact record will be created for each user where one "
+"does not already exist.\\n\\nDo you want to continue?"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid ""
+"Backup Your Data: CiviCRM will create an SQL dump file with all of your "
+"existing data, and allow you to download it to your local computer. This "
+"process may take a long time and generate a very large file if you have a "
+"large number of records. \\n\\nDo you want to continue?"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Access Control"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Backup Data"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Synchronize Users-to-Contacts"
 msgstr ""
 
 #: CRM/Utils/Menu.php
@@ -3780,20 +4484,41 @@ msgstr ""
 msgid "Activity Types"
 msgstr "ประเภทกิจกรรม"
 
-#: CRM/Utils/Menu.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-msgid "Custom Data"
-msgstr ""
-
 #: CRM/Utils/Menu.php
 msgid "CiviCRM Profile Fields"
 msgstr ""
 
 #: CRM/Utils/Menu.php
-msgid "IM Services"
+msgid "Location Types (Home,&nbsp;Work...)"
 msgstr ""
 
 #: CRM/Utils/Menu.php
-msgid "Mobile Providers"
+msgid "Tags (Categories)"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Relationship Types"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Gender Options (Male,&nbsp;Female...)"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Instant Messenger Services"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+#, fuzzy
+msgid "Mobile Phone Providers"
+msgstr "ผู้ให้บริการ IM"
+
+#: CRM/Utils/Menu.php
+msgid "Individual Titles (Ms,&nbsp;Mr...)"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Individual Suffixes (Jr,&nbsp;Sr...)"
 msgstr ""
 
 #: CRM/Utils/Menu.php
@@ -3824,6 +4549,11 @@ msgstr ""
 msgid "Relationships"
 msgstr ""
 
+#: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Tag/Form/Tag.tpl
+msgid "Tags"
+msgstr ""
+
 #: CRM/Utils/Menu.php
 msgid "Manage Groups"
 msgstr ""
@@ -3838,6 +4568,14 @@ msgstr ""
 
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Add Contact Information"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Notes about the Person"
 msgstr ""
 
 #: CRM/Utils/Menu.php
@@ -3862,19 +4600,20 @@ msgid "Page %1 of %2"
 msgstr ""
 
 #: CRM/Utils/Pager.php
-msgid " &lt; Previous"
+#, fuzzy
+msgid "&lt; Previous"
+msgstr "<< ย้อนหลัง"
+
+#: CRM/Utils/Pager.php
+msgid "Next &gt;"
 msgstr ""
 
 #: CRM/Utils/Pager.php
-msgid "Next &gt; "
+msgid "&lt;&lt; First"
 msgstr ""
 
 #: CRM/Utils/Pager.php
-msgid " &lt;&lt; First"
-msgstr ""
-
-#: CRM/Utils/Pager.php
-msgid "Last &gt;&gt; "
+msgid "Last &gt;&gt;"
 msgstr ""
 
 #: CRM/Utils/Token.php
@@ -3888,6 +4627,14 @@ msgstr ""
 #: CRM/Utils/Token.php
 msgid ""
 "Link to allow contacts to unsubscribe from target groups of this mailing."
+msgstr ""
+
+#: CRM/Utils/Token.php
+msgid "re-subscribe"
+msgstr ""
+
+#: CRM/Utils/Token.php
+msgid "(re-subscribe: %1)"
 msgstr ""
 
 #: CRM/Utils/Type.php
@@ -3946,6 +4693,15 @@ msgstr "ลบกิจกรรม"
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "View Scheduled Meeting"
 msgstr ""
+
+#: templates/CRM/Activity/Form/Meeting.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl
+#: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/Relationship.tpl
+#, fuzzy
+msgid "Calender"
+msgstr "เพศ"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -4023,13 +4779,147 @@ msgstr ""
 msgid "New Activity Type"
 msgstr "ประเภทกิจกรรม"
 
+#: templates/CRM/Admin/Form/ActivityType.tpl
+#: templates/CRM/Admin/Form/DomainDump.tpl
+#: templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl
+#: templates/CRM/Admin/Form/IMProvider.tpl
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#: templates/CRM/Admin/Form/LocationType.tpl
+#: templates/CRM/Admin/Form/MobileProvider.tpl
+#: templates/CRM/Admin/Form/RelationshipType.tpl
+#: templates/CRM/Admin/Page/ActivityType.tpl
+#: templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
+#: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Admin/Page/MobileProvider.tpl
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+#: templates/CRM/Admin/Page/Tag.tpl
+#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
+#: templates/CRM/common/info.tpl templates/CRM/common/status.tpl
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Task/Delete.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+#: templates/CRM/Contact/Page/View/Delete.tpl
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+#: templates/CRM/Contact/Page/View/Group.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+#: templates/CRM/Custom/Form/DeleteField.tpl
+#: templates/CRM/Custom/Form/DeleteGroup.tpl
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl
+#: templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Browse.tpl
+#: templates/CRM/print.tpl templates/CRM/Profile/Page/Note.tpl
+#: templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl
+#: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+msgid "status"
+msgstr ""
+
+#: templates/CRM/Admin/Form/ActivityType.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all activity type "
+"records which use the option. This is may mean the loss of a substantial "
+"amount of data, and the action can not be undone. Do you want to continue?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid ""
+"<span class=\"label\">Backup Your Data:</span> CiviCRM will create an SQL "
+"'dump' file with all of your existing data, and allow you to download it to "
+"your local computer. This process may take a long time and generate a very "
+"large file if you have a large number of records. Do you want to continue?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DrupalUser.tpl
+msgid "Synchronize Drupal Users"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DrupalUser.tpl
+msgid ""
+"<span class=\"label\">Synchronize Users to Contacts:</span> CiviCRM will "
+"check each user record for a contact record. A new contact records will be "
+"created for each user where on exist. Do you want to continue?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
+msgid "New Gender Option"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Gender.tpl
+#, fuzzy
+msgid "Delete Gender Option"
+msgstr "ลบกิจกรรม"
+
+#: templates/CRM/Admin/Form/Gender.tpl
+#, fuzzy
+msgid "Edit Gender Option"
+msgstr "แก้ไขประเภทสถานที่"
+
+#: templates/CRM/Admin/Form/Gender.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all Gender related "
+"records which use the option. This may mean the loss of a substantial amount "
+"of data, and the action can not be undone. Do you want to continue?"
+msgstr ""
+
 #: templates/CRM/Admin/Form/IMProvider.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid "New IM Service Provider"
 msgstr ""
 
 #: templates/CRM/Admin/Form/IMProvider.tpl
+#, fuzzy
+msgid "Delete IM Service Provider"
+msgstr "ปิดผู้ให้บริการ IM"
+
+#: templates/CRM/Admin/Form/IMProvider.tpl
 msgid "Edit IM Service Provider"
+msgstr ""
+
+#: templates/CRM/Admin/Form/IMProvider.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all IM Service "
+"Provider type records which use the option. This may mean the loss of a "
+"substantial amount of data, and the action can not be undone. Do you want to "
+"continue?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+#, fuzzy
+msgid "New Individual Title Option"
+msgstr "บุคคลใหม่"
+
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+msgid "Delete Individual Title Option"
+msgstr ""
+
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+msgid "Edit Individual Title Option"
+msgstr ""
+
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all Title related  "
+"records which use the option. This may mean the loss of a substantial amount "
+"of data, and the action can not be undone. Do you want to continue?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#, fuzzy
+msgid "New Individual Suffix"
+msgstr "บุคคลใหม่"
+
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all Individual "
+"suffix related  records which use the option. This may mean the loss of a "
+"substantial amount of data, and the action can not be undone. Do you want to "
+"continue?"
 msgstr ""
 
 #: templates/CRM/Admin/Form/LocationType.tpl
@@ -4037,13 +4927,39 @@ msgstr ""
 msgid "New Location Type"
 msgstr ""
 
+#: templates/CRM/Admin/Form/LocationType.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all location type "
+"records which use the option. This may mean the loss of a substantial amount "
+"of data, and the action can not be undone. Do you want to continue?"
+msgstr ""
+
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 msgid "New Mobile Provider"
+msgstr ""
+
+#: templates/CRM/Admin/Form/MobileProvider.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all Mobile Provider "
+"type records which use the option. This may mean the loss of a substantial "
+"amount of data, and the action can not be undone. Do you want to continue?"
 msgstr ""
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "New Relationship Type"
+msgstr ""
+
+#: templates/CRM/Admin/Form/RelationshipType.tpl
+#, fuzzy
+msgid "Delete Relationship Type"
+msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
+
+#: templates/CRM/Admin/Form/RelationshipType.tpl
+msgid ""
+"WARNING: Deleting this option will result in the loss of all Relationship "
+"type records which use the option. This may mean the loss of a substantial "
+"amount of data, and the action can not be undone. Do you want to continue?"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Tag.tpl templates/CRM/Admin/Page/Tag.tpl
@@ -4056,16 +4972,20 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 msgid ""
-"<p>Activities are 'interactions with contacts' which you want to record and "
+"Activities are 'interactions with contacts' which you want to record and "
 "track. CiviCRM has several reserved (e.g.'built-in') activity types "
 "(meetings, phone calls, emails sent). Create additional 'activity types' "
 "here if you need to record other types of activities. For example, you might "
 "want to include 'New Client Intake', or 'Site Audit', etc. ...as types of "
-"trackable activites.</p>\n"
-"    <p>Completed activities are searchable by type and/or activity date "
-"using 'Advanced Search'. Other applications may record activities for "
-"CiviCRM contacts using our APIs. For more information, refer to our "
-"Administrator Documentation.</p>"
+"trackable activites."
+msgstr ""
+
+#: templates/CRM/Admin/Page/ActivityType.tpl
+msgid ""
+"Completed activities are searchable by type and/or activity date using "
+"'Advanced Search'. Other applications may record activities for CiviCRM "
+"contacts using our APIs. For more information, refer to our Administrator "
+"Documentation."
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
@@ -4077,34 +4997,20 @@ msgid "Reserved?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-#: templates/CRM/Admin/Page/Tag.tpl
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-#: templates/CRM/common/info.tpl templates/CRM/common/status.tpl
-#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#: templates/CRM/Contact/Form/Task/Delete.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-#: templates/CRM/Contact/Page/SavedSearch.tpl
-#: templates/CRM/Contact/Page/View/CustomData.tpl
-#: templates/CRM/Contact/Page/View/GroupContact.tpl
-#: templates/CRM/Contact/Page/View/Group.tpl
-#: templates/CRM/Contact/Page/View/Note.tpl
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/print.tpl
-#: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
-#: templates/CRM/Profile/Page/Note.tpl
-msgid "status"
-msgstr ""
-
-#: templates/CRM/Admin/Page/ActivityType.tpl
 msgid ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
 "a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Gender.tpl
+msgid ""
+"CiviCRM is pre-configured with standard options for individual gender (e.g. "
+"Male, Female, Transgender). You can use this page to customize these options "
+"and add new options as needed for your installation."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Gender.tpl
+msgid "There are no Gender entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -4123,6 +5029,36 @@ msgstr ""
 msgid ""
 "There are no IMProviders entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+msgid ""
+"CiviCRM is pre-configured with standard options for individual contact "
+"titles / prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to "
+"customize these options and add new ones as needed for your installation."
+msgstr ""
+
+#: templates/CRM/Admin/Page/IndividualPrefix.tpl
+msgid ""
+"There are no Individual Titles entered. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
+msgid ""
+"CiviCRM is pre-configured with standard options for individual contact name "
+"suffixes (e.g. Jr., Sr., II etc.).\n"
+"    You can use this page to customize these options and add new ones as "
+"needed for your installation."
+msgstr ""
+
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
+#, fuzzy
+msgid "New Individual Suffix Option"
+msgstr "บุคคลใหม่"
+
+#: templates/CRM/Admin/Page/IndividualSuffix.tpl
+msgid ""
+"There are no Individual Suffixes entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -4163,11 +5099,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
-"<p>Relationship types describe relationships between people, households and "
+"Relationship types describe relationships between people, households and "
 "organizations. CiviCRM includes several 'reserved' types for frequently used "
-"relationships (such as Parent/Child or Employer/Employee).</p>\n"
-"    <p>You can define as many additional relationships types as needed to "
-"cover the types of relationships you want to track.</p>"
+"relationships (such as Parent/Child or Employer/Employee)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid ""
+"You can define as many additional relationships types as needed to cover the "
+"types of relationships you want to track."
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -4209,11 +5149,7 @@ msgid "Email:"
 msgstr ""
 
 #: templates/CRM/Block/Search.tpl
-msgid "-all contacts-"
-msgstr ""
-
-#: templates/CRM/Block/Search.tpl
-msgid "-exact or partial name-"
+msgid "- exact or partial name -"
 msgstr ""
 
 #: templates/CRM/Block/Search.tpl
@@ -4257,15 +5193,17 @@ msgid ""
 "a>."
 msgstr ""
 
-#: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
+#: templates/CRM/common/feedback.tpl
 msgid ""
-"<p>This site is running the 1.1 Beta release. All functions should be "
-"operational.</p>\n"
-"     <p>To see a list of known bugs and issues, and to report new bugs, "
-"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
-"p>\n"
-"     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+"<p>This site is running development code towards the 1.2 release.</p>\n"
+"<p>To see a list of known bugs and issues, and to report new bugs, please "
+"use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
+"<p>Please add any comments on the look and feel of these pages, along with "
+"workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgstr ""
+
+#: templates/CRM/common/form_body.tpl
+msgid "Please correct the following errors in the form fields below:"
 msgstr ""
 
 #: templates/CRM/common/recentlyViewed.tpl
@@ -4296,18 +5234,24 @@ msgid "Select the preferred method of communicating with this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Form/CustomData.tpl
+#: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/InlineCustomData.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/CustomData.tpl
+#: templates/CRM/Contact/Page/View/InlineCustomData.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "open section"
 msgstr ""
 
 #: templates/CRM/Contact/Form/CustomData.tpl
+#: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/InlineCustomData.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/CustomData.tpl
+#: templates/CRM/Contact/Page/View/InlineCustomData.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "close section"
 msgstr ""
@@ -4322,7 +5266,7 @@ msgid "Demographics"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl
-msgid "Contact Notes"
+msgid "Tags and Groups"
 msgstr ""
 
 #: templates/CRM/Contact/Form/IM.tpl
@@ -4400,12 +5344,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
-"ul><br />Check your spelling, or try fewer letters for the target contact "
-"name."
+"ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -4433,15 +5374,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Complete OR partial contact name OR email."
-msgstr ""
-
-#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-#, fuzzy
-msgid "Group(s)"
-msgstr "กลุ่ม"
-
-#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-msgid "Tag(s)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
@@ -4516,12 +5448,16 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"<p>The members of the <strong>%1</strong> group are listed below. Use the "
-"'Find Members...' criteria below to search for specific members. Use the "
-"'Group Status...' checkboxes to view members with 'Pending' status and/or "
-"members who have been 'Removed' from this group.</p>\n"
-"        <p>Use the <a href=\"%2\">Add Members...</a> screen if you want to "
-"add new members to this group.</p>"
+"The members of the <strong>%1</strong> group are listed below. Use the 'Find "
+"Members...' criteria below to search for specific members. Use the 'Group "
+"Status...' checkboxes to view members with 'Pending' status and/or members "
+"who have been 'Removed' from this group."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Intro.tpl
+msgid ""
+"Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
+"members to this group."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
@@ -4583,6 +5519,14 @@ msgstr ""
 msgid "Choose Relationship Type and Target Household"
 msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
 
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+msgid ""
+"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
+"ul><br />Check your spelling, or try fewer letters for the target contact "
+"name."
+msgstr ""
+
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #, fuzzy
 msgid "Choose Relationship Type and Target Organization"
@@ -4594,19 +5538,13 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
-"Are you sure you want to Delete the selected contacts. A Delete operation "
+"Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send an Email"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Task/Email.tpl
-#: templates/CRM/Contact/Page/View/Email.tpl
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "From"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -4873,6 +5811,13 @@ msgid ""
 "Contact."
 msgstr ""
 
+#: templates/CRM/Contact/Page/View/Delete.tpl
+msgid ""
+"Are you sure you want to delete the contact record and all related "
+"information for <strong>%1</strong>?</p>\n"
+"        <p>This operation cannot be undone."
+msgstr ""
+
 #: templates/CRM/Contact/Page/View/Email.tpl
 #, fuzzy
 msgid "Date Sent"
@@ -4895,7 +5840,7 @@ msgid "Are you sure you want to remove %1 from %2?"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-msgid "[ Remove ]"
+msgid "Remove"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -4935,8 +5880,9 @@ msgid "Are you sure you want to add %1 back into %2?"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-msgid "[ Rejoin Group ]"
-msgstr ""
+#, fuzzy
+msgid "Rejoin Group"
+msgstr "แก้ไขกลุ่ม"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Group Listings"
@@ -5002,6 +5948,18 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "These relationships have been marked as disabled (no longer active)."
+msgstr ""
+
+#: templates/CRM/Custom/Form/DeleteField.tpl
+msgid ""
+"WARNING: Deleting this custom field will result in the loss of all %1 data. "
+"This action can not be undone. Do you want to continue?"
+msgstr ""
+
+#: templates/CRM/Custom/Form/DeleteGroup.tpl
+msgid ""
+"WARNING: Deleting this custom group will result in the loss of all %1 data. "
+"This action can not be undone. Do you want to continue?"
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -5077,12 +6035,14 @@ msgstr ""
 msgid "Explanatory text displayed at the beginning of the group fieldset."
 msgstr ""
 
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
+#: templates/CRM/Custom/Form/Group.tpl
+msgid "Explanatory text displayed at the end of the group fieldset."
+msgstr ""
+
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
 msgstr ""
 
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
 "Enter up to ten (10) multiple choice options in this table (click 'another "
@@ -5093,26 +6053,18 @@ msgid ""
 "field is presented."
 msgstr ""
 
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Defaults"
 msgstr ""
 
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "another choice"
 msgstr ""
 
-#: templates/CRM/Custom/Form/OptionFieldsError.tpl
-msgid ""
-"\"If you need additional options - you can add them after you save your "
-"current entries.\""
-msgstr ""
-
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
-"\"If you need additional options - you can add them after you Save your "
-"current entries.\""
+"If you need additional options - you can add them after you Save your "
+"current entries."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Option.tpl
@@ -5200,8 +6152,19 @@ msgstr ""
 msgid "Return to CiviCRM menu."
 msgstr ""
 
-#: templates/CRM/form.tpl templates/CRM/UF/Form/Dynamic.tpl
-msgid "Please correct the following errors in the form fields below:"
+#: templates/CRM/Export/Form/MapField.tpl
+msgid ""
+"Select the fields which you want to export. All the selects with '-do not "
+"export-' will be ignored."
+msgstr ""
+
+#: templates/CRM/Export/Form/MapTable.tpl
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Matching CiviCRM Field"
+msgstr ""
+
+#: templates/CRM/Export/Form/SelectField.tpl
+msgid "%1 records selected for export"
 msgstr ""
 
 #: templates/CRM/Group/Form/Delete.tpl
@@ -5210,7 +6173,11 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This group currently has one member in it."
-msgid_plural "This group currently has %count members in it."
+msgid_plural ""
+"This group currently has %count members in it. Deleting this group will NOT "
+"delete the member contact records. However, all contact subscription "
+"information and history for this group will be deleted. This operation can "
+"not be undone."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -5229,6 +6196,23 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Group Name and Description"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid ""
+"Use Groups to organize contacts (e.g. these contacts are members of our "
+"'Steering Committee'). You can also create 'smart' groups whose membership "
+"is based on contact characteristics (e.g. this group consists of all people "
+"in our database who live in a specific locality)."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid ""
+"You can add contacts to a group from any set of search results (or when "
+"viewing an individual contact). You can also allow contacts to sign "
+"themselves up for certain groups by setting the group visibility to 'Public "
+"User Pages' (from the Edit link below), and including the <strong>Groups</"
+"strong> element in a CiviCRM Profile."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
@@ -5255,24 +6239,20 @@ msgstr ""
 msgid "No activity history for this contact."
 msgstr ""
 
-#: templates/CRM/Import/Form/MapField.tpl
-msgid ""
-"Review the values shown below from the first 2 rows of your import file and "
-"select the matching CiviCRM database fields from the drop-down lists in the "
-"right-hand column. Select '-do not import-' for any columns in the import "
-"file that you want ignored."
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Select a Different Field Mapping"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl
-msgid "Import Data -&gt; CiviCRM Contact Fields"
+msgid "Load Saved Field Mapping"
+msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Saved Field Mapping: %1"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
-msgstr ""
-
-#: templates/CRM/Import/Form/MapTable.tpl
-msgid "Matching CiviCRM Field"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -5384,7 +6364,7 @@ msgstr ""
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
-"contact records.  "
+"contact records."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5411,7 +6391,7 @@ msgid "Duplicate Rows"
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Rows which are duplicates of existing CiviCRM contact records.  "
+msgid "Rows which are duplicates of existing CiviCRM contact records."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5503,6 +6483,19 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
+"Select 'Individual' if each record in your file represents and individual "
+"person - even if the file also contains related Organization data (e.g. "
+"Employer Name, Employer Address, etc.)."
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Organization' or 'Household' if each record in your file represents "
+"a contact of that type."
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
@@ -5537,16 +6530,163 @@ msgstr ""
 msgid "New Mailing Component"
 msgstr ""
 
+#: templates/CRM/Mailing/Form/Retry.tpl
+msgid "Retry Mailing: %1"
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Test.tpl
-msgid "The test mailing will be sent to "
+msgid "The test mailing will be sent to"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid "Settings and Content"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid "There are no sent Mails. You can <a href=\"%1\">send one</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
 msgstr ""
 
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Mailing Settings"
+msgstr "ข้อความ"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Reply-to email"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Forward replies"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "On"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Off"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Auto-respond to replies"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Open tracking"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "URL Click-through tracking"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Recipients"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Included"
+msgstr "ยกเลิก"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Excluded"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Delivery Summary"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Queued"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Delivered"
+msgstr "ลบ"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Opens"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Totals"
+msgstr "รายละเอียด"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Percentages"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Click-through Summary"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Clicks"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Unique Clicks"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Success Rate"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Content / Components"
+msgstr ""
+
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"name goes back to the server and gets the next 5 items which match the "
+"prefix."
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"state is a dynamic combo box which also affects the below country box. The "
+"values of the combo box are fetched from the server based on the user's "
+"locale etc"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "country is either dependent on the above or can be independely filled."
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "birth day is a simple date field"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid "scheduled date and time is a more complex datetime field"
+msgstr ""
+
+#: templates/CRM/Profile/Form/Dojo.tpl
+msgid ""
+"we'd like to place this element somewhere in the below list (before/after). "
+"So a clean widget to do it would be awesome."
+msgstr ""
+
+#: templates/CRM/Profile/Form/ForwardMailing.tpl
+msgid "Please enter up to 5 email addresses to receive the mailing."
+msgstr ""
+
+#: templates/CRM/Profile/Page/Listings.tpl
+msgid "Displaying contacts where:"
+msgstr ""
+
+#: templates/CRM/Profile/Page/Note.tpl
+msgid "Return to Find People"
 msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
@@ -5565,6 +6705,17 @@ msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
+msgstr ""
+
+#: templates/CRM/UF/Form/Field.tpl
+#, fuzzy
+msgid "Delete CiviCRM Profile Field"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: templates/CRM/UF/Form/Field.tpl
+msgid ""
+"WARNING: Deleting this profile field will remove it from Profile forms and "
+"listings. Do you want to continue?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
@@ -5594,20 +6745,50 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
+"Is this field visible in the selector table displayed in profile searches?"
+msgstr ""
+
+#: templates/CRM/UF/Form/Field.tpl
+msgid ""
 "When this field is used to aggregate a user listings page, what is the title "
 "of that page?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
-"Is this field used to map a newly registered user to an existing contact "
-"record?"
+"Is this field part of the data set used to identify potential duplicate "
+"contact records?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Explanatory text displayed to users for this field. All fields marked as "
 "'Key to Contacts' will be combined when evaluating a match."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+#, fuzzy
+msgid "Delete CiviCRM Profile"
+msgstr "CiviCRM โครงร่างกลุ่ม"
+
+#: templates/CRM/UF/Form/Group.tpl
+#, fuzzy
+msgid "Delete %1 Profile?"
+msgstr "ลบ"
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"Weight controls the order in which profiles are presented when there are "
+"more than one. Enter a positive or negative integer - lower numbers are "
+"displayed ahead of higher numbers."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Explanatory text displayed at the beginning of the fieldset."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Explanatory text displayed at the end of the fieldset."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -5642,14 +6823,31 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/"
-"or view specific fields from their own contact information. Additionally, "
-"'CiviCRM Profile' fields control which data is used to match a contact "
-"record to a user. You can also mark 'CiviCRM Profile' fields as viewable by "
-"other users and site visitors.</p>\n"
-"    <p>Each 'CiviCRM Profile' is presented as a separate form when new users "
-"register for an account, as well as when they edit an existing account.</p>"
+"The HTML code below will display a form consisting of all your active "
+"CiviCRM Profile fields. You can copy this HTML code and paste it into any "
+"block or page on ANY website where you want to collect contact information."
 msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"You can control the web page that someone is directed to AFTER completing "
+"the form by modifying the contents of the hidden <strong>postURL</strong> "
+"input field. Replace the default value with any valid complete URL prior to "
+"saving the form code to the desired page(s)."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "EXAMPLE:"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
+msgid "Back to Profile Listings"
+msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 
 #: templates/CRM/UF/Page/Group.tpl
 #, fuzzy
@@ -5660,6 +6858,10 @@ msgstr "ตำแหน่ง"
 #, fuzzy
 msgid "New CiviCRM Profile"
 msgstr "CiviCRM โครงร่างกลุ่ม"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "Stand-alone Profile Form"
+msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -5824,465 +7026,6 @@ msgstr "ประเทศ"
 msgid "Active volunteers."
 msgstr ""
 
-#: CRM/Mailing/DAO/MailingEventBounce.php CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Bounce Type"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php
-#, fuzzy
-msgid "Search Results"
-msgstr "ค้นหา"
-
-#: CRM/Core/Invoke.php CRM/Utils/Menu.php
-#: templates/CRM/Profile/Form/ForwardMailing.tpl
-#, fuzzy
-msgid "Forward Mailing"
-msgstr "อีเมล์"
-
-#: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
-#, fuzzy
-msgid "Mailings"
-msgstr "ข้อความ"
-
-#: CRM/Core/Invoke.php CRM/Mailing/Selector/Browse.php
-msgid "Report"
-msgstr ""
-
-#: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php
-#: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Retry Mailing"
-msgstr "ข้อความ"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
-msgid "Opt-Out"
-msgstr ""
-
-#: CRM/Core/Block.php
-#, fuzzy
-msgid "CiviMail Menu"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Core/Block.php
-#, fuzzy
-msgid "CiviMail"
-msgstr "CiviCRM"
-
-#: CRM/Core/Block.php
-msgid "Browse Sent Mailings"
-msgstr ""
-
-#: CRM/Core/Block.php
-msgid "Process Mailing Queue"
-msgstr ""
-
-#: CRM/Core/DAO/ACL.php
-msgid "Deny"
-msgstr ""
-
-#: CRM/Core/DAO/ACL.php
-#, fuzzy
-msgid "Operation"
-msgstr "ระยะเวลา"
-
-#: CRM/Core/DAO/ACL.php
-msgid "Object Table"
-msgstr ""
-
-#: CRM/Core/DAO/ACL.php
-msgid "Acl Table"
-msgstr ""
-
-#: CRM/Core/DAO/ACL.php
-#, fuzzy
-msgid "Create"
-msgstr "วันที่"
-
-#: CRM/Core/DAO/ACL.php
-msgid "Grant"
-msgstr ""
-
-#: CRM/Core/DAO/ACL.php
-msgid "Revoke"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Options Per Line"
-msgstr ""
-
-#: CRM/Core/Invoke.php
-msgid "Create Profile"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-msgid "Number of Options Per Line"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-msgid "Invalid default value for country."
-msgstr ""
-
-#: CRM/Import/Form/MapField.php
-#, fuzzy
-msgid "Mapping Option"
-msgstr "ข้อความ"
-
-#: CRM/Import/Form/MapField.php
-msgid "Load Mapping"
-msgstr ""
-
-#: CRM/Import/Form/MapField.php
-msgid "Save this field mapping"
-msgstr ""
-
-#: CRM/Import/Form/MapField.php
-msgid "Update this field mapping"
-msgstr ""
-
-#: CRM/Import/Form/MapField.php
-msgid "Save as a new field mapping"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-#, fuzzy
-msgid "Invalid Mailing ID"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Mailing/Form/Retry.php
-#, fuzzy
-msgid "Retry Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Retry"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Retry scheduled for mailing: %1"
-msgstr ""
-
-#: CRM/Mailing/Page/Report.php
-msgid "CiviMail Report: %1"
-msgstr ""
-
-#: CRM/Mailing/Selector/Browse.php
-#, fuzzy
-msgid "Mailings %%StatusMessage%%"
-msgstr "ข้อความ"
-
-#: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Mailing Name"
-msgstr "ข้อความ"
-
-#: CRM/Mailing/Selector/Browse.php
-#, fuzzy
-msgid "Completed Date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Mailing/Selector/Browse.php
-#, fuzzy
-msgid "Action"
-msgstr "ปฏิบัติการ"
-
-#: CRM/Mailing/Selector/Browse.php
-#, fuzzy
-msgid "View Mailing Report"
-msgstr "ปิดประเภทสถานที่"
-
-#: CRM/Mailing/Selector/Browse.php
-#, fuzzy
-msgid "CiviMail Mailings"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Mailing/Selector/Event.php
-msgid "%1 %%StatusMessage%%"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Email Address"
-msgstr "ที่อยู่"
-
-#: CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Forwarded Email"
-msgstr "อีเมล์"
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Intended Recipients"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Succesful Deliveries"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Bounces"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Forwards"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php
-msgid "Unique Replies"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Replies"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Unsubscriptions"
-msgstr "รายการ"
-
-#: CRM/Mailing/Selector/Event.php
-msgid "Unique Click-throughs"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Click-throughs"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php
-msgid "Unique Tracked Opens"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Tracked Opens"
-msgstr ""
-
-#: CRM/Profile/Form/Edit.php
-#, fuzzy
-msgid "Thank you. Your contact information has been saved."
-msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
-
-#: CRM/Profile/Form/ForwardMailing.php
-msgid "Invalid form parameters."
-msgstr ""
-
-#: CRM/Profile/Form/ForwardMailing.php
-#, fuzzy
-msgid "Forward Mailing: %1"
-msgstr "อีเมล์"
-
-#: CRM/Profile/Form/ForwardMailing.php
-#, fuzzy
-msgid "Email %1"
-msgstr "อีเมล์"
-
-#: CRM/Profile/Selector/Listings.php
-#, fuzzy
-msgid "View Notes"
-msgstr "บันทึก"
-
-#: CRM/Profile/Selector/Listings.php
-#, fuzzy
-msgid "Add Note"
-msgstr "บันทึก"
-
-#: CRM/Utils/Menu.php
-msgid "Find People"
-msgstr ""
-
-#: CRM/Utils/Menu.php
-msgid "Add Person to Database"
-msgstr ""
-
-#: CRM/Utils/Menu.php
-msgid "Notes about the Person"
-msgstr ""
-
-#: CRM/Utils/Token.php
-msgid "re-subscribe"
-msgstr ""
-
-#: CRM/Utils/Token.php
-msgid "(re-subscribe: %1)"
-msgstr ""
-
-#: templates/CRM/Activity/Form/Meeting.tpl
-#: templates/CRM/Activity/Form/OtherActivity.tpl
-#: templates/CRM/Activity/Form/Phonecall.tpl
-#: templates/CRM/Contact/Form/Edit.tpl
-#: templates/CRM/Contact/Form/Relationship.tpl
-#, fuzzy
-msgid "Calender"
-msgstr "เพศ"
-
-#: templates/CRM/Block/VcardImport.tpl
-msgid "vCard File:"
-msgstr ""
-
-#: templates/CRM/Block/VcardImport.tpl
-msgid "Import"
-msgstr ""
-
-#: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
-msgid ""
-"<p>This site is running development code towards the 1.2 release.</p>\n"
-"     <p>To see a list of known bugs and issues, and to report new bugs, "
-"please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</"
-"p>\n"
-"     <p>Please add any comments on the look and feel of these pages, along "
-"with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Relationship.tpl
-msgid ""
-"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
-"ul>Check your spelling, or try fewer letters for the target contact name."
-msgstr ""
-
-#: templates/CRM/Contact/Form/Task/Delete.tpl
-msgid ""
-"Are you sure you want to Delete the selected contacts? A Delete operation "
-"cannot be undone."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Retry.tpl
-msgid "Retry Mailing: %1"
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid "Settings and Content"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Mailing Settings"
-msgstr "ข้อความ"
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Reply-to email"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Forward replies"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "On"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Off"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Auto-respond to replies"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Open tracking"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "URL Click-through tracking"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Recipients"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Included"
-msgstr "ยกเลิก"
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Excluded"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Delivery Summary"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Queued"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Delivered"
-msgstr "ลบ"
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Opens"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
-msgid "Totals"
-msgstr "รายละเอียด"
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Percentages"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Click-through Summary"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Clicks"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Unique Clicks"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Success Rate"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Content / Components"
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid ""
-"name goes back to the server and gets the next 5 items which match the "
-"prefix."
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid ""
-"state is a dynamic combo box which also affects the below country box. The "
-"values of the combo box are fetched from the server based on the user's "
-"locale etc"
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid "country is either dependent on the above or can be independely filled."
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid "birth day is a simple date field"
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid "scheduled date and time is a more complex datetime field"
-msgstr ""
-
-#: templates/CRM/Profile/Form/Dojo.tpl
-msgid ""
-"we'd like to place this element somewhere in the below list (before/after). "
-"So a clean widget to do it would be awesome."
-msgstr ""
-
-#: templates/CRM/Profile/Form/ForwardMailing.tpl
-msgid "Please enter up to 5 email addresses to receive the mailing."
-msgstr ""
-
-#: templates/CRM/Profile/Page/Note.tpl
-msgid "Return to Find People"
-msgstr ""
-
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
 msgstr ""
@@ -6328,6 +7071,46 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Mrs"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "Ms"
+msgstr "ซ่อน"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Mr"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Dr"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Jr"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Sr"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "II"
+msgstr ""
+
+#~ msgid "Contact Type B "
+#~ msgstr "การติดต่อ ประเภท B"
+
+#, fuzzy
+#~ msgid "View Notes"
+#~ msgstr "บันทึก"
+
+#, fuzzy
+#~ msgid "Add Note"
+#~ msgstr "บันทึก"
 
 #, fuzzy
 #~ msgid "yes"
