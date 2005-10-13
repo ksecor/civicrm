@@ -37,6 +37,8 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 
+require_once 'CRM/Core/BAO/UFField.php';
+
 /**
  * form to process actions on the field aspect of Custom
  */

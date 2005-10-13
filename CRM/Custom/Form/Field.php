@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
 
 /**
  * form to process actions on the field aspect of Custom

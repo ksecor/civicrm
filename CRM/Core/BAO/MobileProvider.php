@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Core/DAO/MobileProvider.php';
+
 class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
 
     /**

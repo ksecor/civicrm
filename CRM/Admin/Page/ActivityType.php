@@ -144,6 +144,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
     {
         // get all custom groups sorted by weight
         $activityType = array();
+        require_once 'CRM/Core/DAO/ActivityType.php';
         $dao =& new CRM_Core_DAO_ActivityType();
 
         // set the domain_id parameter

@@ -80,6 +80,7 @@ class CRM_Admin_Form_Gender extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        require_once 'CRM/Core/BAO/Gender.php';
         
         if($this->_action & CRM_Core_Action::DELETE) {
             if(CRM_Core_BAO_Gender::del($this->_id)) {

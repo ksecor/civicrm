@@ -200,6 +200,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         if ($this->_gid) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
             $groupTitle = CRM_Core_BAO_UFGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
             $this->assign('groupTitle', $groupTitle);
@@ -218,6 +219,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
             $this->edit($action);   // no browse for edit/update/view/delete
         } else {
+            require_once 'CRM/Core/BAO/UFField.php';
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_UFField::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {

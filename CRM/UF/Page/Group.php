@@ -195,6 +195,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     {
         
         $ufGroup = array();
+        require_once 'CRM/Core/DAO/UFGroup.php';
         $dao =& new CRM_Core_DAO_UFGroup();
 
         // set the domain_id parameter

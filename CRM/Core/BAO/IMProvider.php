@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Core/DAO/IMProvider.php';
+
 class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
 
     /**

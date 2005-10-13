@@ -188,7 +188,7 @@ class CRM_Utils_Menu {
                       
                       array(
                             'path'    => 'civicrm/admin/locationType',
-                            'title'   => ts('Location Types (Home,&nbsp;Work...)'),
+                            'title'   => ts('Location Types (Home, Work...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
@@ -218,7 +218,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/admin/gender',
-                            'title'   => ts('Gender Options (Male,&nbsp;Female...)'),
+                            'title'   => ts('Gender Options (Male, Female...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
@@ -248,7 +248,7 @@ class CRM_Utils_Menu {
     
                       array(
                             'path'    => 'civicrm/admin/prefix',
-                            'title'   => ts('Individual Titles (Ms,&nbsp;Mr...)'),
+                            'title'   => ts('Individual Titles (Ms, Mr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
@@ -258,7 +258,7 @@ class CRM_Utils_Menu {
                       
                       array(
                             'path'    => 'civicrm/admin/suffix',
-                            'title'   => ts('Individual Suffixes (Jr,&nbsp;Sr...)'),
+                            'title'   => ts('Individual Suffixes (Jr, Sr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',

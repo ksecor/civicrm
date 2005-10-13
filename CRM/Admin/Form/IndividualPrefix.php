@@ -80,6 +80,8 @@ class CRM_Admin_Form_IndividualPrefix extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        require_once 'CRM/Core/BAO/IndividualPrefix.php';
+
         if($this->_action & CRM_Core_Action::DELETE) {
             if(CRM_Core_BAO_IndividualPrefix::del($this->_id)) {
                 CRM_Core_Session::setStatus( ts('Selected Individual Prefix type has been deleted.') );
