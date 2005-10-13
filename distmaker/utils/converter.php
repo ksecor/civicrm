@@ -804,7 +804,7 @@ class PHP_DownGrade {
                         $this->tokens[$i][1]="";
                     }
                 
-                $ret .="\n";
+                /*$ret .="\n";
                 foreach($this->filenames as $file)
                     {
                         
@@ -871,7 +871,7 @@ class PHP_DownGrade {
                                     }
                               
                             }
-                    }
+                    }*/
 
 
             }
