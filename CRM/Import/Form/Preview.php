@@ -221,7 +221,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
+
+        // add the new related contacts to selected groups
+        $relatedContactIds =& $parser->getRelatedImportedContacts();
         
+        $this->set('relatedCount', count($relatedContactIds));
         $newGroupId = null;
         if ($newGroup) {
             /* Create a new group */
@@ -240,6 +244,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $groupAdditions = array();
             foreach ($groups as $groupId) {
                 $addCount =& CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $groupId);
+                $addRelCount =& CRM_Contact_BAO_GroupContact::addContactsToGroup($relatedContactIds, $groupId);
+                $totalCount = $addCount[1] + $addRelCount[1];
                 if ($groupId == $newGroupId) {
                     $name = $newGroupName;
                     $new = true;
@@ -250,7 +256,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $groupAdditions[] = array(
                                           'url'   => 'civicrm/group/search?reset=1&force=1&context=smog&gid='.$groupId,
                                           'name'  => $name,
-                                          'added' => $addCount[1],
+                                          'added' => $totalCount,
                                           'notAdded' => $addCount[2],
                                           'new'   => $new
                                           );

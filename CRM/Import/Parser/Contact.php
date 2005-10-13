@@ -70,6 +70,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_newContacts;
 
     /**
+     * Array of succesfully imported related contact id's
+     *
+     * @array
+     */
+    protected $_newRelatedContacts;
+
+    /**
      * class constructor
      */
     function __construct( &$mapperKeys, $mapperLocType = null, 
@@ -379,6 +386,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 $relContactId = $relatedNewContact->id;
             }
             
+            //store the related contact id for groups
+            $this->_newRelatedContacts[] = $relContactId;
+
             // now create the relationship record
             $relationParams = array();
             $relationParams = array('relationship_type_id' => $key, 
@@ -400,6 +410,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 } else {
                     $householdId = $householdContact->id;
                 }
+
+                //Household contact is created 
+                //for two related individual contacts waiting confirmation whether 
+                //to add it in a group
+                //$this->_newRelatedContacts[] = $householdId;
+                
                 $relationParams = array();
                 // adding household relationship
                 $relType = '7_'.$second.'_'.$first;
@@ -475,6 +491,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         return $this->_newContacts;
     }
    
+    /**
+     * Get the array of succesfully imported related contact id's
+     *
+     * @return array
+     * @access public
+     */
+    function &getRelatedImportedContacts() {
+        return $this->_newRelatedContacts;
+    }
+
     /**
      * the initializer code, called before the processing
      *
