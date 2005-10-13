@@ -228,6 +228,7 @@ function resolveForeignKey( &$tables, &$classNames, $name ) {
             continue;
         }
         $tables[$name]['foreignKey'][$fkey]['className'] = $classNames[$ftable];
+        $tables[$name]['foreignKey'][$fkey]['fileName']  = str_replace( '_', '/', $classNames[$ftable] ) . '.php';
     }
     
 }

@@ -56,7 +56,9 @@ class CRM_Admin_Page_DrupalUser extends CRM_Core_Page
     {
         //if javascript is enabled
         if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            require_once 'CRM/Core/BAO/DrupalUser.php';
             CRM_Core_BAO_DrupalUser::synchronize();
+            return;
         }
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_DrupalUser', 'Synchronize Drupal Users', $mode );

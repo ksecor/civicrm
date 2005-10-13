@@ -481,6 +481,7 @@ class CRM_Utils_System {
  * @return void
  * @access public
  */
+/**
 function __autoload( $class ) {
     if ( substr( $class, 0, 4 ) != 'CRM_' ) {
         return;
@@ -489,5 +490,6 @@ function __autoload( $class ) {
     $classPath = str_replace( '_', '/', $class ) . '.php';
     require_once($classPath);
 }
+**/
 
 ?>

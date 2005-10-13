@@ -166,6 +166,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
     }
 
     // check for record already existing
+    require_once 'CRM/Core/BAO/UFGroup.php';
     if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
         return _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
                            $ids );

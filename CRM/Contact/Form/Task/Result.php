@@ -34,7 +34,7 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contact/Form/Task.php';
 
 /**
  * Used for displaying results

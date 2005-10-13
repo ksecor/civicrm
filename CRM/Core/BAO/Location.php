@@ -37,6 +37,11 @@
 require_once 'CRM/Core/DAO/Location.php';
 
 require_once 'CRM/Core/BAO/Block.php';
+require_once 'CRM/Core/BAO/Address.php';
+require_once 'CRM/Core/BAO/Phone.php';
+require_once 'CRM/Core/BAO/Email.php';
+require_once 'CRM/Core/BAO/IM.php';
+
 
 require_once 'CRM/Contact/Form/Location.php';
 

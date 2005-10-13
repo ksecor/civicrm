@@ -44,6 +44,19 @@ require_once 'CRM/Core/DAO/Location.php';
 require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
+require_once 'CRM/Core/DAO/IM.php';
+require_once 'CRM/Core/DAO/IndividualPrefix.php';
+require_once 'CRM/Core/DAO/IndividualSuffix.php';
+require_once 'CRM/Core/DAO/Gender.php';
+
+require_once 'CRM/Core/BAO/CustomField.php';
+require_once 'CRM/Core/BAO/CustomValue.php';
+require_once 'CRM/Core/BAO/Location.php';
+require_once 'CRM/Core/BAO/Note.php';
+
+require_once 'CRM/Contact/BAO/Query.php';
+require_once 'CRM/Contact/BAO/Relationship.php';
+require_once 'CRM/Contact/BAO/GroupContact.php';
 
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
@@ -387,6 +400,7 @@ ORDER BY
      * @static
      */
     static function create(&$params, &$ids, $maxLocationBlocks) {
+        require_once 'CRM/Utils/Hook.php';
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Contact', $ids['contact'], $params );
@@ -789,6 +803,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             return false;
         }
             
+        require_once 'CRM/Utils/Hook.php';
+
         CRM_Utils_Hook::pre( 'delete', 'Contact', $id );
 
         CRM_Core_DAO::transaction( 'BEGIN' );

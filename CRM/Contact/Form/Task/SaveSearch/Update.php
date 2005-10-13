@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contact/Form/Task/SaveSearch.php';
+
 /**
  * This class provides the functionality to update a saved search
  *

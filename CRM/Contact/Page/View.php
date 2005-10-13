@@ -35,7 +35,12 @@
  */
 
 require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Core/BAO/CustomOption.php';
+
 require_once 'CRM/Utils/Recent.php';
+
+require_once 'CRM/Contact/BAO/Contact.php';
 
 /**
  * Main page for viewing contact.

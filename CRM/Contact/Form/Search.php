@@ -47,6 +47,7 @@ require_once 'CRM/Utils/PagerAToZ.php';
 require_once 'CRM/Contact/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 require_once 'CRM/Contact/Task.php';
+require_once 'CRM/Contact/BAO/SavedSearch.php';
 
 /**
  * Base Search / View form for *all* listing of multiple 

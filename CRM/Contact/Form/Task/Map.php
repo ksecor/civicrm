@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contact/Form/Task.php';
+
 /**
  * This class provides the functionality to email a group of
  * contacts. 

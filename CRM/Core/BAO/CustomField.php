@@ -35,6 +35,9 @@
  */
 
 require_once 'CRM/Core/DAO/CustomField.php';
+require_once 'CRM/Core/DAO/CustomGroup.php';
+require_once 'CRM/Core/DAO/CustomValue.php';
+require_once 'CRM/Core/DAO/CustomOption.php';
 
 
 /**
@@ -102,13 +105,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     static function retrieve( &$params, &$defaults )
     {
-        $customField =& new CRM_Core_DAO_CustomField( );
-        $customField->copyValues( $params );
-        if ( $customField->find( true ) ) {
-            CRM_Core_DAO::storeValues( $customField, $defaults );
-            return $customField;
-        }
-        return null;
+        return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_CustomField', $params, $defaults );
     }
 
     /**

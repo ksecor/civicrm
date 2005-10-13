@@ -37,6 +37,7 @@
  */
 
 require_once 'CRM/Contact/DAO/GroupContact.php';
+require_once 'CRM/Contact/BAO/SubscriptionHistory.php';
 
 class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     

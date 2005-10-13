@@ -279,6 +279,7 @@ class CRM_Core_SelectValues {
             $config =& CRM_Core_Config::singleton();
         }
         if (!$_date) {
+            require_once 'CRM/Utils/Date.php';
             $_date = array(
                 'format'           => CRM_Utils_Date::posixToPhp($config->dateformatQfDate),
                 'addEmptyOption'   => true,
@@ -304,6 +305,7 @@ class CRM_Core_SelectValues {
             $newDate['format'] = 'Y M d H i';
             $newDate['optionIncrement']['i'] = 15;
         } elseif ($type == 'datetime') {
+            require_once 'CRM/Utils/Date.php';
             $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;

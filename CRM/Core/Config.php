@@ -43,6 +43,7 @@ require_once 'Mail.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
 require_once 'CRM/Utils/Recent.php';
+require_once 'CRM/Utils/File.php';
 require_once 'CRM/Contact/DAO/Factory.php';
 require_once 'CRM/Core/I18n.php';
 
@@ -572,7 +573,7 @@ class CRM_Core_Config {
         }
     }
 
-
+    
 } // end CRM_Core_Config
 
 ?>

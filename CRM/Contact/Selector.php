@@ -43,7 +43,7 @@ require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
-
+require_once 'CRM/Contact/BAO/Query.php';
 
 /**
  * This class is used to retrieve and display a range of

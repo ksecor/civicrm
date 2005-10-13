@@ -57,7 +57,8 @@ class CRM_Utils_Hook {
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, $params = null ) {
-        $config =& CRM_Core_Config::singleton( );  
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
             eval( 'return ' . $config->userHookClass . '::pre( $op, $objectName, $objectId, $objectRef );' );  
     }
@@ -81,6 +82,7 @@ class CRM_Utils_Hook {
      */ 
     static function post( $op, $objectName, $objectId, &$objectRef ) {
         $config =& CRM_Core_Config::singleton( );  
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
             eval( 'return ' . $config->userHookClass . '::post( $op, $objectName, $objectId, $objectRef );' );  
     }

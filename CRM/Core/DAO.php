@@ -39,6 +39,8 @@
 require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
+require_once 'CRM/Utils/Date.php';
+
 class CRM_Core_DAO extends DB_DataObject {
 
     const
@@ -356,7 +358,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     function getAttribute( $class, $fieldName = null) {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php');
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
             $field = CRM_Utils_Array::value( $fieldName, $fields );

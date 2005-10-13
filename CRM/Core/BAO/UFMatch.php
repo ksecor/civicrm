@@ -163,6 +163,7 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                     CRM_Utils_System_Mambo::setEmail( $user );
                 }
                 
+                require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
                 $params= array( 'email' => $mail, 'location_type' => $locationType->name );
                 $contact =& crm_create_contact( $params, 'Individual' );

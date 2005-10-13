@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contact/Form/Task.php';
+
 /**
  * This class provides the functionality to save a search
  * Saved Searches are used for saving frequently used queries
@@ -132,7 +134,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->is_active = 1;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
-        CRM_Core_Session::setStatus( ts('Your search has been saved as "%1".', array(1 => $formValues['name'])) );
+        CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['name'])) );
 
         // also create a group that is associated with this saved search only if new saved search
         $params = array( );

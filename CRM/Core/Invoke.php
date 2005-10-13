@@ -37,9 +37,6 @@
  *
  */
 
-require_once 'CRM/Core/I18n.php';
-require_once 'CRM/Contact/Controller/Search.php';
-
 class CRM_Core_Invoke {
     
     /**
@@ -53,6 +50,9 @@ class CRM_Core_Invoke {
      */    
     static function invoke( $args ) {
 
+        require_once 'CRM/Core/I18n.php';
+        require_once 'CRM/Utils/Wrapper.php';
+
         if ( $args[0] !== 'civicrm' ) {
             return;
         }
@@ -63,6 +63,7 @@ class CRM_Core_Invoke {
         $i18n   =& CRM_Core_I18n::singleton( );
 
         if ( $config->userFramework == 'Mambo' ) {
+            require_once 'CRM/Core/Mambo.php';
             CRM_Core_Mambo::sidebarLeft( );
         }
 
@@ -144,21 +145,30 @@ class CRM_Core_Invoke {
             
             switch ( $thirdArg ) {
             case 'note':
+                require_once 'CRM/Contact/Page/View/Note.php';
                 $view =& new CRM_Contact_Page_View_Note( );
                 break;
+
             case 'rel':
+                require_once 'CRM/Contact/Page/View/Relationship.php';
                 $view =& new CRM_Contact_Page_View_Relationship( );
                 break;
+
             case 'group':
+                require_once 'CRM/Contact/Page/View/GroupContact.php';
                 $view =& new CRM_Contact_Page_View_GroupContact( );
                 break;
+
             case 'tag':
+                require_once 'CRM/Contact/Page/View/Tag.php';
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             
             case 'cd':
+                require_once 'CRM/Contact/Page/View/CustomData.php';
                 $view =& new CRM_Contact_Page_View_CustomData( );
                 break;
+
             case 'activity':
                 $activityId = CRM_Utils_Request::retrieve('activity_id', $form);
                 $show = CRM_Utils_Request::retrieve('show', $form);
@@ -174,12 +184,15 @@ class CRM_Core_Invoke {
                 }
 
                 if($activityId == 1) {
+                    require_once 'CRM/Contact/Page/View/Meeting.php';
                     $view =& new CRM_Contact_Page_View_Meeting( );
                 } elseif($activityId == 2) {
+                    require_once 'CRM/Contact/Page/View/Phonecall.php';
                     $view =& new CRM_Contact_Page_View_Phonecall( );
                 } elseif($activityId == 3) {
                     $details = CRM_Utils_Request::retrieve('details', $form);
                     if ($details) {
+                        require_once 'CRM/Contact/Page/View/Email.php';
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
                     } else {
                         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
@@ -188,14 +201,17 @@ class CRM_Core_Invoke {
                         return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
                     }
                 } elseif($activityId > 3 ) {
+                    require_once 'CRM/Contact/Page/View/OtherActivity.php';
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                 } else {
+                    require_once 'CRM/Contact/Page/View/Activity.php';
                     $view =& new CRM_Contact_Page_View_Activity( );
                 }
                 
                 break;
                 
             case 'vcard':
+                require_once 'CRM/Contact/Page/View/Vcard.php';
                 $view =& new CRM_Contact_Page_View_Vcard();
                 break;
 
@@ -204,6 +220,7 @@ class CRM_Core_Invoke {
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
             
             default:
+                require_once 'CRM/Contact/Page/View/Basic.php';
                 $view =& new CRM_Contact_Page_View_Basic( );
                 break;
             }
@@ -247,6 +264,7 @@ class CRM_Core_Invoke {
             $title = ts('Search');
             $url   = 'civicrm/contact/search/basic';
         }
+        require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
         return $controller->run();
@@ -276,11 +294,13 @@ class CRM_Core_Invoke {
      */
     static function history( $args ) {
         if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
+            require_once 'CRM/History/Page/Activity.php';
             $page =& new CRM_History_Page_Activity('View Activity Details');
             return $page->run( );
         }
 
         if ($args[2] == 'email') {
+            require_once 'CRM/History/Page/Email.php';
             $page =& new CRM_History_Page_Email('View Email Details');
             return $page->run( );
         }
@@ -303,28 +323,41 @@ class CRM_Core_Invoke {
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
         case 'locationType':
+            require_once 'CRM/Admin/Page/LocationType.php';
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
             break;
+
         case 'activityType':
+            require_once 'CRM/Admin/Page/ActivityType.php';
             $view =& new CRM_Admin_Page_ActivityType(ts('View Activity Types'));
             break;
+
         case 'IMProvider':
+            require_once 'CRM/Admin/Page/IMProvider.php';
             $view =& new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
             break;
+
         case 'mobileProvider':
+            require_once 'CRM/Admin/Page/MobileProvider.php';
             $view =& new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
             break;
+
         case 'reltype':
+            require_once 'CRM/Admin/Page/RelationshipType.php';
             $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
             break;
+
         case 'custom':
             if ( $args[3] == 'group' ) {
                 if ( CRM_Utils_Array::value( 4, $args ) != 'field' ) {
+                    require_once 'CRM/Custom/Page/Group.php';
                     $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
                     if ( CRM_Utils_Array::value( 5, $args ) != 'option' ) {
+                        require_once 'CRM/Custom/Page/Field.php';
                         $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                     } else {
+                        require_once 'CRM/Custom/Page/Option.php';
                         $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
                         $url  = CRM_Utils_System::url( 'civicrm/admin/custom/group/field' );
                         $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Custom Data Fields') . '</a>';
@@ -333,49 +366,63 @@ class CRM_Core_Invoke {
                 }
             }
             break;
+
         case 'uf':
             if ( $args[3] == 'group' ) {
                 if ( CRM_Utils_Array::value( 4, $args ) != 'field' ) {
+                    require_once 'CRM/UF/Page/Group.php';
                     $view =& new CRM_UF_Page_Group(ts('CiviCRM Profile Group'));
                 } else {
-                   $view =& new CRM_UF_Page_Field(ts('CiviCRM Profile Field'));
+                    require_once 'CRM/UF/Page/Field.php';
+                    $view =& new CRM_UF_Page_Field(ts('CiviCRM Profile Field'));
                 }
             }
             break;
+
         case 'commerce':
             if ( $args[3] == 'donation' ) {
+                require_once 'CRM/Commerce/Donation/Page/DonationPage.php';
                 $view =& new CRM_Commerce_Donation_Page_DonationPage(ts('Donation Page'));
             }
             break;
+
         case 'tag':
+            require_once 'CRM/Admin/Page/Tag.php';
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
 
         case 'prefix':
+            require_once 'CRM/Admin/Page/IndividualPrefix.php';
             $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
             break;
             
         case 'suffix':
+            require_once 'CRM/Admin/Page/IndividualSuffix.php';
             $view =& new CRM_Admin_Page_IndividualSuffix(ts('View Individual Suffix'));
             break;
                 
         case 'gender':
+            require_once 'CRM/Admin/Page/Gender.php';
             $view =& new CRM_Admin_Page_Gender(ts('View Gender'));
             break;   
 
         case 'synchUser':
+            require_once 'CRM/Admin/Page/DrupalUser.php';
             $view =& new CRM_Admin_Page_DrupalUser(ts('Sync Drupal Users'));
             break;   
 
         case 'backup':
+            require_once 'CRM/Admin/Page/DomainDump.php';
             $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
             break;   
             
         default:
+            require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
             // CRM_Core_Error::debug('r',$view);
             break;
         }
+
         if ( $view ) {
             return $view->run( );
         }
@@ -412,6 +459,7 @@ class CRM_Core_Invoke {
 
         switch ( CRM_Utils_Array::value( 2, $args ) ) {
         case 'add':
+            require_once 'CRM/Group/Controller.php';
             $controller =& new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/group', 'reset=1'));
@@ -421,6 +469,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
 
         default:
+            require_once 'CRM/Group/Page/Group.php';
             $view =& new CRM_Group_Page_Group(ts('View Groups'));
             return $view->run();
         }

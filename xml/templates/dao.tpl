@@ -37,6 +37,14 @@
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/Type.php';
 
+{if $table.foreignKey} 
+  {foreach from=$table.foreignKey item=foreign} 
+     {if $foreign.import}
+require_once '{$foreign.fileName}';
+     {/if} 
+  {/foreach} 
+{/if} 
+
 class {$table.className} extends CRM_Core_DAO {ldelim}
 
      /**

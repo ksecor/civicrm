@@ -53,6 +53,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
     function run()
     {
         $id  = CRM_Utils_Request::retrieve( 'id', $this, true );
+        require_once 'CRM/Core/DAO/ActivityHistory.php';
         $dao =& new CRM_Core_DAO_ActivityHistory( );
         $dao->id = $id;
         if ( $dao->find( true ) ) {

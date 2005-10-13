@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contact/DAO/Group.php';
+
 class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
     /**
@@ -82,6 +84,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      *
      */
     static function discard ( $id ) {
+        require_once 'CRM/Utils/Hook.php';
+
         CRM_Utils_Hook::pre( 'delete', 'Group', $id );
 
         // delete all Subscription  records with the selected group id
@@ -220,6 +224,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     public static function &create(&$params) {
+        require_once 'CRM/Utils/Hook.php';
+
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Group', $params['id'], $params );
         } else {

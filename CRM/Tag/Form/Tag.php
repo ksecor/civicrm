@@ -37,6 +37,7 @@
 
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/EntityTag.php';
 
 /**
  * This class generates form components for tags

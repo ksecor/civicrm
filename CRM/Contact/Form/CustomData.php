@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
 
 /**
  * This class generates form components for custom data
@@ -324,14 +325,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 switch($field['html_type']) {
 
-                case 'Radio':
-                    $defaults[$elementName] = $value;
-                    break;
-                    
-                case 'Select':
-                    $defaults[$elementName] = $value;
-                    break;
-                    
                 case 'CheckBox':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
@@ -386,6 +379,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 default:
                     $defaults[$elementName] = $value;
+                    break;
                 } 
             }
         }

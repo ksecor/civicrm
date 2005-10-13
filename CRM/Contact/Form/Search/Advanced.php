@@ -37,11 +37,12 @@
 /**
  * Files required
  */
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/Session.php';
-require_once 'CRM/Core/PseudoConstant.php';
-require_once 'CRM/Core/Selector/Controller.php';
-require_once 'CRM/Contact/Selector.php';
+
+require_once 'CRM/Core/ShowHideBlocks.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Core/BAO/CustomOption.php';
+
+require_once 'CRM/Contact/Form/Search.php';
 
 /**
  * advanced search, extends basic search
