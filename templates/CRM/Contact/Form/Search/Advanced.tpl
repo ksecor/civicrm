@@ -47,7 +47,7 @@
     var showBlock = new Array({$showBlock});
     var hideBlock = new Array({$hideBlock});
 
-{* hide and display the appropriate blocks as directed by the php code *}
+{* hide and display the appropriate blocks *}
     on_load_init_blocks( showBlock, hideBlock );
 </script>
 
