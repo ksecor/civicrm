@@ -36,6 +36,13 @@
 
 require_once 'CRM/Core/Form.php';
 
+require_once 'CRM/Core/DAO/Mapping.php';
+require_once 'CRM/Core/DAO/MappingField.php';
+
+require_once 'CRM/Core/BAO/LocationType.php';
+
+require_once 'CRM/Import/Parser/Contact.php';
+
 /**
  * This class gets the name of the file to upload
  */

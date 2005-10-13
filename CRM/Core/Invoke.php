@@ -439,6 +439,7 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function import( $args ) {
+        require_once 'CRM/Import/Controller.php';
         $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         return $controller->run();
     }
@@ -616,6 +617,7 @@ class CRM_Core_Invoke {
     static function export( $args ) {
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
         if ($secondArg == 'contact') {
+            require_once 'CRM/Export/Controller.php';
             $controller =& new CRM_Export_Controller(ts('Export Contacts'));
             return $controller->run();
         }

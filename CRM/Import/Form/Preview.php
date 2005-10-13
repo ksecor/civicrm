@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Import/Parser/Contact.php';
 
 /**
  * This class previews the uploaded file and returns summary

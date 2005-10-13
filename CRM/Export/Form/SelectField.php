@@ -136,6 +136,7 @@ class CRM_Export_Form_SelectField extends CRM_Core_Form {
         $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
         
         if ($exportOption == CRM_Export_Form_SelectField::EXPORT_ALL) {
+            require_once 'CRM/Export/BAO/Export.php';
             $export =& new CRM_Export_BAO_Export();
             $export->exportContacts();
         }

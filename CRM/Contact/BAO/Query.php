@@ -196,6 +196,7 @@ class CRM_Contact_BAO_Query {
 
         if ( ! empty( $cfIDs ) ) {
             //CRM_Core_Error::debug( 'cfIDs', $cfIDs );
+            require_once 'CRM/Core/BAO/CustomQuery.php';
             $this->_customQuery = new CRM_Core_BAO_CustomQuery( $cfIDs );
             $this->_customQuery->query( );
             $this->_select  = array_merge( $this->_select , $this->_customQuery->_select );

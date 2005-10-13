@@ -1015,6 +1015,7 @@ function _crm_validate_formatted_contact(&$params) {
 
 function &_crm_duplicate_formatted_contact(&$params) {
     if ( $params['contact_type'] == 'Individual') {
+        require_once 'CRM/Core/BAO/UFGroup.php';
         if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
             $error =& _crm_error( "Found matching contacts: $ids",
                                   CRM_Core_Error::DUPLICATE_CONTACT, 
