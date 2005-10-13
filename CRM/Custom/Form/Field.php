@@ -260,6 +260,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // checkbox / radio options per line
         $this->add('text', 'options_per_line', ts('Number of Options Per Line'));
+        $this->addRule('options_per_line', ts(' must be a numeric value') , 'numeric');
 
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
