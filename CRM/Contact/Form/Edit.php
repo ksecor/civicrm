@@ -38,6 +38,8 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 
+require_once 'CRM/Core/BAO/LocationType.php';
+
 require_once 'CRM/Utils/Recent.php';
 
 require_once 'CRM/Contact/Form/Location.php';
@@ -45,6 +47,10 @@ require_once 'CRM/Contact/Form/Individual.php';
 require_once 'CRM/Contact/Form/Household.php';
 require_once 'CRM/Contact/Form/Organization.php';
 require_once 'CRM/Contact/Form/Note.php';
+require_once 'CRM/Contact/Form/GroupTag.php';
+
+require_once 'CRM/Contact/BAO/GroupContact.php';
+require_once 'CRM/Core/BAO/EntityTag.php';
 
 /**
  * This class generates form components generic to all the contact types.
