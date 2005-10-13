@@ -51,6 +51,9 @@ require_once 'CRM/Contact/Form/GroupTag.php';
 
 require_once 'CRM/Contact/BAO/GroupContact.php';
 require_once 'CRM/Core/BAO/EntityTag.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Core/BAO/CustomField.php';
+require_once 'CRM/Core/BAO/CustomOption.php';
 
 /**
  * This class generates form components generic to all the contact types.
