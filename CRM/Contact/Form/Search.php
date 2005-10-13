@@ -213,7 +213,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 $tasks = $tasks + CRM_Contact_Task::optionalTasks();
             }
 
-            $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
+            $savedSearchValues = array( 'id' => $this->_ssID,
+                                        'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID, 'title' ) );
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );
             $this->assign( 'ssID', $this->_ssID );
         }
@@ -227,6 +228,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set the group title
             $groupValues = array( 'id' => $this->_groupID, 'title' => $this->_group[$this->_groupID] );
             $this->assign_by_ref( 'group', $groupValues );
+
+            // also set ssID if this is a saved search
+            $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' );
+            $this->assign( 'ssID', $ssID );
             $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {

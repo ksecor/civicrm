@@ -141,11 +141,11 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @access public
      * @static
      */
-    static function getName( $id ) {
+    static function getName( $id, $value = 'name' ) {
         $group                   =& new CRM_Contact_DAO_Group( );
         $group->saved_search_id = $id;
         if ( $group->find( true ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $group->id, 'name' );
+            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $group->id, $value );
         }
         return null;
     }

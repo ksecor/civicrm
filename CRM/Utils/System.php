@@ -454,6 +454,21 @@ class CRM_Utils_System {
         $session->setStatus($status);
         self::redirect($redirect);
     }
+
+    static function isNull( $value ) {
+        if ( ! isset( $value ) || $value === null || $value === '' ) {
+            return true;
+        }
+        if ( is_array( $value ) ) {
+            foreach ( $value as $key => $value ) {
+                if ( ! self::isNull( $value ) ) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }
 
 

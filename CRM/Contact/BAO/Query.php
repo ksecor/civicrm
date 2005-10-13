@@ -116,10 +116,10 @@ class CRM_Contact_BAO_Query {
 
         $this->_customQuery = null; 
  
-        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id'; 
+        $this->_select['contact_id']      = 'DISTINCT civicrm_contact.id as contact_id';
         $this->_element['contact_id']     = 1; 
         $this->_tables['civicrm_contact'] = 1; 
-         
+
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
         $this->_fromClause  = self::fromClause( $this->_tables ); 
@@ -153,10 +153,11 @@ class CRM_Contact_BAO_Query {
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
+            $value = CRM_Utils_Array::value( $name, $this->_params );
+
             // if we need to get the value for this param or we need all values
-            if ( CRM_Utils_Array::value( $name, $this->_params )           ||
-                 CRM_Utils_Array::value( $name, $this->_returnProperties ) ||
-                 ( ! $this->_params ) ) {
+            if ( ! CRM_Utils_System::isNull( $value ) || 
+                 CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
                 $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
                     $value = CRM_Utils_Array::value( $name, $this->_params );
@@ -177,8 +178,10 @@ class CRM_Contact_BAO_Query {
 
                         // also get the id of the tableName
                         $tName = substr($tableName, 8 );
-                        $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
-                        $this->_element["{$tName}_id"] = 1;
+                        if ( $tName != 'contact' ) {
+                            $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
+                            $this->_element["{$tName}_id"] = 1;
+                        }
 
                         $this->_select[$name]              = $field['where'] . " as $name";
                         $this->_element[$name]             = 1;
@@ -302,10 +305,13 @@ class CRM_Contact_BAO_Query {
             $select  = 'SELECT DISTINCT civicrm_contact.id as id'; 
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
-                $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
-                $this->_element['group_contact_id']     = 1;
-                $this->_select['status']                = 'civicrm_group_contact.status as status';
-                $this->_element['status']               = 1;
+                // make sure there is only one element
+                if ( count( $this->_params['group'] ) == 1 ) {
+                    $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
+                    $this->_element['group_contact_id']     = 1;
+                    $this->_select['status']                = 'civicrm_group_contact.status as status';
+                    $this->_element['status']               = 1;
+                }
                 $this->_tables['civicrm_group_contact'] = 1;
             }
             $select = 'SELECT ' . implode( ', ', $this->_select );
@@ -315,8 +321,9 @@ class CRM_Contact_BAO_Query {
         if ( ! empty( $this->_whereClause ) ) {
             $where = "WHERE {$this->_whereClause}";
         }
- 
-        // CRM_Core_Error::debug( "$select, $from", $where );
+
+        //CRM_Core_Error::debug( "t", $this );
+        //CRM_Core_Error::debug( "$select, {$this->_fromClause} $where", $where );
         return array( $select, $this->_fromClause, $where );
     }
 
