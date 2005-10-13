@@ -33,7 +33,7 @@
  * $Id$
  *
  */
-
+require_once 'CRM/Mailing/Event/DAO/Queue.php';
 class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
 
     /**

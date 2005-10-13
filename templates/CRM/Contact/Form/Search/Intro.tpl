@@ -30,6 +30,10 @@
 {else}
     <div id="help">
         {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
+        {if $ssID}
+            <p>{ts}If you've changed search criteria for this 'smart group' and want to save your changes, select
+            <strong>Update Smart Search</strong> from the '-more actions' drop-down menu.{/ts}</p>
+        {/if}
     </div>
 
 {/if}

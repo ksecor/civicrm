@@ -2,8 +2,13 @@
 {include file="CRM/Contact/Form/Search/Intro.tpl"}
 
 {if $context eq 'smog'}
-    {assign var="showBlock" value="'searchForm[show]'"}
-    {assign var="hideBlock" value="'searchForm'"}
+    {if $rowsEmpty}
+        {assign var="showBlock" value=""}
+        {assign var="hideBlock" value="'searchForm','searchForm[show]'"}
+    {else}
+        {assign var="showBlock" value="'searchForm[show]'"}
+        {assign var="hideBlock" value="'searchForm'"}
+    {/if}
 {else}
     {assign var="showBlock" value="'searchForm'"}
     {assign var="hideBlock" value="'searchForm[show]'"}
