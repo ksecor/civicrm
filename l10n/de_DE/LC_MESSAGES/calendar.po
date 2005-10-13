@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-13 17:52+0200\n"
 "PO-Revision-Date: 2005-10-13 17:52+0200\n"
-"Last-Translator: Automatically generated\n"
+"Last-Translator: Jack (tR) <jack@jtr.de>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "Über dieses Kalendarmodul"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
@@ -30,92 +30,92 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "Datum auswählen:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- Benutzen Sie die \\xab, \\xbb Buttons um das Jahr zu wählen"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- Benutzen Sie die \\u2039, \\u203a Buttons um den Monat zu wählen"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr ""
+msgstr "- Für eine Schnellauswahl halten Sie die Maustaste über diesen Buttons fest."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "Zeit auswählen:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- Klicken Sie auf die Teile der Uhrzeit, um diese zu erhöhen"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- oder klicken Sie mit festgehaltener Shift-Taste um diese zu verringern"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- oder klicken und festhalten für Schnellauswahl."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "Festhalten für Schnellauswahl"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "Voriges Jahr"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "Voriger Monat"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "Heute auswählen"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "Nächst. Monat"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "Nächst. Jahr"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "Datum auswählen"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "Zum Bewegen festhalten"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "Heute"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr ""
+msgstr "Woche beginnt mit %s"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "Heute"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "(Shift-)Klick oder Festhalten und Ziehen um den Wert zu ändern"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
 msgstr ""
 
 #: js/lang/calendar-lang.php
-msgid "Time:"
+msgid "Zeit:"
 msgstr ""
