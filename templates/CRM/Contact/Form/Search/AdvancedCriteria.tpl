@@ -45,8 +45,8 @@
     <fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">
         <tr>
-            <td class="label">{$form.street_name.label}</td>
-            <td>{$form.street_name.html}</span>
+            <td class="label">{$form.street_address.label}</td>
+            <td>{$form.street_address.html}</span>
             <td class="label">{$form.city.label}</td>
             <td>{$form.city.html}</td>
         </tr>

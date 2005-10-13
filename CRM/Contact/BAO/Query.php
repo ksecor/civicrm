@@ -359,7 +359,9 @@ class CRM_Contact_BAO_Query {
         $this->tag( );
 
         $this->postalCode( );
-        
+
+        $this->activity( );
+
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
         static $skipFields = array( 'postal_code', 'group', 'tag' );
@@ -923,27 +925,29 @@ class CRM_Contact_BAO_Query {
 
         $qill = array( );
         if ( isset( $this->_params['activity_from_date'] ) ) {
-            $date = CRM_Utils_Date::format( array_reverse( CRM_Utils_Array::value( 'activity_from_date',
-                                                                                   $this->_params ) ) );
+            $revDate = array_reverse( $this->_params['activity_from_date'] );
+            $date    = CRM_Utils_Date::format( $revDate );
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             if ( $date ) {
                 $this->_where[] = "civicrm_activity_history.activity_date >= '$date'"; 
                 $this->_tables['civicrm_activity_history'] = 1;
-                $qill[] = ts( 'less than "%1"', array( 1 => CRM_Utils_Date::customFormat( $date ) ) );
+                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) );
             }
         } 
 
         if ( isset( $this->_params['activity_to_date'] ) ) {
-            $date = CRM_Utils_Date::format( array_reverse( CRM_Utils_Array::value( 'activity_to_date',
-                                                                                   $this->_params ) ) );
+            $revDate = array_reverse( $this->_params['activity_to_date'] );
+            $date    = CRM_Utils_Date::format( $revDate );
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             if ( $date ) {
                 $this->_where[] = " ( civicrm_activity_history.activity_date <= '$date' ) "; 
                 $this->_tables['civicrm_activity_history'] = 1; 
-                $qill[] = ts( 'less than "%1"', array( 1 => CRM_Utils_Date::customFormat( $date ) ) );
+                $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
             }
         }
         
         if ( ! empty( $qill ) ) {
-            $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' ' . ts('or') . ' ', $qill ) ) );
+            $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
         }
      }
 

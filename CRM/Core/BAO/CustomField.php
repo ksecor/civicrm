@@ -422,7 +422,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
                     
         case "CheckBox":
-            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            if ( is_array( $value ) ) {
+                $checkedData = array_keys( $value );
+            } else {
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            }
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $dontCare => $val ) {
