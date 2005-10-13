@@ -42,6 +42,7 @@ require_once 'CRM/Core/Page.php';
 class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
     function run ( ) {
+        require_once 'CRM/Utils/Menu.php';
         $items =& CRM_Utils_Menu::items( );
         
         $groups     = array( 'Manage', 'Configure', 'Setup' );

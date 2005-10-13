@@ -52,6 +52,7 @@ class CRM_Core_Invoke {
 
         require_once 'CRM/Core/I18n.php';
         require_once 'CRM/Utils/Wrapper.php';
+        require_once 'CRM/Core/Action.php';
 
         if ( $args[0] !== 'civicrm' ) {
             return;

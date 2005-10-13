@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'CRM/Core/Action.php';
+
 /**
  * class for managing a http request
  *

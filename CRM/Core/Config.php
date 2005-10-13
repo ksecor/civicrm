@@ -45,7 +45,6 @@ require_once 'CRM/Utils/System.php';
 require_once 'CRM/Utils/Recent.php';
 require_once 'CRM/Utils/File.php';
 require_once 'CRM/Contact/DAO/Factory.php';
-require_once 'CRM/Core/I18n.php';
 
 
 class CRM_Core_Config {
@@ -301,6 +300,7 @@ class CRM_Core_Config {
      * @access private
      */
     function __construct() {
+        require_once 'CRM/Core/Session.php';
         $session =& CRM_Core_Session::singleton( );
         if ( defined( 'CIVICRM_DOMAIN_ID' ) ) {
             self::$_domainID = CIVICRM_DOMAIN_ID;

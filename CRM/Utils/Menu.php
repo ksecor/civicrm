@@ -35,6 +35,8 @@
  *
  */
 
+require_once 'CRM/Core/I18n.php';
+
 class CRM_Utils_Menu {
     /**
      * the list of menu items

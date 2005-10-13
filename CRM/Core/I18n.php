@@ -38,6 +38,9 @@ require_once 'PHPgettext/gettext.php';
  * $Id$
  *
  */
+
+require_once 'CRM/Core/Config.php';
+
 class CRM_Core_I18n
 {
 

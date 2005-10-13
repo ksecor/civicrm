@@ -37,37 +37,6 @@
 
 include_once 'config.inc.php';
 
-function civicrm_require( ) {
-    static $required = false;
-
-    if ( $required ) {
-        return;
-    }
-    $required = true;
-
-    require_once 'PEAR.php';
-
-    require_once 'CRM/Core/Action.php';
-    require_once 'CRM/Core/Form.php';
-    require_once 'CRM/Core/Block.php';
-    require_once 'CRM/Core/Selector/Controller.php';
-    require_once 'CRM/Core/DAO.php';
-    require_once 'CRM/Core/PseudoConstant.php';
-    require_once 'CRM/Core/Permission.php';
-    require_once 'CRM/Core/Invoke.php';
-
-    require_once 'CRM/Core/BAO/UFMatch.php';
-
-    require_once 'CRM/Utils/Menu.php';
-    require_once 'CRM/Utils/Wrapper.php';
-
-    require_once 'CRM/Contact/Page/View.php';
-
-    require_once 'CRM/Core/Error.php';
-
-    require_once 'CRM/Core/I18n.php';
-}
-
 /**
  * Provides a link to the CSS stylesheet associated with this module.
  *
@@ -75,6 +44,7 @@ function civicrm_require( ) {
  */
 function civicrm_html_head()
 {
+    require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
     return '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
 }
@@ -161,6 +131,9 @@ function civicrm_perm()
                    'access CiviCRM' );
 
     // dynamic permissions - access by group (title)
+    require_once 'CRM/Core/PseudoConstant.php';
+    require_once 'CRM/Core/Permission.php';
+
     $groups =& CRM_Core_PseudoConstant::allGroup();
     foreach ( $groups as $title ) {
         $cPerm[] = t( CRM_Core_Permission::VIEW_GROUPS . '%1', array('%1' => $title));
@@ -186,6 +159,8 @@ function civicrm_block($op='list', $delta='0')
     // The $op parameter determines what piece of information is being requested.
     global $user;
     if ($user->uid) {
+        require_once 'CRM/Core/Block.php';
+
         $menu_arr = civicrm_menu(true);
         if ($op == 'list') {
             $block = CRM_Core_Block::getInfo();
@@ -215,7 +190,7 @@ function civicrm_block($op='list', $delta='0')
 function civicrm_menu($may_cache)
 {
     if ( $may_cache ) {
-        civicrm_require( );
+        require_once 'CRM/Utils/Menu.php';
         $items = CRM_Utils_Menu::items( );
         return $items;
     } else {
@@ -237,9 +212,8 @@ function civicrm_initialize() {
 
     $initialized = true;
 
-    civicrm_require( );
-
     // this does pretty much all of the civicrm initialization
+    require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
 
     // Add module-specific stylesheet to page header
@@ -247,7 +221,7 @@ function civicrm_initialize() {
 
     if(arg(0) == 'civicrm') {
         // this is just for ease of use. once the code is solid, we no longer need this
-        menu_rebuild();
+        // menu_rebuild();
     }
 }
 
@@ -258,24 +232,11 @@ function civicrm_invoke()
 
     // synchronize the drupal uid with the contacts db
     global $user;
+    require_once 'CRM/Core/BAO/UFMatch.php';
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     $args = explode( '/', $_GET['q'] );
-
-	if ( $args[1] == 'quickreg' ) {
-        $names  = array( 'first_name', 'last_name', 'email', 'postal_code' );
-        $params = array( );
-        foreach ( $names as $name ) {
-            if ( isset( $_POST[ $name ] ) && ! empty( $_POST[ $name ] ) ) {
-                $params[$name] = $_POST[ $name ];
-            }
-        }
-        if ( ! empty( $params ) ) {
-            $contact = crm_create_contact( $params, 'Individual' );
-        }
-        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm' ) );
-    }
-	
+    require_once 'CRM/Core/Invoke.php';
     $ret  = CRM_Core_Invoke::invoke( $args );
     
     return $ret;
@@ -307,6 +268,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
     switch ( $type ) {
 
     case 'login':
+        require_once 'CRM/Core/BAO/UFMatch.php';
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     case 'register':
@@ -334,6 +296,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 }
 
 function civicrm_categories( ) {
+    require_once 'CRM/Core/PseudoConstant.php';
     $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
     $data = array( );
@@ -346,6 +309,9 @@ function civicrm_categories( ) {
 }
 
 function civicrm_register_data($edit, &$user, $category, $reset) {
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    require_once 'CRM/Core/BAO/UFGroup.php';
+
     if ( $user->uid ) {
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal' );
     }
@@ -368,6 +334,9 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
 }
 
 function civicrm_form_data($edit, &$user, $category, $reset) {
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    require_once 'CRM/Core/BAO/UFGroup.php';
+
     $output = array( );
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
@@ -389,12 +358,16 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
 }
 
 function civicrm_view_data($user ) {
+    require_once 'CRM/Core/PseudoConstant.php';
     $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
     $data = array( );
 
+    require_once 'CRM/Core/BAO/UFMatch.php';
+
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
+        require_once 'CRM/Profile/Page/Dynamic.php';
         foreach ( $ufGroups as $id => $title ) {
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
             $data[$title] = $page->run( );
@@ -405,11 +378,16 @@ function civicrm_view_data($user ) {
 }
 
 function civicrm_validate_data($edit, &$user, $title) {
+    require_once 'CRM/Utils/Array.php';
+
     // if this is an admin creator, dont validate
     if ( ( $_GET['q'] == 'admin/user/create' ) ||
          ! CRM_Utils_Array::value( '_qf_default', $_POST ) ) {
         return;
     }
+
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    require_once 'CRM/Core/BAO/UFGroup.php';
 
     $register = ( arg(1) == 'register' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );

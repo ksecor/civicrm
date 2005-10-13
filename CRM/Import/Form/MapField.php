@@ -38,6 +38,7 @@ require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Core/DAO/Mapping.php';
 require_once 'CRM/Core/DAO/MappingField.php';
+require_once 'CRM/Contact/DAO/RelationshipType.php';
 
 require_once 'CRM/Core/BAO/LocationType.php';
 
@@ -329,6 +330,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 eval( '$cType = $contactRelation->contact_type_'.$second.';');
 
                 $relatedFields = array();
+                require_once 'CRM/Contact/BAO/Contact.php';
                 $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType );
                 unset($relatedFields['']);
                 $values = array();
@@ -537,6 +539,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         if ( !empty($errors) ) {
             $_flag = 1;
+            require_once 'CRM/Core/Page.php';
             $assignError =& new CRM_Core_Page(); 
             $assignError->assign('mappingDetailsError', $_flag);
             return $errors;

@@ -145,6 +145,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($id) ;
         } else {
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomGroup::setIsActive($id, 0);

@@ -34,6 +34,12 @@
  *
  */
 
+require_once 'CRM/Core/SelectValues.php';
+require_once 'CRM/Core/Action.php';
+require_once 'CRM/Core/Permission.php';
+
+require_once 'CRM/Utils/Request.php'; 
+
 /**
  * A Page is basically data in a nice pretty format.
  *

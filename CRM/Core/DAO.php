@@ -40,6 +40,8 @@ require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
 require_once 'CRM/Utils/Date.php';
+require_once 'CRM/Core/I18n.php';
+require_once 'CRM/Core/PseudoConstant.php';
 
 class CRM_Core_DAO extends DB_DataObject {
 

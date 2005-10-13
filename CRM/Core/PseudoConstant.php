@@ -536,6 +536,7 @@ class CRM_Core_PseudoConstant {
      */
     public static function &group()
     {
+        require_once 'CRM/Core/Permission.php';
         return CRM_Core_Permission::group( );
     }
 
@@ -572,6 +573,7 @@ class CRM_Core_PseudoConstant {
      */
     public static function &savedSearch()
     {
+        require_once 'CRM/Core/Permission.php';
         return CRM_Core_Permission::savedSearch( );
     }
 

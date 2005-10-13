@@ -128,6 +128,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $ufFieldBAO->orderBy('weight', 'field_name');
         $ufFieldBAO->find();
 
+        require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( );
         $select = array( );
         foreach ($fields as $name => $field ) {
