@@ -89,9 +89,9 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $this->assign('qill', $qill);
         
         // the name and description are actually stored with the group and not the saved search
-        $this->add('text', 'name', ts('Name'),
+        $this->add('text', 'title', ts('Name'),
                    CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'title'), true);
-        $this->addRule( 'name', ts('Name already exists in Database.'),
+        $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists',
                         array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
 
@@ -104,8 +104,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             CRM_Contact_BAO_Group::retrieve( $params, $values );
             $groupId = $values['id'];
 
-            $this->addRule( 'name', ts('Name already exists in Database.'),
-                            'objectExists', array( 'CRM_Contact_DAO_Group', $groupId ) );
+            $this->addRule( 'title', ts('Name already exists in Database.'),
+                            'objectExists', array( 'CRM_Contact_DAO_Group', $groupId, 'title' ) );
         }
         
         if ( isset( $this->_id ) ) {
@@ -134,19 +134,19 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->is_active = 1;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
-        CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['name'])) );
+        CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
 
         // also create a group that is associated with this saved search only if new saved search
         $params = array( );
         $params['domain_id'  ]     = CRM_Core_Config::domainID( );
-        $params['title'      ]     = $formValues['name'];
+        $params['title'      ]     = $formValues['title'];
         $params['description']     =  $formValues['description'];
         $params['visibility' ]     = 'User and User Admin Only';
         $params['saved_search_id'] = $savedSearch->id;
         $params['is_active']       = 1;
         
         if ( $this->_id ) {
-            $params['id'] = $this->_id;
+            $params['id'] = CRM_Contact_BAO_SavedSearch::getName( $this->_id, 'id' );
         }
 
         $group =& CRM_Contact_BAO_Group::create( $params );

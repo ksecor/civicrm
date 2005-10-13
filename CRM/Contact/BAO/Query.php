@@ -911,7 +911,8 @@ class CRM_Contact_BAO_Query {
         // we only do this in advanced search (hack, we check for the existence
         // of postal_code_low in the post value
         // since location_type and primary_location are checkboxes etc
-        if ( array_key_exists( 'postal_code_low', $this->_params ) &&
+        if ( is_array( $this->_params ) &&
+             array_key_exists( 'postal_code_low', $this->_params ) &&
              ! CRM_Utils_Array::value( 'primary_location', $this->_params ) ) {
             $this->_primaryLocation = false;
         }
