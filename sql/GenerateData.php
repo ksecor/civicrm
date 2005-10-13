@@ -61,6 +61,26 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/I18n.php';
 
+require_once 'CRM/Core/DAO/Location.php';
+require_once 'CRM/Core/DAO/Address.php';
+require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Core/DAO/Phone.php';
+require_once 'CRM/Core/DAO/Email.php';
+require_once 'CRM/Core/DAO/EntityTag.php';
+require_once 'CRM/Core/DAO/Note.php';
+require_once 'CRM/Core/DAO/Domain.php';
+require_once 'CRM/Core/DAO/CustomValue.php';
+require_once 'CRM/Core/DAO/ActivityHistory.php';
+
+require_once 'CRM/Contact/DAO/Group.php';
+require_once 'CRM/Contact/DAO/GroupContact.php';
+require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
+require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'CRM/Contact/DAO/Individual.php';
+require_once 'CRM/Contact/DAO/Household.php';
+require_once 'CRM/Contact/DAO/Organization.php';
+require_once 'CRM/Contact/DAO/Relationship.php';
+
 class CRM_GCD {
 
     /*******************************************************

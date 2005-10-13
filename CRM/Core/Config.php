@@ -45,7 +45,7 @@ require_once 'CRM/Utils/System.php';
 require_once 'CRM/Utils/Recent.php';
 require_once 'CRM/Utils/File.php';
 require_once 'CRM/Contact/DAO/Factory.php';
-
+require_once 'CRM/Core/Session.php';
 
 class CRM_Core_Config {
 
