@@ -281,6 +281,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
+                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $userID );
@@ -329,6 +330,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
+                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
                     $controller->reset( );
@@ -477,6 +479,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $values[$index] = implode( ', ', $title );
                 $params[$index] = '';
             } else if ( $objName == 'tag' ) {
+                require_once 'CRM/Core/BAO/EntityTag.php';
                 $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
                 $allTags    =& CRM_Core_PseudoConstant::tag();
                 $title = array( );
@@ -485,11 +488,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 }
                 $values[$index] = implode( ', ', $title );
                 $params[$index] = '';
-            } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                $params[$index] = $contact->$objName;
-                $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact->$objName, $cfID, $options );
             } else {
-                $values[$index] = $contact->$objName;
+                require_once 'CRM/Core/BAO/CustomField.php';
+                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+                    $params[$index] = $contact->$objName;
+                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact->$objName, $cfID, $options );
+                } else {
+                    $values[$index] = $contact->$objName;
+                }
             }
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&

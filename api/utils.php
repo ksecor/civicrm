@@ -269,6 +269,7 @@ function _crm_format_params( &$params, &$values ) {
     if ( $locationTypeNeeded ) {
         if ( ! array_key_exists( 'location_type_id', $values['location'][1] ) ) 
         {
+            require_once 'CRM/Core/BAO/LocationType.php';
             $locationType =& CRM_Core_BAO_LocationType::getDefault( );
             $values['location'][1]['location_type_id'] = $locationType->id;
             $values['location'][1]['location_type']    = $locationType->name;

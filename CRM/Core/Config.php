@@ -452,8 +452,19 @@ class CRM_Core_Config {
             $this->mysqlVersion = CIVICRM_MYSQL_VERSION;
         }
 
-        if ( defined ( 'CIVICRM_MAX_IMPORT_FILESIZE' ) ) {
-            $this->maxImportFileSize = CIVICRM_MAX_IMPORT_FILESIZE;
+        $size = trim( ini_get( 'upload_max_filesize' ) );
+        if ( $size ) {
+            $last = strtolower($size{strlen($size)-1});
+            switch($last) {
+                // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $size *= 1024;
+            case 'm':
+                $size *= 1024;
+            case 'k':
+                $size *= 1024;
+            }
+            $this->maxImportFileSize = $size;
         }
 
         if ( defined( 'CIVICRM_GOOGLE_MAP_API_KEY' ) ) {

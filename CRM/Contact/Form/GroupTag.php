@@ -94,6 +94,7 @@ Class CRM_Contact_Form_GroupTag
     static function setDefaults( $id, &$defaults, $type = CRM_Contact_Form_GroupTag::ALL ) {
         $type = (int ) $type; 
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) { 
+            require_once 'CRM/Contact/BAO/GroupContact.php';
             $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );  
             if ( $contactGroup ) {  
                 foreach ( $contactGroup as $group ) {  
@@ -103,6 +104,7 @@ Class CRM_Contact_Form_GroupTag
         }
 
         if ( $type & CRM_Contact_Form_GroupTag::TAG ) {
+            require_once 'CRM/Core/BAO/EntityTag.php';
             $contactTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id);  
             if ( $contactTag ) {  
                 foreach ( $contactTag as $tag ) {  

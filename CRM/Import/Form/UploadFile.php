@@ -59,8 +59,6 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         }
         $uploadSize = round(($uploadFileSize / (1024*1024)), 2);
                 
-        //CRM_Core_Error::debug('uploadFileSize1',$config->importFileSize);
-        
         $this->assign('uploadSize', $uploadSize );
         
         $this->addElement( 'file', 'uploadFile', ts('Import Data File'), 'size=30 maxlength=60' );

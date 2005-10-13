@@ -44,7 +44,10 @@ require_once 'CRM/Core/Form.php';
  * back in. It also uses a lot of functionality with the CRM API's, so any change
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
-  */
+ */
+
+require_once 'CRM/Profile/Form.php';
+
 class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
 {
     /** 

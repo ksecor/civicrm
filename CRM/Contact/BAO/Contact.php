@@ -403,7 +403,7 @@ ORDER BY
      * @access public
      * @static
      */
-    static function create(&$params, &$ids, $maxLocationBlocks) {
+    static function &create(&$params, &$ids, $maxLocationBlocks) {
         require_once 'CRM/Utils/Hook.php';
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
@@ -448,9 +448,9 @@ ORDER BY
                 CRM_Core_BAO_Note::add($noteParams);
             }
         }
+
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
-
 
         // add custom field values
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
@@ -474,7 +474,6 @@ ORDER BY
 
         CRM_Core_DAO::transaction('COMMIT');
         
-
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Contact', $contact->id, $contact );
         } else {
@@ -484,6 +483,108 @@ ORDER BY
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         return $contact;
+    }
+
+    static function &createFlat( &$params, &$ids ) {
+        require_once 'CRM/Utils/Hook.php';
+
+        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Contact', $ids['contact'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Contact', null, $params ); 
+        }
+
+        CRM_Core_DAO::transaction( 'BEGIN' ); 
+
+        $params['contact_type'] = 'Individual';
+        $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
+
+        $params['contact_id'] = $contact->id;
+
+        require_once 'CRM/Contact/BAO/Individual.php';
+        CRM_Contact_BAO_Individual::add( $params, $ids );
+
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
+        $locationTypeId =  $locationType->id;
+
+        $location =& new CRM_Core_DAO_Location( );
+        $location->location_type_id = $locationTypeId;
+        $location->entity_table = 'civicrm_contact';
+        $location->entity_id    = $contact->id;
+        if ( $location->find( true ) ) {
+            if ( ! $location->is_primary ) {
+                $location->is_primary = true;
+            }
+        } else {
+            $location->is_primary = true;
+        }
+        $location->save( );
+       
+        $address =& new CRM_Core_BAO_Address();
+        CRM_Core_BAO_Address::fixAddress( $params );
+            
+        if ( ! $address->copyValues( $params ) ) {
+            $address->id = CRM_Utils_Array::value( 'address', $ids );
+            $address->location_id = $location->id;
+            $address->save( );
+        }
+
+        $phone =& new CRM_Core_BAO_Phone();
+        if ( ! $phone->copyValues( $params ) ) {
+            $phone->id = CRM_Utils_Array::value( 'phone', $ids );
+            $phone->location_id = $location->id;
+            $phone->is_primary = true;
+            $phone->save( );
+        }
+        
+        $email =& new CRM_Core_BAO_Email();
+        if ( ! $email->copyValues( $params ) ) {
+            $email->id = CRM_Utils_Array::value( 'email', $ids );
+            $email->location_id = $location->id;
+            $email->is_primary = true;
+            $email->save( );
+        }
+
+        /* Process custom field values and other values */
+        foreach ($params as $key => $value) {
+            if ( $key == 'group' ) {
+                CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
+            } else if ( $key == 'tag' ) {
+                CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+            } else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                $custom_field_id = $cfID;
+                $cf =& new CRM_Core_BAO_CustomField();
+                $cf->id = $custom_field_id;
+                if ( $cf->find( true ) ) {
+                    switch($cf->html_type) {
+                    case 'Select Date':
+                        $date = CRM_Utils_Date::format( $value );
+                        if ( ! $date ) {
+                            $date = '';
+                        }
+                        $customValue = $date;
+                        break;
+                    case 'CheckBox':
+                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values($value));
+                        break;
+                    default:
+                        $customValue = $value;
+                    }
+                }
+            
+                CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
+            }
+        }
+
+        CRM_Core_DAO::transaction( 'COMMIT' ); 
+
+        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Contact', $contact->id, $contact );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Contact', $contact->id, $contact );
+        }
+
     }
 
     /**

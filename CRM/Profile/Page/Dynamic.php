@@ -101,6 +101,8 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
     {
         $template =& CRM_Core_Smarty::singleton( ); 
         if ( $this->_id && $this->_gid ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+
             $values = array( );
             $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW );
 

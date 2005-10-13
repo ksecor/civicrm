@@ -1,7 +1,7 @@
 {if ! empty( $fields )}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
-{if ! $isForm}
+{if $mode eq 8}
 {include file="CRM/common/form_body.tpl"}
 {/if}
 
