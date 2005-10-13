@@ -278,7 +278,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         } else {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
-        
+
+        $defaults['primary_location'] = 1;
+
         return $defaults;
     }
 

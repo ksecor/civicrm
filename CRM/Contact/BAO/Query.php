@@ -66,6 +66,7 @@ class CRM_Contact_BAO_Query {
 
     protected $_search = true;
     protected $_strict = false;
+    protected $_primaryLocation = true;
 
     protected $_customQuery;
 
@@ -124,7 +125,7 @@ class CRM_Contact_BAO_Query {
 
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
-        $this->_fromClause  = self::fromClause( $this->_tables ); 
+        $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
     }
 
     function addSpecialFields( ) {
@@ -498,7 +499,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    static function fromClause( &$tables , $inner = null, $right = null) {
+    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true ) {
         $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
             return $from;
@@ -575,8 +576,11 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_location':
                 $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                          civicrm_contact.id = civicrm_location.entity_id  AND
-                                                          civicrm_location.is_primary = 1)";
+                                                          civicrm_contact.id = civicrm_location.entity_id ";
+                if ( $primaryLocation ) {
+                    $from .= "AND civicrm_location.is_primary = 1";
+                }
+                $from .= ")";
                 continue;
 
             case 'civicrm_address':
@@ -660,6 +664,8 @@ class CRM_Contact_BAO_Query {
         $this->sortName( );
 
         $this->sortByCharacter( );
+
+        $this->location( );
 
         $this->includeContactIDs( );
 
@@ -864,15 +870,15 @@ class CRM_Contact_BAO_Query {
             } else {
                 $qill = array( );
                 if ($this->_params['postal_code_low']) { 
-                    $pcArray[] = 'civicrm_address.postal_code >= ' .
+                    $pcArray[] = ' ( civicrm_address.postal_code >= "' .
                         CRM_Utils_Type::escape( $this->_params['postal_code_low'], 'Integer' ) . 
-                        '"';
+                        '" ) ';
                     $qill[] = ts( 'greater than "%1"', array( 1 => $this->_params['postal_code_low'] ) );
                 } 
                 if ($this->_params['postal_code_high']) { 
-                    $pcArray[] = ' ( civicrm_address.postal_code <= ' .
+                    $pcArray[] = ' ( civicrm_address.postal_code <= "' .
                         CRM_Utils_Type::escape( $this->_params['postal_code_high'], 'Integer' ) . 
-                        '"';
+                        '" ) ';
                     $qill[] = ts( 'less than "%1"', array( 1 => $this->_params['postal_code_high'] ) );
                 }
                 if ( !empty( $pcArray ) ) {
@@ -880,7 +886,7 @@ class CRM_Contact_BAO_Query {
                     $this->_tables['civicrm_location'] = 1;
                     $this->_tables['civicrm_address' ] = 1;
 
-                    $this->_qill[]  = ts('Postal code -') . ' ' . implode( ' ' . ts('or') . ' ', $qill );
+                    $this->_qill[]  = ts('Postal code -') . ' ' . implode( ' ' . ts('and') . ' ', $qill );
                 }
             }
         }
@@ -899,6 +905,15 @@ class CRM_Contact_BAO_Query {
                 $names[] = $locationType[$id];
             }
             $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
+        }
+
+        // if primary location is not set, we need to tweak the join conditions
+        // we only do this in advanced search (hack, we check for the existence
+        // of postal_code_low in the post value
+        // since location_type and primary_location are checkboxes etc
+        if ( array_key_exists( 'postal_code_low', $this->_params ) &&
+             ! CRM_Utils_Array::value( 'primary_location', $this->_params ) ) {
+            $this->_primaryLocation = false;
         }
 
         if ( CRM_Utils_Array::value( 'primary_location', $this->_params ) ) { 
@@ -1053,7 +1068,7 @@ class CRM_Contact_BAO_Query {
             
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
-                $this->_fromClause  = self::fromClause( $this->_tables ); 
+                $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
             }
         }
 
