@@ -401,6 +401,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
 
+        require_once 'CRM/Contact/BAO/Query.php';
         return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchClause, $tables, true );
     }
 
