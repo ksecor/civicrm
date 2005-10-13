@@ -141,6 +141,8 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
     
     static function del($titleId) 
     {
+        require_once 'CRM/Contact/DAO/Individual.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
         //check dependencies
         $deleteContactId = array();
         $individual = & new CRM_Contact_DAO_Individual();

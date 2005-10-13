@@ -33,6 +33,7 @@
  * $Id$
  *
  */
+require_once 'CRM/Core/DAO/Activity.php';
 
 /**
  * This class is for OtherActivity functions

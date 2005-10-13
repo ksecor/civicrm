@@ -87,6 +87,9 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         //get the saved mapping details
+        require_once 'CRM/Core/DAO/Mapping.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Core/BAO/LocationType.php';
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
         $mappingDAO->domain_id = CRM_Core_Config::domainID( );
         $mappingDAO->mapping_type = 'Export';
@@ -330,7 +333,7 @@ class CRM_Export_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-
+        require_once 'CRM/Export/BAO/Export.php';
         $params = $this->controller->exportValues( 'MapField' );
 
         if ( $this->controller->exportValue( $this->_name, '_qf_MapField_refresh' ) )  {

@@ -141,6 +141,8 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
     static function del($genderId) 
     {
         //check dependencies
+        require_once 'CRM/Contact/DAO/Individual.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
         $deleteContactId = array();
         $session =& CRM_Core_Session::singleton( );
         $currentUserId = $session->get( 'userID' );

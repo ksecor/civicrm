@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Mailing/PseudoConstant.php';
 /**
  * Meta information about the mailing
  *

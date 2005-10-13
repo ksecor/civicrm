@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-
+require_once 'CRM/Core/BAO/DomainDump.php';
 /**
  * Page for domain dump (backup data)
  */

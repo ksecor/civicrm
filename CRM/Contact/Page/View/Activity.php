@@ -58,12 +58,13 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         $this->assign( 'totalCountActivity',
                        CRM_Core_BAO_History::getNumHistory( $this->_contactId,
                                                             'Activity' ) );
-
+        require_once 'CRM/Core/Selector/Controller.php';
         if ( $history ) {
   
             $this->assign('history', true);
 
             // create the selector, controller and run - store results in session
+           
             $output   =  CRM_Core_Selector_Controller::SESSION;
             require_once 'CRM/History/Selector/Activity.php';
             $selector =& new CRM_History_Selector_Activity( $this->_contactId, $this->_permission );

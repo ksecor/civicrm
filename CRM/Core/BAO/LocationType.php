@@ -36,6 +36,7 @@
 
 require_once 'CRM/Core/DAO/LocationType.php';
 
+
 class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
 
     /**
@@ -116,6 +117,13 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
     
     static function del($locationTypeId) 
     {
+        require_once 'CRM/Core/DAO/Location.php';
+        require_once 'CRM/Core/DAO/Address.php';
+        require_once 'CRM/Core/DAO/IM.php';
+        require_once 'CRM/Core/DAO/Phone.php';
+        require_once 'CRM/Core/DAO/Email.php';
+        require_once 'CRM/Core/DAO/Location.php';
+
         //check dependencies
         $location = & new CRM_Core_DAO_Location();
         $location->location_type_id = $locationTypeId;

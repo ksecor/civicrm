@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Contact/Form/Task.php';
+require_once 'CRM/Core/BAO/EntityTag.php';
 
 /**
  * This class provides the functionality to delete a group of

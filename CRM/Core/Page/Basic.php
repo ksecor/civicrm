@@ -144,6 +144,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     function run()
     {
         // what action do we want to perform ? (store it for smarty too.. :) 
+        require_once 'CRM/Contact/DAO/RelationshipType.php';
         $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
         $this->assign( 'action', $action );
 

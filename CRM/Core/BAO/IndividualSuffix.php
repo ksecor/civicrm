@@ -143,6 +143,7 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
     static function del($suffixId) 
     {
         //check dependencies
+        require_once 'CRM/Contact/DAO/Individual.php';
         $deleteContactId = array();
         $individual = & new CRM_Contact_DAO_Individual();
         $individual->suffix_id = $suffixId;

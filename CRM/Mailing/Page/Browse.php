@@ -37,7 +37,7 @@
 
 require_once 'CRM/Mailing/Selector/Browse.php';
 require_once 'CRM/Core/Selector/Controller.php';
-
+require_once 'CRM/Core/Page.php';
 /**
  * This implements the profile page for all contacts. It uses a selector
  * object to do the actual dispay. The fields displayd are controlled by

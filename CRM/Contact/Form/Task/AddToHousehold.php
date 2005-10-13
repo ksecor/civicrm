@@ -118,6 +118,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
      */
     public function postProcess() {
 
+        require_once 'CRM/Contact/Form/Relationship.php';
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
        

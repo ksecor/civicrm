@@ -98,6 +98,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
+        require_once 'CRM/Core/BAO/CustomField.php';
         if (!(self::$_dataTypeKeys)) {
             self::$_dataTypeKeys   = array_keys  (CRM_Core_BAO_CustomField::dataType());
             self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());

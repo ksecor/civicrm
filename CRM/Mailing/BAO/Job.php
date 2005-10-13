@@ -35,7 +35,8 @@
  */
 
 require_once 'Mail.php';
-
+require_once 'CRM/Mailing/DAO/Job.php';
+require_once 'CRM/Mailing/DAO/Mailing.php';
 
 class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 

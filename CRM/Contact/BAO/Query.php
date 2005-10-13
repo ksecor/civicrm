@@ -80,6 +80,7 @@ class CRM_Contact_BAO_Query {
 
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false ) {
+        require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
@@ -1034,6 +1035,7 @@ class CRM_Contact_BAO_Query {
                           $count = false, $includeContactIds = false,
                           $sortByChar = false, $groupContacts = false,
                           $returnQuery = false ) {
+        require_once 'CRM/Core/Permission.php';
 
         if ( $includeContactIds ) {
             $this->_includeContactIds = true;

@@ -37,6 +37,8 @@
 require_once 'api/crm.php';
 require_once 'Mail/mime.php';
 require_once 'CRM/Utils/Verp.php';
+require_once 'CRM/Mailing/Event/DAO/Subscribe.php';
+
 class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
 
     /**
@@ -205,6 +207,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * @static
      */
     public static function deleteContact( $contactId ) {
+        require_once 'CRM/Mailing/Event/DAO/Confirm.php';
         $dao =& new CRM_Mailing_Event_DAO_Subscribe();
         $dao->contact_id = $contactId;
         $dao->find();

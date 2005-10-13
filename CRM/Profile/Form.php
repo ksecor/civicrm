@@ -95,6 +95,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function preProcess() 
     { 
+        require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
 

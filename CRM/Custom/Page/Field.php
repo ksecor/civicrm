@@ -127,6 +127,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function browse()
     {
+        require_once 'CRM/Core/BAO/CustomField.php';
         $customField = array();
         $customFieldBAO =& new CRM_Core_BAO_CustomField();
         
@@ -226,7 +227,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     {
         
        
-        
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'

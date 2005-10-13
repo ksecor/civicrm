@@ -53,6 +53,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
     public function preProcess()
     {
+        require_once 'CRM/Core/BAO/Meeting.php';
         parent::preProcess();
         $params = array('id' => $this->_id);
         $defaults = array();

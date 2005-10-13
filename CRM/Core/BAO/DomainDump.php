@@ -39,6 +39,7 @@
  */
 
 require_once 'DB.php';
+require_once 'CRM/Utils/Tree.php';
 
 class CRM_Core_BAO_DomainDump  
 {

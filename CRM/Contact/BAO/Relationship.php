@@ -129,6 +129,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function add ( &$params, &$ids, $contactId ) 
     {
+        require_once 'CRM/Contact/BAO/Household.php';
         $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
 
         // expolode the string with _ to get the relationship type id and to know which contact has to be inserted in

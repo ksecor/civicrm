@@ -79,6 +79,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function &actionLinks()
     {
+       
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data multiple choice option?');
@@ -213,7 +214,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function run()
     {
-        
+        require_once 'CRM/Core/BAO/CustomField.php';
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', $this);
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);

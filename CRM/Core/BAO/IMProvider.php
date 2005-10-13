@@ -91,6 +91,7 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
     
     static function del($imProviderTypeId) 
     {
+        require_once 'CRM/Core/DAO/IM.php';
         //check dependencies
         $im = & new CRM_Core_DAO_IM();
         $im->provider_id= $imProviderTypeId;

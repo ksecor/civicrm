@@ -35,7 +35,9 @@
  */
 
 require_once 'CRM/Contact/Form/Task.php';
-
+require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 /**
  * This class provides the functionality to delete a group of
  * contacts. This class provides functionality for the actual

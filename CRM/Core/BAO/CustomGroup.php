@@ -733,6 +733,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
   public static function deleteGroup($id) 
     { 
+        require_once 'CRM/Core/DAO/CustomField.php';
         //check wheter this contain any custom fields
         $custonField = & new CRM_Core_DAO_CustomField();
         $custonField->custom_group_id = $id;

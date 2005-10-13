@@ -49,6 +49,7 @@ class CRM_Export_BAO_Export {
      */
     function exportContacts($fields = '') {
         //$fields      = array();
+        require_once 'CRM/Core/Report/Excel.php';
         $headerRows  = array();
         $returnProperties = array();
        
@@ -230,6 +231,7 @@ class CRM_Export_BAO_Export {
      * return array $exportableFields
      */
     static function getExportableFields($contactType = '') {
+        require_once 'CRM/Contact/BAO/Contact.php';
         $exportableFields = array ();
         if ($contactType) {
             eval('$exportableFields['.$contactType.']   =& CRM_Contact_BAO_Contact::exportableFields('.$contactType.');');

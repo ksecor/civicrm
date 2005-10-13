@@ -57,6 +57,10 @@ require_once 'CRM/Core/BAO/Note.php';
 require_once 'CRM/Contact/BAO/Query.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
+require_once 'CRM/Core/DAO/Meeting.php';
+require_once 'CRM/Core/Permission.php';
+require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
+
 
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
@@ -796,7 +800,9 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @static
      */
     function deleteContact( $id ) {
-
+        require_once 'CRM/Core/BAO/EmailHistory.php';
+        require_once 'CRM/Core/BAO/Meeting.php';
+        require_once 'CRM/Core/BAO/Phonecall.php';
         // make sure we have edit permission for this contact
         // before we delete
         if ( ! self::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
@@ -1013,6 +1019,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @static
      */
     static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity') {
+        require_once 'CRM/Core/DAO/Phonecall.php';
         $dao =& new CRM_Core_DAO();
         $contactId = CRM_Utils_Type::escape( $params['contact_id'], 'Integer' );
         

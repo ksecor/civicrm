@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Profile/Form.php';
 /**
  * This class generates form components for custom data
  * 

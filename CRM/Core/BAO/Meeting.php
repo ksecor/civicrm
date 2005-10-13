@@ -33,7 +33,7 @@
  * $Id$
  *
  */
-
+require_once 'CRM/Core/DAO/Meeting.php';
 /**
  * This class is for Meeting functions
  *

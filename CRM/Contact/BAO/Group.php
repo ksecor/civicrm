@@ -85,7 +85,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function discard ( $id ) {
         require_once 'CRM/Utils/Hook.php';
-
+        require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
         CRM_Utils_Hook::pre( 'delete', 'Group', $id );
 
         // delete all Subscription  records with the selected group id
@@ -116,6 +116,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      */
     static function memberCount( $id, $status = 'Added' ) {
+        require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         if ( isset( $status ) ) {

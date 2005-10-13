@@ -121,6 +121,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        require_once 'CRM/Mailing/BAO/Job.php';
         $mailing = CRM_Mailing_BAO_Mailing::getTableName();
         $job = CRM_Mailing_BAO_Job::getTableName();
         if ( ! isset( self::$_columnHeaders ) ) {

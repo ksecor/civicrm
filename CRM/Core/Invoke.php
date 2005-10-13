@@ -53,7 +53,7 @@ class CRM_Core_Invoke {
         require_once 'CRM/Core/I18n.php';
         require_once 'CRM/Utils/Wrapper.php';
         require_once 'CRM/Core/Action.php';
-
+        require_once 'CRM/Utils/Request.php';
         if ( $args[0] !== 'civicrm' ) {
             return;
         }
@@ -486,6 +486,9 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function mailing( $args ) {
+        require_once 'CRM/Mailing/Controller/Send.php';
+        require_once 'CRM/Mailing/Page/Browse.php';
+        require_once 'CRM/Mailing/BAO/Job.php';
         if ( $args[1] !== 'mailing' ) {
             return;
         }

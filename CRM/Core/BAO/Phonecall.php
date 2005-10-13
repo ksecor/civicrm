@@ -33,7 +33,7 @@
  * $Id$
  *
  */
-
+require_once 'CRM/Core/DAO/Phonecall.php';
 /**
  * This class is for Call functions
  *

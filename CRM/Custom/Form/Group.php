@@ -57,6 +57,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     public function preProcess()
     {
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         // current group id
         $this->_id = $this->get('id');
 

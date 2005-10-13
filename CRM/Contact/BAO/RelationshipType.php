@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contact/DAO/RelationshipType.php';
+
 class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType {
 
     /**
@@ -119,6 +121,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
     
     static function del($relationshipTypeId) 
     {
+        require_once 'CRM/Contact/DAO/Relationship.php';
         //check dependencies
         $relationship = & new CRM_Contact_DAO_Relationship();
         $relationship->relationship_type_id = $relationshipTypeId;

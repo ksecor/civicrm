@@ -36,7 +36,8 @@
  */
 
 require_once 'CRM/Activity/Form.php';
-
+require_once 'CRM/Core/BAO/OtherActivity.php';
+require_once 'CRM/Core/BAO/ActivityType.php';
 /**
  * This class generates form components for OtherActivity
  * 
