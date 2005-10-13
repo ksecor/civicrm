@@ -1,8 +1,9 @@
 {* Advanced Search Criteria Fieldset *}
 <fieldset>
     <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>
-        {if $context EQ 'smog'}{ts}Find Members of this Group{/ts}
+        {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
+        {elseif $savedSearch}{ts 1=$savedSearch.name}%1 Smart Group Criteria{/ts}
         {else}{ts}Search Criteria{/ts}{/if}
     </legend>
     <div class="form-item">

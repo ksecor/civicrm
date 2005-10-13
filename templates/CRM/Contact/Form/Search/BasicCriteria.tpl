@@ -5,7 +5,7 @@
 
 <fieldset>
     <legend>
-        {if $context EQ 'smog'}{ts}Find Members of this Group{/ts}
+        {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {else}{ts}Search Criteria{/ts}{/if}
     </legend>
