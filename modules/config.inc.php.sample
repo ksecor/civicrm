@@ -122,6 +122,16 @@ define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicr
  */
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
+
+/**
+ * Default contact country
+ * 
+ * When new contact is added, country field can be automatically populated wih
+ * chosen value. 
+ */
+define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
+
+
 /**
  * Localisation:
  *

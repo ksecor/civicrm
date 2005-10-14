@@ -189,7 +189,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
-                    $defaults['location'][$i+1]['address']['country_id'] = 1228;
+                    
+                    $config  =& CRM_Core_Config::singleton( );
+                    $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountryId;
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }

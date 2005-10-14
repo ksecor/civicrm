@@ -139,6 +139,12 @@ class CRM_Core_Config {
     public $provinceLimit = 'US IN PL';
 
     /**
+     * Database id of default country for contact.
+     * @var int
+     */
+    public $defaultContactCountryId = 1228;
+
+    /**
      * Locale for the application to run with.
      * @var string
      */
@@ -380,6 +386,10 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
             $this->provinceLimit = CIVICRM_PROVINCE_LIMIT;
         }
+        
+        if ( defined( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' ) ) {
+            $this->defaultContactCountryId = CIVICRM_DEFAULT_CONTACT_COUNTRY_ID;
+        }        
         
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
