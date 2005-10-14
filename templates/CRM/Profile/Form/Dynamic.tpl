@@ -1,3 +1,4 @@
+{debug}
 {if ! empty( $fields )}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
@@ -40,11 +41,11 @@
         <tr>
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
-          {foreach name=outer key=key item=item from=$form.$element_name}
+          {foreach name=outer key=key item=item from=$form.$n}
           {if $index < 10}
               {assign var="index" value=`$index+1`}
           {else}
-              <td class="label font-light">{$form.$element_name.$key.html}</td>
+              <td class="label font-light">{$form.$n.$key.html}</td>
               {if $count == $field.options_per_line}
                   </tr>
                    <tr>
@@ -60,11 +61,11 @@
         </tr>
 	{else}
         <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
+	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
-	{/if}
     {/foreach}
     </table>
 {if $field.groupHelpPost}

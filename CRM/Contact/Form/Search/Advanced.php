@@ -116,7 +116,10 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // Date selects for activity date
         $this->add('date', 'activity_from_date', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_from_date', ts('Select a valid date.'), 'qfDate');
+
         $this->add('date', 'activity_to_date', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_to_date', ts('Select a valid date.'), 'qfDate');
         
         
         //Custom data Search Fields
