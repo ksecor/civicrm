@@ -38,6 +38,7 @@
  * Main page for viewing contact.
  *
  */
+require_once 'CRM/Core/Page.php';
 class CRM_Profile_Page_View extends CRM_Core_Page {
 
     /**
@@ -55,6 +56,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
 
         $profileGroups = array();
         foreach ($ufGroups as $gid => $title) {
+            require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($id, $gid);
             $profileGroup = array( );
             $profileGroup['title'] = $title;

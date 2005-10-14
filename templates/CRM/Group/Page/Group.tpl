@@ -2,7 +2,7 @@
 {if $action eq 16}
 <div id="help">
 <p>{ts}Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality).{/ts}</p>
-<p>{ts}You can add contacts to a group from any set of search results (or when viewing an individual contact). You can also allow contacts to sign themselves up for certain groups by setting the group visibility to 'Public User Pages' (from the Edit link below), and including the <strong>Groups</strong> element in a CiviCRM Profile.{/ts}</p>
+<p>{ts}You can add contacts to a group from any set of search results (or when viewing an individual contact). You can also allow contacts to sign themselves up for certain groups by setting the group visibility to 'Public User Pages' (use the <strong>Settings</strong> link), and including the <strong>Groups</strong> element in your CiviCRM Profile.{/ts}</p>
 </div>
 {/if}
  

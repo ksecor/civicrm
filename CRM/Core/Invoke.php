@@ -574,6 +574,7 @@ class CRM_Core_Invoke {
 
         if ($secondArg == 'view') {
             $session =& CRM_Core_Session::singleton();
+            require_once 'CRM/Profile/Page/View.php';
             $view =& new CRM_Profile_Page_View();
             return $view->run();
         }

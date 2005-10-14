@@ -743,7 +743,8 @@ class CRM_Contact_BAO_Query {
         foreach ( array_keys( $this->_params['group'] ) as $group_id ) { 
             $group->id = $group_id; 
             $group->find(true); 
-            if (isset($group->saved_search_id)) { 
+            if (isset($group->saved_search_id)) {
+                require_once 'CRM/Contact/BAO/SavedSearch.php';
                 if ( $config->mysqlVersion >= 4.1 ) { 
                     $sfv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
 
