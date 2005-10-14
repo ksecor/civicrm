@@ -34,6 +34,7 @@
  *
  */
 
+require_once 'CRM/Core/Controller/Simple.php';
 require_once 'CRM/Core/DAO/UFGroup.php';
 require_once 'CRM/Core/DAO/UFField.php';
 require_once 'CRM/Contact/BAO/Contact.php';
