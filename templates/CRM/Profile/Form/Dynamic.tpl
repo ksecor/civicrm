@@ -14,29 +14,30 @@
         {if $fieldset != $zeroField}
            </table>
            {if $field.groupHelpPost}
-           <div class="messages help">{$groupHelpPost}</div>
+              <div class="messages help">{$groupHelpPost}</div>
            {/if}
-	   {if $mode ne 8}
-           </fieldset>
+           {if $mode ne 8}
+              </fieldset>
            {/if}
         {/if}
-	{if $mode ne 8}
-        <fieldset><legend>{$field.groupTitle}</legend>
-	{/if}
+        {if $mode ne 8}
+            <fieldset><legend>{$field.groupTitle}</legend>
+        {/if}
         {assign var=fieldset  value=`$field.groupTitle`}
         {assign var=groupHelpPost  value=`$field.groupHelpPost`}
         {if $field.groupHelpPre}
-        <div class="messages help">{$field.groupHelpPre}</div>
+            <div class="messages help">{$field.groupHelpPre}</div>
         {/if}
         <table class="form-layout-compressed">
     {/if}
     {assign var=n value=$field.name}
     {if $field.options_per_line > 1}
 	<tr>
-        <td>{$form.$n.label} </td>
+        <td class="option-label">{$form.$n.label}</td>
         <td>
 	    {assign var="count" value="1"}
-	<table class="form-layout">
+        {strip}
+        <table class="form-layout-compressed">
         <tr>
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
@@ -44,20 +45,21 @@
           {if $index < 10}
               {assign var="index" value=`$index+1`}
           {else}
-              <td class="label font-light">{$form.$n.$key.html}</td>
+              <td class="labels font-light">{$form.$n.$key.html}</td>
               {if $count == $field.options_per_line}
                   </tr>
                    <tr>
-                       {assign var="count" value="1"}
+                   {assign var="count" value="1"}
               {else}
           	       {assign var="count" value=`$count+1`}
               {/if}
           {/if}
           {/foreach}
         </tr>
-	</table>
-	</td>
-        </tr>
+        </table>
+        {/strip}
+        </td>
+    </tr>
 	{else}
         <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
 	{/if}
