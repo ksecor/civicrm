@@ -551,6 +551,7 @@ ORDER BY
             if ( $key == 'group' ) {
                 CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
             } else if ( $key == 'tag' ) {
+                require_once 'CRM/Core/BAO/EntityTag.php';
                 CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
             } else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                 $custom_field_id = $cfID;
