@@ -117,7 +117,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $fields = array( );
         foreach ( $ufGroups as $id => $title ) {
             $subset = self::getFields( $id, true, $action );
-            $fields = array_merge( $fields, $subset );
+
+            // we do not allow duplicates. the first field is the winner
+            foreach ( $subset as $name => $field ) {
+                if ( ! CRM_Utils_Array::value( $name, $fields ) ) {
+                    $fields[$name] = $field;
+                }
+            }
         }
         return $fields;
     }

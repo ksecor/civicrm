@@ -81,14 +81,13 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
                           );
 
         // add the hidden field to redirect the postProcess from
-        $postURL = $this->controller->exportValue( $this->_name, 'postURL' );
+        $postURL = CRM_Utils_Array::value( 'postURL', $_POST );
         if ( ! $postURL ) {
             $postURL = CRM_Utils_System::url('civicrm/profile/create', 'reset=1' );
         }
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL );
-        $this->addElement( 'hidden', 'postURL',
-                           $postURL );
+        $this->addElement( 'hidden', 'postURL', $postURL );
 
         // replace the sesssion stack in case user cancels (and we dont go into postProcess)
         $session =& CRM_Core_Session::singleton(); 
