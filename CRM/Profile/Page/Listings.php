@@ -36,6 +36,7 @@
 
 require_once 'CRM/Profile/Selector/Listings.php';
 require_once 'CRM/Core/Selector/Controller.php';
+require_once 'CRM/Core/Page.php';
 
 /**
  * This implements the profile page for all contacts. It uses a selector
@@ -77,6 +78,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
+        require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );

@@ -606,6 +606,7 @@ class CRM_Core_Invoke {
             return $wrapper->run( 'CRM_Profile_Form_Dojo', ts( 'Create Profile' ), CRM_Core_Action::ADD ); 
         } 
 
+        require_once 'CRM/Profile/Page/Listings.php';
         $page =& new CRM_Profile_Page_Listings( );
         return $page->run( );
     }
