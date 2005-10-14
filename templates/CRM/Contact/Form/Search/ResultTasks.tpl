@@ -26,9 +26,9 @@
      {* Hide export and print buttons in 'Add Members to Group' context. *}
      {if $context NEQ 'amtg'}
         {if $action eq 512}
-          {$form._qf_Advanced_next_print.html} &nbsp; {$form._qf_Advanced_refresh_export.html} &nbsp; &nbsp; &nbsp;
+          {$form._qf_Advanced_next_print.html}&nbsp;&nbsp;
         {else}
-          {$form._qf_Search_next_print.html} &nbsp; {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp;
+          {$form._qf_Search_next_print.html}&nbsp;&nbsp;
         {/if}
         {$form.task.html}
      {/if}

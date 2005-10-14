@@ -140,11 +140,11 @@ class CRM_Export_BAO_Export {
         $header = false;
 
         while ($dao->fetch()) {
+            $row = array( );
             foreach ($dao as $key => $varValue) {
                 $flag = false;
                 foreach($returnProperties as $propKey=>$props) {
                     if (is_array($props)) {
-                        
                         foreach($props as $propKey1=>$prop) {
                             foreach($prop as $propkey2=>$prop1) {
                                 //echo $propKey1."-".$propkey2."  ".$key; 
@@ -155,18 +155,23 @@ class CRM_Export_BAO_Export {
                         }
                     }
                 }    
+
                 if(array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
                 if ($flag) {
-                    $contactDetails[$dao->contact_id][$key] = $varValue;
+                    if ( isset( $varValue ) && $varValue != '' ) {
+                        $row[$key] = $varValue;
+                        $validRow  = true;
+                    }
                     if ( ! $header ) {
-                        if (!in_array($key, $headerRows )) { 
-                            $headerRows[] = $query->_fields[$key]['title'];
-                        }
+                        $headerRows[] = $query->_fields[$key]['title'];
                     }
                 }
                 
+            }
+            if ( ! empty( $row ) ) {
+                $contactDetails[$dao->contact_id] = $row;
             }
             $header = true;
         }

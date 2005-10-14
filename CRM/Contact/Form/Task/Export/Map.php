@@ -89,7 +89,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         //get the saved mapping details
-        require_once 'CRM/Core/DAO/Mapping.php';
+        Require_once 'CRM/Core/DAO/Mapping.php';
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Core/BAO/LocationType.php';
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
@@ -152,8 +152,8 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             $this->addElement('checkbox','updateMapping',ts('Update this field mapping'), null);
             $saveDetailsName = ts('Save as a new field mapping');
             $this->add('text','saveMappingName',ts('Name'));
-            $this->add('text','saveMappingDesc',ts('Description'));
-        }
+            $this->add('text','saveMappingDesc',ts('Description'));}
+        
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
@@ -289,6 +289,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                                  )
                            );
     }
+
 
     /**
      * global validation rules for the form

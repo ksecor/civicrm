@@ -155,6 +155,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
 
+        require_once 'CRM/Core/BAO/EmailHistory.php';
         list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
 
         $status = array(
