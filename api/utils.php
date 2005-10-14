@@ -325,6 +325,10 @@ function _crm_format_params( &$params, &$values ) {
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) {
     // first check to make sure the location arrays sync up
+
+    $param = array("contact_id" =>$contact->id );
+    $contact = crm_get_contact($param);
+    
     $locMatch = _crm_location_match($contact, $values);
 
     if (! $locMatch) {
@@ -359,9 +363,46 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         if ( ! $lastName ) {
             $lastName = isset( $contact->contact_type_object->last_name ) ? $contact->contact_type_object->last_name : '';
         }
+        
+        if ($overwrite || ! isset($contact->contact_type_object->prefix_id)) {
+            $prefix = CRM_Utils_Array::value( 'prefix', $values );
+        } else {
+            $prefix = null;
+        }
+        if ( ! $prefix ) {
+            if (isset( $contact->contact_type_object->prefix_id )) {
+                $prefix = & new CRM_Core_DAO_IndividualPrefix();
+                $prefix->id = $contact->contact_type_object->prefix_id;
+                $prefix->find();
+                $prefix->fetch();
+                $prefix = $prefix->name; 
+            } else {
+                $prefix = "";
+            }
+                
+
+        }
+         if ($overwrite || ! isset($contact->contact_type_object->suffix_id)) {
+            $suffix = CRM_Utils_Array::value( 'suffix', $values );
+        } else {
+            $suffix = null;
+        }
+        if ( ! $suffix ) {
+            if (isset( $contact->contact_type_object->suffix_id )) {
+                $suffix = & new CRM_Core_DAO_IndividualSuffix();
+                $suffix->id = $contact->contact_type_object->suffix_id;
+                $suffix->find();
+                $suffix->fetch();
+                $suffix = $suffix->name; 
+            } else {
+                $suffix = "";
+            }
+                
+
+        }
 
         $values['sort_name'] = "$lastName, $firstName";
-        $values['display_name'] = "$firstName $middleName $lastName";
+        $values['display_name'] = "$prefix $firstName $middleName $lastName $suffix ";
     } else if ( $contact->contact_type == 'Household' ) {
         if ($overwrite || ! isset($contact->contact_type_object->household_name)) {
             $householdName = CRM_Utils_Array::value( 'household_name', $values );
