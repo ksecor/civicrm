@@ -29,7 +29,7 @@
         {/if}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? If public, can it be used to aggregate Profile Listing Pages?{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form), and to include links to find other contacts with common value(s) in the account profile screen.{/ts}</dd>
         {/if}
         <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>
         {if $action neq 4}
