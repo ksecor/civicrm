@@ -1,6 +1,5 @@
 <div id="help">
-    <p>{ts}CiviCRM is pre-configured with standard options for individual contact name suffixes (e.g. Jr., Sr., II etc.).
-    You can use this page to customize these options and add new ones as needed for your installation.{/ts}</p>
+    <p>{ts}CiviCRM is pre-configured with standard options for individual contact name suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these options and add new ones as needed for your installation.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}

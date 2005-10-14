@@ -1,7 +1,7 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  {if $savedSearch.name}{$savedSearch.name} {ts}(smart group){/ts} - {/if}
+  {if $savedSearch.name}{$savedSearch.name} ({ts}smart group{/ts}) - {/if}
     {if $context EQ 'smog' OR $ssID GT 0}
       {ts count=$pager->_totalItems plural='Found %count group members'}Found %count group member{/ts}
    {else}

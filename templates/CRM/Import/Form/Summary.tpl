@@ -11,7 +11,7 @@
     
     {if $invalidRowCount }
         <p class="error">
-        {ts 1=$invalidRowCount}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported.{/ts}
+        {ts count=$invalidRowCount plural='CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported.'}CiviCRM has detected invalid data and/or formatting errors in one record. This record have not been imported.{/ts}
         </p>
         <p class="error">
         {ts 1=$downloadErrorRecordsUrl}You can <a href="%1">Download Errors</a>. You may then correct them, and import the new file with the corrected data.{/ts}
@@ -20,7 +20,7 @@
 
     {if $conflictRowCount}
         <p class="error">
-        {ts 1=$conflictRowCount}CiviCRM has detected %1 records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported. CiviCRM does not allow multiple contact records to have the same primary email address.{/ts}
+        {ts count=$conflictRowCount plural='CiviCRM has detected %count records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported.'}CiviCRM has detected one record with conflicting email addresses within this data file or relative to existing contact records. This record have not been imported.{/ts} {ts}CiviCRM does not allow multiple contact records to have the same primary email address.{/ts}
         </p>
         <p class="error">
         {ts 1=$downloadConflictRecordsUrl}You can <a href="%1">Download Conflicts</a>. You may then review these records to determine if they are actually conflicts, and correct the email addresses for those that are not.{/ts}
@@ -29,7 +29,7 @@
 
     {if $duplicateRowCount}
         <p {if $dupeError}class="error"{/if}>
-        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.{/ts} {$dupeActionString}
+        {ts count=$duplicateRowCount plural='CiviCRM has detected %count records which are duplicates of existing CiviCRM contact records.'}CiviCRM has detected one record which is a duplicate of existing CiviCRM contact record.{/ts} {$dupeActionString}
         </p>
         <p {if $dupeError}class="error"{/if}>
         {ts 1=$downloadDuplicateRecordsUrl}You can <a href="%1">Download Duplicates</a>. You may then review these records to determine if they are actually duplicates, and correct the email address for those that are not.{/ts}
@@ -88,11 +88,11 @@
             {foreach from="$groupAdditions" item="group"}
                 <label><a href="{$group.url}">{$group.name}</a></label>:
                 {if $group.new}
-                    {ts count=$group.added plural='%count contacts added to this new group.'}%count contact added to this new group.{/ts}
+                    {ts count=$group.added plural='%count contacts added to this new group.'}One contact added to this new group.{/ts}
                 {else}
-                    {ts count=$group.added plural='%count contacts added to this existing group.'}%count contact added to this existing group.{/ts}
+                    {ts count=$group.added plural='%count contacts added to this existing group.'}One contact added to this existing group.{/ts}
                 {/if}
-                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}%count contact NOT added (already in this group).{/ts}{/if}<br>
+                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}One contact NOT added (already in this group).{/ts}{/if}<br>
             {/foreach}
         </td>
     </tr>

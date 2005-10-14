@@ -5,7 +5,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings. Do you want to continue?{/ts}
+            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>

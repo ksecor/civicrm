@@ -6,8 +6,7 @@
 
  <div id="help">
     <p>
-    {ts}Select the fields which you want included for this export, in the order you want them included. Rows marked  '-do not export-' will be ignored.
-    Click <strong>Select more fields...</strong> if you want to export more fields than are presented in the table below.{/ts}
+    {ts}Select the fields which you want included for this export, in the order you want them included. Rows marked  '- do not export -' will be ignored. Click <strong>Select more fields...</strong> if you want to export more fields than are presented in the table below.{/ts}
     </p>
     {if $savedMapping}
     <p>Click 'Load Saved Field Mapping' to retrieve an export setup that you have previously saved.<p>
