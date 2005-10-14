@@ -134,7 +134,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                             'adminGroup' => 'Manage',
-                            'icon'    => 'admin/04.png',
+                            'icon'    => 'admin/Synch_user.png',
                             'weight'  => 130
                             ),
                       
@@ -155,7 +155,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/02.png',
+                            'icon'    => 'admin/Profile.png',
                             'weight'  => 220
                             ),
                       
@@ -175,7 +175,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/12.png',
+                            'icon'    => 'admin/custm_data.png',
                             'weight'  => 230
                             ),
                       
@@ -214,7 +214,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Configure',
-                            'icon'    => 'admin/06.png',
+                            'icon'    => 'admin/rela_type.png',
                             'weight'  => 250
                             ),
 
@@ -254,7 +254,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',
-                            'icon'    => 'admin/09.png',
+                            'icon'    => 'admin/title.png',
                             'weight'  => 340
                             ),
                       
