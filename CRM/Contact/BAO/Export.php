@@ -38,7 +38,7 @@
  * This class is for exporting contact
  *
  */
-class CRM_Export_BAO_Export {
+class CRM_Contact_BAO_Export {
     
     /**
      * Function to get the list the export fields
@@ -47,12 +47,11 @@ class CRM_Export_BAO_Export {
      *
      * @access public
      */
-    function exportContacts( $ids, $fields = null ) {
-        require_once 'CRM/Core/Report/Excel.php';
+    function exportContacts( $selectAll, $ids, $formValues, $order = null, $fields = null ) {
+
         $headerRows  = array();
         $returnProperties = array();
        
-        
         if ($fields) {
             $location = array();
             $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
@@ -112,7 +111,7 @@ class CRM_Export_BAO_Export {
             $returnProperties['location'] = $locationType;
            
         } else {
-            $fields  = CRM_Export_BAO_Export::getExportableFields();
+            $fields  = CRM_Contact_BAO_Export::getExportableFields();
             foreach ($fields as $key => $varValue) {
                 foreach ($varValue as $key1 => $var) {
                     if ($key1) {
@@ -127,15 +126,21 @@ class CRM_Export_BAO_Export {
         
         $session =& new CRM_Core_Session();
 
-        $includeContactIds = true;
-        $params = array( );
-        foreach ($ids as $id) { 
-            $params[CRM_Core_Form::CB_PREFIX . $id] = 1;
+        if ( $selectAll ) {
+            $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
+        } else {
+            $params = array( );
+            foreach ($ids as $id) { 
+                $params[CRM_Core_Form::CB_PREFIX . $id] = 1;
+            }
+            $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
         }
-         
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );
+
         list( $select, $from, $where ) = $query->query( );
         $queryString = "$select $from $where";
+        if ( $order ) {
+            $queryString .= " ORDER BY $order";
+        }
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
 
@@ -176,6 +181,8 @@ class CRM_Export_BAO_Export {
             $header = true;
         }
 
+
+        require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
                 
         exit();

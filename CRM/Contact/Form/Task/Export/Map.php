@@ -82,8 +82,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
         
         $this->_loadedMappingId =  $this->get('savedMapping');
-
-        $this->_contactIds = $this->get( 'contactIds' );
     }
     
     public function buildQuickForm( ) {
@@ -336,7 +334,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        require_once 'CRM/Export/BAO/Export.php';
         $params = $this->controller->exportValues( $this->_name );
 
         if ( $this->controller->exportValue( $this->_name, '_qf_Map_refresh' ) )  {
@@ -430,7 +427,12 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
      
         //get the csv file
-        CRM_Export_BAO_Export::exportContacts( $this->_contactIds, $mapperKeys);
+        require_once 'CRM/Contact/BAO/Export.php';
+        CRM_Contact_BAO_Export::exportContacts( $this->get( 'selectAll' ),
+                                                $this->get( 'contactIds' ),
+                                                $this->get( 'formValues' ),
+                                                $this->get( CRM_Utils_Sort::SORT_ORDER ),
+                                                $mapperKeys);
     }
     
     /**

@@ -72,18 +72,6 @@
                 {$form.location_type.html}
             </td>
         </tr>
-
-
-        <tr>
-            <td></td>
-            <td colspan="2">
-                {$form.primary_location.html}<br />
-                <span class="description font-italic">
-                {ts}Ignore any contact locations not marked as primary for this search.{/ts}
-                </span>
-            </td>
-            <td></td>
-        </tr>
     </table>
     </fieldset>
 

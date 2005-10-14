@@ -59,7 +59,8 @@ class CRM_Utils_Sort {
          * @var string
          */
         SORT_ID        = 'crmSID',
-        SORT_DIRECTION = 'crmSortDirection';
+        SORT_DIRECTION = 'crmSortDirection',
+        SORT_ORDER     = 'crmSortOrder';
 
     /**
      * name of the sort function. Used to isolate session variables

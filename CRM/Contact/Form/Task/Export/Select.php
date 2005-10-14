@@ -65,7 +65,38 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
      */
     function preProcess( ) 
     {
-        parent::preProcess( );
+        $this->_contactIds = array( ); 
+        $this->_selectAll  = false;
+
+        // get the submitted values of the search form 
+        // we'll need to get fv from either search or adv search in the future 
+        if ( $this->_action == CRM_Core_Action::ADVANCED ) { 
+            $values = $this->controller->exportValues( 'Advanced' ); 
+        } else { 
+            $values = $this->controller->exportValues( 'Search' ); 
+        } 
+         
+        $this->_task = $values['task']; 
+        $crmContactTaskTasks = CRM_Contact_Task::tasks(); 
+        $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] ); 
+ 
+        // all contacts or action = save a search 
+        if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) { 
+            $this->_selectAll = true;
+        } else if($values['radio_ts'] == 'ts_sel') { 
+            // selected contacts only 
+            // need to perform action on only selected contacts 
+            foreach ( $values as $name => $value ) { 
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) { 
+                    $this->_contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
+                } 
+            } 
+        } 
+        
+        $this->set( 'contactIds', $this->_contactIds );
+        $this->set( 'selectAll' , $this->_selectAll  );
+
+        $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) ); 
     }
 
 
@@ -107,13 +138,14 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
      */
     public function postProcess( ) {
         $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
-        
+
         if ($exportOption == CRM_Contact_Form_Task_Export_Select::EXPORT_ALL) {
-            require_once 'CRM/Export/BAO/Export.php';
-            $export =& new CRM_Export_BAO_Export( );
-            $export->exportContacts( $this->_contactIds );
-        } else {
-            $this->set( 'contactIds', $this->_contactIds );
+            require_once 'CRM/Contact/BAO/Export.php';
+            $export =& new CRM_Contact_BAO_Export( );
+            $export->exportContacts( $this->_selectAll,
+                                     $this->_contactIds,
+                                     $this->get( 'formValues' ),
+                                     $this->get( CRM_Utils_Sort::SORT_ORDER ) );
         }
     }
 

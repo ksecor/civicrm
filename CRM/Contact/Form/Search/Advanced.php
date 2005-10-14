@@ -106,9 +106,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
         $this->addGroup($location_type, 'location_type', ts('Location Types'), '&nbsp;');
         
-        // checkbox for primary location only
-        $this->addElement('checkbox', 'primary_location', null, ts('Search primary locations only'));        
-
         // textbox for Activity Type
         $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
 

@@ -338,6 +338,7 @@ class CRM_Core_Selector_Controller {
             $this->_store->set( CRM_Utils_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
             $this->_store->set( CRM_Utils_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
             $this->_store->set( CRM_Utils_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
+            $this->_store->set( CRM_Utils_Sort::SORT_ORDER    , $this->_sort->orderBy                 ( ) );
             $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
 
         }
