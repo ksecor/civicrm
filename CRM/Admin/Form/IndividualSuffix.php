@@ -83,9 +83,9 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
 
         if($this->_action & CRM_Core_Action::DELETE) {
             if(CRM_Core_BAO_IndividualSuffix::del($this->_id)) {
-                CRM_Core_Session::setStatus( ts('Selected Individual Suffix  has been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected Individual Suffix has been deleted.') );
             } else {
-                CRM_Core_Session::setStatus( ts('Selected Individual Suffix  has not been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected Individual Suffix has not been deleted.') );
             }
         } else {
             $params = $ids = array( );

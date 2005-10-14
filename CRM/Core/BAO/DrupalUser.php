@@ -83,12 +83,13 @@ class CRM_Core_BAO_DrupalUser
         $db_drupal->disconnect( );
         
         //end of schronization code
+        $status = ts('Synchronize Users to Contacts completed.');
+        $status .= ' ' . ts('Checked one user record.', array('count' => $contactCount, 'plural' => 'Checked %count user records.'));
         if ($contactMatching) {
-            CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Found "%3" matching contact records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated, 3 => $contactMatching )) );
-        } else {
-            CRM_Core_Session::setStatus( ts('Synchronize Users to Contacts completed. Checked "%1" user records. Created "%2" new contact records.', array( 1 => $contactCount, 2 => $contactCreated )) );
-            
+            $status .= ' ' . ts('Found one matching contact record.', array('count' => $contactMatching, 'plural' => 'Found %count matching contact records.'));
         }
+        $status .= ' ' . ts('Created one new contact record.', array('count' => $contactCreated, 'plural' => 'Created %count new contact records.'));
+        CRM_Core_Session::setStatus($status);
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
     }
 }

@@ -53,7 +53,7 @@ class CRM_Admin_Form_DrupalUser extends CRM_Core_Form
 
         $this->addButtons(array(
                                 array ('type'      => 'next',
-                                       'name'      => ts('Ok'),
+                                       'name'      => ts('OK'),
                                        'isDefault' => true),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),

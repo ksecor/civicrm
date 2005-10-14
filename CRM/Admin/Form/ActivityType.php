@@ -84,7 +84,7 @@ class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
         require_once 'CRM/Core/BAO/ActivityType.php';
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Core_BAO_ActivityType::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected activity type  has been deleted.') );
+            CRM_Core_Session::setStatus( ts('Selected activity type has been deleted.') );
         } else { 
 
             $params = $ids = array( );
