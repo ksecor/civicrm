@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-14 10:46+0200\n"
+"POT-Creation-Date: 2005-10-14 14:30+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -238,7 +238,7 @@ msgid "Enabled?"
 msgstr "Enabled?"
 
 #: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
@@ -1363,7 +1363,7 @@ msgstr "Please enter a valid activity type name."
 
 #: CRM/Admin/Form/ActivityType.php
 #, fuzzy
-msgid "Selected activity type  has been deleted."
+msgid "Selected activity type has been deleted."
 msgstr "Selected OtherActivity has been deleted."
 
 #: CRM/Admin/Form/ActivityType.php
@@ -1406,12 +1406,12 @@ msgstr "Please enter a valid activity type name."
 
 #: CRM/Admin/Form/IndividualPrefix.php
 #, fuzzy
-msgid "Selected Individual Prefix type has been deleted."
+msgid "Selected Individual Prefix has been deleted."
 msgstr "Selected OtherActivity has been deleted."
 
 #: CRM/Admin/Form/IndividualPrefix.php
 #, fuzzy
-msgid "Selected Individual Prefix type has not been deleted."
+msgid "Selected Individual Prefix has not been deleted."
 msgstr "Selected OtherActivity has been deleted."
 
 #: CRM/Admin/Form/IndividualPrefix.php
@@ -1426,12 +1426,12 @@ msgstr "Please enter a valid name."
 
 #: CRM/Admin/Form/IndividualSuffix.php
 #, fuzzy
-msgid "Selected Individual Suffix  has been deleted."
+msgid "Selected Individual Suffix has been deleted."
 msgstr "Selected Phone Call has been deleted."
 
 #: CRM/Admin/Form/IndividualSuffix.php
 #, fuzzy
-msgid "Selected Individual Suffix  has not been deleted."
+msgid "Selected Individual Suffix has not been deleted."
 msgstr "Selected Phone Call has been deleted."
 
 #: CRM/Admin/Form/IndividualSuffix.php
@@ -2482,7 +2482,7 @@ msgstr "Contact Notes"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #, fuzzy
-msgid "Contact GroupContacts"
+msgid "Contact's Groups"
 msgstr "Contact Notes"
 
 #: CRM/Contact/Page/View/Meeting.php
@@ -2662,16 +2662,28 @@ msgid "%1 like - %2"
 msgstr "Name like - \"%1\""
 
 #: CRM/Core/BAO/DrupalUser.php
-msgid ""
-"Synchronize Users to Contacts completed. Checked \"%1\" user records. Found "
-"\"%3\" matching contact records. Created \"%2\" new contact records."
+msgid "Synchronize Users to Contacts completed."
 msgstr ""
 
 #: CRM/Core/BAO/DrupalUser.php
-msgid ""
-"Synchronize Users to Contacts completed. Checked \"%1\" user records. "
-"Created \"%2\" new contact records."
-msgstr ""
+#, fuzzy
+msgid "Checked one user record."
+msgid_plural "Checked %count user records."
+msgstr[0] "the found record"
+msgstr[1] "all %count records"
+
+#: CRM/Core/BAO/DrupalUser.php
+#, fuzzy
+msgid "Found one matching contact record."
+msgid_plural "Found %count matching contact records."
+msgstr[0] "Found %count contact"
+msgstr[1] "Found %count contacts"
+
+#: CRM/Core/BAO/DrupalUser.php
+msgid "Created one new contact record."
+msgid_plural "Created %count new contact records."
+msgstr[0] ""
+msgstr[1] ""
 
 #: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_data.tpl
 msgid "Email Sent"
@@ -4412,19 +4424,41 @@ msgstr "Enable CiviCRM Profile Group"
 msgid "Delete CiviCRM Profile Group"
 msgstr "Disable CiviCRM Profile Group"
 
-#: CRM/Utils/Menu.php
-msgid ""
-"Synchronize Users to Contacts: CiviCRM will check each user record for a "
-"contact record. A new contact record will be created for each user where one "
-"does not already exist.\\n\\nDo you want to continue?"
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
+msgid "Synchronize Users to Contacts:"
 msgstr ""
 
-#: CRM/Utils/Menu.php
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid ""
-"Backup Your Data: CiviCRM will create an SQL dump file with all of your "
-"existing data, and allow you to download it to your local computer. This "
-"process may take a long time and generate a very large file if you have a "
-"large number of records. \\n\\nDo you want to continue?"
+"CiviCRM will check each user record for a contact record. A new contact "
+"record will be created for each user where one does not already exist."
+msgstr ""
+
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl
+#: templates/CRM/Admin/Form/DomainDump.tpl
+#: templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl
+#: templates/CRM/Admin/Form/IMProvider.tpl
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#: templates/CRM/Admin/Form/LocationType.tpl
+#: templates/CRM/Admin/Form/MobileProvider.tpl
+#: templates/CRM/Admin/Form/RelationshipType.tpl
+#: templates/CRM/Custom/Form/DeleteField.tpl
+#: templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/UF/Form/Field.tpl
+msgid "Do you want to continue?"
+msgstr ""
+
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
+#, fuzzy
+msgid "Backup Your Data:"
+msgstr "Date Data"
+
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
+msgid ""
+"CiviCRM will create an SQL dump file with all of your existing data, and "
+"allow you to download it to your local computer. This process may take a "
+"long time and generate a very large file if you have a large number of "
+"records."
 msgstr ""
 
 #: CRM/Utils/Menu.php
@@ -4773,27 +4807,23 @@ msgstr "status"
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all activity type "
-"records which use the option. This is may mean the loss of a substantial "
-"amount of data, and the action can not be undone. Do you want to continue?"
+"records which use the option."
 msgstr ""
 
-#: templates/CRM/Admin/Form/DomainDump.tpl
+#: templates/CRM/Admin/Form/ActivityType.tpl
+#: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
+#: templates/CRM/Admin/Form/LocationType.tpl
+#: templates/CRM/Admin/Form/MobileProvider.tpl
+#: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
-"<span class=\"label\">Backup Your Data:</span> CiviCRM will create an SQL "
-"'dump' file with all of your existing data, and allow you to download it to "
-"your local computer. This process may take a long time and generate a very "
-"large file if you have a large number of records. Do you want to continue?"
+"This may mean the loss of a substantial amount of data, and the action "
+"cannot be undone."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Drupal Users"
-msgstr ""
-
-#: templates/CRM/Admin/Form/DrupalUser.tpl
-msgid ""
-"<span class=\"label\">Synchronize Users to Contacts:</span> CiviCRM will "
-"check each user record for a contact record. A new contact records will be "
-"created for each user where on exist. Do you want to continue?"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
@@ -4813,8 +4843,7 @@ msgstr "Edit Option"
 #: templates/CRM/Admin/Form/Gender.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Gender related "
-"records which use the option. This may mean the loss of a substantial amount "
-"of data, and the action can not be undone. Do you want to continue?"
+"records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/IMProvider.tpl
@@ -4834,9 +4863,7 @@ msgstr "Edit IM Service Provider"
 #: templates/CRM/Admin/Form/IMProvider.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all IM Service "
-"Provider type records which use the option. This may mean the loss of a "
-"substantial amount of data, and the action can not be undone. Do you want to "
-"continue?"
+"Provider type records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
@@ -4856,9 +4883,8 @@ msgstr "Edit Multiple Choice Option"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Title related  "
-"records which use the option. This may mean the loss of a substantial amount "
-"of data, and the action can not be undone. Do you want to continue?"
+"WARNING: Deleting this option will result in the loss of all Title related "
+"records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -4869,9 +4895,7 @@ msgstr "New Individual"
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Individual "
-"suffix related  records which use the option. This may mean the loss of a "
-"substantial amount of data, and the action can not be undone. Do you want to "
-"continue?"
+"suffix related records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/LocationType.tpl
@@ -4882,8 +4906,7 @@ msgstr "New Location Type"
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all location type "
-"records which use the option. This may mean the loss of a substantial amount "
-"of data, and the action can not be undone. Do you want to continue?"
+"records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -4893,8 +4916,7 @@ msgstr "New Mobile Provider"
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Mobile Provider "
-"type records which use the option. This may mean the loss of a substantial "
-"amount of data, and the action can not be undone. Do you want to continue?"
+"type records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -4910,8 +4932,7 @@ msgstr "Delete Relationship"
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Relationship "
-"type records which use the option. This may mean the loss of a substantial "
-"amount of data, and the action can not be undone. Do you want to continue?"
+"type records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Tag.tpl templates/CRM/Admin/Page/Tag.tpl
@@ -4926,7 +4947,7 @@ msgstr "Are you sure you want to delete <b>%1</b> Tag?"
 #, fuzzy
 msgid ""
 "Activities are 'interactions with contacts' which you want to record and "
-"track. CiviCRM has several reserved (e.g.'built-in') activity types "
+"track. CiviCRM has several reserved (e.g. 'built-in') activity types "
 "(meetings, phone calls, emails sent). Create additional 'activity types' "
 "here if you need to record other types of activities. For example, you might "
 "want to include 'New Client Intake', or 'Site Audit', etc. ...as types of "
@@ -5023,9 +5044,8 @@ msgstr ""
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact name "
-"suffixes (e.g. Jr., Sr., II etc.).\n"
-"    You can use this page to customize these options and add new ones as "
-"needed for your installation."
+"suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these "
+"options and add new ones as needed for your installation."
 msgstr ""
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
@@ -5556,14 +5576,13 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
-"your changes, select\n"
-"            <strong>Update Smart Search</strong> from the '-more actions' "
-"drop-down menu."
+"your changes, select <strong>Update Smart Group</strong> from the '- more "
+"actions -' drop-down menu."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #, fuzzy
-msgid "(smart group)"
+msgid "smart group"
 msgstr "Smart Group"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
@@ -5641,15 +5660,17 @@ msgstr "Recipient(s)"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
-"Select the fields which you want to export. All the selects with '-do not "
-"export-' will be ignored."
+"Select the fields which you want to export. All the selects with '- do not "
+"export -' will be ignored."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 #: templates/CRM/Export/Form/SelectField.tpl
 #, fuzzy
-msgid "%1 records selected for export"
-msgstr "There are no records selected for Print."
+msgid "One record selected for export."
+msgid_plural "%count records selected for export."
+msgstr[0] "There are no records selected for Print."
+msgstr[1] "There are no records selected for Print."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
@@ -5693,8 +5714,9 @@ msgid "Run and refine the search criteria as necessary"
 msgstr "Run and refine the search criteria as necessary"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
+#, fuzzy
 msgid ""
-"Select 'New Saved Search' from the '-more actions -' drop-down menu and "
+"Select 'New Saved Search' from the '- more actions -' drop-down menu and "
 "click 'Go'"
 msgstr ""
 "Select 'New Saved Search' from the '-more actions -' drop-down menu and "
@@ -5931,11 +5953,15 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Are you sure you want to delete the contact record and all related "
-"information for <strong>%1</strong>?</p>\n"
-"        <p>This operation cannot be undone."
+"information for <strong>%1</strong>?"
 msgstr ""
 "Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
+
+#: templates/CRM/Contact/Page/View/Delete.tpl
+#: templates/CRM/Group/Form/Delete.tpl
+msgid "This operation cannot be undone."
+msgstr ""
 
 #: templates/CRM/Contact/Page/View/Email.tpl
 msgid "Date Sent"
@@ -6074,14 +6100,17 @@ msgstr "These relationships have been marked as disabled (no longer active)."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
-"WARNING: Deleting this custom field will result in the loss of all %1 data. "
-"This action can not be undone. Do you want to continue?"
+"WARNING: Deleting this custom field will result in the loss of all %1 data."
+msgstr ""
+
+#: templates/CRM/Custom/Form/DeleteField.tpl
+#: templates/CRM/Custom/Form/DeleteGroup.tpl
+msgid "This action cannot be undone."
 msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""
-"WARNING: Deleting this custom group will result in the loss of all %1 data. "
-"This action can not be undone. Do you want to continue?"
+"WARNING: Deleting this custom group will result in the loss of all %1 data."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -6317,9 +6346,9 @@ msgstr "Return to CiviCRM menu."
 #: templates/CRM/Export/Form/MapField.tpl
 msgid ""
 "Select the fields which you want included for this export, in the order you "
-"want them included. Rows marked  '-do not export-' will be ignored.\n"
-"    Click <strong>Select more fields...</strong> if you want to export more "
-"fields than are presented in the table below."
+"want them included. Rows marked  '- do not export -' will be ignored. Click "
+"<strong>Select more fields...</strong> if you want to export more fields "
+"than are presented in the table below."
 msgstr ""
 
 #: templates/CRM/Export/Form/MapTable.tpl
@@ -6337,13 +6366,15 @@ msgstr "Are you sure you want to delete the group %1?"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This group currently has one member in it."
-msgid_plural ""
-"This group currently has %count members in it. Deleting this group will NOT "
-"delete the member contact records. However, all contact subscription "
-"information and history for this group will be deleted. This operation can "
-"not be undone."
+msgid_plural "This group currently has %count members in it."
 msgstr[0] "This group currently has one member in it."
 msgstr[1] "This group currently has %count members in it."
+
+#: templates/CRM/Group/Form/Delete.tpl
+msgid ""
+"Deleting this group will NOT delete the member contact records. However, all "
+"contact subscription information and history for this group will be deleted."
+msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -6524,10 +6555,17 @@ msgstr ""
 "summarizes the results."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
+"CiviCRM has detected invalid data and/or formatting errors in one record. "
+"This record have not been imported."
+msgid_plural ""
+"CiviCRM has detected invalid data and/or formatting errors in %count "
+"records. These records have not been imported."
+msgstr[0] ""
 "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
 "These records have not been imported."
-msgstr ""
+msgstr[1] ""
 "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
 "These records have not been imported."
 
@@ -6540,16 +6578,31 @@ msgstr ""
 "import the new file with the corrected data."
 
 #: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
+"CiviCRM has detected one record with conflicting email addresses within this "
+"data file or relative to existing contact records. This record have not been "
+"imported."
+msgid_plural ""
+"CiviCRM has detected %count records with conflicting email addresses within "
+"this data file or relative to existing contact records. These records have "
+"not been imported."
+msgstr[0] ""
 "CiviCRM has detected %1 records with conflicting email addresses within this "
 "data file or relative to existing contact records. These records have not "
 "been imported. CiviCRM does not allow multiple contact records to have the "
 "same primary email address."
+msgstr[1] ""
+"CiviCRM has detected %1 records with conflicting email addresses within this "
+"data file or relative to existing contact records. These records have not "
+"been imported. CiviCRM does not allow multiple contact records to have the "
+"same primary email address."
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM does not allow multiple contact records to have the same primary "
+"email address."
 msgstr ""
-"CiviCRM has detected %1 records with conflicting email addresses within this "
-"data file or relative to existing contact records. These records have not "
-"been imported. CiviCRM does not allow multiple contact records to have the "
-"same primary email address."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -6564,9 +6617,15 @@ msgstr ""
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+"CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+"contact record."
+msgid_plural ""
+"CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
-msgstr ""
+msgstr[0] ""
+"CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+"contact records.  "
+msgstr[1] ""
 "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
 "contact records.  "
 
@@ -6618,19 +6677,22 @@ msgid "Import to Groups"
 msgstr "Import to Groups"
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "%count contact added to this new group."
+#, fuzzy
+msgid "One contact added to this new group."
 msgid_plural "%count contacts added to this new group."
 msgstr[0] "%count contact added to this new group."
 msgstr[1] "%count contacts added to this new group."
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "%count contact added to this existing group."
+#, fuzzy
+msgid "One contact added to this existing group."
 msgid_plural "%count contacts added to this existing group."
 msgstr[0] "%count contact added to this existing group."
 msgstr[1] "%count contacts added to this existing group."
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "%count contact NOT added (already in this group)."
+#, fuzzy
+msgid "One contact NOT added (already in this group)."
 msgid_plural "%count contacts NOT added (already in this group)."
 msgstr[0] "%count contact NOT added (already in this group)."
 msgstr[1] "%count contacts NOT added (already in this group)."
@@ -6757,7 +6819,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 #, fuzzy
-msgid "There are no sent Mails. You can <a href=\"%1\">send one</a>."
+msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
 msgstr ""
 "There are no Tags entered for this Contact. You can <a href=\"%1\">add one</"
 "a>."
@@ -6929,7 +6991,7 @@ msgstr "Disable CiviCRM Profile Field"
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "WARNING: Deleting this profile field will remove it from Profile forms and "
-"listings. Do you want to continue?"
+"listings."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
