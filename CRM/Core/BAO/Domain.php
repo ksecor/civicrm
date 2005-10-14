@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Core/DAO/Domain.php';
+
 /**
  *
  */
@@ -113,6 +115,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             );
             $values = array();
             $ids = array();
+            
             CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
             $loc =& $values['location'];
             

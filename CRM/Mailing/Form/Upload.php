@@ -126,6 +126,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             return true;
         }
         $errors = array();
+
+        require_once 'CRM/Core/BAO/Domain.php';
         
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         $mailing = null;
@@ -146,6 +148,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $urls[$key]++;
         }
         
+        require_once 'CRM/Mailing/BAO/Component.php';
+        
         $header =& new CRM_Mailing_BAO_Component();
         $header->id = $params['header_id'];
         $header->find(true);
@@ -161,6 +165,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         list($footerBody['htmlFile'],
              $footerBody['textFile']) = 
                     array($footer->body_html, $footer->body_text);
+
+        require_once 'CRM/Utils/Token.php';
 
         foreach (array('textFile', 'htmlFile') as $file) {
             $str = file_get_contents($files[$file]['tmp_name']);
