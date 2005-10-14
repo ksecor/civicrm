@@ -319,9 +319,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
             $check = array();
             foreach ($customOption as $v) {
-                $element =& $qf->createElement('checkbox', $v['label'], null, $v['label']); 
-                $element->updateAttributes( array( 'value' => $v['value'] ) );
-                $check[] =& $element;
+                $check[] =& $qf->createElement('checkbox', $v['value'], null, $v['label']); 
             }
             $qf->addGroup($check, $elementName, $field->label);
             if ($useRequired && $field->is_required) {

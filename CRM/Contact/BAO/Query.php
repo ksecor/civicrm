@@ -1088,9 +1088,6 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = $select . $from . $where . $order . $limit;
-        // if ( empty( $_POST ) ) {
-        // CRM_Core_Error::debug( 'q', $query );
-        // }
         if ( $returnQuery ) {
             return $query;
         }
@@ -1099,7 +1096,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query );
         }
 
-        // CRM_Core_Error::debug( 'q', $query );
+        //CRM_Core_Error::debug( 'q', $query );
         $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
             $ids = array( );

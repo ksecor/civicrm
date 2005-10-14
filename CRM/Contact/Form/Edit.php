@@ -223,9 +223,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->setShowHide( $defaults, false );
         }
 
-        //Custom Groups Defaults
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
-
         // do we need inactive options ?
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
@@ -235,7 +232,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
-        foreach ($groupTree as $group) {
+        foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 // if we dont have a custom value, just continue
@@ -269,15 +266,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                             foreach($customOption as $val) {
                                 if (is_array($customValues)) {
                                     if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['label']] = 1;
+                                        $defaults[$elementName][$val['value']] = 1;
                                     } else {
-                                        $defaults[$elementName][$val['label']] = 0;
+                                        $defaults[$elementName][$val['value']] = 0;
                                     }
                                 }
-                            }
-                        } else {
-                            foreach($customOption as $val) {
-                                $defaults[$elementName][$val['label']] = 0;
                             }
                         }
                     } else {
@@ -287,18 +280,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                             $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['label']] = 1;
+                                    $defaults[$elementName][$val['value']] = 1;
                                 } else {
-                                    $defaults[$elementName][$val['label']] = 0;
+                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         } else {
                             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
-                                    $defaults[$elementName][$val['label']] = 1;
+                                    $defaults[$elementName][$val['value']] = 1;
                                 } else {
-                                    $defaults[$elementName][$val['label']] = 0;
+                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }                            
                         }
@@ -429,7 +422,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                                    CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType);
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
         $this->assign('groupTree', $this->_groupTree); 
 
         // add the Custom Group Inline form elements
@@ -564,8 +557,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             if (isset($v) && 
                 isset($this->_groupTree[$groupId]['fields'][$fieldId]) &&
                 $this->_groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
-                
-                
+
                 if ( ! isset($this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
                     // field exists in db so populate value from "form".
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
@@ -589,11 +581,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $optionValue[$optionDAO->label] = $optionDAO->value;
                     }
                     
-                    $customValue = array();
-                    foreach (array_keys($v) as $key) {
-                        $customValue[] = $optionValue[$key];
-                    }
-                    
+                    $customValue = array_keys( $v );
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
                         implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
                     break;
