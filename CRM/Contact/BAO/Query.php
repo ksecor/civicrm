@@ -59,9 +59,9 @@ class CRM_Contact_BAO_Query {
     protected $_where;
     protected $_whereClause;
     protected $_fromClause;
-    protected $_fields;
     protected $_qill;
 
+    public    $_fields;
     public    $_options;
 
     protected $_search = true;
@@ -362,6 +362,8 @@ class CRM_Contact_BAO_Query {
         $this->postalCode( );
 
         $this->activity( );
+
+        $this->includeContactIds( );
 
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
@@ -666,8 +668,6 @@ class CRM_Contact_BAO_Query {
         $this->sortByCharacter( );
 
         $this->location( );
-
-        $this->includeContactIDs( );
 
     }
 
@@ -1010,7 +1010,7 @@ class CRM_Contact_BAO_Query {
     }
 
     static function getQuery( $params = null, $returnProperties = null, $count = false ) {
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false );
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         list( $select, $from, $where ) = $query->query( );
         return "$select $from $where";
     }

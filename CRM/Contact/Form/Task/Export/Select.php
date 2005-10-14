@@ -1,0 +1,132 @@
+<?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 1.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright (c) 2005 Social Source Foundation                        |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the Affero General Public License Version 1,    |
+ | March 2002.                                                        |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the Affero General Public License for more details.            |
+ |                                                                    |
+ | You should have received a copy of the Affero General Public       |
+ | License along with this program; if not, contact the Social Source |
+ | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
+ | questions about the Affero General Public License or the licensing |
+ | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
+ | at http://www.openngo.org/faqs/licensing.html                       |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Social Source Foundation (c) 2005
+ * $Id$
+ *
+ */
+
+require_once 'CRM/Contact/Form/Task.php';
+require_once 'CRM/Contact/BAO/Contact.php';
+
+/**
+ * This class gets the name of the file to upload
+ */
+class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
+   
+    /**
+     * The array that holds all the contact ids
+     *
+     * @var array
+     */
+    protected $_contactIds;
+
+    /**
+     * various Contact types
+     */
+    const
+        EXPORT_ALL      = 1,
+        EXPORT_SELECTED = 2;
+    
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @param
+     * @return void
+     * @access public
+     */
+    function preProcess( ) 
+    {
+        parent::preProcess( );
+    }
+
+
+    /**
+     * Function to actually build the form
+     *
+     * @return void
+     * @access public
+     */
+    public function buildQuickForm( ) {
+        //export option
+        $exportoptions = array();        
+        $exportOptions[] = HTML_QuickForm::createElement('radio',
+                                                         null, null, ts('Export ALL contact fields'), CRM_Contact_Form_Task_Export_Select::EXPORT_ALL);
+        $exportOptions[] = HTML_QuickForm::createElement('radio',
+                                                         null, null, ts('Select fields for export'), CRM_Contact_Form_Task_Export_Select::EXPORT_SELECTED);
+
+        $this->addGroup($exportOptions, 'exportOption', ts('Export Type'), '<br/>');
+
+        $this->setDefaults(array('exportOption' => CRM_Contact_Form_Task_Export_Select::EXPORT_ALL ));
+
+
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Continue >>'),
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
+    }
+
+    /**
+     * Process the uploaded file
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess( ) {
+        $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
+        
+        if ($exportOption == CRM_Contact_Form_Task_Export_Select::EXPORT_ALL) {
+            require_once 'CRM/Export/BAO/Export.php';
+            $export =& new CRM_Export_BAO_Export( );
+            $export->exportContacts( $this->_contactIds );
+        } else {
+            $this->set( 'contactIds', $this->_contactIds );
+        }
+    }
+
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( ) {
+        return ts('Select Fields');
+    }
+
+}
+
+?>

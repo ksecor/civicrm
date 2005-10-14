@@ -652,6 +652,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         return true;
     }
 
+    function getTitle( ) {
+        return ts( 'Find Contacts' );
+    }
+
 }
 
 ?>

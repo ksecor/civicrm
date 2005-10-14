@@ -63,7 +63,13 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             list( $task, $result ) = $this->taskName( $controller, 'Search' );
         }
         $this->_task    = $task;
-        $this->_pages[] = $task;
+        if ( is_array( $task ) ) {
+            foreach ( $task as $t ) {
+                $this->_pages[] = $t;
+            }
+        } else {
+            $this->_pages[] = $task;
+        }
 
         if ( $result ) {
             $this->_pages[] = 'CRM_Contact_Form_Task_Result';
@@ -143,6 +149,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
 
         case CRM_Contact_Task::MAP_CONTACTS:
             $task   = 'CRM_Contact_Form_Task_Map';
+            break;
+
+        case CRM_Contact_Task::EXPORT_CONTACTS:
+            $task = array( 'CRM_Contact_Form_Task_Export_Select',
+                           'CRM_Contact_Form_Task_Export_Map' );
             break;
 
         default: // the print task is the default and catch=all task

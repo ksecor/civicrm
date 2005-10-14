@@ -51,7 +51,8 @@ class CRM_Contact_Task {
         EMAIL_CONTACTS        =  128,
         HOUSEHOLD_CONTACTS    =  512,
         ORGANIZATION_CONTACTS = 1024,
-        MAP_CONTACTS          = 2048;
+        MAP_CONTACTS          = 2048,
+        EXPORT_CONTACTS       = 4096;
 
     /**
      * the task array
@@ -84,12 +85,13 @@ class CRM_Contact_Task {
                                   1    => ts( 'Add Contacts to a Group'       ),
                                   2    => ts( 'Remove Contacts from a Group'  ),
                                   4    => ts( 'Tag Contacts (assign tags)'    ),
+                                  4096 => ts( 'Export Contacts'               ),
                                   128  => ts( 'Send Email to Contacts'        ), 
                                   8    => ts( 'Delete Contacts'               ),
-                                  16   => ts( 'New Smart Group'              ),
                                   512  => ts( 'Add Contacts to Household'     ),
                                   1024 => ts( 'Add Contacts to Organization'  ),
                                   2048 => ts( 'Map Contacts using Google Maps'),
+                                  16   => ts( 'New Smart Group'               ),
                                   );
             $config =& CRM_Core_Config::singleton( );
             if ( ! isset( $config->smtpServer ) ||

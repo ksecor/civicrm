@@ -47,14 +47,13 @@ class CRM_Export_BAO_Export {
      *
      * @access public
      */
-    function exportContacts($fields = '') {
-        //$fields      = array();
+    function exportContacts( $ids, $fields = null ) {
         require_once 'CRM/Core/Report/Excel.php';
         $headerRows  = array();
         $returnProperties = array();
        
         
-        if($fields) {
+        if ($fields) {
             $location = array();
             $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
             $returnFields = $fields;
@@ -114,7 +113,6 @@ class CRM_Export_BAO_Export {
            
         } else {
             $fields  = CRM_Export_BAO_Export::getExportableFields();
-            $selectedAll = true;
             foreach ($fields as $key => $varValue) {
                 foreach ($varValue as $key1 => $var) {
                     if ($key1) {
@@ -128,87 +126,51 @@ class CRM_Export_BAO_Export {
         // print_r($returnProperties);
         
         $session =& new CRM_Core_Session();
-        $contactIds = $session->get('contactIds');
-        $selectedAll = $session->get('selectedAll');
-       
-        if( $selectedAll ) {
-           
-            //$params = array();
-            $queryString = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties );
-           
-            $dao =& CRM_Core_DAO::executeQuery($queryString);
-            while ($dao->fetch()) {
-                foreach ($dao as $key => $varValue) {
-                    $flag = false;
-                    foreach($returnProperties as $propKey=>$props) {
-                        if (is_array($props)) {
-                            
-                            foreach($props as $propKey1=>$prop) {
-                                foreach($prop as $propkey2=>$prop1) {
-                                    //echo $propKey1."-".$propkey2."  ".$key; 
-                                    if($propKey1."-".$propkey2 == $key) {
-                                        $flag = true;
-                                    }
-                                }
-                            }
-                        }
-                    }    
-                    if(array_key_exists($key, $returnProperties)) {
-                        $flag = true;
-                    }
-                    if ($flag) {
-                        $contactDetails[$dao->contact_id][$key] = $varValue;
-                        if (!in_array($key, $headerRows )) { 
-                            $headerRows[] = $key;
-                        }
-                        
-                    }
-                    
-                }
-            }
-            
-            
-        } else {
-           
-            foreach ($contactIds as $id) { 
-                $params = array();
-                $params['id'] = $id;
-               
-                $queryString = CRM_Contact_BAO_Query::getQuery( $params, $returnProperties ); 
-               
-                $dao =& CRM_Core_DAO::executeQuery($queryString);
-                $dao->fetch();
-                
-                foreach ($dao as $key => $varValue) {
-                    //echo substr($key, 0, 1);
-                    $flag = false;
-                    foreach($returnProperties as $propKey=>$props) {
-                        if (is_array($props)) {
-                            
-                            foreach($props as $propKey1=>$prop) {
-                                foreach($prop as $propkey2=>$prop1) {
-                                    //echo $propKey1."-".$propkey2."  ".$key; 
-                                    if($propKey1."-".$propkey2 == $key) {
-                                        $flag = true;
-                                    }
-                                }
-                            }
-                        }
-                    }    
-                    if(array_key_exists($key, $returnProperties)) {
-                        $flag = true;
-                    }
-                    if( $flag ) {
-                        $contactDetails[$id][$key] = $varValue;
-                        if (!in_array($key, $headerRows )) { 
-                            $headerRows[] = $key;
-                        }
-                    }
-                }
-                
-            }
+
+        $includeContactIds = true;
+        $params = array( );
+        foreach ($ids as $id) { 
+            $params[CRM_Core_Form::CB_PREFIX . $id] = 1;
         }
-        //print_r($contactDetails);
+         
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );
+        list( $select, $from, $where ) = $query->query( );
+        $queryString = "$select $from $where";
+        $dao =& CRM_Core_DAO::executeQuery($queryString);
+        $header = false;
+
+        while ($dao->fetch()) {
+            foreach ($dao as $key => $varValue) {
+                $flag = false;
+                foreach($returnProperties as $propKey=>$props) {
+                    if (is_array($props)) {
+                        
+                        foreach($props as $propKey1=>$prop) {
+                            foreach($prop as $propkey2=>$prop1) {
+                                //echo $propKey1."-".$propkey2."  ".$key; 
+                                if($propKey1."-".$propkey2 == $key) {
+                                    $flag = true;
+                                }
+                            }
+                        }
+                    }
+                }    
+                if(array_key_exists($key, $returnProperties)) {
+                    $flag = true;
+                }
+                if ($flag) {
+                    $contactDetails[$dao->contact_id][$key] = $varValue;
+                    if ( ! $header ) {
+                        if (!in_array($key, $headerRows )) { 
+                            $headerRows[] = $query->_fields[$key]['title'];
+                        }
+                    }
+                }
+                
+            }
+            $header = true;
+        }
+
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
                 
         exit();
