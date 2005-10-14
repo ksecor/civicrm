@@ -871,13 +871,13 @@ class CRM_Contact_BAO_Query {
                 $qill = array( );
                 if ($this->_params['postal_code_low']) { 
                     $pcArray[] = ' ( civicrm_address.postal_code >= "' .
-                        CRM_Utils_Type::escape( $this->_params['postal_code_low'], 'Integer' ) . 
+                        CRM_Utils_Type::escape( $this->_params['postal_code_low'], 'String' ) . 
                         '" ) ';
                     $qill[] = ts( 'greater than "%1"', array( 1 => $this->_params['postal_code_low'] ) );
                 } 
                 if ($this->_params['postal_code_high']) { 
                     $pcArray[] = ' ( civicrm_address.postal_code <= "' .
-                        CRM_Utils_Type::escape( $this->_params['postal_code_high'], 'Integer' ) . 
+                        CRM_Utils_Type::escape( $this->_params['postal_code_high'], 'String' ) . 
                         '" ) ';
                     $qill[] = ts( 'less than "%1"', array( 1 => $this->_params['postal_code_high'] ) );
                 }

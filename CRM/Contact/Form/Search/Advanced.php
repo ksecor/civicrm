@@ -95,10 +95,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addRule('postal_code', ts('Enter valid Postal Code'), 'numeric' );
         
         $this->addElement('text', 'postal_code_low', ts('Range-From'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address','postal_code') );
-        $this->addRule('postal_code_low', ts('Enter valid From range of Postal Code'), 'numeric' );
 
         $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
-        $this->addRule('postal_code_high', ts('Enter valid To range of Postal Code'), 'numeric' );
 
         // checkboxes for location type
         $location_type = array();
