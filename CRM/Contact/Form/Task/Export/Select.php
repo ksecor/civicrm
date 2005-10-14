@@ -83,6 +83,7 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
         // all contacts or action = save a search 
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) { 
             $this->_selectAll = true;
+            $this->assign( 'totalSelectedContacts', $this->get( 'rowCount' ) );
         } else if($values['radio_ts'] == 'ts_sel') { 
             // selected contacts only 
             // need to perform action on only selected contacts 
@@ -91,12 +92,12 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
                     $this->_contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
                 } 
             } 
-        } 
+            $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) ); 
+        }
         
         $this->set( 'contactIds', $this->_contactIds );
         $this->set( 'selectAll' , $this->_selectAll  );
 
-        $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) ); 
     }
 
 
