@@ -324,7 +324,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationshipType->selectAdd( );
         $relationshipType->selectAdd('contact_type_a, contact_type_b');
         $relationshipType->find(true);
-        
+       
+        require_once 'CRM/Contact/BAO/Contact.php';
         $contact_type_a = CRM_Contact_BAO_Contact::getContactType( $contact_a );
         $contact_type_b = CRM_Contact_BAO_Contact::getContactType( $contact_b );
 

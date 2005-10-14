@@ -52,6 +52,7 @@ require_once 'api/Group.php';
 require_once 'api/History.php';
 require_once 'api/CustomGroup.php';
 require_once 'api/Search.php';
+require_once 'api/Relationship.php';
 
 require_once 'CRM/Contact/BAO/Group.php';
 
@@ -111,20 +112,6 @@ function crm_delete_location(&$contact, $context_name) {
 }
 
 function crm_get_locations(&$contact) {
-}
-
-
-
-function crm_create_relationship(&$contact, &$target_contact, $relationship_type_name) {
-}
-
-function crm_get_relationships(&$contact, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
-}
-
-function crm_delete_relationship(&$contact, &$target_contact, $relationship_type_name) {
-}
-
-function crm_create_relationship_type($params) {
 }
 
 function crm_add_option_value($property, $filter = null, $option_values) {
