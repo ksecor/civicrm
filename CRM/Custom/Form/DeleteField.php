@@ -69,8 +69,8 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
         $defaults = array( );
         $params   = array( 'id' => $this->_id );
         CRM_Core_BAO_CustomField::retrieve( $params, $defaults );
-
-        $this->_title = $defaults['name'];
+        
+        $this->_title = $defaults['label'];
         $this->assign( 'name' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Custom Field Delete') );

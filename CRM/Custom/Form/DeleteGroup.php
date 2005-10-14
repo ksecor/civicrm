@@ -68,8 +68,7 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
         $defaults = array( );
         $params   = array( 'id' => $this->_id );
         CRM_Core_BAO_CustomGroup::retrieve( $params, $defaults );
-
-        $this->_title = $defaults['name'];
+        $this->_title = $defaults['title'];
         $this->assign( 'name' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Custom Group Delete') );
