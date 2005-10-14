@@ -446,6 +446,14 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
+                            'path'   => 'civicrm/export/contact',
+                            'title'  => ts('Export Contacts'),
+                            'type'   => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 0,
+                            ),
+                      
+                      array(
                             'path'    => 'civicrm/history/activity/detail',
                             'title'   => ts('Activity Detail'),
                             'type'    => self::CALLBACK,

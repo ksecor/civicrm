@@ -79,7 +79,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // add text box for last name, first name, street name, city
         $this->addElement('text', 'sort_name', ts('Find...'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->addElement('text', 'street_address', ts('Street Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'street_address'));
+        $this->addElement('text', 'street_address', ts('Street Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'street_address'));
         $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'city'));
 
         // select for state province

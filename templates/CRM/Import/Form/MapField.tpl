@@ -15,7 +15,7 @@
     {/if}
     <p>If you think you may be importing additional data from the same data source, check 'Save this field mapping'
     at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is
-    imported.
+    imported.</p>
     {/ts}
 </div>
  {* Table for mapping data to CRM fields *}

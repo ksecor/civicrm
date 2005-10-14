@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/DAO/MappingField.php';
 
 /**
  * This class gets the name of the file to upload
