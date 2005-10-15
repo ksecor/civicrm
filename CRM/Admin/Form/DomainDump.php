@@ -71,7 +71,7 @@ class CRM_Admin_Form_DomainDump extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        CRM_Core_BAO_DomainDump::backupData();
+        CRM_Core_BAO_DomainDump::backupData1();
     }
 }
 

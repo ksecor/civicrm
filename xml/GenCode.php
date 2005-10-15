@@ -25,10 +25,11 @@ require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
 // for SQL l10n use
-define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
+//define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
+require_once '../modules/config.inc.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
-
+require_once 'CRM/Utils/Tree.php';
 
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
@@ -64,9 +65,147 @@ $tables   =& getTables( $dbXML, $database );
 resolveForeignKeys( $tables, $classNames );
 $tables = orderTables( $tables );
 
-// echo "\n\n\n\n\n*****************************************************************************\n\n";
+//echo "\n\n\n\n\n*****************************************************************************\n\n";
 // print_r($tables);
 // exit(1);
+
+$tree1 = array();
+foreach ($tables as $k => $v) {
+    $tableName = $k;
+    $tree1[$tableName] = array();
+    
+    if(!isset($v['foreignKey'])) {
+        continue;
+    }
+    foreach ($v['foreignKey'] as $k1 => $v1) {
+        if ( !in_array($v1['table'], $tree1[$tableName]) ) {
+            $tree1[$tableName][] = $v1['table'];
+        }
+    }
+}
+
+//create a foregin key link table
+$frTable = array();
+foreach ($tables as $key => $value) {
+    if(!isset($value['foreignKey'])) {
+        continue;
+    }
+    
+    foreach ($value['foreignKey'] as $k1 => $v1) {
+        $frTable[$value['name']][$v1['table']] = $v1['name'];        
+    }
+}
+
+$tree2 = array();
+foreach ($tree1 as $k => $v) {
+    foreach ($v as $k1 => $v1) {
+        if (!isset($tree2[$v1])) {
+            $tree2[$v1] = array();
+        }
+        if ( !array_key_exists($k, $tree2[$v1]) ) {
+            if ( $v1 != $k)
+                $tree2[$v1][] = $k;
+        }
+    }
+}
+
+//create the domain tree
+$domainTree =& new CRM_Utils_Tree('civicrm_domain');
+$temp = '';
+foreach($tree2 as $key => $val) {
+    foreach($val as $k => $v) {
+        $node =& $domainTree->findNode($v, $temp);
+        if(!$node) {
+            $node =& $domainTree->createNode($v);            
+        }
+        $domainTree->addNode($key, $node);               
+    }
+}
+
+foreach($frTable as $key => $val) {
+    foreach($val as $k => $v ) {
+        $fKey = $frTable[$key];
+        $domainTree->addData($k, $key, $fKey);
+    }
+}
+
+//$domainTree->display();
+//exit();
+$tempTree = $domainTree->getTree();
+
+getDomainDump($tempTree['rootNode'], null, $frTable);
+global $UNION_ARRAY;
+
+$unionArray = $UNION_ARRAY;
+
+$dd = fopen($sqlCodePath . "backup.sql", "w");
+foreach ( $unionArray as $key => $val) {
+    $tableName = $key;
+    
+    if (is_array($val)) {        
+        $sql = implode(" UNION ", $val);
+    }
+    $sql .= "\n";
+    fwrite($dd, $sql);
+}
+
+fclose($dd);
+
+function getDomainDump( &$tree, $nameArray, $frTable )
+{
+    if ( !isset($nameArray) ) {
+        $nameArray = array();
+    }
+    
+    //bad hack 
+    if ( !isset($UNION_ARRAY) ) {
+        global $UNION_ARRAY;
+    }
+    
+    $config =& CRM_Core_Config::singleton( );
+    
+    //global $DOMAIN_ID;
+    
+    $node = $tree;
+    
+    $nameArray[] = $node['name'];
+    $tempNameArray = array_reverse($nameArray);
+    
+    $table = array();
+    for ($idx = 0; $idx<count($nameArray); $idx++) {
+        $table[] = $nameArray[$idx];
+    }
+    
+    if ( $tempNameArray[0] != 'civicrm_activity_history' ) { 
+        $tables = implode(",", $table);
+        for ($idx = 0; $idx<count($nameArray)-1; $idx++) {
+            $foreignKey = $tempNameArray[$idx+1];
+            $whereCondition[] = "". $tempNameArray[$idx] .".". $frTable[$tempNameArray[$idx]][$foreignKey] ." = ".$tempNameArray[$idx+1].".id";
+        } 
+        $whereCondition[] = "civicrm_domain.id = ".$config->domainID();    
+    } else {
+        $tables = ' civicrm_domain, civicrm_contact, civicrm_activity_history';
+        $whereCondition[] = "". $tempNameArray[0] .".entity_id = civicrm_contact.id AND civicrm_contact.domain_id = civicrm_domain.id AND civicrm_domain.id = 1 ";
+    }
+    
+    $whereClause = implode(" AND ", $whereCondition);
+    
+    //store the queries traversed thru different path
+    $sql = 'SELECT '. $tempNameArray[0] .'.id FROM '. $tables .' WHERE '. $whereClause ;       
+    
+    $UNION_ARRAY[$tempNameArray[0]][] = $sql;
+    //$unionArray[$tempNameArray[0]][] = $sql;    
+    
+    
+    if ( !empty($node['children']) ) {
+        foreach($node['children'] as $key => $childNode) {
+            $cNode =& $node['children'][$key];                
+            getDomainDump($cNode, $nameArray, $frTable);      
+        }    
+    } 
+}
+//echo "\n\n***********************************************\n\n";
+
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );

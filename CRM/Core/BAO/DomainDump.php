@@ -258,7 +258,77 @@ class CRM_Core_BAO_DomainDump
         //return $unionArray;
     }
     
+    /**
+     * get the dump from backup.sql
+     *
+     */
     
+    static function backupData1 ( ) 
+    {
+        global $civicrm_root;
+        $file = $civicrm_root."/sql/backup.sql";
+
+        // get the path of mysqldump
+        $tempPath = exec('whereis mysqldump');
+        list ($temp, $mysqlDumpPath) = explode(":", $tempPath);
+        
+        //we get the upload folder for storing the huge backup data
+        $config =& new CRM_Core_Config();
+        chdir($config->uploadDir);
+        $fileName = 'domainDump.sql';
+
+        //get the username and password from dsn
+        $values = DB::parseDSN($config->dsn);
+        
+        $username  = $values['username'];
+        $password  = $values['password'];
+        $database  = $values['database'];
+
+        if ( is_file($fileName) ) {
+            unlink($fileName);
+        }
+
+        //read the contents of the file into an array
+        $sql = file($file);
+        
+        foreach($sql as $value) {
+            $domainDAO =& new CRM_Core_DAO();
+            $domainDAO->query($value);
+            $ids = array( );
+            while ( $domainDAO->fetch(  ) ) {
+                $ids[] = $domainDAO->id; 
+            }
+            
+            if ( !empty($ids) ) {
+                $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
+                exec($dumpCommand); 
+            }
+        }
+
+        $tarFileName = 'backupData.tgz';
+
+        if ( is_file($tarFileName) ) {
+            unlink($tarFileName);
+        }
+
+        $tarCommand = 'tar -czf '.$tarFileName.' '.$fileName;
+        exec($tarCommand);
+        
+        $fileSize = filesize( $tarFileName );
+        
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Description: File Transfer');
+        header('ContentType Extension=".tgz" ContentType="application/x-compressed" ');
+        header('Content-Length: ' . $fileSize);
+        header('Content-Disposition: attachment; filename=backupData.tgz');
+
+        readfile($tarFileName);
+
+        //CRM_Core_Session::setStatus( ts('Backup Database completed.') );
+        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
+    }
+
+
     function &parseInput( $file ) {
         $dom = DomDocument::load( $file );
         $dom->xinclude( );
