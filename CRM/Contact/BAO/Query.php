@@ -1101,18 +1101,20 @@ class CRM_Contact_BAO_Query {
      */
     function locationType( ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
-            $this->_where[] = 'civicrm_location.location_type_id IN (' .
-                implode( ',', array_keys( $this->_params['location_type'] ) ) .
-                ')';
-            $this->_tables['civicrm_location'] = 1;
-
-            $locationType =& CRM_Core_PseudoConstant::locationType();
-            $names = array( );
-            foreach ( array_keys( $this->_params['location_type'] ) as $id ) {
-                $names[] = $locationType[$id];
+            if (is_array($this->_params['location_type'])) {
+                $this->_where[] = 'civicrm_location.location_type_id IN (' .
+                    implode( ',', array_keys( $this->_params['location_type'] ) ) .
+                    ')';
+                $this->_tables['civicrm_location'] = 1;
+                
+                $locationType =& CRM_Core_PseudoConstant::locationType();
+                $names = array( );
+                foreach ( array_keys( $this->_params['location_type'] ) as $id ) {
+                    $names[] = $locationType[$id];
+                }
+                $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
+                $this->_primaryLocation = false;
             }
-            $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
-            $this->_primaryLocation = false;
         }
     }
 
