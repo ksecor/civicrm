@@ -192,7 +192,14 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      */
     static function showOtherActivityDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=4&action=view&id=$id&status=true&history=1");
+        require_once 'CRM/Core/DAO/Activity.php';  
+        $dao =& new CRM_Core_DAO_Activity( );  
+        $dao->id = $id;  
+        if ( $dao->find( true ) ) {                                   
+            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=2&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");  
+        } else {  
+            return CRM_Utils_System::url('civicrm' );  
+        }             
     }
 
 

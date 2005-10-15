@@ -183,7 +183,14 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      */
     static function showMeetingDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&action=view&id=$id&status=true&history=1");
+        require_once 'CRM/Core/DAO/Meeting.php';
+        $dao =& new CRM_Core_DAO_Meeting( );
+        $dao->id = $id;
+        if ( $dao->find( true ) ) {
+            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");
+        } else {
+            return CRM_Utils_System::url('civicrm' );
+        }
     }
 
 

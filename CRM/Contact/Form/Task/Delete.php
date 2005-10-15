@@ -86,7 +86,15 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->addDefaultButtons( ts('Delete Contacts'), 'done' );
+        if ( $this->_single ) {
+            // also fix the user context stack 
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/basic',
+                                                                'reset=1&cid=' . $this->_contactIds[0] ) );
+            $this->addDefaultButtons( ts('Delete Contacts'), 'done', 'cancel' );
+        } else {
+            $this->addDefaultButtons( ts('Delete Contacts'), 'done' );
+        }
     }
 
     /**
