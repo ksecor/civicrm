@@ -43,163 +43,6 @@ require_once 'CRM/Utils/Tree.php';
 
 class CRM_Core_BAO_DomainDump  
 {
-    static function backupData ( ) 
-    {
-        global $civicrm_root;
-        $file = $civicrm_root.'/xml/schema/Schema.xml';
-        
-        $dbXML = self::parseInput( $file );
-        // print_r( $dbXML );
-        
-        $database = self::getDatabase( $dbXML );
-        // print_r( $database );
-        
-        $classNames = array( );
-        
-        $tables   =& self::getTables( $dbXML, $database );
-        self::resolveForeignKeys( $tables, $classNames );
-        $tables = self::orderTables( $tables );
-        
-        $tree1 = array();
-        
-        foreach ($tables as $k => $v) {
-            $tableName = $k;
-            $tree1[$tableName] = array();
-            
-            if(!isset($v['foreignKey'])) {
-                continue;
-            }
-            foreach ($v['foreignKey'] as $k1 => $v1) {
-                if ( !in_array($v1['table'], $tree1[$tableName]) ) {
-                    $tree1[$tableName][] = $v1['table'];
-                }
-            }
-        }
-        
-        //create a foregin key link table
-        $frTable = array();
-        foreach ($tables as $key => $value) {
-            if(!isset($value['foreignKey'])) {
-                continue;
-            }
-            
-            foreach ($value['foreignKey'] as $k1 => $v1) {
-                if ( is_array($frTable[$value['name']]) ) {
-                    if ( !array_key_exists($v1['table'], $frTable[$value['name']])) {
-                        $frTable[$value['name']][$v1['table']] = $v1['name'];
-                    }
-                } else {
-                    $frTable[$value['name']][$v1['table']] = $v1['name'];
-                }
-            }
-        }
-
-        $tree2 = array();
-        foreach ($tree1 as $k => $v) {
-            foreach ($v as $k1 => $v1) {
-                if (!isset($tree2[$v1])) {
-                    $tree2[$v1] = array();
-                }
-                if ( !array_key_exists($k, $tree2[$v1]) ) {
-                    if ( $v1 != $k)
-                        $tree2[$v1][] = $k;
-                }
-            }
-        }
-        
-        //create the domain tree
-        $domainTree =& new CRM_Utils_Tree('civicrm_domain');
-        $temp = '';
-        foreach($tree2 as $key => $val) {
-            foreach($val as $k => $v) {
-                $node =& $domainTree->findNode($v, $temp);
-                if(!$node) {
-                    $node =& $domainTree->createNode($v);            
-                }
-                $domainTree->addNode($key, $node);               
-            }
-        }
-        
-        foreach($frTable as $key => $val) {
-            foreach($val as $k => $v ) {
-                $fKey = $frTable[$key];
-                $domainTree->addData($k, $key, $fKey);
-            }
-        }
-        
-        // $domainTree->display();
-        // exit();
-        $tempTree = $domainTree->getTree();
-        
-        self::getDomainDump($tempTree['rootNode'], null, $frTable);
-        global $UNION_ARRAY;
-        
-        $unionArray = $UNION_ARRAY;
-        
-        // get the path of mysqldump
-        $tempPath = exec('whereis mysqldump');
-        list ($temp, $mysqlDumpPath) = explode(":", $tempPath);
-        
-        //we get the upload folder for storing the huge backup data
-        $config =& new CRM_Core_Config();
-        chdir($config->uploadDir);
-        $fileName = 'domainDump.sql';
-
-        //get the username and password from dsn
-        $values = DB::parseDSN($config->dsn);
-        
-        $username  = $values['username'];
-        $password  = $values['password'];
-        $database  = $values['database'];
-
-        if ( is_file($fileName) ) {
-            unlink($fileName);
-        }
-
-        foreach ( $unionArray as $key => $val) {
-            $tableName = $key;
-            
-            if (is_array($val)) {        
-                $sql = implode(" UNION ", $val);
-            }
-            
-            $dao =& new CRM_Core_DAO();
-            $query = $dao->query($sql);
-            $ids = array( );
-            while ( $dao->fetch(  ) ) {
-                $ids[] = $dao->id; 
-            }
-
-            if ( !empty($ids) ) {
-                $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
-                exec($dumpCommand); 
-            } 
-        }
-
-        $tarFileName = 'backupData.tar';
-
-        if ( is_file($tarFileName) ) {
-            unlink($tarFileName);
-        }
-
-        $tarCommand = 'tar -cf '.$tarFileName.' '.$fileName;
-        exec($tarCommand);
-        
-        $fileSize = filesize( $tarFileName );
-        
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Content-Description: File Transfer');
-        header('ContentType Extension=".tgz" ContentType="application/x-compressed" ');
-        header('Content-Length: ' . $fileSize);
-        header('Content-Disposition: attachment; filename=backupData.tar');
-
-        readfile($tarFileName);
-
-        //CRM_Core_Session::setStatus( ts('Backup Database completed.') );
-        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
-        
-    }
-
 
     function getDomainDump( &$tree, $nameArray, $frTable )
     {
@@ -292,15 +135,17 @@ class CRM_Core_BAO_DomainDump
         $sql = file($file);
         
         foreach($sql as $value) {
+            $val = explode("|", $value);
             $domainDAO =& new CRM_Core_DAO();
-            $domainDAO->query($value);
+            $domainDAO->query($val[1]);
+            
             $ids = array( );
-            while ( $domainDAO->fetch(  ) ) {
+            while ( $domainDAO->fetch( ) ) {
                 $ids[] = $domainDAO->id; 
             }
-            
+                        
             if ( !empty($ids) ) {
-                $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $key ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
+                $dumpCommand = $mysqlDumpPath."  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $val[0] ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
                 exec($dumpCommand); 
             }
         }

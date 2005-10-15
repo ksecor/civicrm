@@ -140,13 +140,12 @@ $unionArray = $UNION_ARRAY;
 
 $dd = fopen($sqlCodePath . "backup.sql", "w");
 foreach ( $unionArray as $key => $val) {
-    $tableName = $key;
     
     if (is_array($val)) {        
         $sql = implode(" UNION ", $val);
     }
-    $sql .= "\n";
-    fwrite($dd, $sql);
+    $write = $key."|".$sql."\n";
+    fwrite($dd, $write);
 }
 
 fclose($dd);
