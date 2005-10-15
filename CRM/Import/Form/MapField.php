@@ -675,7 +675,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     $updateMappingFields->location_type_id = isset($location) ? $location[0] : null;                    
                     $updateMappingFields->phone_type = !is_numeric($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null; 
                 }
-                $updateMappingFields->update();                
+                $updateMappingFields->save();                
             }
         }
         
