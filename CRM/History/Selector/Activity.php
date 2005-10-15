@@ -120,7 +120,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     static function &actionLinks() 
     {
-        $deleteExtra = ts('Are you sure you want to delete this activity History?');
+        $deleteExtra = ts('Are you sure you want to delete this Activity History record?');
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW   => array(

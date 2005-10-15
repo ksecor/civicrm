@@ -109,7 +109,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $extra = '';
 
         // helper variable for nicer formatting
-        $deleteExtra = ts('Are you sure you want to delete this activity?');
+        $deleteExtra = ts('Are you sure you want to delete this activity record?');
 
         self::$_actionLinks = array(
                                     CRM_Core_Action::UPDATE => array(

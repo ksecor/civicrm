@@ -81,7 +81,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             return;
         }
         $activityType = CRM_Core_PseudoConstant::activityType(false);
-        $activityType[''] = ts('- select Activity Type -') ;
+        $activityType[''] = ts('-select activity type-') ;
         asort($activityType);
         $this->applyFilter('__ALL__', 'trim');
         $this->addElement('select', 'activity_type_id', ts('Activity Type'),$activityType ,array('onChange'=>'activity_get_description()'));

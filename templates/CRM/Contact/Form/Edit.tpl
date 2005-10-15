@@ -139,7 +139,12 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
+		{$form.birth_date.html}
+        <div class="description">
+            <img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calendar{/ts}" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>
+            {ts}Click to select date/time from calendar.{/ts}
+        </div>
+        </span>
         {literal}
         <script type="text/javascript">
           var obj = new Date();
@@ -156,7 +161,6 @@
           );
         </script>
         {/literal}
-        </span>
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}

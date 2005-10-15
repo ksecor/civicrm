@@ -27,7 +27,12 @@
         <dt>{$form.scheduled_date_time.label}</dt><dd>{$scheduled_date_time|crmDate}</dd>
     {else}
         <dt>{$form.scheduled_date_time.label}</dt>
-        <dd>{$form.scheduled_date_time.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
+        <dd>{$form.scheduled_date_time.html}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            <img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
+            {ts}Click to select date/time from calendar.{/ts}
+        </dd>
         {literal}
         <script type="text/javascript">
           var obj = new Date();
@@ -49,7 +54,6 @@
           );
         </script>
         {/literal}
-        </dd>
     {/if}
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
