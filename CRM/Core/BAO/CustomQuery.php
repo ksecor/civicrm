@@ -41,22 +41,73 @@ class CRM_Core_BAO_CustomQuery {
     const PREFIX = 'custom_value_';
 
     /**
-     * the default set of return properties
+     * the set of custom field ids
      *
      * @var array
-     * @static
      */
     protected $_ids;
 
+    /**
+     * the select clause
+     *
+     * @var array
+     */
     public $_select;
+
+    /**
+     * the name of the elements that are in the select clause
+     * used to extract the values
+     *
+     * @var array
+     */
     public $_element;
+
+    /** 
+     * the tables involved in the query
+     * 
+     * @var array 
+     */ 
     public $_tables;
+
+    /** 
+     * the where clause 
+     * 
+     * @var array 
+     */ 
     public $_where;
+
+    /**
+     * The english language version of the query
+     *  
+     * @var array  
+     */  
     public $_qill;
+
+    /**
+     * The cache to translate the option values into labels
+     *   
+     * @var array   
+     */ 
     public $_options;
 
+    /**
+     * The custom fields information
+     *    
+     * @var array    
+     */ 
     protected $_fields;
 
+    /**
+     * class constructor
+     *
+     * Takes in a set of custom field ids andsets up the data structures to 
+     * generate a query
+     *
+     * @param array $ids the set of custom field ids
+     *
+     * @return Object
+     * @access public
+     */
     function __construct( $ids ) {
         $this->_ids    =& $ids;
 
@@ -87,6 +138,8 @@ class CRM_Core_BAO_CustomQuery {
                                               'html_type' => $dao->html_type,
                                               'db_field'  => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
 
+            // store it in the options cache to make things easier
+            // during option lookup
             $this->_options[$dao->id] = array( );
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
@@ -96,6 +149,7 @@ class CRM_Core_BAO_CustomQuery {
             }
         }
 
+        // build the cache for custom values with options (label => value)
         if ( ! empty( $optionIds ) ) {
             $query = 'select custom_field_id, label, value from civicrm_custom_option where custom_field_id IN ( ' .
                 implode( ',', $optionIds ) . ' ) '; 
@@ -106,12 +160,19 @@ class CRM_Core_BAO_CustomQuery {
         }
 
     }
-    
+
+    /**
+     * generate the select clause and the associated tables
+     * for the from clause
+     *
+     * @return void
+     * @access public
+     */   
     function select( ) {
         if ( empty( $this->_fields ) ) {
             return;
         }
-
+        
         foreach ( $this->_fields as $id => $field ) {
             $name = self::PREFIX . $field['id'];
             $fieldName = 'custom_' . $field['id'];
@@ -125,12 +186,20 @@ class CRM_Core_BAO_CustomQuery {
 
     }
 
+    /**
+     * generate the where clause and also the english language
+     * equivalent
+     *
+     * @return void
+     * @access public
+     */   
     function where( ) {
         // CRM_Core_Error::debug( 'fld', $this->_fields );
         // CRM_Core_Error::debug( 'ids', $this->_ids );
         foreach ( $this->_ids as $id => $value ) {
 
-            if ( $value === null || ! CRM_Utils_Array::value( $id, $this->_fields ) ) {
+            if ( $value === null ||
+                 CRM_Utils_Array::value( $id, $this->_fields ) === null ) {
                 continue;
             }
 
@@ -239,6 +308,13 @@ class CRM_Core_BAO_CustomQuery {
         // CRM_Core_Error::debug( 'w', $this->_where );
     }
 
+    /**
+     * function that does the actual query generation
+     * basically ties all the above functions together
+     *
+     * @return void
+     * @access public
+     */   
     function query( ) {
         $this->select( );
 

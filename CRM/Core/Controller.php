@@ -287,9 +287,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * we have two submit buttons, we could have one displayed as a button and
      * the other as an image, both are of type 'submit'.
      *
-     * @return string the 
+     * @return string the name of the button that has been pressed by the user
      * @access public
-     *
      */
     function getButtonName( ) {
         $data =& $this->container();

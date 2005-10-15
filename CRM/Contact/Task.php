@@ -102,6 +102,15 @@ class CRM_Contact_Task {
         return self::$_tasks;
     }
 
+    /**
+     * show tasks selectively based on the permission level
+     * of the user
+     *
+     * @param int $permission
+     *
+     * @return array set of tasks that are valid for the user
+     * @access public
+     */
     static function &permissionedTasks( $permission ) {
         if ( $permission == CRM_Core_Permission::EDIT ) {
             return self::tasks( );

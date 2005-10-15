@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -37,6 +37,9 @@
 
 require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
+/**
+ * customize the output to meet our specific requirements
+ */
 class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
  
     /** 
@@ -48,6 +51,12 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
      */ 
     static private $_singleton = null; 
 
+    /**
+     * the converter from array size to css class
+     *
+     * @var array
+     * @static
+     */
     static $_sizeMapper = array(
                                 2  => 'two',
                                 4  => 'four',
@@ -80,7 +89,7 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         return self::$_singleton; 
     } 
  
-    /*
+    /**
      * Creates an array representing an element containing
      * the key for storing this. We allow the parent to do most of the
      * work, but then we add some CiviCRM specific enhancements to 
@@ -108,7 +117,7 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         return $el;
     }
 
-    /*
+    /**
      * Update the attributes of this element and add a few CiviCRM
      * based attributes so we can style this form element better
      *

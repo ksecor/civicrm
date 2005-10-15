@@ -51,27 +51,128 @@ class CRM_Contact_BAO_Query {
      */
     static    $_defaultReturnProperties;
 
+    /** 
+     * the set of input params
+     * 
+     * @var array 
+     */ 
     protected $_params;
+
+    /** 
+     * the set of output params
+     * 
+     * @var array 
+     */ 
     protected $_returnProperties;
+
+    /** 
+     * the select clause 
+     * 
+     * @var array 
+     */
     protected $_select;
+
+    /** 
+     * the name of the elements that are in the select clause 
+     * used to extract the values 
+     * 
+     * @var array 
+     */ 
     protected $_element;
+ 
+    /**  
+     * the tables involved in the query 
+     *  
+     * @var array  
+     */  
     protected $_tables;
+ 
+    /**  
+     * the where clause  
+     *  
+     * @var array  
+     */  
     protected $_where;
+
+    /**   
+     * the where string
+     *
+     * @var string
+     *
+     */
     protected $_whereClause;
+
+    /**    
+     * the from string 
+     * 
+     * @var string 
+     * 
+     */ 
     protected $_fromClause;
+
+    /** 
+     * The english language version of the query 
+     *   
+     * @var array   
+     */  
     protected $_qill;
 
+    /**
+     * All the fields that could potentially be involved in
+     * this query
+     *
+     * @var array
+     */
     public    $_fields;
+
+    /** 
+     * The cache to translate the option values into labels 
+     *    
+     * @var array    
+     */  
     public    $_options;
 
+    /**
+     * are we in search mode
+     *
+     * @var boolean
+     */
     protected $_search = true;
+
+    /**
+     * are we in strict mode (use equality over LIKE)
+     *
+     * @var boolean
+     */
     protected $_strict = false;
+
+    /** 
+     * Should we only search on primary location
+     *    
+     * @var boolean
+     */  
     protected $_primaryLocation = true;
 
+    /**
+     * are contact ids part of the query
+     *
+     * @var boolean
+     */
+    protected $_includeContactIds = false;
+
+    /**
+     * reference to the query object for custom values
+     *
+     * @var Object
+     */
     protected $_customQuery;
 
-    protected $_includeContactIds;
-
+    /**
+     * The tables which have a dependency on location and/or address
+     *
+     * @var array
+     * @static
+     */
     static $_dependencies = array( 'civicrm_state_province' => 1,
                                    'civicrm_country'        => 1,
                                    'civicrm_address'        => 1,
@@ -79,6 +180,18 @@ class CRM_Contact_BAO_Query {
                                    'civicrm_email'          => 1,
                                    'civicrm_im'             => 1, );
 
+    /**
+     * class constructor which also does all the work
+     *
+     * @param array   $params
+     * @param array   $returnProperties
+     * @param array   $fields
+     * @param boolean $includeContactIds
+     * @param boolean $strict
+     *
+     * @return Object
+     * @access public
+     */
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false ) {
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -109,6 +222,12 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'q', $this );
     }
 
+    /**
+     * function which actually does all the work for the constructor
+     *
+     * @return void
+     * @access private
+     */
     function initialize( ) {
         $this->_select  = array( ); 
         $this->_element = array( ); 
@@ -128,6 +247,13 @@ class CRM_Contact_BAO_Query {
         $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
     }
 
+    /**
+     * Some composite fields do not appear in the fields array
+     * hack to make them part of the query
+     *
+     * @return void 
+     * @access public 
+     */
     function addSpecialFields( ) {
         static $special = array( 'contact_type', 'sort_name', 'display_name' );
         foreach ( $special as $name ) {
@@ -209,6 +335,13 @@ class CRM_Contact_BAO_Query {
         }
     }
 
+    /**
+     * If the return Properties are set in a hierarchy, traverse the hierarchy to get
+     * the return values
+     *
+     * @return void 
+     * @access public 
+     */
     function addHierarchicalElements( ) {
         if ( ! CRM_Utils_Array::value( 'location', $this->_returnProperties ) ) {
             return;
@@ -293,8 +426,11 @@ class CRM_Contact_BAO_Query {
     }
 
     /** 
-     * Given a list of conditions in params and a list of desired 
-     * return Properties generate the required query
+     * generate the query based on what type of query we need
+     *
+     * @param boolean $count
+     * @param boolean $sortByChar
+     * @param boolean $groupContacts
      * 
      * @return the sql string for that query (this will most likely
      * change soon)
@@ -349,11 +485,13 @@ class CRM_Contact_BAO_Query {
             $this->_where[] = "civicrm_contact.id = $id";
         }
 
-        // we should get the params only when we are coming from search. when we want to do a restricted query
-        // for permissioning etc, the params array is not importnat
-        if ( $this->_search ) {
-            $this->searchWhereClause( );
-        }
+        $this->contactType( );
+
+        $this->sortName( );
+
+        $this->sortByCharacter( );
+
+        $this->locationType( );
 
         $this->group( );
 
@@ -454,6 +592,13 @@ class CRM_Contact_BAO_Query {
         return  implode( ' AND ', $this->_where );
     }
 
+    /**
+     * Given a result dao, extract the values and return that array
+     *
+     * @param Object $dao
+     *
+     * @return array values for this query
+     */
     function store( $dao ) {
         $value = array( );
         foreach ( $this->_element as $key => $dontCare ) {
@@ -477,10 +622,28 @@ class CRM_Contact_BAO_Query {
         return $value;
     }
 
+    /**
+     * getter for tables array
+     *
+     * @return array
+     * @access public
+     */
     function tables( ) {
         return $this->_tables;
     }
 
+    /**
+     * generate the where clause (used in match contacts and permissions)
+     *
+     * @param array $params
+     * @param array $fields
+     * @param array $tables
+     * @param boolean $strict
+     * 
+     * @return string
+     * @access public
+     * @static
+     */
     static function getWhereClause( $params, $fields, &$tables, $strict = false ) {
         $query = new CRM_Contact_BAO_Query( $params, null, $fields,
                                             false, $strict );
@@ -660,17 +823,12 @@ class CRM_Contact_BAO_Query {
         return $from;
     }
 
-    function searchWhereClause( ) {
-        $this->contactType( );
-
-        $this->sortName( );
-
-        $this->sortByCharacter( );
-
-        $this->location( );
-
-    }
-
+    /**
+     * where / qill clause for contact_type
+     *
+     * @return void
+     * @access public
+     */
     function contactType( ) {
         // check for contact type restriction 
         if ( ! CRM_Utils_Array::value( 'contact_type', $this->_params ) ) {
@@ -690,6 +848,12 @@ class CRM_Contact_BAO_Query {
         $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
     }
 
+    /**
+     * where / qill clause for groups
+     *
+     * @return void
+     * @access public
+     */
     function group( ) {
         if ( ! CRM_Utils_Array::value( 'group', $this->_params ) ) {
             return;
@@ -736,6 +900,12 @@ class CRM_Contact_BAO_Query {
         $this->_where[] = $groupClause;
     }
 
+    /**
+     * where / qill clause for smart groups
+     *
+     * @return void
+     * @access public
+     */
     function savedSearch( ) {
         $config =& CRM_Core_Config::singleton( );
         $ssWhere = array(); 
@@ -778,6 +948,12 @@ class CRM_Contact_BAO_Query {
         return null;
     }
 
+    /**
+     * where / qill clause for tag
+     *
+     * @return void
+     * @access public
+     */
     function tag( ) {
         if ( ! CRM_Utils_Array::value( 'tag', $this->_params ) ) { 
             return; 
@@ -794,6 +970,12 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_entity_tag'] = 1;                                          
     } 
 
+    /**
+     * where / qill clause for sort_name
+     *
+     * @return void
+     * @access public
+     */
     function sortName( ) {
         if ( ! CRM_Utils_Array::value( 'sort_name', $this->_params ) ) {
             return;
@@ -822,6 +1004,12 @@ class CRM_Contact_BAO_Query {
         $this->_qill[]  = ts( 'Name or Email like - "%1"', array( 1 => $name ) );
     }
 
+    /**
+     * where / qill clause for sorting by character
+     *
+     * @return void
+     * @access public
+     */
     function sortByCharacter( ) {
         if ( ! CRM_Utils_Array::value( 'sortByCharacter', $this->_params ) ) {
             return;
@@ -833,6 +1021,12 @@ class CRM_Contact_BAO_Query {
         $this->_qill[]  = ts( 'Restricted to Contacts starting with: "%1"', array( 1 => $name ) );
     }
 
+    /**
+     * where / qill clause for including contact ids
+     *
+     * @return void
+     * @access public
+     */
     function includeContactIDs( ) {
         if ( ! $this->_includeContactIds || empty( $this->_params ) ) {
             return;
@@ -850,6 +1044,12 @@ class CRM_Contact_BAO_Query {
         }
     }
 
+    /**
+     * where / qill clause for postal code
+     *
+     * @return void
+     * @access public
+     */
     function postalCode( ) {
         // postal code processing 
         if ( CRM_Utils_Array::value( 'postal_code'     , $this->_params ) || 
@@ -893,7 +1093,13 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    function location( ) {
+    /**
+     * where / qill clause for location type
+     *
+     * @return void
+     * @access public
+     */
+    function locationType( ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
             $this->_where[] = 'civicrm_location.location_type_id IN (' .
                 implode( ',', array_keys( $this->_params['location_type'] ) ) .
@@ -908,14 +1114,14 @@ class CRM_Contact_BAO_Query {
             $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $this->_primaryLocation = false;
         }
-
-        if ( CRM_Utils_Array::value( 'primary_location', $this->_params ) ) { 
-            $this->_where[]  = 'civicrm_location.is_primary = 1';
-            $this->_tables['civicrm_location'] = 1; 
-            $this->_qill[] = ts('Primary Location only? - Yes');
-        }
     }
 
+    /**
+     * where / qill clause for activity types
+     *
+     * @return void
+     * @access public
+     */
     function activity( ) {
         if ( CRM_Utils_Array::value( 'activity_type', $this->_params ) ) {
             $name = trim($this->_params['activity_type']); 
@@ -959,6 +1165,12 @@ class CRM_Contact_BAO_Query {
         }
      }
 
+    /**
+     * default set of return properties
+     *
+     * @return void
+     * @access public
+     */
     static function &defaultReturnProperties( ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
             self::$_defaultReturnProperties = array( 
@@ -993,6 +1205,14 @@ class CRM_Contact_BAO_Query {
         return self::$_defaultReturnProperties;
     }
 
+    /**
+     * get primary condition for a sql clause
+     *
+     * @param int $value
+     *
+     * @return void
+     * @access public
+     */
     static function getPrimaryCondition( $value ) {
         if ( is_numeric( $value ) ) {
             $value = (int ) $value;
@@ -1001,12 +1221,34 @@ class CRM_Contact_BAO_Query {
         return null;
     }
 
+    /**
+     * wrapper for a simple search query
+     *
+     * @param array $params
+     * @param array $returnProperties
+     * @param bolean $count
+     *
+     * @return void 
+     * @access public 
+     */
     static function getQuery( $params = null, $returnProperties = null, $count = false ) {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         list( $select, $from, $where ) = $query->query( );
         return "$select $from $where";
     }
 
+    /**
+     * wrapper for a api search query
+     *
+     * @param array  $params
+     * @param array  $returnProperties
+     * @param string $sort
+     * @param int    $offset
+     * @param int    $row_count
+     *
+     * @return void 
+     * @access public 
+     */
     static function apiQuery( $params = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
@@ -1031,14 +1273,14 @@ class CRM_Contact_BAO_Query {
     /**
      * create and query the db for an contact search
      *
-     * @param array    $formValues array of reference of the form values submitted
-     * @param int      $action   the type of action links
      * @param int      $offset   the offset for the query
      * @param int      $rowCount the number of rows to return
+     * @param string   $sort     the order by string
      * @param boolean  $count    is this a count only query ?
      * @param boolean  $includeContactIds should we include contact ids?
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
      * @param boolean  $groupContacts if true, use a single mysql group_concat statement to get the contact ids
+     * @param boolean  $returnQuery   should we return the query as a string
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
@@ -1109,6 +1351,12 @@ class CRM_Contact_BAO_Query {
         return $dao;
     }
 
+    /**
+     * getter for the qill object
+     *
+     * @return string
+     * @access public
+     */
     function qill( ) {
         return $this->_qill;
     }
