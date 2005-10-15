@@ -228,6 +228,11 @@ class CRM_Core_Config {
     public $mysqlVersion = 4.1;
 
     /**
+     * Mysql path
+     */
+    public $mysqlPath = '/opt/mysql4/bin/';
+
+    /**
      * the handle for import file size 
      * @var int
      */
@@ -460,6 +465,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_MYSQL_VERSION' ) ) {
             $this->mysqlVersion = CIVICRM_MYSQL_VERSION;
+        }
+
+        if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
+            $this->mysqlPath = CIVICRM_MYSQL_PATH;
         }
 
         $size = trim( ini_get( 'upload_max_filesize' ) );

@@ -27,7 +27,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Social Source Foundation (c) 2005
@@ -71,7 +70,7 @@ class CRM_Admin_Form_DomainDump extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        CRM_Core_BAO_DomainDump::backupData1();
+        CRM_Core_BAO_DomainDump::backupData();
     }
 }
 

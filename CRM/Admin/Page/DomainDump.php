@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Core/BAO/DomainDump.php';
+
 /**
  * Page for domain dump (backup data)
  */
@@ -56,7 +56,8 @@ class CRM_Admin_Page_DomainDump extends CRM_Core_Page
     {
         //if javascript is enabled
         if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
-            CRM_Core_BAO_DomainDump::backupData1();
+            require_once 'CRM/Core/BAO/DomainDump.php';
+            CRM_Core_BAO_DomainDump::backupData();
         }
         
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_DomainDump', 'Backup Database', $mode );
