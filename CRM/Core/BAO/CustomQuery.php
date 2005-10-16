@@ -159,6 +159,7 @@ class CRM_Core_BAO_CustomQuery {
             }
         }
 
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**

@@ -263,7 +263,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     
 
     /* static wrapper for _addQuickFormElement */
-    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired) {
+    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired, $search = false) {
         $field =& new CRM_Core_BAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
@@ -283,7 +283,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
                 
         case 'Select Date':
-            $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
+            if ( $search ) {
+                $dates = array( ); 
+                $dates[] = $this->createElement('date', 'from', 
+                                                $field->label . ' ' . ts('From'), 
+                                                CRM_Core_SelectValues::date( 'custom' )); 
+                $dates[] = $this->createElement('date', 'to', 
+                                                $field->label . ' ' . ts('To'), 
+                                                CRM_Core_SelectValues::date( 'custom' )); 
+                $qf->addGroup($dates, $elementName, $field['label'] . ' - ' . ts('From'), '&nbsp;&nbsp;<strong>' . ts('To') . '</strong>&nbsp;&nbsp;'); 
+            } else {
+                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
+            }
             break;
 
         case 'Radio':
@@ -308,11 +319,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Select':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
             $selectOption = array();
-            $selectOption[] = '(select)';
             foreach ($customOption as $v) {
                 $selectOption[$v['value']] = $v['label'];
             }
-            $qf->add('select', $elementName, $field->label, $selectOption, ($useRequired && $field->is_required));
+            $qf->add('select', $elementName, $field->label,
+                     array( '' => ts('- select -')) + $selectOption,
+                     ($useRequired && $field->is_required));
             break;
             
         case 'CheckBox':

@@ -237,6 +237,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     break;
                 case 'Int':
                 case 'Boolean':
+                case 'StateProvince':
+                case 'Country':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
                     break;
                 case 'Float':
@@ -250,12 +252,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     break;
                 case 'Date':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
-                    break;
-                case 'StateProvince':
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
-                    break;
-                case 'Country':
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_int_data;
                     break;
                 }
             }
@@ -333,6 +329,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         break;
                     case 'Int':
                     case 'Boolean':
+                    case 'StateProvince':
+                    case 'Country':
                         $customValueDAO->int_data = $data;
                         break;
                     case 'Float':
@@ -346,12 +344,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         break;
                     case 'Date':
                         $customValueDAO->date_data = $data;
-                        break;
-                    case 'StateProvince':
-                        $customValueDAO->int_data = $data;
-                        break;
-                    case 'Country':
-                        $customValueDAO->int_data = $data;
                         break;
                     }
 
@@ -416,42 +408,48 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getGroupDetail($groupId)
+    public static function getGroupDetail($groupId = null, $searchable = null)
     {
         // create a new tree
         $groupTree = array();
-        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
+        $select = $from = $where = $orderBy = ''; 
 
         $tableData = array();
 
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                       'is_required', 'help_post','options_per_line'),
+                                                           'is_required', 'help_post','options_per_line', 'is_searchable' ),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post'),
                            );
 
         // create select
-        $strSelect = "SELECT"; 
+        $select = "SELECT"; 
+        $s = array( );
         foreach ($tableData as $tableName => $tableColumn) {
             foreach ($tableColumn as $columnName) {
-                $alias = $tableName . "_" . $columnName;
-                $strSelect .= " $tableName.$columnName as $alias,";
+                $s[] = "{$tableName}.{$columnName} as {$tableName}_{$columnName}";
             }
         }
-        $strSelect = rtrim($strSelect, ',');
+        $select = 'SELECT ' . implode( ', ', $s );
 
         // from, where, order by
-        $strFrom = " FROM civicrm_custom_field, civicrm_custom_group";
-        $strWhere = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
+        $from = " FROM civicrm_custom_field, civicrm_custom_group";
+        $where = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
                             AND civicrm_custom_group.is_active = 1
-                            AND civicrm_custom_field.is_active = 1
-                            AND civicrm_custom_group.id = " .
+                            AND civicrm_custom_field.is_active = 1 ";
+        if ( $groupId ) {
+            $where .= " AND civicrm_custom_group.id = " .
                             CRM_Utils_Type::escape($groupId, 'Integer');
+        }
+        if ( $searchable ) {
+            $where .= " AND civicrm_custom_field.is_searchable = 1";
+        }
+
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
 
         // final query string
-        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+        $queryString = $select . $from . $where . $orderBy;
 
         // dummy dao needed
         $crmDAO =& new CRM_Core_DAO();
@@ -478,100 +476,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
 
             foreach ($tableData['civicrm_custom_field'] as $v) {
-                //if ($v == 'id') {
                 $fullField = "civicrm_custom_field_" . $v;
                 if ($v == 'id' || is_null($crmDAO->$fullField)) {
                     continue;
-                } else {
-                    $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
                 }
+                $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
             }
         }
 
         return $groupTree;
     }
 
-    /**
-     * Get custom group details for groups whose fields are searchable.
-     *
-     * An array containing custom group details (including their custom field) is returned.
-     *
-     * @return array $groupTree - array consisting of all group and field details
-     *
-     * @access public
-     *
-     * @static
-     *
-     */
-    public static function getGroupDetailForSearch()
-    {
-        // create a new tree
-        $groupTree = array();
-        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
-
-        $tableData = array();
-
-        // using tableData to build the queryString 
-        $tableData = array(
-                           'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'attributes', 'is_searchable'),
-                           'civicrm_custom_group' => array('id', 'title'),
-                           );
-
-        // create select
-        $strSelect = "SELECT"; 
-        foreach ($tableData as $tableName => $tableColumn) {
-            foreach ($tableColumn as $columnName) {
-                $alias = $tableName . "_" . $columnName;
-                $strSelect .= " $tableName.$columnName as $alias,";
-            }
-        }
-        $strSelect = rtrim($strSelect, ',');
-
-        // from, where, order by
-        $strFrom = " FROM civicrm_custom_field, civicrm_custom_group";
-        $strWhere = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
-                            AND civicrm_custom_group.is_active = 1
-                            AND civicrm_custom_field.is_active = 1
-                            AND civicrm_custom_field.is_searchable = 1";
-        $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
-
-        // final query string
-        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
-        // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
-
-        // process records
-        while($crmDAO->fetch()) {
-
-            $groupId = $crmDAO->civicrm_custom_group_id;
-            $fieldId = $crmDAO->civicrm_custom_field_id;
-
-            // create an array for groups if it does not exist
-            if (!array_key_exists($groupId, $groupTree)) {
-                $groupTree[$groupId] = array();
-                $groupTree[$groupId]['id'] = $groupId;
-                $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
-                $groupTree[$groupId]['fields'] = array();
-            }
-            
-            // add the fields now (note - the query row will always contain a field)
-            $groupTree[$groupId]['fields'][$fieldId] = array();
-            $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
-
-            foreach ($tableData['civicrm_custom_field'] as $v) {
-                $fullField = "civicrm_custom_field_" . $v;
-                if ($v == 'id' || is_null($crmDAO->$fullField)) {
-                    continue;
-                } else {
-                    $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
-                }
-            }
-        }
-
-        return $groupTree;
-    }
 
     /**
      *
@@ -593,33 +508,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entityType, $path, $startWeight)
     {
-        // The lines commented below are no longer used for Inline Custom Groups
-        // The code can be safely deleted 
-        
-        /*$customGroupDAO =& new CRM_Core_DAO_CustomGroup();
-        $menus = array();
-
-        // the line has been commented to remove inline Custom groups listing in menutabs
-        // the line below was removed in r3237 but reappeared in r3270
-        //$customGroupDAO->whereAdd("style = 'Inline'");
-        $customGroupDAO->whereAdd("is_active = 1");
-        // add whereAdd for entity type
-        self::_addWhereAdd($customGroupDAO, $entityType);
-
-        // order by weight
-        $customGroupDAO->orderBy('weight, title');
-        if ($customGroupDAO->find(true)) {
-            $menu = array();
-            $menu['path']    = $path;
-            $menu['title']   = "$customGroupDAO->title";
-            $menu['qs']      = 'reset=1&gid=0&cid=%%cid%%';
-            $menu['type']    = CRM_Utils_Menu::CALLBACK;
-            $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
-            $menu['weight']  = $startWeight++;
-            $menu['extra' ]  = array( 'gid' => 0 );
-            $menus[] = $menu;
-        }*/
-
         // for Tab's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
 

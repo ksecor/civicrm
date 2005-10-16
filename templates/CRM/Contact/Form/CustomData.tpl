@@ -1,4 +1,6 @@
+{if ! $mainEditForm}
 <div class="form-item">
+{/if}
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
 
@@ -56,7 +58,9 @@
 {/foreach}
 {/strip}
 
+{if ! $mainEditForm}
 <dl>
   <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>  
 </div>
+{/if}

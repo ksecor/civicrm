@@ -77,7 +77,7 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
         if (myElement != null) {
             myElement.style.display = elementType;
         } else {
-            alert('showBlocks array item not in .tpl = ' + showBlocks[i]);
+	  alert('showBlocks array item not in .tpl = ' + showBlocks[i]);
         }
     }
     
@@ -88,7 +88,7 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
         if (myElement != null) {
             myElement.style.display = 'none';
         } else {
-            alert('showBlocks array item not in .tpl = ' + hideBlocks[i]);
+	  alert('showBlocks array item not in .tpl = ' + hideBlocks[i]);
         }
     }
     

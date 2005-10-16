@@ -114,7 +114,7 @@
  {include file="CRM/Contact/Form/CommPrefs.tpl"}
  
 {* Conditionally insert any inline custom data groups *} 
- {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}

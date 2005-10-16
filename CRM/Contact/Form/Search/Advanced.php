@@ -179,7 +179,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->assign('customHide', $customHide);
         }
 
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetailForSearch();
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true);
 
         $this->assign('groupTree', $groupDetails);
         
@@ -189,74 +189,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
-
                 $fieldId = $field['id'];                
                 $elementName = 'custom_' . $fieldId;
                 
-                switch($field['html_type']) {
-
-                case 'Text':
-                case 'TextArea':
-                    $this->addElement(strtolower($field['html_type']), $elementName, $field['label'],
-                                      $field['attributes']);
-                    break;
-                    
-                case 'Select Date':
-                    $dates = array( );
-                    $dates[] = $this->createElement('date', 'from',
-                                                    $field['label'] . ' ' . ts('From'),
-                                                    CRM_Core_SelectValues::date( 'custom' ));
-                    $dates[] = $this->createElement('date', 'to',
-                                                    $field['label'] . ' ' . ts('To'),
-                                                    CRM_Core_SelectValues::date( 'custom' ));
-                    $this->addGroup($dates, $elementName, $field['label'] . ' - ' . ts('From'), '&nbsp;&nbsp;<strong>' . ts('To') . '</strong>&nbsp;&nbsp;');
-                    break;
-
-                case 'Radio':
-                    $choice = array();
-                    if($field['data_type'] != 'Boolean') {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        foreach ($customOption as $v) {
-                            $choice[] = $this->addElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
-                        }
-                    } else {
-                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), '1' );
-                        $choice[] = $this->createElement('radio', null, '', ts('No') , '2', $field['attributes']);
-                    }
-                    $this->addGroup($choice, $elementName, $field['label']);
-                    break;
-
-                case 'Select':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                    $selectOption = array();
-                    
-                    foreach ($customOption as $v) {
-                        $selectOption[$v['value']] = $v['label'];
-                    }
-                    $selectOption = array('' => ts('- select -')) + $selectOption;
-                    $this->addElement('select', $elementName, $field['label'], $selectOption);
-                    break;
-
-                case 'CheckBox':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                    $check = array();
-                    foreach ($customOption as $v) {
-                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
-                    }
-                    $this->addGroup($check, $elementName, $field['label']);
-                    break;
-
-                case 'Select State/Province':
-                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-                    $this->addElement('select', $elementName, $field['label'], $stateOption);
-                    break;
-
-                case 'Select Country':
-                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-                    $this->addElement('select', $elementName, $field['label'], $countryOption);
-                    break;
-                }
-            }            
+                CRM_Core_BAO_CustomField::addQuickFormElement( $this,
+                                                               $elementName,
+                                                               $fieldId,
+                                                               false, false );
+            }
         }
 
         $this->setShowHide($_groupTitle);
