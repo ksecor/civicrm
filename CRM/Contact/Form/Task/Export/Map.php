@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/DAO/MappingField.php';
 
 /**
  * This class gets the name of the file to upload
@@ -442,7 +443,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      * @access public
      */
     public function getTitle( ) {
-        return ts('Map Fields');
+        return ts('Select Fields to Export');
     }
 
 }

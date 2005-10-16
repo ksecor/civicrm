@@ -1,12 +1,8 @@
 {* Export Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
  <div id="map-field">
-    <p></p>
-    <div class="font-size11pt label">{ts}Export Data -&gt; CiviCRM Contact Fields {if $loadedMapping}Using Saved Mapping: {$savedName} {/if} {/ts}</div>
-    <br class="spacer"/>
-
     {if $savedMapping}
     <div>
-	<a href="#" onclick="mappingOption(); return false;" > >> Load Saved Field Mapping </a>
+	<a href="#" onclick="mappingOption(); return false;" > &raquo; Load Saved Field Mapping </a>
     </div>
     <div id="savedMappingOption">
 	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>
@@ -36,10 +32,12 @@
 
     {strip}
     <table>
+        {if $loadedMapping}
+            <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
+        {/if}
         <tr class="columnheader">
-            <th>{ts}Matching CiviCRM Field{/ts}</th>
+            <th>{ts}Fields to Include in Export File{/ts}</th>
         </tr>
-        {*Loop on columns parsed from the import data rows*}
         {*section name=cols loop=$columnCount*}
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}

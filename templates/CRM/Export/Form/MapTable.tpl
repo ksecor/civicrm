@@ -2,7 +2,7 @@
  <div id="map-field">
     {if $savedMapping}
     <div>
-	<a href="#" onclick="mappingOption(); return false;" > >> Load Saved Field Mapping </a>
+    <a href="#" onclick="mappingOption(); return false;" > &raquo; Load Saved Field Mapping </a>
     </div>
     <div id="savedMappingOption">
 	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>

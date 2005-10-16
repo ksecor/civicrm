@@ -157,7 +157,7 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
      * @access public
      */
     public function getTitle( ) {
-        return ts('Select Fields');
+        return ts('Export All or Selected Fields');
     }
 
 }
