@@ -146,6 +146,7 @@ class CRM_Contact_BAO_Export {
 
         while ($dao->fetch()) {
             $row = array( );
+            $validRow = false;
             foreach ($dao as $key => $varValue) {
                 $flag = false;
                 foreach($returnProperties as $propKey=>$props) {
@@ -166,16 +167,23 @@ class CRM_Contact_BAO_Export {
                 }
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
-                        $row[$key] = $varValue;
+                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                            $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );
+                        } else {
+                            $row[$key] = $varValue;
+                        }
                         $validRow  = true;
+                    } else {
+                        $row[$key] = '';
                     }
+                    
                     if ( ! $header ) {
                         $headerRows[] = $query->_fields[$key]['title'];
                     }
                 }
                 
             }
-            if ( ! empty( $row ) ) {
+            if ( $validRow ) {
                 $contactDetails[$dao->contact_id] = $row;
             }
             $header = true;
