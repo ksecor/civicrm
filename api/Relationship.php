@@ -49,6 +49,16 @@ require_once 'CRM/Utils/Array.php';
 /**
  * Function to create new retaionship 
  *
+ * @param  object  $contact                      A valid Contact object.
+ *
+ * @param  object $target_contact                A valid Contact object
+ * @param  String $relationship_type_name        A valid Relationship_type eg. Parent of etc.
+ * @param   array $ params                       Associative array of property name/value pairs to be inserted. See Data Model for                                                         available properties.
+ *
+ * @return     newly created 'relationship object' object
+ *
+ * @access     public        
+ *
  */
 function crm_create_relationship($contact =null, $target_contact= null, $relationship_type_name, $params) {
     $relationTypeID = null;
@@ -86,12 +96,34 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
     $ids   ['contact'      ] = $sourceContact;
     $params['contact_check'] = array ( $targetContact => $targetContact) ;
     require_once 'CRM/Contact/BAO/Relationship.php';
-    return CRM_Contact_BAO_Relationship::create($params, $ids);
+    
+    $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $targetContact );
+    if ( $errors ) {
+        return $errors;
+    }
+    
+    if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,$sourceContact,$targetContact )) {
+        return _crm_error('Duplicate relationship');
+    }
+
+    
+    return CRM_Contact_BAO_Relationship::add($params, $ids,$targetContact);
     
 }
 
 /**
  * Function to get the relationship
+ *
+ * @param object  $contact_a                  A valid Contact object 
+ * @param object  $contact_b                  A valid Contact object 
+ * @param array   $relationship_type_name     An array of Relationship_type object(s).
+ * @param array   $returnProperties           Which properties should be included in the related Contact object(s). If NULL, the default                                                set of contact properties will be included.
+ * @param array   $sort                       Associative array of one or more "property_name"=>"sort direction" pairs which will control                                               order of Contact objects returned
+ * @param int     $offset                     Starting row index.
+ *
+ * @return        Array of all relationship.
+ *
+ * @access  public
  *
  */
 function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
@@ -120,11 +152,20 @@ function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_n
 }
 
 /**
- * Function to delete relationship    
+ * Function to delete relationship   
+ *
+ * @param object $contact                      A valid Contact object (passed by reference).
+ * @param object $target_contact               A valid Contact object (passed by reference).
+ * @param object $relationship_type       An array of Relationship_type objects.
+ *
+ *
+ * @return null if successfull 
+ * 
+ * @access public
  *
  */
-function crm_delete_relationship(&$contact, &$target_contact, $relationship_type_name) {
-   
+function crm_delete_relationship(&$contact, &$target_contact, $relationship_type) {
+    require_once 'CRM/Contact/BAO/Relationship.php';
     $relationTypeID = null;
     if( ! isset( $contact->id ) and ! isset( $target_contact->id )) {
         return _crm_error('source or  target contact object does not have contact ID');
@@ -132,43 +173,36 @@ function crm_delete_relationship(&$contact, &$target_contact, $relationship_type
     
     $sourceContact          = $contact->id;
     $targetContact          = $target_contact->id;
-    require_once 'CRM/Contact/DAO/RelationshipType.php';
-    $reletionType = & new CRM_Contact_DAO_RelationshipType();
-    $reletionType->name_a_b = $relationship_type_name;
-    $reletionType->find();
-    if($reletionType->fetch()) {
-        $relationTypeID = $reletionType->id;
+    if (!is_array($relationship_type)) {
+        return _crm_error('$relationship_type is not array of relationship type objects');
     }
-    
-    if (!$relationTypeID) {
-        $reletionType = & new CRM_Contact_DAO_RelationshipType();
-        $reletionType->name_b_a = $relationship_type_name;
-        $reletionType->find();
-        if($reletionType->fetch()) {
-            $relationTypeID = $reletionType->id;
+   
+    foreach ($relationship_type as $rel ) {
+        $relationShip =  & new CRM_Contact_DAO_Relationship();
+     
+        $relationShip->relationship_type_id = $rel->id ;
+        $relationShip->find();
+      
+        while($relationShip->fetch()) {
+            if($relationShip->contact_id_a == $sourceContact || $relationShip->contact_id_b = $sourceContact ){
+                if($relationShip->contact_id_a == $targetContact || $relationShip->contact_id_b = $targetContact) {
+                    CRM_Contact_BAO_Relationship::del($relationShip->id);   
+                }
+            }
             
         }
     }
-   
-    if (!$relationTypeID) {
-        return _crm_error('$relationship_type_name is not valid relationship type ');
-    }
-    require_once 'CRM/Contact/DAO/Relationship.php';
-    $relationShip =  & new CRM_Contact_DAO_Relationship();
-    $relationShip->contact_id_a = $sourceContact;
-    $relationShip->contact_id_b = $targetContact;
-    $relationShip->relationship_type_id = $relationTypeID ;
-    $relationShip->find();
-    if($relationShip->fetch()) {
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        CRM_Contact_BAO_Relationship::del($relationShip->id);   
-        return null;
-    }
-
+    return null;
 }
 
 /**
  * Function to create relationship type
+ *
+ * @param  array $params   Associative array of property name/value pairs to insert in new relationship type.
+ *
+ * @return Newly created Relationship_type object
+ *
+ * @access public
  *
  */
 function crm_create_relationship_type($params) {
@@ -186,6 +220,9 @@ function crm_create_relationship_type($params) {
 /**
  * Function to get all relationship type
  *
+ * retruns  An array of Relationship_type objects
+ * @access  public
+ *
  */
 
 function crm_get_relationship_types() {
@@ -195,10 +232,43 @@ function crm_get_relationship_types() {
     $relationType->find();
     while($relationType->fetch())
         {
-            $relationshipTypes[] = $relationType;
+            $relationshipTypes[] = clone($relationType);
         }
     return $relationshipTypes;
     
+}
+
+
+
+/**
+ * Function to update relationship
+ *
+ * @param object $relationship A valid Relationship object.
+ * @param array  $params Associative array of property name/value pairs to be updated. See Data Model for available properties.
+ *
+ * @return updated relationship object 
+ *
+ * @access public
+ *
+ */
+
+function crm_update_relationship(&$relationship, $params )
+{
+    $ids = array();
+    
+    if(! isset($relationship->id) && ! isset($relationship->contact_id_a) && isset($relationship->contact_id_b)) {
+        return _crm_error("$relationship is not valid relationship type object");
+    }
+    
+    $conactId = $relationship->contact_id_b;
+    $params['relationship_type_id' ] = $relationship->relationship_type_id.'_a_b';
+    $ids['contact'] = $relationship->contact_id_a;
+    $ids['relationship'] = $relationship->id;
+    $ids['contactTarget'] = $relationship->contact_id_b;
+    
+    
+    return CRM_Contact_BAO_Relationship::add($params, $ids,$conactId);
+
 }
 
 
