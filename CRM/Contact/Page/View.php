@@ -275,7 +275,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
              
         // if the display name is cached, we can skip the other processing
         if ( isset( $displayName ) ) {
-            return;
+            // return;
         }
 
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );

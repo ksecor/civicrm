@@ -176,18 +176,31 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      * compose the url to show details of this specific Meeting
      *
      * @param int $id
+     * @param int $activityHistoryId
      *
      * @static
      * @access public
      *
      */
-    static function showMeetingDetails( $id )
+    static function showMeetingDetails( $id, $activityHistoryId )
     {
-        require_once 'CRM/Core/DAO/Meeting.php';
-        $dao =& new CRM_Core_DAO_Meeting( );
-        $dao->id = $id;
-        if ( $dao->find( true ) ) {
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");
+        // require_once 'CRM/Core/DAO/Meeting.php';
+        //$dao =& new CRM_Core_DAO_Meeting( );
+        //$dao->id = $id;
+        
+        $params   = array( );
+        $defaults = array( );
+        $params['id'          ] = $activityHistoryId;
+        $params['entity_table'] = 'civicrm_contact';
+        
+        require_once 'CRM/Core/BAO/History.php'; 
+        $history   = CRM_Core_BAO_History::retrieve($params, $defaults);
+        $contactId = CRM_Utils_Array::value('entity_id', $defaults);
+      
+        //if ( $dao->find( true ) ) { 
+        if ( $contactId ) {
+            //return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");
+            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid=$contactId&action=view&id=$id&status=true&history=1");
         } else {
             return CRM_Utils_System::url('civicrm' );
         }

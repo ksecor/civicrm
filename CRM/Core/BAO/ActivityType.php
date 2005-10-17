@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Core/DAO/ActivityType.php';
+
 class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType 
 {
 
