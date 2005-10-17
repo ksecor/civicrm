@@ -94,7 +94,7 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
  * Function to get the relationship
  *
  */
-function crm_get_relationships(&$contact_a,&$contact_b=null, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
+function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
    
     if( ! isset( $contact_a->id ) ) {
         return _crm_error('$contact_a is not valid contact datatype');
