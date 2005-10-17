@@ -281,10 +281,10 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Continue >>'),
+                                         'name'      => ts('Export >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
+                                         'name'      => ts('Done') ),
                                  )
                            );
     }

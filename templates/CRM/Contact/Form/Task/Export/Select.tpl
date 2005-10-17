@@ -6,9 +6,11 @@
 
 <div id="help">
 {ts}
-<p><strong>Export ALL contact fields</strong> to export all available data values (including custom fields).</p>
+<p><strong>Export PRIMARY contact fields</strong> provides the most commonly used data values. This includes
+primary address information, preferred phone and email, as well as all custom data.</p>
 <p>Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields
-for export. This option also allows you to save your selections as a 'field mapping' so you can use it again later.</p>
+for export. This option allows you to export multiple specific locations (Home, Work, etc.). You can also
+save your selections as a 'field mapping' so you can use it again later.</p>
 {/ts}
 </div>
 

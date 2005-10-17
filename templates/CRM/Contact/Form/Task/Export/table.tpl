@@ -65,9 +65,9 @@
 
     <div>
 	{if $loadedMapping}
-	<span>{$form.updateMapping.html} &nbsp;&nbsp; {$form.updateMapping.label}</span>
+<span>{$form.updateMapping.html}{$form.updateMapping.label}&nbsp;&nbsp;&nbsp;</span>
 	{/if}
-	<span>{$form.saveMapping.html} &nbsp;&nbsp; {$form.saveMapping.label}</span>
+	<span>{$form.saveMapping.html}{$form.saveMapping.label}</span>
 	<div id="saveDetails" class="form-item">
 	      <dl>
 		   <dt>{$form.saveMappingName.label}</dt><dd>{$form.saveMappingName.html}</dd>
