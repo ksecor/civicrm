@@ -69,10 +69,9 @@ msgid ""
 "record community member information which is specific to your community or "
 "organization using custom fields. For example, you can create a set of "
 "fields to track volunteer skills and preferences. CiviCRM profile gives you "
-"a way to allow community members (\"users\") to update their own "
-"information, as well as share some of that information with others. Finally, "
-"you can configure custom activity types such as volunteering or attending "
-"events."
+"a way to allow community members ('users') to update their own information, "
+"as well as share some of that information with others. Finally, you can "
+"configure custom activity types such as volunteering or attending events."
 msgstr ""
 
 msgid "You can:"
@@ -81,17 +80,11 @@ msgstr ""
 msgid "enable CiviCRM blocks at %1."
 msgstr ""
 
-msgid "administer >> blocks"
-msgstr ""
-
 msgid "set access permissions at %1."
 msgstr ""
 
-msgid "administer >> access control"
-msgstr ""
-
 msgid ""
-"find contacts by name, email address, group membership and or tagging at %1."
+"find contacts by name, email address, group membership and/or tagging at %1."
 msgstr ""
 
 msgid "find contacts"
@@ -127,21 +120,27 @@ msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> tags"
+msgid "civicrm"
+msgstr ""
+
+msgid "admin"
+msgstr ""
+
+msgid "tags"
 msgstr ""
 
 msgid ""
 "create or administer relationship types (e.g. household member, board "
-"member, spouse...) %1."
+"member, spouse...) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> relationship types"
+msgid "relationship types"
 msgstr ""
 
-msgid "create or administer location types (e.g. home, work, school...) %1."
+msgid "create or administer location types (e.g. home, work, school...) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> location types"
+msgid "location types"
 msgstr ""
 
 msgid ""
@@ -149,15 +148,15 @@ msgid ""
 "interview...) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> activity types"
+msgid "activity types"
 msgstr ""
 
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
-"contact info...) %1."
+"contact info...) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> custom data"
+msgid "custom data"
 msgstr ""
 
 msgid ""
@@ -165,7 +164,7 @@ msgid ""
 "during user registration) at %1."
 msgstr ""
 
-msgid "civicrm >> admin >> civicrm profile"
+msgid "civicrm profile"
 msgstr ""
 
 msgid ""

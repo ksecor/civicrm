@@ -1747,23 +1747,23 @@ msgstr "Transseksualista"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
-msgstr "Stan / Województwo – \"%1\""
+msgstr "Stan / Województwo – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country - \"%1\""
-msgstr "Kraj – \"%1\""
+msgstr "Kraj – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender - \"%1\""
-msgstr "Płeć – \"%1\""
+msgstr "Płeć – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 = \"%2\""
-msgstr "%1 = \"%2\""
+msgstr "%1 = „%2”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 like \"%2\""
-msgstr "%1 zawiera \"%2\""
+msgstr "%1 zawiera „%2”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contact Type - All"
@@ -1791,23 +1791,23 @@ msgstr "W kategorii –"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
-msgstr "Nazwa lub email zawierają – \"%1\""
+msgstr "Nazwa lub email zawierają – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
-msgstr "Ograniczony do kontaktów zaczynających się od \"%1\""
+msgstr "Ograniczony do kontaktów zaczynających się od „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code - \"%1\""
-msgstr "Kod pocztowy – \"%1\"–"
+msgstr "Kod pocztowy – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "greater than \"%1\""
-msgstr "większy niż \"%1\""
+msgstr "większy niż „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "less than \"%1\""
-msgstr "mniejszy niż \"%1\""
+msgstr "mniejszy niż „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code -"
@@ -1827,7 +1827,7 @@ msgstr "Tylko lokalizacje główne? – Tak"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Type like - \"%1\""
-msgstr "Rodzaj zdarzenia – \"%1\""
+msgstr "Rodzaj zdarzenia – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Date - %1"
@@ -2260,7 +2260,7 @@ msgstr "w"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any tag -"
-msgstr "- dowolnej -"
+msgstr "- dowolna -"
 
 #: CRM/Contact/Form/Search.php
 msgid "Tagged"
@@ -2538,7 +2538,7 @@ msgstr "Sprytny"
 
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr "Pocztowy"
+msgstr "Kod"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to a Group"
