@@ -60,7 +60,7 @@
     {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Call will be moved to Activity History when status is 'Completed'.{/ts}</dd>
     {/if}
-	<dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
+	<dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
     {/if}
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>

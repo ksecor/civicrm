@@ -81,12 +81,13 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
             return;
         }
         $activityType = CRM_Core_PseudoConstant::activityType(false);
-        $activityType[''] = ts('-select activity type-') ;
-        asort($activityType);
+
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type_id', ts('Activity Type'),$activityType ,array('onChange'=>'activity_get_description()'));
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array(ts('-select activity type-')) + $activityType, 
+                          array('onChange' => 'activity_get_description( )') );
         $this->addRule('activity_type_id',ts('Please select the Activity Type.'), 'required');
-        $description = $this->addElement('text', 'description', ts('Description'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ),false);
+        $description = $this->addElement('text', 'description', ts('Description'),
+                                         CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
         $this->addElement('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ) );
         $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
 
