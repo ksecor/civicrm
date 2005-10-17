@@ -292,20 +292,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         /* FIXME: dirty hack to make the default option show up first.  This
          * avoids a mozilla browser bug with defaults on dynamically constructed
          * selector widgets. */
-        if ( !$savedMapping ) {
-            if ($defaultLocationType) {
-                $defaultLocation = $this->_location_types[$defaultLocationType->id];
-                unset($this->_location_types[$defaultLocationType->id]);
-                $this->_location_types = 
-                    array($defaultLocationType->id => $defaultLocation) + 
-                    $this->_location_types;
-            }
-        } else {
-            foreach ($mappingLocation as $k => $v) {
-                $defaultLocation = $this->_location_types[$mappingLocation[$k]];
-                unset($this->_location_types[$mappingLocation[$k]]);
-                $this->_location_types = array($mappingLocation[$k] => $defaultLocation) + $this->_location_types;
-            }
+        if ($defaultLocationType) {
+            $defaultLocation = $this->_location_types[$defaultLocationType->id];
+            unset($this->_location_types[$defaultLocationType->id]);
+            $this->_location_types = 
+                array($defaultLocationType->id => $defaultLocation) + 
+                $this->_location_types;
         }
 
         /* Initialize all field usages to false */
@@ -415,10 +407,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                             $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
                             $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
                             
-                            if ( ! $mappingHeader[0] ) {
-                                $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-                            }
-                            
                             if ( ! $locationId ) {
                                 $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
                             }
@@ -441,20 +429,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                         }
                     }
                 } else {
-                    // this load section to help mapping if we ran out of saved columns when doing Load saved
+                    // this load section to help mapping if we ran out of saved columns when doing Load Mapping
+                    $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
+                    
                     if ($hasHeaders) {
-                        $defaults["mapper[$i]"] = array(
-                                                               $this->defaultFromHeader($this->_columnHeaders[$i],$headerPatterns),
-                                                               0
-                                                               );
+                        $defaults["mapper[$i]"] = array( $this->defaultFromHeader($this->_columnHeaders[$i],$headerPatterns) );
                     } else {
-                        $defaults["mapper[$i]"] = array(
-                                                               $this->defaultFromData($dataPatterns, $i),
-                                                               0
-                                                               );
-                    }
-                    $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                    $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                        $defaults["mapper[$i]"] = array( $this->defaultFromData($dataPatterns, $i) );
+                    }                    
                 } //end of load mapping
             } else {
                 $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
