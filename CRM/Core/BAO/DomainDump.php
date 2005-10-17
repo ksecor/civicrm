@@ -50,7 +50,7 @@ class CRM_Core_BAO_DomainDump
     static function backupData ( ) 
     {
         global $civicrm_root;
-        $file = $civicrm_root."/sql/backup.sql";
+        $file = $civicrm_root."/sql/civicrm_backup.mysql";
         
         // get the path of mysqldump
         //$tempPath = exec('whereis mysqldump');

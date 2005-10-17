@@ -138,7 +138,7 @@ global $UNION_ARRAY;
 
 $unionArray = $UNION_ARRAY;
 
-$dd = fopen($sqlCodePath . "backup.sql", "w");
+$dd = fopen($sqlCodePath . "civicrm_backup.mysql", "w");
 foreach ( $unionArray as $key => $val) {
     
     if (is_array($val)) {        
