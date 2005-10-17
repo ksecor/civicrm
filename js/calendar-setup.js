@@ -116,9 +116,12 @@ Calendar.setup = function (params) {
 	    p.dateField.value   = Math.abs(cal.date.print("%d"));
 	    p.monthField.value  = Math.abs(cal.date.print("%m"));
 	    p.yearField.value   = Math.abs(cal.date.print("%Y"));
-            p.hourField.value   = Math.abs(cal.date.print("%I"));
-            p.minuteField.value = Math.abs(cal.date.print("%M"));
-	    p.ampmField.value   = cal.date.print("%p");
+
+	    if (p.hourField) {
+		p.hourField.value   = Math.abs(cal.date.print("%I"));
+		p.minuteField.value = Math.abs(cal.date.print("%M"));
+		p.ampmField.value   = cal.date.print("%p");
+	    }
 	    
 	    if (typeof p.dateField.onchange == "function")
 		p.dateField.onchange();
@@ -129,14 +132,18 @@ Calendar.setup = function (params) {
 	    if (typeof p.yearField.onchange == "function")
 		p.yearField.onchange();
 
-	    if (typeof p.hourField.onchange == "function")
-		p.hourField.onchange();
 
-	    if (typeof p.minuteField.onchange == "function")
-		p.minuteField.onchange();
-
-	    if (typeof p.ampmField.onchange == "function") 
-		p.ampmField.onchange();
+	    if (p.hourField) {
+		if (typeof p.hourField.onchange == "function")
+		    p.hourField.onchange();
+		
+		if (typeof p.minuteField.onchange == "function")
+		    p.minuteField.onchange();
+		
+		if (typeof p.ampmField.onchange == "function") 
+		    p.ampmField.onchange();
+	    }
+	    
 	}
 	if (update && p.displayArea)
 	p.displayArea.innerHTML = cal.date.print(p.daFormat);
