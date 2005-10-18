@@ -178,7 +178,12 @@ class CRM_Contact_BAO_Export {
                     }
                     
                     if ( ! $header ) {
-                        $headerRows[] = $query->_fields[$key]['title'];
+                        if (isset($query->_fields[$key]['title'])) {
+                            $headerRows[] = $query->_fields[$key]['title'];
+                        } else {
+                            $keyArray     = explode('-',$key);
+                            $headerRows[] = $keyArray[0]."-".$query->_fields[$keyArray[1]]['title'];
+                        }
                     }
                 }
                 
