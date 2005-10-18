@@ -61,7 +61,9 @@ $tables = orderTables( $tables );
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
-$smarty->assign_by_ref( 'dropOrder', array_reverse( array_keys( $tables ) ) );
+$t1 = array_keys( $tables );
+$t2 = array_reverse( $t1 );
+$smarty->assign_by_ref( 'dropOrder', $t2 );
 $smarty->assign( 'mysql', 'modern' );
 
 echo "Generating sql file\n";
@@ -81,8 +83,6 @@ createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
-
-
 
 // write the civicrm data file fixing the domain
 // id variable and translate the {ts}-tagged strings
