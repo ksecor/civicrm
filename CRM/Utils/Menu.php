@@ -429,6 +429,8 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/group/add',
                             'title'   => ts('Create New Group'),
+                            'access' => CRM_Utils_System::checkPermission('edit groups') &&
+                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'    => self::CALLBACK,
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
