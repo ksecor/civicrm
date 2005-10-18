@@ -54,13 +54,10 @@ class CRM_Admin_Page_DomainDump extends CRM_Core_Page
      */
     function run()
     {
-        //if javascript is enabled
-        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
-            require_once 'CRM/Core/BAO/DomainDump.php';
-            CRM_Core_BAO_DomainDump::backupData();
-        }
+        require_once 'CRM/Core/BAO/DomainDump.php';
+        CRM_Core_BAO_DomainDump::backupData();
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_DomainDump', 'Backup Database', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Admin_Form_DomainDump', ts('Backup Database'), $mode );
         
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

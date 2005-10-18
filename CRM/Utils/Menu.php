@@ -122,7 +122,7 @@ class CRM_Utils_Menu {
                             'path'    => 'civicrm/admin/backup',
                             'title'   => ts('Backup Data'),
                             'type'    => self::CALLBACK,
-                            'extra' => 'onclick = "if (confirm(\'' . $backupDataExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                            'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
                             'adminGroup' => 'Manage',
                             'icon'    => 'admin/14.png',
                             'weight'  => 120

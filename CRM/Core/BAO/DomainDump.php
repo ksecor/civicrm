@@ -110,9 +110,6 @@ class CRM_Core_BAO_DomainDump
         header('Content-Disposition: attachment; filename=backupData.tgz');
 
         readfile($tarFileName);
-
-        //CRM_Core_Session::setStatus( ts('Backup Database completed.') );
-        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
     }
 }
 
