@@ -270,13 +270,13 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
              } 
              
              $formValues = $this->controller->exportValues( $this->_name );
-             
-//              if ( ! $jsSet && empty( $formValues ) ) {
-//                  for ( $k = 1; $k < 4; $k++ ) {
-//                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-//                  }
-//              }
-
+             /*             
+              if ( ! $jsSet && empty( $formValues ) ) {
+                  for ( $k = 1; $k < 4; $k++ ) {
+                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+                  }
+              }
+             */
 
              if ( ! $jsSet ) {
                  if ( empty( $formValues ) ) {
@@ -285,11 +285,9 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                      }
                  } else {
                      foreach ( $formValues['mapper'] as $value) {
-                         foreach ($value as $key) {
-                             if (!$key) {
-                                 for ( $k = 1; $k < 4; $k++ ) {
-                                     $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-                                 }
+                         for ( $k = 1; $k < 4; $k++ ) {
+                             if (!$formValues['mapper'][$i][$k]) {
+                                 $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
                              }
                          }
                      }
@@ -307,7 +305,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
 
         $this->setDefaults($defaults);
 
-        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Select more fields'), array( 'class' => 'form-submit' ) );
+        $this->addElement( 'submit', 'addMore', ts('Select more fields'), array( 'class' => 'form-submit' ) );
         $this->setDefaultAction( 'refresh' );
 
         $this->addButtons( array(
@@ -372,7 +370,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
     public function postProcess( ) {
         $params = $this->controller->exportValues( $this->_name );
 
-        if ( $this->controller->exportValue( $this->_name, '_qf_Map_refresh' ) )  {
+        if ( $this->controller->exportValue( $this->_name, 'addMore' ) )  {
             $this->set( 'columnCount', $this->_columnCount );
             return;
         }

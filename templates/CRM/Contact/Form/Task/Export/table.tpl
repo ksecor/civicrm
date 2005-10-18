@@ -56,7 +56,7 @@
     
         <tr>
            <td class="form-item even-row">
-               {$form._qf_MapField_refresh.html}
+               {$form.addMore.html}
            </td>
         </tr>            
     </table>
