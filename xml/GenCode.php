@@ -39,7 +39,13 @@ function createDir( $dir, $perm = 0755 ) {
 
 $smarty =& new Smarty( );
 $smarty->template_dir = './templates';
-$smarty->compile_dir  = '/tmp/templates_c';
+
+$compileDir = '/tmp/templates_c';
+$oldTemplates = preg_grep('/tpl\.php$/', scandir($compileDir));
+foreach ($oldTemplates as $templateFile) {
+    unlink($compileDir . '/' . $templateFile);
+}
+$smarty->compile_dir = $compileDir;
 
 createDir( $smarty->compile_dir );
 
