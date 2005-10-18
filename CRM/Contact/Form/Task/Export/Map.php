@@ -326,6 +326,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
 
         if ( !empty($errors) ) {
+            require_once 'CRM/Core/Page.php';
             $_flag = 1;
             $assignError =& new CRM_Core_Page(); 
             $assignError->assign('mappingDetailsError', $_flag);
