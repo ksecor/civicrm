@@ -1,4 +1,4 @@
-#!/opt/php5/bin/php -qn
+#!/usr/bin/php
 <?php
 /**
  * smarty-extractor.php - rips gettext strings from Smarty {ts} calls

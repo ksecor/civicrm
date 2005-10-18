@@ -1,4 +1,4 @@
-#!/opt/php5/bin/php
+#!/usr/bin/php
 <?php
 
 /* $Id$ */
