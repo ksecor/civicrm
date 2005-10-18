@@ -134,6 +134,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         foreach ( $this->_fields as $name => $dontCare ) {
             $returnProperties[$name] = 1;
         }
+        $returnProperties['contact_type'] = 1;
+
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
         // CRM_Core_Error::debug( 'q', $this->_query );
@@ -194,7 +196,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         static $skipFields = array( 'group', 'tag' );
         $direction = CRM_Utils_Sort::ASCENDING;
         if ( ! isset( self::$_columnHeaders ) ) {
-            self::$_columnHeaders = array( ); 
+            self::$_columnHeaders = array( array( 'name' => '' ) );
             foreach ( $this->_fields as $name => $field ) { 
                 if ( $field['in_selector'] &&
                      ! in_array( $name, $skipFields ) ) {
@@ -262,6 +264,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
             $row = array( );
             $empty = true;
+            $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
@@ -273,7 +276,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     $empty = false;
                 }
             }
-            $row['actions'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id));
+            $row[] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id));
 
             if ( ! $empty ) {
                 $rows[] = $row;

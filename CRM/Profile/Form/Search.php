@@ -64,6 +64,35 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
         parent::preProcess( ); 
     } 
 
+    /** 
+     * Set the default form values 
+     * 
+     * @access protected 
+     * @return array the default array reference 
+     */ 
+    function &setDefaultValues() {
+        $defaults = array(); 
+
+        foreach ( $_GET as $key => $value ) {
+            if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $value = array( );
+                foreach ( $v as $item ) {
+                    $value[$item] = 1;
+                }
+            } else if ( $key == 'group' || $key == 'tag' ) {
+                $v = explode( ',', $value );
+                $value = array( ); 
+                foreach ( $v as $item ) { 
+                    $value[$item] = 1; 
+                } 
+            }
+            $defaults[$key] = $value;
+        }
+
+        return $defaults;
+    }
+
     /**
      * Function to actually build the form
      *

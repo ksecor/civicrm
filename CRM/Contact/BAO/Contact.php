@@ -611,19 +611,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         if ( $dao->fetch( ) ) {
-            $config =& CRM_Core_Config::singleton( );
-            $image  =  '<img src="' . $config->resourceBase . 'i/contact_';
-            switch ( $dao->contact_type ) {
-            case 'Individual' :
-                $image .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                break;
-            case 'Household' :
-                $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                break;
-            case 'Organization' :
-                $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                break;
-            }
+            $image = self::getImage( $dao->contact_type );
+
             // use email if display_name is empty
             if ( empty( $dao->display_name ) ) {
                 $dao->display_name = $dao->email;
@@ -631,6 +620,32 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return array( $dao->display_name, $image );
         }
         return null;
+    }
+
+    /**
+     * given a contact type, get the contact image
+     *
+     * @param string $contact_type
+     *
+     * @return string
+     * @access public
+     * @static
+     */
+    static function getImage( $contactType ) {
+        $config =& CRM_Core_Config::singleton( );
+        $image = '<img src="' . $config->resourceBase . 'i/contact_';
+        switch ( $contactType ) { 
+        case 'Individual' : 
+            $image .= 'ind.gif" alt="' . ts('Individual') . '" />'; 
+            break; 
+        case 'Household' : 
+            $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />'; 
+            break; 
+        case 'Organization' : 
+            $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />'; 
+            break; 
+        } 
+        return $image;
     }
 
     /**

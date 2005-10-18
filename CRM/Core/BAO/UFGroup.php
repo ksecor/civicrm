@@ -478,13 +478,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             } else if ( $objName == 'group' ) {
                 $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
                 $title = array( );
+                $ids   = array( );
                 foreach ( $groups as $g ) {
                     if ( $g['visibility'] != 'User and User Admin Only' ) {
                         $title[] = $g['title'];
+                        $ids[]   = $g['group_id'];
                     }
                 }
                 $values[$index] = implode( ', ', $title );
-                $params[$index] = '';
+                $params[$index] = implode( ',' , $ids   );
             } else if ( $objName == 'tag' ) {
                 require_once 'CRM/Core/BAO/EntityTag.php';
                 $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
@@ -494,7 +496,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $title[] = $allTags[$tagId];
                 }
                 $values[$index] = implode( ', ', $title );
-                $params[$index] = '';
+                $params[$index] = implode( ',' , $entityTags );
             } else {
                 require_once 'CRM/Core/BAO/CustomField.php';
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {

@@ -86,6 +86,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->_params   = array( );
         foreach ( $this->_fields as $name => $field ) {
             $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
+            if ( ( $name == 'group' || $name == 'tag' ) && ! empty( $value ) && ! is_array( $value ) ) {
+                $v = explode( ',', $value );
+                $value = array( );
+                foreach ( $v as $item ) {
+                    $value[$item] = 1;
+                }
+            }
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
