@@ -262,6 +262,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return;
     }
 
+    // CRM_Core_Error::debug( 'e', $edit );
     // make sure the system is initialized
     civicrm_initialize( );
 

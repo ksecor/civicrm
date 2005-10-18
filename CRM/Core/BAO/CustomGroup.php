@@ -637,6 +637,133 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         return true;
     }
 
+    static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) {
+        foreach ( $groupTree as $group ) {
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
+                    $value = $field['customValue']['data'];
+                } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
+                    $value = $viewMode ? null : $field['default_value'];
+                } else {
+                    continue;
+                }
+
+                $fieldId = $field['id'];
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
+                switch($field['html_type']) {
+
+                case 'CheckBox':
+                    if ($viewMode) {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $defaults[$elementName] = array();
+                        if(isset($value)) {
+                            foreach($customOption as $val) {
+                                if (is_array($customValues)) {
+                                    if (in_array($val['value'], $checkedData)) {
+                                        $defaults[$elementName][$val['value']] = 1;
+                                    } else {
+                                        $defaults[$elementName][$val['value']] = 0;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $defaults[$elementName] = array();
+                        if (isset($field['customValue']['data'])) {
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            foreach($customOption as $val) {
+                                if (in_array($val['value'], $checkedData)) {
+                                    $defaults[$elementName][$val['value']] = 1;
+                                } else {
+                                    $defaults[$elementName][$val['value']] = 0;
+                                }
+                            }
+                        } else {
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            foreach($customOption as $val) {
+                                if ( in_array($val['value'], $checkedValue) ) {
+                                    $defaults[$elementName][$val['value']] = 1;
+                                } else {
+                                    $defaults[$elementName][$val['value']] = 0;
+                                }
+                            }                            
+                        }
+                    }
+                    break;
+                    
+                case 'Select Date':
+                    if (isset($value)) {
+                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value );
+                    }
+                    break;
+
+                default:
+                    $defaults[$elementName] = $value;
+                } 
+            }
+        }
+    }
+
+    static function postProcess( &$groupTree, &$params ) {
+
+        // Get the Custom form values and groupTree        
+        // first reset all checkbox and radio data
+        foreach ($groupTree as $group) {
+            foreach ($group['fields'] as $field) {
+                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' ) {
+                    $groupTree[$group['id']]['fields'][$field['id']]['customValue']['data'] = 'NULL';
+                }
+            }
+        }        
+        
+        foreach ($params as $k => $v) {
+            list($groupId,  $fieldId, $elementName) = explode('_', $k, 3);
+            
+            // check if field exists (since form values will contain other elements besides the custom data fields.
+            if (isset($v) && 
+                isset($groupTree[$groupId]['fields'][$fieldId]) &&
+                $groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
+
+                if ( ! isset($groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
+                    // field exists in db so populate value from "form".
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+                }
+
+                switch ( $groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
+
+                case 'CheckBox':  
+                    $optionDAO =& new CRM_Core_DAO_CustomOption();
+                    $optionDAO->custom_field_id = $fieldId;
+                    $optionDAO->find();
+                    $optionValue = array();
+                    while($optionDAO->fetch() ) {
+                        $optionValue[$optionDAO->label] = $optionDAO->value;
+                    }
+                    
+                    $customValue = array_keys( $v );
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                    break;
+
+                case 'Select Date':
+                    $date = CRM_Utils_Date::format( $v );
+                    if ( ! $date ) {
+                        $date = '';
+                    }
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
+                    break;
+                    
+                default:
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
+                    break;
+                }
+            }
+        }
+    }
 
 }
 

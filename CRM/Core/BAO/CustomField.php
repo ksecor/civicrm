@@ -464,5 +464,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         // CRM_Core_Error::debug( "$display, $value, $id", $options );
         return $display;
     }
+
+
 }
+
 ?>

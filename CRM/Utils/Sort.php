@@ -230,12 +230,12 @@ class CRM_Utils_Sort {
 
             if ( $current == $index ) {
                 if ( $item['direction'] == self::ASCENDING ) {
-                    $class = '"sort-ascending"';
+                    $class = 'sort-ascending';
                 } else {
-                    $class = '"sort-descending"';
+                    $class = 'sort-descending';
                 }
             } else {
-                $class     = '"sort-none"';
+                $class     = 'sort-none';
             }
 
             $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $newDirection ) . '" class="' . $class . '">' . $item['title'] . '</a>';

@@ -567,7 +567,7 @@ ORDER BY
                         $customValue = $date;
                         break;
                     case 'CheckBox':
-                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_values($value));
+                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
                         break;
                     default:
                         $customValue = $value;

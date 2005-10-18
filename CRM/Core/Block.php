@@ -94,7 +94,7 @@ class CRM_Core_Block {
                                        self::MAIL        => array( 'template' => 'Mail.tpl',
                                                                    'info'     => ts('CiviMail Menu'),
                                                                    'subject'  => ts('CiviMail'),
-                                                                   'active'   => true ),
+                                                                   'active'   => false ),
                                        );
         }
     }
@@ -177,10 +177,13 @@ class CRM_Core_Block {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
+            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ), 
+                             'primaryLocationType' => $defaultLocation->id ); 
             self::setProperty( self::ADD,
                                'templateValues',
-                               array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI',
-                                                                          'reset=1&c_type=Individual' ) ) );
+                               $values );
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',

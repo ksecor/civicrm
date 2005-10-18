@@ -16,7 +16,7 @@
     <input type="text" name="location[1][email][1][email]" id="qa_email" class="form-text" maxlength="64" />
 </div>
 
-<input type="hidden" name="location[1][location_type_id]" value="1" />
+<input type="hidden" name="location[1][location_type_id]" value="{$primaryLocationType}" />
 <input type="hidden" name="location[1][is_primary]"       value="1" />
 <input type="hidden" name="c_type"                        value="Individual" />
 

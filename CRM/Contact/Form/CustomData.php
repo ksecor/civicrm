@@ -193,14 +193,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 if ($field['html_type'] == 'Select State/Province' || $field['html_type'] == 'Select Country') {
                     $_flag++;
                 }
-                if ( $_flag == 2 ) {
-                    // add a form rule to check default value
-                    $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
-                    $_flag = 0;
-                }
             }            
         }
 
+        if ( $_flag == 2 ) {
+            // add a form rule to check default value
+            $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
+        }
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -309,80 +308,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
-        foreach ($this->_groupTree as $group) {
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                // if we dont have a custom value, just continue
-                if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
-                    $value = $field['customValue']['data'];
-                } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
-                    $value = $viewMode ? null : $field['default_value'];
-                } else {
-                    continue;
-                }
+        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
 
-                $fieldId = $field['id'];
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
-                switch($field['html_type']) {
-
-                case 'CheckBox':
-                    if ($viewMode) {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
-                        $defaults[$elementName] = array();
-                        if(isset($value)) {
-                            foreach($customOption as $val) {
-                                if (is_array($customValues)) {
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['label']] = 1;
-                                    } else {
-                                        $defaults[$elementName][$val['label']] = 0;
-                                    }
-                                }
-                            }
-                        } else {
-                            foreach($customOption as $val) {
-                                $defaults[$elementName][$val['label']] = 0;
-                            }
-                        }
-                    } else {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $defaults[$elementName] = array();
-                        if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
-                            foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['label']] = 1;
-                                } else {
-                                    $defaults[$elementName][$val['label']] = 0;
-                                }
-                            }
-                        } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
-                            foreach($customOption as $val) {
-                                if ( in_array($val['value'], $checkedValue) ) {
-                                    $defaults[$elementName][$val['label']] = 1;
-                                } else {
-                                    $defaults[$elementName][$val['label']] = 0;
-                                }
-                            }                            
-                        }
-                    }
-                    break;
-                    
-                case 'Select Date':
-                    if (isset($value)) {
-                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value );
-                    }
-                    break;
-
-                default:
-                    $defaults[$elementName] = $value;
-                    break;
-                } 
-            }
-        }
         return $defaults;
     }
     
@@ -394,73 +321,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        // first reset all checkbox and radio data
-        foreach ($this->_groupTree as $group) {
-            foreach ($group['fields'] as $field) {
-                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' ) {
-                    $this->_groupTree[$group['id']]['fields'][$field['id']]['customValue']['data'] = 'NULL';
-                }
-            }
-        }
-
         // Get the form values and groupTree
         $fv = $this->controller->exportValues( $this->_name );
 
-        foreach ($fv as $k => $v) {
-            list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
-            
-            // check if field exists (since form values will contain other elements besides the custom data fields.
-            if (isset($v) &&
-                isset($this->_groupTree[$groupId]['fields'][$fieldId]) &&
-                $this->_groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
-                
-                
-                if ( ! isset($this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
-                    // field exists in db so populate value from "form".
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
-                }
-
-                switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
-                case 'Radio':
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
-                    break;
-
-                case 'Select':
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
-                    break;
-
-                case 'CheckBox':  
-                    $optionDAO =& new CRM_Core_DAO_CustomOption();
-                    $optionDAO->custom_field_id = $fieldId;
-                    $optionDAO->find();
-                    $optionValue = array();
-                    while($optionDAO->fetch() ) {
-                        $optionValue[$optionDAO->label] = $optionDAO->value;
-                    }
-                    
-                    $customValue = array();
-                    foreach (array_keys($v) as $key) {
-                        $customValue[] = $optionValue[$key];
-                    }
-                    
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
-                    break;
-
-                case 'Select Date':
-                    $date = CRM_Utils_Date::format( $v );
-                    if ( ! $date ) {
-                        $date = '';
-                    }
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
-                    break;
-                    
-                default:
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
-                    break;
-                }
-            }
-        }
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $fv );
 
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_entityType, $this->_tableId);
