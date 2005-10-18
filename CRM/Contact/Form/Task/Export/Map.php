@@ -104,6 +104,9 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         if ( !empty($mappingArray) ) {
             $this->assign('savedMapping',$mappingArray);
             $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
+            //if ( !isset($this->_loadedMappingId) ) {
+                //$this->addRule('savedMapping',ts('Please select saved mappings.'), 'required');
+            //}
             $this->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
         }
 
@@ -263,14 +266,36 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                         }
                         $jsSet = true;
                     }
-                }
-             }
+                } 
+             } 
+             
              $formValues = $this->controller->exportValues( $this->_name );
-             if ( ! $jsSet && empty( $formValues ) ) {
-                 for ( $k = 1; $k < 4; $k++ ) {
-                     $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+             
+//              if ( ! $jsSet && empty( $formValues ) ) {
+//                  for ( $k = 1; $k < 4; $k++ ) {
+//                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+//                  }
+//              }
+
+
+             if ( ! $jsSet ) {
+                 if ( empty( $formValues ) ) {
+                     for ( $k = 1; $k < 4; $k++ ) {
+                         $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+                     }
+                 } else {
+                     foreach ( $formValues['mapper'] as $value) {
+                         foreach ($value as $key) {
+                             if (!$key) {
+                                 for ( $k = 1; $k < 4; $k++ ) {
+                                     $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
+                                 }
+                             }
+                         }
+                     }
                  }
              }
+
              $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
 
             //set the defaults on load mapping
@@ -328,6 +353,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         if ( !empty($errors) ) {
             require_once 'CRM/Core/Page.php';
             $_flag = 1;
+            require_once 'CRM/Core/Page.php';
             $assignError =& new CRM_Core_Page(); 
             $assignError->assign('mappingDetailsError', $_flag);
             return $errors;
@@ -352,13 +378,26 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
 
         //reload the mapfield if load mapping is pressed
-        if ( CRM_Utils_Array::value( 'savedMapping', $params ) ) {
+        //if ( CRM_Utils_Array::value( 'savedMapping', $params ) ) {
+        if ( $this->controller->exportValue( $this->_name, 'loadMapping' ) )  {
+            CRM_Utils_Array::value( 'savedMapping', $params );
             $this->set('savedMapping', $params['savedMapping']);
             $this->controller->resetPage( $this->_name );
             return;
         }
 
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );        
+        $checkEmpty = 0;
+        foreach($mapperKeys as $value) {
+            if ($value[0]) {
+                $checkEmpty++;
+            }
+        }
+
+        if (!$checkEmpty ) {
+            require_once 'CRM/Utils/System.php';            
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', '_qf_Map_display=true' ) );
+        }
 
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {

@@ -139,7 +139,7 @@ class CRM_Contact_BAO_Export {
         list( $select, $from, $where ) = $query->query( );
         $queryString = "$select $from $where";
         if ( $order ) {
-            $queryString .= " ORDER BY $order";
+            //$queryString .= " ORDER BY $order";
         }
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
@@ -182,7 +182,7 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else {
                             $keyArray     = explode('-',$key);
-                            $headerRows[] = $keyArray[0]."-".$query->_fields[$keyArray[1]]['title'];
+                            $headerRows[] = $keyArray[0]."-".$query->_fields[$keyArray[1]]['title'] . " ".$keyArray[2]  ;
                         }
                     }
                 }

@@ -1275,8 +1275,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @access public
      */
     function &exportableFields( $contactType = 'Individual' ) {
-    
-        $exportableFields = array();
+        $exportableFields = array( );
     
         //$exportableFields = array_merge($exportableFields, array('' => array( 'title' => ts('-do not export-'))) );
     
@@ -1284,9 +1283,11 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     
         eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
     
-        $exportableFields = array_merge( $exportableFields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
-                                         CRM_Core_DAO_IndividualSuffix::import( true ) ,
-                                         CRM_Core_DAO_Gender::import( true ) );
+        if ($contactType == 'Individual') {
+            $exportableFields = array_merge( $exportableFields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
+                                             CRM_Core_DAO_IndividualSuffix::import( true ) ,
+                                             CRM_Core_DAO_Gender::import( true ) );
+        }
 
         $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                         CRM_Core_DAO_Phone::import( ),
