@@ -124,8 +124,12 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             $mappingContactType = array();
             $mappingPhoneType = array();
             while($mapping->fetch()) {
-                $mappingName[] = $mapping->name;
-                $mappingContactType[] = $mapping->contact_type;                
+                if ($mapping->name) {
+                    $mappingName[]        = $mapping->name;
+                }
+                if ($mapping->contact_type) {
+                    $mappingContactType[] = $mapping->contact_type;
+                }
                 if ( !empty($mapping->location_type_id ) ) {
                     $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
                 }
@@ -231,30 +235,34 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
-        
+
+    
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             $jsSet = false;
              if( isset($this->_loadedMappingId) ) {
                 $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;                
                 if ( isset($mappingName[$i]) ) {
-                    $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
-                    $mappingHeader = array_keys($this->_mapperFields[$mappingContactType[$i]], $mappingName[$i]);
-                    $defaults["mapper[$i]"] = array( $mappingContactType[$i], $mappingHeader[0],
-                                                     $locationId, $phoneType
-                                                     );
-                    if ( ! $mappingHeader[0] ) {
-                        $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
+                    if (is_array($this->_mapperFields[$mappingContactType[$i]])) {
+                        $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
+                        $mappingHeader = array_keys($this->_mapperFields[$mappingContactType[$i]], $mappingName[$i]);
+                        $defaults["mapper[$i]"] = array( $mappingContactType[$i], $mappingHeader[0],
+                                                         $locationId, $phoneType
+                                                         );
+                        if ( ! $mappingHeader[0] ) {
+                            $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
+                        }
+                        if ( ! $locationId ) {
+                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
+                        }
+                        if ( ! $phoneType ) {
+                            $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                        }
+                        $jsSet = true;
                     }
-                    if ( ! $locationId ) {
-                        $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                    }
-                    if ( ! $phoneType ) {
-                        $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-                    }
-                    $jsSet = true;
                 }
              }
              $formValues = $this->controller->exportValues( $this->_name );
