@@ -130,6 +130,7 @@ $beautifier->setIndentNumber(4);
 $beautifier->setNewLine("\n");
 
 foreach ( array_keys( $tables ) as $name ) {
+    $smarty->clear_all_cache();
     echo "Generating $name as " . $tables[$name]['fileName'] . "\n";
     $smarty->clear_all_assign( );
 
