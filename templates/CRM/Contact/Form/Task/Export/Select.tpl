@@ -5,13 +5,8 @@
 {include file="CRM/WizardHeader.tpl"}
 
 <div id="help">
-{ts}
-<p><strong>Export PRIMARY contact fields</strong> provides the most commonly used data values. This includes
-primary address information, preferred phone and email, as well as all custom data.</p>
-<p>Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields
-for export. This option allows you to export multiple specific locations (Home, Work, etc.). You can also
-save your selections as a 'field mapping' so you can use it again later.</p>
-{/ts}
+<p>{ts}<strong>Export PRIMARY contact fields</strong> provides the most commonly used data values. This includes primary address information, preferred phone and email, as well as all custom data.{/ts}</p>
+<p>{ts}Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields for export. This option allows you to export multiple specific locations (Home, Work, etc.). You can also save your selections as a 'field mapping' so you can use it again later.{/ts}</p>
 </div>
 
 <div id="export-type" class="form-item">

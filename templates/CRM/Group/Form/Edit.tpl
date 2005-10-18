@@ -13,10 +13,7 @@
         <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Select 'User and User Admin' if membership in this group is controlled
-            by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this group via
-            the Registration and Account Profile forms, select 'Public User Pages'. If you also want to include group membership
-            search and sharing in the Profile screens, select 'Public User Pages and Listings'.{/ts}
+        <dt>&nbsp;</dt><dd class="description">{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this group via the Registration and Account Profile forms, select 'Public User Pages'. If you also want to include group membership search and sharing in the Profile screens, select 'Public User Pages and Listings'.{/ts}
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
     </fieldset>

@@ -5,11 +5,8 @@
  {include file="CRM/WizardHeader.tpl}
  
  <div id="help">
-    {ts}
-    <p><strong>Export ALL contact fields</strong> if you want all available data values (including custom fields) included in the export file.</p>
-    <p>Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields
-    for export. This option also allows you to save your selections as a 'field mapping' so you can use it again later.</p>
-    {/ts}
+    <p>{ts}<strong>Export ALL contact fields</strong> if you want all available data values (including custom fields) included in the export file.{/ts}</p>
+    <p>{ts}Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields for export. This option also allows you to save your selections as a 'field mapping' so you can use it again later.{/ts}</p>
  </div>
  <div id="upload-file" class="form-item">
  <fieldset>

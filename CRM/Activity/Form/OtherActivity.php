@@ -83,7 +83,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $activityType = CRM_Core_PseudoConstant::activityType(false);
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array(ts('-select activity type-')) + $activityType, 
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array(ts('- select activity type -')) + $activityType, 
                           array('onChange' => 'activity_get_description( )') );
         $this->addRule('activity_type_id',ts('Please select the Activity Type.'), 'required');
         $description = $this->addElement('text', 'description', ts('Description'),
