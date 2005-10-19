@@ -39,7 +39,7 @@
    {include file="CRM/Group/Form/Delete.tpl"}
 {/if}
 
-{if $action ne 1 and $action ne 2 and $action ne 8}
+{if $action ne 1 and $action ne 2 and $action ne 8 and $groupPermission eq 1}
     <div class="action-link">
         <a href="{crmURL p='civicrm/group/add' q='reset=1'}">&raquo; {ts}New Group{/ts}</a>
     </div>

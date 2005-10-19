@@ -117,7 +117,7 @@ class CRM_Contact_Task {
         } else {
             $tasks = array( 
                            128  => ts( 'Send Email to Contacts'        ), 
-                           16   => ts( 'New Smart Group'              ),
+                           4096 => ts( 'Export Contacts'               ),
                            2048 => ts( 'Map Contacts using Google Maps'),
                            );
             return $tasks;
