@@ -55,7 +55,7 @@ class CRM_Contact_Form_IM
      */
     static function buildIMBlock(&$form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? 'Instant Messenger (preferred)' : 'Instant Messenger';
+            $label = ($i == 1) ? ts('Instant Messenger (preferred)') : ts('Instant Messenger');
 
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", ts('another IM'), ts('hide this IM'));
 

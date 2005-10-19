@@ -242,6 +242,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                     }
                 }
                 
+                $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $newAction,
                                                                             array( 'id'   => $object->id,

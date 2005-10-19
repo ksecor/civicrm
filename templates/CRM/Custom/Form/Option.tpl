@@ -5,7 +5,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-          {ts}WARNING:Deleting this custom option will result in the loss of all data. This action cannot be undone. Do you want to continue? {/ts}
+          {ts}WARNING: Deleting this custom option will result in the loss of all data.{/ts} {ts}This action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>

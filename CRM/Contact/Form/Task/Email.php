@@ -79,7 +79,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             foreach ( $emails as $email => $item ) {
                 $this->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
                 if ( $item['is_primary'] ) {
-                    $this->_emails[$email] .= ' (preferred)';
+                    $this->_emails[$email] .= ' ' . ts('(preferred)');
                 }
                 $this->_emails[$email] = htmlspecialchars( $this->_emails[$email] );
             }
