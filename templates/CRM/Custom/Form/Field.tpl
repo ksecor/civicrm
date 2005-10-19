@@ -88,7 +88,7 @@
         <dd id="hideDefaultValDef" title="hideDefaultValDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}>{$form.default_value.html}</dd>
         {if $action neq 4}
         <dt id="hideDescTxt" title="hideDescTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}>&nbsp;</dt>
-        <dd id="hideDescDef" title="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}><span class="description font-italic">{ts}If you want to provide a default value for this field, enter it here.{/ts}</span></dd>
+        <dd id="hideDescDef" title="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}><span class="description font-italic">{ts}If you want to provide a default value for this field, enter it here. For date fields, format is YYYY-MM-DD.{/ts}</span></dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
         {if $action neq 4}
@@ -96,7 +96,6 @@
         {/if}
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
 	    <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
-	{*  <dt>&nbsp;</dt><dd class="description">{ts}If you want to mark this field as search field in advanced search.{/ts}</dd>*}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>
     </div>

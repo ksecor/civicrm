@@ -6,7 +6,7 @@
 {/if}
 
     {strip}
-    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div><br />{/if}
+    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}

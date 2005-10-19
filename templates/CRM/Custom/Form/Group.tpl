@@ -17,7 +17,7 @@
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select 'inline' to display this group on a shared form with other 'inline' custom data groups.{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the edit form is initially loaded (fields are hidden).{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the group fieldset.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
