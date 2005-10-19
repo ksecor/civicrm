@@ -173,7 +173,8 @@ class CRM_Core_PseudoConstant {
      * @access protected
      * @static
      */
-    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active', $condition = null, $orderby = null ) {
+    protected static function populate( &$var, $name, $all = false, $retrieve = 'name',
+                                        $filter = 'is_active', $condition = null, $orderby = null ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
        
@@ -587,7 +588,7 @@ class CRM_Core_PseudoConstant {
     public static function &ufGroup( )
     {
         if ( ! self::$ufGroup ) {
-            self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title' );
+            self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title', 'is_active', null, 'weight, title' );
         }
         return self::$ufGroup;
     }

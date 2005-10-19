@@ -268,6 +268,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         // make sure we only allow those actions that the user is permissioned for
         $newAction = $newAction & CRM_Core_Action::mask( $permission );
+
         $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
     }
 

@@ -74,7 +74,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'title' => ts('List CiviCRM Profile Group Fields'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Profile Name'),
+                                                                          'name'  => ts('Settings'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 
@@ -202,7 +202,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
 
-        $dao->orderBy('title');
+        $dao->orderBy('weight', 'title');
         $dao->find();
 
         while ($dao->fetch()) {

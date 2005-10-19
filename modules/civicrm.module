@@ -298,14 +298,16 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 }
 
 function civicrm_categories( ) {
-    require_once 'CRM/Core/PseudoConstant.php';
-    $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
+    require_once 'CRM/Core/BAO/UFGroup.php';
+	$group =& new CRM_Core_DAO_UFGroup( );
+    $group->is_active = 1;
+    $group->orderBy( 'weight', 'title' );
+    $group->find( );
 
-    $data = array( );
-    foreach ( $ufGroups as $id => $title ) {
-        $data[] = array( 'name'  => $title,
-                         'title' => $title,
-                         'weight' => 5 );
+    while ( $group->fetch( ) ) {
+        $data[] = array( 'name'   => $group->title,
+                         'title'  => $group->title,
+                         'weight' => $group->weight );
     }
     return $data;
 }

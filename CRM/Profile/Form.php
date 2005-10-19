@@ -301,9 +301,8 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        CRM_Core_Error::debug( $this->_name, $params );
-        CRM_Core_Error::debug( 'p', $_POST );
-        exit( );
+        // CRM_Core_Error::debug( $this->_name, $params );
+        // CRM_Core_Error::debug( 'p', $_POST );
 
         // hack the params for now
         if ( CRM_Utils_Array::value( 'country', $params ) ) {

@@ -217,6 +217,8 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         $object->find();
 
         $groupPermission = CRM_Utils_System::checkPermission( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
+        $this->assign( 'groupPermission', $groupPermission );
+
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
@@ -242,6 +244,9 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
                     }
                 }
                 
+                // make sure we only allow those actions that the user is permissioned for
+                $newAction = $newAction & CRM_Core_Action::mask( $permission );
+        
                 $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $newAction,
