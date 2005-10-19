@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-18 20:31+0200\n"
+"POT-Creation-Date: 2005-10-19 18:12+0200\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -178,7 +178,8 @@ msgstr "Abbrechen"
 #: CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php
-#: CRM/Core/DAO/ACL.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
+#: CRM/Core/DAO/ACL.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php
+#: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
 #: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
 #: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
@@ -2086,6 +2087,16 @@ msgid "Contact has been added to the selected group."
 msgstr "Kontakt wurde zu der ausgewählten Gruppe hinzugefügt."
 
 #: CRM/Contact/Form/IM.php
+#, fuzzy
+msgid "Instant Messenger (preferred)"
+msgstr "Instant Messenger Service"
+
+#: CRM/Contact/Form/IM.php
+#, fuzzy
+msgid "Instant Messenger"
+msgstr "Instant Messenger:"
+
+#: CRM/Contact/Form/IM.php
 msgid "another IM"
 msgstr "ein anderer IM"
 
@@ -2103,8 +2114,8 @@ msgstr "Anrede"
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
-msgid "- title -"
-msgstr "-titel-"
+msgid "- prefix -"
+msgstr "-suffix-"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Suffix"
@@ -2361,6 +2372,11 @@ msgstr "Das ausgewählte Telefongespräch wurde erfolgreich gelöscht."
 #, fuzzy
 msgid "Selected Contact cannot be deleted."
 msgstr "Der ausgewählte Telefonanruf wurde gelöscht."
+
+#: CRM/Contact/Form/Task/Email.php
+#, fuzzy
+msgid "(preferred)"
+msgstr "Telefon (bevorzugt)"
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Your user record does not have a valid email address"
@@ -3204,6 +3220,7 @@ msgid "Create Profile"
 msgstr "CiviCRM Profil"
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "default - Dear [first] [last]"
 msgstr "standard - Sehr geehrte [vorname] [nachname]"
 
@@ -3212,7 +3229,8 @@ msgid "Dear [first]"
 msgstr "Sehr geehrte [vorname]"
 
 #: CRM/Core/SelectValues.php
-msgid "Dear [title] [last]"
+#, fuzzy
+msgid "Dear [prefix] [last]"
 msgstr "Sehr geehrte [titel][nachname]"
 
 #: CRM/Core/SelectValues.php
@@ -3493,6 +3511,11 @@ msgstr "Optionswert"
 #: CRM/Custom/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
 msgstr "Standard"
+
+#: CRM/Custom/Form/Option.php
+#, fuzzy
+msgid "Your multiple choice option has been deleted"
+msgstr "Ihre \"Multiple Choice\" Option \"%1\" wurde gespeichert."
 
 #: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option \"%1\" has been saved"
@@ -4490,7 +4513,8 @@ msgstr ""
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Custom/Form/DeleteField.tpl
-#: templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/UF/Form/Field.tpl
+#: templates/CRM/Custom/Form/DeleteGroup.tpl
+#: templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
 msgstr ""
 
@@ -4557,7 +4581,7 @@ msgstr "Mobilfunkanbieter"
 
 #: CRM/Utils/Menu.php
 #, fuzzy
-msgid "Individual Titles (Ms, Mr...)"
+msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Neues Individuum"
 
 #: CRM/Utils/Menu.php
@@ -4827,12 +4851,13 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Custom/Form/DeleteField.tpl
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
-#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Browse.tpl
-#: templates/CRM/print.tpl templates/CRM/Profile/Page/Note.tpl
-#: templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl
-#: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#: templates/CRM/Custom/Form/Option.tpl templates/CRM/Custom/Page/Field.tpl
+#: templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl
+#: templates/CRM/Group/Form/Delete.tpl templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/Mailing/Page/Browse.tpl templates/CRM/print.tpl
+#: templates/CRM/Profile/Page/Note.tpl templates/CRM/UF/Form/Field.tpl
+#: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl
+#: templates/CRM/UF/Page/Group.tpl
 msgid "status"
 msgstr "Status"
 
@@ -4938,21 +4963,22 @@ msgstr ""
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 #, fuzzy
-msgid "New Individual Title Option"
+msgid "New Individual Prefix Option"
 msgstr "Neues Individuum"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
-msgid "Delete Individual Title Option"
-msgstr ""
+#, fuzzy
+msgid "Delete Individual Prefix Option"
+msgstr "Neues Individuum"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 #, fuzzy
-msgid "Edit Individual Title Option"
-msgstr "Multiple Choice Optionen bearbeiten"
+msgid "Edit Individual Prefix Option"
+msgstr "Individuum"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Title related "
+"WARNING: Deleting this option will result in the loss of all Prefix related "
 "records which use the option."
 msgstr ""
 
@@ -5099,14 +5125,14 @@ msgstr ""
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact "
-"titles / prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to "
-"customize these options and add new ones as needed for your installation."
+"prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these "
+"options and add new ones as needed for your installation."
 msgstr ""
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 #, fuzzy
 msgid ""
-"There are no Individual Titles entered. You can <a href=\"%1\">add one</a>."
+"There are no Individual Prefixes entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
@@ -6232,6 +6258,7 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
+#: templates/CRM/Custom/Form/Option.tpl
 msgid "This action cannot be undone."
 msgstr ""
 
@@ -6261,7 +6288,10 @@ msgstr ""
 "ein - niedrigere Nummern werden über den hohen Nummern angezeigt."
 
 #: templates/CRM/Custom/Form/Field.tpl
-msgid "If you want to provide a default value for this field, enter it here."
+#, fuzzy
+msgid ""
+"If you want to provide a default value for this field, enter it here. For "
+"date fields, format is YYYY-MM-DD."
 msgstr "Hier können Sie einen Standardwert für das Feld angeben."
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -6269,12 +6299,6 @@ msgid "Explanatory text displayed to users for this field."
 msgstr ""
 "Hier können Sie einen erklärenden Text für das Feld angeben. Dieser wird "
 "Benutzern angezeigt."
-
-#: templates/CRM/Custom/Form/Field.tpl
-msgid "If you want to mark this field as search field in advanced search."
-msgstr ""
-"Wenn Sie dieses Feld als Suchfeld in der erweiterten Suche darstellen "
-"möchten."
 
 #: templates/CRM/Custom/Form/Field.tpl
 #, fuzzy
@@ -6329,9 +6353,10 @@ msgstr ""
 "darzustellen."
 
 #: templates/CRM/Custom/Form/Group.tpl
+#, fuzzy
 msgid ""
 "Check this box if you want only the title for this fieldset to be displayed "
-"when the edit form is initially loaded (fields are hidden)."
+"when the page is initially loaded (fields are hidden)."
 msgstr ""
 "Wählen Sie diese Box aus, wenn Sie die Felder beim Aufruf der "
 "Bearbeitungsseite verstecken möchten."
@@ -6388,8 +6413,13 @@ msgid "Selection Options"
 msgstr "Ausgewählte Optionen"
 
 #: templates/CRM/Custom/Form/Option.tpl
-msgid "Click here to set the default value"
-msgstr "Klicken Sie hier um den Standardwert zu setzen."
+msgid ""
+"WARNING: Deleting this custom option will result in the loss of all data."
+msgstr ""
+
+#: templates/CRM/Custom/Form/Option.tpl
+msgid "Make this option value 'selected' by default?"
+msgstr ""
 
 #: templates/CRM/Custom/Form/Preview.tpl
 msgid ""
@@ -7580,6 +7610,34 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#, fuzzy
+#~ msgid "- title -"
+#~ msgstr "-titel-"
+
+#, fuzzy
+#~ msgid "New Individual Title Option"
+#~ msgstr "Neues Individuum"
+
+#, fuzzy
+#~ msgid "Edit Individual Title Option"
+#~ msgstr "Multiple Choice Optionen bearbeiten"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Individual Titles entered. You can <a href=\"%1\">add one</"
+#~ "a>."
+#~ msgstr ""
+#~ "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
+#~ "hinzufügen</a>."
+
+#~ msgid "If you want to mark this field as search field in advanced search."
+#~ msgstr ""
+#~ "Wenn Sie dieses Feld als Suchfeld in der erweiterten Suche darstellen "
+#~ "möchten."
+
+#~ msgid "Click here to set the default value"
+#~ msgstr "Klicken Sie hier um den Standardwert zu setzen."
 
 #, fuzzy
 #~ msgid "Map Fields"
