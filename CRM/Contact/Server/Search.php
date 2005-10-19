@@ -57,7 +57,8 @@ class CRM_Contact_Server_Search
         $searchValues = array();
         $searchRows = array();
         $searchValues['sort_name'] = $fragment;         
-
+        
+        require_once 'CRM/Contact/BAO/Query.php';
         $contactBAO  =& new CRM_Contact_BAO_Query($searchValues);
 
         $searchResult = $contactBAO->searchQuery(0, 50, null, false );

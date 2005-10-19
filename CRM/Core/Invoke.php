@@ -668,6 +668,7 @@ class CRM_Core_Invoke {
 
         //this code is for state country widget
         if ($args[2] == 'stateCountry') {
+            require_once 'CRM/Contact/Page/StateCountryServer.php';
             $server =& new CRM_Contact_Page_StateCountryServer( );
             $set = CRM_Utils_Request::retrieve('set', $form);
             if ($set) {
@@ -681,6 +682,7 @@ class CRM_Core_Invoke {
 
         //this code is for search widget
         if ($args[2] == 'search') {
+            require_once 'CRM/Contact/Page/SearchServer.php';
             $server =& new CRM_Contact_Page_SearchServer( );
             $set = CRM_Utils_Request::retrieve('set', $form);
             if ($set) {
