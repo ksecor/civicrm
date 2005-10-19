@@ -319,6 +319,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             if ( $reset ) {
+                // hack to make sure we do not process this form
+                unset( $_POST['_qf_default'] );
+                unset( $_REQUEST['_qf_default'] );
                 $controller->reset( );
             }
             $controller->set( 'id'      , $userID );
@@ -482,7 +485,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 foreach ( $groups as $g ) {
                     if ( $g['visibility'] != 'User and User Admin Only' ) {
                         $title[] = $g['title'];
-                        $ids[]   = $g['group_id'];
+                        if ( $g['visibility'] == 'Public User Pages and Listings' ) {
+                            $ids[] = $g['group_id'];
+                        }
                     }
                 }
                 $values[$index] = implode( ', ', $title );

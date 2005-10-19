@@ -166,7 +166,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // note that based on action, control might not come back!!
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
-        
+
         $this->wizardHeader( $pageName );
         $this->_pages[$pageName]->handle($action);
 

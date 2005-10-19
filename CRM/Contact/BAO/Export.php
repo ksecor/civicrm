@@ -180,8 +180,12 @@ class CRM_Contact_BAO_Export {
                         if (isset($query->_fields[$key]['title'])) {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else {
-                            $keyArray     = explode('-',$key);
-                            $headerRows[] = $keyArray[0]."-".$query->_fields[$keyArray[1]]['title'] . " ".$keyArray[2]  ;
+                            $keyArray = explode('-', $key);
+                            $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];
+                            if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
+                                $hdr .= " " . $keyArray[2];
+                            }
+                            $headerRows[] = $hdr;
                         }
                     }
                 }

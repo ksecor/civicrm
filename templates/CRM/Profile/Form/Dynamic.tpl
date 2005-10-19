@@ -13,7 +13,7 @@
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table>
-           {if $field.groupHelpPost}
+           {if $groupHelpPost}
               <div class="messages help">{$groupHelpPost}</div>
            {/if}
            {if $mode ne 8}
