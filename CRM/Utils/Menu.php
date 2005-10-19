@@ -250,7 +250,7 @@ class CRM_Utils_Menu {
     
                       array(
                             'path'    => 'civicrm/admin/prefix',
-                            'title'   => ts('Individual Titles (Ms, Mr...)'),
+                            'title'   => ts('Individual Prefixes (Ms, Mr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'Setup',

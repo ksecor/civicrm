@@ -50,7 +50,7 @@ class CRM_Core_SelectValues {
             $greeting = array(
                 'Formal'    => ts('default - Dear [first] [last]'),
                 'Informal'  => ts('Dear [first]'),
-                'Honorific' => ts('Dear [title] [last]'),
+                'Honorific' => ts('Dear [prefix] [last]'),
                 'Custom'    => ts('Customized')
             );
         }

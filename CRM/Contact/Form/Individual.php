@@ -57,7 +57,7 @@ class CRM_Contact_Form_Individual {
         $form->applyFilter('__ALL__','trim');
         
         // prefix
-        $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- title -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
