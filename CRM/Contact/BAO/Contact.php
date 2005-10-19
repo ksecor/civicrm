@@ -1042,6 +1042,12 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
                     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
                     eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
+                    if ( $type == 'Individual') {
+                        $fields = array_merge( $fields,
+                                               CRM_Core_DAO_IndividualPrefix::import( true ) , 
+                                               CRM_Core_DAO_IndividualSuffix::import( true ) , 
+                                               CRM_Core_DAO_Gender::import( true ) );
+                    }
                 }
             }
 
@@ -1203,7 +1209,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     OR civicrm_activity.target_entity_id = $contactId ) AND
     civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
-)
+            )
 ";
         if ($sort) {
             $order = " ORDER BY " . $sort->orderBy(); 
@@ -1241,45 +1247,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     }
     
     /**
-     * Get unique contact id for input parameters.
-     * Currently the parameters allowed are
-     *
-     * 1 - email
-     * 2 - phone number
-     * 3 - city
-     * 4 - domain id
-     *
-     * @param array $param - array of input parameters
-     *
-     * @return $contactId|CRM_Error if unique id available
-     *
-     * @access public
-     * @static
-     */
-    static function _crm_get_contact_id($params)
-    {
-        if (!isset($params['email']) && !isset($params['phone']) && !isset($params['city'])) {
-            return _crm_error( '$params must contain either email, phone or city to obtain contact id' );
-        }
-
-        $returnProperties = array( 'id' );
-        $query = CRM_Contact_BAO_Contact::getQuery( $params, $returnProperties );
-
-        $dao = CRM_Core_DAO::executeQuery( $query );
-
-        if ( ! $dao->fetch( ) ) {
-            return _crm_error( "No contact found for given $params" );
-        }
-        
-        if ($dao->N > 1 ) {
-            return _crm_error( 'more than one contact id matches $params' );
-        }
-
-        return $dao->id;
-    }
-
-
-    /**
      * combine all the exportable fields from the lower levels object
      * 
      * currentlty we are using importable fields as exportable fields
@@ -1292,14 +1259,13 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     function &exportableFields( $contactType = 'Individual' ) {
         $exportableFields = array( );
     
-        //$exportableFields = array_merge($exportableFields, array('' => array( 'title' => ts('-do not export-'))) );
-    
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
     
         eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
     
         if ($contactType == 'Individual') {
-            $exportableFields = array_merge( $exportableFields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
+            $exportableFields = array_merge( $exportableFields,
+                                             CRM_Core_DAO_IndividualPrefix::import( true ) ,
                                              CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                              CRM_Core_DAO_Gender::import( true ) );
         }

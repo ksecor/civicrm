@@ -109,23 +109,18 @@ class CRM_Contact_BAO_Export {
                 }
             }
             $returnProperties['location'] = $locationType;
-           
         } else {
             $fields  = CRM_Contact_BAO_Export::getExportableFields();
             foreach ($fields as $key => $varValue) {
-                foreach ($varValue as $key1 => $var) {
+                foreach ($varValue as $key1 => $var) { 
                     if ($key1) {
                         $returnProperties[$key1] = 1;
                     }
                 }
             }
-            
         }
        
-        // print_r($returnProperties);
-        
         $session =& new CRM_Core_Session();
-
         if ( $selectAll ) {
             $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
         } else {
@@ -139,7 +134,11 @@ class CRM_Contact_BAO_Export {
         list( $select, $from, $where ) = $query->query( );
         $queryString = "$select $from $where";
         if ( $order ) {
-            //$queryString .= " ORDER BY $order";
+            list( $field, $dir ) = explode( ' ', $order, 2 );
+            $field = trim( $field );
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $queryString .= " ORDER BY $order";
+            }
         }
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
