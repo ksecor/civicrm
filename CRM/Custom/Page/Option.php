@@ -109,6 +109,13 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                                            'title' => ts('Disable Multiple Choice Option'),
                                                                            'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
                                                                            ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                           'name'  => ts('Delete'),
+                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                           'qs'    => 'action=delete&id=%%id%%',
+                                                                           'title' => ts('Disable Multiple Choice Option'),
+                                                                           
+                                                                           ),
                                         );
         }
         return self::$_actionLinks;
@@ -235,7 +242,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
             $this->edit($action);   // no browse for edit/update/view
         } else {
             if ($action & CRM_Core_Action::DISABLE) {

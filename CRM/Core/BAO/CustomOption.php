@@ -149,5 +149,73 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         return $value;
     }
 
+
+    /**
+     * Function to delete Option
+     *
+     * param $optionId integer option id
+     *
+     * @static
+     * @access public
+     */
+    static function del($optionId) 
+    {
+        require_once 'CRM/Core/BAO/CustomField.php';
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        
+        $optionDAO =& new CRM_Core_DAO_CustomOption();
+        $optionDAO->id = $optionId;
+        $optionDAO->find();
+        $optionDAO->fetch();
+        $custom_field_id = $optionDAO->custom_field_id;
+        $value = $optionDAO->value;
+        
+        $fieldDAO = & new CRM_Core_DAO_CustomField();
+        $fieldDAO->id = $custom_field_id;
+        $fieldDAO->find();
+        $fieldDAO->fetch();
+        
+        $customValueDAO = & new CRM_Core_DAO_CustomValue();
+        $customValueDeleteDAO = & new CRM_Core_DAO_CustomValue();
+        $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
+        if( $fieldDAO->html_type !='CheckBox' ) {
+            
+            $customValueDAO->custom_field_id = $custom_field_id;
+            $customValueDAO->find();
+            while($customValueDAO->fetch()) {
+                if( $customValueDAO->char_data == $value ) {
+                    $customValueDeleteDAO->id = $customValueDAO->id;
+                    $customValueDeleteDAO->delete();
+                }
+            }
+        } else {
+            $customValueDAO->custom_field_id = $custom_field_id;
+            $customValueDAO->find();
+            while($customValueDAO->fetch()) {
+                $optionValues =  $customValueDAO->char_data;
+                $customValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$optionValues);
+                
+                if( in_array ($value,$customValue) ) {
+                    if( count($customValue) == 1) {
+                        $customValueDeleteDAO->id = $customValueDAO->id;
+                        $customValueDeleteDAO->delete();
+                    } else {
+                        $customValueSaveDAO = $customValueDAO;
+                        $keyArray = array_keys($customValue,$value);
+                        unset($customValue[$keyArray[0]]);
+                        $newCustomValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$customValue);
+                        $customValueSaveDAO->char_data = $newCustomValue;
+                        $customValueSaveDAO->save();
+                    }
+                }
+            }
+            
+        } 
+        
+        $optionDAO->delete();
+        return null;
+    }
+    
+
 }
 ?>

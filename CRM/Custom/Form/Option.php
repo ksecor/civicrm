@@ -111,57 +111,67 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        if ($this->_action == CRM_Core_Action::DELETE) {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Delete'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+        } else {
+            // lets trim all the whitespace
+            $this->applyFilter('__ALL__', 'trim');
+            
+            // hidden Option Id for validation use
+            $this->add('hidden', 'optionId', $this->_id);
+            
+            //hidden field ID for validation use
+            $this->add('hidden', 'fieldId', $this->_fid); 
+        
+            
+            // label
+            $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
+            
+            // the above value is used directly by QF, so the name has to be have a rule
+            //$this->addRule('label', ts('Please enter a valid label for this field.'), 'variable');
+            
+            // value
+            $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+        
+            // weight
+            $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
+            $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        
+            // is active ?
+            $this->add('checkbox', 'is_active', ts('Active?'));
+            
+            // Set the default value for Custom Field
+            $this->add('checkbox', 'default_value', ts('Default'));
 
-        // lets trim all the whitespace
-        $this->applyFilter('__ALL__', 'trim');
-
-        // hidden Option Id for validation use
-        $this->add('hidden', 'optionId', $this->_id);
-        
-        //hidden field ID for validation use
-        $this->add('hidden', 'fieldId', $this->_fid); 
-        
-        
-        // label
-        $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
-
-        // the above value is used directly by QF, so the name has to be have a rule
-        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'variable');
-	
-        // value
-        $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
-        
-        // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
-        
-        // is active ?
-        $this->add('checkbox', 'is_active', ts('Active?'));
-        
-        // Set the default value for Custom Field
-        $this->add('checkbox', 'default_value', ts('Default'));
-
-        // add a custom form rule
-        $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
-        
-        // add buttons
-        $this->addButtons(array(
-                                array ('type'      => 'next',
-                                       'name'      => ts('Save'),
-                                       'isDefault' => true),
-                                array ('type'      => 'cancel',
-                                       'name'      => ts('Cancel')),
-                                )
-                          );
-
-              
-        // if view mode pls freeze it with the done button.
-        if ($this->_action & CRM_Core_Action::VIEW) {
-            $this->freeze();
-            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
+            // add a custom form rule
+            $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
+            
+            // add buttons
+            $this->addButtons(array(
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Save'),
+                                           'isDefault' => true),
+                                    array ('type'      => 'cancel',
+                                           'name'      => ts('Cancel')),
+                                    )
+                              );
+            
+            
+            // if view mode pls freeze it with the done button.
+            if ($this->_action & CRM_Core_Action::VIEW) {
+                $this->freeze();
+                $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
+            }
         }
     }
-
+        
     /**
      * global validation rules for the form
      *
@@ -230,6 +240,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $customOption->value         = $params['value'];
         $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
        
+        if ($this->_action == CRM_Core_Action::DELETE) {
+            CRM_Core_BAO_CustomOption::del($this->_id);
+             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
+            return;
+            
+        }
+        
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customOption->id = $this->_id;
         }
