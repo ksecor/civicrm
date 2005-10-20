@@ -1,4 +1,14 @@
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
+    <div id="crm-submit-buttons" class="form-item"> 
+    <dl> 
+    {if $action ne 4} 
+        <dt>&nbsp;</dt><dd>&nbsp;{$form.buttons.html}</dd> 
+    {else} 
+        <dt>&nbsp;</dt><dd>&nbsp;{$form.done.html}</dd> 
+    {/if} {* $action ne view *} 
+    </dl> 
+    </div> 
+    
     <div class="form-item">
     {if $action eq 8}
       	<div class="messages status">
