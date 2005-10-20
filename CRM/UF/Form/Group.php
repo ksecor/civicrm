@@ -162,7 +162,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             if ( $defGroup->fetch() ) {
                 $defaults['weight'] = $defGroup->weight + 1;
             } else {
-                $defaults['weight'] = 1;
+                $defaults['weight'] = 2;
             }
             
         }
