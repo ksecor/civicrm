@@ -361,6 +361,6 @@ ALTER TABLE civicrm_individual DROP gender;
 -- * 
 -- *******************************************************/
 
-DROP TABLE `civicrm_import_mapping_field` IF EXISTS `civicrm_import_mapping_field`;
+DROP TABLE IF EXISTS `civicrm_import_mapping_field`;
 
-DROP TABLE `civicrm_import_mapping` IF EXISTS `civicrm_import_mapping`;
+DROP TABLE IF EXISTS `civicrm_import_mapping`;
