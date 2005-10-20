@@ -8,15 +8,30 @@
  *
  * CiviCRM can be hosted in either Drupal or Mambo. Retain the default settings
  * for Drupal.
+ * 
  * Settings for Mambo:
  *      define( 'CIVICRM_UF'       , 'Mambo' );
  *      define( 'CIVICRM_UF_URLVAR', 'task'  );
  */
 define( 'CIVICRM_UF'               , 'Drupal' );
 define( 'CIVICRM_UF_URLVAR'        , 'q'  );
+
+/**
+ *
+ * Update the CIVICRM_UF_DSN setting to match your Drupal or Mambo database username, server and DB name.
+ * Database URL format:
+ *      define( 'CIVICRM_UF_DSN', 'mysql://drupal_db_username:drupal_db_password@db_server/drupal_database?new_link=true');
+ */
 define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
+
+/** 
+ *
+ * Update the CIVICRM_UF_USERSTABLENAME if needed to match the name of the table
+ * where the CMS user data is stored. For default Drupal installs, this is 'users'.
+ * If you are using table-prefixing for the users table, you must enter the tablename
+ * with the prefix.
+ */ 
 define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
-define( 'CIVICRM_UF_BASEURL'       , 'http://localhost/drupal' );
 
 /**
  * File system paths for this install:
@@ -62,7 +77,7 @@ define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm
 /**
  * Site URLs:
  *
- * This section defines absolute URLs to access Drupal and CiviCRM.
+ * This section defines absolute URLs to access the host CMS (Drupal or Mambo) and CiviCRM.
  * IMPORTANT: Trailing slashes are required for CIVICRM_HTTPBASE and CIVICRM_RESOURCEBASE. 
  *
  * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/
@@ -70,12 +85,13 @@ define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm
  * have clean url's turned on, make sure CIVICRM_MAINMENU is valid for your install. 
  * e.g. define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) 
  */
+define( 'CIVICRM_UF_BASEURL'  , 'http://www.example.com/civicspace/' );
 define( 'CIVICRM_HTTPBASE'    , '/civicspace/'                     );
 define( 'CIVICRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );
 define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
 
 /**
- * Database settings:
+ * CiviCRM Database settings:
  *
  * Define the version of MySQL you are running. 
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
@@ -131,7 +147,7 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
  * Default contact country
  * 
  * When new contact is added, country field can be automatically populated wih
- * chosen value. 
+ * chosen value. Use civicrm_country.id (primary key) value. United States is 1228.
  */
 define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
 
@@ -248,7 +264,7 @@ define( 'CIVICRM_DEBUG', 0 );
  * Mailer settings
  *
  * CIVICRM_MAILER_SPOOL_PERIOD -  Number of seconds between delivery attempts
- * for new outgoing mailings.
+ * for new outgoing mailings. (Used for CiviMail only.)
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
