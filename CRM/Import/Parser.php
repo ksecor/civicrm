@@ -387,10 +387,10 @@ abstract class CRM_Import_Parser {
                 }
             }
             if ($this->_invalidRowCount) {
+                // removed view url for invlaid contacts
                 $headers = array_merge( array(  ts('Record Number'),
-                                                ts('Reason'),
-                                                ts('View Contact URL')), 
-                                    $customHeaders);
+                                                ts('Reason')), 
+                                        $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }

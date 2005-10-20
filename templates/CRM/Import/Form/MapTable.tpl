@@ -39,7 +39,7 @@
             {section name=rows loop=$rowDisplayCount}
 		   {if $skipColumnHeader }
                    { if $smarty.section.rows.iteration == 1 }
-                     <th>Column Headers</th>
+                     <th>{ts}Column Headers{/ts}</th>
                    {else}
                      <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
                    {/if}
