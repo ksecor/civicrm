@@ -191,10 +191,13 @@ ALTER TABLE civicrm_individual ADD suffix_id int unsigned    COMMENT 'Suffix for
 ALTER TABLE civicrm_individual ADD gender_id int unsigned    COMMENT 'FK to gender ID';
 
 
+ALTER TABLE civicrm_individual ADD INDEX (prefix_id);
 ALTER TABLE civicrm_individual ADD FOREIGN KEY (prefix_id) REFERENCES civicrm_individual_prefix(id);
 
+ALTER TABLE civicrm_individual ADD INDEX (suffix_id);
 ALTER TABLE civicrm_individual ADD FOREIGN KEY (suffix_id) REFERENCES civicrm_individual_suffix(id);
 
+ALTER TABLE civicrm_individual ADD INDEX (gender_id);
 ALTER TABLE civicrm_individual ADD FOREIGN KEY (gender_id) REFERENCES civicrm_gender(id);
 
 
