@@ -214,7 +214,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                   $mapperRelatedContactPhoneType);
         
         $mapFields = $this->get('fields');
-        print_r($mapFields);
+
         foreach ($mapper as $key => $value) {
             $mapperFields[] = $mapFields[$mapper[$key][0]];
         }
