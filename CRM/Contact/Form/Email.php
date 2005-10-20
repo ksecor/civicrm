@@ -55,7 +55,7 @@ class CRM_Contact_Form_Email
     static function buildEmailBlock(&$form, &$location, $locationId, $count) {
        
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? 'Email (preferred)' : 'Email';
+            $label = ($i == 1) ? ts('Email (preferred)') : ts('Email');
 
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", ts('another email'), ts('hide this email'));
             
