@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 18:09+0200\n"
-"PO-Revision-Date: 2005-10-18 20:32+0200\n"
+"POT-Creation-Date: 2005-10-20 16:17+0200\n"
+"PO-Revision-Date: 2005-10-20 16:27+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -183,6 +183,7 @@ msgstr "Anuluj"
 #: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
 #: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr "Usuń"
 
@@ -694,7 +695,7 @@ msgstr "Załaduj mapowanie"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr "Zapisz to mapowanie pola"
+msgstr "Zapisz to mapowanie pól"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
@@ -1113,6 +1114,10 @@ msgstr "Usuń grupę"
 #: CRM/Group/Page/Group.php CRM/Utils/Menu.php
 msgid "Group Members"
 msgstr "Członkowie grupy"
+
+#: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
+msgid "Settings"
+msgstr "Ustawienia"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -1944,7 +1949,7 @@ msgstr "Sprawdź pasujące kontakty"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save Duplicate Contact"
-msgstr "Usuń powtarzający się kontakt"
+msgstr "Zapisz powtarzający się kontakt"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
@@ -2053,11 +2058,19 @@ msgid ""
 msgstr "W lokalizacji głównej muszą być ustawione imię i nazwisko LUB email."
 
 #: CRM/Contact/Form/Individual.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
-msgstr[0] "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1"
-msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1"
-msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
+msgid ""
+"One matching contact was found. You can edit it here: %1, or click Save "
+"Duplicate Contact button below."
+msgid_plural ""
+"%count matching contacts were found. You can edit them here: %1, or click "
+"Save Duplicate Contact button below."
+msgstr[0] ""
+"Znaleziono jeden pasujący kontakt. Można go edytować tu: %1, lub wybrać "
+"„Zapisz powtarzający się kontakt”."
+msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1, lub wybrać "
+"„Zapisz powtarzający się kontakt”."
+msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1, lub wybrać "
+"„Zapisz powtarzający się kontakt”."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
@@ -2394,7 +2407,8 @@ msgstr "Na pewno usunąć tę notatkę?"
 msgid "Edit Note"
 msgstr "Edytuj notatkę"
 
-#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Profile/Page/Note.tpl
 msgid "Delete Note"
 msgstr "Usuń notatkę"
 
@@ -2954,8 +2968,9 @@ msgid "vCard Location Type"
 msgstr "vCard – rodzaj lokalizacji"
 
 #: CRM/Core/DAO/MappingField.php
+#, fuzzy
 msgid "Column Number"
-msgstr "Numer kolumny"
+msgstr "Numer telefonu"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Mapping Type"
@@ -3517,10 +3532,6 @@ msgstr "Na pewno wyłączyć tę grupę?"
 #: CRM/Group/Page/Group.php
 msgid "Members"
 msgstr "Członkowie"
-
-#: CRM/Group/Page/Group.php
-msgid "Settings"
-msgstr "Ustawienia"
 
 #: CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -4275,10 +4286,6 @@ msgid "List CiviCRM Profile Group Fields"
 msgstr "Wypisz pola grupy profilu CiviCRM"
 
 #: CRM/UF/Page/Group.php
-msgid "Edit Profile Name"
-msgstr "Edytuj nazwę profilu"
-
-#: CRM/UF/Page/Group.php
 msgid "Edit CiviCRM Profile Group"
 msgstr "Edytuj grupę profilu CiviCRM"
 
@@ -4930,9 +4937,9 @@ msgid ""
 "prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
 msgstr ""
-"CiviCRM jest skonfigurowany do użycia standardowych opcji "
-"prefiksów (np. Pani, Pan, Dr.). Tu możesz zmienić te opcje i dodać nowe na "
-"potrzeby swojej instalacji."
+"CiviCRM jest skonfigurowany do użycia standardowych opcji prefiksów (np. "
+"Pani, Pan, Dr.). Tu możesz zmienić te opcje i dodać nowe na potrzeby swojej "
+"instalacji."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
@@ -5121,7 +5128,7 @@ msgstr ""
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
-"<p>This site is running development code towards the 1.2 release.</p>\n"
+"<p>This site is running development code towards the 1.2 Beta release.</p>\n"
 "<p>To see a list of known bugs and issues, and to report new bugs, please "
 "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
 "<p>Please add any comments on the look and feel of these pages, along with "
@@ -5684,6 +5691,10 @@ msgstr "Zanotuj rozmowę"
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
 msgstr "Inne zdarzenia"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr "vCard"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -6340,8 +6351,8 @@ msgstr ""
 "„Dalej”, by znaleźć kontakty do dodania do tej grupy."
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Group Name and Description"
-msgstr "Nazwa i opis grupy"
+msgid "Group Settings"
+msgstr "Ustawienia grup"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -6411,6 +6422,38 @@ msgstr "Na pewno usunąć historię zdarzenia z %2 rodzaju „%1” z opisem „
 msgid "No activity history for this contact."
 msgstr "Brak historii zdarzeń dla tego kontaktu."
 
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Review the values shown below from the first 2 rows of your import file and "
+"select the matching CiviCRM database fields from the drop-down lists in the "
+"right-hand column. Select '- do not import -' for any columns in the import "
+"file that you want ignored."
+msgstr ""
+"Sprawdź dane wyświetlone poniżej na podstawie dwóch pierwszych rzędów pliku "
+"i wybierz odpowiadające im pola w bazie CiviCRM z rozwijanych list w prawej "
+"kolumnie. Wybierz opcję „- nie importuj -” dla kolumn, które system ma "
+"zingorować."
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Click 'Load Saved Field Mapping' if data has been previously imported from "
+"the same source. You can then select the saved import mapping setup and load "
+"it automatically."
+msgstr ""
+"Zaznacz „Załaduj zapisane mapowanie pola” jeśli dane były poprzednio "
+"importowane z tego samego źródła. Możesz następnie wybrać zapisane mapowanie "
+"i załadować je automatycznie."
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"If you think you may be importing additional data from the same data source, "
+"check 'Save this field mapping' at the bottom of the page before continuing. "
+"The saved mapping can then be easily reused the next time data is imported."
+msgstr ""
+"Jeśli przewidujesz, że będziesz importować dalsze dane z tego samego źródła, "
+"zaznacz „Zapisz to mapowanie pól” na dole strony. Zapisane mapowanie może "
+"być następnie użyte ponownie podczas kolejnych importów."
+
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
 msgstr "Wybierz inne mapowanie pola"
@@ -6418,6 +6461,10 @@ msgstr "Wybierz inne mapowanie pola"
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Load Saved Field Mapping"
 msgstr "Załaduj zapisane mapowanie pola"
+
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Column Headers"
+msgstr "Nagłówki kolumn"
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
@@ -7376,6 +7423,12 @@ msgstr "Sr"
 msgid "II"
 msgstr "II"
 
+#~ msgid "Edit Profile Name"
+#~ msgstr "Edytuj nazwę profilu"
+
+#~ msgid "Group Name and Description"
+#~ msgstr "Nazwa i opis grupy"
+
 #~ msgid "- title -"
 #~ msgstr "- tytuł -"
 
@@ -7558,17 +7611,6 @@ msgstr "II"
 #~ "„Jeśli potrzebne są dodatkowe opcje – można dodać je po zapisaniu "
 #~ "aktualnych wpisów.”"
 
-#~ msgid ""
-#~ "Review the values shown below from the first 2 rows of your import file "
-#~ "and select the matching CiviCRM database fields from the drop-down lists "
-#~ "in the right-hand column. Select '-do not import-' for any columns in the "
-#~ "import file that you want ignored."
-#~ msgstr ""
-#~ "Sprawdź dane wyświetlone poniżej na podstawie dwóch pierwszych rzędów "
-#~ "pliku i wybierz odpowiadające im pola w bazie CiviCRM z rozwijanych list "
-#~ "w prawej kolumnie. Wybierz opcję „-nie importuj-” dla kolumn, które "
-#~ "system ma zingorować."
-
 #~ msgid "Import Data -&gt; CiviCRM Contact Fields"
 #~ msgstr "Import danych -&gt; pola kontaktu CiviCRM"
 
@@ -7602,9 +7644,6 @@ msgstr "II"
 
 #~ msgid "Add Person to Database"
 #~ msgstr "Dodaj osobę do bazy"
-
-#~ msgid "vCard File:"
-#~ msgstr "Plik vCard:"
 
 #~ msgid "Please enter a valid label for this field."
 #~ msgstr "Wprowadź poprawną etykietę dla tego pola."

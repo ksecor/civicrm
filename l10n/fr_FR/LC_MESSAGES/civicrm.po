@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 18:12+0200\n"
+"POT-Creation-Date: 2005-10-20 16:17+0200\n"
 "PO-Revision-Date: 2005-10-14 14:30+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -182,6 +182,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
 #: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr ""
 
@@ -1111,6 +1112,10 @@ msgstr ""
 msgid "Group Members"
 msgstr ""
 
+#: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
+msgid "Settings"
+msgstr ""
+
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
 msgstr ""
@@ -2028,8 +2033,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgid ""
+"One matching contact was found. You can edit it here: %1, or click Save "
+"Duplicate Contact button below."
+msgid_plural ""
+"%count matching contacts were found. You can edit them here: %1, or click "
+"Save Duplicate Contact button below."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -2358,7 +2367,8 @@ msgstr ""
 msgid "Edit Note"
 msgstr ""
 
-#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Profile/Page/Note.tpl
 msgid "Delete Note"
 msgstr ""
 
@@ -3474,10 +3484,6 @@ msgid "Members"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
-msgid "Settings"
-msgstr ""
-
-#: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr ""
 
@@ -4219,10 +4225,6 @@ msgstr ""
 
 #: CRM/UF/Page/Group.php
 msgid "List CiviCRM Profile Group Fields"
-msgstr ""
-
-#: CRM/UF/Page/Group.php
-msgid "Edit Profile Name"
 msgstr ""
 
 #: CRM/UF/Page/Group.php
@@ -4978,7 +4980,7 @@ msgstr ""
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
-"<p>This site is running development code towards the 1.2 release.</p>\n"
+"<p>This site is running development code towards the 1.2 Beta release.</p>\n"
 "<p>To see a list of known bugs and issues, and to report new bugs, please "
 "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
 "<p>Please add any comments on the look and feel of these pages, along with "
@@ -5472,6 +5474,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -6057,7 +6063,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Group Name and Description"
+msgid "Group Settings"
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -6111,12 +6117,38 @@ msgstr ""
 msgid "No activity history for this contact."
 msgstr ""
 
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Review the values shown below from the first 2 rows of your import file and "
+"select the matching CiviCRM database fields from the drop-down lists in the "
+"right-hand column. Select '- do not import -' for any columns in the import "
+"file that you want ignored."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Click 'Load Saved Field Mapping' if data has been previously imported from "
+"the same source. You can then select the saved import mapping setup and load "
+"it automatically."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"If you think you may be importing additional data from the same data source, "
+"check 'Save this field mapping' at the bottom of the page before continuing. "
+"The saved mapping can then be easily reused the next time data is imported."
+msgstr ""
+
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Load Saved Field Mapping"
+msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Column Headers"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl

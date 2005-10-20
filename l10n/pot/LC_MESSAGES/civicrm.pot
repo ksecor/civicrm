@@ -6,9 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.2\n"
+"Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 18:12+0200\n"
+"POT-Creation-Date: 2005-10-20 16:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ACL.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/History/Form/Activity.php CRM/History/Selector/Activity.php CRM/Note/Form/Note.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ACL.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/History/Form/Activity.php CRM/History/Selector/Activity.php CRM/Note/Form/Note.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr ""
 
@@ -775,6 +775,10 @@ msgstr ""
 
 #: CRM/Group/Page/Group.php CRM/Utils/Menu.php
 msgid "Group Members"
+msgstr ""
+
+#: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
+msgid "Settings"
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
@@ -1650,8 +1654,8 @@ msgid "First Name and Last Name OR an email in the Primary Location should be se
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgid "One matching contact was found. You can edit it here: %1, or click Save Duplicate Contact button below."
+msgid_plural "%count matching contacts were found. You can edit them here: %1, or click Save Duplicate Contact button below."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1973,7 +1977,7 @@ msgstr ""
 msgid "Edit Note"
 msgstr ""
 
-#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl
 msgid "Delete Note"
 msgstr ""
 
@@ -3072,10 +3076,6 @@ msgid "Members"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
-msgid "Settings"
-msgstr ""
-
-#: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr ""
 
@@ -3808,10 +3808,6 @@ msgid "List CiviCRM Profile Group Fields"
 msgstr ""
 
 #: CRM/UF/Page/Group.php
-msgid "Edit Profile Name"
-msgstr ""
-
-#: CRM/UF/Page/Group.php
 msgid "Edit CiviCRM Profile Group"
 msgstr ""
 
@@ -4392,7 +4388,7 @@ msgid "No custom data groups have been created yet. You can <a href=\"%1\">add o
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "<p>This site is running development code towards the 1.2 release.</p>\n<p>To see a list of known bugs and issues, and to report new bugs, please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n<p>Please add any comments on the look and feel of these pages, along with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgid "<p>This site is running development code towards the 1.2 Beta release.</p>\n<p>To see a list of known bugs and issues, and to report new bugs, please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n<p>Please add any comments on the look and feel of these pages, along with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
 
 #: templates/CRM/common/form_body.tpl
@@ -4781,6 +4777,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
@@ -5278,7 +5278,7 @@ msgid "Enter a unique name and a description for your new group here. Then click
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Group Name and Description"
+msgid "Group Settings"
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -5313,12 +5313,28 @@ msgstr ""
 msgid "No activity history for this contact."
 msgstr ""
 
+#: templates/CRM/Import/Form/MapField.tpl
+msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '- do not import -' for any columns in the import file that you want ignored."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid "Click 'Load Saved Field Mapping' if data has been previously imported from the same source. You can then select the saved import mapping setup and load it automatically."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid "If you think you may be importing additional data from the same data source, check 'Save this field mapping' at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is imported."
+msgstr ""
+
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Load Saved Field Mapping"
+msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Column Headers"
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl

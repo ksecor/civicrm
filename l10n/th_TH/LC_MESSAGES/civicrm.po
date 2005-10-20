@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 18:12+0200\n"
+"POT-Creation-Date: 2005-10-20 16:17+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -183,6 +183,7 @@ msgstr "ยกเลิก"
 #: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
 #: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr "ลบ"
 
@@ -1005,8 +1006,9 @@ msgid "Value"
 msgstr "ค่า"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
+#, fuzzy
 msgid "Phone Type"
-msgstr ""
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
@@ -1132,6 +1134,11 @@ msgstr "ลบกลุ่ม"
 #: CRM/Group/Page/Group.php CRM/Utils/Menu.php
 msgid "Group Members"
 msgstr "สมาชิกกลุ่ม"
+
+#: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
+#, fuzzy
+msgid "Settings"
+msgstr "ข้อความ"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -1858,12 +1865,14 @@ msgid "External Identifier"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Sort Name"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Display Name"
-msgstr ""
+msgstr "ปิด"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
@@ -1882,12 +1891,14 @@ msgid "Preferred Mail Format"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Do Not Phone"
-msgstr ""
+msgstr "หรือ เบอร์ใหม่"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Do Not Email"
-msgstr ""
+msgstr "อีเมล์"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Mail"
@@ -1911,8 +1922,9 @@ msgid "Both"
 msgstr ""
 
 #: CRM/Contact/DAO/Individual.php
+#, fuzzy
 msgid "Greeting Type"
-msgstr ""
+msgstr "ข้อความ"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom Greeting"
@@ -1923,8 +1935,9 @@ msgid "Job Title"
 msgstr "ตำแหน่ง"
 
 #: CRM/Contact/DAO/Individual.php
+#, fuzzy
 msgid "Birth Date"
-msgstr ""
+msgstr "เริ่มวันที่"
 
 #: CRM/Contact/DAO/Individual.php
 #, fuzzy
@@ -1932,8 +1945,9 @@ msgid "Formal"
 msgstr "ผู้หญิง"
 
 #: CRM/Contact/DAO/Individual.php
+#, fuzzy
 msgid "Informal"
-msgstr ""
+msgstr "ผู้หญิง"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Honorific"
@@ -1952,12 +1966,14 @@ msgid "Sic Code"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
+#, fuzzy
 msgid "Name A B"
-msgstr ""
+msgstr "ชื่อ"
 
 #: CRM/Contact/DAO/RelationshipType.php
+#, fuzzy
 msgid "Name B A"
-msgstr ""
+msgstr "ชื่อ"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "SQL Query"
@@ -1980,8 +1996,9 @@ msgid "Admin"
 msgstr ""
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
+#, fuzzy
 msgid "Web"
-msgstr ""
+msgstr "น้ำหนัก"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
@@ -2142,8 +2159,12 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgid ""
+"One matching contact was found. You can edit it here: %1, or click Save "
+"Duplicate Contact button below."
+msgid_plural ""
+"%count matching contacts were found. You can edit them here: %1, or click "
+"Save Duplicate Contact button below."
 msgstr[0] "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
 msgstr[1] ""
 msgstr[2] ""
@@ -2492,7 +2513,8 @@ msgstr ""
 msgid "Edit Note"
 msgstr ""
 
-#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Profile/Page/Note.tpl
 #, fuzzy
 msgid "Delete Note"
 msgstr "ลบ"
@@ -2804,24 +2826,28 @@ msgid "Revoke"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
+#, fuzzy
 msgid "Module"
-msgstr ""
+msgstr "โทรศัพท์เคลื่อนที่"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Callback"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
+#, fuzzy
 msgid "Activity Summary"
-msgstr ""
+msgstr "ประเภทกิจกรรม"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Street Number"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
@@ -2832,32 +2858,38 @@ msgid "Street Name"
 msgstr "ชือถนน"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Street Type"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Street Unit"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Supplemental Address 1"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Supplemental Address 2"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Supplemental Address 3"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: CRM/Core/DAO/Address.php
+#, fuzzy
 msgid "Postal Code Suffix"
-msgstr ""
+msgstr "รหัสไปรษณีย์"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
@@ -2876,20 +2908,24 @@ msgid "Timezone"
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
+#, fuzzy
 msgid "Iso Code"
-msgstr ""
+msgstr "รหัสไปรษณีย์"
 
 #: CRM/Core/DAO/Country.php
+#, fuzzy
 msgid "Country Code"
-msgstr ""
+msgstr "ประเทศ"
 
 #: CRM/Core/DAO/Country.php
+#, fuzzy
 msgid "Idd Prefix"
-msgstr ""
+msgstr "คำนำหน้า"
 
 #: CRM/Core/DAO/Country.php
+#, fuzzy
 msgid "Ndd Prefix"
-msgstr ""
+msgstr "คำนำหน้า"
 
 #: CRM/Core/DAO/County.php
 msgid "Country Abbreviation"
@@ -2900,8 +2936,9 @@ msgid "Data Type"
 msgstr "ประเภทข้อมูล"
 
 #: CRM/Core/DAO/CustomField.php
+#, fuzzy
 msgid "Html Type"
-msgstr ""
+msgstr "ประเภทข้อมูล"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Attributes"
@@ -2916,8 +2953,9 @@ msgid "Options Per Line"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
+#, fuzzy
 msgid "String"
-msgstr ""
+msgstr "ข้อความ"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -2950,24 +2988,28 @@ msgid "Collapse Display"
 msgstr ""
 
 #: CRM/Core/DAO/CustomValue.php
+#, fuzzy
 msgid "Int Data"
-msgstr ""
+msgstr "สิ้นสุดวันที่"
 
 #: CRM/Core/DAO/CustomValue.php
+#, fuzzy
 msgid "Float Data"
-msgstr ""
+msgstr "เริ่มวันที่"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Decimal Data"
 msgstr ""
 
 #: CRM/Core/DAO/CustomValue.php
+#, fuzzy
 msgid "Char Data"
-msgstr ""
+msgstr "เริ่มวันที่"
 
 #: CRM/Core/DAO/CustomValue.php
+#, fuzzy
 msgid "Date Data"
-msgstr ""
+msgstr "วันที่"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Memo Data"
@@ -2979,12 +3021,14 @@ msgid "Contact Name"
 msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Core/DAO/Domain.php
+#, fuzzy
 msgid "Email Domain"
-msgstr ""
+msgstr "อีเมล์"
 
 #: CRM/Core/DAO/EmailHistory.php
+#, fuzzy
 msgid "Sent Date"
-msgstr ""
+msgstr "เริ่มวันที่"
 
 #: CRM/Core/DAO/Email.php
 msgid "On Hold"
@@ -3001,8 +3045,9 @@ msgid "Reset Date"
 msgstr "เริ่มวันที่"
 
 #: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
 msgid "Coord Type"
-msgstr ""
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Core/DAO/GeoCoord.php
 msgid "Coord Units"
@@ -3035,20 +3080,24 @@ msgid "Radian"
 msgstr ""
 
 #: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
 msgid "Foot"
-msgstr ""
+msgstr "บันทึก"
 
 #: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
 msgid "Meter"
-msgstr ""
+msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Core/DAO/IM.php
+#, fuzzy
 msgid "IM Screen Name"
-msgstr ""
+msgstr "ชือถนน"
 
 #: CRM/Core/DAO/IMProvider.php
+#, fuzzy
 msgid "IM Provider Name"
-msgstr ""
+msgstr "ผู้ให้บริการ IM"
 
 #: CRM/Core/DAO/IndividualPrefix.php
 #, fuzzy
@@ -3061,8 +3110,9 @@ msgid "Individual Suffix"
 msgstr "บุคคล"
 
 #: CRM/Core/DAO/LocationType.php
+#, fuzzy
 msgid "Location Type"
-msgstr ""
+msgstr "ประเภทสถานที่"
 
 #: CRM/Core/DAO/LocationType.php
 #, fuzzy
@@ -3084,16 +3134,18 @@ msgid "Import"
 msgstr ""
 
 #: CRM/Core/DAO/Note.php
+#, fuzzy
 msgid "Modified Date"
-msgstr ""
+msgstr "สิ้นสุดวันที่"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
 msgstr ""
 
 #: CRM/Core/DAO/UFField.php
+#, fuzzy
 msgid "Field Name"
-msgstr ""
+msgstr "ชื่อทางการ"
 
 #: CRM/Core/DAO/UFField.php
 #, fuzzy
@@ -3101,8 +3153,9 @@ msgid "In Selector"
 msgstr "เลือกกลุ่ม"
 
 #: CRM/Core/DAO/UFGroup.php
+#, fuzzy
 msgid "Form Type"
-msgstr ""
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Core/DAO/Validation.php templates/CRM/Mailing/Page/Component.tpl
 msgid "Type"
@@ -3113,8 +3166,9 @@ msgid "Parameters"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
+#, fuzzy
 msgid "Function Name"
-msgstr ""
+msgstr "ชื่อหน่วยงาน"
 
 #: CRM/Core/DAO/Validation.php
 #, fuzzy
@@ -3656,11 +3710,6 @@ msgid "Members"
 msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
-msgid "Settings"
-msgstr "ข้อความ"
-
-#: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr "แก้ไขกลุ่ม"
 
@@ -3897,8 +3946,9 @@ msgid "Syntax"
 msgstr ""
 
 #: CRM/Mailing/DAO/Component.php
+#, fuzzy
 msgid "Component Name"
-msgstr ""
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Subscribe"
@@ -3913,16 +3963,19 @@ msgid "OptOut"
 msgstr ""
 
 #: CRM/Mailing/DAO/Group.php
+#, fuzzy
 msgid "Group Type"
-msgstr ""
+msgstr "ชื่อกลุ่ม"
 
 #: CRM/Mailing/DAO/Group.php
+#, fuzzy
 msgid "Include"
-msgstr ""
+msgstr "ยกเลิก"
 
 #: CRM/Mailing/DAO/Group.php
+#, fuzzy
 msgid "Exclude"
-msgstr ""
+msgstr "ยกเลิก"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3930,32 +3983,36 @@ msgid "From Name"
 msgstr "ชื่อกลุ่ม"
 
 #: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
 msgid "Replyto Email"
-msgstr ""
+msgstr "อีเมล์"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Url Tracking"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
 msgid "Forward Replies"
-msgstr ""
+msgstr "อีเมล์"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Auto Responder"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
 msgid "Open Tracking"
-msgstr ""
+msgstr "ระยะเวลา"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
 msgstr ""
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
+#, fuzzy
 msgid "Org Unsubscribe"
-msgstr ""
+msgstr "รายการ"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body in text format"
@@ -4449,11 +4506,6 @@ msgstr ""
 #: CRM/UF/Page/Group.php
 msgid "List CiviCRM Profile Group Fields"
 msgstr ""
-
-#: CRM/UF/Page/Group.php
-#, fuzzy
-msgid "Edit Profile Name"
-msgstr "ชื่อกลาง"
 
 #: CRM/UF/Page/Group.php
 msgid "Edit CiviCRM Profile Group"
@@ -5234,7 +5286,7 @@ msgstr ""
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
-"<p>This site is running development code towards the 1.2 release.</p>\n"
+"<p>This site is running development code towards the 1.2 Beta release.</p>\n"
 "<p>To see a list of known bugs and issues, and to report new bugs, please "
 "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
 "<p>Please add any comments on the look and feel of these pages, along with "
@@ -5738,6 +5790,10 @@ msgstr ""
 #, fuzzy
 msgid "Other Activities"
 msgstr "ลบกิจกรรม"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -6325,8 +6381,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Group Name and Description"
-msgstr ""
+#, fuzzy
+msgid "Group Settings"
+msgstr "กลุ่ม"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -6379,6 +6436,28 @@ msgstr ""
 msgid "No activity history for this contact."
 msgstr ""
 
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Review the values shown below from the first 2 rows of your import file and "
+"select the matching CiviCRM database fields from the drop-down lists in the "
+"right-hand column. Select '- do not import -' for any columns in the import "
+"file that you want ignored."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"Click 'Load Saved Field Mapping' if data has been previously imported from "
+"the same source. You can then select the saved import mapping setup and load "
+"it automatically."
+msgstr ""
+
+#: templates/CRM/Import/Form/MapField.tpl
+msgid ""
+"If you think you may be importing additional data from the same data source, "
+"check 'Save this field mapping' at the bottom of the page before continuing. "
+"The saved mapping can then be easily reused the next time data is imported."
+msgstr ""
+
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
 msgstr ""
@@ -6386,6 +6465,11 @@ msgstr ""
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Load Saved Field Mapping"
 msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl
+#, fuzzy
+msgid "Column Headers"
+msgstr "เบอร์โทรศัพท์"
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
@@ -7243,6 +7327,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Edit Profile Name"
+#~ msgstr "ชื่อกลาง"
 
 #, fuzzy
 #~ msgid "- title -"
