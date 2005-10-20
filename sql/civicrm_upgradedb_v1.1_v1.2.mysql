@@ -288,7 +288,6 @@ ALTER TABLE  civicrm_custom_field ADD options_per_line int unsigned   DEFAULT 1 
 
 ALTER TABLE civicrm_group ADD  visibility enum('User and User Admin Only', 'Public User Pages', 'Public User Pages and Listings')   DEFAULT 'User and User Admin Only' COMMENT 'In what context(s) is this field visible.';
 
-
 -- /******************************************************* 
 -- * 
 -- * Insert data in to civicrm_individual_prefix civicrm_individual_suffix and civicrm_gender
@@ -329,6 +328,15 @@ UPDATE civicrm_individual SET gender_id=1 WHERE  gender='Female';
 UPDATE civicrm_individual SET gender_id=2 WHERE  gender='Male';
 UPDATE civicrm_individual SET gender_id=3 WHERE  gender='Transgender';
 
+-- /*******************************************************
+-- *
+-- * also update custom_field and group with the default values
+-- *
+-- *******************************************************/
+
+UPDATE civicrm_custom_field SET options_per_line = 1 WHERE 1;
+
+UPDATE civicrm_group SET visibility = 'User and User Admin Only' WHERE 1;
 
 -- /******************************************************* 
 -- * 
@@ -349,10 +357,10 @@ ALTER TABLE civicrm_individual DROP gender;
 
 -- /******************************************************* 
 -- * 
--- * Drop Tables
+-- * Drop Old Tables
 -- * 
 -- *******************************************************/
 
-DROP TABLE `civicrm_import_mapping_field`;
+DROP TABLE `civicrm_import_mapping_field` IF EXISTS `civicrm_import_mapping_field`;
 
-DROP TABLE `civicrm_import_mapping`;
+DROP TABLE `civicrm_import_mapping` IF EXISTS `civicrm_import_mapping`;
