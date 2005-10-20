@@ -1,8 +1,8 @@
 {* Search criteria form elements *}
-{* Future ajax auto-complete scripting ...*}
+{* Future ajax auto-complete scripting ...
 <script type="text/javascript" src="{crmURL p='civicrm/server/search' q="set=1&path=civicrm/server/search"}"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
-{**}
+*}
 <fieldset>
     <legend>{if $context EQ 'smog'}<span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>{/if}
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
