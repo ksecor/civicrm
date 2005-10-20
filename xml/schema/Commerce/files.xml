@@ -2,6 +2,6 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<xi:include href="DonationPage.xml"         parse="xml" />
+<xi:include href="Donation.xml"         parse="xml" />
 
 </tables>

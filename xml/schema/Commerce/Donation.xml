@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Commerce/Donation</base>
-  <class>DonationPage</class>
-  <name>civicrm_donation_page</name>
-  <comment>Donation Pages store meta information about a single customized donation page</comment>
+  <base>CRM/Commerce</base>
+  <class>Donation</class>
+  <name>civicrm_commerce_donation</name>
+  <comment>A Donation object store meta information about a single customized donation page</comment>
+  <add>1.3</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Donation Page Id</comment>
+      <comment>Donation Id</comment>
+      <add>1.3</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -19,7 +21,8 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this contact</comment>
+      <comment>Which Domain owns this page</comment>
+      <add>1.3</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
@@ -30,38 +33,20 @@
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this property active?</comment>
+      <add>1.3</add>
   </field>
   <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Donation Page Name</comment>
+       <add>1.3</add>
   </field>
   <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
        <comment>Description</comment>
+       <add>1.3</add>
   </field>
-  <field>
-       <name>intro_title</name>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>Introduction Title</comment>
-  </field>
-  <field>
-       <name>intro_description</name>
-       <type>varchar</type>
-       <length>255</length>
-       <comment>Introduction Description</comment>
-  </field>
-  <field>
-       <name>anonymous</name>
-       <type>boolean</type>
-       <comment>Allow anonymous donations for this page ?</comment>
-  </field>
-  <index>
-    <name>index_name</name>
-    <fieldName>name</fieldName>
-  </index>
 </table>
