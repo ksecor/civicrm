@@ -131,7 +131,7 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
  * Default contact country
  * 
  * When new contact is added, country field can be automatically populated wih
- * chosen value. 
+ * chosen value. Use civicrm_country.id (primary key) value. United States is 1228.
  */
 define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
 
@@ -248,7 +248,7 @@ define( 'CIVICRM_DEBUG', 0 );
  * Mailer settings
  *
  * CIVICRM_MAILER_SPOOL_PERIOD -  Number of seconds between delivery attempts
- * for new outgoing mailings.
+ * for new outgoing mailings. (Used for CiviMail only.)
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
