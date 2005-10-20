@@ -251,7 +251,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         static $skipFields = array( 'group', 'tag' ); 
         foreach ( $this->_fields as $key => $field ) {
             if ( $field['in_selector'] && 
-                 ! in_array( $name, $skipFields ) ) { 
+                 ! in_array( $key, $skipFields ) ) { 
                 $names[] = $field['name'];
             }
         }
