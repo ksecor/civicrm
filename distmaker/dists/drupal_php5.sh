@@ -61,7 +61,7 @@ echo "CiviCRM trunk version rev$REV snapshot for Drupal on PHP5" > $TRG/version.
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-drupal-php5-v1.2BETA-rev$REV.tgz civicrm
+tar czf $DM_TARGETDIR/civicrm-drupal-php5-SNAPSHOT-rev$REV.tgz civicrm
 
 # clean up
 rm -rf $TRG
