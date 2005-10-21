@@ -215,8 +215,39 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $mapFields = $this->get('fields');
 
+        $locationTypes  = CRM_Core_PseudoConstant::locationType();
+        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        
         foreach ($mapper as $key => $value) {
-            $mapperFields[] = $mapFields[$mapper[$key][0]];
+            $header = array();
+            list($id, $first, $second) = explode('_', $mapper[$key][0]);
+            if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                $relationType =& new CRM_Contact_DAO_RelationshipType();
+                $relationType->id = $id;
+                $relationType->find(true);
+                
+                $header[] = $relationType->name_a_b;
+                $header[] = ucwords(str_replace("_", " ", $mapper[$key][1]));
+
+                if ( isset($mapper[$key][2]) ) {
+                    $header[] = $locationTypes[$mapper[$key][2]];
+                }
+                if ( isset($mapper[$key][3]) ) {
+                    $header[] = $phoneTypes[$mapper[$key][3]];
+                }
+                
+            } else {
+                if ( isset($mapFields[$mapper[$key][0]]) ) {
+                    $header[] = $mapFields[$mapper[$key][0]];
+                    if ( isset($mapper[$key][1]) ) {
+                        $header[] = $locationTypes[$mapper[$key][1]];
+                    }
+                    if ( isset($mapper[$key][2]) ) {
+                        $header[] = $phoneTypes[$mapper[$key][2]];
+                    }
+                }
+            }            
+            $mapperFields[] = implode(' - ', $header);
         }
 
         $parser->run( $fileName, $seperator, 
