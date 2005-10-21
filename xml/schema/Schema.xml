@@ -11,6 +11,6 @@
 <xi:include href="Contact/files.xml"       parse="xml" />
 <xi:include href="Mailing/files.xml"       parse="xml" />
 <xi:include href="Mailing/Event/files.xml" parse="xml" />  
-<xi:include href="Commerce/files.xml"      parse="xml" />  
+<xi:include href="Donation/files.xml"      parse="xml" />  
 
 </database>

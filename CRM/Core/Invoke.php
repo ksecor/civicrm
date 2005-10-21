@@ -382,10 +382,13 @@ class CRM_Core_Invoke {
             }
             break;
 
-        case 'commerce':
-            if ( $args[3] == 'donation' ) {
-                require_once 'CRM/Commerce/Page/Donation.php';
-                $view =& new CRM_Commerce_Page_Donation(ts('Donation Page'));
+        case 'donation':
+            if ( $args[3] == 'donate' ) {
+                $wrapper =& new CRM_Utils_Wrapper( ); 
+                return $wrapper->run( 'CRM_Donation_Form_Donate', ts('Donate Page'), null );
+            } else {
+                require_once 'CRM/Donation/Page/Donation.php';
+                $view =& new CRM_Donation_Page_Donation(ts('Donation Page'));
             }
             break;
 
@@ -627,9 +630,14 @@ class CRM_Core_Invoke {
             return;  
         }  
     
-        require_once 'CRM/Commerce/Page/Donation.php';
-        $page =& new CRM_Commerce_Page_Donation( );
-        return $page->run( );
+        if ( $args[2] == 'donate' ) { 
+            $wrapper =& new CRM_Utils_Wrapper( );  
+            return $wrapper->run( 'CRM_Donation_Form_Donate', ts('Donate Page'), null ); 
+        } else { 
+            require_once 'CRM/Donation/Page/Donation.php'; 
+            $view =& new CRM_Donation_Page_Donation(ts('Donation Page')); 
+            return $view->run( );
+        } 
     }
          
     /**

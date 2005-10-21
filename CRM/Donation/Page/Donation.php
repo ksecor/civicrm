@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Commerce/DAO/Donation.php';
+require_once 'CRM/Donation/DAO/Donation.php';
 
 /**
  * Create a page for displaying Donation Pages
@@ -48,7 +48,7 @@ require_once 'CRM/Commerce/DAO/Donation.php';
  * of all the donation pages in the system.
  *
  */
-class CRM_Commerce_Page_Donation extends CRM_Core_Page {
+class CRM_Donation_Page_Donation extends CRM_Core_Page {
 
     /**
      * The action links that we need to display for the browse screen
@@ -128,9 +128,9 @@ class CRM_Commerce_Page_Donation extends CRM_Core_Page {
         } else {
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Commerce_BAO_Donation::setIsActive($id, 0);
+                CRM_Donation_BAO_Donation::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Commerce_BAO_Donation::setIsActive($id, 1);
+                CRM_Donation_BAO_Donation::setIsActive($id, 1);
             }
 
             // finally browse the custom groups
@@ -152,7 +152,7 @@ class CRM_Commerce_Page_Donation extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing custom data
-        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Form_Donation', ts('Donation Page'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Donation_Form_Donation', ts('Donation Page'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -173,7 +173,7 @@ class CRM_Commerce_Page_Donation extends CRM_Core_Page {
      */
     function preview($id)
     {
-        $controller =& new CRM_Core_Controller_Simple('CRM_Commerce_Donation_Form_Preview', ts('Preview Donation Page'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Donation_Donation_Form_Preview', ts('Preview Donation Page'), $action);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/commerce/donation', 'action=browse'));
         $controller->set('id', $id);
@@ -194,7 +194,7 @@ class CRM_Commerce_Page_Donation extends CRM_Core_Page {
         
         // get all custom groups sorted by weight
         $donation =  array();
-        $dao      =& new CRM_Commerce_DAO_Donation();
+        $dao      =& new CRM_Donation_DAO_Donation();
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
