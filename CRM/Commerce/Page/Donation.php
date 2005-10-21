@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
+require_once 'CRM/Commerce/DAO/Donation.php';
 
 /**
  * Create a page for displaying Donation Pages
@@ -74,12 +75,6 @@ class CRM_Commerce_Page_Donation extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/commerce/donation',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview Donation Page'),
-                                                                          ),
-                                        CRM_Core_Action::BROWSE  => array(
-                                                                          'name'  => ts('Browse Pages'),
-                                                                          'url'   => 'civicrm/commerce/donation',
-                                                                          'qs'    => 'reset=1&action=browse&id=%%id%%',
-                                                                          'title' => ts('List Page Sections'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Donation Page'),

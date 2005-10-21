@@ -175,16 +175,6 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_domain` ENABLE KEYS */;
 
 --
--- Dumping data for table `civicrm_donation_page`
---
-
-
-/*!40000 ALTER TABLE `civicrm_donation_page` DISABLE KEYS */;
-LOCK TABLES `civicrm_donation_page` WRITE;
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `civicrm_donation_page` ENABLE KEYS */;
-
---
 -- Dumping data for table `civicrm_email`
 --
 

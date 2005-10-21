@@ -384,8 +384,8 @@ class CRM_Core_Invoke {
 
         case 'commerce':
             if ( $args[3] == 'donation' ) {
-                require_once 'CRM/Commerce/Donation/Page/DonationPage.php';
-                $view =& new CRM_Commerce_Donation_Page_DonationPage(ts('Donation Page'));
+                require_once 'CRM/Commerce/Page/Donation.php';
+                $view =& new CRM_Commerce_Page_Donation(ts('Donation Page'));
             }
             break;
 
@@ -628,7 +628,7 @@ class CRM_Core_Invoke {
         }  
     
         require_once 'CRM/Commerce/Page/Donation.php';
-        $page =& CRM_Commerce_Page_Donation( );
+        $page =& new CRM_Commerce_Page_Donation( );
         return $page->run( );
     }
          
