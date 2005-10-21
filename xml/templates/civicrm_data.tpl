@@ -40,7 +40,9 @@ INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
 INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', {$civicrmDomainId}, 0, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('GTalk', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', {$civicrmDomainId}, 0, 1);
+INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Skype', {$civicrmDomainId}, 0, 1);
 
 INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', {$civicrmDomainId}, 0, 1);
 INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', {$civicrmDomainId}, 0, 1);

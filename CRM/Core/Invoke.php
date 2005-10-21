@@ -70,27 +70,29 @@ class CRM_Core_Invoke {
 
         switch ( $args[1] ) {
 
-        case 'contact': return self::contact  ( $args );
+        case 'contact'  : return self::contact ( $args );
 
-        case 'admin'   : return self::admin   ( $args );
+        case 'admin'    : return self::admin   ( $args );
 
-        case 'history' : return self::history ( $args );
+        case 'history'  : return self::history ( $args );
 
-        case 'group'   : return self::group   ( $args );
+        case 'group'    : return self::group   ( $args );
 
-        case 'import'  : return self::import  ( $args );
+        case 'import'   : return self::import  ( $args );
        
-        case 'export'  : return self::export  ( $args );
+        case 'export'   : return self::export  ( $args );
 
-        case 'activity': return self::activity( $args );
+        case 'activity' : return self::activity( $args );
 
-        case 'mailing' : return self::mailing ( $args );
+        case 'mailing'  : return self::mailing ( $args );
 
-        case 'profile' : return self::profile ( $args );
+        case 'profile'  : return self::profile ( $args );
         
-        case 'server' :  return self::server  ( $args );
+        case 'server'   :  return self::server ( $args );
 
-        default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
+        case 'donation' : return self::donation( $args );
+            
+        default         : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
         }
     }
@@ -611,7 +613,25 @@ class CRM_Core_Invoke {
         $page =& new CRM_Profile_Page_Listings( );
         return $page->run( );
     }
+
+    /*
+     * This function contains the actions for donation arguments  
+     *  
+     * @param $args array this array contains the arguments of the url  
+     *  
+     * @static  
+     * @access public  
+     */  
+    static function donation( $args ) {  
+        if ( $args[1] !== 'donation' ) {  
+            return;  
+        }  
     
+        require_once 'CRM/Commerce/Page/Donation.php';
+        $page =& CRM_Commerce_Page_Donation( );
+        return $page->run( );
+    }
+         
     /**
      * handle the export case. this is a hack, so please fix soon
      *

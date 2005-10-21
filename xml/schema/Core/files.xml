@@ -39,6 +39,7 @@
 <xi:include href="UFGroup.xml"          parse="xml" />
 <xi:include href="UFField.xml"          parse="xml" />
 <xi:include href="UFMatch.xml"          parse="xml" />
+<xi:include href="UFJoin.xml"           parse="xml" />
 <xi:include href="Validation.xml"       parse="xml" />
 
 </tables>
