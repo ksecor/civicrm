@@ -12,9 +12,9 @@
     
     <h3>{ts}CiviCRM Profile - Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code">
-    <textarea rows="20" cols="80" name="preview" id="preview">{$preview}</textarea>
+    <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
     <br />
-    <a href="#" onclick="html_code.preview.select(); return false;">Select Code</a>
+    <a href="#" onclick="html_code.profile.select(); return false;">Select Code</a>
     <p></p>
     <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
@@ -25,7 +25,7 @@
     <div id="help">
     {ts}<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which data is used to match a contact record to a user. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.</p>
     <p>Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.</p>
-    <p>Use the <a href="{crmURL p='civicrm/admin/uf/group' q="action=preview"}">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile
+    <p>Use the <a href="{crmURL p='civicrm/admin/uf/group' q="action=profile"}">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile
     form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}
     </div>
 
@@ -57,7 +57,7 @@
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}">&raquo;  {ts}New CiviCRM Profile{/ts}</a>
         </div>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/uf/group' q="action=preview"}">&raquo;  {ts}Stand-alone Profile Form{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/uf/group' q="action=profile"}">&raquo;  {ts}Stand-alone Profile Form{/ts}</a>
         </div>
         {/if}
 

@@ -63,7 +63,9 @@ class CRM_Core_Action {
         ADVANCED      =   512,
         PREVIEW       =  1024,
         FOLLOWUP      =  2048,
-        MAP           =  4096;
+        MAP           =  4096,
+        PROFILE       =  8192;
+          
   
     /**
      * map the action names to the relevant constant. We perform
@@ -87,6 +89,7 @@ class CRM_Core_Action {
                            'export'        => self::EXPORT,
                            'preview'       => self::PREVIEW,
                            'map'           => self::MAP,
+                           'profile'       => self::PROFILE,
                            );
 
     /**

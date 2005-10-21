@@ -133,7 +133,9 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                 CRM_Core_BAO_UFGroup::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
-            } else if ( $action & (CRM_Core_Action::PREVIEW ) ) { 
+            } else if ( $action & CRM_Core_Action::PROFILE ) { 
+                $this->profile( $id ); 
+            } else if ( $action & CRM_Core_Action::PREVIEW ) { 
                 $this->preview( $id ); 
             } 
 
@@ -144,7 +146,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         parent::run();
     }
 
-    function preview( $id ) {
+    function profile( $id ) {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
         $controller->reset( );
         $controller->process( ); 
@@ -152,10 +154,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $controller->run( ); 
         $template =& CRM_Core_Smarty::singleton( ); 
         $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
-        $preview  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
+        $profile  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
         // not sure how to circumvent our own navigation system to generate the right form url
-        $preview = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $preview );
-        $this->assign( 'preview', $preview );
+        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $profile );
+        $this->assign( 'profile', $profile );
         $this->assign( 'action' , CRM_Core_Action::PREVIEW );
         $this->assign( 'isForm' , 0 );
     }
