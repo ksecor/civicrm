@@ -258,7 +258,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Meeting{/ts}', '{ts}Schedule a Meeting{/ts}', 1, 1);
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Phone Call{/ts}', '{ts}Schedule a Phone Call{/ts}', 1, 1);
 INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Email{/ts}', '{ts}Email Sent{/ts}', 1, 1);
-
+INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( {$civicrmDomainId}, '{ts}Event{/ts}', '{ts}Event{/ts}', 1, 0);
 
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
