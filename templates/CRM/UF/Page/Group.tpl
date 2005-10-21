@@ -1,8 +1,10 @@
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8}
     {* Add or edit Profile Group form *}
     {include file="CRM/UF/Form/Group.tpl"}
-
 {elseif $action eq 1024}
+    {* Preview Profile Group form *}	
+    {include file="CRM/UF/Form/Preview.tpl"}
+{elseif $action eq 8192}
     {* Display HTML Code for standalone Profile form *}
     <div id="help">
     <p>{ts}The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>

@@ -79,6 +79,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 
                                                                           ),
+                                        CRM_Core_Action::UPDATE  => array(
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/admin/uf/group',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Edit CiviCRM Profile Group') 
+                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group',
@@ -119,7 +125,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     {
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
-
+        
         // assign vars to templates
         $this->assign('action', $action);
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
@@ -158,7 +164,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         // not sure how to circumvent our own navigation system to generate the right form url
         $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $profile );
         $this->assign( 'profile', $profile );
-        $this->assign( 'action' , CRM_Core_Action::PREVIEW );
+        $this->assign( 'action' , CRM_Core_Action::PROFILE );
         $this->assign( 'isForm' , 0 );
     }
 
@@ -224,6 +230,17 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                                     array('id' => $dao->id));
         }
         $this->assign('rows', $ufGroup);
+    }
+
+    function preview( $id ) 
+    {
+      $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('CiviCRM Profile Group Preview'),null);   
+      $session =& CRM_Core_Session::singleton();
+      $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/', 'action=browse'));
+      $controller->set('id', $id);
+      $controller->setEmbedded(true);
+      $controller->process();
+      $controller->run();
     }
 }
 ?>
