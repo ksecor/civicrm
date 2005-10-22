@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-20 16:17+0200\n"
+"POT-Creation-Date: 2005-10-22 17:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl xml/templates/civicrm_data.tpl
+#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl xml/templates/civicrm_data.tpl
 msgid "Email"
 msgstr ""
 
@@ -1575,6 +1575,10 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
+msgstr ""
+
+#: CRM/Contact/Form/Email.php
+msgid "Email (preferred)"
 msgstr ""
 
 #: CRM/Contact/Form/Email.php
@@ -4785,6 +4789,14 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Email:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Phone:"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl

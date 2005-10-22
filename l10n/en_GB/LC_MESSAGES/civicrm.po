@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-20 16:17+0200\n"
+"POT-Creation-Date: 2005-10-22 17:25+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -402,9 +402,9 @@ msgid "Phone"
 msgstr "Phone"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php
-#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php
+#: CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -2039,6 +2039,11 @@ msgstr "The Location Type should be set if there is any location information"
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
 msgstr "One location should be marked as primary."
+
+#: CRM/Contact/Form/Email.php
+#, fuzzy
+msgid "Email (preferred)"
+msgstr "Phone (preferred)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
@@ -5805,6 +5810,15 @@ msgstr "vCard File:"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
 msgstr "(primary location)"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
+msgid "Preferred Email:"
+msgstr "Preferred Mail Format"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Phone:"
+msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Instant Messenger:"

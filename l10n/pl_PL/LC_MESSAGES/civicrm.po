@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-20 16:17+0200\n"
-"PO-Revision-Date: 2005-10-20 16:27+0200\n"
+"POT-Creation-Date: 2005-10-22 17:25+0200\n"
+"PO-Revision-Date: 2005-10-22 17:26+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -403,9 +403,9 @@ msgid "Phone"
 msgstr "Telefon"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php
-#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php
+#: CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -1981,6 +1981,10 @@ msgid "One location should be marked as primary."
 msgstr "Jedna lokalizacja powinna zostać oznaczona jako główna."
 
 #: CRM/Contact/Form/Email.php
+msgid "Email (preferred)"
+msgstr "Email (preferowany)"
+
+#: CRM/Contact/Form/Email.php
 msgid "another email"
 msgstr "inny email"
 
@@ -2067,9 +2071,11 @@ msgid_plural ""
 msgstr[0] ""
 "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1, lub wybrać "
 "„Zapisz powtarzający się kontakt”."
-msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1, lub wybrać "
+msgstr[1] ""
+"Znaleziono %count pasujące kontakty. Można je edytować tu: %1, lub wybrać "
 "„Zapisz powtarzający się kontakt”."
-msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1, lub wybrać "
+msgstr[2] ""
+"Znaleziono %count pasujących kontaktów. Można je edytować tu: %1, lub wybrać "
 "„Zapisz powtarzający się kontakt”."
 
 #: CRM/Contact/Form/Location.php
@@ -2968,9 +2974,8 @@ msgid "vCard Location Type"
 msgstr "vCard – rodzaj lokalizacji"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Numer telefonu"
+msgstr "Numer kolumny"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Mapping Type"
@@ -4353,7 +4358,7 @@ msgstr "Kopie zapasowe danych"
 
 #: CRM/Utils/Menu.php
 msgid "Synchronize Users-to-Contacts"
-msgstr "Synchronizacja użytkowników z kontaktami"
+msgstr "Synchronizacja użytkowników z&nbsp;kontaktami"
 
 #: CRM/Utils/Menu.php
 msgid "Activity Types"
@@ -4365,7 +4370,7 @@ msgstr "Pola profilu CiviCRM"
 
 #: CRM/Utils/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr "Rodzaje lokalizacji (Dom, Praca…)"
+msgstr "Rodzaje lokalizacji (Dom,&nbsp;Praca…)"
 
 #: CRM/Utils/Menu.php
 msgid "Tags (Categories)"
@@ -4389,11 +4394,11 @@ msgstr "Sieci komórkowe"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr "Prefiksy osób (Pani, Pan…)"
+msgstr "Prefiksy (Pani,&nbsp;Pan…)"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Przyrostki (Jr, Sr…)"
+msgstr "Przyrostki (Jr,&nbsp;Sr…)"
 
 #: CRM/Utils/Menu.php
 msgid "Contacts"
@@ -4938,7 +4943,7 @@ msgid ""
 "options and add new ones as needed for your installation."
 msgstr ""
 "CiviCRM jest skonfigurowany do użycia standardowych opcji prefiksów (np. "
-"Pani, Pan, Dr.). Tu możesz zmienić te opcje i dodać nowe na potrzeby swojej "
+"Pani, Pan, Dr). Tu możesz zmienić te opcje i dodać nowe na potrzeby swojej "
 "instalacji."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
@@ -5699,6 +5704,14 @@ msgstr "vCard"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
 msgstr "(lokalizacja główna)"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Email:"
+msgstr "Preferowany email:"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Phone:"
+msgstr "Preferowany telefon:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Instant Messenger:"
