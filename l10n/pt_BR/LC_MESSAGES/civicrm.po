@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-22 17:25+0200\n"
-"PO-Revision-Date: 2005-08-31 21:28+0200\n"
+"PO-Revision-Date: 2005-10-21 00:33+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -242,7 +242,7 @@ msgstr "Habilitado ?"
 
 #: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php
@@ -329,7 +329,7 @@ msgstr "Habilitar"
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr ""
+msgstr "Backup da Base de Dados"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
@@ -694,27 +694,24 @@ msgid "Message"
 msgstr "Mensagem"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Mapping Option"
-msgstr "Editar opções"
+msgstr "Opções de mapeamento"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Load Mapping"
-msgstr "Registrar Reunião"
+msgstr "Carregar mapeamento"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Salvar este campo de mapeamento"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Update this field mapping"
-msgstr "ocultar esse email"
+msgstr "Atualizar campo de mapeamento"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Salvar um novo campo de mapeamento"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
@@ -906,9 +903,8 @@ msgid "Entity Table"
 msgstr "Entidade da Tabela"
 
 #: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Create"
-msgstr "Criado Por"
+msgstr "Criar"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
@@ -1072,19 +1068,16 @@ msgstr "Grupos"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
-#, fuzzy
 msgid "Forward Mailing"
-msgstr "Email"
+msgstr "Encaminhar Mailing"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
-#, fuzzy
 msgid "Mailings"
-msgstr "Caixa Postal"
+msgstr "Mailings"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Selector/Browse.php
-#, fuzzy
 msgid "Report"
-msgstr "Exportar"
+msgstr "Relatório"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php
 #: templates/CRM/Mailing/Page/Report.tpl
@@ -1142,9 +1135,8 @@ msgid "Group Members"
 msgstr "Membros do Grupo"
 
 #: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Settings"
-msgstr "Texto"
+msgstr "Configurações"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -1531,19 +1523,16 @@ msgstr ""
 "ou editar atividades."
 
 #: CRM/Admin/Page/IndividualPrefix.php
-#, fuzzy
 msgid "Edit Individual Prefix"
-msgstr "Individual"
+msgstr "Editar prefixo Individual"
 
 #: CRM/Admin/Page/IndividualPrefix.php
-#, fuzzy
 msgid "Disable Individual Prefix"
-msgstr "Novo Indivíduo"
+msgstr "Desabilitar prefixo Indivídual"
 
 #: CRM/Admin/Page/IndividualPrefix.php
-#, fuzzy
 msgid "Enable Individual Prefix"
-msgstr "Novo Indivíduo"
+msgstr "Habilitar Prefixo Indivídual"
 
 #: CRM/Admin/Page/IndividualPrefix.php
 #, fuzzy
@@ -1562,25 +1551,21 @@ msgstr ""
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
-#, fuzzy
 msgid "Edit Individual Suffix"
-msgstr "Individual"
+msgstr "Editar Sufixo Individual"
 
 #: CRM/Admin/Page/IndividualSuffix.php
-#, fuzzy
 msgid "Disable Individual Suffix"
-msgstr "Novo Indivíduo"
+msgstr "Desabilitar Sufixo Individual"
 
 #: CRM/Admin/Page/IndividualSuffix.php
-#, fuzzy
 msgid "Enable Individual Suffix"
-msgstr "Novo Indivíduo"
+msgstr "Habilitar Sufixo Individual"
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
-#, fuzzy
 msgid "Delete Individual Suffix"
-msgstr "Novo Indivíduo"
+msgstr "Excluir Sufixo Individual"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
@@ -1774,23 +1759,20 @@ msgid "Country - \"%1\""
 msgstr "País - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Gender - \"%1\""
-msgstr "País - \"%1\""
+msgstr "Sexo - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 = \"%2\""
-msgstr ""
+msgstr "%1 = \"%2\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "%1 like \"%2\""
-msgstr "Nome parecido - \"%1\""
+msgstr "%1 parecido com \"%2\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Contact Type - All"
-msgstr "Tipo de Contato A"
+msgstr "Tipo de Contato - Todos"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
@@ -2417,7 +2399,7 @@ msgstr "Email não enviado para o(s) contato(s): %1"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select more fields"
-msgstr ""
+msgstr "Selecione mais campos"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #, fuzzy
@@ -2662,9 +2644,8 @@ msgid "Map Contacts using Google Maps"
 msgstr "Mapear contatos usando Google Maps"
 
 #: CRM/Contact/Task.php
-#, fuzzy
 msgid "New Smart Group"
-msgstr "Grupo Inteligente"
+msgstr "Novo Grupo Inteligente"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
@@ -2703,7 +2684,7 @@ msgstr "Nome parecido - \"%1\""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
-msgstr ""
+msgstr "Sincronização de Usuários dos contatos concluida."
 
 #: CRM/Core/BAO/DrupalUser.php
 #, fuzzy
@@ -2759,7 +2740,7 @@ msgstr "O rótulo \"%1\" foi salvo."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
-msgstr ""
+msgstr "Criador dinâmico de Formulário"
 
 #: CRM/Core/BAO/UFMatch.php
 msgid "Please set the user framework variable"
@@ -2786,50 +2767,44 @@ msgid "CiviCRM Menu"
 msgstr "CiviCRM Menu"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "CiviMail Menu"
-msgstr "CiviCRM Menu"
+msgstr "CiviMail Menu"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "CiviMail"
-msgstr "CiviCRM"
+msgstr "CiviMail"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
 msgstr "Novo Grupo"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Browse Sent Mailings"
-msgstr "Enviar e-mail"
+msgstr "Visualizar Mailings enviados"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Process Mailing Queue"
-msgstr "Mailing Teste:"
+msgstr "Processar Fila de Mailing"
 
 #: CRM/Core/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Negar"
 
 #: CRM/Core/DAO/ACL.php
-#, fuzzy
 msgid "Operation"
-msgstr "Duração"
+msgstr "Operação"
 
 #: CRM/Core/DAO/ACL.php
 msgid "Object Table"
-msgstr ""
+msgstr "Objeto tabela"
 
 #: CRM/Core/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Tabela Acl"
 
 #: CRM/Core/DAO/ACL.php
-#, fuzzy
 msgid "Grant"
-msgstr "Imprimir"
+msgstr "Permissões"
 
 #: CRM/Core/DAO/ACL.php
 #, fuzzy
@@ -3085,9 +3060,8 @@ msgid "Individual Prefix"
 msgstr "Prefixo Idd"
 
 #: CRM/Core/DAO/IndividualSuffix.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "Individual"
+msgstr "Sufixo Individual"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "Location Type"
@@ -3231,16 +3205,15 @@ msgstr "Sexo"
 
 #: CRM/Core/Invoke.php
 msgid "Sync Drupal Users"
-msgstr ""
+msgstr "Sincronizar usuários Drupal"
 
 #: CRM/Core/Invoke.php
 msgid "View Groups"
 msgstr "Ver Grupos"
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Create Profile"
-msgstr "CiviCRM Perfil"
+msgstr "Criar Perfil"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
@@ -3400,6 +3373,8 @@ msgid ""
 "The Group \"%1\" has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
+"O Grupo \"%1\" não foi excluído! Você deveexcluir todos os campos "
+"customizados deste grupo antes de excluir o grupo."
 
 #: CRM/Custom/Form/Field.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
@@ -3407,11 +3382,11 @@ msgstr "Rótulo do Campo"
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
-msgstr "Tipo de Campo entrada e Dado"
+msgstr "Dados e Tipo de campo de Entrada"
 
 #: CRM/Custom/Form/Field.php
 msgid "Number of Options Per Line"
-msgstr ""
+msgstr "Número de Opções Por Linha"
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
@@ -3670,9 +3645,8 @@ msgid "Group name is required."
 msgstr "Nome do Grupo é obrigatório"
 
 #: CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "Description:"
-msgstr "Descrição"
+msgstr "Descrição:"
 
 #: CRM/Group/Form/Edit.php
 msgid "Continue"
@@ -3683,28 +3657,24 @@ msgid "The Group \"%1\" has been saved."
 msgstr "O Grupo \"%1\" foi salvo."
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Are you sure you want to disable this Group?"
-msgstr "Você tem certeza de que deseja desabilitar este componente?"
+msgstr "Você tem certeza de que deseja desabilitar este Grupo?"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Members"
-msgstr "Membros do Grupo"
+msgstr "Membros "
 
 #: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr "Editar Grupo"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Disable Group"
-msgstr "Desabilitar Grupo Customizado"
+msgstr "Desabilitar Grupo"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Enable Group"
-msgstr "Habilitar Grupo Customizado"
+msgstr "Habilitar Grupo"
 
 #: CRM/Group/Page/Group.php
 msgid "Show Group Members"
