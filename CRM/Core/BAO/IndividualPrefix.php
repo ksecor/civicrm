@@ -129,11 +129,13 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
         
         $individualPrefix->id = CRM_Utils_Array::value( 'individualPrefix', $ids );
         $individualPrefix->save( );
+        require_once 'CRM/Contact/BAO/Individual.php';
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids);
         return $individualPrefix;
     }
     
     /**
-     * Function to delete Gender Title
+     * Function to delete Individual Prefix
      * 
      * @param int $titleId
      * @static

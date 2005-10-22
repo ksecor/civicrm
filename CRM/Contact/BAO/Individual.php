@@ -138,7 +138,63 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         }
         return null;
     }
-        
+
+    /**
+     * regenerates display_name for contacts with given prefixes/suffixes
+     *
+     * @param array $ids  the array with the prefix/suffix id governing which contacts to regenerate
+     *
+     * @return void
+     */
+    static function updateDisplayNames(&$ids) {
+
+        // get the proper field name (prefix_id or suffix_id) and its value
+        $fieldName = '';
+        foreach ($ids as $key => $value) {
+            switch ($key) {
+            case 'individualPrefix':
+                $fieldName = 'prefix_id';
+                $fieldValue = $value;
+                break 2;
+            case 'individualSuffix':
+                $fieldName = 'suffix_id';
+                $fieldValue = $value;
+                break 2;
+            }
+        }
+        if ($fieldName == '') return;
+
+        // query for contact_ids and display_name components of the affected individuals
+        $domainId = CRM_Core_Config::domainID();
+        $fieldValue = CRM_Utils_Type::escape($fieldValue, 'Integer');
+        $query = "SELECT contact_id, prefix_id, first_name, middle_name, last_name, suffix_id
+            FROM civicrm_individual i, civicrm_contact c
+            WHERE i.contact_id = c.id AND c.domain_id = $domainId AND i.$fieldName = $fieldValue";
+        $individual =& new CRM_Contact_BAO_Individual();
+        $individual->query($query);
+
+        // iterate through the affected individuals and rebuild their display_names
+        require_once 'CRM/Contact/BAO/Contact.php';
+        while ($individual->fetch()) {
+            $contact =& new CRM_Contact_BAO_Contact();
+            $contact->id = $individual->contact_id;
+            $contact->display_name = $individual->displayName();
+            $contact->save();
+        }
+    }
+
+    /**
+     * creates display name
+     *
+     * @return string  the constructed display name
+     */
+    function displayName()
+    {
+        $prefix =& CRM_Core_PseudoConstant::individualPrefix();
+        $suffix =& CRM_Core_PseudoConstant::individualSuffix();
+        return str_replace('  ', ' ', trim($prefix[$this->prefix_id] . ' ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name . ' ' . $suffix[$this->suffix_id]));
+    }
+
 }
 
 ?>

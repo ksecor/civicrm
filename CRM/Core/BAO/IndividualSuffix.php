@@ -129,6 +129,8 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         
         $individualSuffix->id = CRM_Utils_Array::value( 'individualSuffix', $ids );
         $individualSuffix->save( );
+        require_once 'CRM/Contact/BAO/Individual.php';
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids);
         return $individualSuffix;
     }
 
@@ -144,6 +146,7 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
     {
         //check dependencies
         require_once 'CRM/Contact/DAO/Individual.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
         $deleteContactId = array();
         $individual = & new CRM_Contact_DAO_Individual();
         $individual->suffix_id = $suffixId;

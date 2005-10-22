@@ -53,7 +53,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      * @var string
      */
-    static $_matchClause = null;
+    static $_matchFields = null;
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -404,18 +404,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
         
-        if ( ! self::$_matchClause ) {
+        if ( ! self::$_matchFields ) {
             $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
-            self::$_matchClause = array( );
+            self::$_matchFields = array( );
             foreach ( $ufGroups as $id => $title ) {
                 $subset = self::getFields( $id, false, CRM_Core_Action::VIEW, true );
-                self::$_matchClause = array_merge( self::$_matchClause, $subset );
+                self::$_matchFields = array_merge( self::$_matchFields, $subset );
             }
         }
 
         require_once 'CRM/Contact/BAO/Query.php';
-        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchClause, $tables, true );
+        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, true );
     }
 
     /**
@@ -432,7 +432,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     public static function findContact( &$params, $id = null, $flatten = false ) {
         $tables = array( );
         $clause = self::getMatchClause( $params, $tables, $flatten );
-        if ( ! $clause ) {
+        $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
+        if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
             return null;
         }
         return CRM_Contact_BAO_Contact::matchContact( $clause, $tables, $id );
