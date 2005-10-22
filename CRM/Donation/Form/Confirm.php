@@ -39,15 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Donation_Form_Donate extends CRM_Core_Form {
-
-    /**
-     * the donation page id
-     *
-     * @var int
-     * @access protected
-     */
-    protected $_id;
+class CRM_Donation_Form_Confirm extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
@@ -57,7 +49,7 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_id = $this->get('id');
+        $this->_token = $this->get( 'token' );
     }
 
     /**
@@ -68,26 +60,11 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        $donationAmounts = array( 1, 2, 4, 8, 16, 32, 64 );
-        $amounts = array( );
-        foreach ( $donationAmounts as $amount ) {
-            $amounts[] = HTML_QuickForm::createElement('radio', null, '', $amount, $amount );
-        }
-        $this->addGroup( $amounts, 'amount', ts( 'Donation Amount' ) );
-
-        // add credit card fields
-        $this->add('text',
-                   'name',
-                   ts('Name on Credit Card'),
-                   array( 'size' => 30, 'maxlength' => 60 ),
-                   true );
-
-        $this->add('text', 
-                   'email', 
-                   ts('Email Address on Paypal'), 
-                   array( 'size' => 30, 'maxlength' => 60 ), 
-                   true );
-
+        require_once 'CRM/Utils/Payment/PayPal.php'; 
+        $paypal =& CRM_Utils_Payment_PayPal::singleton( );
+        $params = $paypal->getExpressCheckoutDetails( $this->_token );
+        CRM_Core_Error::debug( 'p', $params );
+        exit( );
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -131,7 +108,6 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         require_once 'CRM/Utils/Payment/PayPal.php';
         $paypal =& CRM_Utils_Payment_PayPal::singleton( );
         $token = $paypal->expressCheckout( $params );
-        $this->set( 'token', $token );
 
         $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
         CRM_Utils_System::redirect( $paypalURL );

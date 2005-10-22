@@ -382,16 +382,6 @@ class CRM_Core_Invoke {
             }
             break;
 
-        case 'donation':
-            if ( $args[3] == 'donate' ) {
-                $wrapper =& new CRM_Utils_Wrapper( ); 
-                return $wrapper->run( 'CRM_Donation_Form_Donate', ts('Donate Page'), null );
-            } else {
-                require_once 'CRM/Donation/Page/Donation.php';
-                $view =& new CRM_Donation_Page_Donation(ts('Donation Page'));
-            }
-            break;
-
         case 'tag':
             require_once 'CRM/Admin/Page/Tag.php';
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
@@ -631,8 +621,9 @@ class CRM_Core_Invoke {
         }  
     
         if ( $args[2] == 'donate' ) { 
-            $wrapper =& new CRM_Utils_Wrapper( );  
-            return $wrapper->run( 'CRM_Donation_Form_Donate', ts('Donate Page'), null ); 
+            require_once 'CRM/Donation/Controller/Donate.php'; 
+            $controller =& new CRM_Donation_Controller_Donate($title, $mode); 
+            return $controller->run(); 
         } else { 
             require_once 'CRM/Donation/Page/Donation.php'; 
             $view =& new CRM_Donation_Page_Donation(ts('Donation Page')); 
