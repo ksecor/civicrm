@@ -49,7 +49,22 @@ class CRM_Donation_Form_Confirm extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_token = $this->get( 'token' );
+        $nullObject = null;
+        $rfp = CRM_Utils_Request::retrieve( 'rfp', $nullObject, false, null, 'GET' );
+        if ( true ) {
+            require_once 'CRM/Utils/Payment/PayPal.php'; 
+            $paypal =& CRM_Utils_Payment_PayPal::singleton( );
+            $this->_params = $paypal->getExpressCheckoutDetails( $this->get( 'token' ) );
+
+            // set a few other parameters for PayPal
+            $this->_params['token']          = $this->get( 'token' );
+            $this->_params['payment_action'] = 'Sale';
+            $this->_params['amount'        ] = $this->get( 'amount' );
+            $this->_params['currencyID'    ] = 'USD';
+            $this->set( 'getExpressCheckoutDetails', $this->_params );
+        } else {
+            $this->_params = $this->get( 'getExpressCheckoutDetails' );
+        }
     }
 
     /**
@@ -60,14 +75,9 @@ class CRM_Donation_Form_Confirm extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        require_once 'CRM/Utils/Payment/PayPal.php'; 
-        $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-        $params = $paypal->getExpressCheckoutDetails( $this->_token );
-        CRM_Core_Error::debug( 'p', $params );
-        exit( );
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
+                                        'name'      => ts('Confirm Donation'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
@@ -98,19 +108,9 @@ class CRM_Donation_Form_Confirm extends CRM_Core_Form {
      */
     public function postProcess()
     {
-        // get the submitted form values.
-        $params = $this->controller->exportValues( $this->_name );
-
-        $params['currencyID'] = 'USD';
-        $params['cancelURL' ] = 'http://civicrm1.electricembers.net/~lobo/drupal/index.php?q=civicrm/donation/donate&_qf_Donate_display=1';
-        $params['returnURL' ] = 'http://civicrm1.electricembers.net/~lobo/drupal/index.php?q=civicrm/donation/donate';
-
         require_once 'CRM/Utils/Payment/PayPal.php';
         $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-        $token = $paypal->expressCheckout( $params );
-
-        $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
-        CRM_Utils_System::redirect( $paypalURL );
+        $result = $paypal->doExpressCheckout( $this->_params );
     }
 }
 

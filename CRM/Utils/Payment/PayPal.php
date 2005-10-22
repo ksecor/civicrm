@@ -98,7 +98,7 @@ class CRM_Utils_Payment_PayPal {
         return self::$_singleton; 
     } 
 
-    function expressCheckOut( &$params ) {
+    function setExpressCheckOut( &$params ) {
 
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );
 
@@ -157,7 +157,14 @@ class CRM_Utils_Payment_PayPal {
         } else {
             /* Success */
             $detail                =& $result->getGetExpressCheckoutDetailsResponseDetails( );
-            $payer                 =& $detail->getPayerInfo ( );
+
+            $params                 =  array( );
+            $params['token']        =  $result->Token;
+
+            $payer                  =& $detail->getPayerInfo ( );
+            $params['payer'       ] =  $payer->Payer;
+            $params['payer_id'    ] =  $payer->PayerID;
+            $params['payer_status'] =  $payer->PayerStatus;
 
             $name                  =& $payer->getPayerName  ( );
             $params['first_name' ] =  $name->getFirstName   ( );
@@ -175,4 +182,73 @@ class CRM_Utils_Payment_PayPal {
         }
     }
 
+    function doExpressCheckout( &$params ) {
+        $orderTotal =& Services_PayPal::getType( 'BasicAmountType' ); 
+ 
+        if ( Services_PayPal::isError( $orderTotal ) ) { 
+            CRM_Core_Error::debug( 'v', $orderTotal ); 
+            exit; 
+        } 
+ 
+        $orderTotal->setattr('currencyID', $params['currencyID'] ); 
+        $orderTotal->setval( $params['amount'], 'iso-8859-1'); 
+        $paymentDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
+        
+        if ( Services_PayPal::isError( $paymentDetails ) ) {
+            CRM_Core_Error::debug( 'v', $paymentDetails );
+            exit;
+        }
+
+        $paymentDetails->setOrderTotal( $orderTotal );
+        $doExpressCheckoutPaymentRequestDetails =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
+
+        if ( Services_PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
+            CRM_Core_Error::debug( 'v', $doExpressCheckoutPaymentRequestDetails );
+            exit;
+        }
+
+        $doExpressCheckoutPaymentRequestDetails->setPaymentDetails( $paymentDetails );
+        $doExpressCheckoutPaymentRequestDetails->setPayerID       ( $params['payer_id']      , 'iso-8859-1' );
+        $doExpressCheckoutPaymentRequestDetails->setToken         ( $params['token']         , 'iso-8859-1' );
+        $doExpressCheckoutPaymentRequestDetails->setPaymentAction ( $params['payment_action'], 'iso-8859-1' );
+        $doExpressCheckoutPayment =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
+
+        if ( Services_PayPal::isError( $doExpressCheckoutPayment ) ) {
+            CRM_Core_Error::debug( 'v', $doExpressCheckoutPayment );
+            exit;
+        }
+
+        $doExpressCheckoutPayment->setDoExpressCheckoutPaymentRequestDetails( $doExpressCheckoutPaymentRequestDetails );
+
+        $result = $this->_caller->DoExpressCheckoutPayment( $doExpressCheckoutPayment );
+
+        if ( Services_PayPal::isError( $result ) ) { 
+            CRM_Core_Error::debug( 'v', $result );
+        } else {
+            /* Success */
+            $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
+
+            $params = array( );
+            $paymentInfo =& $details->getPaymentInfo( );
+
+            $params['transaction_id'] = $paymentInfo->TransactionID;
+            $params['payment_type'  ] = $paymentInfo->PaymentType;
+            $params['payment_date'  ] = $paymentInfo->PaymentDate;
+            $params['gross_amount'  ] = self::getAmount( $paymentInfo->GrossAmount );
+            $params['fee_amount'    ] = self::getAmount( $paymentInfo->FeeAmount    );
+            $params['settle_amount' ] = self::getAmount( $paymentInfo->SettleAmount );
+            $params['payment_status'] = $paymentInfo->PaymentStatus;
+            $params['pending_reason'] = $paymentInfo->PendingReason;
+            
+            return $params;
+        }
+
+    }
+
+    function getAmount( &$amount ) {
+        return $amount->_value;
+    }
+        
 }
+
+?>

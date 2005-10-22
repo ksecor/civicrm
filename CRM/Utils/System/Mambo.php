@@ -93,7 +93,7 @@ class CRM_Utils_System_Mambo {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
         $config        =& CRM_Core_Config::singleton( );
         static $script = 'index2.php';
 

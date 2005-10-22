@@ -205,13 +205,14 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
         // we have a valid query and it has not yet been transformed
-        if ( ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
+        if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
             $query = htmlentities( $query );
         }
+
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment );' );
+        return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment, $htmlize );' );
 
     }
 

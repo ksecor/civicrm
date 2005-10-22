@@ -90,7 +90,7 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
+                                        'name'      => ts('Donate via PayPal'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
@@ -124,13 +124,16 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
 
+        $this->set( 'amount', $params['amount'] );
+
         $params['currencyID'] = 'USD';
-        $params['cancelURL' ] = 'http://civicrm1.electricembers.net/~lobo/drupal/index.php?q=civicrm/donation/donate&_qf_Donate_display=1';
-        $params['returnURL' ] = 'http://civicrm1.electricembers.net/~lobo/drupal/index.php?q=civicrm/donation/donate';
+        $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1' );
+        $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1', true, null, false );
+        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Confirm_display=1&rfp=1', true, null, false );
 
         require_once 'CRM/Utils/Payment/PayPal.php';
         $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-        $token = $paypal->expressCheckout( $params );
+        $token = $paypal->setExpressCheckout( $params );
         $this->set( 'token', $token );
 
         $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
