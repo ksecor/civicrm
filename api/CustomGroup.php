@@ -71,9 +71,7 @@ require_once 'CRM/Utils/Array.php';
  * @access public 
  *
  */
-
-
-function crm_create_option_value($params,$custom_field) 
+function crm_create_option_value($params, $custom_field) 
 {
      _crm_initialize( );
 
@@ -84,6 +82,7 @@ function crm_create_option_value($params,$custom_field)
     if( ! isset ($custom_field->id) ) {
         return _crm_error( "custom_field is not valid custom_field object" );
     }
+    
     $params['custom_field_id'] = $custom_field->id;
     
     $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomOption');
@@ -94,7 +93,6 @@ function crm_create_option_value($params,$custom_field)
     $custonOption = CRM_Core_BAO_CustomOption::create($params);
     
     return $custonOption;
-    
 }
 
 /**
@@ -108,15 +106,14 @@ function crm_create_option_value($params,$custom_field)
  * @access public
  *
  */
-
-
 function crm_get_option_values($customField)
 {
     _crm_initialize( );
-
+    
     if( ! isset ($customField->id) ) {
         return _crm_error( "custom_field is not valid custom_field object" );
     }
+    
     $fieldId = $customField->id;
     return CRM_Core_BAO_CustomOption::getCustomOption($fieldId);
 }
@@ -132,7 +129,6 @@ function crm_get_option_values($customField)
  *
  * @access public
  */
-
 function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     _crm_initialize( );
 
@@ -166,13 +162,10 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
        
                 $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
             }
-            
         }
-        
     }
     
     return $property_object;
-
 }
 
 
@@ -187,8 +180,6 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
  *
  * @access public 
  */
-
-
 function crm_create_custom_group($class_name, $params)
 {
     _crm_initialize( );
@@ -210,6 +201,7 @@ function crm_create_custom_group($class_name, $params)
     return $customGroup;
 }
 
+
 /**
  * Defines 'custom field' within a group.
  *
@@ -229,23 +221,23 @@ function crm_create_custom_field(&$custom_group, $params)
   if(! is_array($params) ) {
       return _crm_error("params is not an array ");
   }
+  
   $params['custom_group_id'] = $custom_group->id;
-
+  
   if(! isset($custom_group->id) ) {
       return _crm_error("group id is not set in custom_group object");
   }
   
   $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
   if (is_a($error, 'CRM_Core_Error')) {
-        return $error;
-    }
-  
-  
-  
+      return $error;
+  }
+    
   $customField = CRM_Core_BAO_CustomField::create($params);
 
   return $customField;
 }
+
 
 /**
  *  Defines 'custom value' within a field for a specific entity table/id combination.
@@ -266,17 +258,14 @@ function crm_create_custom_field(&$custom_group, $params)
  *
  *
  */
-
-
-
 function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$data ,$separator = null)
 {
-      _crm_initialize( );
-
+    _crm_initialize( );
+    
     if(! isset($entity_table) ) {
         return _crm_error("parameter entity_table is not set ");
     }
-
+    
     if(! isset($entity_id) ) {
         return _crm_error("parameter entity_id is not set ");
     }
@@ -284,17 +273,16 @@ function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$da
     if(! isset($custom_field->id) && ! isset($custom_field->type) ) {
         return _crm_error("field id ot type is not set in custom_field object");
     }
-
+    
     if ( $separator ) {
-        $values = explode($separator,$data['value']);
-        $data['value'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$values);
+        $values        = explode($separator, $data['value']);
+        $data['value'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $values);
     }
-
-    $data['type'] = $custom_field->data_type;
+    
+    $data['type'           ] = $custom_field->data_type;
     $data['custom_field_id'] = $custom_field->id;
-    $data['entity_table'] =  $entity_table;
-    $data['entity_id'] = $entity_id;
+    $data['entity_table'   ] =  $entity_table;
+    $data['entity_id'      ] = $entity_id;
  
     CRM_Core_BAO_CustomValue::create( $data);
-
 }
