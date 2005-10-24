@@ -1,9 +1,7 @@
-
+{capture assign=infoMessage}{ts}Preview of the Civicrm profile (fieldset).{/ts}{/capture}
+{include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
-
-
-
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
@@ -68,21 +66,15 @@
         {/if}
     {/foreach}
     </table>
-{if $field.groupHelpPost}
+    {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
-{/if}
+    {/if}
+    {/strip}
+</div> {* end crm-container div *}
+{/if} {* fields array is not empty *}
 
 {if $action eq 1024}
 <div class=" horizontal-center "> 
-     
 	{$form.buttons.html}
-     
 </div>
 {/if}
-    
-    
-    {/strip}
-
-
-</div> {* end crm-container div *}
-{/if} {* fields array is not empty *}
