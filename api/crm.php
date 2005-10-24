@@ -54,7 +54,7 @@ require_once 'api/CustomGroup.php';
 require_once 'api/UFGroup.php';
 require_once 'api/Search.php';
 require_once 'api/Relationship.php';
-
+require_once 'api/Custom.php';
 require_once 'CRM/Contact/BAO/Group.php';
 
 
@@ -113,66 +113,6 @@ function crm_delete_location(&$contact, $context_name) {
 }
 
 function crm_get_locations(&$contact) {
-}
-
-function crm_add_option_value($property, $filter = null, $option_values) {
-}
-
-function crm_get_option_values($property, $filter = null) {
-}
-
-
-/**
- * Returns an array of property objects for the requested class.
- *
- * @param String      $class_name      'class_name' (string) A valid class name.
- * @param Striing     $filter           filter' (string) Limits properties returned ("core", "custom", "default", "all).
- *  
- * @return $property_object  Array of property objects containing the properties like id ,name ,data_type, description;
- *
- * @access public
- */
-
-function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
-    _crm_initialize( );
-
-    $property_object = array(); 
-    $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
-    if($error) {
-        return _crm_error($error);
-    }
-    $id = -1;
-    
-    foreach($fields as $key => $values) {
-        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-    }
-    
-    if($class_name =='Individual' || $class_name =='Organization' || $class_name =='Household') {
-        eval( '$fields = CRM_Contact_DAO_Contact::fields( );' );
-        
-        foreach($fields as $key => $values) {
-            
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
-        }
-        $fields="";
-    }
-    
-    if($filter == 'custom' || $filter == 'all' ) {
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
-        foreach($groupTree as $node) {
-            $fields = $node["fields"];
-            
-            foreach($fields as $key => $values) {
-       
-                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
-            }
-            
-        }
-        
-    }
-    
-    return $property_object;
-
 }
 
 function crm_create_extended_property_group($class_name, $params) {
