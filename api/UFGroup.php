@@ -62,38 +62,6 @@ require_once 'CRM/Core/I18n.php';
  */
 
 
-/**
- * Create a new Custom Group
- *
- * Creates a new custom group record and returns the newly created
- * Custom Group object. 
- * Minimum required data values are domain_id and weight
- *
- * @param array  $params       Associative array of property name/value
- *                             pairs to insert in new custom group
- *
- * @return CRM_Core_BAO_CustomGroup|CRM_Error Newly created Custom Group object
- *
- * @access public
- */
-function &crm_create_custom_group(&$params)
-{
-    _crm_initialize( );
-
-    // return error if we do not get any params
-    if (empty($params)) {
-        return _crm_error(ts('Input Parameters empty'));
-    }
-
-    // check required fields
-    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
-    if (is_a($error, 'CRM_Core_Error')) {
-        return $error;
-    }
-
-    $customGroup = CRM_Core_BAO_CustomGroup::create($params);
-    return $customGroup;
-}
 
 /**                
  * Get all the user framework groups 

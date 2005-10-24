@@ -54,7 +54,7 @@ require_once 'api/CustomGroup.php';
 require_once 'api/UFGroup.php';
 require_once 'api/Search.php';
 require_once 'api/Relationship.php';
-require_once 'api/Custom.php';
+
 require_once 'CRM/Contact/BAO/Group.php';
 
 
