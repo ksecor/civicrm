@@ -32,6 +32,10 @@ msgstr "corrija a grupos"
 msgid "administer CiviCRM"
 msgstr "administre CiviCRM"
 
+#, fuzzy
+msgid "access CiviCRM Profile Listings"
+msgstr "acceso a CiviCRM"
+
 msgid "access CiviCRM"
 msgstr "acceso a CiviCRM"
 

@@ -17,28 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "add contacts"
-msgstr "dodaj kontakty"
+msgstr "dodawanie kontaktów"
 
 msgid "view all contacts"
-msgstr "zobacz wszystkie kontakty"
+msgstr "podgląd wszystkich kontaktów"
 
 msgid "edit all contacts"
-msgstr "edytuj wszystkie kontakty"
+msgstr "edycja wszystkich kontaktów"
 
 msgid "edit groups"
-msgstr "edytuj grupy"
+msgstr "edycja grup"
 
 msgid "administer CiviCRM"
-msgstr "zarządzaj CiviCRM-em"
+msgstr "zarządznie CiviCRM-em"
+
+msgid "access CiviCRM Profile Listings"
+msgstr "dostęp do spisów profili CiviCRM"
 
 msgid "access CiviCRM"
 msgstr "dostęp do CiviCRM-a"
 
 msgid "edit contacts in %1"
-msgstr "edytuj kontakty w %1"
+msgstr "edycja kontaktów w %1"
 
 msgid "view contacts in %1"
-msgstr "zobacz kontakty w %1"
+msgstr "podgląd kontaktów w %1"
 
 msgid ""
 "Constituent Relationship Management (CRM). Allows sites to manage contacts, "

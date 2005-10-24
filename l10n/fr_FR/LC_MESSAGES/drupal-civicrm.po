@@ -32,6 +32,9 @@ msgstr ""
 msgid "administer CiviCRM"
 msgstr ""
 
+msgid "access CiviCRM Profile Listings"
+msgstr ""
+
 msgid "access CiviCRM"
 msgstr ""
 

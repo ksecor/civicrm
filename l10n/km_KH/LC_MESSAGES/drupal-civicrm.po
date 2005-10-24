@@ -32,6 +32,10 @@ msgid "administer CiviCRM"
 msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
 
 #, fuzzy
+msgid "access CiviCRM Profile Listings"
+msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
+
+#, fuzzy
 msgid "access CiviCRM"
 msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
 

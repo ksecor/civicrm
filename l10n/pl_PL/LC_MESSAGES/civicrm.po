@@ -7036,7 +7036,7 @@ msgid ""
 "listings."
 msgstr ""
 "UWAGA: Usunięcie tego pola profilu spowoduje skasowanie skasowanie go z "
-"formularzy profilów i spisów."
+"formularzy profili i spisów."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
