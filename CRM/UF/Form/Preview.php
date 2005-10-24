@@ -104,7 +104,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     {
 
         // add the form elements
-       
+   
         foreach ($this->_fields as $name => $field ) {
             
             $required = $field['is_required'];
@@ -142,6 +142,8 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                                                               CRM_Contact_Form_GroupTag::TAG );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
+            } else if  ( $field['name'] === 'phone' ) {
+                $this->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }

@@ -85,6 +85,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     protected $_selectFields;
 
     /**
+     * to store fields with if locationtype exits status 
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_hasLocationTypes;
+    
+    /**
      * Function to set variables up before form is built
      *
      * @return void
@@ -105,7 +113,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 if ( $name == 'note' ) {
                     continue;
                 }
-                $this->_selectFields[$name] = $field['title'];
+                $this->_selectFields    [$name] = $field['title'];
+                $this->_hasLocationTypes[$name] = $field['hasLocationType'];
             }
         }
         // lets add group and tag to this list
@@ -122,8 +131,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     function setDefaultValues()
     {
+        /*
         $defaults = array();
-        
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
@@ -145,8 +154,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 $defaults['weight'] = 1;
             }
         }
-
-        return $defaults;
+          return $defaults;
+        */
     }
     
     /**
@@ -157,7 +166,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-         
+
         if($this->_action & CRM_Core_Action::DELETE) {
             $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -171,6 +180,28 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             return;
 
         }
+
+        if (isset($this->_id)) {
+            $params = array('id' => $this->_id);
+            CRM_Core_BAO_UFField::retrieve($params, $defaults);
+            $defaults[ 'field_name' ] = array ($defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
+            $this->_gid = $defaults['uf_group_id'];
+        } else {
+            $defaults['is_active'] = 1;
+        }
+        
+        if ($this->_action & CRM_Core_Action::ADD) {
+            $uf =& new CRM_Core_DAO();
+            $sql = "SELECT weight FROM civicrm_uf_field  WHERE uf_group_id = ". $this->_gid ." ORDER BY weight  DESC LIMIT 0, 1"; 
+            $uf->query($sql);
+            while( $uf->fetch( ) ) {
+                $defaults['weight'] = $uf->weight + 1;
+            }
+            
+            if ( empty($defaults['weight']) ) {
+                $defaults['weight'] = 1;
+            }
+        }
         
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
@@ -182,7 +213,59 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->add('hidden', 'field_id', $this->_id);
 
         // field name
-        $this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
+        //$this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
+
+        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
+        
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+        
+        /* FIXME: dirty hack to make the default option show up first.  This
+         * avoids a mozilla browser bug with defaults on dynamically constructed
+         * selector widgets. */
+        
+        if ($defaultLocationType) {
+            $defaultLocation = $this->_location_types[$defaultLocationType->id];
+            unset($this->_location_types[$defaultLocationType->id]);
+            $this->_location_types = 
+                array($defaultLocationType->id => $defaultLocation) + 
+                $this->_location_types;
+        }
+        
+        $sel1 = $this->_selectFields;
+        
+        $sel2[''] = null;
+        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        foreach ($this->_location_types as $key => $value) {
+            $sel3['phone'][$key] =& $phoneTypes;
+        }
+        
+        foreach ($this->_hasLocationTypes  as $key => $value) {
+            if ($this->_hasLocationTypes[$key]) {
+                $sel2[$key] = $this->_location_types;
+            } else {
+                $sel2[$key] = null;
+            }
+        }
+        
+        $js = "<script type='text/javascript'>\n";
+        $formName = 'document.forms.' . $this->_name;
+        
+        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), null);
+        $jsSet = false;
+        
+        for ( $k = 1; $k < 3; $k++ ) {
+            if (!$defaults['field_name'][$k]) {
+                $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+            }
+        }
+        
+        $sel->setOptions(array($sel1, $sel2, $sel3));
+
+        $js .= "</script>\n";
+        $this->assign('initHideBoxes', $js);
+
+
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
 
         // should the field appear in selector?
@@ -222,6 +305,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/uf/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
+
+        $this->setDefaults($defaults);
+
     }
 
     /**
@@ -240,10 +326,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-
+        
         // set values for custom field properties and save
-        $ufField                 =& new CRM_Core_DAO_UFField();
-        $ufField->field_name     = $params['field_name'];
+        $ufField                   =& new CRM_Core_DAO_UFField();
+        $ufField->field_name       = $params['field_name'][0];
+        $ufField->location_type_id = $params['field_name'][1];
+        $ufField->phone_type       = $params['field_name'][2];
+        
+
         $ufField->listings_title = $params['listings_title'];
         $ufField->visibility     = $params['visibility'];
         $ufField->help_post      = $params['help_post'];

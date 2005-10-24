@@ -249,7 +249,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                               'in_selector'      => $field->in_selector,
                               'default'          => $field->default_value,
                               'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
-                              'options_per_line' => $importableFields[$field->field_name]['options_per_line']
+                              'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
+                              'location_type_id' => $field->location_type_id,
+                              'phone_type'       => $field->phone_type,
                               );
                 }
             }
