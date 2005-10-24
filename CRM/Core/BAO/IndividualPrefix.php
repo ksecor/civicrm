@@ -130,44 +130,24 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
         $individualPrefix->id = CRM_Utils_Array::value( 'individualPrefix', $ids );
         $individualPrefix->save( );
         require_once 'CRM/Contact/BAO/Individual.php';
-        CRM_Contact_BAO_Individual::updateDisplayNames($ids);
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::UPDATE);
         return $individualPrefix;
     }
     
     /**
      * Function to delete Individual Prefix
      * 
-     * @param int $titleId
+     * @param int $prefixId
      * @static
      */
     
-    static function del($titleId) 
+    static function del($prefixId) 
     {
-        require_once 'CRM/Contact/DAO/Individual.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        //check dependencies
-        $deleteContactId = array();
-        $individual = & new CRM_Contact_DAO_Individual();
-        $individual->prefix_id = $titleId;
-        $individual->find();
-        while($individual->fetch()) {
-            $contactId = $individual->contact_id;
-           
-            $session =& CRM_Core_Session::singleton( );
-            $currentUserId = $session->get( 'userID' );
-            if ($currentUserId !=$contactId) {
-                $deleteContactId[] = $contactId;
-                
-            }else {
-                return false;
-            }
-        }
-        
-        foreach($deleteContactId as $cid) {
-            CRM_Contact_BAO_Contact::deleteContact( $cid );
-        }
+        require_once 'CRM/Contact/BAO/Individual.php';
+        $ids = array('individualPrefix' => $prefixId);
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::DELETE);
         $prefix = & new CRM_Core_DAO_IndividualPrefix();
-        $prefix->id = $titleId;
+        $prefix->id = $prefixId;
         $prefix->delete();
         return true;
     }
