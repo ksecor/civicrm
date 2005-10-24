@@ -248,7 +248,35 @@ function &crm_get_contact( $params, $returnProperties = null ) {
         return _crm_error('$params is not an array');
     }
 
-    return crm_contact_search( $params, $returnProperties );
+    if (!$params['contact_id']) { 
+        $returnProperties = array( 'display_name' );
+        $contacts = crm_contact_search( $params, $returnProperties );
+        if ( count( $contacts ) > 1 ) {
+            return _crm_error( count( $contacts ) . " contacts matching input params." );
+        }
+        $params['contact_id'] = $contacts[1]['contact_id'];
+    }
+
+    $params['id'] = $params['contact_id']; 
+    $ids          = array( ); 
+ 
+    $contact =& CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids ); 
+ 
+    if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) { 
+        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] ); 
+    } 
+ 
+    unset($params['id']); 
+     
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php"); 
+    $contact->contact_type_object = 
+        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' ); 
+ 
+    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 ); 
+ 
+    $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id); 
+ 
+    return $contact; 
 }
 
 /**
@@ -374,22 +402,15 @@ function crm_delete_contact( &$contact ) {
  * @access public 
  * 
  */ 
-
-
-
- function crm_get_contacts() {
-
-     
-     $query = 'SELECT * FROM civicrm_contact';
-     $dao =  $dao =& new CRM_Core_DAO( );
-     $dao->query( $query );
-     $Contacts = array();
-     while ( $dao->fetch( ) ) {
-         //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
-         $Contacts[$dao->id]= $dao->id;
-        
-         
-     }
-     return $Contacts;
+function crm_get_contacts() {
+    $query = 'SELECT * FROM civicrm_contact';
+    $dao =  $dao =& new CRM_Core_DAO( );
+    $dao->query( $query );
+    $Contacts = array();
+    while ( $dao->fetch( ) ) {
+        //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
+        $Contacts[$dao->id]= $dao->id;
+    }
+    return $Contacts;
  }
 ?>

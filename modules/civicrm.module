@@ -220,7 +220,7 @@ function civicrm_initialize() {
     }
 }
 
-function civicrm_invoke()
+function civicrm_invoke( )
 {
     // make sure the system is initialized
     civicrm_initialize( );
@@ -231,10 +231,35 @@ function civicrm_invoke()
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     $args = explode( '/', $_GET['q'] );
-    require_once 'CRM/Core/Invoke.php';
-    $ret  = CRM_Core_Invoke::invoke( $args );
+
+	if ( $args[1] == 'quickreg' ) {
+        civicrm_quickreg( );
+    } else {
+        require_once 'CRM/Core/Invoke.php';
+        $ret  = CRM_Core_Invoke::invoke( $args );
+    }
     
     return $ret;
+}
+
+function civicrm_quickreg( ) {
+    $names  = array( 'first_name', 'last_name', 'email', 'postal_code' ); 
+    $params = array( ); 
+    foreach ( $names as $name ) { 
+        if ( isset( $_POST[ $name ] ) && ! empty( $_POST[ $name ] ) ) { 
+            $params[$name] = $_POST[ $name ];  
+        } 
+    } 
+
+    require_once 'api/Contact.php';
+    $contact = crm_create_contact( $params, 'Individual' ); 
+    if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+        $url = $_SERVER['HTTP_REFERER'];
+    } else {
+        $config =& CRM_Core_Config::singleton( );
+        $url = $config->userFrameworkBaseURL;
+    }
+    CRM_Utils_System::redirect( $url );
 }
 
 /**
@@ -300,9 +325,10 @@ function civicrm_categories( ) {
     $group->find( );
 
     while ( $group->fetch( ) ) {
+        // add 1 to the default weight, so that drupal's main account has precedence
         $data[] = array( 'name'   => $group->title,
                          'title'  => $group->title,
-                         'weight' => $group->weight );
+                         'weight' => $group->weight + 1 );
     }
     return $data;
 }
