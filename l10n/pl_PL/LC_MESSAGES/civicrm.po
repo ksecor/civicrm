@@ -4370,7 +4370,7 @@ msgstr "Pola profilu CiviCRM"
 
 #: CRM/Utils/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr "Rodzaje lokalizacji (Dom,&nbsp;Praca…)"
+msgstr "Rodzaje lokalizacji (Dom, Praca…)"
 
 #: CRM/Utils/Menu.php
 msgid "Tags (Categories)"
@@ -4394,11 +4394,11 @@ msgstr "Sieci komórkowe"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr "Prefiksy (Pani,&nbsp;Pan…)"
+msgstr "Prefiksy (Pani, Pan…)"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Przyrostki (Jr,&nbsp;Sr…)"
+msgstr "Przyrostki (Jr, Sr…)"
 
 #: CRM/Utils/Menu.php
 msgid "Contacts"
