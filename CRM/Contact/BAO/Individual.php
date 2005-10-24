@@ -164,14 +164,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         }
         if ($fieldName == '') return;
 
-        // query for contact_ids and display_name components of the affected individuals
-        $domainId = CRM_Core_Config::domainID();
+        // query for the affected individuals
         $fieldValue = CRM_Utils_Type::escape($fieldValue, 'Integer');
-        $query = "SELECT contact_id, prefix_id, first_name, middle_name, last_name, suffix_id
-            FROM civicrm_individual i, civicrm_contact c
-            WHERE i.contact_id = c.id AND c.domain_id = $domainId AND i.$fieldName = $fieldValue";
         $individual =& new CRM_Contact_BAO_Individual();
-        $individual->query($query);
+        $individual->$fieldName = $fieldValue;
+        $individual->find();
 
         // iterate through the affected individuals and rebuild their display_names
         require_once 'CRM/Contact/BAO/Contact.php';
