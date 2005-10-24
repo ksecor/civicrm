@@ -81,7 +81,9 @@ function crm_create_location(&$contact, $params) {
     $loc =& $values['location'][1];
 
     $loc['address'] = array( );
-    $fields =& CRM_Contact_DAO_Address::fields( );
+
+    require_once 'CRM/Core/DAO/Address.php';
+    $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
     $ids = array( 'county', 'country', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     foreach ( $ids as $id ) {
@@ -95,13 +97,14 @@ function crm_create_location(&$contact, $params) {
         $name = strtolower($block);
         $loc[$name]    = array( );
         $loc[$name][1] = array( );
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $block) . ".php");
-        eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
+        eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         _crm_store_values( $fields, $params, $loc[$name][1] );
     }
     $loc['location_type_id'] = $params['location_type_id'];
  
     $ids = array();
+    require_once 'CRM/Core/BAO/Location.php';
     CRM_Core_BAO_Location::add($values, $ids, null);
     return $contact;
 }

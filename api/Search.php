@@ -38,6 +38,14 @@
  * 
  */
 
+  /** 
+   * Files required for this package 
+   */ 
+ 
+require_once 'api/utils.php'; 
+
+require_once 'CRM/Contact/BAO/Query.php';
+
 /** 
  * Most API functions take in associative arrays ( name => value pairs 
  * as parameters. Some of the most commonly used parameters are 

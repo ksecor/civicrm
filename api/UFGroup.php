@@ -41,13 +41,9 @@
 /**
  * Files required for this package
  */
-require_once 'PEAR.php';
+require_once 'api/utils.php'; 
 
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Utils/Array.php';
-require_once 'CRM/Core/I18n.php';
-
-
+require_once 'CRM/Core/BAO/UFGroup.php';
 
 /**
  * Most API functions take in associative arrays ( name => value pairs
@@ -132,6 +128,7 @@ function crm_uf_get_profile_html  ( $userID, $title, $action = null, $register =
  * @static 
  */ 
 function crm_uf_get_match_id ( $ufID ) {
+    require_once 'CRM/Core/BAO/UFMatch.php';
     return CRM_Core_BAO_UFMatch::getContactId( $ufID );
 }
 

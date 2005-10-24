@@ -1,50 +1,47 @@
 <?php
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 1.1                                                |
- +--------------------------------------------------------------------+
- | Copyright (c) 2005 Social Source Foundation                        |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the Affero General Public License Version 1,    |
- | March 2002.                                                        |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the Affero General Public License for more details.            |
- |                                                                    |
- | You should have received a copy of the Affero General Public       |
- | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
- | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
- +--------------------------------------------------------------------+
-*/
+  /*
+   +--------------------------------------------------------------------+
+   | CiviCRM version 1.1                                                |
+   +--------------------------------------------------------------------+
+   | Copyright (c) 2005 Social Source Foundation                        |
+   +--------------------------------------------------------------------+
+   | This file is a part of CiviCRM.                                    |
+   |                                                                    |
+   | CiviCRM is free software; you can copy, modify, and distribute it  |
+   | under the terms of the Affero General Public License Version 1,    |
+   | March 2002.                                                        |
+   |                                                                    |
+   | CiviCRM is distributed in the hope that it will be useful, but     |
+   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+   | See the Affero General Public License for more details.            |
+   |                                                                    |
+   | You should have received a copy of the Affero General Public       |
+   | License along with this program; if not, contact the Social Source |
+   | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
+   | questions about the Affero General Public License or the licensing |
+   | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
+   | at http://www.openngo.org/faqs/licensing.html                       |
+   +--------------------------------------------------------------------+
+  */
 
-/**
- * Definition of the Custom Data of the CRM API. 
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
- * $Id$
- *
- */
+  /**
+   * Definition of the Custom Data of the CRM API. 
+   * More detailed documentation can be found 
+   * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
+   * here}
+   *
+   * @package CRM
+   * @author Donald A. Lobo <lobo@yahoo.com>
+   * @copyright Donald A. Lobo 01/15/2005
+   * $Id$
+   *
+   */
 
-/**
- * Files required for this package
- */
-require_once 'PEAR.php';
-
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Utils/Array.php';
+  /**
+   * Files required for this package
+   */
+require_once 'api/utils.php';
 
 /**
  * Most API functions take in associative arrays ( name => value pairs
@@ -52,7 +49,7 @@ require_once 'CRM/Utils/Array.php';
  * described below
  *
  * @param array $params           an associative array used in construction
-                                  / retrieval of the object
+ / retrieval of the object
  * @param array $returnProperties the limited set of object properties that
  *                                need to be returned to the caller
  *
@@ -73,7 +70,7 @@ require_once 'CRM/Utils/Array.php';
  */
 function crm_create_option_value($params, $customField) 
 {
-     _crm_initialize( );
+    _crm_initialize( );
 
     if(! is_array($params) ) {
         return _crm_error( "params is not of array type" );
@@ -89,10 +86,9 @@ function crm_create_option_value($params, $customField)
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
-     
-    $custonOption = CRM_Core_BAO_CustomOption::create($params);
-    
-    return $custonOption;
+
+    require_once 'CRM/Core/BAO/CustomOption.php';
+    return CRM_Core_BAO_CustomOption::create($params);
 }
 
 /**
@@ -115,6 +111,8 @@ function crm_get_option_values($customField)
     }
     
     $fieldId = $customField->id;
+
+    require_once 'CRM/Core/BAO/CustomOption.php';
     return CRM_Core_BAO_CustomOption::getCustomOption($fieldId);
 }
 
@@ -133,6 +131,7 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     _crm_initialize( );
 
     $property_object = array(); 
+    require_once "CRM/Contact/DAO/{$class_name}.php";
     $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
     if($error) {
         return _crm_error($error);
@@ -140,20 +139,25 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     $id = -1;
     
     foreach($fields as $key => $values) {
-        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        $property_object[] = array("id"=>$id,
+                                   "name"=>$key,
+                                   "data_type"=>CRM_Utils_Type::typeToString($values['type']),
+                                   "description"=>$values['title']);
     }
     
     if($class_name =='Individual' || $class_name =='Organization' || $class_name =='Household') {
         eval( '$fields = CRM_Contact_DAO_Contact::fields( );' );
-        
         foreach($fields as $key => $values) {
-            
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+            $property_object[] = array("id"=>$id,
+                                       "name"=>$key,
+                                       "data_type"=>CRM_Utils_Type::typeToString($values['type']) ,
+                                       "description"=>$values['title']);
         }
         $fields="";
     }
     
     if($filter == 'custom' || $filter == 'all' ) {
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
         foreach($groupTree as $node) {
             $fields = $node["fields"];
@@ -197,6 +201,7 @@ function crm_create_custom_group($class_name, $params)
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
+    require_once 'CRM/Core/BAO/CustomGroup.php';
     $customGroup = CRM_Core_BAO_CustomGroup::create($params);
     return $customGroup;
 }
@@ -216,26 +221,27 @@ function crm_create_custom_group($class_name, $params)
  */
 function crm_create_custom_field(&$custom_group, $params)
 {
-  _crm_initialize( );
+    _crm_initialize( );
   
-  if(! is_array($params) ) {
-      return _crm_error("params is not an array ");
-  }
+    if(! is_array($params) ) {
+        return _crm_error("params is not an array ");
+    }
   
-  $params['custom_group_id'] = $custom_group->id;
+    $params['custom_group_id'] = $custom_group->id;
   
-  if(! isset($custom_group->id) ) {
-      return _crm_error("group id is not set in custom_group object");
-  }
+    if(! isset($custom_group->id) ) {
+        return _crm_error("group id is not set in custom_group object");
+    }
   
-  $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
-  if (is_a($error, 'CRM_Core_Error')) {
-      return $error;
-  }
+    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
+    if (is_a($error, 'CRM_Core_Error')) {
+        return $error;
+    }
     
-  $customField = CRM_Core_BAO_CustomField::create($params);
+    require_once 'CRM/Core/BAO/CustomField.php';
+    $customField = CRM_Core_BAO_CustomField::create($params);
 
-  return $customField;
+    return $customField;
 }
 
 
@@ -276,6 +282,7 @@ function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$da
     
     if ( $separator ) {
         $values        = explode($separator, $data['value']);
+        require_once 'CRM/Core/BAO/CustomOption.php';
         $data['value'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $values);
     }
     
@@ -284,5 +291,6 @@ function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$da
     $data['entity_table'   ] =  $entity_table;
     $data['entity_id'      ] = $entity_id;
  
+    require_once 'CRM/Core/BAO/CustomValue.php';
     CRM_Core_BAO_CustomValue::create( $data);
 }

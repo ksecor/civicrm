@@ -67,7 +67,7 @@ class TestOfCreateRelationshipAPI extends UnitTestCase
         $reltype = & new CRM_Contact_DAO_RelationshipType();
         $reltype->id = 1;
         $rel = crm_delete_relationship($this->contact1,$this->contact1,array($reltype));
-        $this->assertIsNull($rel);
+        $this->assertNull($rel);
     }
     
     function testCreateRelationType() 
