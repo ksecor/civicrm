@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-22 17:25+0200\n"
-"PO-Revision-Date: 2005-10-22 17:26+0200\n"
+"POT-Creation-Date: 2005-10-24 17:20+0200\n"
+"PO-Revision-Date: 2005-10-24 17:38+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -4783,24 +4783,17 @@ msgid "Edit Individual Prefix Option"
 msgstr "Edytuj prefiks"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Prefix related "
-"records which use the option."
+"WARNING: Deleting this option will change all Individual records which use "
+"the option."
 msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z prefiksami osób używających tej opcji."
+"UWAGA: Usunięcie tej opcji spowoduje zmianę wszystkich kontaktów typu osoba "
+"używających tej opcji."
 
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid "New Individual Suffix"
 msgstr "Nowy przyrostek"
-
-#: templates/CRM/Admin/Form/IndividualSuffix.tpl
-msgid ""
-"WARNING: Deleting this option will result in the loss of all Individual "
-"suffix related records which use the option."
-msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z przyrostkami używających tej opcji."
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -7435,6 +7428,13 @@ msgstr "Sr"
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#~ msgid ""
+#~ "WARNING: Deleting this option will result in the loss of all Prefix "
+#~ "related records which use the option."
+#~ msgstr ""
+#~ "UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów "
+#~ "związanych z prefiksami osób używających tej opcji."
 
 #~ msgid "Edit Profile Name"
 #~ msgstr "Edytuj nazwę profilu"

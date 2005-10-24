@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-22 17:25+0200\n"
+"POT-Creation-Date: 2005-10-24 17:20+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -4907,21 +4907,16 @@ msgid "Edit Individual Prefix Option"
 msgstr "Individual"
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
+#: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Prefix related "
-"records which use the option."
+"WARNING: Deleting this option will change all Individual records which use "
+"the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
 #, fuzzy
 msgid "New Individual Suffix"
 msgstr "New Individual"
-
-#: templates/CRM/Admin/Form/IndividualSuffix.tpl
-msgid ""
-"WARNING: Deleting this option will result in the loss of all Individual "
-"suffix related records which use the option."
-msgstr ""
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
