@@ -71,7 +71,7 @@ require_once 'CRM/Utils/Array.php';
  * @access public 
  *
  */
-function crm_create_option_value($params, $custom_field) 
+function crm_create_option_value($params, $customField) 
 {
      _crm_initialize( );
 
@@ -79,11 +79,11 @@ function crm_create_option_value($params, $custom_field)
         return _crm_error( "params is not of array type" );
     }     
     
-    if( ! isset ($custom_field->id) ) {
-        return _crm_error( "custom_field is not valid custom_field object" );
+    if( ! isset ($customField->id) ) {
+        return _crm_error( "customField is not valid custom_field object" );
     }
     
-    $params['custom_field_id'] = $custom_field->id;
+    $params['custom_field_id'] = $customField->id;
     
     $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomOption');
     if (is_a($error, 'CRM_Core_Error')) {
@@ -99,9 +99,9 @@ function crm_create_option_value($params, $custom_field)
  * 
  * Retrieves an array of valid values for "enum" type properties 
  *
- * @param  $customField  Object  
+ * @param  $customField  Object  custom fields object
  *
- * @return  Array of custom option. 
+ * @return  Array of custom field options. 
  *
  * @access public
  *
