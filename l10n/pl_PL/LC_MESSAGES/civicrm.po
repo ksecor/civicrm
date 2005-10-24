@@ -1041,11 +1041,11 @@ msgstr "Pole profilu CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Administer CiviCRM"
-msgstr "Zarządzaj CiviCRM-em"
+msgstr "Zarządzanie CiviCRM-em"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Import Contacts"
-msgstr "Importuj kontakty"
+msgstr "Import kontaktów"
 
 #: CRM/Core/Invoke.php CRM/Profile/Form/Dojo.php CRM/Utils/Menu.php
 msgid "Groups"
@@ -4427,7 +4427,7 @@ msgstr "Kategorie"
 
 #: CRM/Utils/Menu.php
 msgid "Manage Groups"
-msgstr "Zarządzaj grupami"
+msgstr "Zarządzanie grupami"
 
 #: CRM/Utils/Menu.php
 msgid "Create New Group"

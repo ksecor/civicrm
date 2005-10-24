@@ -140,13 +140,13 @@ msgid "create or manage groups at %1."
 msgstr "tworzyć i zarządzać grupami: %1."
 
 msgid "manage groups"
-msgstr "zadządzaj grupami"
+msgstr "zarządzanie grupami"
 
 msgid "import contacts from other sources at %1."
 msgstr "importować kontakty z innych źródeł: %1."
 
 msgid "import contacts"
-msgstr "importuj kontakty"
+msgstr "Import kontaktów"
 
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at %1."
@@ -157,7 +157,7 @@ msgid "civicrm"
 msgstr "CiviCRM"
 
 msgid "admin"
-msgstr "zarządzaj"
+msgstr "zarządzanie"
 
 msgid "tags"
 msgstr "kategorie"
