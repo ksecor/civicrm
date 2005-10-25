@@ -230,7 +230,7 @@ class CRM_Core_Config {
     /**
      * Mysql path
      */
-    public $mysqlPath = '/opt/mysql4/bin/';
+    public $mysqlPath = '/usr/bin/';
 
     /**
      * the handle for import file size 
