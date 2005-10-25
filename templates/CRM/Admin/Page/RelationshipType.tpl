@@ -1,5 +1,5 @@
 <div id="help">
-    <p>{ts}Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee).{/ts}</p>
+    <p>{ts}Relationship types describe relationships between people, households and organizations.</p>
     <p>{ts}You can define as many additional relationships types as needed to cover the types of relationships you want to track.{/ts}</p>
 </div>
 
@@ -18,7 +18,6 @@
 	        <th>{ts}Relationship B to A{/ts}</th>
 	        <th>{ts}Contact Type A{/ts}</th>
 	        <th>{ts}Contact Type B{/ts}</th>
-	        <th>{ts}Reserved?{/ts}</th>
 	        <th></th>
         </tr>
         {foreach from=$rows item=row}
@@ -27,7 +26,6 @@
             <td> {$row.name_b_a} </td>	
             <td> {$row.contact_type_a_display} </td>	
             <td> {$row.contact_type_b_display} </td>	
-            <td> {if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if} </td>	
             <td>{$row.action}</td>
         </tr>
         {/foreach}

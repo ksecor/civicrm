@@ -250,7 +250,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $values = array();
 
         while ($customValue->fetch()) {
-            $values[] = clone($customValue);
+            $values[] = clone( $customValue );
         }
         return $values;
     }
