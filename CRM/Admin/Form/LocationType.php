@@ -64,6 +64,8 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
         $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_LocationType', $this->_id ) );
         
+        $this->add('text', 'vcard_name', ts('vCard Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_LocationType', 'vcard_name' ) );
+
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_LocationType', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
@@ -96,6 +98,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
             $locationType               =& new CRM_Core_DAO_LocationType( );
             $locationType->domain_id    = CRM_Core_Config::domainID( );
             $locationType->name         = $params['name'];
+            $locationType->vcard_name   = $params['vcard_name'];
             $locationType->description  = $params['description'];
             $locationType->is_active    = $params['is_active'];
             $locationType->is_default   = $params['is_default'];

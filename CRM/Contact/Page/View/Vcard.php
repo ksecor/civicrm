@@ -84,6 +84,7 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         if ($defaults['home_URL'])   $vcard->setURL($defaults['home_URL']);
         // TODO: $vcard->setGeo($lat, $lon);
 
+
         foreach ($defaults['location'] as $location) {
 
             // we don't keep PO boxes in separate fields
@@ -97,21 +98,18 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
             if ($location['address']['postal_code_suffix']) $postcode .= '-' . $location['address']['postal_code_suffix'];
             $country = $location['address']['country'];
             $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
-            if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
-            if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+            if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
             if ($location['is_primary']) $vcard->addParam('TYPE', 'PREF');
 
             foreach ($location['phone'] as $phone) {
                 $vcard->addTelephone($phone['phone']);
-                if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
-                if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+                if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
                 if ($phone['is_primary']) $vcard->addParam('TYPE', 'PREF');
             }
 
             foreach ($location['email'] as $email) {
                 $vcard->addEmail($email['email']);
-                if ($location['location_type_id'] == 1) $vcard->addParam('TYPE', 'HOME');
-                if ($location['location_type_id'] == 2) $vcard->addParam('TYPE', 'WORK');
+                if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
                 if ($email['is_primary']) $vcard->addParam('TYPE', 'PREF');
             }
 

@@ -55,6 +55,13 @@ class CRM_Core_PseudoConstant {
     private static $locationType;
     
     /**
+     * location vCard name
+     * @var array
+     * @static
+     */
+    private static $locationVcardName;
+    
+    /**
      * activity type
      * @var array
      * @static
@@ -222,6 +229,28 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$locationType, 'CRM_Core_DAO_LocationType', $all );
         }
         return self::$locationType;
+    }
+
+
+    /**
+     * Get all location vCard names.
+     *
+     * The static array locationVcardName is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All location vCard names - default is to get only active ones.
+     *
+     * @return array - array reference of all location vCard names.
+     *
+     */
+    public static function &locationVcardName( $all=false )
+    {
+        if ( ! self::$locationVcardName ) {
+            self::populate( self::$locationVcardName, 'CRM_Core_DAO_LocationType', $all, 'vcard_name' );
+        }
+        return self::$locationVcardName;
     }
 
 
