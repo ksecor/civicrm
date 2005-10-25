@@ -52,9 +52,11 @@ class CRM_Core_Mambo {
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {
+            require_once 'CRM/Core/Block.php';
             $blocks[] = CRM_Core_Block::getContent( $id );
         }
 
+        require_once 'CRM/Core/Smarty.php';
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'blocks', $blocks );
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );

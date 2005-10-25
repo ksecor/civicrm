@@ -22,7 +22,7 @@ require_once "$sourceCheckoutDir/modules/config.inc.php";
 require_once 'Smarty/Smarty.class.php';
 
 $path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
-$files = array( 'license.txt' => 1, 'affero_gpl.txt' => 1, 'version.txt' => 1 );
+$files = array( 'license.txt' => 1, 'affero_gpl.txt' => 1, 'version.txt' => 1, 'gpl.txt' => 1 );
 foreach ( $path as $v ) {
     $rootDir = "$targetDir/$v";
     walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );
