@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -50,11 +50,7 @@ class CRM_Core_BAO_DomainDump
     static function backupData ( ) 
     {
         global $civicrm_root;
-        $file = $civicrm_root."/sql/civicrm_backup.mysql";
-        
-        // get the path of mysqldump
-        //$tempPath = exec('whereis mysqldump');
-        //list ($temp, $mysqlDumpPath) = explode(":", $tempPath);
+        $file = $civicrm_root . '/sql/civicrm_backup.mysql';
         
         //we get the upload folder for storing the huge backup data
         $config =& new CRM_Core_Config();

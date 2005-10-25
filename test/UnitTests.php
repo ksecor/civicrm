@@ -18,10 +18,12 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
         // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM369.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM2474.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM-491.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
 
@@ -48,10 +50,18 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
 
         // custom group api
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomField.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomValue.php');
         
         // relationship api
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Relationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
+        
+        // $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteRelationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationshipType.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationshipType.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateRelationship.php');
     }
 
 }
@@ -66,6 +76,7 @@ function module_list( ) {
 
 if ( TEST == __FILE__ ) {
 
+    require_once 'CRM/Core/Config.php';
     $test =& new UnitTests( );
 
     $config =& CRM_Core_Config::singleton();

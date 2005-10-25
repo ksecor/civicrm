@@ -689,6 +689,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $location =& $locations[$index];
                 self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
 
+                // FIXME: lookupValue doesn't work for vcard_name
+                $vcardNames =& CRM_Core_PseudoConstant::locationVcardName();
+                $location['vcard_name'] = $vcardNames[$location['location_type_id']];
+
                 if (array_key_exists( 'address', $location ) ) {
                     if ( ! self::lookupValue( $location['address'], 'state_province',
                                               CRM_Core_PseudoConstant::stateProvince(), $reverse ) &&

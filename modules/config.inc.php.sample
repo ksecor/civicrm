@@ -112,13 +112,17 @@ define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
  *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
  *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
  *
- * This stores the installed path of mysql
- * define( 'CIVICRM_MYSQL_PATH', '/opt/mysql4/bin/' );
+ * define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  *
+ * This stores the installed path of mysql. You will need to verify and modify this value if you are
+ * planning on using CiviCRMs built-in Database Backup utility. If you have shell access, you may be
+ * able to query the path by using one of the following commands:
+ * $ whereis mysql
+ * $ type mysql
  */
 define( 'CIVICRM_MYSQL_VERSION', 4.1 );
 define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
-define( 'CIVICRM_MYSQL_PATH', '/opt/mysql4/bin/' );
+define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 /**
  * SMTP Server:

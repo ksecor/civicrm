@@ -322,10 +322,8 @@ function &crm_update_contact( &$contact, $params ) {
         return $error;
     }
 
-    $error = _crm_update_contact( $contact, $values );
-    if ( is_a($error, 'CRM_Core_Error') ) {
-        return $error;
-    }
+    $contact = _crm_update_contact( $contact, $values );
+    
 
     return $contact;
 }
