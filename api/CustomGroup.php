@@ -288,9 +288,9 @@ function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$da
     
     $data['type'           ] = $custom_field->data_type;
     $data['custom_field_id'] = $custom_field->id;
-    $data['entity_table'   ] =  $entity_table;
+    $data['entity_table'   ] = $entity_table;
     $data['entity_id'      ] = $entity_id;
  
     require_once 'CRM/Core/BAO/CustomValue.php';
-    CRM_Core_BAO_CustomValue::create( $data);
+    return CRM_Core_BAO_CustomValue::create( $data);
 }
