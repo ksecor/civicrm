@@ -51,7 +51,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         
         // relationship api
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Relationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
+        
+        // $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteRelationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationshipType.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationshipType.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateRelationship.php');
     }
 
 }
@@ -66,6 +72,7 @@ function module_list( ) {
 
 if ( TEST == __FILE__ ) {
 
+    require_once 'CRM/Core/Config.php';
     $test =& new UnitTests( );
 
     $config =& CRM_Core_Config::singleton();

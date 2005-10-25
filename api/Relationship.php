@@ -77,8 +77,7 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
         
         $relationTypeID = $reletionType->id;
         $relationTypeID .='_a_b';
-    }
-   
+    } 
     if (!$relationTypeID) {
         $reletionType = & new CRM_Contact_DAO_RelationshipType();
         $reletionType->name_b_a = $relationship_type_name;
@@ -91,7 +90,7 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
     }
     
     if (!$relationTypeID) {
-        return _crm_error('$relationship_type_name is not valid relationship type ');
+        return _crm_error('$relationship_type_ is not valid relationship type ');
     }
     $params['relationship_type_id' ] = $relationTypeID;
     $ids   ['contact'      ] = $sourceContact;
@@ -99,8 +98,9 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
     require_once 'CRM/Contact/BAO/Relationship.php';
     
     $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $targetContact );
+    
     if ( $errors ) {
-        return $errors;
+        return _crm_error($errors);
     }
     
     if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,$sourceContact,$targetContact )) {
@@ -168,8 +168,10 @@ function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_n
 function crm_delete_relationship(&$contact, &$target_contact, $relationship_type) {
     require_once 'CRM/Contact/BAO/Relationship.php';
     $relationTypeID = null;
-    if( ! isset( $contact->id ) and ! isset( $target_contact->id )) {
+    
+    if( ! isset( $contact->id ) && ! isset( $target_contact->id )) {
         return _crm_error('source or  target contact object does not have contact ID');
+       
     }
     
     $sourceContact          = $contact->id;
@@ -257,7 +259,7 @@ function crm_update_relationship(&$relationship, $params )
 {
     $ids = array();
     
-    if(! isset($relationship->id) && ! isset($relationship->contact_id_a) && isset($relationship->contact_id_b)) {
+    if( ! isset($relationship->id) && ! isset($relationship->contact_id_a) && ! isset($relationship->contact_id_b)) {
         return _crm_error("$relationship is not valid relationship type object");
     }
     
