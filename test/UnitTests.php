@@ -52,6 +52,7 @@ class UnitTests extends GroupTest {
         // custom group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomField.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomValue.php');
         
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
