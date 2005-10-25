@@ -118,7 +118,7 @@ define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
  */
 define( 'CIVICRM_MYSQL_VERSION', 4.1 );
 define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
-define( 'CIVICRM_MYSQL_PATH', '/opt/mysql4/bin/' );
+define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 /**
  * SMTP Server:
