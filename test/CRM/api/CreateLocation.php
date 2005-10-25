@@ -49,7 +49,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
     
     function testCreateLocationIndividual()
     {
-        $workPhone  =& new Phone('91-20-2345678', false, 'Phone'           );
+        $workPhone  =& new CRM_Core_DAO_Phone('91-20-2345678', false, 'Phone'           );
         $workMobile =& new Phone('91-20-989090098988', true, 'Mobile', null);
         $workFax    =& new Phone('91-20-234-657686', false, 'Fax'          );
         $phones     = array ($workPhone, $workMobile, $workFax);

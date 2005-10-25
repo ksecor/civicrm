@@ -69,6 +69,24 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         }
         return null;
     }
+
+     /**
+     * takes an associative array and creates a custom option object
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_DAO_CustomField object
+     * @access public
+     * @static
+     */
+    static function create(&$params)
+    {
+        $customOptionBAO =& new CRM_Core_BAO_CustomOption();
+        $customOptionBAO->copyValues($params);
+        return $customOptionBAO->save();
+    }
     
     /**
      * update the is_active flag in the db

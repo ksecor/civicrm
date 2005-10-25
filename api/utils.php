@@ -32,9 +32,12 @@
  * @copyright Donald A. Lobo 01/15/2005
  * $Id$
  *
- */
+*/
+
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Error.php';
+require_once 'CRM/Utils/Array.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {

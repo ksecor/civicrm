@@ -130,7 +130,7 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         $individualSuffix->id = CRM_Utils_Array::value( 'individualSuffix', $ids );
         $individualSuffix->save( );
         require_once 'CRM/Contact/BAO/Individual.php';
-        CRM_Contact_BAO_Individual::updateDisplayNames($ids);
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::UPDATE);
         return $individualSuffix;
     }
 
@@ -144,29 +144,9 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
     
     static function del($suffixId) 
     {
-        //check dependencies
-        require_once 'CRM/Contact/DAO/Individual.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $deleteContactId = array();
-        $individual = & new CRM_Contact_DAO_Individual();
-        $individual->suffix_id = $suffixId;
-        $individual->find();
-        while($individual->fetch()) {
-            $contactId = $individual->contact_id;
-           
-            $session =& CRM_Core_Session::singleton( );
-            $currentUserId = $session->get( 'userID' );
-            if ($currentUserId !=$contactId) {
-                $deleteContactId[] = $contactId;
-          
-            }else {
-                return false;
-            }
-        }
-        foreach($deleteContactId as $cid) {
-            CRM_Contact_BAO_Contact::deleteContact( $cid );
-        }
-        
+        require_once 'CRM/Contact/BAO/Individual.php';
+        $ids = array('individualSuffix' => $suffixId);
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::DELETE);
         $suffix = & new CRM_Core_DAO_IndividualSuffix();
         $suffix->id = $suffixId;
         $suffix->delete();

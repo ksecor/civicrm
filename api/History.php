@@ -41,14 +41,9 @@
 /**
  * Files required for this package
  */
-require_once 'PEAR.php';
+require_once 'api/utils.php';
 
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/BAO/History.php';
-require_once 'CRM/Core/I18n.php';
-
-
 
 /**
  * Most API functions take in associative arrays ( name => value pairs

@@ -278,6 +278,15 @@ class CRM_Utils_Menu {
                             'weight'   => 0,
                             ),
 
+                      array( 
+                            'path'    => 'civicrm/quickreg', 
+                            'title'   => ts( 'Quick Registration' ), 
+                            'access'  => 1,
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::CALLBACK,  
+                            'weight'  => 0,  
+                            ),
+
                       array(
                             'path'    => 'civicrm/contact/search',
                             'title'   => ts('Contacts'),

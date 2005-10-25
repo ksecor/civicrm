@@ -35,6 +35,10 @@
  */ 
 
 class CRM_Utils_Payment_PayPal {
+    const
+        PPD_FILE = 'a515b065c4840bfbea7f966d7c5523ab',
+        CHARSET  = 'iso-8859-1';
+    
     /** 
      * We only need one instance of this object. So we use the singleton 
      * pattern and cache the instance in this variable 
@@ -43,7 +47,7 @@ class CRM_Utils_Payment_PayPal {
      * @static 
      */ 
     static private $_singleton = null; 
- 
+
     /** 
      * Constructor 
      * 
@@ -56,7 +60,7 @@ class CRM_Utils_Payment_PayPal {
 
         $this->_handler =& ProfileHandler_File::getInstance( array(
                                                                    'path' => '',
-                                                                   'charset' => 'iso-8859-1',
+                                                                   'charset' => self::CHARSET,
                                                                    )
                                                              );
         
@@ -65,7 +69,7 @@ class CRM_Utils_Payment_PayPal {
             exit;
         }
 
-        $this->_profile =& APIProfile::getInstance('7faf450cac153ccfe841c3e436b31d0a', $this->_handler);
+        $this->_profile =& APIProfile::getInstance( self::PPD_FILE, $this->_handler );
 
         if ( Services_PayPal::isError( $this->_profile ) ) {
             CRM_Core_Error::debug( 'v', $this->_profile->getMessage() );
@@ -108,7 +112,7 @@ class CRM_Utils_Payment_PayPal {
         }
 
         $orderTotal->setattr('currencyID', $params['currencyID'] );
-        $orderTotal->setval( $params['amount'], 'iso-8859-1');
+        $orderTotal->setval( $params['amount'], self::CHARSET );
         $setExpressCheckoutRequestDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' );
 
         if ( Services_PayPal::isError( $setExpressCheckoutRequestDetails ) ) {
@@ -116,8 +120,8 @@ class CRM_Utils_Payment_PayPal {
             exit;
         }
 
-        $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], 'iso-8859-1' );
-        $setExpressCheckoutRequestDetails->setReturnURL ( $params['returnURL'], 'iso-8859-1' );
+        $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], self::CHARSET  );
+        $setExpressCheckoutRequestDetails->setReturnURL ( $params['returnURL'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setOrderTotal( $orderTotal );
         $setExpressCheckoutRequestDetails->setNoShipping( 1 );
         $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
@@ -148,7 +152,7 @@ class CRM_Utils_Payment_PayPal {
             exit;
         }
 
-        $getExpressCheckoutDetails->setToken( $token, 'iso-8859-1');
+        $getExpressCheckoutDetails->setToken( $token, self::CHARSET );
 
         $result = $this->_caller->GetExpressCheckoutDetails( $getExpressCheckoutDetails );
 
@@ -191,7 +195,7 @@ class CRM_Utils_Payment_PayPal {
         } 
  
         $orderTotal->setattr('currencyID', $params['currencyID'] ); 
-        $orderTotal->setval( $params['amount'], 'iso-8859-1'); 
+        $orderTotal->setval( $params['amount'], self::CHARSET ); 
         $paymentDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
         
         if ( Services_PayPal::isError( $paymentDetails ) ) {
@@ -208,9 +212,9 @@ class CRM_Utils_Payment_PayPal {
         }
 
         $doExpressCheckoutPaymentRequestDetails->setPaymentDetails( $paymentDetails );
-        $doExpressCheckoutPaymentRequestDetails->setPayerID       ( $params['payer_id']      , 'iso-8859-1' );
-        $doExpressCheckoutPaymentRequestDetails->setToken         ( $params['token']         , 'iso-8859-1' );
-        $doExpressCheckoutPaymentRequestDetails->setPaymentAction ( $params['payment_action'], 'iso-8859-1' );
+        $doExpressCheckoutPaymentRequestDetails->setPayerID       ( $params['payer_id']      , self::CHARSET  );
+        $doExpressCheckoutPaymentRequestDetails->setToken         ( $params['token']         , self::CHARSET  );
+        $doExpressCheckoutPaymentRequestDetails->setPaymentAction ( $params['payment_action'], self::CHARSET  );
         $doExpressCheckoutPayment =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPayment ) ) {
@@ -248,7 +252,101 @@ class CRM_Utils_Payment_PayPal {
     function getAmount( &$amount ) {
         return $amount->_value;
     }
-        
+
+    function doDirectPayment( &$params ) {
+        $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );  
+  
+        if ( Services_PayPal::isError( $orderTotal ) ) {  
+            CRM_Core_Error::debug( 'v', $orderTotal );  
+            exit;  
+        }  
+  
+        $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
+        $orderTotal->setval( $params['amount'], self::CHARSET  );  
+        $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
+
+        if ( Services_PayPal::isError( $paymentDetails ) ) {
+            CRM_Core_Error::debug( 'v', $paymentDetails );
+            exit;
+        }
+
+        $paymentDetails->setOrderTotal($orderTotal);
+        $payerName =& Services_PayPal::getType( 'PersonNameType' );
+
+        if ( Services_PayPal::isError( $payerName ) ) {
+            CRM_Core_Error::debug( 'v', $payerName );
+            exit;
+        }
+
+        $payerName->setLastName  ( $params['last_name'  ], self::CHARSET  );
+        $payerName->setMiddleName( $params['middle_name'], self::CHARSET  );
+        $payerName->setFirstName ( $params['first_name' ], self::CHARSET  );
+        $address =& Services_PayPal::getType('AddressType');
+
+        if (Services_PayPal::isError($address)) {
+            CRM_Core_Error::debug( 'v', $address );
+            exit;
+        }
+
+        $address->setStreet1        ( $params['street1']       , self::CHARSET );
+        $address->setCityName       ( $params['city']          , self::CHARSET );
+        $address->setStateOrProvince( $params['state_province'], self::CHARSET );
+        $address->setPostalCode     ( $params['postal_code']   , self::CHARSET );
+        $address->setCountry        ( $params['country']       , self::CHARSET );
+        $cardOwner =& Services_PayPal::getType( 'PayerInfoType' );
+
+        if ( Services_PayPal::isError( $cardOwner ) ) {
+            CRM_Core_Error::debug( 'v', $cardOwner );
+            exit;
+        }
+
+        $cardOwner->setAddress( $address );
+        $cardOwner->setPayerCountry( $params['country'], self::CHARSET  );
+        $cardOwner->setPayerName( $payerName );
+        $creditCard =& Services_PayPal::getType( 'CreditCardDetailsType' );
+
+        if ( Services_PayPal::isError( $creditCard ) ) {
+            CRM_Core_Error::debug( 'v', $creditCard );
+            exit;
+        }
+
+        $creditCard->setCardOwner( $cardOwner );
+        $creditCard->setCVV2            ( $params['cvv2']              , self::CHARSET  );
+        $creditCard->setExpYear         ( $params['year' ]             , self::CHARSET  );
+        $creditCard->setExpMonth        ( $params['month']             , self::CHARSET  );
+        $creditCard->setCreditCardNumber( $params['credit_card_number'], self::CHARSET  );
+        $creditCard->setCreditCardType  ( $params['credit_card_type']  , self::CHARSET  );
+        $doDirectPaymentRequestDetails =& Services_PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
+
+        if ( Services_PayPal::isError( $doDirectPaymentRequestDetails ) ) {
+            CRM_Core_Error::debug( 'v', $doDirectPaymentRequestDetails );
+            exit;
+        }
+
+        $doDirectPaymentRequestDetails->setCreditCard    ( $creditCard     );
+        $doDirectPaymentRequestDetails->setPaymentDetails( $paymentDetails );
+        $doDirectPaymentRequestDetails->setIPAddress     ( $params['ip_address'    ], self::CHARSET  );
+        $doDirectPaymentRequestDetails->setPaymentAction ( $params['payment_action'], self::CHARSET  );
+        $doDirectPayment =& Services_PayPal::getType( 'DoDirectPaymentRequestType' );
+
+        if ( Services_PayPal::isError( $doDirectPayment ) ) {
+            CRM_Core_Error::debug( 'v', $doDirectPayment );
+            exit;
+        }
+
+        $doDirectPayment->setDoDirectPaymentRequestDetails( $doDirectPaymentRequestDetails );
+
+        $result = $this->_caller->DoDirectPayment( $doDirectPayment );
+
+        if ( Services_PayPal::isError( $result ) ) { 
+            CRM_Core_Error::debug( 'v', $result );
+        } else {
+            /* Success */
+            CRM_Core_Error::debug( 'v', $result );
+        }
+
+    }
+
 }
 
 ?>

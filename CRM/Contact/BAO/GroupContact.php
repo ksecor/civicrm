@@ -424,7 +424,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             CRM_Contact_BAO_Group::getTableName() => true
         );
         
-        $where = CRM_Contact_BAO_Contact::whereClause($fv, false, $tables);
+        $where = CRM_Contact_BAO_Query::getWhereClause($fv, null, $tables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
         $from = CRM_Contact_BAO_Query::fromClause($tables, $inner);
         $query .= " $from WHERE $permission AND $where ";

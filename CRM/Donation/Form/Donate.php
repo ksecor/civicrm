@@ -49,6 +49,8 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
      */
     protected $_id;
 
+    protected $_expressButtonName;
+
     /**
      * Function to set variables up before form is built
      *
@@ -76,21 +78,86 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         $this->addGroup( $amounts, 'amount', ts( 'Donation Amount' ) );
 
         // add credit card fields
-        $this->add('text',
-                   'name',
-                   ts('Name on Credit Card'),
-                   array( 'size' => 30, 'maxlength' => 60 ),
-                   true );
-
         $this->add('text', 
                    'email', 
-                   ts('Email Address on Paypal'), 
-                   array( 'size' => 30, 'maxlength' => 60 ), 
-                   true );
+                   ts('Email Address'), 
+                   array( 'size' => 30, 'maxlength' => 60 ) );
+
+
+        $this->add('text',
+                   'first_name',
+                   ts('First Name'),
+                   array( 'size' => 30, 'maxlength' => 60 ) );
+
+        $this->add('text',
+                   'middle_name',
+                   ts('Middle Name'),
+                   array( 'size' => 30, 'maxlength' => 60 ) );
+
+        $this->add('text',
+                   'last_name',
+                   ts('Last Name'),
+                   array( 'size' => 30, 'maxlength' => 60 ) );
+
+        $this->add('text', 
+                   'street1',
+                   ts('Street Address'), 
+                   array( 'size' => 30, 'maxlength' => 60 ) ); 
+
+        $this->add('text', 
+                   'city',
+                   ts('City'), 
+                   array( 'size' => 30, 'maxlength' => 60 ) ); 
+
+        $this->add('text', 
+                   'state_province',
+                   ts('State / Province'), 
+                   array( 'size' => 30, 'maxlength' => 60 ) ); 
+
+        $this->add('text', 
+                   'postal_code',
+                   ts('Postal Code'), 
+                   array( 'size' => 30, 'maxlength' => 60 ) ); 
+
+        $this->addElement( 'select',
+                           'country_id',
+                           ts('Country'), 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
+
+        $this->add('text', 
+                   'credit_card_number', 
+                   ts('Credit Card Number'), 
+                   array( 'size' => 20, 'maxlength' => 20 ) );
+
+        $this->add('text',
+                   'cvv2',
+                   ts('Credit Card Verification Number'),
+                   array( 'size' => 5, 'maxlength' => 10 ) );
+
+        $this->add( 'date',
+                    'credit_card_exp_date',
+                    ts('Credit Card Expiration Date'),
+                    CRM_Core_SelectValues::date( 'fixed' ) );
+
+        $creditCardType = array( 'Visa'       => 'Visa'      ,
+                                 'MasterCard' => 'MasterCard',
+                                 'Discover'   => 'Discover'  ,
+                                 'Amex'       => 'Amex' );
+        $this->addElement( 'select', 
+                           'credit_card_type', 
+                           ts('Credit Card Type'),  
+                           $creditCardType );
+
+
+        $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
+        $this->add('submit',
+                   $this->_expressButtonName,
+                   ts( 'Donate via PayPal' ),
+                   array( 'class' => 'form-submit' ) );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Donate via PayPal'),
+                                        'name'      => ts('Donate'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
@@ -123,22 +190,41 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
+        $params['currencyID']     = 'USD';
+        $params['payment_action'] = 'Sale';
 
         $this->set( 'amount', $params['amount'] );
 
-        $params['currencyID'] = 'USD';
-        $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1' );
-        $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1', true, null, false );
-        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Confirm_display=1&rfp=1', true, null, false );
-
         require_once 'CRM/Utils/Payment/PayPal.php';
         $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-        $token = $paypal->setExpressCheckout( $params );
-        $this->set( 'token', $token );
 
-        $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
-        CRM_Utils_System::redirect( $paypalURL );
+        //get the button name 
+        $buttonName = $this->controller->getButtonName( ); 
+        if ( $buttonName == $this->_expressButtonName ) {
+            $this->set( 'donationMode', 'express' );
+
+            $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1' );
+            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1', true, null, false );
+            $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Confirm_display=1&rfp=1', true, null, false );
+            
+            $token = $paypal->setExpressCheckout( $params );
+            $this->set( 'token', $token );
+            
+
+            $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
+            CRM_Utils_System::redirect( $paypalURL );
+        } else {
+            $this->set( 'donationMode', 'direct' );
+
+            $params['country']    = 'US';
+            $params['year'   ]    = $params['credit_card_exp_date']['Y'];
+            $params['month'  ]    = $params['credit_card_exp_date']['M'];
+            $params['ip_address'] = $_SERVER['REMOTE_ADDR'];
+            $paypal->doDirectPayment( $params );
+            exit( );
+        }
     }
+
 }
 
 ?>

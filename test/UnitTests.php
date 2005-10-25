@@ -5,9 +5,6 @@ require_once '../modules/config.inc.php';
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
 
-require_once 'CRM/Core/Config.php';
-require_once 'CRM/Core/I18n.php';
-
 if ( !defined( 'TEST' ) ) {
     define( 'TEST', __FILE__ );
 }
@@ -37,6 +34,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
+
         // location api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
@@ -53,13 +51,17 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         
         // relationship api
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Relationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Relationship.php');
     }
 
 }
 
 function user_access( $str ) {
     return true;
+}
+
+function module_list( ) {
+    return array( );
 }
 
 if ( TEST == __FILE__ ) {

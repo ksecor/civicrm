@@ -41,10 +41,9 @@
 /**
  * Files required for this package
  */
-require_once 'PEAR.php';
+require_once 'api/utils.php';
 
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 
 /**
  * Most API functions take in associative arrays ( name => value pairs
@@ -164,6 +163,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
         return $error;
     }
 
+    require_once 'CRM/Import/Parser.php';
     if ( $onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) {
         $error = _crm_duplicate_formatted_contact($params);
         if (is_a( $error, 'CRM_Core_Error')) {
@@ -248,36 +248,35 @@ function &crm_get_contact( $params, $returnProperties = null ) {
         return _crm_error('$params is not an array');
     }
 
-    // if id is not present, get contact id first
-    if (!$params['contact_id']) {
-        $contactId = CRM_Contact_BAO_Contact::_crm_get_contact_id($params);
-        if (is_a($contactId, 'CRM_Core_Error')) {
-            return $contactId;
+    if (!$params['contact_id']) { 
+        $returnProperties = array( 'display_name' );
+        $contacts = crm_contact_search( $params, $returnProperties );
+        if ( count( $contacts ) > 1 ) {
+            return _crm_error( count( $contacts ) . " contacts matching input params." );
         }
-
-        $params['contact_id'] = $contactId;
+        $params['contact_id'] = $contacts[1]['contact_id'];
     }
 
-    $params['id'] = $params['contact_id'];
-    $ids          = array( );
-
-    $contact =& CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-
-    if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) {
-        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
-    }
-
-    unset($params['id']);
-    
-    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-    $contact->contact_type_object =
-        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
-
-    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 );
-
-    $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id);
-
-    return $contact;
+    $params['id'] = $params['contact_id']; 
+    $ids          = array( ); 
+ 
+    $contact =& CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids ); 
+ 
+    if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) { 
+        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] ); 
+    } 
+ 
+    unset($params['id']); 
+     
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php"); 
+    $contact->contact_type_object = 
+        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' ); 
+ 
+    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 ); 
+ 
+    $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id); 
+ 
+    return $contact; 
 }
 
 /**
@@ -377,6 +376,7 @@ function crm_delete_contact( &$contact ) {
         return _crm_error( 'Invalid contact object passed in' ); 
     }
 
+    require_once 'CRM/Contact/BAO/GroupContact.php';
     $values =& CRM_Contact_BAO_GroupContact::getContactGroup( $contact->id, $status, null, false );
     
     $groups = array( );
@@ -402,22 +402,15 @@ function crm_delete_contact( &$contact ) {
  * @access public 
  * 
  */ 
-
-
-
- function crm_get_contacts() {
-
-     
-     $query = 'SELECT * FROM civicrm_contact';
-     $dao =  $dao =& new CRM_Core_DAO( );
-     $dao->query( $query );
-     $Contacts = array();
-     while ( $dao->fetch( ) ) {
-         //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
-         $Contacts[$dao->id]= $dao->id;
-        
-         
-     }
-     return $Contacts;
+function crm_get_contacts() {
+    $query = 'SELECT * FROM civicrm_contact';
+    $dao =  $dao =& new CRM_Core_DAO( );
+    $dao->query( $query );
+    $Contacts = array();
+    while ( $dao->fetch( ) ) {
+        //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
+        $Contacts[$dao->id]= $dao->id;
+    }
+    return $Contacts;
  }
 ?>

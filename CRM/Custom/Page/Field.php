@@ -265,6 +265,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($id) ;
         } else {
+            require_once 'CRM/Core/BAO/CustomField.php';
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomField::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {

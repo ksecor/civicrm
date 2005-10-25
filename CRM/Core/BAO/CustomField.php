@@ -90,6 +90,25 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     }
     
     /**
+     * takes an associative array and creates a custom field object
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_DAO_CustomField object
+     * @access public
+     * @static
+     */
+    static function create(&$params)
+    {
+        $customFieldBAO =& new CRM_Core_BAO_CustomField();
+        $customFieldBAO->copyValues($params);
+        return $customFieldBAO->save();
+    }
+
+
+    /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
      * contact_id. We'll tweak this function to be more full featured over a period

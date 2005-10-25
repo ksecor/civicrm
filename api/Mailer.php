@@ -40,14 +40,14 @@
  * Files required for this package
  */
 
-require_once 'PEAR.php';
 
-require_once 'CRM/Core/Error.php';
 require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
 require_once 'api/Group.php';
+
 require_once 'CRM/Contact/BAO/Group.php';
+
 require_once 'CRM/Mailing/BAO/BouncePattern.php';
 require_once 'CRM/Mailing/Event/BAO/Bounce.php';
 require_once 'CRM/Mailing/Event/BAO/Confirm.php';

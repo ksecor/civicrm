@@ -296,9 +296,12 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'relative') {
             $minOffset = 20;
             $maxOffset = 20;
-        } elseif ($type == 'custom') {
-            $minOffset = 10;
-            $maxOffset = 10;
+        }elseif ($type == 'custom') { 
+            $minOffset = 10; 
+            $maxOffset = 10; 
+        } elseif ($type == 'fixed') {
+            $minOffset = 0;
+            $maxOffset = 5;
         } elseif ($type == 'mailing') {
             $minOffset = 0;
             $maxOffset = 1;

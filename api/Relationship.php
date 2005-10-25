@@ -41,10 +41,11 @@
 /**
  * Files required for this package
  */
-require_once 'PEAR.php';
 
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Utils/Array.php';
+require_once 'api/utils.php';
+
+require_once 'CRM/Contact/BAO/Relationship.php';
+require_once 'CRM/Contact/BAO/RelationshipType.php';
 
 /**
  * Function to create new retaionship 
@@ -270,9 +271,5 @@ function crm_update_relationship(&$relationship, $params )
     return CRM_Contact_BAO_Relationship::add($params, $ids,$conactId);
 
 }
-
-
-
-
 
 ?>

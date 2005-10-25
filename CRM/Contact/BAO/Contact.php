@@ -450,6 +450,7 @@ ORDER BY
         }
 
         // update the UF email if that has changed
+        require_once 'CRM/Core/BAO/UFMatch.php';
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
 
         // add custom field values
@@ -946,6 +947,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
 
+        require_once 'CRM/Core/BAO/UFMatch.php';
         CRM_Core_BAO_UFMatch::deleteContact( $id );
         
         // need to remove them from email, meeting and phonecall
