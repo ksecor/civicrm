@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-24 17:20+0200\n"
+"POT-Creation-Date: 2005-10-25 10:07+0200\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -2251,10 +2251,6 @@ msgstr "Das Enddatum der Beziehung kann nicht vor dem Startdatum liegen."
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Contact Type(s)"
 msgstr "Kontaktart(en)"
-
-#: CRM/Contact/Form/Search/Advanced.php
-msgid "Enter valid Postal Code"
-msgstr "Geben Sie eine gültige Postleitzahl ein"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Range-From"
@@ -4603,6 +4599,11 @@ msgstr "Neues Individuum"
 #, fuzzy
 msgid "Individual Suffixes (Jr, Sr...)"
 msgstr "Individuum"
+
+#: CRM/Utils/Menu.php
+#, fuzzy
+msgid "Quick Registration"
+msgstr "Registrieren"
 
 #: CRM/Utils/Menu.php
 msgid "Contacts"
@@ -7666,6 +7667,9 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#~ msgid "Enter valid Postal Code"
+#~ msgstr "Geben Sie eine gültige Postleitzahl ein"
 
 #~ msgid "Edit Profile Name"
 #~ msgstr "Profilname bearbeiten"

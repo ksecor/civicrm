@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-24 17:20+0200\n"
+"POT-Creation-Date: 2005-10-25 10:07+0200\n"
 "PO-Revision-Date: 2005-08-31 23:49+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -2231,10 +2231,6 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Contact Type(s)"
 msgstr "Tipo(s) de contacto"
-
-#: CRM/Contact/Form/Search/Advanced.php
-msgid "Enter valid Postal Code"
-msgstr "Introduce un Código Postal válido"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Range-From"
@@ -4570,6 +4566,11 @@ msgstr "Nuevo Individuo"
 #, fuzzy
 msgid "Individual Suffixes (Jr, Sr...)"
 msgstr "Individual"
+
+#: CRM/Utils/Menu.php
+#, fuzzy
+msgid "Quick Registration"
+msgstr "Registro"
 
 #: CRM/Utils/Menu.php
 msgid "Contacts"
@@ -7596,6 +7597,9 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#~ msgid "Enter valid Postal Code"
+#~ msgstr "Introduce un Código Postal válido"
 
 #~ msgid "Edit Profile Name"
 #~ msgstr "Editar el Nombre del Perfil"
