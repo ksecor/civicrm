@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
 "PO-Revision-Date: 2005-10-22 20:20+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -1388,6 +1388,11 @@ msgstr "Fornecedor de IM \"%1\" foi salvo."
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
 msgstr "Entre com um tipo válido para o nome da Localização"
+
+#: CRM/Admin/Form/LocationType.php
+#, fuzzy
+msgid "vCard Name"
+msgstr "Procurar Nome"
 
 #: CRM/Admin/Form/LocationType.php
 #, fuzzy
@@ -5151,6 +5156,11 @@ msgstr ""
 "definir tipos adicionais apropriados a suas necessidades."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5871,10 +5881,6 @@ msgstr "Registrar chamada telefônica"
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
 msgstr "Outras atividades"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
-msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -6807,7 +6813,9 @@ msgstr[1] ""
 msgid ""
 "CiviCRM does not allow multiple contact records to have the same primary "
 "email address."
-msgstr "CiviCRM não permite múltiplos registro de contatos possuírem o mesmo endereço de mail primário."
+msgstr ""
+"CiviCRM não permite múltiplos registro de contatos possuírem o mesmo "
+"endereço de mail primário."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -7167,7 +7175,8 @@ msgstr ""
 
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Please enter up to 5 email addresses to receive the mailing."
-msgstr "Por gentileza entre com mais de 5 contas de email para receber o mailing."
+msgstr ""
+"Por gentileza entre com mais de 5 contas de email para receber o mailing."
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
@@ -7915,9 +7924,6 @@ msgstr "II"
 #~ msgid "Pending Method"
 #~ msgstr "Método pendente"
 
-#~ msgid "Search Name"
-#~ msgstr "Procurar Nome"
-
 #~ msgid "Identify form associated with saved search"
 #~ msgstr "Identificar formulário associado com a pesquisa salva"
 
@@ -7950,4 +7956,3 @@ msgstr "II"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
-

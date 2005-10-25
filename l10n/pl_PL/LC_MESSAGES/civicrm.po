@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
-"PO-Revision-Date: 2005-10-25 10:10+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
+"PO-Revision-Date: 2005-10-25 14:07+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -1350,6 +1350,10 @@ msgstr "Przyrostek „%1” został zapisany."
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
 msgstr "Wprowadź nazwę poprawnego rodzaju lokalizacji."
+
+#: CRM/Admin/Form/LocationType.php
+msgid "vCard Name"
+msgstr "Nazwa w vCardach"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
@@ -4979,6 +4983,11 @@ msgstr ""
 "szkoła…)."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr "vCard"
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5689,10 +5698,6 @@ msgstr "Zanotuj rozmowę"
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
 msgstr "Inne zdarzenia"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
-msgstr "vCard"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -7764,9 +7769,6 @@ msgstr "II"
 
 #~ msgid "Out Method"
 #~ msgstr "Metoda wyjściowa"
-
-#~ msgid "Search Name"
-#~ msgstr "Nazwa wyszukiwania"
 
 #~ msgid "Identify form associated with saved search"
 #~ msgstr "Wskaż formularz powiązany z zapisanym wyszukiwaniem"

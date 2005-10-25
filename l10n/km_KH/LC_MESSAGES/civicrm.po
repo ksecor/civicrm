@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -1382,6 +1382,11 @@ msgstr ""
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
 msgstr ""
+
+#: CRM/Admin/Form/LocationType.php
+#, fuzzy
+msgid "vCard Name"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
@@ -5073,6 +5078,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5702,10 +5712,6 @@ msgstr ""
 #, fuzzy
 msgid "Other Activities"
 msgstr "សកម្មភាព"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
-msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"

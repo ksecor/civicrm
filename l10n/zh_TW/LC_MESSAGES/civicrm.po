@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1346,6 +1346,10 @@ msgstr ""
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
+msgstr ""
+
+#: CRM/Admin/Form/LocationType.php
+msgid "vCard Name"
 msgstr ""
 
 #: CRM/Admin/Form/LocationType.php
@@ -4850,6 +4854,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5468,10 +5477,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl

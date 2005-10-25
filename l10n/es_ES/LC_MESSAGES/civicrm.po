@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
 "PO-Revision-Date: 2005-10-23 18:45+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -1365,6 +1365,11 @@ msgstr "El Proveedor de mensajería Instantánea \"%1\" ha sido guardado."
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
 msgstr "Por favor, introduce un nombre de tipo de localidad válido."
+
+#: CRM/Admin/Form/LocationType.php
+#, fuzzy
+msgid "vCard Name"
+msgstr "Nombre del Contacto"
 
 #: CRM/Admin/Form/LocationType.php
 #, fuzzy
@@ -5122,6 +5127,11 @@ msgstr ""
 "ser Oficina Principal, Colegio, Casa de Vacaciones...)."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5839,10 +5849,6 @@ msgstr "Registrar llamada"
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
 msgstr "Otras Actividades"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
-msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -7892,4 +7898,3 @@ msgstr "II"
 #~ msgstr ""
 #~ "<label>Reemplazar:</label> Reemplaza las coincidencias en la base de "
 #~ "datos con los contactos importados."
-

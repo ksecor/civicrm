@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 10:07+0200\n"
+"POT-Creation-Date: 2005-10-25 12:36+0200\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -1389,6 +1389,11 @@ msgstr "Der IM Provider \"%1\" wurde gespeichert."
 #: CRM/Admin/Form/LocationType.php
 msgid "Please enter a valid location type name."
 msgstr "Bitte geben Sie einen gültigen Standortstyp ein."
+
+#: CRM/Admin/Form/LocationType.php
+#, fuzzy
+msgid "vCard Name"
+msgstr "Kontaktname"
 
 #: CRM/Admin/Form/LocationType.php
 #, fuzzy
@@ -5181,6 +5186,11 @@ msgstr ""
 "hinzufügen (z.B. Schule, Hauptbüro)."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
@@ -5906,10 +5916,6 @@ msgstr "Telefongespräch protokollieren"
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
 msgstr "Andere Aktivitäten"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "vCard"
-msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
