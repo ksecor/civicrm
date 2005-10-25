@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-12 11:37+0200\n"
-"PO-Revision-Date: 2005-09-13 19:17+0200\n"
+"PO-Revision-Date: 2005-10-22 21:54+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -82,10 +82,10 @@ msgid ""
 msgstr ""
 
 msgid "You can:"
-msgstr ""
+msgstr "você pode:"
 
 msgid "enable CiviCRM blocks at %1."
-msgstr ""
+msgstr "habilitar blocos CiviCRM em %1."
 
 msgid "set access permissions at %1."
 msgstr ""
@@ -104,7 +104,7 @@ msgid ""
 msgstr ""
 
 msgid "advanced search"
-msgstr ""
+msgstr "pesquisa avançada"
 
 msgid "reuse a saved search at %1."
 msgstr ""
@@ -115,29 +115,27 @@ msgstr ""
 msgid "create or manage groups at %1."
 msgstr ""
 
-#, fuzzy
 msgid "manage groups"
-msgstr "editar grupos"
+msgstr "gerenciar grupos"
 
 msgid "import contacts from other sources at %1."
 msgstr ""
 
-#, fuzzy
 msgid "import contacts"
-msgstr "editar todos os contatos"
+msgstr "importar contatos"
 
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at %1."
 msgstr ""
 
 msgid "civicrm"
-msgstr ""
+msgstr "civicrm"
 
 msgid "admin"
-msgstr ""
+msgstr "admin"
 
 msgid "tags"
-msgstr ""
+msgstr "rótulos"
 
 msgid ""
 "create or administer relationship types (e.g. household member, board "
@@ -151,7 +149,7 @@ msgid "create or administer location types (e.g. home, work, school...) at %1."
 msgstr ""
 
 msgid "location types"
-msgstr ""
+msgstr "tipos de localização"
 
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
@@ -159,7 +157,7 @@ msgid ""
 msgstr ""
 
 msgid "activity types"
-msgstr ""
+msgstr "tipo de atividades"
 
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
@@ -167,7 +165,7 @@ msgid ""
 msgstr ""
 
 msgid "custom data"
-msgstr ""
+msgstr "dados customizados"
 
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
@@ -175,7 +173,7 @@ msgid ""
 msgstr ""
 
 msgid "civicrm profile"
-msgstr ""
+msgstr "perfil civicrm"
 
 msgid ""
 "For more information please read the <a href=\"%1\">configuration and "
@@ -187,3 +185,4 @@ msgstr ""
 
 #~ msgid "view %group"
 #~ msgstr "Visualizar %group"
+

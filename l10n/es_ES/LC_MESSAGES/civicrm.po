@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-25 10:07+0200\n"
-"PO-Revision-Date: 2005-08-31 23:49+0200\n"
+"PO-Revision-Date: 2005-10-23 18:45+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "¿Habilitado?"
 
 #: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php
@@ -327,7 +327,7 @@ msgstr "Habilitar"
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr ""
+msgstr "Copia de seguridad de la base de datos"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
@@ -604,7 +604,6 @@ msgid "Find..."
 msgstr "Encontrar..."
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "- any state/province -"
 msgstr "- cualquier provincia -"
 
@@ -614,7 +613,6 @@ msgid "State/Province"
 msgstr "Provincia"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "- any country -"
 msgstr "- cualquier país -"
 
@@ -636,7 +634,6 @@ msgid "Export"
 msgstr "Exportar"
 
 #: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
-#, fuzzy
 msgid "- any group -"
 msgstr "- cualquier grupo -"
 
@@ -690,27 +687,24 @@ msgid "Message"
 msgstr "Mensaje"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Mapping Option"
 msgstr "Editar Opción"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Load Mapping"
-msgstr "Registrar una cita"
+msgstr "Cargar edición"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Guardar este campo mapeado"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Update this field mapping"
-msgstr "ocultar este email"
+msgstr "actualizar este campo mapeado"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Guardar como un nuevo campo mapeado"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
@@ -728,19 +722,16 @@ msgid "Continue >>"
 msgstr "Continuar >>"
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Search Results"
-msgstr "<a href=\"%1\">Buscar Resultados</a>"
+msgstr "Buscar Resultados"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
-#, fuzzy
 msgid "Update Smart Group"
-msgstr "Grupo inteligente"
+msgstr "Actualizar Grupo inteligente"
 
 #: CRM/Contact/Page/SavedSearch.php CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Do you really want to remove this Smart Group?"
-msgstr "¿Realmente deseas borrar la Búsqueda Guardada?"
+msgstr "¿Realmente deseas borrar este grupo inteligente?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
@@ -816,9 +807,8 @@ msgid "State"
 msgstr "Provincia"
 
 #: CRM/Contact/Task.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Export Contacts"
-msgstr "Importar Contactos"
+msgstr "Exportar Contactos"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -900,9 +890,8 @@ msgid "Entity Table"
 msgstr "Entidad de la Tabla"
 
 #: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Create"
-msgstr "Creado Por"
+msgstr "Crear"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
@@ -1065,25 +1054,21 @@ msgstr "Grupos"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
-#, fuzzy
 msgid "Forward Mailing"
-msgstr "De Emal"
+msgstr "Reenviar Correo"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
-#, fuzzy
 msgid "Mailings"
-msgstr "Test Mailing"
+msgstr "Mailings"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Selector/Browse.php
-#, fuzzy
 msgid "Report"
-msgstr "Exportar"
+msgstr "Informe"
 
 #: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Retry Mailing"
-msgstr "Test Mailing"
+msgstr "Reintentar Mailing"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
@@ -1108,17 +1093,14 @@ msgid "Edit %1"
 msgstr "Editar %1"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Pre-form Help"
-msgstr "Formulario de Ayuda"
+msgstr "Pre-Formulario de Ayuda"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Post-form Help"
-msgstr "Formulario de Ayuda"
+msgstr "Post-Formulario de Ayuda"
 
 #: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
-#, fuzzy
 msgid "Preview Custom Data"
 msgstr "Previsualizar Grupo de datos Personalizado"
 
@@ -1135,9 +1117,8 @@ msgid "Group Members"
 msgstr "Miembros del Grupo"
 
 #: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Settings"
-msgstr "String"
+msgstr "Ajustes"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -1177,7 +1158,6 @@ msgid "Unsubscribe"
 msgstr "Desubscribir"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
-#, fuzzy
 msgid "Opt-Out"
 msgstr "Salida Opcional"
 
@@ -1253,7 +1233,6 @@ msgid "Meeting \"%1\" has been saved."
 msgstr "La cita \"%1\" ha sido guardada."
 
 #: CRM/Activity/Form/OtherActivity.php
-#, fuzzy
 msgid "- select activity type -"
 msgstr "- Selecciona el tipo de Actividad -"
 
@@ -1286,9 +1265,8 @@ msgid "Call Date and Time are required."
 msgstr "Fecha y Hora de llamada son requeridos."
 
 #: CRM/Activity/Form/Phonecall.php
-#, fuzzy
 msgid "OR New Phone"
-msgstr "OR Nuevo Teléfono"
+msgstr "O Nuevo Teléfono"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been logged to Activity History."
@@ -1309,16 +1287,14 @@ msgid "Please enter a valid activity type name."
 msgstr "Por Favor, introduce un nombre de tipo de actividad válido."
 
 #: CRM/Admin/Form/ActivityType.php
-#, fuzzy
 msgid "Selected activity type has been deleted."
-msgstr "La OtraActividad seleccionada ha sido borrada"
+msgstr "El tipo de Actividad seleccionada ha sido borrada"
 
 #: CRM/Admin/Form/ActivityType.php
 msgid "The activity type \"%1\" has been saved."
 msgstr "El tipo de actividad \"%1\" ha sido guardado."
 
 #: CRM/Admin/Form/Gender.php
-#, fuzzy
 msgid "Please enter a valid gender name."
 msgstr "Por Favor, introduce un nombre válido."
 
@@ -7916,3 +7892,4 @@ msgstr "II"
 #~ msgstr ""
 #~ "<label>Reemplazar:</label> Reemplaza las coincidencias en la base de "
 #~ "datos con los contactos importados."
+

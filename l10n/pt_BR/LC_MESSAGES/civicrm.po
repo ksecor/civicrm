@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-25 10:07+0200\n"
-"PO-Revision-Date: 2005-10-21 00:33+0200\n"
+"PO-Revision-Date: 2005-10-22 20:20+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -6807,7 +6807,7 @@ msgstr[1] ""
 msgid ""
 "CiviCRM does not allow multiple contact records to have the same primary "
 "email address."
-msgstr ""
+msgstr "CiviCRM não permite múltiplos registro de contatos possuírem o mesmo endereço de mail primário."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -7041,14 +7041,12 @@ msgid "Mailing Settings"
 msgstr "Endereço de Correspondência"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Reply-to email"
-msgstr "Enviar e-mail"
+msgstr "Responder email para"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Forward replies"
-msgstr "Encaminhar respostas?"
+msgstr "Encaminhar respostas"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "On"
@@ -7087,22 +7085,20 @@ msgid "Excluded"
 msgstr "Excluir"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Delivery Summary"
-msgstr "Resumo das Atividades"
+msgstr "Resumo das Entregas"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Queued"
-msgstr ""
+msgstr "Na fila"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Delivered"
-msgstr "Excluir"
+msgstr "Entregue"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Opens"
-msgstr ""
+msgstr "Abertos"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
@@ -7111,7 +7107,7 @@ msgstr "Total de linhas"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Percentages"
-msgstr ""
+msgstr "Porcentagens"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
@@ -7120,19 +7116,19 @@ msgstr "Resumo do contato"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Clicks"
-msgstr ""
+msgstr "Cliques"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Unique Clicks"
-msgstr ""
+msgstr "Cliques unicos"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Success Rate"
-msgstr ""
+msgstr "Taxa de sucesso"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
-msgstr ""
+msgstr "Conteúdo / Componentes"
 
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
@@ -7171,7 +7167,7 @@ msgstr ""
 
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Please enter up to 5 email addresses to receive the mailing."
-msgstr ""
+msgstr "Por gentileza entre com mais de 5 contas de email para receber o mailing."
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
@@ -7364,16 +7360,15 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "EXEMPLO:"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
-msgstr ""
+msgstr "Perfil CiviCRM - código para o formulário HTML"
 
 #: templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid "Back to Profile Listings"
-msgstr "Listagem do Perfil CiviCRM"
+msgstr "Voltar à Listagem do Perfil"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -7575,11 +7570,11 @@ msgstr "Endereço de Correspondência"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "caixa postal de usuário cheia"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Incapaz de encontrar o servidor de email destino"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
@@ -7955,3 +7950,4 @@ msgstr "II"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
+
