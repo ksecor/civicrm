@@ -4,11 +4,19 @@
 -- *
 -- *******************************************************/
 DROP TABLE IF EXISTS civicrm_mapping_field;
-DROP TABLE IF EXISTS civicrm_mapping; 
-DROP TABLE IF EXISTS civicrm_individual_suffix; 
-DROP TABLE IF EXISTS civicrm_individual_prefix; 
+DROP TABLE IF EXISTS civicrm_mapping;
+DROP TABLE IF EXISTS civicrm_individual_suffix;
+DROP TABLE IF EXISTS civicrm_individual_prefix;
 DROP TABLE IF EXISTS civicrm_gender;
 
+-- /*******************************************************
+-- *
+-- * Ensure we're working with InnoDBs for foreign keys' sake
+-- *
+-- *******************************************************/
+ALTER TABLE civicrm_domain            ENGINE=InnoDB;
+ALTER TABLE civicrm_location_type     ENGINE=InnoDB;
+ALTER TABLE civicrm_relationship_type ENGINE=InnoDB;
 
 -- /*******************************************************
 -- *
@@ -24,17 +32,17 @@ CREATE TABLE civicrm_mapping (
      domain_id int unsigned NOT NULL   COMMENT 'Domain to which this mapping belongs',
      name varchar(64)    COMMENT 'Name of Mapping',
      description varchar(255)    COMMENT 'Description of Mapping.',
-     mapping_type enum('Export', 'Import')    COMMENT 'Type of Mapping.' 
+     mapping_type enum('Export', 'Import')    COMMENT 'Type of Mapping.'
 ,
     PRIMARY KEY ( id )
- 
+
     ,     UNIQUE INDEX UI_name(
         name
   )
-  
-,      INDEX FKEY_domain_id ( domain_id ) ,  
+
+,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-  
+
 )  ENGINE=InnoDB  ;
 
 
@@ -50,20 +58,19 @@ CREATE TABLE civicrm_individual_prefix (
      domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this individual prefix.',
      name varchar(64)    COMMENT 'Individual Prefix Name.',
      weight int NOT NULL  DEFAULT 1 COMMENT 'Controls Individual Prefix order in the select box.',
-     is_active tinyint    COMMENT 'Is this property active?' 
+     is_active tinyint    COMMENT 'Is this property active?'
 ,
     PRIMARY KEY ( id )
- 
+
     ,     UNIQUE INDEX UI_name_domain_id(
         name
       , domain_id
   )
-  
-,      INDEX FKEY_domain_id ( domain_id ) ,  
-     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-  
-)  ENGINE=InnoDB  ;
 
+,      INDEX FKEY_domain_id ( domain_id ) ,
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+
+)  ENGINE=InnoDB  ;
 
 -- /*******************************************************
 -- *
@@ -77,18 +84,18 @@ CREATE TABLE civicrm_individual_suffix (
      domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this individual suffix.',
      name varchar(64)    COMMENT 'Individual Suffix Name.',
      weight int NOT NULL  DEFAULT 1 COMMENT 'Controls Individual Suffix order in the select box.',
-     is_active tinyint    COMMENT 'Is this property active?' 
+     is_active tinyint    COMMENT 'Is this property active?'
 ,
     PRIMARY KEY ( id )
- 
+
     ,     UNIQUE INDEX UI_name_domain_id(
         name
       , domain_id
   )
-  
-,      INDEX FKEY_domain_id ( domain_id ) ,  
+
+,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-  
+
 )  ENGINE=InnoDB  ;
 
 
@@ -109,21 +116,21 @@ CREATE TABLE civicrm_mapping_field (
      column_number int unsigned NOT NULL   COMMENT 'Column number for mapping set',
      location_type_id int unsigned    COMMENT 'Location type of this mapping, if required',
      phone_type varchar(64)    COMMENT 'Phone type, if required',
-     relationship_type_id int unsigned    COMMENT 'Relationship type, if required' 
+     relationship_type_id int unsigned    COMMENT 'Relationship type, if required'
 ,
     PRIMARY KEY ( id )
- 
- 
-,      INDEX FKEY_mapping_id ( mapping_id ) ,  
+
+
+,      INDEX FKEY_mapping_id ( mapping_id ) ,
      FOREIGN KEY (mapping_id) REFERENCES civicrm_mapping(id)
-,      INDEX FKEY_location_type_id ( location_type_id ) ,  
+,      INDEX FKEY_location_type_id ( location_type_id ) ,
      FOREIGN KEY (location_type_id) REFERENCES civicrm_location_type(id)
-,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,  
+,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,
      FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
-  
+
 )  ENGINE=InnoDB  ;
 
- 
+
 -- /*******************************************************
 -- *
 -- * civicrm_gender
@@ -136,27 +143,26 @@ CREATE TABLE civicrm_gender (
      domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this gender.',
      name varchar(64)    COMMENT 'Gender Name.',
      weight int NOT NULL  DEFAULT 1 COMMENT 'Controls Gender order in the select box.',
-     is_active tinyint    COMMENT 'Is this property active?' 
+     is_active tinyint    COMMENT 'Is this property active?'
 ,
     PRIMARY KEY ( id )
- 
+
     ,     UNIQUE INDEX UI_name_domain_id(
         name
       , domain_id
   )
-  
-,      INDEX FKEY_domain_id ( domain_id ) ,  
+
+,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-  
+
 )  ENGINE=InnoDB  ;
 
 
-
--- /******************************************************* 
--- * 
--- * Modify the civicrm_uf_group Table Structure 
--- * 
--- *******************************************************/ 
+-- /*******************************************************
+-- *
+-- * Modify the civicrm_uf_group Table Structure
+-- *
+-- *******************************************************/
 
 ALTER TABLE civicrm_uf_group ADD help_pre text    COMMENT 'Description and/or help text to display before fields in form.';
 
@@ -167,21 +173,21 @@ ALTER TABLE civicrm_uf_group ADD weight int NOT NULL  DEFAULT 1 COMMENT 'Control
 
 
 
--- /******************************************************* 
--- * 
--- * Modify the civicrm_uf_field  Table Structure 
--- * 
--- *******************************************************/ 
+-- /*******************************************************
+-- *
+-- * Modify the civicrm_uf_field  Table Structure
+-- *
+-- *******************************************************/
 
 ALTER TABLE civicrm_uf_field ADD in_selector tinyint   DEFAULT 1 COMMENT 'Is this field included as a column in the selector table?';
 
 
 
--- /******************************************************* 
--- * 
--- * Modify the  civicrm_individual Table Structure 
--- * 
--- *******************************************************/ 
+-- /*******************************************************
+-- *
+-- * Modify the  civicrm_individual Table Structure
+-- *
+-- *******************************************************/
 
 
 ALTER TABLE civicrm_individual ADD prefix_id int unsigned    COMMENT 'Prefix or Title for name (Ms, Mr...). FK to prefix ID';
@@ -201,68 +207,68 @@ ALTER TABLE civicrm_individual ADD INDEX (gender_id);
 ALTER TABLE civicrm_individual ADD FOREIGN KEY (gender_id) REFERENCES civicrm_gender(id);
 
 
--- /******************************************************* 
--- * 
--- * Modify the  civicrm_custom_field Table Structure 
--- * 
+-- /*******************************************************
+-- *
+-- * Modify the  civicrm_custom_field Table Structure
+-- *
 -- *******************************************************/
 
 ALTER TABLE  civicrm_custom_field ADD options_per_line int unsigned   DEFAULT 1  COMMENT 'number of options per line for checkbox and radio';
 
--- /******************************************************* 
--- * 
--- * Modify the civicrm_group  Table Structure 
--- * 
+-- /*******************************************************
+-- *
+-- * Modify the civicrm_group  Table Structure
+-- *
 -- *******************************************************/
 
 
 ALTER TABLE civicrm_group ADD  visibility enum('User and User Admin Only', 'Public User Pages', 'Public User Pages and Listings')   DEFAULT 'User and User Admin Only' COMMENT 'In what context(s) is this field visible.';
 
--- /******************************************************* 
--- * 
+-- /*******************************************************
+-- *
 -- * Insert data in to civicrm_individual_prefix civicrm_individual_suffix and civicrm_gender
--- * 
+-- *
 -- *******************************************************/
 
 
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Mrs', 1, 1); 
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Ms', 2, 1); 
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Mr', 3, 1); 
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Dr', 4, 1); 
- 
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'Jr', 1, 1); 
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'Sr', 2, 1); 
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'II', 3, 1); 
- 
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Female', 1, 1); 
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Male', 2, 1); 
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Transgender', 3, 1); 
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Mrs', 1, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Ms', 2, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Mr', 3, 1);
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( 1, 'Dr', 4, 1);
+
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'Jr', 1, 1);
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'Sr', 2, 1);
+INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( 1, 'II', 3, 1);
+
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Female', 1, 1);
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Male', 2, 1);
+INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( 1, 'Transgender', 3, 1);
 
 
--- /******************************************************* 
--- * 
+-- /*******************************************************
+-- *
 -- * adding data for perefix, suffix and gender in the individual table
--- * 
+-- *
 -- *******************************************************/
- 
-UPDATE civicrm_individual SET prefix_id=1 WHERE  prefix='Mrs' ;
-UPDATE civicrm_individual SET prefix_id=2 WHERE  prefix='Ms' ;
-UPDATE civicrm_individual SET prefix_id=3 WHERE  prefix='Mr' ;
-UPDATE civicrm_individual SET prefix_id=4 WHERE  prefix='Dr' ;
 
-UPDATE civicrm_individual SET suffix_id=1 WHERE  suffix='Jr' ;
-UPDATE civicrm_individual SET suffix_id=2 WHERE  suffix='Sr' ;
-UPDATE civicrm_individual SET suffix_id=3 WHERE  suffix='II' ;
+UPDATE civicrm_individual SET prefix_id=1 WHERE prefix='Mrs';
+UPDATE civicrm_individual SET prefix_id=2 WHERE prefix='Ms';
+UPDATE civicrm_individual SET prefix_id=3 WHERE prefix='Mr';
+UPDATE civicrm_individual SET prefix_id=4 WHERE prefix='Dr';
 
-UPDATE civicrm_individual SET gender_id=1 WHERE  gender='Female';
-UPDATE civicrm_individual SET gender_id=2 WHERE  gender='Male';
-UPDATE civicrm_individual SET gender_id=3 WHERE  gender='Transgender';
+UPDATE civicrm_individual SET suffix_id=1 WHERE suffix='Jr';
+UPDATE civicrm_individual SET suffix_id=2 WHERE suffix='Sr';
+UPDATE civicrm_individual SET suffix_id=3 WHERE suffix='II';
+
+UPDATE civicrm_individual SET gender_id=1 WHERE gender='Female';
+UPDATE civicrm_individual SET gender_id=2 WHERE gender='Male';
+UPDATE civicrm_individual SET gender_id=3 WHERE gender='Transgender';
 
 -- Also reset all the is_reserved fields for the generic types
-UPDATE civicrm_relationship_type SET is_reserved=0; 
-UPDATE civicrm_location_type SET is_reserved=0; 
-UPDATE civicrm_im_provider_type SET is_reserved=0; 
-UPDATE civicrm_mobile_provider_type SET is_reserved=0; 
+UPDATE civicrm_relationship_type SET is_reserved=0;
+UPDATE civicrm_location_type     SET is_reserved=0;
+UPDATE civicrm_im_provider       SET is_reserved=0;
+UPDATE civicrm_mobile_provider   SET is_reserved=0;
 
 -- /*******************************************************
 -- *
@@ -274,10 +280,10 @@ UPDATE civicrm_custom_field SET options_per_line = 1 WHERE 1;
 
 UPDATE civicrm_group SET visibility = 'User and User Admin Only' WHERE 1;
 
--- /******************************************************* 
--- * 
+-- /*******************************************************
+-- *
 -- * Drop old columns
--- * 
+-- *
 -- *******************************************************/
 
 ALTER TABLE civicrm_uf_field DROP listings_title;
@@ -291,10 +297,10 @@ ALTER TABLE civicrm_individual DROP gender;
 
 
 
--- /******************************************************* 
--- * 
+-- /*******************************************************
+-- *
 -- * Drop Old Tables
--- * 
+-- *
 -- *******************************************************/
 
 DROP TABLE IF EXISTS civicrm_import_mapping_field;
