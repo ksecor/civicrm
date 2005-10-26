@@ -130,7 +130,7 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality,
  * uncomment the two lines below and enter your smtp server address here (e.g.'smtp.example.com').
  * The standard STMP Port is 25, so you should only need to change that value if you find
- * that you SMTP server is running on a non-standard port
+ * that your SMTP server is running on a non-standard port.
  */
 // define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 // define( 'CIVICRM_SMTP_PORT'   , 25 );
