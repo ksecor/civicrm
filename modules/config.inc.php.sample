@@ -131,6 +131,7 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * uncomment the below line and enter your smtp server address here (e.g.'smtp.example.com'). 
  */
 // define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
+// define( 'CIVICRM_SMTP_PORT'   , 25 );
 
 /**
  * Province availability:
