@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 12:36+0200\n"
+"POT-Creation-Date: 2005-10-27 18:00+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -842,7 +842,6 @@ msgstr "ចំណាំ"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
@@ -856,7 +855,6 @@ msgstr "បាទ"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
@@ -1091,6 +1089,11 @@ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr ""
+
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
+#, fuzzy
+msgid "Please enter a valid value for this field."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -4999,10 +5002,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Reserved?"
 msgstr ""
 
@@ -5072,8 +5071,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "Location types provide convenient labels to differentiate contacts' location"
-"(s). CiviCRM includes several commonly used 'reserved' types (Home and "
-"Work). Administrators may define as many additional types as appropriate for "
+"(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
 
@@ -5108,13 +5106,6 @@ msgstr ""
 msgid ""
 "There are no Mobile Providers entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr ""
-
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid ""
-"Relationship types describe relationships between people, households and "
-"organizations. CiviCRM includes several 'reserved' types for frequently used "
-"relationships (such as Parent/Child or Employer/Employee)."
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl

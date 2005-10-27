@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 12:36+0200\n"
+"POT-Creation-Date: 2005-10-27 18:00+0200\n"
 "PO-Revision-Date: 2005-10-22 20:20+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -847,7 +847,6 @@ msgstr "Nota"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
@@ -861,7 +860,6 @@ msgstr "Sim"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
@@ -1088,6 +1086,11 @@ msgstr "Caixa Postal"
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "O Grupo \"%1\" foi excluído."
+
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
+#, fuzzy
+msgid "Please enter a valid value for this field."
+msgstr "Entre com um rótulo válido para este campo."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -5053,10 +5056,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Reserved?"
 msgstr "Reservado?"
 
@@ -5146,8 +5145,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Location types provide convenient labels to differentiate contacts' location"
-"(s). CiviCRM includes several commonly used 'reserved' types (Home and "
-"Work). Administrators may define as many additional types as appropriate for "
+"(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
 "Tipos de localização fornecem rótulos convinientes para diferenciar "
@@ -5195,20 +5193,6 @@ msgid ""
 msgstr ""
 "Não há Fornecedores de Serviços Móveis para este contato. Você pode <a href="
 "\"%1\">adicionar um</a>"
-
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
-msgid ""
-"Relationship types describe relationships between people, households and "
-"organizations. CiviCRM includes several 'reserved' types for frequently used "
-"relationships (such as Parent/Child or Employer/Employee)."
-msgstr ""
-"<p>Tipos de relacionamentos descrevem o relacionamento entre pessoas, "
-"individuos e organizações. CiviCRM inclui diversos tipos 'reservados' "
-"frequentemente usados em relacionamentos (tais como Pai/Filho ou   Empregado/"
-"Empregador).</p> \n"
-" <p>Você pode definir quantos tipos de relacionamentos adicionais forem "
-"necessários para cobrir as relações que deseja acompanhar.</p>"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -7627,6 +7611,19 @@ msgstr "Sr."
 msgid "II"
 msgstr "II"
 
+#, fuzzy
+#~ msgid ""
+#~ "Relationship types describe relationships between people, households and "
+#~ "organizations. CiviCRM includes several 'reserved' types for frequently "
+#~ "used relationships (such as Parent/Child or Employer/Employee)."
+#~ msgstr ""
+#~ "<p>Tipos de relacionamentos descrevem o relacionamento entre pessoas, "
+#~ "individuos e organizações. CiviCRM inclui diversos tipos 'reservados' "
+#~ "frequentemente usados em relacionamentos (tais como Pai/Filho ou   "
+#~ "Empregado/Empregador).</p> \n"
+#~ " <p>Você pode definir quantos tipos de relacionamentos adicionais forem "
+#~ "necessários para cobrir as relações que deseja acompanhar.</p>"
+
 #~ msgid "Enter valid Postal Code"
 #~ msgstr "Entre com um código Postal válido"
 
@@ -7833,9 +7830,6 @@ msgstr "II"
 #, fuzzy
 #~ msgid "Add Note"
 #~ msgstr "Editar nota"
-
-#~ msgid "Please enter a valid label for this field."
-#~ msgstr "Entre com um rótulo válido para este campo."
 
 #~ msgid "Edit Custom Option"
 #~ msgstr "Editar opção customizada"

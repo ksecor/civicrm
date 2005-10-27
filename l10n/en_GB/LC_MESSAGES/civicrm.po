@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-25 12:36+0200\n"
+"POT-Creation-Date: 2005-10-27 18:00+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -839,7 +839,6 @@ msgstr "Note"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
@@ -853,7 +852,6 @@ msgstr "Yes"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
@@ -1080,6 +1078,11 @@ msgstr "Test Mailing"
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "The Group \"%1\" has been deleted."
+
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
+#, fuzzy
+msgid "Please enter a valid value for this field."
+msgstr "Please enter a valid number."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -4999,10 +5002,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#: templates/CRM/Admin/Page/IMProvider.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
-#: templates/CRM/Admin/Page/MobileProvider.tpl
-#: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Reserved?"
 msgstr "Reserved?"
 
@@ -5088,10 +5087,10 @@ msgstr ""
 "a>."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#, fuzzy
 msgid ""
 "Location types provide convenient labels to differentiate contacts' location"
-"(s). CiviCRM includes several commonly used 'reserved' types (Home and "
-"Work). Administrators may define as many additional types as appropriate for "
+"(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
 "Location types provide convenient labels to differentiate contacts' location"
@@ -5140,19 +5139,6 @@ msgid ""
 msgstr ""
 "There are no Mobile Providers entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
-msgid ""
-"Relationship types describe relationships between people, households and "
-"organizations. CiviCRM includes several 'reserved' types for frequently used "
-"relationships (such as Parent/Child or Employer/Employee)."
-msgstr ""
-"<p>Relationship types describe relationships between people, households and "
-"organizations. CiviCRM includes several 'reserved' types for frequently used "
-"relationships (such as Parent/Child or Employer/Employee).</p>\n"
-"    <p>You can define as many additional relationships types as needed to "
-"cover the types of relationships you want to track.</p>"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -7517,6 +7503,19 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#, fuzzy
+#~ msgid ""
+#~ "Relationship types describe relationships between people, households and "
+#~ "organizations. CiviCRM includes several 'reserved' types for frequently "
+#~ "used relationships (such as Parent/Child or Employer/Employee)."
+#~ msgstr ""
+#~ "<p>Relationship types describe relationships between people, households "
+#~ "and organizations. CiviCRM includes several 'reserved' types for "
+#~ "frequently used relationships (such as Parent/Child or Employer/Employee)."
+#~ "</p>\n"
+#~ "    <p>You can define as many additional relationships types as needed to "
+#~ "cover the types of relationships you want to track.</p>"
 
 #~ msgid "Enter valid Postal Code"
 #~ msgstr "Enter valid Postal Code"
