@@ -66,6 +66,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
     }
 
+    
+   
     /**
      * Function to build the form
      *
@@ -105,7 +107,46 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
         
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activities',$this->_id);
+       
+        $this->assign('groupTree', $this->_groupTree); 
 
+        $sBlocks = array();
+        $hBlocks = array();
+
+        foreach ($this->_groupTree as $group) {
+            
+            $_groupTitle[]           = $group['title'];
+            $_groupCollapseDisplay[] = $group['collapse_display'];
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
+            
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                
+                $fieldId = $field['id'];                
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
+
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
+            }
+
+            if ( $group['collapse_display'] ) {
+                $sBlocks[] = "'". $group['title'] . "[show]'" ;
+                $hBlocks[] = "'". $group['title'] ."'";
+            } else {
+                $hBlocks[] = "'". $group['title'] . "[show]'" ;
+                $sBlocks[] = "'". $group['title'] ."'";
+            }
+        }
+
+        $showBlocks = implode(",",$sBlocks);
+        $hideBlocks = implode(",",$hBlocks);
+        
+        $this->assign('showBlocks1',$showBlocks);
+        $this->assign('hideBlocks1',$hideBlocks);
+
+        // print_r($this->_groupTree);
+        //exit();
     }
 
     /**
@@ -151,7 +192,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
         
         $otherActivity = CRM_Core_BAO_OtherActivity::add($params, $ids);
-      
+       
         $activityType = CRM_Core_PseudoConstant::activityType(true);
         // print_r(CRM_Core_BAO_ActivityType::getActivityDescription());
         
@@ -172,7 +213,10 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                 return false;
             }
         }
-             
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+
+        // do the updates/inserts
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activities',$otherActivity->id); 
         if($otherActivity->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
         } else if($this->_action & CRM_Core_Action::DELETE) {

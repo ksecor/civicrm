@@ -66,7 +66,10 @@
         {/if}
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
-       
+
+	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+
+
         {if $action eq 8 }
             <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
         {/if}

@@ -145,8 +145,20 @@ class CRM_Activity_Form extends CRM_Core_Form
             $defaults['scheduled_date_time'] = $currentDate;
         }
         
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+            $viewMode = true;
+        } else {
+            $viewMode = false;
+            $inactiveNeeded = false;
+        }
+
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        }
         return $defaults;
 
+       
     }
 
     /**

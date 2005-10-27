@@ -202,10 +202,12 @@ class CRM_Core_SelectValues {
         static $customGroupExtends = null;
         if (!$customGroupExtends) {
             $customGroupExtends = array(
-                'Contact'      => ts('- all contact types -'),
+                'Contact'      => ts('- All Contacts -'),
                 'Individual'   => ts('Individuals'),
                 'Household'    => ts('Households'),
-                'Organization' => ts('Organizations')
+                'Organization' => ts('Organizations'),
+                'Gifts'        => ts('Gifts'),
+                'Activities'   => ts('Activities')
             );
         }
         return $customGroupExtends;

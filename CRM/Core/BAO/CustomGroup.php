@@ -567,6 +567,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Organization':
             $tableName = 'civicrm_contact';
             break;
+        case 'Gift':
+            $tableName = 'civicrm_gift';
+            break;
+        case 'Activities':  
+            $tableName = 'civicrm_activity';
+            break;
             // need to add cases for Location, Address
         }
 
