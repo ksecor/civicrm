@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Donation</base>
+  <class>GiftType</class>
+  <name>civicrm_gift_type</name>
+  <add>1.3</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Gift Type ID</comment>
+       <add>1.3</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this gift type.</comment>
+       <add>1.3</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.3</add>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <title>Gift Type</title>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <comment>Gift Type Name.</comment>
+       <add>1.3</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Gift Type Description.</comment>
+       <add>1.3</add>
+  </field>
+  <field>
+       <name>is_reserved</name>
+       <type>boolean</type>
+       <comment>Is this a predefined system object?</comment>
+       <add>1.3</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+       <add>1.3</add>
+  </field>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+    <add>1.3</add>
+  </index>
+</table>

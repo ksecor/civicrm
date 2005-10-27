@@ -30,23 +30,104 @@
        <key>id</key>
   </foreignKey>
   <field>
-       <name>is_active</name>
-       <type>boolean</type>
-       <comment>Is this property active?</comment>
-      <add>1.3</add>
-  </field>
-  <field>
-       <name>name</name>
+       <name>title</name>
        <type>varchar</type>
-       <length>64</length>
-       <comment>Donation Page Name</comment>
+       <length>255</length>
+       <comment>Donation Page title. For top of page display</comment>
        <add>1.3</add>
   </field>
   <field>
-       <name>description</name>
-       <type>varchar</type>
+       <name>intro_text</name>
+       <type>text</type>
+       <comment>displayed in div below title</comment>
+       <add>1.3</add>
+  </field>
+  <field> 
+      <name>gift_type_id</name> 
+      <type>int unsigned</type>                 
+      <required>true</required>                  
+      <comment>default Gift type assigned to gifts submitted via this page, e.g. Donation, Campaign Contribution... see GiftType below</comment> 
+      <add>1.3</add> 
+  </field> 
+  <foreignKey> 
+       <name>gift_type_id</name> 
+       <table>civicrm_gift_type</table> 
+       <key>id</key> 
+  </foreignKey>
+  <field>  
+      <name>is_credit_card_only</name>  
+      <type>boolean</type>                  
+      <comment>if true - donation processing logic must reject transaction at confirmation stage if pay method != credit card</comment>  
+      <default>0</default>
+      <add>1.3</add>  
+  </field> 
+  <field> 
+      <name>amount_field_id</name> 
+      <type>int unsigned</type>                 
+      <comment>FK to civicrm_custom_field record which is used for the donation amount</comment> 
+      <add>1.3</add> 
+  </field> 
+  <foreignKey> 
+       <name>amount_field_id</name> 
+       <table>civicrm_custom_field</table> 
+       <key>id</key> 
+  </foreignKey> 
+  <field>   
+      <name>is_allow_other_amount</name>   
+      <type>boolean</type>                   
+      <comment>if true, page will include an input text field where user can enter their own donation amount</comment>   
+      <default>0</default> 
+      <add>1.3</add>   
+  </field>  
+  <field>    
+      <name>min_amount</name> 
+      <type>decimal</type> 
+      <comment>if other amounts allowed, user can configure minimum allowed.</comment> 
+      <add>1.3</add> 
+  </field>  
+  <field>    
+      <name>max_amount</name> 
+      <type>decimal</type> 
+      <comment>if other amounts allowed, user can configure maximum allowed.</comment> 
+      <add>1.3</add> 
+  </field>
+  <field> 
+       <name>thankyou_text</name> 
+       <type>text</type> 
+       <comment>text and html allowed; displayed above donation result on success page</comment> 
+       <add>1.3</add> 
+  </field> 
+  <field> 
+       <name>is_email_receipt</name> 
+       <type>boolean</type> 
+       <comment>if true, receipt is automatically emailed to donor on success</comment> 
+       <default>1</default>
+       <add>1.3</add> 
+  </field> 
+  <field>  
+       <name>cc_receipt</name>  
+       <type>varchar</type>  
        <length>255</length>
-       <comment>Description</comment>
+       <comment>comma-separated list of email addresses to cc each time a receipt is sent</comment>  
+       <add>1.3</add>  
+  </field>  
+  <field>  
+       <name>bcc_receipt</name>  
+       <type>varchar</type>  
+       <length>255</length>
+       <comment>comma-separated list of email addresses to bcc each time a receipt is sent</comment>  
+       <add>1.3</add>  
+  </field>  
+  <field>  
+       <name>receipt_text</name>  
+       <type>text</type>  
+       <comment>text to include above standard receipt info on receipt email; emails are text-only, so do not allow html for now</comment>
+       <add>1.3</add>  
+  </field>  
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
        <add>1.3</add>
   </field>
 </table>

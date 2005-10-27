@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>  
+  
+<table>  
+  <base>CRM/Donation</base>  
+  <class>FinancialTrxn</class>  
+  <name>civicrm_gift</name>  
+  <add>1.3</add>  
+  <field>  
+      <name>id</name>  
+      <type>int unsigned</type>  
+      <required>true</required>  
+      <comment>Gift ID</comment>  
+       <add>1.3</add>  
+  </field>  
+  <primaryKey>  
+       <name>id</name>  
+       <autoincrement>true</autoincrement>  
+  </primaryKey>  
+  <field>          
+      <name>domain_id</name>  
+      <type>int unsigned</type>  
+      <required>true</required>   
+      <comment>Which Domain owns this gift class.</comment>  
+       <add>1.3</add>              
+  </field>              
+  <foreignKey>  
+       <name>domain_id</name>  
+       <table>civicrm_domain</table>  
+       <key>id</key>                         
+       <add>1.3</add>  
+  </foreignKey>  
+  <field>  
+       <name>entity_table</name>  
+       <type>varchar</type>  
+       <length>64</length>  
+       <comment>physical tablename for entity being extended by this data, e.g. civicrm_contact</comment>  
+       <add>1.3</add>  
+  </field>  
+  <field>  
+      <name>entity_id</name>  
+      <type>int unsigned</type>  
+      <required>true</required>  
+      <comment>FK to record in the entity table specified by entity_table column.</comment>  
+      <add>1.3</add>  
+  </field> 
+  <index>  
+       <name>index_entity</name>  
+       <fieldName>entity_table</fieldName>  
+       <fieldName>entity_id</fieldName>  
+       <add>1.3</add>  
+  </index> 
+  <field>  
+      <name>trxn_date</name>  
+      <type>datetime</type>  
+      <required>true</required>  
+      <add>1.3</add>  
+  </field>  
+  <field>   
+      <name>trxn_type</name>   
+      <type>enum</type>   
+      <values>Debit,Credit</values>
+      <required>true</required>   
+      <add>1.3</add>   
+  </field>   
+  <field>    
+      <name>total_amount</name>    
+      <type>decimal</type>    
+      <required>true</required>
+      <comment>amount of gift.</comment>
+      <add>1.3</add>    
+  </field> 
+  <field>    
+      <name>fee_amount</name>    
+      <type>decimal</type>    
+      <required>true</required>
+      <comment>actual processor fee if known - may be 0.</comment>
+      <add>1.3</add>    
+  </field> 
+  <field>    
+      <name>net_amount</name>    
+      <type>decimal</type>    
+      <required>true</required>
+      <comment>actual funds transfer amount; total less fees; if processor doesn't report actual fee during transaction, this is set to total_amount.</comment>
+      <add>1.3</add>    
+  </field>
+  <field>       
+      <name>payment_processor</name>    
+      <type>varchar</type>    
+      <length>64</length> 
+      <required>true</required>
+      <comment>derived from Processor setting in config.inc.php.</comment>    
+      <add>1.3</add>    
+  </field>  
+  <field>        
+      <name>trxn_id</name>     
+      <type>varchar</type>     
+      <length>255</length>  
+      <required>true</required> 
+      <comment>processor transaction id, bank trans id, check number... depending on payment_method</comment>     
+      <add>1.3</add>     
+  </field>   
+  <field>         
+      <name>trxn_result_code</name>      
+      <type>varchar</type>      
+      <length>255</length>   
+      <comment>processor result code</comment>      
+      <add>1.3</add>      
+  </field>  
+</table>
+
