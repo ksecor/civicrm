@@ -118,8 +118,9 @@ class CRM_Contact_BAO_Export {
                     }
                 }
             }
+            $returnProperties['contact_id'] = 1;
         }
-       
+        
         $session =& new CRM_Core_Session();
         if ( $selectAll ) {
             $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
@@ -140,9 +141,10 @@ class CRM_Contact_BAO_Export {
                 $queryString .= " ORDER BY $order";
             }
         }
+        
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
-
+        
         while ($dao->fetch()) {
             $row = array( );
             $validRow = false;
@@ -152,7 +154,6 @@ class CRM_Contact_BAO_Export {
                     if (is_array($props)) {
                         foreach($props as $propKey1=>$prop) {
                             foreach($prop as $propkey2=>$prop1) {
-                                //echo $propKey1."-".$propkey2."  ".$key; 
                                 if($propKey1."-".$propkey2 == $key) {
                                     $flag = true;
                                 }
@@ -160,7 +161,6 @@ class CRM_Contact_BAO_Export {
                         }
                     }
                 }    
-
                 if(array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
@@ -179,6 +179,8 @@ class CRM_Contact_BAO_Export {
                     if ( ! $header ) {
                         if (isset($query->_fields[$key]['title'])) {
                             $headerRows[] = $query->_fields[$key]['title'];
+                        } else if ($key == 'contact_id') { 
+                            $headerRows[] = 'Internal Contact Id';
                         } else {
                             $keyArray = explode('-', $key);
                             $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];

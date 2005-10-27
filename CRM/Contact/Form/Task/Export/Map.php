@@ -170,11 +170,21 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         $this->_defaults = array( );
         $hasLocationTypes= array();
         
+        $contactId = array();
+        $contactId['contact_id'] =  array(
+                                  'name'           => 'contact_id',
+                                  'title'          => 'Internal Contact ID',
+                                  );
+
         $fields = array();
         $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
+        $fields['Individual']   = array_merge($contactId,$fields['Individual']);
+        $fields['Household']    = array_merge($contactId,$fields['Household']);
+        $fields['Organization'] = array_merge($contactId,$fields['Organization']);
+        
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
