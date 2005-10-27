@@ -2,11 +2,12 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<xi:include href="Donation.xml"          parse="xml" />
+<xi:include href="Contribute.xml"        parse="xml" />
+<xi:include href="Contribute.xml"        parse="xml" />
+<xi:include href="ContributeMode.xml"    parse="xml" />
+<xi:include href="ContributeType.xml"    parse="xml" />
 <xi:include href="FinancialTrxn.xml"     parse="xml" />
-<xi:include href="Gift.xml"              parse="xml" />
-<xi:include href="GiftClass.xml"         parse="xml" />
-<xi:include href="GiftPaymentMethod.xml" parse="xml" />
-<xi:include href="GiftType.xml"          parse="xml" />
+<xi:include href="FinancialTrxn.xml"     parse="xml" />
+<xi:include href="PaymentInstrument.xml" parse="xml" />
 
 </tables>

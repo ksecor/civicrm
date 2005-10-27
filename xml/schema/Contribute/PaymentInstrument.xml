@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Donation</base>
-  <class>GiftPaymentMethod</class>
-  <name>civicrm_gift_payment_method</name>
+  <base>CRM/Contribute</base>
+  <class>PaymentInstrument</class>
+  <name>civicrm_payment_instrument</name>
   <add>1.3</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Gift Payment Method ID</comment>
+      <comment> Payment Instrument ID</comment>
        <add>1.3</add>
   </field>
   <primaryKey>
@@ -20,7 +20,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this gift payment method.</comment>
+      <comment>Which Domain owns this  payment instrument.</comment>
        <add>1.3</add>
   </field>
   <foreignKey>
@@ -31,18 +31,18 @@
   </foreignKey>
   <field>
        <name>name</name>
-       <title>Gift Payment Method</title>
+       <title> Payment Instrument</title>
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <comment>Gift Payment Method Name.</comment>
+       <comment> Payment Instrument Name.</comment>
        <add>1.3</add>
   </field>
   <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Gift Payment Method Description.</comment>
+       <comment> Payment Instrument Description.</comment>
        <add>1.3</add>
   </field>
   <field>
