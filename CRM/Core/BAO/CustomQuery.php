@@ -173,7 +173,7 @@ class CRM_Core_BAO_CustomQuery {
         if ( empty( $this->_fields ) ) {
             return;
         }
-        
+
         foreach ( $this->_fields as $id => $field ) {
             $name = self::PREFIX . $field['id'];
             $fieldName = 'custom_' . $field['id'];

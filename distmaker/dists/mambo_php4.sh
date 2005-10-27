@@ -66,6 +66,7 @@ fi
 # copy docs
 cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
+cp $SRC/gpl.txt $TRG 
 
 # final touch
 REV=`svnversion -n $SRC`

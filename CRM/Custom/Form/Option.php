@@ -134,12 +134,11 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
             
-            // the above value is used directly by QF, so the name has to be have a rule
-            //$this->addRule('label', ts('Please enter a valid label for this field.'), 'variable');
-            
-            // value
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
         
+            // the above value is used directly by QF, so the value has to be have a rule
+            $this->addRule('value', ts('Please enter a valid value for this field.'), 'variable');
+
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
             $this->addRule('weight', ts(' is a numeric field') , 'numeric');

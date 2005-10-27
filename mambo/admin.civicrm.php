@@ -8,6 +8,7 @@ include_once 'config.inc.php';
 
 require_once 'PEAR.php';
 
+require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Invoke.php';
@@ -31,6 +32,7 @@ function civicrm_invoke( ) {
     civicrm_init( );
 
     global $my;
+    require_once 'CRM/Core/BAO/UFMatch.php';
     CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Mambo' );
 
     $args = explode( '/', trim( $_GET['task'] ) );

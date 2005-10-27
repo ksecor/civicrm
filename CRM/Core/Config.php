@@ -440,6 +440,10 @@ class CRM_Core_Config {
             $this->smtpServer = CIVICRM_SMTP_SERVER;
         }
 
+        if ( defined( 'CIVICRM_SMTP_PORT' ) ) {
+            $this->smtpPort = CIVICRM_SMTP_PORT;
+        }
+
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;

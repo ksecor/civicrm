@@ -87,7 +87,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         if ( $this->_single ) {
-            // also fix the user context stack 
+            // also fix the user context stack in case the user hits cancel
             $session =& CRM_Core_Session::singleton( );
             $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/basic',
                                                                 'reset=1&cid=' . $this->_contactIds[0] ) );
@@ -132,6 +132,8 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
             }
         } else {
             if ( $deletedContacts ) {
+                $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search',
+                                                                     'force=1' ) );
                 $status = ts('Selected Contact was deleted sucessfully.');
             } else {
                 $status = ts('Selected Contact cannot be deleted.'); 
