@@ -1,10 +1,8 @@
-{* add/update/view donationpage *}
-
 <div class="form-item">
-    <fieldset><legend>{ts}Donation Page{/ts}</legend>
+    <fieldset><legend>{ts}Contribution Page{/ts}</legend>
     <div id="help">
         <p>
-        {ts}Use this form to setup the name, description and more for a customized donation page.{/ts}
+        {ts}Use this form to setup the name, description and more for a customized contribution page.{/ts}
         </p>
     </div>
     <dl>
@@ -26,7 +24,7 @@
 {if $action eq 2 or $action eq 4} {* Update or View*}
     <p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/custom/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}Custom Fields for this Group{/ts}</a>
+    <a href="{crmURL p='civicrm/contribute' q="action=browse&reset=1"}">&raquo;  {ts}Contribution Pages{/ts}</a>
     </div>
     </p>
 {/if}

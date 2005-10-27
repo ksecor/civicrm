@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Donation_Form_Donation extends CRM_Core_Form {
+class CRM_Contribute_Form_ContributePage extends CRM_Core_Form {
 
     /**
      * the group id saved to the session for an update
@@ -68,7 +68,7 @@ class CRM_Donation_Form_Donation extends CRM_Core_Form {
             //$title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
             //CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
         } else {
-            CRM_Utils_System::setTitle(ts('New Donation Page'));
+            CRM_Utils_System::setTitle(ts('New Contribution Page'));
         }
     }
 
@@ -83,14 +83,14 @@ class CRM_Donation_Form_Donation extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // name
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Donation_DAO_Donation', 'name'), true);
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributePage', 'name'), true);
 
         // description
-        $this->add('textarea', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Donation_DAO_Donation', 'description'), true);
+        $this->add('textarea', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributePage', 'description'), true);
 
 
         // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this Donation Page active?') );
+        $this->addElement('checkbox', 'is_active', ts('Is this Contribution Page active?') );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -140,7 +140,7 @@ class CRM_Donation_Form_Donation extends CRM_Core_Form {
         $params = $this->controller->exportValues( $this->_name );
 
         // create custom group dao, populate fields and then save.
-        $donationPage =& new CRM_Donation_DAO_Donation();
+        $donationPage =& new CRM_Contribute_DAO_ContributePage();
         $donationPage->name          = $params['name'];
         $donationPage->description   = $params['description'];
         $donationPage->is_active     = CRM_Utils_Array::value('is_active', $params, false);
@@ -151,10 +151,10 @@ class CRM_Donation_Form_Donation extends CRM_Core_Form {
         }
         $donationPage->save();
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Donation Page "%1" has been saved.', array(1 => $donationPage->name)));
+            CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $donationPage->name)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Donation Page "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $donationPage->name, 2 => $url)));
+            CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $donationPage->name, 2 => $url)));
         }
     }
 }

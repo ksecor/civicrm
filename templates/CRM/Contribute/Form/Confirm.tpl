@@ -1,5 +1,3 @@
-{* add/update/view donationpage *}
-
 <div class="form-item">
     <fieldset><legend>{ts}Confirmation Page{/ts}</legend>
     <dl>

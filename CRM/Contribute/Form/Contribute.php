@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Donation_Form_Donate extends CRM_Core_Form {
+class CRM_Contribute_Form_Contribute extends CRM_Core_Form {
 
     /**
      * the donation page id
@@ -75,7 +75,7 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         foreach ( $donationAmounts as $amount ) {
             $amounts[] = HTML_QuickForm::createElement('radio', null, '', $amount, $amount );
         }
-        $this->addGroup( $amounts, 'amount', ts( 'Donation Amount' ) );
+        $this->addGroup( $amounts, 'amount', ts( 'Contribution Amount' ) );
 
         // add credit card fields
         $this->add('text', 
@@ -152,12 +152,12 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
         $this->add('submit',
                    $this->_expressButtonName,
-                   ts( 'Donate via PayPal' ),
+                   ts( 'Contribute via PayPal' ),
                    array( 'class' => 'form-submit' ) );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Donate'),
+                                        'name'      => ts('Contribute'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
@@ -203,8 +203,8 @@ class CRM_Donation_Form_Donate extends CRM_Core_Form {
         if ( $buttonName == $this->_expressButtonName ) {
             $this->set( 'donationMode', 'express' );
 
-            $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1' );
-            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Donate_display=1', true, null, false );
+            $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Contribute_display=1' );
+            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Contribute_display=1', true, null, false );
             $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Confirm_display=1&rfp=1', true, null, false );
             
             $token = $paypal->setExpressCheckout( $params );

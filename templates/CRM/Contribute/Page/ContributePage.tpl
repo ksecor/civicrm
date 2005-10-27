@@ -1,8 +1,8 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Commerce/Form/Donation.tpl"}
+    {include file="CRM/Contribute/Form/ContributePage.tpl"}
 
 {else}
-    <div id="help">{ts}Donation Pages are used for creating customized pages for collecting donations.{/ts}</div>
+    <div id="help">{ts}Contributions Pages are used for creating customized pages for collecting contributions.{/ts}</div>
 
     {if $rows}
     <div id="notes">
@@ -29,7 +29,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/donation' q="action=add&reset=1"}">&raquo;  {ts}New Donation Page{/ts}</a>
+        <a href="{crmURL p='civicrm/contribute' q="action=add&reset=1"}">&raquo;  {ts}New Contribution Page{/ts}</a>
         </div>
         </p>
         {/if}
@@ -42,8 +42,8 @@
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
-         {capture assign=crmURL}{crmURL p='civicrm/donation' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No donation pages have been created yet. You can <a href="%1">add one</a>.{/ts}
+         {capture assign=crmURL}{crmURL p='civicrm/contribute' q='action=add&reset=1'}{/capture}
+         {ts 1=$crmURL}No contribution pages have been created yet. You can <a href="%1">add one</a>.{/ts}
        </div>
        {/if}
     {/if}

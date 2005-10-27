@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Donation_Form_Confirm extends CRM_Core_Form {
+class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
@@ -77,7 +77,7 @@ class CRM_Donation_Form_Confirm extends CRM_Core_Form {
     {
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Confirm Donation'),
+                                        'name'      => ts('Confirm Contribution'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
