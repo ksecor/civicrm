@@ -1088,7 +1088,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                     $fields = array_merge($fields,
                                       CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
                 } else {
-                    foreach ( array( $contactType, 'Activities', 'Gift' ) as $type ) { 
+                    foreach ( array( $contactType, 'Activity', 'Gift' ) as $type ) { 
                         
                         $customFields = array();
                         $customFields = CRM_Core_BAO_CustomField::getFieldsForImport($type);
@@ -1096,8 +1096,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                         if (!empty($customFields)) {
                             if ($type === $contactType ) {
                                 $fields = array_merge( $fields, array('custom_c' => array( 'title' => ts('- Custom Contact Fields -') )));
-                            } else if ($type === 'Activities' ) {
-                                $fields = array_merge( $fields, array('custom_a' => array( 'title' => ts('- Custom Activity Fields -') )));                            } else if ($type === 'Gifts' ) {
+                            } else if ($type === 'Activity' ) {
+                                $fields = array_merge( $fields, array('custom_a' => array( 'title' => ts('- Custom Activity Fields -') )));                            } else if ($type === 'Gift' ) {
                                 $fields = array_merge( $fields, array('custom_g' => array( 'title' => ts('- Custom Gift Fields -') ))); 
                             }
                             $fields = array_merge($fields, $customFields);

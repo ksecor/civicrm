@@ -206,8 +206,8 @@ class CRM_Core_SelectValues {
                 'Individual'   => ts('Individuals'),
                 'Household'    => ts('Households'),
                 'Organization' => ts('Organizations'),
-                'Gifts'        => ts('Gifts'),
-                'Activities'   => ts('Activities')
+                'Gift'         => ts('Gifts'),
+                'Activity'     => ts('Activities')
             );
         }
         return $customGroupExtends;

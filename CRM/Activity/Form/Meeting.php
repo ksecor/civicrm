@@ -97,7 +97,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
 
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activities',$this->_id,0,'Meeting');
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id,0,'Meeting');
        
         $this->assign('groupTree', $this->_groupTree); 
 
@@ -205,7 +205,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activities',$meeting->id,'Meeting'); 
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$meeting->id,'Meeting'); 
         if($meeting->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been logged to Activity History.', array( 1 => $meeting->subject)) );
         } else {

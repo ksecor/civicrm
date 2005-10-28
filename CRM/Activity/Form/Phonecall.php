@@ -100,7 +100,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
         
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activities',$this->_id,0,'PhoneCall');
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id,0,'PhoneCall');
        
         $this->assign('groupTree', $this->_groupTree); 
 
@@ -213,7 +213,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activities',$call->id,'PhoneCall'); 
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$call->id,'PhoneCall'); 
         
         // print_r($params);
         if($call->status=='Completed'){

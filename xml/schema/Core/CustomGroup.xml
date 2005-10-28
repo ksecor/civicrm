@@ -47,7 +47,7 @@
   <field>
      <name>extends</name>
      <type>enum</type>
-     <values>Contact, Individual, Household, Organization, Location, Address,Gifts,Activities</values>
+     <values>Contact, Individual, Household, Organization, Location, Address,Gift,Activity</values>
      <default>'Contact'</default>
      <comment>Type of object this group extends (can add other options later e.g. contact_address, etc.).</comment>
        <add>1.1</add>

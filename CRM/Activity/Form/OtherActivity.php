@@ -107,7 +107,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
         
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activities',$this->_id);
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id);
        
         $this->assign('groupTree', $this->_groupTree); 
 
@@ -217,7 +217,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activities',$otherActivity->id); 
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$otherActivity->id); 
         if($otherActivity->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
         } else{

@@ -570,7 +570,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Gift':
             $tableName = 'civicrm_gift';
             break;
-        case 'Activities':  
+        case 'Activity':  
             if( $activityType ) {
                 switch($activityType) {
                 case 'PhoneCall':
