@@ -713,6 +713,21 @@ class CRM_Core_Invoke {
             return $server->run( $set );
         }
 
+        //this code is for uf help text
+        if ($args[2] == 'uf') {
+            require_once 'CRM/UF/Page/UFServer.php';
+            $server =& new CRM_UF_Page_UFServer( );
+            $set = CRM_Utils_Request::retrieve('set', $form);
+            if ($set) {
+                $path = CRM_Utils_Request::retrieve('path', $form );
+                $path= '?q='.$path;
+                $session =& CRM_Core_Session::singleton( ); 
+                $session->set('path', $path);
+            }
+            return $server->run( $set );
+        }
+
+
     }
 }
 

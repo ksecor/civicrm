@@ -104,8 +104,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
        
 
-        $this->_fields =& CRM_Contact_BAO_Contact::importableFields( );
-
+        $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
+       
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             if ( $name ) {
@@ -120,44 +120,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
+
     }
 
-    /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return void
-     */
-    function setDefaultValues()
-    {
-        /*
-        $defaults = array();
-        if (isset($this->_id)) {
-            $params = array('id' => $this->_id);
-            CRM_Core_BAO_UFField::retrieve($params, $defaults);
-
-            $this->_gid = $defaults['uf_group_id'];
-        } else {
-            $defaults['is_active'] = 1;
-        }
-
-        if ($this->_action & CRM_Core_Action::ADD) {
-            $uf =& new CRM_Core_DAO();
-            $sql = "SELECT weight FROM civicrm_uf_field  WHERE uf_group_id = ". $this->_gid ." ORDER BY weight  DESC LIMIT 0, 1"; 
-            $uf->query($sql);
-            while( $uf->fetch( ) ) {
-                $defaults['weight'] = $uf->weight + 1;
-            }
-            
-            if ( empty($defaults['weight']) ) {
-                $defaults['weight'] = 1;
-            }
-        }
-          return $defaults;
-        */
-    }
-    
     /**
      * Function to actually build the form
      *
@@ -251,8 +216,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
-        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), null);
-        $jsSet = false;
+        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="getHelpText(this,event, false);"  onblur="getHelpText(this,event, false);" autocomplete="off"', '&nbsp;&nbsp;');
         
         for ( $k = 1; $k < 3; $k++ ) {
             if (!$defaults['field_name'][$k]) {

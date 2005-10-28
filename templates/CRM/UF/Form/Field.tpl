@@ -1,3 +1,6 @@
+<script type="text/javascript" src="{crmURL p='civicrm/server/uf' q="set=1&path=civicrm/server/uf"}"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/UF.js"></script>
+
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
     <div id="crm-submit-buttons" class="form-item"> 
     <dl> 
