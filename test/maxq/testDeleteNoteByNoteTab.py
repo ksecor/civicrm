@@ -21,56 +21,85 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
     
     def runTest(self):
         self.msg('Test started')
-
+        
         drupal_path = commonConst.DRUPAL_PATH
-
+        
         commonAPI.login(self)
-
+        
         name    = 'Zope, Manish'
         queryID = 'select id from civicrm_contact where sort_name=\'%s\'' % name
-
+        
         contactID = db.loadVal(queryID)
         if contactID :
             CID = '''%s''' % contactID
             
             params = [
-                ('''reset''', '''1'''),
-                ('''cid''', CID),]
-            url = "http://localhost/drupal/civicrm/contact/view"
+                ('''_qf_default''', '''Search:refresh'''),
+                ('''contact_type''', ''''''),
+                ('''group''', ''''''),
+                ('''tag''', ''''''),
+                ('''sort_name''', '''manish'''),
+                ('''_qf_Search_refresh''', '''Search'''),]
+            url = "%s/civicrm/contact/search/basic" % drupal_path
             self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
+            Validator.validateRequest(self, self.getMethod(), "post", url, params)
+            self.post(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
-            #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note''') % drupal_path)
-            url = "%s/civicrm/contact/view/note" % drupal_path
+            params = [
+                ('''_qf_Search_display''', '''true'''),]
+            url = "%s/civicrm/contact/search/basic" % drupal_path
             self.msg("Testing URL: %s" % url)
-            params = None
             Validator.validateRequest(self, self.getMethod(), "get", url, params)
             self.get(url, params)
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            params = [
+                ('''reset''', '''1'''),
+                ('''cid''', CID),]
+            url = "%s/civicrm/contact/view" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            params = [
+                ('''reset''', '''1'''),
+                ('''cid''', CID),]
+            url = "%s/civicrm/contact/view/note" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
             
             note    = 'This is Test Note'
             queryID = 'select id from civicrm_note where note like \'%%%s%%\'' % note
             noteID  = db.loadVal(queryID)
-            print noteID
-            NID = '''%s''' % noteID
-            params = [
-                ('''nid''', NID),
-                ('''action''', '''delete'''),]
-            url = "%s/civicrm/contact/view/note" % drupal_path
-            self.msg("Testing URL: %s" % url)
-            Validator.validateRequest(self, self.getMethod(), "get", url, params)
-            self.get(url, params)
-            self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-            Validator.validateResponse(self, self.getMethod(), url, params)
             
             if noteID :
+                NID = '''%s''' % noteID
+                params = [
+                    ('''action''', '''delete'''),
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),
+                    ('''id''', NID),
+                    ('''confirmed''', '''1'''),]
+                url = "%s/civicrm/contact/view/note" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 11 failed", 302, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
                 if self.responseContains('%s' % note) :
                     print ("**************************************************************************************")
                     print "\'%s\' Note is not Deleted" % note
@@ -87,7 +116,7 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
             print "********************************************************************************"
             print "No such contact having Name \"%s\" currently Exists" % name
             print "********************************************************************************"
-
+        
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)

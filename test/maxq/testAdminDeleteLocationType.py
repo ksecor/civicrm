@@ -27,7 +27,7 @@ class testAdminDeleteLocationType(PyHttpTestCase):
         commonAPI.login(self)
         
         name    = 'Test Location Type'
-        queryID = 'select id from civicrm_locationtype where name=\'%s\'' % name
+        queryID = 'select id from civicrm_location_type where name=\'%s\'' % name
         
         qid     = db.loadVal(queryID)
         

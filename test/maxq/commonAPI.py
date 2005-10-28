@@ -3,7 +3,7 @@ import commonConst
 
 def login(test) :
     url = "%s/" %  commonConst.DRUPAL_PATH
-    print "Testing URL" + url
+    print "Testing URL: " + url
     params = None
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
@@ -15,20 +15,20 @@ def login(test) :
         ('''edit[pass]''',  commonConst.PASSWORD),
         ('''op''', '''Log in'''),]
     url = "%s/user/login" %  commonConst.DRUPAL_PATH
-    print "Testing URL" + url
+    print "Testing URL: " + url
     test.post(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
     test.assertEquals("Assert number 2 failed", 302, test.getResponseCode())
     
     url = "%s/node" %  commonConst.DRUPAL_PATH
-    print "Testing URL" + url
+    print "Testing URL: " + url
     params = None
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
     test.assertEquals("Assert number 3 failed", 200, test.getResponseCode())
     
     url = "%s/civicrm/" %  commonConst.DRUPAL_PATH
-    print "Testing URL" + url
+    print "Testing URL: " + url
     params = None
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())

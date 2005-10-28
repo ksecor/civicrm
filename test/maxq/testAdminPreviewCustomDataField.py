@@ -114,7 +114,7 @@ class testAdminAddCustomDataField(PyHttpTestCase):
                 print "****************************************************************"
         else :
             print "****************************************************************"
-            print "Required Custom Group not found." % name
+            print "Required Custom Group not found."
             print "****************************************************************"
         commonAPI.logout(self)
         self.msg('Test successfully complete.')
