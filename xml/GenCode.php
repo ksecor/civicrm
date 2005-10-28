@@ -255,6 +255,7 @@ if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 foreach ($locales as $locale) {
 
     $config->lcMessages = $locale;
+    $smarty->assign('locale', $locale);
 
     $data = '';
     $data .= $smarty->fetch('civicrm_country.tpl');
