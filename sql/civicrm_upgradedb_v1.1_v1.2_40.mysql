@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS civicrm_gender;
 -- * Ensure we're working with InnoDBs for foreign keys' sake
 -- *
 -- *******************************************************/
-ALTER TABLE civicrm_domain            ENGINE=InnoDB;
-ALTER TABLE civicrm_location_type     ENGINE=InnoDB;
-ALTER TABLE civicrm_relationship_type ENGINE=InnoDB;
+ALTER TABLE civicrm_domain            TYPE=InnoDB;
+ALTER TABLE civicrm_location_type     TYPE=InnoDB;
+ALTER TABLE civicrm_relationship_type TYPE=InnoDB;
 
 -- /*******************************************************
 -- *
@@ -43,7 +43,7 @@ CREATE TABLE civicrm_mapping (
 ,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
 
-)  ENGINE=InnoDB  ;
+)  TYPE=InnoDB  ;
 
 
 -- /*******************************************************
@@ -70,7 +70,7 @@ CREATE TABLE civicrm_individual_prefix (
 ,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
 
-)  ENGINE=InnoDB  ;
+)  TYPE=InnoDB  ;
 
 -- /*******************************************************
 -- *
@@ -96,7 +96,7 @@ CREATE TABLE civicrm_individual_suffix (
 ,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
 
-)  ENGINE=InnoDB  ;
+)  TYPE=InnoDB  ;
 
 
 -- /*******************************************************
@@ -128,7 +128,7 @@ CREATE TABLE civicrm_mapping_field (
 ,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,
      FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
 
-)  ENGINE=InnoDB  ;
+)  TYPE=InnoDB  ;
 
 
 -- /*******************************************************
@@ -155,7 +155,7 @@ CREATE TABLE civicrm_gender (
 ,      INDEX FKEY_domain_id ( domain_id ) ,
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
 
-)  ENGINE=InnoDB  ;
+)  TYPE=InnoDB  ;
 
 
 -- /*******************************************************
