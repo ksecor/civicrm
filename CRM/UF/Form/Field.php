@@ -108,14 +108,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
        
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
-            if ( $name ) {
+            // if ( $name ) {
                 // lets skip note for now since we dont support it
                 if ( $name == 'note' ) {
                     continue;
                 }
                 $this->_selectFields    [$name] = $field['title'];
                 $this->_hasLocationTypes[$name] = $field['hasLocationType'];
-            }
+                //}
         }
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
