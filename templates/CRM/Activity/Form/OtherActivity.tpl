@@ -61,18 +61,19 @@
         {/if}
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	    <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
+	
         {if $action neq 4}
             <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
+
+
         {/if}
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
 
-	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-
-
-        {if $action eq 8 }
-            <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
-        {/if}
+	{if $action neq 8 }
+          {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+	{/if}
+	
       {else}
          <div class="messages status">
           <dl>
@@ -83,7 +84,13 @@
           </dl>
         </div>
       {/if}
+	
      {/if}
+    
+     {if $action eq 8 }
+        <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
+     {/if}
+	
         <dt></dt><dd>{$form.buttons.html}</dd>
       </dl>
     </fieldset>

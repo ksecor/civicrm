@@ -163,7 +163,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
 
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             CRM_Core_BAO_OtherActivity::del( $this->_id);
-           
+            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully."));
+            return;
         }
 
         // store the submitted values in an array
@@ -219,9 +220,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activities',$otherActivity->id); 
         if($otherActivity->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
-        } else if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully."));
-        }   else{
+        } else{
             CRM_Core_Session::setStatus( ts('Activity "%1" has been saved.', array( 1 => $otherActivity->subject)) );
         }
     }//end of function

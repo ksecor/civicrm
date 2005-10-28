@@ -121,7 +121,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getTree($entityType, $entityId=null, $groupId=0)
+    public static function getTree($entityType, $entityId=null, $groupId=0,$activityType=null)
     {
         // create a new tree
         $groupTree = array();
@@ -153,7 +153,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // from, where, order by
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
-            $tableName = self::_getTableName($entityType);
+            $tableName = self::_getTableName($entityType,$activityType);
             $strFrom .= " LEFT JOIN civicrm_custom_value
                                  ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
                                 AND   civicrm_custom_value.entity_table = '$tableName' 
@@ -278,10 +278,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function updateCustomData(&$groupTree, $entityType, $entityId)
+    public static function updateCustomData(&$groupTree, $entityType, $entityId,$activityType = null)
     {
 
-        $tableName = self::_getTableName($entityType);
+        $tableName = self::_getTableName($entityType,$activityType);
 
         // traverse the group tree
         foreach ($groupTree as $group) {
@@ -557,7 +557,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    private static function _getTableName($entityType)
+    private static function _getTableName($entityType,$activityType = null)
     {
         $tableName = '';
         switch($entityType) {
@@ -571,14 +571,25 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $tableName = 'civicrm_gift';
             break;
         case 'Activities':  
-            $tableName = 'civicrm_activity';
+            if( $activityType ) {
+                switch($activityType) {
+                case 'PhoneCall':
+                    $tableName = 'civicrm_phonecall';
+                    break;
+                case 'Meeting':
+                    $tableName = 'civicrm_meeting';
+                    break;
+                }  
+            } else {
+                $tableName = 'civicrm_activity';
+            }
             break;
             // need to add cases for Location, Address
         }
-
-        return $tableName;
+        
+            return $tableName;
     }
-
+    
     /**
      * Add the whereAdd clause for the DAO depending on the type of entity
      * the custom group is extending.

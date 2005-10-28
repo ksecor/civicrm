@@ -61,9 +61,12 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Call will be moved to Activity History when status is 'Completed'.{/ts}</dd>
     {/if}
 	<dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
-    {/if}
+    
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+
+    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}			
+{/if}
     {if $action eq 8 }
     <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>
     {/if}	
