@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-27 18:00+0200\n"
+"POT-Creation-Date: 2005-10-28 12:29+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -7214,10 +7214,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
-msgstr ""
-
-#: xml/templates/civicrm_data.tpl
-msgid "Mrs"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl

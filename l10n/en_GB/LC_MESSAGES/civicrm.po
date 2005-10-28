@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-27 18:00+0200\n"
+"POT-Creation-Date: 2005-10-28 12:29+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -7472,11 +7472,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "Mrs"
-msgstr "Mrs."
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Ms"
 msgstr "Ms."
 
@@ -7503,6 +7498,10 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#, fuzzy
+#~ msgid "Mrs"
+#~ msgstr "Mrs."
 
 #, fuzzy
 #~ msgid ""

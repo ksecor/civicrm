@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-27 18:00+0200\n"
-"PO-Revision-Date: 2005-10-27 18:02+0200\n"
+"PO-Revision-Date: 2005-10-28 12:30+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -7393,10 +7393,6 @@ msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
 
 #: xml/templates/civicrm_data.tpl
-msgid "Mrs"
-msgstr "Pani"
-
-#: xml/templates/civicrm_data.tpl
 msgid "Ms"
 msgstr "Pani"
 
@@ -7406,15 +7402,15 @@ msgstr "Pan"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Dr"
-msgstr "Dr"
+msgstr "dr"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Jr"
-msgstr "Jr"
+msgstr "jr"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sr"
-msgstr "Sr"
+msgstr "sr"
 
 #: xml/templates/civicrm_data.tpl
 msgid "II"
