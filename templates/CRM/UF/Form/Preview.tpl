@@ -1,4 +1,8 @@
+{if $previewField }
+{capture assign=infoMessage}{ts}Preview of the Civicrm profile field.{/ts}{/capture}
+{else}
 {capture assign=infoMessage}{ts}Preview of the Civicrm profile (fieldset).{/ts}{/capture}
+{/if}
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
@@ -73,8 +77,7 @@
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}
 
-{if $action eq 1024}
+
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
-{/if}

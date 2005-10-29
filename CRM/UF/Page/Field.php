@@ -87,6 +87,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                                                           'qs'    => 'action=view&id=%%id%%',
                                                                           'title' => ts('View CiviCRM Profile Field'),
                                                                           ),
+                                        CRM_Core_Action::PREVIEW    => array(
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/admin/uf/group/field',
+                                                                          'qs'    => 'action=preview&id=%%id%%&field=1',
+                                                                          'title' => ts('Preview CiviCRM Profile Field'),
+                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
@@ -219,6 +225,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
             $this->edit($action);   // no browse for edit/update/view/delete
+        } else if ( $action & CRM_Core_Action::PREVIEW ) {
+            $this->preview($id,$this->_gid) ;
         } else {
             require_once 'CRM/Core/BAO/UFField.php';
             if ($action & CRM_Core_Action::DISABLE) {
@@ -232,6 +240,25 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         // Call the parents run method
         parent::run();
     }
+
+    /**
+     * Preview custom field
+     *
+     * @param int $id custom field id
+     * @return void
+     * @access public
+     */
+    function preview($fieldId,$groupId)
+    {
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('Preview Custom Data'), null);
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
+        $controller->set('fieldId', $fieldId);
+        $controller->set('id', $groupId);
+        $controller->process();
+        $controller->run();
+    }
+
 }
 
 ?>

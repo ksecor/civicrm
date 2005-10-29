@@ -82,7 +82,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Preview'),
                                                                           'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'qs'    => 'action=preview&id=%%id%%&field=0',
                                                                           'title' => ts('Edit CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
