@@ -186,7 +186,7 @@ function crm_delete_group(&$group) {
  * @access public
  */
 
-function crm_add_group_contacts(&$group, $contacts, $status = 'Added', $method = 'Admin' ) {
+function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method = 'Admin' ) {
     _crm_initialize( );
 
     foreach($contacts as $contact){
@@ -196,7 +196,7 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'Added', $method =
         $contactID[] = $contact->id;
     } 
     
-    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status);
+    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID, $group->id, $method, $status);
     return null;
 }
 
@@ -260,7 +260,7 @@ function crm_delete_group_contacts(&$group, $contacts, $method = 'Admin') {
     }
 
     if ( ! empty( $contactID ) ) {
-        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id ,$method);
+        CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id, $method);
     }
     return null;
 }
@@ -295,7 +295,7 @@ function crm_subscribe_group_contacts(&$group, $contacts)
     $status = 'Pending';
     $method = 'Email';
 
-    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id ,$method ,$status);
+    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID, $group->id, $method, $status);
     return null;
 
 }

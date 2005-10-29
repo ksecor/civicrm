@@ -18,12 +18,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
         // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM369.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM2474.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM-491.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM491.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM503.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
 
@@ -52,7 +53,7 @@ class UnitTests extends GroupTest {
         // custom group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomField.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomValue.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomValue.php');
         
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');

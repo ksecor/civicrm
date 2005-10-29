@@ -276,7 +276,9 @@ VALUES
 
 {if $build_version  >= 1.2}
 
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Mrs{/ts}', 1, 1);
+{if $locale == 'en_US'}
+INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, 'Mrs', 1, 1);
+{/if}
 INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Ms{/ts}', 2, 1);
 INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Mr{/ts}', 3, 1);
 INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Dr{/ts}', 4, 1);

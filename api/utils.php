@@ -65,6 +65,12 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 
 function _crm_update_object(&$object, &$values)
 {
+    // abort early if the object is an error object: CRM-500
+    // we should trap and return somehow, or not get into this state
+    if ( is_a( $object, 'CRM_Core_Error' ) ) {
+        return;
+    }
+
     $fields =& $object->fields( );
     $valueFound = false;
 

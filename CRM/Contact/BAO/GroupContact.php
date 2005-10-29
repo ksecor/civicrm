@@ -330,18 +330,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $values[$id]['group_id']       = $groupContact->group_id;
                 $values[$id]['title']          = $groupContact->group_title;
                 $values[$id]['visibility']     = $groupContact->visibility;
-                switch($groupContact->status) {
-                    case 'Added':
-                        $prefix = 'in_';
-                        break;
-                    case 'Removed':
-                        $prefix = 'out_';
-                        break;
-                    default:
-                        $prefix = 'pending_';
-                }
-                $values[$id][$prefix . 'date']      = $groupContact->date;
-                $values[$id][$prefix . 'method']    = $groupContact->method;
+                switch($groupContact->status) { 
+                case 'Added': 
+                    $prefix = 'in_'; 
+                    break; 
+                case 'Removed': 
+                    $prefix = 'out_'; 
+                    break; 
+                default: 
+                    $prefix = 'pending_'; 
+                } 
+                $values[$id][$prefix . 'date']      = $groupContact->date; 
+                $values[$id][$prefix . 'method']    = $groupContact->method; 
             }
             return $values;
         }
