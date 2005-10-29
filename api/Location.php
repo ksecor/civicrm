@@ -121,7 +121,7 @@ function crm_update_location(&$contact, $location_type, $params) {
     if(! isset($locationTypeId) ) {
         return _crm_error('$location_type is not valid one');
     }
-
+    // need to work
     
 
 
