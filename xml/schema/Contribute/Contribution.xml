@@ -2,14 +2,14 @@
  
 <table> 
   <base>CRM/Contribute</base> 
-  <class>Contribute</class> 
-  <name>civicrm_contribute</name> 
+  <class>Contribution</class> 
+  <name>civicrm_contribution</name> 
   <add>1.3</add> 
   <field> 
       <name>id</name> 
       <type>int unsigned</type> 
       <required>true</required> 
-      <comment>Contribute ID</comment> 
+      <comment>Contribution ID</comment> 
        <add>1.3</add> 
   </field> 
   <primaryKey> 
@@ -20,7 +20,7 @@
       <name>domain_id</name> 
       <type>int unsigned</type> 
       <required>true</required> 
-      <comment>Which Domain owns this contribute class.</comment> 
+      <comment>Which Domain owns this contribution class.</comment> 
        <add>1.3</add> 
   </field> 
   <foreignKey> 
@@ -43,26 +43,26 @@
        <add>1.3</add> 
   </foreignKey> 
   <field>  
-      <name>contribute_type_id</name>  
+      <name>contribution_type_id</name>  
       <type>int unsigned</type>  
-      <comment>FK to Contribute Type</comment>  
+      <comment>FK to Contribution Type</comment>  
       <add>1.3</add>  
   </field>    
   <foreignKey>  
-       <name>contribute_type_id</name>  
-       <table>civicrm_contribute_type</table>  
+       <name>contribution_type_id</name>  
+       <table>civicrm_contribution_type</table>  
        <key>id</key>  
        <add>1.3</add>  
   </foreignKey>  
   <field>  
-      <name>contribute_mode_id</name>  
+      <name>contribution_mode_id</name>  
       <type>int unsigned</type>  
-      <comment>FK to Contribute Mode</comment>  
+      <comment>FK to Contribution Mode</comment>  
       <add>1.3</add>  
   </field>    
   <foreignKey>  
-       <name>contribute_mode_id</name>  
-       <table>civicrm_contribute_mode</table>  
+       <name>contribution_mode_id</name>  
+       <table>civicrm_contribution_mode</table>  
        <key>id</key>  
        <add>1.3</add>  
   </foreignKey>  

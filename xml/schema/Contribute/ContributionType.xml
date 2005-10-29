@@ -2,14 +2,14 @@
 
 <table>
   <base>CRM/Contribute</base>
-  <class>ContributeType</class>
-  <name>civicrm_contribute_type</name>
+  <class>ContributionType</class>
+  <name>civicrm_contribution_type</name>
   <add>1.3</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Contribute Type ID</comment>
+      <comment>Contribution Type ID</comment>
        <add>1.3</add>
   </field>
   <primaryKey>
@@ -20,7 +20,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this contribute type.</comment>
+      <comment>Which Domain owns this contribution type.</comment>
        <add>1.3</add>
   </field>
   <foreignKey>
@@ -31,18 +31,18 @@
   </foreignKey>
   <field>
        <name>name</name>
-       <title>Contribute Type</title>
+       <title>Contribution Type</title>
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <comment>Contribute Type Name.</comment>
+       <comment>Contribution Type Name.</comment>
        <add>1.3</add>
   </field>
   <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Contribute Type Description.</comment>
+       <comment>Contribution Type Description.</comment>
        <add>1.3</add>
   </field>
   <field>
