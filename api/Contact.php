@@ -254,7 +254,8 @@ function &crm_get_contact( $params, $returnProperties = null ) {
         if ( count( $contacts ) > 1 ) {
             return _crm_error( count( $contacts ) . " contacts matching input params." );
         }
-        $params['contact_id'] = $contacts[1]['contact_id'];
+        $contactIds = array_keys( $contacts );
+        $params['contact_id'] = $contactIds[0];
     }
 
     $params['id'] = $params['contact_id']; 
