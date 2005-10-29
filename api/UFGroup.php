@@ -132,4 +132,18 @@ function crm_uf_get_match_id ( $ufID ) {
     return CRM_Core_BAO_UFMatch::getContactId( $ufID );
 }
 
+/**  
+ * get the uf_id given a contact_id  
+ *  
+ * @param int $contactID
+ *  
+ * @return int ufID
+ * @access public     
+ * @static  
+ */  
+function crm_uf_get_uf_id ( $contactID ) { 
+    require_once 'CRM/Core/BAO/UFMatch.php'; 
+    return CRM_Core_BAO_UFMatch::getUFId( $contactID ); 
+} 
+
 ?>

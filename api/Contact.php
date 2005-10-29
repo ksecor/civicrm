@@ -411,5 +411,24 @@ function crm_get_contacts() {
         $Contacts[$dao->id]= $dao->id;
     }
     return $Contacts;
- }
+}
+
+/**
+ * Get all the groups that this contact is a member of with the given status
+ * 
+ * @param int     $contactId       contact id  
+ * @param string  $status          state of membership 
+ * @param int     $numGroupContact number of groups for a contact that should be shown 
+ * @param boolean $count           true if we are interested only in the count 
+ * 
+ * @return array (reference )|int $values the relevant data object values for the contact or 
+                                  the total count when $count is true 
+ * 
+ * $access public 
+ */ 
+function crm_contact_get_groups( $contactId, $status = null, $numGroupContact = null, $count = false ) {
+    require_once 'CRM/Contact/BAO/GroupContact.php';
+    CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, $status, $numGroupContact, $count );
+}
+
 ?>

@@ -269,6 +269,29 @@ WHERE     civicrm_contact.id = "
         return null;
     }
 
+    /** 
+     * get the uf_id given a contact_id 
+     * 
+     * @param int $contactID
+     * 
+     * @return int ufID 
+     * @access public 
+     * @static 
+     */ 
+    static function getUFId( $contactID ) { 
+        if (!isset($contactID)) { 
+            return null; 
+        } 
+ 
+        $ufmatch =& new CRM_Core_DAO_UFMatch( ); 
+ 
+        $ufmatch->contact_id = $contactID;
+        if ( $ufmatch->find( true ) ) { 
+            return $ufmatch->uf_id; 
+        } 
+        return null; 
+    } 
+
 }
 
 ?>
