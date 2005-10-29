@@ -109,7 +109,7 @@
 	    <dl>
 	    {foreach from=$cd_edit.fields item=element key=field_id}
         {assign var="element_name" value='custom_'|cat:$field_id}
-        {if $element.options_per_line != 0 }
+        {if $element.options_per_line != 0}
             <dt>{$form.$element_name.label}</dt>
             <dd>
             {assign var="count" value="1"}
