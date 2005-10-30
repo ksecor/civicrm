@@ -49,11 +49,11 @@ class CRM_Core_Invoke {
      * @access public
      */    
     static function invoke( $args ) {
-
         require_once 'CRM/Core/I18n.php';
         require_once 'CRM/Utils/Wrapper.php';
         require_once 'CRM/Core/Action.php';
         require_once 'CRM/Utils/Request.php';
+
         if ( $args[0] !== 'civicrm' ) {
             return;
         }

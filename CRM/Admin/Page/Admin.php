@@ -44,12 +44,20 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
     function run ( ) {
         require_once 'CRM/Utils/Menu.php';
         $items =& CRM_Utils_Menu::items( );
-        
+
+        $config =& CRM_Core_Config::singleton( );
+
         $groups     = array( 'Manage', 'Configure', 'Setup' );
         $adminPanel = array( );
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
+                if ( $config->userFramework == 'Mambo' &&
+                     $item['path'] == 'admin/access' ) {
+                    // access control not yet implemented for mambo
+                    continue;
+                }
+
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
                                     'url'   => CRM_Utils_System::url( $item['path'],
