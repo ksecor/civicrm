@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Contribute/DAO/ContributePage.php';
+require_once 'CRM/Contribute/DAO/ContributionPage.php';
 
 /**
  * Create a page for displaying Contribute Pages
@@ -48,7 +48,7 @@ require_once 'CRM/Contribute/DAO/ContributePage.php';
  * of all the donation pages in the system.
  *
  */
-class CRM_Contribute_Page_ContributePage extends CRM_Core_Page {
+class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
 
     /**
      * The action links that we need to display for the browse screen
@@ -152,7 +152,7 @@ class CRM_Contribute_Page_ContributePage extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing custom data
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_ContributePage', ts('Contribute Page'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_ContributionPage', ts('Contribute Page'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -194,13 +194,13 @@ class CRM_Contribute_Page_ContributePage extends CRM_Core_Page {
         
         // get all custom groups sorted by weight
         $donation =  array();
-        $dao      =& new CRM_Contribute_DAO_ContributePage();
+        $dao      =& new CRM_Contribute_DAO_ContributionPage();
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
 
-        $dao->orderBy('name');
+        $dao->orderBy('title');
         $dao->find();
 
         while ($dao->fetch()) {

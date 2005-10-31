@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_ContributePage extends CRM_Core_Form {
+class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
 
     /**
      * the group id saved to the session for an update
@@ -83,10 +83,10 @@ class CRM_Contribute_Form_ContributePage extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // name
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributePage', 'name'), true);
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'name'), true);
 
         // description
-        $this->add('textarea', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributePage', 'description'), true);
+        $this->add('textarea', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'description'), true);
 
 
         // is this group active ?
@@ -140,7 +140,7 @@ class CRM_Contribute_Form_ContributePage extends CRM_Core_Form {
         $params = $this->controller->exportValues( $this->_name );
 
         // create custom group dao, populate fields and then save.
-        $donationPage =& new CRM_Contribute_DAO_ContributePage();
+        $donationPage =& new CRM_Contribute_DAO_ContributionPage();
         $donationPage->name          = $params['name'];
         $donationPage->description   = $params['description'];
         $donationPage->is_active     = CRM_Utils_Array::value('is_active', $params, false);

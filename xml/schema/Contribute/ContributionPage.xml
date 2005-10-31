@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Contribute</base>
-  <class>Contribution</class>
-  <name>civicrm_contribution</name>
+  <class>ContributionPage</class>
+  <name>civicrm_contribution_page</name>
   <comment>A Contribution object store meta information about a single customized contribution page</comment>
   <add>1.3</add>
   <field>
@@ -43,15 +43,15 @@
        <add>1.3</add>
   </field>
   <field> 
-      <name>gift_type_id</name> 
+      <name>contribution_type_id</name> 
       <type>int unsigned</type>                 
       <required>true</required>                  
-      <comment>default Gift type assigned to gifts submitted via this page, e.g. Contribution, Campaign Contribution... see GiftType below</comment> 
+      <comment>default Contribution type assigned to contributions submitted via this page, e.g. Contribution, Campaign Contribution</comment> 
       <add>1.3</add> 
   </field> 
   <foreignKey> 
-       <name>gift_type_id</name> 
-       <table>civicrm_gift_type</table> 
+       <name>contribution_type_id</name> 
+       <table>civicrm_contribution_type</table> 
        <key>id</key> 
   </foreignKey>
   <field>  

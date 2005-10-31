@@ -1,5 +1,5 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Contribute/Form/ContributePage.tpl"}
+    {include file="CRM/Contribute/Form/ContributionPage.tpl"}
 
 {else}
     <div id="help">{ts}Contributions Pages are used for creating customized pages for collecting contributions.{/ts}</div>

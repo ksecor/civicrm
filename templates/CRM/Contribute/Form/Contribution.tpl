@@ -3,7 +3,7 @@
     <dl>
     <dt>{$form.amount.label}</dt><dd>{$form.amount.html}</dd>
     <dt>{$form.email.label}</dt><dd>{$form.email.html}</dd>
-    <dt></dt><dd>{$form._qf_Contribute_next_express.html}</dd>
+    <dt></dt><dd>{$form._qf_Contribution_next_express.html}</dd>
     <dt>{$form.first_name.label}</dt><dd>{$form.first_name.html}</dd>
     <dt>{$form.middle_name.label}</dt><dd>{$form.middle_name.html}</dd>
     <dt>{$form.last_name.label}</dt><dd>{$form.last_name.html}</dd>

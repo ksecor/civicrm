@@ -472,25 +472,4 @@ class CRM_Utils_System {
     }
 }
 
-
-/**
- * Allow PHP5 to autoload classes automatically
- * cuts down on number of require_once statements :)
- *
- * @param string $class name of class to be autoloaded
- *
- * @return void
- * @access public
- */
-/**
-function __autoload( $class ) {
-    if ( substr( $class, 0, 4 ) != 'CRM_' ) {
-        return;
-    }
-
-    $classPath = str_replace( '_', '/', $class ) . '.php';
-    require_once($classPath);
-}
-**/
-
 ?>

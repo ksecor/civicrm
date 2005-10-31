@@ -49,17 +49,17 @@ require_once 'CRM/Core/Session.php';
  *
  */
 
-class CRM_Contribute_Controller_Contribute extends CRM_Core_Controller {
+class CRM_Contribute_Controller_Contribution extends CRM_Core_Controller {
 
     /**
      * class constructor
      */
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
-        require_once 'CRM/Contribute/StateMachine/Contribute.php';
+        require_once 'CRM/Contribute/StateMachine/Contribution.php';
 
         parent::__construct( $title, $modal );
 
-        $this->_stateMachine =& new CRM_Contribute_StateMachine_Contribute( $this, $action );
+        $this->_stateMachine =& new CRM_Contribute_StateMachine_Contribution( $this, $action );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );

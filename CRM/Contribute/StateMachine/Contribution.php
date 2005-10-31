@@ -40,7 +40,7 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the Import process.
  *
  */
-class CRM_Contribute_StateMachine_Contribute extends CRM_Core_StateMachine {
+class CRM_Contribute_StateMachine_Contribution extends CRM_Core_StateMachine {
 
     /**
      * class constructor
@@ -54,7 +54,7 @@ class CRM_Contribute_StateMachine_Contribute extends CRM_Core_StateMachine {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_Contribute_Form_Contribute',
+                              'CRM_Contribute_Form_Contribution',
                               'CRM_Contribute_Form_Confirm',
                               );
         

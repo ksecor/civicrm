@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_Contribute extends CRM_Core_Form {
+class CRM_Contribute_Form_Contribution extends CRM_Core_Form {
 
     /**
      * the donation page id

@@ -90,7 +90,7 @@ class CRM_Core_Invoke {
         
         case 'server'   :  return self::server ( $args );
 
-        case 'donation' : return self::donation( $args );
+        case 'contribute' : return self::contribute( $args );
             
         default         : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
@@ -608,25 +608,25 @@ class CRM_Core_Invoke {
     }
 
     /*
-     * This function contains the actions for donation arguments  
+     * This function contains the actions for contribute arguments  
      *  
      * @param $args array this array contains the arguments of the url  
      *  
      * @static  
      * @access public  
      */  
-    static function donation( $args ) {  
-        if ( $args[1] !== 'donation' ) {  
+    static function contribute( $args ) {  
+        if ( $args[1] !== 'contribute' ) {  
             return;  
         }  
     
-        if ( $args[2] == 'donate' ) { 
-            require_once 'CRM/Donation/Controller/Donate.php'; 
-            $controller =& new CRM_Donation_Controller_Donate($title, $mode); 
+        if ( $args[2] == 'contribution' ) { 
+            require_once 'CRM/Contribute/Controller/Contribution.php'; 
+            $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
         } else { 
-            require_once 'CRM/Donation/Page/Donation.php'; 
-            $view =& new CRM_Donation_Page_Donation(ts('Donation Page')); 
+            require_once 'CRM/Contribute/Page/ContributionPage.php';
+            $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page')); 
             return $view->run( );
         } 
     }

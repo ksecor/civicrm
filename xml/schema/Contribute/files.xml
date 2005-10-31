@@ -3,7 +3,7 @@
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <xi:include href="Contribution.xml"      parse="xml" />
-<xi:include href="Contribution.xml"      parse="xml" />
+<xi:include href="ContributionPage.xml"  parse="xml" />
 <xi:include href="ContributionMode.xml"  parse="xml" />
 <xi:include href="ContributionType.xml"  parse="xml" />
 <xi:include href="FinancialTrxn.xml"     parse="xml" />
