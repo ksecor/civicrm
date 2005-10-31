@@ -319,11 +319,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $contactRelation =& new CRM_Contact_DAO_RelationshipType();
                 $contactRelation->id = $id;
                 $contactRelation->find(true);
-                eval( '$cType = $contactRelation->contact_type_'.$second.';');
+
+                eval( '$cType = $contactRelation->contact_type_' . $second . ';');
 
                 $relatedFields = array();
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType );
+                require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $cType) . ".php");
+                eval( '$relatedFields =& CRM_Contact_DAO_' . $cType . '::import();' );
                 unset($relatedFields['']);
                 $values = array();
                 foreach ($relatedFields as $name => $field ) {
