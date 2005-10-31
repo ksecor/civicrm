@@ -372,10 +372,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 $value = array($k => $v);
                 if (array_key_exists($k, $contactFields)) {
                     $value['contact_type'] = $params[$key]['contact_type'];
-                }                
+                }
                 _crm_add_formatted_param($value, $formatting);
             }
-            
+
             $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
             //print_r($relatedNewContact);
             if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
