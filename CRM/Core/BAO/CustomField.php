@@ -199,6 +199,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
             $cfTable = self::getTableName();
             $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+
+            $extends = '';
+            if ( $contactType ) {
+                $extends = "AND   $cgTable.extends IN  
+                            ('" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact') ";
+            }
+
             $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
@@ -209,8 +216,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      ON $cfTable.custom_group_id = $cgTable.id
                      WHERE $cfTable.is_active = 1
                      AND   $cgTable.is_active = 1
-                     AND   $cgTable.extends IN 
-                            ('" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact')
+                     $extends
                      ORDER BY $cgTable.weight, $cgTable.title,
                               $cfTable.weight, $cfTable.label";
                  

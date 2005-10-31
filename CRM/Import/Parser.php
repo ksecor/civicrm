@@ -287,24 +287,28 @@ abstract class CRM_Import_Parser {
             $this->_lineCount++;
 
             $values = fgetcsv( $fd, 8192, $seperator );
+            if ( ! $values ) {
+                continue;
+            }
 
             self::encloseScrub($values);
-            
+
             // skip column header if we're not in mapfield mode
             if ( $mode != self::MODE_MAPFIELD && $skipColumnHeader ) {
                     $skipColumnHeader = false;
                     continue;
             }
 
-            if ( ! $values || empty( $values ) ) {
-                continue;
-            }
-
             /* trim whitespace around the values */
+            $empty = true;
             foreach ($values as $k => $v) {
                 $values[$k] = trim($v, " .\t\r\n");
             }
-            
+
+            if ( CRM_Utils_System::isNull( $values ) ) {
+                continue;
+            }
+
             $this->_totalCount++;
             
             if ( $mode == self::MODE_MAPFIELD ) {
@@ -318,7 +322,7 @@ abstract class CRM_Import_Parser {
             } else {
                 $returnCode = self::ERROR;
             }
-            
+
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
                 $this->_validCount++;

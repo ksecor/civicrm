@@ -215,7 +215,7 @@ class CRM_Utils_Date {
             // set LC_TIME and build the arrays from locale-provided names
             CRM_Core_I18n::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
-                $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i));
+                $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
         }
         return $abbrMonthNames;
@@ -236,7 +236,7 @@ class CRM_Utils_Date {
             // set LC_TIME and build the arrays from locale-provided names
             CRM_Core_I18n::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
-                $fullMonthNames[$i] = strftime('%B', mktime(0, 0, 0, $i));
+                $fullMonthNames[$i] = strftime('%B', mktime(0, 0, 0, $i, 10, 1970));
             }
         }
         return $fullMonthNames;

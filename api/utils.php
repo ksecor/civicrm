@@ -938,7 +938,7 @@ function _crm_add_formatted_param(&$values, &$params) {
     
     /* Check for custom field values */
     if ($fields['custom'] == null) {
-        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields();
+        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
     }
     
     foreach ($values as $key => $value) {
