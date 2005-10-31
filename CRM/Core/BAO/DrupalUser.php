@@ -59,11 +59,22 @@ class CRM_Core_BAO_DrupalUser
          */
 
         $db_drupal = DB::connect($config->userFrameworkDSN);
-        if ( DB::isError( $db_drupal ) ) {
-            die( "Cannot connect to drupal db via $dsn, " . $db_drupal->getMessage( ) );
-        }
-        
-        $sql   = "SELECT uid, mail FROM users where mail != ''";
+        if ( DB::isError( $db_drupal ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+        } 
+ 
+        if ( $config->userFramework == 'Drupal' ) { 
+            $id   = 'uid'; 
+            $mail = 'mail'; 
+        } else if ( $config->userFramework == 'Mambo' ) { 
+            $id   = 'id'; 
+            $mail = 'email'; 
+        } else { 
+            die( "Unknown user framework" ); 
+        } 
+
+
+        $sql   = "SELECT $id, $mail FROM {$config->userFrameworkUsersTableName} where $mail != ''";
         $query = $db_drupal->query( $sql );
         
         $user            = null;

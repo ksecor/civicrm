@@ -190,7 +190,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
                                      CRM_Contact_Form_Location::BLOCKS, $location );
                 }
-                $locations[$i + 1] = $location;
+                $locations[$i + 1] = clone($location);
             }
         }
         return $locations;

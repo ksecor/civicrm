@@ -1,5 +1,5 @@
 <div id="help">
-    <p>{ts}Relationship types describe relationships between people, households and organizations.</p>
+    <p>{ts}Relationship types describe relationships between people, households and organizations.{/ts}</p>
     <p>{ts}You can define as many additional relationships types as needed to cover the types of relationships you want to track.{/ts}</p>
 </div>
 
