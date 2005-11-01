@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
 */
 
@@ -34,37 +34,35 @@
  *
  */
 
-require_once 'CRM/Core/DAO/UFJoin.php';
+require_once 'CRM/Core/StateMachine.php';
 
 /**
+ * State machine for managing different states of the Import process.
  *
  */
-class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
+class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine {
 
-    public static function &create(&$params) {
-        // see if a record exists with the same weight
-        self::findJoinEntryId( $params );
-
-        $dao =& new CRM_Core_DAO_UFJoin( ); 
-        $dao->copyValues( $params ); 
-        $dao->save( ); 
-        return $dao; 
-    } 
-
-    public static function findJoinEntryId(&$params) {
-        if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            return;
-        }
-
-        $dao =& new CRM_Core_DAO_UFJoin( );
+    /**
+     * class constructor
+     *
+     * @param object  CRM_Contribute_Controller_ContributionPage
+     * @param int     $action
+     *
+     * @return object CRM_Contribute_StateMachine_ContributionPage
+     */
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
         
-        $dao->entity_table = $params['entity_table'];
-        $dao->entity_id    = $params['entity_id'   ];
-        $dao->weight       = $params['weight'      ];
-        if ( $dao->find( true ) ) {
-            $params['id'] = $dao->id;
-        }
+        $this->_pages = array(
+                              'CRM_Contribute_Form_ContributionPage_Settings',
+                              'CRM_Contribute_Form_ContributionPage_Amount',
+                              'CRM_Contribute_Form_ContributionPage_Custom',
+                              'CRM_Contribute_Form_ContributionPage_ThankYou',
+                              );
+        
+        $this->addSequentialPages( $this->_pages, $action );
     }
+
 }
 
 ?>

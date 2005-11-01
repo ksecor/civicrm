@@ -69,8 +69,6 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         } else if ($this->_action == CRM_Core_Action::VIEW) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
             CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
-        } else {
-            CRM_Utils_System::setTitle(ts('New Contribution Page'));
         }
     }
 
@@ -84,47 +82,14 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     {
         $this->applyFilter('__ALL__', 'trim');
 
-        // name
-        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'), true);
-
-        // intro_text
-        $this->add('textarea', 'intro_text', ts('Introductory Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
-
-        
-        $this->add('select', 'contribution_type_id',
-                   ts( 'Contribution Type' ),
-                   CRM_Contribute_PseudoConstant::contributionType( ) );
-
-        // should we accept only credit card donations?
-        $this->addElement('checkbox', 'is_credit_card_only', ts('Do you want to accept only credit card donations?') );
-
-        // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this Contribution Page active?') );
-
-        // do u want to allow a free form text field for amount
-        $this->addElement('checkbox', 'is_allow_other_amount', ts('Can the user enter their own amount?' ) );
-
-        $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) );
-        $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) );
-
-        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email receipt to contributor?' ) );
-
-        // thank you_text
-        $this->add('textarea', 'thankyou_text', ts('Thank You Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
-        $this->add('textarea', 'receipt_text', ts('Receipt Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text'), true);
-        
-        $this->add('text', 'cc_receipt', ts('Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt'), true);
-        $this->add('text', 'bcc_receipt', ts('Blind Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'bcc_receipt'), true);
-
-        $this->add( 'select', 'custom_pre_id' , ts( 'Custom Group Pre'  ), CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'custom_post_id', ts( 'Custom Group Post' ), CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'amount_id'     , ts( 'Amount Group Post' ), CRM_Core_PseudoConstant::ufGroup( ) );
-
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
+                                        'name'      => ts('Next >>>'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('Prev <<<'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
                                 array ( 'type'      => 'cancel',
                                         'name'      => ts('Cancel') ),
                                 )
@@ -164,38 +129,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
      */
     public function postProcess()
     {
-        // get the submitted form values.
-        $params = $this->controller->exportValues( $this->_name );
-
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            $params['id'] = $this->_id;
-        }
-
-        $params['domain_id']             = CRM_Core_Config::domainID( );
-        $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
-        $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
-        $params['is_email_receipt']      = CRM_Utils_Array::value('is_email_receipt'     , $params, false);
-        $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
-
-        CRM_Core_DAO::transaction('BEGIN');
-        
-        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
-
-        // also update the ProfileModule tables
-        $ufJoinParams = array( 'is_active'    => 1,
-                               'entity_table' => 'civicrm_contribution_page',
-                               'entity_id'    => $dao->id,
-                               'weight'       => 1,
-                               'uf_group_id'  => $params['custom_pre_id'] );
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams );
-
-        $ufJoinParams['weight'     ] = 2;
-        $ufJoinParams['uf_group_id'] = $params['custom_post_id']; 
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams );
-
-        CRM_Core_DAO::transaction('COMMIT');
-
-        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
     }
 }
+
 ?>

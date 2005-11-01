@@ -540,8 +540,8 @@ class CRM_Utils_Menu {
                             'weight'  => 0, 
                             ),
                       array( 
-                            'path'    => 'civicrm/donation', 
-                            'title'   => ts( 'Donation Module' ), 
+                            'path'    => 'civicrm/contribute', 
+                            'title'   => ts( 'Contribute Module' ), 
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM'), 
                             'type'    => self::CALLBACK,  
                             'crmType' => self::CALLBACK,  

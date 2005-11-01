@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
 */
 
@@ -34,37 +34,40 @@
  *
  */
 
-require_once 'CRM/Core/DAO/UFJoin.php';
+require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/Session.php';
 
 /**
+ * This class is used by the Search functionality.
+ *
+ *  - the search controller is used for building/processing multiform
+ *    searches.
+ *
+ * Typically the first form will display the search criteria and it's results
+ *
+ * The second form is used to process search results with the asscociated actions
  *
  */
-class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
-    public static function &create(&$params) {
-        // see if a record exists with the same weight
-        self::findJoinEntryId( $params );
+class CRM_Contribute_Controller_ContributionPage extends CRM_Core_Controller {
 
-        $dao =& new CRM_Core_DAO_UFJoin( ); 
-        $dao->copyValues( $params ); 
-        $dao->save( ); 
-        return $dao; 
-    } 
+    /**
+     * class constructor
+     */
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        require_once 'CRM/Contribute/StateMachine/ContributionPage.php';
 
-    public static function findJoinEntryId(&$params) {
-        if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            return;
-        }
+        parent::__construct( $title, $modal );
 
-        $dao =& new CRM_Core_DAO_UFJoin( );
-        
-        $dao->entity_table = $params['entity_table'];
-        $dao->entity_id    = $params['entity_id'   ];
-        $dao->weight       = $params['weight'      ];
-        if ( $dao->find( true ) ) {
-            $params['id'] = $dao->id;
-        }
+        $this->_stateMachine =& new CRM_Contribute_StateMachine_ContributionPage( $this, $action );
+
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $action );
+
+        // add all the actions
+        $this->addActions( );
     }
+
 }
 
 ?>

@@ -40,12 +40,12 @@ require_once 'CRM/Contribute/DAO/ContributionPage.php';
 /**
  * Create a page for displaying Contribute Pages
  * Contribute Pages are pages that are used to display
- * donations of different types. Pages consist
+ * contributions of different types. Pages consist
  * of many customizable sections which can be
  * accessed.
  *
  * This page provides a top level browse view
- * of all the donation pages in the system.
+ * of all the contribution pages in the system.
  *
  */
 class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
@@ -72,26 +72,26 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             self::$_actionLinks = array(
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Preview Contribute Page'),
-                                                                          'url'   => 'civicrm/commerce/donation',
+                                                                          'url'   => 'civicrm/commerce/contribution',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview Contribute Page'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Contribute Page'),
-                                                                          'url'   => 'civicrm/commerce/donation',
+                                                                          'url'   => 'civicrm/commerce/contribution',
                                                                           'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                           'title' => ts('Edit Contribute Page') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/commerce/donation',
+                                                                          'url'   => 'civicrm/commerce/contribution',
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable Contribute Page'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/commerce/donation',
+                                                                          'url'   => 'civicrm/commerce/contribution',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Contribute Page'),
                                                                           ),
@@ -121,7 +121,11 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ( $action & CRM_Core_Action::ADD ) {
+            require_once 'CRM/Contribute/Controller/ContributionPage.php';
+            $controller =& new CRM_Contribute_Controller_ContributionPage( );
+            return $controller->run( );
+        } else if ($action & CRM_Core_Action::UPDATE ) {
             $this->edit($id, $action) ;
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($id) ;
@@ -140,11 +144,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         return parent::run();
     }
 
-
     /**
-     * edit donation page
+     * edit contribution page
      *
-     * @param int $id donation page id
+     * @param int $id contribution page id
      * @param string $action the action to be invoked
      * @return void
      * @access public
@@ -156,7 +159,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/donation', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/contribution', 'action=browse'));
         $controller->set('id', $id);
         $controller->setEmbedded(true);
         $controller->process();
@@ -175,7 +178,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
     {
         $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action);
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/commerce/donation', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/commerce/contribution', 'action=browse'));
         $controller->set('id', $id);
         $controller->process();
         $controller->run();
@@ -193,7 +196,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
     {
         
         // get all custom groups sorted by weight
-        $donation =  array();
+        $contribution =  array();
         $dao      =& new CRM_Contribute_DAO_ContributionPage();
 
         // set the domain_id parameter
@@ -204,8 +207,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         $dao->find();
 
         while ($dao->fetch()) {
-            $donation[$dao->id] = array();
-            CRM_Core_DAO::storeValues($dao, $donation[$dao->id]);
+            $contribution[$dao->id] = array();
+            CRM_Core_DAO::storeValues($dao, $contribution[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             
@@ -216,10 +219,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $donation[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+            $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                           array('id' => $dao->id));
         }
-        $this->assign('rows', $donation);
+        $this->assign('rows', $contribution);
     }
 }
 ?>

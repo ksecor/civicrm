@@ -65,7 +65,6 @@ class CRM_Contribute_Controller_Contribution extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         // add all the actions
-        $config =& CRM_Core_Config::singleton( );
         $this->addActions( );
     }
 

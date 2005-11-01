@@ -91,14 +91,12 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
 
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            $params['id'] = $this->_id;
-        }
-
+        $params['id'] = $this->_id;
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_email_receipt']      = CRM_Utils_Array::value('is_email_receipt'     , $params, false);
 
-        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
+        require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
+        $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 
 
         CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
     }

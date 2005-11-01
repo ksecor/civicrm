@@ -80,6 +80,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
                                'entity_id'    => $this->_id, 
                                'weight'       => 1, 
                                'uf_group_id'  => $params['custom_pre_id'] ); 
+
+        require_once 'CRM/Core/BAO/UFJoin.php';
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
  
         $ufJoinParams['weight'     ] = 2; 
@@ -87,8 +89,6 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
  
         CRM_Core_DAO::transaction('COMMIT'); 
-
-        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
 
         CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
     }

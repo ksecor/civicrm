@@ -86,7 +86,10 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
 
-        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
+        require_once 'CRM/Contribute/BAO/ContributionPage.php';
+        $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
+
+        $this->set( 'id', $dao->id );
 
         CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
     }
