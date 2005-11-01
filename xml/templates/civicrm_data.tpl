@@ -291,3 +291,29 @@ INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civic
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Male{/ts}', 2, 1);
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Transgender{/ts}', 3, 1);
 {/if}
+
+-- contribution types
+INSERT INTO
+   civicrm_contribution_type(name, domain_id, is_reserved, is_active)
+VALUES
+  ( '{ts}Donation{/ts}'             , {$civicrmDomainId}, 0, 1 ),
+  ( '{ts}Member Dues{/ts}'          , {$civicrmDomainId}, 0, 1 ), 
+  ( '{ts}Campaign Contribution{/ts}', {$civicrmDomainId}, 0, 1 );
+
+-- contribution mode
+INSERT INTO 
+   civicrm_contribution_mode(name, domain_id, is_reserved, is_active) 
+VALUES 
+  ( '{ts}Money{/ts}'  , {$civicrmDomainId}, 0, 1 ), 
+  ( '{ts}Service{/ts}', {$civicrmDomainId}, 0, 1 ),  
+  ( '{ts}Goods{/ts}'  , {$civicrmDomainId}, 0, 1 );
+
+-- payment instrument
+INSERT INTO  
+   civicrm_payment_instrument(name, domain_id, is_reserved, is_active)  
+VALUES  
+  ( '{ts}Credit Card{/ts}', {$civicrmDomainId}, 1, 1 ),   
+  ( '{ts}Debit Card{/ts}' , {$civicrmDomainId}, 1, 1 ),    
+  ( '{ts}Cash{/ts}'       , {$civicrmDomainId}, 1, 1 ),     
+  ( '{ts}Check{/ts}'      , {$civicrmDomainId}, 1, 1 ),      
+  ( '{ts}EFT{/ts}'        , {$civicrmDomainId}, 1, 1 );

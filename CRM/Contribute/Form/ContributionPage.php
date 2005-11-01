@@ -35,6 +35,8 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 /**
  * form to process actions on the group aspect of Custom Data
@@ -57,16 +59,16 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        // current group id
+        // current contribution page id
         $this->_id = $this->get('id');
 
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            //$title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
-            //CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+            CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
         } else if ($this->_action == CRM_Core_Action::VIEW) {
-            //$title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
-            //CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+            CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
         } else {
             CRM_Utils_System::setTitle(ts('New Contribution Page'));
         }
@@ -83,14 +85,40 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // name
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'name'), true);
+        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'), true);
 
-        // description
-        $this->add('textarea', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'description'), true);
+        // intro_text
+        $this->add('textarea', 'intro_text', ts('Introductory Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
 
+        
+        $this->add('select', 'contribution_type_id',
+                   ts( 'Contribution Type' ),
+                   CRM_Contribute_PseudoConstant::contributionType( ) );
+
+        // should we accept only credit card donations?
+        $this->addElement('checkbox', 'is_credit_card_only', ts('Do you want to accept only credit card donations?') );
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Contribution Page active?') );
+
+        // do u want to allow a free form text field for amount
+        $this->addElement('checkbox', 'is_allow_other_amount', ts('Can the user enter their own amount?' ) );
+
+        $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) );
+        $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) );
+
+        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email receipt to contributor?' ) );
+
+        // thank you_text
+        $this->add('textarea', 'thankyou_text', ts('Thank You Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
+        $this->add('textarea', 'receipt_text', ts('Receipt Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text'), true);
+        
+        $this->add('text', 'cc_receipt', ts('Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt'), true);
+        $this->add('text', 'bcc_receipt', ts('Blind Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'bcc_receipt'), true);
+
+        $this->add( 'select', 'custom_pre_id' , ts( 'Custom Group Pre'  ), CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_post_id', ts( 'Custom Group Post' ), CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'amount_id'     , ts( 'Amount Group Post' ), CRM_Core_PseudoConstant::ufGroup( ) );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -142,7 +170,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         // create custom group dao, populate fields and then save.
         $donationPage =& new CRM_Contribute_DAO_ContributionPage();
         $donationPage->name          = $params['name'];
-        $donationPage->description   = $params['description'];
+        $donationPage->intro_text    = $params['intro_text'];
         $donationPage->is_active     = CRM_Utils_Array::value('is_active', $params, false);
         $donationPage->domain_id     = CRM_Core_Config::domainID( );
 
