@@ -167,23 +167,35 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
 
-        // create custom group dao, populate fields and then save.
-        $donationPage =& new CRM_Contribute_DAO_ContributionPage();
-        $donationPage->name          = $params['name'];
-        $donationPage->intro_text    = $params['intro_text'];
-        $donationPage->is_active     = CRM_Utils_Array::value('is_active', $params, false);
-        $donationPage->domain_id     = CRM_Core_Config::domainID( );
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $params['id'] = $this->_id;
+        }
 
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            //$donationPage->id = $this->_id;
-        }
-        $donationPage->save();
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $donationPage->name)));
-        } else {
-            $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $donationPage->name, 2 => $url)));
-        }
+        $params['domain_id']             = CRM_Core_Config::domainID( );
+        $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
+        $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
+        $params['is_email_receipt']      = CRM_Utils_Array::value('is_email_receipt'     , $params, false);
+        $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
+
+        CRM_Core_DAO::transaction('BEGIN');
+        
+        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
+
+        // also update the ProfileModule tables
+        $ufJoinParams = array( 'is_active'    => 1,
+                               'entity_table' => 'civicrm_contribution_page',
+                               'entity_id'    => $dao->id,
+                               'weight'       => 1,
+                               'uf_group_id'  => $params['custom_pre_id'] );
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams );
+
+        $ufJoinParams['weight'     ] = 2;
+        $ufJoinParams['uf_group_id'] = $params['custom_post_id']; 
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams );
+
+        CRM_Core_DAO::transaction('COMMIT');
+
+        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
     }
 }
 ?>

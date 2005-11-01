@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -34,56 +34,38 @@
  *
  */
 
+require_once 'CRM/Core/DAO/UFJoin.php';
+
 /**
- * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
- * polluting the core class and isolates the mass mailer class
+ *
  */
-class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
+class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
-    /**
-     * contribution types
-     * @var array
-     * @static
-     */
-    private static $contributionType;
+    public static function &create(&$params) {
+        // see if a record exists with the same weight
+        $params['id'] = self::findJoinEntryId( $params );
 
-    /**
-     * contribution modes
-     * @var array
-     * @static
-     */
-    private static $contributionMode;
+        $dao =& new CRM_Core_DAO_UFJoin( ); 
+        $dao->copyValue( $params ); 
+        $dao->save( ); 
+        return $dao; 
+    } 
 
-    /**
-     * Get all the contribution types
-     *
-     * @access public
-     * @return array - array reference of all contribution types if any
-     * @static
-     */
-    public static function &contributionType( ) {
-        if ( ! self::$contributionType ) {
-            CRM_Core_PseudoConstant::populate( self::$contributionType,
-                                               'CRM_Contribute_DAO_ContributionType' );
+    public static function findJoinEntryId(&$params) {
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            return $params['id'];
         }
-        return self::$contributionType;
-    }
 
-    /** 
-     * Get all the contribution modes
-     * 
-     * @access public 
-     * @return array - array reference of all contribution types if any 
-     * @static 
-     */ 
-    public static function &contributionMode( ) { 
-        if ( ! self::$contributionMode ) { 
-            CRM_Core_PseudoConstant::populate( self::$contributionMode, 
-                                               'CRM_Contribute_DAO_ContributionMode' ); 
-        } 
-        return self::$contributionMode;
+        $dao =& new CRM_Core_DAO_UFJoin( );
+        
+        $dao->entity_table = $params['entity_table'];
+        $dao->entity_id    = $params['entity_id'   ];
+        $dao->weight       = $params['weight'      ];
+        if ( $dao->find( true ) ) {
+            return $dao->id;
+        }
+        return null;
     }
-
 }
 
 ?>

@@ -34,54 +34,13 @@
  *
  */
 
-/**
- * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
- * polluting the core class and isolates the mass mailer class
- */
-class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
+class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage {
 
-    /**
-     * contribution types
-     * @var array
-     * @static
-     */
-    private static $contributionType;
-
-    /**
-     * contribution modes
-     * @var array
-     * @static
-     */
-    private static $contributionMode;
-
-    /**
-     * Get all the contribution types
-     *
-     * @access public
-     * @return array - array reference of all contribution types if any
-     * @static
-     */
-    public static function &contributionType( ) {
-        if ( ! self::$contributionType ) {
-            CRM_Core_PseudoConstant::populate( self::$contributionType,
-                                               'CRM_Contribute_DAO_ContributionType' );
-        }
-        return self::$contributionType;
-    }
-
-    /** 
-     * Get all the contribution modes
-     * 
-     * @access public 
-     * @return array - array reference of all contribution types if any 
-     * @static 
-     */ 
-    public static function &contributionMode( ) { 
-        if ( ! self::$contributionMode ) { 
-            CRM_Core_PseudoConstant::populate( self::$contributionMode, 
-                                               'CRM_Contribute_DAO_ContributionMode' ); 
-        } 
-        return self::$contributionMode;
+    public static function &create(&$params) {
+        $dao =& new CRM_Contribute_DAO_ContributionPage( );
+        $dao->copyValue( $params );
+        $dao->save( );
+        return $dao;
     }
 
 }

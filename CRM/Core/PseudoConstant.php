@@ -658,4 +658,5 @@ class CRM_Core_PseudoConstant {
         return self::$relationshipType;
     }
 }
+
 ?>

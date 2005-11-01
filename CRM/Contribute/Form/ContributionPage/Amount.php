@@ -34,56 +34,51 @@
  *
  */
 
+require_once 'CRM/Contribute/Form/ContributionPage.php';
+
 /**
- * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
- * polluting the core class and isolates the mass mailer class
+ * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
-
+class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_ContributionPage {
     /**
-     * contribution types
-     * @var array
-     * @static
-     */
-    private static $contributionType;
-
-    /**
-     * contribution modes
-     * @var array
-     * @static
-     */
-    private static $contributionMode;
-
-    /**
-     * Get all the contribution types
+     * Function to actually build the form
      *
+     * @return void
      * @access public
-     * @return array - array reference of all contribution types if any
-     * @static
      */
-    public static function &contributionType( ) {
-        if ( ! self::$contributionType ) {
-            CRM_Core_PseudoConstant::populate( self::$contributionType,
-                                               'CRM_Contribute_DAO_ContributionType' );
+    public function buildQuickForm()
+    {
+        // do u want to allow a free form text field for amount 
+        $this->addElement('checkbox', 'is_allow_other_amount', ts('Can the user enter their own amount?' ) ); 
+ 
+        $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+
+        parent::buildQuickForm( );
+    }
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess()
+    {
+        // get the submitted form values.
+        $params = $this->controller->exportValues( $this->_name );
+
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $params['id'] = $this->_id;
         }
-        return self::$contributionType;
-    }
 
-    /** 
-     * Get all the contribution modes
-     * 
-     * @access public 
-     * @return array - array reference of all contribution types if any 
-     * @static 
-     */ 
-    public static function &contributionMode( ) { 
-        if ( ! self::$contributionMode ) { 
-            CRM_Core_PseudoConstant::populate( self::$contributionMode, 
-                                               'CRM_Contribute_DAO_ContributionMode' ); 
-        } 
-        return self::$contributionMode;
-    }
 
+        $params['domain_id']             = CRM_Core_Config::domainID( );
+        $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
+
+        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
+
+        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
+    }
 }
-
 ?>

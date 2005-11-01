@@ -34,56 +34,64 @@
  *
  */
 
+require_once 'CRM/Contribute/Form/ContributionPage.php';
+
 /**
- * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
- * polluting the core class and isolates the mass mailer class
+ * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
-
+class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_ContributionPage {
     /**
-     * contribution types
-     * @var array
-     * @static
-     */
-    private static $contributionType;
-
-    /**
-     * contribution modes
-     * @var array
-     * @static
-     */
-    private static $contributionMode;
-
-    /**
-     * Get all the contribution types
+     * Function to actually build the form
      *
+     * @return void
      * @access public
-     * @return array - array reference of all contribution types if any
-     * @static
      */
-    public static function &contributionType( ) {
-        if ( ! self::$contributionType ) {
-            CRM_Core_PseudoConstant::populate( self::$contributionType,
-                                               'CRM_Contribute_DAO_ContributionType' );
+    public function buildQuickForm()
+    {
+        $this->add( 'select', 'custom_pre_id' , ts( 'Custom Group Pre'  ), CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_post_id', ts( 'Custom Group Post' ), CRM_Core_PseudoConstant::ufGroup( ) );
+
+        parent::buildQuickForm( );
+    }
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess()
+    {
+        // get the submitted form values.
+        $params = $this->controller->exportValues( $this->_name );
+
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $params['id'] = $this->_id;
         }
-        return self::$contributionType;
-    }
 
-    /** 
-     * Get all the contribution modes
-     * 
-     * @access public 
-     * @return array - array reference of all contribution types if any 
-     * @static 
-     */ 
-    public static function &contributionMode( ) { 
-        if ( ! self::$contributionMode ) { 
-            CRM_Core_PseudoConstant::populate( self::$contributionMode, 
-                                               'CRM_Contribute_DAO_ContributionMode' ); 
-        } 
-        return self::$contributionMode;
-    }
 
+        $params['domain_id']             = CRM_Core_Config::domainID( );
+
+        CRM_Core_DAO::transaction('BEGIN'); 
+         
+        // also update the ProfileModule tables 
+        $ufJoinParams = array( 'is_active'    => 1, 
+                               'entity_table' => 'civicrm_contribution_page', 
+                               'entity_id'    => $this->_id, 
+                               'weight'       => 1, 
+                               'uf_group_id'  => $params['custom_pre_id'] ); 
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+ 
+        $ufJoinParams['weight'     ] = 2; 
+        $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
+        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+ 
+        CRM_Core_DAO::transaction('COMMIT'); 
+
+        $dao = CRM_Contribute_DAO_ContributionPage::create( $params );
+
+        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
+    }
 }
 
 ?>
