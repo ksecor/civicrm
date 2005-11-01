@@ -199,8 +199,10 @@ function civicrm_menu($may_cache)
  * Initialize CivicRM. Call this function from other modules too if 
  * they use the CivicRM API.
  *
+ * @param boolean $requireAPI should we also load the civicrm api functions
+ *
  */
-function civicrm_initialize() {
+function civicrm_initialize( $requireAPI = false ) {
     static $initialized = false;
 
     if ( $initialized ) {
@@ -219,6 +221,10 @@ function civicrm_initialize() {
     if(arg(0) == 'civicrm') {
         // this is just for ease of use. once the code is solid, we no longer need this
         // menu_rebuild();
+    }
+
+	if ( $requireAPI ) {
+        require_once 'api/crm.php';
     }
 }
 
