@@ -213,7 +213,7 @@ ALTER TABLE civicrm_individual ADD FOREIGN KEY (gender_id) REFERENCES civicrm_ge
 -- *
 -- *******************************************************/
 
-ALTER TABLE  civicrm_custom_field ADD options_per_line int unsigned   DEFAULT 1  COMMENT 'number of options per line for checkbox and radio';
+ALTER TABLE  civicrm_custom_field ADD options_per_line int unsigned   DEFAULT 0  COMMENT 'number of options per line for checkbox and radio';
 
 -- /*******************************************************
 -- *
@@ -276,6 +276,8 @@ UPDATE civicrm_mobile_provider   SET is_reserved=0;
 -- *
 -- *******************************************************/
 
+
+UPDATE civicrm_custom_field SET options_per_line = 0;
 UPDATE civicrm_custom_field SET options_per_line = 1 WHERE html_type = 'Radio' OR html_type = 'CheckBox';
 
 UPDATE civicrm_group SET visibility = 'User and User Admin Only' WHERE 1;
