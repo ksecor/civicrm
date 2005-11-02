@@ -37,6 +37,11 @@
 require_once 'Mail/mime.php';
 require_once 'CRM/Mailing/DAO/Mailing.php';
 require_once 'CRM/Mailing/DAO/Group.php';
+require_once 'CRM/Mailing/Event/BAO/Queue.php';
+require_once 'CRM/Mailing/Event/BAO/Delivered.php';
+require_once 'CRM/Mailing/Event/BAO/Bounce.php';
+require_once 'CRM/Mailing/BAO/TrackableURL.php';
+require_once 'CRM/Mailing/BAO/Component.php';
 
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
@@ -701,7 +706,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing_id = CRM_Utils_Type::escape($id, 'Integer');
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
-        
+
+        require_once 'CRM/Mailing/Event/BAO/Opened.php';
+        require_once 'CRM/Mailing/Event/BAO/Reply.php';
+        require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
+        require_once 'CRM/Mailing/Event/BAO/Forward.php';
+        require_once 'CRM/Mailing/Event/BAO/TrackableURLOpen.php';
         $t = array(
                 'mailing'   => self::getTableName(),
                 'mailing_group'  => CRM_Mailing_DAO_Group::getTableName(),

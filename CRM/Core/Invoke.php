@@ -532,6 +532,7 @@ class CRM_Core_Invoke {
             CRM_Utils_System::appendBreadCrumb(
                 '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
             );
+            require_once 'CRM/Mailing/Page/Report.php';
             $view =& new CRM_Mailing_Page_Report( );
             return $view->run();
         }
@@ -539,6 +540,7 @@ class CRM_Core_Invoke {
         if ( $args[2] == 'send' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
+            require_once 'CRM/Mailing/Controller/Send.php';
             $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
             return $controller->run( );
         }
@@ -546,6 +548,7 @@ class CRM_Core_Invoke {
         if ( $args[2] == 'queue' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
+            require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
             return;
         }

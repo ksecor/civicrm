@@ -37,6 +37,7 @@
 
 require_once 'Mail/mime.php';
 
+require_once 'CRM/Mailing/Event/DAO/Unsubscribe.php';
 class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscribe {
 
     /**
