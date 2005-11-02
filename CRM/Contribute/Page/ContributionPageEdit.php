@@ -48,7 +48,7 @@ require_once 'CRM/Contribute/DAO/ContributionPage.php';
  * of all the donation pages in the system.
  *
  */
-class CRM_Contribute_Page_ContributionPageSummary extends CRM_Core_Page {
+class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
 
     /**
      * Run the page.

@@ -71,29 +71,29 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             // helper variable for nicer formatting
             self::$_actionLinks = array(
                                         CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview Contribute Page'),
-                                                                          'url'   => 'civicrm/commerce/contribution',
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview Contribute Page'),
+                                                                          'title' => ts('Preview'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Contribute Page'),
-                                                                          'url'   => 'civicrm/commerce/contribution',
+                                                                          'name'  => ts('Edit'),
+                                                                          'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                                          'title' => ts('Edit Contribute Page') 
+                                                                          'title' => ts('Edit') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/commerce/contribution',
+                                                                          'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable Contribute Page'),
+                                                                          'title' => ts('Disable'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/commerce/contribution',
+                                                                          'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable Contribute Page'),
+                                                                          'title' => ts('Enable'),
                                                                           ),
                                         );
         }
@@ -126,7 +126,9 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
-            $this->edit($id, $action) ;
+            require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
+            $page =& new CRM_Contribute_Page_ContributionPageEdit( );
+            return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($id) ;
         } else {
@@ -143,29 +145,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
 
         return parent::run();
     }
-
-    /**
-     * edit contribution page
-     *
-     * @param int $id contribution page id
-     * @param string $action the action to be invoked
-     * @return void
-     * @access public
-     */
-    function edit($id, $action)
-    {
-        // create a simple controller for editing custom data
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_ContributionPage', ts('Contribute Page'), $action);
-
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/contribution', 'action=browse'));
-        $controller->set('id', $id);
-        $controller->setEmbedded(true);
-        $controller->process();
-        $controller->run();
-    }
-
 
     /**
      * Preview custom group
