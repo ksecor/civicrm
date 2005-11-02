@@ -53,6 +53,7 @@ require_once 'api/UFGroup.php';
 require_once 'api/Search.php';
 require_once 'api/Relationship.php';
 require_once 'api/Location.php';
+require_once 'api/Tag.php';
 require_once 'CRM/Contact/BAO/Group.php';
 
 function crm_create_extended_property_group($class_name, $params) {
