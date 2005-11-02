@@ -4,22 +4,28 @@
  {include file="CRM/WizardHeader.tpl"}
 
 <div id="help">
-<p>
-{ts}Select the fields which you want included for this export, in the order you want them included. Rows marked  '- do not export -' will be ignored. Click <strong>Select more fields...</strong> if you want to export more fields than are presented in the table below.{/ts}
-</p>
+{ts}<p>Select the fields to be exported using the table below. For each field, first select the contact
+type that the field belongs to (e.g. select <strong>Individuals</strong> if you are exporting <strong>Last Name</strong>).
+Then select the actual field to be exported from the drop-down menu which will appear next to the contact type.
+Your export can include multiple types of contact records, and non-applicable fields will be empty (e.g. <strong>Last Name</strong>
+will not be populated for an Organization record).</p>
+<p>Click <strong>Select more fields...</strong> if you want to export more fields than are initially displayed in the table.
+</p>{/ts}
+
 {if $savedMapping}
 <p>{ts}Click 'Load Saved Field Mapping' to retrieve an export setup that you have previously saved.{/ts}</p>
 {/if}
-<p>If you think you may be using the same export setup in the future, check 'Save this field mapping'
-at the bottom of the page before continuing. You will then be able to reuse this setup the next time you
-need it with a single click.</p>
+
+{ts}<p>If you want to use the same export setup in the future, check 'Save this field mapping'
+at the bottom of the page before continuing. You will then be able to reload this setup
+with a single click.</p>{/ts}
 </div>
 
 {* Table for mapping data to CRM fields *}
 {include file="CRM/Contact/Form/Task/Export/table.tpl"}
 <br />
 
- <div id="crm-submit-buttons">
+<div id="crm-submit-buttons">
     {$form.buttons.html}
- </div>
- {$initHideBoxes}
+</div>
+{$initHideBoxes}
