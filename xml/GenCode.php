@@ -456,6 +456,10 @@ function getTable( $tableXML, &$database, &$tables ) {
     if ( value( 'index', $tableXML ) ) {
         $index   = array( );
         foreach ( $tableXML->index as $indexXML ) {
+            if ( value( 'drop', $indexXML, 0 ) > 0 and value( 'drop', $indexXML, 0 ) <= $build_version) { 
+                continue; 
+            } 
+
             getIndex( $indexXML, $fields, $index );
         }
         $table['index' ] =& $index;

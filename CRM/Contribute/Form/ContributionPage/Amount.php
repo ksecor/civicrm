@@ -88,6 +88,27 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
+
+        // if there are label / values, create custom options for them
+        $labels = CRM_Utils_Array::value( 'label', $params );
+        $values = CRM_Utils_Array::value( 'value', $params );
+        if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
+            require_once 'CRM/Core/DAO/CustomOption.php';
+
+            for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+                if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
+                    $dao =& new CRM_Core_DAO_CustomOption( );
+                    $dao->label        = trim( $labels[$i] );
+                    $dao->value        = trim( $values[$i] );
+                    $dao->entity_table = 'civicrm_contribution_page';
+                    $dao->entity_id    = $this->_id;
+                    $dao->weight       = $i;
+                    $dao->is_active    = 1;
+                    $dao->save( );
+                }
+            }
+        }
+
     }
 
     /** 

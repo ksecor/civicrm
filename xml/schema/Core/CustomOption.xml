@@ -22,27 +22,50 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to civicrm_custom_field.</comment>
-       <add>1.1</add>
+      <add>1.1</add>
+      <drop>1.3</drop>
   </field>
   <foreignKey>
        <name>custom_field_id</name>
        <table>civicrm_custom_field</table>
        <key>id</key>
        <add>1.1</add>
+       <drop>1.3</drop>
   </foreignKey>
+  <field> 
+       <name>entity_table</name> 
+       <type>varchar</type> 
+       <length>64</length> 
+       <required>true</required> 
+       <comment>Name of table where item being referenced is stored.</comment> 
+       <add>1.3</add> 
+  </field> 
+  <field> 
+       <name>entity_id</name> 
+       <type>int unsigned</type> 
+       <required>true</required> 
+       <comment>Foreign key to the referenced item.</comment> 
+       <add>1.3</add> 
+  </field> 
+  <index> 
+       <name>index_entity</name> 
+       <fieldName>entity_table</fieldName> 
+       <fieldName>entity_id</fieldName> 
+       <add>1.3</add> 
+  </index> 
   <field>
      <name>label</name>
      <type>varchar</type>
      <length>64</length>
      <comment>Label for option</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
      <name>value</name>
      <type>varchar</type>
      <length>64</length>
      <comment>Value of the option (when form is submitted)</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
       <name>weight</name>
@@ -50,7 +73,7 @@
       <required>true</required>
       <default>1</default>
       <comment>Order in which the options are displayed</comment>
-       <add>1.1</add>
+      <add>1.1</add>
   </field>
   <field>
        <name>is_active</name>
@@ -64,5 +87,6 @@
     <fieldName>custom_field_id</fieldName>
     <unique>true</unique>
     <add>1.1</add>
+    <drop>1.3</drop>
   </index>
 </table>

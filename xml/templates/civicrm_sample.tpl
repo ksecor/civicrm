@@ -17,20 +17,20 @@ VALUES
     (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL);
 
 INSERT INTO civicrm_custom_option
-    (custom_field_id,label,value,weight,is_active)
+    (entity_table,entity_id,label,value,weight,is_active)
 VALUES
-    (5, 'Education', 'Edu', 1, 1),
-    (5, 'Environment', 'Env', 2, 1),
-    (5, 'Social Justice', 'SocJus', 3, 1),
-    (6, 'Host House Meetings', 'HM', 1, 1),
-    (6, 'Phone Banking', 'PB', 2, 1),
-    (6, 'Precinct Walking', 'PW', 3, 1),
-    (6, 'Speakers Bureau', 'SB', 4, 1),
-    (7, 'Single', 'S', 1, 1),
-    (7, 'Married', 'M', 2, 1),
-    (7, 'Domestic Partner', 'D', 3, 1),
-    (7, 'Widowed', 'W', 4, 1),
-    (7, 'Other', 'O', 5, 1);
+    ('civicrm_custom_field', 5, 'Education', 'Edu', 1, 1),
+    ('civicrm_custom_field', 5, 'Environment', 'Env', 2, 1),
+    ('civicrm_custom_field', 5, 'Social Justice', 'SocJus', 3, 1),
+    ('civicrm_custom_field', 6, 'Host House Meetings', 'HM', 1, 1),
+    ('civicrm_custom_field', 6, 'Phone Banking', 'PB', 2, 1),
+    ('civicrm_custom_field', 6, 'Precinct Walking', 'PW', 3, 1),
+    ('civicrm_custom_field', 6, 'Speakers Bureau', 'SB', 4, 1),
+    ('civicrm_custom_field', 7, 'Single', 'S', 1, 1),
+    ('civicrm_custom_field', 7, 'Married', 'M', 2, 1),
+    ('civicrm_custom_field', 7, 'Domestic Partner', 'D', 3, 1),
+    ('civicrm_custom_field', 7, 'Widowed', 'W', 4, 1),
+    ('civicrm_custom_field', 7, 'Other', 'O', 5, 1);
 
 -- Custom data for educational qualifications
 INSERT INTO civicrm_custom_group
