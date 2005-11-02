@@ -11,16 +11,14 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Name{/ts}</th>
+            <th>{ts}Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
-            <th>{ts}Description{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td>{$row.name}</td>
+            <td>{$row.title}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.description}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

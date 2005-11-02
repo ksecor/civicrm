@@ -97,8 +97,16 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
 
         require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 
+    }
 
-        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
+    /** 
+     * Return a descriptive name for the page, used in wizard header 
+     * 
+     * @return string 
+     * @access public 
+     */ 
+    public function getTitle( ) {
+        return ts( 'Thank-you and Receipting' );
     }
 }
 ?>

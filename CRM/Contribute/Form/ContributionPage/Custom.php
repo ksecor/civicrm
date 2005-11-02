@@ -89,8 +89,16 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
  
         CRM_Core_DAO::transaction('COMMIT'); 
+    }
 
-        CRM_Core_Session::setStatus(ts('Your Contribution Page "%1" has been saved.', array(1 => $dao->title)));
+    /** 
+     * Return a descriptive name for the page, used in wizard header 
+     * 
+     * @return string 
+     * @access public 
+     */ 
+    public function getTitle( ) {
+        return ts( 'Custom Page Elements' );
     }
 }
 

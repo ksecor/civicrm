@@ -1,3 +1,6 @@
+{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
+{include file="CRM/WizardHeader.tpl}
+ 
 <div class="form-item">
     <fieldset><legend>{ts}Contribution Page{/ts}</legend>
     <div id="help">
