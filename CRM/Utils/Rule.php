@@ -154,6 +154,13 @@ class CRM_Utils_Rule {
         return preg_match( '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/', $value ) ? true : false;
     }
 
+    static function money($value) {
+        if ( self::integer( $value ) ) {
+            return true;
+        }
+        return preg_match( '/(^\d+\.\d?\d?$)|(^\.\d\d?$)/', $value ) ? true : false;
+    }
+
     static function string($value, $maxLength = 0) {
         if (is_string($value) &&
             ($maxLength === 0 || strlen($value) <= $maxLength)) {
@@ -174,6 +181,17 @@ class CRM_Utils_Rule {
             $qfRule =& new HTML_QuickForm_Rule_Email();
         }
         return $qfRule->validate( $value, $checkDomain );
+    }
+
+    static function emailList( $list, $checkDomain = false ) {
+        $emails = explode( ',', $list );
+        foreach ( $emails as $email ) {
+            $email = trim( $email );
+            if ( ! self::email( $email, $checkDomain ) ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // allow between 4-6 digits as postal code since india needs 6 and US needs 5 (or 

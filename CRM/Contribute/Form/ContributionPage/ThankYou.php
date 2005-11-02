@@ -48,6 +48,7 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
      */
     public function buildQuickForm()
     {
+        $this->registerRule( 'emailList', 'callback', 'emailList', 'CRM_Utils_Rule' );
 
         // thank you_text
         $this->add('textarea', 'thankyou_text', ts('Thank You Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
@@ -55,9 +56,38 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         $this->add('textarea', 'receipt_text', ts('Receipt Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text') );
         
         $this->add('text', 'cc_receipt', ts('CC Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt') );
+        $this->addRule( 'cc_receipt', ts('Please enter a valid list of comma delimited email addresses'), 'emailList' );
+
         $this->add('text', 'bcc_receipt', ts('BCC Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'bcc_receipt') );
+        $this->addRule( 'bcc_receipt', ts('Please enter a valid list of comma delimited email addresses'), 'emailList' );
+
+        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_ThankYou', 'formRule' ) );
 
         parent::buildQuickForm( );
+    }
+
+    /** 
+     * global form rule 
+     * 
+     * @param array $fields  the input form values 
+     * @param array $files   the uploaded files if any 
+     * @param array $options additional user data 
+     * 
+     * @return true if no errors, else array of errors 
+     * @access public 
+     * @static 
+     */ 
+    static function formRule( &$fields, &$files, $options ) { 
+        $errors = array( ); 
+
+        // if is_email_receipt is set, the receipt message must be non-empty
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $fields ) ) {
+            $message = trim( CRM_Utils_Array::value( 'receipt_text', $fields ) );
+            if ( empty( $message ) ) {
+                $errors['receipt_text'] = ts( 'A Receipt message must be specified if Email Receipt to Contributor is enabled' );
+            }
+        }
+        return $errors;
     }
 
     /**

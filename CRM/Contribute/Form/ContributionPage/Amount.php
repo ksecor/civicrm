@@ -57,7 +57,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow Other Amounts?' ) ); 
  
         $this->add('text', 'min_amount', ts('Minimum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->addRule( 'min_amount', ts( 'Please enter a valid money amount' ), 'money' );
+
         $this->add('text', 'max_amount', ts('Maximum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->addRule( 'max_amount', ts( 'Please enter a valid money amount' ), 'money' );
 
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
@@ -65,12 +68,39 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
  
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
-            $this->addRule("value[$i]", ts('Please enter a valid value for this field.'), 'integer'); 
+            $this->addRule("value[$i]", ts('Please enter a valid money amount for this field.'), 'money'); 
         }
+
+        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
 
         parent::buildQuickForm( );
     }
 
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     * @param array $files   the uploaded files if any  
+     * @param array $options additional user data  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields, &$files, $options ) {  
+        $errors = array( );  
+
+        $minAmount = CRM_Utils_Array::value( 'min_amount', $fields );
+        $maxAmount = CRM_Utils_Array::value( 'max_amount', $fields );
+        if ( ! empty( $minAmount) && ! empty( $maxAmount ) ) {
+            if ( (float ) $minAmount > (float ) $maxAmount ) {
+                $errors['min_amount'] = ts( 'Minimum Amount should be less than Maximum Amount' );
+            }
+        }
+
+        return $errors;
+    }
+ 
     /**
      * Process the form
      *
