@@ -232,6 +232,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name = $field->field_name;
+                    if ($field->location_type_id) {
+                        $name .= '-'.$field->location_type_id;
+                    }
+                    if ($field->phone_type) {
+                        $name .= '-'.$field->phone_type;
+                    }
+                    
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,

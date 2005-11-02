@@ -82,6 +82,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_fields; 
 
+    protected $_contactDetailIds;
+    
     /** 
      * pre processing work done here. 
      * 
@@ -107,8 +109,61 @@ class CRM_Profile_Form extends CRM_Core_Form
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
-        $options = array( );
-        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id, $options ); 
+        //$options = array( );
+        //$this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id, $options ); 
+        //print_r($this->_contact);
+
+        if ( $this->_id ) {
+            $record['id']            = $record['contact_id'] = $this->_id;
+            $this->_contact          = CRM_Contact_BAO_Contact::retrieve( $record , $options, $ids );
+            $this->_contactDetailIds = $ids;
+
+            foreach ($this->_fields as $name => $field ) {
+                foreach ($options as $key => $value) {
+                    $nameValue = explode('-', $name);
+                    if (is_numeric($nameValue[1])) {
+                        if (is_array($value)) {
+                            foreach ($value as $key1 => $value1) {
+                                if (is_array($value1)) {
+                                    if ( $value1['location_type_id'] == $nameValue[1] ) {
+                                        foreach ($value1 as $key2 => $var) {
+                                            if (is_array($var)) {
+                                                foreach ($var as $k1 => $var1) {
+                                                    if(is_array($var1)) {
+                                                        //set the phone values
+                                                        if ($nameValue[0] == 'phone' && $nameValue[2] == $var1['phone_type']) {
+                                                            $defaults[$name] = $var1['phone'];
+                                                        }
+                                                        //set the im values
+                                                        if ($nameValue[0] == 'im') {
+                                                            $defaults[$name] = $var1['name'];
+                                                        }
+                                                        //set the emial values
+                                                        if ($nameValue[0] == 'email') {
+                                                            $defaults[$name] = $var1['email'];
+                                                        }
+                                                    } else {
+                                                        //set the address values
+                                                        if ( $nameValue[0] == $k1 ) {
+                                                            $defaults[$name] = $var1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        //set the other values
+                        $defaults[$key] = $value;
+                    }
+                }
+            }
+            $this->setDefaults( $defaults );       
+        }
     } 
     
     /** 
@@ -161,7 +216,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $admin = true;
             }
         }
-        
+        // print_r($this->_fields);
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -193,6 +248,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
+            } else if ( $field['name'] === 'individual_prefix' ){
+                $this->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix());
+            
+            } else if ( $field['name'] === 'individual_suffix' ){
+                $this->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
@@ -207,10 +269,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ($required) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
+            } else if  ( substr($field['name'],0,5) === 'phone' ) {
+                $this->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
             }
-            
+
             if ( $field['rule'] ) {
                 $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
             }
@@ -318,7 +382,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( empty( $params ) ) {
             return;
         }
-
+        
+        /*
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( ); 
         foreach ( $objects as $name ) { 
@@ -327,8 +392,63 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $ids[$name] = $this->_contact->$id; 
             } 
         } 
+        */
+        
+        //$params['id'] = $params['contact_id'] = $this->_id;
 
-        CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+        // print_r($params);
+        $data = array( );
+        $locationType = array( );
+        $count = 1;
+        foreach ($params as $key => $value) {
+            $keyValue = explode('-', $key);
+            if (is_numeric($keyValue[1])) {
+                if (!in_array($keyValue[1], $locationType)) {
+                    $locationType[$count] = $keyValue[1];
+                    $count++;
+                }
+                
+                require_once 'CRM/Utils/Array.php';
+                $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
+
+                $data['location'][$loc]['location_type_id'] = $keyValue[1];
+                if ($loc == 1 ) {
+                    $data['location'][$loc]['is_primary'] = 1;
+                }
+
+                if ($keyValue[2]) {
+                    $data['location'][$loc]['phone'][$loc]['phone'] = $value;
+                    $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
+                } else {
+                    if ($keyValue[0] == 'email') {
+                        $data['location'][$loc]['email'][$loc]['email'] = $value;
+                    } elseif ($keyValue[0] == 'im') {
+                        $data['location'][$loc]['im'][$loc]['name'] = $value;
+                    } else {
+                        $data['location'][$loc]['address'][$keyValue[0]] = $value;
+                    }
+                }
+            } else {
+                $data[$key] = $value;
+            }
+        }             
+        
+        $data['contact_type'] = 'Individual';
+        //print_r($data);
+        
+        //require_once 'CRM/Import/Parser.php';
+        //$contact = crm_create_contact_formatted($data, CRM_Import_Parser::DUPLICATE_NOCHECK);
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $data, $this->_contactDetailIds, count($data['location']) );
+        
+        // print_r($this->_contactDetailIds);
+        // print_r($contact);
+        //return $contact;
+        
+        //CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+
+
     }
 
 }
