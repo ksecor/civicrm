@@ -10,9 +10,14 @@
         </p>
     </div>
     <dl>
-    <dt></dt><dd>{$form.is_allow_other_amount.html} {$form.is_allow_other_amount.label}</dd>
+    <dt>{$form.is_allow_other_amount.label}</dt><dd>{$form.is_allow_other_amount.html}</dd>
     <dt>{$form.min_amount.label}</dt><dd>{$form.min_amount.html}</dd> 
-    <dt>{$form.max_amount.label}</dt><dd>{$form.max_amount.html}</dd> 
+    <dt>{$form.max_amount.label}</dt><dd>{$form.max_amount.html}</dd>
+    <dt>{ts}Label{/ts}</dt><dd>{ts}Amount{/ts}</dt>
+    {section name=loop start=1 loop=11}
+       {assign var=idx value=$smarty.section.loop.index}
+       <dt>{$form.label.$idx.html}</dt><dd>{$form.value.$idx.html}</dd>
+    {/section}
     {if $action ne 4}
         <div id="crm-submit-buttons">
         <dt></dt><dd>{$form.buttons.html}</dd>

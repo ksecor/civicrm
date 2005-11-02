@@ -49,14 +49,13 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
     public function buildQuickForm()
     {
 
-        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email receipt to contributor?' ) );
-
         // thank you_text
-        $this->add('textarea', 'thankyou_text', ts('Thank You Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
-        $this->add('textarea', 'receipt_text', ts('Receipt Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text'), true);
+        $this->add('textarea', 'thankyou_text', ts('Thank You Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
+        $this->addElement('checkbox', 'is_email_receipt', ts( 'Email Receipt to Contributor?' ) );
+        $this->add('textarea', 'receipt_text', ts('Receipt Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text') );
         
-        $this->add('text', 'cc_receipt', ts('Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt'), true);
-        $this->add('text', 'bcc_receipt', ts('Blind Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'bcc_receipt'), true);
+        $this->add('text', 'cc_receipt', ts('CC Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt') );
+        $this->add('text', 'bcc_receipt', ts('BCC Copy Receipt to'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'bcc_receipt') );
 
         parent::buildQuickForm( );
     }

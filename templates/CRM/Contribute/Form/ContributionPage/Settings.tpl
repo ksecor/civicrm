@@ -11,6 +11,7 @@
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
+    <dt>{$form.is_credit_card_only.label}</dt><dd>{$form.is_credit_card_only.html}</dd>
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
 

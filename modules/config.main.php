@@ -3,7 +3,7 @@
 global $civicrm_root;
 
 $include_path = '.'        . PATH_SEPARATOR .
-$civicrm_root . PATH_SEPARATOR . 
+                $civicrm_root . PATH_SEPARATOR . 
                 $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
                 get_include_path( );
 set_include_path( $include_path );

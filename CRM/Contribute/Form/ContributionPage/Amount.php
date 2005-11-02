@@ -40,6 +40,11 @@ require_once 'CRM/Contribute/Form/ContributionPage.php';
  * form to process actions on the group aspect of Custom Data
  */
 class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_ContributionPage {
+    /** 
+     * Constants for number of options for data types of multiple option. 
+     */ 
+    const NUM_OPTION = 11;
+
     /**
      * Function to actually build the form
      *
@@ -49,10 +54,19 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     public function buildQuickForm()
     {
         // do u want to allow a free form text field for amount 
-        $this->addElement('checkbox', 'is_allow_other_amount', ts('Can the user enter their own amount?' ) ); 
+        $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow Other Amounts?' ) ); 
  
-        $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->add('text', 'min_amount', ts('Minimum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->add('text', 'max_amount', ts('Maximum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+
+        for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
+            // label 
+            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
+ 
+            // value 
+            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
+            $this->addRule("value[$i]", ts('Please enter a valid value for this field.'), 'integer'); 
+        }
 
         parent::buildQuickForm( );
     }

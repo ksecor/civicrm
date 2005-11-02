@@ -56,13 +56,13 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                    CRM_Contribute_PseudoConstant::contributionType( ) );
 
         // should we accept only credit card donations?
-        $this->addElement('checkbox', 'is_credit_card_only', ts('Do you want to accept only credit card donations?') );
+        $this->addElement('checkbox', 'is_credit_card_only', ts('Credit Card Payments Only?') );
 
         // intro_text
-        $this->add('textarea', 'intro_text', ts('Introductory Text'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
+        $this->add('textarea', 'intro_text', ts('Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
 
         // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this Contribution Page active?') );
+        $this->addElement('checkbox', 'is_active', ts('Active?') );
 
         parent::buildQuickForm( );
     }
