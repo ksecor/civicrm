@@ -120,6 +120,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
         $params['contact_id'] = $session->get('userID');
         
         /* Build the mailing object */
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params);
     }
 

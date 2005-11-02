@@ -36,6 +36,7 @@
 
 require_once 'Mail/mime.php';
 require_once 'CRM/Mailing/DAO/Mailing.php';
+require_once 'CRM/Mailing/DAO/Group.php';
 
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 

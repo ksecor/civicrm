@@ -11,6 +11,7 @@ $server =& new SoapServer(null,
             array('uri' => 'urn:civicrm', 'soap_version' => SOAP_1_2));
 
 
+require_once 'CRM/Utils/SoapServer.php';
 $crm_soap =& new CRM_Utils_SoapServer();
 
 /* Cache the real UF, override it with the SOAP environment */
