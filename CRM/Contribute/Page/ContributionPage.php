@@ -122,6 +122,9 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) );
+
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
             return $controller->run( );

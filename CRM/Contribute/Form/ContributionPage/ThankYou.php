@@ -91,25 +91,6 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
     }
 
     /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     *
-     * @access public
-     * @return void
-     */
-    function setDefaultValues()
-    {
-        $defaults = array();
-        if (isset($this->_id)) {
-            $params = array('id' => $this->_id);
-            //CRM_Core_BAO_CustomGroup::retrieve($params, $defaults);
-        } else {
-            $defaults['is_active'] = 1;
-        }
-        return $defaults;
-    }
-
-    /**
      * Process the form
      *
      * @return void

@@ -76,6 +76,38 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         parent::buildQuickForm( );
     }
 
+    /** 
+     * This function sets the default values for the form. Note that in edit/view mode 
+     * the default values are retrieved from the database 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    function setDefaultValues() 
+    {
+        $defaults = parent::setDefaultValues( );
+
+        require_once 'CRM/Core/DAO/CustomOption.php'; 
+        $dao =& new CRM_Core_DAO_CustomOption( ); 
+        $dao->entity_table = 'civicrm_contribution_page'; 
+        $dao->entity_id    = $this->_id; 
+        $dao->find( );
+        
+        // now extract the amount
+        $defaults['value'] = array( );
+        $defaults['label'] = array( );
+        $index  = 1;
+        
+        while ( $dao->fetch( ) ) {
+            $defaults['value'][$index] = $dao->value;
+            $defaults['label'][$index] = $dao->label;
+            $index++;
+        }
+
+        return $defaults;
+    }
+
+
     /**  
      * global form rule  
      *  
@@ -119,11 +151,18 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
 
+        require_once 'CRM/Core/DAO/CustomOption.php';
+            
+        // delete all the prior label values in the custom options table
+        $dao =& new CRM_Core_DAO_CustomOption( );
+        $dao->entity_table = 'civicrm_contribution_page'; 
+        $dao->entity_id    = $this->_id; 
+        $dao->delete( );
+
         // if there are label / values, create custom options for them
         $labels = CRM_Utils_Array::value( 'label', $params );
         $values = CRM_Utils_Array::value( 'value', $params );
         if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
-            require_once 'CRM/Core/DAO/CustomOption.php';
 
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {

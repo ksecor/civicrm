@@ -60,7 +60,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     public function preProcess()
     {
         // current contribution page id
-        $this->_id = $this->get('id');
+        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
 
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
@@ -114,7 +114,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         $defaults = array();
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
-            //CRM_Core_BAO_CustomGroup::retrieve($params, $defaults);
+            CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $defaults);
         } else {
             $defaults['is_active'] = 1;
         }

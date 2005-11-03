@@ -41,19 +41,23 @@ require_once 'CRM/Core/DAO/UFJoin.php';
  */
 class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
-    public static function &create(&$params) {
+    public static function &create($params) {
         // see if a record exists with the same weight
-        self::findJoinEntryId( $params );
+        $id = self::findJoinEntryId( $params );
+        if ( $id ) {
+            $params['id'] = $id;
+        }
 
         $dao =& new CRM_Core_DAO_UFJoin( ); 
         $dao->copyValues( $params ); 
         $dao->save( ); 
+
         return $dao; 
     } 
 
     public static function findJoinEntryId(&$params) {
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            return;
+            return $params['id'];
         }
 
         $dao =& new CRM_Core_DAO_UFJoin( );
@@ -62,9 +66,24 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         $dao->entity_id    = $params['entity_id'   ];
         $dao->weight       = $params['weight'      ];
         if ( $dao->find( true ) ) {
-            $params['id'] = $dao->id;
+            return $dao->id;
         }
+        return null;
     }
+
+    public static function findUFGroupId(&$params) { 
+    
+        $dao =& new CRM_Core_DAO_UFJoin( ); 
+         
+        $dao->entity_table = $params['entity_table']; 
+        $dao->entity_id    = $params['entity_id'   ]; 
+        $dao->weight       = $params['weight'      ]; 
+        if ( $dao->find( true ) ) { 
+            return $dao->uf_group_id; 
+        } 
+        return null; 
+    } 
+
 }
 
 ?>

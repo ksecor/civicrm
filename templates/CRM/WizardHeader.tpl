@@ -1,3 +1,4 @@
+{if count( $wizard.steps ) > 1}
 <div id="wizard-steps">
    <ul class="wizard-bar">
     {section name=step loop=$wizard.steps}
@@ -17,4 +18,5 @@
 </div>
 
 <h2>{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}</h2>
+{/if}
 
