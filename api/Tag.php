@@ -67,8 +67,14 @@ require_once 'api/utils.php';
  */
 function crm_create_tag($params) 
 {
-    $ids = array();
     require_once 'CRM/Core/BAO/Tag.php';
+    
+    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_Tag');
+    if (is_a($error, 'CRM_Core_Error')) {
+        return $error;
+    }
+   
+    $ids = array();
     return CRM_Core_BAO_Tag::add($params, $ids);
 }
 
@@ -81,9 +87,14 @@ function crm_create_tag($params)
 function crm_delete_tag(&$tag) 
 {
     require_once 'CRM/Core/BAO/Tag.php';
-    //$id = CRM_Utils_Array::value('id', $tag);
-    $id = $tag->id;
-    CRM_Core_BAO_Tag::del($id);
+    
+    if ( ! isset($tag->id) ) {
+        return _crm_error('Invalid tag object passed in');
+    }
+    
+    CRM_Core_BAO_Tag::del($tag->id);
+
+    return null;
 }
 
 /**
@@ -97,7 +108,17 @@ function crm_delete_tag(&$tag)
  */
 function crm_create_entity_tag(&$tag, &$entity)
 {
+    require_once 'CRM/Core/BAO/EntityTag.php';
 
+    if ( ! isset($tag->id) || ! isset($entity->contact_id)) {
+        return _crm_error('Required parameters missing');
+    }
+
+    $params = array ('tag_id' => $tag->id,
+                     'entity_id' => $entity->id,
+                     'entity_table' => 'civicrm_contact'
+                     );
+    return CRM_Core_BAO_EntityTag::add($params);
 }
 
 /**
@@ -105,16 +126,33 @@ function crm_create_entity_tag(&$tag, &$entity)
  *
  * @param $tag object Valid Tag object.
  * @param $entity_type enum Optional filter for type of entity being queried. Valid values: 'Individual', 'Organization', 'Household', 'Group', 'Contact_action'.
- * @param $sort array Associative array of one or more "property_name"=>"sort direction" pairs which will control order of entities objects returned.
- * @param $offset int Starting row index.
- * @param $row_count int Maximum number of rows to returns.
  *
  * @return array An array of entity objects (Individuals and/or Organizations and/or etc.).
  * @access public
  */
-function crm_get_entities_by_tag(&$tag, $entity_type = NULL, $sort = null, $offset = 0, $row_count =25)
+function crm_get_entities_by_tag(&$tag, $entity_type = null)
 {
+    require_once 'CRM/Core/BAO/EntityTag.php';
 
+    if ( ! isset($tag->id) ) {
+        return _crm_error('Invalid tag object passed in');
+    }
+
+    $contactIDs=& CRM_Core_BAO_EntityTag::getEntitiesByTag($tag);
+    $entities = array();
+    foreach($contactIDs as $Id) { 
+        $params  = array('contact_id' => $Id );
+        if($entity_type != null) {
+            $temp = clone(crm_get_contact($params));
+            if($entity_type == $temp->contact_type)
+                $entities[] = $temp;
+        } else {
+            $entities[] =clone(crm_get_contact($params));
+        }
+    }
+    
+    return $entities;
+   
 }
 
 /**
@@ -127,6 +165,14 @@ function crm_get_entities_by_tag(&$tag, $entity_type = NULL, $sort = null, $offs
  */
 function crm_tags_by_entity(&$entity)
 {
+    require_once 'CRM/Core/BAO/EntityTag.php';
+
+    if (! isset($entity->contact_id)) {
+        return _crm_error('Required parameters missing');
+    }
+
+    $entityID=$entity->contact_id;
+    return CRM_Core_BAO_EntityTag::getTag($entityTable = 'civicrm_contact', $entityID);
 
 }
 
@@ -138,7 +184,14 @@ function crm_tags_by_entity(&$entity)
  */
 function crm_delete_entity_tag(&$entity_tag)
 {
-    
+    require_once 'CRM/Core/BAO/EntityTag.php';
+
+    if ( ! isset($entity_tag->id)) {
+        return _crm_error('Required parameters missing');
+    }
+
+    $params=array('id' => $entity_tag->id );
+    CRM_Core_BAO_EntityTag::del($params);
 }
 
 ?>
