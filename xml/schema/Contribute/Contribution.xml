@@ -86,9 +86,16 @@
       <add>1.3</add> 
   </field> 
   <field>     
-      <name>amount</name>  
+      <name>non_deductible_amount</name>  
+      <type>decimal</type>
+      <default>0</default>
+      <comment>Portion of total amount which is NOT tax deductible. Equal to total_amount for non-deductible contribution types.</comment>  
+      <add>1.3</add>  
+  </field>
+  <field>     
+      <name>total_amount</name>  
       <type>decimal</type>  
-      <comment>market value for non-monetary gifts.</comment>  
+      <comment>Total amount of this contribution. Use market value for non-monetary gifts.</comment>  
       <add>1.3</add>  
   </field>
   <field>      
