@@ -210,7 +210,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 $this->_location_types;
         }
         
-        $sel1 = array('' => '-do not export-') + CRM_Core_SelectValues::contactType();
+        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {

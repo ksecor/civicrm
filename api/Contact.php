@@ -248,10 +248,10 @@ function &crm_get_contact( $params, $returnProperties = null ) {
         return _crm_error('$params is not an array');
     }
 
-    if (!$params['contact_id']) { 
+    if ( ! CRM_Utils_Array::value( 'contact_id', $params ) ) {
         $returnProperties = array( 'display_name' );
         $contacts = crm_contact_search( $params, $returnProperties );
-        if ( count( $contacts ) > 1 ) {
+        if ( count( $contacts ) != 1 ) {
             return _crm_error( count( $contacts ) . " contacts matching input params." );
         }
         $contactIds = array_keys( $contacts );

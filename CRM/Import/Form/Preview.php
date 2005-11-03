@@ -117,8 +117,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
         
         $groups =& $this->get('groups');
-        
-        $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
+
+        if ( ! empty( $groups ) ) {
+            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
+        }
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',

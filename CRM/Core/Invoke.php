@@ -693,6 +693,14 @@ class CRM_Core_Invoke {
         $fileName = $session->get($varName . 'FileName', 
                                     'CRM_Import_Controller');
                                     
+        $config =& CRM_Core_Config::singleton( ); 
+        if ( $config->userFramework == 'Mambo' ) { 
+            echo "<pre>"; 
+            readfile($fileName); 
+            echo "</pre>"; 
+            return; 
+        } 
+
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Description: File Transfer');
         header('Content-Type: text/csv');
