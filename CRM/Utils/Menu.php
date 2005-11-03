@@ -267,7 +267,48 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
                             ),
+                      array(
+                            'path'    => 'civicrm/contribute/admin',
+                            'title'   => ts('Administer CiviDonate'),
+                            'qs'      => 'reset=1',
+                            'access'  => CRM_Utils_System::checkPermission('administer CiviDonate') &&
+                                         CRM_Utils_System::checkPermission( 'access CiviDonate' ),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::NORMAL_ITEM,
+                            'weight'  => 50,
+                            ),
                       
+                      array(
+                            'path'    => 'civicrm/contribute/admin/contributionType',
+                            'title'   => ts('Contibution Type'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviDonate',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 360
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contribute/admin/contributionMode',
+                            'title'   => ts('Contibution Mode'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviDonate',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 370
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contribute/admin/paymentInstrument',
+                            'title'   => ts('Payment Instrument'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviDonate',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 380
+                            ),
+                      
+    
                       array(
                             'path'     => 'civicrm',
                             'title'    => ts('CiviCRM'),

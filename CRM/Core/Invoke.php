@@ -622,8 +622,35 @@ class CRM_Core_Invoke {
         if ( $args[1] !== 'contribute' ) {  
             return;  
         }  
-    
-        if ( $args[2] == 'contribution' ) { 
+        if ( $args[2] == 'admin' ) { 
+            $view = null;
+            switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
+            case 'contributionType':
+                require_once 'CRM/Contribute/Page/ContributionType.php';
+                $view =& new CRM_Contribute_Page_ContributionType(ts('View Contribution Types'));
+                break;
+                
+            case 'contributionMode':
+                require_once 'CRM/Contribute/Page/ContributionMode.php';
+                $view =& new CRM_Contribute_Page_ContributionMode(ts('View Contribution Modes'));
+                break;
+                
+            case 'paymentInstrument':
+                require_once 'CRM/Contribute/Page/PaymentInstrument.php';
+                $view =& new CRM_Contribute_Page_PaymentInstrument(ts('View Payment Instrument'));
+                break;
+
+            default:
+                require_once 'CRM/Contribute/Page/Admin.php';
+                $view =& new CRM_Contribute_Page_Admin(ts('Administer CiviDonate'));
+                break;
+            }
+            
+            if ( $view ) {
+                return $view->run( );
+            }
+            
+        } else if ( $args[2] == 'contribution' ) { 
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
