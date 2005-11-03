@@ -83,8 +83,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
-            $this->_fid = $defaults['custom_field_id'];
-            
+            //$this->_fid = $defaults['custom_field_id'];
+            $this->_fid = $defaults['entity_id'];
+
             $paramsField = array('id' => $this->_fid);            
             CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
 
@@ -188,13 +189,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $fieldId = $fields['fieldId'];
             
             //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE custom_field_id = '$fieldId' AND label = '$optionLabel'";
+            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND label = '$optionLabel'";
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) { 
                 $errors['label'] = 'There is an entry with the same label.';
             }
             
             //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE custom_field_id = '$fieldId' AND value = '$optionValue'";
+            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND value = '$optionValue'";
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {  
                 $errors['value'] = 'There is an entry with the same value.';
             }
@@ -206,13 +207,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $fieldId  = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
 
             //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND label = '$optionLabel'";
+            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND label = '$optionLabel'";
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {   
                 $errors['label'] = 'There is an entry with same label.';
             }
             
             //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND value = '$optionValue'";
+            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND value = '$optionValue'";
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {   
                 $errors['value'] = 'There is an entry with same value';
             }
@@ -251,7 +252,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         }
 
         // need the FKEY - custom field id
-        $customOption->custom_field_id = $this->_fid;
+        //$customOption->custom_field_id = $this->_fid;
+        $customOption->entity_id    = $this->_fid;
+        $customOption->entity_table = 'civicrm_custom_field';
         
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $this->_fid;

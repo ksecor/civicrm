@@ -80,7 +80,8 @@ function crm_create_option_value($params, $customField)
         return _crm_error( "customField is not valid custom_field object" );
     }
     
-    $params['custom_field_id'] = $customField->id;
+    $params['entity_id'   ] = $customField->id;
+    $params['entity_table'] = 'civicrm_custom_field';
     
     $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomOption');
     if (is_a($error, 'CRM_Core_Error')) {

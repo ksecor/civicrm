@@ -422,7 +422,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         
         //delete first all custom option
         $customOption = & new CRM_Core_DAO_CustomOption();
-        $customOption->custom_field_id = $id;
+        $customOption->entity_id    = $id;
+        $customOption->entity_table = 'civicrm_custom_field';
         $customOption->delete();
         
         

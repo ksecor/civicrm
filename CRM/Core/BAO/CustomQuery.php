@@ -151,11 +151,11 @@ class CRM_Core_BAO_CustomQuery {
 
         // build the cache for custom values with options (label => value)
         if ( ! empty( $optionIds ) ) {
-            $query = 'select custom_field_id, label, value from civicrm_custom_option where custom_field_id IN ( ' .
-                implode( ',', $optionIds ) . ' ) '; 
+            $query = 'select entity_id, label, value from civicrm_custom_option where entity_id IN ( ' .
+                implode( ',', $optionIds ) . ' ) AND entity_table = \'civicrm_custom_field\''; 
             $dao =& CRM_Core_DAO::executeQuery( $query );
             while ( $dao->fetch( ) ) {
-                $this->_options[$dao->custom_field_id][$dao->value] = $dao->label;
+                $this->_options[$dao->entity_id][$dao->value] = $dao->label;
             }
         }
 

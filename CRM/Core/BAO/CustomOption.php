@@ -113,9 +113,11 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
      * @static
      */
     static function getCustomOption($fieldId, $inactiveNeeded=false)
-    {
+    {       
         $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-        $customOptionDAO->custom_field_id = $fieldId;
+        //$customOptionDAO->custom_field_id = $fieldId;
+        $customOptionDAO->entity_id    = $fieldId;
+        $customOptionDAO->entity_table = "civicrm_custom_field";
         if (!$inactiveNeeded) {
             $customOptionDAO->is_active = 1;
         }
@@ -159,7 +161,8 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         }
 
         $dao =& new CRM_Core_DAO_CustomOption( );
-        $dao->custom_field_id = $fieldId; 
+        $dao->entity_id    = $fieldId;
+        $dao->entity_table = 'civicrm_custom_field';
         $dao->value = $value;
         if ( $dao->find( true ) ) {
             return $dao->label;
@@ -183,11 +186,11 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         
         $optionDAO =& new CRM_Core_DAO_CustomOption();
         $optionDAO->id = $optionId;
+        $optionDAO->entity_table = "civicrm_custom_field";
         $optionDAO->find();
         $optionDAO->fetch();
-        $custom_field_id = $optionDAO->custom_field_id;
+        $custom_field_id = $optionDAO->entity_id;
         $value = $optionDAO->value;
-        
         $fieldDAO = & new CRM_Core_DAO_CustomField();
         $fieldDAO->id = $custom_field_id;
         $fieldDAO->find();

@@ -668,11 +668,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     foreach ($params['option_value'] as $k => $v) {
                         if ($v) {
                             $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-                            $customOptionDAO->custom_field_id = $customField->id;
-                            $customOptionDAO->label      = $params['option_label'][$k];
-                            $customOptionDAO->value      = $v;
-                            $customOptionDAO->weight     = $params['option_weight'][$k];
-                            $customOptionDAO->is_active  = $params['option_status'][$k];
+                            $customOptionDAO->entity_id     = $customField->id;
+                            $customOptionDAO->entity_table  = 'civicrm_custom_field';
+                            $customOptionDAO->label         = $params['option_label'][$k];
+                            $customOptionDAO->value         = $v;
+                            $customOptionDAO->weight        = $params['option_weight'][$k];
+                            $customOptionDAO->is_active     = $params['option_status'][$k];
                             $customOptionDAO->save();
                         }
                     }                                                       
