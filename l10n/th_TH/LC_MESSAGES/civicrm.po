@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-28 12:29+0200\n"
+"POT-Creation-Date: 2005-11-03 17:15+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -5197,6 +5197,12 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
+"Relationship types describe relationships between people, households and "
+"organizations."
+msgstr ""
+
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid ""
 "You can define as many additional relationships types as needed to cover the "
 "types of relationships you want to track."
 msgstr ""
@@ -5676,18 +5682,34 @@ msgid "Recipient(s)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
-#: templates/CRM/Export/Form/MapField.tpl
 msgid ""
-"Select the fields which you want included for this export, in the order you "
-"want them included. Rows marked  '- do not export -' will be ignored. Click "
-"<strong>Select more fields...</strong> if you want to export more fields "
-"than are presented in the table below."
+"Select the fields to be exported using the table below. For each field, "
+"first select the contact type that the field belongs to (e.g. select "
+"<strong>Individuals</strong> if you are exporting <strong>Last Name</"
+"strong>). Then select the actual field to be exported from the drop-down "
+"menu which will appear next to the contact type. Your export can include "
+"multiple types of contact records, and non-applicable fields will be empty "
+"(e.g. <strong>Last Name</strong> will not be populated for an Organization "
+"record)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid ""
+"Click <strong>Select more fields...</strong> if you want to export more "
+"fields than are initially displayed in the table."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid ""
+"If you want to use the same export setup in the future, check 'Save this "
+"field mapping' at the bottom of the page before continuing. You will then be "
+"able to reload this setup with a single click."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
@@ -6182,20 +6204,23 @@ msgstr ""
 msgid ""
 "Use this form to setup the title, group-level help, and display "
 "characteristics of each group of Custom Data fields. The 'Display Style' you "
-"select determines whether this group is edited and displayed together with "
-"other Custom Data Groups on a single consolidated form ('Inline' style), or "
-"has it's own menu tab ('Tab' style)."
+"select determines whether this group is edited and displayed on the same "
+"screens as the standard contact field ('Inline' style), or has it's own menu "
+"tab ('Tab' style)."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"For 'inline' custom groups, the menu tab will use the title for the first "
-"'inline' group."
+"For 'inline' display custom groups, this name will appear as the fieldset "
+"legend. If this group uses the 'tab' display style, this name will be used "
+"for the navigation tab."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"Select the type of record that this group of custom data is available for."
+"Select the type of record that this group of custom fields is applicable for "
+"(e.g. are they used for any type of contact, OR used for Individuals but NOT "
+"for Organizations)."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -6207,8 +6232,10 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"Select 'inline' to display this group on a shared form with other 'inline' "
-"custom data groups."
+"Select 'Inline' to include this group of fields in the main contact Add/Edit "
+"form and Contact Summary screens. Select 'Tab' to create a separate "
+"navigation tab for display and editing these values (generally for less "
+"frequently accessed and/or larger sets of fields)."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -6218,11 +6245,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the beginning of the group fieldset."
+msgid "Explanatory text displayed at the beginning of this group of fields."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the end of the group fieldset."
+msgid "Explanatory text displayed below this group of fields."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -6341,6 +6368,14 @@ msgstr ""
 
 #: templates/CRM/error.tpl
 msgid "Return to CiviCRM menu."
+msgstr ""
+
+#: templates/CRM/Export/Form/MapField.tpl
+msgid ""
+"Select the fields which you want included for this export, in the order you "
+"want them included. Rows marked  '- do not export -' will be ignored. Click "
+"<strong>Select more fields...</strong> if you want to export more fields "
+"than are presented in the table below."
 msgstr ""
 
 #: templates/CRM/Export/Form/SelectField.tpl

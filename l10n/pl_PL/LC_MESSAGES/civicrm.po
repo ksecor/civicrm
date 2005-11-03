@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-27 18:00+0200\n"
-"PO-Revision-Date: 2005-10-28 12:30+0200\n"
+"POT-Creation-Date: 2005-11-03 16:41+0100\n"
+"PO-Revision-Date: 2005-11-03 16:55+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -4974,9 +4974,8 @@ msgid ""
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
 "Rodzaje lokalizacji dostarczają wygodnych etykiet, dzięki którym można "
-"rozróżniać lokalizacje kontaktów. Administratorzy mogą "
-"zdefiniować dodatkowe rodzaje w miarę potrzeb (przykładowo: główne biuro, "
-"szkoła…)."
+"rozróżniać lokalizacje kontaktów. Administratorzy mogą zdefiniować dodatkowe "
+"rodzaje w miarę potrzeb (przykładowo: główne biuro, szkoła…)."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -5018,6 +5017,13 @@ msgid ""
 msgstr ""
 "Ten kontakt nie ma informacji o sieciach komórkowych. <a href=\"%1\">Możesz "
 "je dodać</a>."
+
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid ""
+"Relationship types describe relationships between people, households and "
+"organizations."
+msgstr ""
+"Rodzaje powiązań opisują powiązania między osobami, mieszkaniami i organizacjami."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -5555,17 +5561,24 @@ msgid "Recipient(s)"
 msgstr "Odbiorcy"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
-#: templates/CRM/Export/Form/MapField.tpl
 msgid ""
-"Select the fields which you want included for this export, in the order you "
-"want them included. Rows marked  '- do not export -' will be ignored. Click "
-"<strong>Select more fields...</strong> if you want to export more fields "
-"than are presented in the table below."
+"Select the fields to be exported using the table below. For each field, "
+"first select the contact type that the field belongs to (e.g. select "
+"<strong>Individuals</strong> if you are exporting <strong>Last Name</"
+"strong>). Then select the actual field to be exported from the drop-down "
+"menu which will appear next to the contact type. Your export can include "
+"multiple types of contact records, and non-applicable fields will be empty "
+"(e.g. <strong>Last Name</strong> will not be populated for an Organization "
+"record)."
 msgstr ""
-"Wybierz pola, które należy uwzgędnić w tym eksporcie, w pożądanej "
-"kolejności. Pola oznaczone „- nie eksportuj -” zostaną zignorowane. Kliknij "
-"<strong>Wybierz więcej pól…</strong> jeśli chcesz wyeksportować więcej pól, "
-"niż pokazano w poniższej tabeli."
+"Za pomocą poniższej tabeli wybierz pola do wyeksportowania. Dla każdego z pól wybierz najpierw rodzaj kontaktu, do którego dane pole należy (przykładowo: wybierz <strong>Osoby</strong> jeśli eksportujesz <strong>Nazwisko</strong>). Następnie z listy, która pojawi się obok rodzaju kontaktu wybierz eksportowane pole. Eksport może zawierać wiele rodzajów eksportowanych kontaktów; nieodpowiednie pola zostaną puste (np. dla kontaktu typu Organizacja, pole <strong>Nazwisko</strong> będzie puste)."
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid ""
+"Click <strong>Select more fields...</strong> if you want to export more "
+"fields than are initially displayed in the table."
+msgstr ""
+"Jeśli chcesz wyeksportować więcej pól, niż jest ich w tabeli, klikniej <strong>Wybierz więcej pól</strong>."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -5574,6 +5587,14 @@ msgid ""
 msgstr ""
 "Wybierz „Załaduj zapisane mapowanie pola” by odtworzyć zapisaną uprzednio "
 "konfigurację eksportu."
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid ""
+"If you want to use the same export setup in the future, check 'Save this "
+"field mapping' at the bottom of the page before continuing. You will then be "
+"able to reload this setup with a single click."
+msgstr ""
+"Jeśli chcesz użyć tych samych ustawień eksportu w przyszłości, zaznacz „Zapisz to mapowanie pól” na dole strony. Dzięki temu jednym kliknięciem będzie można ponownie użyć tych samych ustawień."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
@@ -6093,9 +6114,9 @@ msgstr "Zobacz / Edytuj opcje wielokrotnego wyboru"
 msgid ""
 "Use this form to setup the title, group-level help, and display "
 "characteristics of each group of Custom Data fields. The 'Display Style' you "
-"select determines whether this group is edited and displayed together with "
-"other Custom Data Groups on a single consolidated form ('Inline' style), or "
-"has it's own menu tab ('Tab' style)."
+"select determines whether this group is edited and displayed on the same "
+"screens as the standard contact field ('Inline' style), or has it's own menu "
+"tab ('Tab' style)."
 msgstr ""
 "Skorzystaj z tego formularza by ustawić tytuł, pomoc dla grupy oraz "
 "ustawienia wyświetlania dla każdej z grup danych dodatkowych. Wybrany „styl "
@@ -6105,18 +6126,18 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"For 'inline' custom groups, the menu tab will use the title for the first "
-"'inline' group."
+"For 'inline' display custom groups, this name will appear as the fieldset "
+"legend. If this group uses the 'tab' display style, this name will be used for the navigation tab."
 msgstr ""
-"W przypadku „śródtekstowych” grup dodatkowych, zakładka w menu będzie "
-"zawierała tytuł pierwszej takiej grupy."
+"Nazwa grupy wyświetlanej „śródtekstowo” pojawi się w opisie zbioru pól. W przypadku grup wyświetlanych jako „zakładki”, nazwa pojawi się na nazwie zakładki nawigacyjnej."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"Select the type of record that this group of custom data is available for."
+"Select the type of record that this group of custom fields is applicable for "
+"(e.g. are they used for any type of contact, OR used for Individuals but NOT "
+"for Organizations)."
 msgstr ""
-"Wybierz rodzaje wpisów, dla których ta grupa danych dodatkowych będzie "
-"dostępna."
+"Wybierz rodzaj kontaktów, dla których ta grupa pól dodatkowych ma zastosowanie (np. jeśli są to dane odnoszące się do Osób ale nie do Organizacji)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -6130,11 +6151,12 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
-"Select 'inline' to display this group on a shared form with other 'inline' "
-"custom data groups."
+"Select 'Inline' to include this group of fields in the main contact Add/Edit "
+"form and Contact Summary screens. Select 'Tab' to create a separate navigation tab for display and editing "
+"these values (generally for less frequently accessed and/or larger sets of "
+"fields)."
 msgstr ""
-"Wybierz „śródtekstowo” by wyświetlić tę grupę na wspólnym formularzu z "
-"innymi „śródtekstowymi” grupami danych dodatkowych."
+"By umieścić tę grupę pól na głównym formularzu doawania/edycji kontaktu i na ekranie jego podsumowania, wybierz „śródtekstowo”. By stworzyć osobną zakładkę nawigacyjną do wyświetlania i edycji tych wartości, wybierz „zakładka” (stosuje się to zwykle do rzadziej wykorzystywanych i/lub większych zestawów pól)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -6145,12 +6167,12 @@ msgstr ""
 "tytuł grupy pól, (same pola zostaną ukryte)."
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the beginning of the group fieldset."
-msgstr "Pomocniczy tekst wyświetlany na początku pola grupy."
+msgid "Explanatory text displayed at the beginning of this group of fields."
+msgstr "Tekst pomocniczy wyświetlany na początku pola grupy."
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the end of the group fieldset."
-msgstr "Pomocniczy tekst wyświetlany na końcu pola grupy."
+msgid "Explanatory text displayed below this group of fields."
+msgstr "Tekst pomocniczy wyświetlany na końcu pola grupy."
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
@@ -6290,6 +6312,18 @@ msgstr "Menu główne"
 #: templates/CRM/error.tpl
 msgid "Return to CiviCRM menu."
 msgstr "Wróć do menu CiviCRM-a."
+
+#: templates/CRM/Export/Form/MapField.tpl
+msgid ""
+"Select the fields which you want included for this export, in the order you "
+"want them included. Rows marked  '- do not export -' will be ignored. Click "
+"<strong>Select more fields...</strong> if you want to export more fields "
+"than are presented in the table below."
+msgstr ""
+"Wybierz pola, które należy uwzgędnić w tym eksporcie, w pożądanej "
+"kolejności. Pola oznaczone „- nie eksportuj -” zostaną zignorowane. Kliknij "
+"<strong>Wybierz więcej pól…</strong> jeśli chcesz wyeksportować więcej pól, "
+"niż pokazano w poniższej tabeli."
 
 #: templates/CRM/Export/Form/SelectField.tpl
 msgid ""
@@ -7415,6 +7449,26 @@ msgstr "sr"
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#~ msgid ""
+#~ "For 'inline' custom groups, the menu tab will use the title for the first "
+#~ "'inline' group."
+#~ msgstr ""
+#~ "W przypadku „śródtekstowych” grup dodatkowych, zakładka w menu będzie "
+#~ "zawierała tytuł pierwszej takiej grupy."
+
+#~ msgid ""
+#~ "Select the type of record that this group of custom data is available for."
+#~ msgstr ""
+#~ "Wybierz rodzaje wpisów, dla których ta grupa danych dodatkowych będzie "
+#~ "dostępna."
+
+#~ msgid ""
+#~ "Select 'inline' to display this group on a shared form with other "
+#~ "'inline' custom data groups."
+#~ msgstr ""
+#~ "Wybierz „śródtekstowo” by wyświetlić tę grupę na wspólnym formularzu z "
+#~ "innymi „śródtekstowymi” grupami danych dodatkowych."
 
 #~ msgid ""
 #~ "Relationship types describe relationships between people, households and "
