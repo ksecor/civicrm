@@ -292,10 +292,10 @@ function _crm_format_params( &$params, &$values ) {
         $values['note'] = $params['note'];
     }
 
-    $values['custom_data'] = array();
+    $values['custom'] = array();
 
     $customFields = CRM_Core_BAO_CustomField::getFields();
-    
+
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
@@ -317,10 +317,11 @@ function _crm_format_params( &$params, &$values ) {
                 $value = str_replace( '-', '', $value );
             }
 
-            $values['custom_data'][$customFieldID] = array( 
-                'value' => $value,
+            $values['custom'][$customFieldID] = array( 
+                'value'   => $value,
                 'extends' => $customFields[$customFieldID][3],
-                'type' => $customFields[$customFieldID][2],
+                'type'    => $customFields[$customFieldID][2],
+                'custom_field_id' => $customFieldID,
             );
         }
     }
