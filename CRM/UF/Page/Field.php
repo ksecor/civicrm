@@ -250,11 +250,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      */
     function preview($fieldId,$groupId)
     {
-        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('Preview Custom Data'), null);
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('Preview Custom Data'), CRM_Core_Action::PREVIEW);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
         $controller->set('fieldId', $fieldId);
         $controller->set('id', $groupId);
+        $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
     }

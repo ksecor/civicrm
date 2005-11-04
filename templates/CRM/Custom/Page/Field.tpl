@@ -2,6 +2,8 @@
     {include file="CRM/Custom/Form/Field.tpl"}
 {elseif $action eq 8}
     {include file="CRM/Custom/Form/DeleteField.tpl"}
+{elseif $action eq 1024 }
+    {include file="CRM/Custom/Form/Preview.tpl"}
 {else}
     {if $customField}
     <div id="field_page">

@@ -1,5 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8 }
     {include file="CRM/UF/Form/Field.tpl"}
+{elseif $action eq 1024 }
+    {include file="CRM/UF/Form/Preview.tpl"}
 {else}
     {if $ufField}
     <div id="field_page">

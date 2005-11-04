@@ -287,10 +287,11 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function preview($id)
     {
-        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Preview', ts('Preview Custom Data'), null);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Preview', ts('Preview Custom Data'), CRM_Core_Action::PREVIEW);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
         $controller->set('fieldId', $id);
+        $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
     }
