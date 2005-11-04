@@ -387,8 +387,7 @@ class CRM_Core_PseudoConstant {
             $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
             $limitIds = array();
             foreach ($limitCodes as $code) {
-                $tmpArray   = array_keys($countryIsoCodes, $code); 
-                $limitIds[] = array_shift($tmpArray);
+                $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
             }
             $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
 
@@ -461,8 +460,22 @@ class CRM_Core_PseudoConstant {
     public static function &country($id = false)
     {
         if (!self::$country) {
-            self::populate( self::$country, 'CRM_Core_DAO_Country', true );
+
             $config =& CRM_Core_Config::singleton();
+
+            // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
+            // (ensuring it's a subset of the legal values)
+            $limitCodes = preg_split('/[^a-zA-Z]/', $config->countryLimit);
+            $limitCodes = array_intersect(self::countryIsoCode(), $limitCodes);
+            if (count($limitCodes)) {
+                $whereClause = "iso_code IN ('" . implode("', '", $limitCodes) . "')";
+            } else {
+                $whereClause = null;
+            }
+
+            self::populate( self::$country, 'CRM_Core_DAO_Country', true, 'name', 'is_active', $whereClause );
+
+            // localise the country names if in an non-en_US locale
             if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
                 $i18n =& CRM_Core_I18n::singleton();
                 $i18n->localizeArray(self::$country);

@@ -136,6 +136,18 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 // define( 'CIVICRM_SMTP_PORT'   , 25 );
 
 /**
+ * Country availability:
+ *
+ * The CIVICRM_COUNTRY_LIMIT option selects which countries are
+ * available to the users of this CiviCRM install. The format of this option
+ * is a space-separated list of country ISO codes (US for United States, PL for
+ * Poland, etc.). If you're not sure what is the code for a given country, you
+ * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
+ * file. The empty default does not limit the country list.
+ */
+define( 'CIVICRM_COUNTRY_LIMIT' , '' );
+
+/**
  * Province availability:
  *
  * CiviCRM ships with a set of provinces derived from the ISO 3166-2 standard;
@@ -145,7 +157,7 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * is a space-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The default limits the province list to United States
+ * file. The default limits the province list to United States.
  */
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 

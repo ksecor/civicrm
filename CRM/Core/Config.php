@@ -133,10 +133,16 @@ class CRM_Core_Config {
     public $cleanURL = false;
 
     /**
+     * List of country codes limiting the country list.
+     * @var string
+     */
+    public $countryLimit = '';
+
+    /**
      * List of country codes limiting the province list.
      * @var string
      */
-    public $provinceLimit = 'US IN PL';
+    public $provinceLimit = 'US';
 
     /**
      * Database id of default country for contact.
@@ -388,6 +394,10 @@ class CRM_Core_Config {
             $this->cleanURL = CIVICRM_CLEANURL;
         }
 
+        if ( defined( 'CIVICRM_COUNTRY_LIMIT' ) ) {
+            $this->countryLimit = CIVICRM_COUNTRY_LIMIT;
+        }
+        
         if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
             $this->provinceLimit = CIVICRM_PROVINCE_LIMIT;
         }
