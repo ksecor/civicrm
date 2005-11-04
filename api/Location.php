@@ -41,48 +41,51 @@
  */
 function crm_create_location(&$contact, $params) {
     _crm_initialize( );
-
+      
+    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
+    $locationTypeDAO->name = $params['location_type'];
+    $locationTypeDAO->find(true);
+    $locationTypeId = $locationTypeDAO->id;
+    if(! isset($locationTypeId) ) {
+        return _crm_error('$location_type is not valid one');
+    }
+    
     $values = array(
-        'contact_id'    => $contact->id,
-        'location'      => array(1 => array()),
-    );
-
+                    'contact_id'    => $contact->id,
+                    'location'      => array(1 => array()),
+                    );
+    
     $loc =& $values['location'][1];
-
+    
     $loc['address'] = array( );
-
+    
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
-    $ids = array( 'county', 'country', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    $ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
             $loc['address'][$id] = $params[$id];
         }
     }
-
+    
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
         $name = strtolower($block);
         $loc[$name]    = array( );
-        $loc[$name][1] = array( );
-        //require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
-        //eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         if ( $params[$name] ){
+            $count = 1;
             foreach ( $params[$name] as $val) {
-                
-                CRM_Core_DAO::storeValues($val,$loc[$name][1]);
-               
-            }   //_crm_store_values( $fields, array($params[$name]) , $loc[$name][1] );
+                CRM_Core_DAO::storeValues($val,$loc[$name][$count++]);
+            }   
         }
     }
-
-    $loc['location_type_id'] = $params['location_type_id'];
- 
+    
+    $loc['location_type_id'] = $locationTypeId;
+    
     $ids = array();
     require_once 'CRM/Core/BAO/Location.php';
-    print_r($values);
-    CRM_Core_BAO_Location::add($values, $ids, null);
+    CRM_Core_BAO_Location::add($values, $ids,1);
     return $contact;
 }
 
@@ -102,9 +105,16 @@ function crm_create_location(&$contact, $params) {
  *
  */
 function crm_update_location(&$contact, $location_type, $params) {
- _crm_initialize( );
- 
- 
+    _crm_initialize( );
+    
+    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
+    $locationTypeDAO->name = $location_type;
+    $locationTypeDAO->find(true);
+    $locationTypeId = $locationTypeDAO->id;
+    if(! isset($locationTypeId) ) {
+        return _crm_error('$location_type is not valid one');
+    }
+    
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     } 
@@ -112,18 +122,42 @@ function crm_update_location(&$contact, $location_type, $params) {
     if( ! isset($location_type) ) {
         return _crm_error('$location_type is not set');
     }
+    $values = array(
+                    'contact_id'    => $contact->id,
+                    'location'      => array(1 => array()),
+                    );
     
-    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
-    $locationTypeDAO->name = $location_type;
-    $locationTypeDAO->find();
-    $locationTypeDAO->fetch();
-    $locationTypeId = $locationTypeDAO->id;
-    if(! isset($locationTypeId) ) {
-        return _crm_error('$location_type is not valid one');
+    $loc =& $values['location'][1];
+    
+    $loc['address'] = array( );
+    
+    require_once 'CRM/Core/DAO/Address.php';
+    $fields =& CRM_Core_DAO_Address::fields( );
+    _crm_store_values($fields, $params, $loc['address']);
+    $ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    foreach ( $ids as $id ) {
+        if ( array_key_exists( $id, $params ) ) {
+            $loc['address'][$id] = $params[$id];
+        }
     }
-    // need to work
     
-
+    $blocks = array( 'Email', 'Phone', 'IM' );
+    foreach ( $blocks as $block ) {
+        $name = strtolower($block);
+        $loc[$name]    = array( );
+        if ( $params[$name] ){
+            $count = 1;
+            foreach ( $params[$name] as $val) {
+                CRM_Core_DAO::storeValues($val,$loc[$name][$count++]);
+            }   
+        }
+    }
+    
+    $loc['location_type_id'] = $locationTypeId;
+    $par = array('id' => $contact->id,'contact_id' => $contact->id);
+    $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
+    CRM_Core_BAO_Location::add($values, $ids, 1);
+    return $contact;
 
 }
 
