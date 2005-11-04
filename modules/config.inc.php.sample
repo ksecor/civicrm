@@ -183,6 +183,19 @@ define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
 define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
 /**
+ * Address format:
+ *
+ * The format of address display and the source for address fields sequence in the edit forms.
+ */
+define( 'CIVICRM_ADDRESS_FORMAT' , '
+street_address
+supplemental_address_1
+supplemental_address_2
+city, state_province postal_code
+country
+' );
+
+/**
  * Date formatting:
  *
  * Formats for date display and input fields are configurable. Settings use standard POSIX sequences.
