@@ -152,7 +152,7 @@ define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 
 define('CIVICRM_GOOGLE_MAP_API_KEY', 'ABQIAAAAJqPUffDG76eXgUTeRaGh9hQjQG_QTQsz9JF3GmcmKBQr3bx34RR4Dj1RteDd-FoQ3iCpVIznWMLUtQ'); 
 
-define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' ); 
+// define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' ); 
 
 define('CIVICRM_DOMAIN_ID' , 1 ); 
 
