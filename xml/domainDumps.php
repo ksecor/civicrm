@@ -263,11 +263,11 @@ function &getDatabase( &$dbXML ) {
     $database['attributes'] = $attributes;
 
     
-    $tableAttributes = '';
-    checkAndAppend( $tableAttributes, $dbXML, 'table_type', 'ENGINE=', '' );
-    //$database['tableAttributes'] = trim( $tableAttributes . ' ' . $attributes );
-    $database['tableAttributes_modern'] = trim( $tableAttributes . ' ' . $attributes );
-    $database['tableAttributes_simple'] = trim( $tableAttributes );
+    $tableAttributes_modern = $tableAttributes_simple = '';
+    checkAndAppend( $tableAttributes_modern, $dbXML, 'table_type', 'ENGINE=', '' );
+    checkAndAppend( $tableAttributes_simple, $dbXML, 'table_type', 'TYPE=', '' );
+    $database['tableAttributes_modern'] = trim( $tableAttributes_modern . ' ' . $attributes );
+    $database['tableAttributes_simple'] = trim( $tableAttributes_simple );
 
     $database['comment'] = value( 'comment', $dbXML, '' );
 

@@ -296,11 +296,12 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                     $new = false;
                 }
                 $groupAdditions[] = array(
-                                          'url'   => 'civicrm/group/search?reset=1&force=1&context=smog&gid='.$groupId,
-                                          'name'  => $name,
-                                          'added' => $totalCount,
+                                          'url'      => CRM_Utils_System::url( 'civicrm/group/search',
+                                                                               'reset=1&force=1&context=smog&gid=' . $groupId ),
+                                          'name'     => $name,
+                                          'added'    => $totalCount,
                                           'notAdded' => $addCount[2],
-                                          'new'   => $new
+                                          'new'      => $new
                                           );
             }
             $this->set('groupAdditions', $groupAdditions);

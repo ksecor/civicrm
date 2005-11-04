@@ -60,6 +60,8 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      */
     static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) 
     {
+        // CRM_Core_Error::debug( 'p', $params );
+
         if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
             return null;
         }

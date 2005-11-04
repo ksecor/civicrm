@@ -292,10 +292,10 @@ function _crm_format_params( &$params, &$values ) {
         $values['note'] = $params['note'];
     }
 
-    $values['custom_data'] = array();
+    $values['custom'] = array();
 
-    $customFields = CRM_Core_BAO_CustomField::getFields();
-    
+    $customFields = CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
+
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             /* check if it's a valid custom field id */
@@ -317,10 +317,11 @@ function _crm_format_params( &$params, &$values ) {
                 $value = str_replace( '-', '', $value );
             }
 
-            $values['custom_data'][$customFieldID] = array( 
-                'value' => $value,
+            $values['custom'][$customFieldID] = array( 
+                'value'   => $value,
                 'extends' => $customFields[$customFieldID][3],
-                'type' => $customFields[$customFieldID][2],
+                'type'    => $customFields[$customFieldID][2],
+                'custom_field_id' => $customFieldID,
             );
         }
     }
@@ -824,7 +825,7 @@ function _crm_add_formatted_param(&$values, &$params) {
         }
         
         /* if this is a phone value, find or create the correct block */
-        if (isset($values['phone_type'])) {
+        if (isset($values['phone'])) {
             if (!isset($params['location'][$locBlock]['phone'])) {
                 /* if we don't have a phone array yet, make one */
                 $params['location'][$locBlock]['phone'] = array();
