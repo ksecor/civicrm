@@ -294,7 +294,7 @@ function _crm_format_params( &$params, &$values ) {
 
     $values['custom'] = array();
 
-    $customFields = CRM_Core_BAO_CustomField::getFields();
+    $customFields = CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
 
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
