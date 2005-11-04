@@ -197,6 +197,11 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $activityType = CRM_Core_PseudoConstant::activityType(true);
         // print_r(CRM_Core_BAO_ActivityType::getActivityDescription());
         
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+        
+        // do the updates/inserts
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$otherActivity->id); 
+        
         if($otherActivity->status=='Completed'){
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
@@ -214,10 +219,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                 return false;
             }
         }
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$otherActivity->id); 
+       
         if($otherActivity->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
         } else{

@@ -121,7 +121,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getTree($entityType, $entityId=null, $groupId=0,$activityType=null)
+    public static function getTree($entityType, $entityId=null, $groupId=0)
     {
         // create a new tree
         $groupTree = array();
@@ -153,7 +153,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // from, where, order by
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
-            $tableName = self::_getTableName($entityType,$activityType);
+            $tableName = self::_getTableName($entityType);
             $strFrom .= " LEFT JOIN civicrm_custom_value
                                  ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
                                 AND   civicrm_custom_value.entity_table = '$tableName' 
@@ -278,10 +278,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function updateCustomData(&$groupTree, $entityType, $entityId,$activityType = null)
+    public static function updateCustomData(&$groupTree, $entityType, $entityId)
     {
 
-        $tableName = self::_getTableName($entityType,$activityType);
+        $tableName = self::_getTableName($entityType);
 
         // traverse the group tree
         foreach ($groupTree as $group) {
@@ -557,7 +557,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    private static function _getTableName($entityType,$activityType = null)
+    private static function _getTableName($entityType)
     {
         $tableName = '';
         switch($entityType) {
@@ -567,22 +567,20 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Organization':
             $tableName = 'civicrm_contact';
             break;
-        case 'Gift':
-            $tableName = 'civicrm_gift';
+        case 'Contribution':
+            $tableName = 'civicrm_contribution';
+            break;
+        case 'Group':
+            $tableName = 'civicrm_group';
             break;
         case 'Activity':  
-            if( $activityType ) {
-                switch($activityType) {
-                case 'PhoneCall':
-                    $tableName = 'civicrm_phonecall';
-                    break;
-                case 'Meeting':
-                    $tableName = 'civicrm_meeting';
-                    break;
-                }  
-            } else {
-                $tableName = 'civicrm_activity';
-            }
+            $tableName = 'civicrm_activity';
+            break;
+        case 'PhoneCall':
+            $tableName = 'civicrm_phonecall';
+            break;
+        case 'Meeting':
+            $tableName = 'civicrm_meeting';
             break;
             // need to add cases for Location, Address
         }
