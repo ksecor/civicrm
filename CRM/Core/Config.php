@@ -157,6 +157,18 @@ class CRM_Core_Config {
     public $lcMessages = 'en_US';
 
     /**
+     * The format of the address fields.
+     * @var string
+     */
+    public $addressFormat = "street_address\nsupplemental_address_1\nsupplemental_address_2\ncity, state_province postal_code\ncountry";
+
+    /**
+     * The sequence of the address fields.
+     * @var string
+     */
+    public $addressSequence = array('street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'state_province', 'postal_code', 'country');
+
+    /**
      * String format for date+time
      * @var string
      */
@@ -408,6 +420,23 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
+        }
+        
+        if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
+
+            $this->addressFormat = trim(CIVICRM_ADDRESS_FORMAT);
+
+            // get the field sequence from the format, using the class's
+            // default as the filter for allowed fields (FIXME?)
+            $allowedFields = $this->addressSequence;
+            $this->addressSequence = array();
+            foreach($allowedFields as $field) {
+                if (substr_count($this->addressFormat, $field)) {
+                    $this->addressSequence[strpos($this->addressFormat, $field)] = $field;
+                }
+            }
+            ksort($this->addressSequence);
+            
         }
         
         if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {

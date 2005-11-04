@@ -72,13 +72,7 @@
     {if $config->googleMapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
         <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
-    {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
-    {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
-    {if $loc.address.supplemental_address_2}{$loc.address.supplemental_address_2}<br />{/if}
-    {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}
-        {if $loc.address.city}{$loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}{if $loc.address.postal_code_suffix}-{$loc.address.postal_code_suffix}{/if}<br />
-    {/if}
-    {$loc.address.country}
+    {$loc.address.display|nl2br}
   </div>
   <div class="spacer"></div>
   </fieldset>

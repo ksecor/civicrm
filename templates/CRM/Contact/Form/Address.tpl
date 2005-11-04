@@ -7,100 +7,11 @@
 <script type="text/javascript" src="{$config->resourceBase}js/StateCountry.js"></script>*}
  
 <fieldset><legend>{ts}Address{/ts}</legend>
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.street_address.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.street_address.html}
-    {*<div class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</div>*}
-    <br class="spacer"/>
-    <span class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</span>
-    </span>
-</div>
 
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.supplemental_address_1.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.supplemental_address_1.html}
-    {*<div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>*}
-    <br class="spacer"/>
-    <span class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
-    </span>
-</div>
+{foreach item=addressElement from=$config->addressSequence}
+    {include file=CRM/Contact/Form/Address/$addressElement.tpl}
+{/foreach}
 
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.supplemental_address_2.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.supplemental_address_2.html}
-    {*<div class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</div>*}
-    <br class="spacer"/>
-    <span class="description font-italic">{ts}Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
-    </span>
-</div>
-
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.city.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.city.html}
-    </span>
-</div>
-
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.state.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.state.html}
-    </span>
-</div>
-
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.state_province_id.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.state_province_id.html}
-    </span>
-</div>
-
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.postal_code.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.postal_code.html}- {$form.location.$index.address.postal_code_suffix.html}
-    {*<div class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</div>*}
-    <br class="spacer"/>
-    <span class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</span>
-    </span>
-</div>
-		 
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.country_id.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.country_id.html}
-    </span>
-</div>
-
-<div class="form-item">
-    <span class="labels">
-    {$form.location.$index.address.geo_code_1.label},
-    {$form.location.$index.address.geo_code_2.label}
-    </span>
-    <span class="fields">
-    {$form.location.$index.address.geo_code_1.html},
-    {$form.location.$index.address.geo_code_2.html}
-    </span>
-</div>
 <!-- Spacer div forces fieldset to contain floated elements -->
 <div class="spacer"></div>
 </fieldset>

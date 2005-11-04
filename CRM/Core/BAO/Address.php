@@ -201,6 +201,36 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
             }
+
+            // add address's display form based on the $config->addressFormat setting
+            // FIXME: whe should keep $allowedFields' keys and the default $config->addressSequence in one place
+            $config =& CRM_Core_Config::singleton();
+
+            $fullPostalCode = $address->postal_code;
+            if ($address->postal_code_suffix) $fullPostalCode .= "-$address->postal_code_suffix";
+
+            $replacements = array(
+                'street_address'         => $address->street_address,
+                'supplemental_address_1' => $address->supplemental_address_1,
+                'supplemental_address_2' => $address->supplemental_address_2,
+                'city'                   => $address->city,
+                'state_province'         => $address->state,
+                'postal_code'            => $fullPostalCode,
+                'country'                => $address->country
+            );
+
+            $address->display = str_replace(array_keys($replacements), $replacements, $config->addressFormat);
+            while (substr_count($address->display, "\n\n")) {
+                $address->display = str_replace("\n\n", "\n", $address->display);
+            }
+            // FIXME: not sure whether non-DB values are safe to store here
+            // if so, we should store state_province and country as well and
+            // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
+            if ($flatten) {
+                $values['display'] = $address->display;
+            } else {
+                $values['address']['display'] = $address->display;
+            }
             return $address;
         }
         return null;
