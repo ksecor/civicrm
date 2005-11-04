@@ -1,6 +1,7 @@
 <?php
 
 ini_set( 'include_path', ".:../packages:.." );
+ini_set( 'memory_limit', '16M'              );
 
 
 $versionFile = "version.xml";
