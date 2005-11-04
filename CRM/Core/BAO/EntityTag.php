@@ -203,6 +203,25 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
             }
         }
     }
-}
 
+    /*
+     * This function returns all entities assigned to a specific tag
+     * @param object $tag an object of a tag
+     *
+     */
+  
+    function getEntitiesByTag($tag)
+    {
+        $contactIds = array();
+        $entityTagDAO = & new CRM_Core_DAO_EntityTag();
+        $entityTagDAO->tag_id       = $tag->id;
+        $entityTagDAO->entity_table = 'civicrm_contact'; 
+        $entityTagDAO->find();
+        while($entityTagDAO->fetch()) {
+            $contactIds[] = $entityTagDAO->entity_id;
+        }
+
+        return $contactIds;
+    }
+}
 ?>

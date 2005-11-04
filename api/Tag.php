@@ -191,7 +191,8 @@ function crm_delete_entity_tag(&$entity_tag)
     }
 
     $params=array('id' => $entity_tag->id );
-    CRM_Core_BAO_EntityTag::del($params);
+    
+    return CRM_Core_BAO_EntityTag::del($params);
 }
 
 ?>
