@@ -133,7 +133,7 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all genders
      *  
      * 
      * @return void
@@ -142,7 +142,7 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
+        // get all genders sorted by weight
         $gender = array();
         $dao =& new CRM_Core_DAO_Gender();
 
