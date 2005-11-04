@@ -207,7 +207,6 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/11.png',
                             'weight'  => 260
                             ),
-
                       array(
                             'path'    => 'civicrm/admin/reltype',
                             'title'   => ts('Relationship Types'),
@@ -581,6 +580,15 @@ class CRM_Utils_Menu {
                             'weight'  => 0, 
                             ),
                       array( 
+                            'path'    => 'civicrm/contribute/admin', 
+                            'title'   => ts( 'Contribute Module' ), 
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM'), 
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::CALLBACK,  
+                            'weight'  => 0,  
+                            ), 
+                      /*    //added
+                      array( 
                             'path'    => 'civicrm/contribute', 
                             'title'   => ts( 'Contribute Module' ), 
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM'), 
@@ -588,6 +596,7 @@ class CRM_Utils_Menu {
                             'crmType' => self::CALLBACK,  
                             'weight'  => 0,  
                             ), 
+                      */
                       );
                       
             

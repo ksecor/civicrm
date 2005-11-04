@@ -624,7 +624,7 @@ class CRM_Core_Invoke {
         }  
         if ( $args[2] == 'admin' ) { 
             $view = null;
-            switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
+            switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
             case 'contributionType':
                 require_once 'CRM/Contribute/Page/ContributionType.php';
                 $view =& new CRM_Contribute_Page_ContributionType(ts('View Contribution Types'));
