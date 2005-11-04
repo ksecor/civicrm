@@ -469,23 +469,31 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $returnProperties[$name] = 1;
         }
         $options = array( );
-        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $options, $returnProperties );
+        //$contact = CRM_Contact_BAO_Contact::contactDetails( $id, $options, $returnProperties );
+        $record['id'] = $record['contact_id'] = $id;
+        $contact      = CRM_Contact_BAO_Contact::retrieve( $record , $options, $ids );
         if ( ! $contact ) {
             return;
         }
-
+        //print_r($fields);
+        //print_r($options);
         $params = array( );
         foreach ( $fields as $name => $field ) {
             $objName = $field['name'];
-
+            
             $index = $field['title'];
-            if ( $objName == 'state_province' ) {
+            if (substr($field['name'],0,5) == 'phone') {
+                $index .= ' - '.$field['phone_type'];
+            }
+            if ( substr($objName,0,14) === 'state_province' ) {
+                //if ( $objName == 'state_province' ) {
                 $values[$index] = null;
                 if ( $contact->state_province ) {
                     $values[$index] = $contact->state_province;
                     $params[$index] = $contact->state_province_id;
                 }
-            } else if ( $objName == 'country' ) {
+                //} else if ( $objName == 'country' ) {
+            } else if ( substr($objName,0,7) === 'country' ) {
                 $values[$index] = null;
                 if ( $contact->country ) {
                     $values[$index] = $contact->country;

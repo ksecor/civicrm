@@ -4,7 +4,6 @@
 {if $mode eq 8 || $mode eq 1}
 {include file="CRM/common/form_body.tpl"}
 {/if}
-
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
@@ -30,7 +29,22 @@
         {/if}
         <table class="form-layout-compressed">
     {/if}
-    {assign var=n value=$field.name}
+    
+    {if $field.name|truncate:6:"" eq "custom" } 
+        {assign var="fId" value=$field.name|replace:"custom_":""} 
+        {* start of code to displaying custom fields *}
+        {foreach from=$groupTree item=cd key=group_id}
+            {foreach from=$cd.fields item=cd_value key=field_id}
+                {if $fId eq $field_id}  
+                    {assign var="name" value=`$cd_value.name`} 
+                    {assign var="n" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
+                {/if}
+            {/foreach} 
+        {/foreach}
+        {* end of code to displaying custom fields *}
+    {else}
+        {assign var=n value=$field.name}
+    {/if}
     {if $field.options_per_line > 1}
 	<tr>
         <td class="option-label">{$form.$n.label}</td>
@@ -82,7 +96,6 @@
     {/if}
     {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
-
 
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}

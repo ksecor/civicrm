@@ -85,12 +85,18 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         if( $field ) {
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
-            $fieldDAO->find();
-            $fieldDAO->fetch();
-            $fieldArray[$fieldDAO->field_name]= $this->_fields[$fieldDAO->field_name];
+            $fieldDAO->find(true);
+            $name = $fieldDAO->field_name;
+            if ($fieldDAO->location_type_id) {
+                $name .= '-'.$fieldDAO->location_type_id;
+            }
+            if ($fieldDAO->phone_type) {
+                $name .= '-'.$fieldDAO->phone_type;
+            }
+              
+            $fieldArray[$name]= $this->_fields[$fieldDAO->field_name];
             $this->_fields = $fieldArray;
             $this->assign('previewField',true);
-            
         }
         $this->set('fieldId',null);
         $this->assign("fields",$this->_fields);
@@ -120,15 +126,13 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     {
 
         // add the form elements
-   
         foreach ($this->_fields as $name => $field ) {
-            
             $required = $field['is_required'];
 
-            if ( $field['name'] === 'state_province' ) {
+            if ( substr($field['name'],0,14) === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
-            } else if ( $field['name'] === 'country' ) {
+            } else if ( substr($field['name'],0,7) === 'country' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
             } else if ( $field['name'] === 'birth_date' ) {  
@@ -150,15 +154,14 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::GROUP,
-                                                              true );
+                                                              CRM_Contact_Form_GroupTag::GROUP);
             } else if ( $field['name'] === 'tag' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
                                                               CRM_Contact_Form_GroupTag::TAG );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
-            } else if  ( $field['name'] === 'phone' ) {
+            } else if  ( substr($field['name'],0,5) === 'phone' ) {
                 $this->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
