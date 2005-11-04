@@ -825,7 +825,7 @@ function _crm_add_formatted_param(&$values, &$params) {
         }
         
         /* if this is a phone value, find or create the correct block */
-        if (isset($values['phone_type'])) {
+        if (isset($values['phone'])) {
             if (!isset($params['location'][$locBlock]['phone'])) {
                 /* if we don't have a phone array yet, make one */
                 $params['location'][$locBlock]['phone'] = array();
