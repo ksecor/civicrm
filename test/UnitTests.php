@@ -44,10 +44,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/ConfirmGroupContacts.php'    );
 
         // location api
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
 
         // history api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
@@ -70,12 +70,12 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateRelationship.php');
 
         // tag api
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteTag.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityTag.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
     }
 
 }
