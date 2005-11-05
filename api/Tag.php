@@ -73,7 +73,7 @@ function crm_create_tag($params)
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
-   
+    
     $ids = array();
     return CRM_Core_BAO_Tag::add($params, $ids);
 }
@@ -81,7 +81,8 @@ function crm_create_tag($params)
 /**
  * Deletes an existing Tag
  *
- * @param object $tag valid tag object
+ * @param  object        $tag valid tag object
+ * @return NULL | error  if delete successfull then NULL otherwise object of CRM_Core_Error
  * @access public
  */
 function crm_delete_tag(&$tag) 
@@ -89,28 +90,30 @@ function crm_delete_tag(&$tag)
     require_once 'CRM/Core/BAO/Tag.php';
     
     if ( ! isset($tag->id) ) {
-        return _crm_error('Invalid tag object passed in');
+        return _crm_error('Invalid Tag object passed in');
     }
     
-    CRM_Core_BAO_Tag::del($tag->id);
-
-    return null;
+    if (CRM_Core_BAO_Tag::del($tag->id)) {
+        return null;
+    } else {
+        return _crm_error('Error while deleting Tag object');
+    }
 }
 
 /**
  * Assigns an entity (e.g. Individual, Organization, Group, Contact_action) to a Tag (i.e. 'tags' that entity).
  *
- * @param object $tag valid tag object
- * @param object $entity valid entity object
+ * @param $tag        object  valid tag object
+ * @param $entity     object  valid entity object
  *
- * @return $entityTag object A new Entity tag object
+ * @return $entityTag object  A new Entity tag object
  * @access public
  */
 function crm_create_entity_tag(&$tag, &$entity)
 {
     require_once 'CRM/Core/BAO/EntityTag.php';
 
-    if ( ! isset($tag->id) || ! isset($entity->contact_id)) {
+    if ( ! isset($tag->id) || ! isset($entity->id)) {
         return _crm_error('Required parameters missing');
     }
 
@@ -124,10 +127,10 @@ function crm_create_entity_tag(&$tag, &$entity)
 /**
  * Returns all entities assigned to a specific Tag. Optionally filtered by entity_type.
  *
- * @param $tag object Valid Tag object.
- * @param $entity_type enum Optional filter for type of entity being queried. Valid values: 'Individual', 'Organization', 'Household', 'Group', 'Contact_action'.
+ * @param  $tag         object  Valid Tag object.
+ * @param  $entity_type enum    Optional filter for type of entity being queried. Valid values: 'Individual', 'Organization', 'Household', 'Group', 'Contact_action'.
  *
- * @return array An array of entity objects (Individuals and/or Organizations and/or etc.).
+ * @return $entities    Array   An array of entity objects (Individuals and/or Organizations and/or etc.).
  * @access public
  */
 function crm_get_entities_by_tag(&$tag, $entity_type = null)
@@ -167,11 +170,11 @@ function crm_tags_by_entity(&$entity)
 {
     require_once 'CRM/Core/BAO/EntityTag.php';
 
-    if (! isset($entity->contact_id)) {
+    if (! isset($entity->id)) {
         return _crm_error('Required parameters missing');
     }
 
-    $entityID=$entity->contact_id;
+    $entityID=$entity->id;
     return CRM_Core_BAO_EntityTag::getTag($entityTable = 'civicrm_contact', $entityID);
 
 }
@@ -191,6 +194,7 @@ function crm_delete_entity_tag(&$entity_tag)
     }
 
     $params=array('id' => $entity_tag->id );
+    
     
     return CRM_Core_BAO_EntityTag::del($params);
 }

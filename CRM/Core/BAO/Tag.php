@@ -94,6 +94,7 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
         $tag->id = $id;
         $tag->delete();
         CRM_Core_Session::setStatus( ts('Selected Tag has been Deleted Successfuly.') );
+        return true;
     }
 
     /**

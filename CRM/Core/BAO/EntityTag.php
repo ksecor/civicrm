@@ -55,12 +55,12 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
     static function &getTag($entityTable = 'civicrm_contact', $entityID) 
     {
         $tag = array();
-
+        
         $entityTag =& new CRM_Core_BAO_EntityTag();
         $entityTag->entity_table = $entityTable;
         $entityTag->entity_id = $entityID;
         $entityTag->find();
-
+        
         while ($entityTag->fetch()) {
             $tag[$entityTag->tag_id] = $entityTag->tag_id;
         } 
@@ -87,7 +87,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         if ( ! $dataExists ) {
             return null;
         }
-
+        
         $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->save( );
@@ -123,7 +123,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->delete( );
-        return $entityTag;
+        //return $entityTag;
     }
 
 
