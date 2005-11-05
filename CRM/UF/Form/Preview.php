@@ -73,33 +73,43 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     function preProcess()
     {      
         require_once 'CRM/Core/BAO/UFGroup.php';
-        
+        $flag = false;
         $field = CRM_Utils_Request::retrieve('field', $this, true , 0);
        
         $fid             = $this->get( 'fieldId' ); 
         $this->_gid      = $this->get( 'id' );
-        $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action );
-       
+        $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid);
+      
         // preview for field
        
         if( $field ) {
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
             $fieldDAO->find(true);
+           
             $name = $fieldDAO->field_name;
+            
             if ($fieldDAO->location_type_id) {
                 $name .= '-'.$fieldDAO->location_type_id;
             }
             if ($fieldDAO->phone_type) {
                 $name .= '-'.$fieldDAO->phone_type;
             }
-              
-            $fieldArray[$name]= $this->_fields[$fieldDAO->field_name];
+           
+            $fieldArray[$name]= $this->_fields[$name];
             $this->_fields = $fieldArray;
+            if (! is_array($this->_fields[$name])) {
+                $flag = true;
+            }
             $this->assign('previewField',true);
         }
+        if ( $flag ) {
+            $this->assign('viewOnly',false);
+        } else {
+            $this->assign('viewOnly',true);
+        }
         $this->set('fieldId',null);
-        $this->assign("fields",$this->_fields);
+        $this->assign("fields",$this->_fields); 
     }
 
 

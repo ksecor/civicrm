@@ -5,6 +5,7 @@
 {/if}
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
+{if $viewOnly }
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
@@ -75,6 +76,10 @@
     {/if}
     {/strip}
 </div> {* end crm-container div *}
+{else}
+	{capture assign=infoMessage}{ts}This Civicrm profile field is view only.{/ts}{/capture}
+	{include file="CRM/common/info.tpl"}
+{/if}
 {/if} {* fields array is not empty *}
 
 
