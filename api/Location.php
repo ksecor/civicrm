@@ -35,7 +35,7 @@
  * @param array       $params      input properties
  * @param enum        context_name Name of a valid Context
  *  
- * @return CRM_Contact or CRM_Error (db error or contact was not valid)
+ * @return CRM_Location or CRM_Error (db error or contact was not valid)
  *
  * @access public
  */
@@ -85,8 +85,8 @@ function crm_create_location(&$contact, $params) {
     
     $ids = array();
     require_once 'CRM/Core/BAO/Location.php';
-    CRM_Core_BAO_Location::add($values, $ids,1);
-    return $contact;
+    $location = CRM_Core_BAO_Location::add($values, $ids,1);
+    return $location;
 }
 
 
@@ -156,8 +156,8 @@ function crm_update_location(&$contact, $location_type, $params) {
     $loc['location_type_id'] = $locationTypeId;
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
-    CRM_Core_BAO_Location::add($values, $ids, 1);
-    return $contact;
+    $location = CRM_Core_BAO_Location::add($values, $ids, 1);
+    return $location;
 
 }
 
