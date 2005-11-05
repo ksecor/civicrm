@@ -28,7 +28,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM514.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM520.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM521.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM522.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM522.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM523.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
 
@@ -70,7 +71,7 @@ class UnitTests extends GroupTest {
 
         // tag api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteTag.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
