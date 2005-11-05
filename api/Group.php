@@ -188,7 +188,10 @@ function crm_delete_group(&$group) {
 
 function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method = 'Admin' ) {
     _crm_initialize( );
-
+    
+    if(! isset( $group->id )) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
