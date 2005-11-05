@@ -67,6 +67,7 @@ class test_RSTest_UpdateContact
     
     private function _getContact($start, $noOfContact)
     {
+        require_once 'CRM/Contact/DAO/Contact.php';
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
@@ -82,6 +83,7 @@ class test_RSTest_UpdateContact
     function getZipCodeInfo( ) {
         $offset = mt_rand( 1, 43000 );
         $query = "SELECT zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
+        require_once 'CRM/Core/DAO.php';
         $dao = new CRM_Core_DAO( );
         $dao->query( $query );
         while ( $dao->fetch( ) ) {
@@ -129,6 +131,7 @@ class test_RSTest_UpdateContact
      */
     private function _addLocation($locationType, $contactId, $setPrimary, $domain=false)
     {
+        require_once 'CRM/Core/DAO/Location.php';
         $locationDAO                   =& new CRM_Core_DAO_Location();
         $locationDAO->is_primary       = $setPrimary;
         $locationDAO->location_type_id = $locationType;
@@ -145,14 +148,15 @@ class test_RSTest_UpdateContact
         // add two phones for each location
         $this->_addPhone($locationDAO->id, test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('phoneType'), test_RSTest_Common::ARRAY_SHIFT_USE), true);
         $this->_addPhone($locationDAO->id, test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('phoneType'), test_RSTest_Common::ARRAY_SHIFT_USE), false);
-
+        
+        require_once 'CRM/Contact/DAO/Contact.php';
         // need to get sort name to generate email id
         $contactDAO     =& new CRM_Contact_DAO_Contact();
         $contactDAO->id = $contactId;
         $contactDAO->find(true);
         // get the sort name of the contact
         $sortName       = $contactDAO->sort_name;
-
+        
         // add 2 email for each location
         for ($emailId=1; $emailId<=2; $emailId++) {
             $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
@@ -173,6 +177,7 @@ class test_RSTest_UpdateContact
      */
     private function _addAddress($locationId)
     {
+        require_once 'CRM/Core/DAO/Address.php';
         $addressDAO                                    =& new CRM_Core_DAO_Address();
         // add addresses now currently we are adding only 1 address for each location
         $addressDAO->location_id                       = $locationId;
@@ -226,6 +231,7 @@ class test_RSTest_UpdateContact
     private function _addPhone($locationId, $phoneType, $primary=false)
     {
         if ($locationId % 3) {
+            require_once 'CRM/Core/DAO/Phone.php';
             $phoneDAO              =& new CRM_Core_DAO_Phone();
             $phoneDAO->location_id = $locationId;
             $phoneDAO->is_primary  = $primary;
@@ -252,6 +258,7 @@ class test_RSTest_UpdateContact
     private function _addEmail($locationId, $sortName, $primary=false)
     {
         if ($locationId % 7) {
+            require_once 'CRM/Core/DAO/Email.php';
             $emailDAO              =& new CRM_Core_DAO_Email();
             $emailDAO->location_id = $locationId;
             $emailDAO->is_primary  = $primary;

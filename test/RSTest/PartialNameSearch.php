@@ -58,6 +58,7 @@ class test_RSTest_PartialNameSearch
                                  'sort_name'    => $this->_partialName
                                  );
         
+        require_once 'CRM/Contact/BAO/Query.php';
         $contactBAO     =& new CRM_Contact_BAO_Query($arrayForSearch);
         $count          = $contactBAO->searchQuery(0, 0, null, true);
         return $count;

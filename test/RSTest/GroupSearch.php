@@ -62,6 +62,7 @@ class test_RSTest_GroupSearch
                                                          $this->_groupNo => 1
                                                          )
                                  );
+        require_once 'CRM/Contact/BAO/Query.php';
         $contactBAO     =& new CRM_Contact_BAO_Query($arrayForSearch);
         $count          = $contactBAO->searchQuery(0, 0, null, true);
         return $count;

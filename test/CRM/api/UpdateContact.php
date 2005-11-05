@@ -16,28 +16,15 @@ class TestOfUpdateContactAPI extends UnitTestCase
     {
     }
     
-//     function testCreateIndividual()
-//     {
-//         $params = array('first_name'    => 'manish',
-//                         'last_name'     => 'zope',
-//                         'location_type' => 'Home', 
-//                         'im'            => 'mlzope', 
-//                         'im_provider'   => 'AIM',
-//                         'phone'         => '123456', 
-//                         'phone_type'    => 'Phone', 
-//                         'email'         => 'manish@yahoo.com'
-//                         );
-//         $contact =& crm_create_contact($params, 'Individual');
-//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-//         $this->assertEqual($contact->contact_type, 'Individual');
-//         $this->_individual = $contact;
-//     }
-
     function testCreateIndividual()
     {
         $params = array('first_name'    => 'manish',
                         'last_name'     => 'zope',
                         'location_type' => 'Home', 
+                        'im'            => 'mlzope', 
+                        'im_provider'   => 'AIM',
+                        'phone'         => '123456', 
+                        'phone_type'    => 'Phone', 
                         'email'         => 'manish@yahoo.com'
                         );
         $contact =& crm_create_contact($params, 'Individual');
@@ -45,6 +32,19 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individual = $contact;
     }
+
+//     function testCreateIndividual()
+//     {
+//         $params = array('first_name'    => 'manish',
+//                         'last_name'     => 'zope',
+//                         'location_type' => 'Home', 
+//                         'email'         => 'manish@yahoo.com'
+//                         );
+//         $contact =& crm_create_contact($params, 'Individual');
+//         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+//         $this->assertEqual($contact->contact_type, 'Individual');
+//         $this->_individual = $contact;
+//     }
 
 //     function testCreateHousehold() 
 //     {
@@ -64,36 +64,36 @@ class TestOfUpdateContactAPI extends UnitTestCase
 //         $this->_organization = $contact;
 //     }
     
+    function testUpdateContactIndividual() 
+    {
+        $params = array('contact_id'    => $this->_individual->id, 
+                        'location_type' => 'Home', 
+                        'im'            => 'ManishZope', 
+                        'im_provider'   => 'Yahoo',
+                        'phone'         => '999999', 
+                        'phone_type'    => 'Mobile', 
+                        'email'         => 'manish@gmail.com'
+                        );
+        $contact = $this->_individual;
+        $contact = crm_update_contact($contact, $params);
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+        $this->assertEqual($contact->contact_type_object->first_name, 'manish');
+        $this->assertEqual($contact->contact_type_object->last_name , 'zope');
+        $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');
+        $this->assertEqual($contact->location[1]->email[1]->email, 'manish@gmail.com');
+    }
+
 //     function testUpdateContactIndividual() 
 //     {
-//         $params = array('contact_id'    => $this->_individual->id, 
-//                         'location_type' => 'Main', 
-//                         'im'            => 'kurundssyahoo', 
-//                         'im_provider'   => 'AIM',
-//                         'phone'         => '999999', 
-//                         'phone_type'    => 'Phone', 
+//         $params = array('contact_id'    => $this->_individual->id,
+//                         'location_type' => 'Home',
 //                         'email'         => 'kurund@yahoo.com'
 //                         );
 //         $contact = $this->_individual;
 //         $contact = crm_update_contact($contact, $params);
 //         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-//         $this->assertEqual($contact->contact_type_object->first_name, 'kurund');
-//         $this->assertEqual($contact->contact_type_object->last_name , 'jalmi');
-//         $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');
 //         $this->assertEqual($contact->location[1]->email[1]->email, 'kurund@yahoo.com');
 //     }
-
-    function testUpdateContactIndividual() 
-    {
-        $params = array('contact_id'    => $this->_individual->id,
-                        'location_type' => 'Home',
-                        'email'         => 'kurund@yahoo.com'
-                        );
-        $contact = $this->_individual;
-        $contact = crm_update_contact($contact, $params);
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->location[1]->email[1]->email, 'kurund@yahoo.com');
-    }
 
 //     function testUpdateContactHousehold() 
 //     {

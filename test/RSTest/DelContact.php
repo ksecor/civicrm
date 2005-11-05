@@ -64,6 +64,7 @@ class test_RSTest_DelContact
      */
     private function _getContact($start, $noOfContact)
     {
+        require_once 'CRM/Contact/DAO/Contact.php';
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
@@ -88,12 +89,15 @@ class test_RSTest_DelContact
      */
     private function _deleteContactFromGroup($contactId) 
     {
+        require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContactDAO =& new CRM_Contact_DAO_GroupContact();
         $groupContactDAO->contact_id = $contactId;
         $groupContactDAO->delete();
     }
     
-    public function _deleteSubscriptionHistory($contactId) {
+    public function _deleteSubscriptionHistory($contactId) 
+    {
+        require_once 'CRM/Contact/BAO/SubscriptionHistory.php';
         $historyDAO =& new CRM_Contact_BAO_SubscriptionHistory();
         $historyDAO->contact_id = $contactId;
         $historyDAO->delete();
@@ -112,10 +116,12 @@ class test_RSTest_DelContact
      */
     private function _deleteRelOfContact($contactId) 
     {
+        require_once 'CRM/Contact/DAO/Relationship.php';
         $relationshipDAO =& new CRM_Contact_DAO_Relationship();
         $relationshipDAO->contact_id_a = $contactId;
         $relationshipDAO->delete();
         
+        require_once 'CRM/Contact/DAO/Relationship.php';
         $relationshipDAO =& new CRM_Contact_DAO_Relationship();
         $relationshipDAO->contact_id_b = $contactId;
         $relationshipDAO->delete();
@@ -133,12 +139,14 @@ class test_RSTest_DelContact
      */
     private function _deleteNote($contactId)
     {
+        require_once 'CRM/Core/DAO/Note.php';
         // need to delete for both entity_id
         $noteDAO = new CRM_Core_DAO_Note();
         $noteDAO->entity_table = 'civicrm_contact';
         $noteDAO->entity_id   = $contactId;
         $noteDAO->delete();
         
+        require_once 'CRM/Core/DAO/Note.php';
         // and the creator contact id
         $noteDAO = new CRM_Core_DAO_Note();
         $noteDAO->contact_id = 1;        
@@ -148,8 +156,9 @@ class test_RSTest_DelContact
 
     private function _deleteActivityHistory($contactId)
     {
+        require_once 'CRM/Core/DAO/ActivityHistory.php';
         $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
-
+        
         $activityHistoryDAO->entity_table = 'civicrm_contact';
         $activityHistoryDAO->entity_id    = $contactId;
         $activityHistoryDAO->delete();
@@ -166,6 +175,7 @@ class test_RSTest_DelContact
      */
     private function _deleteLocation($contactId)
     {
+        require_once 'CRM/Core/DAO/Location.php';
         $locationDAO =& new CRM_Core_DAO_Location();
         $locationDAO->entity_id = $contactId;
         $locationDAO->entity_table = CRM_Contact_DAO_Contact::getTableName();
@@ -222,6 +232,7 @@ class test_RSTest_DelContact
             // fix household and org primary contact ids
             $misc = array('Household', 'Organization');
             foreach ($misc as $name) {
+                require_once 'CRM/Contact/DAO/'.$name.'.php';
                 eval( '$object =& new CRM_Contact_DAO_' . $name . '();' );
                 $object->primary_contact_id = $id;
                 $object->find();
@@ -231,11 +242,13 @@ class test_RSTest_DelContact
                     $object->save();
                 }
             }
-
+            
+            require_once 'CRM/Contact/DAO/Contact.php';
             // get the contact type
             $contactDAO =& new CRM_Contact_DAO_Contact();
             $contactDAO->id = $id;
             if ($contactDAO->find(true)) {
+                require_once 'CRM/Contact/BAO/'.$contactDAO->contact_type.'.php';
                 eval( '$object =& new CRM_Contact_BAO_' . $contactDAO->contact_type . '();' );
                 $object->contact_id = $contactDAO->id;
                 $object->delete();

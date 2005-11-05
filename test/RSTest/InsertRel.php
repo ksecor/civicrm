@@ -65,6 +65,7 @@ class test_RSTest_InsertRel
     
     private function _getContact($start, $noOfContact)
     {
+        require_once 'CRM/Contact/DAO/Contact.php';
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id,contact_type');
@@ -94,6 +95,7 @@ class test_RSTest_InsertRel
             }
         }
         
+        require_once 'CRM/Contact/DAO/Relationship.php';
         $relationshipDAO            =& new CRM_Contact_DAO_Relationship();
         $relationshipDAO->is_active = 1; // all active for now.
         

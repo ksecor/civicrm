@@ -35,6 +35,7 @@
  *
  */
 
+
 class test_RSTest_AddContactToGroup
 {
     private $_contactArray = array();
@@ -59,6 +60,7 @@ class test_RSTest_AddContactToGroup
      */
     private function _getContact($start, $noOfContact)
     {
+        require_once 'CRM/Contact/DAO/Contact.php';
         $contactDAO = new CRM_Contact_DAO_Contact();
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
@@ -86,11 +88,13 @@ class test_RSTest_AddContactToGroup
             ob_flush();
             flush();
             
+            require_once 'CRM/Contact/DAO/GroupContact.php';
+            require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
             $groupContactDAO             =& new CRM_Contact_DAO_GroupContact();
             $groupContactDAO->group_id   = test_RSTest_Common::getRandomElement(test_RSTest_Common::getValue('group'), test_RSTest_Common::ARRAY_DIRECT_USE);
             $groupContactDAO->contact_id = $id;
             $groupContactDAO->status     = test_RSTest_Common::getRandomElement(array_values(test_RSTest_Common::$groupStatus), test_RSTest_Common::ARRAY_DIRECT_USE);
-
+            
             $subscriptionHistoryDAO             = new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistoryDAO->contact_id = $groupContactDAO->contact_id;
             $subscriptionHistoryDAO->group_id   = $groupContactDAO->group_id;

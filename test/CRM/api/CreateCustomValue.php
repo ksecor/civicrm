@@ -7,8 +7,10 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
     protected $_individual    = array();
     protected $_houseHold     = array();
     protected $_organization  = array();
+    protected $_organization01  = array();
     protected $_customFieldI  = array();
     protected $_customFieldH  = array();
+    protected $_customFieldO  = array();
     protected $_customFieldC1 = array();
     protected $_customFieldC2 = array();
     
@@ -23,6 +25,7 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
     /**************************************
      * Create Contacts for the Tests
      *************************************/
+    
     function testCreateIndividual() 
     {
         $params = array('first_name'    => 'abc1',
@@ -54,9 +57,22 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
         $this->_organization = $contact;
     }
     
+    function testCreateOrganization01() 
+    {
+        $params = array('organization_name' => 'The abc01 Organization');
+        $contact =& crm_create_contact($params, 'Organization');
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+        $this->assertEqual($contact->contact_type, 'Organization');
+        $this->_organization01 = $contact;
+    }
+    
+    
+    
+    
     /**************************************
      * Create Custom Group and Custom Fields for the Tests
      *************************************/
+    
     function testCreateCustomGroupFieldOptionC()
     {
         $params = array('domain_id' => 1,
@@ -264,9 +280,42 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
         $this->_customFieldH = $customField;
     }
     
+    function testCreateCustomGroupFieldOptionO()
+    {
+        $params = array('domain_id' => 1,
+                        'title' => 'New Group 4 For Creating Custom Field',
+                        'name'  => 'new_group_4',
+                        'weight' => 6,
+                        'style' => 'Inline',
+                        'collapse_display' => 0,
+                        'help_pre' => 'This is Pre Help For New Group 4.',
+                        'help_post' => 'This is for extending ORGANIZATION type of Class.',
+                        'is_active' => 1
+                        );
+        $class_name = 'Organization';
+        $customGroup =& crm_create_custom_group($class_name, $params);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->_customGroupO = $customGroup;
+        
+        $paramsF = array('label' => 'Test Field 1 for Group 4',
+                         'name'  => 'test_field_1_group_4',
+                         'weight' => 2,
+                         'data_type' => 'Memo',
+                         'html_type' => 'Text Area',
+                         'is_searchable' => '1', 
+                         'is_active' => 1,
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 4',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 4'
+                         );
+        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->_customFieldO = $customField;
+    }
+    
     /**************************************
      * Custom Value for the Tests.
      *************************************/
+    
     function testCustomValueI()
     {
         $value = array ('value' => '3');
@@ -287,8 +336,22 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
     
     function testCustomValueH()
     {
-        $value = array('value' => 'This is demo Memo');
+        $value = array('value' => 'This is demo Memo for Household');
         $customValue = crm_create_custom_value('civicrm_contact', $this->_houseHold->id, $this->_customFieldH, $value);
+        $this->assertIsA($customValue, 'CRM_Core_BAO_CustomValue');
+    }
+    
+    function testCustomValueO()
+    {
+        $value = array('value' => 'This is demo Memo for Organization');
+        $customValue = crm_create_custom_value('civicrm_contact', $this->_organization->id, $this->_customFieldO, $value);
+        $this->assertIsA($customValue, 'CRM_Core_BAO_CustomValue');
+    }
+    
+    function testCustomValueO()
+    {
+        $value = array('value' => 'This is demo Memo for Organization01');
+        $customValue = crm_create_custom_value('civicrm_contact', $this->_organization01->id, $this->_customFieldO, $value);
         $this->assertIsA($customValue, 'CRM_Core_BAO_CustomValue');
     }
     /*

@@ -70,13 +70,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateRelationship.php');
 
         // tag api
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteTag.php');
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityTag.php');
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
-        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
-     }
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateTag.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteTag.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityTag.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
+    }
 
 }
 
