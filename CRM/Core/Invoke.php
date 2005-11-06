@@ -208,7 +208,7 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Activity.php';
                     $view =& new CRM_Contact_Page_View_Activity( );
                 }
-                
+
                 break;
                 
             case 'vcard':

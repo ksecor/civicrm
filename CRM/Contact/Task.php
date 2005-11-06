@@ -52,7 +52,8 @@ class CRM_Contact_Task {
         HOUSEHOLD_CONTACTS    =  512,
         ORGANIZATION_CONTACTS = 1024,
         MAP_CONTACTS          = 2048,
-        EXPORT_CONTACTS       = 4096;
+        EXPORT_CONTACTS       = 4096,
+        RECORD_CONTACTS       = 8192;
 
     /**
      * the task array
@@ -90,6 +91,7 @@ class CRM_Contact_Task {
                                   8    => ts( 'Delete Contacts'               ),
                                   512  => ts( 'Add Contacts to Household'     ),
                                   1024 => ts( 'Add Contacts to Organization'  ),
+                                  8192 => ts( 'Record Activity for Contacts'  ),
                                   2048 => ts( 'Map Contacts using Google Maps'),
                                   16   => ts( 'New Smart Group'               ),
                                   );
