@@ -49,11 +49,12 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        MENU      =  1,
-        SHORTCUTS =  2,
-        SEARCH    =  4,
-        ADD       =  8,
-        MAIL      = 16;
+        MENU       =  1,
+        SHORTCUTS  =  2,
+        SEARCH     =  4,
+        ADD        =  8,
+        MAIL       = 16,
+        CONTRIBUTE = 32;
 
     /**
      * template file names for the above blocks
@@ -95,6 +96,10 @@ class CRM_Core_Block {
                                                                    'info'     => ts('CiviMail Menu'),
                                                                    'subject'  => ts('CiviMail'),
                                                                    'active'   => false ),
+                                       self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
+                                                                   'info'     => ts('CiviContribute Menu'),
+                                                                   'subject'  => ts('CiviContribute'),
+                                                                   'active'   => true ),
                                        );
         }
     }
@@ -196,6 +201,8 @@ class CRM_Core_Block {
             self::setTemplateMenuValues( );
         } else if ( $id == self::MAIL ) {  
             self::setTemplateMailValues( ); 
+        } else if ( $id == self::CONTRIBUTE ) {   
+            self::setTemplateContributeValues( );
         }
     }
 
@@ -263,6 +270,38 @@ class CRM_Core_Block {
             $values[] = $value;
         }
         self::setProperty( self::MAIL, 'templateValues', array( 'shortCuts' => $values ) );
+    }
+
+    /**
+     * create the list of mail urls for the application and format is as a block
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateContributeValues( ) {
+        static $shortCuts = null;
+        
+        if (!($shortCuts)) {
+             $shortCuts = array( array( 'path'  => 'civicrm/contribute',
+                                        'qs'    => 'reset=1&action=add',
+                                        'title' => ts('Create Page') ),
+                                 array( 'path'  => 'civicrm/contribute',
+                                        'qs'    => 'reset=1&action=browse',
+                                        'title' => ts('Browse Pages') ),
+                                 array( 'path'  => 'civicrm/contribute/admin',
+                                        'qs'    => 'reset=1',
+                                        'title' => ts('Administer') ),
+                                 );
+        }
+
+        $values = array( );
+        foreach ( $shortCuts as $short ) {
+            $value = array( );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['title'] = $short['title'];
+            $values[] = $value;
+        }
+        self::setProperty( self::CONTRIBUTE, 'templateValues', array( 'shortCuts' => $values ) );
     }
 
     /**

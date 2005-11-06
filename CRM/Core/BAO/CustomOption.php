@@ -115,7 +115,6 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
     static function getCustomOption($fieldId, $inactiveNeeded=false)
     {       
         $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-        //$customOptionDAO->custom_field_id = $fieldId;
         $customOptionDAO->entity_id    = $fieldId;
         $customOptionDAO->entity_table = "civicrm_custom_field";
         if (!$inactiveNeeded) {
@@ -237,6 +236,24 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         return null;
     }
     
+    static function getAssoc( $entity_table, $entity_id, &$values ) {
+        require_once 'CRM/Core/DAO/CustomOption.php';  
+        $dao =& new CRM_Core_DAO_CustomOption( );  
+        $dao->entity_table = $entity_table;
+        $dao->entity_id    = $entity_id;  
+        $dao->find( ); 
+
+        // now extract the amount 
+        $values['value'] = array( ); 
+        $values['label'] = array( ); 
+        $index  = 1; 
+         
+        while ( $dao->fetch( ) ) { 
+            $values['value'][$index] = $dao->value; 
+            $values['label'][$index] = $dao->label; 
+            $index++; 
+        } 
+    }
 
 }
 ?>

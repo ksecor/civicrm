@@ -103,11 +103,14 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
 
         if ( $form ) {
             $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=update&reset=1&id=' . $this->_id ) );
 
-            require_once 'CRM/Utils/Wrapper.php';
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( $form, null, $action );
+            require_once 'CRM/Core/Controller/Simple.php'; 
+            $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action); 
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=update&reset=1&id=' . $this->_id ) );
+            $controller->set('id', $this->_id); 
+            $controller->process(); 
+            $controller->run(); 
         }
 
         return parent::run();

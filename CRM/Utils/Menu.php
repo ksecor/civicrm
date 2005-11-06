@@ -273,13 +273,13 @@ class CRM_Utils_Menu {
                             'access'  => CRM_Utils_System::checkPermission('administer CiviDonate') &&
                                          CRM_Utils_System::checkPermission( 'access CiviDonate' ),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::NORMAL_ITEM,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 50,
                             ),
                       
                       array(
                             'path'    => 'civicrm/contribute/admin/contributionType',
-                            'title'   => ts('Contibution Type'),
+                            'title'   => ts('Contribution Type'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviDonate',
@@ -289,7 +289,7 @@ class CRM_Utils_Menu {
                       
                       array(
                             'path'    => 'civicrm/contribute/admin/contributionMode',
-                            'title'   => ts('Contibution Mode'),
+                            'title'   => ts('Contribution Mode'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviDonate',

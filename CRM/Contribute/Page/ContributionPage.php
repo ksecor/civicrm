@@ -150,17 +150,18 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
     }
 
     /**
-     * Preview custom group
+     * Preview contribution page
      *
-     * @param int $id custom group id
+     * @param int $id contribute page id
      * @return void
      * @access public
      */
-    function preview($id)
+    function preview( $id )
     {
+        require_once 'CRM/Core/Controller/Simple.php';
         $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action);
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/commerce/contribution', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse'));
         $controller->set('id', $id);
         $controller->process();
         $controller->run();

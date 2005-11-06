@@ -87,22 +87,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     {
         $defaults = parent::setDefaultValues( );
 
-        require_once 'CRM/Core/DAO/CustomOption.php'; 
-        $dao =& new CRM_Core_DAO_CustomOption( ); 
-        $dao->entity_table = 'civicrm_contribution_page'; 
-        $dao->entity_id    = $this->_id; 
-        $dao->find( );
-        
-        // now extract the amount
-        $defaults['value'] = array( );
-        $defaults['label'] = array( );
-        $index  = 1;
-        
-        while ( $dao->fetch( ) ) {
-            $defaults['value'][$index] = $dao->value;
-            $defaults['label'][$index] = $dao->label;
-            $index++;
-        }
+        require_once 'CRM/Core/BAO/CustomOption.php'; 
+        CRM_Core_DAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
 
         return $defaults;
     }

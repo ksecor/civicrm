@@ -60,7 +60,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     public function preProcess()
     {
         // current contribution page id
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
+        $this->_id = $this->get( 'id' );
 
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
