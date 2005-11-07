@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-03 17:15+0100\n"
+"POT-Creation-Date: 2005-11-07 10:40+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
-#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
-#: CRM/Core/DAO/EmailHistory.php CRM/Core/DAO/Meeting.php
-#: CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Component.php
-#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/EmailHistory.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+#: CRM/Mailing/Form/Component.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 #: templates/CRM/Mailing/Page/Report.tpl
@@ -30,47 +30,42 @@ msgid "Subject"
 msgstr "หัวข้อ"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please enter a valid subject."
-msgstr "กรุณาใส่หัวข้อให้ถูกต้อง."
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php CRM/Profile/Form/Dojo.php
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
+#: CRM/Profile/Form/Dojo.php
 msgid "Date and Time"
 msgstr "วันที่ และ เวลา"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/Form/Task/Record.php
 msgid "Select a valid date."
 msgstr "เลือกวันที่ถูกต้อง."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please select Scheduled Date."
-msgstr "กรุณาเลือกตารางวันที่"
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: templates/CRM/Activity/Form/Phonecall.tpl
+#: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Duration"
 msgstr "ระยะเวลา"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Core/DAO/Activity.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/Meeting.php
+#: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr "สถานที่"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Activity.php
-#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
-#: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php
+#: CRM/Profile/Selector/Listings.php
 msgid "Details"
 msgstr "รายละเอียด"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector/Activity.php
-#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
-#: CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Task/Record.php
+#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -78,8 +73,7 @@ msgstr "รายละเอียด"
 msgid "Status"
 msgstr "สถานะ"
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/Phonecall.php
 msgid "Please select status."
 msgstr "กรุณาเลือกสถานะ."
 
@@ -90,9 +84,9 @@ msgid "Meeting"
 msgstr "ลบกิจกรรม"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php
-#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php
-#: CRM/Core/DAO/ActivityType.php CRM/History/Selector/Activity.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php
+#: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Type"
 msgstr "ประเภทกิจกรรม"
 
@@ -730,6 +724,10 @@ msgstr "ต่อไป >>"
 msgid "Search Results"
 msgstr "ค้นหา"
 
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
+msgid "Record Activity for Contacts"
+msgstr ""
+
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 #, fuzzy
 msgid "Update Smart Group"
@@ -1249,6 +1247,14 @@ msgid "Notes"
 msgstr "บันทึก"
 
 #: CRM/Activity/Form/Meeting.php
+msgid "Please enter a valid subject."
+msgstr "กรุณาใส่หัวข้อให้ถูกต้อง."
+
+#: CRM/Activity/Form/Meeting.php
+msgid "Please select Scheduled Date."
+msgstr "กรุณาเลือกตารางวันที่"
+
+#: CRM/Activity/Form/Meeting.php
 msgid "Meeting \"%1\" has been logged to Activity History."
 msgstr "การประชุม \"%1\" ได้ถูกบัันทึกลงในประวัติกิจกรรมแล้ว"
 
@@ -1264,11 +1270,6 @@ msgstr "การประชุม \"%1\" ได้ถูกบันทึก�
 #, fuzzy
 msgid "- select activity type -"
 msgstr "ประเภทกิจกรรม"
-
-#: CRM/Activity/Form/OtherActivity.php
-#, fuzzy
-msgid "Please select the Activity Type."
-msgstr "กรุณาเลือกตารางวันที่"
 
 #: CRM/Activity/Form/OtherActivity.php
 #, fuzzy
@@ -2462,6 +2463,10 @@ msgstr ""
 msgid "Print Contact List"
 msgstr ""
 
+#: CRM/Contact/Form/Task/Record.php
+msgid "Your user record does not have a valid user ID"
+msgstr ""
+
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Remove Members from Group"
 msgstr ""
@@ -2607,6 +2612,7 @@ msgstr ""
 #: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "With Contact"
 msgstr ""
 
@@ -4799,6 +4805,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 #, fuzzy
 msgid "Calender"
 msgstr "เพศ"
@@ -4807,18 +4814,21 @@ msgstr "เพศ"
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Hrs"
 msgstr ""
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
 msgstr ""
 
@@ -4852,6 +4862,7 @@ msgid "View Scheduled Activity"
 msgstr "ลบกิจกรรม"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Activity will be moved to Activity History when status is 'Completed'."
 msgstr ""
 
@@ -5748,6 +5759,11 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
 msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Record.tpl
+#, fuzzy
+msgid "Record an Activity"
+msgstr "ลบกิจกรรม"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 msgid "Remove Members"
@@ -7363,6 +7379,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Please select the Activity Type."
+#~ msgstr "กรุณาเลือกตารางวันที่"
 
 #, fuzzy
 #~ msgid "Edit Profile Name"

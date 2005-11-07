@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-03 17:15+0100\n"
+"POT-Creation-Date: 2005-11-07 10:40+0100\n"
 "PO-Revision-Date: 2005-10-23 18:45+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
-#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
-#: CRM/Core/DAO/EmailHistory.php CRM/Core/DAO/Meeting.php
-#: CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Component.php
-#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/EmailHistory.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+#: CRM/Mailing/Form/Component.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 #: templates/CRM/Mailing/Page/Report.tpl
@@ -32,47 +32,42 @@ msgid "Subject"
 msgstr "Asunto"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please enter a valid subject."
-msgstr "Por Favor, introduce un asunto válido."
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php CRM/Profile/Form/Dojo.php
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
+#: CRM/Profile/Form/Dojo.php
 msgid "Date and Time"
 msgstr "Fecha y Hora"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/Form/Task/Record.php
 msgid "Select a valid date."
 msgstr "Selecciona una fecha válida"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please select Scheduled Date."
-msgstr "Por Favor, selecciona una fecha programada."
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: templates/CRM/Activity/Form/Phonecall.tpl
+#: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Duration"
 msgstr "Duración"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Core/DAO/Activity.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/Meeting.php
+#: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr "Localidad"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Activity.php
-#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
-#: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php
+#: CRM/Profile/Selector/Listings.php
 msgid "Details"
 msgstr "Detalles"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector/Activity.php
-#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
-#: CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Task/Record.php
+#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -80,8 +75,7 @@ msgstr "Detalles"
 msgid "Status"
 msgstr "Estado"
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/Phonecall.php
 msgid "Please select status."
 msgstr "Por Favor, selecciona el estado."
 
@@ -91,9 +85,9 @@ msgid "Meeting"
 msgstr "Cita"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php
-#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php
-#: CRM/Core/DAO/ActivityType.php CRM/History/Selector/Activity.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php
+#: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Type"
 msgstr "Tipo de Actividad"
 
@@ -725,6 +719,11 @@ msgstr "Continuar >>"
 msgid "Search Results"
 msgstr "Buscar Resultados"
 
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
+#, fuzzy
+msgid "Record Activity for Contacts"
+msgstr "No hay historial de actividad para este contacto."
+
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
 msgstr "Actualizar Grupo inteligente"
@@ -1224,6 +1223,14 @@ msgid "Notes"
 msgstr "Notas"
 
 #: CRM/Activity/Form/Meeting.php
+msgid "Please enter a valid subject."
+msgstr "Por Favor, introduce un asunto válido."
+
+#: CRM/Activity/Form/Meeting.php
+msgid "Please select Scheduled Date."
+msgstr "Por Favor, selecciona una fecha programada."
+
+#: CRM/Activity/Form/Meeting.php
 msgid "Meeting \"%1\" has been logged to Activity History."
 msgstr "Cita \"%1\" se ha registrado en el historial de actividad."
 
@@ -1238,10 +1245,6 @@ msgstr "La cita \"%1\" ha sido guardada."
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
 msgstr "- Selecciona el tipo de Actividad -"
-
-#: CRM/Activity/Form/OtherActivity.php
-msgid "Please select the Activity Type."
-msgstr "Por favor, selecciona el tipo de actividad."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "Activity \"%1\" has been logged to Activity History."
@@ -2420,6 +2423,11 @@ msgstr "Confirmar acciones"
 msgid "Print Contact List"
 msgstr "Imprimir listado de contactos"
 
+#: CRM/Contact/Form/Task/Record.php
+#, fuzzy
+msgid "Your user record does not have a valid user ID"
+msgstr "Tu usuario no tiene una dirección de email válida"
+
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Remove Members from Group"
 msgstr "Quitar miembros del Grupo"
@@ -2565,6 +2573,7 @@ msgstr "Creado Por"
 #: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "With Contact"
 msgstr "Con contactos"
 
@@ -4731,6 +4740,7 @@ msgstr "Ver Cita Programada"
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 #, fuzzy
 msgid "Calender"
 msgstr "Sexo"
@@ -4739,18 +4749,21 @@ msgstr "Sexo"
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Hrs"
 msgstr "Hrs"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
 msgstr "Min"
 
@@ -4781,6 +4794,7 @@ msgid "View Scheduled Activity"
 msgstr "Ver Actividad Programada"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
+#: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Activity will be moved to Activity History when status is 'Completed'."
 msgstr ""
 "La Actividad se moverá al Historial de Actividad cuando el estado sea "
@@ -5792,6 +5806,11 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
 msgstr "No hay registros seleccionados para imprimir."
+
+#: templates/CRM/Contact/Form/Task/Record.tpl
+#, fuzzy
+msgid "Record an Activity"
+msgstr "Programar Actividad"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 msgid "Remove Members"
@@ -7591,6 +7610,9 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#~ msgid "Please select the Activity Type."
+#~ msgstr "Por favor, selecciona el tipo de actividad."
 
 #~ msgid ""
 #~ "For 'inline' custom groups, the menu tab will use the title for the first "
