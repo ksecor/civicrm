@@ -24,21 +24,26 @@
 			            <dt>{$cd_value.label} </dt>
 			            <dd>
 			            {assign var="count" value="1"}
+				    {assign var="no" value="1"}
                         {strip}
 			            <table class="form-layout-compressed">
-                        <tr>
+                            <tr> 
 			            {section name=rowLoop start=1 loop=$viewForm.$element_name}
 			            {assign var=index value=$smarty.section.rowLoop.index}
-			            {if $viewForm.$element_name.$index.html != "" }
-				            <td class="labels font-light">{$viewForm.$element_name.$index.html}</td>
-                            {if $count == $cd_value.options_per_line}
-				   	        </tr>
+			            {if $viewForm.$element_name.$index.html != "" } 
+									            
+						{if $no != '1'}, {/if}
+				          	{$viewForm.$element_name.$index.html}
+						{assign var="no" value=`$no+1`}
+
+                                         {if $count == $cd_value.options_per_line}
+				   	        </tr> 
                             <tr>
-					        {assign var="count" value="1"}
-			                {else}
-					        {assign var="count" value=`$count+1`}
+			           		        {assign var="count" value="1"}
+			                   {else}
+						        {assign var="count" value=`$count+1`}
+		        		 {/if} 
 		                    {/if}
-		                {/if}
 			            {/section}
 			            </tr>
                         </table>
@@ -48,8 +53,10 @@
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
                         <dt>{$cd_value.label}</dt>
-                        <dd>&nbsp;{$viewForm.$element_name.html}</dd>
-		            {/if}
+                       <dd>&nbsp;{$viewForm.$element_name.html}</dd> 
+
+
+		                {/if}
                     {/foreach}
                     </dl>
                 </fieldset>

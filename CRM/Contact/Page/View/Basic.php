@@ -78,9 +78,14 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
                     if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox') {
                         
-                        $freezeString = $field['html_type'] == 'Radio' ? "( )" : "[ ]";
-                        $freezeStringChecked = $field['html_type'] == 'Radio' ? "(x)" : "[x]";
+                        //$freezeString = $field['html_type'] == 'Radio' ? "( )" : "[ ]";
+                        //$freezeStringChecked = $field['html_type'] == 'Radio' ? "(x)" : "[x]";
                         
+                        //added
+
+                        $freezeString =  "";
+                        $freezeStringChecked = "";
+
                         $customData = array();
                         if ( $field['html_type'] == 'CheckBox' ) {
                             $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
@@ -99,10 +104,16 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                         $counter = 1;
                         while($coDAO->fetch()) {
                             
-                            $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
-                            $form[$elementName]['html'] .= "<tt>". $checked ."</tt>".$coDAO->label."&nbsp;\n";
-                            $form[$elementName][$counter]['html'] = "<tt>". $checked ."</tt>".$coDAO->label."\n";
-                            $counter++;
+                            //to show only values that are checked
+                           if(in_array($coDAO->value, $customData)){
+                               $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
+                               if($counter!=1)
+                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>,&nbsp;".$coDAO->label;
+                               else
+                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>".$coDAO->label;
+                               $form[$elementName][$counter]['html'] = "<tt>". $checked ."</tt>".$coDAO->label."\n";
+                               $counter++;
+                           }
                         }
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
@@ -118,6 +129,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                                 }
                             }
                         } else {
+
                             $form[$elementName]['html'] = $field['customValue']['data'];
                         }
                     }
@@ -127,16 +139,26 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                             
                         case 'Boolean':
                             
-                            $freezeString = "( )";
-                            $freezeStringChecked = "(x)";
+                            //$freezeString = "( )";
+                            //$freezeStringChecked = "(x)";
+    
+                            $freezeString = "";
+                            $freezeStringChecked = "";
+
                             if ( isset($field['customValue']['data']) ) {
                                 if ( $field['customValue']['data'] == '1' ) {
-                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                                    //$form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes\n";
+
                                 } else {
-                                    $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeStringChecked."</tt>No\n";
+                                    //$form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeStringChecked."</tt>No\n";
+                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>No\n";
+
                                 }
                             } else {
-                                $form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                                //$form[$elementName]['html'] = "<tt>".$freezeString."</tt>Yes&nbsp;<tt>".$freezeString."</tt>No\n";
+                                $form[$elementName]['html'] = "\n";
+
                             }                        
                             
                             break;
