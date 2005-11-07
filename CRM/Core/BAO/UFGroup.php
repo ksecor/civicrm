@@ -496,7 +496,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                 if ( $val1['location_type_id'] == $nameValue[1] ) {
                                     //print_r($val1);
                                     foreach ($val1 as $key2 => $var) {
-                                        //print_r($var);
                                         if (is_array($var)) {
                                             foreach ($var as $k1 => $var1) {
                                                 if (is_array($var1)) {
@@ -508,16 +507,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                                     if ($nameValue[0] == 'im') {
                                                         $values[$index] = $var1['name'];
                                                     }
-                                                    //set the emial values
+                                                    //set the email values
                                                     if ($nameValue[0] == 'email') {
                                                         $values[$index] = $var1['email'];
                                                     }
                                                 } else {
                                                     //set the address values
                                                     if ($nameValue[0] === 'country'  && substr($k1,0,7) === 'country') {
-                                                        $values[$index] = $var1;
+                                                        $country = array('country_id' => $var1 );
+                                                        CRM_Contact_BAO_Contact::lookupValue( $country, 'country', CRM_Core_PseudoConstant::country(), false);
+                                                        $values[$index] = $country['country'];
+                                                        $params[$index] = $var1;
                                                     } else if ($nameValue[0] === 'state_province' && substr($k1,0,14)  === 'state_province' ) {
-                                                        $values[$index] = $var1;
+                                                        $stateProvince = array('state_province_id' => $var1 );
+                                                        CRM_Contact_BAO_Contact::lookupValue( $stateProvince, 'state_province', CRM_Core_PseudoConstant::stateProvince(), false);
+                                                        $values[$index] = $stateProvince['state_province'];
+                                                        $params[$index] = $var1;
                                                     } else if ( $nameValue[0] == $k1 ) {
                                                         $values[$index] = $var1;
                                                     }
@@ -530,7 +535,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                         }
                     }
                 } else {
-                    //echo $name . "=============" .$key . "<br>";
+                    // echo $name . "=============" .$key . "<br>";
                   
                     if ( $name == 'group' ) {
                         $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
@@ -556,15 +561,24 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                         }
                         $values[$index] = implode( ', ', $title );
                         $params[$index] = implode( ',' , $entityTags );
-                    } else if ($name === 'suffix_id') { 
-                        $values[$index] = $val;
+                    } else if ($name == 'individual_prefix' && $key == 'prefix_id') {
+                        $prefix = array('prefix_id' => $val );
+                        CRM_Contact_BAO_Contact::lookupValue( $prefix, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), false);
+                        $values[$index] = $prefix['prefix'];
                         $params[$index] = $val;
-                    } else if ($name === 'prefix_id') { 
-                        $values[$index] = $val;
+                    } else if ($name == 'individual_suffix' && $key == 'suffix_id') {                         
+                        $suffix = array('suffix_id' => $val );
+                        CRM_Contact_BAO_Contact::lookupValue( $suffix, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), false);
+                        $values[$index] = $suffix['suffix'];
                         $params[$index] = $val;
-                    } else if ($name === 'gender_id') { 
-                        $values[$index] = $val;
+                    } else if ($name == 'gender' && $key =='gender_id') { 
+                        $gender = array('gender_id' => $val );
+                        CRM_Contact_BAO_Contact::lookupValue( $gender, 'gender', CRM_Core_PseudoConstant::gender(), false);
+                        $values[$index] = $gender['gender'];
                         $params[$index] = $val;
+                    } else if ($name == 'birth_date' && $key == 'birth_date') {
+                        $values[$index] = CRM_Utils_Date::format( $val, '-' );
+                        //$params[$index] = $val;
                     } else if (substr($name, 0, 6) === 'custom') {
                         require_once 'CRM/Core/BAO/CustomField.php';
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
