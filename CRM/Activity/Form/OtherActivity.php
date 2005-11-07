@@ -66,8 +66,6 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
     }
 
-    
-   
     /**
      * Function to build the form
      *
@@ -85,17 +83,16 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $activityType = CRM_Core_PseudoConstant::activityType(false);
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array(ts('- select activity type -')) + $activityType, 
-                          array('onChange' => 'activity_get_description( )') );
-        $this->addRule('activity_type_id',ts('Please select the Activity Type.'), 'required');
-        $description = $this->addElement('text', 'description', ts('Description'),
-                                         CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
-        $this->addElement('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ) );
-        $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
+        $this->add('select', 'activity_type_id', ts('Activity Type'), array(ts('- select activity type -')) + $activityType, 
+                   array('onChange' => 'activity_get_description( )'), true );
 
-        $this->addElement('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'));
+        $this->add('text', 'description', ts('Description'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
+
+        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ), true );
+
+        $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true);
         $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
-        $this->addRule( 'scheduled_date_time', ts('Please select Scheduled Date.'), 'required' );
         
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());
         $this->add('select','duration_minutes', null,CRM_Core_SelectValues::getMinutes());
@@ -104,49 +101,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'details' ) );
         
-        $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
-        $this->addRule( 'status', ts('Please select status.'), 'required' );
-        
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id);
-       
-        $this->assign('groupTree', $this->_groupTree); 
-
-        $sBlocks = array();
-        $hBlocks = array();
-
-        foreach ($this->_groupTree as $group) {
-            
-            $_groupTitle[]           = $group['title'];
-            $_groupCollapseDisplay[] = $group['collapse_display'];
-            require_once 'CRM/Core/ShowHideBlocks.php';
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
-            
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                
-                $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
-            }
-
-            if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                $hBlocks[] = "'". $group['title'] ."'";
-            } else {
-                $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                $sBlocks[] = "'". $group['title'] ."'";
-            }
-        }
-
-        $showBlocks = implode(",",$sBlocks);
-        $hideBlocks = implode(",",$hBlocks);
-        
-        $this->assign('showBlocks1',$showBlocks);
-        $this->assign('hideBlocks1',$hideBlocks);
-
-        // print_r($this->_groupTree);
-        //exit();
+        $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
     }
 
     /**
@@ -163,7 +118,6 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
 
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             CRM_Core_BAO_OtherActivity::del( $this->_id);
-            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully."));
             return;
         }
 
@@ -171,12 +125,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $params = $this->controller->exportValues( $this->_name );
         $ids = array();
         
-        $dateTime = $params['scheduled_date_time'];
-
-        $dateTime = CRM_Utils_Date::format($dateTime);
-
         // store the date with proper format
-        $params['scheduled_date_time']= $dateTime;
+        $params['scheduled_date_time']= CRM_Utils_Date::format( $params['scheduled_date_time'] );
 
         // store the contact id and current drupal user id
         $params['source_contact_id'] = $this->_userId;
@@ -193,14 +143,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
         
         $otherActivity = CRM_Core_BAO_OtherActivity::add($params, $ids);
-       
+      
         $activityType = CRM_Core_PseudoConstant::activityType(true);
-        // print_r(CRM_Core_BAO_ActivityType::getActivityDescription());
-        
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-        
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$otherActivity->id); 
         
         if($otherActivity->status=='Completed'){
             // we need to insert an activity history record here
@@ -219,10 +163,12 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                 return false;
             }
         }
-       
+             
         if($otherActivity->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
-        } else{
+        } else if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully."));
+        }   else{
             CRM_Core_Session::setStatus( ts('Activity "%1" has been saved.', array( 1 => $otherActivity->subject)) );
         }
     }//end of function

@@ -267,10 +267,10 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all activty types.
      *
      */
-    public static function &activityType( $all=false )
+    public static function &activityType( $all = false, $cond = 'id > 3' )
     {
         if ( ! self::$activityType ) {
-            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all, 'name', 'is_active', 'id > 3' );
+            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all, 'name', 'is_active', $cond );
         }
         return self::$activityType;
     }

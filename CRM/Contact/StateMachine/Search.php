@@ -147,6 +147,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $result = true;
             break;
 
+        case CRM_Contact_Task::RECORD_CONTACTS:
+            $task   = 'CRM_Contact_Form_Task_Record';
+            $result = true;
+            break;
+
         case CRM_Contact_Task::MAP_CONTACTS:
             $task   = 'CRM_Contact_Form_Task_Map';
             break;
