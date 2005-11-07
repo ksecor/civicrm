@@ -91,7 +91,8 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                         
                         
                         $coDAO =& new CRM_Core_DAO_CustomOption();
-                        $coDAO->custom_field_id = $field['id'];
+                        $coDAO->entity_id  = $field['id'];
+                        $coDAO->entity_table = 'civicrm_custom_field';
                         $coDAO->orderBy('weight ASC, label ASC');
                         $coDAO->find( );                    
                         
@@ -106,7 +107,8 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
                             $coDAO =& new CRM_Core_DAO_CustomOption();
-                            $coDAO->custom_field_id = $field['id'];
+                            $coDAO->entity_id    = $field['id'];
+                            $coDAO->entity_table = 'civicrm_custom_field';
                             $coDAO->orderBy('weight ASC, label ASC');
                             $coDAO->find( );
                             
