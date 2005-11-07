@@ -70,7 +70,7 @@ cp $SRC/gpl.txt $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "CiviCRM 1.2BETA version rev$REV snapshot for Mambo on PHP4" > $TRG/version.txt
+echo "CiviCRM 1.2 version rev$REV snapshot for Mambo on PHP4" > $TRG/version.txt
 
 
 # gen zip file
@@ -86,7 +86,7 @@ $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 cp -r com_civicrm/civicrm/mambo/* com_civicrm
 cp -r com_civicrm/civicrm/modules/config.main.php com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.2BETA-rev$REV.zip com_civicrm
+zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.2-rev$REV.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm

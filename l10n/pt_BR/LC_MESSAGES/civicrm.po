@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 10:40+0100\n"
+"POT-Creation-Date: 2005-11-07 18:27+0100\n"
 "PO-Revision-Date: 2005-10-30 19:18+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -5279,21 +5279,20 @@ msgstr ""
 "\">adicionar um</a>."
 
 #: templates/CRM/common/feedback.tpl
-#, fuzzy
-msgid ""
-"<p>This site is running development code towards the 1.2 Beta release.</p>\n"
-"<p>To see a list of known bugs and issues, and to report new bugs, please "
-"use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
-"<p>Please add any comments on the look and feel of these pages, along with "
-"workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgid "This site is running the CiviCRM 1.2 release code."
 msgstr ""
-"<p>Este site esta executando a versão 1.1 Beta. Todas as funcionalidades "
-"devem estar operacionais.</p>\n"
-"<p>Para ver a lista de erros conhecidas, e relatar novos erros(bugs), por "
-"favor use nosso <a href=\"%1\" target=\"_blank\">Sistema bug-tracking</a>.</"
-"p>\n"
-"<p>Por favor adicione qualquer comentário sobre a aparência dessas páginas, "
-"em nosso workfloe em<a href=\"%2\">CiviCRM Pág. de Comentários</a>.</p>"
+
+#: templates/CRM/common/feedback.tpl
+msgid ""
+"To see a list of known bugs and issues, and to report new bugs, please use "
+"our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>."
+msgstr ""
+
+#: templates/CRM/common/feedback.tpl
+msgid ""
+"Please add any comments on the look and feel of these pages, along with "
+"workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
+msgstr ""
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -7615,6 +7614,23 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>This site is running the CiviCRM 1.2 release code.</p>\n"
+#~ "<p>To see a list of known bugs and issues, and to report new bugs, please "
+#~ "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
+#~ "<p>Please add any comments on the look and feel of these pages, along "
+#~ "with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+#~ msgstr ""
+#~ "<p>Este site esta executando a versão 1.1 Beta. Todas as funcionalidades "
+#~ "devem estar operacionais.</p>\n"
+#~ "<p>Para ver a lista de erros conhecidas, e relatar novos erros(bugs), por "
+#~ "favor use nosso <a href=\"%1\" target=\"_blank\">Sistema bug-tracking</a>."
+#~ "</p>\n"
+#~ "<p>Por favor adicione qualquer comentário sobre a aparência dessas "
+#~ "páginas, em nosso workfloe em<a href=\"%2\">CiviCRM Pág. de Comentários</"
+#~ "a>.</p>"
 
 #~ msgid "Please select the Activity Type."
 #~ msgstr "Por favor Selecione o Tipo de Atividade."
