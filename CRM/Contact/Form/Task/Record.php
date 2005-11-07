@@ -88,8 +88,8 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
                    $this->_activityType,
                    true);
 
-        $this->add('text', 'description', ts('Description'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false); 
+        //$this->add('text', 'description', ts('Description'), 
+        //           CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false); 
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ), true ); 
  
