@@ -98,6 +98,7 @@ class CRM_Utils_System {
                                                 'selectfield'        => 'SelectField',
                                                 'individualprefix'   => 'IndividualPrefix',
                                                 'individualsuffix'   => 'IndividualSuffix',
+                                                'versioncheck'       => 'VersionCheck',
                                                 );
     
     /**

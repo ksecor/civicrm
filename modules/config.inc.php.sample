@@ -260,6 +260,16 @@ define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 define('CIVICRM_GEOCODE_METHOD', '' );
 
 /**
+ * Automatically check for new CiviCRM versions
+ *
+ * CiviCRM can be configured to connect periodically to the OpenNGO website and
+ * check for the availability of new versions. Set this value to true if you
+ * want this install to perform such checks (the info about new versions will
+ * be displayed at the main Administer CiviCRM screen).
+ */
+define('CIVICRM_VERSION_CHECK', false);
+
+/**
  * Multi-site Support
  *
  * CiviCRM uses Domain ID keys to allow you to store separate data sets for multiple sites

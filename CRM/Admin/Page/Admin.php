@@ -70,10 +70,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             ksort( $adminPanel[$group] );
         }
 
-//      require_once 'CRM/Utils/VersionCheck.php';
-//      $versionCheck =& CRM_Utils_VersionCheck::singleton();
-//      $this->assign('newVersion',   $versionCheck->newerVersion());
-//      $this->assign('localVersion', $versionCheck->localVersion);
+        require_once 'CRM/Utils/VersionCheck.php';
+        $versionCheck =& CRM_Utils_VersionCheck::singleton();
+        $this->assign('newVersion',   $versionCheck->newerVersion());
+        $this->assign('localVersion', $versionCheck->localVersion);
 
         $this->assign('adminPanel', $adminPanel);
         return parent::run( );
