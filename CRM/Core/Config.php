@@ -271,6 +271,13 @@ class CRM_Core_Config {
     public $geocodeMethod    = '';
 
     /**
+     * Whether CiviCRM should check for newer versions
+     *
+     * @var boolean
+     */
+    public $versionCheck = false;
+
+    /**
      * How long should we wait before checking for new outgoing mailings?
      *
      * @var int
@@ -538,6 +545,10 @@ class CRM_Core_Config {
                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC' ) {
                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
             }
+        }
+
+        if (defined('CIVICRM_VERSION_CHECK') and CIVICRM_VERSION_CHECK) {
+            $this->versionCheck = true;
         }
 
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {

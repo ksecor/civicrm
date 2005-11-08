@@ -2,6 +2,13 @@
 {* Set cells per row value for control panel icons *}
 {assign var=itemsPerRow value=4}
 
+{if $newVersion}
+    <div class="message status">
+        <p>{ts 1=$newVersion 2=$localVersion}A new version of CiviCRM is avaliable: %1 (this site is currently running %2).{/ts}</p>
+        <p>{ts 1='http://openngo.org/' 2='http://downloads.openngo.org/civicrm/'}Read about the new version on the <a href="%1">OpenNGO pages</a> and <a href="%2">download it</a>.{/ts}</p>
+    </div>
+{/if}
+
 {foreach from=$adminPanel key=groupName item=group}
     <fieldset><legend>{$groupName}</legend>
         <table class="control-panel">

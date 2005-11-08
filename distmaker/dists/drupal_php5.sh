@@ -57,7 +57,9 @@ cp $SRC/gpl.txt $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "CiviCRM 1.2BETA version rev$REV snapshot for Drupal on PHP5" > $TRG/version.txt
+echo "CiviCRM trunk version rev$REV snapshot for Drupal on PHP5" > $TRG/version.txt
+
+echo "trunk.trunk.$REV" > $TRG/civicrm-version.txt
 
 
 # gen tarball
