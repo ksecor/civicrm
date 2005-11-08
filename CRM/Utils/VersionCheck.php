@@ -44,7 +44,7 @@ class CRM_Utils_VersionCheck
         LATEST_VERSION_AT = 'http://downloads.openngo.org/civicrm/latest-version.txt',
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
-        CACHEFILE_EXPIRE  = 60 * 60 * 24;               // cachefile expiry time (in seconds)
+        CACHEFILE_EXPIRE  = 86400;                      // cachefile expiry time (in seconds)
 
     /**
      * We only need one instance of this object, so we use the
