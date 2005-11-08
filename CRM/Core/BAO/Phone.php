@@ -158,26 +158,6 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
 
         return $contactPhones;
     }
-
-    /**
-     * get Phone Type (used in export)
-     *
-     * @param  int  $phoneId id 
-     *
-     * @return phone type
-     * @access public
-     * @static
-     */
-    static function getPhoneType( $phoneId )
-    { 
-        $phone =& new CRM_Core_DAO_Phone( );
-        $phone->id = $phoneId;
-        $phone->find(true);
-        return $phone->phone_type;
-    }
-
-    
-
 }
 
 ?>

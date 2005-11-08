@@ -111,26 +111,49 @@ class CRM_Contact_BAO_Export {
             $returnProperties['location'] = $locationType;
         } else {
             $primary = true;
-            $fields  = CRM_Contact_BAO_Export::getExportableFields();
-            foreach ($fields as $key => $varValue) {
-                foreach ($varValue as $key1 => $var) { 
+            //$fields  = CRM_Contact_BAO_Contact::getExportableFields();
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
+            
+            //foreach ($fields as $key => $varValue) {
+                foreach ($fields as $key1 => $var) { 
                     if ($key1) {
                         $returnProperties[$key1] = 1;
                     }
                 }
-            }
+                //}
             $returnProperties['contact_id'] = 1;
         }
         
+        if ($primary) {
+            //get location type
+            $fields['location_type'] = array ('name' => 'location_type', 'where' => 'civicrm_location_type.name', 'title' => 'Location Type');
+            $returnProperties['location_type'] = 1;
+                        
+            //get im provider
+            $fields['im_provider'] = array ('name' => 'im_provider', 'where' => 'civicrm_im_provider.name', 'title' => 'IM Provider');
+            $returnProperties['im_provider'] = 1;
+                        
+            //get phone type
+            $returnProperties['phone_type'] = 1;
+        }
+
         $session =& new CRM_Core_Session();
         if ( $selectAll ) {
-            $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
+            if ($primary) {
+                $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties, $fields );
+            } else {
+                $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
+            }
         } else {
             $params = array( );
             foreach ($ids as $id) { 
                 $params[CRM_Core_Form::CB_PREFIX . $id] = 1;
             }
-            $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
+            if ($primary) {
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields, true );         
+            } else {
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
+            }
         }
 
         list( $select, $from, $where ) = $query->query( );
@@ -161,35 +184,8 @@ class CRM_Contact_BAO_Export {
                         }
                     }
                 } 
-                
-                if( $primary ) {
-                    if ($key == 'location_id') {
-                        if($varValue != null) {
-                            $LocationType = CRM_Core_BAO_Location::getLocationTypeName($varValue);
-                            $varValue = $LocationType;
-                        }
-                        $flag = true;
-                    }
-                    if ($key == 'phone_id') {
-                        if($varValue != null) {
-                            $phoneType = CRM_Core_BAO_Phone::getPhoneType($varValue);
-                            $varValue = $phoneType;
-                            
-                        }
-                         $flag = true;
-                    }
-                    
-                    if ($key == 'im_id') {
-                        if($varValue != null) {
-                            require_once 'CRM/Core/BAO/IMProvider.php';
-                            $provider = CRM_Core_BAO_IMProvider::getIMProviderName($varValue);
-                            $varValue = $provider;
-                        }
-                         $flag = true;
-                    }
-                }
-                
-                if(array_key_exists($key, $returnProperties)) {
+
+                if (array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
                 if ($flag) {
@@ -203,18 +199,18 @@ class CRM_Contact_BAO_Export {
                     } else {
                         $row[$key] = '';
                     }
-                    
+                   
                     if ( ! $header ) {
                         if (isset($query->_fields[$key]['title'])) {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else if ($key == 'contact_id') { 
                             $headerRows[] = 'Internal Contact Id';
-                        } else if ($key == 'location_id'){
-                            $headerRows[] = 'Location Type';
-                        } else if ($key == 'phone_id'){
+                            /*} else if ($key == 'location_id'){
+                            $headerRows[] = 'Location Type';*/
+                        } else if ($key == 'phone_type'){
                             $headerRows[] = 'Phone Type';
-                        } else if ($key == 'im_id'){
-                            $headerRows[] = 'IM Provider Name';
+                            /*} else if ($key == 'im_id'){
+                            $headerRows[] = 'IM Provider Name';*/
                         } else {
                             $keyArray = explode('-', $key);
                             $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];
@@ -232,7 +228,6 @@ class CRM_Contact_BAO_Export {
             }
             $header = true;
         }
-
 
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );

@@ -178,7 +178,9 @@ class CRM_Contact_BAO_Query {
                                    'civicrm_address'        => 1,
                                    'civicrm_phone'          => 1,
                                    'civicrm_email'          => 1,
-                                   'civicrm_im'             => 1, );
+                                   'civicrm_im'             => 1,
+                                   'civicrm_location_type'  => 1,
+                                   );
 
     /**
      * class constructor which also does all the work
@@ -217,7 +219,7 @@ class CRM_Contact_BAO_Query {
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
         }
  
-
+        //print_r( $this->_fields);
         // basically do all the work once, and then reuse it
         $this->initialize( );
         //CRM_Core_Error::debug( 'q', $this );
@@ -246,6 +248,7 @@ class CRM_Contact_BAO_Query {
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
         $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
+        //print_r($this->_select);
     }
 
     /**
@@ -280,11 +283,10 @@ class CRM_Contact_BAO_Query {
         $cfIDs      = array( );
 
         $this->addSpecialFields( );
-
+        // print_r($this->_returnProperties);
         //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
-
             // if we need to get the value for this param or we need all values
             if ( ! CRM_Utils_System::isNull( $value ) || 
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
@@ -312,8 +314,13 @@ class CRM_Contact_BAO_Query {
                             $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
                             $this->_element["{$tName}_id"] = 1;
                         }
-
-                        $this->_select[$name]              = $field['where'] . " as $name";
+                        
+                        //special case for phone
+                        if ($name == 'phone') {
+                            $this->_select[$name]              = $field['where'] . " as $name, phone_type as phone_type ";
+                        } else {
+                            $this->_select[$name]              = $field['where'] . " as $name";
+                        }
                         $this->_element[$name]             = 1;
 
                     }
@@ -725,7 +732,7 @@ class CRM_Contact_BAO_Query {
                 }
                 continue;
             }
-            
+
             switch ( $name ) {
 
             case 'civicrm_individual':
@@ -765,12 +772,20 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1) ";
                 continue;
 
+            case 'civicrm_im_provider':
+                $from .= " $side JOIN civicrm_im_provider ON civicrm_im.provider_id = civicrm_im_provider.id ";
+                continue;
+
             case 'civicrm_state_province':
                 $from .= " $side JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ";
                 continue;
 
             case 'civicrm_country':
                 $from .= " $side JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ";
+                continue;
+            
+            case 'civicrm_location_type':
+                $from .= " $side JOIN civicrm_location_type ON civicrm_location.location_type_id = civicrm_location_type.id ";
                 continue;
 
             case 'civicrm_group':
@@ -818,6 +833,7 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_gender':
                 $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
                 continue;
+                
             }
 
         }
