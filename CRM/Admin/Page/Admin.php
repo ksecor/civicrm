@@ -47,7 +47,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 
         $config =& CRM_Core_Config::singleton( );
 
-        $groups     = array( 'Manage', 'Configure', 'Setup' );
+        $groups     = array( ts('Manage'), ts('Configure'), ts('Setup') );
         $adminPanel = array( );
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );

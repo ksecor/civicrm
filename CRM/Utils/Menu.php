@@ -113,7 +113,7 @@ class CRM_Utils_Menu {
                             'path'    => 'admin/access',
                             'title'   => ts('Access Control'),
                             'type'    => self::CALLBACK,
-                            'adminGroup' => 'Manage',
+                            'adminGroup' => ts('Manage'),
                             'icon'    => 'admin/03.png',
                             'weight'  => 110
                             ),
@@ -123,7 +123,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Backup Data'),
                             'type'    => self::CALLBACK,
                             'extra' => 'onclick = "return confirm(\'' . $backupDataExtra . '\');"',
-                            'adminGroup' => 'Manage',
+                            'adminGroup' => ts('Manage'),
                             'icon'    => 'admin/14.png',
                             'weight'  => 120
                             ),
@@ -133,7 +133,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Synchronize Users-to-Contacts'),
                             'type'    => self::CALLBACK,
                             'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
-                            'adminGroup' => 'Manage',
+                            'adminGroup' => ts('Manage'),
                             'icon'    => 'admin/Synch_user.png',
                             'weight'  => 130
                             ),
@@ -143,7 +143,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Activity Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/05.png',
                             'weight'  => 210
                             ),
@@ -154,7 +154,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/Profile.png',
                             'weight'  => 220
                             ),
@@ -174,7 +174,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/custm_data.png',
                             'weight'  => 230
                             ),
@@ -193,7 +193,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Location Types (Home, Work...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/13.png',
                             'weight'  => 240
                             ),
@@ -203,7 +203,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Tags (Categories)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/11.png',
                             'weight'  => 260
                             ),
@@ -212,7 +212,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Relationship Types'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Configure',
+                            'adminGroup' => ts('Configure'),
                             'icon'    => 'admin/rela_type.png',
                             'weight'  => 250
                             ),
@@ -222,7 +222,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Gender Options (Male, Female...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
+                            'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/01.png',
                             'weight'  => 310
                             ),
@@ -232,7 +232,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Instant Messenger Services'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
+                            'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/07.png',
                             'weight'  => 320
                             ),
@@ -242,7 +242,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Mobile Phone Providers'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
+                            'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/08.png',
                             'weight'  => 339
                             ),
@@ -252,7 +252,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
+                            'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/title.png',
                             'weight'  => 340
                             ),
@@ -262,7 +262,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'Setup',
+                            'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
                             ),
