@@ -248,6 +248,33 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         
         CRM_Core_BAO_Email::deleteLocation($locationId);
     }
+
+
+    /**
+     * get Location Type name
+     *
+     * @param  int  $locationId id 
+     *
+     * @return Location Type name
+     * @access public
+     * @static
+     */
+    static function getLocationTypeName( $locationId )
+    { 
+        $location =& new CRM_Core_DAO_Location( );
+        $location->id = $locationId;
+        $location->find(true);
+        $locationType =& new CRM_Core_DAO_LocationType( );
+        $locationType->id = $location->location_type_id;
+        $locationType->find(true);
+        return $locationType->name;
+        
+        
+    }
+
+    
+
+    
 }
 
 ?>

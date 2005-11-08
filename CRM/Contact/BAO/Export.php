@@ -51,7 +51,7 @@ class CRM_Contact_BAO_Export {
 
         $headerRows  = array();
         $returnProperties = array();
-       
+        $primary = false;
         if ($fields) {
             $location = array();
             $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
@@ -110,6 +110,7 @@ class CRM_Contact_BAO_Export {
             }
             $returnProperties['location'] = $locationType;
         } else {
+            $primary = true;
             $fields  = CRM_Contact_BAO_Export::getExportableFields();
             foreach ($fields as $key => $varValue) {
                 foreach ($varValue as $key1 => $var) { 
@@ -141,7 +142,6 @@ class CRM_Contact_BAO_Export {
                 $queryString .= " ORDER BY $order";
             }
         }
-        
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
         
@@ -160,7 +160,35 @@ class CRM_Contact_BAO_Export {
                             }
                         }
                     }
-                }    
+                } 
+                
+                if( $primary ) {
+                    if ($key == 'location_id') {
+                        if($varValue != null) {
+                            $LocationType = CRM_Core_BAO_Location::getLocationTypeName($varValue);
+                            $varValue = $LocationType;
+                        }
+                        $flag = true;
+                    }
+                    if ($key == 'phone_id') {
+                        if($varValue != null) {
+                            $phoneType = CRM_Core_BAO_Phone::getPhoneType($varValue);
+                            $varValue = $phoneType;
+                            
+                        }
+                         $flag = true;
+                    }
+                    
+                    if ($key == 'im_id') {
+                        if($varValue != null) {
+                            require_once 'CRM/Core/BAO/IMProvider.php';
+                            $provider = CRM_Core_BAO_IMProvider::getIMProviderName($varValue);
+                            $varValue = $provider;
+                        }
+                         $flag = true;
+                    }
+                }
+                
                 if(array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
@@ -181,6 +209,12 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else if ($key == 'contact_id') { 
                             $headerRows[] = 'Internal Contact Id';
+                        } else if ($key == 'location_id'){
+                            $headerRows[] = 'Location Type';
+                        } else if ($key == 'phone_id'){
+                            $headerRows[] = 'Phone Type';
+                        } else if ($key == 'im_id'){
+                            $headerRows[] = 'IM Provider Name';
                         } else {
                             $keyArray = explode('-', $key);
                             $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];

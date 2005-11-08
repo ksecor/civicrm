@@ -80,6 +80,15 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
       */
       static $_import = null;
 
+      /**
+      * static instance to hold the values that can
+      * be exported / apu
+      *
+      * @var array
+      * @static
+      */
+      static $_export = null;
+
 {foreach from=$table.fields item=field}
     /**
 {if $field.comment}
@@ -152,12 +161,22 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
 {if $field.cols}
 								      'cols'      => {$field.cols},
 {/if} {* field.cols *}
+
 {if $field.import}
 								      'import'    => {$field.import},
                                                                       'where'     => '{$table.name}.{$field.name}',
                                       'headerPattern' => '{$field.headerPattern}',
                                       'dataPattern' => '{$field.dataPattern}',
 {/if} {* field.import *}
+{if $field.export}
+								      'export'    => {$field.export},
+                                      {if ! $field.import}                                
+								      'where'     => '{$table.name}.{$field.name}',	
+                                      'headerPattern' => '{$field.headerPattern}',
+                                      'dataPattern' => '{$field.dataPattern}',
+				      {/if}	
+{/if} {* field.export *}
+
 {if $field.rule}
 								      'rule'      => '{$field.rule}',
 {/if} {* field.rule *}
@@ -208,6 +227,37 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                 
           {rdelim}
           return self::$_import;
+      {rdelim}
+       /**
+       * returns the list of fields that can be exported
+       *
+       * @access public
+       * return array
+       */
+       function &export( $prefix = false ) {ldelim}
+            if ( ! ( self::$_export ) ) {ldelim}
+               self::$_export = array ( );
+               $fields =& self::fields( );
+               foreach ( $fields as $name => $field ) {ldelim}
+                 if ( CRM_Utils_Array::value( 'export', $field ) ) {ldelim}
+                   if ( $prefix ) {ldelim}
+                     self::$_export['{$table.labelName}'] =& $fields[$name];
+                   {rdelim} else {ldelim}
+                     self::$_export[$name] =& $fields[$name];
+                   {rdelim}
+                 {rdelim}
+               {rdelim}
+               {if $table.foreignKey}
+                  {foreach from=$table.foreignKey item=foreign}
+                     {if $foreign.export}
+                        self::$_export = array_merge( self::$_export,
+						      {$foreign.className}::export( true ) );
+                     {/if}
+                  {/foreach}
+               {/if}
+                
+          {rdelim}
+          return self::$_export;
       {rdelim}
 
 {if $table.hasEnum}

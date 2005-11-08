@@ -101,6 +101,30 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
         $imProvider->id = $imProviderTypeId;
         $imProvider->delete();
     }
+
+    /**
+     * get IM Provider Name  (used in export)
+     *
+     * @param  int  $imId id 
+     *
+     * @return phone type
+     * @access public
+     * @static
+     */
+    static function getIMProviderName( $imId )
+    { 
+        $im =& new CRM_Core_DAO_IM( );
+        $im->id = $imId;
+        $im->find(true);
+        $improvider = & new CRM_Core_DAO_IMProvider( );
+        $improvider->id  = $im->provider_id;
+        $improvider->find(true);
+        return $improvider->name;
+        
+    }
+
+
+
 }
 
 ?>

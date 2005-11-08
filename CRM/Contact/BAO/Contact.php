@@ -79,6 +79,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static $_importableFields = null;
 
+    /**
+     * static field for all the contact information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
+    
     function __construct()
     {
         parent::__construct();
@@ -1285,36 +1293,72 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @access public
      */
     function &exportableFields( $contactType = 'Individual' ) {
-        $exportableFields = array( );
-    
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-    
-        eval('$exportableFields = array_merge($exportableFields, CRM_Contact_DAO_'.$contactType.'::import( ));');
-    
-        if ($contactType == 'Individual') {
-            $exportableFields = array_merge( $exportableFields,
-                                             CRM_Core_DAO_IndividualPrefix::import( true ) ,
-                                             CRM_Core_DAO_IndividualSuffix::import( true ) ,
-                                             CRM_Core_DAO_Gender::import( true ) );
-        }
+        
+        if ( ! self::$_exportableFields || ! CRM_Utils_Array::value( $contactType, self::$_exportableFields ) ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            if (!$status) {
+                $fields = array();
+            } else {
+                $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
+            }
+            //$fields = array();
 
-        $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
-                                        CRM_Core_DAO_Phone::import( ),
-                                        CRM_Core_DAO_Email::import( ),
-                                        CRM_Core_DAO_IM::import( true ));
-        foreach ($locationFields as $key => $field) {
-            $locationFields[$key]['hasLocationType'] = true;
+            if ( $contactType != 'All' ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
+                eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::export( ));');
+            } else {
+                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
+                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
+                    eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::export( ));');
+                    if ( $type == 'Individual') {
+                        $fields = array_merge( $fields,
+                                               CRM_Core_DAO_IndividualPrefix::export( true ) , 
+                                               CRM_Core_DAO_IndividualSuffix::export( true ) , 
+                                               CRM_Core_DAO_Gender::export( true ) );
+                    }
+                }
+            }
+
+            // the fields are only meant for Individual contact type
+            if ( $contactType == 'Individual') {
+                $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::export( true ) ,
+                                       CRM_Core_DAO_IndividualSuffix::export( true ) ,
+                                       CRM_Core_DAO_Gender::export( true ) );                
+            }
+
+            $locationFields = array_merge(  CRM_Core_DAO_Address::export( ),
+                                            CRM_Core_DAO_Phone::export( ),
+                                            CRM_Core_DAO_Email::export( ),
+                                            CRM_Core_DAO_IM::export( true )
+                                            );
+            foreach ($locationFields as $key => $field) {
+                $locationFields[$key]['hasLocationType'] = true;
+            }
+
+            $fields = array_merge($fields, $locationFields);
+
+            $fields = array_merge($fields,
+                                  CRM_Contact_DAO_Contact::export( ) );
+            $fields = array_merge($fields,
+                                  CRM_Core_DAO_Note::export());
+            if ( $contactType != 'All' ) { 
+
+                    $fields = array_merge($fields,
+                                      CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
+                
+            } else {
+                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
+                    $fields = array_merge($fields, 
+                                          CRM_Core_BAO_CustomField::getFieldsForImport($type));
+                }
+            }
+
+            self::$_exportableFields[$contactType] = $fields;
         }
-    
-        $exportableFields = array_merge($exportableFields, $locationFields);
-    
-        $exportableFields = array_merge($exportableFields,
-                                        CRM_Contact_DAO_Contact::import( ) );
-        $exportableFields = array_merge($exportableFields,
-                                        CRM_Core_DAO_Note::import());
-        $exportableFields = array_merge($exportableFields,
-                                        CRM_Core_BAO_CustomField::getFieldsForImport($contactType) );
-        return $exportableFields;
+        return self::$_exportableFields[$contactType];
+
     }
 
 }

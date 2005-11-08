@@ -213,7 +213,8 @@ class CRM_Contact_BAO_Query {
             $this->_search = false;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $this->_fields = CRM_Contact_BAO_Contact::importableFields( 'All' );
+            //$this->_fields = CRM_Contact_BAO_Contact::importabeFields( 'All' );
+            $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
         }
  
 

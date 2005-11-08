@@ -569,6 +569,11 @@ function getField( &$fieldXML, &$fields ) {
     $field['comment' ] = value( 'comment' , $fieldXML );
     $field['default' ] = value( 'default' , $fieldXML );
     $field['import'  ] = value( 'import'  , $fieldXML );
+    if( value( 'export'  , $fieldXML )) {
+        $field['export'  ]= value( 'export'  , $fieldXML );
+    } else {
+        $field['export'  ]= value( 'import'  , $fieldXML );
+    }
     $field['rule'    ] = value( 'rule'    , $fieldXML );
     $field['title'   ] = value( 'title'   , $fieldXML );
     if ( ! $field['title'] ) {
@@ -680,6 +685,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
                          'table'      => $table,
                          'key'        => trim( value( 'key'   , $foreignXML ) ),
                          'import'     => value( 'import', $foreignXML, false ),
+                         'export'     => value( 'import', $foreignXML, false ),
                          'className'  => null, // we do this matching in a seperate phase (resolveForeignKeys)
                          'attributes' => trim( value( 'attributes', $foreignXML, 'ON DELETE CASCADE' ) ),
                          );
