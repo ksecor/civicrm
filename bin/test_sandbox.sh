@@ -157,6 +157,37 @@ maxq -r -q testEditCustomDataInline.py
 #maxq -q -r adminDeleteCustomDataField.py
 #maxq -q -r adminDeleteCustomDataGroup.py
 
+##############################
+# Test for Admin CiviDonate  # 
+##############################
+
+###################
+# Contribute Mode #
+###################
+
+maxq -r testAdminAddCiviDonateContributeMode.py
+maxq -r testAdminEditCiviDonateContributeMode.py
+maxq -r testAdminDisableEnableCiviDonateContributeMode.py
+maxq -r testAdminDeleteCiviDonateContributeMode.py
+
+###################
+# Contribute Type #
+###################
+
+maxq -r testAdminAddCiviDonateContributeType.py
+maxq -r testAdminEditCiviDonateContributeType.py
+maxq -r testAdminDisableEnableCiviDonateContributeType.py
+maxq -r testAdminDeleteCiviDonateContributeType.py
+
+######################
+# Payment Instrument #
+######################
+
+maxq -r testAdminAddCiviDonatePaymentInstrument.py
+maxq -r testAdminEditCiviDonatePaymentInstrument.py
+maxq -r testAdminDisableEnableCiviDonatePaymentInstrument.py
+maxq -r testAdminDeleteCiviDonatePaymentInstrument.py
+
 ##########################
 # Test for Basic Search  # 
 ##########################
