@@ -49,8 +49,16 @@ class CRM_Contact_BAO_Query {
      * @var array
      * @static
      */
-    static    $_defaultReturnProperties;
+    static $_defaultReturnProperties;
 
+    /**
+     * the default set of hier return properties
+     *
+     * @var array
+     * @static
+     */
+    static $_defaultHierReturnProperties;
+    
     /** 
      * the set of input params
      * 
@@ -219,7 +227,6 @@ class CRM_Contact_BAO_Query {
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
         }
  
-        //print_r( $this->_fields);
         // basically do all the work once, and then reuse it
         $this->initialize( );
         //CRM_Core_Error::debug( 'q', $this );
@@ -248,7 +255,6 @@ class CRM_Contact_BAO_Query {
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
         $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
-        //print_r($this->_select);
     }
 
     /**
@@ -362,6 +368,7 @@ class CRM_Contact_BAO_Query {
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
             $lName = "`$name-location`";
             $lCond = self::getPrimaryCondition( $name );
+
             if ( $lCond ) {
                 $lCond = "$lName." . $lCond;
             } else {
@@ -376,6 +383,15 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
+
+            $tName  = "$name-location_type";
+            $ltName ="`$name-location_type`";
+            $this->_select["{$tName}_id" ]  = "`$tName`.id as `{$tName}_id`"; 
+            $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
+            $this->_element["{$tName}_id"]  = 1;
+            $this->_element["{$tName}"   ]  = 1;  
+            $this->_tables[ 'civicrm_location_type' . $name ] = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
+
 
             $aName = "`$name-address`";
             $tName = "$name-address";
@@ -1270,7 +1286,7 @@ class CRM_Contact_BAO_Query {
     static function apiQuery( $params = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
-        $sql = "$select $from $where";
+       echo $sql = "$select $from $where";
         if ( ! empty( $sort ) ) {
             $sql .= " ORDER BY $sort ";
         }
@@ -1379,4 +1395,57 @@ class CRM_Contact_BAO_Query {
         return $this->_qill;
     }
 
+
+    /**
+     * default set of return default hier return properties
+     *
+     * @return void
+     * @access public
+     */
+    static function &defaultHierReturnProperties( ) {
+        if ( ! isset( self::$_defaultHierReturnProperties ) ) {
+            self::$_defaultHierReturnProperties = array( 'location' => 
+                                                         array( '1' => array ( 'location_type'  => 1,
+                                                                               'street_address' => 1,
+                                                                               'city'           => 1,
+                                                                               'state_province' => 1,
+                                                                               'country'        => 1,
+                                                                               'phone-Phone'    => 1,
+                                                                               'phone-Mobile'   => 1,
+                                                                               'phone-Fax'      => 1,
+                                                                               'phone-1'        => 1,
+                                                                               'phone-2'        => 1,
+                                                                               'phone-3'        => 1,
+                                                                               'im-1'           => 1,
+                                                                               'im-2'           => 1,
+                                                                               'im-3'           => 1,
+                                                                               'email-1'        => 1,
+                                                                               'email-2'        => 1,
+                                                                               'email-3'        => 1,
+                                                                               ),
+                                                                '2' => array ( 
+                                                                              'location_type'  => 1,
+                                                                              'street_address' => 1, 
+                                                                              'city'           => 1, 
+                                                                              'state_province' => 1, 
+                                                                              'country'        => 1, 
+                                                                              'phone-Phone'    => 1,
+                                                                              'phone-Mobile'   => 1,
+                                                                              'phone-1'        => 1,
+                                                                              'phone-2'        => 1,
+                                                                              'phone-3'        => 1,
+                                                                              'im-1'           => 1,
+                                                                              'im-2'           => 1,
+                                                                              'im-3'           => 1,
+                                                                              'email-1'        => 1,
+                                                                              'email-2'        => 1,
+                                                                              'email-3'        => 1,
+                                                                              ) 
+                                                                ),
+                                                         );
+            
+        }
+        return self::$_defaultHierReturnProperties;
+    }
+    
 }
