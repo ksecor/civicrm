@@ -111,30 +111,20 @@ class CRM_Contact_BAO_Export {
             $returnProperties['location'] = $locationType;
         } else {
             $primary = true;
-            //$fields  = CRM_Contact_BAO_Contact::getExportableFields();
-            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true );
             
-            //foreach ($fields as $key => $varValue) {
-                foreach ($fields as $key1 => $var) { 
-                    if ($key1) {
-                        $returnProperties[$key1] = 1;
-                    }
+            foreach ($fields as $key => $var) { 
+                if ($key) {
+                    $returnProperties[$key] = 1;
                 }
-                //}
+            }
             $returnProperties['contact_id'] = 1;
         }
         
         if ($primary) {
-            //get location type
-            $fields['location_type'] = array ('name' => 'location_type', 'where' => 'civicrm_location_type.name', 'title' => 'Location Type');
             $returnProperties['location_type'] = 1;
-                        
-            //get im provider
-            $fields['im_provider'] = array ('name' => 'im_provider', 'where' => 'civicrm_im_provider.name', 'title' => 'IM Provider');
-            $returnProperties['im_provider'] = 1;
-                        
-            //get phone type
-            $returnProperties['phone_type'] = 1;
+            $returnProperties['im_provider'  ] = 1;
+            $returnProperties['phone_type'   ] = 1;
         }
 
         $session =& new CRM_Core_Session();
@@ -205,12 +195,8 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else if ($key == 'contact_id') { 
                             $headerRows[] = 'Internal Contact Id';
-                            /*} else if ($key == 'location_id'){
-                            $headerRows[] = 'Location Type';*/
                         } else if ($key == 'phone_type'){
                             $headerRows[] = 'Phone Type';
-                            /*} else if ($key == 'im_id'){
-                            $headerRows[] = 'IM Provider Name';*/
                         } else {
                             $keyArray = explode('-', $key);
                             $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];
@@ -221,7 +207,6 @@ class CRM_Contact_BAO_Export {
                         }
                     }
                 }
-                
             }
             if ( $validRow ) {
                 $contactDetails[$dao->contact_id] = $row;
@@ -243,25 +228,6 @@ class CRM_Contact_BAO_Export {
      */
     function getExportFileName( $output = 'csv') {
         return ts('CiviCRM Contact Search');
-    }
-
-    
-    /**
-     * Function to get the exportable fields
-     *
-     * return array $exportableFields
-     */
-    static function getExportableFields($contactType = '') {
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $exportableFields = array ();
-        if ($contactType) {
-            eval('$exportableFields['.$contactType.']   =& CRM_Contact_BAO_Contact::exportableFields('.$contactType.');');
-        } else {
-            $exportableFields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
-            $exportableFields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
-            $exportableFields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
-        }
-        return $exportableFields;
     }
 }
 

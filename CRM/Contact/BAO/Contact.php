@@ -1288,11 +1288,12 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * currentlty we are using importable fields as exportable fields
      *
      * @param int $contactType contact Type
+     * $param int $status  1 while exporting primary contacts
      *
      * @return array array of exportable Fields
      * @access public
      */
-    function &exportableFields( $contactType = 'Individual' ) {
+    function &exportableFields( $contactType = 'Individual', $status = null ) {
         
         if ( ! self::$_exportableFields || ! CRM_Utils_Array::value( $contactType, self::$_exportableFields ) ) {
             if ( ! self::$_exportableFields ) {
@@ -1327,12 +1328,25 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                        CRM_Core_DAO_IndividualSuffix::export( true ) ,
                                        CRM_Core_DAO_Gender::export( true ) );                
             }
-
-            $locationFields = array_merge(  CRM_Core_DAO_Address::export( ),
+            
+            $locationType = array( );
+            if ($status) {
+                $locationType['location_type'] = array ('name' => 'location_type', 'where' => 'civicrm_location_type.name', 'title' => 'Location Type');
+            }
+            
+            $IMProvider = array( );
+            if ($status) {
+                $IMProvider['im_provider'] = array ('name' => 'im_provider', 'where' => 'civicrm_im_provider.name', 'title' => 'IM Provider');
+            }
+            
+            $locationFields = array_merge(  $locationType,
+                                            CRM_Core_DAO_Address::export( ),
                                             CRM_Core_DAO_Phone::export( ),
                                             CRM_Core_DAO_Email::export( ),
+                                            $IMProvider,
                                             CRM_Core_DAO_IM::export( true )
                                             );
+            
             foreach ($locationFields as $key => $field) {
                 $locationFields[$key]['hasLocationType'] = true;
             }

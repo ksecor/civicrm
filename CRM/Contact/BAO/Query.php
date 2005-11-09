@@ -283,7 +283,6 @@ class CRM_Contact_BAO_Query {
         $cfIDs      = array( );
 
         $this->addSpecialFields( );
-        // print_r($this->_returnProperties);
         //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
@@ -317,7 +316,7 @@ class CRM_Contact_BAO_Query {
                         
                         //special case for phone
                         if ($name == 'phone') {
-                            $this->_select[$name]              = $field['where'] . " as $name, phone_type as phone_type ";
+                            $this->_select[$name]              = "phone_type as phone_type, " . $field['where'] . " as $name ";
                         } else {
                             $this->_select[$name]              = $field['where'] . " as $name";
                         }
