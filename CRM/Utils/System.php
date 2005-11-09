@@ -66,6 +66,8 @@ class CRM_Utils_System {
                                                 'customoption'       => 'CustomOption',
                                                 'customvalue'        => 'CustomValue',
                                                 'dao'                => 'DAO',
+                                                'deletefield'        => 'DeleteField', 
+                                                'deletegroup'        => 'DeleteGroup', 
                                                 'donationpage'       => 'DonationPage',
                                                 'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
