@@ -644,7 +644,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         if (! $match) {
             /* no match, so create a new CustomValue */
             $cvParams = array(
-                    'entity_table' => 'crm_contact',
+                    'entity_table' => 'civicrm_contact',
                     'entity_id' => $contact->id,
                     'value' => $value,
                     'type' => $customValue['type'],
