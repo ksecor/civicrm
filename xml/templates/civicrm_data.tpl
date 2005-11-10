@@ -300,14 +300,6 @@ VALUES
   ( '{ts}Member Dues{/ts}'          , {$civicrmDomainId}, 0, 1 ), 
   ( '{ts}Campaign Contribution{/ts}', {$civicrmDomainId}, 0, 1 );
 
--- contribution mode
-INSERT INTO 
-   civicrm_contribution_mode(name, domain_id, is_reserved, is_active) 
-VALUES 
-  ( '{ts}Money{/ts}'  , {$civicrmDomainId}, 0, 1 ), 
-  ( '{ts}Service{/ts}', {$civicrmDomainId}, 0, 1 ),  
-  ( '{ts}Goods{/ts}'  , {$civicrmDomainId}, 0, 1 );
-
 -- payment instrument
 INSERT INTO  
    civicrm_payment_instrument(name, domain_id, is_reserved, is_active)  
