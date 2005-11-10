@@ -49,8 +49,7 @@ class TestOfGetContactHierachical extends UnitTestCase
                                    );
  
         $query = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties );
-        print_r( $query );
-        echo "\n";
+        CRM_Core_Error::debug( 'q', $query );
     } 
  
 } 
