@@ -1039,15 +1039,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             }
 
             $fields = array( '' => array( 'title' => ts('- do not import -') ) );
-            //$fields = array();
 
             if ( $contactType != 'All' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-                eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+                eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::import( ));');
+                $fields = array_merge( $fields, $tmpFields );
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
                     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
-                    eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
+                    eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
+                    $fields = array_merge( $fields, $tmpFields );
                     if ( $type == 'Individual') {
                         $fields = array_merge( $fields,
                                                CRM_Core_DAO_IndividualPrefix::import( true ) , 

@@ -437,10 +437,14 @@ abstract class CRM_Import_Parser {
     function setActiveFields( $fieldKeys ) {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
-            $this->_activeFields[] = clone( $this->_fields[$key] );
+            if ( empty( $this->_fields[$key] ) ) {
+                $this->_activeFields[] =& new CRM_Import_Field( '', ts( '- do not import -' ) );
+            } else {
+                $this->_activeFields[] = clone( $this->_fields[$key] );
+            }
         }
     }
-
+    
     function setActiveFieldValues( $elements ) {
         for ( $i = 0; $i < count( $elements ); $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
@@ -631,8 +635,13 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
-    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = false) {
+    function addField( $name, $title, $type = CRM_Utils_Type::T_INT,
+                       $headerPattern = '//', $dataPattern = '//',
+                       $hasLocationType = false) {
         $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
+        if ( empty( $name ) ) {
+            $this->_fields['doNotImport'] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
+        }
     }
 
     /**
