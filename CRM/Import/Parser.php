@@ -42,7 +42,8 @@ abstract class CRM_Import_Parser {
         CONFLICT        =  8,
         STOP            = 16,
         DUPLICATE       = 32,
-        MULTIPLE_DUPE   = 64;
+        MULTIPLE_DUPE   = 64,
+        NO_MATCH        = 128;
 
     /**
      * various parser modes
@@ -144,6 +145,16 @@ abstract class CRM_Import_Parser {
     protected $_warningCount;
 
     /**
+     * running total number of un matched Conact
+     */
+    protected $_unMatchCount;
+
+    /**
+     * array of unmatched lines
+     */
+    protected $_unMatch;
+
+    /**
      * maximum number of warnings to store
      */
     protected $_maxWarningCount = self::MAX_WARNINGS;
@@ -212,6 +223,13 @@ abstract class CRM_Import_Parser {
      * @var string
      */
     protected $_duplicateFileName;
+
+    /**
+     * filename of mismatch data
+     *
+     * @var string
+     */
+    protected $_misMatchFilemName;
 
 
     /**
@@ -352,6 +370,12 @@ abstract class CRM_Import_Parser {
                 array_unshift($values, $this->_lineCount);
                 $this->_conflicts[] = $values;
             } 
+
+             if ( $returnCode & self::NO_MATCH ) {
+                $this->_unMatchCount++;
+                array_unshift($values, $this->_lineCount);
+                $this->_unMatch[] = $values;
+            } 
             
             if ( $returnCode & self::DUPLICATE ) {
                 if ( $returnCode & self::MULTIPLE_DUPE ) {
@@ -413,6 +437,15 @@ abstract class CRM_Import_Parser {
                 $this->_duplicateFileName = $fileName . '.duplicates';
                 self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
             }
+            if ($this->_unMatchCount) {
+                $headers = array_merge( array(  ts('Record Number'), 
+                                                ts('Reason')),
+                                        $customHeaders);
+
+                $this->_misMatchFilemName = $fileName . '.mismatch';
+                self::exportCSV($this->_misMatchFilemName, $headers,$this->_unMatch);
+            }
+            
         }
         //echo "$this->_totalCount,$this->_invalidRowCount,$this->_conflictCount,$this->_duplicateCount";
         return $this->fini();
@@ -669,7 +702,8 @@ abstract class CRM_Import_Parser {
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
-        $store->set( 'conflictRowCount', $this->_conflictCount );
+        $store->set( 'conflictRowCount' , $this->_conflictCount );
+        $store->set( 'unMatchCount'     , $this->_unMatchCount);
         
         switch ($this->_contactType) {
         case 'Individual':
@@ -691,12 +725,17 @@ abstract class CRM_Import_Parser {
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );
         }
-
+        
+        if ($this->_unMatchCount) {
+            $store->set( 'mismatchFileName', $this->_misMatchFilemName);
+        }
+        
         if ($mode == self::MODE_IMPORT) {
             $store->set( 'duplicateRowCount', $this->_duplicateCount );
             if ($this->_duplicateCount) {
                 $store->set( 'duplicatesFileName', $this->_duplicateFileName );
             }
+           
         }
         //echo "$this->_totalCount,$this->_invalidRowCount,$this->_conflictCount,$this->_duplicateCount";
     }

@@ -118,7 +118,6 @@ class CRM_Contact_BAO_Export {
                     $returnProperties[$key] = 1;
                 }
             }
-            $returnProperties['contact_id'] = 1;
         }
         
         if ($primary) {
@@ -193,8 +192,6 @@ class CRM_Contact_BAO_Export {
                     if ( ! $header ) {
                         if (isset($query->_fields[$key]['title'])) {
                             $headerRows[] = $query->_fields[$key]['title'];
-                        } else if ($key == 'contact_id') { 
-                            $headerRows[] = 'Internal Contact Id';
                         } else if ($key == 'phone_type'){
                             $headerRows[] = 'Phone Type';
                         } else {

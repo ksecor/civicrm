@@ -9,6 +9,9 @@
   <field>
       <name>id</name>
       <type>int unsigned</type>
+      <title>Internal Contact ID</title>
+      <import>true</import>
+      <headerPattern>/id/i</headerPattern>
       <required>true</required>
       <comment>Unique Contact ID</comment>
       <add>1.1</add>

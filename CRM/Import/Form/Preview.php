@@ -57,8 +57,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
         $invalidRowCount    = $this->get('invalidRowCount');
-        $conflictRowCount  = $this->get('conflictRowCount');
-
+        $conflictRowCount   = $this->get('conflictRowCount');
+        $mismatchCount      = $this->get('unMatchCount');
+        
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
         if ( $mappingId ) {
@@ -89,12 +90,19 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($conflictRowCount) {
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
         }
+        
+        if ($mismatchCount) {
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+        }
+
+        
         $properties = array( 'mapper', 'locations', 'phones',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
                              'downloadErrorRecordsUrl',
                              'downloadConflictRecordsUrl',
+                             'downloadMismatchRecordsUrl',
                              'related', 'relatedContactDetails', 'relatedContactLocType',
                              'relatedContactPhoneType'
                     );
@@ -334,6 +342,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->set('errorFile', $errorFile);
             $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
         }
     }
 

@@ -685,14 +685,16 @@ class CRM_Core_Invoke {
         } else if ($type == 3) {
             $varName = 'duplicates';
             $saveFileName = 'Import_Duplicates.csv';
-        } else {
+        } else if ($type == 4) {
+            $varName = 'mismatch';
+            $saveFileName = 'Import_Mismatch.csv';
+        }else {
             /* FIXME we should have an error here */
             return;
         }
         
         $fileName = $session->get($varName . 'FileName', 
                                     'CRM_Import_Controller');
-                                    
         $config =& CRM_Core_Config::singleton( ); 
         if ( $config->userFramework == 'Mambo' ) { 
             echo "<pre>"; 
