@@ -14,7 +14,7 @@
     <form name="html_code">
     <textarea rows="20" cols="80" name="preview" id="preview">{$preview}</textarea>
     <br />
-    <a href="#" onclick="html_code.preview.select(); return false;">Select Code</a>
+    <a href="#" onclick="html_code.preview.select(); return false;">{ts}Select Code{/ts}</a>
     <p></p>
     <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
