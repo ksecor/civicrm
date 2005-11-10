@@ -17,12 +17,10 @@ class TestOfCRM531 extends UnitTestCase
     {
         $contact = crm_get_contact( array( 'id' => 101 ) );
         $params = array('contact_id' => 101,
-                        'email'      => 'kurund@yahoo.com',
-                        'custom_2'   => 'Party Name');
+                        'custom_2'   => 'Party Name 1');
         
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        
     }
 }
 ?>
