@@ -25,9 +25,10 @@
 {else}
 
     <div id="help">
-    {ts}<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which fields are used to check for duplicate contacts when adding or editing a record. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.</p>
-    <p>Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.</p>
-    <p>Use the <a href="{crmURL p='civicrm/admin/uf/group' q="action=preview"}">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}
+    <p>{ts}By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which fields are used to check for duplicate contacts when adding or editing a record. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.{/ts}</p>
+    <p>{ts}Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.{/ts}</p>
+    {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q="action=preview"}{/capture}
+    <p>{ts 1=$crmURL}Use the <a href="%1">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}</p>
     </div>
 
     {if $rows}
