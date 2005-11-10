@@ -285,6 +285,8 @@ function _crm_format_params( &$params, &$values ) {
         }
 
         $values['location'][1]['is_primary'] = true;
+    } else {
+        unset( $values['location'] );
     }
   
    
@@ -340,6 +342,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     $contact = crm_get_contact($param);
     
     $locMatch = _crm_location_match($contact, $values);
+
+    CRM_Core_Error::debug( $locMatch, $values );
 
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
@@ -644,7 +648,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         if (! $match) {
             /* no match, so create a new CustomValue */
             $cvParams = array(
-                    'entity_table' => 'crm_contact',
+                    'entity_table' => 'civicrm_contact',
                     'entity_id' => $contact->id,
                     'value' => $value,
                     'type' => $customValue['type'],

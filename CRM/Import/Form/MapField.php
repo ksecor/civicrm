@@ -546,7 +546,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         if( !empty($params['savedMapping']) ) {            
             $this->set('savedMapping', $params['savedMapping']);
             $this->controller->resetPage( $this->_name );
-            //return;
+            return;
         }
         
         

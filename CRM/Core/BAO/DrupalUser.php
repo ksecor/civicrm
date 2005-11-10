@@ -84,7 +84,7 @@ class CRM_Core_BAO_DrupalUser
         $contactMatching = 0;
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $contactCount++;
-            if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], $uf, 1 ) ) {
+            if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row[$id], $row[$mail], $uf, 1 ) ) {
                 $contactCreated++;
             } else {
                 $contactMatching++;

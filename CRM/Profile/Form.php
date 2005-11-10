@@ -352,8 +352,12 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         // hack add the email, does not work in registration, we need the real user object
+        // hack this will not work in mambo/joomla, not sure why we need it
         global $user; 
-        $fields['email'] = $user->mail; 
+        if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
+            $fields['email'] = $user->mail; 
+        }
+    
         $cid = $register = null; 
 
         // hack we use a -1 in options to indicate that its registration 

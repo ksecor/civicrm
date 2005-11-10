@@ -165,6 +165,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $profile );
         $this->assign( 'profile', $profile );
         $this->assign( 'action' , CRM_Core_Action::PROFILE );
+
         $this->assign( 'isForm' , 0 );
     }
 

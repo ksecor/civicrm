@@ -2,6 +2,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/UF.js"></script>
 
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
+{if $action ne 8} {* do not display stuff for delete function *}
     <div id="crm-submit-buttons" class="form-item"> 
     <dl> 
     {if $action ne 4} 
@@ -11,6 +12,7 @@
     {/if} {* $action ne view *} 
     </dl> 
     </div> 
+{/if} {* action ne delete *}
     
     <div class="form-item">
     {if $action eq 8}
