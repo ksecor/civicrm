@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 18:27+0100\n"
+"POT-Creation-Date: 2005-11-10 15:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -135,6 +135,18 @@ msgstr ""
 
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Commerce/Donation/Page/DonationPage.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Manage"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Configure"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
 msgstr ""
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php templates/CRM/Admin/Form/DomainDump.tpl
@@ -5866,7 +5878,23 @@ msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "Select Code"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which fields are used to check for duplicate contacts when adding or editing a record. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "Use the <a href=\"%1\">Stand-alone Profile Form</a> link to get the HTML code needed to add a profile form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form)."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl

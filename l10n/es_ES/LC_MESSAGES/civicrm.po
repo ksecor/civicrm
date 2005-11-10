@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 18:27+0100\n"
+"POT-Creation-Date: 2005-11-10 15:33+0100\n"
 "PO-Revision-Date: 2005-10-23 18:45+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -317,6 +317,20 @@ msgstr "Deshabilitar"
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr "Habilitar"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Manage"
+msgstr "Rango"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Configure"
+msgstr "Continuar"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
+msgstr ""
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -7363,8 +7377,45 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 #, fuzzy
+msgid "Select Code"
+msgstr "Código SIC"
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Back to Profile Listings"
 msgstr "Listados de perfil CiviCRM"
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
+msgid ""
+"By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or "
+"view specific fields from their own contact information. Additionally, "
+"'CiviCRM Profile' fields control which fields are used to check for "
+"duplicate contacts when adding or editing a record. You can also mark "
+"'CiviCRM Profile' fields as viewable by other users and site visitors."
+msgstr ""
+"<p>Configurando 'Perfil CiviCRM', se permite a los usuarios finales editar y/"
+"o ver campos específicos de su propia información de contactos. "
+"Adicionalmente, los campos del 'Perfil CiviCRM' controla los datos usados "
+"para asociar un registro con un usuario. También puedes marcar campos "
+"'Perfil CiviCRM' como visibles por otros usuarios y visitantes.</p>\n"
+"    <p>Cada 'Perfil CiviCRM' es presentado como un formulario separado "
+"cuando nuevos usuarios registran una cuenta, así como cuando editan una "
+"cuenta existente.</p>"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Each 'CiviCRM Profile' is presented as a separate fieldset when new users "
+"register for an account, as well as when they edit an existing account."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Use the <a href=\"%1\">Stand-alone Profile Form</a> link to get the HTML "
+"code needed to add a profile form to blocks or pages other than User "
+"Registration and My Account. You can add these 'stand-alone forms' to any "
+"website (e.g. for a signup form)."
+msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -7860,25 +7911,6 @@ msgstr "II"
 
 #~ msgid "Import Data -&gt; CiviCRM Contact Fields"
 #~ msgstr "Dato Importado -&gt; CiviCRM Campos de Contactos"
-
-#~ msgid ""
-#~ "<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit "
-#~ "and/or view specific fields from their own contact information. "
-#~ "Additionally, 'CiviCRM Profile' fields control which data is used to "
-#~ "match a contact record to a user. You can also mark 'CiviCRM Profile' "
-#~ "fields as viewable by other users and site visitors.</p>\n"
-#~ "    <p>Each 'CiviCRM Profile' is presented as a separate form when new "
-#~ "users register for an account, as well as when they edit an existing "
-#~ "account.</p>"
-#~ msgstr ""
-#~ "<p>Configurando 'Perfil CiviCRM', se permite a los usuarios finales "
-#~ "editar y/o ver campos específicos de su propia información de contactos. "
-#~ "Adicionalmente, los campos del 'Perfil CiviCRM' controla los datos usados "
-#~ "para asociar un registro con un usuario. También puedes marcar campos "
-#~ "'Perfil CiviCRM' como visibles por otros usuarios y visitantes.</p>\n"
-#~ "    <p>Cada 'Perfil CiviCRM' es presentado como un formulario separado "
-#~ "cuando nuevos usuarios registran una cuenta, así como cuando editan una "
-#~ "cuenta existente.</p>"
 
 #, fuzzy
 #~ msgid "View Notes"

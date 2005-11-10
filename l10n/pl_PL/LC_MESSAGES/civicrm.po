@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 18:27+0100\n"
-"PO-Revision-Date: 2005-11-07 18:30+0100\n"
+"POT-Creation-Date: 2005-11-10 15:33+0100\n"
+"PO-Revision-Date: 2005-11-10 15:48+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -317,6 +317,18 @@ msgstr "Wyłącz"
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr "Włącz"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Manage"
+msgstr "Zarządzanie"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Configure"
+msgstr "Konfiguracja"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
+msgstr "Ustawnienia"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -5146,15 +5158,17 @@ msgstr "Ta instalacja oparta jest o kod CiviCRM 1.2."
 msgid ""
 "To see a list of known bugs and issues, and to report new bugs, please use "
 "our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>."
-msgstr "W naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</"
-"a> można znaleźć listę znanych błędów i problemów oraz zgłaszać nowe."
+msgstr ""
+"W naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</a> "
+"można znaleźć listę znanych błędów i problemów oraz zgłaszać nowe."
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "Please add any comments on the look and feel of these pages, along with "
 "workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
-msgstr "Prosimy o zgłaszanie komentarzy na temat wyglądu i działania CiviCRM-a "
-"na <a href=\"%1\">stronie komentarzy</a>."
+msgstr ""
+"Prosimy o zgłaszanie komentarzy na temat wyglądu i działania CiviCRM-a na <a "
+"href=\"%1\">stronie komentarzy</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -7251,8 +7265,44 @@ msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
 msgstr "Profil CiviCRM – kod dla osobnego formularza HTML"
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "Select Code"
+msgstr "Zaznacz kod"
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
 msgstr "Wróć do spisu profili"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or "
+"view specific fields from their own contact information. Additionally, "
+"'CiviCRM Profile' fields control which fields are used to check for "
+"duplicate contacts when adding or editing a record. You can also mark "
+"'CiviCRM Profile' fields as viewable by other users and site visitors."
+msgstr ""
+"Dzięki skonfigurowaniu „Profilu CiviCRM”, użytkownicy mogą oglądać i/lub "
+"edytować wybrane pola ze swoich danych jako kontaktu. Pola profilu CiviCRM "
+"są też używane do kontrolowania które dane służą do dopasowywania kontaktu "
+"do użytkownika. Można także oznaczyć pola profilu CiviCRM jako widzialne "
+"przez innych użytkowników i gości strony."
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Each 'CiviCRM Profile' is presented as a separate fieldset when new users "
+"register for an account, as well as when they edit an existing account."
+msgstr ""
+"Za każdym razem, gdy nowi użytkownicy rejestrują konto, każdy “Profil "
+"CiviCRM” przedstawiany jest jako osobny formularz. Dzieje się tak też przy "
+"edycji istniejących kont."
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Use the <a href=\"%1\">Stand-alone Profile Form</a> link to get the HTML "
+"code needed to add a profile form to blocks or pages other than User "
+"Registration and My Account. You can add these 'stand-alone forms' to any "
+"website (e.g. for a signup form)."
+msgstr ""
+"Skorzystaj z odnośnika <a href=\"%1\">Niezależny formularz profilu</a> by otrzymać kod HTML umożliwiający dodanie formularza profilu do bloków i stron innych niż Rejestracja użytkownika i Moje konto. Te „niezależne formularze” można dodać do dowolnej strony (np. jako formularz rejestracyjny)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -7264,7 +7314,7 @@ msgstr "Nowy Profil CiviCRM"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Stand-alone Profile Form"
-msgstr "Osobny formularz profilu"
+msgstr "Niezależny formularz profilu"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -7736,25 +7786,6 @@ msgstr "II"
 
 #~ msgid "Import Data -&gt; CiviCRM Contact Fields"
 #~ msgstr "Import danych -&gt; pola kontaktu CiviCRM"
-
-#~ msgid ""
-#~ "<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit "
-#~ "and/or view specific fields from their own contact information. "
-#~ "Additionally, 'CiviCRM Profile' fields control which data is used to "
-#~ "match a contact record to a user. You can also mark 'CiviCRM Profile' "
-#~ "fields as viewable by other users and site visitors.</p>\n"
-#~ "    <p>Each 'CiviCRM Profile' is presented as a separate form when new "
-#~ "users register for an account, as well as when they edit an existing "
-#~ "account.</p>"
-#~ msgstr ""
-#~ "<p>Dzięki skonfigurowaniu „Profilu CiviCRM”, użytkownicy mogą oglądać i/"
-#~ "lub edytować wybrane pola ze swoich danych jako kontaktu. Pola profilu "
-#~ "CiviCRM są też używane do kontrolowania które dane służą do dopasowywania "
-#~ "kontaktu do użytkownika. Można także oznaczyć pola profilu CiviCRM jako "
-#~ "widzialne przez innych użytkowników i gości strony.</p>\n"
-#~ "    <p>Za każdym razem, gdy nowi użytkownicy rejestrują konto, każdy "
-#~ "“Profil CiviCRM” przedstawiany jest jako osobny formularz. Dzieje się tak "
-#~ "też przy edycji istniejących kont.</p>"
 
 #~ msgid "View Notes"
 #~ msgstr "Zobacz notatki"

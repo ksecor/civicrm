@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 18:27+0100\n"
+"POT-Creation-Date: 2005-11-10 15:33+0100\n"
 "PO-Revision-Date: 2005-10-30 19:18+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
@@ -318,6 +318,20 @@ msgstr "Desabilitar"
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr "Habilitar"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Manage"
+msgstr "Faixa"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Configure"
+msgstr "Continuar"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
+msgstr ""
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -7369,8 +7383,46 @@ msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
 msgstr "Perfil CiviCRM - código para o formulário HTML"
 
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
+msgid "Select Code"
+msgstr "Cód. Sic"
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
 msgstr "Voltar à Listagem do Perfil"
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
+msgid ""
+"By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or "
+"view specific fields from their own contact information. Additionally, "
+"'CiviCRM Profile' fields control which fields are used to check for "
+"duplicate contacts when adding or editing a record. You can also mark "
+"'CiviCRM Profile' fields as viewable by other users and site visitors."
+msgstr ""
+"<p> Configurando 'Perfis no CiviCRM', você  pode permitir que usuários "
+"possam editar e/ou visualizar determinados campos associados à suas "
+"informações. Adicionalmente, campos do 'Perfil CiviCRM'  controlam quais "
+"dados serão usados para igualar um registro de contato de usuário. Você pode "
+"marcar 'Perfil CiviCRM' como campo visível para outros usuários e visitantes "
+"do Site. </p>\n"
+"<p>Cada 'Perfil CiviCRM' é apresentado em formulário separado quando um novo "
+"usuário registra uma conta, bem como quando editam dados de uma conta "
+"existente</p>"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Each 'CiviCRM Profile' is presented as a separate fieldset when new users "
+"register for an account, as well as when they edit an existing account."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Use the <a href=\"%1\">Stand-alone Profile Form</a> link to get the HTML "
+"code needed to add a profile form to blocks or pages other than User "
+"Registration and My Account. You can add these 'stand-alone forms' to any "
+"website (e.g. for a signup form)."
+msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -7851,26 +7903,6 @@ msgstr "II"
 
 #~ msgid "Import Data -&gt; CiviCRM Contact Fields"
 #~ msgstr "Importar Dados -&gt; campos de Contatos CiviCRM"
-
-#~ msgid ""
-#~ "<p>By configuring 'CiviCRM Profile(s)', you can allow end-users to edit "
-#~ "and/or view specific fields from their own contact information. "
-#~ "Additionally, 'CiviCRM Profile' fields control which data is used to "
-#~ "match a contact record to a user. You can also mark 'CiviCRM Profile' "
-#~ "fields as viewable by other users and site visitors.</p>\n"
-#~ "    <p>Each 'CiviCRM Profile' is presented as a separate form when new "
-#~ "users register for an account, as well as when they edit an existing "
-#~ "account.</p>"
-#~ msgstr ""
-#~ "<p> Configurando 'Perfis no CiviCRM', você  pode permitir que usuários "
-#~ "possam editar e/ou visualizar determinados campos associados à suas "
-#~ "informações. Adicionalmente, campos do 'Perfil CiviCRM'  controlam quais "
-#~ "dados serão usados para igualar um registro de contato de usuário. Você "
-#~ "pode marcar 'Perfil CiviCRM' como campo visível para outros usuários e "
-#~ "visitantes do Site. </p>\n"
-#~ "<p>Cada 'Perfil CiviCRM' é apresentado em formulário separado quando um "
-#~ "novo usuário registra uma conta, bem como quando editam dados de uma "
-#~ "conta existente</p>"
 
 #, fuzzy
 #~ msgid "View Notes"

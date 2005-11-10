@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 18:27+0100\n"
+"POT-Creation-Date: 2005-11-10 15:33+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -318,6 +318,20 @@ msgstr "ปิด"
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr "เปิด"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Manage"
+msgstr "ข้อความ"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+#, fuzzy
+msgid "Configure"
+msgstr "ต่อไป >>"
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
+msgstr ""
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -7136,8 +7150,36 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 #, fuzzy
+msgid "Select Code"
+msgstr "เริ่มวันที่"
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Back to Profile Listings"
 msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or "
+"view specific fields from their own contact information. Additionally, "
+"'CiviCRM Profile' fields control which fields are used to check for "
+"duplicate contacts when adding or editing a record. You can also mark "
+"'CiviCRM Profile' fields as viewable by other users and site visitors."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Each 'CiviCRM Profile' is presented as a separate fieldset when new users "
+"register for an account, as well as when they edit an existing account."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Use the <a href=\"%1\">Stand-alone Profile Form</a> link to get the HTML "
+"code needed to add a profile form to blocks or pages other than User "
+"Registration and My Account. You can add these 'stand-alone forms' to any "
+"website (e.g. for a signup form)."
+msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 #, fuzzy
