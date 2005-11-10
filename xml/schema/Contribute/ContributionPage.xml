@@ -61,17 +61,6 @@
       <default>0</default>
       <add>1.3</add>  
   </field> 
-  <field> 
-      <name>amount_field_id</name> 
-      <type>int unsigned</type>                 
-      <comment>FK to civicrm_custom_field record which is used for the amount</comment> 
-      <add>1.3</add> 
-  </field> 
-  <foreignKey> 
-       <name>amount_field_id</name> 
-       <table>civicrm_custom_field</table> 
-       <key>id</key> 
-  </foreignKey> 
   <field>   
       <name>is_allow_other_amount</name>   
       <type>boolean</type>                   
