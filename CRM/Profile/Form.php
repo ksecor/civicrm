@@ -117,10 +117,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
         
-        //get Custom Group tree
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Individual', $this->_id);
-        $this->assign('groupTree', $this->_groupTree); 
 
         //$options = array( );
         //$this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id, $options ); 
@@ -191,6 +187,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
             
+            //get Custom Group tree
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Individual', $this->_id);
+            $this->assign('groupTree', $this->_groupTree); 
+
             require_once 'CRM/Core/BAO/CustomGroup.php';
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
 

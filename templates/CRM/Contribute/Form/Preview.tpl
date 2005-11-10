@@ -2,6 +2,9 @@
     <fieldset><legend>{ts}Contribution Page{/ts}</legend>
     <dl>
     <dt>{$form.amount.label}</dt><dd>{$form.amount.html}</dd>
+{if $is_allow_other_amount}
+    <dt>{$form.amount_other.label}</dt><dd>{$form.amount_other.html}</dd>
+{/if}
     <dt>{$form.email.label}</dt><dd>{$form.email.html}</dd>
     <dt></dt><dd>{$form._qf_Contribution_next_express.html}</dd>
     <dt>{$form.first_name.label}</dt><dd>{$form.first_name.html}</dd>

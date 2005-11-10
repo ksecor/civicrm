@@ -88,7 +88,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $defaults = parent::setDefaultValues( );
 
         require_once 'CRM/Core/BAO/CustomOption.php'; 
-        CRM_Core_DAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
+        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
 
         return $defaults;
     }

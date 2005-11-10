@@ -133,7 +133,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
             return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
-            $this->preview($id) ;
+            return $this->preview($id) ;
         } else {
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {

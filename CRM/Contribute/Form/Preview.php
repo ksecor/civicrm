@@ -38,7 +38,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for Contribution Mode
+ * This class generates form components for processing a ontribution 
  * 
  */
 class CRM_Contribute_Form_Preview extends CRM_Core_Form
@@ -93,18 +93,6 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
         $this->buildCustom( $this->_values['custom_pre_id'] , 'pre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'post' );
 
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionMode', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid contribution mode name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_ContributionMode', $this->_id ) );
-        
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionMode', 'description' ) );
-
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
-
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionMode', $this->_id, 'is_reserved' )) { 
-            $this->freeze(array('name', 'description', 'is_active' ));
-        }
-        
     }
 
     function buildAmount( ) {
@@ -120,10 +108,12 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
         }
 
         if ( $this->_values['is_allow_other_amount'] ) {
-            $textAmount =& $this->createElement('text',
-                                                null,
-                                                ts('Other Amount') );
-            $elements[] =& $textAmount;
+            $elements[] =& $this->createElement('radio', null, '',
+                                                'Other', 'amount_other' );
+            $this->assign( 'is_allow_other_amount', true );
+            $this->add('text', 'amount_other',
+                       ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10 )
+                       );
         }
 
         $this->addGroup( $elements, 'amount', ts('Amount'), '<br />' );
