@@ -343,8 +343,6 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     
     $locMatch = _crm_location_match($contact, $values);
 
-    CRM_Core_Error::debug( $locMatch, $values );
-
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
     }
