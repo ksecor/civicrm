@@ -334,39 +334,39 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $error = _crm_duplicate_formatted_contact($formatted);
             if (is_a( $error, CRM_Core_Error )) {
                 $code = $error ->_errors[0]['code'];
-                 if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
-                     if(count($error->_errors[0]['params']) >= 1){
-                         $updateflag = true;
-                         foreach ($error->_errors[0]['params'] as $contactId) {
-                             if($params['id'] == $contactId) {
-                                 $paramsValues = array('contact_id'=>$contactId);
-                                 $contactExits = crm_get_contact($paramsValues);
-                                 if ($formatted['contact_type'] == $contactExits->contact_type) {
-                                     $newContact = crm_update_contact_formatted($contactId, $formatted, true);
-                                     $updateflag = false; 
-                                     $this->_retCode = CRM_Import_Parser::VALID;
-                                 } else {
-                                     $message = "Mismatched contact Types :".$formatted['contact_type'];
-                                     array_unshift($values, $message);
-                                     $updateflag = false;
-                                     $this->_retCode = CRM_Import_Parser::NO_MATCH;
-                                 }
-                             } 
-                         }
-                         if ($updateflag) {
-                             $message = "Mismatched contact ID :".$params['id'];
-                             array_unshift($values, $message);
-                             $this->_retCode = CRM_Import_Parser::NO_MATCH;
-                         }
-                     }
-                 } 
+                if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
+                    if(count($error->_errors[0]['params']) >= 1){
+                        $updateflag = true;
+                        foreach ($error->_errors[0]['params'] as $contactId) {
+                            if($params['id'] == $contactId) {
+                                $paramsValues = array('contact_id'=>$contactId);
+                                $contactExits = crm_get_contact($paramsValues);
+                                if ($formatted['contact_type'] == $contactExits->contact_type) {
+                                    $newContact = crm_update_contact_formatted($contactId, $formatted, true);
+                                    $updateflag = false; 
+                                    $this->_retCode = CRM_Import_Parser::VALID;
+                                } else {
+                                    $message = "Mismatched contact Types :".$formatted['contact_type'];
+                                    array_unshift($values, $message);
+                                    $updateflag = false;
+                                    $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                                }
+                            } 
+                        }
+                        if ($updateflag) {
+                            $message = "Mismatched contact ID :".$params['id'];
+                            array_unshift($values, $message);
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                        }
+                    }
+                } 
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
                 $contact = crm_get_contact($paramsValues);
                 if (is_a($contact,CRM_Contact_BAO_Contact)) {
                     if ($formatted['contact_type'] == $contact->contact_type) {
-                    $newContact = crm_update_contact_formatted($contact->id, $formatted, true);
-                    $this->_retCode = CRM_Import_Parser::VALID;
+                        $newContact = crm_update_contact_formatted($contact->id, $formatted, true);
+                        $this->_retCode = CRM_Import_Parser::VALID;
                     } else {
                         $message = "Mismatched contact Types :".$formatted['contact_type'];
                         array_unshift($values, $message);
@@ -379,7 +379,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }
             }
         } else {
-        $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
+            $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
         }
         if ( is_a( $newContact, CRM_Core_Error ) ) {
             foreach ($newContact->_errors[0]['params'] as $cid) {
