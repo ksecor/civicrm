@@ -1,8 +1,8 @@
 <?php
 
-require_once "login.php";
+require_once "common.php";
 
-class TestOfAdminEditTagForm extends WebTestCase 
+class TestOfAdminDeleteTagForm extends WebTestCase 
 {  
     function setUp( ) 
     {
@@ -12,7 +12,7 @@ class TestOfAdminEditTagForm extends WebTestCase
     {
     }
     
-    function testAdminEditTag()
+    function testAdminDeleteTag()
     {
         $browser = $this->createBrowser();
         $this->setBrowser($browser);
@@ -21,7 +21,7 @@ class TestOfAdminEditTagForm extends WebTestCase
         $loginObj->drupalLogin($this);
         
         $this->get('http://' . $loginObj->host . '/' . $loginObj->userFramework . '/civicrm');
-               
+        
         if ($this->assertLink('Administer CiviCRM')) {
             $this->clickLink('Administer CiviCRM');
         }
@@ -34,19 +34,13 @@ class TestOfAdminEditTagForm extends WebTestCase
         
         $this->assertTitle('Tags (Categories) | CiviCRM');
         
-        if ($this->assertLink('Edit')) {
-            $this->clickLink('Edit');
+        if ($this->assertLink('Delete')) {
+            $this->clickLink('Delete');
         }
-        
-        $name = 'Company';
-        $description = 'For-profit organization. Edited.';
-        
-        $this->setFieldById('name' , $name);
-        $this->setFieldById('description' , $description);
         
         $this->clickSubmitByName('_qf_Tag_next');
         
-        $this->assertWantedText(" The tag \"$name\" has been saved.");
+        $this->assertWantedText('Selected Tag has been Deleted Successfuly.');
     }
 }
 ?>
