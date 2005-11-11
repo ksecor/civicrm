@@ -136,7 +136,13 @@ SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . 
      * @static
      */
     static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null ) {
-        $newContact = 0;
+        // validate that mail is a valid email address. Drupal does not check for this stuff 
+        require_once 'CRM/Utils/Rule.php';
+        if ( ! CRM_Utils_Rule::email( $mail ) ) { 
+            return $status ? null : false; 
+        } 
+
+        $newContact = false;
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
@@ -176,13 +182,9 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                 $ufmatch->email      = $mail    ;
             }
             $ufmatch->save( );
-            $newContact++;
+            $newContact = true;
         }
-        if ($status) {
-            return $newContact;
-        } else {
-            return $ufmatch;
-        }
+        return $status ? $newContact : $ufmatch;
     }
 
     /**
