@@ -137,6 +137,7 @@ SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . 
      */
     static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null ) {
         // validate that mail is a valid email address. Drupal does not check for this stuff
+        require_once 'CRM/Utils/Rule.php';
         if ( ! CRM_Utils_Rule::email( $mail ) ) {
             return $status ? null : false;
         }

@@ -584,7 +584,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                             $params[$index] = $contact1->$name;
                             $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact1->$name, $cfID, $options1);
-                            // print_r($a);
                         }
                     } else if ($name === $key) {
                         $values[$index] = $val;
@@ -615,97 +614,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
         }
         
-        //###########################
-        
-        /*   
-        foreach ( $fields as $name => $field ) {
-            
-            $objName = $field['name'];
-                   
-            $index = $field['title'];
-            if (substr($field['name'],0,5) == 'phone') {
-                //$index .= ' - '.$field['phone_type'];
-            }
-            if ( substr($objName,0,14) === 'state_province' ) {
-                //if ( $objName == 'state_province' ) {
-                $values[$index] = null;
-                if ( $contact->state_province ) {
-                    $values[$index] = $contact->state_province;
-                    $params[$index] = $contact->state_province_id;
-                }
-                //} else if ( $objName == 'country' ) {
-            } else if ( substr($objName,0,7) === 'country' ) {
-                $values[$index] = null;
-                if ( $contact->country ) {
-                    $values[$index] = $contact->country;
-                    $params[$index] = $contact->country_id;
-                }
-            } else if ( $objName == 'group' ) {
-                $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
-                $title = array( );
-                $ids   = array( );
-                foreach ( $groups as $g ) {
-                    if ( $g['visibility'] != 'User and User Admin Only' ) {
-                        $title[] = $g['title'];
-                        if ( $g['visibility'] == 'Public User Pages and Listings' ) {
-                            $ids[] = $g['group_id'];
-                        }
-                    }
-                }
-                $values[$index] = implode( ', ', $title );
-                $params[$index] = implode( ',' , $ids   );
-            } else if ( $objName == 'tag' ) {
-                require_once 'CRM/Core/BAO/EntityTag.php';
-                $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
-                $allTags    =& CRM_Core_PseudoConstant::tag();
-                $title = array( );
-                foreach ( $entityTags as $tagId ) {
-                    $title[] = $allTags[$tagId];
-                }
-                $values[$index] = implode( ', ', $title );
-                $params[$index] = implode( ',' , $entityTags );
-            } else {
-                
-                require_once 'CRM/Core/BAO/CustomField.php';
-                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                    $params[$index] = $contact->$objName;
-                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact->$objName, $cfID, $options );
-                } else {
-                    $values[$index] = $contact->$objName;
-                }
-                
-            }
-
-            if ( $field['visibility'] == "Public User Pages and Listings" &&
-                 CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings' ) ) {
-
-                if ( CRM_Utils_Array::value( $index, $params ) === null ) {
-                    $params[$index] = $values[$index];
-                }
-                if ( empty( $params[$index] ) ) {
-                    continue;
-                }
-                $fieldName = $field['name'];
-                $url = CRM_Utils_System::url( 'civicrm/profile',
-                                              'reset=1&' . 
-                                              urlencode( $fieldName ) .
-                                              '=' .
-                                              urlencode( $params[$index] ) );
-                if ( ! empty( $values[$index] ) ) {
-                    $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
-                }
-            }
-        }
-        */
-        
-        //get Custom Group tree
-        //require_once 'CRM/Core/BAO/CustomGroup.php';
-        // $groupTree = CRM_Core_BAO_CustomGroup::getTree('Individual', $id);
-        //$this->assign('groupTree', $groupTree); 
-        // require_once 'CRM/Core/BAO/CustomGroup.php';
-        // CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $values, true, $inactiveNeeded );
-
-
     }
 
      /**
@@ -720,8 +628,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      */
 
-  public static function del($id) 
-    { 
+    public static function del($id) { 
         //check wheter this group contains  any profile fields
         $profileField = & new CRM_Core_DAO_UFField();
         $profileField->uf_group_id = $id;
@@ -737,7 +644,69 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         return true;
     }
 
+    /**
+     * build a form for the given UF group
+     *
+     * @param int           $id       the group id
+     * @param CRM_Core_Form $form     the form element
+     * @param int           $action   the form action
+     * @return void
+     * @static
+     * @access public
+     */
+    public static function buildQuickForm( $id, &$form, $action ) {
+        $fields =& CRM_Core_BAO_UFGroup::getFields( $id, false, $action );
 
+        foreach ( $fields as $name => $field ) {
+            $required = $field['is_required'];
+
+            if ( substr($field['name'],0,14) === 'state_province' ) {
+
+                $form->add('select', $name, $field['title'],
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
+            } else if ( substr($field['name'],0,7) === 'country' ) {
+                $form->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
+            } else if ( $field['name'] === 'birth_date' ) {  
+                $form->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') );  
+            } else if ( $field['name'] === 'gender' ) {  
+                $genderOptions = array( );   
+                $gender = CRM_Core_PseudoConstant::gender();   
+                foreach ($gender as $key => $var) {   
+                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
+                }   
+                $form->addGroup($genderOptions, $field['name'], $field['title'] );  
+            } else if ( $field['name'] === 'individual_prefix' ){
+                $form->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix());
+            } else if ( $field['name'] === 'individual_suffix' ){
+                $form->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
+            } else if ( $field['name'] === 'group' ) {
+                require_once 'CRM/Contact/Form/GroupTag.php';
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
+                                                              CRM_Contact_Form_GroupTag::GROUP);
+            } else if ( $field['name'] === 'tag' ) {
+                require_once 'CRM/Contact/Form/GroupTag.php';
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
+                                                              CRM_Contact_Form_GroupTag::TAG );
+            } else if (substr($field['name'], 0, 6) === 'custom') {
+                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, false);
+                if ($required) {
+                    $form->addRule($elementName, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
+                }
+            } else if  ( substr($field['name'],0,5) === 'phone' ) {
+                $form->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
+            } else {
+                $form->add('text', $name, $field['title'], $field['attributes'], $required );
+            }
+
+            if ( $field['rule'] ) {
+                $form->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
+            }
+        }
+    }
 
 }
 
