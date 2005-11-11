@@ -90,8 +90,8 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
 
         $this->buildAmount( );
 
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'pre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'post' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
     }
 
@@ -125,7 +125,9 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $profileId, $customPosition ) { 
+    function buildCustom( $id, $name ) {
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name );
     }
 
     /** 

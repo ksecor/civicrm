@@ -272,7 +272,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( substr($field['name'],0,14) === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
-                //} else if ( $field['name'] === 'country' ) {
             } else if ( substr($field['name'],0,7) === 'country' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);

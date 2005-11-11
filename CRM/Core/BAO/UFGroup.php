@@ -649,19 +649,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      * @param int           $id       the group id
      * @param CRM_Core_Form $form     the form element
-     * @param int           $action   the form action
+     * @param string        $name     the name that we should store the fields as
+     *
      * @return void
      * @static
      * @access public
      */
-    public static function buildQuickForm( $id, &$form, $action ) {
+    public static function buildQuickForm( $id, &$form, $name ) {
         $fields =& CRM_Core_BAO_UFGroup::getFields( $id, false, $action );
 
+        $form->assign( $name, $fields );
         foreach ( $fields as $name => $field ) {
             $required = $field['is_required'];
 
             if ( substr($field['name'],0,14) === 'state_province' ) {
-
                 $form->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
             } else if ( substr($field['name'],0,7) === 'country' ) {
