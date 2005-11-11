@@ -1286,7 +1286,7 @@ class CRM_Contact_BAO_Query {
     static function apiQuery( $params = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
-       echo $sql = "$select $from $where";
+        $sql = "$select $from $where";
         if ( ! empty( $sort ) ) {
             $sql .= " ORDER BY $sort ";
         }
@@ -1404,33 +1404,31 @@ class CRM_Contact_BAO_Query {
      */
     static function &defaultHierReturnProperties( ) {
         if ( ! isset( self::$_defaultHierReturnProperties ) ) {
-            self::$_defaultHierReturnProperties = array( 'location' => 
-                                                         array( '1' => array ( 'location_type'  => 1,
-                                                                               'street_address' => 1,
-                                                                               'city'           => 1,
-                                                                               'state_province' => 1,
-                                                                               'country'        => 1,
-                                                                               'phone-Phone'    => 1,
-                                                                               'phone-Mobile'   => 1,
-                                                                               'phone-Fax'      => 1,
-                                                                               'phone-1'        => 1,
-                                                                               'phone-2'        => 1,
-                                                                               'phone-3'        => 1,
-                                                                               'im-1'           => 1,
-                                                                               'im-2'           => 1,
-                                                                               'im-3'           => 1,
-                                                                               'email-1'        => 1,
-                                                                               'email-2'        => 1,
-                                                                               'email-3'        => 1,
-                                                                               ),
-                                                                '2' => array ( 
-                                                                              'location_type'  => 1,
-                                                                              'street_address' => 1, 
-                                                                              'city'           => 1, 
-                                                                              'state_province' => 1, 
-                                                                              'country'        => 1, 
+            self::$_defaultHierReturnProperties = array(
+                                                        'home_URL'               => 1, 
+                                                        'image_URL'              => 1, 
+                                                        'legal_identifier'       => 1, 
+                                                        'external_identifier'    => 1,
+                                                        'contact_type'           => 1,
+                                                        'sort_name'              => 1,
+                                                        'display_name'           => 1,
+                                                        'nick_name'              => 1, 
+                                                        'first_name'             => 1, 
+                                                        'middle_name'            => 1, 
+                                                        'last_name'              => 1, 
+                                                        'prefix'                 => 1, 
+                                                        'suffix'                 => 1,
+                                                        'birth_date'             => 1,
+                                                        'gender'                 => 1,
+                                                        'location'               => 
+                                                        array( '1' => array ( 'location_type'  => 1,
+                                                                              'street_address' => 1,
+                                                                              'city'           => 1,
+                                                                              'state_province' => 1,
+                                                                              'country'        => 1,
                                                                               'phone-Phone'    => 1,
                                                                               'phone-Mobile'   => 1,
+                                                                              'phone-Fax'      => 1,
                                                                               'phone-1'        => 1,
                                                                               'phone-2'        => 1,
                                                                               'phone-3'        => 1,
@@ -1440,12 +1438,29 @@ class CRM_Contact_BAO_Query {
                                                                               'email-1'        => 1,
                                                                               'email-2'        => 1,
                                                                               'email-3'        => 1,
-                                                                              ) 
-                                                                ),
-                                                         );
+                                                                              ),
+                                                               '2' => array ( 
+                                                                             'location_type'  => 1,
+                                                                             'street_address' => 1, 
+                                                                             'city'           => 1, 
+                                                                              'state_province' => 1, 
+                                                                             'country'        => 1, 
+                                                                             'phone-Phone'    => 1,
+                                                                             'phone-Mobile'   => 1,
+                                                                             'phone-1'        => 1,
+                                                                             'phone-2'        => 1,
+                                                                             'phone-3'        => 1,
+                                                                             'im-1'           => 1,
+                                                                             'im-2'           => 1,
+                                                                             'im-3'           => 1,
+                                                                             'email-1'        => 1,
+                                                                             'email-2'        => 1,
+                                                                             'email-3'        => 1,
+                                                                             ) 
+                                                               ),
+                                                        );
             
         }
         return self::$_defaultHierReturnProperties;
     }
-    
 }

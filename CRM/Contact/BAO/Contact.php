@@ -1376,6 +1376,32 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
 
     }
 
+    /**
+     * Function to get the all contact details(Hierarchical)
+     *
+     * @param int   $contactId contact id
+     * @param array $fields fields array
+     *
+     * @return $values array contains the contact details
+     * @static
+     * @access public
+     */
+    static function getHierContactDetails( $contactId, &$fields ) 
+    {
+        $params = array( 'id' => $contactId );
+                
+        $returnProperties = CRM_Contact_BAO_Query::defaultHierReturnProperties( );
+
+        //add custom fields to the return array
+        foreach ($fields as $key => $value) {
+            if (substr($key, 0, 6) === 'custom') {
+                $returnProperties[$key] = 1; 
+            }
+        }
+
+        return $query = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties );
+        
+    } 
 }
 
 ?>

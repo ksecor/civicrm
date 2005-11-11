@@ -123,7 +123,6 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
                 }
             }
             CRM_Core_BAO_UFGroup::getValues( $this->_id, $fields, $values );
-            //print_r($values);
             $template->assign_by_ref( 'row', $values );
         }
 
