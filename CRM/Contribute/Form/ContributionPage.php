@@ -83,13 +83,13 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Previous'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Next >>>'),
+                                        'name'      => ts('Continue >>'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('Prev <<<'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
                                 array ( 'type'      => 'cancel',
                                         'name'      => ts('Cancel') ),
                                 )

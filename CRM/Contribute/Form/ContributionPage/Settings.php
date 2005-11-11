@@ -99,7 +99,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
      * @access public 
      */ 
     public function getTitle( ) {
-        return ts( 'Contribution Page Settings' );
+        return ts( 'Title and Settings' );
     }
 }
 ?>
