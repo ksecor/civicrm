@@ -44,12 +44,28 @@ require_once 'CRM/Contribute/PseudoConstant.php';
 class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
 
     /**
-     * the group id saved to the session for an update
+     * the page id saved to the session for an update
      *
      * @var int
      * @access protected
      */
     protected $_id;
+
+    /** 
+     * are we in single form mode or wizard mode?
+     * 
+     * @var boolean
+     * @access protected 
+     */ 
+    protected $_single;
+
+    /**
+     * is this the first page?
+     *
+     * @var boolean 
+     * @access protected  
+     */  
+    protected $_first = false;
 
     /**
      * Function to set variables up before form is built
@@ -60,8 +76,9 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     public function preProcess()
     {
         // current contribution page id
-        $this->_id = $this->get( 'id' );
-
+        $this->_id     = $this->get( 'id' );
+        $this->_single = $this->get( 'single' );
+ 
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
@@ -82,18 +99,32 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     {
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addButtons(array(
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Previous'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ),
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Continue >>'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
+        if ( $this->_single ) {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Save'),
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
+                                    )
+                              );
+        } else {
+            $buttons = array( );
+            if ( ! $this->_first ) {
+                $buttons[] =  array ( 'type'      => 'back', 
+                                      'name'      => ts('<< Previous'), 
+                                      'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
+            }
+            $buttons[] = array ( 'type'      => 'next',
+                                 'name'      => ts('Continue >>'),
+                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                 'isDefault' => true   );
+            $buttons[] = array ( 'type'      => 'cancel',
+                                 'name'      => ts('Cancel') );
+
+            $this->addButtons( $buttons );
+        }
 
         // views are implemented as frozen form
         if ($this->_action & CRM_Core_Action::VIEW) {
