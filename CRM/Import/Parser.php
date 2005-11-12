@@ -446,7 +446,8 @@ abstract class CRM_Import_Parser {
     }
     
     function setActiveFieldValues( $elements ) {
-        for ( $i = 0; $i < count( $elements ); $i++ ) {
+        $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
+        for ( $i = 0; $i < $maxCount; $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
         }
 
