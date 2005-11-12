@@ -468,8 +468,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                             }
                             $value = $date;
                         }
+
+                        //to add the id of custom value if exits
+                        //$this->_contact['custom_value_5_id'] = 123; 
+
+                        $str = 'custom_value_' . $customFieldID . '_id';
+                        if ($this->_contact[$str]) {
+                            $id = $this->_contact[$str];
+                        }
+                        
                         
                         $data['custom'][$customFieldID] = array( 
+                                                                'id'      => $id,
                                                                 'value'   => $value,
                                                                 'extends' => $customFields[$customFieldID][3],
                                                                 'type'    => $customFields[$customFieldID][2],
@@ -509,7 +519,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );

@@ -465,13 +465,16 @@ ORDER BY
         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
             foreach ($params['custom'] as $customValue) {
                 $cvParams = array(
-                                  'entity_table' => 'civicrm_contact',
-                                  'entity_id' => $contact->id,
-                                  'value' => $customValue['value'],
-                                  'type' => $customValue['type'],
+                                  'entity_table'    => 'civicrm_contact',
+                                  'entity_id'       => $contact->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
                                   );
                 
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
                 CRM_Core_BAO_CustomValue::create($cvParams);
             }
         }
