@@ -143,6 +143,7 @@ SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . 
         }
 
         $newContact = false;
+
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
