@@ -82,6 +82,9 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         $this->assign( 'id', $this->_id );
         $subPage = CRM_Utils_Request::retrieve('subPage', $this );
 
+        $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title'));
+        CRM_Utils_System::setTitle( ts('Configure Online Contribution Page') );
+        
         $form = null;
         switch ( $subPage ) {
         case 'Amount':
@@ -119,30 +122,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
 
 
     /**
-     * edit donation page
-     *
-     * @param int $id donation page id
-     * @param string $action the action to be invoked
-     * @return void
-     * @access public
-     */
-    function edit($id, $action)
-    {
-        // create a simple controller for editing custom data
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_ContributionPage', ts('Contribute Page'), $action);
-
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/commerce/donation', 'action=browse'));
-        $controller->set('id', $id);
-        $controller->setEmbedded(true);
-        $controller->process();
-        $controller->run();
-    }
-
-
-    /**
-     * Preview custom group
+     * Preview contribution page
      *
      * @param int $id custom group id
      * @return void

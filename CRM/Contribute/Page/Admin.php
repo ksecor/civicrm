@@ -47,7 +47,7 @@ class CRM_Contribute_Page_Admin extends CRM_Core_Page
 
         $config =& CRM_Core_Config::singleton( );
 
-        $groups     = array( 'CiviDonate' );
+        $groups     = array( 'CiviContribute' );
         $adminPanel = array( );
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );
