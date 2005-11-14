@@ -83,6 +83,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         $subPage = CRM_Utils_Request::retrieve('subPage', $this );
 
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title'));
+        $this->assign( 'is_active', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'is_active'));
         CRM_Utils_System::setTitle( ts('Configure Online Contribution Page') );
         
         $form = null;
