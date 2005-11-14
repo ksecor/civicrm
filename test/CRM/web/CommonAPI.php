@@ -1,9 +1,8 @@
 <?php
-require_once "common.php";
+require_once "CommonConst.php";
 
-class login extends WebTestCase 
+class CommonAPI extends WebTestCase 
 {
-    
     public $host;
     public $userFramework;
     public $userFrameworkUsername;
@@ -40,6 +39,23 @@ class login extends WebTestCase
         $test->setFieldById('edit-pass', $this->userFrameworkPassword);
         
         $test->clickSubmit('Log in');
+    }
+    
+    function startCiviCRM($test)
+    {
+        $browser = $test->createBrowser();
+        $test->setBrowser($browser);
+        
+        $commonAPIObj =& new CommonAPI();
+        $commonAPIObj->drupalLogin($test);
+        
+        $test->get('http://' . $commonAPIObj->host . '/' . $commonAPIObj->userFramework . '/civicrm');
+               
+        if ($test->assertLink('Administer CiviCRM')) {
+            $test->clickLink('Administer CiviCRM');
+        }
+        
+        $test->assertResponse(200);
     }
 }
 ?>

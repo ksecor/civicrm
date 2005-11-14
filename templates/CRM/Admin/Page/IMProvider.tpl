@@ -29,7 +29,7 @@
 
         {if $action ne 1 and $action ne 2}
         <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New IM Service Provider{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newIMProvider">&raquo; {ts}New IM Service Provider{/ts}</a>
         </div>
         {/if}
     </div>

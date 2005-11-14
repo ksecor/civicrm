@@ -31,7 +31,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Gender Option{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newGender">&raquo; {ts}New Gender Option{/ts}</a>
         </div>
         {/if}
     </div>

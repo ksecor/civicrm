@@ -29,7 +29,7 @@
         
         {if !($action eq 1 and $action eq 2)}
 	    <div class="action-link">
-        <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Tag{/ts}</a>
+        <a href="{crmURL q="action=add&reset=1"}" id="newTag">&raquo; {ts}New Tag{/ts}</a>
         </div>
         {/if}
     </div>
