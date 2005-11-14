@@ -751,7 +751,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_uf_join` DISABLE KEYS */;
 LOCK TABLES `civicrm_uf_join` WRITE;
-INSERT INTO `civicrm_uf_join` VALUES (1,1,'civicrm_contribution_page',1,1,2),(2,1,'civicrm_contribution_page',1,2,3);
+INSERT INTO `civicrm_uf_join` VALUES (1,1,'civicrm','civicrm_contribution_page',1,1,2),(2,1,'civicrm','civicrm_contribution_page',1,2,3);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_uf_join` ENABLE KEYS */;
 

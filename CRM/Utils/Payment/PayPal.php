@@ -36,7 +36,7 @@
 
 class CRM_Utils_Payment_PayPal {
     const
-        PPD_FILE = 'a515b065c4840bfbea7f966d7c5523ab',
+        PPD_FILE = '01b74fec70d1773ea72cbefd7e9aad12',
         CHARSET  = 'iso-8859-1';
     
     /** 

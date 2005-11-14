@@ -144,6 +144,11 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
                    true );
 
         $this->add('text',
+                   'first_name',
+                   ts('First Name'),
+                   array( 'size' => 30, 'maxlength' => 60 ) );
+
+        $this->add('text',
                    'middle_name',
                    ts('Middle Name'),
                    array( 'size' => 30, 'maxlength' => 60 ) );
@@ -218,24 +223,43 @@ class CRM_Contribute_Form_Preview extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Contribute/BAO/ContributionMode.php';
-        if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Contribute_BAO_ContributionMode::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected contribution mode has been deleted.') );
-        } else { 
+        // get the submitted form values. 
+        $params = $this->controller->exportValues( $this->_name ); 
+        $params['currencyID']     = 'USD'; 
+        $params['payment_action'] = 'Sale'; 
+ 
+        $this->set( 'amount', $params['amount'] ); 
 
-            $params = $ids = array( );
-            // store the submitted values in an array
-            $params = $this->exportValues();
-            
-            if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $ids['contributionMode'] = $this->_id;
-            }
-            
-            $contributionMode = CRM_Contribute_BAO_ContributionMode::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The contribution mode "%1" has been saved.', array( 1 => $contributionMode->name )) );
-        }
+        require_once 'CRM/Utils/Payment/PayPal.php';                                                                                      
+        $paypal =& CRM_Utils_Payment_PayPal::singleton( ); 
+  
+        //get the button name  
+        $buttonName = $this->controller->getButtonName( );  
+        if ( $buttonName == $this->_expressButtonName ) { 
+            $this->set( 'donationMode', 'express' ); 
+ 
+            $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
+            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/donate', '_qf_Contribute_display=1', true, null, false ); 
+            $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/donate', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+             
+            $token = $paypal->setExpressCheckout( $params ); 
+            $this->set( 'token', $token ); 
+             
+ 
+            $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+            CRM_Utils_System::redirect( $paypalURL ); 
+        } else { 
+            $this->set( 'contributeMode', 'direct' ); 
+ 
+            $params['country']    = 'US'; 
+            $params['year'   ]    = $params['credit_card_exp_date']['Y']; 
+            $params['month'  ]    = $params['credit_card_exp_date']['M']; 
+            $params['ip_address'] = $_SERVER['REMOTE_ADDR']; 
+            $paypal->doDirectPayment( $params ); 
+            exit( ); 
+        } 
     }
+
 }
 
 ?>

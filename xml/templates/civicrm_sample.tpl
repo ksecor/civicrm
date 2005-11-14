@@ -61,10 +61,10 @@ VALUES
     (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Contribution Post Block');
 
 INSERT INTO civicrm_uf_join
-   (is_active,entity_table,entity_id,weight,uf_group_id)
+   (is_active,'module',entity_table,entity_id,weight,uf_group_id)
 VALUES
-   (1,'civicrm_contribution_page',1,1,2),
-   (1,'civicrm_contribution_page',1,2,3);
+   (1,'civicrm','civicrm_contribution_page',1,1,2),
+   (1,'civicrm','civicrm_contribution_page',1,2,3);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,min_amount,max_amount,thankyou_text,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
