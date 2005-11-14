@@ -2,7 +2,7 @@
 
 require_once "CommonAPI.php";
 
-class TestOfAdminAddTagForm extends WebTestCase 
+class TestOfAdminTagForm extends WebTestCase 
 {  
     function setUp( ) 
     {
@@ -38,7 +38,7 @@ class TestOfAdminAddTagForm extends WebTestCase
         
         $this->assertResponse(200);
     }
-    
+    /*
     function testAdminEditTag()
     {
         //echo "\n ************* Admin Tags(Categories) : Edit ************* \n";
@@ -89,6 +89,6 @@ class TestOfAdminAddTagForm extends WebTestCase
         $this->assertWantedText('Selected Tag has been Deleted Successfuly.');
         
         $this->assertResponse(200);
-    }
+    }*/
 }
 ?>

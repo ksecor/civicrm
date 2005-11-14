@@ -14,7 +14,11 @@ class WebTests extends GroupTest {
     {
         $this->GroupTest( 'Web Site Tests for CRM' );
                 
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminTag.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminTag.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminActivityType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminLocationType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminRelationshipType.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminGender.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewGroup.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
     }

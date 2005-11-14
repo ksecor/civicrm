@@ -34,7 +34,7 @@
 
         {if !($action eq 1 and $action eq 2)}
         <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newRelationsipType">&raquo; {ts}New Relationship Type{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newRelationshipType">&raquo; {ts}New Relationship Type{/ts}</a>
         </div>
         {/if}
     </div>
