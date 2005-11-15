@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>DupeMatch</class>
+  <name>civicrm_dupe_match</name>
+  <comment>DupeMatch specific fields</comment>
+  <add>1.3</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique DupeMatch ID</comment>
+       <add>1.3</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+      <add>1.3</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.3</add>
+  </foreignKey>
+  <field>
+       <name>entity_table</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Name Of Entity Table</comment>
+       <add>1.3</add>
+  </field>
+
+  <field>
+       <name>rule</name>
+       <type>varchar</type>
+       <length>255</length>
+       <required>true</required>
+       <comment>String that can Contains valid civicrm core or custom field name,parenthesis,,AND,OR </comment>
+       <add>1.3</add>
+  </field>
+</table>

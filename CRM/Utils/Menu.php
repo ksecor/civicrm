@@ -216,6 +216,15 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/rela_type.png',
                             'weight'  => 250
                             ),
+                      array(
+                            'path'    => 'civicrm/admin/dupematch',
+                            'title'   => ts('Duplicate Matching'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Configure'),
+                            'icon'    => 'admin/14.png',
+                            'weight'  => 239
+                            ),
 
                       array(
                             'path'    => 'civicrm/admin/gender',

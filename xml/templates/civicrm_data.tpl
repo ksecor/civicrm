@@ -290,6 +290,9 @@ INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUE
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Female{/ts}', 1, 1);
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Male{/ts}', 2, 1);
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Transgender{/ts}', 3, 1);
+
+INSERT INTO civicrm_dupe_match (domain_id, entity_table , rule) VALUES ( {$civicrmDomainId},'contact_individual','first_name AND last_name AND email');
+
 {/if}
 
 -- contribution types

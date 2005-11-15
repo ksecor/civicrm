@@ -426,6 +426,29 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         if ( empty( self::$_matchFields ) ) {
             return null;
         }
+         
+        
+        /*require_once 'CRM/Core/DAO/DupeMatch.php';
+
+        $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
+        
+        //print_r($importableFields);
+        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
+        $dupeMatchDAO->find();
+        while($dupeMatchDAO->fetch()) {
+            $rule = explode('AND',$dupeMatchDAO->rule);
+            foreach ( $rule as $name ) {
+                $fields[trim($name)] = array('name'             => trim($name),
+                                             'title'            => $importableFields[trim($name)]['title'],
+                                             'where'            => $importableFields[trim($name)]['where'],
+                                             'location_type_id' => 2,   
+                                             );
+            }
+            
+        }
+        self::$_matchFields = $fields;
+        */
+
         require_once 'CRM/Contact/BAO/Query.php';
         return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, true );
     }

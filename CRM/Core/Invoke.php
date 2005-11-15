@@ -412,6 +412,11 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
             break;   
             
+        case 'dupematch':
+            require_once 'CRM/Admin/Page/DupeMatch.php';
+            $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));
+            break;   
+
         default:
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
