@@ -387,7 +387,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             } else {
                 $relContactId = $relatedNewContact->id;
             }
-            
+
+            // make sure that relContactId is a valid integer 
+            if ( ! CRM_Utils_Rule::integer( $relContactId ) ) { 
+                // contact id is not valid, abort 
+                continue; 
+            }
+
             //store the related contact id for groups
             $this->_newRelatedContacts[] = $relContactId;
 
@@ -401,6 +407,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
             
             //check if the two contacts are related and of type individual
+            //BUG: we need to create household only if the prior relationship is child/spouse/sibling
             if ( $params[$key]['contact_type'] == 'Individual' && $this->_contactType  == 'Individual') {
                 $householdName = "The ".$formatting['last_name']." household";
                 $householdFormatting = array( 'contact_type' => 'Household', 'household_name' => $householdName );
