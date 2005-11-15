@@ -325,116 +325,89 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
         $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
 
+        $primaryContactId = null;
         if ( is_a( $newContact, CRM_Core_Error ) ) {
-            foreach ($newContact->_errors[0]['params'] as $cid) {
-                $primaryContactId = $cid;
+            $code = $newContact->_errors[0]['code']; 
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT &&
+                count( $newContact->_errors[0]['params'] ) == 1 ) {
+                $primaryContactId = $newContact->_errors[0]['params'][0];
             }
         } else {
             $primaryContactId = $newContact->id;
         }
         
+        // only create relationship if we have a valid primary contact created
+        if ( $primaryContactId ) {
+            //relationship contact insert
+            foreach ($params as $key => $field) {
 
-        //relationship contact insert
-        foreach ($params as $key => $field) {
-
-            list($id, $first, $second) = explode('_', $key);
-            if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
-                continue;
-            }
+                list($id, $first, $second) = explode('_', $key);
+                if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
+                    continue;
+                }
      
-            $formatting = array('contact_type' => $params[$key]['contact_type']);
+                $formatting = array('contact_type' => $params[$key]['contact_type']);
 
-            $contactFields = null;
-            if ($contactFields == null) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params[$key]['contact_type']) . ".php");
-                eval('$contactFields =& CRM_Contact_DAO_'.$params[$key]['contact_type'].'::import();');
-            }
-
-            foreach ($field as $k => $v) {
-                if ($v == null || $v === '') {
-                    continue;
+                $contactFields = null;
+                if ($contactFields == null) {
+                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params[$key]['contact_type']) . ".php");
+                    eval('$contactFields =& CRM_Contact_DAO_'.$params[$key]['contact_type'].'::import();');
                 }
-                
-                if (is_array($v)) {
-                    foreach ($v as $value) {
-                        $break = false;
-                        foreach ($value as $testForEmpty) {
-                            if ($testForEmpty === '' || $testForEmpty == null) {
-                                $break = true;
-                                break;
-                            }                        
-                        }
-                        if (! $break) {
-                            _crm_add_formatted_param($value, $formatting);
-                        }
+
+                foreach ($field as $k => $v) {
+                    if ($v == null || $v === '') {
+                        continue;
                     }
-                    continue;
-                }
+                
+                    if (is_array($v)) {
+                        foreach ($v as $value) {
+                            $break = false;
+                            foreach ($value as $testForEmpty) {
+                                if ($testForEmpty === '' || $testForEmpty == null) {
+                                    $break = true;
+                                    break;
+                                }                        
+                            }
+                            if (! $break) {
+                                _crm_add_formatted_param($value, $formatting);
+                            }
+                        }
+                        continue;
+                    }
             
-                $value = array($k => $v);
-                if (array_key_exists($k, $contactFields)) {
-                    $value['contact_type'] = $params[$key]['contact_type'];
+                    $value = array($k => $v);
+                    if (array_key_exists($k, $contactFields)) {
+                        $value['contact_type'] = $params[$key]['contact_type'];
+                    }
+                    _crm_add_formatted_param($value, $formatting);
                 }
-                _crm_add_formatted_param($value, $formatting);
-            }
 
-            $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
-            //print_r($relatedNewContact);
-            if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
-                foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
-                    $relContactId = $cid;
-                }
-            } else {
-                $relContactId = $relatedNewContact->id;
-            }
-
-            // make sure that relContactId is a valid integer 
-            if ( ! CRM_Utils_Rule::integer( $relContactId ) ) { 
-                // contact id is not valid, abort 
-                continue; 
-            }
-
-            //store the related contact id for groups
-            $this->_newRelatedContacts[] = $relContactId;
-
-            // now create the relationship record
-            $relationParams = array();
-            $relationParams = array('relationship_type_id' => $key, 
-                                    'contact_check' => array( $relContactId => 1)
-                                    );
-            
-            $relationIds = array('contact' => $primaryContactId);
-            CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
-            
-            //check if the two contacts are related and of type individual
-            //BUG: we need to create household only if the prior relationship is child/spouse/sibling
-            if ( $params[$key]['contact_type'] == 'Individual' && $this->_contactType  == 'Individual') {
-                $householdName = "The ".$formatting['last_name']." household";
-                $householdFormatting = array( 'contact_type' => 'Household', 'household_name' => $householdName );
-                $householdContact = crm_create_contact_formatted( $householdFormatting, $onDuplicate );
-                if ( is_a( $householdContact, CRM_Core_Error ) ) {
-                    foreach ($householdContact->_errors[0]['params'] as $cid) {
-                        $householdId = $cid;
+                $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
+                //print_r($relatedNewContact);
+                if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
+                    foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
+                        $relContactId = $cid;
                     }
                 } else {
-                    $householdId = $householdContact->id;
+                    $relContactId = $relatedNewContact->id;
                 }
 
-                //Household contact is created 
-                //for two related individual contacts waiting confirmation whether 
-                //to add it in a group
-                //$this->_newRelatedContacts[] = $householdId;
-                
+                // make sure that relContactId is a valid integer 
+                if ( ! CRM_Utils_Rule::integer( $relContactId ) ) { 
+                    // contact id is not valid, abort 
+                    continue; 
+                }
+
+                //store the related contact id for groups
+                $this->_newRelatedContacts[] = $relContactId;
+
+                // now create the relationship record
                 $relationParams = array();
-                // adding household relationship
-                $relType = '7_'.$second.'_'.$first;
-
-                $relationParams = array('relationship_type_id' => $relType,
-                                        'contact_check'        => array( $relContactId => 1,
-                                                                         $primaryContactId => 1)
+                $relationParams = array('relationship_type_id' => $key, 
+                                        'contact_check' => array( $relContactId => 1)
                                         );
-                $relationIds = array('contact' => $householdId);
-
+            
+                $relationIds = array('contact' => $primaryContactId);
                 CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
             }
         }
