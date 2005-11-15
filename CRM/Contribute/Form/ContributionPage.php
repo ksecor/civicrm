@@ -82,7 +82,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-            CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
+            CRM_Utils_System::setTitle(ts('Configure %1', array(1 => $title)));
         } else if ($this->_action == CRM_Core_Action::VIEW) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
             CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));

@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -275,48 +275,6 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
                             ),
-                      array(
-                            'path'    => 'civicrm/contribute/admin',
-                            'title'   => ts('Administer CiviDonate'),
-                            'qs'      => 'reset=1',
-                            'access'  => CRM_Utils_System::checkPermission('administer CiviDonate') &&
-                                         CRM_Utils_System::checkPermission( 'access CiviDonate' ),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::CALLBACK,
-                            'weight'  => 50,
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contribute/admin/contributionType',
-                            'title'   => ts('Contribution Type'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviDonate',
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 360
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contribute/admin/contributionMode',
-                            'title'   => ts('Contribution Mode'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviDonate',
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 370
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contribute/admin/paymentInstrument',
-                            'title'   => ts('Payment Instrument'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviDonate',
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 380
-                            ),
-                      
-    
                       array(
                             'path'     => 'civicrm',
                             'title'    => ts('CiviCRM'),
@@ -588,24 +546,47 @@ class CRM_Utils_Menu {
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 
                             ),
+
                       array( 
-                            'path'    => 'civicrm/contribute/admin', 
-                            'title'   => ts( 'Contribute Module' ), 
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM'), 
-                            'type'    => self::CALLBACK,  
-                            'crmType' => self::CALLBACK,  
-                            'weight'  => 0,  
-                            ), 
-                      /*    //added
-                      array( 
-                            'path'    => 'civicrm/contribute', 
-                            'title'   => ts( 'Contribute Module' ), 
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM'), 
-                            'type'    => self::CALLBACK,  
-                            'crmType' => self::CALLBACK,  
-                            'weight'  => 0,  
-                            ), 
-                      */
+                             'path'    => 'civicrm/contribute', 
+                             'title'   => ts( 'CiviContribute' ), 
+                             'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
+                             'type'    => self::CALLBACK,  
+                             'crmType' => self::CALLBACK,  
+                             'weight'  => 0,  
+                             ), 
+
+                      array(
+                            'path'    => 'civicrm/contribute/admin',
+                            'title'   => ts('Administer CiviContribute'),
+                            'qs'      => 'reset=1',
+                            'access'  => CRM_Utils_System::checkPermission('administer CiviContribute') &&
+                            CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::CALLBACK,
+                            'weight'  => 50,
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contribute/admin/contributionType',
+                            'title'   => ts('Contribution Types'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviContribute',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 360
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contribute/admin/paymentInstrument',
+                            'title'   => ts('Payment Instruments'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviContribute',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 380
+                            ),
+
                       );
                       
             

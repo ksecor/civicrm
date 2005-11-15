@@ -64,7 +64,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->add('textarea', 'intro_text', ts('Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
 
         // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Active?') );
+        $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
         parent::buildQuickForm( );
     }
