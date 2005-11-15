@@ -1096,11 +1096,16 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                   CRM_Core_DAO_Note::import());
             if ( $contactType != 'All' ) { 
 
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
+
+
+                // commented below code since currently we are showing only contact's custom fields
+                /*
                 if (!$status) {    
                     $fields = array_merge($fields,
-                                      CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
+                                          CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
                 } else {
-                    foreach ( array( $contactType, 'Activity', 'Gift' ) as $type ) { 
+                    foreach ( array( $contactType, 'Activity', 'Contribution', 'Phonecall', 'Meeting' ) as $type ) { 
                         
                         $customFields = array();
                         $customFields = CRM_Core_BAO_CustomField::getFieldsForImport($type);
@@ -1109,13 +1114,22 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                             if ($type === $contactType ) {
                                 $fields = array_merge( $fields, array('custom_c' => array( 'title' => ts('- Custom Contact Fields -') )));
                             } else if ($type === 'Activity' ) {
-                                $fields = array_merge( $fields, array('custom_a' => array( 'title' => ts('- Custom Activity Fields -') )));                            } else if ($type === 'Gift' ) {
-                                $fields = array_merge( $fields, array('custom_g' => array( 'title' => ts('- Custom Gift Fields -') ))); 
+                                $fields = array_merge( $fields,
+                                                       array('custom_a' => array( 'title' => ts('- Custom Activity Fields -') )));
+                            } else if ($type === 'Contribution' ) {
+                                $fields = array_merge( $fields, 
+                                                       array('custom_g' => array( 'title' => ts('- Custom Contribution Fields -') ))); 
+                            } else if ($type === 'Phonecall' ) {
+                                $fields = array_merge( $fields,
+                                                       array('custom_p' => array( 'title' => ts('- Custom Phonecall Fields -') ))); 
+                            } else if ($type === 'Meeting' ) {
+                                $fields = array_merge( $fields, array('custom_m' => array( 'title' => ts('- Custom Meeting Fields -') )));
                             }
                             $fields = array_merge($fields, $customFields);
                         }
                     }
                 }
+                */
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                     $fields = array_merge($fields, 
