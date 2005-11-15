@@ -512,11 +512,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $params[$index] = $details['gender_id'];
                     $values[$index] = $details['gender'];
                 } else if ($name == 'individual_prefix') {
-                    $values[$index] = $details['prefix'];
-                    $params[$index] = $details['prefix_id'];
+                    $values[$index] = $details['individual_prefix'];
+                    $params[$index] = $details['individual_prefix_id'];
                 } else if ($name == 'individual_suffix') {
-                    $values[$index] = $details['suffix'];
-                    $params[$index] = $details['suffix_id'];
+                    $values[$index] = $details['individual_suffix'];
+                    $params[$index] = $details['individual_suffix_id'];
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
                     $title = array( );

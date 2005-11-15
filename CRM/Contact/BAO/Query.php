@@ -311,6 +311,7 @@ class CRM_Contact_BAO_Query {
                             $this->_select['address_id']      = 'civicrm_address.id as address_id';
                             $this->_element['address_id']     = 1;
                         }
+
                         $this->_tables[$tableName]         = 1;
 
                         // also get the id of the tableName
@@ -333,7 +334,7 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-        
+
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
 
@@ -578,6 +579,20 @@ class CRM_Contact_BAO_Query {
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
                 $this->_qill[] = ts('Gender - "%1"', array( 1 => $value ) ); 
+            } else if ( $name === 'individual_prefix' ) {
+                $prefixs =& CRM_Core_PseudoConstant::prefix( );  
+                if ( is_numeric( $value ) ) {  
+                    $value     =  $prefixs[(int ) $value];  
+                }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
+                $this->_qill[] = ts('Prefix - "%1"', array( 1 => $value ) ); 
+            } else if ( $name === 'individual_suffix' ) {
+                $suffixs =& CRM_Core_PseudoConstant::suffix( );  
+                if ( is_numeric( $value ) ) {  
+                    $value     =  $suffixs[(int ) $value];  
+                }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
+                $this->_qill[] = ts('Suffix - "%1"', array( 1 => $value ) ); 
             } else if ( $name === 'birth_date' ) {
                 $date = CRM_Utils_Date::format( $value );
                 if ( ! $date ) {
@@ -612,7 +627,6 @@ class CRM_Contact_BAO_Query {
             $this->_where = array_merge( $this->_where  , $this->_customQuery->_where );
             $this->_qill  = array_merge( $this->_qill   , $this->_customQuery->_qill  );
         }
-
         return  implode( ' AND ', $this->_where );
     }
 
@@ -1417,8 +1431,8 @@ class CRM_Contact_BAO_Query {
                                                         'first_name'             => 1, 
                                                         'middle_name'            => 1, 
                                                         'last_name'              => 1, 
-                                                        'prefix'                 => 1, 
-                                                        'suffix'                 => 1,
+                                                        'individual_prefix'      => 1, 
+                                                        'individual_suffix'      => 1,
                                                         'birth_date'             => 1,
                                                         'gender'                 => 1,
                                                         'location'               => 

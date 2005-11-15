@@ -129,9 +129,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                     if ($name == 'gender') { 
                         $defaults[$name] = $details['gender_id'];
                     } else if ($name == 'individual_prefix') {
-                        $defaults[$name] = $details['prefix_id'];
+                        $defaults[$name] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
-                        $defaults[$name] = $details['suffix_id'];
+                        $defaults[$name] = $details['individual_suffix_id'];
                     } else if ( substr($name, 0, 6) == 'custom') {   
                         $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
                         $cf =& new CRM_Core_BAO_CustomField();
