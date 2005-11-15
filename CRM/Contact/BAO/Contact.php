@@ -1405,7 +1405,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      */
     static function getHierContactDetails( $contactId, &$fields ) 
     {
-        $params = array( 'id' => $contactId );
+        $params  = array( 'id' => $contactId );
+        $options = array( );
                 
         $returnProperties = CRM_Contact_BAO_Query::defaultHierReturnProperties( );
 
@@ -1415,9 +1416,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 $returnProperties[$key] = 1; 
             }
         }
-
-        return $query = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties );
-        
+        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
     } 
 }
 

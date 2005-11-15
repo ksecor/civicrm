@@ -118,7 +118,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $defaults = array( );
 
             // get the contact details (hier)
-            $contactDetails = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
+            list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
 
             //start of code to set the default values

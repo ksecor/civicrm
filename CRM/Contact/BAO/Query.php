@@ -579,20 +579,6 @@ class CRM_Contact_BAO_Query {
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
                 $this->_qill[] = ts('Gender - "%1"', array( 1 => $value ) ); 
-            } else if ( $name === 'individual_prefix' ) {
-                $prefixs =& CRM_Core_PseudoConstant::prefix( );  
-                if ( is_numeric( $value ) ) {  
-                    $value     =  $prefixs[(int ) $value];  
-                }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
-                $this->_qill[] = ts('Prefix - "%1"', array( 1 => $value ) ); 
-            } else if ( $name === 'individual_suffix' ) {
-                $suffixs =& CRM_Core_PseudoConstant::suffix( );  
-                if ( is_numeric( $value ) ) {  
-                    $value     =  $suffixs[(int ) $value];  
-                }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
-                $this->_qill[] = ts('Suffix - "%1"', array( 1 => $value ) ); 
             } else if ( $name === 'birth_date' ) {
                 $date = CRM_Utils_Date::format( $value );
                 if ( ! $date ) {
@@ -1298,9 +1284,10 @@ class CRM_Contact_BAO_Query {
      * @return void 
      * @access public 
      */
-    static function apiQuery( $params = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
+    static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25 ) {
         $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
+        $options = $query->_options;
         $sql = "$select $from $where";
         if ( ! empty( $sort ) ) {
             $sql .= " ORDER BY $sort ";
@@ -1314,7 +1301,7 @@ class CRM_Contact_BAO_Query {
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
-        return $values;
+        return array($values, $options);
     }
 
 

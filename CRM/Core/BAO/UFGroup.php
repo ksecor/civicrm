@@ -487,19 +487,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      */
     public static function getValues( $id, &$fields, &$values ) {
-        $returnProperties = array( );
-        foreach ( $fields as $name => $dontCare ) {
-            $returnProperties[$name] = 1;
-        }
-        
         $options = array( );
-        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $options, $returnProperties );
-        if ( ! $contact ) {
-            return;
-        }
         
         // get the contact details (hier)
-        $contactDetails = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
+        list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
         $details = $contactDetails[$id];
 
         //start of code to set the default values
@@ -602,12 +593,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
     }
-
-
-
-
-
-
+    
      /**
      * Delete the profile Group.
      *
@@ -619,7 +605,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      *
      */
-
     public static function del($id) { 
         //check wheter this group contains  any profile fields
         $profileField = & new CRM_Core_DAO_UFField();
@@ -700,7 +685,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
     }
-
 }
 
 ?>
