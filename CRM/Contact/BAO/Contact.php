@@ -407,9 +407,9 @@ ORDER BY
         require_once 'CRM/Utils/Hook.php';
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Contact', $ids['contact'], $params );
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
         } else {
-            CRM_Utils_Hook::pre( 'create', 'Contact', null, $params ); 
+            CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
         }
 
         CRM_Core_DAO::transaction('BEGIN');
@@ -476,9 +476,9 @@ ORDER BY
         CRM_Core_DAO::transaction('COMMIT');
         
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', 'Contact', $contact->id, $contact );
+            CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
         } else {
-            CRM_Utils_Hook::post( 'create', 'Contact', $contact->id, $contact );
+            CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
         }
 
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
