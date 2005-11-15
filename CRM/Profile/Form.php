@@ -119,12 +119,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             // get the contact details (hier)
             $contactDetails = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
-
-            // print_r($this->_fields);
-           
             $this->_contact = $details = $contactDetails[$this->_id];
-            
-            //print_r($details);
 
             //start of code to set the default values
             foreach ($this->_fields as $name => $field ) {
@@ -192,13 +187,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
             
-
-            //print_r($defaults);
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
-
-
     } 
     
     /** 
@@ -251,7 +242,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $admin = true;
             }
         }
-        //print_r($this->_fields);
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field

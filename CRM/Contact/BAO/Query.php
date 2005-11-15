@@ -315,6 +315,7 @@ class CRM_Contact_BAO_Query {
 
                         // also get the id of the tableName
                         $tName = substr($tableName, 8 );
+
                         if ( $tName != 'contact' ) {
                             $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
                             $this->_element["{$tName}_id"] = 1;
@@ -332,7 +333,7 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-
+        
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
 
@@ -1421,41 +1422,45 @@ class CRM_Contact_BAO_Query {
                                                         'birth_date'             => 1,
                                                         'gender'                 => 1,
                                                         'location'               => 
-                                                        array( '1' => array ( 'location_type'  => 1,
-                                                                              'street_address' => 1,
-                                                                              'city'           => 1,
-                                                                              'state_province' => 1,
-                                                                              'country'        => 1,
-                                                                              'phone-Phone'    => 1,
-                                                                              'phone-Mobile'   => 1,
-                                                                              'phone-Fax'      => 1,
-                                                                              'phone-1'        => 1,
-                                                                              'phone-2'        => 1,
-                                                                              'phone-3'        => 1,
-                                                                              'im-1'           => 1,
-                                                                              'im-2'           => 1,
-                                                                              'im-3'           => 1,
-                                                                              'email-1'        => 1,
-                                                                              'email-2'        => 1,
-                                                                              'email-3'        => 1,
+                                                        array( '1' => array ( 'location_type'      => 1,
+                                                                              'street_address'     => 1,
+                                                                              'city'               => 1,
+                                                                              'state_province'     => 1,
+                                                                              'postal_code'        => 1, 
+                                                                              'postal_code_suffix' => 1, 
+                                                                              'country'            => 1,
+                                                                              'phone-Phone'        => 1,
+                                                                              'phone-Mobile'       => 1,
+                                                                              'phone-Fax'          => 1,
+                                                                              'phone-1'            => 1,
+                                                                              'phone-2'            => 1,
+                                                                              'phone-3'            => 1,
+                                                                              'im-1'               => 1,
+                                                                              'im-2'               => 1,
+                                                                              'im-3'               => 1,
+                                                                              'email-1'            => 1,
+                                                                              'email-2'            => 1,
+                                                                              'email-3'            => 1,
                                                                               ),
                                                                '2' => array ( 
-                                                                             'location_type'  => 1,
-                                                                             'street_address' => 1, 
-                                                                             'city'           => 1, 
-                                                                              'state_province' => 1, 
-                                                                             'country'        => 1, 
-                                                                             'phone-Phone'    => 1,
-                                                                             'phone-Mobile'   => 1,
-                                                                             'phone-1'        => 1,
-                                                                             'phone-2'        => 1,
-                                                                             'phone-3'        => 1,
-                                                                             'im-1'           => 1,
-                                                                             'im-2'           => 1,
-                                                                             'im-3'           => 1,
-                                                                             'email-1'        => 1,
-                                                                             'email-2'        => 1,
-                                                                             'email-3'        => 1,
+                                                                             'location_type'      => 1,
+                                                                             'street_address'     => 1, 
+                                                                             'city'               => 1, 
+                                                                             'state_province'     => 1, 
+                                                                             'postal_code'        => 1, 
+                                                                             'postal_code_suffix' => 1, 
+                                                                             'country'            => 1, 
+                                                                             'phone-Phone'        => 1,
+                                                                             'phone-Mobile'       => 1,
+                                                                             'phone-1'            => 1,
+                                                                             'phone-2'            => 1,
+                                                                             'phone-3'            => 1,
+                                                                             'im-1'               => 1,
+                                                                             'im-2'               => 1,
+                                                                             'im-3'               => 1,
+                                                                             'email-1'            => 1,
+                                                                             'email-2'            => 1,
+                                                                             'email-3'            => 1,
                                                                              ) 
                                                                ),
                                                         );

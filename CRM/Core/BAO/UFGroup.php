@@ -468,132 +468,99 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         foreach ( $fields as $name => $dontCare ) {
             $returnProperties[$name] = 1;
         }
-        $options  = array( );
-        $options1 = array( );
-        $contact1 = CRM_Contact_BAO_Contact::contactDetails( $id, $options1, $returnProperties );
-        $record['id'] = $record['contact_id'] = $id;
-        $contact      = CRM_Contact_BAO_Contact::retrieve( $record , $options, $ids );
+        
+        $options = array( );
+        $contact = CRM_Contact_BAO_Contact::contactDetails( $id, $options, $returnProperties );
         if ( ! $contact ) {
             return;
         }
-        //print_r($contact);
-        //print_r($fields);
-        //print_r($options);
-        $params = array( );
-        //###########################
+        
+        // get the contact details (hier)
+        $contactDetails = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
+        $details = $contactDetails[$id];
 
+        //start of code to set the default values
         foreach ($fields as $name => $field ) {
-            $index = $field['title'];
-            if (substr($field['name'],0,5) == 'phone') {
-                $index .= ' - '.$field['phone_type'];
-            } 
-            foreach ($options as $key => $val) {
-                $nameValue = explode('-', $name);
-                if (is_numeric($nameValue[1])) {
-                    if (is_array($val)) {
-                        foreach ($val as $key1 => $val1) {
-                            if (is_array($val1)) {
-                                if ( $val1['location_type_id'] == $nameValue[1] ) {
-                                    //print_r($val1);
-                                    foreach ($val1 as $key2 => $var) {
-                                        if (is_array($var)) {
-                                            foreach ($var as $k1 => $var1) {
-                                                if (is_array($var1)) {
-                                                    //set the phone values
-                                                    if ($nameValue[0] == 'phone' && $nameValue[2] == $var1['phone_type']) {
-                                                        $values[$index] = $var1['phone'];
-                                                    }
-                                                    //set the im values
-                                                    if ($nameValue[0] == 'im') {
-                                                        $values[$index] = $var1['name'];
-                                                    }
-                                                    //set the email values
-                                                    if ($nameValue[0] == 'email') {
-                                                        $values[$index] = $var1['email'];
-                                                    }
-                                                } else {
-                                                    //set the address values
-                                                    if ($nameValue[0] === 'country'  && substr($k1,0,7) === 'country') {
-                                                        $country = array('country_id' => $var1 );
-                                                        CRM_Contact_BAO_Contact::lookupValue( $country, 'country', CRM_Core_PseudoConstant::country(), false);
-                                                        $values[$index] = $country['country'];
-                                                        $params[$index] = $var1;
-                                                    } else if ($nameValue[0] === 'state_province' && substr($k1,0,14)  === 'state_province' ) {
-                                                        $stateProvince = array('state_province_id' => $var1 );
-                                                        CRM_Contact_BAO_Contact::lookupValue( $stateProvince, 'state_province', CRM_Core_PseudoConstant::stateProvince(), false);
-                                                        $values[$index] = $stateProvince['state_province'];
-                                                        $params[$index] = $var1;
-                                                    } else if ( $nameValue[0] == $k1 ) {
-                                                        $values[$index] = $var1;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+            $index   = $field['title'];
+            if (CRM_Utils_Array::value($name, $details )) {
+                //to handle custom data (checkbox) to be written
+                // to handle gender / suffix / prefix
+                if ($name == 'gender') { 
+                    $params[$index] = $details['gender_id'];
+                    $values[$index] = $details['gender'];
+                } else if ($name == 'individual_prefix') {
+                    $values[$index] = $details['prefix'];
+                    $params[$index] = $details['prefix_id'];
+                } else if ($name == 'individual_suffix') {
+                    $values[$index] = $details['suffix'];
+                    $params[$index] = $details['suffix_id'];
+                } else if ( $name == 'group' ) {
+                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
+                    $title = array( );
+                    $ids   = array( );
+                    foreach ( $groups as $g ) {
+                        if ( $g['visibility'] != 'User and User Admin Only' ) {
+                            $title[] = $g['title'];
+                            if ( $g['visibility'] == 'Public User Pages and Listings' ) {
+                                $ids[] = $g['group_id'];
                             }
                         }
                     }
+                    $values[$index] = implode( ', ', $title );
+                    $params[$index] = implode( ',' , $ids   );
+                } else if ( $name == 'tag' ) {
+                    require_once 'CRM/Core/BAO/EntityTag.php';
+                    $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
+                    $allTags    =& CRM_Core_PseudoConstant::tag();
+                    $title = array( );
+                    foreach ( $entityTags as $tagId ) {
+                        $title[] = $allTags[$tagId];
+                    }
+                    $values[$index] = implode( ', ', $title );
+                    $params[$index] = implode( ',' , $entityTags );
                 } else {
-                    // echo $name . "=============" .$key . "<br>";
-                  
-                    if ( $name == 'group' ) {
-                        $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
-                        $title = array( );
-                        $ids   = array( );
-                        foreach ( $groups as $g ) {
-                            if ( $g['visibility'] != 'User and User Admin Only' ) {
-                                $title[] = $g['title'];
-                                if ( $g['visibility'] == 'Public User Pages and Listings' ) {
-                                    $ids[] = $g['group_id'];
+                    require_once 'CRM/Core/BAO/CustomField.php';
+                    if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                        $params[$index] = $details[$name];
+                        $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details[$name], $cfID, $options );
+                    } else {
+                        $values[$index] = $details[$name];
+                    }
+                }
+            } else {
+                $nameValue = explode( '-' , $name );
+                foreach ($details as $key => $value) {
+                    if (is_numeric($key)) {
+                        if ($nameValue[1] == $value['location_type_id'] ) {
+                            if (CRM_Utils_Array::value($nameValue[0], $value )) {
+                                //to handle stateprovince and country
+                                if ( $nameValue[0] == 'state_province' ) {
+                                    $values[$index] = $value['state_province'];
+                                    $params[$index] = $value['state_province_id'];
+                                } else if ( $nameValue[0] == 'country' ) {
+                                    $values[$index] = $value['country'];
+                                    $params[$index] = $value['country_id'];
+                                } else if ( $nameValue[0] == 'phone' ) {
+                                    $values[$index] = $value['phone'][$nameValue[2]];
+                                } else if ( $nameValue[0] == 'email' ) {
+                                    //adding the first email (currently we don't support multiple emails of same location type)
+                                    $values[$index] = $value['email'][1];
+                                } else if ( $nameValue[0] == 'im' ) {
+                                    //adding the first email (currently we don't support multiple ims of same location type)
+                                    $values[$index] = $value['im'][1];
+                                } else {
+                                    $values[$index] = $value[$nameValue[0]];
+                                    $params[$index] = $value[$nameValue[0]];
                                 }
                             }
                         }
-                        $values[$index] = implode( ', ', $title );
-                        $params[$index] = implode( ',' , $ids   );
-                    } else if ( $name == 'tag' ) {
-                        require_once 'CRM/Core/BAO/EntityTag.php';
-                        $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
-                        $allTags    =& CRM_Core_PseudoConstant::tag();
-                        $title = array( );
-                        foreach ( $entityTags as $tagId ) {
-                            $title[] = $allTags[$tagId];
-                        }
-                        $values[$index] = implode( ', ', $title );
-                        $params[$index] = implode( ',' , $entityTags );
-                    } else if ($name == 'individual_prefix' && $key == 'prefix_id') {
-                        $prefix = array('prefix_id' => $val );
-                        CRM_Contact_BAO_Contact::lookupValue( $prefix, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), false);
-                        $values[$index] = $prefix['prefix'];
-                        $params[$index] = $val;
-                    } else if ($name == 'individual_suffix' && $key == 'suffix_id') {                         
-                        $suffix = array('suffix_id' => $val );
-                        CRM_Contact_BAO_Contact::lookupValue( $suffix, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), false);
-                        $values[$index] = $suffix['suffix'];
-                        $params[$index] = $val;
-                    } else if ($name == 'gender' && $key =='gender_id') { 
-                        $gender = array('gender_id' => $val );
-                        CRM_Contact_BAO_Contact::lookupValue( $gender, 'gender', CRM_Core_PseudoConstant::gender(), false);
-                        $values[$index] = $gender['gender'];
-                        $params[$index] = $val;
-                    } else if ($name == 'birth_date' && $key == 'birth_date') {
-                        $values[$index] = CRM_Utils_Date::format( $val, '-' );
-                        //$params[$index] = $val;
-                    } else if (substr($name, 0, 6) === 'custom') {
-                        require_once 'CRM/Core/BAO/CustomField.php';
-                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                            $params[$index] = $contact1->$name;
-                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $contact1->$name, $cfID, $options1);
-                        }
-                    } else if ($name === $key) {
-                        $values[$index] = $val;
                     }
                 }
             }
-
+        
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings' ) ) {
-
+                
                 if ( CRM_Utils_Array::value( $index, $params ) === null ) {
                     $params[$index] = $values[$index];
                 }
@@ -610,11 +577,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }
-
-
         }
-        
     }
+
+
+
+
+
 
      /**
      * Delete the profile Group.
