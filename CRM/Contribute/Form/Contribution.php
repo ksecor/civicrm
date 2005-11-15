@@ -27,6 +27,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Social Source Foundation (c) 2005
@@ -37,52 +38,110 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * form to process actions on the group aspect of Custom Data
+ * This class generates form components for processing a ontribution 
+ * 
  */
-class CRM_Contribute_Form_Contribution extends CRM_Core_Form {
+class CRM_Contribute_Form_Contribution extends CRM_Core_Form
+{
 
-    /**
-     * the donation page id
-     *
-     * @var int
-     * @access protected
-     */
-    protected $_id;
+    /** 
+     * Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    public function preProcess()  
+    {  
+        // current contribution page id 
+        $this->_id = $this->get( 'id' ); 
+        
+        // get all the values from the dao object
+        $params = array('id' => $this->_id); 
+        $this->_values = array( );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
 
-    protected $_expressButtonName;
+        // get the amounts and the label
+        require_once 'CRM/Core/BAO/CustomOption.php';  
+        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $this->_values );
 
-    /**
-     * Function to set variables up before form is built
-     *
-     * @return void
-     * @access public
-     */
-    public function preProcess()
-    {
-        $this->_id = $this->get('id');
+        // get the profile ids
+        require_once 'CRM/Core/BAO/UFJoin.php'; 
+ 
+        $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',   
+                               'entity_id'    => $this->_id,   
+                               'weight'       => 1 ); 
+        $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
+ 
+        $ufJoinParams['weight'] = 2; 
+        $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
     }
 
     /**
-     * Function to actually build the form
+     * Function to build the form
      *
-     * @return void
+     * @return None
      * @access public
      */
-    public function buildQuickForm()
+    public function buildQuickForm( ) 
     {
-        $donationAmounts = array( 1, 2, 4, 8, 16, 32, 64 );
-        $amounts = array( );
-        foreach ( $donationAmounts as $amount ) {
-            $amounts[] = HTML_QuickForm::createElement('radio', null, '', $amount, $amount );
-        }
-        $this->addGroup( $amounts, 'amount', ts( 'Contribution Amount' ) );
+        $this->applyFilter('__ALL__', 'trim');
 
-        // add credit card fields
+        $this->buildCreditCard( );
+
+        $this->buildAmount( );
+
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+
+    }
+
+    function buildAmount( ) {
+        $elements = array( );
+
+        // first build the radio boxes
+        if ( ! empty( $this->_values['label'] ) ) {
+            for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
+                $elements[] =& $this->createElement('radio', null, '',
+                                                    '$' . $this->_values['value'][$index] . ' ' . $this->_values['label'][$index],
+                                                    $this->_values['value'][$index] );
+            }
+        }
+
+        if ( $this->_values['is_allow_other_amount'] ) {
+            $elements[] =& $this->createElement('radio', null, '',
+                                                'Other', 'amount_other' );
+            $this->assign( 'is_allow_other_amount', true );
+            $this->add('text', 'amount_other',
+                       ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10 )
+                       );
+        }
+
+        $this->addGroup( $elements, 'amount', ts('Amount'), '<br />' );
+    }
+    
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name );
+    }
+
+    /** 
+     * Function to add all the credit card fields
+     * 
+     * @return None 
+     * @access public 
+     */
+    function buildCreditCard( ) {
         $this->add('text', 
                    'email', 
                    ts('Email Address'), 
-                   array( 'size' => 30, 'maxlength' => 60 ) );
-
+                   array( 'size' => 30, 'maxlength' => 60 ),
+                   true );
 
         $this->add('text',
                    'first_name',
@@ -154,75 +213,51 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form {
                    $this->_expressButtonName,
                    ts( 'Contribute via PayPal' ),
                    array( 'class' => 'form-submit' ) );
-
-        $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Contribute'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
-                                )
-                          );
-
     }
 
     /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
+     * Function to process the form
      *
      * @access public
-     * @return void
+     * @return None
      */
-    function setDefaultValues()
+    public function postProcess() 
     {
-        $defaults = array();
-        return $defaults;
-    }
+        // get the submitted form values. 
+        $params = $this->controller->exportValues( $this->_name ); 
+        $params['currencyID']     = 'USD'; 
+        $params['payment_action'] = 'Sale'; 
+ 
+        $this->set( 'amount', $params['amount'] ); 
 
-    /**
-     * Process the form
-     *
-     * @return void
-     * @access public
-     */
-    public function postProcess()
-    {
-        // get the submitted form values.
-        $params = $this->controller->exportValues( $this->_name );
-        $params['currencyID']     = 'USD';
-        $params['payment_action'] = 'Sale';
-
-        $this->set( 'amount', $params['amount'] );
-
-        require_once 'CRM/Utils/Payment/PayPal.php';
-        $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-
-        //get the button name 
-        $buttonName = $this->controller->getButtonName( ); 
-        if ( $buttonName == $this->_expressButtonName ) {
-            $this->set( 'donationMode', 'express' );
-
-            $donateURL = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Contribute_display=1' );
-            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Contribute_display=1', true, null, false );
-            $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/donation/donate', '_qf_Confirm_display=1&rfp=1', true, null, false );
-            
-            $token = $paypal->setExpressCheckout( $params );
-            $this->set( 'token', $token );
-            
-
-            $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token";
-            CRM_Utils_System::redirect( $paypalURL );
-        } else {
-            $this->set( 'donationMode', 'direct' );
-
-            $params['country']    = 'US';
-            $params['year'   ]    = $params['credit_card_exp_date']['Y'];
-            $params['month'  ]    = $params['credit_card_exp_date']['M'];
-            $params['ip_address'] = $_SERVER['REMOTE_ADDR'];
-            $paypal->doDirectPayment( $params );
-            exit( );
-        }
+        require_once 'CRM/Utils/Payment/PayPal.php';                                                                                      
+        $paypal =& CRM_Utils_Payment_PayPal::singleton( ); 
+  
+        //get the button name  
+        $buttonName = $this->controller->getButtonName( );  
+        if ( $buttonName == $this->_expressButtonName ) { 
+            $this->set( 'donationMode', 'express' ); 
+ 
+            $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
+            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribute_display=1', true, null, false ); 
+            $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+             
+            $token = $paypal->setExpressCheckout( $params ); 
+            $this->set( 'token', $token ); 
+             
+ 
+            $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+            CRM_Utils_System::redirect( $paypalURL ); 
+        } else { 
+            $this->set( 'contributeMode', 'direct' ); 
+ 
+            $params['country']    = 'US'; 
+            $params['year'   ]    = $params['credit_card_exp_date']['Y']; 
+            $params['month'  ]    = $params['credit_card_exp_date']['M']; 
+            $params['ip_address'] = $_SERVER['REMOTE_ADDR']; 
+            $paypal->doDirectPayment( $params ); 
+            exit( ); 
+        } 
     }
 
 }

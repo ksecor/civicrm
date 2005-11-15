@@ -635,11 +635,6 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contribute_Page_ContributionType(ts('View Contribution Types'));
                 break;
                 
-            case 'contributionMode':
-                require_once 'CRM/Contribute/Page/ContributionMode.php';
-                $view =& new CRM_Contribute_Page_ContributionMode(ts('View Contribution Modes'));
-                break;
-                
             case 'paymentInstrument':
                 require_once 'CRM/Contribute/Page/PaymentInstrument.php';
                 $view =& new CRM_Contribute_Page_PaymentInstrument(ts('View Payment Instrument'));
