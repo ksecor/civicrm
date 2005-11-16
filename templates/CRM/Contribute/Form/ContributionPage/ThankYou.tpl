@@ -12,7 +12,7 @@
     <fieldset><legend>{ts}Thank-you Message and Receipting{/ts}</legend>
     <dl>
     <dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the thank-you / transactions confirmation page.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the thank-you / transaction confirmation page.{/ts}</dd>
     <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter text (and optional HTML layout tags) for the thank-you
     message that will appear at the top of the confirmation page. If you want to encourage contributors

@@ -70,17 +70,23 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
             self::$_actionLinks = array(
+                                        CRM_Core_Action::UPDATE  => array(
+                                                                          'name'  => ts('Configure'),
+                                                                          'url'   => 'civicrm/contribute',
+                                                                          'qs'    => 'reset=1&action=update&id=%%id%%',
+                                                                          'title' => ts('Configure') 
+                                                                          ),
                                         CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview'),
+                                                                          'name'  => ts('Test-drive'),
                                                                           'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview'),
                                                                           ),
-                                        CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit'),
+                                        CRM_Core_Action::PROFILE => array(
+                                                                          'name'  => ts('Standalone Form'),
                                                                           'url'   => 'civicrm/contribute',
-                                                                          'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                                          'title' => ts('Edit') 
+                                                                          'qs'    => 'reset=1&action=profile&id=%%id%%',
+                                                                          'title' => ts('Create Standalone Form'),
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
@@ -144,6 +150,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
 
             // finally browse the custom groups
             $this->browse();
+            CRM_Utils_System::setTitle( ts('Browse Contribution Pages') );
         }
 
         return parent::run();

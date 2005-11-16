@@ -1,13 +1,25 @@
-{if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Contribute/Form/ContributionPage.tpl"}
-
-{else}
-    <div id="help">{ts}Contributions Pages are used for creating customized pages for collecting contributions.{/ts}</div>
-
+{capture assign=newPageURL}{crmURL p='civicrm/contribute' q='action=add&reset=1'}{/capture}
+<div id="help">
+    {ts 1=$newPageURL}<p>CiviContribute allows you to create and maintain any number of Online Contribution pages.
+    You can create different pages for different programs or campaigns - and customize text, amounts,
+    types of information collected from contributors, etc.</p>
+    
     {if $rows}
-    <div id="notes">
-    <p>
-        <div class="form-item">
+    <p>For existing pages:
+    <ul>
+    <li>Click <strong>Configure</strong> to view and modify settings, amounts, and text for existing pages.
+    <li>Click <strong>Test-drive</strong> to try out the page in <strong>test mode</strong>. This allows you
+    to go through the full contribution process using a dummy credit card on a test server.
+    <li>Use the <strong>Standalone Form</strong> action link to get the HTML code needed to add a contribution form
+    to other pages. You can add these 'stand-alone forms' to any website.</ul>
+    </p>
+    <p>Click <a href="%!">New Contribution Page</a> to create a new page using the step-by-step wizard.</p>
+    {/if}
+{/ts}
+</div>
+
+{if $rows}
+    <div class="form-item">
         {strip}
         <table>
         <tr class="columnheader">
@@ -33,16 +45,11 @@
         {/if}
 
         {/strip}
-        </div>
-    </p>
     </div>
-    {else}
-       {if $action ne 1} {* When we are adding an item, we should not display this message *}
-       <div class="messages status">
-       <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
-         {capture assign=crmURL}{crmURL p='civicrm/contribute' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No contribution pages have been created yet. You can <a href="%1">add one</a>.{/ts}
-       </div>
-       {/if}
-    {/if}
+{else}
+    <div class="messages status">
+        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
+        {ts 1=$newPageURL}No contribution pages have been created yet. Click <a href="%1">here</a> to create a
+        new contribution page using the step-by-step wizard.{/ts}
+    </div>
 {/if}
