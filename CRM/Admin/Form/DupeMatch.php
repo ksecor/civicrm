@@ -59,14 +59,27 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
     function preProcess( ) 
     {
         $this->_BAOName = CRM_Admin_Page_DupeMatch::getBAOName();
-
+        $this->_advanced = CRM_Utils_Request::retrieve( 'advance', $this, false );
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
         $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch-> find(true);
         $id = $dupematch->id;
-
+        $rule = $dupematch->rule;
+        $tokens = preg_split('/[\s]+/',$rule,-1, PREG_SPLIT_NO_EMPTY );
+        $rule = explode(' ' , $rule);
+       
+        if(count($tokens) > 9 ) {
+            $this->_advanced = true;
+        }
+        foreach($rule as $value ) {
+            if ( $value == 'OR' || $value == '(' || $value == ')') {
+                $this->_advanced = true;
+            } else if(substr($value,0,1) == '(') {
+                $this->_advanced = true;
+            }
+                
+        }
         $this->_id = $id;
-        $this->_advanced = CRM_Utils_Request::retrieve( 'advance', $this, false );
         $this->assign('advance',$this->_advanced);
         
     }
@@ -78,10 +91,7 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
-        if ($this->_action & CRM_Core_Action::DELETE ) { 
-            
-            return;
-        }
+       
         if ( $this->_advanced ) {
             $this->addElement('textarea', 'match_on'.$count, ts('Match On:'));
         } else {
@@ -110,34 +120,62 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
     public function postProcess() 
     {
         require_once 'CRM/Core/BAO/DupeMatch.php';        
-        if($this->_action & CRM_Core_Action::DELETE) {
-            if(CRM_Core_BAO_DupeMatch::del($this->_id)) {
-                CRM_Core_Session::setStatus( ts('Selected DupeMatch type has been deleted.') );
-            } else {
-                CRM_Core_Session::setStatus( ts('Selected DupeMatch type has not been deleted.') );
+        $params = $this->exportValues();
+        if( ! $this->_advanced) {
+            $rule = array();
+            for ( $count = 1; $count <= 5 ; $count++ ) { 
+                if( $params['match_on_'.$count] != '' ) {
+                    $rule[] = $params['match_on_'.$count] ;
+                }
+            }
+            
+            if( count($rule)>=1 ) {
+                $rule = implode(' AND ',$rule)            ;
+                $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
             }
         } else {
             
-            $params = $this->exportValues();
-            if( ! $this->_advanced) {
-                $rule = array();
-                for ( $count = 1; $count <= 5 ; $count++ ) { 
-                    if( $params['match_on_'.$count] != '' ) {
-                        $rule[] = $params['match_on_'.$count] ;
+            $inValid = false;
+            $rule   = trim($params['match_on']);
+            $tokens = preg_split('/[\s]+/',$rule,-1, PREG_SPLIT_NO_EMPTY );
+            //$tokens = preg_split('/([AND])|([OR()])/',$rule, -1 ,PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+            $openParen  = $closeParen = $andCount = $orCount = $fieldCount  = 0;
+            foreach($tokens as $token) {
+                $token = trim($token); 
+                if ($token == '(') {
+                    $openParen++;
+                } else if ($token == ')') {
+                    $closeParen ++;
+                } else if ($token == 'AND') {
+                    $andCount++;
+                } else if ($token == 'OR') {
+                    $orCount++;
+                } else {
+                    $fieldCount++;
+                }
+            }
+            if(($openParen != $closeParen) || ( $fieldCount-1 != ( $andCount+$orCount )) ) {
+                $inValid = true;
+            }    
+            
+            // need to do proper validation
+            $fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
+            $ruleFields = preg_split('/[ANDOR()\s]+/',$rule,-1, PREG_SPLIT_NO_EMPTY );
+                foreach($ruleFields as $value) {
+                    if( isset($value) ){
+                        if(! array_key_exists($value,$fields)) {
+                            $inValid = true;
+                        }
                     }
                 }
-                
-                if( count($rule)>=1 ) {
-                    $rule = implode(' AND ',$rule)            ;
+                if( $inValid ) {
+                    CRM_Core_Session::setStatus(ts("The Duplicate Matching rule has not been saved beacuse of Invalid Rule ( Rule should contains only valid field names,'AND','OR' or 'parentheses'  )"));
+                    return;
+                } else {
                     $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
                 }
-            } else {
-                $rule = trim($params['match_on']);
-                // need to do proper validation
-                $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
-            }
-            CRM_Core_Session::setStatus(ts('The DupeMatch rule has been saved.'));
         }
+        CRM_Core_Session::setStatus(ts('The Duplicate Matching rule has been saved.'));
     }
 }
 

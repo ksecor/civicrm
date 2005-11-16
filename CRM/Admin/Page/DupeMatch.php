@@ -76,12 +76,7 @@ class CRM_Admin_Page_DupeMatch extends CRM_Core_Page_Basic
                                                                     'title' => ts('Edit DupeMatch') 
                                                                    ),
                                 
-                                   CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/dupematch',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete DupeMatch Type') 
-                                                                   )
+                                  
                                  );
         }
         return self::$_links;

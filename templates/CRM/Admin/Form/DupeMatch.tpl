@@ -1,6 +1,10 @@
 {* this template is used for adding/editing dupe match *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 2}{ts} Duplicate Matching Rule {/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
+{if $advance }
+<fieldset><legend>{if $action eq 2}{ts} Advanced Duplicate Matching Rule {/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
+{else}
+<fieldset><legend>{if $action eq 2}{ts} Basic Duplicate Matching Rule {/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
+{/if}
 	{if $action eq 8}
       <div class="messages status">
         <dl>
