@@ -228,8 +228,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
             }
             
             $ufGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id' => $dao->id));
+                                                                     array('id' => $dao->id));
+            //get the "Used For" from uf_join
+            $ufGroup[$dao->id]['module'] = CRM_Core_BAO_UFGroup::getModules( $dao->id );
+            
         }
+        //print_r($ufGroup);
         $this->assign('rows', $ufGroup);
     }
 

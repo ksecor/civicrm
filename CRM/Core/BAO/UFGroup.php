@@ -685,6 +685,33 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             }
         }
     }
+
+
+    /**
+     * Function to get the module names for an UFGroup
+     * 
+     * @param int $ufGroupId UFGroup id
+     * 
+     * @return string  comma separated modules for an UFGroup 
+     *
+     * @static
+     * @access public
+     */
+    public static function getModules( $ufGroupId ) 
+    {
+        $ufJoin = array();
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $dao =& new CRM_Core_DAO_UFJoin( );
+        
+        $dao->uf_group_id = $ufGroupId;
+        $dao->find( );
+
+        while ($dao->fetch( )) {
+            $ufJoin[$dao->id] = $dao->module;
+        }
+        return implode(", ", $ufJoin);
+    }
+    
 }
 
 ?>
