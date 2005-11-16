@@ -42,9 +42,11 @@ $smarty =& new Smarty( );
 $smarty->template_dir = './templates';
 
 $compileDir = '/tmp/templates_c';
-$oldTemplates = preg_grep('/tpl\.php$/', scandir($compileDir));
-foreach ($oldTemplates as $templateFile) {
-    unlink($compileDir . '/' . $templateFile);
+if (file_exists($compileDir)) {
+    $oldTemplates = preg_grep('/tpl\.php$/', scandir($compileDir));
+    foreach ($oldTemplates as $templateFile) {
+        unlink($compileDir . '/' . $templateFile);
+    }
 }
 $smarty->compile_dir = $compileDir;
 
