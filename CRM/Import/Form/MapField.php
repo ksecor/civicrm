@@ -214,7 +214,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
 
         $this->assign('savedMapping',$mappingArray);
-        $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
+        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
         $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
 
         //to save the current mappings
@@ -362,7 +362,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $jsSet = false;
             if( $this->get('savedMapping') ) {                                              
                 if ( isset($mappingName[$i]) ) {
-                    if ( $mappingName[$i] != '-do not import-') {                                
+                    if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
                         if ( isset($mappingRelation[$i]) ) {
                             // relationship mapping
