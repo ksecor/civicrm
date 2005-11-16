@@ -185,6 +185,50 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
 }
 
 /**
+ * This function ensures that we have the right input contribution parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contribution.
+ *
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_check_contrib_params( &$params ) {
+    static $required = array( 'contact_id' );
+
+    // cannot create a contribution with empty params
+    if ( empty( $params ) ) {
+        return _crm_error( 'Input Parameters empty' );
+    }
+
+    $valid = true;
+    $error = '';
+    foreach ( $required as $field ) {
+        if ( ! CRM_Utils_Array::value( $field, $params ) ) {
+            $valid = false;
+            $error .= $field;
+            break;
+        }
+    }
+    
+    if ( ! $valid ) {
+        return _crm_error( "Required fields not found for contribution $error" );
+    }
+
+    // FIXME: check for record already existing
+#   require_once 'CRM/Core/BAO/UFGroup.php';
+#   if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
+#       return _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
+#                          $ids );
+#   }
+
+    return true;
+}
+
+/**
  * take the input parameter list as specified in the data model and 
  * convert it into the same format that we use in QF and BAO object
  *
@@ -335,6 +379,73 @@ function _crm_format_params( &$params, &$values ) {
 
 }
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *                            '
+ * @return array|CRM_Error
+ * @access public
+ */
+function _crm_format_contrib_params( &$params, &$values ) {
+    // copy all the contribution fields as is
+   
+    $fields =& CRM_Contribute_DAO_Contribution::fields( );
+    
+    _crm_store_values( $fields, $params, $values );
+
+    // FIXME: valid strings for contrib fields
+#   if (! array_key_exists('first_name', $params) || 
+#           ! array_key_exists('last_name', $params) ) {
+#       // make sure phone and email are valid strings
+#       if ( array_key_exists( 'email', $params ) &&
+#           ! CRM_Utils_Rule::email( $params['email'] ) ) {
+#           return _crm_error( "Email not valid " . $params['email'] );
+#       }
+#   }
+
+    // FIXME: custom fields for contributions support
+#   $values['custom'] = array();
+
+#   $customFields = CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
+
+#   foreach ($params as $key => $value) {
+#       if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+#           /* check if it's a valid custom field id */
+#           if ( !array_key_exists($customFieldID, $customFields)) {
+#               return _crm_error('Invalid custom field ID');
+#           }
+
+#           /* validate the data against the CF type */
+#           $valid = CRM_Core_BAO_CustomValue::typecheck(
+#                           $customFields[$customFieldID][2], $value);
+
+#           if (! $valid) {
+#               return _crm_error('Invalid value for custom field ' .
+#                   $customFields[$customFieldID][1]);
+#           }
+#           
+#           // fix the date field if so
+#           if ( $customFields[$customFieldID][2] == 'Date' ) {
+#               $value = str_replace( '-', '', $value );
+#           }
+
+#           $values['custom'][$customFieldID] = array( 
+#               'value'   => $value,
+#               'extends' => $customFields[$customFieldID][3],
+#               'type'    => $customFields[$customFieldID][2],
+#               'custom_field_id' => $customFieldID,
+#           );
+#       }
+#   }
+   
+    return null;
+   
+
+}
 function _crm_update_contact( $contact, $values, $overwrite = true ) {
     // first check to make sure the location arrays sync up
 
@@ -972,6 +1083,59 @@ function _crm_add_formatted_param(&$values, &$params) {
 }
 
 /**
+ * This function adds the contribution variable in $values to the
+ * parameter list $params.  For most cases, $values should have length 1.
+ *
+ * @param array  $values    The variable(s) to be added
+ * @param array  $params    The structured parameter list
+ * 
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_add_formatted_contrib_param(&$values, &$params) {
+
+    /* Cache the various object fields */
+    static $fields = null;
+
+    if ($fields == null) {
+        $fields = array();
+    }
+    //print_r($values); 
+    //print_r($params);
+    
+    /* Check for custom field values */
+#   if ($fields['custom'] == null) {
+#       $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
+#   }
+    
+#   foreach ($values as $key => $value) {
+#       if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+#           /* check if it's a valid custom field id */
+#           if (!array_key_exists($customFieldID, $fields['custom'])) {
+#               return _crm_error('Invalid custom field ID');
+#           }
+#           
+#           if (!isset($params['custom'])) {
+#               $params['custom'] = array();
+#           }
+#           $customBlock = count($params['custom']) + 1;
+#           $params['custom'][$customBlock] = array(
+#               'custom_field_id'    => $customFieldID,
+#               'value' => $value,
+#               'type' => $fields['custom'][$customFieldID][2],
+#               'name' => $fields['custom'][$customFieldID][0]
+#           );
+#       }
+#   }
+    
+    /* Finally, check for contribution fields */
+    if (!isset($fields['Contribution'])) {
+        $fields['Contribution'] =& CRM_Contribute_DAO_Contribution::fields( );
+    }
+    _crm_store_values( $fields['Contribution'], $values, $params );
+}
+
+/**
  * Check a formatted parameter list for required fields.  Note that this
  * function does no validation or dupe checking.
  *
@@ -1016,6 +1180,22 @@ function _crm_required_formatted_contact(&$params) {
     }
 
     return _crm_error('Missing required fields');
+}
+
+/**
+ * Check a formatted parameter list for required fields.  Note that this
+ * function does no validation or dupe checking.
+ *
+ * @param array $params  Structured parameter list (as in crm_format_params)
+ *
+ * @return bool|CRM_core_Error  Parameter list has all required fields
+ * @access public
+ */
+function _crm_required_formatted_contribution(&$params) {
+    if (isset($params['contact_id'])) {
+        return true;
+    }
+    return _crm_error('Missing required field: contact_id');
 }
 
 /**
@@ -1067,6 +1247,38 @@ function _crm_validate_formatted_contact(&$params) {
     return true;
 }
 
+/**
+ * Validate a formatted contribution parameter list.
+ *
+ * @param array $params  Structured parameter list (as in crm_format_params)
+ *
+ * @return bool|CRM_Core_Error
+ * @access public
+ */
+function _crm_validate_formatted_contribution(&$params) {
+
+    // FIXME: validate the contribution's fields
+
+    // FIXME: custom contributions data
+    /* Validate custom data fields */
+#   if (is_array($params['custom'])) {
+#       foreach ($params['custom'] as $key => $custom) {
+#           if (is_array($custom)) {
+#               $valid = CRM_Core_BAO_CustomValue::typecheck(
+#                   $custom['type'], $custom['value']);
+#               if (! $valid) {
+#                   return _crm_error('Invalid value for custom field \'' .
+#                       $custom['name']. '\'');
+#               }
+#               if ( $custom['type'] == 'Date' ) {
+#                   $params['custom'][$key]['value'] = str_replace( '-', '', $params['custom'][$key]['value'] );
+#               }
+#           }
+#       }
+#   }
+
+    return true;
+}
 function &_crm_duplicate_formatted_contact(&$params) {
     if ( $params['contact_type'] == 'Individual') {
         require_once 'CRM/Core/BAO/UFGroup.php';
@@ -1096,6 +1308,20 @@ function &_crm_duplicate_formatted_contact(&$params) {
         }
         return true;
     }    
+}
+
+
+function &_crm_duplicate_formatted_contribution(&$params) {
+    $contribution =& new CRM_Contribute_DAO_Contribution();
+    $contribution->trxn_id = $params['trxn_id'];
+
+    if ( $contribution->find( true ) ) {
+        if ( $ids =& $contribution->id ) {
+            $error =& _crm_error( "Found matching contributions: $ids", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $ids );
+            return $error;
+        }
+    }
+    return true;
 }
 
 

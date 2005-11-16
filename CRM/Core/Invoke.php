@@ -654,6 +654,10 @@ class CRM_Core_Invoke {
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
+        } elseif ($args[2] == 'import') {
+            require_once 'CRM/Contribute/Import/Controller.php';
+            $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
+            return $controller->run();
         } else { 
             require_once 'CRM/Contribute/Page/ContributionPage.php';
             $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page')); 

@@ -51,7 +51,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     const
         FATAL_ERROR = 2,
-        DUPLICATE_CONTACT = 8001;
+        DUPLICATE_CONTACT = 8001,
+        DUPLICATE_CONTRIBUTION = 8002;
 
 
     /**

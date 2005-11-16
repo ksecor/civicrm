@@ -25,42 +25,36 @@
  +--------------------------------------------------------------------+
 */
 
-
 /**
- * Definition of the CRM API. For more detailed documentation, please check:
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
 
-/**
- * Files required for this package
- */
+require_once 'CRM/Core/Controller.php';
 
-require_once 'api/utils.php';
+class CRM_Contribute_Import_Controller extends CRM_Core_Controller {
 
-require_once 'api/Contact.php';
-require_once 'api/Group.php';
-require_once 'api/History.php';
-require_once 'api/CustomGroup.php';
-require_once 'api/UFGroup.php';
-require_once 'api/Search.php';
-require_once 'api/Relationship.php';
-require_once 'api/Location.php';
-require_once 'api/Tag.php';
-require_once 'api/Contribution.php';
-require_once 'CRM/Contact/BAO/Group.php';
+    /**
+     * class constructor
+     */
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        parent::__construct( $title, $modal );
 
-function crm_create_extended_property_group($class_name, $params) {
-}
+        require_once 'CRM/Contribute/Import/StateMachine.php';
+        $this->_stateMachine =& new CRM_Contribute_Import_StateMachine( $this, $action );
 
-function crm_create_extended_property(&$property_group, $params) {
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $action );
+
+        // add all the actions
+        $config =& CRM_Core_Config::singleton( );
+        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+    }
+
 }
 
 ?>

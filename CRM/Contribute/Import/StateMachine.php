@@ -25,42 +25,44 @@
  +--------------------------------------------------------------------+
 */
 
-
 /**
- * Definition of the CRM API. For more detailed documentation, please check:
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright Social Source Foundation (c) 2005
  * $Id$
  *
  */
 
+require_once 'CRM/Core/StateMachine.php';
+
 /**
- * Files required for this package
+ * State machine for managing different states of the Import process.
+ *
  */
+class CRM_Contribute_Import_StateMachine extends CRM_Core_StateMachine {
 
-require_once 'api/utils.php';
+    /**
+     * class constructor
+     *
+     * @param object  CRM_Contribute_Import_Controller
+     * @param int     $action
+     *
+     * @return object CRM_Contribute_Import_StateMachine
+     */
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
+        
+        $this->_pages = array(
+                              'CRM_Contribute_Import_Form_UploadFile',
+                              'CRM_Contribute_Import_Form_MapField',
+                              'CRM_Contribute_Import_Form_Preview',
+                              'CRM_Contribute_Import_Form_Summary'
+                              );
+        
+        $this->addSequentialPages( $this->_pages, $action );
+    }
 
-require_once 'api/Contact.php';
-require_once 'api/Group.php';
-require_once 'api/History.php';
-require_once 'api/CustomGroup.php';
-require_once 'api/UFGroup.php';
-require_once 'api/Search.php';
-require_once 'api/Relationship.php';
-require_once 'api/Location.php';
-require_once 'api/Tag.php';
-require_once 'api/Contribution.php';
-require_once 'CRM/Contact/BAO/Group.php';
-
-function crm_create_extended_property_group($class_name, $params) {
-}
-
-function crm_create_extended_property(&$property_group, $params) {
 }
 
 ?>
