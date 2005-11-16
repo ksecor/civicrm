@@ -409,10 +409,15 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         $fv = array(
-            'cb_group'                  => array($group->id => true),
-            'cb_group_contact_status'   => array($status => true)
+            'group'                  => array($group->id => true),
         );
-        
+
+        if ( $status ) {
+            $fv['group_contact_status'] = array($status => true);
+        } else {
+            $fv['group_contact_status'] = array('Added' => true, 'Removed' => true, 'Pending' => true);
+        }
+
         $tables = array(
             self::getTableName() => true,
             CRM_Core_BAO_Email::getTableName() => true,

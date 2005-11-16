@@ -384,16 +384,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
                 $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
                 //print_r($relatedNewContact);
+                $relContactId = null;
                 if ( is_a( $relatedNewContact, CRM_Core_Error ) ) {
-                    foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
-                        $relContactId = $cid;
-                    }
+                    $code = $relatedNewContact->_errors[0]['code'];  
+                    if ($code == CRM_Core_Error::DUPLICATE_CONTACT && 
+                        count( $relatedNewContact->_errors[0]['params'] ) == 1 ) { 
+                        $relContactId = $relatedNewContact->_errors[0]['params'][0]; 
+                    } 
                 } else {
                     $relContactId = $relatedNewContact->id;
                 }
 
-                // make sure that relContactId is a valid integer 
-                if ( ! CRM_Utils_Rule::integer( $relContactId ) ) { 
+                if ( ! $relContactId ) {
                     // contact id is not valid, abort 
                     continue; 
                 }

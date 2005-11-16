@@ -18,7 +18,7 @@ class TestOfGetGroupContacts extends UnitTestCase
     {
         
         $group = new CRM_Contact_DAO_Group();
-        $group->id = 1;
+        $group->id = 3;
         $contacts = crm_get_group_contacts(&$group);
         foreach($contacts as $contact) {
             $this->assertIsA($contact,'CRM_Contact_DAO_Contact');
