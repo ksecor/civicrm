@@ -77,8 +77,31 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
             $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
             $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
             $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
-            $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR'];  
+            $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
+            $this->_params['payment_action'] = 'Sale';
+            $this->_params['currencyID'    ] = 'USD';
         }
+
+        $this->set( 'transactionParams', $this->_params );
+    }
+
+    static function assignToTemplate( &$self, &$params ) {
+        $name = $params['first_name'];
+        if ( CRM_Utils_Array::value( 'middle_name', $params ) ) {
+            $name .= " {$params['middle_name']}";
+        }
+        $name .= " {$params['last_name']}";
+        $self->assign( 'name', $name );
+
+        $vars = array( 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
+        foreach ( $vars as $v ) {
+            $self->assign( $v, $params[$v] );
+        }
+
+        $self->assign( 'credit_card_exp_date', CRM_Utils_Date::format( $params['credit_card_exp_date'], '/' ) );
+        $self->assign( 'credit_card_number',
+                       CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
+        
     }
 
     /**
@@ -89,22 +112,8 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        $name = $this->_params['first_name'];
-        if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['middle_name']}";
-        }
-        $name .= " {$this->_params['last_name']}";
-        $this->assign( 'name', $name );
+        self::assignToTemplate( $this, $this->_params );
 
-        $vars = array( 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
-        foreach ( $vars as $v ) {
-            $this->assign( $v, $this->_params[$v] );
-        }
-
-        $this->assign( 'credit_card_exp_date', CRM_Utils_Date::format( $this->_params['credit_card_exp_date'], '/' ) );
-        $this->assign( 'credit_card_number',
-                       CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
-        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Confirm Contribution'),

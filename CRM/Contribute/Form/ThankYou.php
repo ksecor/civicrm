@@ -52,6 +52,7 @@ class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
 
+        $this->_params = $this->get( 'transactionParams' );
     }
 
     /**
@@ -62,6 +63,8 @@ class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        CRM_Contribute_Form_Confirm::assignToTemplate( $this, $this->_params );
+
         $this->addButtons(array(
                                 array ( 'type'      => 'cancel',
                                         'name'      => ts('Done'),
@@ -91,13 +94,6 @@ class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
      */
     public function postProcess()
     {
-        require_once 'CRM/Utils/Payment/PayPal.php';
-        $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-        if ( $this->_contributeMode == 'express' ) {
-            $result =& $paypal->doExpressCheckout( $this->_params );
-        } else {
-            $result =& $paypal->doDirectPayment( $this->_params );
-        }
     }
 }
 
