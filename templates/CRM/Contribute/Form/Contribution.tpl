@@ -14,7 +14,7 @@
     <dt>{$form.last_name.label}</dt><dd>{$form.last_name.html}</dd>
     <dt>{$form.street1.label}</dt><dd>{$form.street1.html}</dd>
     <dt>{$form.city.label}</dt><dd>{$form.city.html}</dd>
-    <dt>{$form.state_province.label}</dt><dd>{$form.state_province.html}</dd>
+    <dt>{$form.state_province_id.label}</dt><dd>{$form.state_province_id.html}</dd>
     <dt>{$form.postal_code.label}</dt><dd>{$form.postal_code.html}</dd>
     <dt>{$form.country_id.label}</dt><dd>{$form.country_id.html}</dd>
     <dt>{$form.credit_card_number.label}</dt><dd>{$form.credit_card_number.html}</dd>

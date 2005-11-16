@@ -249,6 +249,19 @@ class CRM_Utils_Rule {
     static function objectExists( $value, $options ) {
         return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, 'name' ) );
     }
+
+    static function creditCardNumber( $value, $type ) {
+        require_once 'Validate/Finance/CreditCard.php';
+
+        return Validate_Finance_CreditCard::number( $value, $type );
+    }
+
+    static function cvv( $value, $type ) {
+        require_once 'Validate/Finance/CreditCard.php';
+
+        return Validate_Finance_CreditCard::cvv( $value, $type );
+    }
+
 }
 
 ?>

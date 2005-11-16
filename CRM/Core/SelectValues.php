@@ -280,9 +280,11 @@ class CRM_Core_SelectValues {
     {
         static $_date = null;
         static $config = null;
+
         if (!$config) {
             $config =& CRM_Core_Config::singleton();
         }
+
         if (!$_date) {
             require_once 'CRM/Utils/Date.php';
             $_date = array(
@@ -301,10 +303,14 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'relative') {
             $minOffset = 20;
             $maxOffset = 20;
-        }elseif ($type == 'custom') { 
+        } elseif ($type == 'custom') { 
             $minOffset = 10; 
             $maxOffset = 10; 
         } elseif ($type == 'fixed') {
+            $minOffset = 0;
+            $maxOffset = 5;
+        } elseif ($type == 'creditCard') {
+            $newDate['format'] = 'M Y';
             $minOffset = 0;
             $maxOffset = 5;
         } elseif ($type == 'mailing') {
@@ -323,9 +329,6 @@ class CRM_Core_SelectValues {
             $newDate['optionIncrement']['i'] = 15;
         }
         
-        //print_r($_date);
-
-
         $year = date('Y');
         $newDate['minYear'] = $year - $minOffset;
         $newDate['maxYear'] = $year + $maxOffset;

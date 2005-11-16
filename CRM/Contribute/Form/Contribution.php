@@ -168,10 +168,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                    ts('City'), 
                    array( 'size' => 30, 'maxlength' => 60 ) ); 
 
-        $this->add('text', 
-                   'state_province',
-                   ts('State / Province'), 
-                   array( 'size' => 30, 'maxlength' => 60 ) ); 
+        $this->add('select', 
+                   'state_province_id',
+                   ts('State / Province'),
+                   array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince( ) );
 
         $this->add('text', 
                    'postal_code',
@@ -191,28 +191,99 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('text',
                    'cvv2',
                    ts('Credit Card Verification Number'),
-                   array( 'size' => 5, 'maxlength' => 10 ) );
+                   array( 'size' => 5, 'maxlength' => 10 ), 'integer' );
 
         $this->add( 'date',
                     'credit_card_exp_date',
                     ts('Credit Card Expiration Date'),
-                    CRM_Core_SelectValues::date( 'fixed' ) );
+                    CRM_Core_SelectValues::date( 'creditCard' ) );
+        $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
 
-        $creditCardType = array( 'Visa'       => 'Visa'      ,
+        $creditCardType = array( ''           => '- select -',
+                                 'Visa'       => 'Visa'      ,
                                  'MasterCard' => 'MasterCard',
                                  'Discover'   => 'Discover'  ,
                                  'Amex'       => 'Amex' );
+        
         $this->addElement( 'select', 
                            'credit_card_type', 
                            ts('Credit Card Type'),  
-                           $creditCardType );
-
+                           $creditCardType,
+                           true );
 
         $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
         $this->add('submit',
                    $this->_expressButtonName,
                    ts( 'Contribute via PayPal' ),
                    array( 'class' => 'form-submit' ) );
+
+        $this->addButtons(array( 
+                                array ( 'type'      => 'next', 
+                                        'name'      => ts('Continue >>'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
+
+        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution', 'formRule' ), $this );
+    }
+
+    /** 
+     * global form rule 
+     * 
+     * @param array $fields  the input form values 
+     * @param array $files   the uploaded files if any 
+     * @param array $options additional user data 
+     * 
+     * @return true if no errors, else array of errors 
+     * @access public 
+     * @static 
+     */ 
+    static function formRule( &$fields, &$files, $self ) { 
+        $errors = array( ); 
+
+        // make sure either 
+        // return if this is express mode
+        if ( CRM_Utils_Array::value( $self->_expressButtonName, $fields ) ) {
+            return true;
+        }
+
+        // make sure the required fields are present
+        $required = array( 'first_name' => ts( 'First Name' ),
+                           'last_name'  => ts( 'Last Name'  ),
+                           'street1'    => ts( 'Street Address' ),
+                           'city'       => ts( 'City' ),
+                           'state_province_id' => ts( 'State / Province' ),
+                           'postal_code'    => ts( 'Postal Code' ),
+                           'country_id'     => ts( 'Country' ),
+                           'credit_card_number' => ts( 'Credit Card Number' ),
+                           'cvv2' => ts( 'Credit Card Verification Number' ),
+                           'credit_card_type' => ts( 'Credit Card Type' ),
+                           'credit_card_exp_date' => ts( 'Credit Card Expiration Date' ) );
+
+        foreach ( $required as $item => $name) {
+            if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( $item, $fields ) ) ) {
+                $error[$item] = ts( "%1 is a required field", array( 1 => $name ) );
+            }
+        }
+
+        // make sure that credit card number and cvv are valid
+        require_once 'CRM/Utils/Rule.php';
+        if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
+            if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
+                 ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
+                $error['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+            }
+            
+            if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
+                 ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
+                $error['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+            }
+        }
+
+        return empty( $error ) ? true : $error;
     }
 
     /**
