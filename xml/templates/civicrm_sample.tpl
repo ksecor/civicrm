@@ -63,8 +63,11 @@ VALUES
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
 VALUES
-   (1,'civicrm','civicrm_contribution_page',1,1,2),
-   (1,'civicrm','civicrm_contribution_page',1,2,3);
+   (1,'User Registration','','',1,1),
+   (1,'User Account','','',1,1),
+   (1,'Profile','','',1,1), 
+   (1,'CiviDonate','civicrm_contribution_page',1,1,2),
+   (1,'CiviDonate','civicrm_contribution_page',1,2,3);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,min_amount,max_amount,thankyou_text,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
@@ -72,24 +75,24 @@ VALUES
   (%%CIVICRM_DOMAIN_ID%%,'Support OpenNGO!','Like CiviCRM? Use CiviCRM? Support CiviCRM! Contribute NOW!',1,1,'10.00','10000.00','Thank you for your support. Much appreciated',1,'receipt@example.com','bcc@example.com','Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345',1);
 
 INSERT INTO civicrm_uf_field
-    (uf_group_id, field_name, weight, is_active, is_view, is_required, is_registration, is_match, visibility, help_post, in_selector, location_type_id)
+    (uf_group_id, field_name, weight, is_active, is_view, is_required, visibility, help_post, in_selector, location_type_id)
 VALUES
-    (1,'first_name',1,1,0,1,1,1,'Public User Pages and Listings','',1,NULL),
-    (1,'last_name',2,1,0,1,1,1,'Public User Pages and Listings','First and last name will be shared with other visitors to the site.',1,NULL),
-    (1,'street_address',3,1,0,0,1,0,'User and User Admin Only','',0,2),
-    (1,'city',4,1,0,0,1,0,'User and User Admin Only','',0,2),
-    (1,'postal_code',5,1,0,0,1,0,'User and User Admin Only','',0,2),
-    (1,'state_province',6,1,0,0,1,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,2),
-    (1,'country',7,1,0,0,0,0,'Public User Pages and Listings','',0,2),
-    (1,'email',8,1,1,0,0,1,'Public User Pages','',1,2),
-    (1,'custom_5',9,1,0,0,1,0,'Public User Pages and Listings','',1,NULL),
-    (1,'custom_6',10,1,0,0,1,0,'Public User Pages and Listings','',1,NULL),
-    (1,'custom_7',11,1,0,0,1,0,'Public User Pages and Listings','',0,NULL),
-    (2,'custom_1',1,1,0,0,0,0,'User and User Admin Only','',0,NULL),
-    (2,'custom_2',2,1,0,0,0,0,'User and User Admin Only','',0,NULL),
-    (2,'custom_3',3,1,0,0,0,0,'User and User Admin Only','',0,NULL),
-    (3,'custom_7',1,1,0,0,0,0,'User and User Admin Only','',0,NULL),
-    (3,'custom_10',2,1,0,0,0,0,'User and User Admin Only','',0,NULL),
-    (3,'custom_6',1,3,0,0,0,0,'User and User Admin Only','',0,NULL);
+    (1,'first_name',1,1,0,1,'Public User Pages and Listings','',1,NULL),
+    (1,'last_name',2,1,0,1,'Public User Pages and Listings','First and last name will be shared with other visitors to the site.',1,NULL),
+    (1,'street_address',3,1,0,0,'User and User Admin Only','',0,2),
+    (1,'city',4,1,0,0,'User and User Admin Only','',0,2),
+    (1,'postal_code',5,1,0,0,'User and User Admin Only','',0,2),
+    (1,'state_province',6,1,0,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,2),
+    (1,'country',7,1,0,0,'Public User Pages and Listings','',0,2),
+    (1,'email',8,1,1,0,'Public User Pages','',1,2),
+    (1,'custom_5',9,1,0,0,'Public User Pages and Listings','',1,NULL),
+    (1,'custom_6',10,1,0,0,'Public User Pages and Listings','',1,NULL),
+    (1,'custom_7',11,1,0,0,'Public User Pages and Listings','',0,NULL),
+    (2,'custom_1',1,1,0,0,'User and User Admin Only','',0,NULL),
+    (2,'custom_2',2,1,0,0,'User and User Admin Only','',0,NULL),
+    (2,'custom_3',3,1,0,0,'User and User Admin Only','',0,NULL),
+    (3,'custom_7',1,1,0,0,'User and User Admin Only','',0,NULL),
+    (3,'custom_10',2,1,0,0,'User and User Admin Only','',0,NULL),
+    (3,'custom_6',1,3,0,0,'User and User Admin Only','',0,NULL);
 
 
