@@ -23,7 +23,7 @@ class ProfileHandler_File extends ProfileHandler
 
     function _getFilename($id)
     {
-        return "{$this->_params['path']}/tmp/$id.ppd";
+        return "{$this->_params['path']}/home/lobo/paypal/$id.ppd";
 
     }
 
