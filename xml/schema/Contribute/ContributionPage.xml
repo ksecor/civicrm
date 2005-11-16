@@ -83,6 +83,13 @@
       <comment>if other amounts allowed, user can configure maximum allowed.</comment> 
       <add>1.3</add> 
   </field>
+  <field>
+       <name>thankyou_title</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Title for Thank-you page (header title tag, and display at the top of the page).</comment>
+       <add>1.3</add>
+  </field>
   <field> 
        <name>thankyou_text</name> 
        <type>text</type> 

@@ -114,7 +114,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_contribution_page` DISABLE KEYS */;
 LOCK TABLES `civicrm_contribution_page` WRITE;
-INSERT INTO `civicrm_contribution_page` VALUES (1,1,'Support OpenNGO!','Like CiviCRM? Use CiviCRM? Support CiviCRM! Contribute NOW!',1,0,1,'10.00','10000.00','Thank you for your support. Much appreciated',1,'receipt@example.com','bcc@example.com','Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345',1);
+INSERT INTO `civicrm_contribution_page` VALUES (1,1,'Support OpenNGO!','Like CiviCRM? Use CiviCRM? Support CiviCRM! Contribute NOW!',1,0,1,'10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please print this page for your records.</p>',1,'receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our Tax Identifier is: 123345',1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_contribution_page` ENABLE KEYS */;
 

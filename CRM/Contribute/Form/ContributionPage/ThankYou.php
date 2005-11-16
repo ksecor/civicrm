@@ -50,8 +50,10 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
     {
         $this->registerRule( 'emailList', 'callback', 'emailList', 'CRM_Utils_Rule' );
 
-        // thank you_text
+        // thank you title and text (html allowed in text)
+        $this->add('text', 'thankyou_title', ts('Thank-you Page Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_title'), true);
         $this->add('textarea', 'thankyou_text', ts('Thank You Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thankyou_text'), true);
+
         $this->addElement('checkbox', 'is_email_receipt', ts( 'Email Receipt to Contributor?' ) );
         $this->add('textarea', 'receipt_text', ts('Receipt Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text') );
         
