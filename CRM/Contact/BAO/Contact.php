@@ -490,9 +490,9 @@ ORDER BY
         require_once 'CRM/Utils/Hook.php';
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Contact', $ids['contact'], $params );
+            CRM_Utils_Hook::pre( 'edit', 'Individual', $ids['contact'], $params );
         } else {
-            CRM_Utils_Hook::pre( 'create', 'Contact', null, $params ); 
+            CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
         }
 
         CRM_Core_DAO::transaction( 'BEGIN' ); 
@@ -582,9 +582,9 @@ ORDER BY
         CRM_Core_DAO::transaction( 'COMMIT' ); 
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', 'Contact', $contact->id, $contact );
+            CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
         } else {
-            CRM_Utils_Hook::post( 'create', 'Contact', $contact->id, $contact );
+            CRM_Utils_Hook::post( 'create', 'Individual', $contact->id, $contact );
         }
 
     }
@@ -933,7 +933,14 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             
         require_once 'CRM/Utils/Hook.php';
 
-        CRM_Utils_Hook::pre( 'delete', 'Contact', $id );
+        $contact =& new CRM_Contact_DAO_Contact();
+        $contact->id = $id;
+        if (! $contact->find(true)) {
+            return false;
+        }
+        $contactType = $contact->contact_type;
+
+        CRM_Utils_Hook::pre( 'delete', $contactType, $id );
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
@@ -977,23 +984,18 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             }
         }
 
-        // get the contact type
-        $contact =& new CRM_Contact_DAO_Contact();
-        $contact->id = $id;
-        if ($contact->find(true)) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-            eval( '$object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
-            $object->contact_id = $contact->id;
-            $object->delete( );
-            $contact->delete( );
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contactType) . ".php");
+        eval( '$object =& new CRM_Contact_BAO_' . $contactType . '( );' );
+        $object->contact_id = $contact->id;
+        $object->delete( );
+        $contact->delete( );
 
         //delete the contact id from recently view
         CRM_Utils_Recent::del($id);
 
         CRM_Core_DAO::transaction( 'COMMIT' );
 
-        CRM_Utils_Hook::post( 'delete', 'Contact', $contact->id, $contact );
+        CRM_Utils_Hook::post( 'delete', $contactType, $contact->id, $contact );
 
         return true;
     }
