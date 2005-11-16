@@ -52,7 +52,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
 
-        if ( $contributeMode == 'express' ) {
+        if ( $this->_contributeMode == 'express' ) {
             $nullObject = null;
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', $nullObject, false, null, 'GET' );
@@ -60,7 +60,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
                 require_once 'CRM/Utils/Payment/PayPal.php'; 
                 $paypal =& CRM_Utils_Payment_PayPal::singleton( );
                 $this->_params = $paypal->getExpressCheckoutDetails( $this->get( 'token' ) );
-                
+
                 // set a few other parameters for PayPal
                 $this->_params['token']          = $this->get( 'token' );
                 $this->_params['payment_action'] = 'Sale';

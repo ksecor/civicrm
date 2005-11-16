@@ -191,7 +191,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('text',
                    'cvv2',
                    ts('Credit Card Verification Number'),
-                   array( 'size' => 5, 'maxlength' => 10 ), 'integer' );
+                   array( 'size' => 5, 'maxlength' => 10 ) );
+        $this->addRule( 'cvv2', ts( 'Please enter a valid value for CVV2' ), 'integer' );
 
         $this->add( 'date',
                     'credit_card_exp_date',
