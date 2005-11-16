@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
+class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
@@ -52,33 +52,6 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
 
-        if ( $contributeMode == 'express' ) {
-            $nullObject = null;
-            // rfp == redirect from paypal
-            $rfp = CRM_Utils_Request::retrieve( 'rfp', $nullObject, false, null, 'GET' );
-            if ( $rfp ) {
-                require_once 'CRM/Utils/Payment/PayPal.php'; 
-                $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-                $this->_params = $paypal->getExpressCheckoutDetails( $this->get( 'token' ) );
-                
-                // set a few other parameters for PayPal
-                $this->_params['token']          = $this->get( 'token' );
-                $this->_params['payment_action'] = 'Sale';
-                $this->_params['amount'        ] = $this->get( 'amount' );
-                $this->_params['currencyID'    ] = 'USD';
-                $this->set( 'getExpressCheckoutDetails', $this->_params );
-            } else {
-                $this->_params = $this->get( 'getExpressCheckoutDetails' );
-            }
-        } else {
-            $this->_params = $this->controller->exportValues( 'Contribution' );
-
-            $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
-            $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
-            $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
-            $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
-            $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR'];  
-        }
     }
 
     /**
@@ -89,32 +62,12 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        $name = $this->_params['first_name'];
-        if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['middle_name']}";
-        }
-        $name .= " {$this->_params['last_name']}";
-        $this->assign( 'name', $name );
-
-        $vars = array( 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
-        foreach ( $vars as $v ) {
-            $this->assign( $v, $this->_params[$v] );
-        }
-
-        $this->assign( 'credit_card_exp_date', CRM_Utils_Date::format( $this->_params['credit_card_exp_date'], '/' ) );
-        $this->assign( 'credit_card_number',
-                       CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
-        
         $this->addButtons(array(
-                                array ( 'type'      => 'next',
-                                        'name'      => ts('Confirm Contribution'),
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
+                                        'name'      => ts('Done'),
+                                        'isDefault' => true ),
                                 )
                           );
-
     }
 
     /**

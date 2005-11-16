@@ -473,6 +473,11 @@ class CRM_Utils_System {
         }
         return false;
     }
+
+    static function mungeCreditCard( $number, $keep = 4 ) {
+        $replace = str_repeat( '*' , strlen( $number ) - $keep );
+        return substr_replace( $number, $replace, 0, -$keep );
+    }
 }
 
 ?>

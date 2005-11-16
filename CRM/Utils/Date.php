@@ -65,7 +65,7 @@ class CRM_Utils_Date {
             $date['d'] = (int ) $date['d'];
             $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         } else {
-            $date['d'] = '00';
+            $date['d'] = null;
         }
 
         $time = '';
@@ -114,10 +114,14 @@ class CRM_Utils_Date {
             } else {
                 $date['s'] = '00';
             }
-            $time = $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
+            $time = '&nbsp;' . $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
         }
 
-        return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
+        if ( $date['d'] ) {
+            return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
+        } else {
+            return $date['Y'] . $separator . $date['M'] . $time;
+        }
     }
 
     /**

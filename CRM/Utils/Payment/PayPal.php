@@ -36,7 +36,7 @@
 
 class CRM_Utils_Payment_PayPal {
     const
-        PPD_FILE = '01b74fec70d1773ea72cbefd7e9aad12',
+        PPD_FILE = '94b34b38b7abfdad98d16bca6b7e88be',
         CHARSET  = 'iso-8859-1';
     
     /** 
@@ -342,7 +342,7 @@ class CRM_Utils_Payment_PayPal {
             CRM_Core_Error::debug( 'v', $result );
         } else {
             /* Success */
-            CRM_Core_Error::debug( 'v', $result );
+            return $result;
         }
 
     }

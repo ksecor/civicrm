@@ -1,6 +1,7 @@
 <div class="form-item">
-    <fieldset><legend>{ts}Confirmation Page{/ts}</legend>
+    <fieldset><legend>{ts}Thank You Page{/ts}</legend>
     <dl>
+        <dt>Amount</dt><dd>{$amount}</dd> 
         <dt>Name</dt><dd>{$name}</dd>
         <dt>Billing Address</dt><dd>{$street1}</dd>
         <dt>City</dt><dd>{$city}</dd>

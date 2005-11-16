@@ -307,7 +307,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         //get the button name  
         $buttonName = $this->controller->getButtonName( );  
         if ( $buttonName == $this->_expressButtonName ) { 
-            $this->set( 'donationMode', 'express' ); 
+            $this->set( 'contributeMode', 'express' ); 
  
             $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
             $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribute_display=1', true, null, false ); 
@@ -321,13 +321,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             CRM_Utils_System::redirect( $paypalURL ); 
         } else { 
             $this->set( 'contributeMode', 'direct' ); 
- 
-            $params['country']    = 'US'; 
-            $params['year'   ]    = $params['credit_card_exp_date']['Y']; 
-            $params['month'  ]    = $params['credit_card_exp_date']['M']; 
-            $params['ip_address'] = $_SERVER['REMOTE_ADDR']; 
-            $paypal->doDirectPayment( $params ); 
-            exit( ); 
         } 
     }
 

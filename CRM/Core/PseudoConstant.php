@@ -430,8 +430,9 @@ class CRM_Core_PseudoConstant {
 
             self::populate( self::$stateProvinceAbbreviation, 'CRM_Core_DAO_StateProvince', true, 'abbreviation', 'is_active', $whereClause );
         }
+
         if ($id) {
-            if (array_key_exists($id, self::$stateProvince)) {
+            if (array_key_exists($id, self::$stateProvinceAbbreviation)) {
                 return self::$stateProvinceAbbreviation[$id];
             } else {
                 return null;
@@ -507,12 +508,19 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all country ISO codes.
      *
      */
-    public static function &countryIsoCode()
+    public static function &countryIsoCode( $id = false )
     {
         if (!self::$countryIsoCode) {
             self::populate( self::$countryIsoCode, 'CRM_Core_DAO_Country',
             'true', 'iso_code');
         }
+        if ($id) { 
+            if (array_key_exists($id, self::$countryIsoCode)) { 
+                return self::$countryIsoCode[$id]; 
+            } else { 
+                return null; 
+            } 
+        } 
         return self::$countryIsoCode;
     }
 
