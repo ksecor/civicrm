@@ -118,6 +118,32 @@ function crm_uf_get_profile_html  ( $userID, $title, $action = null, $register =
     return CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, $action, $register, $reset );
 }
 
+ 
+/**  
+ * get the html for the form for profile creation
+ *  
+ * @param boolean $reset    should we reset the form?  
+ *  
+ * @return string       the html for the form  
+ * @static  
+ * @access public  
+ */  
+function crm_uf_get_create_html  ( $reset = false ) {
+    $session =& CRM_Core_Session::singleton( ); 
+    $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts(''), CRM_Core_Action::ADD ); 
+    if ( $reset ) { 
+        unset( $_POST['_qf_default'] ); 
+        unset( $_REQUEST['_qf_default'] );
+    }
+
+    $controller->process( ); 
+    $controller->setEmbedded( true ); 
+    $controller->run( ); 
+ 
+    $template =& CRM_Core_Smarty::singleton( ); 
+    return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
+} 
+
 /** 
  * get the contact_id given a uf_id 
  * 
