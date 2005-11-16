@@ -18,6 +18,13 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Activity Types')) {
             $this->clickLink('Activity Types');
         }
@@ -29,6 +36,7 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("New Activity Type");
         
         $name = 'New Activity Type';
         $description = 'This Activity Type Created by Web Test';
@@ -41,12 +49,19 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         
         $this->assertResponse(200);
     }
-    /*
+    /*  Need to work on finding which Activity is having Edit and Delete link .... !!!
     function testAdminEditActivityType()
     {
         //echo "\n ************* Admin Activity Types : Edit ************* \n";
         
         CommonAPI::startCiviCRM($this);
+        
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
         
         if ($this->assertLink('Activity Types')) {
             $this->clickLink('Activity Types');
@@ -59,6 +74,7 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Edit Activity Type");
         
         $name = 'Email';
         $description = 'Email Sent...Edited.';
@@ -78,6 +94,13 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Activity Types')) {
             $this->clickLink('Activity Types');
         }
@@ -89,6 +112,7 @@ class TestOfAdminActivityTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Delete Activity Type");
         
         $this->clickSubmitByName('_qf_ActivityType_next');
         $this->assertWantedText('Selected activity type has been Deleted Successfuly.');

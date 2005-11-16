@@ -18,6 +18,13 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Relationship Types')) {
             $this->clickLink('Relationship Types');
         }
@@ -29,6 +36,7 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("New Relationship Type");
         
         $nameAB = 'Organization Name';
         $nameBA = 'Owner of Organization';
@@ -54,6 +62,13 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Relationship Types')) {
             $this->clickLink('Relationship Types');
         }
@@ -65,6 +80,7 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Edit Relationship Type");
         
         $nameAB = 'Organization Name E';
         $nameBA = 'Owner of Organization E';
@@ -91,6 +107,13 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Relationship Types')) {
             $this->clickLink('Relationship Types');
         }
@@ -102,6 +125,7 @@ class TestOfAdminRelationshipTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Delete Relationship Type");
         
         $this->clickSubmitByName('_qf_RelationshipType_next');
         $this->assertWantedText('Selected Relationship type has been deleted.');

@@ -2,7 +2,7 @@
 
 require_once "CommonAPI.php";
 
-class TestOfAdminGenderForm extends WebTestCase 
+class TestOfAdminPrefixForm extends WebTestCase 
 {  
     function setUp( ) 
     {
@@ -12,9 +12,9 @@ class TestOfAdminGenderForm extends WebTestCase
     {
     }
     
-    function testAdminAddGender()
+    function testAdminAddPrefix()
     {
-        //echo "\n ************* Admin Gender : Add ************* \n";
+        //echo "\n ************* Admin Prefix : Add ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -25,34 +25,34 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Individual Prefixes (Ms, Mr...)')) {
+            $this->clickLink('Individual Prefixes (Ms, Mr...)');
         }
         
         $this->assertResponse(200);
         
-        if ($this->assertWantedText("New Gender Option")) {
-            $this->clickLinkById("newGender");
+        if ($this->assertWantedText("New Individual Prefix Option")) {
+            $this->clickLinkById("newIndividualPrefix");
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("New Gender Option");
+        $this->assertWantedText("New Individual Prefix Option");
         
-        $name = 'New Gender';
+        $name = 'New Prefix';
         $weight = '-1';
         
         $this->setFieldById('name', $name);
         $this->setFieldbyId('weight', $weight);
         $this->setField('is_active', 1);
         
-        $this->clickSubmitByName('_qf_Gender_next');
+        $this->clickSubmitByName('_qf_IndividualPrefix_next');
         
         $this->assertResponse(200);
     }
     /*
-    function testAdminEditGender()
+    function testAdminEditPrefix()
     {
-        //echo "\n ************* Admin Gender : Edit ************* \n";
+        //echo "\n ************* Admin Prefix : Edit ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -63,8 +63,8 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Individual Prefixes (Ms, Mr...)')) {
+            $this->clickLink('Individual Prefixes (Ms, Mr...)');
         }
         
         $this->assertResponse(200);
@@ -74,24 +74,24 @@ class TestOfAdminGenderForm extends WebTestCase
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("Edit Gender Option");
+        $this->assertWantedText("Edit Individual Prefix Option");
         
-        $name = 'New Gender';
+        $name = 'New Prefix';
         $weight = '0';
         
         $this->setFieldById('name', $name);
         $this->setFieldbyId('weight', $weight);
         $this->setField('is_active', 1);
                 
-        $this->clickSubmitByName('_qf_Gender_next');
-        $this->assertWantedText("The Gender \"$name\" has been saved.");
+        $this->clickSubmitByName('_qf_IndividualPrefix_next');
+        $this->assertWantedText(" The Individual Prefix \"$name\" has been saved");
         
         $this->assertResponse(200);
     }
     
-    function testAdminDeleteGender()
+    function testAdminDeletePrefix()
     {
-        //echo "\n ************* Admin Gender : Delete ************* \n";
+        //echo "\n ************* Admin Prefix : Delete ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -102,8 +102,8 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Individual Prefixes (Ms, Mr...)')) {
+            $this->clickLink('Individual Prefixes (Ms, Mr...)');
         }
         
         $this->assertResponse(200);
@@ -113,10 +113,10 @@ class TestOfAdminGenderForm extends WebTestCase
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("Delete Gender Option");
+        $this->assertWantedText("Delete Individual Prefix Option");
         
-        $this->clickSubmitByName('_qf_Gender_next');
-        $this->assertWantedText(' Selected Gender type has been deleted.');
+        $this->clickSubmitByName('_qf_IndividualPrefix_next');
+        $this->assertWantedText('Selected Individual Prefix has been deleted.');
         
         $this->assertResponse(200);
     }*/

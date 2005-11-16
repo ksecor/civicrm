@@ -16,6 +16,13 @@ class TestOfAdminTagForm extends WebTestCase
     {
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Tags (Categories)')) {
             $this->clickLink('Tags (Categories)');
         }
@@ -27,6 +34,7 @@ class TestOfAdminTagForm extends WebTestCase
         $this->clickLinkById("newTag");
         
         $this->assertResponse(200);
+        $this->assertWantedText("New Tag");
         
         $name = 'New Tag';
         $description = 'This is Tag Created by Web Test';
@@ -45,6 +53,13 @@ class TestOfAdminTagForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Tags (Categories)')) {
             $this->clickLink('Tags (Categories)');
         }
@@ -54,6 +69,7 @@ class TestOfAdminTagForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Edit Tag");
         
         $name = 'Company';
         $description = 'For-profit organization. Edited.';
@@ -73,6 +89,13 @@ class TestOfAdminTagForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Tags (Categories)')) {
             $this->clickLink('Tags (Categories)');
         }
@@ -84,6 +107,7 @@ class TestOfAdminTagForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Delete Tag");
         
         $this->clickSubmitByName('_qf_Tag_next');
         $this->assertWantedText('Selected Tag has been Deleted Successfuly.');

@@ -1,8 +1,7 @@
 <?php
-
 require_once "CommonAPI.php";
 
-class TestOfAdminGenderForm extends WebTestCase 
+class TestOfAdminIMServiceForm extends WebTestCase 
 {  
     function setUp( ) 
     {
@@ -12,9 +11,9 @@ class TestOfAdminGenderForm extends WebTestCase
     {
     }
     
-    function testAdminAddGender()
+    function testAdminAddIMProvider()
     {
-        //echo "\n ************* Admin Gender : Add ************* \n";
+        //echo "\n ************* Admin IMProvider : Add ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -25,34 +24,32 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Instant Messenger Services')) {
+            $this->clickLink('Instant Messenger Services');
         }
         
         $this->assertResponse(200);
         
-        if ($this->assertWantedText("New Gender Option")) {
-            $this->clickLinkById("newGender");
+        if ($this->assertWantedText("New IM Service Provider")) {
+            $this->clickLinkById("newIMProvider");
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("New Gender Option");
+        $this->assertWantedText("New IM Service Provider");
         
-        $name = 'New Gender';
-        $weight = '-1';
+        $name = 'New IM Provider';
         
         $this->setFieldById('name', $name);
-        $this->setFieldbyId('weight', $weight);
-        $this->setField('is_active', 1);
+        $this->setField('is_active', 0);
         
-        $this->clickSubmitByName('_qf_Gender_next');
+        $this->clickSubmitByName('_qf_IMProvider_next');
         
         $this->assertResponse(200);
     }
     /*
-    function testAdminEditGender()
+    function testAdminEditIMProvider()
     {
-        //echo "\n ************* Admin Gender : Edit ************* \n";
+        //echo "\n ************* Admin IMProvider : Edit ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -63,8 +60,8 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Instant Messenger Services')) {
+            $this->clickLink('Instant Messenger Services');
         }
         
         $this->assertResponse(200);
@@ -74,24 +71,22 @@ class TestOfAdminGenderForm extends WebTestCase
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("Edit Gender Option");
+        $this->assertWantedText("Edit IM Service Provider");
         
-        $name = 'New Gender';
-        $weight = '0';
+        $name = 'AIM';
         
         $this->setFieldById('name', $name);
-        $this->setFieldbyId('weight', $weight);
         $this->setField('is_active', 1);
                 
-        $this->clickSubmitByName('_qf_Gender_next');
-        $this->assertWantedText("The Gender \"$name\" has been saved.");
+        $this->clickSubmitByName('_qf_IMProvider_next');
+        $this->assertWantedText("The IM Provider \"$name\" has been saved.");
         
         $this->assertResponse(200);
     }
     
-    function testAdminDeleteGender()
+    function testAdminDeleteIMProvider()
     {
-        //echo "\n ************* Admin Gender : Delete ************* \n";
+        //echo "\n ************* Admin IMProvider : Delete ************* \n";
         
         CommonAPI::startCiviCRM($this);
         
@@ -102,8 +97,8 @@ class TestOfAdminGenderForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Setup");
         
-        if ($this->assertLink('Gender Options (Male, Female...)')) {
-            $this->clickLink('Gender Options (Male, Female...)');
+        if ($this->assertLink('Instant Messenger Services')) {
+            $this->clickLink('Instant Messenger Services');
         }
         
         $this->assertResponse(200);
@@ -113,10 +108,10 @@ class TestOfAdminGenderForm extends WebTestCase
         }
         
         $this->assertResponse(200);
-        $this->assertWantedText("Delete Gender Option");
+        $this->assertWantedText("Delete IM Service Provider");
         
-        $this->clickSubmitByName('_qf_Gender_next');
-        $this->assertWantedText(' Selected Gender type has been deleted.');
+        $this->clickSubmitByName('_qf_IMProvider_next');
+        $this->assertWantedText('Selected IMProvider has been deleted.');
         
         $this->assertResponse(200);
     }*/

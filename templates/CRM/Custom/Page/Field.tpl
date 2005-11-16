@@ -35,7 +35,7 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New Custom Field{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&gid=$gid"}" id="newCustomField">&raquo; {ts}New Custom Field{/ts}</a>
         </div>
 
         </div>

@@ -18,6 +18,13 @@ class TestOfAdminLocationTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Location Types (Home, Work...)')) {
             $this->clickLink('Location Types (Home, Work...)');
         }
@@ -29,6 +36,7 @@ class TestOfAdminLocationTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("New Location Type");
         
         $name = 'New Location Type';
         $description = 'This Location Type is Created by Web Test';
@@ -49,6 +57,13 @@ class TestOfAdminLocationTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Location Types (Home, Work...)')) {
             $this->clickLink('Location Types (Home, Work...)');
         }
@@ -60,6 +75,7 @@ class TestOfAdminLocationTypeForm extends WebTestCase
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Edit Location Type");
         
         $name = 'Home';
         $description = 'Place of residence...Edited.';
@@ -81,11 +97,19 @@ class TestOfAdminLocationTypeForm extends WebTestCase
         
         CommonAPI::startCiviCRM($this);
         
+        if ($this->assertLink('Administer CiviCRM')) {
+            $this->clickLink('Administer CiviCRM');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Configure");
+        
         if ($this->assertLink('Location Types (Home, Work...)')) {
             $this->clickLink('Location Types (Home, Work...)');
         }
         
         $this->assertResponse(200);
+        $this->assertWantedText("Delete Location Type");
         
         if ($this->assertLink('Delete')) {
             $this->clickLink('Delete');

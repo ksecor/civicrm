@@ -50,12 +50,6 @@ class CommonAPI extends WebTestCase
         $commonAPIObj->drupalLogin($test);
         
         $test->get('http://' . $commonAPIObj->host . '/' . $commonAPIObj->userFramework . '/civicrm');
-               
-        if ($test->assertLink('Administer CiviCRM')) {
-            $test->clickLink('Administer CiviCRM');
-        }
-        
-        $test->assertResponse(200);
     }
 }
 ?>
