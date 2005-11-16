@@ -56,11 +56,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         // do u want to allow a free form text field for amount 
         $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow Other Amounts?' ) ); 
  
-        $this->add('text', 'min_amount', ts('Minimum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'min_amount', ts( 'Please enter a valid money amount' ), 'money' );
+        $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->addRule( 'min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
 
-        $this->add('text', 'max_amount', ts('Maximum Contribution Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'max_amount', ts( 'Please enter a valid money amount' ), 'money' );
+        $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->addRule( 'max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
 
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
@@ -68,7 +68,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
  
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
-            $this->addRule("value[$i]", ts('Please enter a valid money amount for this field.'), 'money'); 
+            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
         }
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );

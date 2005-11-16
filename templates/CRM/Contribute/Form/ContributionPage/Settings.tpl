@@ -25,7 +25,7 @@
     <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_credit_card_only.html} {$form.is_credit_card_only.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to restrict online contributors to using credit cards only (e.g. block use of PayPal or debit accounts).{/ts}</dd>
-    <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html|crmReplace:class:huge}</dd>
+    <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags.
     You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>

@@ -69,21 +69,6 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         return self::$contributionType;
     }
 
-    /** 
-     * Get all the contribution modes
-     * 
-     * @access public 
-     * @return array - array reference of all contribution types if any 
-     * @static 
-     */ 
-    public static function &contributionMode( ) { 
-        if ( ! self::$contributionMode ) { 
-            CRM_Core_PseudoConstant::populate( self::$contributionMode, 
-                                               'CRM_Contribute_DAO_ContributionMode' ); 
-        } 
-        return self::$contributionMode;
-    }
-
 }
 
 ?>

@@ -1,39 +1,36 @@
-
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/WizardHeader.tpl}
+<div id="help">
+    {ts}<p>Use this form to configure Contribution Amount options. You can give contributors the ability to enter
+    their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can
+    enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.).</p>
+    <p>If you allow people to enter their own dollar amounts, you can also set minimum and maximum values.</p>
+    {/ts}
+</div>
  
-<div class="form-item">
-    <fieldset><legend>{ts}Contribution Page{/ts}</legend>
-    <div id="help">
-        <p>
-        {ts}Use this form to setup the name, description and more for a customized contribution page.{/ts}
-        </p>
-    </div>
+<div class="form-item" id="map-field">
+    <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
     <dl>
     <dt>{$form.is_allow_other_amount.label}</dt><dd>{$form.is_allow_other_amount.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to enter their
+    own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</dd>
     <dt>{$form.min_amount.label}</dt><dd>{$form.min_amount.html}</dd> 
     <dt>{$form.max_amount.label}</dt><dd>{$form.max_amount.html}</dd>
-    <dt>{ts}Label{/ts}</dt><dd>{ts}Amount{/ts}</dt>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you have chosen to <strong>Allow Other Amounts</strong>, you
+    can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution
+    amounts less than $5.00).{/ts}</dd>
+    </dl>
+    <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of
+    radio button options. Both the label ('contribution level') and dollar amount will be displayed.{/ts}</p>
+    <table id="map-field">
+    <tr class="columnheader"><th>{ts}Contribution Label{/ts}</th><th>{ts}Dollar Amount{/ts}</th></tr>
     {section name=loop start=1 loop=11}
        {assign var=idx value=$smarty.section.loop.index}
-       <dt>{$form.label.$idx.html}</dt><dd>{$form.value.$idx.html}</dd>
+       <tr><td class="even-row">{$form.label.$idx.html}</td><td>$ {$form.value.$idx.html}</td></tr>
     {/section}
-    {if $action ne 4}
-        <div id="crm-submit-buttons">
-        <dt></dt><dd>{$form.buttons.html}</dd>
-        </div>
-    {else}
-        <div id="crm-done-button">
-        <dt></dt><dd>{$form.done.html}</dd>
-        </div>
-    {/if} {* $action ne view *}
-    </dl>
+    </table>
     </fieldset>
 </div>
-{if $action eq 2 or $action eq 4} {* Update or View*}
-    <p>
-    <div class="action-link">
-    <a href="{crmURL p='civicrm/contribute' q="action=browse&reset=1"}">&raquo;  {ts}Contribution Pages{/ts}</a>
-    </div>
-    </p>
-{/if}
+<div id="crm-submit-buttons">
+    {$form.buttons.html}
+</div>

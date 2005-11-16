@@ -40,8 +40,8 @@
        <name>intro_text</name>
        <type>text</type>
        <htmlType>textarea</htmlType>
-       <rows>4</rows>
-       <cols>80</cols>
+       <rows>6</rows>
+       <cols>50</cols>
        <comment>Text and html allowed. Displayed below title.</comment>
        <add>1.3</add>
   </field>
@@ -87,8 +87,8 @@
        <name>thankyou_text</name> 
        <type>text</type> 
        <htmlType>textarea</htmlType>
-       <rows>4</rows>
-       <cols>80</cols>
+       <rows>6</rows>
+       <cols>50</cols>
        <comment>text and html allowed; displayed above result on success page</comment> 
        <add>1.3</add> 
   </field> 
@@ -117,8 +117,8 @@
        <name>receipt_text</name>  
        <type>text</type>
        <htmlType>textarea</htmlType>
-       <rows>4</rows>
-       <cols>80</cols>
+       <rows>6</rows>
+       <cols>50</cols>
        <comment>text to include above standard receipt info on receipt email; emails are text-only, so do not allow html for now</comment>
        <add>1.3</add>  
   </field>  
