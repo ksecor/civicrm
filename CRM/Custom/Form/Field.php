@@ -76,7 +76,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     
     private static $_dataToHTML = array(
             array(  'Text' => 'Text', 'Select' => 'Select', 
-                    'Radio' => 'Radio', 'CheckBox' => 'CheckBox'),
+                    'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 'Multi-Select' => 'Multi-Select'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
@@ -109,7 +109,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if (self::$_dataToLabels == null) {
             self::$_dataToLabels = array(
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox')),
+                        'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select')),
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
                         'Radio' => ts('Radio')),
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -184,7 +184,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $defaults['weight'] = 1;
             }
         }
-        
         return $defaults;
     }
 
@@ -246,6 +245,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             //for checkbox handling of default option
             $this->add('checkbox', 'default_checkbox_option['.$i.']', null);
+
         }
 
         $_showHide->addToTemplate();                
@@ -487,7 +487,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
                     break; 
-                
+
                 case 'Select':
                     $_fieldError = 1;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
@@ -619,7 +619,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // special for checkbox options
         if ($this->_action & CRM_Core_Action::ADD) {
-            if ( $customField->html_type == 'CheckBox' &&  isset($params['default_checkbox_option'])) {
+            if ( ($customField->html_type == 'CheckBox' || $customField->html_type == 'Multi-Select') &&  isset($params['default_checkbox_option'])) {
                 $tempArray = array_keys($params['default_checkbox_option']);
                 $defaultArray = array();
                 foreach ($tempArray as $k => $v) {
@@ -636,7 +636,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
             }
         }
-        
+
         $customField->help_post        = $params['help_post'];
         $customField->mask             = $params['mask'];
         $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );

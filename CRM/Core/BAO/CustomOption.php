@@ -198,7 +198,9 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $customValueDAO = & new CRM_Core_DAO_CustomValue();
         $customValueDeleteDAO = & new CRM_Core_DAO_CustomValue();
         $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
-        if( $fieldDAO->html_type !='CheckBox' ) {
+
+        //added multiselect in if-statement below
+        if( $fieldDAO->html_type !='CheckBox' && $fieldDAO->html_type !='Multi-Select' ) {
             
             $customValueDAO->custom_field_id = $custom_field_id;
             $customValueDAO->find();

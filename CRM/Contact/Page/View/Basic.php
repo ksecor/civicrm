@@ -75,8 +75,8 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                      $field['data_type'] == 'Int' ||
                      $field['data_type'] == 'Float' ||
                      $field['data_type'] == 'Money') {
-
-                    if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox') {
+                    //added check for Multi-Select in the below if-statement
+                    if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
                         
                         //$freezeString = $field['html_type'] == 'Radio' ? "( )" : "[ ]";
                         //$freezeStringChecked = $field['html_type'] == 'Radio' ? "(x)" : "[x]";
@@ -87,7 +87,11 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                         $freezeStringChecked = "";
 
                         $customData = array();
-                        if ( $field['html_type'] == 'CheckBox' ) {
+
+                        //added check for Multi-Select in the below if-statement
+
+                        if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
+
                             $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             
                         } else {
@@ -103,7 +107,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                         
                         $counter = 1;
                         while($coDAO->fetch()) {
-                            
+                           
                             //to show only values that are checked
                            if(in_array($coDAO->value, $customData)){
                                $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;

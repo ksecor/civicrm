@@ -351,7 +351,24 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      array( '' => ts('- select -')) + $selectOption,
                      ($useRequired && $field->is_required));
             break;
+
+            //added for select multiple
+        case 'Multi-Select':
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+            $selectOption = array();
+            foreach ($customOption as $v) {
+                $selectOption[$v['value']] = $v['label'];
+            }
+
+            $qf->addElement('select', $elementName, $field->label, $selectOption,  array("size"=>"5","multiple"));
             
+            if ($useRequired && $field->is_required) {
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+            }
+ 
+            break;
+
+
         case 'CheckBox':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
             $check = array();

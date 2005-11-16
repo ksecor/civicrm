@@ -710,6 +710,44 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     }
                     break;
                     
+                //added a case for Multi-Select option                    
+                case 'Multi-Select':
+                    if ($viewMode) {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $defaults[$elementName] = array();
+                        if(isset($value)) {
+                            foreach($customOption as $val) {
+                                if (is_array($customValues)) {
+                                    if (in_array($val['value'], $checkedData)) {
+                                        $defaults[$elementName][$val['value']] = $val['value'];
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $defaults[$elementName] = array();
+                        if (isset($field['customValue']['data'])) {
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            foreach($customOption as $val) {
+                                if (in_array($val['value'], $checkedData)) {
+                                    //$defaults[$elementName][$val['value']] = 1;
+                                    $defaults[$elementName][$val['value']] = $val['value'];
+                                } 
+                            }
+                        } else {
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            foreach($customOption as $val) {
+                                if ( in_array($val['value'], $checkedValue) ) {
+                                    $defaults[$elementName][$val['value']] = $val['value'];
+                                }
+                            }                            
+                        }
+                    }
+                    break;
+                    
                 case 'Select Date':
                     if (isset($value)) {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value );
@@ -729,7 +767,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // first reset all checkbox and radio data
         foreach ($groupTree as $group) {
             foreach ($group['fields'] as $field) {
-                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' ) {
+                //added Multi-Select option in the below if-statement
+                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' || $field['html_type'] == 'Multi-Select' ) {
                     $groupTree[$group['id']]['fields'][$field['id']]['customValue']['data'] = 'NULL';
                 }
             }
@@ -758,8 +797,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     while($optionDAO->fetch() ) {
                         $optionValue[$optionDAO->label] = $optionDAO->value;
                     }
-                    
                     $customValue = array_keys( $v );
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
+                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                    break;
+
+                //added for Multi-Select
+                case 'Multi-Select':  
+                    $optionDAO =& new CRM_Core_DAO_CustomOption();
+                    $optionDAO->custom_field_id = $fieldId;
+                    $optionDAO->find();
+                    $optionValue = array();
+                    while($optionDAO->fetch() ) {
+                        $optionValue[$optionDAO->label] = $optionDAO->value;
+                    }
+                    $customValue =  $v ;
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
                         implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
                     break;
