@@ -83,6 +83,14 @@
       <comment>actual funds transfer amount; total less fees; if processor does not report actual fee during transaction, this is set to total_amount.</comment>
       <add>1.3</add>    
   </field>
+  <field>
+      <name>currency</name>
+      <type>varchar</type>
+      <length>64</length>
+      <import>true</import>
+      <comment>3 character string, value derived from payment processor config setting.</comment>
+      <add>1.3</add>
+  </field>
   <field>       
       <name>payment_processor</name>    
       <type>varchar</type>    

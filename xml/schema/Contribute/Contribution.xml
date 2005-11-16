@@ -31,6 +31,7 @@
   </foreignKey> 
   <field> 
       <name>contact_id</name> 
+      <title>Contact ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <import>true</import>
@@ -111,6 +112,7 @@
   </field>
   <field>        
       <name>trxn_id</name>     
+      <title>Transaction ID</title>
       <type>varchar</type>     
       <length>255</length>  
       <required>true</required> 
