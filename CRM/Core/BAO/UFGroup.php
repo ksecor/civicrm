@@ -705,7 +705,38 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     public function getWhereClause($params ,&$tables)
     {
         require_once 'CRM/Core/DAO/DupeMatch.php';
-
+        if(is_array($params)) {
+            $params['email'] = array();
+            $params['phone'] = array();
+            $params['im']    = array();
+            
+            foreach($params['location'] as $loc) {
+                foreach (array('email', 'phone', 'im') as $key) {
+                    if (is_array($loc[$key])) {
+                        foreach ($loc[$key] as $value) {
+                        if ( ! empty( $value[$key] ) ) {
+                            $value[$key] = strtolower( $value[$key] );
+                            $params[$key][] = 
+                                '"' . addslashes($value[$key]) . '"';
+                        }
+                        }
+                    }
+                }
+            }
+            
+            foreach (array('email', 'phone', 'im') as $key) {
+                if (count($params[$key]) == 0) {
+                    unset($params[$key]);
+                }
+            }
+            
+            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+                if ( ! empty( $params['location'][1]['address'][$fld] ) ) {
+                    $params[$fld] = $params['location'][1]['address'][$fld];
+                }
+            }
+        }
         $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
         
         $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
