@@ -30,6 +30,6 @@
 	<dt></dt><dd>{$form.buttons.html}</dd>
 </fieldset>
 {if !$advance }
-<a href="{crmURL q="action=update&reset=1&advance=1"}" id="newDupeMatch">&raquo; {ts}Advanced Configuration{/ts}</a>
+{*<a href="{crmURL q="action=update&reset=1&advance=1"}" id="newDupeMatch">&raquo; {ts}Advanced Configuration{/ts}</a>*}
 {/if}
 </div>
