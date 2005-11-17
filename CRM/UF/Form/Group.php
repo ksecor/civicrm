@@ -127,7 +127,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
 
         // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
 
         // is this group active ?
@@ -162,16 +162,17 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $defaults = array();
 
         if ($this->_action == CRM_Core_Action::ADD) {
-            $defGroup =& new CRM_Core_DAO_UFGroup();
-            $defGroup->domain_id = CRM_Core_Config::domainID( );
-            $defGroup->orderBy('weight DESC');
-            $defGroup->find( );
+            $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
+//             $defGroup =& new CRM_Core_DAO_UFGroup();
+//             $defGroup->domain_id = CRM_Core_Config::domainID( );
+//             $defGroup->orderBy('weight DESC');
+//             $defGroup->find( );
             
-            if ( $defGroup->fetch() ) {
-                $defaults['weight'] = $defGroup->weight + 1;
-            } else {
-                $defaults['weight'] = 2;
-            }
+//             if ( $defGroup->fetch() ) {
+//                 $defaults['weight'] = $defGroup->weight + 1;
+//             } else {
+//                 $defaults['weight'] = 2;
+//             }
            
             $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
             foreach ($UFGroupType as $key => $value ) {
@@ -181,6 +182,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         }
 
         if ( isset($this->_id ) ) {
+            
+            $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( $this->_id );
+            
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
             
@@ -226,7 +230,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
 
         //make entry in uf join table
-        CRM_Core_BAO_UFGroup::createUFJoin($params['uf_group_type'], $ufGroup->id );
+        CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been saved.', array(1 => $ufGroup->title)));

@@ -293,7 +293,9 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
     // make sure the system is initialized
     civicrm_initialize( );
 
-    // CRM_Core_Error::debug( $type, $edit );
+    //CRM_Core_Error::debug( $type, $edit );
+
+    //echo $type.'<br>';
 
     switch ( $type ) {
 
@@ -327,18 +329,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 
 function civicrm_categories( ) {
     require_once 'CRM/Core/BAO/UFGroup.php';
-	$group =& new CRM_Core_DAO_UFGroup( );
-    $group->is_active = 1;
-    $group->orderBy( 'weight', 'title' );
-    $group->find( );
-
-    while ( $group->fetch( ) ) {
-        // add 1 to the default weight, so that drupal's main account has precedence
-        $data[] = array( 'name'   => $group->title,
-                         'title'  => $group->title,
-                         'weight' => $group->weight + 1 );
-    }
-    return $data;
+    return $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
 }
 
 function civicrm_register_data($edit, &$user, $category, $reset) {
@@ -390,8 +381,8 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
 }
 
 function civicrm_view_data($user ) {
-    require_once 'CRM/Core/PseudoConstant.php';
-    $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
+    require_once 'CRM/Core/BAO/UFGroup.php';
+    $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
 
     $data = array( );
 
@@ -402,7 +393,7 @@ function civicrm_view_data($user ) {
         require_once 'CRM/Profile/Page/Dynamic.php';
         foreach ( $ufGroups as $id => $title ) {
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
-            $data[$title] = $page->run( );
+            $data[$title['title']] = $page->run( );
         }
     }
 
