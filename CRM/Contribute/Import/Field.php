@@ -112,6 +112,26 @@ class CRM_Contribute_Import_Field {
         if ( $this->_value === null ) {
             return true;
         }
+
+        switch ($this->_name) {
+        case 'receive_date':
+        case 'cancel_date':
+        case 'receipt_date':
+        case 'thankyou_date':
+            return CRM_Utils_Rule::date($this->_value);
+            break;
+        case 'non_deductible_amount':
+        case 'total_amount':
+        case 'fee_amount':
+        case 'net_amount':
+            return CRM_Utils_Rule::money($this->_value);
+            break;
+        // FIXME: do a 'possible currencies' pseudo constant?
+        case 'currency':
+            return true;
+        default:
+            return true;
+        }
     }
 
 }

@@ -408,7 +408,7 @@ abstract class CRM_Contribute_Import_Parser {
         }
     }
 
-    function setActiveFieldValues( $elements ) {
+    function setActiveFieldValues( $elements, &$erroneousField = null ) {
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
         for ( $i = 0; $i < $maxCount; $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
@@ -424,6 +424,7 @@ abstract class CRM_Contribute_Import_Parser {
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( ! $this->_activeFields[$i]->validate() ) {
                 // no need to do any more validation
+                $erroneousField = $i;
                 $valid = self::ERROR;
                 break;
             }

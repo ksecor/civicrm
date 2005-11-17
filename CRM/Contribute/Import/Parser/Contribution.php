@@ -125,6 +125,12 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      * @access public
      */
     function summary( &$values ) {
+        $erroneousField = null;
+        $response = $this->setActiveFieldValues( $values, $erroneousField );
+        if ($response != CRM_Contribute_Import_Parser::VALID) {
+            array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
+            return CRM_Contribute_Import_Parser::ERROR;
+        }
         $errorRequired = false;
         if ($this->_contactIdIndex < 0) {
             $errorRequired = true;
