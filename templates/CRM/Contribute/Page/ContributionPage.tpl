@@ -13,7 +13,7 @@
     <li>Use the <strong>Standalone Form</strong> action link to get the HTML code needed to add a contribution form
     to other pages. You can add these 'stand-alone forms' to any website.</ul>
     </p>
-    <p>Click <a href="%!">New Contribution Page</a> to create a new page using the step-by-step wizard.</p>
+    <p>Click <a href="%1">New Contribution Page</a> to create a new page using the step-by-step wizard.</p>
     {/if}
 {/ts}
 </div>
