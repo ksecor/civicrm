@@ -275,7 +275,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $this->set('relatedCount', count($relatedContactIds));
         $newGroupId = null;
-        if ($newGroup) {
+
+        //changed below if-statement "if ($newGroup) {" to "if ($newGroupName) {" 
+        if ($newGroupName) {
             /* Create a new group */
             $gParams = array(
                              'domain_id'     => CRM_Core_Config::domainID(),

@@ -66,15 +66,34 @@
  <br />
  
  {* Group options *}
- <div class="form-item">
-    <dt class="description">{$form.newGroup.html}</dt><dd>{$form.newGroup.label}</dd>
-    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
-    <dt class="description">{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
-{if $form.groups}
-    <dt class="description">{$form.groups.label}</dt> <dd><br />{$form.groups.html}</dd>
-{/if}
- </div>
+
+<div id="newGroup[show]" class="data-group">
+    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;"><label>{ts}&raquo;{$form.newGroup.label}{/ts}</label></a><br />
+</div>
+
+<div id="newGroup">
+    <legend><a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">{ts}&raquo;{$form.newGroup.label}{/ts}</a></legend>
+    <div class="form-item">
+	    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
+	    <dt class="description">{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
+    </div>
+</div>
+
+<div id="exitGroup[show]" class="data-group">
+    <a href="#" onclick="hide('exitGroup[show]'); show('exitGroup'); return false;"><label>{ts}&raquo;{$form.groups.label}{/ts}</label></a><br />
+</div>
+<div id="exitGroup">
+    <legend><a href="#" onclick="hide('exitGroup'); show('exitGroup[show]'); return false;">{ts}&raquo;{$form.groups.label}{/ts}</a></legend>
+    <div class="form-item">
+	     <dd><br />{$form.groups.html}</dd>
+    </div>
+</div>
+
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
- 
+
+<script type="text/javascript">
+hide('newGroup');
+hide('exitGroup');
+</script>
