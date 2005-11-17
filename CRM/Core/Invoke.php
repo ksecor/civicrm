@@ -697,8 +697,16 @@ class CRM_Core_Invoke {
             return;
         }
         
-        $fileName = $session->get($varName . 'FileName', 
-                                    'CRM_Import_Controller');
+        // FIXME: a hack until we have common import
+        // mechanisms for contacts and contributions
+        $realm = $_GET['realm'];
+        if ($realm == 'contribution') {
+            $importController = 'CRM_Contribute_Import_Controller';
+        } else {
+            $importController = 'CRM_Import_Controller';
+        }
+        
+        $fileName = $session->get($varName . 'FileName', $importController);
         $config =& CRM_Core_Config::singleton( ); 
         if ( $config->userFramework == 'Mambo' ) { 
             echo "<pre>"; 

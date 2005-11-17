@@ -38,9 +38,6 @@ require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Core/DAO/Mapping.php';
 require_once 'CRM/Core/DAO/MappingField.php';
-#require_once 'CRM/Contact/DAO/RelationshipType.php';
-
-#require_once 'CRM/Core/BAO/LocationType.php';
 
 require_once 'CRM/Contribute/Import/Parser/Contribution.php';
 
@@ -708,11 +705,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             }
         }
 
-        $parser =& new CRM_Contribute_Import_Parser_Contribution(  $mapperKeysMain
-#                                                , $mapperLocType, $mapperPhoneType, 
-#                                                  $related, $relatedContactType, $relatedContactDetails, 
-#                                                  $relatedContactLocType, $relatedContactPhoneType
-                                                   );
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Contribute_Import_Parser::MODE_PREVIEW );
         

@@ -45,6 +45,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
     protected $_mapperKeys;
 
+    protected $_contactIdIndex;
+
     /**
      * Array of succesfully imported contribution id's
      *
@@ -77,6 +79,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $this->_newContributions = array();
 
         $this->setActiveFields( $this->_mapperKeys );
+
+        $this->_contactIdIndex = -1;
+
+        $index = 0;
+        foreach ( $this->_mapperKeys as $key ) {
+            if ( $key == 'contact_id' ) {
+                $this->_contactIdIndex = $index;
+            }
+            $index++;
+        }
     }
 
     /**
@@ -113,65 +125,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      * @access public
      */
     function summary( &$values ) {
-        $response = $this->setActiveFieldValues( $values );
-
         $errorRequired = false;
-#       switch ($this->_contactType) { 
-#       case 'Individual' :
-#           if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
-#               $errorRequired = true;
-#           } else {
-#               $errorRequired = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
-#                   ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
-#           }
-#           break;
-#       case 'Household' :
-#           if ( $this->_householdNameIndex < 0 ) {
-#               $errorRequired = true;
-#           } else {
-#               $errorRequired = ! CRM_Utils_Array::value($this->_householdNameIndex, $values);
-#           }
-#           break;
-#       case 'Organization' :
-#           if ( $this->_organizationNameIndex < 0 ) {
-#               $errorRequired = true;
-#           } else {
-#               $errorRequired = ! CRM_Utils_Array::value($this->_organizationNameIndex, $values);
-#           }
-#           break;
-#       }
-
-#       if ( $this->_emailIndex >= 0 ) {
-#           /* If we don't have the required fields, bail */
-#           if ($this->_contactType == 'Individual') {
-#               if ($errorRequired && ! CRM_Utils_Array::value($this->_emailIndex, $values)) {
-#                   array_unshift($values, ts('Missing required fields'));
-#                   return CRM_Contribute_Import_Parser::ERROR;
-#               }
-#           }
-#           
-#           $email = CRM_Utils_Array::value( $this->_emailIndex, $values );
-#           if ( $email ) {
-#               /* If the email address isn't valid, bail */
-#               if (! CRM_Utils_Rule::email($email)) {
-#                   array_unshift($values, ts('Invalid Email address'));
-#                   return CRM_Contribute_Import_Parser::ERROR;
-#               }
-#               /* If it's a dupe, bail */
-#               if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
-#                   array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
-#                   return CRM_Contribute_Import_Parser::CONFLICT;
-#               }
-
-#               /* otherwise, count it and move on */
-#               $this->_allEmails[$email] = $this->_lineCount;
-#           }
-#       } else
+        if ($this->_contactIdIndex < 0) {
+            $errorRequired = true;
+        }
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Contribute_Import_Parser::ERROR;
         }
-
         return CRM_Contribute_Import_Parser::VALID;
     }
 

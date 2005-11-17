@@ -64,9 +64,9 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
         $onDuplicate = $this->get('onDuplicate');
         $mismatchCount      = $this->get('unMatchCount');
         if ($duplicateRowCount > 0) {
-            $this->set('downloadDuplicateRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=3'));
+            $this->set('downloadDuplicateRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=3&realm=contribution'));
         }else if($mismatchCount) {
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=contribution'));
         } else {
             $duplicateRowCount = 0;
             $this->set('duplicateRowCount', $duplicateRowCount);

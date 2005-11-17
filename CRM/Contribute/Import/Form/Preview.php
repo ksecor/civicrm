@@ -78,33 +78,26 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
             $this->assign( 'rowDisplayCount', 2 );
         }
         
-
-#       $groups =& CRM_Core_PseudoConstant::group();
-#       $this->set('groups', $groups);
-        
-                             
         if ($invalidRowCount) {
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=contribution'));
         }
 
         if ($conflictRowCount) {
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=contribution'));
         }
         
         if ($mismatchCount) {
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=contribution'));
         }
 
         
-        $properties = array( 'mapper',#'locations', 'phones',
+        $properties = array( 'mapper',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
                              'downloadErrorRecordsUrl',
                              'downloadConflictRecordsUrl',
-                             'downloadMismatchRecordsUrl'#,
-#                            'related', 'relatedContributionDetails', 'relatedContributionLocType',
-#                            'relatedContributionPhoneType'
+                             'downloadMismatchRecordsUrl'
                     );
                              
         foreach ( $properties as $property ) {
@@ -119,16 +112,6 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-#       $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
-#       $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
-#       $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-#       $this->addFormRule(array('CRM_Contribute_Import_Form_Preview', 'newGroupRule'));
-        
-#       $groups =& $this->get('groups');
-
-#       if ( ! empty( $groups ) ) {
-#           $this->addElement( 'select', 'groups', ts('Join new contributions to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
-#       }
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -166,11 +149,6 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
-#       $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
-#       $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
-#       $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
-#       $groups             = $this->controller->exportValue( $this->_name, 'groups');
-#       $allGroups          = $this->get('groups');
 
         $seperator = ',';
 
@@ -341,9 +319,9 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
             fclose($fd);
             
             $this->set('errorFile', $errorFile);
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=contribution'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=contribution'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=contribution'));
         }
     }
 
