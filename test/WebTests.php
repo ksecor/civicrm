@@ -13,19 +13,34 @@ class WebTests extends GroupTest {
     function WebTests()
     {
         $this->GroupTest( 'Web Site Tests for CRM' );
-                
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminTag.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminActivityType.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminLocationType.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminRelationshipType.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminGender.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminPrefix.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminSuffix.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminIMService.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminMobileProvider.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminCustomData.php' );
+        
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/DemoApi.php' );
+        
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewIndividual.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewHousehold.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewOrganization.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewGroup.php' );
+        
+        // Quick Add Individual
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/QuickAdd.php' );
+        
+        // Admin Links
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminTag.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminActivityType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminLocationType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminRelationshipType.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminGender.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminPrefix.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminSuffix.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminIMService.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminMobileProvider.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminCustomData.php' );
+        
+        // Manage Groups
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
+        
+        // Search
+        
     }
 
 }

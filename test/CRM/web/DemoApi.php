@@ -1,10 +1,8 @@
 <?php
-
-require_once 'api/crm.php';
+require_once "CommonAPI.php";
 
 class TestOfDemoForm extends WebTestCase 
 {
-  
     function setUp( ) 
     {
     }
@@ -15,14 +13,8 @@ class TestOfDemoForm extends WebTestCase
     
     function testTrial( ) 
     {
-        $url = "http://localhost/drupal";
-        $this->get($url);
-        $this->assertResponse(200);
-
-        // $url = "http://192.168.2.9/drupal/";
-//         $this->get($url);
-//         $this->assertResponse(200);
-        
+        CommonAPI::startCiviCRM($this);
+        $this->assertWantedText("Find Contacts");
     }
     
 }
