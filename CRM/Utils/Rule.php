@@ -47,10 +47,15 @@ class CRM_Utils_Rule {
 
     static function variable( $str ) {
         // check length etc
-        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 31 ) {
+        //fix for the Issue CRM-559 
+        /*if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 31 ) {
+            return false;
+        }*/
+        
+        if ( empty( $str ) || strlen( $str ) > 31 ) {
             return false;
         }
-    
+        
         // make sure it include valid characters, alpha numeric and underscores
         if ( ! preg_match('/^[\w\s]+$/i', $str ) ) {
             return false;
