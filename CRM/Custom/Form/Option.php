@@ -138,7 +138,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
         
             // the above value is used directly by QF, so the value has to be have a rule
-            $this->addRule('value', ts('Please enter a valid value for this field.'), 'variable');
+            $this->addRule('value', ts('Please enter a valid value for this field.'), 'qfVariable');
 
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);

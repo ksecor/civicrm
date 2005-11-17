@@ -47,11 +47,6 @@ class CRM_Utils_Rule {
 
     static function variable( $str ) {
         // check length etc
-        //fix for the Issue CRM-559 
-        /*if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 31 ) {
-            return false;
-        }*/
-        
         if ( empty( $str ) || strlen( $str ) > 31 ) {
             return false;
         }
@@ -63,6 +58,20 @@ class CRM_Utils_Rule {
 
         return true;
     }
+
+    static function qfVariable( $str ) {
+        // check length etc 
+        if ( empty( $str ) || strlen( $str ) > 31 ) {  
+            return false; 
+        } 
+        
+        // make sure it include valid characters, alpha numeric and underscores 
+        if ( ! preg_match('/^[\w\s]+$/i', $str ) ) { 
+            return false; 
+        } 
+ 
+        return true; 
+    } 
 
     static function phone( $phone ) {
         // check length etc
