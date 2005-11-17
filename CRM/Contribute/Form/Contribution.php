@@ -53,7 +53,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     public function preProcess()  
     {  
         // current contribution page id 
-        $this->_id = $this->get( 'id' ); 
+        $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );
         
         // get all the values from the dao object
         $params = array('id' => $this->_id); 
@@ -117,6 +117,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         $this->addGroup( $elements, 'amount', ts('Amount'), '<br />' );
+        $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
     }
     
     /**  

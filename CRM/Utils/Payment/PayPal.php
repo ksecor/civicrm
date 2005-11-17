@@ -65,15 +65,13 @@ class CRM_Utils_Payment_PayPal {
                                                              );
         
         if ( Services_PayPal::isError( $handler ) ) {
-            CRM_Core_Error::debug( 'v', $handler->getMessage() );
-            exit;
+            return self::composeError( $handler );
         }
 
         $this->_profile =& APIProfile::getInstance( self::PPD_FILE, $this->_handler );
 
         if ( Services_PayPal::isError( $this->_profile ) ) {
-            CRM_Core_Error::debug( 'v', $this->_profile->getMessage() );
-            exit;
+            return self::composeError( $this->_profile->getMessage() );
         }
 
         $this->_profile->setAPIPassword('Social!Source@');
@@ -81,8 +79,7 @@ class CRM_Utils_Payment_PayPal {
         $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
 
         if ( Services_PayPal::isError( $this->_caller ) ) {
-            CRM_Core_Error::debug( 'v', $this->_caller->getMessage() );
-            exit;
+            return self::composeError( $this->_caller->getMessage() );
         }
     }
 
@@ -107,8 +104,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );
 
         if ( Services_PayPal::isError( $orderTotal ) ) {
-            CRM_Core_Error::debug( 'v', $orderTotal );
-            exit;
+            return self::composeError( $orderTotal );
         }
 
         $orderTotal->setattr('currencyID', $params['currencyID'] );
@@ -116,8 +112,7 @@ class CRM_Utils_Payment_PayPal {
         $setExpressCheckoutRequestDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' );
 
         if ( Services_PayPal::isError( $setExpressCheckoutRequestDetails ) ) {
-            CRM_Core_Error::debug( 'v', $setExpressCheckoutRequestDetails );
-            exit;
+            return self::composeError( $setExpressCheckoutRequestDetails );
         }
 
         $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], self::CHARSET  );
@@ -127,8 +122,7 @@ class CRM_Utils_Payment_PayPal {
         $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
 
         if ( Services_PayPal::isError( $setExpressCheckout ) ) {
-            CRM_Core_Error::debug( 'v', $setExpressCheckout );
-            exit;
+            return self::composeError( $setExpressCheckout );
         }
 
         $setExpressCheckout->setSetExpressCheckoutRequestDetails( $setExpressCheckoutRequestDetails );
@@ -136,8 +130,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->SetExpressCheckout( $setExpressCheckout );
 
         if (Services_PayPal::isError( $result  ) ) { 
-            CRM_Core_Error::debug( 'v', $result );
-            exit;
+            return self::composeError( $result );
         } else {
             /* Success, extract the token and return it */
             return $result->getToken( );
@@ -148,8 +141,7 @@ class CRM_Utils_Payment_PayPal {
         $getExpressCheckoutDetails =& Services_PayPal::getType('GetExpressCheckoutDetailsRequestType');
 
         if ( Services_PayPal::isError( $getExpressCheckoutDetails ) ) {
-            CRM_Core_Error::debug( 'v', $getExpressCheckoutDetails );
-            exit;
+            return self::composeError( $getExpressCheckoutDetails );
         }
 
         $getExpressCheckoutDetails->setToken( $token, self::CHARSET );
@@ -157,8 +149,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->GetExpressCheckoutDetails( $getExpressCheckoutDetails );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            CRM_Core_Error::debug( 'v', $result );
-        } else {
+            return self::composeError( $result );
             /* Success */
             $detail                =& $result->getGetExpressCheckoutDetailsResponseDetails( );
 
@@ -190,8 +181,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' ); 
  
         if ( Services_PayPal::isError( $orderTotal ) ) { 
-            CRM_Core_Error::debug( 'v', $orderTotal ); 
-            exit; 
+            return self::composeError( $orderTotal ); 
         } 
  
         $orderTotal->setattr('currencyID', $params['currencyID'] ); 
@@ -199,16 +189,14 @@ class CRM_Utils_Payment_PayPal {
         $paymentDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
         
         if ( Services_PayPal::isError( $paymentDetails ) ) {
-            CRM_Core_Error::debug( 'v', $paymentDetails );
-            exit;
+            return self::composeError( $paymentDetails );
         }
 
         $paymentDetails->setOrderTotal( $orderTotal );
         $doExpressCheckoutPaymentRequestDetails =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
-            CRM_Core_Error::debug( 'v', $doExpressCheckoutPaymentRequestDetails );
-            exit;
+            return self::composeError( $doExpressCheckoutPaymentRequestDetails );
         }
 
         $doExpressCheckoutPaymentRequestDetails->setPaymentDetails( $paymentDetails );
@@ -218,8 +206,7 @@ class CRM_Utils_Payment_PayPal {
         $doExpressCheckoutPayment =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPayment ) ) {
-            CRM_Core_Error::debug( 'v', $doExpressCheckoutPayment );
-            exit;
+            return self::composeError( $doExpressCheckoutPayment );
         }
 
         $doExpressCheckoutPayment->setDoExpressCheckoutPaymentRequestDetails( $doExpressCheckoutPaymentRequestDetails );
@@ -227,8 +214,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->DoExpressCheckoutPayment( $doExpressCheckoutPayment );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            CRM_Core_Error::debug( 'v', $result );
-        } else {
+            return self::composeError( $result );
             /* Success */
             $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
 
@@ -257,8 +243,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );  
   
         if ( Services_PayPal::isError( $orderTotal ) ) {  
-            CRM_Core_Error::debug( 'v', $orderTotal );  
-            exit;  
+            return self::composeError( $orderTotal );  
         }  
   
         $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
@@ -266,16 +251,14 @@ class CRM_Utils_Payment_PayPal {
         $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
 
         if ( Services_PayPal::isError( $paymentDetails ) ) {
-            CRM_Core_Error::debug( 'v', $paymentDetails );
-            exit;
+            return self::composeError( $paymentDetails );
         }
 
         $paymentDetails->setOrderTotal($orderTotal);
         $payerName =& Services_PayPal::getType( 'PersonNameType' );
 
         if ( Services_PayPal::isError( $payerName ) ) {
-            CRM_Core_Error::debug( 'v', $payerName );
-            exit;
+            return self::composeError( $payerName );
         }
 
         $payerName->setLastName  ( $params['last_name'  ], self::CHARSET  );
@@ -284,8 +267,7 @@ class CRM_Utils_Payment_PayPal {
         $address =& Services_PayPal::getType('AddressType');
 
         if (Services_PayPal::isError($address)) {
-            CRM_Core_Error::debug( 'v', $address );
-            exit;
+            return self::composeError( $address );
         }
 
         $address->setStreet1        ( $params['street1']       , self::CHARSET );
@@ -296,8 +278,7 @@ class CRM_Utils_Payment_PayPal {
         $cardOwner =& Services_PayPal::getType( 'PayerInfoType' );
 
         if ( Services_PayPal::isError( $cardOwner ) ) {
-            CRM_Core_Error::debug( 'v', $cardOwner );
-            exit;
+            return self::composeError( $cardOwner );
         }
 
         $cardOwner->setAddress( $address );
@@ -306,8 +287,7 @@ class CRM_Utils_Payment_PayPal {
         $creditCard =& Services_PayPal::getType( 'CreditCardDetailsType' );
 
         if ( Services_PayPal::isError( $creditCard ) ) {
-            CRM_Core_Error::debug( 'v', $creditCard );
-            exit;
+            return self::composeError( $creditCard );
         }
 
         $creditCard->setCardOwner( $cardOwner );
@@ -319,8 +299,7 @@ class CRM_Utils_Payment_PayPal {
         $doDirectPaymentRequestDetails =& Services_PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
 
         if ( Services_PayPal::isError( $doDirectPaymentRequestDetails ) ) {
-            CRM_Core_Error::debug( 'v', $doDirectPaymentRequestDetails );
-            exit;
+            return self::composeError( $doDirectPaymentRequestDetails );
         }
 
         $doDirectPaymentRequestDetails->setCreditCard    ( $creditCard     );
@@ -330,8 +309,7 @@ class CRM_Utils_Payment_PayPal {
         $doDirectPayment =& Services_PayPal::getType( 'DoDirectPaymentRequestType' );
 
         if ( Services_PayPal::isError( $doDirectPayment ) ) {
-            CRM_Core_Error::debug( 'v', $doDirectPayment );
-            exit;
+            return self::composeError( $doDirectPayment );
         }
 
         $doDirectPayment->setDoDirectPaymentRequestDetails( $doDirectPaymentRequestDetails );
@@ -339,7 +317,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->DoDirectPayment( $doDirectPayment );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            CRM_Core_Error::debug( 'v', $result );
+            return self::composeError( $result );
         } else {
             /* Success */
             return $result;
@@ -347,6 +325,13 @@ class CRM_Utils_Payment_PayPal {
 
     }
 
+    function &composeError( $paypalError ) {
+        $error =& CRM_Core_Error::singleton( ); 
+        $error->push( $paypalError->getCode( ),
+                      0, null,
+                      $paypalError->getMessage( ) );
+        return $error;
+    }
 }
 
 ?>
