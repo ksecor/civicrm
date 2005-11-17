@@ -426,29 +426,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         if ( empty( self::$_matchFields ) ) {
             return null;
         }
-         
         
-        /*require_once 'CRM/Core/DAO/DupeMatch.php';
-
-        $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
-        
-        //print_r($importableFields);
-        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
-        $dupeMatchDAO->find();
-        while($dupeMatchDAO->fetch()) {
-            $rule = explode('AND',$dupeMatchDAO->rule);
-            foreach ( $rule as $name ) {
-                $fields[trim($name)] = array('name'             => trim($name),
-                                             'title'            => $importableFields[trim($name)]['title'],
-                                             'where'            => $importableFields[trim($name)]['where'],
-                                             'location_type_id' => 2,   
-                                             );
-            }
-            
-        }
-        self::$_matchFields = $fields;
-        */
-
         require_once 'CRM/Contact/BAO/Query.php';
         return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, true );
     }
@@ -466,7 +444,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      */
     public static function findContact( &$params, $id = null, $flatten = false ) {
         $tables = array( );
-        $clause = self::getMatchClause( $params, $tables, $flatten );
+        //$clause = self::getMatchClause( $params, $tables, $flatten );
+        $clause = self::getWhereClause( $params, $tables );
         $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
         if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
             return null;
@@ -710,6 +689,40 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $ufJoin[$dao->id] = $dao->module;
         }
         return implode(", ", $ufJoin);
+    }
+
+    /**
+     * function to get match clasue for dupe checking
+     *
+     * @param array   $params  the list of values to be used in the where clause
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
+     * @return string the where clause to include in a sql query
+     * @static
+     * @access public
+     *
+     */
+    public function getWhereClause($params ,&$tables)
+    {
+        require_once 'CRM/Core/DAO/DupeMatch.php';
+
+        $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
+        
+        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
+        $dupeMatchDAO->find();
+        while($dupeMatchDAO->fetch()) {
+            $rule = explode('AND',$dupeMatchDAO->rule);
+            foreach ( $rule as $name ) {
+                $name  = trim( $name );
+                $fields[$name] = array('name'             => $name,
+                                       'title'            => $importableFields[$name]['title'],
+                                       'where'            => $importableFields[$name]['where'],
+                                       );
+            }
+            
+        }
+        require_once 'CRM/Contact/BAO/Query.php';
+        return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, true );
     }
     
 }
