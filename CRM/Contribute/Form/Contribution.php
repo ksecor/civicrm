@@ -200,7 +200,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->add('text',
                    'cvv2',
-                   ts('Card Security Code'),
+                   ts('Security Code'),
                    array( 'size' => 5, 'maxlength' => 10 ) );
         $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
 
