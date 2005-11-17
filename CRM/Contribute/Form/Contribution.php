@@ -109,11 +109,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         if ( $this->_values['is_allow_other_amount'] ) {
             $elements[] =& $this->createElement('radio', null, '',
-                                                'Other', 'amount_other' );
+                                                'Other', 'amount_other_radio' );
+
             $this->assign( 'is_allow_other_amount', true );
             $this->add('text', 'amount_other',
                        ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10 )
                        );
+            $this->addRule( 'amount_other', ts( 'Please enter a valid number' ), 'money' );
         }
 
         $this->addGroup( $elements, 'amount', ts('Amount'), '<br />' );
@@ -246,10 +248,28 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) { 
         $errors = array( ); 
 
+        if ( $fields['amount'] == 'amount_other_radio' ) {
+            if ( $self->_values['min_amount'] > 0 ) {
+                $min = $self->_values['min_amount'];
+                if ( $fields['amount_other'] < $min ) {
+                    $errors['amount_other'] = ts( 'This amount has to be greater than %1', 
+                                                  array ( 1 => $min ) );
+                }
+            }
+
+            if ( $self->_values['max_amount'] > 0 ) {
+                $max = $self->_values['max_amount'];
+                if ( $fields['amount_other'] > $max ) {
+                    $errors['amount_other'] = ts( 'This amount has to be less than %1', 
+                                                  array ( 1 => $max ) );
+                }
+            }
+        }
+
         // make sure either 
         // return if this is express mode
         if ( CRM_Utils_Array::value( $self->_expressButtonName, $fields ) ) {
-            return true;
+            return $errors;
         }
 
         // make sure the required fields are present
@@ -300,7 +320,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name ); 
         $params['currencyID']     = 'USD'; 
         $params['payment_action'] = 'Sale'; 
- 
+
+        $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
+
         $this->set( 'amount', $params['amount'] ); 
 
         require_once 'CRM/Utils/Payment/PayPal.php';                                                                                      
@@ -318,7 +340,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $token = $paypal->setExpressCheckout( $params ); 
             $this->set( 'token', $token ); 
              
- 
             $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
             CRM_Utils_System::redirect( $paypalURL ); 
         } else { 

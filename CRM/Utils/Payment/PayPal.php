@@ -59,19 +59,19 @@ class CRM_Utils_Payment_PayPal {
         require_once 'Services/PayPal/Profile/API.php';
 
         $this->_handler =& ProfileHandler_File::getInstance( array(
-                                                                   'path' => '',
+                                                                   'path' => '/home/lobo/paypal',
                                                                    'charset' => self::CHARSET,
                                                                    )
                                                              );
         
         if ( Services_PayPal::isError( $handler ) ) {
-            return self::composeError( $handler );
+            return self::error( $handler );
         }
 
         $this->_profile =& APIProfile::getInstance( self::PPD_FILE, $this->_handler );
 
         if ( Services_PayPal::isError( $this->_profile ) ) {
-            return self::composeError( $this->_profile->getMessage() );
+            return self::error( $this->_profile );
         }
 
         $this->_profile->setAPIPassword('Social!Source@');
@@ -79,7 +79,7 @@ class CRM_Utils_Payment_PayPal {
         $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
 
         if ( Services_PayPal::isError( $this->_caller ) ) {
-            return self::composeError( $this->_caller->getMessage() );
+            return self::error( $this->_caller );
         }
     }
 
@@ -104,7 +104,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );
 
         if ( Services_PayPal::isError( $orderTotal ) ) {
-            return self::composeError( $orderTotal );
+            return self::error( $orderTotal );
         }
 
         $orderTotal->setattr('currencyID', $params['currencyID'] );
@@ -112,7 +112,7 @@ class CRM_Utils_Payment_PayPal {
         $setExpressCheckoutRequestDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' );
 
         if ( Services_PayPal::isError( $setExpressCheckoutRequestDetails ) ) {
-            return self::composeError( $setExpressCheckoutRequestDetails );
+            return self::error( $setExpressCheckoutRequestDetails );
         }
 
         $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], self::CHARSET  );
@@ -122,7 +122,7 @@ class CRM_Utils_Payment_PayPal {
         $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
 
         if ( Services_PayPal::isError( $setExpressCheckout ) ) {
-            return self::composeError( $setExpressCheckout );
+            return self::error( $setExpressCheckout );
         }
 
         $setExpressCheckout->setSetExpressCheckoutRequestDetails( $setExpressCheckoutRequestDetails );
@@ -130,7 +130,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->SetExpressCheckout( $setExpressCheckout );
 
         if (Services_PayPal::isError( $result  ) ) { 
-            return self::composeError( $result );
+            return self::error( $result );
         } else {
             /* Success, extract the token and return it */
             return $result->getToken( );
@@ -141,7 +141,7 @@ class CRM_Utils_Payment_PayPal {
         $getExpressCheckoutDetails =& Services_PayPal::getType('GetExpressCheckoutDetailsRequestType');
 
         if ( Services_PayPal::isError( $getExpressCheckoutDetails ) ) {
-            return self::composeError( $getExpressCheckoutDetails );
+            return self::error( $getExpressCheckoutDetails );
         }
 
         $getExpressCheckoutDetails->setToken( $token, self::CHARSET );
@@ -149,7 +149,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->GetExpressCheckoutDetails( $getExpressCheckoutDetails );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            return self::composeError( $result );
+            return self::error( $result );
             /* Success */
             $detail                =& $result->getGetExpressCheckoutDetailsResponseDetails( );
 
@@ -181,7 +181,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' ); 
  
         if ( Services_PayPal::isError( $orderTotal ) ) { 
-            return self::composeError( $orderTotal ); 
+            return self::error( $orderTotal ); 
         } 
  
         $orderTotal->setattr('currencyID', $params['currencyID'] ); 
@@ -189,14 +189,14 @@ class CRM_Utils_Payment_PayPal {
         $paymentDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
         
         if ( Services_PayPal::isError( $paymentDetails ) ) {
-            return self::composeError( $paymentDetails );
+            return self::error( $paymentDetails );
         }
 
         $paymentDetails->setOrderTotal( $orderTotal );
         $doExpressCheckoutPaymentRequestDetails =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
-            return self::composeError( $doExpressCheckoutPaymentRequestDetails );
+            return self::error( $doExpressCheckoutPaymentRequestDetails );
         }
 
         $doExpressCheckoutPaymentRequestDetails->setPaymentDetails( $paymentDetails );
@@ -206,7 +206,7 @@ class CRM_Utils_Payment_PayPal {
         $doExpressCheckoutPayment =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPayment ) ) {
-            return self::composeError( $doExpressCheckoutPayment );
+            return self::error( $doExpressCheckoutPayment );
         }
 
         $doExpressCheckoutPayment->setDoExpressCheckoutPaymentRequestDetails( $doExpressCheckoutPaymentRequestDetails );
@@ -214,25 +214,25 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->DoExpressCheckoutPayment( $doExpressCheckoutPayment );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            return self::composeError( $result );
-            /* Success */
-            $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
-
-            $params = array( );
-            $paymentInfo =& $details->getPaymentInfo( );
-
-            $params['transaction_id'] = $paymentInfo->TransactionID;
-            $params['payment_type'  ] = $paymentInfo->PaymentType;
-            $params['payment_date'  ] = $paymentInfo->PaymentDate;
-            $params['gross_amount'  ] = self::getAmount( $paymentInfo->GrossAmount );
-            $params['fee_amount'    ] = self::getAmount( $paymentInfo->FeeAmount    );
-            $params['settle_amount' ] = self::getAmount( $paymentInfo->SettleAmount );
-            $params['payment_status'] = $paymentInfo->PaymentStatus;
-            $params['pending_reason'] = $paymentInfo->PendingReason;
-            
-            return $params;
+            return self::error( $result );
         }
 
+        /* Success */
+        $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
+        
+        $params = array( );
+        $paymentInfo =& $details->getPaymentInfo( );
+        
+        $params['transaction_id'] = $paymentInfo->TransactionID;
+        $params['payment_type'  ] = $paymentInfo->PaymentType;
+        $params['payment_date'  ] = $paymentInfo->PaymentDate;
+        $params['gross_amount'  ] = self::getAmount( $paymentInfo->GrossAmount );
+        $params['fee_amount'    ] = self::getAmount( $paymentInfo->FeeAmount    );
+        $params['settle_amount' ] = self::getAmount( $paymentInfo->SettleAmount );
+        $params['payment_status'] = $paymentInfo->PaymentStatus;
+        $params['pending_reason'] = $paymentInfo->PendingReason;
+        
+        return $params;
     }
 
     function getAmount( &$amount ) {
@@ -243,7 +243,7 @@ class CRM_Utils_Payment_PayPal {
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );  
   
         if ( Services_PayPal::isError( $orderTotal ) ) {  
-            return self::composeError( $orderTotal );  
+            return self::error( $orderTotal );  
         }  
   
         $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
@@ -251,14 +251,14 @@ class CRM_Utils_Payment_PayPal {
         $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
 
         if ( Services_PayPal::isError( $paymentDetails ) ) {
-            return self::composeError( $paymentDetails );
+            return self::error( $paymentDetails );
         }
 
         $paymentDetails->setOrderTotal($orderTotal);
         $payerName =& Services_PayPal::getType( 'PersonNameType' );
 
         if ( Services_PayPal::isError( $payerName ) ) {
-            return self::composeError( $payerName );
+            return self::error( $payerName );
         }
 
         $payerName->setLastName  ( $params['last_name'  ], self::CHARSET  );
@@ -267,7 +267,7 @@ class CRM_Utils_Payment_PayPal {
         $address =& Services_PayPal::getType('AddressType');
 
         if (Services_PayPal::isError($address)) {
-            return self::composeError( $address );
+            return self::error( $address );
         }
 
         $address->setStreet1        ( $params['street1']       , self::CHARSET );
@@ -278,7 +278,7 @@ class CRM_Utils_Payment_PayPal {
         $cardOwner =& Services_PayPal::getType( 'PayerInfoType' );
 
         if ( Services_PayPal::isError( $cardOwner ) ) {
-            return self::composeError( $cardOwner );
+            return self::error( $cardOwner );
         }
 
         $cardOwner->setAddress( $address );
@@ -287,7 +287,7 @@ class CRM_Utils_Payment_PayPal {
         $creditCard =& Services_PayPal::getType( 'CreditCardDetailsType' );
 
         if ( Services_PayPal::isError( $creditCard ) ) {
-            return self::composeError( $creditCard );
+            return self::error( $creditCard );
         }
 
         $creditCard->setCardOwner( $cardOwner );
@@ -299,7 +299,7 @@ class CRM_Utils_Payment_PayPal {
         $doDirectPaymentRequestDetails =& Services_PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
 
         if ( Services_PayPal::isError( $doDirectPaymentRequestDetails ) ) {
-            return self::composeError( $doDirectPaymentRequestDetails );
+            return self::error( $doDirectPaymentRequestDetails );
         }
 
         $doDirectPaymentRequestDetails->setCreditCard    ( $creditCard     );
@@ -309,7 +309,7 @@ class CRM_Utils_Payment_PayPal {
         $doDirectPayment =& Services_PayPal::getType( 'DoDirectPaymentRequestType' );
 
         if ( Services_PayPal::isError( $doDirectPayment ) ) {
-            return self::composeError( $doDirectPayment );
+            return self::error( $doDirectPayment );
         }
 
         $doDirectPayment->setDoDirectPaymentRequestDetails( $doDirectPaymentRequestDetails );
@@ -317,7 +317,7 @@ class CRM_Utils_Payment_PayPal {
         $result = $this->_caller->DoDirectPayment( $doDirectPayment );
 
         if ( Services_PayPal::isError( $result ) ) { 
-            return self::composeError( $result );
+            return self::error( $result );
         } else {
             /* Success */
             return $result;
@@ -325,12 +325,12 @@ class CRM_Utils_Payment_PayPal {
 
     }
 
-    function &composeError( $paypalError ) {
-        $error =& CRM_Core_Error::singleton( ); 
-        $error->push( $paypalError->getCode( ),
-                      0, null,
-                      $paypalError->getMessage( ) );
-        return $error;
+    function &error( $paypalError ) {
+        $e =& CRM_Core_Error::singleton( ); 
+        $e->push( $paypalError->getCode( ),
+                  0, null,
+                  $paypalError->getMessage( ) );
+        return $e;
     }
 }
 
