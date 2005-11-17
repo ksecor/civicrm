@@ -234,6 +234,25 @@ class CRM_Core_SelectValues {
     }
 
     /**
+     * for displaying the uf group types
+     *
+     * @static
+     */
+    static function &ufGroupTypes()
+    {
+        static $ufGroupType = null;
+        if (!$ufGroupType) {
+            $ufGroupType = array(
+                'User Registration' => ts('User Registration'),
+                'User Account'      => ts('View/Edit User Account'),
+                'Profile'           => ts('Profile'),
+            );
+        }
+        return $ufGroupType;
+    }
+
+
+    /**
      * the status of a contact within a group
      *
      * @static

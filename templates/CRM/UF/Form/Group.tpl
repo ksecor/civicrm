@@ -14,6 +14,7 @@
     {else}
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.uf_group_type.label}</dt><dd>{$form.uf_group_type.html}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>

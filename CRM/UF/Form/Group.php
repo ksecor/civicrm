@@ -114,6 +114,14 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
+        //add checkboxes
+        $uf_group_type = array();
+        $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
+        foreach ($UFGroupType as $key => $value ) {
+            $uf_group_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
+        }
+        $this->addGroup($uf_group_type, 'uf_group_type', ts('Used For'), '&nbsp;');
+
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_pre'));
         $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
@@ -164,12 +172,25 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             } else {
                 $defaults['weight'] = 2;
             }
-            
+           
+            $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
+            foreach ($UFGroupType as $key => $value ) {
+                $checked[$key] = 1;
+            }
+            $defaults['uf_group_type'] = $checked;
         }
 
         if ( isset($this->_id ) ) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
+            
+            //get the uf join records for current uf group
+            $ufJoinRecords = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id );
+            foreach ($ufJoinRecords as $key => $value ) {
+                $checked[$value] = 1;
+            }
+            $defaults['uf_group_type'] = $checked;
+            
         } else {
             $defaults['is_active'] = 1;
         }
@@ -194,21 +215,18 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             return;
         }
         // get the submitted form values.
+        $params = $ids = array( );
         $params = $this->controller->exportValues('Group');
 
-        // create custom group dao, populate fields and then save.
-        $ufGroup            =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->title     = $params['title'];
-        $ufGroup->weight    = $params['weight'];
-        $ufGroup->help_pre  = $params['help_pre'];
-        $ufGroup->help_post = $params['help_post'];
-        $ufGroup->is_active = CRM_Utils_Array::value('is_active', $params, false);
-        $ufGroup->domain_id = CRM_Core_Config::domainID( );
-        
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $ufGroup->id = $this->_id;
+            $ids['ufgroup'] = $this->_id;
         }
-        $ufGroup->save();
+        
+        // create uf group
+        $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
+
+        //make entry in uf join table
+        CRM_Core_BAO_UFGroup::createUFJoin($params['uf_group_type'], $ufGroup->id );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been saved.', array(1 => $ufGroup->title)));
