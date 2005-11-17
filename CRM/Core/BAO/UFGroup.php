@@ -942,7 +942,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @access public
      * @static
      */
-    public static function getModuleUFGroup( $moduleName = null) 
+    public static function getModuleUFGroup( $moduleName = null, $status = 0) 
     {
         require_once 'CRM/Core/DAO.php';
         $dao =& new CRM_Core_DAO( );
@@ -964,7 +964,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         while ($dao->fetch( )) {
             $ufGroups[$dao->id]['name'     ] = $dao->title;
             $ufGroups[$dao->id]['title'    ] = $dao->title;
-            $ufGroups[$dao->id]['weight'   ] = $dao->weight;
+            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $status;
             $ufGroups[$dao->id]['is_active'] = $dao->is_active;
         }
         return $ufGroups;

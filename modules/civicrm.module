@@ -329,7 +329,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 
 function civicrm_categories( ) {
     require_once 'CRM/Core/BAO/UFGroup.php';
-    return $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
+    return $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
 }
 
 function civicrm_register_data($edit, &$user, $category, $reset) {
