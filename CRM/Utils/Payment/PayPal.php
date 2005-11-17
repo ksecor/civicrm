@@ -318,11 +318,21 @@ class CRM_Utils_Payment_PayPal {
 
         if ( Services_PayPal::isError( $result ) ) { 
             return self::error( $result );
-        } else {
-            /* Success */
-            return $result;
+        }
+         
+        /* Check for application errors */
+        $errors = $result->getErrors( );
+        if ( ! empty( $errors ) ) {
+            $e =& CRM_Core_Error::singleton( );  
+            foreach ( $errors as $error ) {
+                $e->push( $error->getErrorCode( ),
+                          0, null,
+                          $error->getShortMessage( ) . ' ' . $error->getLongMessage( ) );
+            }
+            return $e;
         }
 
+        return $result;
     }
 
     function &error( $paypalError ) {

@@ -154,6 +154,18 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
         } else {
             $result =& $paypal->doDirectPayment( $this->_params );
         }
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+            $errors = $result->getErrors( );
+            $message = array( );
+            foreach ( $errors as $e ) {
+                $message[] = $e['code'] . ':' . $e['message'];
+            }
+            $message = implode( '<br />', $message );
+            $status = "Payment Processor Error message:<br/> " . $message;
+            $session =& CRM_Core_Session::singleton( );
+            $session->setStatus( $status );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribution_display=true' ) );
+        }
     }
 }
 
