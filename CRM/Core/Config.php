@@ -285,6 +285,27 @@ class CRM_Core_Config {
     public $mailerPeriod    = 180;
 
     /**
+     * Where are the payment processor secret files stored
+     *
+     * @var string
+     */
+    public $paymentCertPath = '/tmp';
+
+    /** 
+     * What is the payment file key
+     * 
+     * @var string                
+     */ 
+    public $paymentKey = null;
+
+    /** 
+     * What is the payment password
+     * 
+     * @var string                
+     */ 
+    public $paymentPassword = null;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -553,6 +574,18 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
+            $this->paymentCertPath = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
+            $this->paymentKey = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' ) ) {
+            $this->paymentPassword = CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD;
         }
 
         // initialize the framework

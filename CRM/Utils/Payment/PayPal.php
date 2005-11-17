@@ -36,7 +36,6 @@
 
 class CRM_Utils_Payment_PayPal {
     const
-        PPD_FILE = '94b34b38b7abfdad98d16bca6b7e88be',
         CHARSET  = 'iso-8859-1';
     
     /** 
@@ -58,8 +57,9 @@ class CRM_Utils_Payment_PayPal {
         require_once 'Services/PayPal/Profile/Handler/File.php';
         require_once 'Services/PayPal/Profile/API.php';
 
+        $config =& CRM_Core_Config::singleton( );
         $this->_handler =& ProfileHandler_File::getInstance( array(
-                                                                   'path' => '/home/lobo/paypal',
+                                                                   'path' => $config->paymentCertPath,
                                                                    'charset' => self::CHARSET,
                                                                    )
                                                              );
@@ -68,13 +68,13 @@ class CRM_Utils_Payment_PayPal {
             return self::error( $handler );
         }
 
-        $this->_profile =& APIProfile::getInstance( self::PPD_FILE, $this->_handler );
+        $this->_profile =& APIProfile::getInstance( $config->paymentKey, $this->_handler );
 
         if ( Services_PayPal::isError( $this->_profile ) ) {
             return self::error( $this->_profile );
         }
 
-        $this->_profile->setAPIPassword('Social!Source@');
+        $this->_profile->setAPIPassword( $config->paymentPassword );
 
         $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
 
