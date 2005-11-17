@@ -50,10 +50,7 @@ function clearAmountOther() {
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise,
         fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
-    <tr><td><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;">
-        <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information.</span></td>
-    </tr>
-    <tr><td>{$form._qf_Contribution_next_express.html}</td></tr>
+    <tr><td>{$form._qf_Contribution_next_express.html}<span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information.</span></td></tr>
     </table>
     <table class="form-layout-compressed">
     <tr><td class="label">{$form.credit_card_type.label}</td><td>{$form.credit_card_type.html}</td></tr>

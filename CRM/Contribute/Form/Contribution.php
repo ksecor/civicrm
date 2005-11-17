@@ -223,9 +223,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                            true );
 
         $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
-        $this->add('submit',
+        $this->add('image',
                    $this->_expressButtonName,
-                   ts( 'Contribute via PayPal' ),
+                   'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
                    array( 'class' => 'form-submit' ) );
 
         $this->addButtons(array( 
@@ -275,10 +275,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         // make sure either 
         // return if this is express mode
-        if ( CRM_Utils_Array::value( $self->_expressButtonName, $fields ) ) {
+        if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
+             CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
+             CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
             return $errors;
         }
-
+        
         // make sure the required fields are present
         $required = array( 'first_name' => ts( 'First Name' ),
                            'last_name'  => ts( 'Last Name'  ),
@@ -337,7 +339,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
   
         //get the button name  
         $buttonName = $this->controller->getButtonName( );  
-        if ( $buttonName == $this->_expressButtonName ) { 
+        if ($buttonName == $this->_expressButtonName || 
+            $buttonName == $this->_expressButtonName . '_x' || 
+            $buttonName == $this->_expressButtonName . '_y' ) { 
             $this->set( 'contributeMode', 'express' ); 
  
             $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
