@@ -53,8 +53,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     public function preProcess()  
     {  
         // current contribution page id 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );
-        
+        $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
+
         // get all the values from the dao object
         $params = array('id' => $this->_id); 
         $this->_values = array( );
@@ -73,8 +73,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
  
         $ufJoinParams['weight'] = 2; 
-        $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
-    }
+        $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+        $this->assign( 'intro_text', $this->_values['intro_text'] );
+        // assigning title to template in case someone wants to use it, also setting CMS page title
+        $this->assign( 'title', $this->_values['title'] );
+        CRM_Utils_System::setTitle($this->_values['title']);    }
 
     /**
      * Function to build the form
@@ -103,22 +106,26 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     '$' . $this->_values['value'][$index] . ' ' . $this->_values['label'][$index],
-                                                    $this->_values['value'][$index] );
+                                                    $this->_values['value'][$index],
+                                                    array('onclick'=>'clearAmountOther();'));
             }
         }
 
         if ( $this->_values['is_allow_other_amount'] ) {
             $elements[] =& $this->createElement('radio', null, '',
-                                                'Other', 'amount_other_radio' );
+                                                ts('Other Amount'), 'amount_other_radio');
 
             $this->assign( 'is_allow_other_amount', true );
-            $this->add('text', 'amount_other',
-                       ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10 )
+            $this->addElement('text', 'amount_other',
+                       ts('Other Amount'), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();' )
                        );
-            $this->addRule( 'amount_other', ts( 'Please enter a valid number' ), 'money' );
+            $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
+        } else {
+            $this->assign( 'is_allow_other_amount', false );
         }
 
-        $this->addGroup( $elements, 'amount', ts('Amount'), '<br />' );
+
+        $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
         $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
     }
     
@@ -188,18 +195,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->add('text', 
                    'credit_card_number', 
-                   ts('Credit Card Number'), 
+                   ts('Card Number'), 
                    array( 'size' => 20, 'maxlength' => 20 ) );
 
         $this->add('text',
                    'cvv2',
-                   ts('Credit Card Verification Number'),
+                   ts('Card Security Code'),
                    array( 'size' => 5, 'maxlength' => 10 ) );
-        $this->addRule( 'cvv2', ts( 'Please enter a valid value for CVV2' ), 'integer' );
+        $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
 
         $this->add( 'date',
                     'credit_card_exp_date',
-                    ts('Credit Card Expiration Date'),
+                    ts('Expiration Date'),
                     CRM_Core_SelectValues::date( 'creditCard' ) );
         $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
 
@@ -211,7 +218,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->addElement( 'select', 
                            'credit_card_type', 
-                           ts('Credit Card Type'),  
+                           ts('Card Type'),  
                            $creditCardType,
                            true );
 
@@ -280,10 +287,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                            'state_province_id' => ts( 'State / Province' ),
                            'postal_code'    => ts( 'Postal Code' ),
                            'country_id'     => ts( 'Country' ),
-                           'credit_card_number' => ts( 'Credit Card Number' ),
-                           'cvv2' => ts( 'Credit Card Verification Number' ),
-                           'credit_card_type' => ts( 'Credit Card Type' ),
-                           'credit_card_exp_date' => ts( 'Credit Card Expiration Date' ) );
+                           'credit_card_number' => ts( 'Card Number' ),
+                           'cvv2' => ts( 'Card Security Code' ),
+                           'credit_card_type' => ts( 'Card Type' ),
+                           'credit_card_exp_date' => ts( 'Card Expiration Date' ) );
 
         foreach ( $required as $item => $name) {
             if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( $item, $fields ) ) ) {
