@@ -70,7 +70,7 @@ VALUES
    (1,'CiviDonate','civicrm_contribution_page',1,2,3);
 
 INSERT INTO civicrm_contribution_page
-  (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,min_amount,max_amount,thankyou_text,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
+  (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,min_amount,max_amount,thankyou_title,thankyou_text,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
 VALUES
   (%%CIVICRM_DOMAIN_ID%%,'Support OpenNGO!','Like CiviCRM? Use CiviCRM? Support CiviCRM! Contribute NOW!',1,1,'10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please print this page for your records.</p>',1,'receipt@example.com','bcc@example.com','Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345',1);
 
