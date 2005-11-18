@@ -508,14 +508,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
-                $errors['saveMappingName'] = "Name is required to save Import Mapping";
+                $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
                 $mappingName =& new CRM_Core_DAO_Mapping();
                 $mappingName->name = $nameField;
                 $mappingName->domain_id = CRM_Core_Config::domainID( );
                 $mappingName->mapping_type = 'Import';
                 if ( $mappingName->find( true ) ) {
-                    $errors['saveMappingName'] = "Duplicate Import Mapping Name ";
+                    $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
         }
