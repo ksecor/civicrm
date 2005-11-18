@@ -211,6 +211,9 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
 
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         CRM_Contribute_BAO_FinancialTrxn::create( $params );
+
+        $this->_params = array_merge( $this->_params, $params );
+        $this->set( 'transactionParams', $this->_params ); 
     }
 }
 

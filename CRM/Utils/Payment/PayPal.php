@@ -243,7 +243,6 @@ class CRM_Utils_Payment_PayPal {
         /* Success */
         $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
         
-        $params = array( );
         $paymentInfo =& $details->getPaymentInfo( );
         
         $params['trxn_id']        = $paymentInfo->TransactionID;
@@ -351,8 +350,6 @@ class CRM_Utils_Payment_PayPal {
             return $result;  
         }
 
-        $params = array( );
-        
         /* Success */
         $params['trxn_id']        = $result->TransactionID;
         $params['gross_amount'  ] = self::getAmount( $result->Amount );

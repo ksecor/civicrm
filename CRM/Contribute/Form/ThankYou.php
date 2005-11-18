@@ -53,6 +53,15 @@ class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
         $this->assign( 'contributeMode', $this->_contributeMode );
 
         $this->_params = $this->get( 'transactionParams' );
+
+        // also retrieve the contribution object
+        // get all the values from the dao object 
+        $params = array('id' => $this->get( 'id' ) );  
+        $this->_values = array( );                   
+        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values ); 
+
+        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
+        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
     }
 
     /**
@@ -65,6 +74,8 @@ class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
     {
         CRM_Contribute_Form_Confirm::assignToTemplate( $this, $this->_params );
 
+        $this->assign( 'trxn_id', $this->_params['trxn_id'] );
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'cancel',
                                         'name'      => ts('Done'),

@@ -1,7 +1,11 @@
 <div class="form-item">
-    <fieldset><legend>{ts}Thank You Page{/ts}</legend>
+    <fieldset><legend>{$thankyou_title}</legend>
+<p>
+{$thankyou_text}
+</p>
     <dl>
-        <dt>Amount</dt><dd>{$amount}</dd> 
+        <dt>Amount</dt><dd>${$amount}</dd> 
+	<dt>Trxn ID</dt><dd>{$trxn_id}</dd>
         <dt>Name</dt><dd>{$name}</dd>
         <dt>Billing Address</dt><dd>{$street1}</dd>
         <dt>City</dt><dd>{$city}</dd>
