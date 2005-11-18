@@ -514,9 +514,10 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         );
         foreach ($requiredFields as $field => $title) {
             if (!in_array($field, $importKeys)) {
-                $errors['mapper'][] = ts('Missing required field: %1', array(1 => $title));
+                $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
             }
         }
+
 
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
