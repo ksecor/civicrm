@@ -427,6 +427,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
         default:
             break;
         }
+    }
 
     // FIXME: custom fields for contributions support
 #   $values['custom'] = array();
