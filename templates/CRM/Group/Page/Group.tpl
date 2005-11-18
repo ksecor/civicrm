@@ -41,7 +41,7 @@
 
 {if $action ne 1 and $action ne 2 and $action ne 8 and $groupPermission eq 1}
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/add' q='reset=1'}">&raquo; {ts}New Group{/ts}</a>
+        <a href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup">&raquo; {ts}New Group{/ts}</a>
     </div>
 {/if} {* action ne add or edit *}
 </div>
