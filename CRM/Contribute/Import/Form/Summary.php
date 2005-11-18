@@ -53,10 +53,10 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
-#       $totalRowCount = $this->get('totalRowCount');
-#       $relatedCount = $this->get('relatedCount');
-#       $totalRowCount += $relatedCount;
-#       $this->set('totalRowCount', $totalRowCount);
+        $totalRowCount = $this->get('totalRowCount');
+        $relatedCount = $this->get('relatedCount');
+        $totalRowCount += $relatedCount;
+        $this->set('totalRowCount', $totalRowCount);
 
         $invalidRowCount = $this->get('invalidRowCount');
         $conflictRowCount = $this->get('conflictRowCount');
