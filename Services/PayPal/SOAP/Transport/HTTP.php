@@ -59,7 +59,7 @@ class SOAP_Transport_HTTP extends SOAP_Base
      *
      * @var  int connection timeout in seconds - 0 = none
      */
-    var $timeout = 4;
+    var $timeout = 30;
 
     /**
      * Array containing urlparts - parse_url()
