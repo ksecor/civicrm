@@ -342,13 +342,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $newContribution = crm_update_contribution($contributionId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
-                if (! is_a($newContribution, CRM_Core_Error)) {
+                if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
                     $this->_newContributions[] = $newContribution->id;
                 }
                 //CRM-262 No Duplicate Checking  
                 if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP) {
                     return CRM_Contribute_Import_Parser::DUPLICATE; 
                 }
+                return CRM_Contribute_Import_Parser::VALID;
             } else { 
                 /* Not a dupe, so we had an error */
                 array_unshift($values, $newContribution->_errors[0]['message']);
@@ -356,7 +357,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
         }
         
-        $this->_newContributions[] = $newContribution->id;
+        if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
+            $this->_newContributions[] = $newContribution->id;
+        }
         return CRM_Contribute_Import_Parser::VALID;
     }
    

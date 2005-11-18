@@ -131,12 +131,17 @@ function &crm_create_contribution_formatted( &$params , $onDuplicate) {
 
 function &crm_replace_contribution_formatted($contributionId, &$params) {
     $contribution = crm_get_contribution(array('contribution_id' => $contributionId));
-    crm_delete_contribution($contribution);
+    if ( $contribution ) {
+        crm_delete_contribution($contribution);
+    }
     return crm_create_contribution_formatted($params);
 }
 
 function &crm_update_contribution_formatted($contributionId, &$params, $overwrite = true) {
     $contribution = crm_get_contribution(array('contribution_id' => $contributionId));
+    if ( ! $contribution || is_a( $contribution, 'CRM_Core_Error' ) ) {
+        return _crm_error("Could not find valid contribution for: $contactId");
+    }
     return _crm_update_contribution($contribution, $params, $overwrite);
 }
 
