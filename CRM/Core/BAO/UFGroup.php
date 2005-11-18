@@ -786,26 +786,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $ufGroupRecord = array();
         }
         
-        // get the weight for ufjoin entry
-        
-        
         // check which values has to be inserted/deleted for contact
         foreach ($allUFGroupType as $key => $value) {
             $joinParams = array( );
             $joinParams['uf_group_id'] = $ufGroupId;
-            $joinParams['module']      = $key;
-            $joinParams['weight']      = $params['weight'];
+            $joinParams['module'     ] = $key;
+            $joinParams['weight'     ] = $params['weight'];
             if (array_key_exists($key, $groupTypes) && !in_array($key, $ufGroupRecord )) {
                 // insert a new record
-                //echo 'add';
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams);
             } else if (!array_key_exists($key, $groupTypes) && in_array($key, $ufGroupRecord) ) {
                 // delete a record for existing ufgroup
-                //echo 'Delete';
                 CRM_Core_BAO_UFGroup::delUFJoin($joinParams);
             } else {
-                //update the record
-                //echo 'Update';
+                //update the record 
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams, $ufGroupId);
             }
         }
@@ -815,14 +809,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * Function to get the UF Join records for an ufgroup id
      *
      * @params int $ufGroupId uf group id
-     * @params int $displayName status to show display name
+     * @params int $displayName if set return display name in array
+     * @params int $status if set return module other than default modules (User Account/User registration/Profile)
      *
      * @return array $ufGroupJoinRecords 
      *
      * @access public
      * @static
      */
-    public static function getUFJoinRecord( $ufGroupId = null, $displayName = null ) 
+    public static function getUFJoinRecord( $ufGroupId = null, $displayName = null, $status = null ) 
     {
         if ($displayName) { 
             $UFGroupType = array( );
@@ -844,7 +839,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $ufJoin[$dao->id] = $dao->module;
             } else {
                 if ( $UFGroupType[$dao->module] ) {
-                    $ufJoin[$dao->id] = $UFGroupType[$dao->module];
+                    if (!$status) { //skip the default modules
+                        $ufJoin[$dao->id] = $UFGroupType[$dao->module];
+                    }
                 } else {
                     $ufJoin[$dao->id] = $dao->module;
                 }
@@ -936,12 +933,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * Function to get the uf group for a module
      *
      * @param string $moduleName module name 
+     * $param int    $count no to increment the weight
      *
      * @return array $ufGroups array of ufgroups for a module
      * @access public
      * @static
      */
-    public static function getModuleUFGroup( $moduleName = null, $status = 0) 
+    public static function getModuleUFGroup( $moduleName = null, $count = 0) 
     {
         require_once 'CRM/Core/DAO.php';
         $dao =& new CRM_Core_DAO( );
@@ -963,7 +961,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         while ($dao->fetch( )) {
             $ufGroups[$dao->id]['name'     ] = $dao->title;
             $ufGroups[$dao->id]['title'    ] = $dao->title;
-            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $status;
+            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
             $ufGroups[$dao->id]['is_active'] = $dao->is_active;
         }
         return $ufGroups;

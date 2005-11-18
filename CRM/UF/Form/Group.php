@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/UFGroup.php';
 
 /**
- *
+ *  This class is for UF Group
  */
 class CRM_UF_Form_Group extends CRM_Core_Form {
 
@@ -57,7 +57,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      * @access protected
      */
     protected $_title;
-
 
     /**
      * Function to set variables up before form is built
@@ -163,17 +162,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
-//             $defGroup =& new CRM_Core_DAO_UFGroup();
-//             $defGroup->domain_id = CRM_Core_Config::domainID( );
-//             $defGroup->orderBy('weight DESC');
-//             $defGroup->find( );
             
-//             if ( $defGroup->fetch() ) {
-//                 $defaults['weight'] = $defGroup->weight + 1;
-//             } else {
-//                 $defaults['weight'] = 2;
-//             }
-           
             $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
             foreach ($UFGroupType as $key => $value ) {
                 $checked[$key] = 1;
@@ -195,6 +184,15 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             }
             $defaults['uf_group_type'] = $checked;
             
+            //get the uf join records for current uf group other than default modules
+            $otherModules = array( );
+            $otherModules = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true, true );
+            if (!empty($otherModules)) {
+                foreach($otherModules as $key) {
+                    $otherModuleString .= " [ x ] ".$key;
+                }
+                $this-> assign('otherModuleString',$otherModuleString);
+            }
         } else {
             $defaults['is_active'] = 1;
         }
