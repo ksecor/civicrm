@@ -68,33 +68,33 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Payment-Instrument?');
+            $disableExtra = ts('Are you sure you want to disable this Payment Instrument?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contribute/admin/paymentInstrument',
+                                                                    'url'   => 'civicrm/admin/contribute/paymentInstrument',
                                                                     'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit Payment-Instrument') 
+                                                                    'title' => ts('Edit Payment Instrument') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/contribute/admin/paymentInstrument',
+                                                                    'url'   => 'civicrm/admin/contribute/paymentInstrument',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Payment-Instrument') 
+                                                                    'title' => ts('Disable Payment Instrument') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/contribute/admin/paymentInstrument',
+                                                                    'url'   => 'civicrm/admin/contribute/paymentInstrument',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Payment-Instrument') 
+                                                                    'title' => ts('Enable Payment Instrument') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contribute/admin/paymentInstrument',
+                                                                    'url'   => 'civicrm/admin/contribute/paymentInstrument',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Payment-Instrument') 
+                                                                    'title' => ts('Delete Payment Instrument') 
                                                                    )
                                  );
         }
@@ -204,7 +204,7 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/contribute/admin/paymentInstrument';
+        return 'civicrm/admin/contribute/paymentInstrument';
     }
 }
 

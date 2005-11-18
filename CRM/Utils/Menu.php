@@ -191,6 +191,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/locationType',
                             'title'   => ts('Location Types (Home, Work...)'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -201,6 +202,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/tag',
                             'title'   => ts('Tags (Categories)'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -210,6 +212,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/reltype',
                             'title'   => ts('Relationship Types'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -219,6 +222,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/dupematch',
                             'title'   => ts('Duplicate Matching'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -229,6 +233,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/gender',
                             'title'   => ts('Gender Options (Male, Female...)'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -239,6 +244,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/IMProvider',
                             'title'   => ts('Instant Messenger Services'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -249,6 +255,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/mobileProvider',
                             'title'   => ts('Mobile Phone Providers'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -259,6 +266,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/prefix',
                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -269,6 +277,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/suffix',
                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -278,6 +287,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/contribute/contributionType',
                             'title'   => ts('Contribution Types'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviContribute',
@@ -288,6 +298,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/admin/contribute/paymentInstrument',
                             'title'   => ts('Payment Instruments'),
+                            'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviContribute',

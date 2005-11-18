@@ -42,7 +42,7 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:YOUR_PASSWORD@localhost/dru
  * Update the CIVICRM_UF_USERSTABLENAME if needed to match the name of the table
  * where the CMS user data is stored. For default Drupal installs, this is 'users'.
  * If you are using table-prefixing for the users table, you must enter the tablename
- * with the prefix.
+ * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
  */ 
 define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
 
@@ -178,8 +178,10 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 /**
  * Default contact country
  * 
- * When new contact is added, country field can be automatically populated wih
- * chosen value. Use civicrm_country.id (primary key) value. United States is 1228.
+ * When new contacts are added, the country field can be automatically populated wih
+ * a default value. Use the civicrm_country.id (primary key) value. United States is 1228.
+ * To find the value for another country, use PHPMyAdmin or your favorite MySQL client
+ * and check for the 'id' value in the civicrm_country table.
  */
 define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
 
