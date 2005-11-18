@@ -65,9 +65,9 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 
 function _crm_update_object(&$object, &$values)
 {
-    // abort early if the object is an error object: CRM-500
+    // abort early if the object is an error object: CRM-500 & CRM-559
     // we should trap and return somehow, or not get into this state
-    if ( is_a( $object, 'CRM_Core_Error' ) ) {
+    if ( is_a( $object, 'CRM_Core_Error' ) || ! $object ) {
         return;
     }
 
