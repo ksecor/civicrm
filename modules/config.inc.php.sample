@@ -310,6 +310,9 @@ define( 'CIVICRM_DEBUG', 0 );
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH', 'WHERE IS THE CERT AND PPD FILE STORED' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'      , 'hash of the ppd file' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' , 'your api password' ); 
 
 include_once 'config.main.php';
 
