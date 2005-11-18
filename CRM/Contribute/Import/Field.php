@@ -130,9 +130,9 @@ class CRM_Contribute_Import_Field {
         case 'net_amount':
             return CRM_Utils_Rule::money($this->_value);
             break;
-        // FIXME: do a 'possible currencies' pseudo constant?
         case 'currency':
-            return true;
+            return CRM_Utils_Rule::currencyCode($this->_value);
+            break;
         default:
             return true;
         }

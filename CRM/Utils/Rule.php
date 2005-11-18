@@ -276,6 +276,17 @@ class CRM_Utils_Rule {
         return Validate_Finance_CreditCard::cvv( $value, $type );
     }
 
+    static function currencyCode($value) {
+        static $currencyCodes = null;
+        if (!$currencyCodes) {
+            $currencyCodes =& CRM_Core_PseudoConstant::currencyCode();
+        }
+        if (in_array($value, $currencyCodes)) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 ?>

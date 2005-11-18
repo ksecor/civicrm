@@ -421,8 +421,10 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("$key not a valid amount: $value");
             }
             break;
-        // FIXME: do a 'possible currencies' pseudo constant
         case 'currency':
+            if (!CRM_Utils_Rule::currencyCode($value)) {
+                return _crm_error("currency not a valid code: $value");
+            }
             break;
         default:
             break;
@@ -1279,7 +1281,6 @@ function _crm_validate_formatted_contact(&$params) {
  */
 function _crm_validate_formatted_contribution(&$params) {
 
-    // FIXME: validate the contribution's fields
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
@@ -1304,8 +1305,10 @@ function _crm_validate_formatted_contribution(&$params) {
                 return _crm_error("$key not a valid amount: $value");
             }
             break;
-        // FIXME: do a 'possible currencies' pseudo constant
         case 'currency':
+            if (!CRM_Utils_Rule::currencyCode($value)) {
+                return _crm_error("currency not a valid code: $value");
+            }
             break;
         default:
             break;
