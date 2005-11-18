@@ -1280,6 +1280,37 @@ function _crm_validate_formatted_contact(&$params) {
 function _crm_validate_formatted_contribution(&$params) {
 
     // FIXME: validate the contribution's fields
+    foreach ($params as $key => $value) {
+        switch ($key) {
+        case 'contact_id':
+            // FIXME: should also validate whether it's an existing contact
+            if (!CRM_Utils_Rule::integer($value)) {
+                return _crm_error("contact_id not valid: $value");
+            }
+            break;
+        case 'receive_date':
+        case 'cancel_date':
+        case 'receipt_date':
+        case 'thankyou_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return _crm_error("$key not a valid date: $value");
+            }
+            break;
+        case 'non_deductible_amount':
+        case 'total_amount':
+        case 'fee_amount':
+        case 'net_amount':
+            if (!CRM_Utils_Rule::money($value)) {
+                return _crm_error("$key not a valid amount: $value");
+            }
+            break;
+        // FIXME: do a 'possible currencies' pseudo constant
+        case 'currency':
+            break;
+        default:
+            break;
+        }
+    }
 
     // FIXME: custom contributions data
     /* Validate custom data fields */
