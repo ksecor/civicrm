@@ -181,12 +181,17 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
 
 function &crm_replace_contact_formatted($contactId, &$params) {
     $contact = crm_get_contact(array('contact_id' => $contactId));
-    crm_delete_contact($contact);
+    if ( $contact ) {
+        crm_delete_contact($contact);
+    }
     return crm_create_contact_formatted($params);
 }
 
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
     $contact = crm_get_contact(array('contact_id' => $contactId));
+    if ( ! $contact || is_a( $contact, 'CRM_Core_Error' ) ) {
+        return _crm_error("Could not find valid contact for: $contactId");
+    }
     return _crm_update_contact($contact, $params, $overwrite);
 }
 

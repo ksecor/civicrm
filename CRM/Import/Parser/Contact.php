@@ -531,21 +531,24 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     $newContact = crm_update_contact_formatted($contactId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
-                if (! is_a($newContact, CRM_Core_Error)) {
+                if ($newContact && ! is_a($newContact, CRM_Core_Error)) {
                     $this->_newContacts[] = $newContact->id;
                 }
                 //CRM-262 No Duplicate Checking  
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {
                     return CRM_Import_Parser::DUPLICATE; 
                 }
+                return CRM_Import_Parser::VALID;
             } else { 
                 /* Not a dupe, so we had an error */
                 array_unshift($values, $newContact->_errors[0]['message']);
                 return CRM_Import_Parser::ERROR;
             }
         }
-        
-        $this->_newContacts[] = $newContact->id;
+
+        if ($newContact && ! is_a($newContact, CRM_Core_Error)) {
+            $this->_newContacts[] = $newContact->id;
+        }
         return CRM_Import_Parser::VALID;
     }
    
