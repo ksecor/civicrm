@@ -18,7 +18,7 @@ class WebTests extends GroupTest {
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewIndividual.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewHousehold.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewOrganization.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewOrganization.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/NewGroup.php' );
         
         // Quick Add Individual
@@ -40,7 +40,8 @@ class WebTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
         
         // Search
-        
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/FindContacts.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdvancedSearch.php' );
     }
 
 }
