@@ -197,7 +197,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
  * @access public
  */
 function _crm_check_contrib_params( &$params ) {
-    static $required = array( 'contact_id' );
+    static $required = array( 'contact_id', 'receive_date', 'total_amount' );
 
     // cannot create a contribution with empty params
     if ( empty( $params ) ) {
@@ -397,15 +397,36 @@ function _crm_format_contrib_params( &$params, &$values ) {
     
     _crm_store_values( $fields, $params, $values );
 
-    // FIXME: valid strings for contrib fields
-#   if (! array_key_exists('first_name', $params) || 
-#           ! array_key_exists('last_name', $params) ) {
-#       // make sure phone and email are valid strings
-#       if ( array_key_exists( 'email', $params ) &&
-#           ! CRM_Utils_Rule::email( $params['email'] ) ) {
-#           return _crm_error( "Email not valid " . $params['email'] );
-#       }
-#   }
+    foreach ($params as $key => $value) {
+        switch ($key) {
+        case 'contact_id':
+            // FIXME: should also validate whether it's an existing contact
+            if (!CRM_Utils_Rule::integer($value)) {
+                return _crm_error("contact_id not valid: $value");
+            }
+            break;
+        case 'receive_date':
+        case 'cancel_date':
+        case 'receipt_date':
+        case 'thankyou_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return _crm_error("$key not a valid date: $value");
+            }
+            break;
+        case 'non_deductible_amount':
+        case 'total_amount':
+        case 'fee_amount':
+        case 'net_amount':
+            if (!CRM_Utils_Rule::money($value)) {
+                return _crm_error("$key not a valid amount: $value");
+            }
+            break;
+        // FIXME: do a 'possible currencies' pseudo constant
+        case 'currency':
+            break;
+        default:
+            break;
+        }
 
     // FIXME: custom fields for contributions support
 #   $values['custom'] = array();
