@@ -77,7 +77,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
-        CRM_Utils_System::setTitle($this->_values['title']);    }
+        CRM_Utils_System::setTitle($this->_values['title']);  
+    
+        $this->_defaults = array( );
+
+    }
 
     /**
      * Function to build the form
@@ -102,7 +106,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $elements = array( );
 
         // first build the radio boxes
-        $defaults = array( );
         if ( ! empty( $this->_values['label'] ) ) {
             for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
                 $elements[] =& $this->createElement('radio', null, '',
@@ -110,8 +113,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                                     $this->_values['value'][$index],
                                                     array('onclick'=>'clearAmountOther();'));
                 if ( $this->_values['value'][$index] == $this->_values['default_amount'] ) {
-                    $defaults["amount"] = $this->_values['value'][$index];
-                    $defaults["amount[$index]"] = 1;
+                    $this->_defaults["amount"] = $this->_values['value'][$index];
                 }
             }
         }
@@ -132,9 +134,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
         $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
-        $this->setDefaults( $defaults );
     }
-    
+
+    function setDefaultValues( ) {
+        return $this->_defaults;
+    }
     /**  
      * Function to add the custom fields
      *  
@@ -325,12 +329,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         return empty( $error ) ? true : $error;
     }
 
-    public function setDefaults( ) {
-        $defaults = array( );
-
-        return $defaults;
-    }
-
     /**
      * Function to process the form
      *
@@ -343,7 +341,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name ); 
         $params['currencyID']     = 'USD'; 
         $params['payment_action'] = 'Sale'; 
-
         $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
 
         $this->set( 'amount', $params['amount'] ); 
