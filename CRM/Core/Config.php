@@ -285,6 +285,13 @@ class CRM_Core_Config {
     public $mailerPeriod    = 180;
 
     /**
+        * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
+     *
+     * @var array
+     */
+    public $enableComponents = array();
+    
+    /**
      * Where are the payment processor secret files stored
      *
      * @var string
@@ -575,7 +582,14 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
-
+        
+        if ( defined( 'ENABLE_COMPONENTS' ) ) {
+            $this->enableComponents = explode(',', ENABLE_COMPONENTS);
+            for ( $i=0; $i < count($this->enableComponents); $i++) {
+                $this->enableComponents[$i] = trim($this->enableComponents[$i]);
+            }
+        }
+        
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
             $this->paymentCertPath = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
         }

@@ -284,16 +284,13 @@ class CRM_Core_Block {
         if (!($shortCuts)) {
              $shortCuts = array( array( 'path'  => 'civicrm/contribute',
                                         'qs'    => 'reset=1&action=add',
-                                        'title' => ts('Create Page') ),
+                                        'title' => ts('New Contribution Page') ),
                                  array( 'path'  => 'civicrm/contribute',
                                         'qs'    => 'reset=1&action=browse',
                                         'title' => ts('Browse Pages') ),
                                  array( 'path'  => 'civicrm/contribute/import',
                                         'qs'    => 'reset=1',
                                         'title' => ts('Import Contributions') ),
-                                 array( 'path'  => 'civicrm/contribute/admin',
-                                        'qs'    => 'reset=1',
-                                        'title' => ts('Administer') ),
                                  );
         }
 

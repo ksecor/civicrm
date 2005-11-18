@@ -417,6 +417,27 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));
             break;   
 
+        case 'contribute':
+            switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
+
+            case 'contributionType':
+                require_once 'CRM/Contribute/Page/ContributionType.php';
+                $view =& new CRM_Contribute_Page_ContributionType(ts('Contribution Types'));
+                break;
+                
+            case 'paymentInstrument':
+                require_once 'CRM/Contribute/Page/PaymentInstrument.php';
+                $view =& new CRM_Contribute_Page_PaymentInstrument(ts('Payment Instruments'));
+                break;
+
+            default:
+                require_once 'CRM/Admin/Page/Admin.php';
+                $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
+                // CRM_Core_Error::debug('r',$view);
+                break;
+            }
+            break;
+            
         default:
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
@@ -627,30 +648,8 @@ class CRM_Core_Invoke {
         if ( $args[1] !== 'contribute' ) {  
             return;  
         }  
-        if ( $args[2] == 'admin' ) { 
-            $view = null;
-            switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
-            case 'contributionType':
-                require_once 'CRM/Contribute/Page/ContributionType.php';
-                $view =& new CRM_Contribute_Page_ContributionType(ts('View Contribution Types'));
-                break;
-                
-            case 'paymentInstrument':
-                require_once 'CRM/Contribute/Page/PaymentInstrument.php';
-                $view =& new CRM_Contribute_Page_PaymentInstrument(ts('View Payment Instrument'));
-                break;
-
-            default:
-                require_once 'CRM/Contribute/Page/Admin.php';
-                $view =& new CRM_Contribute_Page_Admin(ts('Administer CiviDonate'));
-                break;
-            }
             
-            if ( $view ) {
-                return $view->run( );
-            }
-            
-        } else if ( $args[2] == 'contribution' ) { 
+        if ( $args[2] == 'contribution' ) { 
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 

@@ -73,26 +73,26 @@ class CRM_Contribute_Page_ContributionType extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contribute/admin/contributionType',
+                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
                                                                     'qs'    => 'action=update&id=%%id%%',
                                                                     'title' => ts('Edit Contribution Type') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/contribute/admin/contributionType',
+                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Contribution Type') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/contribute/admin/contributionType',
+                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Contribution Type') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contribute/admin/contributionType',
+                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Contribution Type') 
                                                                    )

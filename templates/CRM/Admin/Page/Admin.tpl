@@ -1,6 +1,6 @@
 {* Displays Administer CiviCRM Control Panel *}
 {* Set cells per row value for control panel icons *}
-{assign var=itemsPerRow value=4}
+{assign var=itemsPerRow value=5}
 
 {if $newVersion}
     <div class="message status">

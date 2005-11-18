@@ -276,6 +276,26 @@ class CRM_Utils_Menu {
                             'weight'  => 350
                             ),
                       array(
+                            'path'    => 'civicrm/admin/contribute/contributionType',
+                            'title'   => ts('Contribution Types'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviContribute',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 360
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/admin/contribute/paymentInstrument',
+                            'title'   => ts('Payment Instruments'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => 'CiviContribute',
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 380
+                            ),
+                      
+                      array(
                             'path'     => 'civicrm',
                             'title'    => ts('CiviCRM'),
                             'access'   => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
@@ -555,37 +575,6 @@ class CRM_Utils_Menu {
                              'crmType' => self::CALLBACK,  
                              'weight'  => 0,  
                              ), 
-
-                      array(
-                            'path'    => 'civicrm/contribute/admin',
-                            'title'   => ts('Administer CiviContribute'),
-                            'qs'      => 'reset=1',
-                            'access'  => CRM_Utils_System::checkPermission('administer CiviContribute') &&
-                            CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::CALLBACK,
-                            'weight'  => 50,
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contribute/admin/contributionType',
-                            'title'   => ts('Contribution Types'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 360
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contribute/admin/paymentInstrument',
-                            'title'   => ts('Payment Instruments'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 380
-                            ),
 
                       );
                       

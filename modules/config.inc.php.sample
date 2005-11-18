@@ -17,6 +17,19 @@ define( 'CIVICRM_UF'               , 'Drupal' );
 define( 'CIVICRM_UF_URLVAR'        , 'q'  );
 
 /**
+ * Enable CiviCRM Components:
+ *
+ * You can choose to enable or hide add-on components which provide additional functionality
+ * for your CiviCRM site by listing the component names (separated by commas) below.
+ *
+ * EXAMPLE: enable the CiviContribute component for collecting and managing online and offline
+ * contributions, as well as the CiviMail high capacity broadcast mail component:
+ *      define( 'ENABLE_COMPONENTS', 'CiviContribute, CiviMail' );
+ *
+ */
+define( 'ENABLE_COMPONENTS', '' );
+
+/**
  *
  * Update the CIVICRM_UF_DSN setting to match your Drupal or Mambo database username, server and DB name.
  * Database URL format:
