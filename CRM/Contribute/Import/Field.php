@@ -114,6 +114,10 @@ class CRM_Contribute_Import_Field {
         }
 
         switch ($this->_name) {
+        case 'contact_id':
+            // should also validate whether it's an existing contact
+            return CRM_Utils_Rule::integer($this->_value);
+            break;
         case 'receive_date':
         case 'cancel_date':
         case 'receipt_date':

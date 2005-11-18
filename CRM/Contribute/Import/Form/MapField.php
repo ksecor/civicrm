@@ -502,30 +502,48 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     static function formRule( &$fields ) {
         $errors  = array( );
 
+        $importKeys = array();
+        foreach ($fields['mapper'] as $mapperPart) {
+            $importKeys[] = $mapperPart[0];
+        }
+        // FIXME: should use the schema titles, not redeclare them
+        $requiredFields = array(
+            'contact_id'   => ts('Contact ID'),
+            'total_amount' => ts('Total Amount'),
+            'receive_date' => ts('Receive Date')
+        );
+        foreach ($requiredFields as $field => $title) {
+            if (!in_array($field, $importKeys)) {
+                $errors['mapper'][] = ts('Missing required field: %1', array(1 => $title));
+            }
+        }
+
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
-                $errors['saveMappingName'] = "Name is required to save Import Mapping";
+                $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
                 $mappingName =& new CRM_Core_DAO_Mapping();
                 $mappingName->name = $nameField;
                 $mappingName->domain_id = CRM_Core_Config::domainID( );
                 $mappingName->mapping_type = 'Import';
                 if ( $mappingName->find( true ) ) {
-                    $errors['saveMappingName'] = "Duplicate Import Mapping Name ";
+                    $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
         }
 
         if ( !empty($errors) ) {
-            $_flag = 1;
-            require_once 'CRM/Core/Page.php';
-            $assignError =& new CRM_Core_Page(); 
-            $assignError->assign('mappingDetailsError', $_flag);
+            if (!empty($errors['saveMappingName'])) {
+                $_flag = 1;
+                require_once 'CRM/Core/Page.php';
+                $assignError =& new CRM_Core_Page(); 
+                $assignError->assign('mappingDetailsError', $_flag);
+            }
             return $errors;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
