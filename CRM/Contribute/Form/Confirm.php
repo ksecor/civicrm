@@ -156,14 +156,19 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
             // so now we have a confirmed financial transaction
             // lets create or update a contact first
             require_once 'api/crm.php';
-            $contact =& crm_get_contact( $this->_params );
-            if ( ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                $ids = array( );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params );
-            } else {
-                $contact =& crm_update_contact( $contact, $this->_params );
+            $contact_id = CRM_Core_BAO_UFGroup::findContact( $this->_params );
+            $contact = null;
+            if ( $contact_id ) {
+                $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
             }
             
+            if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params );
+            } else {
+                // need to fix and unify all contact creation
+                // $contact =& crm_update_contact( $contact, $this->_params );
+            }
+
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 CRM_Core_Error::fatal( "Failed creating contact for contributor" );
             }
