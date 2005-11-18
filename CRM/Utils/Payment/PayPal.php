@@ -79,7 +79,9 @@ class CRM_Utils_Payment_PayPal {
         $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
 
         if ( Services_PayPal::isError( $this->_caller ) ) {
-            return self::error( $this->_caller );
+            $ret = self::error( $this->_caller );
+            $this->_caller = null;
+            return $ret;
         }
     }
 
@@ -100,6 +102,9 @@ class CRM_Utils_Payment_PayPal {
     } 
 
     function setExpressCheckOut( &$params ) {
+        if ( ! $this->_caller ) {
+            return self::error( );
+        }
 
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );
 
@@ -118,7 +123,6 @@ class CRM_Utils_Payment_PayPal {
         $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setReturnURL ( $params['returnURL'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setOrderTotal( $orderTotal );
-        $setExpressCheckoutRequestDetails->setNoShipping( 1 );
         $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
 
         if ( Services_PayPal::isError( $setExpressCheckout ) ) {
@@ -131,13 +135,22 @@ class CRM_Utils_Payment_PayPal {
 
         if (Services_PayPal::isError( $result  ) ) { 
             return self::error( $result );
-        } else {
-            /* Success, extract the token and return it */
-            return $result->getToken( );
         }
+
+        $result =& self::checkResult( $result );
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+            return $result;
+        }
+
+        /* Success, extract the token and return it */
+        return $result->getToken( );
     }
 
     function getExpressCheckoutDetails( $token ) {
+        if ( ! $this->_caller ) {
+            return self::error( );
+        }
+
         $getExpressCheckoutDetails =& Services_PayPal::getType('GetExpressCheckoutDetailsRequestType');
 
         if ( Services_PayPal::isError( $getExpressCheckoutDetails ) ) {
@@ -150,34 +163,39 @@ class CRM_Utils_Payment_PayPal {
 
         if ( Services_PayPal::isError( $result ) ) { 
             return self::error( $result );
-            /* Success */
-            $detail                =& $result->getGetExpressCheckoutDetailsResponseDetails( );
-
-            $params                 =  array( );
-            $params['token']        =  $result->Token;
-
-            $payer                  =& $detail->getPayerInfo ( );
-            $params['payer'       ] =  $payer->Payer;
-            $params['payer_id'    ] =  $payer->PayerID;
-            $params['payer_status'] =  $payer->PayerStatus;
-
-            $name                  =& $payer->getPayerName  ( );
-            $params['first_name' ] =  $name->getFirstName   ( );
-            $params['middle_name'] =  $name->getMiddleName  ( );
-            $params['last_name'  ] =  $name->getLastName    ( );
-
-            $address               =& $payer->getAddress    ( );
-            $params['street']      =  $address->getStreet1  ( );
-            $params['supplemental_address_1'] = $address->getStreet2( );
-            $params['city']        =  $address->getCityName ( );
-            $params['state_province'] = $address->getStateOrProvince( );
-            $params['country']     =  $address->getCountry  ( );
-
-            return $params;
         }
+
+        /* Success */
+        $detail                =& $result->getGetExpressCheckoutDetailsResponseDetails( );
+
+        $params                 =  array( );
+        $params['token']        =  $result->Token;
+        
+        $payer                  =& $detail->getPayerInfo ( );
+        $params['payer'       ] =  $payer->Payer;
+        $params['payer_id'    ] =  $payer->PayerID;
+        $params['payer_status'] =  $payer->PayerStatus;
+        
+        $name                  =& $payer->getPayerName  ( );
+        $params['first_name' ] =  $name->getFirstName   ( );
+        $params['middle_name'] =  $name->getMiddleName  ( );
+        $params['last_name'  ] =  $name->getLastName    ( );
+        
+        $address               =& $payer->getAddress    ( );
+        $params['street1']     =  $address->getStreet1  ( );
+        $params['supplemental_address_1'] = $address->getStreet2( );
+        $params['city']        =  $address->getCityName ( );
+        $params['state_province'] = $address->getStateOrProvince( );
+        $params['country']     =  $address->getCountry  ( );
+        
+        return $params;
     }
 
     function doExpressCheckout( &$params ) {
+        if ( ! $this->_caller ) {
+            return self::error( );
+        }
+
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' ); 
  
         if ( Services_PayPal::isError( $orderTotal ) ) { 
@@ -217,18 +235,21 @@ class CRM_Utils_Payment_PayPal {
             return self::error( $result );
         }
 
+        $result =& self::checkResult( $result ); 
+        if ( is_a( $result, 'CRM_Core_Error' ) ) { 
+            return $result; 
+        } 
+
         /* Success */
         $details     =& $result->getDoExpressCheckoutPaymentResponseDetails( );
         
         $params = array( );
         $paymentInfo =& $details->getPaymentInfo( );
         
-        $params['transaction_id'] = $paymentInfo->TransactionID;
-        $params['payment_type'  ] = $paymentInfo->PaymentType;
-        $params['payment_date'  ] = $paymentInfo->PaymentDate;
+        $params['trxn_id']        = $paymentInfo->TransactionID;
         $params['gross_amount'  ] = self::getAmount( $paymentInfo->GrossAmount );
         $params['fee_amount'    ] = self::getAmount( $paymentInfo->FeeAmount    );
-        $params['settle_amount' ] = self::getAmount( $paymentInfo->SettleAmount );
+        $params['net_amount'    ] = self::getAmount( $paymentInfo->SettleAmount );
         $params['payment_status'] = $paymentInfo->PaymentStatus;
         $params['pending_reason'] = $paymentInfo->PendingReason;
         
@@ -240,6 +261,10 @@ class CRM_Utils_Payment_PayPal {
     }
 
     function doDirectPayment( &$params ) {
+        if ( ! $this->_caller ) {
+            return self::error( );
+        }
+
         $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );  
   
         if ( Services_PayPal::isError( $orderTotal ) ) {  
@@ -321,25 +346,49 @@ class CRM_Utils_Payment_PayPal {
         }
          
         /* Check for application errors */
-        $errors = $result->getErrors( );
-        if ( ! empty( $errors ) ) {
-            $e =& CRM_Core_Error::singleton( );  
-            foreach ( $errors as $error ) {
-                $e->push( $error->getErrorCode( ),
-                          0, null,
-                          $error->getShortMessage( ) . ' ' . $error->getLongMessage( ) );
-            }
-            return $e;
+        $result =& self::checkResult( $result );
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {  
+            return $result;  
         }
 
-        return $result;
+        $params = array( );
+        
+        /* Success */
+        $params['trxn_id']        = $result->TransactionID;
+        $params['gross_amount'  ] = self::getAmount( $result->Amount );
+        return $params;
     }
 
-    function &error( $paypalError ) {
-        $e =& CRM_Core_Error::singleton( ); 
-        $e->push( $paypalError->getCode( ),
-                  0, null,
-                  $paypalError->getMessage( ) );
+    function &checkResult( &$result ) {
+        $errors = $result->getErrors( );
+        if ( empty( $errors ) ) {
+            return $result;
+        }
+
+        $e =& CRM_Core_Error::singleton( );
+        if ( is_a( $errors, 'ErrorType' ) ) {
+                $e->push( $errors->getErrorCode( ), 
+                          0, null, 
+                          $errors->getShortMessage( ) . ' ' . $errors->getLongMessage( ) ); 
+        } else {
+            foreach ( $errors as $error ) { 
+                $e->push( $error->getErrorCode( ), 
+                          0, null, 
+                          $error->getShortMessage( ) . ' ' . $error->getLongMessage( ) ); 
+            } 
+        }
+        return $e;
+    }
+
+    function &error( $error = null ) {
+        $e =& CRM_Core_Error::singleton( );
+        if ( $error ) {
+            $e->push( $error->getCode( ),
+                      0, null,
+                      $error->getMessage( ) );
+        } else {
+            $e->push( 9001, 0, null, "Unknown System Error." );
+        }
         return $e;
     }
 }

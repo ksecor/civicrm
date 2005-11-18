@@ -292,11 +292,18 @@ class CRM_Core_Config {
     public $enableComponents = array();
     
     /**
+     * Name of the payment processor
+     *
+     * @var string
+     */
+    public $paymentProcessor = null;
+
+    /**
      * Where are the payment processor secret files stored
      *
      * @var string
      */
-    public $paymentCertPath = '/tmp';
+    public $paymentCertPath = null;
 
     /** 
      * What is the payment file key
@@ -590,6 +597,10 @@ class CRM_Core_Config {
             }
         }
         
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
+            $this->paymentKey = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
+        }
+
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
             $this->paymentCertPath = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
         }

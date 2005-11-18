@@ -360,6 +360,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
              
             $token = $paypal->setExpressCheckout( $params ); 
+            if ( is_a( $token, 'CRM_Core_Error' ) ) { 
+                CRM_Core_Error::displaySessionError( $token ); 
+                CRM_Utils_System::redirect( $params['cancelURL' ] );
+            } 
+
             $this->set( 'token', $token ); 
              
             $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 

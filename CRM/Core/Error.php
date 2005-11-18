@@ -108,6 +108,20 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $this->setDefaultCallback(array($this, 'handlePES'));
     }
 
+    function displaySessionError( &$error ) {
+        if ( is_a( $error, 'CRM_Core_Error' ) ) { 
+            $errors = $error->getErrors( ); 
+            $message = array( ); 
+            foreach ( $errors as $e ) { 
+                $message[] = $e['code'] . ':' . $e['message']; 
+            } 
+            $message = implode( '<br />', $message ); 
+            $status = "Payment Processor Error message:<br/> " . $message; 
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->setStatus( $status ); 
+        }
+    }
+
     /**
      * (Re)set the default callback method
      *

@@ -63,9 +63,11 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
 
                 // set a few other parameters for PayPal
                 $this->_params['token']          = $this->get( 'token' );
-                $this->_params['payment_action'] = 'Sale';
+
                 $this->_params['amount'        ] = $this->get( 'amount' );
                 $this->_params['currencyID'    ] = 'USD';
+                $this->_params['payment_action'] = 'Sale';
+
                 $this->set( 'getExpressCheckoutDetails', $this->_params );
             } else {
                 $this->_params = $this->get( 'getExpressCheckoutDetails' );
@@ -78,8 +80,10 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
             $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
             $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
-            $this->_params['payment_action'] = 'Sale';
+
+            $this->_params['amount'        ] = $this->get( 'amount' );
             $this->_params['currencyID'    ] = 'USD';
+            $this->_params['payment_action'] = 'Sale';
         }
 
         $this->set( 'transactionParams', $this->_params );
@@ -93,7 +97,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
         $name .= " {$params['last_name']}";
         $self->assign( 'name', $name );
 
-        $vars = array( 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
+        $vars = array( 'amount', 'currencyID', 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
         foreach ( $vars as $v ) {
             $self->assign( $v, $params[$v] );
         }
@@ -147,25 +151,61 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
      */
     public function postProcess()
     {
+        $contactID = $this->get( 'contactID' );
+        if ( ! $contactID ) {
+            // so now we have a confirmed financial transaction
+            // lets create or update a contact first
+            require_once 'api/crm.php';
+            $contact =& crm_get_contact( $this->_params );
+            if ( ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
+                $ids = array( );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params );
+            } else {
+                $contact =& crm_update_contact( $contact, $this->_params );
+            }
+            
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::fatal( "Failed creating contact for contributor" );
+            }
+
+            $contactID = $contact->id;
+            $this->set( 'contactID', $contactID );
+        }
+
         require_once 'CRM/Utils/Payment/PayPal.php';
         $paypal =& CRM_Utils_Payment_PayPal::singleton( );
+
         if ( $this->_contributeMode == 'express' ) {
             $result =& $paypal->doExpressCheckout( $this->_params );
         } else {
             $result =& $paypal->doDirectPayment( $this->_params );
         }
+
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            $errors = $result->getErrors( );
-            $message = array( );
-            foreach ( $errors as $e ) {
-                $message[] = $e['code'] . ':' . $e['message'];
-            }
-            $message = implode( '<br />', $message );
-            $status = "Payment Processor Error message:<br/> " . $message;
-            $session =& CRM_Core_Session::singleton( );
-            $session->setStatus( $status );
+            CRM_Core_Error::displaySessionError( $result );
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribution_display=true' ) );
         }
+
+        // result has all the stuff we need
+        // lets archive it to a financial transaction
+        $config =& CRM_Core_Config::singleton( );
+
+        $params = array( );
+
+        $params['entity_table'     ] = 'civicrm_contact';
+        $params['entity_id'        ] = $contactID;
+
+        $params['trxn_date'        ] = date( 'YmdHis' );
+        $params['trxn_type'        ] = 'Debit';
+        $params['total_amount'     ] = $result['gross_amount'];
+        $params['fee_amount'       ] = CRM_Utils_Array::value( 'fee_amount', $result, 0 );
+        $params['net_amount'       ] = CRM_Utils_Array::value( 'net_amount', $result, 0 );
+        $params['currency'         ] = $this->_params['currencyID'];
+        $params['payment_processor'] = $config->paymentProcessor;
+        $params['trxn_id'          ] = $result['trxn_id'];
+
+        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+        CRM_Contribute_BAO_FinancialTrxn::create( $params );
     }
 }
 
