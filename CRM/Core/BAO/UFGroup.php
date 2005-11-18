@@ -220,7 +220,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $field->whereAdd( implode( ' OR ' , $clause ) );
             }
 
-            $field->orderBy('weight', 'field_name');
+            $field->orderBy('field_name');
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
@@ -250,7 +250,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                               'is_required'      => $field->is_required,
                               'is_view'          => $field->is_view,
                               'is_match'         => $field->is_match,
-                              'weight'           => $field->weight,
                               'help_post'        => $field->help_post,
                               'visibility'       => $field->visibility,
                               'in_selector'      => $field->in_selector,

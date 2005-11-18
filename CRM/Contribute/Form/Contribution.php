@@ -102,12 +102,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $elements = array( );
 
         // first build the radio boxes
+        $defaults = array( );
         if ( ! empty( $this->_values['label'] ) ) {
             for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     '$' . $this->_values['value'][$index] . ' ' . $this->_values['label'][$index],
                                                     $this->_values['value'][$index],
                                                     array('onclick'=>'clearAmountOther();'));
+                if ( $this->_values['value'][$index] == $this->_values['default_amount'] ) {
+                    $defaults["amount"] = $this->_values['value'][$index];
+                    $defaults["amount[$index]"] = 1;
+                }
             }
         }
 
@@ -127,6 +132,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
         $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
+        $this->setDefaults( $defaults );
     }
     
     /**  
@@ -136,8 +142,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @access public  
      */ 
     function buildCustom( $id, $name ) {
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name );
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name );
+        }
     }
 
     /** 
@@ -315,6 +323,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         return empty( $error ) ? true : $error;
+    }
+
+    public function setDefaults( ) {
+        $defaults = array( );
+
+        return $defaults;
     }
 
     /**

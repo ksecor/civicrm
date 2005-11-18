@@ -62,6 +62,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $this->addRule( 'max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
 
+        $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
             $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
@@ -69,7 +70,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
             $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+
+            // default
+            $default[] = $this->createElement('radio', null, null, null, $i); 
         }
+
+        $this->addGroup( $default, 'default' );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
 
@@ -89,6 +95,15 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         require_once 'CRM/Core/BAO/CustomOption.php'; 
         CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
+
+        if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
+            foreach ( $defaults['value'] as $i => $v ) {
+                if ( $v == $defaults['default_amount'] ) {
+                    $defaults['default'] = $i;
+                    break;
+                }
+            }
+        }
 
         return $defaults;
     }
@@ -134,9 +149,6 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
 
-        require_once 'CRM/Contribute/BAO/ContributionPage.php';
-        $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
-
         require_once 'CRM/Core/DAO/CustomOption.php';
             
         // delete all the prior label values in the custom options table
@@ -146,10 +158,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $dao->delete( );
 
         // if there are label / values, create custom options for them
-        $labels = CRM_Utils_Array::value( 'label', $params );
-        $values = CRM_Utils_Array::value( 'value', $params );
-        if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
+        $labels  = CRM_Utils_Array::value( 'label'  , $params );
+        $values  = CRM_Utils_Array::value( 'value'  , $params );
+        $default = CRM_Utils_Array::value( 'default', $params ); 
 
+        if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
                     $dao =& new CRM_Core_DAO_CustomOption( );
@@ -160,9 +173,16 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                     $dao->weight       = $i;
                     $dao->is_active    = 1;
                     $dao->save( );
+
+                    if ( $default == $i ) {
+                        $params['default_amount'] = $values[$i];
+                    }
                 }
             }
         }
+
+        require_once 'CRM/Contribute/BAO/ContributionPage.php';
+        $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
 
     }
 

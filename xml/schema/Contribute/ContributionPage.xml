@@ -70,7 +70,13 @@
       <comment>if true, page will include an input text field where user can enter their own amount</comment>   
       <default>0</default> 
       <add>1.3</add>   
-  </field>  
+  </field>
+  <field>     
+      <name>default_amount</name>  
+      <type>decimal</type>  
+      <comment>the default amount allowed.</comment>  
+      <add>1.3</add>  
+  </field>
   <field>    
       <name>min_amount</name> 
       <type>decimal</type> 

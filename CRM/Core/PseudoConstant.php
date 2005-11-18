@@ -638,7 +638,7 @@ class CRM_Core_PseudoConstant {
     public static function &ufGroup( )
     {
         if ( ! self::$ufGroup ) {
-            self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title', 'is_active', null, 'weight, title' );
+            self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title', 'is_active', null, 'title' );
         }
         return self::$ufGroup;
     }

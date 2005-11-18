@@ -50,7 +50,11 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
         $dao =& new CRM_Core_DAO_UFJoin( ); 
         $dao->copyValues( $params ); 
-        $dao->save( ); 
+        if ( $params['uf_group_id'] ) {
+            $dao->save( ); 
+        } else { 
+            $dao->delete( );
+        }
 
         return $dao; 
     } 
