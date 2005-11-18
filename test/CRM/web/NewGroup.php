@@ -1,7 +1,7 @@
 <?php
 require_once "CommonAPI.php";
 
-class TestOfAdminEditTagForm extends WebTestCase 
+class TestOfNewGroupForm extends WebTestCase 
 {  
     function setUp( ) 
     {
@@ -18,6 +18,9 @@ class TestOfAdminEditTagForm extends WebTestCase
         if ($this->assertLink('New Group')) {
             $this->clickLink('New Group');
         }
+
+        $this->assertResponse(200);
+        if ($this->assertWantedText("Create New Group"));
         
         $groupName   = 'test group1';
         $description = 'test group1';

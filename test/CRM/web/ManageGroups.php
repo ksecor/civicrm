@@ -1,10 +1,8 @@
 <?php
-
-require_once 'login.php';
+require_once "CommonAPI.php";
 
 class TestOfManageGroupsForm extends WebTestCase 
 {  
-    protected $_drupalTitle;
 
     function setUp( ) 
     {
@@ -16,32 +14,28 @@ class TestOfManageGroupsForm extends WebTestCase
     
     function testNewGroup()
     {
-        $_drupalTitle = 'My Drupal';
 
-        $browser = $this->createBrowser();
-        $this->setBrowser($browser);
-        
-        $loginObj =& new login();
-        $loginObj->drupalLogin($this);
-        
-        $this->get('http://' . $loginObj->host . '/' . $loginObj->userFramework . '/civicrm');
+        CommonAPI::startCiviCRM($this);
+
+        $groupName = 'abc4';
+        $description = 'abc4......';
+        $visibility = 'Public User Pages';
         
         if ($this->assertLink('Manage Groups')) {
             $this->clickLink('Manage Groups');
         }
         
-        $this->assertTitle('Manage Groups | '.$_drupalTitle);
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
 
-        $this->assertLink('New Group');
-        $this->clickLink('New Group');
+        if ($this->assertWantedText('New Group')) {
+            $this->clickLinkById('newGroup');
+        }
+
         $this->assertFieldById('title');
         $this->assertFieldById('description');
         $this->assertField('visibility' , 'User and User Admin Only');
         $this->assertField('_qf_Edit_next');
-        
-        $groupName = 'test group2';
-        $description = 'test group2';
-        $visibility = 'Public User Pages';
         
         $this->setFieldById('title' , $groupName);
         $this->setFieldById('description' , $description);
@@ -49,24 +43,133 @@ class TestOfManageGroupsForm extends WebTestCase
         $this->clickSubmit('Continue');
         $this->assertWantedText("The Group \"$groupName\" has been saved.");
 
-        //members        
+        //print("\nChecked New Group Link ----------------------\n");
+
+    }
+        
+    function testMembersGroup()
+    {
+
+        CommonAPI::startCiviCRM($this);
+
         if ($this->assertLink('Manage Groups')) {
             $this->clickLink('Manage Groups');
         }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
 
         if ($this->assertLink('Members')) {
             $this->clickLink('Members');
         }
         
-        $this->assertTitle('Group Members: Advisory Board | '.$_drupalTitle);
+        $this->assertResponse(200);
+        $this->assertWantedText("Group Members:");
+        $this->assertWantedText("Find Members within this Group");
 
-        //  $this->assertLink('&raquo; Add Members to Advisory Board');
+        //print("\nChecked 'Members' link -----------------------\n");
+
     }
-        
-    function testMembersGroup()
+
+    function testSettingsGroup()
     {
+
+        CommonAPI::startCiviCRM($this);
+
+        if ($this->assertLink('Manage Groups')) {
+            $this->clickLink('Manage Groups');
+        }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        if ($this->assertLink('Settings')) {
+            $this->clickLink('Settings');
+        }
         
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+        $this->assertWantedText("Group Settings");
+
+        //print("\nChecked 'Settings' link -----------------------\n");
+
+    }
+
+    function testDisableGroup()
+    {
+
+        CommonAPI::startCiviCRM($this);
+
+        if ($this->assertLink('Manage Groups')) {
+            $this->clickLink('Manage Groups');
+        }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        if ($this->assertLink('Disable')) {
+            $this->clickLink('Disable');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        //print("\nChecked 'Disable' link -----------------------\n");
+
+    }
+
+    function testEnableGroup()
+    {
+
+        CommonAPI::startCiviCRM($this);
+
+        if ($this->assertLink('Manage Groups')) {
+            $this->clickLink('Manage Groups');
+        }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        if ($this->assertLink('Enable')) {
+            $this->clickLink('Enable');
+        }
+        
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        //print("\nChecked 'Enable' link -----------------------\n");
+
     }
     
+
+    function testDeleteGroup()
+    {
+
+        CommonAPI::startCiviCRM($this);
+
+        if ($this->assertLink('Manage Groups')) {
+            $this->clickLink('Manage Groups');
+        }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("Manage Groups");
+
+        if ($this->assertLink('Delete')) {
+            $this->clickLink('Delete');
+        }
+        
+        $this->assertResponse(200);
+        if ($this->assertWantedText("Are you sure you want to delete the group")) {
+            $this->clickSubmit('Delete Group');
+        }
+
+        $this->assertResponse(200);
+        $this->assertWantedText("The Group");
+        $this->assertWantedText("has been deleted.");
+
+        //print("\nChecked 'Delete' link -----------------------\n");
+
+    }
+
 }
 ?>
