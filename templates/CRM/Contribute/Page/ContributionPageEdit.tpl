@@ -5,7 +5,7 @@
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
         <dd>{ts}<p>This page is <strong>active</strong>.</p>
         <p>Link visitors to this page using the following URL:{/ts}<br />
-        <strong>{crmURL p='civicrm/contribute' q="reset&action=live&id=`$id`"}</strong>
+        <a href="{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}
         <dt><img src="{$config->resourceBase}i/traffic_red.gif" alt="{ts}status{/ts}"/></dt>
