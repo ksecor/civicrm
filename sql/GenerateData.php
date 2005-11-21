@@ -1293,7 +1293,7 @@ class CRM_GCD {
 
     static function getZipCodeInfo( ) {
         static $stateMap;
-
+        
         if ( ! isset( $stateMap ) ) {
             $query = 'SELECT id, abbreviation from civicrm_state_province where country_id = 1228';
             $dao =& new CRM_Core_DAO( );
@@ -1314,7 +1314,9 @@ class CRM_GCD {
             } else {
                 $stateID = 1004;
             }
-            return array( 1228, $stateID, $dao->city, $dao->zip, $dao->latitude, $dao->longitude );
+            
+            $zip = str_pad($dao->zip, 5, '0', STR_PAD_LEFT);
+            return array( 1228, $stateID, $dao->city, $zip, $dao->latitude, $dao->longitude );
         }
     }
 
