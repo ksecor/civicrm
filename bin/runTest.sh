@@ -10,6 +10,9 @@ ORIGPWD=`pwd`
 # File for Storing Log Of UnitTest.
 logUT=UnitTestResult
 
+# File for Storing Log Of UnitTest.
+logWT=WebTestResult
+
 # File for Storing Log Of Successes from maxQ Tests.
 logSMT=maxqSuccess
 
@@ -34,6 +37,14 @@ run_UnitTest()
     cd $ORIGPWD/../test
     # Running Unit Tests
     php UnitTests.php > $PATH4LOG/Result/$logUT
+}
+
+# Function to Run Unit Tests.
+run_WebTest()
+{
+    cd $ORIGPWD/../test
+    # Running Web Tests
+    php WebTests.php > $PATH4LOG/Result/$logWT
 }
 
 # Function to Run maxQ Tests.
@@ -67,6 +78,7 @@ display_menu()
     echo 
     echo "Options available: "
     echo "  U   - Carry out Unit Tests"
+    echo "  W   - Carry out Web Tests"
     echo "  M   - Carry out Testing with maxq scripts"
     echo "  S   - Carry out Stress Tests"
     echo "  All - Carry out all the above mentioned Tests i.e. Unit Tests, maxQ Tests, Stress Test"
@@ -93,6 +105,14 @@ case $option in
 	echo " **************************************************************************** ";
 	;;
     
+    # Web Tests
+    "W" | "w" )
+	echo "Running Web Tests"; echo;
+	run_WebTest
+	echo "Web Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logWT; echo;
+	echo " **************************************************************************** ";
+	;;
+    
     # maxQ Tests
     "M" | "m" )
 	echo "Running maxQ generated Scripts"; echo;
@@ -112,10 +132,13 @@ case $option in
     
     # All the Tests will be Executed one after other 
     "All" | "all" )
-	echo "Running all three Tests i.e. Unit Tests, maxQ Tests and Stress Test "; echo;
+	echo "Running all three Tests i.e. Unit Tests, Web Tests, maxQ Tests and Stress Test "; echo;
 	echo "Running Unit Tests"; echo;
 	run_UnitTest
 	echo "Unit Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logUT; echo;
+	echo "Running Web Tests"; echo;
+	run_WebTest
+	echo "Web Tests Successfully Completed. Log stored in the File : " $PATH4LOG/Result/$logWT; echo;
 	echo "Running maxQ generated Scripts"; echo;
 	echo "(This will take few Minutes)"; echo;
 	run_maxQScript
