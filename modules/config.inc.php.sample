@@ -325,10 +325,11 @@ define( 'CIVICRM_DEBUG', 0 );
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR', 'paypal' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH', 'WHERE IS THE CERT AND PPD FILE STORED' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'      , 'hash of the ppd file' ); 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' , 'your api password' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , 'paypal' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , 'WHERE IS THE CERT AND PPD FILE STORED' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , 'hash of the ppd file' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , 'your api password' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', 'the email address for all emails sent via system' );
 
 include_once 'config.main.php';
 

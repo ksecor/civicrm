@@ -40,7 +40,7 @@ function clearAmountOther() {
         <tr><td class="label">{$form.amount_other.label}</td><td>{$form.amount_other.html}</td></tr>
     {/if}
     <tr>
-        <td class="label">{$form.email.label}</td><td>{$form.email.html}</td>
+        <td class="label">{$form.email.label}{$reqMark}</td><td>{$form.email.html}</td>
     </tr>
     </table>
     
@@ -66,9 +66,9 @@ function clearAmountOther() {
     <table class="form-layout-compressed">
     <tr><td colspan="2" class="description">{ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}</td></tr>
     <tr><td class="label">{$form.first_name.label}{$reqMark}</td><td>{$form.first_name.html}</td></tr>
-    <tr><td class="label">{$form.middle_name.label}{$reqMark}</td><td>{$form.middle_name.html}</td></tr>
+    <tr><td class="label">{$form.middle_name.label}</td><td>{$form.middle_name.html}</td></tr>
     <tr><td class="label">{$form.last_name.label}{$reqMark}</td><td>{$form.last_name.html}</td></tr>
-    <tr><td class="label">{$form.street1.label}{$reqMark}</td><td>{$form.street1.html}</td></tr>
+    <tr><td class="label">{$form.street_address.label}{$reqMark}</td><td>{$form.street_address.html}</td></tr>
     <tr><td class="label">{$form.city.label}{$reqMark}</td><td>{$form.city.html}</td></tr>
     <tr><td class="label">{$form.state_province_id.label}{$reqMark}</td><td>{$form.state_province_id.html}</td></tr>
     <tr><td class="label">{$form.postal_code.label}{$reqMark}</td><td>{$form.postal_code.html}</td></tr>

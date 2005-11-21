@@ -150,8 +150,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         } else if ($action & CRM_Core_Action::PREVIEW) {
             return $this->preview($id) ;
         } else if ($action & CRM_Core_Action::DELETE) {
-            $session = & CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' );
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' ) );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Delete',"Delete Contribution Page", $mode );
             $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
             $controller->set('id', $id);

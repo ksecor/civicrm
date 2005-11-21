@@ -319,6 +319,13 @@ class CRM_Core_Config {
      */ 
     public $paymentPassword = null;
 
+    /** 
+     * What is the payment response email address
+     * 
+     * @var string                
+     */ 
+    public $paymentResponseEmail = null;
+
     /**
      * the domainID for this instance. 
      *
@@ -611,6 +618,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' ) ) {
             $this->paymentPassword = CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL' ) ) {
+            $this->paymentResponseEmail = CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL;
         }
 
         // initialize the framework

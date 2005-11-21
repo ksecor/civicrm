@@ -108,6 +108,33 @@ class CRM_Utils_Mail {
         }
     }
 
+    static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null ) {
+
+        $headers = array( );  
+        $headers['From']                      = $from;
+        $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
+        $headers['Cc']                        = $cc;
+        $headers['Bcc']                       = $bcc;
+        $headers['Subject']                   = self::encodeSubjectHeader($subject);  
+        $headers['Content-Type']              = 'text/plain; charset=utf-8';  
+        $headers['Content-Disposition']       = 'inline';  
+        $headers['Content-Transfer-Encoding'] = '8bit';  
+
+        $to = array( $toEmail );
+        if ( $cc ) {
+            $to[] = $cc;
+        }
+        if ( $bcc ) {
+            $to[] = $bcc;
+        }
+
+        $mailer =& CRM_Core_Config::getMailer( );  
+        if ($mailer->send($to, $headers, $message) !== true) {  
+            return false;                                                    
+        } 
+        
+        return true;
+    }
 }
 
 ?>

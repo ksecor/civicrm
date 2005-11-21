@@ -110,20 +110,14 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( empty( $toEmail ) ) {
             return false;
         }
-        
-        $headers = array( );
-        $headers['From']                      = $from;
-        $headers['To']                        = CRM_Utils_Mail::encodeAddressHeader($toDisplayName, $toEmail);
-        $headers['Subject']                   = CRM_Utils_Mail::encodeSubjectHeader($subject);
-        $headers['Content-Type']              = 'text/plain; charset=utf-8';
-        $headers['Content-Disposition']       = 'inline';
-        $headers['Content-Transfer-Encoding'] = '8bit';
 
-        $mailer = CRM_Core_Config::getMailer( );
-        if ($mailer->send($toEmail, $headers, $message) !== true) {
+        if ( ! CRM_Utils_Mail::send( $from,
+                                     $toDisplayName, $toEmail,
+                                     $subject,
+                                     $message ) ) {
             return false;
         }
-        
+
         // we need to insert an activity history record here
         $params = array('entity_table'     => 'civicrm_contact',
                         'entity_id'        => $toID,

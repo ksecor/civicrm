@@ -59,7 +59,27 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
         CRM_Utils_System::setTitle($this->_values['title']);  
-    
+    }
+
+    function setDefaultValues( ) {
+        // check if the user is registered and we have a contact ID
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        if ( $contactID ) {
+            $options = array( );
+            $fields = array( );
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
+            $fields['state_province'] = $fields['country'] = 1;
+            $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
+            foreach ($this->_fields as $name => $field ) { 
+                if ( $contact->$name ) {
+                    $this->_defaults[$name] = $contact->$name;
+                }
+            }
+        }
+        return $this->_defaults;
     }
 
     /**
@@ -135,80 +155,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @access public 
      */
     function buildCreditCard( ) {
-        $this->add('text', 
-                   'email', 
-                   ts('Email Address'), 
-                   array( 'size' => 30, 'maxlength' => 60 ),
-                   true );
-
-        $this->add('text',
-                   'first_name',
-                   ts('First Name'),
-                   array( 'size' => 30, 'maxlength' => 60 ) );
-
-        $this->add('text',
-                   'middle_name',
-                   ts('Middle Name'),
-                   array( 'size' => 30, 'maxlength' => 60 ) );
-
-        $this->add('text',
-                   'last_name',
-                   ts('Last Name'),
-                   array( 'size' => 30, 'maxlength' => 60 ) );
-
-        $this->add('text', 
-                   'street1',
-                   ts('Street Address'), 
-                   array( 'size' => 30, 'maxlength' => 60 ) ); 
-
-        $this->add('text', 
-                   'city',
-                   ts('City'), 
-                   array( 'size' => 30, 'maxlength' => 60 ) ); 
-
-        $this->add('select', 
-                   'state_province_id',
-                   ts('State / Province'),
-                   array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince( ) );
-
-        $this->add('text', 
-                   'postal_code',
-                   ts('Postal Code'), 
-                   array( 'size' => 30, 'maxlength' => 60 ) ); 
-
-        $this->addElement( 'select',
-                           'country_id',
-                           ts('Country'), 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
-
-        $this->add('text', 
-                   'credit_card_number', 
-                   ts('Card Number'), 
-                   array( 'size' => 20, 'maxlength' => 20 ) );
-
-        $this->add('text',
-                   'cvv2',
-                   ts('Security Code'),
-                   array( 'size' => 5, 'maxlength' => 10 ) );
+        foreach ( $this->_fields as $name => $field ) {
+            $this->add( $field['htmlType'],
+                        $field['name'],
+                        $field['title'],
+                        $field['attributes'] );
+        }
+                        
         $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
 
-        $this->add( 'date',
-                    'credit_card_exp_date',
-                    ts('Expiration Date'),
-                    CRM_Core_SelectValues::date( 'creditCard' ) );
         $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
-
-        $creditCardType = array( ''           => '- select -',
-                                 'Visa'       => 'Visa'      ,
-                                 'MasterCard' => 'MasterCard',
-                                 'Discover'   => 'Discover'  ,
-                                 'Amex'       => 'Amex' );
-        
-        $this->addElement( 'select', 
-                           'credit_card_type', 
-                           ts('Card Type'),  
-                           $creditCardType,
-                           true );
 
         $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
         $this->add('image',
@@ -226,7 +182,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                 ) 
                           );
 
-        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution', 'formRule' ), $this );
+        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
 
     /** 
@@ -268,23 +224,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
              CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
             return $errors;
         }
-        
-        // make sure the required fields are present
-        $required = array( 'first_name' => ts( 'First Name' ),
-                           'last_name'  => ts( 'Last Name'  ),
-                           'street1'    => ts( 'Street Address' ),
-                           'city'       => ts( 'City' ),
-                           'state_province_id' => ts( 'State / Province' ),
-                           'postal_code'    => ts( 'Postal Code' ),
-                           'country_id'     => ts( 'Country' ),
-                           'credit_card_number' => ts( 'Card Number' ),
-                           'cvv2' => ts( 'Card Security Code' ),
-                           'credit_card_type' => ts( 'Card Type' ),
-                           'credit_card_exp_date' => ts( 'Card Expiration Date' ) );
 
-        foreach ( $required as $item => $name) {
-            if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( $item, $fields ) ) ) {
-                $error[$item] = ts( "%1 is a required field", array( 1 => $name ) );
+        foreach ( $self->_fields as $name => $fld ) {
+            if ( $fld['required'] &&
+                 CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
+                $error[$name] = ts( "%1 is a required field", array( 1 => $fld['title'] ) );
             }
         }
 
