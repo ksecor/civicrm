@@ -487,6 +487,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 } else if ($name == 'individual_suffix') {
                     $values[$index] = $details['individual_suffix'];
                     $params[$index] = $details['individual_suffix_id'];
+                } else if ( substr($name, 0, 7) === 'do_not_' ) {  
+                    if ($details[$name]) {
+                        $values[$index] = '[ x ]';
+                    }
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
                     $title = array( );

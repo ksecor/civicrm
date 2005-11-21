@@ -120,7 +120,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             // get the contact details (hier)
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
-
             //start of code to set the default values
             foreach ($this->_fields as $name => $field ) {
                 if (CRM_Utils_Array::value($name, $details )) {
@@ -281,6 +280,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ( $field['name'] === 'individual_suffix' ){
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
+            } else if ($field['name'] === 'preferred_communication_method') {
+                $this->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+            } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  
+                $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
@@ -507,6 +511,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                             }
                         }
                     }
+                }
+            }
+        }
+     
+        //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
+        $privacy = CRM_Core_SelectValues::privacy( );
+        foreach ($privacy as $key => $value) {
+            if (array_key_exists($key, $this->_fields)) {
+                if ($params[$key]) {
+                    $data[$key] = $params[$key];
+                } else {
+                    $data[$key] = 0;
                 }
             }
         }

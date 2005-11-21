@@ -1422,7 +1422,12 @@ class CRM_Contact_BAO_Query {
                                                         'individual_suffix'      => 1,
                                                         'birth_date'             => 1,
                                                         'gender'                 => 1,
-                                                        'location'               => 
+                                                        'preferred_communication_method' => 1,
+                                                        'do_not_phone'                   => 1, 
+                                                        'do_not_email'                   => 1, 
+                                                        'do_not_mail'                    => 1, 
+                                                        'do_not_trade'                   => 1, 
+                                                        'location'                       => 
                                                         array( '1' => array ( 'location_type'      => 1,
                                                                               'street_address'     => 1,
                                                                               'city'               => 1,
