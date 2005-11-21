@@ -119,7 +119,9 @@
        <name>preferred_communication_method</name>
        <type>enum</type>
        <values>Phone, Email, Post</values>
-       <export>true</export>
+       <import>true</import>
+       <headerPattern>/^(communication|method)/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
   </field>
@@ -133,28 +135,37 @@
   </field>
   <field>
        <name>do_not_phone</name>
-       <export>true</export>
        <type>boolean</type>
        <default>0</default>
+       <import>true</import>
+       <headerPattern>/(do_not_phone)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
        <add>1.1</add>
   </field>
   <field>
        <name>do_not_email</name>
        <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/(do_not_email)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
   </field>
   <field>
        <name>do_not_mail</name>
-       <export>true</export>
        <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/(do_not_mail)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
   </field>
   <field>
        <name>do_not_trade</name>
-       <export>true</export>
        <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/(do_not_trade)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
   </field>

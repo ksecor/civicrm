@@ -105,7 +105,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function init( ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
-
+       
         //Relationship importables
         $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
         
@@ -119,7 +119,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         if ( !empty($relationshipType) ) {
-            $fields = array_merge($fields, array(array('title' => '- related contact info -')) + $relationshipType);
+            $fields = array_merge($fields, array( 'related' => array('title' => '- related contact info -')) + $relationshipType);
         }
 
         foreach ($fields as $name => $field) {

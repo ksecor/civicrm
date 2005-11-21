@@ -1055,7 +1055,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                 self::$_importableFields = array();
             }
             if (!$status) {
-                $fields = array( '' => array( 'title' => ts('- do not import -') ) );
+                $fields = array( 'do_not_import' => array( 'title' => ts('- do not import -') ) );
             } else {
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
@@ -1069,12 +1069,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
                     eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
                     $fields = array_merge( $fields, $tmpFields );
-                    if ( $type == 'Individual') {
-                        $fields = array_merge( $fields,
-                                               CRM_Core_DAO_IndividualPrefix::import( true ) , 
-                                               CRM_Core_DAO_IndividualSuffix::import( true ) , 
-                                               CRM_Core_DAO_Gender::import( true ) );
-                    }
                 }
             }
 
@@ -1084,7 +1078,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
                                        CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                        CRM_Core_DAO_Gender::import( true ) );                
             }
-
+            
             $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
                                             CRM_Core_DAO_Phone::import( ),
                                             CRM_Core_DAO_Email::import( ),
