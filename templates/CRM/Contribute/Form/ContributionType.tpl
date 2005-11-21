@@ -7,7 +7,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-          {ts}WARNING: Deleting this option will result in the loss of all contribution type records which use the option.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
+          {ts}WARNING: Deleting this option will result in the loss of all contribution records of this type.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>
@@ -15,6 +15,11 @@
       <dl>
  	    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    	<dt>{$form.accounting_code.label}</dt><dd>{$form.accounting_code.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">Use this field to flag contributions of this type with the
+            corresponding code used in your accounting system. This code will be included when you export contribution data to your accounting package.</dt>
+    	<dt>{$form.is_deductible.label}</dt><dd>{$form.is_deductible.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">Are contributions of this type tax-deductible?</dd>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
       </dl> 
      {/if}

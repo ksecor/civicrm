@@ -60,10 +60,12 @@ class CRM_Contribute_Form_ContributionType extends CRM_Contribute_Form
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid contribution type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_ContributionType', $this->_id ) );
+        $this->addRule( 'name', ts('A contribution type with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_ContributionType', $this->_id ) );
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'description' ) );
+        $this->add('text', 'accounting_code', ts('Accounting Code'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'accounting_code' ) );
 
+        $this->add('checkbox', 'is_deductible', ts('Tax-deductible?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
         if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $this->_id, 'is_reserved' )) { 

@@ -92,25 +92,6 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
         return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_ContributionType', $id, 'is_active', $is_active );
     }
 
-
-    /**
-     * retrieve the default contribution_type
-     *
-     * @return object           The default contribution type object on success,
-     *                          null otherwise
-     * @static
-     * @access public
-     */
-    static function &getDefault() 
-    {
-        if (self::$_defaultContributionType == null) {
-            $params = array('is_default' => 1);
-            $defaults = array();
-            self::$_defaultContributionType = self::retrieve($params, $defaults);
-        }
-        return self::$_defaultContributionType;
-    }
-
     /**
      * function to add the contribution types
      *
@@ -125,19 +106,13 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
     {
         
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
+        $params['is_deductible'] =  CRM_Utils_Array::value( 'is_deductible', $params, false );
         
         // action is taken depending upon the mode
         $contributionType               =& new CRM_Contribute_DAO_ContributionType( );
         $contributionType->domain_id    = CRM_Core_Config::domainID( );
         
         $contributionType->copyValues( $params );;
-        
-        if ($params['is_default']) {
-            $unsetDefault =& new CRM_Contribute_DAO();
-            $query = 'UPDATE civicrm_contribution_type SET is_default = 0';
-            $unsetDefault->query($query);
-        }
         
         $contributionType->id = CRM_Utils_Array::value( 'contributionType', $ids );
         $contributionType->save( );

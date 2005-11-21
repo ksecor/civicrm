@@ -297,11 +297,11 @@ INSERT INTO civicrm_dupe_match (domain_id, entity_table , rule) VALUES ( {$civic
 
 -- contribution types
 INSERT INTO
-   civicrm_contribution_type(name, domain_id, is_reserved, is_active)
+   civicrm_contribution_type(name, domain_id, is_reserved, is_active, is_deductible)
 VALUES
-  ( '{ts}Donation{/ts}'             , {$civicrmDomainId}, 0, 1 ),
-  ( '{ts}Member Dues{/ts}'          , {$civicrmDomainId}, 0, 1 ), 
-  ( '{ts}Campaign Contribution{/ts}', {$civicrmDomainId}, 0, 1 );
+  ( '{ts}Donation{/ts}'             , {$civicrmDomainId}, 0, 1, 1 ),
+  ( '{ts}Member Dues{/ts}'          , {$civicrmDomainId}, 0, 1, 1 ), 
+  ( '{ts}Campaign Contribution{/ts}', {$civicrmDomainId}, 0, 1, 0 );
 
 -- payment instrument
 INSERT INTO  
