@@ -138,7 +138,7 @@
        <type>boolean</type>
        <default>0</default>
        <import>true</import>
-       <headerPattern>/(do_not_phone)/i</headerPattern>
+       <headerPattern>/do not phone$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <add>1.1</add>
   </field>
@@ -146,7 +146,7 @@
        <name>do_not_email</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do_not_email)/i</headerPattern>
+       <headerPattern>/do not email$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -155,7 +155,7 @@
        <name>do_not_mail</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do_not_mail)/i</headerPattern>
+       <headerPattern>/mail$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -164,7 +164,7 @@
        <name>do_not_trade</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do_not_trade)/i</headerPattern>
+       <headerPattern>/trade$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>

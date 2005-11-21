@@ -133,19 +133,20 @@
        <comment>Job Title</comment>
       <add>1.1</add>
   </field>
-  <field>
+<field>
       <name>gender_id</name>
       <type>int unsigned</type>
       <comment>FK to gender ID</comment>
       <add>1.2</add>
   </field>
+
   <foreignKey>
        <name>gender_id</name>
        <table>civicrm_gender</table>
        <key>id</key>
-       <import>true</import>
        <add>1.2</add>
   </foreignKey>
+ 
   <field>
        <name>gender</name>
        <type>enum</type>
