@@ -69,6 +69,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this Contribution page?');
+            $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
@@ -100,6 +102,13 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/contribute',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable'),
+                                                                          ),
+                                        CRM_Core_Action::DELETE  => array(
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/contribute',
+                                                                          'qs'    => 'action=delete&reset=1&id=%%id%%',
+                                                                          'title' => ts('Delete Custom Field'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
                                         );
         }
@@ -140,6 +149,15 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
             return $this->preview($id) ;
+        } else if ($action & CRM_Core_Action::DELETE) {
+            $session = & CRM_Core_Session::singleton();
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Delete',"Delete Contribution Page", $mode );
+            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            $controller->set('id', $id);
+            $controller->setEmbedded( true );
+            $controller->process( );
+            $controller->run( );
         } else {
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
@@ -148,7 +166,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                 CRM_Contribute_BAO_ContributePage::setIsActive($id, 1);
             }
 
-            // finally browse the custom groups
+            // finally browse the contribution pages
             $this->browse();
             CRM_Utils_System::setTitle( ts('Browse Contribution Pages') );
         }

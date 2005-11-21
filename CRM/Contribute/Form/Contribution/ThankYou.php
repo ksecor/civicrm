@@ -34,32 +34,47 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+require_once 'CRM/Contribute/Form/Contribution.php';
 
 /**
- * State machine for managing different states of the Import process.
- *
+ * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_StateMachine_Contribution extends CRM_Core_StateMachine {
+class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Contribution {
 
     /**
-     * class constructor
+     * Function to set variables up before form is built
      *
-     * @param object  CRM_Import_Controller
-     * @param int     $action
-     *
-     * @return object CRM_Import_StateMachine
+     * @return void
+     * @access public
      */
-    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
-        parent::__construct( $controller, $action );
+    public function preProcess()
+    {
+        parent::preProcess( );
+
+        $this->_params = $this->get( 'params' );
+
+        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
+        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
+    }
+
+    /**
+     * Function to actually build the form
+     *
+     * @return void
+     * @access public
+     */
+    public function buildQuickForm()
+    {
+        $this->assignToTemplate( );
+
+        $this->assign( 'trxn_id', $this->_params['trxn_id'] );
         
-        $this->_pages = array(
-                              'CRM_Contribute_Form_Contribution_Main',
-                              'CRM_Contribute_Form_Contribution_Confirm',
-                              'CRM_Contribute_Form_Contribution_ThankYou',
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $action );
+        $this->addButtons(array(
+                                array ( 'type'      => 'cancel',
+                                        'name'      => ts('Done'),
+                                        'isDefault' => true ),
+                                )
+                          );
     }
 
 }

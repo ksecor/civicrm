@@ -74,6 +74,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data field?');
+            $deleteExtra = ts('Are you sure you want to delete this custom data field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Field'),
@@ -110,7 +111,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',
                                                                           'qs'    => 'action=delete&reset=1&gid=%%gid%%&id=%%id%%',
-                                                                          'title' => ts('Enable Custom Field'),
+                                                                          'title' => ts('Delete Custom Field'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
                         
                                         );

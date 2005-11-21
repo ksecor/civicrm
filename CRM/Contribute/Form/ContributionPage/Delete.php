@@ -34,77 +34,62 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contribute/Form/ContributionPage.php';
 
 /**
- * form to process actions on the group aspect of Custom Data
+ * This class is to build the form for Deleting Group
  */
-class CRM_Contribute_Form_ThankYou extends CRM_Core_Form {
-
-    /**
-     * Function to set variables up before form is built
-     *
-     * @return void
-     * @access public
-     */
-    public function preProcess()
-    {
-        $this->_contributeMode = $this->get( 'contributeMode' );
-        $this->assign( 'contributeMode', $this->_contributeMode );
-
-        $this->_params = $this->get( 'transactionParams' );
-
-        // also retrieve the contribution object
-        // get all the values from the dao object 
-        $params = array('id' => $this->get( 'id' ) );  
-        $this->_values = array( );                   
-        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values ); 
-
-        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
-        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
-    }
+class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_ContributionPage {
 
     /**
      * Function to actually build the form
      *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
+
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Delete Contribution Page'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
+    }
+
+    /**
+     * Process the form when submitted
+     *
      * @return void
      * @access public
      */
-    public function buildQuickForm()
-    {
-        CRM_Contribute_Form_Confirm::assignToTemplate( $this, $this->_params );
+    public function postProcess( ) {
+        CRM_Core_DAO::transaction('BEGIN');
 
-        $this->assign( 'trxn_id', $this->_params['trxn_id'] );
+        // first delete the join entries associated with this contribution page
+        $dao =& new CRM_Core_DAO_UFJoin( );
         
-        $this->addButtons(array(
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Done'),
-                                        'isDefault' => true ),
-                                )
-                          );
-    }
+        $params = array( 'entity_table' => 'civicrm_contribution_page',
+                         'entity_id'    => $this->_id );
+        $dao->copyValues( $params );
+        $dao->delete( );
 
-    /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     *
-     * @access public
-     * @return void
-     */
-    function setDefaultValues()
-    {
-        $defaults = array();
-        return $defaults;
-    }
+        // next delete the amount option fields
+        $dao =& new CRM_Core_DAO_CustomOption( );
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id    = $this->_id;
+        $dao->delete( );
 
-    /**
-     * Process the form
-     *
-     * @return void
-     * @access public
-     */
-    public function postProcess()
-    {
+        // finally delete the contribution page
+        $dao =& new CRM_Contribute_DAO_ContributionPage( );
+        $dao->id = $this->_id;
+        $dao->delete( );
+
+        CRM_Core_DAO::transaction('COMMIT');
+        
+        CRM_Core_Session::setStatus( ts('The contribution page "%1" has been deleted.', array( 1 => $this->_title ) ) );
     }
 }
 

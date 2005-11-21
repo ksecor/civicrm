@@ -35,14 +35,13 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contribute/Form/Contribution.php';
 
 /**
  * This class generates form components for processing a ontribution 
  * 
  */
-class CRM_Contribute_Form_Contribution extends CRM_Core_Form
-{
+class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribution {
 
     /** 
      * Function to set variables up before form is built 
@@ -52,35 +51,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // current contribution page id 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
+        
+        parent::preProcess( );
 
-        // get all the values from the dao object
-        $params = array('id' => $this->_id); 
-        $this->_values = array( );
-        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
-
-        // get the amounts and the label
-        require_once 'CRM/Core/BAO/CustomOption.php';  
-        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $this->_values );
-
-        // get the profile ids
-        require_once 'CRM/Core/BAO/UFJoin.php'; 
- 
-        $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',   
-                               'entity_id'    => $this->_id,   
-                               'weight'       => 1 ); 
-        $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
- 
-        $ufJoinParams['weight'] = 2; 
-        $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
         $this->assign( 'intro_text', $this->_values['intro_text'] );
+
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
         CRM_Utils_System::setTitle($this->_values['title']);  
     
-        $this->_defaults = array( );
-
     }
 
     /**
@@ -136,9 +115,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
     }
 
-    function setDefaultValues( ) {
-        return $this->_defaults;
-    }
     /**  
      * Function to add the custom fields
      *  

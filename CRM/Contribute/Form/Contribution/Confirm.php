@@ -34,12 +34,12 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contribute/Form/Contribution.php';
 
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
+class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contribution {
 
     /**
      * Function to set variables up before form is built
@@ -49,8 +49,8 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_contributeMode = $this->get( 'contributeMode' );
-        $this->assign( 'contributeMode', $this->_contributeMode );
+
+        parent::preProcess( );
 
         if ( $this->_contributeMode == 'express' ) {
             $nullObject = null;
@@ -86,26 +86,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
             $this->_params['payment_action'] = 'Sale';
         }
 
-        $this->set( 'transactionParams', $this->_params );
-    }
-
-    static function assignToTemplate( &$self, &$params ) {
-        $name = $params['first_name'];
-        if ( CRM_Utils_Array::value( 'middle_name', $params ) ) {
-            $name .= " {$params['middle_name']}";
-        }
-        $name .= " {$params['last_name']}";
-        $self->assign( 'name', $name );
-
-        $vars = array( 'amount', 'currencyID', 'street1', 'city', 'postal_code', 'state_province', 'country', 'credit_card_type' );
-        foreach ( $vars as $v ) {
-            $self->assign( $v, $params[$v] );
-        }
-
-        $self->assign( 'credit_card_exp_date', CRM_Utils_Date::format( $params['credit_card_exp_date'], '/' ) );
-        $self->assign( 'credit_card_number',
-                       CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
-        
+        $this->set( 'params', $this->_params );
     }
 
     /**
@@ -116,7 +97,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        self::assignToTemplate( $this, $this->_params );
+        $this->assignToTemplate( );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -213,7 +194,7 @@ class CRM_Contribute_Form_Confirm extends CRM_Core_Form {
         CRM_Contribute_BAO_FinancialTrxn::create( $params );
 
         $this->_params = array_merge( $this->_params, $params );
-        $this->set( 'transactionParams', $this->_params ); 
+        $this->set( 'params', $this->_params ); 
     }
 }
 
