@@ -172,6 +172,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribution_display=true' ) );
         }
 
+        $this->_params = array_merge( $this->_params, $result );
+        $this->set( 'params', $this->_params );
+        $this->assign( 'trxn_id', $result['trxn_id'] );
+
         // result has all the stuff we need
         // lets archive it to a financial transaction
         $config =& CRM_Core_Config::singleton( );
