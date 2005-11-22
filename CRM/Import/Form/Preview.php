@@ -364,23 +364,25 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
         
         /* If we're not creating a new group, accept */
-        if (! $params['newGroup']) {
+        if (! $params['newGroupName']) {
             return true;
         }
-
+        
         $errors = array();
         
-        if ($params['newGroupName'] === '') {
-            $errors['newGroupName'] = ts( 'Please enter a name for the new group.');
-        } else {
-            if (! CRM_Utils_Rule::objectExists($params['newGroupName'],
+//         if ($params['newGroupName'] === '') {
+//             $errors['newGroupName'] = ts( 'Please enter a name for the new group.');
+//         } else {
+
+        if ($params['newGroupName']) {
+            if (!CRM_Utils_Rule::objectExists($params['newGroupName'],
                     array('CRM_Contact_DAO_Group')))
             {
                 $errors['newGroupName'] = ts( "Group '%1' already exists.",
                         array( 1 => $params['newGroupName']));
             }
+//         }
         }
-
         return empty($errors) ? true : $errors;
     }
 }

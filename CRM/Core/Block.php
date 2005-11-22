@@ -158,11 +158,11 @@ class CRM_Core_Block {
     static function getInfo( ) {
         $block = array( );
         foreach ( self::properties() as $id => $value ) {
-            if ( $value['active'] ) {
-                if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-                     ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) ) {
-                    continue;
-                }
+             if ( $value['active'] ) {
+                 if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+                      ( ! CRM_Utils_System::checkPermission('add contacts') ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+                     continue;
+                 }
                 $block[$id]['info'] = $value['info'];
             }
         }
@@ -213,24 +213,36 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateShortcutValues( ) {
-        static $shortCuts = null;
+        static $shortCuts = array( );
         
         if (!($shortCuts)) {
-             $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                        'qs'    => 'c_type=Individual&reset=1',
-                                        'title' => ts('New Individual') ),
-                                 array( 'path'  => 'civicrm/contact/addO',
-                                        'qs'    => 'c_type=Organization&reset=1',
-                                        'title' => ts('New Organization') ),
-                                 array( 'path'  => 'civicrm/contact/addH',
-                                        'qs'    => 'c_type=Household&reset=1',
-                                        'title' => ts('New Household') ),
-                                 array( 'path'  => 'civicrm/group/add',
-                                        'qs'    => 'reset=1',
-                                        'title' => ts('New Group') ) );
+            if (CRM_Utils_System::checkPermission('add contacts')) {
+                $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
+                                           'qs'    => 'c_type=Individual&reset=1',
+                                           'title' => ts('New Individual') ),
+                                    array( 'path'  => 'civicrm/contact/addO',
+                                           'qs'    => 'c_type=Organization&reset=1',
+                                           'title' => ts('New Organization') ),
+                                    array( 'path'  => 'civicrm/contact/addH',
+                                           'qs'    => 'c_type=Household&reset=1',
+                                           'title' => ts('New Household') ),
+                                    );
+            }
+
+            if( CRM_Utils_System::checkPermission('edit groups')) {
+                $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
+                                                                   'qs'    => 'reset=1',
+                                                                   'title' => ts('New Group') ) ));
+            }
+
+            if (! CRM_Utils_System::checkPermission( 'add contacts' )  &&  ! CRM_Utils_System::checkPermission('edit groups')) {
+                return null;
+            }
+
         }
 
         $values = array( );
+
         foreach ( $shortCuts as $short ) {
             $value = array( );
             $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
@@ -350,10 +362,10 @@ class CRM_Core_Block {
             return null;
         }
 
-        if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-             ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) ) {
-            return null;
-        }
+         if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+              ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+             return null;
+         }
 
         $block['name'   ] = 'block-civicrm';
         $block['id'     ] = $block['name'] . '_' . $id;
