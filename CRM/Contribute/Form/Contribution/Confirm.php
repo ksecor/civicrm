@@ -143,11 +143,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
             }
             
+            $ids = array( );
             if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params, $ids );
             } else {
                 // need to fix and unify all contact creation
-                // $contact =& crm_update_contact( $contact, $this->_params );
+                $params = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                $defaults = array( );
+                CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+                CRM_Core_Error::debug( 'ids', $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params, $ids );
+                CRM_Core_Error::debug( 'c', $contact );
             }
 
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {

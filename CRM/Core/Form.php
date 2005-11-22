@@ -130,7 +130,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             self::$_template =& CRM_Core_Smarty::singleton( );
         }
 
-        $this->assign( 'action'  , $this->_action   ); 
     }
 
     /**

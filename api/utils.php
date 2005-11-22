@@ -218,13 +218,6 @@ function _crm_check_contrib_params( &$params ) {
         return _crm_error( "Required fields not found for contribution $error" );
     }
 
-    // FIXME: check for record already existing
-#   require_once 'CRM/Core/BAO/UFGroup.php';
-#   if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
-#       return _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
-#                          $ids );
-#   }
-
     return true;
 }
 
@@ -350,12 +343,13 @@ function _crm_format_params( &$params, &$values ) {
             }
 
             /* validate the data against the CF type */
+            CRM_Core_Error::debug( $value, $customFields[$customFieldID] );
             $valid = CRM_Core_BAO_CustomValue::typecheck(
                             $customFields[$customFieldID][2], $value);
 
             if (! $valid) {
                 return _crm_error('Invalid value for custom field ' .
-                    $customFields[$customFieldID][1]);
+                    $customFields[$customFieldID][0]);
             }
             
             // fix the date field if so
