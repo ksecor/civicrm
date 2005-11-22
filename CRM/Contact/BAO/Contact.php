@@ -887,7 +887,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $sql = "
 SELECT
   civicrm_contact.id as contact_id,
-  civicrm_contact.display_name as display_name,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
@@ -913,7 +912,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $locations = array( );
         while ( $dao->fetch( ) ) {
             $location = array( );
-            $location['displayName'  ] = $dao->display_name;
+            list( $location['displayName'], $location['contactImage'] ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id );
+           
             $location['lat'          ] = $dao->latitude;
             $location['lng'          ] = $dao->longitude;
             $address = '';

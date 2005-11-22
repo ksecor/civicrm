@@ -255,6 +255,18 @@ define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
 define('CIVICRM_GOOGLE_MAP_API_KEY', '');
 
 /**
+ * Map Contacts with Yahoo Maps API:
+ * 
+ * If you want to utilize the Yahoo mapping feature, you must request an API key for your site
+ * here: http://api.search.yahoo.com/webservices/register_application
+ *
+ * Enter your API key below to enable the mapping feature for your CiviCRM installation.
+ * 
+ */
+define('CIVICRM_YAHOO_MAP_API_KEY', '');
+
+
+/**
  * Geocode (latitude and longitude) lookup:
  *
  * CiviCRM can be configured to automatically lookup and insert geo-coordinates for contact

@@ -264,6 +264,13 @@ class CRM_Core_Config {
     public $googleMapAPIKey = null;
 
     /**
+     * Yahoo Map API Key if yahoo map support needed
+     *
+     * @var boolean
+     */
+    public $yahooMapAPIKey = null;
+    
+    /**
      * How should we get geo code information if google map support needed
      *
      * @var boolean
@@ -581,6 +588,11 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_GOOGLE_MAP_API_KEY' ) ) {
             $this->googleMapAPIKey = CIVICRM_GOOGLE_MAP_API_KEY;
         }
+
+        if ( defined( 'CIVICRM_YAHOO_MAP_API_KEY' ) ) {
+            $this->yahooMapAPIKey = CIVICRM_YAHOO_MAP_API_KEY;
+        }
+
 
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
