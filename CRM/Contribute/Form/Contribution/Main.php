@@ -79,6 +79,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
             }
         }
+
+        // hack to simplify credit card entry for now
+        $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2006', 'M' => '01' );
+
         return $this->_defaults;
     }
 
@@ -144,7 +151,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildCustom( $id, $name ) {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
-            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name );
+            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
         }
     }
 

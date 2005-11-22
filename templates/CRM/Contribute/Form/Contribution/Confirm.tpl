@@ -15,7 +15,7 @@
     <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
     <div id="billing-address" class="form-layout">
     <strong>{$name}</strong><br />
-    {$street1}<br />
+    {$street_address}<br />
     {$city} {$state_province}, {$postal_code} &nbsp; {$country}
     <p>
     {ts}Email:{/ts} {$email} 

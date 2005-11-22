@@ -7,7 +7,7 @@
         <dt>Amount</dt><dd>${$amount}</dd> 
 	<dt>Trxn ID</dt><dd>{$trxn_id}</dd>
         <dt>Name</dt><dd>{$name}</dd>
-        <dt>Billing Address</dt><dd>{$street1}</dd>
+        <dt>Billing Address</dt><dd>{$street_address}</dd>
         <dt>City</dt><dd>{$city}</dd>
         <dt>State</dt><dd>{$state_province}</dd>
         <dt>Postal Code</dt><dd>{$postal_code}</dd>

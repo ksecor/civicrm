@@ -181,11 +181,12 @@ class CRM_Utils_Payment_PayPal {
         $params['middle_name'] =  $name->getMiddleName  ( );
         $params['last_name'  ] =  $name->getLastName    ( );
         
-        $address               =& $payer->getAddress    ( );
-        $params['street1']     =  $address->getStreet1  ( );
+        $address                  =& $payer->getAddress    ( );
+        $params['street_address'] =  $address->getStreet1  ( );
         $params['supplemental_address_1'] = $address->getStreet2( );
         $params['city']        =  $address->getCityName ( );
         $params['state_province'] = $address->getStateOrProvince( );
+        $params['postal_code'] = $address->getPostalCode( );
         $params['country']     =  $address->getCountry  ( );
         
         return $params;
@@ -294,7 +295,7 @@ class CRM_Utils_Payment_PayPal {
             return self::error( $address );
         }
 
-        $address->setStreet1        ( $params['street1']       , self::CHARSET );
+        $address->setStreet1        ( $params['street_address'], self::CHARSET );
         $address->setCityName       ( $params['city']          , self::CHARSET );
         $address->setStateOrProvince( $params['state_province'], self::CHARSET );
         $address->setPostalCode     ( $params['postal_code']   , self::CHARSET );

@@ -4,7 +4,7 @@
 Amount : ${$amount}
 Trxn ID: {$trxn_id}
 Name: {$name}
-Billing Address: {$street1}
+Billing Address: {$street_address}
 City: {$city}
 State: {$state_province}
 Postal Code: {$postal_code}

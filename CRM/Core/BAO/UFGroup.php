@@ -607,16 +607,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * build a form for the given UF group
      *
-     * @param int           $id       the group id
-     * @param CRM_Core_Form $form     the form element
-     * @param string        $name     the name that we should store the fields as
+     * @param int           $id        the group id
+     * @param CRM_Core_Form $form      the form element
+     * @param string        $name      the name that we should store the fields as
+     * @param array         $allFields reference to the array where all the fields are stored
      *
      * @return void
      * @static
      * @access public
      */
-    public static function buildQuickForm( $id, &$form, $name ) {
+    public static function buildQuickForm( $id, &$form, $name, &$allFields) {
         $fields =& CRM_Core_BAO_UFGroup::getFields( $id, false, $action );
+
+        foreach ( $fields as $n => $fld ) {
+            if ( ! array_key_exists( $n, $allFields ) ) {
+                $allFields[$n] = $fld;
+            }
+        }
 
         $form->assign( $name, $fields );
         foreach ( $fields as $name => $field ) {
