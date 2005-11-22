@@ -212,8 +212,6 @@ class Mail_smtp extends Mail {
             }
         }
 
-        echo $text_headers . "\r\n" . $body . "<p>";
-
         if (PEAR::isError($smtp->data($text_headers . "\r\n" . $body))) {
             return PEAR::raiseError('unable to send data');
         }
