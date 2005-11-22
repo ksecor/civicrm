@@ -84,12 +84,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview'),
                                                                           ),
-                                        CRM_Core_Action::PROFILE => array(
-                                                                          'name'  => ts('Standalone Form'),
-                                                                          'url'   => 'civicrm/contribute',
-                                                                          'qs'    => 'reset=1&action=profile&id=%%id%%',
-                                                                          'title' => ts('Create Standalone Form'),
-                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/contribute',

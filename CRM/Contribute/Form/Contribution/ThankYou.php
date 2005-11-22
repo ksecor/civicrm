@@ -37,7 +37,7 @@
 require_once 'CRM/Contribute/Form/Contribution.php';
 
 /**
- * form to process actions on the group aspect of Custom Data
+ * form for thank-you / success page - 3rd step of online contribution process
  */
 class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Contribution {
 
@@ -55,6 +55,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
 
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
         $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
+        $this->assign( 'thankyou_footer' , $this->_values['thankyou_footer']  );
     }
 
     /**

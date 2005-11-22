@@ -37,7 +37,7 @@
 require_once 'CRM/Contribute/Form/ContributionPage.php';
 
 /**
- * form to process actions on the group aspect of Custom Data
+ * form to configure thank-you messages and receipting features for an online contribution page
  */
 class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_ContributionPage {
     /**
