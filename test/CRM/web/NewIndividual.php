@@ -114,9 +114,15 @@ class TestOfNewIndividualForm extends WebTestCase
         $supplemental_address_12 = 'Mumbai..Supplemetal Address 12';
         $supplemental_address_21 = 'Pune..Supplemetal Address 21';
         $this->setFieldbyId('location[1][address][street_address]',         $street_address1        );
-        $this->setFieldbyId('location[2][address][street_address]',         $street_address2        );
         $this->setFieldbyId('location[1][address][supplemental_address_2]', $supplemental_address_12);
+        $this->setFieldbyId('location[1][address][state_province_id]', 'Florida');
+        $this->setFieldbyId('location[1][address][country_id]', 'United States');
+
+        $this->setFieldbyId('location[2][address][street_address]',         $street_address2        );
         $this->setFieldbyId('location[2][address][supplemental_address_1]', $supplemental_address_21);
+        $this->setFieldbyId('location[2][address][state_province_id]', 'Florida');
+        $this->setFieldbyId('location[2][address][country_id]', 'United States');
+        
         
         // Gender.
         $this->assertWantedText("Demographics");
