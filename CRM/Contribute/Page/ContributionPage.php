@@ -80,7 +80,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::PREVIEW => array(
                                                                           'name'  => ts('Test-drive'),
-                                                                          'url'   => 'civicrm/contribute',
+                                                                          'url'   => 'civicrm/contribute/contribution',
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview'),
                                                                           ),
@@ -152,18 +152,21 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         } else if ($action & CRM_Core_Action::DELETE) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' ) );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Delete',"Delete Contribution Page", $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
+                                                           'Delete Contribution Page',
+                                                           $mode );
             $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
             $controller->set('id', $id);
             $controller->setEmbedded( true );
             $controller->process( );
             $controller->run( );
         } else {
+            require_once 'CRM/Contribute/BAO/ContributionPage.php';
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Contribute_BAO_ContributePage::setIsActive($id, 0);
+                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Contribute_BAO_ContributePage::setIsActive($id, 1);
+                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 1);
             }
 
             // finally browse the contribution pages
