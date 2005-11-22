@@ -4,9 +4,9 @@
   <creationDate>07/28/2005</creationDate>
   <author>Social Source Foundation and PICnet Inc.</author>
   <copyright>(C) Copyright 2005 by PICnet, Inc., and  Social Source Foundation</copyright>
-  <authorEmail>ryan@picnet.net</authorEmail>
-  <authorUrl>www.picnet.net</authorUrl>
-  <version>1.1</version>
+  <authorEmail>lobo@yahoo.com</authorEmail>
+  <authorUrl>www.openngo.org</authorUrl>
+  <version>1.3</version>
   <description>CiviCRM</description>
   <files>
   </files>
