@@ -73,7 +73,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params = $this->get( 'getExpressCheckoutDetails' );
             }
         } else {
-            $this->_params = $this->controller->exportValues( 'Contribution' );
+            $this->_params = $this->controller->exportValues( 'Main' );
 
             $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
             $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
@@ -176,25 +176,98 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // lets archive it to a financial transaction
         $config =& CRM_Core_Config::singleton( );
 
-        $params = array( );
+        CRM_Core_DAO::transaction( 'BEGIN' );
 
-        $params['entity_table'     ] = 'civicrm_contact';
-        $params['entity_id'        ] = $contactID;
-
-        $params['trxn_date'        ] = date( 'YmdHis' );
-        $params['trxn_type'        ] = 'Debit';
-        $params['total_amount'     ] = $result['gross_amount'];
-        $params['fee_amount'       ] = CRM_Utils_Array::value( 'fee_amount', $result, 0 );
-        $params['net_amount'       ] = CRM_Utils_Array::value( 'net_amount', $result, 0 );
-        $params['currency'         ] = $this->_params['currencyID'];
-        $params['payment_processor'] = $config->paymentProcessor;
-        $params['trxn_id'          ] = $result['trxn_id'];
-
+        $now = date( 'YmdHis' );
+        // first create the transaction record
+        $params = array(
+                        'entity_table'      => 'civicrm_contact',
+                        'entity_id'         => $contactID,
+                        'trxn_date'         => $now,
+                        'trxn_type'         => 'Debit',
+                        'total_amount'      => $result['gross_amount'],
+                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
+                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                        'currency'          => $this->_params['currencyID'],
+                        'payment_processor' => $config->paymentProcessor,
+                        'trxn_id'           => $result['trxn_id'],
+                        );
+                        
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        CRM_Contribute_BAO_FinancialTrxn::create( $params );
+        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
 
-        $this->_params = array_merge( $this->_params, $params );
-        $this->set( 'params', $this->_params ); 
+        $receiptDate = null;
+        if ( $this->_values['is_email_receipt'] ) {
+            $receiptDate = $now;
+        }
+
+        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+        $contributionType->id = $this->_values['contribution_type_id'];
+        if ( ! $contributionType->find( true ) ) {
+            CRM_Utils_System::fatal( "Could not find a system table" );
+        }
+
+        if ( $contributionType->is_deductible ) {
+            $nonDeductibeAmount = $result['gross_amount'];
+        } else {
+            $nonDeductibeAmount = 0.00;
+        }
+
+        // check contribution Type
+        // next create the contribution record
+        $params = array(
+                        'contact_id'            => $contactID,
+                        'contribution_type_id'  => $contributionType->id,
+                        'payment_instrument_id' => 1,
+                        'receive_date'          => $now,
+                        'non_deductible_amount' => $nonDeductibeAmount,
+                        'total_amount'          => $result['gross_amount'],
+                        'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
+                        'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                        'trxn_id'               => $result['trxn_id'],
+                        'currency'              => $this->_params['currencyID'],
+                        'receipt_date'          => $receiptDate,
+                        'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],
+                        );
+        $ids = array( );
+        $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
+
+        // also create an activity history record
+        $params = array('entity_table'     => 'civicrm_contact', 
+                        'entity_id'        => $contactID, 
+                        'activity_type'    => $contributionType->name,
+                        'module'           => 'CiviContribute', 
+                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
+                        'activity_id'      => $contribution->id, 
+                        'activity_summary' => 'Online - $' . $this->_params['amount'],
+                        'activity_date'    => $now,
+                        );
+        if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
+            CRM_Utils_System::fatal( "Could not create a system record" );
+        }
+
+        CRM_Core_DAO::transaction( 'COMMIT' );
+
+        // finally send an email receipt
+        if ( $this->_values['is_email_receipt'] ) {
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+
+            $template =& CRM_Core_Smarty::singleton( );
+            $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
+            $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+            
+            $this->_values['receipt_from_email'] = '"Donald A. Lobo" <lobo@yahoo.com>';
+
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
+                                  $displayName,
+                                  $email,
+                                  $subject,
+                                  $message,
+                                  $this->_values['cc_receipt'],
+                                  $this->_values['bcc_receipt']
+                                  );
+        }
     }
 }
 

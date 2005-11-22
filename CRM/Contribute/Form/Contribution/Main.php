@@ -55,10 +55,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         parent::preProcess( );
 
         $this->assign( 'intro_text', $this->_values['intro_text'] );
-
-        // assigning title to template in case someone wants to use it, also setting CMS page title
-        $this->assign( 'title', $this->_values['title'] );
-        CRM_Utils_System::setTitle($this->_values['title']);  
     }
 
     function setDefaultValues( ) {

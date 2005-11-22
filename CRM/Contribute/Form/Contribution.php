@@ -128,6 +128,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
 
+        // assigning title to template in case someone wants to use it, also setting CMS page title
+        $this->assign( 'title', $this->_values['title'] );
+        CRM_Utils_System::setTitle($this->_values['title']);  
+
         $this->_defaults = array( );
 
     }
