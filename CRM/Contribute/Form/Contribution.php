@@ -95,6 +95,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
 
+        // action
+        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
+        $this->assign( 'action'  , $this->_action   ); 
+
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
 
