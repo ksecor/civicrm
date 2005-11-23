@@ -131,6 +131,10 @@ function crm_get_groups($params = null, $returnProperties = null) {
 
 function crm_update_group(&$group, $params) {
     _crm_initialize( );
+
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
     
     if (!is_array($params)) {
         return _crm_error('$params is not an array');
@@ -160,6 +164,11 @@ function crm_update_group(&$group, $params) {
 
 function crm_delete_group(&$group) {
     _crm_initialize( );
+    
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
+
     if ($group->id == null) {
         return _crm_error('Could not locate group with id: $id');
     }
@@ -192,6 +201,11 @@ function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method 
     if(! isset( $group->id )) {
         return _crm_error( 'Invalid group object passed in' );
     }
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
+    
+
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
@@ -223,6 +237,10 @@ function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method 
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null ) {
     _crm_initialize( );
     
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
+
     if ( ! isset( $group->id )) {
         return _crm_error( 'Invalid group object passed in' );
     }
@@ -254,6 +272,10 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'Ad
  */
 function crm_delete_group_contacts(&$group, $contacts, $method = 'Admin') {
     _crm_initialize( );
+
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
 
     $contactID = array( );
     foreach ( $contacts as $contact ) {
@@ -289,6 +311,10 @@ function crm_subscribe_group_contacts(&$group, $contacts)
         return _crm_error( '$contacts is not  Array ' );
     }
    
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
+
     foreach($contacts as $contact){
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
@@ -318,6 +344,10 @@ function crm_subscribe_group_contacts(&$group, $contacts)
 function crm_confirm_group_contacts(&$group, $contacts)
 {
     _crm_initialize( );
+
+    if( ! is_a( $group,'CRM_Contact_BAO_Group') && ! is_a( $group,'CRM_Contact_DAO_Group')) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
 
     if(!is_array($contacts)) {
         return _crm_error( '$contacts is not  Array ' );
