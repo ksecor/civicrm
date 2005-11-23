@@ -520,10 +520,19 @@ ORDER BY
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
 
+        $locationIds = CRM_Utils_Array::value( 'location', $ids );
+        // extract the first location id
+        foreach ( $locationIds as $dontCare => $locationId ) {
+            $locationIds = $locationId;
+            break;
+        }
+            
         $location =& new CRM_Core_DAO_Location( );
         $location->location_type_id = $locationTypeId;
         $location->entity_table = 'civicrm_contact';
         $location->entity_id    = $contact->id;
+        $location->id = CRM_Utils_Array::value( 'id', $locationIds );
+
         if ( $location->find( true ) ) {
             if ( ! $location->is_primary ) {
                 $location->is_primary = true;
@@ -533,18 +542,20 @@ ORDER BY
         }
         $location->save( );
        
+        
         $address =& new CRM_Core_BAO_Address();
         CRM_Core_BAO_Address::fixAddress( $params );
             
         if ( ! $address->copyValues( $params ) ) {
-            $address->id = CRM_Utils_Array::value( 'address', $ids );
+            $address->id = CRM_Utils_Array::value( 'address', $locationIds );
             $address->location_id = $location->id;
             $address->save( );
         }
 
         $phone =& new CRM_Core_BAO_Phone();
         if ( ! $phone->copyValues( $params ) ) {
-            $phone->id = CRM_Utils_Array::value( 'phone', $ids );
+            $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
+            $phone->id = CRM_Utils_Array::value( 1, $blockIds );
             $phone->location_id = $location->id;
             $phone->is_primary = true;
             $phone->save( );
@@ -552,7 +563,8 @@ ORDER BY
         
         $email =& new CRM_Core_BAO_Email();
         if ( ! $email->copyValues( $params ) ) {
-            $email->id = CRM_Utils_Array::value( 'email', $ids );
+            $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
+            $email->id = CRM_Utils_Array::value( 1, $blockIds );
             $email->location_id = $location->id;
             $email->is_primary = true;
             $email->save( );
@@ -602,6 +614,7 @@ ORDER BY
             CRM_Utils_Hook::post( 'create', 'Individual', $contact->id, $contact );
         }
 
+        return $contact;
     }
 
     /**
