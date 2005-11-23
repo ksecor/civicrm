@@ -40,7 +40,6 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     * Various options to control the element's display.
     * 
     * Currently known options are
-    * 'language': date language
     * 'format': Format of the date, based on PHP's date() function.
     *     The following characters are recognised in format string:
     *       D => Short names of days
@@ -69,7 +68,6 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     * @var      array
     */
     var $_options = array(
-        'language'         => 'en',
         'format'           => 'dMY',
         'minYear'          => 2001,
         'maxYear'          => 2010,
@@ -121,9 +119,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         // set the options, do not bother setting bogus ones
         if (is_array($options)) {
             foreach ($options as $name => $value) {
-                if ('language' == $name) {
-                    $this->_options['language'] = isset($this->_locale[$value])? $value: 'en';
-                } elseif (isset($this->_options[$name])) {
+                if (isset($this->_options[$name])) {
                     if (is_array($value)) {
                         $this->_options[$name] = @array_merge($this->_options[$name], $value);
                     } else {
@@ -141,7 +137,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     {
         $this->_separator = $this->_elements = array();
         $separator =  '';
-        $locale    =& $this->_locale[$this->_options['language']];
+        $locale    =& $this->_locale;
         $backslash =  false;
         for ($i = 0, $length = strlen($this->_options['format']); $i < $length; $i++) {
             $sign = $this->_options['format']{$i};
@@ -154,25 +150,31 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                     case 'D':
                         // Sunday is 0 like with 'w' in date()
                         $options = $locale['weekdays_short'];
+                        $emptyText = ts('-day of week-');
                         break;
                     case 'l':
                         $options = $locale['weekdays_long'];
+                        $emptyText = ts('-day of week-');
                         break;
                     case 'd':
                         $options = $this->_createOptionList(1, 31);
+                        $emptyText = ts('-day-');
                         break;
                     case 'M':
                         $options = $locale['months_short'];
                         array_unshift($options , '');
                         unset($options[0]);
+                        $emptyText = ts('-month-');
                         break;
                     case 'm':
                         $options = $this->_createOptionList(1, 12);
+                        $emptyText = ts('-month-');
                         break;
                     case 'F':
                         $options = $locale['months_long'];
                         array_unshift($options , '');
                         unset($options[0]);
+                        $emptyText = ts('-month-');
                         break;
                     case 'Y':
                         $options = $this->_createOptionList(
@@ -180,6 +182,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['maxYear'], 
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
+                        $emptyText = ts('-year-');
                         break;
                     case 'y':
                         $options = $this->_createOptionList(
@@ -188,9 +191,11 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
                         array_walk($options, create_function('&$v,$k','$v = substr($v,-2);')); 
+                        $emptyText = ts('-year-');
                         break;
                     case 'h':
                         $options = $this->_createOptionList(1, 12);
+                        $emptyText = ts('-hour-');
                         break;
                     case 'g':
                         $options = $this->_createOptionList(1, 12);
@@ -198,18 +203,23 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                         break;
                     case 'H':
                         $options = $this->_createOptionList(0, 23);
+                        $emptyText = ts('-hour-');
                         break;
                     case 'i':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['i']);
+                        $emptyText = ts('-min-');
                         break;
                     case 's':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['s']);
+                        $emptyText = ts('-sec-');
                         break;
                     case 'a':
                         $options = array('am' => 'am', 'pm' => 'pm');
+                        $emptyText = '-am/pm-';
                         break;
                     case 'A':
                         $options = array('AM' => 'AM', 'PM' => 'PM');
+                        $emptyText = '-AM/PM-';
                         break;
                     case 'W':
                         $options = $this->_createOptionList(1, 53);
@@ -241,7 +251,13 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $options = array($this->_options['emptyOptionValue'] => $this->_options['emptyOptionText']) + $options;
                         }
                     }
-                    $this->_elements[] =& new HTML_QuickForm_select($sign, null, $options, $this->getAttributes());
+                  
+                    //modified autogenerated id for date select boxes.
+                    $attribs = $this->getAttributes();
+                    $elementName = $this->getName();
+                    $attribs['id'] = $elementName.'['.$sign.']';
+                    
+                    $this->_elements[] =& new HTML_QuickForm_select($sign, null, $options, $attribs);
                 }
             }
         }
