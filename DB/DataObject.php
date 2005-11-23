@@ -936,7 +936,7 @@ class DB_DataObject extends DB_DataObject_Overload
             
             $leftq .= ($quoteIdentifiers ? ($DB->quoteIdentifier($k) . ' ')  : "$k ");
             
-            if (is_a($this->$k,'db_dataobject_cast')) {
+            if (is_a($this->$k,'DB_DataObject_Cast')) {
                 $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
@@ -972,6 +972,12 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . " ";
                 continue;
             }
+                                                        
+            if ($v & DB_DATAOBJECT_TXT) {                 
+                $rightq .= $DB->quoteSmart((string) $this->$k ) . " "; 
+                continue;                                                                    
+            }                     
+
             if (is_numeric($this->$k)) {
                 $rightq .=" {$this->$k} ";
                 continue;
@@ -1171,7 +1177,7 @@ class DB_DataObject extends DB_DataObject_Overload
             
             $kSql = ($quoteIdentifiers ? $DB->quoteIdentifier($k) : $k);
             
-            if (is_a($this->$k,'db_dataobject_cast')) {
+            if (is_a($this->$k,'DB_DataObject_Cast')) {
                 $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
@@ -1207,6 +1213,12 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . ' ';
                 continue;
             }
+ 
+           if ($v & DB_DATAOBJECT_TXT) {          
+                $settings .= "$kSql = " . $DB->quoteSmart((string) $this->$k ) . ' '; 
+                continue;                             
+            } 
+ 
             if (is_numeric($this->$k)) {
                 $settings .= "$kSql = {$this->$k} ";
                 continue;
@@ -2150,6 +2162,7 @@ class DB_DataObject extends DB_DataObject_Overload
             }
         }
         
+        $this->query("SET NAMES 'utf8'"); 
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);
@@ -2342,7 +2355,7 @@ class DB_DataObject extends DB_DataObject_Overload
              
              
             
-            if (is_a($this->$k,'db_dataobject_cast')) {
+            if (is_a($this->$k,'DB_DataObject_Cast')) {
                 $dbtype = $DB->dsn["phptype"];
                 $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
