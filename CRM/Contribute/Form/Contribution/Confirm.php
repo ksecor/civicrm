@@ -101,11 +101,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Confirm Contribution'),
+                                        'name'      => ts('Make Contribution'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
+                                        'name'      => ts('<< Go Back') ),
                                 )
                           );
 

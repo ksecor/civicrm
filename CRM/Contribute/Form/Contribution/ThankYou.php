@@ -56,6 +56,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
         $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
         $this->assign( 'thankyou_footer' , $this->_values['thankyou_footer']  );
+
+        CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
 
     /**
@@ -68,14 +70,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
     {
         $this->assignToTemplate( );
 
-        $this->assign( 'trxn_id', $this->_params['trxn_id'] );
-        
-        $this->addButtons(array(
-                                array ( 'type'      => 'cancel',
-                                        'name'      => ts('Done'),
-                                        'isDefault' => true ),
-                                )
-                          );
+        $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
+        $this->assign( 'receive_date', $this->_params['receive_date'] );       
     }
 
 }

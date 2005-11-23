@@ -1,44 +1,52 @@
+{if $action eq 1024}
+    {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
+{/if}
+
 <div class="form-item">
     <div id="help">
         <p>
-        {ts}Please review the payment, name and address information carefully. Click <strong>Confirm
-        Contribution</strong> to complete this transaction. Click <strong>Cancel</strong> to go back
-        and make changes.{/ts} 
+        {ts}Please verify Contribution Amount, Billing Name and Address and Credit Card information carefully.
+        Click <strong>Go Back</strong> if you need to make changes. To complete your contribution,
+        click the <strong>Make Contribution</strong> button below.{/ts}
+        </p> 
     </div>
     
-    <table class="form-layout-compressed">
-    <tr>
-        <td class="label">{ts}Contribution Amount{/ts}</td><td><strong>${$amount|string_format:"%01.2f"}</strong></td>
-    </tr>
-    </table>
-
-    <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
-    <div id="billing-address" class="form-layout">
-    <strong>{$name}</strong><br />
-    {$street_address}<br />
-    {$city} {$state_province}, {$postal_code} &nbsp; {$country}
-    <p>
-    {ts}Email:{/ts} {$email} 
-    
+    <div class="header-dark">
+        {ts}Contribution Amount{/ts}
     </div>
-    </fieldset>
+    <div class="display-block">
+        <strong>${$amount|string_format:"%01.2f"}</strong>
+    </div>
 
-{if $contributeMode eq 'direct'}
-    <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
-    <table class="form-layout-compressed">
-    <tr>
-        <td class="label">{ts}Card Type{/ts}</td><td>{$credit_card_type}</td>
-    </tr>
-    <tr>
-        <td class="label">{ts}Card Number{/ts}</td><td>{$credit_card_number}</td>
-    </tr>
-    <tr>
-        <td class="label">{ts}Expiration Date{/ts}</td><td>{$credit_card_exp_date}</td>
-    </tr>
-    </table>
-    </fieldset>
-{/if}
+    <div class="header-dark">
+        {ts}Billing Name and Address{/ts}
+    </div>
+    <div class="display-block">
+        <strong>{$name}</strong><br />
+        {$street_address}<br />
+        {$city} {$state_province}, {$postal_code} &nbsp; {$country}
+    </div>
+    <div class="display-block">
+        {$email}
+    </div>
 
+    {if $contributeMode eq 'direct'}
+    <div class="header-dark">
+        {ts}Credit or Debit Card Information{/ts}
+    </div>
+    <div class="display-block">
+        {$credit_card_type}<br />
+        {$credit_card_number}<br />
+        Expires: {$credit_card_exp_date}<br />
+    </div>
+    {/if}
+
+    <div class="messages status">
+        <p>
+        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please
+            click the button one time only.</strong>{/ts}
+        </p>
+    </div>
     <div id="crm-submit-buttons">
         {$form.buttons.html}
     </div>

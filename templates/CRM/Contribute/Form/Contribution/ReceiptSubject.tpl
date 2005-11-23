@@ -1,3 +1,3 @@
 {strip}
-Thank you for your donation of ${$amount} to {$title}
+Contribution Receipt - {$title}
 {/strip}

@@ -24,9 +24,12 @@ function clearAmountOther() {
 //-->
 </script>
 {/literal}
+{if $action eq 1024}
+    {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
+{/if}
 {assign var='reqMark' value='<span class="marker">*</span>'}
 <div class="form-item">
-    <div id="introduction">
+    <div id="intro_text">
     <p>
     {$intro_text}
     </p>

@@ -58,7 +58,7 @@
 }
 
 /*
-** CRM form field layout classes (from www.realworldstyle.com)
+** CRM form layout classes (from www.realworldstyle.com)
 */
 div.spacer {
   clear: both;
@@ -206,6 +206,20 @@ div.spacer {
 #crm-container .action-link {
   margin: 0.5em 0em 0.5em;
 }
+
+#crm-container div.header-dark {
+  margin: 1.0em 0em 1.0em;
+  padding: 0.75em;
+  background-color: #B0B0B0;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+#crm-container div.display-block {
+  font-weight: normal;
+  margin: 1.0em 2.0em 1.0em 2.0em;
+}
+
 
 /* Data display layouts */
 #crm-container .col1 {
