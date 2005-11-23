@@ -18,7 +18,7 @@
 // |          Thomas Schulz <ths@4bconsult.de>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: ArraySmarty.php,v 1.9 2004/10/15 20:00:48 ths Exp $
+// $Id: ArraySmarty.php,v 1.10 2005/04/26 07:58:55 ths Exp $
 
 require_once 'HTML/QuickForm/Renderer/Array.php';
 
@@ -107,15 +107,6 @@ class HTML_QuickForm_Renderer_ArraySmarty extends HTML_QuickForm_Renderer_Array
     */
     var $_error = '';
 
-    /**
-     * Element template string
-     * @var string
-     * @access private
-     */
-    var $_elementTemplate = "
-\n\t<tr>\n\t\t<td align=\"right\" valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span><!-- END required --><b>{label}</b></td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>
-";
-
    /**
     * Constructor
     *
@@ -180,10 +171,10 @@ class HTML_QuickForm_Renderer_ArraySmarty extends HTML_QuickForm_Renderer_Array
             // we don't need the elements, see the array structure
             unset($ret['elements']);
         }
-        if (!empty($this->_required)){
+        if (($required || $error) && !empty($this->_required)){
             $this->_renderRequired($ret['label'], $ret['html'], $required, $error);
         }
-        if (!empty($this->_error)) {
+        if ($error && !empty($this->_error)) {
             $this->_renderError($ret['label'], $ret['html'], $error);
             $ret['error'] = $error;
         }
@@ -381,15 +372,5 @@ class HTML_QuickForm_Renderer_ArraySmarty extends HTML_QuickForm_Renderer_Array
     {
         $this->_error = $template;
     } // end func setErrorTemplate
-
-    /**
-     * Sets element template
-     *
-     * @param       string      The HTML surrounding an element
-     * @param       string      (optional) Name of the element to apply template for
-     * @access      public
-     * @return      void
-     */
-
 }
 ?>

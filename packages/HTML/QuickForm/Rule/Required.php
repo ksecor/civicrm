@@ -16,7 +16,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: Required.php,v 1.3 2003/11/03 16:08:24 avb Exp $
+// $Id: Required.php,v 1.4 2005/06/18 20:58:33 avb Exp $
 
 require_once('HTML/QuickForm/Rule.php');
 
@@ -36,7 +36,7 @@ class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
      */
     function validate($value, $options = null)
     {
-        if ($value == '') {
+        if ((string)$value == '') {
             return false;
         }
         return true;

@@ -16,7 +16,7 @@
 // | Author:  Alan Knowles <alan@akbkhome.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: createTables.php,v 1.20 2005/03/12 03:36:09 alan_k Exp $
+// $Id: createTables.php,v 1.23 2005/05/04 14:13:57 alan_k Exp $
 //
 
 // since this version doesnt use overload, 
@@ -37,11 +37,14 @@ if (!@$_SERVER['argv'][1]) {
 }
 
 $config = parse_ini_file($_SERVER['argv'][1], true);
+foreach($config as $class=>$values) {
+    $options = &PEAR::getStaticProperty($class,'options');
+    $options = $values;
+}
+
 
 $options = &PEAR::getStaticProperty('DB_DataObject','options');
-$options = $config['DB_DataObject'];
-
-if (!$options) {
+if (empty($options)) {
     PEAR::raiseError("\nERROR: could not read ini file\n\n", null, PEAR_ERROR_DIE);
     exit;
 }

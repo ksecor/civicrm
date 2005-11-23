@@ -1,9 +1,9 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/composite.php,v 1.23 2004/08/09 06:04:11 jon Exp $
+ * $Header: /repository/pear/Log/Log/composite.php,v 1.26 2005/08/24 05:09:45 jon Exp $
  * $Horde: horde/lib/Log/composite.php,v 1.2 2000/06/28 21:36:13 jon Exp $
  *
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.26 $
  * @package Log
  */
 
@@ -42,9 +42,10 @@ class Log_composite extends Log
      *
      * @access public
      */
-    function Log_composite($name = false, $ident = false, $conf = false,
+    function Log_composite($name, $ident = '', $conf = array(),
                            $level = PEAR_LOG_DEBUG)
     {
+        $this->_ident = $ident;
     }
 
     /**
@@ -146,6 +147,10 @@ class Log_composite extends Log
      */
     function setIdent($ident)
     {
+        /* Call our base class's setIdent() method. */
+        parent::setIdent($ident);
+
+        /* ... and then call setIdent() on all of our children. */
         foreach ($this->_children as $id => $child) {
             $this->_children[$id]->setIdent($ident);
         }
@@ -191,6 +196,5 @@ class Log_composite extends Log
 
         return true;
     }
-}
 
-?>
+}

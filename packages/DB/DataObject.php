@@ -1,37 +1,34 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author:  Alan Knowles <alan@akbkhome.com>
-// +----------------------------------------------------------------------+
 /**
  * Object Based Database Query Builder and data store
  *
- * @package  DB_DataObject
- * @category DB
+ * PHP versions 4 and 5
  *
- * $Id: DataObject.php,v 1.341 2005/03/23 02:03:22 alan_k Exp $
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Database
+ * @package    DB_DataObject
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: DataObject.php,v 1.361 2005/07/06 06:13:09 alan_k Exp $
+ * @link       http://pear.php.net/package/DB_DataObject
  */
+  
 
 /* =========================================================================== 
-*
-*    !!!!!!!!!!!!!               W A R N I N G                !!!!!!!!!!!
-*
-*  THIS MAY SEGFAULT PHP IF YOU ARE USING THE ZEND OPTIMIZER (to fix it, 
-*  just add "define('DB_DATAOBJECT_NO_OVERLOAD',true);" before you include 
-*  this file. reducing the optimization level may also solve the segfault.
-*  ===========================================================================
-*/
+ *
+ *    !!!!!!!!!!!!!               W A R N I N G                !!!!!!!!!!!
+ *
+ *  THIS MAY SEGFAULT PHP IF YOU ARE USING THE ZEND OPTIMIZER (to fix it, 
+ *  just add "define('DB_DATAOBJECT_NO_OVERLOAD',true);" before you include 
+ *  this file. reducing the optimization level may also solve the segfault.
+ *  ===========================================================================
+ */
 
 /**
  * The main "DB_DataObject" class is really a base class for your own tables classes
@@ -94,6 +91,17 @@
 require_once 'PEAR.php';
 
 /**
+ * We are setting a global fetchmode assoc constant of 2 to be compatible with
+ * both DB and MDB2
+ */
+ 
+define('DB_DATAOBJECT_FETCHMODE_ASSOC',2);
+
+
+
+
+
+/**
  * these are constants for the get_table array
  * user to determine what type of escaping is required around the object vars.
  */
@@ -113,9 +121,6 @@ define('DB_DATAOBJECT_MYSQLTIMESTAMP'   , 256);           // mysql timestamps (i
  * Define this before you include DataObjects.php to  disable overload - if it segfaults due to Zend optimizer..
  */
 //define('DB_DATAOBJECT_NO_OVERLOAD',true)  
-if ( phpversion() == '4.3.10' ) {
-    define('DB_DATAOBJECT_NO_OVERLOAD',true);
-}
 
 
 /**
@@ -189,7 +194,7 @@ if ( substr(phpversion(),0,1) == 5) {
         }
     }
 } else {
-    if ((phpversion() == '4.3.10') && !defined('DB_DATAOBJECT_NO_OVERLOAD')) {
+    if (version_compare(phpversion(),'4.3.10','eq') && !defined('DB_DATAOBJECT_NO_OVERLOAD')) {
         trigger_error(
             "overload does not work with PHP4.3.10, either upgrade 
             (snaps.php.net) or more recent version 
@@ -230,7 +235,7 @@ class DB_DataObject extends DB_DataObject_Overload
     * @access   private
     * @var      string
     */
-    var $_DB_DataObject_version = "1.7.13";
+    var $_DB_DataObject_version = "1.7.15";
 
     /**
      * The Database table (used by table extends)
@@ -376,7 +381,7 @@ class DB_DataObject extends DB_DataObject_Overload
      *
      * @param   boolean $n Fetch first result
      * @access  public
-     * @return  int
+     * @return  mixed (number of rows returned, or true if numRows fetching is not supported)
      */
     function find($n = false)
     {
@@ -407,6 +412,7 @@ class DB_DataObject extends DB_DataObject_Overload
         $this->_connect();
         $DB = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
        
+        /* We are checking for method modifyLimitQuery as it is PEAR DB specific */
         $sql = 'SELECT ' .
             $this->_query['data_select'] .
             ' FROM ' . ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table) : $this->__table) . " " .
@@ -414,11 +420,22 @@ class DB_DataObject extends DB_DataObject_Overload
             $this->_query['condition'] . ' '.
             $this->_query['group_by']  . ' '.
             $this->_query['having']    . ' '.
-            $this->_query['order_by']  . ' '
-        ;
-        if (isset($this->_query['limit_start']) && strlen($this->_query['limit_start'] . $this->_query['limit_count'])) {
-            $sql = $DB->modifyLimitQuery($sql,$this->_query['limit_start'], $this->_query['limit_count']);
+            $this->_query['order_by']  . ' ';
+        
+        if ((!isset($_DB_DATAOBJECT['CONFIG']['db_driver'])) || 
+            ($_DB_DATAOBJECT['CONFIG']['db_driver'] == 'DB')) {
+            /* PEAR DB specific */
+        
+            if (isset($this->_query['limit_start']) && strlen($this->_query['limit_start'] . $this->_query['limit_count'])) {
+                $sql = $DB->modifyLimitQuery($sql,$this->_query['limit_start'], $this->_query['limit_count']);
+            }
+        } else {
+            /* theoretically MDB! */
+            if (isset($this->_query['limit_start']) && strlen($this->_query['limit_start'] . $this->_query['limit_count'])) {
+	            $DB->setLimit($this->_query['limit_count'],$this->_query['limit_start']);
+	        }
         }
+        
         
         $this->_query($sql);
         
@@ -492,7 +509,7 @@ class DB_DataObject extends DB_DataObject_Overload
         }
         
         
-        $array = $result->fetchRow(DB_FETCHMODE_ASSOC);
+        $array = $result->fetchRow(DB_DATAOBJECT_FETCHMODE_ASSOC);
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($array),"FETCH");
         }
@@ -843,26 +860,24 @@ class DB_DataObject extends DB_DataObject_Overload
         // we need to write to the connection (For nextid) - so us the real
         // one not, a copyied on (as ret-by-ref fails with overload!)
         
-         if (!isset($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5])) {
-             
+        if (!isset($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5])) {
             $this->_connect();
-
-           }
-       
+        }
+        
         $quoteIdentifiers  = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
         
         $DB = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-        
-        $items = isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table]) ?   
-            $_DB_DATAOBJECT['INI'][$this->_database][$this->__table] : $this->table();
          
+        $items =  isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table]) ?   
+            $_DB_DATAOBJECT['INI'][$this->_database][$this->__table] : $this->table();
+            
         if (!$items) {
             $this->raiseError("insert:No table definition for {$this->__table}",
                 DB_DATAOBJECT_ERROR_INVALIDCONFIG);
             return false;
         }
         $options = &$_DB_DATAOBJECT['CONFIG'];
-      
+
 
         $datasaved = 1;
         $leftq     = '';
@@ -921,8 +936,8 @@ class DB_DataObject extends DB_DataObject_Overload
             
             $leftq .= ($quoteIdentifiers ? ($DB->quoteIdentifier($k) . ' ')  : "$k ");
             
-            if (is_a($this->$k,'DB_DataObject_Cast')) {
-                $value = $this->$k->toString($v,$dbtype);
+            if (is_a($this->$k,'db_dataobject_cast')) {
+                $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
                     return false;
@@ -948,17 +963,15 @@ class DB_DataObject extends DB_DataObject_Overload
               
             
             if ($v & DB_DATAOBJECT_STR) {
-                $rightq .= $DB->quoteSmart((string) (
-                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                $rightq .= $this->_quote((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? 
+                            // this is thanks to the braindead idea of postgres to 
+                            // use t/f for boolean.
+                            (($this->$k == 'f') ? 0 : (int)(bool) $this->$k) :  
+                            $this->$k
                     )) . " ";
                 continue;
             }
-
-            if ($v & DB_DATAOBJECT_TXT) {
-                $rightq .= $DB->quoteSmart((string) $this->$k ) . " ";
-                continue;
-            }
-
             if (is_numeric($this->$k)) {
                 $rightq .=" {$this->$k} ";
                 continue;
@@ -976,6 +989,8 @@ class DB_DataObject extends DB_DataObject_Overload
             $table = ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table)    : $this->__table);
             
             $r = $this->_query("INSERT INTO {$table} ($leftq) VALUES ($rightq) ");
+ 
+            
             
             if (PEAR::isError($r)) {
                 $this->raiseError($r);
@@ -986,7 +1001,9 @@ class DB_DataObject extends DB_DataObject_Overload
                 return 0;
             }
             
+            
             // now do we have an integer key!
+            
             if ($key && $useNative) {
                 switch ($dbtype) {
                     case 'mysql':
@@ -995,7 +1012,6 @@ class DB_DataObject extends DB_DataObject_Overload
                         $this->$key = $method(
                             $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->connection
                         );
-
                         break;
                     
                     case 'mssql':
@@ -1017,13 +1033,27 @@ class DB_DataObject extends DB_DataObject_Overload
                         if (!$seq) {
                             $seq = $DB->getSequenceName($this->__table );
                         }
-                    	$pgsql_key = $DB->getOne("SELECT last_value FROM ".$seq);
+                        $pgsql_key = $DB->getOne("SELECT last_value FROM ".$seq);
                         if (PEAR::isError($pgsql_key)) {
                             $this->raiseError($r);
                             return false;
                         }
                         $this->$key = $pgsql_key;
-                    	break;
+                        break;
+                    
+                    case 'ifx':
+                        $this->$key = array_shift (
+                            ifx_fetch_row (
+                                ifx_query(
+                                    "select DBINFO('sqlca.sqlerrd1') FROM systables where tabid=1",
+                                    $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->connection,
+                                    IFX_SCROLL
+                                ), 
+                                "FIRST"
+                            )
+                        ); 
+                        break;
+                    
                 }
                         
             }
@@ -1036,7 +1066,6 @@ class DB_DataObject extends DB_DataObject_Overload
             }
             return true;
         }
-
         $this->raiseError("insert: No Data specifed for query", DB_DATAOBJECT_ERROR_NODATA);
         return false;
     }
@@ -1142,8 +1171,8 @@ class DB_DataObject extends DB_DataObject_Overload
             
             $kSql = ($quoteIdentifiers ? $DB->quoteIdentifier($k) : $k);
             
-            if (is_a($this->$k,'DB_DataObject_Cast')) {
-                $value = $this->$k->toString($v,$dbtype);
+            if (is_a($this->$k,'db_dataobject_cast')) {
+                $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
                     return false;
@@ -1169,17 +1198,15 @@ class DB_DataObject extends DB_DataObject_Overload
             
 
             if ($v & DB_DATAOBJECT_STR) {
-                $settings .= "$kSql = ". $DB->quoteSmart((string) (
-                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                $settings .= "$kSql = ". $this->_quote((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? 
+                            // this is thanks to the braindead idea of postgres to 
+                            // use t/f for boolean.
+                            (($this->$k == 'f') ? 0 : (int)(bool) $this->$k) :  
+                            $this->$k
                     )) . ' ';
                 continue;
             }
-
-            if ($v & DB_DATAOBJECT_TXT) {
-                $settings .= "$kSql = " . $DB->quoteSmart((string) $this->$k ) . ' ';
-                continue;
-            }
-
             if (is_numeric($this->$k)) {
                 $settings .= "$kSql = {$this->$k} ";
                 continue;
@@ -1297,9 +1324,21 @@ class DB_DataObject extends DB_DataObject_Overload
         
             $table = ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table) : $this->__table);
             $sql = "DELETE FROM {$table} {$this->_query['condition']}{$extra_cond}";
+            
             // add limit..
+            
             if (isset($this->_query['limit_start']) && strlen($this->_query['limit_start'] . $this->_query['limit_count'])) {
-                $sql = $DB->modifyLimitQuery($sql,$this->_query['limit_start'], $this->_query['limit_count']);
+                
+                if (!isset($_DB_DATAOBJECT['CONFIG']['db_driver']) ||  
+                    ($_DB_DATAOBJECT['CONFIG']['db_driver'] == 'DB')) {
+                    // pear DB 
+                    $sql = $DB->modifyLimitQuery($sql,$this->_query['limit_start'], $this->_query['limit_count']);
+                    
+                } else {
+                    // MDB
+                    $DB->setLimit( $this->_query['limit_count'],$this->_query['limit_start']);
+                }
+                    
             }
             
             
@@ -1359,7 +1398,7 @@ class DB_DataObject extends DB_DataObject_Overload
 
 
         $result = &$_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
-        $array  = $result->fetchrow(DB_FETCHMODE_ASSOC,$row);
+        $array  = $result->fetchrow(DB_DATAOBJECT_FETCHMODE_ASSOC,$row);
         if (!is_array($array)) {
             $this->raiseError("fetchrow: No results available", DB_DATAOBJECT_ERROR_NODATA);
             return false;
@@ -1443,10 +1482,7 @@ class DB_DataObject extends DB_DataObject_Overload
             
         }
         $table   = ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table) : $this->__table);
-        if (!is_string($countWhat)) {
-            $key_col = ($quoteIdentifiers ? $DB->quoteIdentifier($keys[0]) : $keys[0]);
-        }
-        
+        $key_col = ($quoteIdentifiers ? $DB->quoteIdentifier($keys[0]) : $keys[0]);
         $as      = ($quoteIdentifiers ? $DB->quoteIdentifier('DATAOBJECT_NUM') : 'DATAOBJECT_NUM');
         
         // support distinct on default keys.
@@ -1497,7 +1533,9 @@ class DB_DataObject extends DB_DataObject_Overload
         global $_DB_DATAOBJECT;
         $this->_connect();
         $DB = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-        return $DB->escapeSimple($string);
+        // mdb uses escape...
+        $dd = empty($_DB_DATAOBJECT['CONFIG']['db_driver']) ? 'DB' : $_DB_DATAOBJECT['CONFIG']['db_driver'];
+        return ($dd == 'DB') ? $DB->escapeSimple($string) : $DB->escape($string);
     }
 
     /* ==================================================== */
@@ -1757,9 +1795,7 @@ class DB_DataObject extends DB_DataObject_Overload
         
         // for temporary storage of database fields..
         // note this is not declared as we dont want to bloat the print_r output
-       
         $args = func_get_args();
-       
         if (count($args)) {
             $this->_database_fields = $args[0];
         }
@@ -1929,7 +1965,7 @@ class DB_DataObject extends DB_DataObject_Overload
         // technically postgres native here...
         // we need to get the new improved tabledata sorted out first.
         
-        if (    in_array($dbtype , array( 'mysql', 'mysqli', 'mssql')) && 
+        if (    in_array($dbtype , array( 'mysql', 'mysqli', 'mssql', 'ifx')) && 
                 ($table[$usekey] & DB_DATAOBJECT_INT) && 
                 isset($realkeys[$usekey]) && ($realkeys[$usekey] == 'N')
                 ) {
@@ -1973,6 +2009,24 @@ class DB_DataObject extends DB_DataObject_Overload
         }
     }
 
+    
+    /**
+     * backend wrapper for quoting, as MDB and DB do it differently...
+     *
+     * @access private
+     * @return string quoted
+     */
+    
+    function _quote($str) 
+    {
+        global $_DB_DATAOBJECT;
+        return (empty($_DB_DATAOBJECT['CONFIG']['db_driver']) || 
+                ($_DB_DATAOBJECT['CONFIG']['db_driver'] == 'DB'))
+            ? $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->quoteSmart($str)
+            : $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->quote($str);
+    }
+    
+    
     /**
      * connects to the database
      *
@@ -2005,7 +2059,16 @@ class DB_DataObject extends DB_DataObject_Overload
 
             if (!$this->_database) {
                 $this->_database = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn['database'];
+                if (($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn['phptype'] == 'sqlite') 
+                    && is_file($this->_database)) 
+                {
+                    $this->_database = basename($this->_database);
+                }
+                
             }
+            // theoretically we have a md5, it's listed in connections and it's not an error.
+            // so everything is ok!
+            return true;
             
         }
 
@@ -2017,7 +2080,7 @@ class DB_DataObject extends DB_DataObject_Overload
 
         if (!$dsn) {
             if (!$this->_database) {
-                $this->_database = isset($options["table_{$this->__table}"]) ?$options["table_{$this->__table}"] : null;
+                $this->_database = isset($options["table_{$this->__table}"]) ? $options["table_{$this->__table}"] : null;
             }
             if ($this->_database && !empty($options["database_{$this->_database}"]))  {
                 $dsn = $options["database_{$this->_database}"];
@@ -2045,6 +2108,11 @@ class DB_DataObject extends DB_DataObject_Overload
             }
             if (!$this->_database) {
                 $this->_database = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn["database"];
+                if (($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn['phptype'] == 'sqlite') 
+                    && is_file($this->_database)) 
+                {
+                    $this->_database = basename($this->_database);
+                }
             }
             return true;
         }
@@ -2053,26 +2121,43 @@ class DB_DataObject extends DB_DataObject_Overload
             /* actualy make a connection */
             $this->debug("{$dsn} {$this->_database_dsn_md5}", "CONNECT",3);
         }
-        $db_options = PEAR::getStaticProperty('DB','options');
-        require_once 'DB.php';
-        if ($db_options) {
-
-            $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn,$db_options);
+        
+        // Note this is verbose deliberatly! 
+        
+        if (!isset($_DB_DATAOBJECT['CONFIG']['db_driver']) || 
+            ($_DB_DATAOBJECT['CONFIG']['db_driver'] == 'DB')) {
+            
+            /* PEAR DB connect */
+            
+            // this allows the setings of compatibility on DB 
+            $db_options = PEAR::getStaticProperty('DB','options');
+            require_once 'DB.php';
+            if ($db_options) {
+                $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn,$db_options);
+            } else {
+                $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn);
+            }
+            
         } else {
-            $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn);
+            /* assumption is MDB */
+            require_once 'MDB2.php';
+            // this allows the setings of compatibility on MDB2 
+            $db_options = PEAR::getStaticProperty('MDB2','options');
+            if ($db_options) {
+                $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = MDB2::connect($dsn,$db_options);
+            } else {
+                $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = MDB2::connect($dsn);
+            }
         }
-
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->mysqlVersion >= 4.1 ) {
-            $this->query("SET NAMES 'utf8'");
-        }
+        
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);
         }
         if (PEAR::isError($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5])) {
+            $this->debug($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->toString(), "CONNECT FAILED",5);
             return $this->raiseError(
-                        $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->toString(),
+                    "Connect failed, turn on debugging to 5 see why",
                         $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->code, PEAR_ERROR_DIE
             );
 
@@ -2080,17 +2165,16 @@ class DB_DataObject extends DB_DataObject_Overload
 
         if (!$this->_database) {
             $this->_database = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn["database"];
+            if (($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->dsn['phptype'] == 'sqlite') 
+                && is_file($this->_database)) 
+            {
+                $this->_database = basename($this->_database);
+            }
         }
         
         // Oracle need to optimize for portibility - not sure exactly what this does though :)
         $c = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-        
-        
-        
-        
-        
-        
-
+         
         return true;
     }
 
@@ -2111,26 +2195,37 @@ class DB_DataObject extends DB_DataObject_Overload
         $DB = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
 
         $options = &$_DB_DATAOBJECT['CONFIG'];
-
+        
+        $_DB_driver = empty($_DB_DATAOBJECT['CONFIG']['db_driver']) ? 
+                    'DB':  $_DB_DATAOBJECT['CONFIG']['db_driver'];
+        
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug($string,$log="QUERY");
             
         }
         
         if (strtoupper($string) == 'BEGIN') {
-            $DB->autoCommit(false);
+            if ($_DB_driver == 'DB') {
+                $DB->autoCommit(false);
+            } else {
+                $DB->beginTransaction();
+            }
             // db backend adds begin anyway from now on..
             return true;
         }
         if (strtoupper($string) == 'COMMIT') {
-            $DB->commit();
-            $DB->autoCommit(true);
-            return true;
+            $res = $DB->commit();
+            if ($_DB_driver == 'DB') {
+                $DB->autoCommit(true);
+            }
+            return $res;
         }
         
         if (strtoupper($string) == 'ROLLBACK') {
             $DB->rollback();
-            $DB->autoCommit(true);
+            if ($_DB_driver == 'DB') {
+                $DB->autoCommit(true);
+            }
             return true;
         }
         
@@ -2146,7 +2241,7 @@ class DB_DataObject extends DB_DataObject_Overload
         }
         //if (@$_DB_DATAOBJECT['CONFIG']['debug'] > 1) {
             // this will only work when PEAR:DB supports it.
-            //$this->debug($DB->getAll('explain ' .$string,DB_FETCHMODE_ASSOC), $log="sql",2);
+            //$this->debug($DB->getAll('explain ' .$string,DB_DATAOBJECT_FETCHMODE_ASSOC), $log="sql",2);
         //}
         
         // some sim
@@ -2154,6 +2249,7 @@ class DB_DataObject extends DB_DataObject_Overload
         $_DB_DATAOBJECT['QUERYENDTIME'] = $time = $t[0]+$t[1];
          
         $result = $DB->query($string);
+        
         
        
 
@@ -2172,7 +2268,11 @@ class DB_DataObject extends DB_DataObject_Overload
             case 'insert':
             case 'update':
             case 'delete':
-                return $DB->affectedRows(); 
+                if ($_DB_driver == 'DB') {
+                    // pear DB specific
+                    return $DB->affectedRows(); 
+                }
+                return $result;
         }
         if (is_object($result)) {
             // lets hope that copying the result object is OK!
@@ -2189,7 +2289,7 @@ class DB_DataObject extends DB_DataObject_Overload
             $DB->expectError(DB_ERROR_UNSUPPORTED);
             $this->N = $result->numrows();
             if (is_a($this->N,'DB_Error')) {
-                $this->N = 1;
+                $this->N = true;
             }
             $DB->popExpect();
         }
@@ -2242,9 +2342,9 @@ class DB_DataObject extends DB_DataObject_Overload
              
              
             
-           if (is_a($this->$k,'DB_DataObject_Cast')) {
+            if (is_a($this->$k,'db_dataobject_cast')) {
                 $dbtype = $DB->dsn["phptype"];
-                $value = $this->$k->toString($v,$dbtype);
+                $value = $this->$k->toString($v,$DB);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
                     return false;
@@ -2264,8 +2364,12 @@ class DB_DataObject extends DB_DataObject_Overload
             
 
             if ($v & DB_DATAOBJECT_STR) {
-                $this->whereAdd(" $kSql  = " . $DB->quoteSmart((string) (
-                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                $this->whereAdd(" $kSql  = " . $this->_quote((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? 
+                            // this is thanks to the braindead idea of postgres to 
+                            // use t/f for boolean.
+                            (($this->$k == 'f') ? 0 : (int)(bool) $this->$k) :  
+                            $this->$k
                     )) );
                 continue;
             }
@@ -2274,7 +2378,7 @@ class DB_DataObject extends DB_DataObject_Overload
                 continue;
             }
             /* this is probably an error condition! */
-            $this->whereAdd(" $kSql = ".intval($v));
+            $this->whereAdd(" $kSql = ".intval($this->$k));
         }
     }
 
@@ -2973,8 +3077,12 @@ class DB_DataObject extends DB_DataObject_Overload
             
             
             if ($v & DB_DATAOBJECT_STR) {
-                $this->whereAdd("{$joinAs}.{$kSql} = " . $DB->quoteSmart((string) (
-                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$obj->$k : $obj->$k
+                $this->whereAdd("{$joinAs}.{$kSql} = " . $this->_quote((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? 
+                            // this is thanks to the braindead idea of postgres to 
+                            // use t/f for boolean.
+                            (($obj->$k == 'f') ? 0 : (int)(bool) $obj->$k) :  
+                            $obj->$k
                     )));
                 continue;
             }
@@ -3014,7 +3122,7 @@ class DB_DataObject extends DB_DataObject_Overload
      * @access   public
      * @return   true on success or array of key=>setValue error message
      */
-    function setFrom(&$from, $format = '%s')
+    function setFrom(&$from, $format = '%s', $checkEmpty=false)
     {
         global $_DB_DATAOBJECT;
         $keys  = $this->keys();
@@ -3090,12 +3198,14 @@ class DB_DataObject extends DB_DataObject_Overload
      *
      * will also return links converted to arrays.
      *
-     * @param   string sprintf format for array
+     * @param   string  sprintf format for array
+     * @param   bool    empty only return elemnts that have a value set.
+     *
      * @access   public
      * @return   array of key => value for row
      */
 
-    function toArray($format = '%s')
+    function toArray($format = '%s', $hideEmpty = false) 
     {
         global $_DB_DATAOBJECT;
         $ret = array();
@@ -3106,11 +3216,13 @@ class DB_DataObject extends DB_DataObject_Overload
         foreach($ar as $k=>$v) {
              
             if (!isset($this->$k)) {
-                $ret[sprintf($format,$k)] = '';
+                if (!$hideEmpty) {
+                    $ret[sprintf($format,$k)] = '';
+                }
                 continue;
             }
-            // call the overloaded getXXXX() method.
-            if (method_exists($this,'get'.$k)) {
+            // call the overloaded getXXXX() method. - except getLink and getLinks
+            if (method_exists($this,'get'.$k) && !in_array(strtolower($k),array('links','link'))) {
                 $ret[sprintf($format,$k)] = $this->{'get'.$k}();
                 continue;
             }

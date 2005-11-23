@@ -16,7 +16,17 @@
 // | Author: Adam Daniel <adaniel1@eesus.jnj.com>                         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.8 2003/06/19 18:52:50 mansion Exp $
+// $Id: Common.php,v 1.10 2005/09/01 10:28:57 thesaur Exp $
+
+/**
+ * Base class for all HTML classes
+ * 
+ * @author    Adam Daniel <adaniel1@eesus.jnj.com>
+ * @category  HTML
+ * @package   HTML_Common
+ * @version   1.2.2
+ * @abstract
+ */
 
 /**
  * Base class for all HTML classes
@@ -191,7 +201,7 @@ class HTML_Common {
      * @param     array     $attributes   Array of attribute
      * @since     1.0
      * @access    private
-     * @return    array key
+     * @return    bool
      * @throws
      */
     function _getAttrKey($attr, $attributes)
@@ -208,7 +218,6 @@ class HTML_Common {
      * @param    array   $attr1      Original attributes array
      * @param    array   $attr2      New attributes array
      * @access   private
-     * @return   array
      */
     function _updateAttrArray(&$attr1, $attr2)
     {
@@ -226,7 +235,7 @@ class HTML_Common {
      * @param     string    $attr           Attribute name
      * @param     array     $attributes     Attribute array
      * @since     1.4
-     * @access    public
+     * @access    private
      * @return    void
      * @throws
      */
@@ -324,7 +333,7 @@ class HTML_Common {
             case 'unix':
                 $this->_lineEnd = "\12";
                 break;
-            case 'mac';
+            case 'mac':
                 $this->_lineEnd = "\15";
                 break;
             default:
