@@ -1372,6 +1372,9 @@ function &_crm_duplicate_formatted_contact(&$params) {
 
 
 function &_crm_duplicate_formatted_contribution(&$params) {
+    if (!isset($params['trxn_id'])) {
+        return true;
+    }
     $contribution =& new CRM_Contribute_DAO_Contribution();
     $contribution->trxn_id = $params['trxn_id'];
 

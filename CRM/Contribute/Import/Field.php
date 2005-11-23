@@ -107,8 +107,8 @@ class CRM_Contribute_Import_Field {
     }
 
     function validate( ) {
-        //  echo $this->_value."===========<br>";
-        $message = '';
+
+        static $seenTrxnIds = array();
 
         if ( $this->_value === null ) {
             return true;
@@ -129,6 +129,14 @@ class CRM_Contribute_Import_Field {
         case 'fee_amount':
         case 'net_amount':
             return CRM_Utils_Rule::money($this->_value);
+            break;
+        case 'trxn_id':
+            if (in_array($this->_value, $seenTrxnIds)) {
+                return false;
+            } else {
+                $seenTrxnIds[] = $this->_value;
+                return true;
+            }
             break;
         case 'currency':
             return CRM_Utils_Rule::currencyCode($this->_value);
