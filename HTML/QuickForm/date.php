@@ -246,9 +246,11 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
 
                         // Using '+' array operator to preserve the keys
                         if (is_array($this->_options['emptyOptionText']) && !empty($this->_options['emptyOptionText'][$sign])) {
-                            $options = array($this->_options['emptyOptionValue'] => $this->_options['emptyOptionText'][$sign]) + $options;
+                            $text = $emptyText ? $emptyText : $this->_options['emptyOptionText'][$sign];
+                            $options = array($this->_options['emptyOptionValue'] => $text) + $options;
                         } else {
-                            $options = array($this->_options['emptyOptionValue'] => $this->_options['emptyOptionText']) + $options;
+                            $text = $emptyText ? $emptyText : $this->_options['emptyOptionText'];
+                            $options = array($this->_options['emptyOptionValue'] => $text) + $options;
                         }
                     }
                   
