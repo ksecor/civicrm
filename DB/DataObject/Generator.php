@@ -15,7 +15,7 @@
  * @author     Alan Knowles <alan@akbkhome.com>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Generator.php,v 1.91 2005/03/23 02:35:35 alan_k Exp $
+ * @version    CVS: $Id: Generator.php,v 1.96 2005/06/16 02:03:45 alan_k Exp $
  * @link       http://pear.php.net/package/DB_DataObject
  */
  
@@ -99,12 +99,20 @@ class DB_DataObject_Generator extends DB_DataObject
         }
 
         foreach($databases as $databasename => $database) {
-            if (!$database) continue;
+            if (!$database) {
+                continue;
+            }
             $this->debug("CREATING FOR $databasename\n");
             $class = get_class($this);
             $t = new $class;
             $t->_database_dsn = $database;
+            
+            
             $t->_database = $databasename;
+            $dsn = DB::parseDSN($database);
+            if (($dsn['phptype'] == 'sqlite') && is_file($databasename)) {
+                $t->_database = basename($t->_database);
+            }
             $t->_createTableList();
 
             foreach(get_class_methods($class) as $method) {
@@ -142,7 +150,10 @@ class DB_DataObject_Generator extends DB_DataObject
         $__DB= &$GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5];
         
         // try getting a list of schema tables first. (postgres)
+        $__DB->expectError(DB_ERROR_UNSUPPORTED);
         $this->tables = $__DB->getListOf('schema.tables');
+        $__DB->popExpect();
+        
         if (empty($this->tables) || is_a($this->tables , 'PEAR_Error')) {
             //if that fails fall back to clasic tables list.
             $this->tables = $__DB->getListOf('tables');
@@ -164,7 +175,6 @@ class DB_DataObject_Generator extends DB_DataObject
             $this->tables = array_merge ($this->tables, $views);
         }
         
-        
         // declare a temporary table to be filled with matching tables names
         $tmp_table = array();
 
@@ -177,25 +187,40 @@ class DB_DataObject_Generator extends DB_DataObject
                 preg_match($options['generator_exclude_regex'],$table)) {
                     continue;
             }
+                // postgres strip the schema bit from the 
+            if (!empty($options['generator_strip_schema'])) {    
+                $bits = explode('.', $table,2);
+                $table = $bits[0];
+                if (count($bits) > 1) {
+                    $table = $bits[1];
+                }
+            }
             
-            // we find a matching table, just  store it into a temporary array
-            $tmp_table[] = $table;            
- 
             $defs =  $__DB->tableInfo($table);
             if (is_a($defs,'PEAR_Error')) {
                 echo $defs->toString();
                 exit;
             }
             // cast all definitions to objects - as we deal with that better.
+            
+            
+            
             foreach($defs as $def) {
-                if (is_array($def)) {
-                    $this->_definitions[$table][] = (object) $def;
+                if (!is_array($def)) {
+                    continue;
                 }
+                
+                $this->_definitions[$table][] = (object) $def;
+                
             }
+            // we find a matching table, just  store it into a temporary array
+            $tmp_table[] = $table;            
+ 
+            
         }
         // the temporary table array is now the right one (tables names matching 
         // with regex expressions have been removed)
-        $this->tables = $tmp_table;         
+        $this->tables = $tmp_table;
         //print_r($this->_definitions);
     }
 
@@ -767,6 +792,7 @@ class DB_DataObject_Generator extends DB_DataObject
     function fillTableSchema($database,$table) {
         global $_DB_DATAOBJECT;
         $this->_database  = $database; 
+        
         $this->_connect();
         $table = trim($table);
         

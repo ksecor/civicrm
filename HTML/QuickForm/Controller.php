@@ -326,20 +326,13 @@ class HTML_QuickForm_Controller
             return $this->_actionName;
         }
         $names = array_map('preg_quote', array_keys($this->_pages));
-        $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_.+?)?(_x)?$/';
-        $data =& $this->container();
-        unset( $data['_qf_button_name'] );
+        $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_x)?$/';
         foreach (array_keys($_REQUEST) as $key) {
             if (preg_match($regex, $key, $matches)) {
-                $data['_qf_button_name'] = $key;
-                if ( array_key_exists( 3, $matches ) ) {
-                    $key = preg_replace( '/_(x|y)$/', '', $key );
-                }
                 return array($matches[1], $matches[2]);
             }
         }
         if (isset($_REQUEST['_qf_default'])) {
-            $data['_qf_button_name'] = '_qf_default';
             $matches = explode(':', $_REQUEST['_qf_default'], 2);
             if (isset($this->_pages[$matches[0]])) {
                 return $matches;
@@ -471,7 +464,6 @@ class HTML_QuickForm_Controller
         } else {
             $pages = array_keys($data['values']);
         }
-
         foreach ($pages as $page) {
             // skip elements representing actions
             foreach ($data['values'][$page] as $key => $value) {
@@ -501,23 +493,5 @@ class HTML_QuickForm_Controller
         $data =& $this->container();
         return isset($data['values'][$pageName][$elementName])? $data['values'][$pageName][$elementName]: null;
     }
-
-    /**
-     * resets a specifc page in the container
-     *
-     * @access public
-     * @param  string    name of the page
-     * @return void
-     */
-    function resetPage($pageName)
-    {
-        $data =& $this->container();
-        if (isset($data['values'][$pageName]) ||
-            isset($data['valid'][$pageName])) {
-            $data['values'][$pageName] = array( );
-            $data['valid'][$pageName]  = null;
-        }
-    }
-
 }
 ?>

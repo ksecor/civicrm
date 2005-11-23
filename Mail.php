@@ -16,7 +16,7 @@
 // | Author: Chuck Hagenbuch <chuck@horde.org>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Mail.php,v 1.11 2005/06/26 23:37:18 jon Exp $
+// $Id: Mail.php,v 1.12 2005/08/22 01:19:27 jon Exp $
 
 require_once 'PEAR.php';
 
@@ -26,7 +26,7 @@ require_once 'PEAR.php';
  * useful in multiple mailer backends.
  *
  * @access public
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  * @package Mail
  */
 class Mail
@@ -52,12 +52,11 @@ class Mail
         @include_once 'Mail/' . $driver . '.php';
         $class = 'Mail_' . $driver;
         if (class_exists($class)) {
-            $mailer = &new $class($params);
+            $mailer = new $class($params);
+            return $mailer;
         } else {
-            $mailer = PEAR::raiseError('Unable to find class for driver ' . $driver);
+            return PEAR::raiseError('Unable to find class for driver ' . $driver);
         }
-
-        return $mailer;
     }
 
     /**

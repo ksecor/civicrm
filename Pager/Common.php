@@ -6,19 +6,34 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
+ * LICENSE: Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   HTML
  * @package    Pager
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @author     Richard Heyes <richard@phpguru.org>
  * @copyright  2003-2005 Lorenzo Alberton, Richard Heyes
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Common.php,v 1.34 2005/04/06 16:12:33 quipo Exp $
+ * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
+ * @version    CVS: $Id: Common.php,v 1.40 2005/09/27 07:49:14 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -162,6 +177,12 @@ class Pager_Common
     var $_expanded    = true;
 
     /**
+     * @var string alt text for "first page" (use "%d" placeholder for page number)
+     * @access private
+     */
+    var $_altFirst     = 'first page';
+
+    /**
      * @var string alt text for "previous page"
      * @access private
      */
@@ -172,6 +193,12 @@ class Pager_Common
      * @access private
      */
     var $_altNext     = 'next page';
+
+    /**
+     * @var string alt text for "last page" (use "%d" placeholder for page number)
+     * @access private
+     */
+    var $_altLast     = 'last page';
 
     /**
      * @var string alt text for "page"
@@ -632,7 +659,7 @@ class Pager_Common
                 $href = sprintf($this->_fileName, $this->_linkData[$this->_urlVar]);
             }
             return sprintf('<a href="%s"%s title="%s">%s</a>',
-                           $this->_url . $href,
+                           htmlentities($this->_url . $href),
                            empty($this->_classString) ? '' : ' '.$this->_classString,
                            $altText,
                            $linkText
@@ -726,7 +753,7 @@ class Pager_Common
             $escapedData = str_replace($search, $replace, $data);
             // am I forgetting any dangerous whitespace?
             // would a regex be faster?
-            $escapedData = htmlentities($escapedData, ENT_COMPAT);
+            $escapedData = htmlentities($escapedData);
 
             $str .= 'input = document.createElement("input"); ';
             $str .= 'input.type = "hidden"; ';
@@ -752,9 +779,12 @@ class Pager_Common
         if ($this->_importQuery) {
             if ($this->_httpMethod == 'POST') {
                 $qs = $_POST;
-            } else if ($this->_httpMethod == 'GET') {
+            } elseif ($this->_httpMethod == 'GET') {
                 $qs = $_GET;
             }
+        }
+        if (count($this->_extraVars)){
+            $this->_recursive_urldecode($this->_extraVars);
         }
         $qs = array_merge($qs, $this->_extraVars);
         foreach ($this->_excludeVars as $exclude) {
@@ -784,6 +814,26 @@ class Pager_Common
             }
         } else {
             $var = stripslashes($var);
+        }
+    }
+
+    // }}}
+    // {{{ _recursive_urldecode()
+
+    /**
+     * Helper method
+     * @param mixed $var
+     * @access private
+     */
+    function _recursive_urldecode(&$var)
+    {
+        if (is_array($var)) {
+            foreach (array_keys($var) as $k) {
+                $this->_recursive_urldecode($var[$k]);
+            }
+        } else {
+            $trans_tbl = array_flip(get_html_translation_table(HTML_ENTITIES));
+            $var = strtr($var, $trans_tbl);
         }
     }
 
@@ -958,7 +1008,7 @@ class Pager_Common
         } else {
             $href = sprintf($this->_fileName, $this->_linkData[$this->_urlVar]);
         }
-        return $this->_url . $href;
+        return htmlentities($this->_url . $href);
     }
     
     // }}}
@@ -1062,7 +1112,7 @@ class Pager_Common
         }
         $this->_linkData[$this->_urlVar] = 1;
         return $this->_renderLink(
-                $this->_altPage.' 1',
+                str_replace('%d', 1, $this->_altFirst),
                 $this->_firstPagePre . $this->_firstPageText . $this->_firstPagePost
         ) . $this->_spacesBefore . $this->_spacesAfter;
     }
@@ -1084,7 +1134,7 @@ class Pager_Common
         }
         $this->_linkData[$this->_urlVar] = $this->_totalPages;
         return $this->_renderLink(
-                $this->_altPage.' '.$this->_totalPages,
+                str_replace('%d', $this->_totalPages, $this->_altLast),
                 $this->_lastPagePre . $this->_lastPageText . $this->_lastPagePost
         );
     }
@@ -1112,37 +1162,39 @@ class Pager_Common
     // {{{ _http_build_query_wrapper()
     
     /**
-     * http_build_query(). If the function exists,
-     * it is used, if not, it is emulated.
+     * This is a slightly modified version of the http_build_query() function;
+     * it heavily borrows code from PHP_Compat's http_build_query().
+     * The main change is the usage of htmlentities instead of urlencode,
+     * since it's too aggressive
+     *
      * @author Stephan Schmidt <schst@php.net>
      * @author Aidan Lister <aidan@php.net>
+     * @author Lorenzo Alberton <l dot alberton at quipo dot it>
      * @param array $data
      * @return string
      * @access private
      */
     function _http_build_query_wrapper($data)
     {
-        if (function_exists('http_build_query')) {
-            return http_build_query($data);
-        }
-        //require_once 'PHP/Compat.php';
-        //PHP_Compat::loadFunction('http_build_query');
-        ////require_once 'PHP/Compat/Function/http_build_query.php';
-        
         $data = (array)$data;
         if (empty($data)) {
             return '';
         }
         $separator = ini_get('arg_separator.output');
+        if ($separator == '&amp;') {
+            $separator = '&'; //the string is escaped by htmlentities anyway...
+        }
         $tmp = array ();
         foreach ($data as $key => $val) {
             if (is_scalar($val)) {
-                array_push($tmp, urlencode($key).'='.urlencode($val));
+                //array_push($tmp, $key.'='.$val);
+                $val = urlencode($val);
+                array_push($tmp, $key .'='. str_replace('%2F', '/', $val));
                 continue;
             }
             // If the value is an array, recursively parse it
             if (is_array($val)) {
-                array_push($tmp, $this->__http_build_query($val, urlencode($key)));
+                array_push($tmp, $this->__http_build_query($val, htmlentities($key)));
                 continue;
             }
         }
@@ -1163,11 +1215,11 @@ class Pager_Common
         $tmp = array ();
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                array_push($tmp, $this->__http_build_query($value, sprintf('%s[%s]', $name, $key)));
+                array_push($tmp, $this->__http_build_query($value, $name.'%5B'.$key.'%5D'));
             } elseif (is_scalar($value)) {
-                array_push($tmp, sprintf('%s[%s]=%s', $name, urlencode($key), urlencode($value)));
+                array_push($tmp, $name.'%5B'.htmlentities($key).'%5D='.htmlentities($value));
             } elseif (is_object($value)) {
-                array_push($tmp, $this->__http_build_query(get_object_vars($value), sprintf('%s[%s]', $name, $key)));
+                array_push($tmp, $this->__http_build_query(get_object_vars($value), $name.'%5B'.$key.'%5D'));
             }
         }
         return implode(ini_get('arg_separator.output'), $tmp);
@@ -1216,8 +1268,10 @@ class Pager_Common
             'httpMethod',
             'importQuery',
             'urlVar',
+            'altFirst',
             'altPrev',
             'altNext',
+            'altLast',
             'altPage',
             'prevImg',
             'nextImg',
@@ -1249,11 +1303,21 @@ class Pager_Common
             'excludeVars',
             'currentPage',
         );
-
+        
         foreach ($options as $key => $value) {
             if (in_array($key, $allowed_options) && (!is_null($value))) {
                 $this->{'_' . $key} = $value;
             }
+        }
+
+        //autodetect http method
+        if (!isset($options['httpMethod'])
+            && !isset($_GET[$this->_urlVar])
+            && isset($_POST[$this->_urlVar])
+        ) {
+            $this->_httpMethod = 'POST';
+        } else {
+            $this->_httpMethod = strtoupper($this->_httpMethod);
         }
 
         $this->_fileName = ltrim($this->_fileName, '/');  //strip leading slash
@@ -1305,9 +1369,8 @@ class Pager_Common
         $this->_spacesBefore = str_repeat('&nbsp;', $this->_spacesBeforeSeparator);
         $this->_spacesAfter  = str_repeat('&nbsp;', $this->_spacesAfterSeparator);
 
-        $request = ($this->_httpMethod == 'POST') ? $_POST : $_GET;
-        if (isset($request[$this->_urlVar]) && empty($options['currentPage'])) {
-            $this->_currentPage = (int)$request[$this->_urlVar];
+        if (isset($_REQUEST[$this->_urlVar]) && empty($options['currentPage'])) {
+            $this->_currentPage = (int)$_REQUEST[$this->_urlVar];
         }
         $this->_currentPage = max($this->_currentPage, 1);
         $this->_linkData = $this->_getLinksData();

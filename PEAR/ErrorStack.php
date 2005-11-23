@@ -1,24 +1,4 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | PHP Version 5                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Gregory Beaver <cellog@php.net>                              |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-//
-// $Id: ErrorStack.php,v 1.7.2.5 2005/01/01 21:26:51 cellog Exp $
-
 /**
  * Error Stack Implementation
  * 
@@ -38,11 +18,13 @@
  *
  * Since version PEAR1.3.2, ErrorStack no longer instantiates an exception class.  This can
  * still be done quite handily in an error callback or by manipulating the returned array
- * @author Greg Beaver <cellog@php.net>
- * @version PEAR1.3.2 (beta)
- * @package PEAR_ErrorStack
- * @category Debugging
- * @license http://www.php.net/license/3_0.txt PHP License v3.0
+ * @category   Debugging
+ * @package    PEAR_ErrorStack
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  2004-2005 Greg Beaver
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: ErrorStack.php,v 1.21 2005/09/04 23:29:50 cellog Exp $
+ * @link       http://pear.php.net/package/PEAR_ErrorStack
  */
 
 /**
@@ -149,9 +131,14 @@ define('PEAR_ERRORSTACK_ERR_OBJTOSTRING', 2);
  * // local error stack
  * $local_stack = new PEAR_ErrorStack('MyPackage');
  * </code>
- * @copyright 2004 Gregory Beaver
- * @package PEAR_ErrorStack
- * @license http://www.php.net/license/3_0.txt PHP License
+ * @author     Greg Beaver <cellog@php.net>
+ * @version    1.4.5
+ * @package    PEAR_ErrorStack
+ * @category   Debugging
+ * @copyright  2004-2005 Greg Beaver
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: ErrorStack.php,v 1.21 2005/09/04 23:29:50 cellog Exp $
+ * @link       http://pear.php.net/package/PEAR_ErrorStack
  */
 class PEAR_ErrorStack {
     /**
@@ -281,8 +268,10 @@ class PEAR_ErrorStack {
                 'stack class "%stackclass%" is not a valid class name (should be like PEAR_ErrorStack)',
                 false, $trace);
         }
-        return $GLOBALS['_PEAR_ERRORSTACK_SINGLETON'][$package] =
-            &new $stackClass($package, $msgCallback, $contextCallback, $throwPEAR_Error);
+        $GLOBALS['_PEAR_ERRORSTACK_SINGLETON'][$package] =
+            new $stackClass($package, $msgCallback, $contextCallback, $throwPEAR_Error);
+
+        return $GLOBALS['_PEAR_ERRORSTACK_SINGLETON'][$package];
     }
 
     /**
@@ -538,16 +527,16 @@ class PEAR_ErrorStack {
                 'message' => $msg,
                );
 
+        if ($repackage) {
+            $err['repackage'] = $repackage;
+        }
+
         // set up the error message, if necessary
         if ($this->_msgCallback) {
             $msg = call_user_func_array($this->_msgCallback,
                                         array(&$this, $err));
             $err['message'] = $msg;
         }        
-        
-        if ($repackage) {
-            $err['repackage'] = $repackage;
-        }
         $push = $log = true;
         $die = false;
         // try the overriding callback first
@@ -910,7 +899,7 @@ class PEAR_ErrorStack {
             $mainmsg = $stack->getErrorMessageTemplate($err['code']);
         }
         $mainmsg = str_replace('%__msg%', $err['message'], $mainmsg);
-        if (count($err['params'])) {
+        if (is_array($err['params']) && count($err['params'])) {
             foreach ($err['params'] as $name => $val) {
                 if (is_array($val)) {
                     // @ is needed in case $val is a multi-dimensional array

@@ -1,39 +1,76 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Pierre-Alain Joye,Tomas V.V.Cox              |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Tomas V.V.Cox <cox@idecnet.com>                             |
-// |          Pierre-Alain Joye <paj@pearfr.org>                          |
+// | Author: Tomas V.V.Cox  <cox@idecnet.com>                             |
+// |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Validate.php,v 1.40 2003/12/22 14:24:43 pajoye Exp $
-//
-// Methods for common data validations
-//
+/**
+ * Validation class
+ *
+ * Package to validate various datas. It includes :
+ *   - numbers (min/max, decimal or not)
+ *   - email (syntax, domain check)
+ *   - string (predifined type alpha upper and/or lowercase, numeric,...)
+ *   - date (min, max)
+ *   - uri (RFC2396)
+ *   - possibility valid multiple data with a single method call (::multiple)
+ *
+ * @category   Validate
+ * @package    Validate
+ * @author     Tomas V.V.Cox <cox@idecnet.com>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @copyright  1997-2005 Pierre-Alain Joye,Tomas V.V.Cox
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    CVS: $Id: Validate.php,v 1.72 2005/11/01 13:12:29 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate
+ */
 
+/**
+ * Methods for common data validations
+ */
 define('VALIDATE_NUM',          '0-9');
 define('VALIDATE_SPACE',        '\s');
 define('VALIDATE_ALPHA_LOWER',  'a-z');
 define('VALIDATE_ALPHA_UPPER',  'A-Z');
 define('VALIDATE_ALPHA',        VALIDATE_ALPHA_LOWER . VALIDATE_ALPHA_UPPER);
-define('VALIDATE_EALPHA_LOWER', VALIDATE_ALPHA_LOWER . '·ÈÌÛ˙‡ËÏÚ˘‰ÎÔˆ¸‚ÍÓÙ˚ÒÁ');
-define('VALIDATE_EALPHA_UPPER', VALIDATE_ALPHA_UPPER . '¡…Õ”⁄¿»Ã“ŸƒÀœ÷‹¬ Œ‘€—«');
+define('VALIDATE_EALPHA_LOWER', VALIDATE_ALPHA_LOWER . '·ÈÌÛ˙‡ËÏÚ˘‰ÎÔˆ¸‚ÍÓÙ˚ÒÁ˛Ê');
+define('VALIDATE_EALPHA_UPPER', VALIDATE_ALPHA_UPPER . '¡…Õ”⁄¿»Ã“ŸƒÀœ÷‹¬ Œ‘€—«ﬁ∆–');
 define('VALIDATE_EALPHA',       VALIDATE_EALPHA_LOWER . VALIDATE_EALPHA_UPPER);
 define('VALIDATE_PUNCTUATION',  VALIDATE_SPACE . '\.,;\:&"\'\?\!\(\)');
 define('VALIDATE_NAME',         VALIDATE_EALPHA . VALIDATE_SPACE . "'");
 define('VALIDATE_STREET',       VALIDATE_NAME . "/\\∫™");
 
+/**
+ * Validation class
+ *
+ * Package to validate various datas. It includes :
+ *   - numbers (min/max, decimal or not)
+ *   - email (syntax, domain check)
+ *   - string (predifined type alpha upper and/or lowercase, numeric,...)
+ *   - date (min, max)
+ *   - uri (RFC2396)
+ *   - possibility valid multiple data with a single method call (::multiple)
+ *
+ * @category   Validate
+ * @package    Validate
+ * @author     Tomas V.V.Cox <cox@idecnet.com>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @copyright  1997-2005 Pierre-Alain Joye,Tomas V.V.Cox
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate
+ */
 class Validate
 {
     /**
@@ -46,11 +83,15 @@ class Validate
      *                              'dec_prec'  Number of allowed decimals
      *                              'min'       minimun value
      *                              'max'       maximum value
+     *
+     * @return boolean true if valid number, false if not
+     *
+     * @access public
      */
-    function number($number, $options=array())
+    function number($number, $options = array())
     {
-        $decimal=$dec_prec=$min=$max= null;
-        if(is_array($options)){
+        $decimal = $dec_prec = $min = $max = null;
+        if (is_array($options)) {
             extract($options);
         }
 
@@ -60,13 +101,16 @@ class Validate
         if (!preg_match("|^[-+]?\s*[0-9]+($dec_regex)?\$|", $number)) {
             return false;
         }
+
         if ($decimal != '.') {
             $number = strtr($number, $decimal, '.');
         }
+
         $number = (float)str_replace(' ', '', $number);
         if ($min !== null && $min > $number) {
             return false;
         }
+
         if ($max !== null && $max < $number) {
             return false;
         }
@@ -77,18 +121,24 @@ class Validate
      * Validate a email
      *
      * @param string    $email          URL to validate
-     * @param boolean   $domain_check   Check or not if the domain exists
+     * @param boolean   $check_domain   Check or not if the domain exists
+     *
+     * @return boolean true if valid email, false if not
+     *
+     * @access public
      */
     function email($email, $check_domain = false)
     {
-        if($check_domain){
-
-        }
-
-        if (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.
-                 '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.
-                 '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $email))
-        {
+        // partially "Borrowed" from PEAR::HTML_QuickForm and refactored
+        $regex = '&^(?:                                               # recipient:
+         ("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")|                          #1 quoted name
+         ([-\w!\#\$%\&\'*+~/^`|{}]+(?:\.[-\w!\#\$%\&\'*+~/^`|{}]+)*)) #2 OR dot-atom
+         @(((\[)?                     #3 domain, 4 as IPv4, 5 optionally bracketed
+         (?:(?:(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:[0-1]?[0-9]?[0-9]))\.){3}
+               (?:(?:25[0-5])|(?:2[0-4][0-9])|(?:[0-1]?[0-9]?[0-9]))))(?(5)\])|
+         ((?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)*[a-z](?:[-a-z0-9]*[a-z0-9])?))  #6 domain as hostname
+         $&xi';
+        if (preg_match($regex, $email)) {
             if ($check_domain && function_exists('checkdnsrr')) {
                 list (, $domain)  = explode('@', $email);
                 if (checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')) {
@@ -110,12 +160,16 @@ class Validate
      *                                  Ex: VALIDATE_NUM . VALIDATE_ALPHA (see constants)
      *                              'min_length' minimum length
      *                              'max_length' maximum length
+     *
+     * @return boolean true if valid string, false if not
+     *
+     * @access public
      */
     function string($string, $options)
     {
         $format = null;
         $min_length = $max_length = 0;
-        if (is_array($options)){
+        if (is_array($options)) {
             extract($options);
         }
         if ($format && !preg_match("|^[$format]*\$|s", $string)) {
@@ -132,6 +186,13 @@ class Validate
 
     /**
      * Validate an URI (RFC2396)
+     * This function will validate 'foobarstring' by default, to get it to validate
+     * only http, https, ftp and such you have to pass it in the allowed_schemes
+     * option, like this:
+     * <code>
+     * $options = array('allowed_schemes' => array('http', 'https', 'ftp'))
+     * var_dump(Validate::uri('http://www.example.org'), $options);
+     * </code>
      *
      * @param string    $url        URI to validate
      * @param array     $options    Options used by the validation method.
@@ -141,68 +202,59 @@ class Validate
      *                              'allowed_schemes' => array, list of protocols
      *                                  List of allowed schemes ('http',
      *                                  'ssh+svn', 'mms')
+     *
+     * @return boolean true if valid uri, false if not
+     *
+     * @access public
      */
     function uri($url, $options = null)
     {
+        $strict = ';/?:@$,';
         $domain_check = false;
         $allowed_schemes = null;
         if (is_array($options)) {
             extract($options);
         }
         if (preg_match(
-            '!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
-            $url,$matches)
-        ) {
-            $scheme = $matches[2];
-            $authority = $matches[4];
-            if ( is_array($allowed_schemes) &&
+             '&^(?:([a-z][-+.a-z0-9]*):)?                             # 1. scheme
+              (?://                                                   # authority start
+              (?:((?:%[0-9a-f]{2}|[-a-z0-9_.!~*\'();:\&=+$,])*)@)?    # 2. authority-userinfo
+              (?:((?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)*[a-z](?:[-a-z0-9]*[a-z0-9])?\.?)  # 3. authority-hostname OR
+              |([0-9]{1,3}(?:\.[0-9]{1,3}){3}))                       # 4. authority-ipv4
+              (?::([0-9]*))?)?                                        # 5. authority-port
+              ((?:/(?:%[0-9a-f]{2}|[-a-z0-9_.!~*\'():@\&=+$,;])+)+/?)? # 6. path
+              (?:\?([^#]*))?                                          # 7. query
+              (?:\#((?:%[0-9a-f]{2}|[-a-z0-9_.!~*\'();/?:@\&=+$,])*))? # 8. fragment
+              $&xi', $url, $matches)) {
+            $scheme = isset($matches[1]) ? $matches[1] : '';
+            $authority = isset($matches[3]) ? $matches[3] : '' ;
+            if (is_array($allowed_schemes) &&
                 !in_array($scheme,$allowed_schemes)
             ) {
                 return false;
             }
-            if ($domain_check && function_exists('checkdnsrr')) {
+            if (isset($matches[4])) {
+                $parts = explode('.', $matches[4]);
+                foreach ($parts as $part) {
+                    if ($part > 255) {
+                        return false;
+                    }
+                }
+            } elseif ($domain_check && function_exists('checkdnsrr')) {
                 if (!checkdnsrr($authority, 'A')) {
+                    return false;
+                }
+            }
+            if ($strict) {
+                $strict = '#[' . preg_quote($strict, '#') . ']#';
+                if ((isset($matches[7]) && preg_match($strict, $matches[7]))
+                 || (isset($matches[8]) && preg_match($strict, $matches[8]))) {
                     return false;
                 }
             }
             return true;
         }
         return false;
-    }
-
-    /**
-     * Validate a number according to Luhn check algorithm
-     *
-     * This function checks given number according Luhn check
-     * algorithm. It is published on several places, also here:
-     *
-     *      http://www.webopedia.com/TERM/L/Luhn_formula.html
-     *      http://www.merriampark.com/anatomycc.htm
-     *      http://hysteria.sk/prielom/prielom-12.html#3 (Slovak language)
-     *      http://www.speech.cs.cmu.edu/~sburke/pub/luhn_lib.html (Perl lib)
-     *
-     * @param  string  $number number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Ondrej Jombik <nepto@pobox.sk>
-     */
-    function creditCard($creditCard)
-    {
-        $creditCard = preg_replace('/[^0-9]/','',$creditCard);
-        if (empty($creditCard) || ($len_number = strlen($creditCard)) <= 0) {
-            return false;
-        }
-        $sum = 0;
-        for ($k = $len_number % 2; $k < $len_number; $k += 2) {
-            if ((intval($creditCard{$k}) * 2) > 9) {
-                $sum += (intval($creditCard{$k}) * 2) - 9;
-            } else {
-                $sum += intval($creditCard{$k}) * 2;
-            }
-        }
-        for ($k = ($len_number % 2) ^ 1; $k < $len_number; $k += 2) {
-            $sum += intval($creditCard{$k});
-        }
-        return $sum % 10 ? false : true;
     }
 
     /**
@@ -213,20 +265,25 @@ class Validate
      *                          'format' The format of the date (%d-%m-%Y)
      *                          'min' The date has to be greater
      *                                than this array($day, $month, $year)
+     *                                or PEAR::Date object
      *                          'max' The date has to be smaller than
      *                                this array($day, $month, $year)
+     *                                or PEAR::Date object
      *
-     * @return bool
+     * @return boolean true if valid date/time, false if not
+     *
+     * @access public
      */
     function date($date, $options)
     {
         $max = $min = false;
         $format = '';
-        if (is_array($options)){
+        if (is_array($options)) {
             extract($options);
         }
-        $date_len   = strlen($format);
-        for ($i = 0; $i < strlen($format); $i++) {
+
+        $date_len = strlen($format);
+        for ($i = 0; $i < $date_len; $i++) {
             $c = $format{$i};
             if ($c == '%') {
                 $next = $format{$i + 1};
@@ -310,262 +367,44 @@ class Validate
         if (strlen($date)) {
             return false;
         }
+
         if (isset($day) && isset($month) && isset($year)) {
             if (!checkdate($month, $day, $year)) {
                 return false;
             }
-            if ($min || $max) {
+
+            if ($min) {
                 include_once 'Date/Calc.php';
-                if ($min &&
+                if (is_a($min, 'Date') &&
                     (Date_Calc::compareDates($day, $month, $year,
+                                             $min->getDay(), $min->getMonth(), $min->getYear()) < 0))
+                {
+                    return false;
+                } elseif (is_array($min) &&
+                        (Date_Calc::compareDates($day, $month, $year,
                                              $min[0], $min[1], $min[2]) < 0))
                 {
                     return false;
                 }
-                if ($max &&
+            }
+
+            if ($max) {
+                include_once 'Date/Calc.php';
+                if (is_a($max, 'Date') &&
                     (Date_Calc::compareDates($day, $month, $year,
-                                             $max[0], $max[1], $max[2]) > 0))
+                                             $max->getDay(), $max->getMonth(), $max->getYear()) > 0))
+                {
+                    return false;
+                } elseif (is_array($max) &&
+                        (Date_Calc::compareDates($day, $month, $year,
+                                                 $max[0], $max[1], $max[2]) > 0))
                 {
                     return false;
                 }
             }
         }
+
         return true;
-    }
-
-    /**
-     * Validate a ISBN number
-     *
-     * This function checks given number according
-     *
-     * @param  string  $isbn number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Damien Seguy <dams@nexen.net>
-     */
-    function isbn($isbn)
-    {
-        if (preg_match("/[^0-9 IXSBN-]/", $isbn)) {
-            return false;
-        }
-
-        if (!ereg("^ISBN", $isbn)){
-            return false;
-        }
-
-        $isbn = ereg_replace("-", "", $isbn);
-        $isbn = ereg_replace(" ", "", $isbn);
-        $isbn = eregi_replace("ISBN", "", $isbn);
-        if (strlen($isbn) != 10) {
-            return false;
-        }
-        if (preg_match("/[^0-9]{9}[^0-9X]/", $isbn)){
-            return false;
-        }
-
-        $t = 0;
-        for($i=0; $i< strlen($isbn)-1; $i++){
-            $t += $isbn[$i]*(10-$i);
-        }
-        $f = $isbn[9];
-        if ($f == "X") {
-            $t += 10;
-        } else {
-            $t += $f;
-        }
-        if ($t % 11) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-
-    /**
-     * Validate an ISSN (International Standard Serial Number)
-     *
-     * This function checks given ISSN number
-     * ISSN identifies periodical publications:
-     * http://www.issn.org
-     *
-     * @param  string  $issn number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function issn($issn)
-    {
-        static $weights_issn = array(8,7,6,5,4,3,2);
-
-        $issn = strtoupper($issn);
-        $issn = eregi_replace("ISSN", "", $issn);
-        $issn = str_replace(array('-','/',' ',"\t","\n"), '', $issn);
-        $issn_num = eregi_replace("X", "0", $issn);
-
-        // check if this is an 8-digit number
-        if (!is_numeric($issn_num) || strlen($issn) != 8) {
-            return false;
-        }
-
-        return Validate::_check_control_number($issn, $weights_issn, 11, 11);
-    }
-
-    /**
-     * Validate a ISMN (International Standard Music Number)
-     *
-     * This function checks given ISMN number (ISO Standard 10957)
-     * ISMN identifies all printed music publications from all over the world
-     * whether available for sale, hire or gratis--whether a part, a score,
-     * or an element in a multi-media kit:
-     * http://www.ismn-international.org/
-     *
-     * @param  string  $ismn ISMN number
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function ismn($ismn)
-    {
-        static $weights_ismn = array(3,1,3,1,3,1,3,1,3);
-
-        $ismn = eregi_replace("ISMN", "", $ismn);
-        $ismn = eregi_replace("M", "3", $ismn); // change first M to 3
-        $ismn = str_replace(array('-','/',' ',"\t","\n"), '', $ismn);
-
-        // check if this is a 10-digit number
-        if (!is_numeric($ismn) || strlen($ismn) != 10) {
-            return false;
-        }
-
-        return Validate::_check_control_number($ismn, $weights_ismn, 10, 10);
-    }
-
-
-    /**
-     * Validate a EAN/UCC-8 number
-     *
-     * This function checks given EAN8 number
-     * used to identify trade items and special applications.
-     * http://www.ean-ucc.org/
-     * http://www.uc-council.org/checkdig.htm
-     *
-     * @param  string  $ean number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function ean8($ean)
-    {
-        static $weights_ean8 = array(3,1,3,1,3,1,3);
-
-        $ean = str_replace(array('-','/',' ',"\t","\n"), '', $ean);
-
-        // check if this is a 8-digit number
-        if (!is_numeric($ean) || strlen($ean) != 8) {
-            return false;
-        }
-
-        return Validate::_check_control_number($ean, $weights_ean8, 10, 10);
-    }
-
-    /**
-     * Validate a EAN/UCC-13 number
-     *
-     * This function checks given EAN/UCC-13 number used to identify
-     * trade items, locations, and special applications (e.g., coupons)
-     * http://www.ean-ucc.org/
-     * http://www.uc-council.org/checkdig.htm
-     *
-     * @param  string  $ean number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function ean13($ean)
-    {
-        static $weights_ean13 = array(1,3,1,3,1,3,1,3,1,3,1,3);
-
-        $ean = str_replace(array('-','/',' ',"\t","\n"), '', $ean);
-
-        // check if this is a 13-digit number
-        if (!is_numeric($ean) || strlen($ean) != 13) {
-            return false;
-        }
-
-        return Validate::_check_control_number($ean, $weights_ean13, 10, 10);
-    }
-
-    /**
-     * Validate a EAN/UCC-14 number
-     *
-     * This function checks given EAN/UCC-14 number
-     * used to identify trade items.
-     * http://www.ean-ucc.org/
-     * http://www.uc-council.org/checkdig.htm
-     *
-     * @param  string  $ean number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function ean14($ean)
-    {
-        static $weights_ean14 = array(3,1,3,1,3,1,3,1,3,1,3,1,3);
-
-        $ean = str_replace(array('-','/',' ',"\t","\n"), '', $ean);
-
-        // check if this is a 14-digit number
-        if (!is_numeric($ean) || strlen($ean) != 14) {
-            return false;
-        }
-
-        return Validate::_check_control_number($ean, $weights_ean14, 10, 10);
-    }
-
-    /**
-     * Validate a UCC-12 (U.P.C.) ID number
-     *
-     * This function checks given UCC-12 number used to identify
-     * trade items, locations, and special applications (e.g., * coupons)
-     * http://www.ean-ucc.org/
-     * http://www.uc-council.org/checkdig.htm
-     *
-     * @param  string  $ucc number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function ucc12($ucc)
-    {
-        static $weights_ucc12 = array(3,1,3,1,3,1,3,1,3,1,3);
-
-        $ucc = str_replace(array('-','/',' ',"\t","\n"), '', $ucc);
-
-        // check if this is a 12-digit number
-        if (!is_numeric($ucc) || strlen($ucc) != 12) {
-            return false;
-        }
-
-        return Validate::_check_control_number($ucc, $weights_ucc12, 10, 10);
-    }
-
-    /**
-     * Validate a SSCC (Serial Shipping Container Code)
-     *
-     * This function checks given SSCC number
-     * used to identify logistic units.
-     * http://www.ean-ucc.org/
-     * http://www.uc-council.org/checkdig.htm
-     *
-     * @param  string  $sscc number (only numeric chars will be considered)
-     * @return bool    true if number is valid, otherwise false
-     * @author Piotr Klaban <makler@man.torun.pl>
-     */
-    function sscc($sscc)
-    {
-        static $weights_sscc = array(3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3);
-
-        $sscc = str_replace(array('-','/',' ',"\t","\n"), '', $sscc);
-
-        // check if this is a 18-digit number
-        if (!is_numeric($sscc) || strlen($sscc) != 18) {
-            return false;
-        }
-
-        return Validate::_check_control_number($sscc, $weights_sscc, 10, 10);
     }
 
     function _substr(&$date, $num, $opt = false)
@@ -580,14 +419,14 @@ class Validate
     }
 
     function _modf($val, $div) {
-        if( function_exists('bcmod') ){
-            return bcmod($val,$div);
-        } else if (function_exists('fmod')) {
-            return fmod($val,$div);
+        if (function_exists('bcmod')) {
+            return bcmod($val, $div);
+        } elseif (function_exists('fmod')) {
+            return fmod($val, $div);
         }
-        $r = $a / $b;
+        $r = $val / $div;
         $i = intval($r);
-        return intval(($r - $i) * $b);
+        return intval($val - $i * $div + .1);
     }
 
     /**
@@ -595,19 +434,23 @@ class Validate
      *
      * @param string $number number string
      * @param array $weights reference to array of weights
+     *
      * @returns int returns product of number digits with weights
+     *
+     * @access protected
      */
-    function _mult_weights($number, &$weights) {
-        if (!is_array($weights))
+    function _multWeights($number, &$weights) {
+        if (!is_array($weights)) {
             return -1;
-
+        }
         $sum = 0;
 
         $count = min(count($weights), strlen($number));
-        if ($count == 0) // empty string or weights array
+        if ($count == 0)  { // empty string or weights array
             return -1;
-        for ($i=0; $i<$count; ++$i) {
-            $sum += intval(substr($number,$i,1)) * $weights[$i];
+        }
+        for ($i = 0; $i < $count; ++$i) {
+            $sum += intval(substr($number, $i, 1)) * $weights[$i];
         }
 
         return $sum;
@@ -621,21 +464,25 @@ class Validate
      * @param int $modulo (optionsl) number
      * @param int $subtract (optional) number
      * @param bool $allow_high (optional) true if function can return number higher than 10
+     *
      * @returns int -1 calculated control number is returned
+     *
+     * @access protected
      */
-    function _get_control_number($number, &$weights, $modulo = 10, $subtract = 0, $allow_high = false) {
+    function _getControlNumber($number, &$weights, $modulo = 10, $subtract = 0, $allow_high = false) {
         // calc sum
-        $sum = Validate::_mult_weights($number, $weights);
-        if ($sum == -1)
+        $sum = Validate::_multWeights($number, $weights);
+        if ($sum == -1) {
             return -1;
+        }
+        $mod = Validate::_modf($sum, $modulo);  // calculate control digit
 
-        $mod = Validate::_modf($sum, $modulo);  /* calculate control digit  */
-
-        if ($subtract > $mod)
+        if ($subtract > $mod && $mod > 0) {
             $mod = $subtract - $mod;
-
-        if ($allow_high === false)
-          $mod %= 10;           /* change 10 to zero        */
+        }
+        if ($allow_high === false) {
+            $mod %= 10;           // change 10 to zero
+        }
         return $mod;
     }
 
@@ -646,44 +493,51 @@ class Validate
      * @param array $weights reference to array of weights
      * @param int $modulo (optionsl) number
      * @param int $subtract (optional) numbier
-     * @returns bool
-     **/
-    function _check_control_number($number, &$weights, $modulo = 10, $subtract = 0) {
-        if (strlen($number) < count($weights))
+     *
+     * @returns bool true if valid, false if not
+     *
+     * @access protected
+     */
+    function _checkControlNumber($number, &$weights, $modulo = 10, $subtract = 0) {
+        if (strlen($number) < count($weights)) {
             return false;
-
+        }
         $target_digit  = substr($number, count($weights), 1);
-        $control_digit = Validate::_get_control_number($number, $weights, $modulo, $subtract, $target_digit === 'X');
+        $control_digit = Validate::_getControlNumber($number, $weights, $modulo, $subtract, $target_digit === 'X');
 
-        if ($control_digit == -1)
+        if ($control_digit == -1) {
             return false;
-
-        if ($target_digit === 'X' && $control_digit == 10)
+        }
+        if ($target_digit === 'X' && $control_digit == 10) {
             return true;
-
-        if ($control_digit != $target_digit)
+        }
+        if ($control_digit != $target_digit) {
             return false;
-
+        }
         return true;
     }
 
     /**
-    * Bulk data validation for data introduced in the form of an
-    * assoc array in the form $var_name => $value.
-    *
-    * @param  array   $data     Ex: array('name'=>'toto','email'='toto@thing.info');
-    * @param  array   $val_type Contains the validation type and all parameters used in.
-    *                           'val_type' is not optional
-    *                           others validations properties must have the same name as the function
-    *                           parameters.
-    *                           Ex: array('toto'=>array('type'=>'string','format'='toto@thing.info','min_length'=>5));
-    * @param  boolean $remove if set, the elements not listed in data will be removed
-    *
-    * @return array   value name => true|false    the value name comes from the data key
-    */
+     * Bulk data validation for data introduced in the form of an
+     * assoc array in the form $var_name => $value.
+     * Can be used on any of Validate subpackages
+     *
+     * @param  array   $data     Ex: array('name' => 'toto', 'email' => 'toto@thing.info');
+     * @param  array   $val_type Contains the validation type and all parameters used in.
+     *                           'val_type' is not optional
+     *                           others validations properties must have the same name as the function
+     *                           parameters.
+     *                           Ex: array('toto'=>array('type'=>'string','format'='toto@thing.info','min_length'=>5));
+     * @param  boolean $remove if set, the elements not listed in data will be removed
+     *
+     * @return array   value name => true|false    the value name comes from the data key
+     *
+     * @access public
+     */
     function multiple(&$data, &$val_type, $remove = false)
     {
         $keys = array_keys($data);
+        $valid = array();
         foreach ($keys as $var_name) {
             if (!isset($val_type[$var_name])) {
                 if ($remove) {
@@ -698,31 +552,38 @@ class Validate
             if (in_array(strtolower($opt['type']), $methods)) {
                 //$opt[$opt['type']] = $data[$var_name];
                 $method = $opt['type'];
-                $opt = array_slice($opt,1);
+                unset($opt['type']);
 
-                if (sizeof($opt) == 1){
+                if (sizeof($opt) == 1) {
                     $opt = array_pop($opt);
                 }
-                $valid[$var_name] = call_user_func(array('Validate', $method), $val2check,$opt);
+                $valid[$var_name] = call_user_func(array('Validate', $method), $val2check, $opt);
 
             /**
              * external validation method in the form:
              * "<class name><underscore><method name>"
              * Ex: us_ssn will include class Validate/US.php and call method ssn()
              */
-            } elseif (strpos($opt['type'],'_') !== false) {
-                list($class, $method) = explode('_', $opt['type'], 2);
-                @include_once("Validate/$class.php");
+            } elseif (strpos($opt['type'], '_') !== false) {
+                $validateType = explode('_', $opt['type']);
+                $method       = array_pop($validateType);
+                $class        = implode('_', $validateType);
+                $classPath    = str_replace('_', DIRECTORY_SEPARATOR, $class);
+                if (!@include_once "Validate/$classPath.php") {
+                    trigger_error("Validate_$class isn't installed or you may have some permissoin issues", E_USER_ERROR);
+                }
+
                 if (!class_exists("Validate_$class") ||
-                    !in_array($method, get_class_methods("Validate_$class"))) {
+                    !in_array($method, get_class_methods("Validate_$class")))
+                {
                     trigger_error("Invalid validation type Validate_$class::$method", E_USER_WARNING);
                     continue;
                 }
-                $opt = array_slice($opt,1);
-                if (sizeof($opt) == 1){
+                unset($opt['type']);
+                if (sizeof($opt) == 1) {
                     $opt = array_pop($opt);
                 }
-                $valid[$var_name] = call_user_func(array("Validate_$class", $method), $data[$var_name],$opt);
+                $valid[$var_name] = call_user_func(array("Validate_$class", $method), $data[$var_name], $opt);
             } else {
                 trigger_error("Invalid validation type {$opt['type']}", E_USER_WARNING);
             }
@@ -730,4 +591,5 @@ class Validate
         return $valid;
     }
 }
+
 ?>

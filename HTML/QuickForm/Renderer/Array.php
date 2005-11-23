@@ -205,16 +205,12 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
     } // end func renderElement
 
 
-    function renderHidden(&$element, $required, $error)
+    function renderHidden(&$element)
     {
         if ($this->_collectHidden) {
-            // add to error array
-            if (!empty($error)) {
-                $this->_ary['errors']['hidden'] = $error;
-            }
             $this->_ary['hidden'] .= $element->toHtml() . "\n";
         } else {
-            $this->renderElement($element, $required, $error);
+            $this->renderElement($element, false, null);
         }
     } // end func renderHidden
 

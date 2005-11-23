@@ -1,9 +1,9 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log.php,v 1.46 2004/09/09 02:42:22 jon Exp $
+ * $Header: /repository/pear/Log/Log.php,v 1.51 2005/09/06 05:54:36 jon Exp $
  * $Horde: horde/lib/Log.php,v 1.15 2000/06/29 23:39:45 jon Exp $
  *
- * @version $Revision: 1.46 $
+ * @version $Revision: 1.51 $
  * @package Log
  */
 
@@ -121,11 +121,14 @@ class Log
          * a failure as fatal.  The caller may have already included their own
          * version of the named class.
          */
-        @include_once $classfile;
+        if (!class_exists($class)) {
+            @include_once $classfile;
+        }
 
         /* If the class exists, return a new instance of it. */
         if (class_exists($class)) {
-            return new $class($name, $ident, $conf, $level);
+            $obj = new $class($name, $ident, $conf, $level);
+            return $obj;
         }
 
         return false;
@@ -386,7 +389,11 @@ class Log
             } else if (method_exists($message, 'tostring')) {
                 $message = $message->toString();
             } else if (method_exists($message, '__tostring')) {
-                $message = (string)$message;
+                if (version_compare(PHP_VERSION, '5.0.0', 'ge')) {
+                    $message = (string)$message;
+                } else {
+                    $message = $message->__toString();
+                }
             } else {
                 $message = print_r($message, true);
             }
@@ -425,6 +432,34 @@ class Log
         );
 
         return $levels[$priority];
+    }
+
+    /**
+     * Returns the the PEAR_LOG_* integer constant for the given string
+     * representation of a priority name.  This function performs a
+     * case-insensitive search.
+     *
+     * @param string $name      String containing a priority name.
+     *
+     * @return string           The PEAR_LOG_* integer contstant corresponding
+     *                          the the specified priority name.
+     *
+     * @since   Log 1.9.0
+     */
+    function stringToPriority($name)
+    {
+        $levels = array(
+            'emergency' => PEAR_LOG_EMERG,
+            'alert'     => PEAR_LOG_ALERT,
+            'critical'  => PEAR_LOG_CRIT,
+            'error'     => PEAR_LOG_ERR,
+            'warning'   => PEAR_LOG_WARNING,
+            'notice'    => PEAR_LOG_NOTICE,
+            'info'      => PEAR_LOG_INFO,
+            'debug'     => PEAR_LOG_DEBUG
+        );
+
+        return $levels[strtolower($name)];
     }
 
     /**
@@ -631,5 +666,3 @@ class Log
         return $this->_ident;
     }
 }
-
-?>

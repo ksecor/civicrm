@@ -1,9 +1,9 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/syslog.php,v 1.22 2004/01/19 08:02:40 jon Exp $
+ * $Header: /repository/pear/Log/Log/syslog.php,v 1.23 2005/02/26 14:48:59 chagenbu Exp $
  * $Horde: horde/lib/Log/syslog.php,v 1.6 2000/06/28 21:36:13 jon Exp $
  *
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  * @package Log
  */
 
@@ -22,7 +22,7 @@
 class Log_syslog extends Log
 {
     /**
-    * Integer holding the log facility to use. 
+    * Integer holding the log facility to use.
     * @var string
     * @access private
     */
@@ -156,5 +156,5 @@ class Log_syslog extends Log
 
         return $priorities[$priority];
     }
+
 }
-?>

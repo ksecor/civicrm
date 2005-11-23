@@ -73,14 +73,12 @@ class HTML_QuickForm_hidden extends HTML_QuickForm_input
     * Accepts a renderer
     *
     * @param object     An HTML_QuickForm_Renderer object
-    * @param bool       Whether an element is required
-    * @param string     An error message associated with an element
     * @access public
     * @return void 
     */
-    function accept(&$renderer, $required=false, $error=null)
+    function accept(&$renderer)
     {
-        $renderer->renderHidden($this, $required, $error);
+        $renderer->renderHidden($this);
     } // end func accept
 
     // }}}

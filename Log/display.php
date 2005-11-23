@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/display.php,v 1.6 2004/11/27 21:46:50 jon Exp $
+ * $Header: /repository/pear/Log/Log/display.php,v 1.8 2005/08/06 23:28:35 jon Exp $
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.8 $
  * @package Log
  */
 
@@ -35,6 +35,12 @@ class Log_display extends Log
      */
     var $_error_append = '';
 
+    /**
+     * String used to represent a line break.
+     * @var string
+     * @access private
+     */
+    var $_linebreak = "<br />\n";
 
     /**
      * Constructs a new Log_display object.
@@ -52,16 +58,20 @@ class Log_display extends Log
         $this->_ident = $ident;
         $this->_mask = Log::UPTO($level);
 
-        if (!empty($conf['error_prepend'])) {
+        if (isset($conf['error_prepend'])) {
             $this->_error_prepend = $conf['error_prepend'];
         } else {
             $this->_error_prepend = ini_get('error_prepend_string');
         }
 
-        if (!empty($conf['error_append'])) {
+        if (isset($conf['error_append'])) {
             $this->_error_append = $conf['error_append'];
         } else {
             $this->_error_append = ini_get('error_append_string');
+        }
+
+        if (isset($conf['linebreak'])) {
+            $this->_linebreak = $conf['linebreak'];
         }
     }
 
@@ -96,13 +106,12 @@ class Log_display extends Log
         echo $this->_error_prepend .
              '<b>' . ucfirst($this->priorityToString($priority)) . '</b>: '.
              nl2br(htmlspecialchars($message)) .
-             $this->_error_append . "<br />\n";
+             $this->_error_append . $this->_linebreak;
 
         /* Notify observers about this log message. */
         $this->_announce(array('priority' => $priority, 'message' => $message));
 
         return true;
     }
-}
 
-?>
+}

@@ -17,7 +17,7 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: checkbox.php,v 1.19 2004/02/28 22:10:16 avb Exp $
+// $Id: checkbox.php,v 1.20 2005/07/22 17:30:51 avb Exp $
 
 require_once("HTML/QuickForm/input.php");
 
@@ -229,7 +229,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
                 if (null === $value) {
                     // if no boxes were checked, then there is no value in the array
                     // yet we don't want to display default value in this case
-                    if (isset($caller->_submitValues) && 0 < count($caller->_submitValues)) {
+                    if ($caller->isSubmitted()) {
                         $value = $this->_findValue($caller->_submitValues);
                     } else {
                         $value = $this->_findValue($caller->_defaultValues);

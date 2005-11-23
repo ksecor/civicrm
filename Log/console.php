@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/console.php,v 1.19 2004/01/19 08:02:40 jon Exp $
+ * $Header: /repository/pear/Log/Log/console.php,v 1.21 2005/09/06 05:46:41 jon Exp $
  *
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.21 $
  * @package Log
  */
 
@@ -115,6 +115,19 @@ class Log_console extends Log
      */
     function _Log_console()
     {
+        $this->close();
+    }
+
+    /**
+     * Closes the output stream.
+     *
+     * This results in a call to flush().
+     *
+     * @access public
+     * @since Log 1.9.0
+     */
+    function close()
+    {
         $this->flush();
     }
 
@@ -185,6 +198,5 @@ class Log_console extends Log
 
         return true;
     }
-}
 
-?>
+}
