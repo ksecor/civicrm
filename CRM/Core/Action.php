@@ -50,21 +50,22 @@ class CRM_Core_Action {
      * @access public
      */
     const
-        NONE          =     0,
-        ADD           =     1,
-        UPDATE        =     2,
-        VIEW          =     4,
-        DELETE        =     8,
-        BROWSE        =    16,
-        ENABLE        =    32,
-        DISABLE       =    64,
-        EXPORT        =   128,
-        BASIC         =   256,
-        ADVANCED      =   512,
-        PREVIEW       =  1024,
-        FOLLOWUP      =  2048,
-        MAP           =  4096,
-        PROFILE       =  8192;
+        NONE          =      0,
+        ADD           =      1,
+        UPDATE        =      2,
+        VIEW          =      4,
+        DELETE        =      8,
+        BROWSE        =     16,
+        ENABLE        =     32,
+        DISABLE       =     64,
+        EXPORT        =    128,
+        BASIC         =    256,
+        ADVANCED      =    512,
+        PREVIEW       =   1024,
+        FOLLOWUP      =   2048,
+        MAP           =   4096,
+        PROFILE       =   8192,
+        YMAP          =  16384;
           
   
     /**
@@ -90,6 +91,7 @@ class CRM_Core_Action {
                            'preview'       => self::PREVIEW,
                            'map'           => self::MAP,
                            'profile'       => self::PROFILE,
+                           'ymap'          => self::YMAP,
                            );
 
     /**
@@ -201,10 +203,8 @@ class CRM_Core_Action {
                                  $link['name'] );
             }
         }
-
         $result = '';
         CRM_Utils_String::append( $result, '&nbsp;|&nbsp;', $url );
-
         return $result;
     }
 
@@ -237,9 +237,10 @@ class CRM_Core_Action {
      */
     static function mask( $permission ) {
         if ( $permission == CRM_Core_Permission::VIEW ) {
-            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP;
+            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP | self::YMAP;
         } else if ( $permission == CRM_Core_Permission::EDIT ) {
-            return 8191; // make sure we make this 2^(n+1) -1 if we add more actions;
+            //return 8191;
+            return 16383;  // make sure we make this 2^(n+1) -1 if we add more actions;
         } else {
             return null;
         }

@@ -262,6 +262,13 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+        } else if ( $thirdArg == 'ymap' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/basic' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_YMap', ts('YMap Contact'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');

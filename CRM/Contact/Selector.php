@@ -162,12 +162,22 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $config = CRM_Core_Config::singleton( );
             if ( $config->googleMapAPIKey ) {
                 self::$_links[CRM_Core_Action::MAP] = array(
-                                                            'name'     => ts('Map'),
+                                                            'name'     => ts('GMap'),
                                                             'url'      => 'civicrm/contact/search/map',
                                                             'qs'       => 'reset=1&cid=%%id%%',
-                                                            'title'    => ts('Map Contact'),
+                                                            'title'    => ts('GMap Contact'),
                                                             );
             }
+
+            if ( $config->yahooMapAPIKey ) {
+                self::$_links[CRM_Core_Action::YMAP] = array(
+                                                            'name'     => ts('YMap'),
+                                                            'url'      => 'civicrm/contact/search/ymap',
+                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'title'    => ts('YMap Contact'),
+                                                            );
+            }
+
         }
         return self::$_links;
     } //end of function
@@ -369,33 +379,33 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                 'sort'      => 'city',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                        array(
-                                              'name'      => ts('State'),
-                                              'sort'      => 'state_province',
+                                          array(
+                                                'name'      => ts('State'),
+                                                'sort'      => 'state_province',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Postal'),
+                                                'sort'      => 'postal_code',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Country'),
+                                                'sort'      => 'country',
                                               'direction' => CRM_Utils_Sort::DONTCARE,
-                                             ),
-                                        array(
-                                              'name'      => ts('Postal'),
-                                              'sort'      => 'postal_code',
-                                              'direction' => CRM_Utils_Sort::DONTCARE,
-                                             ),
-                                        array(
-                                              'name'      => ts('Country'),
-                                              'sort'      => 'country',
-                                              'direction' => CRM_Utils_Sort::DONTCARE,
-                                             ),
-                                        array(
-                                              'name'      => ts('Email'),
-                                              'sort'      => 'email',
-                                              'direction' => CRM_Utils_Sort::DONTCARE,
-                                             ),
-                                        array('name' => ts('Phone') ),
-                                        array('desc' => ts('Actions') ),
-                                    );
+                                                ),
+                                          array(
+                                                'name'      => ts('Email'),
+                                                'sort'      => 'email',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array('name' => ts('Phone') ),
+                                          array('desc' => ts('Actions') ),
+                                          );
         }
         return self::$_columnHeaders;
     }
-
+    
     function &getQuery( ) {
         return $this->_query;
     }
