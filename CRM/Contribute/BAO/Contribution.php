@@ -131,6 +131,56 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     }
 
     /**
+     * Get the values for pseudoconstants for name->value and reverse.
+     *
+     * @param array   $defaults (reference) the default values, some of which need to be resolved.
+     * @param boolean $reverse  true if we want to resolve the values in the reverse direction (value -> name)
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function resolveDefaults(&$defaults, $reverse = false)
+    {
+        if (CRM_Utils_Array::value('contribution_type', $defaults)) {
+            self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
+        }
+        if (CRM_Utils_Array::value('payment_instrument', $defaults)) {
+            self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
+        }
+    }
+
+    /**
+     * This function is used to convert associative array names to values
+     * and vice-versa.
+     *
+     * This function is used by both the web form layer and the api. Note that
+     * the api needs the name => value conversion, also the view layer typically
+     * requires value => name conversion
+     */
+    static function lookupValue(&$defaults, $property, &$lookup, $reverse)
+    {
+        $id = $property . '_id';
+
+        $src = $reverse ? $property : $id;
+        $dst = $reverse ? $id       : $property;
+
+        if (!array_key_exists($src, $defaults)) {
+            return false;
+        }
+
+        $look = $reverse ? array_flip($lookup) : $lookup;
+        
+        if(is_array($look)) {
+            if (!array_key_exists($defaults[$src], $look)) {
+                return false;
+            }
+        }
+        $defaults[$dst] = $look[$defaults[$src]];
+        return true;
+    }
+
+    /**
      * combine all the importable fields from the lower levels object
      *
      * The ordering is important, since currently we do not have a weight

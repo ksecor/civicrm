@@ -197,7 +197,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
  * @access public
  */
 function _crm_check_contrib_params( &$params ) {
-    static $required = array( 'contact_id', 'receive_date', 'total_amount' );
+    static $required = array( 'contact_id', 'receive_date', 'total_amount', 'contribution_type' );
 
     // cannot create a contribution with empty params
     if ( empty( $params ) ) {
@@ -1121,6 +1121,16 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
     //print_r($values); 
     //print_r($params);
     
+    if (isset($values['contribution_type'])) {
+        $params['contribution_type'] = $values['contribution_type'];
+        return true;
+    }
+
+    if (isset($values['payment_instrument'])) {
+        $params['payment_instrument'] = $values['payment_instrument'];
+        return true;
+    }
+
     /* Check for custom field values */
 #   if ($fields['custom'] == null) {
 #       $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );

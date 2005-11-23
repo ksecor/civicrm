@@ -45,7 +45,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
     protected $_mapperKeys;
 
-    protected $_contactIdIndex;
+    private $_contactIdIndex;
+    private $_totalAmountIndex;
+    private $_receiveDateIndex;
+    private $_contributionTypeIndex;
 
     /**
      * Array of succesfully imported contribution id's
@@ -80,12 +83,27 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
         $this->setActiveFields( $this->_mapperKeys );
 
-        $this->_contactIdIndex = -1;
+        // FIXME: we should do this in one place together with Form/MapField.php
+        $this->_contactIdIndex        = -1;
+        $this->_totalAmountIndex      = -1;
+        $this->_receiveDateIndex      = -1;
+        $this->_contributionTypeIndex = -1;
 
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
-            if ( $key == 'contact_id' ) {
-                $this->_contactIdIndex = $index;
+            switch ($key) {
+            case 'contact_id':
+                $this->_contactIdIndex        = $index;
+                break;
+            case 'total_amount':
+                $this->_totalAmountIndex      = $index;
+                break;
+            case 'receive_date':
+                $this->_receiveDateIndex      = $index;
+                break;
+            case 'contribution_type':
+                $this->_contributionTypeIndex = $index;
+                break;
             }
             $index++;
         }
@@ -132,7 +150,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             return CRM_Contribute_Import_Parser::ERROR;
         }
         $errorRequired = false;
-        if ($this->_contactIdIndex < 0) {
+        if ($this->_contactIdIndex        < 0 or
+            $this->_totalAmountIndex      < 0 or
+            $this->_receiveDateIndex      < 0 or
+            $this->_contributionTypeIndex < 0) {
             $errorRequired = true;
         }
         if ($errorRequired) {
@@ -172,34 +193,9 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if ($field == null || $field === '') {
                 continue;
             }
-            if (is_array($field)) {
-                foreach ($field as $value) {
-                    $break = false;
-                    if ( is_array($value) ) {
-                        foreach ($value as $name => $testForEmpty) {
-                            if (($testForEmpty === '' || $testForEmpty == null)) {
-                                $break = true;
-                                break;
-                            }
-                        }
-                    } else {
-                        $break = true;
-                    }
-                    if (! $break) {                        
-                        _crm_add_formatted_contrib_param($value, $formatted);
-                    }
-                }
-                continue;
-            }
-            
             $value = array($key => $field);
-            if (array_key_exists($key, $indieFields)) {
-#               $value['contact_type'] = $this->_contactType;
-            }
-
             _crm_add_formatted_contrib_param($value, $formatted);
         }
-
         $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
 
         if ( is_a( $newContribution, CRM_Core_Error ) ) {

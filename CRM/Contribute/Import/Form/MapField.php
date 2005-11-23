@@ -282,20 +282,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $dataPatterns    = $this->get( 'dataPatterns' );
 #       $hasLocationTypes = $this->get( 'fieldTypes' );
 
-#       $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
-
-#       $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-
-        /* FIXME: dirty hack to make the default option show up first.  This
-         * avoids a mozilla browser bug with defaults on dynamically constructed
-         * selector widgets. */
-#       if ($defaultLocationType) {
-#           $defaultLocation = $this->_location_types[$defaultLocationType->id];
-#           unset($this->_location_types[$defaultLocationType->id]);
-#           $this->_location_types = 
-#               array($defaultLocationType->id => $defaultLocation) + 
-#               $this->_location_types;
-#       }
 
         /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
@@ -362,27 +348,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                     if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
                         if ( isset($mappingRelation[$i]) ) {
-                            // relationship mapping
-#                           switch ($this->get('contactType')) {
-#                           case CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL :
-#                               $contactType = 'Individual';
-#                               break;
-#                           case CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD :
-#                               $contactType = 'Household';
-#                               break;
-#                           case CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION :
-#                               $contactType = 'Organization';
-#                           }
-
-#                           $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType );
-#                           foreach ($relations as $key => $var) {
-#                               list( $type ) = explode( '_', $key );
-#                               if ( $type == $mappingRelation[$i]) {
-#                                   $relation = $key;
-#                                   break;
-#                               }
-#                           }
-
                             $contributionDetails = strtolower(str_replace(" ", "_",$mappingName[$i]));
 #                           $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
 #                           $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
@@ -508,9 +473,10 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         }
         // FIXME: should use the schema titles, not redeclare them
         $requiredFields = array(
-            'contact_id'   => ts('Contact ID'),
-            'total_amount' => ts('Total Amount'),
-            'receive_date' => ts('Receive Date')
+            'contact_id'        => ts('Contact ID'),
+            'total_amount'      => ts('Total Amount'),
+            'receive_date'      => ts('Receive Date'),
+            'contribution_type' => ts('Contribution Type')
         );
         foreach ($requiredFields as $field => $title) {
             if (!in_array($field, $importKeys)) {

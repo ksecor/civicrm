@@ -27,6 +27,7 @@
 
 
 require_once 'CRM/Utils/Type.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Contribute_Import_Field {
   
@@ -115,7 +116,6 @@ class CRM_Contribute_Import_Field {
 
         switch ($this->_name) {
         case 'contact_id':
-            // should also validate whether it's an existing contact
             return CRM_Utils_Rule::integer($this->_value);
             break;
         case 'receive_date':
@@ -133,9 +133,24 @@ class CRM_Contribute_Import_Field {
         case 'currency':
             return CRM_Utils_Rule::currencyCode($this->_value);
             break;
+        case 'contribution_type':
+            static $contributionTypes = null;
+            if ($contributionTypes == null) {
+                $contributionTypes =& CRM_Contribute_PseudoConstant::contributionType();
+            }
+            if (!in_array($this->_value, $contributionTypes)) return false;
+            break;
+        case 'payment_instrument':
+            static $paymentInstruments = null;
+            if ($paymentInstruments == null) {
+                $paymentInstruments =& CRM_Contribute_PseudoConstant::paymentInstrument();
+            }
+            if (!in_array($this->_value, $paymentInstruments)) return false;
+            break;
         default:
             return true;
         }
+        return true;
     }
 
 }

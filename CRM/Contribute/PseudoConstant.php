@@ -48,11 +48,11 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     private static $contributionType;
 
     /**
-     * contribution modes
+     * payment instruments
      * @var array
      * @static
      */
-    private static $contributionMode;
+    private static $paymentInstrument;
 
     /**
      * Get all the contribution types
@@ -67,6 +67,21 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
                                                'CRM_Contribute_DAO_ContributionType' );
         }
         return self::$contributionType;
+    }
+
+    /**
+     * Get all the payment instruments
+     *
+     * @access public
+     * @return array - array reference of all payment instruments if any
+     * @static
+     */
+    public static function &paymentInstrument( ) {
+        if ( ! self::$paymentInstrument ) {
+            CRM_Core_PseudoConstant::populate( self::$paymentInstrument,
+                                               'CRM_Contribute_DAO_PaymentInstrument' );
+        }
+        return self::$paymentInstrument;
     }
 
 }

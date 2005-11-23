@@ -125,6 +125,8 @@ function &crm_create_contribution_formatted( &$params , $onDuplicate) {
     }
     $ids = array();
     
+    CRM_Contribute_BAO_Contribution::resolveDefaults($params, true);
+
     $contribution = CRM_Contribute_BAO_Contribution::create( $params, $ids );
     return $contribution;
 }
