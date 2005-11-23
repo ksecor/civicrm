@@ -8,7 +8,7 @@
 
 {ts}Contribution Information{/ts}
         {ts}Amount{/ts}: ${$amount|string_format:"%01.2f"}
-        {ts}Date{/ts}: {$receive_date}
+        {ts}Date{/ts}: {$receipt_date}
         {ts}Transaction #{/ts}: {$trxn_id}
 
 {ts}Billing Name and Address{/ts}

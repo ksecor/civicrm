@@ -9,7 +9,7 @@
     </div>
     <div id="help">
         <p>{ts}Your contribution has been processed successfully. Please print this page for your
-        records.{ts}</p>
+        records.{/ts}</p>
         {if $is_email_receipt}
             <p>{ts}An email receipt for this contribution has also been sent to {$email}{/ts}</p>
         {/if}
@@ -19,7 +19,7 @@
     </div>
     <div class="display-block">
         {ts}Amount{/ts}: <strong>${$amount|string_format:"%01.2f"}</strong><br />
-        {ts}Date{/ts}: <strong>{$receive_date}</strong><br />
+        {ts}Date{/ts}: <strong>{$receipt_date}</strong><br />
         {ts}Transaction #{/ts}: {$trxn_id}
     </div>
 

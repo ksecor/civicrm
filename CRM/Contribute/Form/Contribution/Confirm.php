@@ -176,7 +176,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/contribution', '_qf_Contribution_display=true' ) );
         }
 
+        $now = date( 'YmdHis' );
+
         $this->_params = array_merge( $this->_params, $result );
+        $this->_params['receipt_date'] = $now;
         $this->set( 'params', $this->_params );
         $this->assign( 'trxn_id', $result['trxn_id'] );
 
@@ -186,7 +189,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
-        $now = date( 'YmdHis' );
         // first create the transaction record
         $params = array(
                         'entity_table'      => 'civicrm_contact',
