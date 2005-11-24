@@ -545,7 +545,7 @@ ORDER BY
         
         $address =& new CRM_Core_BAO_Address();
         CRM_Core_BAO_Address::fixAddress( $params );
-            
+        
         if ( ! $address->copyValues( $params ) ) {
             $address->id = CRM_Utils_Array::value( 'address', $locationIds );
             $address->location_id = $location->id;

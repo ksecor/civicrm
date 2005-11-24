@@ -70,7 +70,6 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
     {
         $this->assignToTemplate( );
 
-        CRM_Core_Error::debug( 'p', $this->_params );
         $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
         $this->assign( 'receipt_date', $this->_params['receipt_date'] );       
     }

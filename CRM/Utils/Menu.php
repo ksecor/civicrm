@@ -583,9 +583,19 @@ class CRM_Utils_Menu {
                              'title'   => ts( 'CiviContribute' ), 
                              'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
                              'type'    => self::CALLBACK,  
-                             'crmType' => self::CALLBACK,  
+                             'crmType' => self::NORMAL_ITEM,  
                              'weight'  => 0,  
-                             ), 
+                             ),
+
+                      array( 
+                            'path'    => 'civicrm/contribute/import', 
+                            'title'   => ts( 'Import Contributions' ), 
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::NORMAL_ITEM,  
+                            'weight'  => 0,  
+                            ),
+
 
                       );
                       

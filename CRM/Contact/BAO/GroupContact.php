@@ -401,7 +401,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $query = '';
         if ( empty($returnProperties) ) {
-            $query = "SELECT * , civicrm_contact.id as civicrm_contact_id,
+            $query = "SELECT civicrm_contact.id as contact_id,
                         civicrm_email.email as email";
         } else {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
@@ -422,12 +422,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             self::getTableName() => true,
             CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
+            CRM_Contact_BAO_Group::getTableName() => true,
             CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
         );
-        
-        $inner = array(
+
+        $inner = array( );
+
+        // this seemed to cause CRM-588. not sure why brian had the inner array in the first place
+        // the search query does not use it either
+        /**
             CRM_Contact_BAO_Group::getTableName() => true
         );
+        **/
         
         $where = CRM_Contact_BAO_Query::getWhereClause($fv, null, $tables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
@@ -445,7 +451,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $offset != null && $row_count != null ) {
             $query .= " LIMIT $offset, $row_count";
         }
-        
+
+        // CRM_Core_Error::debug( 'q', $query );
+
         $dao =& new CRM_Contact_DAO_Contact();
         $dao->query($query);
         
