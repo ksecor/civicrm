@@ -664,7 +664,14 @@ class CRM_Core_Invoke {
             require_once 'CRM/Contribute/Import/Controller.php';
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
             return $controller->run();
-        } else { 
+        } else if ( $args[2] == 'add' ) {
+            $session =& CRM_Core_Session::singleton( );  
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) ); 
+
+            require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
+            $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
+            return $controller->run( ); 
+        } else {
             require_once 'CRM/Contribute/Page/ContributionPage.php';
             $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page')); 
             return $view->run( );

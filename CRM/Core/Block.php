@@ -53,8 +53,7 @@ class CRM_Core_Block {
         SHORTCUTS  =  2,
         SEARCH     =  4,
         ADD        =  8,
-        MAIL       = 16,
-        CONTRIBUTE = 32;
+        MAIL       = 16;
 
     /**
      * template file names for the above blocks
@@ -96,10 +95,6 @@ class CRM_Core_Block {
                                                                    'info'     => ts('CiviMail Menu'),
                                                                    'subject'  => ts('CiviMail'),
                                                                    'active'   => false ),
-                                       self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
-                                                                   'info'     => ts('CiviContribute Menu'),
-                                                                   'subject'  => ts('CiviContribute'),
-                                                                   'active'   => true ),
                                        );
         }
     }
@@ -201,8 +196,6 @@ class CRM_Core_Block {
             self::setTemplateMenuValues( );
         } else if ( $id == self::MAIL ) {  
             self::setTemplateMailValues( ); 
-        } else if ( $id == self::CONTRIBUTE ) {   
-            self::setTemplateContributeValues( );
         }
     }
 
@@ -285,38 +278,6 @@ class CRM_Core_Block {
     }
 
     /**
-     * create the list of mail urls for the application and format is as a block
-     *
-     * @return void
-     * @access private
-     */
-    private function setTemplateContributeValues( ) {
-        static $shortCuts = null;
-        
-        if (!($shortCuts)) {
-             $shortCuts = array( array( 'path'  => 'civicrm/contribute',
-                                        'qs'    => 'reset=1&action=add',
-                                        'title' => ts('New Contribution Page') ),
-                                 array( 'path'  => 'civicrm/contribute',
-                                        'qs'    => 'reset=1&action=browse',
-                                        'title' => ts('Browse Pages') ),
-                                 array( 'path'  => 'civicrm/contribute/import',
-                                        'qs'    => 'reset=1',
-                                        'title' => ts('Import Contributions') ),
-                                 );
-        }
-
-        $values = array( );
-        foreach ( $shortCuts as $short ) {
-            $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
-            $value['title'] = $short['title'];
-            $values[] = $value;
-        }
-        self::setProperty( self::CONTRIBUTE, 'templateValues', array( 'shortCuts' => $values ) );
-    }
-
-    /**
      * create the list of shortcuts for the application and format is as a block
      *
      * @return void
@@ -332,18 +293,65 @@ class CRM_Core_Block {
                  ( $item['crmType'] >= CRM_Utils_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {
                 $value = array( );
-                $value['url'  ] = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
-                $value['title'] = $item['title'];
-                $value['class'] = 'leaf';
+                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
+                $value['title']  = $item['title'];
+                $value['path']   = $item['path'];
+                $value['class']  = 'leaf';
+                $value['parent'] = null;
+                $value['start']  = $value['end'] = null;
+
                 if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ), $item['path'] ) === 0 ) {
                     $value['active'] = 'class="active"';
                 } else {
                     $value['active'] = '';
                 }
+                
+                // check if there is a parent
+                foreach ( $values as $weight => $v ) {
+                    if ( strpos( $item['path'], $v['path'] ) !== false) {
+                        $value['parent'] = $weight;
+
+                        // only reset if still a leaf
+                        if ( $values[$weight]['class'] == 'leaf' ) {
+                            $values[$weight]['class'] = 'collapsed';
+                        }
+
+                        // if a child or the parent is active, expand the menu
+                        if ( $value['active'] || $values[$weight]['active'] ) {
+                            $values[$weight]['class'] = 'expanded';
+                        }
+
+                        // make the parent inactive if the child is active
+                        if ( $value['active'] && $values[$weight]['active'] ) { 
+                            $values[$weight]['active'] = '';
+                        }
+
+                    }
+                }
+                
                 $values[$item['weight'] . '.' . $item['title']] = $value;
             }
         }
+
+        // remove all collapsed menu items from the array
+        $activeChildren = array( );
+        foreach ( $values as $weight => $v ) {
+            if ( $v['parent'] ) {
+                if ( $values[$v['parent']]['class'] == 'collapsed' ) {
+                    unset( $values[$weight] );
+                } else {
+                    $activeChildren[] = $weight;
+                }
+            }
+        }
+        
+        // add the start / end tags
+        $len = count($activeChildren) - 1;
+        $values[$activeChildren[0   ]]['start'] = true;
+        $values[$activeChildren[$len]]['end'  ] = true;
+
         ksort($values);
+
         self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
     }
 
