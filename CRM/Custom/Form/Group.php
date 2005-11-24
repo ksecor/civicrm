@@ -72,6 +72,44 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             CRM_Utils_System::setTitle(ts('New Custom Data Group'));
         }
     }
+     
+    /**
+     * global form rule
+     *
+     * @param array $fields  the input form values
+     * @param array $files   the uploaded files if any
+     * @param array $options additional user data
+     *
+     * @return true if no errors, else array of errors
+     * @access public
+     * @static
+     */
+    static function formRule(&$fields, &$files, $options) {
+        $errors = array();
+        $extends = array('Activity','Phonecall','Meeting','Group','Contribution');
+        if(in_array($fields['extends'],$extends) && $fields['style'] == 'Tab' ) {
+            $errors['style'] = 'Display Style should be Inline for this Class';
+        }
+        return empty($errors) ? true : $errors;
+    }
+    
+    
+
+
+    /**
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
+     *
+     * @return None
+     * @access public
+     * @see valid_date
+     */
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ) );
+    }
+
+
 
     /**
      * Function to actually build the form
@@ -108,7 +146,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // display style
         $this->add('select', 'style', ts('Display Style'), CRM_Core_SelectValues::customGroupStyle());
-
+       
         // is this group collapsed or expanded ?
         $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display'));
 
