@@ -86,7 +86,7 @@
     </tr>
     {/if}
 
-    {if $duplicateRowCount && $dupeError}
+    {if $duplicateRowCount}
     <tr class="error"><td class="label">{ts}Duplicate Rows{/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
         <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contribution records.{/ts} {$dupeActionString}

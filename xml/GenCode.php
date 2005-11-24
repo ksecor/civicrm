@@ -553,7 +553,7 @@ function getField( &$fieldXML, &$fields ) {
     case 'decimal':
         $field['sqlType'] = 'decimal(20,2)';
         $field['phpType'] = 'float';
-        $field['crmType'] = 'CRM_Utils_Type::T_FLOAT';
+        $field['crmType'] = 'CRM_Utils_Type::T_MONEY';
         break;
 
     default:

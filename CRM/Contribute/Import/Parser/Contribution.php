@@ -241,7 +241,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $this->_newContributions[] = $newContribution->id;
                 }
                 //CRM-262 No Duplicate Checking  
-                if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP) {
+                if ($onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_SKIP) {
                     return CRM_Contribute_Import_Parser::DUPLICATE; 
                 }
                 return CRM_Contribute_Import_Parser::VALID;

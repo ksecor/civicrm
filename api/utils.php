@@ -98,19 +98,26 @@ function _crm_update_object(&$object, &$values)
 }
 
 
-function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney = false) {
+function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney = false)
+{
     $fields =& $object->fields();
 
     require_once 'CRM/Utils/Type.php';
     foreach ($fields as $name => $field) {
-        if ($name == 'id' or
-            ($empty and empty($object->$name)) or
-            // FIXME: should be T_MONEY, but we declare the money fields as decimals (-> T_FLOAT)
-            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_FLOAT and $object->$name = '0.00')) {
+
+        if (($name == 'id') or ($empty and empty($object->$name)) or
+            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_MONEY and $object->$name == '0.00')) {
             continue;
         }
 
         $values[$name] = $object->$name;
+
+        // FIXME? change the dates from YYYY-MM-DD hh:mm:ss format back to YYYYMMDDhhmmss
+        // so the $values array is actually importable
+        if ($field['type'] & CRM_Utils_Type::T_DATE) {
+            $dropArray = array('-' => '', ':' => '', ' ' => '');
+            $values[$name] = strtr($values[$name], $dropArray);
+        }
     }
 }
 

@@ -77,9 +77,6 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
         if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE) {
             $dupeActionString = 
                 ts('These records have been updated with the imported data.');   
-        } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_REPLACE) {
-            $dupeActionString =
-                ts('These records have been replaced with the imported data.');
         } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_FILL) {
             $dupeActionString =
                 ts('These records have been filled in with the imported data.');
