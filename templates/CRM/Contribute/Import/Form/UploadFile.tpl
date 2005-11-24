@@ -43,10 +43,6 @@
         <dd class="description">
             {ts}<label>Fill:</label> Fills in additional contribution data only. Database fields which currently have values are left as-is.{/ts}
         </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contribution records for possible duplicates.{/ts}
-        </dd>
     </dl>
  </fieldset>
  </div>

@@ -84,9 +84,11 @@ function _crm_update_object(&$object, &$values)
             $object->$name = $values[$name];
             //if ( substr( $name, -1, 3 ) !== '_id' ) {
             /* only say we've found a value if at least one is not null */
-            if (substr($name, -3, 3) !== '_id' && $values[$name] !== null) {
+            // why do we check for non-id-ness and not null-ness?
+            // we do want to update FKs and be able to null fields, don't we?
+#           if (substr($name, -3, 3) !== '_id' && $values[$name] !== null) {
                 $valueFound = true;
-            }
+#           }
         }
     }
 
@@ -96,11 +98,15 @@ function _crm_update_object(&$object, &$values)
 }
 
 
-function _crm_update_from_object(&$object, &$values, $empty = false) {
+function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney = false) {
     $fields =& $object->fields();
 
+    require_once 'CRM/Utils/Type.php';
     foreach ($fields as $name => $field) {
-        if ($name == 'id' || ($empty && empty($object->$name))) {
+        if ($name == 'id' or
+            ($empty and empty($object->$name)) or
+            // FIXME: should be T_MONEY, but we declare the money fields as decimals (-> T_FLOAT)
+            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_FLOAT and $object->$name = '0.00')) {
             continue;
         }
 
@@ -788,6 +794,18 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     }
 
     return $contact;
+}
+
+function _crm_update_contribution($contribution, $values, $overwrite = true)
+{
+    CRM_Contribute_BAO_Contribution::resolveDefaults($values, true);
+
+    if (!$overwrite) {
+        _crm_update_from_object($contribution, $values, true, true);
+    }
+    _crm_update_object($contribution, $values);
+
+    return $contribution;
 }
 
 /**

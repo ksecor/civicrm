@@ -79,6 +79,35 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     }
 
     /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return CRM_Contribute_BAO_Contribution|null the found object or null
+     * @access public
+     * @static
+     */
+    static function &getValues( &$params, &$values, &$ids ) {
+
+        $contribution =& new CRM_Contribute_BAO_Contribution( );
+
+        $contribution->copyValues( $params );
+
+        if ( $contribution->find(true) ) {
+            $ids['contribution'] = $contribution->id;
+            $ids['domain' ] = $contribution->domain_id;
+
+            CRM_Core_DAO::storeValues( $contribution, $values );
+
+            return $contribution;
+        }
+        return null;
+    }
+
+    /**
      * takes an associative array and creates a contribution object
      *
      * This function is invoked from within the web form layer and also from the api layer

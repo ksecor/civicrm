@@ -230,13 +230,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 /* Params only had one id, so shift it out */
                 $contributionId = array_shift($newContribution->_errors[0]['params']);
             
-                if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_REPLACE) {
-                    $newContribution = crm_replace_contribution($contributionId, $formatted);
-                } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE) {
-                    $newContribution = crm_update_contribution($contributionId, $formatted, true);
+                if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE) {
+                    $newContribution = crm_update_contribution_formatted($contributionId, $formatted, true);
 
                 } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_FILL) {
-                    $newContribution = crm_update_contribution($contributionId, $formatted, false);
+                    $newContribution = crm_update_contribution_formatted($contributionId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
                 if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {

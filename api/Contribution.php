@@ -116,12 +116,9 @@ function &crm_create_contribution_formatted( &$params , $onDuplicate) {
         return $error;
     }
 
-    require_once 'CRM/Contribute/Import/Parser.php';
-    if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_NOCHECK) {
-        $error = _crm_duplicate_formatted_contribution($params);
-        if (is_a( $error, 'CRM_Core_Error')) {
-            return $error;
-        }
+    $error = _crm_duplicate_formatted_contribution($params);
+    if (is_a( $error, 'CRM_Core_Error')) {
+        return $error;
     }
     $ids = array();
     
