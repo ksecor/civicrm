@@ -228,25 +228,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $mapping->find();
 
             $mappingName = array();
-#           $mappingLocation = array();
-#           $mappingContactType = array();
-#           $mappingPhoneType = array();
-#           $mappingRelation = array();
             while($mapping->fetch()) {
                 $mappingName[$mapping->column_number] = $mapping->name;
-#               $mappingContactType[] = $mapping->contact_type;                
-
-#               if ( !empty($mapping->location_type_id ) ) {
-#                   $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
-#               }
-
-#               if ( !empty( $mapping->phone_type ) ) {
-#                   $mappingPhoneType[$mapping->column_number] = $mapping->phone_type;
-#               }
-                
-#               if ( !empty($mapping->relationship_type_id) ) {
-#                   $mappingRelation[$mapping->column_number] = $mapping->relationship_type_id;
-#               }
             }
 
             $this->assign('loadedMapping', $savedMapping);
@@ -280,8 +263,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $hasHeaders      = !empty($this->_columnHeaders);
         $headerPatterns  = $this->get( 'headerPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
-#       $hasLocationTypes = $this->get( 'fieldTypes' );
-
 
         /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
@@ -291,47 +272,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $sel1 = $this->_mapperFields;
 
         $sel2[''] = null;
-#       $phoneTypes = CRM_Core_SelectValues::phoneType();
-#       foreach ($this->_location_types as $key => $value) {
-#           $sel3['phone'][$key] =& $phoneTypes;
-#       }
-
-#       foreach ($mapperKeys as $key) {
-#           list($id, $first, $second) = explode('_', $key);
-#           if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-#               $contactRelation =& new CRM_Contact_DAO_RelationshipType();
-#               $contactRelation->id = $id;
-#               $contactRelation->find(true);
-
-#               eval( '$cType = $contactRelation->contact_type_' . $second . ';');
-
-#               $relatedFields = array();
-#               require_once 'CRM/Contact/BAO/Contact.php'; 
-#               $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType ); 
-#               unset($relatedFields['']);
-#               $values = array();
-#               foreach ($relatedFields as $name => $field ) {
-#                   $values[$name] = $field['title'];
-#                   if ($hasLocationTypes[$name]) {
-#                       $sel3[$key][$name] = $this->_location_types;
-#                   } else {
-#                       $sel3[$name] = null;
-#                   }
-#               }
-#               $sel2[$key] = $values;
-
-#               foreach ($this->_location_types as $k => $value) {
-#                   $sel4[$key]['phone'][$k] =& $phoneTypes;
-#               }
-                
-#           } else {
-#               if ($hasLocationTypes[$key]) {
-#                   $sel2[$key] = $this->_location_types;
-#               } else {
-#                   $sel2[$key] = null;
-#               }
-#           }
-#       }
 
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
@@ -347,42 +287,20 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 if ( isset($mappingName[$i]) ) {
                     if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
-                        if ( isset($mappingRelation[$i]) ) {
-                            $contributionDetails = strtolower(str_replace(" ", "_",$mappingName[$i]));
-#                           $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
-#                           $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
-#                           $defaults["mapper[$i]"] = array( $relation, $contactDetails, 
-#                                                            $locationId, $phoneType
-#                                                            );
-                            if ( ! $contributionDetails ) {
-                                $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-                            }
-#                           if ( ! $locationId ) {
-#                               $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-#                           }
-#                           if ( ! $phoneType ) {
-#                               $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-#                           }
-                            //$js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-                            $jsSet = true;
-                        } else {
-                            $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
-#                           $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;
-#                           $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
-                            
-#                           if ( ! $locationId ) {
-#                               $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-#                           }
+                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
+                        
+                        if ( ! $locationId ) {
+                            $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
+                        }
 
-#                           if ( ! $phoneType ) {
-#                               $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-#                           }
-                            
-                            $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-                            
-#                           $defaults["mapper[$i]"] = array( $mappingHeader[0], $locationId, $phoneType );
-                            $jsSet = true;
-                        }                        
+                        if ( ! $phoneType ) {
+                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
+                        }
+                        
+                        $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
+                        
+                        $defaults["mapper[$i]"] = array( $mappingHeader[0], $locationId, $phoneType );
+                        $jsSet = true;
                     } else {
                         $defaults["mapper[$i]"] = array();
                     }                          
@@ -467,21 +385,23 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     static function formRule( &$fields ) {
         $errors  = array( );
 
-        $importKeys = array();
-        foreach ($fields['mapper'] as $mapperPart) {
-            $importKeys[] = $mapperPart[0];
-        }
-        // FIXME: should use the schema titles, not redeclare them
-        $requiredFields = array(
-            'contact_id'        => ts('Contact ID'),
-            'total_amount'      => ts('Total Amount'),
-            'receive_date'      => ts('Receive Date'),
-            'contribution_type' => ts('Contribution Type')
-        );
-        // FIXME: used to appear, now doesn't - did we start to clear session at some point in between?
-        foreach ($requiredFields as $field => $title) {
-            if (!in_array($field, $importKeys)) {
-                $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+        if (!array_key_exists('savedMapping', $fields)) {
+            $importKeys = array();
+            foreach ($fields['mapper'] as $mapperPart) {
+                $importKeys[] = $mapperPart[0];
+            }
+            // FIXME: should use the schema titles, not redeclare them
+            $requiredFields = array(
+                'contact_id'        => ts('Contact ID'),
+                'total_amount'      => ts('Total Amount'),
+                'receive_date'      => ts('Receive Date'),
+                'contribution_type' => ts('Contribution Type')
+            );
+            // FIXME: appears with packages/HTML @r3847, doesn't appear with updated QuickForm
+            foreach ($requiredFields as $field => $title) {
+                if (!in_array($field, $importKeys)) {
+                    $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                }
             }
         }
 
@@ -542,65 +462,13 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         $mapperKeysMain     = array();
-#       $mapperLocType      = array();
-#       $mapperPhoneType    = array();
-        
-#       $locations = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
-
-            //$mapperLocType[$i] = $mapperKeys[$i][1];
-            
-#           if (is_numeric($mapperKeys[$i][1])) {
-#               $mapperLocType[$i] = $mapperKeys[$i][1];
-#           } else {
-#               $mapperLocType[$i] = null;
-#           }
-
-#           $locations[$i]  =   isset($mapperLocType[$i])
-#                           ?   $this->_location_types[$mapperLocType[$i]]
-#                           :   null;
-
-            //$mapperPhoneType[$i] = $mapperKeys[$i][2];
-#           if ( !is_numeric($mapperKeys[$i][2])) {
-#               $mapperPhoneType[$i] = $mapperKeys[$i][2];
-#           } else {
-#               $mapperPhoneType[$i] = null;
-#           }
-
-            //relationship info
-#           list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
-#           if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-#               $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
-#               $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
-#               $relatedContactLocType[$i] = isset($mapperKeys[$i][1]) ? $this->_location_types[$mapperKeys[$i][2]] : null;
-#               //$relatedContactPhoneType[$i] = !is_numeric($mapperKeys[$i][2]) ? $mapperKeys[$i][3] : null;
-#               $relatedContactPhoneType[$i] = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
-#               $relationType =& new CRM_Contact_DAO_RelationshipType();
-#               $relationType->id = $id;
-#               $relationType->find(true);
-#               eval( '$relatedContactType[$i] = $relationType->contact_type_'.$second.';');
-#           } else {
-#               $related[$i] = null;
-#               $relatedContactType[$i] = null;
-#               $relatedContactDetails[$i] = null;
-#               $relatedContactLocType[$i] = null;                
-#               $relatedContactPhoneType[$i] = null;
-#           }            
         }
 
         $this->set( 'mapper'    , $mapper     );
-#       $this->set( 'locations' , $locations  );
-#       $this->set( 'phones', $mapperPhoneType);
-
-        //relationship info
-#       $this->set( 'related'    , $related     );
-#       $this->set( 'relatedContactType',$relatedContactType );
-#       $this->set( 'relatedContactDetails',$relatedContactDetails );
-#       $this->set( 'relatedContactLocType',$relatedContactLocType );
-#       $this->set( 'relatedContactPhoneType',$relatedContactPhoneType );
                
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
@@ -608,8 +476,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {
             
-#           $locationTypes =& CRM_Core_PseudoConstant::locationType();            
-
             $mappingFields =& new CRM_Core_DAO_MappingField();
             $mappingFields->mapping_id = $params['mappingId'];
             $mappingFields->find( );
@@ -629,18 +495,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $updateMappingFields->column_number = $i;
 
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
-#               if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-#                   $updateMappingFields->relationship_type_id = $id;
-#                   $updateMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
-#                   $updateMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;                 
-#                   $updateMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;                  
-#               } else {
-#                   $updateMappingFields->name = $mapper[$i];
-#                   $updateMappingFields->relationship_type_id = null;
-#                   $location = array_keys($locationTypes, $locations[$i]);
-#                   $updateMappingFields->location_type_id = isset($location) ? $location[0] : null;                    
-#                   $updateMappingFields->phone_type = !is_numeric($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null; 
-#               }
+                $updateMappingFields->name = $mapper[$i];
                 $updateMappingFields->save();                
             }
         }
@@ -654,39 +509,15 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $saveMapping->mapping_type = 'Import';
             $saveMapping->save();
             
-#           $locationTypes =& CRM_Core_PseudoConstant::locationType();
-#           $contactType = $this->get('contactType');
-#           switch ($contactType) {
-#           case CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL :
-#               $cType = 'Individual';
-#               break;
-#           case CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD :
-#               $cType = 'Household';
-#               break;
-#           case CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION :
-#               $cType = 'Organization';
-#           }
 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
                 
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
-#               $saveMappingFields->contact_type = $cType;
                 $saveMappingFields->column_number = $i;                             
                 
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
-#               if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-#                   $saveMappingFields->name = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
-#                   $saveMappingFields->relationship_type_id = $id;
-#                   $saveMappingFields->phone_type = isset($mapperKeys[$i][3]) ? $mapperKeys[$i][3] : null;
-#                   $saveMappingFields->location_type_id = isset($mapperKeys[$i][2]) ? $mapperKeys[$i][2] : null;
-#               } else {
-#                   $saveMappingFields->name = $mapper[$i];
-#                   $location_id = array_keys($locationTypes, $locations[$i]);
-#                   $saveMappingFields->location_type_id = isset($location_id[0]) ? $location_id[0] : null;
-#                   $saveMappingFields->phone_type = !is_numeric($mapperPhoneType[$i]) ? $mapperPhoneType[$i] : null;
-#                   $saveMappingFields->relationship_type_id = null;
-#               }
+                $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
         }
