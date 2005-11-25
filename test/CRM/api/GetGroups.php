@@ -18,7 +18,6 @@ class TestOfGetGroups extends UnitTestCase
     {
         $groups = crm_get_groups();
         $this->assertNotA($groups,'CRM_Core_Error');
-        CRM_Core_Error::debug( 'g', count( $groups ) );
         foreach($groups as  $group) {
             $this->assertIsA($group,'CRM_Contact_DAO_Group');
 
@@ -27,11 +26,10 @@ class TestOfGetGroups extends UnitTestCase
 
     function testGetFilterdGroup()
     {
-        $params = array('name'=>'summer');
+        $params = array('name'=>'Summer Program Volunteers');
         $return_prop = array('name','title');
         $groups = crm_get_groups($params,$return_prop);
         $this->assertNotA($group,'CRM_Core_Error');
-        CRM_Core_Error::debug( 'g', count( $groups ) );
         foreach($groups as  $group) {
             $this->assertIsA($group,'CRM_Contact_DAO_Group');
 
@@ -46,7 +44,6 @@ class TestOfGetGroups extends UnitTestCase
         $return_prop = array('name','title','member_count');
         $groups = crm_get_groups($params);
         $this->assertNotA($group,'CRM_Core_Error');
-        CRM_Core_Error::debug( 'g', count( $groups ) );
         foreach($groups as  $group) {
             $this->assertIsA($group,'CRM_Contact_DAO_Group');
 
@@ -55,7 +52,11 @@ class TestOfGetGroups extends UnitTestCase
         
     }
 
-
+    function testCreateGroup( ) {
+        $params = array( 'title' => 'New api Group 2' );
+        $group = crm_create_group( $params );
+        CRM_Core_Error::debug( 'g', $group );
+    }
 
 
 }

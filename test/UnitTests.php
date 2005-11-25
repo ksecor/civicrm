@@ -22,7 +22,7 @@ class UnitTests extends GroupTest {
         // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM558.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM562.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM562.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM39.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM2474.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM491.php'    );
@@ -38,7 +38,7 @@ class UnitTests extends GroupTest {
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
