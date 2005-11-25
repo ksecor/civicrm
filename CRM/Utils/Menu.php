@@ -592,6 +592,15 @@ class CRM_Utils_Menu {
                                         );
 
                 self::$_items[] = array( 
+                                        'path'    => 'civicrm/contribute/search',
+                                        'title'   => ts( 'Search Contributions' ), 
+                                        'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
+                                        'type'    => self::CALLBACK,  
+                                        'crmType' => self::NORMAL_ITEM,  
+                                        'weight'  => 60,  
+                                        );
+
+                self::$_items[] = array( 
                                         'path'    => 'civicrm/contribute/add', 
                                         'title'   => ts( 'New Contribution Page' ), 
                                         'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 

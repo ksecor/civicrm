@@ -66,7 +66,8 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
 
             if (! @include_once($fileName)) {
                 // we could not include the file
-                $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
+                $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path',
+                                   array(1 => $fileName, 2 => $className));
                 return $this->_processError($errorString);
             }
 

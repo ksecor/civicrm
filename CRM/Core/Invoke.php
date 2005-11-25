@@ -660,6 +660,9 @@ class CRM_Core_Invoke {
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
+        } elseif ($args[2] == 'search') {
+            $wrapper =& new CRM_Utils_Wrapper( ); 
+            return $wrapper->run( 'CRM_Contribute_Form_Search', ts( 'Search Contributions' ), null );
         } elseif ($args[2] == 'import') {
             require_once 'CRM/Contribute/Import/Controller.php';
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));

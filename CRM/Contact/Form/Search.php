@@ -112,16 +112,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_searchButtonName;
 
     /**
-     * name of export button
+     * name of print button
      *
      * @var string
      * @access protected
      */
-    protected $_exportButtonName;
-
+    protected $_printButtonName;
     
     /**
-     * name of export button
+     * name of action button
      *
      * @var string
      * @access protected
@@ -297,9 +296,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                  )        
                            );
 
-        $this->add('submit', $this->_exportButtonName, ts('Export'),
-                   array( 'class' => 'form-submit',
-                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
         $this->add('submit', $this->_printButtonName, ts('Print'),
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );

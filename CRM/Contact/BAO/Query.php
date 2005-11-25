@@ -528,6 +528,8 @@ class CRM_Contact_BAO_Query {
 
         $this->includeContactIds( );
 
+        $this->contribution( );
+
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
         static $skipFields = array( 'postal_code', 'group', 'tag' );
@@ -1198,7 +1200,17 @@ class CRM_Contact_BAO_Query {
         if ( ! empty( $qill ) ) {
             $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
         }
-     }
+    }
+
+    function contribution( ) {
+        $config =& CRM_Core_Config::singleton( ); 
+        if (  ! in_array( 'CiviContribute', $config->enableComponents) ) {
+            return;
+        }
+
+        // process to / from date
+        
+    }
 
     /**
      * default set of return properties
