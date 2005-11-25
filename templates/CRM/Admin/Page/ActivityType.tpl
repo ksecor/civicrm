@@ -1,15 +1,16 @@
-<div id="help">
-    <p>{ts}Activities are 'interactions with contacts' which you want to record and track. CiviCRM has several reserved (e.g. 'built-in') activity types (meetings, phone calls, emails sent). Create additional 'activity types' here if you need to record other types of activities. For example, you might want to include 'New Client Intake', or 'Site Audit', etc. ...as types of trackable activites.{/ts}</p>
-    <p>{ts}Completed activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to our Administrator Documentation.{/ts}</p>
-</div>
-
+{* Admin page for browsing Activity Types *}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/ActivityType.tpl"}
+{else}
+<div id="help">
+    <p>{ts}Activities are 'interactions with contacts' which you want to record and track. CiviCRM has several reserved (e.g. 'built-in') activity types (meetings, phone calls, emails sent). Create additional 'activity types' here if you need to record other types of activities. For example, you might want to include 'New Client Intake', or 'Site Audit', etc. ...as types of trackable activites.{/ts}</p>
+    <p>{ts}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href="{crmURL p='civicrm/admin/custom/group' q='reset=1'}">here</a>.{/ts}</p>
+    <p>{ts}Completed activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to our Administrator Documentation.{/ts}</p>
+</div>
 {/if}
 
 {if $rows}
-<div id="ltype">
-<p></p>
+<div id="browseValues">
     <div class="form-item">
         {strip}
         <table>

@@ -11,7 +11,7 @@
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}For 'inline' display custom groups, this name will appear as the fieldset legend. If this group uses the 'tab' display style, this name will be used for the navigation tab.{/ts}</dd>
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of record that this group of custom fields is applicable for (e.g. are they used for any type of contact, OR used for Individuals but NOT for Organizations).{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of record that this group of custom fields is applicable for. You can configure custom data for a specific type of contact (e.g. Individuals but NOT Organizations), ANY type of contact, or other record types such as Activities and Contributions.{/ts}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which custom data groups are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>

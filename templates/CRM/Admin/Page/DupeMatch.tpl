@@ -1,38 +1,35 @@
-<div id="help">
-    <p>{ts}CiviCRM is pre-configured with standard options for Duplicate Matching rule .{/ts}</p>
-</div>
-
+{* Admin page for Duplicate Matching configuration *}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/DupeMatch.tpl"}
+{else}
+    <div id="help">
+        <p>{ts}CiviCRM uses a configurable Duplicate Matching Rule to determine when a new Individual contact should be flagged
+        as a potential duplicate of an existing record. The default configuration compares email address AND first name AND last name.
+        This rule is used when entering a new individual contact, updating an existing contact, and importing contacts with the Import
+        Wizard. Click <a href="{crmURL q="action=update&reset=1&advance=0"}">Edit Rule</a> to modify the set of contact fields used for identifying duplicate contacts.{/ts}</p>
+    </div>
 {/if}
 
 {if $rows}
-<div id="dupematch">
-<p></p>
+<div id="browseValues">
     <div class="form-item">
-        {strip}
-        <table>
+    {strip}
+    <table>
         
 	<tr class="columnheader">
-            <th>{ts} Duplicate Matching Rule {/ts}</th>            
-	<th></th>
-        </tr>
-        {foreach from=$rows item=row}
+        <th>{ts} Duplicate Matching Rule {/ts}</th>            
+        <th></th>
+    </tr>
+    {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 	        <td>{$row.rule}</td>	
 	        
 	        <td>{$row.action}</td>
         </tr>
-        {/foreach}
+    {/foreach}
 	
-        </table>
-        {/strip}
-
-        {if $action ne 1 and $action ne 2}
-	    <div class="action-link">
-    	<a href="{crmURL q="action=update&reset=1&advance=0"}" id="newDupeMatch">&raquo; {ts}Edit DupeMatch Rule{/ts}</a>
-        </div>
-        {/if}
+    </table>
+    {/strip}
     </div>
 </div>
     

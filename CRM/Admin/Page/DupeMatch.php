@@ -70,7 +70,7 @@ class CRM_Admin_Page_DupeMatch extends CRM_Core_Page_Basic
             // helper variable for nicer formatting
               self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
+                                                                    'name'  => ts('Edit Rule'),
                                                                     'url'   => 'civicrm/admin/dupematch',
                                                                     'qs'    => 'action=update&id=%%id%%&advance=0',
                                                                     'title' => ts('Edit DupeMatch') 
