@@ -768,7 +768,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * Function to make uf join entries for an uf group
      *
-     *
      * @param array $params (reference ) an assoc array of name/value pairs
      * @param array $ufGroupId    ufgroup id
      *
@@ -778,9 +777,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      */
     static function createUFJoin( &$params, $ufGroupId ) 
     {
-
         $groupTypes = $params['uf_group_type'];
-
+        
         // get ufjoin records for uf group
         $ufGroupRecord =& CRM_Core_BAO_UFGroup::getUFJoinRecord($ufGroupId);
         
@@ -809,10 +807,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             } else if (!array_key_exists($key, $groupTypes) && in_array($key, $ufGroupRecord) ) {
                 // delete a record for existing ufgroup
                 CRM_Core_BAO_UFGroup::delUFJoin($joinParams);
-            } else {
-                //update the record 
-                CRM_Core_BAO_UFGroup::addUFJoin($joinParams, $ufGroupId);
-            }
+            } 
         }
     }
 
@@ -956,10 +951,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $dao =& new CRM_Core_DAO( );
 
         $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
-                               civicrm_uf_join.weight as weight, civicrm_uf_join.is_active as is_active
-                        FROM civicrm_uf_group, civicrm_uf_join
-                        WHERE civicrm_uf_group.id = civicrm_uf_join.uf_group_id
-                          AND civicrm_uf_group.is_active = 1
+                               civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
+                        FROM civicrm_uf_group
+                        LEFT OUTER JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
+                        WHERE  civicrm_uf_group.is_active = 1
                           AND civicrm_uf_group.domain_id = ' . CRM_Core_Config::domainID( ); 
         if ($moduleName) {
             $queryString .= ' AND civicrm_uf_join.module ="' . CRM_Utils_Type::escape($moduleName, 'String') .'" ';

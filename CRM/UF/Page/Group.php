@@ -203,30 +203,17 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     function browse($action=null)
     {
         
-        $ufGroup = array();
-        //require_once 'CRM/Core/DAO/UFGroup.php';
-        //$dao =& new CRM_Core_DAO_UFGroup();
-
-        // set the domain_id parameter
-        // $config =& CRM_Core_Config::singleton( );
-        //$dao->domain_id = $config->domainID( );
-
-        //$dao->orderBy('weight', 'title');
-        //$dao->find();
-
+        $ufGroup     = array( );
+        $allUFGroups = array( );
         require_once 'CRM/Core/BAO/UFGroup.php';
         $allUFGroups = CRM_Core_BAO_UFGroup::getModuleUFGroup( );
-        //print_r($allUFGroups);
-        //while ($dao->fetch()) {
-        foreach ($allUFGroups as $key => $value) {
-            //print_r($value);
-            //echo "<br>";
-            $ufGroup[$key] = array();
 
+        foreach ($allUFGroups as $key => $value) {
+            $ufGroup[$key] = array();
             $ufGroup[$key]['title'    ] = $value['title'];
             $ufGroup[$key]['weight'   ] = $value['weight'];
             $ufGroup[$key]['is_active'] = $value['is_active'];
-            //CRM_Core_DAO::storeValues( $dao, $ufGroup[$key]);
+
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             
@@ -238,7 +225,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
             }
             
             $ufGroup[$key]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                     array('id' => $key));
+                                                                 array('id' => $key));
             //get the "Used For" from uf_join
             $ufGroup[$key]['module'] = implode( ', ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $key, true ));
         }
