@@ -179,7 +179,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $now = date( 'YmdHis' );
 
         $this->_params = array_merge( $this->_params, $result );
-        $this->_params['receipt_date'] = $now;
+        $this->_params['receive_date'] = $now;
         $this->set( 'params', $this->_params );
         $this->assign( 'trxn_id', $result['trxn_id'] );
 

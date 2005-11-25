@@ -192,6 +192,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->controller->exportValues( $this->_name );
         }
 
+        $query =& new CRM_Contact_BAO_Query( $this->_formValues );
+        CRM_Core_Error::debug( 'q', $query->query( ) );
     }
 
 }

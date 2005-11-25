@@ -851,7 +851,11 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_gender':
                 $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
                 continue;
-                
+
+            case 'civicrm_contribution':
+                $from .= " $side JOIN civicrm_contribution ON ( civicrm_contribution.entity_table = 'civicrm_contact' AND 
+                                                          civicrm_contact.id = civicrm_contribution.entity_id )"; 
+                continue; 
             }
 
         }
@@ -1209,7 +1213,89 @@ class CRM_Contact_BAO_Query {
         }
 
         // process to / from date
-        
+        $qill = array( );
+        if ( isset( $this->_params['contribution_from_date'] ) ) { 
+            $revDate = array_reverse( $this->_params['contribution_from_date'] ); 
+            $date    = CRM_Utils_Date::format( $revDate ); 
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
+            if ( $date ) { 
+                $this->_where[] = "civicrm_contribution.receive_date >= '$date'";  
+                $this->_tables['civicrm_contribution'] = 1; 
+                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) ); 
+            } 
+        }  
+ 
+        if ( isset( $this->_params['contribution_to_date'] ) ) { 
+            $revDate = array_reverse( $this->_params['contribution_to_date'] ); 
+            $date    = CRM_Utils_Date::format( $revDate ); 
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
+            if ( $date ) { 
+                $this->_where[] = " ( civicrm_contribution.receive_date <= '$date' ) ";  
+                $this->_tables['civicrm_contribution'] = 1;  
+                $qill[] = ts( 'less than "%1"', array( 1 => $format ) ); 
+            } 
+        } 
+         
+        if ( ! empty( $qill ) ) { 
+            $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) ); 
+        } 
+
+        CRM_Core_Error::debug( 'p', $this->_params );
+        // process min/max amount
+        $qill = array( ); 
+        if ( isset( $this->_params['contribution_min_amount'] ) ) {  
+            $amount = $this->_params['contribution_min_amount'];
+            if ( $amount > 0 ) {
+                $this->_where[] = "civicrm_contribution.total_amount >= $amount";
+                $this->_tables['civicrm_contribution'] = 1;  
+                $qill[] = ts( 'greater than "%1"', array( 1 => $amount ) );
+            } 
+        }
+    
+        if ( isset( $this->_params['contribution_max_amount'] ) ) {  
+            $amount = $this->_params['contribution_max_amount'];
+            if ( $amount > 0 ) {
+                $this->_where[] = "civicrm_contribution.total_amount <= $amount";
+                $this->_tables['civicrm_contribution'] = 1;   
+                $qill[] = ts( 'less than "%1"', array( 1 => $amount ) );
+            }
+        }
+
+        if ( ! empty( $qill ) ) {  
+            $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
+        }  
+
+        if ( isset( $this->_params['contribution_type_id'] ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $cType = $this->_params['contribution_type_id'];
+            $types = CRM_Contribute_PseudoConstant::contributionType( );
+            $this->_where[] = "civicrm_contribution.contribution_type_id = $cType";
+            $this->_tables['civicrm_contribution'] = 1;
+            $this->_qill[] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
+        }
+
+        if ( isset( $this->_params['payment_instrument_id'] ) ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pi = $this->_params['payment_instrument_id'];
+            $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
+            $this->_where[] = "civicrm_contribution.payment_instrument_id = $pi";
+            $this->_tables['civicrm_contribution'] = 1;
+            $this->_qill[] = ts( 'Payment Instrument - %1', array( 1 => $pis[$pi] ) );
+        }
+
+        if ( isset( $this->_params['contribution_status'] ) ) {
+            switch( $this->_params['contribution_status'] ) {
+            case 'Valid':
+                $this->_where[] = "civicrm_contribution.cancel_date is null";
+                $this->_qill[]  = ts( 'Contribution Status - Valid' );
+                break;
+
+            case 'Cancelled':
+                $this->_where[] = "civicrm_contribution.cancel_date is not null";
+                $this->_qill[]  = ts( 'Contribution Status - Cancelled' );
+                break;
+            }
+        }
     }
 
     /**

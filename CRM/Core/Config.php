@@ -617,7 +617,7 @@ class CRM_Core_Config {
         }
         
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
-            $this->paymentKey = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
+            $this->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {

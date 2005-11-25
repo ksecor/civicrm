@@ -19,7 +19,7 @@
     </div>
     <div class="display-block">
         {ts}Amount{/ts}: <strong>${$amount|string_format:"%01.2f"}</strong><br />
-        {ts}Date{/ts}: <strong>{$receipt_date}</strong><br />
+        {ts}Date{/ts}: <strong>{$receive_date}</strong><br />
         {ts}Transaction #{/ts}: {$trxn_id}
     </div>
 
