@@ -279,8 +279,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) );
-            // does not work in php4 . pls revert when done with php4
-            //foreach ( $rows as &$row ) {
             foreach ($rows as $row) {
                 $this->addElement( 'checkbox', $row['checkbox'],
                                    null, null,

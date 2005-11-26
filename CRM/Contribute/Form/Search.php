@@ -39,6 +39,8 @@
  */
 
 require_once 'CRM/Contribute/PseudoConstant.php';
+require_once 'CRM/Contribute/Selector/Search.php';
+require_once 'CRM/Core/Selector/Controller.php';
 
 /**
  * advanced search, extends basic search
@@ -108,6 +110,40 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
 
         $this->_done = false;
+
+        /* 
+         * we allow the controller to set force/reset externally, useful when we are being 
+         * driven by the wizard framework 
+         */ 
+        $nullObject = null; 
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject ); 
+ 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false ); 
+ 
+        // we only force stuff once :) 
+        $this->set( 'force', false ); 
+
+        // get user submitted values  
+        // get it from controller only if form has been submitted, else preProcess has set this  
+        if ( ! empty( $_POST ) ) { 
+            $this->_formValues = $this->controller->exportValues($this->_name);  
+            $this->set( 'formValues', $this->_formValues );
+        } else {
+            $this->_formValues = $this->get( 'formValues' ); 
+        } 
+ 
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action ); 
+        $controller =& new CRM_Core_Selector_Controller($selector ,  
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),  
+                                                        $sortID,  
+                                                        CRM_Core_Action::VIEW, 
+                                                        $this, 
+                                                        CRM_Core_Selector_Controller::SESSION );
+        $controller->setEmbedded( true ); 
+        if ( $this->_force ) { 
+            $this->postProcess( );
+        }
+        $controller->moveFromSessionToTemplate(); 
     }
 
     /**
@@ -152,7 +188,22 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         
         $this->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
 
-        // add buttons 
+        /* 
+         * add form checkboxes for each row. This is needed out here to conform to QF protocol 
+         * of all elements being declared in builQuickForm 
+         */ 
+        $rows = $this->get( 'rows' ); 
+        if ( is_array( $rows ) ) { 
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            foreach ($rows as $row) { 
+                $this->addElement( 'checkbox', $row['checkbox'], 
+                                   null, null, 
+                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                   ); 
+            } 
+        } 
+
+         // add buttons 
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
                                          'name'      => ts('Search') , 
@@ -186,14 +237,22 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->_done = true;
 
-        // get user submitted values
-        // get it from controller only if form has been submitted, else preProcess has set this
-        if ( ! empty( $_POST ) ) {
-            $this->_formValues = $this->controller->exportValues( $this->_name );
-        }
+        $sortID = null; 
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
+        } 
 
-        $query =& new CRM_Contact_BAO_Query( $this->_formValues );
-        CRM_Core_Error::debug( 'q', $query->query( ) );
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action );
+        $controller =& new CRM_Core_Selector_Controller($selector , 
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ), 
+                                                        $sortID, 
+                                                        CRM_Core_Action::VIEW,
+                                                        $this,
+                                                        CRM_Core_Selector_Controller::SESSION );
+        $controller->setEmbedded( true ); 
+        $controller->run(); 
+
     }
 
 }

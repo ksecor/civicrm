@@ -154,6 +154,8 @@ class CRM_Contact_BAO_Query {
      */
     protected $_strict = false;
 
+    protected $_contribute = false;
+
     /** 
      * Should we only search on primary location
      *    
@@ -198,25 +200,27 @@ class CRM_Contact_BAO_Query {
      * @param array   $fields
      * @param boolean $includeContactIds
      * @param boolean $strict
+     * @param boolean $contribute - true if in contribution mode search
      *
      * @return Object
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false ) {
+                          $includeContactIds = false, $strict = false, $contribute = false ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
-            $this->_returnProperties =& self::defaultReturnProperties( ); 
+            $this->_returnProperties =& self::defaultReturnProperties( $contribute ); 
         } else {
             $this->_returnProperties =& $returnProperties;
         }
 
         $this->_includeContactIds = $includeContactIds;
         $this->_strict            = $strict;
+        $this->_contribute        = $contribute;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -268,9 +272,44 @@ class CRM_Contact_BAO_Query {
         static $special = array( 'contact_type', 'sort_name', 'display_name' );
         foreach ( $special as $name ) {
             if ( CRM_Utils_Array::value( $name, $this->_returnProperties ) ) { 
-                $this->_select[$name]  = 'civicrm_contact.' . $name . ' as ' . $name;
+                $this->_select[$name]  = "civicrm_contact.{$name} as $name";
                 $this->_element[$name] = 1;
             }
+        }
+    }
+
+    function addContributeFields( ) {
+        if ( ! $this->_contribute ) {
+            return;
+        }
+
+        static $cFields = array( 'total_amount'  => 'total_amount',
+                                 'receive_date'  => 'receive_date',
+                                 'thankyou_date' => 'thankyou_date',
+                                 'cancel_date'   => 'cancel_date',
+                                 'source'        => 'contribution_source' );
+        $need = false;
+        foreach ( $cFields as $key => $value ) {
+            if ( CRM_Utils_Array::value( $key, $this->_returnProperties ) ) {
+                $this->_select[$key]  = "civicrm_contribution.{$key} as $value";
+                $this->_element[$key] = 1;
+                $this->_tables['civicrm_contribution'] = 1;
+                $need = true;
+            }
+        }
+        
+        
+        // get contribution_type
+        if ( CRM_Utils_Array::value( 'contribution_type', $this->_returnProperties ) ) {
+            $this->_select['contribution_type']  = "civicrm_contribution_type.name as contribution_type";
+            $this->_element['contribution_type'] = 1;
+            $this->_tables['civicrm_contribution'] = 1;
+            $this->_tables['civicrm_contribution_type'] = 1;
+            $need = true;
+        }
+
+        if ( $need ) {
+            $this->_select['contribution_id'] = "civicrm_contribution.id as contribution_id";
         }
     }
 
@@ -289,6 +328,9 @@ class CRM_Contact_BAO_Query {
         $cfIDs      = array( );
 
         $this->addSpecialFields( );
+
+        $this->addContributeFields( );
+
         //CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
@@ -853,9 +895,14 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_contribution':
-                $from .= " $side JOIN civicrm_contribution ON ( civicrm_contribution.entity_table = 'civicrm_contact' AND 
-                                                          civicrm_contact.id = civicrm_contribution.entity_id )"; 
-                continue; 
+                $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                continue;
+
+            case 'civicrm_contribution_type':
+                $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
+                continue;
+
+
             }
 
         }
@@ -1240,7 +1287,6 @@ class CRM_Contact_BAO_Query {
             $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) ); 
         } 
 
-        CRM_Core_Error::debug( 'p', $this->_params );
         // process min/max amount
         $qill = array( ); 
         if ( isset( $this->_params['contribution_min_amount'] ) ) {  
@@ -1265,7 +1311,7 @@ class CRM_Contact_BAO_Query {
             $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
         }  
 
-        if ( isset( $this->_params['contribution_type_id'] ) ) {
+        if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_params ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
             $cType = $this->_params['contribution_type_id'];
             $types = CRM_Contribute_PseudoConstant::contributionType( );
@@ -1274,7 +1320,7 @@ class CRM_Contact_BAO_Query {
             $this->_qill[] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
         }
 
-        if ( isset( $this->_params['payment_instrument_id'] ) ) {
+        if ( CRM_Utils_Array::value( 'payment_instrument_id', $this->_params ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pi = $this->_params['payment_instrument_id'];
             $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
@@ -1304,36 +1350,50 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    static function &defaultReturnProperties( ) {
+    static function &defaultReturnProperties( $contribute = false ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
-            self::$_defaultReturnProperties = array( 
-                                                    'home_URL'               => 1, 
-                                                    'image_URL'              => 1, 
-                                                    'legal_identifier'       => 1, 
-                                                    'external_identifier'    => 1,
-                                                    'contact_type'           => 1,
-                                                    'sort_name'              => 1,
-                                                    'display_name'           => 1,
-                                                    'nick_name'              => 1, 
-                                                    'first_name'             => 1, 
-                                                    'middle_name'            => 1, 
-                                                    'last_name'              => 1, 
-                                                    'prefix'                 => 1, 
-                                                    'suffix'                 => 1,
-                                                    'birth_date'             => 1,
-                                                    'gender'                 => 1,
-                                                    'street_address'         => 1, 
-                                                    'supplemental_address_1' => 1, 
-                                                    'supplemental_address_2' => 1, 
-                                                    'city'                   => 1, 
-                                                    'postal_code'            => 1, 
-                                                    'postal_code_suffix'     => 1, 
-                                                    'state_province'         => 1, 
-                                                    'country'                => 1, 
-                                                    'email'                  => 1, 
-                                                    'phone'                  => 1, 
-                                                    'im'                     => 1, 
+            if ( ! $contribute ) {
+                self::$_defaultReturnProperties = array( 
+                                                        'home_URL'               => 1, 
+                                                        'image_URL'              => 1, 
+                                                        'legal_identifier'       => 1, 
+                                                        'external_identifier'    => 1,
+                                                        'contact_type'           => 1,
+                                                        'sort_name'              => 1,
+                                                        'display_name'           => 1,
+                                                        'nick_name'              => 1, 
+                                                        'first_name'             => 1, 
+                                                        'middle_name'            => 1, 
+                                                        'last_name'              => 1, 
+                                                        'prefix'                 => 1, 
+                                                        'suffix'                 => 1,
+                                                        'birth_date'             => 1,
+                                                        'gender'                 => 1,
+                                                        'street_address'         => 1, 
+                                                        'supplemental_address_1' => 1, 
+                                                        'supplemental_address_2' => 1, 
+                                                        'city'                   => 1, 
+                                                        'postal_code'            => 1, 
+                                                        'postal_code_suffix'     => 1, 
+                                                        'state_province'         => 1, 
+                                                        'country'                => 1, 
+                                                        'email'                  => 1, 
+                                                        'phone'                  => 1, 
+                                                        'im'                     => 1, 
                                                     ); 
+            } else {
+                self::$_defaultReturnProperties = array(  
+                                                        'contact_type'           => 1, 
+                                                        'sort_name'              => 1, 
+                                                        'display_name'           => 1,
+                                                        'contribution_type'      => 1,
+                                                        'source'                 => 1,
+                                                        'receive_date'           => 1,
+                                                        'thankyou_date'          => 1,
+                                                        'cancel_date'            => 1,
+                                                        'total_amount'           => 1,
+                                                        );
+            }
         }
         return self::$_defaultReturnProperties;
     }
@@ -1463,7 +1523,7 @@ class CRM_Contact_BAO_Query {
         }
 
         // building the query string
-        $query = $select . $from . $where . $order . $limit;
+        $query = "$select $from $where $order $limit";
         if ( $returnQuery ) {
             return $query;
         }
