@@ -45,6 +45,8 @@
 
 {include file="CRM/pager.tpl" location="top"}
 
+{if ! empty( $rows )}
+
 {strip}
 <table>
   <tr class="columnheader">
@@ -77,6 +79,19 @@
     <td>{$row.action}</td>
   </tr>
   {/foreach}
+  <tr></tr>
+  <tr>
+    <td></td>
+    <td>Totals</td>
+    <td>{$num_amount}</td>
+    <td>{$total_amount}</td>
+    <td>{$cancel_amount}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
 {/strip}
 
@@ -88,3 +103,5 @@
 
 
 {include file="CRM/pager.tpl" location="bottom"}
+
+{/if}

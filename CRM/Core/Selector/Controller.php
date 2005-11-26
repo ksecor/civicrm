@@ -386,16 +386,16 @@ class CRM_Core_Selector_Controller {
     function moveFromSessionToTemplate()
     {
         self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-        
-        if ( $this->_store->get( 'rows' ) ) {
+
+        $rows = $this->_store->get( 'rows' );
+        if ( $rows ) {
             self::$_template->assign( 'aToZ'  ,
                                       $this->_store->get( 'AToZBar' ) );
         }
         
-        self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
-        
+        self::$_template->assign_by_ref( 'sort'  , $this->_sort    );
         self::$_template->assign( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        self::$_template->assign( 'rows'         , $this->_store->get('rows')            );
+        self::$_template->assign( 'rows'         , $rows                                 );
         self::$_template->assign( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
         self::$_template->assign( 'qill'         , $this->_store->get( 'qill' )          );
 

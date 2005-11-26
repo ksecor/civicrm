@@ -127,7 +127,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
             $this->_formValues = $this->controller->exportValues($this->_name);  
-            $this->set( 'formValues', $this->_formValues );
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
@@ -193,14 +192,26 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
          * of all elements being declared in builQuickForm 
          */ 
         $rows = $this->get( 'rows' ); 
-        if ( is_array( $rows ) ) { 
+        if ( is_array( $rows ) ) {
             $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            
+            $total = $cancel = 0;
             foreach ($rows as $row) { 
                 $this->addElement( 'checkbox', $row['checkbox'], 
                                    null, null, 
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
-            } 
+
+                if ( $row['cancel_date'] ) {
+                    $cancel += $row['total_amount'];
+                } else {
+                    $total     += $row['total_amount'];
+                }
+            }
+
+            $this->assign( 'total_amount' , $total  );
+            $this->assign( 'cancel_amount', $cancel );
+            $this->assign( 'num_amount'   , count( $rows ) );
         } 
 
          // add buttons 
@@ -236,6 +247,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         }
 
         $this->_done = true;
+
+        $this->_formValues = $this->controller->exportValues($this->_name);
+        $this->set( 'formValues', $this->_formValues );
 
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
