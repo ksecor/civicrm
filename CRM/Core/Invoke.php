@@ -655,14 +655,18 @@ class CRM_Core_Invoke {
         if ( $args[1] !== 'contribute' ) {  
             return;  
         }  
-            
+
+        $session =& CRM_Core_Session::singleton();
         if ( $args[2] == 'contribution' ) { 
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
         } elseif ($args[2] == 'search') {
-            $wrapper =& new CRM_Utils_Wrapper( ); 
-            return $wrapper->run( 'CRM_Contribute_Form_Search', ts( 'Search Contributions' ), null );
+            require_once 'CRM/Contribute/Controller/Search.php'; 
+            $controller =& new CRM_Contribute_Controller_Search($title, $mode); 
+            $url = 'civicrm/contribute/search';
+            $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
+            return $controller->run();
         } elseif ($args[2] == 'import') {
             require_once 'CRM/Contribute/Import/Controller.php';
             $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));

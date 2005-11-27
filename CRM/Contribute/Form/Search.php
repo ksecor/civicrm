@@ -212,7 +212,24 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->assign( 'total_amount' , $total  );
             $this->assign( 'cancel_amount', $cancel );
             $this->assign( 'num_amount'   , count( $rows ) );
-        } 
+
+            // also add the action and radio boxes
+            require_once 'CRM/Contribute/Task.php';
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::tasks( );
+            $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
+            $this->add('submit', $this->_actionButtonName, ts('Go'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
+
+            $this->add('submit', $this->_printButtonName, ts('Print'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
+
+            
+            // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+        }
 
          // add buttons 
         $this->addButtons( array( 
@@ -250,6 +267,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->_formValues = $this->controller->exportValues($this->_name);
         $this->set( 'formValues', $this->_formValues );
+
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) { 
+            // check actionName and if next, then do not repeat a search, since we are going to the next page 
+ 
+            // hack, make sure we reset the task values 
+            $stateMachine =& $this->controller->getStateMachine( ); 
+            $formName     =  $stateMachine->getTaskFormName( ); 
+            $this->controller->resetPage( $formName ); 
+            return; 
+        }
 
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 

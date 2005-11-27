@@ -47,6 +47,27 @@
 
 {if ! empty( $rows )}
 
+<div id="search-status">
+   {ts count=$pager->_totalItems plural='Found %count contributions'}Found %count contributions{/ts} 
+   {if $qill} 
+     <ul> 
+     {foreach from=$qill item=criteria} 
+       <li>{$criteria}</li> 
+     {/foreach} 
+     </ul> 
+   {/if}
+</div>
+
+<div class="form-item"> 
+  <div> 
+     {$form._qf_Search_next_print.html}&nbsp;&nbsp;
+     {$form.task.html}
+     {$form._qf_Search_next_action.html} 
+     <br /> 
+     <label>{$form.radio_ts.ts_sel.html} {ts}selected records only{/ts}</label>&nbsp; <label>{$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</label> 
+   </div>
+</div>
+
 {strip}
 <table>
   <tr class="columnheader">

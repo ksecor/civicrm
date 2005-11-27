@@ -252,7 +252,7 @@ class CRM_Contact_BAO_Query {
 
         $this->_customQuery = null; 
  
-        $this->_select['contact_id']      = 'DISTINCT civicrm_contact.id as contact_id';
+        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id';
         $this->_element['contact_id']     = 1; 
         $this->_tables['civicrm_contact'] = 1; 
 
@@ -505,11 +505,11 @@ class CRM_Contact_BAO_Query {
      */ 
     function query( $count = false, $sortByChar = false, $groupContacts = false ) {
         if ( $count ) {
-            $select = 'SELECT count(DISTINCT civicrm_contact.id)'; 
+            $select = 'SELECT count(civicrm_contact.id)'; 
         } else if ( $sortByChar ) {  
             $select = 'SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name';
         } else if ( $groupContacts ) { 
-            $select  = 'SELECT DISTINCT civicrm_contact.id as id'; 
+            $select  = 'SELECT civicrm_contact.id as id'; 
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
                 // make sure there is only one element
