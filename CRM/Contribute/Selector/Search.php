@@ -310,7 +310,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 'sort'      => 'total_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('Contribution Type'),
+                                          array('name'      => ts('Type'),
                                                 'sort'      => 'contribution_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -320,17 +320,17 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Received Date'),
+                                                'name'      => ts('Received'),
                                                 'sort'      => 'receive_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Thank You Date'),
+                                                'name'      => ts('Thank-you Sent'),
                                                 'sort'      => 'thankyou_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Cancel Date'),
+                                                'name'      => ts('Cancelled'),
                                                 'sort'      => 'cancel_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -351,7 +351,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return string name of the file 
      */ 
     function getExportFileName( $output = 'csv') { 
-        return ts('CiviCRM Contact Search'); 
+        return ts('CiviCRM Contribution Search'); 
     }
 
 }//end of class

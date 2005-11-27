@@ -14,11 +14,6 @@
     {/foreach}
     </ul>
   {/if}
-  {if $savedSearch.name}
-    <div class="element-right">
-        
-    </div>
-  {/if}
  </div>
 
  <div class="form-item">

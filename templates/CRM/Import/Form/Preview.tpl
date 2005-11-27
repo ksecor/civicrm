@@ -68,11 +68,11 @@
  {* Group options *}
 
 <div id="newGroup[show]" class="data-group">
-    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;"><label>{ts}&raquo;{$form.newGroup.label}{/ts}</label></a><br />
+    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;"><label>{ts}&raquo; {$form.newGroup.label}{/ts}</label></a><br />
 </div>
 
-<div id="newGroup">
-    <legend><a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">{ts}&raquo;{$form.newGroup.label}{/ts}</a></legend>
+<div id="newGroup" class="data-group">
+    <legend><a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">{ts}&raquo; {$form.newGroup.label}{/ts}</a></legend>
     <div class="form-item">
 	    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
 	    <dt class="description">{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
@@ -80,10 +80,10 @@
 </div>
 
 <div id="exitGroup[show]" class="data-group">
-    <a href="#" onclick="hide('exitGroup[show]'); show('exitGroup'); return false;"><label>{ts}&raquo;{$form.groups.label}{/ts}</label></a><br />
+    <a href="#" onclick="hide('exitGroup[show]'); show('exitGroup'); return false;"><label>{ts}&raquo; {$form.groups.label}{/ts}</label></a><br />
 </div>
-<div id="exitGroup">
-    <legend><a href="#" onclick="hide('exitGroup'); show('exitGroup[show]'); return false;">{ts}&raquo;{$form.groups.label}{/ts}</a></legend>
+<div id="exitGroup" class="data-group">
+    <legend><a href="#" onclick="hide('exitGroup'); show('exitGroup[show]'); return false;">{ts}&raquo; {$form.groups.label}{/ts}</a></legend>
     <div class="form-item">
 	     <dd><br />{$form.groups.html}</dd>
     </div>

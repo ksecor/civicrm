@@ -154,7 +154,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     function buildQuickForm( ) 
     {
         // text for sort_name 
-        $this->add('text', 'sort_name', ts('Name or email')); 
+        $this->addElement('text', 'sort_name', ts('Contributor'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         // Date selects for date 
         $this->add('date', 'contribution_from_date', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
@@ -186,6 +186,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $status[] = $this->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
         
         $this->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
+        // ?? want to set radio default to 'Valid' ??
+        // $this->setDefaults(array('contribution_status' => 'Valid'));
 
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 

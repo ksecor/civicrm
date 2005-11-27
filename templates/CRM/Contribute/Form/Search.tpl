@@ -1,128 +1,74 @@
-<fieldset>
-    <div class="form-item">                    
+<div id="help">
+    {ts}Use this form to find contributions by contributor name, contribution date or amount ranges,
+    type of contribution, payment method and / or status.{/ts}
+</div>
+<fieldset><legend>{ts}Find Contributions{/ts}</legend>
     {strip} 
-        <table class="form-layout"> 
-        <tr>                                          
-            <td class="font-size12pt">{$form.sort_name.label}</td> 
-            <td>{$form.sort_name.html}    
-                <div class="description font-italic"> 
-                    {ts}Complete OR partial contact name OR email.{/ts} 
+        <table class="form-layout">
+		<tr>
+            <td class="font-size12pt label">{$form.sort_name.label}</td>
+            <td colspan="2">{$form.sort_name.html}
+                <div class="description font-italic">
+                    {ts}Complete OR partial name OR email.{/ts}
                 </div>
-            </td> 
-            <td class="label">{$form.buttons.html}</td>        
-        </tr>
-        <tr> 
-            <td><label>{ts}Contribution Type{/ts}</label><br /> 
-                {$form.contribution_type_id.html} 
-            </td> 
-            <td><label>{ts}Payment Instrument{/ts}</label><br /> 
-                {$form.payment_instrument_id.html} 
-            </td> 
-            <td><label>{ts}Contribution Status{/ts}</label><br /> 
-                {$form.contribution_status.html} 
             </td>
+            <td class="label">{$form.buttons.html}</td>       
         </tr>
         <tr> 
             <td class="label"> 
                 {$form.contribution_from_date.label} 
-            </td> 
-            <td> 
-                 {$form.contribution_from_date.html} &nbsp; {$form.contribution_to_date.label} {$form.contribution_to_date.html} 
+            </td>
+            <td>
+                {$form.contribution_from_date.html} &nbsp; 
+            </td>
+            <td colspan="2"> 
+                 {$form.contribution_to_date.label} {$form.contribution_to_date.html} 
             </td> 
         </tr> 
         <tr> 
             <td class="label"> 
                 {$form.contribution_min_amount.label} 
             </td> 
-            <td> 
-                 {$form.contribution_min_amount.html} &nbsp; {$form.contribution_max_amount.label} {$form.contribution_max_amount.html} 
+            <td>
+                {$form.contribution_min_amount.html}
             </td> 
-        </tr> 
+            <td colspan="2"> 
+                  {$form.contribution_max_amount.label} {$form.contribution_max_amount.html} 
+            </td> 
+        </tr>
+        <tr>
+            <td class="label">{ts}Contribution Type{/ts}</td> 
+            <td>{$form.contribution_type_id.html}</td> 
+            <td class="label">{ts}Paid By{/ts}</td> 
+            <td>{$form.payment_instrument_id.html}</td> 
+        </tr>
+        <tr>
+            <td class="label">{ts}Status{/ts}</td> 
+            <td colspan="3">{$form.contribution_status.html}</td>
+        </tr>
         </table>
     {/strip}
-    </div>
 </fieldset>
 
-{include file="CRM/pager.tpl" location="top"}
+{if $rowsEmpty}
+    {include file="CRM/Contribute/Form/Search/EmptyResults.tpl"}
+{/if}
+
+{if $rows}
+    {* Search request has returned 1 or more matching rows. *}
+    <fieldset>
+    
+       {* This section handles form elements for action task select and submit *}
+       {include file="CRM/Contribute/Form/Search/ResultTasks.tpl"}
+
+       {* This section displays the rows along and includes the paging controls *}
+       <p></p>
+       {include file="CRM/Contribute/Form/Selector.tpl"}
+       
+    </fieldset>
+    {* END Actions/Results section *}
+
+{/if}
 
 {if ! empty( $rows )}
-
-<div id="search-status">
-   {ts count=$pager->_totalItems plural='Found %count contributions'}Found %count contributions{/ts} 
-   {if $qill} 
-     <ul> 
-     {foreach from=$qill item=criteria} 
-       <li>{$criteria}</li> 
-     {/foreach} 
-     </ul> 
-   {/if}
-</div>
-
-<div class="form-item"> 
-  <div> 
-     {$form._qf_Search_next_print.html}&nbsp;&nbsp;
-     {$form.task.html}
-     {$form._qf_Search_next_action.html} 
-     <br /> 
-     <label>{$form.radio_ts.ts_sel.html} {ts}selected records only{/ts}</label>&nbsp; <label>{$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</label> 
-   </div>
-</div>
-
-{strip}
-<table>
-  <tr class="columnheader">
-  <th>{$form.toggleSelect.html}</th> 
-  {foreach from=$columnHeaders item=header}
-    <th>
-    {if $header.sort}
-      {assign var='key' value=$header.sort}
-      {$sort->_response.$key.link}
-    {else}
-      {$header.name}
-    {/if}
-    </th>
-  {/foreach}
-  </tr>
-
-  {counter start=0 skip=1 print=false}
-  {foreach from=$rows item=row}
-  <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
-    {assign var=cbName value=$row.checkbox}
-    <td>{$form.$cbName.html}</td> 
-    <td>{$row.contact_type}</td>	
-    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    <td>{$row.total_amount}</td>
-    <td>{$row.contribution_type}</td>
-    <td>{$row.contribution_source}</td>
-    <td>{$row.receive_date}</td>
-    <td>{$row.thankyou_date}</td>
-    <td>{$row.cancel_date}</td>
-    <td>{$row.action}</td>
-  </tr>
-  {/foreach}
-  <tr></tr>
-  <tr>
-    <td></td>
-    <td>Totals</td>
-    <td>{$num_amount}</td>
-    <td>{$total_amount}</td>
-    <td>{$cancel_amount}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
-{/strip}
-
- <script type="text/javascript">
- {* this function is called to change the color of selected row(s) *}
-    var fname = "{$form.formName}";	
-    on_load_init_checkboxes(fname);
- </script>
-
-
-{include file="CRM/pager.tpl" location="bottom"}
-
 {/if}
