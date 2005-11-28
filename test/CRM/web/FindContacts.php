@@ -24,15 +24,19 @@ class TestOfFindContactsForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
-        $sort_name = 'Adams';
-        $this->setFieldById('sort_name', $sort_name);
+        $contact_type = '- all contacts -';
+        $sort_name    = 'adams';
+        $group        = '- any group -';
+        $tag          = '- any tag -';
+        $this->setField('contact_type', $contact_type);
+        $this->setField('sort_name',    $sort_name   );
+        $this->setFieldById('group',    $group       );
+        $this->setFieldById('tag',      $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
-        $this->assertResponse(200);
         if ( $this->assertNoUnwantedText("No matches found")) {
-            $this->clickLink("View");
-            $this->assertWantedText("Adams");
+            $this->assertWantedText("Name or Email like - \"$sort_name\"");
         }
     }
     
@@ -50,13 +54,24 @@ class TestOfFindContactsForm extends WebTestCase
         $this->assertWantedText("Search Criteria");
         
         $contact_type = 'Households';
-        $this->setFieldById('contact_type', $contact_type);
+        $sort_name    = '';
+        $group        = '- any group -';
+        $tag          = '- any tag -';
+        
+        $this->assertFieldById('group','' ,'Found Group');
+        $this->assertFieldById('tag','' ,'Found Tag');
+        $this->assertField('sort_name','' ,'Found Sort Name');
+        $this->assertField('contact_type','' ,'Found Contact Type');
+        
+        $this->setField('contact_type', $contact_type);
+        $this->setField('sort_name',    $sort_name   );
+        //$this->setFieldById('group',    $group       );
+        //$this->setFieldById('tag',      $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
-        $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
-            $this->assertWantedText("Contact Type - \'Household\'");
+        if ( $this->assertNoUnwantedText("No matches found")) {
+            $this->assertWantedText("Contact Type - 'Household'");
         }
     }
     
@@ -73,13 +88,18 @@ class TestOfFindContactsForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
-        $group = 'Newsletter Subscribers';
-        $this->setFieldById('group', $group);
+        $contact_type = '- all contacts -';
+        $sort_name    = '';
+        $group        = 'Newsletter Subscribers';
+        $tag          = '- any tag -';
+        $this->setField('contact_type', $contact_type);
+        $this->setField('sort_name',    $sort_name   );
+        $this->setFieldById('group',    $group       );
+        $this->setFieldById('tag',      $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
-        $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
+        if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Member of Group - Newsletter Subscribers");
         }
     }
@@ -97,13 +117,18 @@ class TestOfFindContactsForm extends WebTestCase
         $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
-        $tag = 'Major Donor';
-        $this->setFieldById('tag', $tag);
+        $contact_type = '- all contacts -';
+        $sort_name    = '';
+        $group        = '- any group -';
+        $tag          = 'Major Donor';
+        $this->setField('contact_type', $contact_type);
+        $this->setField('sort_name',    $sort_name   );
+        $this->setFieldById('group',    $group       );
+        $this->setFieldById('tag',      $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
-        $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
+        if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Tagged as - Major Donor");
         }
     }

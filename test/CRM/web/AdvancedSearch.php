@@ -63,7 +63,7 @@ class TestOfAdvancedSearchForm extends WebTestCase
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
         $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
+        if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Contact Type - 'Household' or 'Organization'");
         }
     }
@@ -92,7 +92,7 @@ class TestOfAdvancedSearchForm extends WebTestCase
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
         $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
+        if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Member of Group - Advisory Board or Summer Program Volunteers");
         }
     }
@@ -123,7 +123,7 @@ class TestOfAdvancedSearchForm extends WebTestCase
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
         $this->assertResponse(200);
-        if ( ! $this->assertNoUnwantedText("No matches found")) {
+        if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Tagged as - Major Donor or Non-profit");
         }
     }
