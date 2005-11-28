@@ -149,14 +149,16 @@
       <add>1.3</add>   
   </field>  
   <field>    
-      <name>thankyou_date</name>    
+      <name>thankyou_date</name>
+      <title>Thank-you Date</title>
       <type>datetime</type>    
       <import>true</import>
       <comment>when (if) was donor thanked</comment>    
       <add>1.3</add>    
   </field>   
   <field>      
-      <name>source</name>   
+      <name>source</name>
+      <title>Contribution Source</title>
       <type>varchar</type>   
       <length>255</length>
       <import>true</import>

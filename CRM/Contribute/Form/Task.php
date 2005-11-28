@@ -52,11 +52,11 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
     protected $_task;
 
     /**
-     * The array that holds all the contact ids
+     * The additional clause that we restrict the search with
      *
-     * @var array
+     * @var string
      */
-    protected $_contributionIds;
+    protected $_contributionClause = null;
 
     /**
      * build all the data structures needed to build the form
@@ -67,7 +67,6 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $this->_contributionIds = array( );
 
         $values = $this->controller->exportValues( 'Search' );
         
@@ -75,29 +74,23 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
         $contributeTasks = CRM_Contribute_Task::tasks();
         $this->assign( 'taskName', $contributeTasks[$this->_task] );
 
-        // all contacts or action = save a search
-        if ( $values['radio_ts'] == 'ts_all' ) {
-            // need to perform action on all contacts
-            // fire the query again and get the contact id's + display name
-            $contact =& new CRM_Contribute_BAO_Contribute();
-            $fv = $this->get( 'formValues' );
-            $query =& new CRM_Contact_BAO_Query( $fv, null, null, false, false,
-                                                 CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
-            $result = $query->searchQuery( 0, 0, null );
-            while ( $result->fetch( ) ) {
-                $this->_contributionIds[] = $result->contribution_id;
-            }
-        } else if ( $values['radio_ts'] == 'ts_sel' ) {
-            // selected contacts only
-            // need to perform actio on only selected contacts
+        if ( $values['radio_ts'] == 'ts_sel' ) {
+            $ids = array( );
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                    $this->_contributionIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
+                    $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
+
+            if ( ! empty( $ids ) ) {
+                $this->_contributionClause =
+                    ' civicrm_contribution.id IN ( ' .
+                    implode( ',', $ids ) . ' ) ';
+                $this->assign( 'totalSelectedContributions', count( $ids ) );
+            }
+        } else {
+            $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
-        
-        $this->assign( 'totalSelectedContributions', count( $this->_contributionIds ) );
     }
 
     /**

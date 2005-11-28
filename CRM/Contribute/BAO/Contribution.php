@@ -236,7 +236,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             } else {
                 $fields = array( '' => array( 'title' => ts('- Contribution Fields -') ) );
             }
-            //$fields = array();
 
             $tmpFields = CRM_Contribute_DAO_Contribution::import( );
             $fields = array_merge($fields, $tmpFields);
@@ -246,6 +245,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         return self::$_importableFields;
     }
 
+    function &exportableFields( ) {
+        return self::importableFields( );
+    }
 }
 
 ?>

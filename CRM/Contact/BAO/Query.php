@@ -237,8 +237,13 @@ class CRM_Contact_BAO_Query {
             $this->_search = false;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
-            //$this->_fields = CRM_Contact_BAO_Contact::importabeFields( 'All' );
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
+
+            if ( $this->_mode & self::MODE_CONTRIBUTE ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+                $this->_fields = array_merge( $this->_fields, $fields );
+            }
         }
  
         // basically do all the work once, and then reuse it
@@ -1492,6 +1497,7 @@ class CRM_Contact_BAO_Query {
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
      * @param boolean  $groupContacts if true, use a single mysql group_concat statement to get the contact ids
      * @param boolean  $returnQuery   should we return the query as a string
+     * @param string   $additionalWhereClause if the caller wants to further restrict the search (used in contributions)
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
@@ -1499,7 +1505,8 @@ class CRM_Contact_BAO_Query {
     function searchQuery( $offset, $rowCount, $sort, 
                           $count = false, $includeContactIds = false,
                           $sortByChar = false, $groupContacts = false,
-                          $returnQuery = false ) {
+                          $returnQuery = false,
+                          $additionalWhereClause = null ) {
         require_once 'CRM/Core/Permission.php';
 
         if ( $includeContactIds ) {
@@ -1526,6 +1533,10 @@ class CRM_Contact_BAO_Query {
             $where = $where . ' AND ' . $permission;
         }
 
+        if ( $additionalWhereClause ) {
+            $where = $where . ' AND ' . $additionalWhereClause;
+        }
+        
         $order = $limit = '';
 
         if ( ! $count ) {

@@ -45,16 +45,6 @@ require_once 'CRM/Core/Selector/Controller.php';
 class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
 
     /**
-     * build all the data structures needed to build the form
-     *
-     * @return void
-     * @access public
-     */
-    function preProcess()
-    {
-    }
-
-    /**
      * Build the form - it consists of
      *    - displaying the QILL (query in local language)
      *    - displaying elements for saving the search
@@ -87,18 +77,31 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
         $query      =& new CRM_Contact_BAO_Query( $fv, null, null, false, false, 
                                                   CRM_Contact_BAO_Query::MODE_ALL );
         $returnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_ALL );
-        $properties = array( );
+        $properties = array( 'contact_id', 'contribution_id' );
+        $header     = array( ts( 'Contact ID' ), ts( 'Contribution ID' ) );
         foreach ( $returnProperties as $name => $dontCare ) {
             $properties[] = $name;
+            if ( CRM_Utils_Array::value( $name, $query->_fields ) &&
+                 CRM_Utils_Array::value( 'title', $query->_fields[$name] ) ) {
+                $header[] = $query->_fields[$name]['title'];
+            } else {
+                $header[] = $name;
+            }
         }
 
-        $result = $query->searchQuery( 0, 0, null );
+        $result = $query->searchQuery( 0, 0, null,
+                                       false, false,
+                                       false, false,
+                                       false,
+                                       $this->_contributionClause );
+
         $rows = array( ); 
-
-
         while ( $result->fetch( ) ) {
             $row   = array( );
             $valid = false;
+
+            $row[] = $result->contact_id;
+            $row[] = $result->contribution_id;
 
             foreach ( $properties as $property ) {
                 $row[] = $result->$property;
@@ -112,7 +115,7 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
         }
 
         require_once 'CRM/Core/Report/Excel.php'; 
-        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $properties, $rows ); 
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
         exit( );
     }
 

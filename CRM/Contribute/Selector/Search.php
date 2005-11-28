@@ -107,6 +107,18 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      */
     protected $_action;
 
+    /** 
+     * The additional clause that we restrict the search with 
+     * 
+     * @var string 
+     */ 
+    protected $_contributionClause = null;
+
+    /** 
+     * The query object
+     * 
+     * @var string 
+     */ 
     protected $_query;
 
     /**
@@ -114,14 +126,17 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      *
      * @param array $formValues array of parameters for query
      * @param int   $action - action of search basic or advanced.
+     * @param string   $contributionClause if the caller wants to further restrict the search (used in contributions)
      *
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null) 
     {
         // submitted form values
         $this->_formValues =& $formValues;
+
+        $this->_contributionClause = $contributionClause;
 
         // type of selector
         $this->_action = $action;
@@ -214,7 +229,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action)
     {
-        return $this->_query->searchQuery( 0, 0, null, true );
+        return $this->_query->searchQuery( 0, 0, null,
+                                           true, false, 
+                                           false, false, 
+                                           false, 
+                                           $this->_contributionClause );
     }
 
 
@@ -233,7 +252,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
         // note that the default action is basic
-        $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
+        $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
+                                              false, false, 
+                                              false, false, 
+                                              false, 
+                                              $this->_contributionClause );
 
         // process the result of the query
         $rows = array( );
@@ -248,7 +271,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                 $row[$property] = $result->$property;
             }
 
-            $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribute_id;
+            $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contribution_id ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
