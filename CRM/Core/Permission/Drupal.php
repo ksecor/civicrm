@@ -137,6 +137,7 @@ class CRM_Core_Permission_Drupal {
                     $group     =& new CRM_Contact_DAO_Group( );
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
+                        require_once 'CRM/Contact/BAO/SavedSearch.php';
                         $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
                     }
                 }
@@ -159,6 +160,7 @@ class CRM_Core_Permission_Drupal {
                     $group     =& new CRM_Contact_DAO_Group( );
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
+                        require_once 'CRM/Contact/BAO/SavedSearch.php';
                         $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
                     }
                 }
