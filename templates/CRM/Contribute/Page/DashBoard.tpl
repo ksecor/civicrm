@@ -1,12 +1,12 @@
-{$startToDate.Valid.amount} {$startToDate.Valid.count} {$startToDate.Valid.url}
+<a href="{$startToDate.Valid.url}">{$startToDate.Valid.amount}</a> {$startToDate.Valid.count}
 <p>
-{$startToDate.Cancelled.amount} {$startToDate.Cancelled.count} {$startToDate.Cancelled.url}
+<a href="{$startToDate.Cancelled.url}">{$startToDate.Cancelled.amount}</a> {$startToDate.Cancelled.count}
 <p>
-{$yearToDate.Valid.amount} {$yearToDate.Valid.count} {$yearToDate.Valid.url}
+<a href="{$yearToDate.Valid.url}">{$yearToDate.Valid.amount}</a> {$yearToDate.Valid.count}
 <p>
-{$yearToDate.Cancelled.amount} {$yearToDate.Cancelled.count} {$yearToDate.Cancelled.url}
+<a href="{$yearToDate.Cancelled.url}">{$yearToDate.Cancelled.amount}</a> {$yearToDate.Cancelled.count}
 <p>
-{$monthToDate.Valid.amount} {$monthToDate.Valid.count} {$monthToDate.Valid.url}
+<a href="{$monthToDate.Valid.url}">{$monthToDate.Valid.amount}</a> {$monthToDate.Valid.count}
 <p>
-{$monthToDate.Cancelled.amount} {$monthToDate.Cancelled.count} {$monthToDate.Cancelled.url}
+<a href="{$monthToDate.Cancelled.url}">{$monthToDate.Cancelled.amount}</a> {$monthToDate.Cancelled.count}
 <p>

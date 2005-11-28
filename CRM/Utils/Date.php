@@ -141,7 +141,13 @@ class CRM_Utils_Date {
             return $value;
         }
 
-        list( $year, $mon, $day ) = explode( $separator, $date, 3 );
+        if ( $seperator != '' ) {
+            list( $year, $mon, $day ) = explode( $separator, $date, 3 );
+        } else {
+            $year = substr( $date, 0, 4 );
+            $mon  = substr( $date, 4, 2 );
+            $day  = substr( $date, 6, 2 );
+        }
 
         $value = array( );
 

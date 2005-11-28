@@ -94,7 +94,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      * @var boolean 
      */ 
     protected $_done; 
- 
+
+    protected $_defaults;
+
     /** 
      * processing needed for buildForm and later 
      * 
@@ -111,6 +113,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->_done = false;
 
+        $this->defaults = array( );
+
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
@@ -126,7 +130,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
-            $this->_formValues = $this->controller->exportValues($this->_name);  
+            $this->_formValues = $this->controller->exportValues( $this->_name );  
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
@@ -144,6 +148,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         }
         $controller->moveFromSessionToTemplate(); 
     }
+
+    function setDefaultValues( ) { 
+        return $this->_defaults; 
+    } 
 
     /**
      * Build the form
@@ -267,6 +275,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_done = true;
 
         $this->_formValues = $this->controller->exportValues($this->_name);
+
+        $this->fixFormValues( );
+
         $this->set( 'formValues', $this->_formValues );
 
         $buttonName = $this->controller->getButtonName( );
@@ -296,6 +307,44 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $controller->setEmbedded( true ); 
         $controller->run(); 
 
+    }
+
+    function fixFormValues( ) {
+        // if this search has been forced
+        // then see if there are any get values, and if so over-ride the post values
+        // note that this means that GET over-rides POST :)
+        if ( ! $this->_force ) {
+            return;
+        }
+
+        $nullObject = null;
+        $status = CRM_Utils_Request::retrieve( 'status', $nullObject );
+        if ( $status ) {
+            switch ( $status ) {
+            case 'Valid':
+            case 'Cancelled':
+            case 'All':
+                $this->_formValues['contribution_status'] = $status;
+                $this->_defaults['contribution_status'] = $status;
+                break;
+            }
+        }
+
+        $fromDate = CRM_Utils_Request::retrieve( 'start', $nullObject );
+        if ( $fromDate ) {
+            $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
+            $date = CRM_Utils_Date::unformat( $fromDate, '' );
+            $this->_formValues['contribution_from_date'] = $date;
+            $this->_defaults['contribution_from_date'] = $date;
+        }
+
+        $toDate= CRM_Utils_Request::retrieve( 'end', $nullObject ); 
+        if ( $toDate ) { 
+            $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
+            $date = CRM_Utils_Date::unformat( $toDate, '' );
+            $this->_formValues['contribution_to_date'] = $date;
+            $this->_defaults['contribution_to_date'] = $date;
+        }
     }
 
 }
