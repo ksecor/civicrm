@@ -101,8 +101,7 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         case CRM_Contribute_Task::EXPORT_CONTRIBUTIONS:
-            $task = array( 'CRM_Contribute_Form_Task_Export_Select',
-                           'CRM_Contribute_Form_Task_Export_Map' );
+            $task   = 'CRM_Contribute_Form_Task_Export';
             break;
 
         default: // the print task is the default and catch=all task

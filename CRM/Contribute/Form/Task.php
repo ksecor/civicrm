@@ -81,7 +81,8 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
             // fire the query again and get the contact id's + display name
             $contact =& new CRM_Contribute_BAO_Contribute();
             $fv = $this->get( 'formValues' );
-            $query =& new CRM_Contact_BAO_Query( $fv, null, null, false, false, true ); 
+            $query =& new CRM_Contact_BAO_Query( $fv, null, null, false, false,
+                                                 CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
             $result = $query->searchQuery( 0, 0, null );
             while ( $result->fetch( ) ) {
                 $this->_contributionIds[] = $result->contribution_id;

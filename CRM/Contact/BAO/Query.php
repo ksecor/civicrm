@@ -44,6 +44,16 @@ require_once 'CRM/Core/DAO/Email.php';
 class CRM_Contact_BAO_Query {
 
     /**
+     * The various search modes
+     *
+     * @var int
+     */
+    const
+        MODE_CONTACTS   = 1,
+        MODE_CONTRIBUTE = 2,
+        MODE_ALL        = 3;
+
+    /**
      * the default set of return properties
      *
      * @var array
@@ -154,7 +164,7 @@ class CRM_Contact_BAO_Query {
      */
     protected $_strict = false;
 
-    protected $_contribute = false;
+    protected $_mode = self::MODE_CONTACTS;
 
     /** 
      * Should we only search on primary location
@@ -200,27 +210,27 @@ class CRM_Contact_BAO_Query {
      * @param array   $fields
      * @param boolean $includeContactIds
      * @param boolean $strict
-     * @param boolean $contribute - true if in contribution mode search
+     * @param boolean $mode - mode the search is operating on
      *
      * @return Object
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $contribute = false ) {
+                          $includeContactIds = false, $strict = false, $mode = self::MODE_CONTACTS ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
-            $this->_returnProperties =& self::defaultReturnProperties( $contribute ); 
+            $this->_returnProperties =& self::defaultReturnProperties( $mode );
         } else {
             $this->_returnProperties =& $returnProperties;
         }
 
         $this->_includeContactIds = $includeContactIds;
         $this->_strict            = $strict;
-        $this->_contribute        = $contribute;
+        $this->_mode              = $mode;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -279,7 +289,7 @@ class CRM_Contact_BAO_Query {
     }
 
     function addContributeFields( ) {
-        if ( ! $this->_contribute ) {
+        if ( ! ( $this->_mode & self::MODE_CONTRIBUTE ) ) {
             return;
         }
 
@@ -1350,49 +1360,56 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    static function &defaultReturnProperties( $contribute = false ) {
+    static function &defaultReturnProperties( $mode = self::MODE_CONTACTS ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
-            if ( ! $contribute ) {
-                self::$_defaultReturnProperties = array( 
-                                                        'home_URL'               => 1, 
-                                                        'image_URL'              => 1, 
-                                                        'legal_identifier'       => 1, 
-                                                        'external_identifier'    => 1,
-                                                        'contact_type'           => 1,
-                                                        'sort_name'              => 1,
-                                                        'display_name'           => 1,
-                                                        'nick_name'              => 1, 
-                                                        'first_name'             => 1, 
-                                                        'middle_name'            => 1, 
-                                                        'last_name'              => 1, 
-                                                        'prefix'                 => 1, 
-                                                        'suffix'                 => 1,
-                                                        'birth_date'             => 1,
-                                                        'gender'                 => 1,
-                                                        'street_address'         => 1, 
-                                                        'supplemental_address_1' => 1, 
-                                                        'supplemental_address_2' => 1, 
-                                                        'city'                   => 1, 
-                                                        'postal_code'            => 1, 
-                                                        'postal_code_suffix'     => 1, 
-                                                        'state_province'         => 1, 
-                                                        'country'                => 1, 
-                                                        'email'                  => 1, 
-                                                        'phone'                  => 1, 
-                                                        'im'                     => 1, 
-                                                    ); 
-            } else {
-                self::$_defaultReturnProperties = array(  
-                                                        'contact_type'           => 1, 
-                                                        'sort_name'              => 1, 
-                                                        'display_name'           => 1,
-                                                        'contribution_type'      => 1,
-                                                        'source'                 => 1,
-                                                        'receive_date'           => 1,
-                                                        'thankyou_date'          => 1,
-                                                        'cancel_date'            => 1,
-                                                        'total_amount'           => 1,
-                                                        );
+            self::$_defaultReturnProperties = array( );
+            if ( $mode & self::MODE_CONTACTS ) {
+                $properties = array( 
+                                    'home_URL'               => 1, 
+                                    'image_URL'              => 1, 
+                                    'legal_identifier'       => 1, 
+                                    'external_identifier'    => 1,
+                                    'contact_type'           => 1,
+                                    'sort_name'              => 1,
+                                    'display_name'           => 1,
+                                    'nick_name'              => 1, 
+                                    'first_name'             => 1, 
+                                    'middle_name'            => 1, 
+                                    'last_name'              => 1, 
+                                    'prefix'                 => 1, 
+                                    'suffix'                 => 1,
+                                    'birth_date'             => 1,
+                                    'gender'                 => 1,
+                                    'street_address'         => 1, 
+                                    'supplemental_address_1' => 1, 
+                                    'supplemental_address_2' => 1, 
+                                    'city'                   => 1, 
+                                    'postal_code'            => 1, 
+                                    'postal_code_suffix'     => 1, 
+                                    'state_province'         => 1, 
+                                    'country'                => 1, 
+                                    'email'                  => 1, 
+                                    'phone'                  => 1, 
+                                    'im'                     => 1, 
+                                    ); 
+                self::$_defaultReturnProperties = array_merge( self::$_defaultReturnProperties,
+                                                               $properties );
+            }
+
+            if ( $mode & self::MODE_CONTRIBUTE ) {
+                $properties = array(  
+                                    'contact_type'           => 1, 
+                                    'sort_name'              => 1, 
+                                    'display_name'           => 1,
+                                    'contribution_type'      => 1,
+                                    'source'                 => 1,
+                                    'receive_date'           => 1,
+                                    'thankyou_date'          => 1,
+                                    'cancel_date'            => 1,
+                                    'total_amount'           => 1,
+                                    );
+                self::$_defaultReturnProperties = array_merge( self::$_defaultReturnProperties,
+                                                               $properties );
             }
         }
         return self::$_defaultReturnProperties;
