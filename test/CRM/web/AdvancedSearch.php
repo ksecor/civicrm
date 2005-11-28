@@ -2,7 +2,7 @@
 require_once "CommonAPI.php";
 
 class TestOfAdvancedSearchForm extends WebTestCase 
-{  
+{
     function setUp( ) 
     {
     }
@@ -21,7 +21,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         if ($this->assertLink('Advanced Search')) {
@@ -33,7 +32,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
         
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
-        $this->assertResponse(200);
         if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Name or Email like - \"Adams\"");
         }
@@ -49,7 +47,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         if ($this->assertLink('Advanced Search')) {
@@ -62,7 +59,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
         
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
-        $this->assertResponse(200);
         if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Contact Type - 'Household' or 'Organization'");
         }
@@ -78,7 +74,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         if ($this->assertLink('Advanced Search')) {
@@ -91,7 +86,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
         
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
-        $this->assertResponse(200);
         if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Member of Group - Advisory Board or Summer Program Volunteers");
         }
@@ -107,7 +101,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         if ($this->assertLink('Advanced Search')) {
@@ -122,7 +115,6 @@ class TestOfAdvancedSearchForm extends WebTestCase
         
         $this->clickSubmitByName('_qf_Advanced_refresh');
         
-        $this->assertResponse(200);
         if ( $this->assertNoUnwantedText("No matches found")) {
             $this->assertWantedText("Tagged as - Major Donor or Non-profit");
         }

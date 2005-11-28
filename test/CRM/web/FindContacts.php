@@ -21,17 +21,16 @@ class TestOfFindContactsForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         $contact_type = '- all contacts -';
         $sort_name    = 'adams';
         $group        = '- any group -';
         $tag          = '- any tag -';
-        $this->setField('contact_type', $contact_type);
-        $this->setField('sort_name',    $sort_name   );
-        $this->setFieldById('group',    $group       );
-        $this->setFieldById('tag',      $tag         );
+        $this->setFieldById('contact_type', $contact_type);
+        $this->setFieldById('sort_name',    $sort_name   );
+        $this->setFieldById('group',        $group       );
+        $this->setFieldById('tag',          $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
@@ -50,7 +49,6 @@ class TestOfFindContactsForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         $contact_type = 'Households';
@@ -58,15 +56,10 @@ class TestOfFindContactsForm extends WebTestCase
         $group        = '- any group -';
         $tag          = '- any tag -';
         
-        $this->assertFieldById('group','' ,'Found Group');
-        $this->assertFieldById('tag','' ,'Found Tag');
-        $this->assertField('sort_name','' ,'Found Sort Name');
-        $this->assertField('contact_type','' ,'Found Contact Type');
-        
-        $this->setField('contact_type', $contact_type);
-        $this->setField('sort_name',    $sort_name   );
-        //$this->setFieldById('group',    $group       );
-        //$this->setFieldById('tag',      $tag         );
+        $this->setFieldById('contact_type', $contact_type);
+        $this->setFieldById('sort_name',    $sort_name   );
+        $this->setFieldById('group',        $group       );
+        $this->setFieldById('tag',          $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
@@ -85,17 +78,16 @@ class TestOfFindContactsForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         $contact_type = '- all contacts -';
         $sort_name    = '';
         $group        = 'Newsletter Subscribers';
         $tag          = '- any tag -';
-        $this->setField('contact_type', $contact_type);
-        $this->setField('sort_name',    $sort_name   );
-        $this->setFieldById('group',    $group       );
-        $this->setFieldById('tag',      $tag         );
+        $this->setFieldById('contact_type', $contact_type);
+        $this->setFieldById('sort_name',    $sort_name   );
+        $this->setFieldById('group',        $group       );
+        $this->setFieldById('tag',          $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
@@ -114,17 +106,16 @@ class TestOfFindContactsForm extends WebTestCase
             $this->clickLink('Find Contacts');
         }
         
-        $this->assertResponse(200);
         $this->assertWantedText("Search Criteria");
         
         $contact_type = '- all contacts -';
         $sort_name    = '';
         $group        = '- any group -';
         $tag          = 'Major Donor';
-        $this->setField('contact_type', $contact_type);
-        $this->setField('sort_name',    $sort_name   );
-        $this->setFieldById('group',    $group       );
-        $this->setFieldById('tag',      $tag         );
+        $this->setFieldById('contact_type', $contact_type);
+        $this->setFieldById('sort_name',    $sort_name   );
+        $this->setFieldById('group',        $group       );
+        $this->setFieldById('tag',          $tag         );
         
         $this->clickSubmitByName('_qf_Search_refresh');
         
