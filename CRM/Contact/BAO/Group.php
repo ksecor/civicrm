@@ -239,15 +239,16 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
 
         $group->copyValues($params);
+        $group->domain_id = CRM_Core_Config::domainID( ); 
         $group->save();
         if ( ! $group->id ) {
             return null;
         }
 
         if ( CRM_Utils_Array::value( 'id', $params ) ) { 
-            CRM_Utils_Hook::pre( 'edit', 'Group', $group->id, $group );
+            CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
         } else { 
-            CRM_Utils_Hook::pre( 'create', 'Group', $group->id, $group );
+            CRM_Utils_Hook::post( 'create', 'Group', $group->id, $group );
         }
 
         return $group;
@@ -264,22 +265,16 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
     public static function createGroup(&$params) {
          
-        if ($params['saved_search_id'] != null) {
-            
-            $savedSearch =& new CRM_Contact_BAO_SavedSearch();
+        if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
+            $savedSearch =& new CRM_Contact_DAO_SavedSearch();
             $savedSearch->domain_id   = CRM_Core_Config::domainID( );
-            $savedSearch->form_values = $params['formValues'];
+            $savedSearch->form_values = CRM_Utils_Array::value( 'formValues', $params );
             $savedSearch->is_active = 1;
+            $savedSearch->id = $params['saved_search_id'];
             $savedSearch->save();
-            
         } 
-        
-        $group =& new CRM_Contact_BAO_Group();
-        $params['domain_id'] = CRM_Core_Config::domainID( );;
-        $group->copyValues($params);
-        $newGroup = $group->save();
-        return $newGroup;
 
+        return self::create( $params );
     }
     
      /**
