@@ -300,8 +300,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ($required) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
-            } else if  ( substr($field['name'],0,5) === 'phone' ) {
-                $this->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
             }

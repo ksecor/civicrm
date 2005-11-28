@@ -133,7 +133,10 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $ufFieldBAO->uf_group_id = $this->_gid;
         $ufFieldBAO->orderBy('weight', 'field_name');
         $ufFieldBAO->find();
-
+        
+        $locationType = array( );
+        $locationType =& CRM_Core_PseudoConstant::locationType();
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( );
         $select = array( );
@@ -151,7 +154,15 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
 
             // fix the field_name value
             $ufField[$ufFieldBAO->id]['field_name'] = $select[$ufField[$ufFieldBAO->id]['field_name']];
-
+            
+            if ($ufFieldBAO->location_type_id) {
+                $ufField[$ufFieldBAO->id]['field_name'] .= " - ".$locationType[$ufFieldBAO->location_type_id];
+            }
+            
+            if ($ufFieldBAO->phone_type) {
+                $ufField[$ufFieldBAO->id]['field_name'] .= " - ".$ufFieldBAO->phone_type;
+            }
+            
             $action = array_sum(array_keys($this->actionLinks()));
             if ($ufFieldBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;

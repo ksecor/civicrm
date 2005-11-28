@@ -193,6 +193,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @access public
      */
     static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
+        
+        //get location type
+        $locationType = array( );
+        $locationType =& CRM_Core_PseudoConstant::locationType();
+        
         $group =& new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
@@ -220,7 +225,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $field->whereAdd( implode( ' OR ' , $clause ) );
             }
 
-            $field->orderBy('field_name');
+            $field->orderBy('weight', 'field_name');
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
@@ -228,23 +233,27 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $importableFields['group']['where'] = null;
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
-
+            
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
-                    $name = $field->field_name;
+                    $name  = $title = '';
+                    $name  = $field->field_name;
+                    $title = $importableFields[$field->field_name]['title']; 
                     if ($field->location_type_id) {
-                        $name .= '-'.$field->location_type_id;
+                        $name  .= '-'.$field->location_type_id;
+                        $title .= ' - ' . $locationType[$field->location_type_id];
                     }
                     if ($field->phone_type) {
-                        $name .= '-'.$field->phone_type;
+                        $name  .= '-'.$field->phone_type;
+                        $title .= ' - ' . $field->phone_type;
                     }
-                    
+
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
                               'groupHelpPre'     => $group->help_pre,
                               'groupHelpPost'    => $group->help_post,
-                              'title'            => $importableFields[$field->field_name]['title'],
+                              'title'            => $title,
                               'where'            => $importableFields[$field->field_name]['where'],
                               'attributes'       => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
                               'is_required'      => $field->is_required,
