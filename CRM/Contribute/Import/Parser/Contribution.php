@@ -254,17 +254,23 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         
         if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
             $this->_newContributions[] = $newContribution->id;
-            $activitySummary = "{$newContribution->total_amount} {$newContribution->currency} from CiviDonate Import made on " . date('r');
+            $contributionType = CRM_Contribute_PseudoConstant::contributionType($newContribution->contribution_type_id);
+            if (!$contributionType) $contributionType = ts('Contribution');
+            // FIXME: internationalize the summary
+            $activitySummary = "{$newContribution->total_amount} {$newContribution->currency} - $contributionType ";
+            $activitySummary .= '(from import on ' . date('r') . ')';
             $historyParams = array(
                 'entity_table'     => 'civicrm_contact',
                 'entity_id'        => $newContribution->contact_id,
-                'activity_type'    => ts('Imported Contribution'),
+                'activity_type'    => $contributionType,
                 'module'           => 'CiviContribute',
                 'callback'         => 'CRM_Contribute_Display::details',
                 'activity_id'      => $newContribution->id,
                 'activity_summary' => $activitySummary,
                 'activity_date'    => $newContribution->receive_date
             );
+            CRM_Core_Error::debug('$historyParams', $historyParams);
+            exit;
             $historyResult = &crm_create_activity_history($historyParams);
         }
         return CRM_Contribute_Import_Parser::VALID;
