@@ -139,24 +139,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $params['contribution_id'] = $contribution->id;
 
-        // add custom field values
-#       if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-#           foreach ($params['custom'] as $customValue) {
-#               $cvParams = array(
-#                                 'entity_table'    => 'civicrm_contact',
-#                                 'entity_id'       => $contact->id,
-#                                 'value'           => $customValue['value'],
-#                                 'type'            => $customValue['type'],
-#                                 'custom_field_id' => $customValue['custom_field_id'],
-#                                 );
-#               
-#               if ($customValue['id']) {
-#                   $cvParams['id'] = $customValue['id'];
-#               }
-#               CRM_Core_BAO_CustomValue::create($cvParams);
-#           }
-#       }
-        
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Contribution', $contribution->id, $contribution );
         } else {
@@ -248,6 +230,44 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     function &exportableFields( ) {
         return self::importableFields( );
     }
+
+    function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) {
+        
+        $where = array( );
+        switch ( $status ) {
+        case 'Valid':
+            $where[] = 'cancel_date is null';
+            break;
+
+        case 'Cancelled':
+            $where[] = 'cancel_date is not null';
+            break;
+        }
+
+        if ( $startDate ) {
+            $where[] = "receive_date >= '" . CRM_Utils_Type::escape( $startDate, 'Timestamp' ) . "'";
+        }
+        if ( $endDate ) {
+            $where[] = "receive_date <= '" . CRM_Utils_Type::escape( $endDate, 'Timestamp' ) . "'";
+        }
+
+        $whereCond = implode( ' AND ', $where );
+        $domainID  = CRM_Core_Config::domainID( );
+
+        $query = "
+SELECT sum( total_amount ) as total_amount, count( id ) as total_count
+FROM   civicrm_contribution
+WHERE  domain_id = $domainID AND $whereCond
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        if ( $dao->fetch( ) ) {
+            return array( 'amount' => $dao->total_amount,
+                          'count'  => $dao->total_count );
+        }
+        return null;
+    }
+
 }
 
 ?>

@@ -186,8 +186,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $status[] = $this->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
         
         $this->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-        // ?? want to set radio default to 'Valid' ??
-        // $this->setDefaults(array('contribution_status' => 'Valid'));
+        $this->setDefaults(array('contribution_status' => 'All'));
 
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 

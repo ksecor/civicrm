@@ -352,7 +352,7 @@ class CRM_Core_Selector_Controller {
      * @access public
      */
     public function getQill( ) {
-        return '';
+        return $this->_object->getQill( );
     }
 
     /**

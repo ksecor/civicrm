@@ -152,7 +152,10 @@ class CRM_Core_Selector_Base {
         $this->_permission = $permission;
     }
 
-    
+    public function getQill( ) {
+        return null;
+    }
+
 }
 
 ?>

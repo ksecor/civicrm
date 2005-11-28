@@ -94,6 +94,9 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         }
 
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );
+        if ( ! $ufmatch ) {
+            return;
+        }
 
         $session->set( 'ufID'    , $ufmatch->uf_id       );
         $session->set( 'userID'  , $ufmatch->contact_id );
