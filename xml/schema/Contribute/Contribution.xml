@@ -123,6 +123,7 @@
       <name>currency</name>   
       <type>varchar</type>   
       <length>64</length>
+      <required>true</required> 
       <import>true</import>
       <comment>3 character string, value derived from payment processor config setting.</comment>   
       <add>1.3</add>   

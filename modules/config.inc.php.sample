@@ -185,6 +185,19 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
  */
 define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
 
+/**
+ * Default currency
+ *
+ * For clarity, all of the money amounts in the CiviCRM database must have
+ * their currencies specified. If the currency is not specified by the user
+ * (in the API call, while importing contributions, etc.) the system uses the
+ * below default currency.
+ *
+ * The currency must be specified by its ISO 4217
+ * code: http://en.wikipedia.org/wiki/ISO_4217
+ */
+define( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' , 'USD' );
+
 
 /**
  * Localisation:

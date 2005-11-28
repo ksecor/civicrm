@@ -74,6 +74,13 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $contribution->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
+
+        require_once 'CRM/Utils/Rule.php';
+        if (!CRM_Utils_Rule::currencyCode($contribution->currency)) {
+            require_once 'CRM/Core/Config.php';
+            $config =& CRM_Core_Config::singleton();
+            $contribution->currency = $config->defaultCurrency;
+        }
         
         return $contribution->save();
     }

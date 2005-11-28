@@ -43,6 +43,7 @@ require_once 'Mail.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
 require_once 'CRM/Utils/Recent.php';
+require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Utils/File.php';
 require_once 'CRM/Contact/DAO/Factory.php';
 require_once 'CRM/Core/Session.php';
@@ -149,6 +150,12 @@ class CRM_Core_Config {
      * @var int
      */
     public $defaultContactCountryId = 1228;
+
+    /**
+     * ISO code of default currency.
+     * @var int
+     */
+    public $defaultCurrency = 'USD';
 
     /**
      * Locale for the application to run with.
@@ -472,6 +479,10 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' ) ) {
             $this->defaultContactCountryId = CIVICRM_DEFAULT_CONTACT_COUNTRY_ID;
+        }        
+        
+        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) and CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
+            $this->defaultCurrency = CIVICONTRIBUTE_DEFAULT_CURRENCY;
         }        
         
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
