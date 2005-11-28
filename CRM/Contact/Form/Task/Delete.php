@@ -134,9 +134,15 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
             if ( $deletedContacts ) {
                 $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search',
                                                                      'force=1' ) );
-                $status = ts('Selected Contact was deleted sucessfully.');
+                $status = ts('Selected contact was deleted sucessfully.');
             } else {
-                $status = ts('Selected Contact cannot be deleted.'); 
+                $status = array(
+                                ts('Selected contact cannot be deleted.')
+                                ); 
+                if ( $selfDelete ) {
+                    $display_name = CRM_Contact_BAO_Contact::displayName($currentUserId);
+                    $status[] = ts('This contact record is linked to the currently logged in user account - "%1" - and can not be deleted.', array(1 => $display_name));
+                }
             }
         }
 

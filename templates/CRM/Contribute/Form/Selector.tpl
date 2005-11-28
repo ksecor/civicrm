@@ -25,9 +25,9 @@
     <td>{$row.total_amount}</td>
     <td>{$row.contribution_type}</td>
     <td>{$row.contribution_source}</td>
-    <td>{$row.receive_date|crmDate:"%b %e, %Y"}</td>
-    <td>{$row.thankyou_date|crmDate:"%b %e, %Y"}</td>
-    <td>{$row.cancel_date|crmDate:"%b %e, %Y"}</td>
+    <td>{$row.receive_date|truncate:10:''|crmDate}</td>
+    <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
+    <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
     <td>{$row.action}</td>
   </tr>
   {/foreach}
