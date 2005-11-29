@@ -108,6 +108,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $this->_values = array( );
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
             
+            // check if form is active
+            if ( ! $this->_values['is_active'] ) {
+                // form is inactive, bounce user back to front page of CMS
+                $config =& CRM_Core_Config::singleton( );
+                CRM_Utils_System::setUFMessage( ts( 'The page you requested is currently unavailable.' ) );
+                CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
+            }
+
             // get the amounts and the label
             require_once 'CRM/Core/BAO/CustomOption.php';  
             CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $this->_values );

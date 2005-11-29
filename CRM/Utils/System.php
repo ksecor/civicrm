@@ -422,8 +422,6 @@ class CRM_Utils_System {
     static function baseURL() {
         $config =& CRM_Core_Config::singleton( );
         return $config->userFrameworkBaseURL;
-//         return 
-//             eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
     }
 
     /** 
@@ -442,6 +440,20 @@ class CRM_Utils_System {
         return  
             eval( 'return ' . $config->userFrameworkClass . '::authenticate($name, $password);' ); 
 
+    }
+
+    /**  
+     * Set a message in the UF to display to a user
+     *  
+     * @param string $name     the message to set
+     *  
+     * @access public  
+     * @static  
+     */  
+    static function setUFMessage( $message ) {
+        $config =& CRM_Core_Config::singleton( );  
+        return   
+            eval( 'return ' . $config->userFrameworkClass . '::setMessage( $message );' );
     }
 
     /**

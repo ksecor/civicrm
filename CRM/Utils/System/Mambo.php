@@ -142,17 +142,17 @@ class CRM_Utils_System_Mambo {
         $user->email = $database->loadResult();
     }
 
-    /**
-     * FIXME Stub function to generate the base URL
-     * 
-     * @return string
-     * @access public
-     * @static
-     */
-//     static function baseURL() {
-//         global $mosConfig_live_site;
-//         return $mosConfig_live_site;
-//     }
+    /**    
+     * Set a message in the UF to display to a user  
+     *    
+     * @param string $name     the message to set  
+     *    
+     * @access public    
+     * @static    
+     */    
+    static function setMessage( $message ) { 
+        return;
+    }
 
 }
 

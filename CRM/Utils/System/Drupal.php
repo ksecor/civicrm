@@ -192,6 +192,18 @@ class CRM_Utils_System_Drupal {
         return false;
     }
 
+    /**   
+     * Set a message in the UF to display to a user 
+     *   
+     * @param string $name     the message to set 
+     *   
+     * @access public   
+     * @static   
+     */   
+    static function setMessage( $message ) {
+        drupal_set_message( $message );
+    }
+
 }
 
 ?>
