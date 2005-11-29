@@ -226,7 +226,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
-                            'icon'    => 'admin/14.png',
+                            'icon'    => 'admin/duplicate_matching.png',
                             'weight'  => 239
                             ),
 
@@ -286,12 +286,12 @@ class CRM_Utils_Menu {
                             ),
                       array(
                             'path'    => 'civicrm/admin/contribute',
-                            'title'   => ts('Online Contribution Pages'),
+                            'title'   => ts('Configure Online Contribution Pages'),
                             'qs'     => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/05.png',
+                            'icon'    => 'admin/online_contribution_pages.png',
                             'weight'  => 360
                             ),
                       
@@ -302,7 +302,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/05.png',
+                            'icon'    => 'admin/contribution_types.png',
                             'weight'  => 370
                             ),
                       
@@ -313,7 +313,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/05.png',
+                            'icon'    => 'admin/payment_instruments.png',
                             'weight'  => 380
                             ),
                       

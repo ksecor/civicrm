@@ -42,7 +42,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/contribute' q="action=add&reset=1"}">&raquo;  {ts}New Contribution Page{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/contribute' q="action=add&reset=1"}">&raquo;  {ts}New Contribution Page{/ts}</a>
         </div>
         </p>
         {/if}
