@@ -269,8 +269,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 'activity_summary' => $activitySummary,
                 'activity_date'    => $newContribution->receive_date
             );
-            CRM_Core_Error::debug('$historyParams', $historyParams);
-            exit;
             $historyResult = &crm_create_activity_history($historyParams);
         }
         return CRM_Contribute_Import_Parser::VALID;
