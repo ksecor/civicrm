@@ -295,7 +295,7 @@ class CRM_Core_SelectValues {
      * @return array         the date array
      * @static
      */
-    static function &date($type = 'birth')
+    static function &date($type = 'birth', $min = null, $max = null)
     {
         static $_date = null;
         static $config = null;
@@ -328,6 +328,9 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'fixed') {
             $minOffset = 0;
             $maxOffset = 5;
+        } elseif ( $type == 'manual' ) {
+            $minOffset = $min;
+            $maxOffset = $max;
         } elseif ($type == 'creditCard') {
             $newDate['format'] = 'M Y';
             $minOffset = 0;

@@ -522,9 +522,11 @@ ORDER BY
 
         $locationIds = CRM_Utils_Array::value( 'location', $ids );
         // extract the first location id
-        foreach ( $locationIds as $dontCare => $locationId ) {
-            $locationIds = $locationId;
-            break;
+        if ( $locationIds ) {
+            foreach ( $locationIds as $dontCare => $locationId ) {
+                $locationIds = $locationId;
+                break;
+            }
         }
             
         $location =& new CRM_Core_DAO_Location( );

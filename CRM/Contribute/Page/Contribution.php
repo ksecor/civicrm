@@ -116,71 +116,29 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
 
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-        
+
+        $this->_id        = CRM_Utils_Request::retrieve('id' , $this, false );
+        $this->_contactID = CRM_Utils_Request::retrieve('cid', $this, true ); 
+
+        $url = CRM_Utils_System::url( 'civicrm/contribute/search',
+                                      'reset=1&force=1&cid=' . $this->_contactID );
+
         // what action to take ?
-        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::UPDATE ) {
+        if ( $action & CRM_Core_Action::ADD    ||
+             $action & CRM_Core_Action::UPDATE ||
+             $action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/contribution',
-                                                             'action=browse&reset=1&cid=' . $this->_contactID ) );
+            $session->pushUserContext( $url );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution',
                                                            'Create Contribution',
                                                            $action );
             $controller->set( 'id' , $this->_id );
             $controller->set( 'cid', $this->_contactID );
             return $controller->run( );
-        } else if ($action & CRM_Core_Action::DELETE) {
-            $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' ) );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
-                                                           'Delete Contribution Page',
-                                                           $mode );
-            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-            $controller->set('id', $id);
-            $controller->setEmbedded( true );
-            $controller->process( );
-            $controller->run( );
-        } else {
-            require_once 'CRM/Contribute/BAO/ContributionPage.php';
-
-            $this->browse();
-            CRM_Utils_System::setTitle( ts('Browse Contribution Pages') );
         }
 
-        return parent::run();
+        CRM_Utils_System::redirect( $url );
     }
 
-    /**
-     * Browse all custom data groups.
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    function browse($action=null)
-    {
-        
-        // get all custom groups sorted by weight
-        $contribution =  array();
-        $dao      =& new CRM_Contribute_DAO_ContributionPage();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('title');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $contribution[$dao->id] = array();
-            CRM_Core_DAO::storeValues($dao, $contribution[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->actionLinks()));
-            
-            $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                          array('id' => $dao->id));
-        }
-        $this->assign('rows', $contribution);
-    }
 }
 ?>

@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Contribute/DAO/ContributionPage.php';
+
 class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage {
 
     public static function &create(&$params) {

@@ -94,23 +94,25 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
-                   CRM_Contribute_PseudoConstant::contributionType( ) );
+                   CRM_Contribute_PseudoConstant::contributionType( ),
+                   true );
 
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Payment Instrument' ), 
-                   CRM_Contribute_PseudoConstant::paymentInstrument( ) );
+                   CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                   true );
 
         // add various dates
-        $this->addElement('date', 'receive_date', ts('Received date'), CRM_Core_SelectValues::date('fixed')); 
+        $this->add('date', 'receive_date', ts('Received date'), CRM_Core_SelectValues::date('manual', 3, 1), true ); 
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'receipt_date', ts('Receipt date'), CRM_Core_SelectValues::date('fixed')); 
+        $this->addElement('date', 'receipt_date', ts('Receipt date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'thankyou_date', ts('Thank-you date'), CRM_Core_SelectValues::date('fixed')); 
+        $this->addElement('date', 'thankyou_date', ts('Thank-you date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('thankyou_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'cancel_date', ts('Cancelled date'), CRM_Core_SelectValues::date('fixed')); 
+        $this->addElement('date', 'cancel_date', ts('Cancelled date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
 
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
@@ -121,7 +123,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->addRule('non_deductible_amount', ts('Please enter a valid amount.'), 'money');
 
         $this->add( 'text', 'total_amount', ts('Total Amount'),
-                    $attributes['total_amount'] );
+                    $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
 
         $this->add( 'text', 'fee_amount', ts('Fee Amount'),
@@ -147,7 +149,30 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+
+        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution', 'formRule' ), $this );
     }
+
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     * @param array $files   the uploaded files if any  
+     * @param array $options additional user data  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields, &$files, $self ) {  
+        $errors = array( ); 
+
+        if ( CRM_Utils_System::isNull( $fields['receive_date'] ) ) {
+            $errors['receive_date'] = ts('Received Date is a required field.' );
+        }
+        return $errors;
+    }
+
 
     /** 
      * Function to process the form 

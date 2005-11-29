@@ -141,11 +141,30 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                         $sortID,  
                                                         CRM_Core_Action::VIEW, 
                                                         $this, 
-                                                        CRM_Core_Selector_Controller::SESSION );
-        $controller->setEmbedded( true ); 
+                                                        CRM_Core_Selector_Controller::TRANSFER );
+
         if ( $this->_force ) { 
             $this->postProcess( );
+
+            /* 
+             * Note that we repeat this, since the search creates and stores 
+             * values that potentially change the controller behavior. i.e. things 
+             * like totalCount etc 
+             */
+            $sortID = null; 
+            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
+                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
+                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
+            }
+            $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action );  
+            $controller =& new CRM_Core_Selector_Controller($selector ,   
+                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),   
+                                                            $sortID,   
+                                                            CRM_Core_Action::VIEW,  
+                                                            $this,  
+                                                            CRM_Core_Selector_Controller::TRANSFER ); 
         }
+        $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
     }
 
@@ -327,6 +346,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                 $this->_formValues['contribution_status'] = $status;
                 $this->_defaults['contribution_status'] = $status;
                 break;
+            }
+        }
+
+        $cid = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+        if ( $cid ) {
+            $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
+            if ( $cid > 0 ) {
+                $this->_formValues['contact_id'] = $cid;
+                list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
+                $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,
+                                                                             'sort_name' );
             }
         }
 
