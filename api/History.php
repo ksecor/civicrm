@@ -92,6 +92,37 @@ function &crm_create_activity_history(&$params)
 /**
  * Get an existing History
  *
+ * Returns an array containing existing Histories which matches ALL property
+ * values passed in $params.
+ *
+ * @param array $params           Associative array of property name/value
+ *                                pairs to attempt to match on.
+ *
+ * @param int     $offset          which row to start from?
+ * @param int     $rowCount        how many rows to fetch
+ * @param object|array  $sort      object or array describing sort order for sql query.
+ *
+ *
+ * @param array $returnProperties Which properties should be included in the
+ *                                returned array. If NULL, the default
+ *                                set of properties will be included.
+ *
+ * @return array $values          Return the array containing the matched Activity Histories
+ *
+ * @access public
+ *
+ */
+function &crm_get_activity_history(&$params, $offset = null, $numRow = null, $sort = null)
+{
+    _crm_initialize( );
+
+    $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
+    return $values;
+}
+
+/**
+ * Get an existing History object
+ *
  * Returns a single existing History object which matches ALL property
  * values passed in $params. An error object is returned if there is
  * no match, or more than one match. 
@@ -113,12 +144,12 @@ function &crm_create_activity_history(&$params)
  * @access public
  *
  */
-function &crm_get_activity_history($params, $offset, $numRow, $sort)
+function &crm_get_activity_history_object(&$params, &$defaults)
 {
     _crm_initialize( );
 
-    $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
-    return $values;
+    $historyObject =& CRM_Core_BAO_History::retrieve($params, $defaults);
+    return $historyObject;
 }
 
 /**
