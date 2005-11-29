@@ -42,7 +42,8 @@ require_once 'CRM/Contact/BAO/Contact.php';
 /**
  *
  */
-class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
+class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup 
+{
     const 
         PUBLIC_VISIBILITY   = 1,
         ADMIN_VISIBILITY    = 2,
@@ -54,7 +55,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @var string
      */
     static $_matchFields = null;
-
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -605,19 +606,28 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      */
     public static function del($id) { 
+        
         //check wheter this group contains  any profile fields
         $profileField = & new CRM_Core_DAO_UFField();
         $profileField->uf_group_id = $id;
         $profileField->find();
         while($profileField->fetch()) {
-            return false;
-            
+            return -1;
         }
+        
+        //check wheter this group is used by any module(check uf join records)
+        $ufJoin = & new CRM_Core_DAO_UFJoin();
+        $ufJoin->uf_group_id = $id;
+        $ufJoin->find();
+        while($ufJoin->fetch()) {
+            return 0;
+        }
+        
         //delete profile group
         $group = & new CRM_Core_DAO_UFGroup();
         $group->id = $id; 
         $group->delete();
-        return true;
+        return 1;
     }
 
     /**
@@ -1046,7 +1056,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $ufDAO->query($updateSql);
             }
         }
-
+        
         //set the weight for the current uf group
         if ( !empty($ufJoinRecords) ) {
             $ufJoinDAO =& new CRM_Core_DAO();
@@ -1054,8 +1064,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                           WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
             $ufJoinDAO->query($queryString);
         }
-
-
     }
 }
 
