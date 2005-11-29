@@ -251,7 +251,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     if ($field->phone_type) {
                         $name      .= '-'.$field->phone_type;
-                        $phoneType  = ' ' . $field->phone_type;
+                        
+                        if ($field->phone_type != ts('Phone')) { // this hack is to prevent Phone Phone (work)
+                            $phoneType  = ' ' . $field->phone_type;
+                        }
                     }
                     
                     $title .= $phoneType . $locType;
