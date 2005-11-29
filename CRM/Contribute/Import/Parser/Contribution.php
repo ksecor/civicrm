@@ -221,22 +221,43 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 $url_string = implode("\n", $urls);
                 array_unshift($values, $url_string); 
                 
-                /* If we duplicate more than one record, skip no matter what */
-                if (count($newContribution->_errors[0]['params']) > 1) {
-                    array_unshift($values, ts('Record duplicates multiple contributions'));
-                    return CRM_Contribute_Import_Parser::ERROR;
-                }
-           
                 /* Params only had one id, so shift it out */
                 $contributionId = array_shift($newContribution->_errors[0]['params']);
             
+                $updateHistory = false;
+
                 if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE) {
                     $newContribution = crm_update_contribution_formatted($contributionId, $formatted, true);
-
+                    $updateHistory = true;
                 } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_FILL) {
                     $newContribution = crm_update_contribution_formatted($contributionId, $formatted, false);
+                    $updateHistory = true;
                 } // else skip does nothing and just returns an error code.
             
+                if ($updateHistory) {
+                    // FIXME: this history update and the below history creation should be merged where they overlap
+
+                    $historyParams   = array('module' => 'CiviContribute', 'activity_id' => $contributionId);
+                    $historyDefaults = array();
+                    $activityHistory =& crm_get_activity_history_object($historyParams, $historyDefaults);
+
+                    $contributionType = CRM_Contribute_PseudoConstant::contributionType($newContribution->contribution_type_id);
+                    $activitySummary = "{$newContribution->total_amount} {$newContribution->currency} - $contributionType ";
+                    $activitySummary .= '(from import on ' . date('r') . ')';
+                    $historyParams = array(
+                        'entity_table'     => 'civicrm_contact',
+                        'entity_id'        => $newContribution->contact_id,
+                        'activity_type'    => $contributionType,
+                        'module'           => 'CiviContribute',
+                        'callback'         => 'CRM_Contribute_Display::details',
+                        'activity_id'      => $newContribution->id,
+                        'activity_summary' => $activitySummary,
+                        'activity_date'    => $newContribution->receive_date
+                    );
+                    $activityHistoryResult =& crm_update_activity_history($activityHistory, $historyParams);
+
+                }
+
                 if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
                     $this->_newContributions[] = $newContribution->id;
                 }
