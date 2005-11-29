@@ -10,7 +10,7 @@
     {else}
         <dt><img src="{$config->resourceBase}i/traffic_red.gif" alt="{ts}status{/ts}"/></dt>
         <dd>{ts}<p>This page is currently <strong>inactive</strong> (not accessible to visitors).</p>
-        <p>When you are ready to make this page live, click <a href="{crmURL p='civicrm/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}">Title and Settings</a>
+        <p>When you are ready to make this page live, click <a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}">Title and Settings</a>
         and update the <strong>Active?</strong> checkbox.</p>{/ts}</dd>
     {/if}
     </dl>
@@ -22,19 +22,19 @@
 </div>
 <table class="report"> 
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}">&raquo; {ts}Title and Settings{/ts}</a></td>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}">&raquo; {ts}Title and Settings{/ts}</a></td>
     <td>{ts}Set page title, contribution type (donation, campaign contribution, etc.), introduction, allowable payment types, activate the page.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}">&raquo; {ts}Contribution Amounts{/ts}</a></td>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}">&raquo; {ts}Contribution Amounts{/ts}</a></td>
     <td>{ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
     <td nowrap>{ts}Edit Thank-you page contents and receipting features.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}">&raquo; {ts}Custom Page Elements{/ts}</a></td>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}">&raquo; {ts}Custom Page Elements{/ts}</a></td>
     <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s)
     to include in this contribution page.{/ts}</td>
 </tr>

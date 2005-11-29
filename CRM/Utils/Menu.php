@@ -595,6 +595,7 @@ class CRM_Utils_Menu {
             if (  in_array( 'CiviContribute', $config->enableComponents) ) {
                 self::$_items[] = array( 
                                         'path'    => 'civicrm/contribute', 
+                                        'qs'      => 'reset=1',
                                         'title'   => ts( 'CiviContribute' ), 
                                         'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
                                         'type'    => self::CALLBACK,  
@@ -604,6 +605,7 @@ class CRM_Utils_Menu {
 
                 self::$_items[] = array( 
                                         'path'    => 'civicrm/contribute/search',
+                                        'qs'      => 'reset=1',
                                         'title'   => ts( 'Find Contributions' ), 
                                         'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
                                         'type'    => self::CALLBACK,  
@@ -613,6 +615,7 @@ class CRM_Utils_Menu {
                     
                 self::$_items[] = array( 
                                         'path'    => 'civicrm/contribute/import', 
+                                        'qs'      => 'reset=1',
                                         'title'   => ts( 'Import Contributions' ), 
                                          'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                                          CRM_Utils_System::checkPermission( 'access CiviContribute' ),

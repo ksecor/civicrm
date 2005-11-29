@@ -438,9 +438,9 @@ class CRM_Core_Invoke {
                 break;
 
             default:
-                require_once 'CRM/Admin/Page/Admin.php';
-                $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
-                // CRM_Core_Error::debug('r',$view);
+                require_once 'CRM/Contribute/Page/ContributionPage.php'; 
+                $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page'));  
+                return $view->run( ); 
                 break;
             }
             break;
@@ -678,15 +678,11 @@ class CRM_Core_Invoke {
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
-        } else if ( $args[2] == 'dashboard' ) {
+        } else {
             require_once 'CRM/Contribute/Page/DashBoard.php';
             $view =& new CRM_Contribute_Page_DashBoard( ts('DashBoard') );
             return $view->run( );
-        } else {
-            require_once 'CRM/Contribute/Page/ContributionPage.php';
-            $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page')); 
-            return $view->run( );
-        } 
+        }
     }
          
     /**

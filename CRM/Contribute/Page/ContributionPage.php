@@ -74,7 +74,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
-                                                                          'url'   => 'civicrm/contribute',
+                                                                          'url'   => 'civicrm/admin/contribute',
                                                                           'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                           'title' => ts('Configure') 
                                                                           ),
@@ -86,20 +86,20 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/contribute',
+                                                                          'url'   => 'civicrm/admin/contribute',
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/contribute',
+                                                                          'url'   => 'civicrm/admin/contribute',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
-                                                                          'url'   => 'civicrm/contribute',
+                                                                          'url'   => 'civicrm/admin/contribute',
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
                                                                           'title' => ts('Delete Custom Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
