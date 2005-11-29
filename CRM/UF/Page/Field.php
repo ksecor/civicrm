@@ -150,6 +150,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
 
         while ($ufFieldBAO->fetch()) {
             $ufField[$ufFieldBAO->id] = array();
+            $phoneType = $locType = '';
             CRM_Core_DAO::storeValues( $ufFieldBAO, $ufField[$ufFieldBAO->id]);
 
             // fix the field_name value
