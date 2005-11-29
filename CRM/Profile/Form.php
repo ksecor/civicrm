@@ -169,7 +169,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                     } else if ( $nameValue[0] == 'country' ) {
                                         $defaults[$name] = $value['country_id'];
                                     } else if ( $nameValue[0] == 'phone' ) {
-                                        $defaults[$name] = $value['phone'][$nameValue[2]];
+                                        $defaults[$name] = $value['phone'][1];
                                     } else if ( $nameValue[0] == 'email' ) {
                                         //adding the first email (currently we don't support multiple emails of same location type)
                                         $defaults[$name] = $value['email'][1];
