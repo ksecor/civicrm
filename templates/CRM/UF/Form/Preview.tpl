@@ -1,7 +1,7 @@
 {if $previewField }
-{capture assign=infoMessage}{ts}Preview of the Civicrm profile field.{/ts}{/capture}
+{capture assign=infoMessage}{ts}Profile Field Preview</strong>.{/ts}{/capture}
 {else}
-{capture assign=infoMessage}{ts}Preview of the Civicrm profile (fieldset).{/ts}{/capture}
+{capture assign=infoMessage}{ts}<strong>Profile Preview</strong>{/ts}{/capture}
 {/if}
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
