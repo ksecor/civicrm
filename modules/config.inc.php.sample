@@ -219,7 +219,7 @@ define( 'CIVICRM_ADDRESS_FORMAT' , '
 street_address
 supplemental_address_1
 supplemental_address_2
-city, state_province postal_code
+city state_province postal_code
 country
 ' );
 
