@@ -41,7 +41,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for processing a ontribution 
  * 
  */
-class CRM_Contribute_Form_Contribution extends CRM_Core_Form
+class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 {
     
     /**

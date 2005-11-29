@@ -34,12 +34,12 @@
  *
  */
 
-require_once 'CRM/Contribute/Form/Contribution.php';
+require_once 'CRM/Contribute/Form/ContributionBase.php';
 
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contribution {
+class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_ContributionBase {
 
     /**
      * Function to set variables up before form is built

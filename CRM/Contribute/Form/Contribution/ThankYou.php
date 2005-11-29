@@ -34,12 +34,12 @@
  *
  */
 
-require_once 'CRM/Contribute/Form/Contribution.php';
+require_once 'CRM/Contribute/Form/ContributionBase.php';
 
 /**
  * form for thank-you / success page - 3rd step of online contribution process
  */
-class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Contribution {
+class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_ContributionBase {
 
     /**
      * Function to set variables up before form is built

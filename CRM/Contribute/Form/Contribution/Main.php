@@ -35,13 +35,13 @@
  *
  */
 
-require_once 'CRM/Contribute/Form/Contribution.php';
+require_once 'CRM/Contribute/Form/ContributionBase.php';
 
 /**
  * This class generates form components for processing a ontribution 
  * 
  */
-class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribution {
+class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_ContributionBase {
 
     /** 
      * Function to set variables up before form is built 
