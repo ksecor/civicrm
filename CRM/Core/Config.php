@@ -167,7 +167,7 @@ class CRM_Core_Config {
      * The format of the address fields.
      * @var string
      */
-    public $addressFormat = "street_address\nsupplemental_address_1\nsupplemental_address_2\ncity, state_province postal_code\ncountry";
+    public $addressFormat = "street_address\nsupplemental_address_1\nsupplemental_address_2\ncity state_province postal_code\ncountry";
 
     /**
      * The sequence of the address fields.

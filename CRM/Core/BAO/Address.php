@@ -209,6 +209,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             $fullPostalCode = $address->postal_code;
             if ($address->postal_code_suffix) $fullPostalCode .= "-$address->postal_code_suffix";
 
+            // this is a gross hack, so please forgive me: lobo:)
+            // we need to add a comma between city and state only if both are non empty
+            // so we just add it to the city field
+            if ( $address->city && $address->state ) {
+                $address->city = $address->city . ',';
+            }
+            
             $replacements = array(
                 'street_address'         => $address->street_address,
                 'supplemental_address_1' => $address->supplemental_address_1,
@@ -220,9 +227,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             );
 
             $address->display = str_replace(array_keys($replacements), $replacements, $config->addressFormat);
-            while (substr_count($address->display, "\n\n")) {
-                $address->display = str_replace("\n\n", "\n", $address->display);
-            }
+            $address->display = trim( str_replace("\n\n", "\n", $address->display) );
+
             // FIXME: not sure whether non-DB values are safe to store here
             // if so, we should store state_province and country as well and
             // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code

@@ -77,12 +77,9 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                      $field['data_type'] == 'Money') {
                     //added check for Multi-Select in the below if-statement
                     if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
-                        
                         //$freezeString = $field['html_type'] == 'Radio' ? "( )" : "[ ]";
                         //$freezeStringChecked = $field['html_type'] == 'Radio' ? "(x)" : "[x]";
-                        
                         //added
-
                         $freezeString =  "";
                         $freezeStringChecked = "";
 
