@@ -1354,6 +1354,42 @@ function user_access( $str = null ) {
     return true;
 }
 
+function add_contributions( ) {
+
+    $query = "
+INSERT INTO civicrm_contribution
+    (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, fee_amount, net_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
+VALUES
+    (1, 2, 1, 4, '2005-10-11 00:00:00', 0.00, 125.00, 0.00, 0.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 4, 1, 1, '2005-09-21 00:00:00', 0.00, 50.00, 0.00, 0.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 6, 1, 4, '2005-10-29 00:00:00', 0.00, 25.00, 0.00, 0.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 8, 1, 4, '2005-10-11 00:00:00', 0.00, 50.00, 0.00, 0.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 16, 1, 4, '2005-10-15 00:00:00', 0.00, 500.00, 0.00, 0.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 19, 1, 4, '2005-10-11 00:00:00', 0.00, 175.00, 0.00, 0.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 82, 1, 1, '2005-09-27 00:00:00', 0.00, 50.00, 0.00, 0.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 92, 1, 1, '2005-09-08 00:00:00', 0.00, 10.00, 0.00, 0.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 34, 1, 1, '2005-10-22 00:00:00', 0.00, 250.00, 0.00, 0.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
+";
+    CRM_Core_DAO::executeQuery( $query );
+
+    $query = "
+INSERT INTO civicrm_activity_history
+    (entity_table, entity_id, activity_type, module, callback, activity_id, activity_summary, activity_date)
+VALUES
+    ('civicrm_contact', 4, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 1, '125.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
+    ('civicrm_contact', 4, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 2, '50.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-09-21 00:00:00'),
+    ('civicrm_contact', 6, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 3, '25.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-29 00:00:00'),
+    ('civicrm_contact', 8, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 4, '50.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
+    ('civicrm_contact', 16, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 5, '500.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-15 00:00:00'),
+    ('civicrm_contact', 19, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 6, '175.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
+    ('civicrm_contact', 82, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 7, '50.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-09-27 00:00:00'),
+    ('civicrm_contact', 92, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 8, '10.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-09-08 00:00:00'),
+    ('civicrm_contact', 34, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 9, '250.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-22 00:00:00');
+";
+    CRM_Core_DAO::executeQuery( $query );
+
+}
+
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
 $obj1->initID();
@@ -1370,6 +1406,7 @@ $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
+add_contributions( );
 
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
