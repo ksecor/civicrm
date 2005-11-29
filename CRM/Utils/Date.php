@@ -120,7 +120,8 @@ class CRM_Utils_Date {
         if ( $date['d'] ) {
             return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
         } else {
-            return $date['Y'] . $separator . $date['M'] . $time;
+            // if we dont have a day, time is not relevant
+            return $date['Y'] . $separator . $date['M'];
         }
     }
 

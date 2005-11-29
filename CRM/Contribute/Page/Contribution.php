@@ -35,20 +35,29 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Contribute/DAO/ContributionPage.php';
+require_once 'CRM/Contribute/DAO/Contribution.php';
 
 /**
- * Create a page for displaying Contribute Pages
- * Contribute Pages are pages that are used to display
- * contributions of different types. Pages consist
- * of many customizable sections which can be
- * accessed.
- *
- * This page provides a top level browse view
- * of all the contribution pages in the system.
+ * Create a page for displaying Contributions
  *
  */
-class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
+class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
+
+    /** 
+     * the id of the contribution that we are proceessing 
+     * 
+     * @var int 
+     * @protected 
+     */ 
+    protected $_id;
+
+    /** 
+     * the id of the contact associated with this contribution 
+     * 
+     * @var int 
+     * @protected 
+     */ 
+    protected $_contactID;
 
     /**
      * The action links that we need to display for the browse screen
@@ -69,39 +78,19 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Contribution page?');
-            $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
+            $deleteExtra = ts('Are you sure you want to delete this Contribution?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Configure'),
-                                                                          'url'   => 'civicrm/admin/contribute',
-                                                                          'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                                          'title' => ts('Configure') 
-                                                                          ),
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Test-drive'),
-                                                                          'url'   => 'civicrm/contribute/transact',
-                                                                          'qs'    => 'reset=1&action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview'),
-                                                                          ),
-                                        CRM_Core_Action::DISABLE => array(
-                                                                          'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/contribute',
-                                                                          'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                          ),
-                                        CRM_Core_Action::ENABLE  => array(
-                                                                          'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/contribute',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable'),
+                                                                          'name'  => ts('Edit'),
+                                                                          'url'   => 'civicrm/contribute/contribution',
+                                                                          'qs'    => 'reset=1&action=update&id=%%id%%&cid=%%cid%%',
+                                                                          'title' => ts('Edit') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
-                                                                          'url'   => 'civicrm/admin/contribute',
+                                                                          'url'   => 'civicrm/contribute/contribution',
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
-                                                                          'title' => ts('Delete Custom Field'),
+                                                                          'title' => ts('Delete Contribution'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
                                         );
@@ -130,19 +119,16 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ( $action & CRM_Core_Action::ADD ) {
+        if ( $action & CRM_Core_Action::ADD || $action & CRM_Core_Action::UPDATE ) {
             $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) );
-
-            require_once 'CRM/Contribute/Controller/ContributionPage.php';
-            $controller =& new CRM_Contribute_Controller_ContributionPage( );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/contribution',
+                                                             'action=browse&reset=1&cid=' . $this->_contactID ) );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution',
+                                                           'Create Contribution',
+                                                           $action );
+            $controller->set( 'id' , $this->_id );
+            $controller->set( 'cid', $this->_contactID );
             return $controller->run( );
-        } else if ($action & CRM_Core_Action::UPDATE ) {
-            require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
-            $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            return $page->run( );
-        } else if ($action & CRM_Core_Action::PREVIEW) {
-            return $this->preview($id) ;
         } else if ($action & CRM_Core_Action::DELETE) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse' ) );
@@ -156,39 +142,13 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $controller->run( );
         } else {
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            // if action is enable or disable to the needful.
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 1);
-            }
 
-            // finally browse the contribution pages
             $this->browse();
             CRM_Utils_System::setTitle( ts('Browse Contribution Pages') );
         }
 
         return parent::run();
     }
-
-    /**
-     * Preview contribution page
-     *
-     * @param int $id contribute page id
-     * @return void
-     * @access public
-     */
-    function preview( $id )
-    {
-        require_once 'CRM/Core/Controller/Simple.php';
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action);
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/contribute', 'reset=1&action=browse'));
-        $controller->set('id', $id);
-        $controller->process();
-        $controller->run();
-    }
-
 
     /**
      * Browse all custom data groups.
@@ -216,13 +176,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             CRM_Core_DAO::storeValues($dao, $contribution[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
-            
-            // update enable/disable links depending on custom_group properties.
-            if ($dao->is_active) {
-                $action -= CRM_Core_Action::ENABLE;
-            } else {
-                $action -= CRM_Core_Action::DISABLE;
-            }
             
             $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                           array('id' => $dao->id));

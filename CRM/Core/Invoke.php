@@ -657,7 +657,7 @@ class CRM_Core_Invoke {
         }  
 
         $session =& CRM_Core_Session::singleton();
-        if ( $args[2] == 'contribution' ) { 
+        if ( $args[2] == 'transact' ) { 
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
@@ -678,6 +678,10 @@ class CRM_Core_Invoke {
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
+        } else if ( $args[2] == 'contribution' ) {
+            require_once 'CRM/Contribute/Page/Contribution.php';
+            $page =& new CRM_Contribute_Page_Contribution( );
+            return $page->run( );
         } else {
             require_once 'CRM/Contribute/Page/DashBoard.php';
             $view =& new CRM_Contribute_Page_DashBoard( ts('DashBoard') );

@@ -49,6 +49,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function preProcess()
     {
+        $config =& CRM_Core_Config::singleton( );
 
         parent::preProcess( );
 
@@ -65,7 +66,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
-                $this->_params['currencyID'    ] = 'USD';
+                $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
 
                 $this->set( 'getExpressCheckoutDetails', $this->_params );
@@ -82,7 +83,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
 
             $this->_params['amount'        ] = $this->get( 'amount' );
-            $this->_params['currencyID'    ] = 'USD';
+            $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
 

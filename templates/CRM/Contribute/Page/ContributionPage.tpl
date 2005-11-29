@@ -30,7 +30,7 @@
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>
-                {if $row.is_active eq 1}<a href="{crmURL p="civicrm/contribute/contribution" q="reset=1&id=`$row.id`"}">{$row.title}</a>
+                {if $row.is_active eq 1}<a href="{crmURL p="civicrm/contribute/transact" q="reset=1&id=`$row.id`"}">{$row.title}</a>
                 {else}<strong>{$row.title}</strong>{/if}
             </td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>

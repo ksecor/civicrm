@@ -260,9 +260,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     public function postProcess() 
     {
+        $config =& CRM_Core_Config::singleton( );
+
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-        $params['currencyID']     = 'USD'; 
+        $params['currencyID']     = $config->defaultCurrency;
+
         $params['payment_action'] = 'Sale'; 
         $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
 
