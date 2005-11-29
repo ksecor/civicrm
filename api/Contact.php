@@ -401,26 +401,23 @@ function crm_delete_contact( &$contact ) {
 /** 
  * Get all the contact_ids 
  * 
- * @return $Contacts Array of contact ids 
+ * @return $contacts array of contact ids 
  *  
  * @access public 
  * 
  */ 
 function crm_get_contacts() {
-    // FIXME: shouldn't we limit the query to the current domain?
-#   $config =& CRM_Core_Config::singleton();
-#   $domainID = $config->domainID();
-#   $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
-    $query = 'SELECT * FROM civicrm_contact';
-    // FIXME: why the double assignment?
-    $dao =  $dao =& new CRM_Core_DAO( );
-    $dao->query( $query );
-    $Contacts = array();
-    while ( $dao->fetch( ) ) {
-        //$Contacts[$dao->id]['sort_name'] = $dao->sort_name; 
-        $Contacts[$dao->id]= $dao->id;
-    }
-    return $Contacts;
+   $config =& CRM_Core_Config::singleton();
+   $domainID = $config->domainID();
+   $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
+   
+   $dao =& new CRM_Core_DAO( );
+   $dao->query( $query );
+   $contacts = array();
+   while ( $dao->fetch( ) ) {
+       $contacts[$dao->id]= $dao->id;
+   }
+   return $contacts;
 }
 
 /**
