@@ -383,6 +383,43 @@ class CRM_Utils_Date {
         return strtr($format, $replacements);
     }
 
+    /**
+     * converts the date/datetime from MySQL format to ISO format
+     *
+     * @param string $mysql  date/datetime in MySQL format
+     * @return string        date/datetime in ISO format
+     * @static
+     */
+    static function mysqlToIso($mysql)
+    {
+        $year   = substr($mysql,  0, 4);
+        $month  = substr($mysql,  4, 2);
+        $day    = substr($mysql,  6, 2);
+        $hour   = substr($mysql,  8, 2);
+        $minute = substr($mysql, 10, 2);
+        $second = substr($mysql, 12, 2);
+        
+        $iso = '';
+        if ($year)             $iso .= "$year";
+        if ($month and $day)   $iso .= "-$month-$day";
+        if ($hour and $minute) $iso .= " $hour:$minute";
+        if ($second)           $iso .= ":$second";
+        return $iso;
+    }
+
+    /**
+     * converts the date/datetime from ISO format to MySQL format
+     *
+     * @param string $iso  date/datetime in ISO format
+     * @return string      date/datetime in MySQL format
+     * @static
+     */
+    static function isoToMysql($iso)
+    {
+        $dropArray = array('-' => '', ':' => '', ' ' => '');
+        return strtr($iso, $dropArray);
+    }
+
 }
 
 ?>

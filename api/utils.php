@@ -401,15 +401,25 @@ function _crm_format_contrib_params( &$params, &$values ) {
     // copy all the contribution fields as is
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
+
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID;
+    }
     
     _crm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
-            // FIXME: should also validate whether it's an existing contact
             if (!CRM_Utils_Rule::integer($value)) {
                 return _crm_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $dao->query("SELECT id FROM civicrm_contact WHERE domain_id = $domainID");
+            if (!$dao->find()) {
+                return _crm_error("there's no contact with contact_id of $value");
             }
             break;
         case 'receive_date':
