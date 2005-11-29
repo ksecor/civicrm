@@ -106,13 +106,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * get all the registration fields
      *
      * @param int $action   what action are we doing
+     * @param int $mode     mode 
      *
      * @return array the fields that are needed for registration
      * @static
      * @access public
      */
-    static function getRegistrationFields( $action ) {
-        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+    static function getRegistrationFields( $action, $mode ) {
+        if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+        } else {
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
+        }
 
         $fields = array( );
         foreach ( $ufGroups as $id => $title ) {
@@ -236,18 +241,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
-                    $name  = $title = '';
+                    $name  = $title = $locType = $phoneType = '';
                     $name  = $field->field_name;
                     $title = $importableFields[$field->field_name]['title']; 
                     if ($field->location_type_id) {
-                        $name  .= '-'.$field->location_type_id;
-                        $title .= ' - ' . $locationType[$field->location_type_id];
+                        $name    .= '-'.$field->location_type_id;
+                        $locType  = ' (' . $locationType[$field->location_type_id] . ') ';
                     }
                     if ($field->phone_type) {
-                        $name  .= '-'.$field->phone_type;
-                        $title .= ' - ' . $field->phone_type;
+                        $name      .= '-'.$field->phone_type;
+                        $phoneType  = ' ' . $field->phone_type;
                     }
-
+                    
+                    $title .= $phoneType . $locType;
+                    
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
@@ -547,7 +554,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                                     $values[$index] = $value['country'];
                                     $params[$index] = $value['country_id'];
                                 } else if ( $nameValue[0] == 'phone' ) {
-                                    $values[$index] = $value['phone'][$nameValue[2]];
+                                    $values[$index] = $value['phone'][1];
                                 } else if ( $nameValue[0] == 'email' ) {
                                     //adding the first email (currently we don't support multiple emails of same location type)
                                     $values[$index] = $value['email'][1];
@@ -673,8 +680,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 if ($required) {
                     $form->addRule($elementName, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
-            } else if  ( substr($field['name'],0,5) === 'phone' ) {
-                $form->add('text', $name, $field['title'] . " - " . $field['phone_type'], $field['attributes'], $required);
             } else {
                 $form->add('text', $name, $field['title'], $field['attributes'], $required );
             }
@@ -778,7 +783,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * Function to make uf join entries for an uf group
      *
      * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ufGroupId    ufgroup id
+     * @param int   $ufGroupId    ufgroup id
      *
      * @return none
      * @access public
@@ -809,7 +814,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $joinParams = array( );
             $joinParams['uf_group_id'] = $ufGroupId;
             $joinParams['module'     ] = $key;
-            $joinParams['weight'     ] = $params['weight'];
+            //$joinParams['weight'     ] = $params['weight'];
             if (array_key_exists($key, $groupTypes) && !in_array($key, $ufGroupRecord )) {
                 // insert a new record
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams);
@@ -818,6 +823,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 CRM_Core_BAO_UFGroup::delUFJoin($joinParams);
             } 
         }
+
+        //update the weight for remaining group
+        CRM_Core_BAO_UFGroup::updateWeight($params['weight'], $ufGroupId);
     }
 
     /**
@@ -870,26 +878,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * Function takes an associative array and creates a ufjoin record for ufgroup
      *
      * @param array $params (reference) an assoc array of name/value pairs
-     * @parma int   $update status to update or add new
      *
      * @return object CRM_Core_BAO_UFJoin object
      * @access public
      * @static
      */
-    static function addUFJoin( &$params, $update = null ) 
+    static function addUFJoin( &$params ) 
     {
         require_once 'CRM/Core/DAO/UFJoin.php';
-        // get the id
-        if ($update) {
-            $ufJoin1 =& new CRM_Core_DAO_UFJoin( );
-            $ufJoin1->module      = $params['module'];
-            $ufJoin1->uf_group_id = $params['uf_group_id'];
-            $ufJoin1->find(true);
-        } 
         
         $ufJoin =& new CRM_Core_DAO_UFJoin( );
         $ufJoin->copyValues( $params );
-        $ufJoin->id = $ufJoin1->id; 
         $ufJoin->save( );
         return $ufJoin;
     }
@@ -982,6 +981,82 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         return $ufGroups;
     }
     
+    /**
+     * Function to update the weight for a UFGroup
+     * 
+     * @param int $weight weight for a UFGroup
+     * @param int $ufGroupId uf Group Id
+     *
+     * @static
+     */
+    static function updateWeight($weight, $ufGroupId) 
+    {
+
+        //get the current uf group records in uf join table
+        $ufJoin =& new CRM_Core_DAO_UFJoin();
+        $ufJoin->uf_group_id = $ufGroupId;
+
+        $ufJoinRecords = array();
+        $ufJoin->find();
+        while ($ufJoin->fetch()) {
+            $ufJoinRecords[] = $ufJoin->id;
+            $oldWeight       = $ufJoin->weight;
+        }
+        
+        $check = 0;
+        if ( $weight != $oldWeight )  {
+            $check++;
+            // get the groups whose weight is less than new/updated group
+            $daoObj =& new CRM_Core_DAO();
+            $query = "SELECT id
+                      FROM civicrm_uf_join
+                      WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+
+                        AND weight = ". CRM_Utils_Type::escape($weight, 'Integer');
+            //AND uf_group_id <> ". CRM_Utils_Type::escape($ufGroupId, 'Integer') ."
+
+            $daoObj->query($query);
+            while ($daoObj->fetch()) {
+                $check = 0;
+            }
+        }
+
+        if ( !$check ) {
+            // get the groups whose weight is less than new/updated group
+            $dao =& new CRM_Core_DAO();
+            $query = "SELECT id
+                      FROM civicrm_uf_join
+                      WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+
+                        AND weight >= ". CRM_Utils_Type::escape($weight, 'Integer');
+
+            //AND uf_group_id <> ". CRM_Utils_Type::escape($ufGroupId, 'Integer'). "
+        
+            $dao->query($query);
+            
+            $fieldIds = array();                
+            while ($dao->fetch()) {
+                $fieldIds[] = $dao->id;                
+            }                
+            
+            //update the record with weight + 1
+            if ( !empty($fieldIds) ) {
+                $ufDAO =& new CRM_Core_DAO();
+                $updateSql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                $ufDAO->query($updateSql);
+            }
+        }
+
+        //set the weight for the current uf group
+        if ( !empty($ufJoinRecords) ) {
+            $ufJoinDAO =& new CRM_Core_DAO();
+            $queryString = "UPDATE civicrm_uf_join SET weight = ". CRM_Utils_Type::escape($weight, 'Integer')."
+                          WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
+            $ufJoinDAO->query($queryString);
+        }
+
+
+    }
 }
 
 ?>

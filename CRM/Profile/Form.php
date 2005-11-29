@@ -106,7 +106,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_gid      = $this->get( 'gid' ); 
 
         if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action, 
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY ); 
@@ -422,22 +422,24 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $data['location'][$loc]['is_primary'] = 1;
                 }
 
-                if ($keyValue[2]) {
-                    $data['location'][$loc]['phone'][$loc]['phone'] = $value;
-                    $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
-                } else {
-                    if ($keyValue[0] == 'email') {
-                        $data['location'][$loc]['email'][$loc]['email'] = $value;
-                    } elseif ($keyValue[0] == 'im') {
-                        $data['location'][$loc]['im'][$loc]['name'] = $value;
+                if ($keyValue[0] == 'phone') {
+                    if ( $keyValue[2] ) {
+                        $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
                     } else {
-                        if ($keyValue[0] === 'state_province') {
-                            $data['location'][$loc]['address']['state_province_id'] = $value;
-                        } else if ($keyValue[0] === 'country') {
-                            $data['location'][$loc]['address']['country_id'] = $value;
-                        } else {
-                            $data['location'][$loc]['address'][$keyValue[0]] = $value;
-                        }
+                        $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                    }
+                    $data['location'][$loc]['phone'][$loc]['phone'] = $value;
+                } else if ($keyValue[0] == 'email') {
+                    $data['location'][$loc]['email'][$loc]['email'] = $value;
+                } elseif ($keyValue[0] == 'im') {
+                    $data['location'][$loc]['im'][$loc]['name'] = $value;
+                } else {
+                    if ($keyValue[0] === 'state_province') {
+                        $data['location'][$loc]['address']['state_province_id'] = $value;
+                    } else if ($keyValue[0] === 'country') {
+                        $data['location'][$loc]['address']['country_id'] = $value;
+                    } else {
+                        $data['location'][$loc]['address'][$keyValue[0]] = $value;
                     }
                 }
             } else {
@@ -486,7 +488,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
+  
         if ($this->_id) {
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
             $ids = array( ); 
@@ -524,7 +526,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         

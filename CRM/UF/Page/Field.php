@@ -156,13 +156,15 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             $ufField[$ufFieldBAO->id]['field_name'] = $select[$ufField[$ufFieldBAO->id]['field_name']];
             
             if ($ufFieldBAO->location_type_id) {
-                $ufField[$ufFieldBAO->id]['field_name'] .= " - ".$locationType[$ufFieldBAO->location_type_id];
+                $locType = ' (' . $locationType[$ufFieldBAO->location_type_id] . ') ';
             }
             
             if ($ufFieldBAO->phone_type) {
-                $ufField[$ufFieldBAO->id]['field_name'] .= " - ".$ufFieldBAO->phone_type;
+                $phoneType .= ' '.$ufFieldBAO->phone_type;
             }
-            
+          
+            $ufField[$ufFieldBAO->id]['field_name'] .= $phoneType . $locType;
+
             $action = array_sum(array_keys($this->actionLinks()));
             if ($ufFieldBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
