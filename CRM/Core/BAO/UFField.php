@@ -37,7 +37,8 @@
 /**
  *
  */
-class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField {
+class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField 
+{
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -97,14 +98,37 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField {
      *
      */
 
-  public static function del($id) 
+    public static function del($id) 
     { 
-       
         //delete  field field
         $field = & new CRM_Core_DAO_UFField();
         $field->id = $id; 
         $field->delete();
         return true;
+    }
+    
+    /**
+     * Function to check duplicate for duplicate field in a group
+     * 
+     * @param array $params an associative array with field and values
+     * @ids   array $ids    array that containd ids 
+     *
+     *@access public
+     *@static
+     */
+    public static function duplicateField($params, $ids)
+    {
+        $ufField                   =& new CRM_Core_DAO_UFField();
+        $ufField->field_name       = $params['field_name'][0];
+        $ufField->location_type_id = $params['field_name'][1];
+        $ufField->phone_type       = $params['field_name'][2];
+        $ufField->uf_group_id      = CRM_Utils_Array::value( 'uf_group', $ids );
+        if (CRM_Utils_Array::value( 'uf_field', $ids )) {
+            $ufField->whereAdd("id <> ".CRM_Utils_Array::value( 'uf_field', $ids ));
+        }
+
+        return $ufField->find(true);
+        
     }
     
     

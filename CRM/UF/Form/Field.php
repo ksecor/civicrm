@@ -287,11 +287,21 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
             return;
         }
-        
+     
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
+        $ids = array( );
+        $ids['uf_field'] = $this->_id;
+        $ids['uf_group'] = $this->_gid;
         
-        // set values for custom field properties and save
+        //check for duplicate fields
+        if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
+            CRM_Core_Session::setStatus(ts('The selected field was not added. It already exists in this profile.'));
+            return;
+        }
+
+        
+        // set values for uf field properties and save
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_name       = $params['field_name'][0];
         $ufField->location_type_id = $params['field_name'][1];
