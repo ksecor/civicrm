@@ -214,12 +214,18 @@
 		<th>{ts}Activity Type{/ts}</th>
 		<th>{ts}Description{/ts}</th>
 		<th>{ts}Activity Date{/ts}</th>
+		<th>{ts}{/ts}</th>
 	</tr>
     {foreach from=$activity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.activity_type}</td>
 	    	<td>{$row.activity_summary}</td>	
             <td>{$row.activity_date|crmDate}</td>
+	{if $row.callback}
+            <td><a href="{crmURL p='civicrm/history/activity/detail' q="id=`$row.id`&activity_id=`$row.activity_id`&cid=`$contactId`"}">{ts}Details{/ts}</a></td>
+	{else} <td></td>
+	{/if}
+	
         </tr>
     {/foreach}
     {if $activity.totalCount gt 3 }
@@ -270,7 +276,7 @@
             {assign var = "rtype" value = "a_b" }
           {/if*}
             <tr class="{cycle values="odd-row,even-row"}">
-                <td class="label">{$rel.relation}</td>
+                <td class="label"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
                 <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
