@@ -202,7 +202,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         //get the saved mapping details
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
         $mappingDAO->domain_id = CRM_Core_Config::domainID( );
-        $mappingDAO->mapping_type = 'Import';
+        $mappingDAO->mapping_type = 'Import Contributions';
         $mappingDAO->find();
         
         $mappingArray = array();
@@ -236,7 +236,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
 
             $getMappingName =&  new CRM_Core_DAO_Mapping();
             $getMappingName->id = $savedMapping;
-            $getMappingName->mapping_type = 'Import';
+            $getMappingName->mapping_type = 'Import Contributions';
             $getMappingName->find();
             while($getMappingName->fetch()) {
                 $mapperName = $getMappingName->name;
@@ -414,7 +414,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $mappingName =& new CRM_Core_DAO_Mapping();
                 $mappingName->name = $nameField;
                 $mappingName->domain_id = CRM_Core_Config::domainID( );
-                $mappingName->mapping_type = 'Import';
+                $mappingName->mapping_type = 'Import Contributions';
                 if ( $mappingName->find( true ) ) {
                     $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
@@ -506,7 +506,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $saveMapping->domain_id = CRM_Core_Config::domainID( );
             $saveMapping->name = $params['saveMappingName'];
             $saveMapping->description = $params['saveMappingDesc'];
-            $saveMapping->mapping_type = 'Import';
+            $saveMapping->mapping_type = 'Import Contributions';
             $saveMapping->save();
             
 
