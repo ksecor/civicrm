@@ -147,6 +147,11 @@ class CRM_Core_Invoke {
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
             
             switch ( $thirdArg ) {
+            case 'contribution':
+                require_once 'CRM/Contact/Page/View/Contribution.php'; 
+                $view =& new CRM_Contact_Page_View_Contribution( );
+                break;
+
             case 'note':
                 require_once 'CRM/Contact/Page/View/Note.php';
                 $view =& new CRM_Contact_Page_View_Note( );

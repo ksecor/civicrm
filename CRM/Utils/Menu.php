@@ -284,39 +284,7 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
                             ),
-                      array(
-                            'path'    => 'civicrm/admin/contribute',
-                            'title'   => ts('Configure Online Contribution Pages'),
-                            'qs'     => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/online_contribution_pages.png',
-                            'weight'  => 360
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/admin/contribute/contributionType',
-                            'title'   => ts('Contribution Types'),
-                            'qs'     => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/contribution_types.png',
-                            'weight'  => 370
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/admin/contribute/paymentInstrument',
-                            'title'   => ts('Payment Instruments'),
-                            'qs'     => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => 'CiviContribute',
-                            'icon'    => 'admin/payment_instruments.png',
-                            'weight'  => 380
-                            ),
-                      
+
                       array(
                             'path'     => 'civicrm',
                             'title'    => ts('CiviCRM'),
@@ -421,7 +389,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 1
+                            'weight'  => 2
                             ),
 
                       array(
@@ -430,7 +398,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
+                            'weight'  => 3
                             ),
         
                       array(
@@ -439,7 +407,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 3
+                            'weight'  => 4
                             ),
                       
                       array(
@@ -448,7 +416,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 4
+                            'weight'  => 5
                             ),
 
                       array(
@@ -457,7 +425,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 5
+                            'weight'  => 6
                             ),
 
                       array(
@@ -593,36 +561,79 @@ class CRM_Utils_Menu {
 
             $config =& CRM_Core_Config::singleton( );
             if (  in_array( 'CiviContribute', $config->enableComponents) ) {
-                self::$_items[] = array( 
-                                        'path'    => 'civicrm/contribute', 
-                                        'qs'      => 'reset=1',
-                                        'title'   => ts( 'CiviContribute' ), 
-                                        'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
-                                        'type'    => self::CALLBACK,  
-                                        'crmType' => self::NORMAL_ITEM,
-                                        'weight'  => 50,  
-                                        );
+                $items = array(
+                               array(
+                                     'path'    => 'civicrm/admin/contribute',
+                                     'title'   => ts('Configure Online Contribution Pages'),
+                                     'qs'     => 'reset=1',
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::LOCAL_TASK,
+                                     'adminGroup' => 'CiviContribute',
+                                     'icon'    => 'admin/online_contribution_pages.png',
+                                     'weight'  => 360
+                                     ),
+                      
+                               array(
+                                     'path'    => 'civicrm/admin/contribute/contributionType',
+                                     'title'   => ts('Contribution Types'),
+                                     'qs'     => 'reset=1',
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::LOCAL_TASK,
+                                     'adminGroup' => 'CiviContribute',
+                                     'icon'    => 'admin/contribution_types.png',
+                                     'weight'  => 370
+                                     ),
+                      
+                               array(
+                                     'path'    => 'civicrm/admin/contribute/paymentInstrument',
+                                     'title'   => ts('Payment Instruments'),
+                                     'qs'     => 'reset=1',
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::LOCAL_TASK,
+                                     'adminGroup' => 'CiviContribute',
+                                     'icon'    => 'admin/payment_instruments.png',
+                                     'weight'  => 380
+                                     ),
+                               
+                               array( 
+                                     'path'    => 'civicrm/contact/view/contribution', 
+                                     'qs'      => 'reset=1&force=1&cid=%%cid%%', 
+                                     'title'   => ts('Contributions'), 
+                                     'type'    => self::CALLBACK, 
+                                     'crmType' => self::LOCAL_TASK, 
+                                     'weight'  => 1
+                                     ),
 
-                self::$_items[] = array( 
-                                        'path'    => 'civicrm/contribute/search',
-                                        'qs'      => 'reset=1',
-                                        'title'   => ts( 'Find Contributions' ), 
-                                        'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
-                                        'type'    => self::CALLBACK,  
-                                        'crmType' => self::NORMAL_ITEM,  
-                                        'weight'  => 60,  
-                                        );
-                    
-                self::$_items[] = array( 
-                                        'path'    => 'civicrm/contribute/import', 
-                                        'qs'      => 'reset=1',
-                                        'title'   => ts( 'Import Contributions' ), 
-                                         'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                         CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                                        'type'    => self::CALLBACK,  
-                                        'crmType' => self::NORMAL_ITEM,  
-                                        'weight'  => 80,  
-                                        );
+                               array( 
+                                     'path'    => 'civicrm/contribute', 
+                                     'qs'      => 'reset=1',
+                                     'title'   => ts( 'CiviContribute' ), 
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
+                                     'type'    => self::CALLBACK,  
+                                     'crmType' => self::NORMAL_ITEM,
+                                     'weight'  => 50,  
+                                     ),
+                               array( 
+                                     'path'    => 'civicrm/contribute/search',
+                                     'qs'      => 'reset=1',
+                                     'title'   => ts( 'Find Contributions' ), 
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
+                                     'type'    => self::CALLBACK,  
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 60,  
+                                     ),
+                               array( 
+                                     'path'    => 'civicrm/contribute/import', 
+                                     'qs'      => 'reset=1',
+                                     'title'   => ts( 'Import Contributions' ), 
+                                     'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                                     CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                                     'type'    => self::CALLBACK,  
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 80,  
+                                     ),
+                               );
+                self::$_items = array_merge( self::$_items, $items );
             }
             
             self::initialize( );

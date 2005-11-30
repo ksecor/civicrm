@@ -95,6 +95,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      */ 
     protected $_done; 
 
+    /**
+     * are we restricting ourselves to a single contact
+     *
+     * @access protected  
+     * @var boolean  
+     */  
+    protected $_single = false;
+
     protected $_defaults;
 
     /** 
@@ -135,7 +143,16 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
  
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action ); 
+        if ( $this->_force ) { 
+            $this->postProcess( );
+        }
+
+        $sortID = null; 
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
+        } 
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action, null, $this->_single ); 
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -143,27 +160,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TRANSFER );
 
-        if ( $this->_force ) { 
-            $this->postProcess( );
-
-            /* 
-             * Note that we repeat this, since the search creates and stores 
-             * values that potentially change the controller behavior. i.e. things 
-             * like totalCount etc 
-             */
-            $sortID = null; 
-            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
-                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
-                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
-            }
-            $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action );  
-            $controller =& new CRM_Core_Selector_Controller($selector ,   
-                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),   
-                                                            $sortID,   
-                                                            CRM_Core_Action::VIEW,  
-                                                            $this,  
-                                                            CRM_Core_Selector_Controller::TRANSFER ); 
-        }
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
     }
@@ -240,6 +236,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->assign( 'total_amount' , $total  );
             $this->assign( 'cancel_amount', $cancel );
             $this->assign( 'num_amount'   , count( $rows ) );
+            $this->assign( 'single', $this->_single );
 
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';
@@ -316,7 +313,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action );
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action, null, $this->_single );
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
@@ -357,6 +354,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                 list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
                 $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,
                                                                              'sort_name' );
+                // also assign individual mode to the template
+                $this->_single = true;
             }
         }
 

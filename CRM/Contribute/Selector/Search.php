@@ -82,13 +82,13 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'thankyou_date',
                                  'cancel_date' );
 
-    /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     * @access protected
-     */
-    protected $_contact;
+    /** 
+     * are we restricting ourselves to a single contact 
+     * 
+     * @access protected   
+     * @var boolean   
+     */   
+    protected $_single = false;
 
     /**
      * formValues is the array returned by exportValues called on
@@ -127,15 +127,17 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @param array $formValues array of parameters for query
      * @param int   $action - action of search basic or advanced.
      * @param string   $contributionClause if the caller wants to further restrict the search (used in contributions)
+     * @param boolean $single are we dealing only with one contact?
      *
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null) 
+    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null, $single = false) 
     {
         // submitted form values
         $this->_formValues =& $formValues;
 
+        $this->_single = $single;
         $this->_contributionClause = $contributionClause;
 
         // type of selector
@@ -202,23 +204,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
     }//end of function
-
-
-    /**
-     * returns the column headers as an array of tuples:
-     * (name, sortName (key to the sort array))
-     *
-     * @param string $action the action being performed
-     * @param enum   $output what should the result set include (web/email/csv)
-     *
-     * @return array the column headers that need to be displayed
-     * @access public
-     */
-    function &getColumnHeaders($action = null, $output = null) 
-    {
-        return self::_getColumnHeaders();
-    }
-
 
     /**
      * Returns total number of rows for the query.
@@ -311,24 +296,21 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         return $this->_query->qill( );
     }
 
-    /**
-     * get colunmn headers for search selector
-     *
-     *
-     * @return array $_columnHeaders
-     * @access private
-     */
-    private static function &_getColumnHeaders() 
+    /** 
+     * returns the column headers as an array of tuples: 
+     * (name, sortName (key to the sort array)) 
+     * 
+     * @param string $action the action being performed 
+     * @param enum   $output what should the result set include (web/email/csv) 
+     * 
+     * @return array the column headers that need to be displayed 
+     * @access public 
+     */ 
+    public function &getColumnHeaders( $action = null, $output = null ) 
     {
         if ( ! isset( self::$_columnHeaders ) )
         {
             self::$_columnHeaders = array(
-                                          array('desc' => ts('Contact Type') ),
-                                          array(
-                                                'name'      => ts('Name'),
-                                                'sort'      => 'sort_name',
-                                                'direction' => CRM_Utils_Sort::ASCENDING,
-                                                ),
                                           array(
                                                 'name'      => ts('Amount'),
                                                 'sort'      => 'total_amount',
@@ -346,7 +328,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                           array(
                                                 'name'      => ts('Received'),
                                                 'sort'      => 'receive_date',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
                                                 'name'      => ts('Thank-you Sent'),
@@ -360,6 +342,18 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array('desc' => ts('Actions') ),
                                           );
+
+            if ( ! $this->_single ) {
+                $pre = array( 
+                             array('desc' => ts('Contact Type') ), 
+                             array( 
+                                   'name'      => ts('Name'), 
+                                   'sort'      => 'sort_name', 
+                                   'direction' => CRM_Utils_Sort::DONTCARE, 
+                                   )
+                             );
+                self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
+            }
         }
         return self::$_columnHeaders;
     }
