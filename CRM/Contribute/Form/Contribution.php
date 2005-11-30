@@ -70,7 +70,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // current contribution id
         $this->_id        = CRM_Utils_Request::retrieve( 'id', $this );
 
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this, true );
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
 
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
@@ -78,6 +78,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     }
 
     function setDefaultValues( ) {
+        $defaults = array( );
+        if ( $this->_id ) {
+            $ids = array( );
+            $params = array( 'id' => $this->_id );
+            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+            $this->_contactID = $defaults['contact_id'];
+        }
+        return $defaults;
     }
 
     /** 
@@ -151,6 +159,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                           );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_Contribution', 'formRule' ), $this );
+
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $this->freeze( );
+        }
     }
 
     /**  

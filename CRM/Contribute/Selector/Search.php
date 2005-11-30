@@ -77,7 +77,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'sort_name',
                                  'total_amount',
                                  'contribution_type',
-                                 'contribution_source',
+                                 'source',
                                  'receive_date',
                                  'thankyou_date',
                                  'cancel_date' );
@@ -165,19 +165,19 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contribute',
+                                                                   'url'      => 'civicrm/contribute/contribution',
                                                                    'qs'       => 'reset=1&id=%%id%%&action=view',
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contribute',
+                                                                   'url'      => 'civicrm/contribute/contribution',
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contribute',
+                                                                   'url'      => 'civicrm/contribute/contribution',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%',
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
@@ -340,7 +340,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Source'),
-                                                'sort'      => 'contribution_source',
+                                                'sort'      => 'source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

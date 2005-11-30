@@ -271,6 +271,12 @@ class CRM_Contact_BAO_Query {
         $this->_element['contact_id']     = 1; 
         $this->_tables['civicrm_contact'] = 1; 
 
+        if ( $this->_mode & self::MODE_CONTRIBUTE ) {
+            $this->_select['contribution_id'] = "civicrm_contribution.id as contribution_id";
+            $this->_element['contribution_id'] = 1;
+            $this->_tables['civicrm_contribution'] = 1;
+        }
+
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
         $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
@@ -298,34 +304,14 @@ class CRM_Contact_BAO_Query {
             return;
         }
 
-        static $cFields = array( 'total_amount'  => 'total_amount',
-                                 'receive_date'  => 'receive_date',
-                                 'thankyou_date' => 'thankyou_date',
-                                 'cancel_date'   => 'cancel_date',
-                                 'source'        => 'contribution_source' );
-        $need = false;
-        foreach ( $cFields as $key => $value ) {
-            if ( CRM_Utils_Array::value( $key, $this->_returnProperties ) ) {
-                $this->_select[$key]  = "civicrm_contribution.{$key} as $value";
-                $this->_element[$key] = 1;
-                $this->_tables['civicrm_contribution'] = 1;
-                $need = true;
-            }
-        }
-        
-        
         // get contribution_type
         if ( CRM_Utils_Array::value( 'contribution_type', $this->_returnProperties ) ) {
             $this->_select['contribution_type']  = "civicrm_contribution_type.name as contribution_type";
             $this->_element['contribution_type'] = 1;
             $this->_tables['civicrm_contribution'] = 1;
             $this->_tables['civicrm_contribution_type'] = 1;
-            $need = true;
         }
 
-        if ( $need ) {
-            $this->_select['contribution_id'] = "civicrm_contribution.id as contribution_id";
-        }
     }
 
     /**

@@ -24,7 +24,7 @@
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td>{$row.total_amount}</td>
     <td>{$row.contribution_type}</td>
-    <td>{$row.contribution_source}</td>
+    <td>{$row.source}</td>
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
     <td>{$row.cancel_date|truncate:10:''|crmDate}</td>

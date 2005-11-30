@@ -249,7 +249,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         'entity_id'        => $newContribution->contact_id,
                         'activity_type'    => $contributionType,
                         'module'           => 'CiviContribute',
-                        'callback'         => 'CRM_Contribute_Display::details',
+                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
                         'activity_id'      => $newContribution->id,
                         'activity_summary' => $activitySummary,
                         'activity_date'    => $newContribution->receive_date
@@ -285,7 +285,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 'entity_id'        => $newContribution->contact_id,
                 'activity_type'    => $contributionType,
                 'module'           => 'CiviContribute',
-                'callback'         => 'CRM_Contribute_Display::details',
+                'callback'         => 'CRM_Contribute_Page_Contribution::details',
                 'activity_id'      => $newContribution->id,
                 'activity_summary' => $activitySummary,
                 'activity_date'    => $newContribution->receive_date

@@ -117,8 +117,8 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
         // assign vars to templates
         $this->assign('action', $action);
 
-        $this->_id        = CRM_Utils_Request::retrieve('id' , $this, false );
-        $this->_contactID = CRM_Utils_Request::retrieve('cid', $this, true ); 
+        $this->_id        = CRM_Utils_Request::retrieve('id' , $this );
+        $this->_contactID = CRM_Utils_Request::retrieve('cid', $this );
 
         $url = CRM_Utils_System::url( 'civicrm/contribute/search',
                                       'reset=1&force=1&cid=' . $this->_contactID );
@@ -126,7 +126,8 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD    ||
              $action & CRM_Core_Action::UPDATE ||
-             $action & CRM_Core_Action::DELETE ) {
+             $action & CRM_Core_Action::DELETE ||
+             $action & CRM_Core_Action::VIEW ) {
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( $url );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution',
@@ -139,6 +140,33 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
 
         CRM_Utils_System::redirect( $url );
     }
+
+    /** 
+     * compose the url to show details of this specific contribution 
+     * 
+     * @param int $id 
+     * @param int $activityHistoryId 
+     * 
+     * @static 
+     * @access public 
+     */ 
+    static function details($id, $activityHistoryId) { 
+        $params   = array(); 
+        $defaults = array(); 
+        $params['id'          ] = $activityHistoryId; 
+        $params['entity_table'] = 'civicrm_contact'; 
+ 
+        require_once 'CRM/Core/BAO/History.php'; 
+        $history        = CRM_Core_BAO_History::retrieve($params, $defaults); 
+        $contributionId = CRM_Utils_Array::value('entity_id', $defaults); 
+ 
+        if ($contributionId) { 
+            return CRM_Utils_System::url('civicrm/contribute/contribution', "reset=1&action=view&id=$contributionId"); 
+        } else { 
+            return CRM_Utils_System::url('civicrm'); 
+        } 
+    } 
+
 
 }
 ?>
