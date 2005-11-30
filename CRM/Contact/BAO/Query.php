@@ -367,9 +367,9 @@ class CRM_Contact_BAO_Query {
                         
                         //special case for phone
                         if ($name == 'phone') {
-                            $this->_select[$name]              = "phone_type as phone_type, " . $field['where'] . " as $name ";
+                            $this->_select[$name]              = "phone_type as phone_type, " . $field['where'] . " as `$name` ";
                         } else {
-                            $this->_select[$name]              = $field['where'] . " as $name";
+                            $this->_select[$name]              = $field['where'] . " as `$name`";
                         }
                         $this->_element[$name]             = 1;
 
