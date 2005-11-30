@@ -59,6 +59,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */
     protected $_contactID;
 
+    /**
+     * is this contribution associated with an online
+     * financial transaction
+     *
+     * @var boolean
+     * @protected 
+     */ 
+    protected $_online = false;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -69,6 +78,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     {  
         // current contribution id
         $this->_id        = CRM_Utils_Request::retrieve( 'id', $this );
+        if ( $this->_id ) {
+            require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
+            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );
+            $trxn->entity_table = 'civicrm_contribution';
+            $trxn->entity_id    = $this->_id;
+            if ( $trxn->find( true ) ) {
+                $this->_online = true;
+            }
+        }
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
 
@@ -100,19 +118,28 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
 
-        $this->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ), 
-                   CRM_Contribute_PseudoConstant::contributionType( ),
-                   true );
+        $element =& $this->add('select', 'contribution_type_id', 
+                               ts( 'Contribution Type' ), 
+                               CRM_Contribute_PseudoConstant::contributionType( ),
+                               true );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add('select', 'payment_instrument_id', 
-                   ts( 'Payment Instrument' ), 
-                   CRM_Contribute_PseudoConstant::paymentInstrument( ),
-                   true );
+        $element =& $this->add('select', 'payment_instrument_id', 
+                               ts( 'Payment Instrument' ), 
+                               CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                               true );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
         // add various dates
-        $this->add('date', 'receive_date', ts('Received date'), CRM_Core_SelectValues::date('manual', 3, 1), true ); 
+        $element =& $this->add('date', 'receive_date', ts('Received date'), CRM_Core_SelectValues::date('manual', 3, 1), true );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
         $this->addElement('date', 'receipt_date', ts('Receipt date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
@@ -126,27 +153,45 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
 
         // add various amounts
-        $this->add( 'text', 'non_deductible_amount', ts('Non Deductible Amount'),
-                    $attributes['non_deductible_amount'] );
+        $element =& $this->add( 'text', 'non_deductible_amount', ts('Non Deductible Amount'),
+                                $attributes['non_deductible_amount'] );
         $this->addRule('non_deductible_amount', ts('Please enter a valid amount.'), 'money');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add( 'text', 'total_amount', ts('Total Amount'),
-                    $attributes['total_amount'], true );
+        $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
+                                $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add( 'text', 'fee_amount', ts('Fee Amount'),
-                    $attributes['fee_amount'] );
+        $element =& $this->add( 'text', 'fee_amount', ts('Fee Amount'),
+                                $attributes['fee_amount'] );
         $this->addRule('fee_amount', ts('Please enter a valid amount.'), 'money');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add( 'text', 'net_amount', ts('Net Amount'),
-                    $attributes['net_amount'] );
+        $element =& $this->add( 'text', 'net_amount', ts('Net Amount'),
+                                $attributes['net_amount'] );
         $this->addRule('net_amount', ts('Please enter a valid amount.'), 'money');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add( 'text', 'trxn_id', ts('Unique Transaction ID'), 
-                    $attributes['trxn_id'] );
+        $element =& $this->add( 'text', 'trxn_id', ts('Unique Transaction ID'), 
+                                $attributes['trxn_id'] );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
-        $this->add( 'text', 'source', ts('Origin of this Contribution'),
-                    $attributes['trxn_id'] );
+        $element =& $this->add( 'text', 'source', ts('Origin of this Contribution'),
+                                $attributes['trxn_id'] );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next', 

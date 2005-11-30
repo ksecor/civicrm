@@ -344,7 +344,7 @@ class CRM_Utils_Payment_PayPal {
         if ( Services_PayPal::isError( $result ) ) { 
             return self::error( $result );
         }
-         
+
         /* Check for application errors */
         $result =& self::checkResult( $result );
         if ( is_a( $result, 'CRM_Core_Error' ) ) {  

@@ -135,24 +135,28 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $contactID = $this->get( 'contactID' );
         if ( ! $contactID ) {
+            // make a copy of params so we dont destroy our params
+            // (since we pass this by reference)
+            $params = $this->_params;
+
             // so now we have a confirmed financial transaction
             // lets create or update a contact first
             require_once 'api/crm.php';
-            $contact_id = CRM_Core_BAO_UFGroup::findContact( $this->_params );
+            $contact_id = CRM_Core_BAO_UFGroup::findContact( $params );
             $contact = null;
             if ( $contact_id ) {
                 $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
             }
-            
+
             $ids = array( );
             if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params, $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
             } else {
                 // need to fix and unify all contact creation
                 $params = array( 'id' => $contact_id, 'contact_id' => $contact_id );
                 $defaults = array( );
                 CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $this->_params, $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
             }
 
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
@@ -190,23 +194,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
-        // first create the transaction record
-        $params = array(
-                        'entity_table'      => 'civicrm_contact',
-                        'entity_id'         => $contactID,
-                        'trxn_date'         => $now,
-                        'trxn_type'         => 'Debit',
-                        'total_amount'      => $result['gross_amount'],
-                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
-                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
-                        'currency'          => $this->_params['currencyID'],
-                        'payment_processor' => $config->paymentProcessor,
-                        'trxn_id'           => $result['trxn_id'],
-                        );
-                        
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
-
         $receiptDate = null;
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now;
@@ -225,7 +212,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // check contribution Type
-        // next create the contribution record
+        // first create the contribution record
         $params = array(
                         'contact_id'            => $contactID,
                         'contribution_type_id'  => $contributionType->id,
@@ -242,6 +229,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         );
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
+
+        // next create the transaction record
+        $params = array(
+                        'entity_table'      => 'civicrm_contribution',
+                        'entity_id'         => $contribution->id,
+                        'trxn_date'         => $now,
+                        'trxn_type'         => 'Debit',
+                        'total_amount'      => $result['gross_amount'],
+                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
+                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                        'currency'          => $this->_params['currencyID'],
+                        'payment_processor' => $config->paymentProcessor,
+                        'trxn_id'           => $result['trxn_id'],
+                        );
+                        
+        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
 
         // also create an activity history record
         $params = array('entity_table'     => 'civicrm_contact', 

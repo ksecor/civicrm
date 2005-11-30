@@ -1138,6 +1138,11 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function postalCode( ) {
+        // skip if the fields dont have anything to do with postal_code
+        if ( ! CRM_Utils_Array::value( 'postal_code', $this->_fields ) ) {
+            return;
+        }
+
         // postal code processing 
         if ( CRM_Utils_Array::value( 'postal_code'     , $this->_params ) || 
              CRM_Utils_Array::value( 'postal_code_low' , $this->_params ) || 

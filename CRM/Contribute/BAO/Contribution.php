@@ -268,6 +268,30 @@ WHERE  domain_id = $domainID AND $whereCond
         return null;
     }
 
+    /**                                                           
+     * Delete the object records that are associated with this contact 
+     *                    
+     * @param  int  $contactId id of the contact to delete                                                                           
+     * 
+     * @return void 
+     * @access public 
+     * @static 
+     */ 
+    static function deleteContact( $contactId ) {
+        $contribution =& new CRM_Contribute_DAO_Contribution( );
+        $contribution->contact_id = $contactId;
+        $contribution->find( );
+
+        require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
+        while ( $contribution->fetch( ) ) {
+            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( ); 
+            $trxn->entity_table = 'civicrm_contribution'; 
+            $trxn->entity_id    = $contribution->id( );
+            $trxn->delete( );
+            $contribution->delete( );
+        }
+    }
+
 }
 
 ?>

@@ -464,7 +464,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function findContact( &$params, $id = null, $flatten = false ) {
         $tables = array( );
-        //$clause = self::getMatchClause( $params, $tables, $flatten );
         $clause = self::getWhereClause( $params, $tables );
         $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
         if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
@@ -740,12 +739,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     public function getWhereClause($params ,&$tables)
     {
         require_once 'CRM/Core/DAO/DupeMatch.php';
+
         if(is_array($params)) {
-            $params['email'] = array();
-            $params['phone'] = array();
-            $params['im']    = array();
-            
             if (is_array($params['location'])) {
+                $params['email'] = array();
+                $params['phone'] = array();
+                $params['im']    = array();
+            
                 foreach($params['location'] as $loc) {
                     foreach (array('email', 'phone', 'im') as $key) {
                         if (is_array($loc[$key])) {
@@ -786,8 +786,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                        'where'            => $importableFields[$name]['where'],
                                        );
             }
-            
         }
+
         require_once 'CRM/Contact/BAO/Query.php';
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, true );
     }

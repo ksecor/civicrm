@@ -982,6 +982,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
+        CRM_Contribute_BAO_Contribution::deleteContact( $id );
+
         CRM_Core_BAO_Note::deleteContact($id);
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
