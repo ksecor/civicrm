@@ -125,6 +125,8 @@ function civicrm_perm()
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
                    'edit groups', 'administer CiviCRM', 
                    'access CiviCRM Profile Listings',
+                   'access CiviContribute',
+                   'edit contributions', 'view contributions',
                    'access CiviCRM' );
 
     // dynamic permissions - access by group (title)
