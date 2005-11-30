@@ -498,14 +498,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
                 if ($name == 'gender') { 
-                    $params[$index] = $details['gender_id'];
+                    $params[$index] = $details['gender'];
                     $values[$index] = $details['gender'];
                 } else if ($name == 'individual_prefix') {
                     $values[$index] = $details['individual_prefix'];
-                    $params[$index] = $details['individual_prefix_id'];
+                    $params[$index] = $details['individual_prefix'];
                 } else if ($name == 'individual_suffix') {
                     $values[$index] = $details['individual_suffix'];
-                    $params[$index] = $details['individual_suffix_id'];
+                    $params[$index] = $details['individual_suffix'];
                 } else if ( substr($name, 0, 7) === 'do_not_' ) {  
                     if ($details[$name]) {
                         $values[$index] = '[ x ]';
@@ -552,10 +552,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 //to handle stateprovince and country
                                 if ( $nameValue[0] == 'state_province' ) {
                                     $values[$index] = $value['state_province'];
-                                    $params[$index] = $value['state_province_id'];
+                                    $params[$index] = $value['state_province'];
                                 } else if ( $nameValue[0] == 'country' ) {
                                     $values[$index] = $value['country'];
-                                    $params[$index] = $value['country_id'];
+                                    $params[$index] = $value['country'];
                                 } else if ( $nameValue[0] == 'phone' ) {
                                     $values[$index] = $value['phone'][1];
                                 } else if ( $nameValue[0] == 'email' ) {
