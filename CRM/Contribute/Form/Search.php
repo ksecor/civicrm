@@ -329,6 +329,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
+
+        // we fix to_date here if set to be the end of the day, i.e. 23:59:59
+        if ( ! CRM_Utils_System::isNull( 'contribution_to_date' ) ) {
+            $this->_formValues['contribution_to_date']['H'] = 23;
+            $this->_formValues['contribution_to_date']['i'] = 59;
+            $this->_formValues['contribution_to_date']['s'] = 59;
+        }
+
         if ( ! $this->_force ) {
             return;
         }
@@ -373,6 +381,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $date = CRM_Utils_Date::unformat( $toDate, '' );
             $this->_formValues['contribution_to_date'] = $date;
             $this->_defaults['contribution_to_date'] = $date;
+            $this->_formValues['contribution_to_date']['H'] = 23;
+            $this->_formValues['contribution_to_date']['i'] = 59;
+            $this->_formValues['contribution_to_date']['s'] = 59;
         }
     }
 

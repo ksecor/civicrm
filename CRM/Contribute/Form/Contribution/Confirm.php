@@ -105,7 +105,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                         'name'      => ts('Make Contribution'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
-                                array ( 'type'      => 'cancel',
+                                array ( 'type'      => 'back',
                                         'name'      => ts('<< Go Back') ),
                                 )
                           );

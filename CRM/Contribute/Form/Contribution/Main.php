@@ -102,6 +102,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
+        $this->addButtons(array( 
+                                array ( 'type'      => 'next', 
+                                        'name'      => ts('Continue >>'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
+
+        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
 
     function buildAmount( ) {
@@ -175,17 +186,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                    'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
                    array( 'class' => 'form-submit' ) );
 
-        $this->addButtons(array( 
-                                array ( 'type'      => 'next', 
-                                        'name'      => ts('Continue >>'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );
-
-        $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
 
     /** 
@@ -199,7 +199,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @access public 
      * @static 
      */ 
-    static function formRule( &$fields, &$files, $self ) { 
+    static function formRule( &$fields, &$files, &$self ) { 
         $errors = array( ); 
 
         if ( $fields['amount'] == 'amount_other_radio' ) {
@@ -229,9 +229,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         foreach ( $self->_fields as $name => $fld ) {
-            if ( $fld['required'] &&
+            if ( $fld['is_required'] &&
                  CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
-                $error[$name] = ts( "%1 is a required field", array( 1 => $fld['title'] ) );
+                $errors[$name] = ts( "%1 is a required field", array( 1 => $fld['title'] ) );
             }
         }
 
@@ -240,16 +240,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
             if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
                  ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
-                $error['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
             }
             
             if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
                  ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
-                $error['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
             }
         }
 
-        return empty( $error ) ? true : $error;
+        return empty( $errors ) ? true : $errors;
     }
 
     /**
