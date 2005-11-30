@@ -122,8 +122,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-        $this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
-        
+        //$this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
+        $this->addRule( 'newGroupName', ts('Name already exists in Database.'),'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+
         $groups =& $this->get('groups');
 
         if ( ! empty( $groups ) ) {
@@ -375,8 +376,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 //         } else {
 
         if ($params['newGroupName']) {
-            if (!CRM_Utils_Rule::objectExists($params['newGroupName'],
-                    array('CRM_Contact_DAO_Group')))
+            if (!CRM_Utils_Rule::objectExists(trim($params['newGroupName']),array('CRM_Contact_DAO_Group')))
             {
                 $errors['newGroupName'] = ts( "Group '%1' already exists.",
                         array( 1 => $params['newGroupName']));
