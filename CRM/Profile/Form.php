@@ -104,8 +104,12 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
+        if (!$this->_gid) {
+            $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+        }
 
-        if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
+        //if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
+        if ( $this->_mode == self::MODE_REGISTER ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action, 

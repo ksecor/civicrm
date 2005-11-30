@@ -104,6 +104,13 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=delete&id=%%id%%',
                                                                           'title' => ts('Delete CiviCRM Profile Group'),
                                                                           ),
+                                        CRM_Core_Action::PROFILE  => array(
+                                                                          'name'  => ts('Standalone Form'),
+                                                                          'url'   => 'civicrm/admin/uf/group',
+                                                                          'qs'    => 'action=profile&id=%%id%%',
+                                                                          'title' => ts('Standalone Form for Profile Group'),
+                                                                          ),
+
                                         );
         }
         return self::$_actionLinks;
@@ -156,13 +163,14 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
         $controller->reset( );
         $controller->process( ); 
+        $controller->set('gid', $id);
         $controller->setEmbedded( true ); 
         $controller->run( ); 
         $template =& CRM_Core_Smarty::singleton( ); 
         $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
         $profile  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
         // not sure how to circumvent our own navigation system to generate the right form url
-        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;reset=1', $profile );
+        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;gid='.$id.'&amp;reset=1', $profile );
         $this->assign( 'profile', $profile );
         $this->assign( 'action' , CRM_Core_Action::PROFILE );
 

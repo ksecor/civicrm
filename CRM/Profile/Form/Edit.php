@@ -46,6 +46,14 @@ require_once 'CRM/Profile/Form.php';
   */
 class CRM_Profile_Form_Edit extends CRM_Profile_Form
 {
+    /** 
+     * The group id that we are editing
+     * 
+     * @var int 
+     */ 
+    //    protected $_gid; 
+        
+
     /**
      * pre processing work done here.
      *
@@ -83,7 +91,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         // add the hidden field to redirect the postProcess from
         $postURL = CRM_Utils_Array::value( 'postURL', $_POST );
         if ( ! $postURL ) {
-            $postURL = CRM_Utils_System::url('civicrm/profile/create', 'reset=1' );
+            $postURL = CRM_Utils_System::url('civicrm/profile/create', '&amp;gid='.$this->_gid.'&amp;reset=1' );
         }
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL );
