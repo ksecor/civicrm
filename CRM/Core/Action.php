@@ -65,8 +65,7 @@ class CRM_Core_Action {
         FOLLOWUP      =   2048,
         MAP           =   4096,
         PROFILE       =   8192,
-        YMAP          =  16384,
-        MAX_ACTION    =  32767;   
+        MAX_ACTION    =  16383;   
   
     /**
      * map the action names to the relevant constant. We perform
@@ -91,7 +90,6 @@ class CRM_Core_Action {
                            'preview'       => self::PREVIEW,
                            'map'           => self::MAP,
                            'profile'       => self::PROFILE,
-                           'ymap'          => self::YMAP,
                            );
 
     /**
@@ -237,7 +235,7 @@ class CRM_Core_Action {
      */
     static function mask( $permission ) {
         if ( $permission == CRM_Core_Permission::VIEW ) {
-            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP | self::YMAP;
+            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP;
         } else if ( $permission == CRM_Core_Permission::EDIT ) {
             return self::MAX_ACTION;  // make sure we make this 2^(n+1) -1 if we add more actions;
         } else {

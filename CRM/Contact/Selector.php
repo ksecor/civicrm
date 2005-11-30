@@ -160,24 +160,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                   );
 
             $config = CRM_Core_Config::singleton( );
-            if ( $config->googleMapAPIKey ) {
+            if ( $config->mapAPIKey && $config->mapProvider) {
                 self::$_links[CRM_Core_Action::MAP] = array(
-                                                            'name'     => ts('GMap'),
+                                                            'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/search/map',
                                                             'qs'       => 'reset=1&cid=%%id%%',
-                                                            'title'    => ts('GMap Contact'),
+                                                            'title'    => ts('Map Contact'),
                                                             );
             }
-
-            if ( $config->yahooMapAPIKey ) {
-                self::$_links[CRM_Core_Action::YMAP] = array(
-                                                            'name'     => ts('YMap'),
-                                                            'url'      => 'civicrm/contact/search/ymap',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
-                                                            'title'    => ts('YMap Contact'),
-                                                            );
-            }
-
         }
         return self::$_links;
     } //end of function

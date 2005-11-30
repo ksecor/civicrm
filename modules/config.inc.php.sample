@@ -264,10 +264,7 @@ define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
  * IMPORTANT: You must enable some form of Geocode lookup (see next section) for mapping to
  * function, since the mapping API requires latitude and longitude to be populated for
  * contacts' addresses.
- */
-define('CIVICRM_GOOGLE_MAP_API_KEY', '');
-
-/**
+ *
  * Map Contacts with Yahoo Maps API:
  * 
  * If you want to utilize the Yahoo mapping feature, you must request an API key for your site
@@ -275,9 +272,11 @@ define('CIVICRM_GOOGLE_MAP_API_KEY', '');
  *
  * Enter your API key below to enable the mapping feature for your CiviCRM installation.
  * 
+ * For Yahoo for yahoo Maps and Google for google maps 	
+ * 
  */
-define('CIVICRM_YAHOO_MAP_API_KEY', '');
-
+define('CIVICRM_MAP_PROVIDER','Yahoo');
+define('CIVICRM_MAP_API_KEY', '');
 
 /**
  * Geocode (latitude and longitude) lookup:

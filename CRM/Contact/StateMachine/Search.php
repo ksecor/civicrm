@@ -156,10 +156,6 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $task   = 'CRM_Contact_Form_Task_Map';
             break;
 
-        case CRM_Contact_Task::YMAP_CONTACTS:
-            $task   = 'CRM_Contact_Form_Task_YMap';
-            break;
-            
         case CRM_Contact_Task::EXPORT_CONTACTS:
             $task = array( 'CRM_Contact_Form_Task_Export_Select',
                            'CRM_Contact_Form_Task_Export_Map' );

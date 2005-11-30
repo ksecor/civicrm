@@ -107,8 +107,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $config =& CRM_Core_Config::singleton( );
 
         $this->assign( 'query', 'CiviCRM Search Query' );
-
-        $this->assign( 'googleMapKey', $config->googleMapAPIKey );
+        $this->assign( 'mapProvider', $config->mapProvider );
+        $this->assign( 'mapKey', $config->mapAPIKey );
        
         require_once 'CRM/Contact/BAO/Contact.php';
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );

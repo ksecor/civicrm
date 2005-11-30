@@ -264,18 +264,18 @@ class CRM_Core_Config {
     public $maxImportFileSize = 1048576;
 
     /**
-     * Google Map API Key if google map support needed
+     * Map Provider 
      *
      * @var boolean
      */
-    public $googleMapAPIKey = null;
+    public $mapProvider = null;
 
     /**
-     * Yahoo Map API Key if yahoo map support needed
+     * Map API Key 
      *
      * @var boolean
      */
-    public $yahooMapAPIKey = null;
+    public $mapAPIKey = null;
     
     /**
      * How should we get geo code information if google map support needed
@@ -596,12 +596,12 @@ class CRM_Core_Config {
             $this->maxImportFileSize = $size;
         }
 
-        if ( defined( 'CIVICRM_GOOGLE_MAP_API_KEY' ) ) {
-            $this->googleMapAPIKey = CIVICRM_GOOGLE_MAP_API_KEY;
+        if ( defined( 'CIVICRM_MAP_PROVIDER' ) ) {
+            $this->mapProvider = CIVICRM_MAP_PROVIDER;
         }
 
-        if ( defined( 'CIVICRM_YAHOO_MAP_API_KEY' ) ) {
-            $this->yahooMapAPIKey = CIVICRM_YAHOO_MAP_API_KEY;
+        if ( defined( 'CIVICRM_MAP_API_KEY' ) ) {
+            $this->mapAPIKey = CIVICRM_MAP_API_KEY;
         }
 
 

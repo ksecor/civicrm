@@ -53,8 +53,7 @@ class CRM_Contact_Task {
         ORGANIZATION_CONTACTS =  1024,
         MAP_CONTACTS          =  2048,
         EXPORT_CONTACTS       =  4096,
-        RECORD_CONTACTS       =  8192,
-        YMAP_CONTACTS         = 16384;
+        RECORD_CONTACTS       =  8192;
 
     /**
      * the task array
@@ -93,8 +92,7 @@ class CRM_Contact_Task {
                                   512   => ts( 'Add Contacts to Household'     ),
                                   1024  => ts( 'Add Contacts to Organization'  ),
                                   8192  => ts( 'Record Activity for Contacts'  ),
-                                  2048  => ts( 'Map Contacts using Google Maps'),
-                                  16384 => ts( 'Map Contacts using Yahoo Maps' ),
+                                  2048  => ts( 'Map Contacts'                  ),
                                   16    => ts( 'New Smart Group'               ),
                                   );
             $config =& CRM_Core_Config::singleton( );
