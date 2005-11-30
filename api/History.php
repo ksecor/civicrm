@@ -85,7 +85,8 @@ function &crm_create_activity_history(&$params)
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
-    $history = CRM_Core_BAO_History::create($params, 'Activity');
+    $ids = array();
+    $history = CRM_Core_BAO_History::create($params, $ids, 'Activity');
     return $history;
 }
 

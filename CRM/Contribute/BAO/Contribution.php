@@ -139,6 +139,39 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $params['contribution_id'] = $contribution->id;
 
+
+        // let's create an (or update the relevant) Acitivity History record
+        $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
+        if (!$contributionType) $contributionType = ts('Contribution');
+
+        // FIXME: $activitySummary should be internationalized
+        $activitySummary = "{$contribution->total_amount} {$contribution->currency} - $contributionType ";
+        $activitySummary .= '(from import on ' . date('r') . ')';
+
+        $historyParams = array(
+            'entity_table'     => 'civicrm_contact',
+            'entity_id'        => $contribution->contact_id,
+            'activity_type'    => $contributionType,
+            'module'           => 'CiviContribute',
+            'callback'         => 'CRM_Contribute_Page_Contribution::details',
+            'activity_id'      => $contribution->id,
+            'activity_summary' => $activitySummary,
+            'activity_date'    => $contribution->receive_date
+        );
+
+        if (CRM_Utils_Array::value('contribution', $ids)) {
+            // this contribution should have an Activity History record already
+            $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
+            $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
+            $ids['activity_history'] = CRM_Utils_Array::value('id', $getHistoryValues);
+        }
+
+        $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
+        if (is_a($historyDAO, 'CRM_Core_Error')) {
+            CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
+        }
+
+
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Contribution', $contribution->id, $contribution );
         } else {
@@ -221,6 +254,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
             $tmpFields = CRM_Contribute_DAO_Contribution::import( );
             $fields = array_merge($fields, $tmpFields);
+
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
 
             self::$_importableFields = $fields;
         }

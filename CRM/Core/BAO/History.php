@@ -182,11 +182,14 @@ class CRM_Core_BAO_History {
      * @access public
      * @static
      */
-    static function create(&$params, $type='Activity')
+    static function create(&$params, &$ids, $type = 'Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
+
         $historyDAO->copyValues($params);
+        $historyDAO->id        = CRM_Utils_Array::value(strtolower($type) . '_history', $ids);
+
         return $historyDAO->save();
     }
 }

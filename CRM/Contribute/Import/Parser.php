@@ -347,12 +347,12 @@ abstract class CRM_Contribute_Import_Parser {
         if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
             $customHeaders = $mapper;
             
-#           $customfields =& CRM_Core_BAO_CustomField::getFields($this->_contactType);
-#           foreach ($customHeaders as $key => $value) {
-#               if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
-#                   $customHeaders[$key] = $customfields[$id][0];
-#               }
-#           }
+            $customfields =& CRM_Core_BAO_CustomField::getFields('Contribution');
+            foreach ($customHeaders as $key => $value) {
+                if ($id = CRM_Core_BAO_CustomField::getKeyID($value)) {
+                    $customHeaders[$key] = $customfields[$id][0];
+                }
+            }
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
                 $headers = array_merge( array(  ts('Record Number'),
