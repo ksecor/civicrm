@@ -48,8 +48,8 @@
 </tr>
 </table>
 <hr size="1" noshade/>
-<h3>{ts}Recent Contributions{/ts}
-{* selector w/ last 10 contribs goes here *}
+<h3>{ts}Recent Contributions{/ts}</h3>
+<div class="form-item">+++ selector w/ last 10 contribs will go here+++</div>
 <div class="action-link">
-<a href="">more...</a>
+<a href="">view more recent contributions...</a>
 </div>

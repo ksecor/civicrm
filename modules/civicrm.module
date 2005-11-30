@@ -62,49 +62,30 @@ function civicrm_html_head()
 function civicrm_help($section)
 {	
     switch ($section) {
-    case 'admin/modules#description':
-        // This description is shown in the listing at admin/modules.
-        return t('Constituent Relationship Management (CRM). Allows sites to manage contacts, relationships and groups, and track contact activities.');
-        
     case 'admin/help#civicrm':
-
-        $output = '<p>'. t('The CiviCRM module stores information on the universe of people associated with a community and on their interactions such as emails, donations, petitions, events, etc. It can act as a stand alone contact management system or it can be integrated with mass mailer, volunteer management, petition, and event finding. CiviCRM enables organizations to maintain all these activities in a single database, creating efficiencies and new opportunities for communities to better communicate and benefit from relationships with their community members.') . '</p>';
-
-        $output .= '<p>'. t('The CiviCRM module allows you to create contacts, or import them from other sources. You can record relationships between contacts, such as indicating they live in the same household. There are two types of groups of contacts. You can create static groups which have a set list of contacts. You can also create dynamic (smart) groups based on characteristics that contacts have in common. For example, you could create a group of all contacts who live in California AND who have volunteered for your organization within the past year. The CiviCRM module also allows for tagging for less formal categorization of contacts or groups. You can easily extend CiviCRM to record community member information which is specific to your community or organization using custom fields. For example, you can create a set of fields to track volunteer skills and preferences. CiviCRM profile gives you a way to allow community members (\'users\') to update their own information, as well as share some of that information with others. Finally, you can configure custom activity types such as volunteering or attending events.') .'</p>';
-
-        $output .= t('<p>You can:</p>
-        <ul><li>enable CiviCRM blocks at %admin-blocks.</li>
-        <li>set access permissions at %admin-access.</li>
-        <li>find contacts by name, email address, group membership and/or tagging at %find-contacts.</li>
-        <li>do complex searches based on tags, group membership, location, activities and custom fields at %advanced-search.</li>
-        <li>reuse a saved search at %saved-search.</li>
-        <li>create or manage groups at %manage-groups.</li>
-        <li>import contacts from other sources at %import.</li>
-        <li>create or administer tags (e.g. organizer, foundation, environment...) at %tags.</li>
-        <li>create or administer relationship types (e.g. household member, board member, spouse...) at %relationships.</li>
-        <li>create or administer location types (e.g. home, work, school...) at %locations.</li>
-        <li>create or administer activity types (e.g. house meeting, intake interview...) at %activity-types.</li>
-        <li>create or administer custom data fields (e.g. volunteer skills, emergency contact info...) at %admin-custom-group.</li>
-        <li>create or administer civicrm profile (i.e. what contact data is collected during user registration) at %profiles.</li></ul>',
-                     array('%admin-blocks' => l(t('administer &gt;&gt; blocks'), 'admin/block'),
-                           '%admin-access' => l(t('administer &gt;&gt; access control'), 'admin/access'),
-                           '%find-contacts' => l(t('find contacts'), 'civicrm/contact/search/basic'),
-                           '%advanced-search' => l(t('advanced search'), 'civicrm/contact/search/advanced'),
-                           '%saved-search' => l(t('saved searches'), 'civicrm/contact/search/saved'),
-                           '%manage-groups' => l(t('manage groups'), 'civicrm/group'),
-                           '%import' => l(t('import contacts'), 'civicrm/import'),
-                           '%tags' => l(t('civicrm &gt;&gt; admin &gt;&gt; tags'), 'civicrm/admin/tag'),
-                           '%relationships' => l(t('civicrm &gt;&gt; admin &gt;&gt; relationship types'), 'civicrm/admin/reltype'),
-                           '%locations' => l(t('civicrm &gt;&gt; admin &gt;&gt; location types'), 'civicrm/admin/locationType'),
-                           '%activity-types' => l(t('civicrm &gt;&gt; admin &gt;&gt; activity types'),
-                                                  'civicrm/admin/civicrm/admin/activityType'),
-                           '%admin-custom-group' => l(t('civicrm &gt;&gt; admin &gt;&gt; custom data'), 'civicrm/admin/custom/group'),
-                           '%profiles' => l(t('civicrm &gt;&gt; admin &gt;&gt; civicrm profile'), 'civicrm/admin/uf/group')));
-
-        $output .= '<p>'. t('For more information please read the <a href="%1">configuration and customization handbook CiviCRM page</a>.',
-                            array('%1' => 'http://www.drupal.org/handbook/modules/civicrm/')) .'</p>';
-
-        return $output;
+      $output = '<p>'. t('The CiviCRM module stores information on the universe of people associated with a community and on their interactions such as emails, donations, petitions, events, etc. It can act as a stand alone contact management system or it can be integrated with mass mailer, volunteer management, petition, and event finding. CiviCRM enables organizations to maintain all these activities in a single database, creating efficiencies and new opportunities for communities to better communicate and benefit from relationships with their community members.') .'</p>';
+      $output .= '<p>'. t('The CiviCRM module allows you to create contacts, or import them from other sources. You can record relationships between contacts, such as indicating they live in the same household. There are two types of groups of contacts. You can create static groups which have a set list of contacts. You can also create dynamic (smart) groups based on characteristics that contacts have in common. For example, you could create a group of all contacts who live in California AND who have volunteered for your organization within the past year. The CiviCRM module also allows for tagging for less formal categorization of contacts or groups. You can easily extend CiviCRM to record community member information which is specific to your community or organization using custom fields. For example, you can create a set of fields to track volunteer skills and preferences. CiviCRM profile gives you a way to allow community members (\'users\') to update their own information, as well as share some of that information with others. Finally, you can configure custom activity types such as volunteering or attending events.') .'</p>';
+      $output .= t('<p>You can:</p>
+<ul>
+<li>read the <a href="%external-http-objectledge-org-confluence-display-CRM-AdministratorGuide">CiviCRM Administrator Guide</a>.</li>
+<li>enable CiviCRM blocks at <a href="%admin-block">administer &gt;&gt; blocks</a>.</li>
+<li>read <a href="%external-http-objectledge-org-confluence-display-CRM-SetupRolesandAccessControlPermissions"> CiviCRM access permissions </a> and set access permissions at <a href="%admin-access">administer &gt;&gt; access control</a>.</li>
+<li>find contacts by name, email address, group membership and or tagging at <a href="%civicrm-contact-search-basic"> find contacts</a>.</li>
+<li>do complex searches based on tags, group membership, location, activities and custom fields at <a href="%civicrm-contact-search-advanced">advanced search</a>.</li>
+<li>create or manage groups at <a href="%civicrm-group">manage groups</a>.</li>
+<li>import contacts from other sources at <a href="%civicrm-import">import contacts</a>.</li>
+<li>create or administer tags (e.g. organizer, foundation, environment...) at <a href="%civicrm-admin-tag">civicrm &gt;&gt; admin &gt;&gt; tags</a>.</li>
+<li>create or administer relationship types (e.g. household member, board member, spouse...) <a href="%civicrm-admin-reltype">civicrm &gt;&gt; admin &gt;&gt; relationship types</a>.</li>
+<li>create or administer location types (e.g. home, work, school...) <a href="%civicrm-admin-locationType">civicrm &gt;&gt; admin &gt;&gt; location types</a>.</li>
+<li>create or administer activity types (e.g. house meeting, intake interview...) at <a href="%civicrm-admin-civicrm-admin-activityType">civicrm &gt;&gt; admin &gt;&gt; activity types</a>.</li>
+<li>create or administer custom data fields (e.g. volunteer skills, emergency contact info...) <a href="%civicrm-admin-custom-group">civicrm &gt;&gt; admin &gt;&gt; custom data</a>.</li>
+<li>create or administer civicrm profile (i.e. what contact data is collected during user registration) at <a href="%civicrm-admin-uf-group">civicrm &gt;&gt; admin &gt;&gt; civicrm profile</a>.</li>
+', array('%external-http-objectledge-org-confluence-display-CRM-AdministratorGuide' => 'http://objectledge.org/confluence/display/CRM/AdministratorGuide', '%admin-block' => url('admin/block'), '%external-http-objectledge-org-confluence-display-CRM-SetupRolesandAccessControlPermissions' => 'http://objectledge.org/confluence/display/CRM/SetupRolesandAccessControlPermissions', '%admin-access' => url('admin/access'), '%civicrm-contact-search-basic' => url('civicrm/contact/search/basic'), '%civicrm-contact-search-advanced' => url('civicrm/contact/search/advanced'), '%civicrm-group' => url('civicrm/group'), '%civicrm-import' => url('civicrm/import'), '%civicrm-admin-tag' => url('civicrm/admin/tag'), '%civicrm-admin-reltype' => url('civicrm/admin/reltype'), '%civicrm-admin-locationType' => url('civicrm/admin/locationType'), '%civicrm-admin-civicrm-admin-activityType' => url('civicrm/admin/civicrm/admin/activityType'), '%civicrm-admin-custom-group' => url('civicrm/admin/custom/group'), '%civicrm-admin-uf-group' => url('civicrm/admin/uf/group'))) .'</ul>';
+      $output .= '<p>'. t('For more information please read the configuration and customization handbook <a href="%civicrm">CiviCRM page</a>.', array('%civicrm' => 'http://www.drupal.org/handbook/modules/civicrm/')) .'</p>';
+      return $output;
+     case 'admin/modules#description':
+         // This description is shown in the listing at admin/modules.
+         return t('Constituent Relationship Management (CRM). Allows sites to manage contacts, relationships and groups, and track contact activities.');
     }
 }
 
@@ -125,6 +106,7 @@ function civicrm_perm()
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
                    'edit groups', 'administer CiviCRM', 
                    'access CiviCRM Profile Listings',
+                   'make online contributions',
                    'access CiviContribute',
                    'edit contributions', 'view contributions',
                    'access CiviCRM' );
