@@ -11,7 +11,7 @@
           </dd> 
        </dl> 
       </div> 
-     {else} 
+   {else} 
       <dl> 
         <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd> 
         <dt>{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd> 

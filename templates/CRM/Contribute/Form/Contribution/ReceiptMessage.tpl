@@ -4,6 +4,7 @@
 
 ===========================================================
 {ts}Contribution Information{/ts}
+
 ===========================================================
         {ts}Amount{/ts}: ${$amount|string_format:"%01.2f"}
         {ts}Date{/ts}: {$receive_date}
@@ -11,6 +12,7 @@
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
+
 ===========================================================
         {$name}
         {$street_address}
@@ -21,6 +23,7 @@
 {if $contributeMode eq 'direct'}
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}
+
 ===========================================================
         {$credit_card_type}
         {$credit_card_number}
