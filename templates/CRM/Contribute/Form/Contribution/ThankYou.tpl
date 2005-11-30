@@ -19,7 +19,7 @@
     </div>
     <div class="display-block">
         {ts}Amount{/ts}: <strong>${$amount|string_format:"%01.2f"}</strong><br />
-        {ts}Date{/ts}: <strong>{$receive_date}</strong><br />
+        {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
         {ts}Transaction #{/ts}: {$trxn_id}
     </div>
 
@@ -42,7 +42,7 @@
     <div class="display-block">
         {$credit_card_type}<br />
         {$credit_card_number}<br />
-        {ts}Expires{/ts}: {$credit_card_exp_date}
+        {ts}Expires{/ts}: {$credit_card_exp_date|crmDate}
     </div>
     {/if}
 

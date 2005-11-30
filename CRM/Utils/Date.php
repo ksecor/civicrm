@@ -401,9 +401,22 @@ class CRM_Utils_Date {
         
         $iso = '';
         if ($year)             $iso .= "$year";
-        if ($month and $day)   $iso .= "-$month-$day";
-        if ($hour and $minute) $iso .= " $hour:$minute";
-        if ($second)           $iso .= ":$second";
+        if ($month) {
+            $iso .= "-$month";
+            if ( $day ) {
+                $iso .= "-$day";
+            }
+        }
+
+        if ($hour) {
+            $iso .= " $hour";
+            if ($minute) {
+                $iso .= ":$minute";
+                if ($second) {
+                    $iso .= ":$second";
+                }
+            }
+        }
         return $iso;
     }
 

@@ -71,7 +71,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assignToTemplate( );
 
         $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
-        $this->assign( 'receive_date', $this->_params['receive_date'] );       
+        $this->assign( 'receive_date', 
+                       CRM_Utils_Date::mysqlToIso( $this->_params['receive_date'] ) );
     }
 
 }

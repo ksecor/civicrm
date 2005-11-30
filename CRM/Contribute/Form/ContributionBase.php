@@ -170,7 +170,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
         }
 
-        $this->assign( 'credit_card_exp_date', CRM_Utils_Date::format( $this->_params['credit_card_exp_date'], '/' ) );
+        $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+        $date = CRM_Utils_Date::mysqlToIso( $date );
+        $this->assign( 'credit_card_exp_date', $date );
         $this->assign( 'credit_card_number',
                        CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
 
