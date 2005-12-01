@@ -118,7 +118,7 @@ class CRM_Utils_System_Drupal {
             $fragment = '#'. $fragment;
         }
 
-        $base = ($absolute ? $config->userFrameworkBaseURL: '');
+        $base = $absolute ? $config->userFrameworkBaseURL: '';
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {

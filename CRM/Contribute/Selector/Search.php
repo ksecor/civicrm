@@ -99,6 +99,14 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
     protected $_limit = null;
 
     /**
+     * what context are we being invoked from
+     *   
+     * @access protected     
+     * @var string
+     */     
+    protected $_context = null;
+
+    /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
@@ -141,13 +149,20 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null, $single = false, $limit = null) 
+    function __construct(&$formValues,
+                         $action = CRM_Core_Action::NONE,
+                         $contributionClause = null,
+                         $single = false,
+                         $limit = null,
+                         $context = 'search' ) 
     {
         // submitted form values
         $this->_formValues =& $formValues;
 
-        $this->_single = $single;
-        $this->_limit  = $limit;
+        $this->_single  = $single;
+        $this->_limit   = $limit;
+        $this->_context = $context;
+
         $this->_contributionClause = $contributionClause;
 
         // type of selector
@@ -178,19 +193,19 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&id=%%id%%&action=view',
+                                                                   'qs'       => 'reset=1&id=%%id%%&action=view&context=%%cxt%%',
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&context=%%cxt%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
                                                                    'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%',
+                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
                                   );
@@ -268,7 +283,9 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             }
 
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
-            $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contribution_id ) );
+            $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
+                                                          array( 'id'  => $result->contribution_id,
+                                                                 'cxt' => $this->_context ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {

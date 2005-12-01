@@ -47,14 +47,9 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
     function browse( ) {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );
         $controller->setEmbedded( true );
-        
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $config  =& CRM_Core_Config::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/contribution',
-                                                         'action=browse&cid=' . $this->_contactId ) );
         $controller->reset( );
         $controller->set( 'cid'  , $this->_contactId );
+        $controller->set( 'context', 'contribution' ); 
         $controller->process( );
         $controller->run( );
     }

@@ -671,6 +671,7 @@ class CRM_Core_Invoke {
             $controller =& new CRM_Contribute_Controller_Search($title, $mode); 
             $url = 'civicrm/contribute/search';
             $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
+            $controller->set( 'context', 'search' );
             return $controller->run();
         } elseif ($args[2] == 'import') {
             require_once 'CRM/Contribute/Import/Controller.php';

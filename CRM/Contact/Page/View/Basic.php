@@ -288,6 +288,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $controller->set( 'limit', 3 ); 
         $controller->set( 'force', 1 );
         $controller->set( 'cid'  , $this->_contactId );
+        $controller->set( 'context', 'basic' ); 
         $controller->process( );  
         $controller->run( );
     }

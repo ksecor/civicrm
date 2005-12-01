@@ -111,6 +111,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      */   
     protected $_limit = null;
 
+    /** 
+     * what context are we being invoked from 
+     *    
+     * @access protected      
+     * @var string 
+     */      
+    protected $_context = null; 
+
     protected $_defaults;
 
     /** 
@@ -139,6 +147,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', $this );
+
         $this->assign( 'limit', $this->_limit );
 
         // we only force stuff once :) 
@@ -161,7 +171,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action, null, $this->_single, $this->_limit ); 
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues,
+                                                         $this->_action,
+                                                         null,
+                                                         $this->_single,
+                                                         $this->_limit,
+                                                         $this->_context ); 
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
@@ -322,7 +337,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues, $this->_action, null, $this->_single, $this->_limit );
+        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues,
+                                                         $this->_action,
+                                                         null,
+                                                         $this->_single,
+                                                         $this->_limit,
+                                                         $this->_context ); 
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 

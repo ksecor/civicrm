@@ -119,16 +119,43 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
 
         $this->_id        = CRM_Utils_Request::retrieve('id' , $this );
         $this->_contactID = CRM_Utils_Request::retrieve('cid', $this );
+        if ( $this->_id && ! $this->_contactID ) {
+            $this->_contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $this->_id, 'contact_id' );
+        }
+        $this->_context   = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+        switch ( $this->_context ) {
+        case 'basic':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/basic',
+                                          'reset=1&cid=' . $this->_contactID );
+            break;
 
-        $url = CRM_Utils_System::url( 'civicrm/contribute/search',
-                                      'reset=1&force=1&cid=' . $this->_contactID );
+        case 'dashboard':
+            $url = CRM_Utils_System::url( 'civicrm/contribute',
+                                          'reset=1' );
+            break;
+
+        case 'contribution':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                          'reset=1&force=1&cid=' . $this->_contactID );
+            break;
+
+        default:
+            $cid = null;
+            if ( $this->_contactID ) {
+                $cid = '&cid=' . $this->_contactID;
+            }
+            $url = CRM_Utils_System::url( 'civicrm/contribute/search', 
+                                          'reset=1&force=1' . $cid );
+            break;
+        }
+
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD    ||
              $action & CRM_Core_Action::UPDATE ||
              $action & CRM_Core_Action::DELETE ) {
-            $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( $url );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution',
                                                            'Create Contribution',
                                                            $action );

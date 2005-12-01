@@ -96,6 +96,7 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         $controller->reset( ); 
         $controller->set( 'limit', 10 );
         $controller->set( 'force', 1 );
+        $controller->set( 'context', 'dashboard' ); 
         $controller->process( ); 
         $controller->run( ); 
         
