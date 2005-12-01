@@ -34,7 +34,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Social Source Foundation (c) 2005
+ * @copyright Donald A. Lobo (c) 2005
  * $Id$
  *
  */

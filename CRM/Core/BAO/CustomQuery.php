@@ -4,7 +4,7 @@
  +--------------------------------------------------------------------+ 
  | CiviCRM version 1.3                                                | 
  +--------------------------------------------------------------------+ 
- | Copyright (c) 2005 Social Source Foundation                        | 
+ | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
  | This file is a part of CiviCRM.                                    | 
  |                                                                    | 
@@ -31,7 +31,7 @@
  * 
  * @package CRM 
  * @author Donald A. Lobo <lobo@yahoo.com> 
- * @copyright Social Source Foundation (c) 2005 
+ * @copyright Donald A. Lobo (c) 2005 
  * $Id$ 
  * 
  */ 

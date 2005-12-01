@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.3                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Social Source Foundation                        |
+ | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -34,7 +34,7 @@ require_once 'PHPgettext/gettext.php';
  * @package CRM
  * @author Piotr Szotkowski <shot@caltha.pl>
  * @author Michal Mach <mover@artnet.org>
- * @copyright Social Source Foundation (c) 2005
+ * @copyright Donald A. Lobo (c) 2005
  * $Id$
  *
  */
