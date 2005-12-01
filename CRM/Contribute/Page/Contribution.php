@@ -199,7 +199,7 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
  
         require_once 'CRM/Core/BAO/History.php'; 
         $history        = CRM_Core_BAO_History::retrieve($params, $defaults); 
-        $contributionId = CRM_Utils_Array::value('entity_id', $defaults); 
+        $contributionId = CRM_Utils_Array::value('activity_id', $defaults); 
  
         if ($contributionId) { 
             return CRM_Utils_System::url('civicrm/contribute/contribution', "reset=1&action=view&id=$contributionId"); 
