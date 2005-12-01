@@ -278,9 +278,18 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         }
         
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
-
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
+
+        // get the contributions, new style of doing stuff
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
+        $controller->setEmbedded( true );                           
+        $controller->reset( );  
+        $controller->set( 'limit', 3 ); 
+        $controller->set( 'force', 1 );
+        $controller->set( 'cid'  , $this->_contactId );
+        $controller->process( );  
+        $controller->run( );
     }
 
 

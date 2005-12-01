@@ -2,7 +2,7 @@
 {strip}
 <table>
   <tr class="columnheader">
-{if ! $single}
+{if ! $single and ! $limit}
   <th>{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
@@ -21,8 +21,10 @@
   {foreach from=$rows item=row}
   <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}{if $row.cancel_date} disabled{/if}">
 {if ! $single}
+{if ! $limit}
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td> 
+{/if}
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}

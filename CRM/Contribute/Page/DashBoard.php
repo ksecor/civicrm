@@ -90,7 +90,15 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
      */                                                          
     function run( ) { 
         $this->preProcess( );
-
+        
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action ); 
+        $controller->setEmbedded( true ); 
+        $controller->reset( ); 
+        $controller->set( 'limit', 10 );
+        $controller->set( 'force', 1 );
+        $controller->process( ); 
+        $controller->run( ); 
+        
         return parent::run( );
     }
 

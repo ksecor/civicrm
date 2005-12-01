@@ -49,7 +49,9 @@
 </table>
 <hr size="1" noshade/>
 <h3>{ts}Recent Contributions{/ts}</h3>
-<div class="form-item">+++ selector w/ last 10 contribs will go here+++</div>
+<div class="form-item">
+{include file="CRM/Contribute/Form/Selector.tpl"}
+</div>
 <div class="action-link">
-<a href="">view more recent contributions...</a>
+<a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">view more recent contributions...</a>
 </div>

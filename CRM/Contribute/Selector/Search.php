@@ -90,6 +90,14 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      */   
     protected $_single = false;
 
+    /**  
+     * are we restricting ourselves to a single contact  
+     *  
+     * @access protected    
+     * @var boolean    
+     */    
+    protected $_limit = null;
+
     /**
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
@@ -128,16 +136,18 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @param int   $action - action of search basic or advanced.
      * @param string   $contributionClause if the caller wants to further restrict the search (used in contributions)
      * @param boolean $single are we dealing only with one contact?
+     * @param int     $limit  how many contributions do we want returned
      *
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null, $single = false) 
+    function __construct(&$formValues, $action = CRM_Core_Action::NONE, $contributionClause = null, $single = false, $limit = null) 
     {
         // submitted form values
         $this->_formValues =& $formValues;
 
         $this->_single = $single;
+        $this->_limit  = $limit;
         $this->_contributionClause = $contributionClause;
 
         // type of selector
@@ -199,7 +209,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
     {
         $params['status']       = ts('Contribution') . ' %%StatusMessage%%';
         $params['csvString']    = null;
-        $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
+        if ( $this->_limit ) {
+            $params['rowCount']     = $this->_limit;
+        } else {
+            $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
+        }
 
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
@@ -234,9 +248,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        // note the formvalues were given by CRM_Contact_Form_Search to us 
-        // and contain the search criteria (parameters)
-        // note that the default action is basic
         $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                               false, false, 
                                               false, false, 

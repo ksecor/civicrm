@@ -128,6 +128,14 @@
  </div>
  {/if}
 
+<div class="form-item">                 
+{include file="CRM/Contribute/Form/Selector.tpl"}       
+</div>                             
+<div class="action-link">    
+<a href="{crmURL p='civicrm/contribute/search' q="reset=1&force=1&cid=$contactId"}">{ts}View All Contributions{/ts}...</a> 
+</div> 
+
+
 <div id="openActivities[show]" class="data-group">
   {if $openActivity.totalCount}
     <a href="#" onclick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
