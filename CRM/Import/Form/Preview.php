@@ -174,9 +174,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $allGroups          = $this->get('groups');
 
         $seperator = ',';
-
+        
+        
+        print_r( $this->controller );
+        
+        
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
-
+        
         $mapperKeys = array();
         $mapperLocTypes = array();
         $mapperPhoneTypes = array();
@@ -185,7 +189,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapperRelatedContactDetails = array();
         $mapperRelatedContactLocType = array();
         $mapperRelatedContactPhoneType = array();
-
+        
+        print_r(  $mapper );
+        
+        
+        
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
             if (is_numeric($mapper[$key][1])) {
