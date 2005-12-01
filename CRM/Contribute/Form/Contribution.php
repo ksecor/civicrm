@@ -127,33 +127,33 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         $element =& $this->add('select', 'payment_instrument_id', 
-                               ts( 'Payment Instrument' ), 
-                               CRM_Contribute_PseudoConstant::paymentInstrument( ),
-                               true );
+                               ts( 'Paid By' ), 
+                               array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                               );
         if ( $this->_online ) {
             $element->freeze( );
         }
 
         // add various dates
-        $element =& $this->add('date', 'receive_date', ts('Received date'), CRM_Core_SelectValues::date('manual', 3, 1), true );         
+        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('manual', 3, 1), true );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
             $element->freeze( );
         }
 
-        $this->addElement('date', 'receipt_date', ts('Receipt date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'receipt_date', ts('Receipt Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'thankyou_date', ts('Thank-you date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('thankyou_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'cancel_date', ts('Cancelled date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'cancel_date', ts('Cancelled'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
 
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
 
         // add various amounts
-        $element =& $this->add( 'text', 'non_deductible_amount', ts('Non Deductible Amount'),
+        $element =& $this->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),
                                 $attributes['non_deductible_amount'] );
         $this->addRule('non_deductible_amount', ts('Please enter a valid amount.'), 'money');
         if ( $this->_online ) {
@@ -181,13 +181,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
 
-        $element =& $this->add( 'text', 'trxn_id', ts('Unique Transaction ID'), 
+        $element =& $this->add( 'text', 'trxn_id', ts('Transaction ID'), 
                                 $attributes['trxn_id'] );
         if ( $this->_online ) {
             $element->freeze( );
         }
 
-        $element =& $this->add( 'text', 'source', ts('Origin of this Contribution'),
+        $element =& $this->add( 'text', 'source', ts('Source'),
                                 $attributes['trxn_id'] );
         if ( $this->_online ) {
             $element->freeze( );
