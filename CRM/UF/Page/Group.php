@@ -172,6 +172,9 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         // not sure how to circumvent our own navigation system to generate the right form url
         $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;gid='.$id.'&amp;reset=1', $profile );
         $this->assign( 'profile', $profile );
+        //get the title of uf group
+        $title = CRM_Core_BAO_UFGroup::getTitle($id);
+        $this->assign( 'title', $title);
         $this->assign( 'action' , CRM_Core_Action::PROFILE );
 
         $this->assign( 'isForm' , 0 );

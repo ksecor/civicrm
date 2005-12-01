@@ -12,7 +12,7 @@
     <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
     </div>
     
-    <h3>{ts}CiviCRM Profile - Code for Stand-alone HTML Form{/ts}</h3>
+    <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code">
     <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
     <br />
