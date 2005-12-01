@@ -46,7 +46,6 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
      */
     function browse( ) {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );
-
         $controller->setEmbedded( true );
         
         // set the userContext stack

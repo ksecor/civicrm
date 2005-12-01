@@ -126,8 +126,7 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD    ||
              $action & CRM_Core_Action::UPDATE ||
-             $action & CRM_Core_Action::DELETE ||
-             $action & CRM_Core_Action::VIEW ) {
+             $action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( $url );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution',
@@ -138,9 +137,24 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
             return $controller->run( );
         }
 
-        CRM_Utils_System::redirect( $url );
+        // for view mode
+        $this->view( );
+        
+        return parent::run( );
     }
 
+    function view( ) {
+        $values = array( );
+        $ids    = array( );
+        $params = array( 'id' => $this->_id );
+        CRM_Contribute_BAO_Contribution::getValues( $params,
+                                                    $values,
+                                                    $ids );
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
+
+        $this->assign( $values );
+    }
+    
     /** 
      * compose the url to show details of this specific contribution 
      * 

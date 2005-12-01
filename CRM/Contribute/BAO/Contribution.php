@@ -218,12 +218,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      */
     static function resolveDefaults(&$defaults, $reverse = false)
     {
-        if (CRM_Utils_Array::value('contribution_type', $defaults)) {
-            self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
-        }
-        if (CRM_Utils_Array::value('payment_instrument', $defaults)) {
-            self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
-        }
+        require_once 'CRM/Contribute/PseudoConstant.php';
+
+        self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
+        self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
     }
 
     /**
