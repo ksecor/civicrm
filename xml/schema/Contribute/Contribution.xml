@@ -35,6 +35,8 @@
       <type>int unsigned</type> 
       <required>true</required> 
       <import>true</import>
+      <headerPattern>/contact(.?id)?/i</headerPattern>
+      <dataPattern>/^\d+$/</dataPattern>
       <comment>FK to Contact ID</comment> 
       <add>1.3</add> 
   </field> 
@@ -75,6 +77,8 @@
       <type>datetime</type> 
       <required>true</required> 
       <import>true</import>
+      <headerPattern>/receive(.?date)?/i</headerPattern>
+      <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
       <comment>when was gift received</comment> 
       <add>1.3</add> 
   </field> 
@@ -83,6 +87,8 @@
       <type>decimal</type>
       <default>0</default>
       <import>true</import>
+      <headerPattern>/non?.?deduct/i</headerPattern>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>Portion of total amount which is NOT tax deductible. Equal to total_amount for non-deductible contribution types.</comment>  
       <add>1.3</add>  
   </field>
@@ -91,6 +97,8 @@
       <type>decimal</type>  
       <required>true</required>
       <import>true</import>
+      <headerPattern>/total(.?am(ou)?nt)?/i</headerPattern>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>Total amount of this contribution. Use market value for non-monetary gifts.</comment>  
       <add>1.3</add>  
   </field>
@@ -99,6 +107,8 @@
       <type>decimal</type>    
       <required>true</required>
       <import>true</import>
+      <headerPattern>/fee(.?am(ou)?nt)?/i</headerPattern>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>actual processor fee if known - may be 0.</comment>
       <add>1.3</add>    
   </field> 
@@ -107,6 +117,8 @@
       <type>decimal</type>    
       <required>true</required>
       <import>true</import>
+      <headerPattern>/net(.?am(ou)?nt)?/i</headerPattern>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>actual funds transfer amount; total less fees; if processor does not report actual fee during transaction, this is set to total_amount.</comment>
       <add>1.3</add>    
   </field>
@@ -116,6 +128,7 @@
       <type>varchar</type>     
       <length>255</length>  
       <import>true</import>
+      <headerPattern>/tr(ansactio|x)n(.?id)?/i</headerPattern>
       <comment>unique transaction id; may be processor id, bank id + trans id, or account number + check number... depending on payment_method</comment>
       <add>1.3</add>     
   </field>   
@@ -125,6 +138,8 @@
       <length>64</length>
       <required>true</required> 
       <import>true</import>
+      <headerPattern>/cur(rency)?/i</headerPattern>
+      <dataPattern>/^[A-Z]{3}$/i</dataPattern>
       <comment>3 character string, value derived from payment processor config setting.</comment>   
       <add>1.3</add>   
   </field> 
@@ -132,6 +147,8 @@
       <name>cancel_date</name>  
       <type>datetime</type>  
       <import>true</import>
+      <headerPattern>/cancel(.?date)?/i</headerPattern>
+      <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
       <comment>when was gift cancelled</comment>  
       <add>1.3</add>  
   </field> 
@@ -139,12 +156,15 @@
       <name>cancel_reason</name>   
       <type>text</type>   
       <import>true</import>
+      <headerPattern>/(cancel.?)?reason/i</headerPattern>
       <add>1.3</add>   
   </field>  
   <field>   
       <name>receipt_date</name>   
       <type>datetime</type>   
       <import>true</import>
+      <headerPattern>/receipt(.?date)?/i</headerPattern>
+      <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
       <comment>when (if) receipt was sent; populated automatically for online donations w/ automatic receipting</comment>   
       <add>1.3</add>   
   </field>  
@@ -153,6 +173,8 @@
       <title>Thank-you Date</title>
       <type>datetime</type>    
       <import>true</import>
+      <headerPattern>/thank(s|(.?you))?(.?date)?/i</headerPattern>
+      <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
       <comment>when (if) was donor thanked</comment>    
       <add>1.3</add>    
   </field>   
@@ -162,6 +184,7 @@
       <type>varchar</type>   
       <length>255</length>
       <import>true</import>
+      <headerPattern>/source/i</headerPattern>
       <comment>Origin of this Contribution.</comment>   
       <add>1.3</add>   
   </field> 
