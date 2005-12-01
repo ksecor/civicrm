@@ -397,7 +397,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 'receive_date'      => ts('Receive Date'),
                 'contribution_type' => ts('Contribution Type')
             );
-            // FIXME: appears with packages/HTML @r3847, doesn't appear with updated QuickForm
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';

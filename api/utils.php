@@ -448,7 +448,6 @@ function _crm_format_contrib_params( &$params, &$values ) {
         }
     }
 
-    // FIXME: custom fields for contributions support
     $values['custom'] = array();
 
     $customFields = CRM_Core_BAO_CustomField::getFields('Contribution');
@@ -1323,9 +1322,13 @@ function _crm_validate_formatted_contribution(&$params) {
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
-            // FIXME: should also validate whether it's an existing contact
             if (!CRM_Utils_Rule::integer($value)) {
                 return _crm_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $dao->query("SELECT id FROM civicrm_contact WHERE domain_id = $domainID");
+            if (!$dao->find()) {
+                return _crm_error("there's no contact with contact_id of $value");
             }
             break;
         case 'receive_date':

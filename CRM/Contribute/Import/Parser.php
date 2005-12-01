@@ -433,49 +433,6 @@ abstract class CRM_Contribute_Import_Parser {
         return $valid;
     }
 
-#   function setActiveFieldLocationTypes( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_hasLocationType = $elements[$i];
-#       }
-#   }
-    
-#   function setActiveFieldPhoneTypes( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_phoneType = $elements[$i];
-#       }
-#   }
-
-#   function setActiveFieldRelated( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_related = $elements[$i];
-#       }       
-#   }
-    
-#   function setActiveFieldRelatedContactType( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_relatedContactType = $elements[$i];
-#       }
-#   }
-    
-#   function setActiveFieldRelatedContactDetails( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {            
-#           $this->_activeFields[$i]->_relatedContactDetails = $elements[$i];
-#       }
-#   }
-    
-#   function setActiveFieldRelatedContactLocType( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_relatedContactLocType = $elements[$i];
-#       }
-#       
-#   }    
-    
-#   function setActiveFieldRelatedContactPhoneType( $elements ) {
-#       for ($i = 0; $i < count( $elements ); $i++) {
-#           $this->_activeFields[$i]->_relatedContactPhoneType = $elements[$i];
-#       }        
-#   }
-
     /**
      * function to format the field values for input to the api
      *
@@ -486,84 +443,9 @@ abstract class CRM_Contribute_Import_Parser {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
-#               if (isset( $this->_activeFields[$i]->_hasLocationType)) {
-#                   if (! isset($params[$this->_activeFields[$i]->_name])) {
-#                       $params[$this->_activeFields[$i]->_name] = array();
-#                   }
-#                   
-#                   $value = array(
-#                       $this->_activeFields[$i]->_name => 
-#                               $this->_activeFields[$i]->_value,
-#                       'location_type_id' => 
-#                               $this->_activeFields[$i]->_hasLocationType);
-#                   
-#                   if (isset( $this->_activeFields[$i]->_phoneType)) {
-#                       $value['phone_type'] =
-#                           $this->_activeFields[$i]->_phoneType;
-#                   }
-#                   
-#                   $params[$this->_activeFields[$i]->_name][] = $value;
-#               }
                 if (!isset($params[$this->_activeFields[$i]->_name])) {
-#                   if ( !isset($this->_activeFields[$i]->_related) ) {
-                        $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
-#                   }
+                    $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
                 }
-
-                //relationship values
-                /*
-#               if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
-#                   if (! isset($params[$this->_activeFields[$i]->_related])) {
-#                       $params[$this->_activeFields[$i]->_related] = array();
-#                   }
-#                   
-#                   if ( !isset($params[$this->_activeFields[$i]->_related]['contact_type']) && !empty($this->_activeFields[$i]->_relatedContactType) ) {
-#                       $params[$this->_activeFields[$i]->_related]['contact_type'] = $this->_activeFields[$i]->_relatedContactType;
-#                   }
-#                   
-#                   if ( isset($this->_activeFields[$i]->_relatedContactLocType)  && !empty($this->_activeFields[$i]->_value) )  {
-#                       
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
-#                       $value = array($this->_activeFields[$i]->_relatedContactDetails => $this->_activeFields[$i]->_value,
-#                                      'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
-#                       
-#                       if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
-#                           $value['phone_type'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
-#                       }
-
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
-#                   } else {
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 
-#                           $this->_activeFields[$i]->_value;                        
-#                   }
-#               }
-                */
-                
-#               if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
-#                   if (! isset($params[$this->_activeFields[$i]->_related])) {
-#                       $params[$this->_activeFields[$i]->_related] = array();
-#                   }
-#                   
-#                   if ( !isset($params[$this->_activeFields[$i]->_related]['contact_type']) && !empty($this->_activeFields[$i]->_relatedContactType) ) {
-#                       $params[$this->_activeFields[$i]->_related]['contact_type'] = $this->_activeFields[$i]->_relatedContactType;
-#                   }
-#                   
-#                   if ( isset($this->_activeFields[$i]->_relatedContactLocType)  && !empty($this->_activeFields[$i]->_value) )  {
-#                       
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
-#                       $value = array($this->_activeFields[$i]->_relatedContactDetails => $this->_activeFields[$i]->_value,
-#                                      'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
-#                       
-#                       if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
-#                           $value['phone_type'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
-#                       }
-
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
-#                   } else {
-#                       $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 
-#                           $this->_activeFields[$i]->_value;                        
-#                   }
-#               }
             }
         }
         return $params;

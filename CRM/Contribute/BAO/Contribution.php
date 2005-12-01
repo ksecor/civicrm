@@ -162,7 +162,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
         }
 
-        // FIXME: perhaps we should do this after Activity History insert?
         CRM_Core_DAO::transaction('COMMIT');
 
         // let's create an (or update the relevant) Acitivity History record

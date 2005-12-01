@@ -262,16 +262,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     }
    
     /**
-     * Get the array of succesfully imported related contact id's
-     *
-     * @return array
-     * @access public
-     */
-#   function &getRelatedImportedContacts() {
-#       return $this->_newRelatedContacts;
-#   }
-
-    /**
      * the initializer code, called before the processing
      *
      * @return void
