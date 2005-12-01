@@ -449,39 +449,39 @@ function _crm_format_contrib_params( &$params, &$values ) {
     }
 
     // FIXME: custom fields for contributions support
-#   $values['custom'] = array();
+    $values['custom'] = array();
 
-#   $customFields = CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
+    $customFields = CRM_Core_BAO_CustomField::getFields('Contribution');
 
-#   foreach ($params as $key => $value) {
-#       if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-#           /* check if it's a valid custom field id */
-#           if ( !array_key_exists($customFieldID, $customFields)) {
-#               return _crm_error('Invalid custom field ID');
-#           }
+    foreach ($params as $key => $value) {
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            /* check if it's a valid custom field id */
+            if ( !array_key_exists($customFieldID, $customFields)) {
+                return _crm_error('Invalid custom field ID');
+            }
 
-#           /* validate the data against the CF type */
-#           $valid = CRM_Core_BAO_CustomValue::typecheck(
-#                           $customFields[$customFieldID][2], $value);
+            /* validate the data against the CF type */
+            $valid = CRM_Core_BAO_CustomValue::typecheck(
+                            $customFields[$customFieldID][2], $value);
 
-#           if (! $valid) {
-#               return _crm_error('Invalid value for custom field ' .
-#                   $customFields[$customFieldID][1]);
-#           }
-#           
-#           // fix the date field if so
-#           if ( $customFields[$customFieldID][2] == 'Date' ) {
-#               $value = str_replace( '-', '', $value );
-#           }
+            if (! $valid) {
+                return _crm_error('Invalid value for custom field ' .
+                    $customFields[$customFieldID][1]);
+            }
+            
+            // fix the date field if so
+            if ( $customFields[$customFieldID][2] == 'Date' ) {
+                $value = str_replace( '-', '', $value );
+            }
 
-#           $values['custom'][$customFieldID] = array( 
-#               'value'   => $value,
-#               'extends' => $customFields[$customFieldID][3],
-#               'type'    => $customFields[$customFieldID][2],
-#               'custom_field_id' => $customFieldID,
-#           );
-#       }
-#   }
+            $values['custom'][$customFieldID] = array( 
+                'value'   => $value,
+                'extends' => $customFields[$customFieldID][3],
+                'type'    => $customFields[$customFieldID][2],
+                'custom_field_id' => $customFieldID,
+            );
+        }
+    }
    
     return null;
    
@@ -1167,29 +1167,29 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
     }
 
     /* Check for custom field values */
-#   if ($fields['custom'] == null) {
-#       $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
-#   }
+    if ($fields['custom'] == null) {
+        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields('Contribution');
+    }
     
-#   foreach ($values as $key => $value) {
-#       if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-#           /* check if it's a valid custom field id */
-#           if (!array_key_exists($customFieldID, $fields['custom'])) {
-#               return _crm_error('Invalid custom field ID');
-#           }
-#           
-#           if (!isset($params['custom'])) {
-#               $params['custom'] = array();
-#           }
-#           $customBlock = count($params['custom']) + 1;
-#           $params['custom'][$customBlock] = array(
-#               'custom_field_id'    => $customFieldID,
-#               'value' => $value,
-#               'type' => $fields['custom'][$customFieldID][2],
-#               'name' => $fields['custom'][$customFieldID][0]
-#           );
-#       }
-#   }
+    foreach ($values as $key => $value) {
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            /* check if it's a valid custom field id */
+            if (!array_key_exists($customFieldID, $fields['custom'])) {
+                return _crm_error('Invalid custom field ID');
+            }
+            
+            if (!isset($params['custom'])) {
+                $params['custom'] = array();
+            }
+            $customBlock = count($params['custom']) + 1;
+            $params['custom'][$customBlock] = array(
+                'custom_field_id'    => $customFieldID,
+                'value' => $value,
+                'type' => $fields['custom'][$customFieldID][2],
+                'name' => $fields['custom'][$customFieldID][0]
+            );
+        }
+    }
     
     /* Finally, check for contribution fields */
     if (!isset($fields['Contribution'])) {
@@ -1354,23 +1354,22 @@ function _crm_validate_formatted_contribution(&$params) {
         }
     }
 
-    // FIXME: custom contributions data
     /* Validate custom data fields */
-#   if (is_array($params['custom'])) {
-#       foreach ($params['custom'] as $key => $custom) {
-#           if (is_array($custom)) {
-#               $valid = CRM_Core_BAO_CustomValue::typecheck(
-#                   $custom['type'], $custom['value']);
-#               if (! $valid) {
-#                   return _crm_error('Invalid value for custom field \'' .
-#                       $custom['name']. '\'');
-#               }
-#               if ( $custom['type'] == 'Date' ) {
-#                   $params['custom'][$key]['value'] = str_replace( '-', '', $params['custom'][$key]['value'] );
-#               }
-#           }
-#       }
-#   }
+    if (is_array($params['custom'])) {
+        foreach ($params['custom'] as $key => $custom) {
+            if (is_array($custom)) {
+                $valid = CRM_Core_BAO_CustomValue::typecheck(
+                    $custom['type'], $custom['value']);
+                if (! $valid) {
+                    return _crm_error('Invalid value for custom field \'' .
+                        $custom['name']. '\'');
+                }
+                if ( $custom['type'] == 'Date' ) {
+                    $params['custom'][$key]['value'] = str_replace( '-', '', $params['custom'][$key]['value'] );
+                }
+            }
+        }
+    }
 
     return true;
 }

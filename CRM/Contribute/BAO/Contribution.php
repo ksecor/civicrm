@@ -37,6 +37,9 @@
 
 require_once 'CRM/Contribute/DAO/Contribution.php';
 
+require_once 'CRM/Core/BAO/CustomField.php';
+require_once 'CRM/Core/BAO/CustomValue.php';
+
 class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 {
     /**
@@ -135,10 +138,32 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Utils_Hook::pre( 'create', 'Contribution', null, $params ); 
         }
 
+        CRM_Core_DAO::transaction('BEGIN');
+
         $contribution = self::add($params, $ids);
 
         $params['contribution_id'] = $contribution->id;
 
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_contribution',
+                                  'entity_id'       => $contribution->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
+        }
+
+        // FIXME: perhaps we should do this after Activity History insert?
+        CRM_Core_DAO::transaction('COMMIT');
 
         // let's create an (or update the relevant) Acitivity History record
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);

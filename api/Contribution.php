@@ -204,7 +204,7 @@ function &crm_get_contribution( $params, $returnProperties = null ) {
     $contribution->contribution_type_object = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
  
     // FIXME: add custom support
-#   $contribution->custom_values =& CRM_Core_BAO_CustomValue::getContributionValues($contribution->id); 
+    $contribution->custom_values =& CRM_Core_BAO_CustomValue::getContributionValues($contribution->id); 
  
     return $contribution; 
 }
