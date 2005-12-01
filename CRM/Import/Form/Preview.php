@@ -175,10 +175,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         $seperator = ',';
         
-        
-        print_r( $this->controller );
-        
-        
+       
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         
         $mapperKeys = array();
@@ -190,10 +187,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapperRelatedContactLocType = array();
         $mapperRelatedContactPhoneType = array();
         
-        print_r(  $mapper );
-        
-        
-        
+       
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
             if (is_numeric($mapper[$key][1])) {

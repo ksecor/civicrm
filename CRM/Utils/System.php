@@ -65,6 +65,10 @@ class CRM_Utils_System {
                                                 'customgroup'        => 'CustomGroup',
                                                 'customoption'       => 'CustomOption',
                                                 'customvalue'        => 'CustomValue',
+                                                'contributionpage'   => 'ContributionPage',
+                                                'contributionpageedit'=> 'ContributionPageEdit',
+                                                'dupematch'          => 'DupeMatch', 
+                                                'dashboard'          => 'DashBoard',
                                                 'dao'                => 'DAO',
                                                 'deletefield'        => 'DeleteField', 
                                                 'deletegroup'        => 'DeleteGroup', 
@@ -101,6 +105,7 @@ class CRM_Utils_System {
                                                 'individualprefix'   => 'IndividualPrefix',
                                                 'individualsuffix'   => 'IndividualSuffix',
                                                 'versioncheck'       => 'VersionCheck',
+                                                'thankyou'           => 'ThankYou',
                                                 );
     
     /**
