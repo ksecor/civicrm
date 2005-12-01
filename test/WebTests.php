@@ -40,13 +40,13 @@ class WebTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
         
         // Quick Search
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/QuickSearch.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/QuickSearch.php' );
         
         // Search
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/FindContacts.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdvancedSearch.php' );
         
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ImportContacts.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ImportContacts.php' );
     }
 
 }
