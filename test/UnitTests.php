@@ -21,7 +21,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
         // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM600.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM600.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM558.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM562.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM39.php'    );
@@ -41,7 +41,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteGroupContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroups.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetGroupContacts.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/SubscribeGroupContacts.php'    );
@@ -55,7 +55,7 @@ class UnitTests extends GroupTest {
 
         // history api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
 
@@ -66,8 +66,7 @@ class UnitTests extends GroupTest {
         
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
-        
-        // $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteRelationship.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationshipType.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationshipType.php');
