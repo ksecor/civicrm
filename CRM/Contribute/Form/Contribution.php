@@ -131,7 +131,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
-                               CRM_Contribute_PseudoConstant::contributionType( ),
+                               array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true );
         if ( $this->_online ) {
             $element->freeze( );

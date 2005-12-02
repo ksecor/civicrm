@@ -47,11 +47,15 @@
     <td><a href="{$startToDate.Valid.url}">view details...</td>
 </tr>
 </table>
-<hr size="1" noshade/>
-<h3>{ts}Recent Contributions{/ts}</h3>
-<div class="form-item">
-{include file="CRM/Contribute/Form/Selector.tpl"}
-</div>
-<div class="action-link">
-<a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">view more recent contributions...</a>
-</div>
+
+{if $pager->_totalItems}
+    <h3>{ts}Recent Contributions{/ts}</h3>
+    <div class="form-item">
+    {include file="CRM/Contribute/Form/Selector.tpl"}
+    </div>
+    {if $pager->_totalItems GT 10}
+        <div class="action-link">
+            <a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; More Contributions...</a>
+        </div>
+    {/if}
+{/if}
