@@ -245,6 +245,9 @@ function crm_get_locations(&$contact, $location_types = null) {
                 }
             }
         }
+        if(empty($newLocations)) {
+            return _crm_error('Location information is empty');
+        }
         return $newLocations;
     }
 

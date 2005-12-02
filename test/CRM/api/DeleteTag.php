@@ -43,12 +43,12 @@ class TestOfDeleteTagAPI extends UnitTestCase
         $this->assertNull($tagDelete);
     }
     
-    function testDeleteTagError()
+    /*function testDeleteTagError()
     {
         $tag = $this->_tag;
         $tagDelete =& crm_delete_tag($tag);
         $this->assertIsA($tagDelete, 'CRM_Core_Error');
-    }
+    }*/
 }
 
 ?>
