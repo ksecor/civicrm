@@ -50,7 +50,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
      
         $paramsF = array('label' => 'Test Field 1 for Group 2',
-                         'name'  => 'test_field_1'
+                         'name'  => 'test_field_1',
                          'weight' => 3,
                          'data_type' => 'string',
                          'html_type' => 'text',
