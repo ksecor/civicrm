@@ -100,9 +100,6 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
             $row   = array( );
             $valid = false;
 
-            $row[] = $result->contact_id;
-            $row[] = $result->contribution_id;
-
             foreach ( $properties as $property ) {
                 $row[] = $result->$property;
                 if ( ! CRM_Utils_System::isNull( $result->$property ) ) {

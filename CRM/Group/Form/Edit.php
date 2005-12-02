@@ -143,11 +143,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                );
 
             $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
-            
             $this->assign('groupTree', $this->_groupTree); 
-            
-            $sBlocks = array();
-            $hBlocks = array();
             
             foreach ($this->_groupTree as $group) {
             

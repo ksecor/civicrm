@@ -90,6 +90,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
 
+        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
+        $this->assign('groupTree', $this->_groupTree); 
+        
+        $sBlocks = array();
+        $hBlocks = array();
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $sBlocks, $hBlocks );
+
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
@@ -102,6 +109,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults['contact_id'];
+        } else {
+            $now = date("Y-m-d");
+            $defaults['receive_date'] = $now;
+            $defaults['receipt_date'] = $now;
         }
         return $defaults;
     }

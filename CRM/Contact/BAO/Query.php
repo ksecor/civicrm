@@ -632,6 +632,9 @@ class CRM_Contact_BAO_Query {
                 $this->_where[] = $field['where'] . " = $date";
                 $date = CRM_Utils_Date::customFormat( $value );
                 $this->_qill[]  = "$field[title] \"$date\"";
+            } else if ( $name === 'contact_id' ) {
+                $this->_where[] = $field['where'] . " = $value";
+                $this->_qill[]  = ts( '%1 is equal to %2', array( 1 => $field['title'], 2 => $value ) );
             } else {
                 // sometime the value is an array, need to investigate and fix
                 if ( is_array( $value ) ) {

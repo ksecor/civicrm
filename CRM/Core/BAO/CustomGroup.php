@@ -832,6 +832,40 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
     }
 
+    static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
+
+        $sBlocks = array( );
+        $hBlocks = array( );
+
+        require_once 'CRM/Core/ShowHideBlocks.php'; 
+        foreach ($groupTree as $group) { 
+             
+            CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
+                 
+            $groupId = $group['id']; 
+            foreach ($group['fields'] as $field) { 
+
+                $fieldId = $field['id'];                 
+                $elementName = 'custom_' . $fieldId;
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, true); 
+            } 
+ 
+            if ( $group['collapse_display'] ) { 
+                $sBlocks[] = "'". $group['title'] . "[show]'" ; 
+                $hBlocks[] = "'". $group['title'] ."'"; 
+            } else { 
+                $hBlocks[] = "'". $group['title'] . "[show]'" ; 
+                $sBlocks[] = "'". $group['title'] ."'"; 
+            } 
+        } 
+             
+        $showBlocks = implode(",",$sBlocks); 
+        $hideBlocks = implode(",",$hBlocks); 
+             
+        $this->assign('showBlocks1',$showBlocks); 
+        $this->assign('hideBlocks1',$hideBlocks); 
+    }
+
 }
 
 ?>
