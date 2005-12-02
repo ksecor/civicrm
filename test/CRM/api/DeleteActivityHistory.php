@@ -75,8 +75,9 @@ class TestOfDeleteHistoryAPI extends UnitTestCase {
         // delete the record now
         $dao1 = new CRM_Core_DAO_ActivityHistory();
         $dao1->activity_id = 21;
-        $rowAffected =& crm_delete_activity_history($dao1);        
-        $this->assertEqual($rowAffected, 1);
+        $rowAffected =& crm_delete_activity_history($dao1);
+        
+        $this->assertEqual($rowAffected,'1');
     }
 }
 ?>
