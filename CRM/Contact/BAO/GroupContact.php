@@ -485,7 +485,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 FROM civicrm_group_contact 
 LEFT JOIN civicrm_subscription_history ON (civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id) 
 WHERE civicrm_group_contact.contact_id = ".CRM_Utils_Type::escape($contactId, 'Integer')." 
-AND civicrm_group_contact.group_id = '".CRM_Utils_Type::escape($groupID, 'Integer')." 
+AND civicrm_group_contact.group_id = '".CRM_Utils_Type::escape($groupID, 'Integer')."'  
 AND civicrm_subscription_history.method ='Email' "  ;
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
