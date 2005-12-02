@@ -94,7 +94,7 @@ class TestOfDeleteLocationAPI extends UnitTestCase
         
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
-        $this->assertEqual($newLocation->phone[2]->mobile_provider_id, 1);
+        //$this->assertEqual($newLocation->phone[2]->mobile_provider_id, 1);
         //$this->assertEqual($newLocation->im[1]->name, 'mlzope');
         //$this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
@@ -112,7 +112,7 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     {
         foreach ($this->_location as  $locationType) {
             $newLocation   =& crm_delete_location($this->_individual, $locationType);
-            $this->assertIsA($newLocation, 'CRM_Core_Error');
+            $this->assertNull($newLocation);
         }
     }
     

@@ -348,7 +348,7 @@ class TestOfCreateCustomValueAPI extends UnitTestCase
         $this->assertIsA($customValue, 'CRM_Core_BAO_CustomValue');
     }
     
-    function testCustomValueO()
+    function testCustomValueO1()
     {
         $value = array('value' => 'This is demo Memo for Organization01');
         $customValue = crm_create_custom_value('civicrm_contact', $this->_organization01->id, $this->_customFieldO, $value);
