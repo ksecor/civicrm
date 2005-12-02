@@ -169,10 +169,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                     $sBlocks[] = "'". $group['title'] ."'";
                 }
             }
-            
-            $showBlocks = implode(",",$sBlocks);
-            $hideBlocks = implode(",",$hBlocks);
-            
+            if ( is_array($sBlocks) && is_array($hBlocks) ) {
+                $showBlocks = implode(",",$sBlocks);
+                $hideBlocks = implode(",",$hBlocks);
+            }
             $this->assign('showBlocks1',$showBlocks);
             $this->assign('hideBlocks1',$hideBlocks);
             
