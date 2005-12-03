@@ -107,7 +107,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
                                         CRM_Core_Action::PROFILE  => array(
                                                                           'name'  => ts('Standalone Form'),
                                                                           'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=profile&id=%%id%%',
+                                                                          'qs'    => 'action=profile&gid=%%id%%',
                                                                           'title' => ts('Standalone Form for Profile Group'),
                                                                           ),
 
@@ -147,7 +147,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
-                $this->profile( $id ); 
+                $this->profile( ); 
             } else if ( $action & CRM_Core_Action::PREVIEW ) { 
                 $this->preview( $id ); 
             } 
@@ -159,21 +159,28 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         parent::run();
     }
 
-    function profile( $id ) {
+    function profile( ) {
+        $gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
         $controller->reset( );
         $controller->process( ); 
-        $controller->set('gid', $id);
+        $controller->set('gid', $gid);
         $controller->setEmbedded( true ); 
         $controller->run( ); 
         $template =& CRM_Core_Smarty::singleton( ); 
         $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
         $profile  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
         // not sure how to circumvent our own navigation system to generate the right form url
-        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;gid='.$id.'&amp;reset=1', $profile );
+        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;gid='.$gid.'&amp;reset=1', $profile );
         $this->assign( 'profile', $profile );
         //get the title of uf group
-        $title = CRM_Core_BAO_UFGroup::getTitle($id);
+        if ($gid) {
+            $title = CRM_Core_BAO_UFGroup::getTitle($gid);
+        } else {
+            $title = 'Profile Form';
+        }
+        
         $this->assign( 'title', $title);
         $this->assign( 'action' , CRM_Core_Action::PROFILE );
 

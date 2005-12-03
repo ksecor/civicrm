@@ -105,19 +105,25 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
         if (!$this->_gid) {
-            $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+            $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
         }
 
-        //if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
-        if ( $this->_mode == self::MODE_REGISTER ) {
+        if ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action, 
+            $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action,
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY ); 
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
         
+        if (!is_array($this->_fields)) {
+            $session =& CRM_Core_Session::singleton( );
+            CRM_Core_Session::setStatus(ts('Feature not available.'));
+
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ) );
+        }
+
         if ( $this->_id ) {
             $defaults = array( );
 
@@ -245,6 +251,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $admin = true;
             }
         }
+
 
         // add the form elements
         foreach ($this->_fields as $name => $field ) {

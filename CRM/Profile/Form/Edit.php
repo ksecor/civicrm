@@ -46,13 +46,6 @@ require_once 'CRM/Profile/Form.php';
   */
 class CRM_Profile_Form_Edit extends CRM_Profile_Form
 {
-    /** 
-     * The group id that we are editing
-     * 
-     * @var int 
-     */ 
-    //    protected $_gid; 
-        
 
     /**
      * pre processing work done here.
@@ -65,7 +58,9 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
      */
     function preProcess()
     {
-        $this->_mode = CRM_Profile_Form::MODE_CREATE;
+        if (!CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET')) {
+            $this->_mode = CRM_Profile_Form::MODE_CREATE;
+        }
         
         parent::preProcess( );
     }

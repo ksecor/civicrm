@@ -29,6 +29,10 @@
     <p>{ts}Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.{/ts}</p>
 
     <p>{ts}Use the Stand-alone Profile Form link to get the HTML code needed to add a profile form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}</p>
+
+    {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q="action=profile"}{/capture}
+    <p>{ts 1=$crmURL}Use the <a href="%1"> Profile Form</a> link to get the HTML code needed to add a profile form to blocks.{/ts}</p>
+
     </div>
 
     {if $rows}

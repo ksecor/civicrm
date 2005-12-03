@@ -119,7 +119,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
         }
-
+        
+        if (!is_array($ufGroups)) {
+            return false;
+        }
+        
         $fields = array( );
         foreach ( $ufGroups as $id => $title ) {
             $subset = self::getFields( $id, true, $action );
