@@ -282,6 +282,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
                               'location_type_id' => $field->location_type_id,
                               'phone_type'       => $field->phone_type,
+                              'group_id'         => $group->id  
                               );
                 }
             }
@@ -494,7 +495,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         // get the contact details (hier)
         list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
         $details = $contactDetails[$id];
-
+  
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
@@ -589,7 +590,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
                 $fieldName = $field['name'];
                 $url = CRM_Utils_System::url( 'civicrm/profile',
-                                              'reset=1&' . 
+                                              'reset=1&gid=' . $field['group_id'] .'&'. 
                                               urlencode( $fieldName ) .
                                               '=' .
                                               urlencode( $params[$index] ) );

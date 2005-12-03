@@ -119,7 +119,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         if (!is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
-            CRM_Core_Session::setStatus(ts('Feature not available.'));
+            CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ) );
         }
