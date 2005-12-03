@@ -54,7 +54,14 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      * @var string
      */
     protected $_title;
-  
+
+    /**
+     * Store the tree of custom data and fields
+     *
+     * @var array
+     */
+    protected $_groupTree;
+
     /**
      * set up variables to build the form
      *
@@ -142,41 +149,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                      )
                                );
 
-            $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
-            $this->assign('groupTree', $this->_groupTree); 
-            
-            foreach ($this->_groupTree as $group) {
-            
-                $_groupTitle[]           = $group['title'];
-                $_groupCollapseDisplay[] = $group['collapse_display'];
-                require_once 'CRM/Core/ShowHideBlocks.php';
-                CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
-                
-                $groupId = $group['id'];
-                foreach ($group['fields'] as $field) {
-                    
-                    $fieldId = $field['id'];                
-                    $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-                    
-                    CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
-                }
-
-                if ( $group['collapse_display'] ) {
-                    $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                    $hBlocks[] = "'". $group['title'] ."'";
-                } else {
-                    $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                    $sBlocks[] = "'". $group['title'] ."'";
-                }
-            }
-            if ( is_array($sBlocks) && is_array($hBlocks) ) {
-                $showBlocks = implode(",",$sBlocks);
-                $hideBlocks = implode(",",$hBlocks);
-            }
-            $this->assign('showBlocks1',$showBlocks);
-            $this->assign('hideBlocks1',$hideBlocks);
-            
-        }
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
     }
 
     /**
@@ -191,7 +165,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             CRM_Contact_BAO_Group::discard( $this->_id );
             CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
         } else {
-
             // store the submitted values in an array
             $params = $this->exportValues();
 
@@ -205,9 +178,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $group =& CRM_Contact_BAO_Group::create( $params );
 
             
-            CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-            
             // do the updates/inserts
+            CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );            
             CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Group',$group->id); 
 
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        

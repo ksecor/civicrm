@@ -20,6 +20,7 @@
 {if $cancel_date}
         <dt>{ts}Cancel Date{/ts}</dt><dd>{$cancel_date}</dd>
         <dt>{ts}Cancel Reason{/ts}</dt><dd>{$cancel_reason}</dd>
+	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 {/if}
 </fieldset>  
 </div>  

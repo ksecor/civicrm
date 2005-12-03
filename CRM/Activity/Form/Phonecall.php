@@ -100,47 +100,10 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
         
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree('PhoneCall',$this->_id,0);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('PhoneCall',$this->_id,0);
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
        
         $this->assign('groupTree', $this->_groupTree); 
-
-        $sBlocks = array();
-        $hBlocks = array();
-
-        foreach ($this->_groupTree as $group) {
-            
-            $_groupTitle[]           = $group['title'];
-            $_groupCollapseDisplay[] = $group['collapse_display'];
-            require_once 'CRM/Core/ShowHideBlocks.php';
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
-            
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                
-                $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
-            }
-
-            if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                $hBlocks[] = "'". $group['title'] ."'";
-            } else {
-                $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                $sBlocks[] = "'". $group['title'] ."'";
-            }
-        }
-
-        $showBlocks = implode(",",$sBlocks);
-        $hideBlocks = implode(",",$hBlocks);
-        
-        $this->assign('showBlocks1',$showBlocks);
-        $this->assign('hideBlocks1',$hideBlocks);
-
-
-
-        
     }
 
        

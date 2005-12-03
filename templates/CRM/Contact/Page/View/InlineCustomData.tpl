@@ -20,7 +20,7 @@
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
 			        {if $cd_value.options_per_line != 0 }
-			            {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}			
+			            {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
 			            <dd>
 			            {assign var="count" value="1"}

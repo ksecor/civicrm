@@ -346,44 +346,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                                    CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
-        $this->assign('groupTree', $this->_groupTree); 
-
-        // add the Custom Group Inline form elements
-        $sBlocks = array();
-        $hBlocks = array();
-
-        foreach ($this->_groupTree as $group) {
-            
-            $_groupTitle[]           = $group['title'];
-            $_groupCollapseDisplay[] = $group['collapse_display'];
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
-            
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                
-                $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
-            }
-
-            if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                $hBlocks[] = "'". $group['title'] ."'";
-            } else {
-                $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                $sBlocks[] = "'". $group['title'] ."'";
-            }
-        }
-
-        $showBlocks = implode(",",$sBlocks);
-        $hideBlocks = implode(",",$hBlocks);
-        
-        $this->assign('showBlocks1',$showBlocks);
-        $this->assign('hideBlocks1',$hideBlocks);
-        //------------
-
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
 
         $config  =& CRM_Core_Config::singleton( );
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );

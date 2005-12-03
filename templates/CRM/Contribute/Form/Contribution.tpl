@@ -38,6 +38,7 @@
         <dt>{$form.cancel_date.label}</dt><dd>{$form.cancel_date.html}</dd> 
         <dt>&nbsp;</dt><dd class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</dd>
         <dt>{$form.cancel_reason.label}</dt><dd>{$form.cancel_reason.html|crmReplace:class:huge}</dd> 
+        {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
       </dl>  
      {/if} 
     <dl>    

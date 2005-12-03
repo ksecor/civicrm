@@ -121,7 +121,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getTree($entityType, $entityId=null, $groupId=0)
+    public static function &getTree($entityType, $entityId=null, $groupId=0)
     {
         // create a new tree
         $groupTree = array();
@@ -665,7 +665,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 }
 
                 $fieldId = $field['id'];
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
+                $elementName = 'custom_' . $fieldId;
                 switch($field['html_type']) {
 
                 case 'CheckBox':
@@ -767,20 +767,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // first reset all checkbox and radio data
         foreach ($groupTree as $group) {
             foreach ($group['fields'] as $field) {
+                $groupId = $group['id'];
+                $fieldId = $field['id'];
+
                 //added Multi-Select option in the below if-statement
                 if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' || $field['html_type'] == 'Multi-Select' ) {
-                    $groupTree[$group['id']]['fields'][$field['id']]['customValue']['data'] = 'NULL';
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 'NULL';
                 }
-            }
-        }        
-        
-        foreach ($params as $k => $v) {
-            list($groupId,  $fieldId, $elementName) = explode('_', $k, 3);
-            
-            // check if field exists (since form values will contain other elements besides the custom data fields.
-            if (isset($v) && 
-                isset($groupTree[$groupId]['fields'][$fieldId]) &&
-                $groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
+
+                $v = CRM_Utils_Array::value( 'custom_' . $field['id'], $params );
 
                 if ( ! isset($groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
                     // field exists in db so populate value from "form".
@@ -833,18 +828,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
+        $form->assign_by_ref( 'groupTree', $groupTree );
 
         $sBlocks = array( );
         $hBlocks = array( );
 
         require_once 'CRM/Core/ShowHideBlocks.php'; 
         foreach ($groupTree as $group) { 
-             
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
                  
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
-
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, true); 
@@ -862,8 +856,137 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $showBlocks = implode(",",$sBlocks); 
         $hideBlocks = implode(",",$hBlocks); 
              
-        $this->assign('showBlocks1',$showBlocks); 
-        $this->assign('hideBlocks1',$hideBlocks); 
+        $form->assign( $showName, $showBlocks ); 
+        $form->assign( $hideName, $hideBlocks ); 
+    }
+
+    static function buildViewHTML( &$page, &$groupTree,
+                                   $viewName = 'viewForm',
+                                   $showName = 'showBlocks1',
+                                   $hideName = 'hideBlocks1' ) {
+        //showhide blocks for Custom Fields inline
+        $sBlocks = array();
+        $hBlocks = array();
+        $form = array();
+
+        foreach ($groupTree as $group) {          
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                $fieldId = $field['id'];                
+                $elementName = 'custom_' . $fieldId;
+                $form[$elementName] = array( );
+                $form[$elementName]['name'] = $elementName;
+                $form[$elementName]['html'] = null;
+                
+                if ( $field['data_type'] == 'String' ||
+                     $field['data_type'] == 'Int' ||
+                     $field['data_type'] == 'Float' ||
+                     $field['data_type'] == 'Money') {
+                    //added check for Multi-Select in the below if-statement
+                    if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
+                        $freezeString =  "";
+                        $freezeStringChecked = "";
+                        $customData = array();
+
+                        //added check for Multi-Select in the below if-statement
+                        if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
+                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                        } else {
+                            $customData[] = $field['customValue']['data'];
+                        }
+                        
+                        $coDAO =& new CRM_Core_DAO_CustomOption();
+                        $coDAO->entity_id  = $field['id'];
+                        $coDAO->entity_table = 'civicrm_custom_field';
+                        $coDAO->orderBy('weight ASC, label ASC');
+                        $coDAO->find( );                    
+                        
+                        $counter = 1;
+                        while($coDAO->fetch()) {
+                            //to show only values that are checked
+                           if(in_array($coDAO->value, $customData)){
+                               $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
+                               if($counter!=1)
+                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>,&nbsp;".$coDAO->label;
+                               else
+                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>".$coDAO->label;
+                               $form[$elementName][$counter]['html'] = "<tt>". $checked ."</tt>".$coDAO->label."\n";
+                               $counter++;
+                           }
+                        }
+                    } else {
+                        if ( $field['html_type'] == 'Select' ) {
+                            $coDAO =& new CRM_Core_DAO_CustomOption();
+                            $coDAO->entity_id    = $field['id'];
+                            $coDAO->entity_table = 'civicrm_custom_field';
+                            $coDAO->orderBy('weight ASC, label ASC');
+                            $coDAO->find( );
+                            
+                            while($coDAO->fetch()) {
+                                if ( $coDAO->value == $field['customValue']['data'] ) {
+                                    $form[$elementName]['html'] = $coDAO->label;
+                                }
+                            }
+                        } else {
+
+                            $form[$elementName]['html'] = $field['customValue']['data'];
+                        }
+                    }
+                } else {
+                    if ( isset($field['customValue']['data']) ) {
+                        switch ($field['data_type']) {
+                            
+                        case 'Boolean':
+                            $freezeString = "";
+                            $freezeStringChecked = "";
+                            if ( isset($field['customValue']['data']) ) {
+                                if ( $field['customValue']['data'] == '1' ) {
+                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes\n";
+                                } else {
+                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>No\n";
+                                }
+                            } else {
+                                $form[$elementName]['html'] = "\n";
+                            }                        
+                            break;
+                            
+                        case 'StateProvince':
+                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::stateProvince( $field['customValue']['data'] );
+                            break;
+                            
+                        case 'Country':
+                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::country( $field['customValue']['data'] );
+                            break;
+                            
+                        case 'Date':
+                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data']);
+                            break;
+                            
+                        default:
+                            $form[$elementName]['html'] = $field['customValue']['data'];
+                        }                    
+                    }
+                }
+            }
+
+            //showhide group
+            if ( $group['collapse_display'] ) {
+                $sBlocks[] = "'". $group['title'] . "[show]'" ;
+                $hBlocks[] = "'". $group['title'] ."'";
+            } else {
+                $hBlocks[] = "'". $group['title'] . "[show]'" ;
+                $sBlocks[] = "'". $group['title'] ."'";
+            }
+        }
+        
+        $showBlocks = implode(",",$sBlocks);
+        $hideBlocks = implode(",",$hBlocks);
+
+        $page->assign( $viewName, $form );
+        $page->assign( $showBlocks1, $showBlocks );
+        $page->assign( $hideBlocks1, $hideBlocks );
+
+        $page->assign_by_ref('groupTree', $groupTree);
     }
 
 }

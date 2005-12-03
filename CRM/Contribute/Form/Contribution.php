@@ -37,6 +37,8 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+
 /**
  * This class generates form components for processing a ontribution 
  * 
@@ -68,6 +70,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     protected $_online = false;
 
+    /**
+     * Store the tree of custom data and fields
+     *
+     * @var array
+     */
+    protected $_groupTree;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -90,16 +99,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
 
-        $this->_groupTree = CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
-        $this->assign('groupTree', $this->_groupTree); 
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
-        $sBlocks = array();
-        $hBlocks = array();
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $sBlocks, $hBlocks );
-
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
+
+        
     }
 
     function setDefaultValues( ) {
@@ -113,6 +120,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
             $defaults['receipt_date'] = $now;
+        }
+        
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
         return $defaults;
     }
@@ -286,7 +297,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
         }
 
-        CRM_Contribute_BAO_Contribution::create( $params, $ids );
+        $ids['contribution'] = $params['id'] = $this->_id;
+
+        $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
+
+        // do the updates/inserts
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
     }
 
 }
