@@ -254,7 +254,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
                     return CRM_Import_Parser::CONFLICT;
                 }
-
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = $this->_lineCount;
             }
@@ -262,7 +261,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Import_Parser::ERROR;
         }
-
+        
+        
+        $params =& $this->getActiveFieldParams( );
+        $params['contact_type'] =  $this->_contactType;
+        $error = $this->isErrorInCustomData($params);
+        if (is_a( $error,CRM_Core_Error )) {
+            array_unshift($values, $error->_errors[0]['message']);
+            return CRM_Import_Parser::ERROR;
+        }
+        
         return CRM_Import_Parser::VALID;
     }
 
@@ -613,6 +621,37 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
         }
         return false;
+    }
+
+    /**
+     *  function to check if an error in custom data
+     *  
+     *  @return ture if no error  
+     *  
+     *  @access public 
+     */
+
+    function isErrorInCustomData($params) {
+        
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+       
+        foreach ($params as $key => $value) {
+            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                /* check if it's a valid custom field id */
+                if ( !array_key_exists($customFieldID, $customFields)) {
+                    return _crm_error('Invalid custom field ID');
+                }
+                /* validate the data against the CF type */
+                //CRM_Core_Error::debug( $value, $customFields[$customFieldID] );
+                $valid = CRM_Core_BAO_CustomValue::typecheck(
+                                                             $customFields[$customFieldID][2], $value);
+                if (! $valid) {
+                    return _crm_error('Invalid value for custom field ' .
+                                      $customFields[$customFieldID][0]);
+                }
+            }
+        }
+        return true;
     }
 }
 
