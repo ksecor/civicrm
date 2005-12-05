@@ -262,7 +262,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             return CRM_Import_Parser::ERROR;
         }
         
-        
+        //checking error in custom data
         $params =& $this->getActiveFieldParams( );
         $params['contact_type'] =  $this->_contactType;
         $error = $this->isErrorInCustomData($params);
@@ -270,7 +270,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             array_unshift($values, $error->_errors[0]['message']);
             return CRM_Import_Parser::ERROR;
         }
-        
+
+        //checking error in core data
+        $error = $this->isErrorInCoreData($params);
+        if (is_a( $error,CRM_Core_Error )) {
+            array_unshift($values, $error->_errors[0]['message']);
+            return CRM_Import_Parser::ERROR;
+        }
+
         return CRM_Import_Parser::VALID;
     }
 
@@ -648,6 +655,75 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 if (! $valid) {
                     return _crm_error('Invalid value for custom field ' .
                                       $customFields[$customFieldID][0]);
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * function to check if an error in Core( non-custom fields ) field
+     *
+     * @return ture if no error 
+     * 
+     * @access public
+     */
+    
+    function isErrorInCoreData($params) {
+        // print_r($params);
+        foreach ($params as $key => $value) {
+            if ( $value ) {
+                switch( $key ) {
+                case 'birth_date':
+                    if (! CRM_Utils_Rule::date($value)) {
+                        return _crm_error('Invalid value for field  : Birth Date');
+                    }
+                    break;
+                case 'gender':    
+                    if (!in_array($value,CRM_Core_PseudoConstant::gender(true))) {
+                        return _crm_error('Invalid value for field  : Gender');
+                    }
+                    break;
+                case 'individual_prefix':
+                    if (! in_array($value,CRM_Core_PseudoConstant::individualPrefix(true))) {
+                        return _crm_error('Invalid value for field  : Individual Prefix');
+                    }
+                    break;
+                case 'individual_suffix':
+                    if (!in_array($value,CRM_Core_PseudoConstant::individualSuffix(true))) {
+                        return _crm_error('Invalid value for field  : Individual Suffix');
+                    }   
+                    break;
+                case 'state_province':
+                    if ( ! empty( $value )) {
+                        foreach($value as $stateValue ) {
+                            if ( $stateValue['state_province']) {
+                                if( in_array($stateValue['state_province'],CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || in_array($stateValue['state_province'], CRM_Core_PseudoConstant::stateProvince())) {
+                                    continue;
+                                } else {
+                                    return _crm_error('Invalid value for field  : State Province ');
+                                }
+                                
+                            }
+                        }
+                    }
+                    
+                    break;
+                case 'country':
+                    if (!empty( $value ) ) {
+                        foreach($value as $stateValue ) {
+                            if ( $stateValue['country'] ) {
+                                if(in_array($stateValue['country'], CRM_Core_PseudoConstant::countryIsoCode())
+                                   || in_array($stateValue['country'], CRM_Core_PseudoConstant::country())) {
+                                    continue;
+                                } else {
+                                    return _crm_error('Invalid value for field  : Country');
+                                    
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
