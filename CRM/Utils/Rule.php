@@ -61,7 +61,8 @@ class CRM_Utils_Rule {
 
     static function qfVariable( $str ) {
         // check length etc 
-        if ( empty( $str ) || strlen( $str ) > 31 ) {  
+        //if ( empty( $str ) || strlen( $str ) > 31 ) {  
+        if (  strlen(trim($str)) == 0 || strlen( $str ) > 31 ) {  
             return false; 
         } 
         

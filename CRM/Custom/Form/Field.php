@@ -668,7 +668,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                $customField->data_type == 'Money') {
                 if($customField->html_type != 'Text') {                
                     foreach ($params['option_value'] as $k => $v) {
-                        if ($v) {
+                        if (strlen(trim($v))) {
                             $customOptionDAO =& new CRM_Core_DAO_CustomOption();
                             $customOptionDAO->entity_id     = $customField->id;
                             $customOptionDAO->entity_table  = 'civicrm_custom_field';
