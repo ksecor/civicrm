@@ -151,8 +151,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        }
     }
-
     /**
      * Process the form when submitted
      *
