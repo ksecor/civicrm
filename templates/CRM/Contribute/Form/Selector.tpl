@@ -1,4 +1,6 @@
-{include file="CRM/pager.tpl" location="top"}
+{if $context NEQ 'Contact Summary'} 
+    {include file="CRM/pager.tpl" location="top"}
+{/if}
 {strip}
 <table>
   <tr class="columnheader">
@@ -37,6 +39,12 @@
     <td>{$row.action}</td>
   </tr>
   {/foreach}
+{* Link to "View all contributions" for Contact Summary selector display *}
+{if $context EQ 'Contact Summary' AND $pager->_totalItems GT $limit}
+  <tr class="even-row">
+    <td colspan="7"><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View All Contributions{/ts}...</a></td></tr>
+  </tr>
+{/if}
 </table>
 {/strip}
 
@@ -46,4 +54,6 @@
     on_load_init_checkboxes(fname);
  </script>
 
-{include file="CRM/pager.tpl" location="bottom"}
+{if $context NEQ 'Contact Summary'} 
+    {include file="CRM/pager.tpl" location="bottom"}
+{/if}

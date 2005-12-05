@@ -132,12 +132,15 @@
 {if in_array("CiviContribute", $config->enableComponents)}
 <div id="contributions[show]" class="data-group">
   {if $pager->_totalItems}
-    <a href="#" onclick="hide('contributions[show]'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label> ({$pager->_totalItems})<br />
+    <dl><dt><a href="#" onclick="hide('contributions[show]'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
+    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount}{else}n/a{/if}
+        &nbsp; {ts}# Contributions{/ts} - {$pager->_totalItems}</strong></dd>
+    </dl>
   {else}
     <dl><dt>{ts}Contributions{/ts}</dt>
     {if $permission EQ 'edit'}
         {capture assign=newContribURL}{crmURL p="civicrm/contribute/contribution" q="reset=1&action=add&cid=`$contactId`"}{/capture}
-        <dd>{ts 1=$newContribURL}No recorded contributions. You can <a href="%1">enter one now</a>.{/ts}</dd>
+        <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
     {else}
         {ts}There are no contributions recorded for this contact.{/ts}
     {/if}
@@ -145,22 +148,19 @@
   {/if}
 </div>
 
-<div class="form-item">
-<table class="report form-layout-compressed">
-    <tr>
-    <td class="header-dark">{ts}Total Contributed{/ts}</td><td> &nbsp; {if $total_amount}{$total_amount}{else}n/a{/if}</td>
-    <td class="header-dark"> &nbsp; {ts}# Contributions{/ts}</td><td> &nbsp; {$pager->_totalItems}</td>
-    <td class="header-dark"> &nbsp; {ts}Avg Amount{/ts}</td><td> &nbsp; {$total_amount/$pager->_totalItems}</td>
-    {if $cancel_amount}
-        <th class="header-dark"> &nbsp; {ts}Cancelled{/ts}</th><th> &nbsp; {$cancel_amount}</th>
-    {/if}
-    </tr>
-</table>
-{include file="CRM/Contribute/Form/Selector.tpl"}       
-</div>                             
-<div class="action-link">
-<a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">{ts}View All Contributions{/ts}...</a> 
-</div> 
+<div id="contributions">
+    <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
+    {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
+    <p>
+    {assign var="context" value="Contact Summary"}
+    {include file="CRM/Contribute/Form/Selector.tpl"}       
+    </p>
+    
+    <div class="action-link">
+        <a href="{crmURL p='civicrm/contribute/contribution' q="reset=1&action=add&cid=$contactId"}">&raquo; {ts}New Contribution{/ts}</a> 
+    </div>
+    </fieldset>
+</div>
 {/if}
 
 <div id="openActivities[show]" class="data-group">

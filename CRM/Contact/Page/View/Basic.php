@@ -165,13 +165,15 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                                                          'relationships[show]'  => 1,
                                                          'groups[show]'         => 1,
                                                          'openActivities[show]' => 1,
-                                                         'activityHx[show]'     => 1 ),
+                                                         'activityHx[show]'     => 1,
+                                                         'contributions[show]'  => 1),
                                                   array( 'notes'                => 1,
                                                          'commPrefs[show]'      => 1,
                                                          'relationships'        => 1,
                                                          'groups'               => 1,
                                                          'openActivities'       => 1,
-                                                         'activityHx'           => 1 ) );                                                      
+                                                         'activityHx'           => 1,
+                                                         'contributions'        => 1) );                                                      
         
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
