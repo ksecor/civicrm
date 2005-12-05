@@ -278,7 +278,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     $contact->contact_type_object = 
         eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' ); 
  
-    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 1 ); 
+    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 2 ); //changed the location no
  
     $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id); 
  
