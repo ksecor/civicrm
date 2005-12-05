@@ -199,7 +199,13 @@ class CRM_Core_BAO_CustomQuery {
         // CRM_Core_Error::debug( 'ids', $this->_ids );
         foreach ( $this->_ids as $id => $value ) {
 
-            if ( $value === null ||
+            /* if ( $value === null ||
+                 CRM_Utils_Array::value( $id, $this->_fields ) === null ) {
+                continue;
+            }*/
+            
+            // Fixed for Isuue CRM 607
+            if ( $value == null ||
                  CRM_Utils_Array::value( $id, $this->_fields ) === null ) {
                 continue;
             }
