@@ -109,6 +109,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */ 
     protected $_options;
 
+    /** 
+     * The group id that we are editing
+     * 
+     * @var int 
+     */ 
+    protected $_gid; 
+
+
     /**
      * Class constructor
      *
@@ -117,14 +125,16 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields )
+    function __construct( &$params, &$customFields, $ufGroupId = null )
     {
         $this->_params = $params;
-
+        
+        $this->_gid = $ufGroupId;
+        
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                                 false );
+                                                                 false, $this->_gid );
         // CRM_Core_Error::debug( 'p', $this->_params );
         // CRM_Core_Error::debug( 'f', $this->_fields );
 
@@ -156,7 +166,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'  => ts('Details'),
                                                                    'url'   => 'civicrm/profile/view',
-                                                                   'qs'    => 'reset=1&cid=%%id%%',
+                                                                   'qs'    => 'reset=1&cid=%%id%%&gid=%%gid%%',
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 
@@ -276,7 +286,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     $empty = false;
                 }
             }
-            $row[] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id));
+
+            $row[] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id, 'gid' => $this->_gid));
 
             if ( ! $empty ) {
                 $rows[] = $row;

@@ -52,18 +52,30 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
     function preProcess( )
     {
         $id = CRM_Utils_Request::retrieve('cid', $this, true);
-        $ufGroups =& CRM_Core_PseudoConstant::ufGroup();
+        $gid = CRM_Utils_Request::retrieve('gid', $this, true);
 
-        $profileGroups = array();
-        foreach ($ufGroups as $gid => $title) {
+        if ($gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($id, $gid);
             $profileGroup = array( );
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
+            
+        } else {
+            $ufGroups =& CRM_Core_PseudoConstant::ufGroup();
+            
+            $profileGroups = array();
+            foreach ($ufGroups as $groupid => $title) {
+                require_once 'CRM/Profile/Page/Dynamic.php';
+                $page =& new CRM_Profile_Page_Dynamic($id, $groupid);
+                $profileGroup = array( );
+                $profileGroup['title'] = $title;
+                $profileGroup['content'] = $page->run();
+                $profileGroups[] = $profileGroup;
+            }
         }
-
+        
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
         CRM_Utils_System::setTitle(ts('Contact\'s Profile'));

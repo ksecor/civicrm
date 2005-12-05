@@ -69,6 +69,14 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      */ 
     protected $_params;
 
+    /** 
+     * The group id that we are editing
+     * 
+     * @var int 
+     */ 
+    protected $_gid; 
+    
+
     /**
      * extracts the parameters from the request and constructs information for
      * the selector object to do a query
@@ -78,9 +86,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
+
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+        
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
-                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY );
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $gid );
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
         $this->_params   = array( );
@@ -127,7 +138,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields );
+        $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                         $this->get( CRM_Utils_Sort::SORT_ID  ),

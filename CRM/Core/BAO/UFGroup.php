@@ -149,20 +149,33 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false ) {
-        $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
- 
-        $fields = array( ); 
-        foreach ( $ufGroups as $id => $title ) { 
-            $subset = self::getFields( $id, false, $action, false, $visibility );
-            if ($considerSelector) {
-                // drop the fields not meant for the selector
-                foreach ($subset as $name => $field) {
-                    if (!$field['in_selector']) unset($subset[$name]);
+    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ) {
+        if ($ufGroupId) {
+            $subset = self::getFields( $ufGroupId, false, $action, false, $visibility );
+                if ($considerSelector) {
+                    // drop the fields not meant for the selector
+                    foreach ($subset as $name => $field) {
+                        if (!$field['in_selector']) unset($subset[$name]);
+                    }
                 }
-            }
-            $fields = array_merge( $fields, $subset ); 
-        } 
+                $fields = $subset ; 
+
+        } else {
+
+            $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
+            
+            $fields = array( ); 
+            foreach ( $ufGroups as $id => $title ) { 
+                $subset = self::getFields( $id, false, $action, false, $visibility );
+                if ($considerSelector) {
+                    // drop the fields not meant for the selector
+                    foreach ($subset as $name => $field) {
+                        if (!$field['in_selector']) unset($subset[$name]);
+                    }
+                }
+                $fields = array_merge( $fields, $subset ); 
+            } 
+        }
         return $fields; 
     } 
 
