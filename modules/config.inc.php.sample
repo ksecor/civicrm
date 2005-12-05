@@ -238,6 +238,22 @@ define( 'CIVICRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 
+
+/**
+ * Monetary values formatting:
+ *
+ * Format for monetary values display.
+ * %c - currency symbol ('$')
+ * %C - currency ISO code ('USD')
+ * %a - monetary amount, formatted by properly set LC_MONETARY
+ *
+ * The final 'look' of the formatted amount depends on the defined
+ * CIVICRM_LC_MONETARY locale (this locale must be supported by the
+ * underlying operating system).
+ */
+define( 'CIVICRM_MONEYFORMAT', '%c %a' );
+define( 'CIVICRM_LC_MONETARY', 'en_US' );
+
 /**
  * Import - maximum file size:
  *

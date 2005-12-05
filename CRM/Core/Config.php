@@ -212,6 +212,18 @@ class CRM_Core_Config {
     public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
 
     /**
+     * String format for monetary values
+     * @var string
+     */
+    public $moneyformat = '%c %a';
+
+    /**
+     * Format for monetary amounts
+     * @var string
+     */
+    public $lcMonetary = 'en_US';
+
+    /**
      * Default encoding of strings returned by gettext
      * @var string
      */
@@ -528,6 +540,15 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_DATEFORMAT_QF_DATETIME' ) ) {
             $this->dateformatQfDatetime = CIVICRM_DATEFORMAT_QF_DATETIME;
+        }
+
+        if ( defined( 'CIVICRM_MONEYFORMAT' ) ) {
+            $this->moneyformat = CIVICRM_MONEYFORMAT;
+        }
+
+        if ( defined( 'CIVICRM_LC_MONETARY' ) ) {
+            $this->lcMonetary = CIVICRM_LC_MONETARY;
+            setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
         }
         
         if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {

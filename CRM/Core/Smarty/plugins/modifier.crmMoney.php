@@ -34,53 +34,20 @@
  *
  */
 
+require_once 'CRM/Utils/Money.php';
+
 /**
- * Money utilties
+ * Format the given monetary amount (and currency) for display
+ *
+ * @param float $amount     the monetary amount up for display
+ * @param string $currency  the (optional) currency
+ *
+ * @return string  formatted monetary amount
+ * @access public
  */
-class CRM_Utils_Money {
-
-    /**
-     * format a monetary string
-     *
-     * Format a monetary string basing on the amount provided,
-     * ISO currency code provided and a format string consisting of:
-     *
-     * %a - the formatted amount
-     * %C - the currency ISO code (e.g., 'USD') if provided
-     * %c - the currency symbol (e.g., '$') if available
-     *
-     * @param float  $amount    the monetary amount to display (1234.56)
-     * @param string $currency  the three-letter ISO currency code ('USD')
-     * @param string $format    the desired currency format
-     *
-     * @return string  formatted monetary string
-     *
-     * @static
-     */
-    static function format($amount, $currency = null, $format = null)
-    {
-        static $config          = null;
-        static $currencySymbols = null;
-
-        if (!$currencySymbols) {
-            $currencySymbols = array('EUR' => '€', 'GBP' => '£', 'ILS' => '₪', 'JPY' => '¥', 'KRW' => '₩', 'LAK' => '₭',
-                                     'MNT' => '₮', 'NGN' => '₦', 'PLN' => 'zł', 'THB' => '฿', 'USD' => '$', 'VND' => '₫');
-        }
-
-        if (!$format) {
-            if (!$config) $config =& CRM_Core_Config::singleton();
-            $format = $config->moneyformat;
-        }
-
-        $replacements = array(
-            '%a' => money_format('%!i', $amount),
-            '%C' => $currency,
-            '%c' => CRM_Utils_Array::value($currency, $currencySymbols, $currency),
-        );
-
-        return strtr($format, $replacements);
-    }
-
+function smarty_modifier_crmMoney($amount, $currency = null, $format = null)
+{
+    return CRM_Utils_Money::format($amount, $currency, $format);
 }
 
 ?>
