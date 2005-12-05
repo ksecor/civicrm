@@ -434,7 +434,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                         $_emptyRow = 1;
                     }
                 } else {
-                    if($fields['option_value'][$i] != '0') {
+                    if (!strlen(trim($fields['option_value'][$i]))) {
                         if (!$fields['option_value'][$i]) {
                             $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
                             $_flagOption = 1;
