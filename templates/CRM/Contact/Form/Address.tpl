@@ -12,6 +12,8 @@
     {include file=CRM/Contact/Form/Address/$addressElement.tpl}
 {/foreach}
 
+{include file=CRM/Contact/Form/Address/geo_code.tpl}
+
 <!-- Spacer div forces fieldset to contain floated elements -->
 <div class="spacer"></div>
 </fieldset>
