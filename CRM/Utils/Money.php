@@ -67,6 +67,11 @@ class CRM_Utils_Money {
                                      'MNT' => '₮', 'NGN' => '₦', 'PLN' => 'zł', 'THB' => '฿', 'USD' => '$', 'VND' => '₫');
         }
 
+        if (!$currency) {
+            if (!$config) $config =& CRM_Core_Config::singleton();
+            $currency = $config->defaultCurrency;
+        }
+
         if (!$format) {
             if (!$config) $config =& CRM_Core_Config::singleton();
             $format = $config->moneyformat;
