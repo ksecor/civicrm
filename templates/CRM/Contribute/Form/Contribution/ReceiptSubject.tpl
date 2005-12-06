@@ -1,3 +1,3 @@
 {strip}
-Contribution Receipt - {$title}
+{ts}Contribution Receipt{/ts} - {$title}
 {/strip}

@@ -3,7 +3,7 @@
  <div id="search-status">
     {ts count=$pager->_totalItems plural='Found %count contributions.'}Found %count contribution.{/ts}
     {ts}Total Amount:{/ts} {$total_amount}
-    {if $cancel_amount}&nbsp; &nbsp; {ts}Cancelled Contribution Amount:{/ts} {$cancel_amount}{/if}
+    {if $cancel_amount}&nbsp; &nbsp; {ts}Cancelled Contribution Amount{/ts}: {$cancel_amount}{/if}
 
     {if $qill}
         <ul>

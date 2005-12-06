@@ -6,8 +6,8 @@
 {ts}Contribution Information{/ts}
 
 ===========================================================
-        {ts}Amount{/ts}: ${$amount|string_format:"%01.2f"}
-        {ts}Date{/ts}: {$receive_date}
+        {ts}Amount{/ts}: {$amount|crmMoney}
+        {ts}Date{/ts}: {$receive_date|crmDate}
         {ts}Transaction #{/ts}: {$trxn_id}
 
 ===========================================================

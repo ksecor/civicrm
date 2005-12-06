@@ -5,9 +5,7 @@
 <div class="form-item">
     <div id="help">
         <p>
-        {ts}Please verify Contribution Amount, Billing Name and Address and Credit Card information carefully.
-        Click <strong>Go Back</strong> if you need to make changes. To complete your contribution,
-        click the <strong>Make Contribution</strong> button below.{/ts}
+        {ts}Please verify Contribution Amount, Billing Name and Address and Credit Card information carefully. Click <strong>Go Back</strong> if you need to make changes. To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
         </p> 
     </div>
     
@@ -37,14 +35,13 @@
     <div class="display-block">
         {$credit_card_type}<br />
         {$credit_card_number}<br />
-        Expires: {$credit_card_exp_date}<br />
+        {ts}Expires{/ts}: {$credit_card_exp_date}<br />
     </div>
     {/if}
 
     <div class="messages status">
         <p>
-        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please
-            click the button one time only.</strong>{/ts}
+        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.</strong>{/ts}
         </p>
     </div>
     <div id="crm-submit-buttons">

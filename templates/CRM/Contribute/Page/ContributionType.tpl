@@ -2,11 +2,7 @@
    {include file="CRM/Contribute/Form/ContributionType.tpl"}
 {else}
     <div id="help">
-        <p>{ts}Contribution types are used to categorize contributions for reporting and accounting
-        purposes. You may set up as many types as needed. Each type can carry an accounting code
-        which can be used to map contributions to codes in your accounting system. Commonly used
-        contribution types are: Donation, Campaign Contribution, Membership Dues...
-        {/ts}</p>
+        <p>{ts}Contribution types are used to categorize contributions for reporting and accounting purposes. You may set up as many types as needed. Each type can carry an accounting code which can be used to map contributions to codes in your accounting system. Commonly used contribution types are: Donation, Campaign Contribution, Membership Dues...{/ts}</p>
     </div>
 {/if}
 

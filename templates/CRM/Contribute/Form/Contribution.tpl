@@ -7,7 +7,7 @@
         <dl> 
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt> 
           <dd>     
-          {ts}WARNING: Deleting this contribution will result in the loss of this contribution and the associated financial transactions (if any).{/ts}{ts}Do you want to continue?{/ts} 
+          {ts}WARNING: Deleting this contribution will result in the loss of this contribution and the associated financial transactions (if any).{/ts} {ts}Do you want to continue?{/ts} 
           </dd> 
        </dl> 
       </div> 

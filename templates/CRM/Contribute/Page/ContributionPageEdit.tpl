@@ -3,22 +3,21 @@
     <dl>
     {if $is_active}
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts}<p>This page is <strong>active</strong>.</p>
-        <p>Link visitors to this page using the following URL:{/ts}<br />
+        <dd><p>{ts}This page is <strong>active</strong>.{/ts}</p>
+        <p>{ts}Link visitors to this page using the following URL{/ts}:<br />
         <a href="{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}
         <dt><img src="{$config->resourceBase}i/traffic_red.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts}<p>This page is currently <strong>inactive</strong> (not accessible to visitors).</p>
-        <p>When you are ready to make this page live, click <a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}">Title and Settings</a>
-        and update the <strong>Active?</strong> checkbox.</p>{/ts}</dd>
+        <dd><p>{ts}This page is currently <strong>inactive</strong> (not accessible to visitors).{/ts}</p>
+        {capture assign=crmURL}{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}{/capture}
+        <p>{ts 1=$crmURL}When you are ready to make this page live, click <a href="%1">Title and Settings</a> and update the <strong>Active?</strong> checkbox.{/ts}</p></dd>
     {/if}
     </dl>
 </div>
 
 <div id="help">
-    {ts}Use the options below to update features and content for this Online Contribution Page, as well as to
-    run through the contribution process in <strong>test mode</strong>.{/ts}
+    {ts}Use the options below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>.{/ts}
 </div>
 <table class="report"> 
 <tr>
@@ -40,7 +39,6 @@
 </tr>
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/contribute/contribution' q="reset&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
-    <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting.
-    Transactions will be directed to your Payment Processors test servers - <strong>no live charges will occur</strong>.{/ts}</td>
+    <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your Payment Processors test servers - <strong>no live charges will occur</strong>.{/ts}</td>
 </tr>
 </table>
