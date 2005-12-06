@@ -405,7 +405,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
     static $domainID = null;
     if (!$domainID) {
         $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID;
+        $domainID = $config->domainID();
     }
     
     _crm_store_values( $fields, $params, $values );
@@ -417,8 +417,8 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("contact_id not valid: $value");
             }
             $dao =& new CRM_Core_DAO();
-            $dao->query("SELECT id FROM civicrm_contact WHERE domain_id = $domainID");
-            if (!$dao->find()) {
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value");
+            if (!$svq) {
                 return _crm_error("there's no contact with contact_id of $value");
             }
             break;
@@ -1319,6 +1319,12 @@ function _crm_validate_formatted_contact(&$params) {
  */
 function _crm_validate_formatted_contribution(&$params) {
 
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+    
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
@@ -1326,8 +1332,8 @@ function _crm_validate_formatted_contribution(&$params) {
                 return _crm_error("contact_id not valid: $value");
             }
             $dao =& new CRM_Core_DAO();
-            $dao->query("SELECT id FROM civicrm_contact WHERE domain_id = $domainID");
-            if (!$dao->find()) {
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value");
+            if (!$svq) {
                 return _crm_error("there's no contact with contact_id of $value");
             }
             break;
