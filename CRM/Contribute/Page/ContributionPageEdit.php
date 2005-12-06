@@ -109,7 +109,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
             $session =& CRM_Core_Session::singleton( );
 
             require_once 'CRM/Core/Controller/Simple.php'; 
-            $controller =& new CRM_Core_Controller_Simple($form, ts( $subPage ), $action); 
+            $controller =& new CRM_Core_Controller_Simple($form, $subPage, $action); 
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id ) );
             $controller->set('id', $this->_id); 
