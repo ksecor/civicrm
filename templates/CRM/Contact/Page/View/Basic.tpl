@@ -69,7 +69,7 @@
    </div>
 
    <div class="col2">
-    {if $config->googleMapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
+    {if $config->mapAPIKey AND $loc.is_primary AND ($config->mapProvider EQ "Yahoo" OR ($config->mapProvider EQ "Google" AND $loc.address.geo_code_1 AND $loc.address.geo_code_2))}
         <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
     {$loc.address.display|nl2br}
