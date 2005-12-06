@@ -2162,7 +2162,8 @@ class DB_DataObject extends DB_DataObject_Overload
             }
         }
         
-        $this->query("SET NAMES 'utf8'"); 
+        //$this->query("SET NAMES 'utf8'"); //commented this code since it is not working in MySQL 4.0
+        $this->query("/*!40101 SET NAMES utf8 */");
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);
