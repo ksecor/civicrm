@@ -83,7 +83,6 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/tag',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                     'title' => ts('Delete Tag'), 
                                                                    ),
                                  );

@@ -13,6 +13,7 @@
       </div> 
    {else} 
       <dl> 
+        <dt>{ts}From{/ts}</dt><dd><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd> 
         <dt>&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd>
         <dt>{$form.receive_date.label}</dt><dd>{$form.receive_date.html}</dd> 

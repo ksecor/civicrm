@@ -133,7 +133,7 @@
 <div id="contributions[show]" class="data-group">
   {if $pager->_totalItems}
     <dl><dt><a href="#" onclick="hide('contributions[show]'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
-    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount}{else}n/a{/if}
+    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount|crmMoney}{else}n/a{/if}
         &nbsp; {ts}# Contributions{/ts} - {$pager->_totalItems}</strong></dd>
     </dl>
   {else}
@@ -152,8 +152,7 @@
     <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
     {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
     <p>
-    {assign var="context" value="Contact Summary"}
-    {include file="CRM/Contribute/Form/Selector.tpl"}       
+    {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
     </p>
     
     <div class="action-link">

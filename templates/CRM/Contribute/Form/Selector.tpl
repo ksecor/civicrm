@@ -2,7 +2,7 @@
     {include file="CRM/pager.tpl" location="top"}
 {/if}
 {strip}
-<table>
+<table class="selector">
   <tr class="columnheader">
 {if ! $single and ! $limit}
   <th>{$form.toggleSelect.html}</th> 
@@ -30,7 +30,7 @@
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}
-    <td>{$row.total_amount}</td>
+    <td class="right bold">{$row.total_amount|crmMoney}</td>
     <td>{$row.contribution_type}</td>
     <td>{$row.source}</td>
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
