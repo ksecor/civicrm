@@ -131,6 +131,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      */
     static function &create(&$params, &$ids) {
         require_once 'CRM/Utils/Hook.php';
+        require_once 'CRM/Utils/Money.php';
 
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
@@ -168,9 +169,16 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
         if (!$contributionType) $contributionType = ts('Contribution');
 
-        // FIXME: $activitySummary should be internationalized
-        $activitySummary = "{$contribution->total_amount} {$contribution->currency} - $contributionType ";
-        $activitySummary .= '(from import on ' . date('r') . ')';
+        static $insertDate = null;
+        if (!$insertDate) $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
+        $activitySummary = ts(
+            '%1 - %2 (from import on %3)',
+            array(
+                1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
+                2 => $contributionType,
+                3 => $insertDate,
+            )
+        );
 
         $historyParams = array(
             'entity_table'     => 'civicrm_contact',
@@ -251,6 +259,26 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
         $defaults[$dst] = $look[$defaults[$src]];
         return true;
+    }
+
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. We'll tweak this function to be more
+     * full featured over a period of time. This is the inverse function of
+     * create.  It also stores all the retrieved values in the default array
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the name / value pairs
+     *                        in a hierarchical manner
+     * @param array $ids      (reference) the array that holds all the db ids
+     *
+     * @return object CRM_Contribute_BAO_Contribution object
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults, &$ids ) {
+        $contribution = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+        return $contribution;
     }
 
     /**
