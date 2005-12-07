@@ -1130,7 +1130,8 @@ class CRM_Contact_BAO_Query {
         } 
         if ( ! empty( $contactIds ) ) { 
             $this->_where[] = " ( civicrm_contact.id in (" . implode( ',', $contactIds ) . " ) ) "; 
-            $this->whereClause = 'WHERE ' . implode( ' AND ', $this->_where ); 
+            //$this->whereClause = 'WHERE ' . implode( ' AND ', $this->_where ); // fixed for CRM-611
+            $this->_whereClause = implode( ' AND ', $this->_where );
         }
     }
 
