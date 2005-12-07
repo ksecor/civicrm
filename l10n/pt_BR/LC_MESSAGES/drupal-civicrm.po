@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-12 11:37+0200\n"
-"PO-Revision-Date: 2005-10-30 19:33+0100\n"
-"Last-Translator: Newton Calvin <calvin@spei.br>\n"
+"PO-Revision-Date: 2005-11-25 19:56+0100\n"
+"Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,25 +32,22 @@ msgstr "editar grupos"
 msgid "administer CiviCRM"
 msgstr "administrar CiviCRM"
 
-#, fuzzy
 msgid "access CiviCRM Profile Listings"
-msgstr "Acessar CiviCRM"
+msgstr "Acessar Lista de Perfis CiviCRM"
 
 msgid "access CiviCRM"
-msgstr "Acessar CiviCRM"
+msgstr "acessar CiviCRM"
 
-#, fuzzy
 msgid "edit contacts in %1"
-msgstr "editar todos os contatos"
+msgstr "editar contatos em %1"
 
-#, fuzzy
 msgid "view contacts in %1"
-msgstr "ver todos os contatos"
+msgstr "ver contatos em %1"
 
 msgid ""
 "Constituent Relationship Management (CRM). Allows sites to manage contacts, "
 "relationships and groups, and track contact activities."
-msgstr "Gerenciamento de Relacionamento(CRM). Permite sites a gerenciar contatos, relacionamentos e grupos, e fazer o acompanhamento das atividades com seus contatos."
+msgstr "Gerenciador de Relacionamento (CRM). Permite aos sites gerenciar contatos, relacionamentos e grupos, e fazer o acompanhamento dessas atividades todas."
 
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -83,17 +80,17 @@ msgid ""
 msgstr ""
 
 msgid "You can:"
-msgstr "você pode:"
+msgstr "Você pode:"
 
 msgid "enable CiviCRM blocks at %1."
 msgstr "habilitar blocos CiviCRM em %1."
 
 msgid "set access permissions at %1."
-msgstr "Configurar permissões de acessi en %1."
+msgstr "Configurar permissões de acesso em %1."
 
 msgid ""
 "find contacts by name, email address, group membership and/or tagging at %1."
-msgstr ""
+msgstr "buscar contatos pelo nome, endereço de email, participação em grupos e/ou tagging em %1."
 
 #, fuzzy
 msgid "find contacts"
@@ -102,13 +99,13 @@ msgstr "adicionar contatos"
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at %1."
-msgstr ""
+msgstr "faça pesquisas complexas baseadas em rótulos, membros de grupos, localização, atividades e campos customizados em %1"
 
 msgid "advanced search"
 msgstr "pesquisa avançada"
 
 msgid "reuse a saved search at %1."
-msgstr ""
+msgstr "reusar uma pesquisa salva em %1"
 
 msgid "saved searches"
 msgstr "pesquisas salvas"
@@ -127,7 +124,7 @@ msgstr "importar contatos"
 
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at %1."
-msgstr ""
+msgstr "criar ou administrar rótulos (ex. organizadores, fundações, etc..)"
 
 msgid "civicrm"
 msgstr "civicrm"
@@ -141,7 +138,7 @@ msgstr "rótulos"
 msgid ""
 "create or administer relationship types (e.g. household member, board "
 "member, spouse...) at %1."
-msgstr ""
+msgstr "criar ou administrar tipos de relacionamentos ( ex. esposa,funcionário ,  filhos ) em %1. "
 
 msgid "relationship types"
 msgstr "tipos de relacionamentos"
@@ -156,7 +153,7 @@ msgstr "tipos de localização"
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at %1."
-msgstr ""
+msgstr "Criar ou administrar tipos de atividades (ex. reunião, entrevista...) "
 
 msgid "activity types"
 msgstr "tipo de atividades"
@@ -164,7 +161,7 @@ msgstr "tipo de atividades"
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
 "contact info...) at %1."
-msgstr ""
+msgstr "criar ou administrar campos de dados customizados em %1"
 
 msgid "custom data"
 msgstr "dados customizados"
@@ -172,7 +169,7 @@ msgstr "dados customizados"
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
 "during user registration) at %1."
-msgstr ""
+msgstr "criar ou administrar perfis civicrm ( dados de contatos coletados durante o registro do usuário ) em %1"
 
 msgid "civicrm profile"
 msgstr "perfil civicrm"
