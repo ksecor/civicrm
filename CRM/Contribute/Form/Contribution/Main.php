@@ -96,6 +96,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     {
         $this->applyFilter('__ALL__', 'trim');
 
+        $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+ 
         $this->buildCreditCard( );
 
         $this->buildAmount( );
@@ -170,18 +172,21 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @access public 
      */
     function buildCreditCard( ) {
-        foreach ( $this->_fields as $name => $field ) {
-            $this->add( $field['htmlType'],
-                        $field['name'],
-                        $field['title'],
-                        $field['attributes'] );
-        }
-                        
-        $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
-
-        $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
-
         $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_FORM) {
+            foreach ( $this->_fields as $name => $field ) {
+                $this->add( $field['htmlType'],
+                            $field['name'],
+                            $field['title'],
+                            $field['attributes'] );
+            }
+            
+            $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
+            
+            $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
+        }            
+            
         if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
@@ -189,7 +194,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                        'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
                        array( 'class' => 'form-submit' ) );
         }
-
+        
     }
 
     /** 

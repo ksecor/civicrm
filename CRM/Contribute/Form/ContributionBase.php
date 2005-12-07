@@ -92,6 +92,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
+        $config =& CRM_Core_Config::singleton( );
+
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
 
@@ -111,7 +113,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             // check if form is active
             if ( ! $this->_values['is_active'] ) {
                 // form is inactive, bounce user back to front page of CMS
-                $config =& CRM_Core_Config::singleton( );
                 CRM_Utils_System::setUFMessage( ts( 'The page you requested is currently unavailable.' ) );
                 CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
             }
@@ -130,8 +131,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             
             $ufJoinParams['weight'] = 2; 
             $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-            
-            $this->setCreditCardFields( );
+
+            if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_FORM ) {
+                $this->setCreditCardFields( );
+            }
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
@@ -182,12 +185,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
     }
 
     function setCreditCardFields( ) {
-        $this->_fields['email'] = array( 'htmlType'   => 'text',
-                                         'name'       => 'email',
-                                         'title'      => ts('Email Address'),
-                                         'attributes' => array( 'size' => 30, 'maxlength' => 60 ),
-                                         'is_required'=> true );
-
+        
         $this->_fields['first_name'] = array( 'htmlType'   => 'text', 
                                               'name'       => 'first_name', 
                                               'title'      => ts('First Name'), 

@@ -369,7 +369,7 @@ define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
  * Payment Processor settings
  *
  */
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , 'paypal' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , 'PayPal' ); // this is either PayPal / Moneris / PayPal_Express
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , 'Path to the .cert AND .ppd files (SDK API Profile files for PayPal)' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , 'hash of the .ppd file (ppd filename without extension)' ); 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , 'your api password' ); 

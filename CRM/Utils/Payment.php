@@ -34,7 +34,7 @@
    *  
    */  
  
-class CRM_Utils_Payment {
+abstract class CRM_Utils_Payment {
     /**
      * how are we getting billing information?
      *
@@ -43,7 +43,7 @@ class CRM_Utils_Payment {
      */
     const
         BILLING_MODE_FORM   = 1,
-        BILLING_MODE_BUTTON = 1;
+        BILLING_MODE_BUTTON = 2;
 
     /**  
      * singleton function used to manage this object  

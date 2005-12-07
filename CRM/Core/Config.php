@@ -673,14 +673,15 @@ class CRM_Core_Config {
             case 'PayPal':
                 $this->paymentClass = 'CRM_Utils_Payment_PayPal';
                 $this->paymentBillingMode =
-                    CRM_Utils_Payment::BILLING_MODE_FORM &
+                    CRM_Utils_Payment::BILLING_MODE_FORM |
                     CRM_Utils_Payment::BILLING_MODE_BUTTON;
                 break;
 
-            case 'PayPalExpress':
+            case 'PayPal_Express':
                 $this->paymentClass = 'CRM_Utils_Payment_PayPal';
                 $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_BUTTON;
                 break;
+
             case 'Moneris':
                 $this->paymentClass = 'CRM_Utils_Payment_Moneris';
                 $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_FORM;
