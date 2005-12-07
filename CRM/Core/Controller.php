@@ -368,6 +368,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
             if ( $name == $currentPageName ) {
                 $wizard['currentStepNumber'] = $count;
+                $wizard['currentStepName']   = $name;
                 $wizard['currentStepTitle']  = $page->getTitle( );
             }
         }

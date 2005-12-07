@@ -62,8 +62,8 @@
                 {/section}
 
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
-                <td class="form-item even-row{if $wizard.currentStepTitle == 'Preview'} labels{/if}">
-                    {if $wizard.currentStepTitle == 'Preview'}
+                <td class="form-item even-row{if $wizard.currentStepName == 'Preview'} labels{/if}">
+                    {if $wizard.currentStepName == 'Preview'}
             			{if $relatedContactDetails && $relatedContactDetails[$i] != ''}
                             {$mapper[$i]} - {$relatedContactDetails[$i]}
                             
@@ -98,7 +98,7 @@
     </table>
 	{/strip}
 
-    {if $wizard.currentStepTitle != 'Preview'}
+    {if $wizard.currentStepName != 'Preview'}
     <div>
     
     	{if $loadedMapping} 
