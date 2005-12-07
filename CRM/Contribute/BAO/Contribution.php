@@ -176,7 +176,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             array(
                 1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
                 2 => $contributionType,
-                3 => $insertDate,
+                3 => $insertDate
             )
         );
 
