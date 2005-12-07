@@ -54,6 +54,15 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
 
     static $_commPrefs = array( 'phone', 'email', 'im' );
 
+    /**
+     * function to build location block
+     *
+     * @param object $form the object of the form (QF Object)
+     * @param int $maxLocationBlocks no of location blocks
+     *
+     * @static 
+     * @access public
+     */
     static function &buildLocationBlock(&$form, $maxLocationBlocks) 
     {
         $location = array();
@@ -73,7 +82,15 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         }
         return $location;
     }
-
+    
+    /**
+     * function to show/hide the location block
+     *
+     * @param CRM_Core_ShowHideBlocks $showHide the showHide object
+     * @param int $maxLocationBlocks no of location blocks
+     *
+     * @access public
+     */
     function setShowHideDefaults( &$showHide, $maxLocationBlocks ) {
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationId == 1 ) {
@@ -163,7 +180,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         }
         
     }
-    
+
+    /**
+     * function to show/hide the block
+     *
+     * @param CRM_Core_ShowHideBlocks $showHide the showHide object
+     *
+     * @access public
+     */
     function updateShowHideSubBlocks( &$showHide, $name, $prefix, &$values ) {
         if ( empty( $values ) ) {
             return;

@@ -44,8 +44,9 @@ require_once 'CRM/Core/Page.php';
  * page.
  *
  */
-class CRM_UF_Page_Group extends CRM_Core_Page {
-
+class CRM_UF_Page_Group extends CRM_Core_Page 
+{
+    
     /**
      * The action links that we need to display for the browse screen
      *
@@ -126,7 +127,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
      * @param
      * @return void
      * @access public
-     *
      */
     function run()
     {
@@ -158,8 +158,15 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         // parent run 
         parent::run();
     }
-
-    function profile( ) {
+    
+    /**
+     * This function is for profile mode (standalone html form ) for uf group
+     *
+     * @return void
+     * @access public
+     */
+    function profile( ) 
+    {
         $gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
@@ -250,6 +257,14 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         $this->assign('rows', $ufGroup);
     }
 
+
+    /**
+     * this function is for preview mode for uf group
+     *
+     * @param int $id uf group id
+     * @return void
+     * @access public
+     */
     function preview( $id ) 
     {
       $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Preview', ts('CiviCRM Profile Group Preview'),null);   

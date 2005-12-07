@@ -106,8 +106,8 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
     static function dataExists( &$params ) 
     {
         return ($params['tag_id'] == 0) ? false : true;
-     }
-
+    }
+    
     /**
      * Function to delete the tag for a contact
      *
@@ -137,10 +137,11 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
      * @access public
      * @static
      */
-    static function addContactsToTag( &$contactIds, $tagId ) {
+    static function addContactsToTag( &$contactIds, $tagId ) 
+    {
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
-
+        
         foreach ( $contactIds as $contactId ) {
             $tag =& new CRM_Core_DAO_EntityTag( );
             
@@ -154,7 +155,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
                 $numContactsNotAdded++;
             }
         }
-
+        
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
 
@@ -204,12 +205,14 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         }
     }
 
-    /*
+    /**
      * This function returns all entities assigned to a specific tag
+     * 
      * @param object $tag an object of a tag
      *
+     * @return array $contactIds contact ids
+     * @access public
      */
-  
     function getEntitiesByTag($tag)
     {
         $contactIds = array();
@@ -220,7 +223,6 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         while($entityTagDAO->fetch()) {
             $contactIds[] = $entityTagDAO->entity_id;
         }
-
         return $contactIds;
     }
 }

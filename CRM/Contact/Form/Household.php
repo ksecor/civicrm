@@ -44,14 +44,16 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Household {
+class CRM_Contact_Form_Household 
+{
     /**
      * This function provides the HTML form elements that are specific to the Individual Contact Type
      *
      * @access public
      * @return None
      */
-    public function buildQuickForm( &$form ) {
+    public function buildQuickForm( &$form ) 
+    {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
         $form->applyFilter('__ALL__','trim');  
@@ -63,8 +65,18 @@ class CRM_Contact_Form_Household {
         $form->addElement('text', 'nick_name', ts('Nick Name'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
     }
-
-    static function formRule( &$fields ) {
+    
+    /**
+     * add rule for household
+     *
+     * @params array $fields array of form values
+     *
+     * @return $error 
+     * @static
+     * @public
+     */
+    static function formRule( &$fields ) 
+    {
         $errors = array( );
 
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
