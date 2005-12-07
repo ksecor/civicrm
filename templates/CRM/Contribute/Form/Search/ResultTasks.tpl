@@ -2,9 +2,8 @@
 
  <div id="search-status">
     {ts count=$pager->_totalItems plural='Found %count contributions.'}Found %count contribution.{/ts}
-    {ts}Total Amount:{/ts} {$total_amount}
+    {* {ts}Total Amount:{/ts} {$total_amount} *}
     {if $cancel_amount}&nbsp; &nbsp; {ts}Cancelled Contribution Amount{/ts}: {$cancel_amount}{/if}
-
     {if $qill}
         <ul>
         {foreach from=$qill item=criteria}
@@ -13,6 +12,7 @@
         </ul>
     {/if}
  </div>
+{include file="CRM/Contribute/Page/ContributionTotals.tpl"}
 
 <div class="form-item"> 
   <div> 

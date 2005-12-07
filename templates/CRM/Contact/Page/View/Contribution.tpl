@@ -4,10 +4,25 @@
 Click <a href="%1">New Contribution</a> to record a new offline contribution for this contact.{/ts}.
 </div>
 
-{include file="CRM/Contribute/Page/ContributionTotals.tpl"}
-<p>
-{include file="CRM/Contribute/Form/Selector.tpl"}
-</p>
+{if $rows}
+    {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
+    <p>
+    {include file="CRM/Contribute/Form/Selector.tpl"}
+    </p>
+{else}
+   <div class="messages status">
+       <dl>
+       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+       <dd>
+            {if $permission EQ 'edit'}
+                {ts 1=$newContribURL}There are no Contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+            {else}
+                {ts}There are no Contributions recorded for this contact.{/ts}
+            {/if}
+       </dd>
+       </dl>
+  </div>
+{/if}
 
 <div class="action-link">
 <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a>

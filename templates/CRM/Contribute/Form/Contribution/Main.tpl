@@ -4,8 +4,8 @@
 // Putting these functions directly in template so they are available for standalone forms
 
 function useAmountOther() {
-    for( i=0; i < document.Contribution.elements.length; i++) {
-        element = document.Contribution.elements[i];
+    for( i=0; i < document.Main.elements.length; i++) {
+        element = document.Main.elements[i];
         if (element.type == 'radio' && element.name == 'amount') {
             if (element.value == 'amount_other_radio' ) {
                 element.checked = true;
@@ -17,8 +17,8 @@ function useAmountOther() {
 }
 
 function clearAmountOther() {
-  if (document.Contribution.amount_other == null) return; // other_amt field not present; do nothing
-  document.Contribution.amount_other.value = "";
+  if (document.Main.amount_other == null) return; // other_amt field not present; do nothing
+  document.Main.amount_other.value = "";
 }
 
 //-->
