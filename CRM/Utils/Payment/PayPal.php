@@ -34,7 +34,9 @@
  * 
  */ 
 
-class CRM_Utils_Payment_PayPal {
+require_once 'CRM/Utils/Payment.php';
+
+class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
     const
         CHARSET  = 'iso-8859-1';
     

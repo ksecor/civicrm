@@ -51,7 +51,7 @@
 			            </dd>
 		            {else}
                         {assign var="name" value=`$cd_value.name`} 
-                        {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
+                        {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
                        <dd>&nbsp;{$viewForm.$element_name.html}</dd> 
 

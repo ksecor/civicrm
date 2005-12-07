@@ -324,6 +324,18 @@ class CRM_Core_Config {
      */
     public $paymentProcessor = null;
 
+    /** 
+     * Name of the payment class that implement
+     * the payment processor directive
+     * 
+     * @var string 
+     */ 
+    public $paymentClass = null;
+
+    /**
+     * Type of billing mode
+     */
+
     /**
      * Where are the payment processor secret files stored
      *
@@ -650,6 +662,14 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
             $this->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
+            switch ( $this->paymentProcessor ) {
+            case 'PayPal':
+                $this->paymentClass = 'CRM_Utils_Payment_PayPal';
+                break;
+            case 'Moneris':
+                $this->paymentClass = 'CRM_Utils_Payment_Moneris';
+                break;
+            }
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
