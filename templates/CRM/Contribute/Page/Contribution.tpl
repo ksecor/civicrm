@@ -12,6 +12,7 @@
         <dt>{ts}Fee Amount{/ts}</dt><dd>{$fee_amount|crmMoney}&nbsp;</dd>
         <dt>{ts}Net Amount{/ts}</dt><dd>{$net_amount|crmMoney}&nbsp;</dd>
         <dt>{ts}Transaction ID{/ts}</dt><dd>{$trxn_id}&nbsp;</dd>
+        <dt>{ts}Invoice ID{/ts}</dt><dd>{$invoice_id}&nbsp;</dd>
 {if $receipt_date}
         <dt>{ts}Receipt Sent{/ts}</dt><dd>{$receipt_date|truncate:10:''|crmDate}</dd>
 {/if}

@@ -87,6 +87,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_params['payment_action'] = 'Sale';
         }
 
+        $this->_params['invoiceID'] = $this->get( 'invoiceID' );
+
         $this->set( 'params', $this->_params );
     }
 
@@ -223,6 +225,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
                         'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
                         'trxn_id'               => $result['trxn_id'],
+                        'invoice_id'            => $this->_params['invoiceID'],
                         'currency'              => $this->_params['currencyID'],
                         'receipt_date'          => $receiptDate,
                         'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],

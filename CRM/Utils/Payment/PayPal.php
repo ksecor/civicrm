@@ -124,6 +124,7 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
 
         $setExpressCheckoutRequestDetails->setCancelURL ( $params['cancelURL'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setReturnURL ( $params['returnURL'], self::CHARSET  );
+        $setExpressCheckoutRequestDetails->setInvoiceID ( $params['invoiceID'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setOrderTotal( $orderTotal );
         $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
 
@@ -214,6 +215,7 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         }
 
         $paymentDetails->setOrderTotal( $orderTotal );
+        $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
         $doExpressCheckoutPaymentRequestDetails =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
 
         if ( Services_PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
@@ -282,6 +284,8 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         }
 
         $paymentDetails->setOrderTotal($orderTotal);
+        $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
+
         $payerName =& Services_PayPal::getType( 'PersonNameType' );
 
         if ( Services_PayPal::isError( $payerName ) ) {

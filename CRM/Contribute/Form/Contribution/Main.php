@@ -283,6 +283,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->set( 'amount', $params['amount'] ); 
 
+        // generate and set an invoiceID for this transaction
+        $invoiceID = md5(uniqid(rand(), true));
+        $this->set( 'invoiceID', $invoiceID );
+
         $payment =& CRM_Utils_Payment::singleton( ); 
   
         if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
@@ -296,6 +300,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
                 $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
                 $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                $params['invoiceID' ] = $invoiceID;
                 
                 $token = $payment->setExpressCheckout( $params ); 
                 if ( is_a( $token, 'CRM_Core_Error' ) ) { 

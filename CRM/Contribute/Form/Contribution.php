@@ -209,8 +209,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
 
+        $element =& $this->add( 'text', 'invoice_id', ts('Transaction ID'), 
+                                $attributes['invoice_id'] );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+
         $element =& $this->add( 'text', 'source', ts('Source'),
-                                $attributes['trxn_id'] );
+                                $attributes['source'] );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -279,6 +285,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'fee_amount',
                          'net_amount',
                          'trxn_id',
+                         'invoice_id',
                          'cancel_reason',
                          'source' );
         foreach ( $fields as $f ) {

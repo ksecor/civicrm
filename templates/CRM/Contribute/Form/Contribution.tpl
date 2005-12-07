@@ -31,6 +31,7 @@
         <dt>{$form.net_amount.label}</dt><dd>{$form.net_amount.html}</dd> 
         <dt>&nbsp;</dt><dd class="description">{ts}Net value of the contribution (Total Amount minus Fee).{/ts}</dd>
         <dt>{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd> 
+        <dt>{$form.invoice_id.label}</dt><dd>{$form.invoice_id.html}</dd> 
         <dt>&nbsp;</dt><dd class="description">{ts}Unique identifier for this transaction. Online contributions will have the Payment Processor's tranaction ID here. For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</dd>
         <dt>{$form.receipt_date.label}</dt><dd>{$form.receipt_date.html}</dd> 
         <dt>&nbsp;</dt><dd class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</dd>
