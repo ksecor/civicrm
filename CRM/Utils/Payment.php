@@ -35,6 +35,16 @@
    */  
  
 class CRM_Utils_Payment {
+    /**
+     * how are we getting billing information?
+     *
+     * FORM   - we collect it on the same page
+     * BUTTON - the processor collects it and sends it back to us via some protocol
+     */
+    const
+        BILLING_MODE_FORM   = 1,
+        BILLING_MODE_BUTTON = 1;
+
     /**  
      * singleton function used to manage this object  
      *  

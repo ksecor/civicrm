@@ -58,9 +58,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', $nullObject, false, null, 'GET' );
             if ( $rfp ) {
-                require_once 'CRM/Utils/Payment/PayPal.php'; 
-                $paypal =& CRM_Utils_Payment_PayPal::singleton( );
-                $this->_params = $paypal->getExpressCheckoutDetails( $this->get( 'token' ) );
+                require_once 'CRM/Utils/Payment.php'; 
+                $payment =& CRM_Utils_Payment::singleton( );
+                $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
                 // set a few other parameters for PayPal
                 $this->_params['token']          = $this->get( 'token' );
@@ -167,13 +167,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set( 'contactID', $contactID );
         }
 
-        require_once 'CRM/Utils/Payment/PayPal.php';
-        $paypal =& CRM_Utils_Payment_PayPal::singleton( );
+        require_once 'CRM/Utils/Payment.php';
+        $payment =& CRM_Utils_Payment::singleton( );
 
         if ( $this->_contributeMode == 'express' ) {
-            $result =& $paypal->doExpressCheckout( $this->_params );
+            $result =& $payment->doExpressCheckout( $this->_params );
         } else {
-            $result =& $paypal->doDirectPayment( $this->_params );
+            $result =& $payment->doDirectPayment( $this->_params );
         }
 
         if ( is_a( $result, 'CRM_Core_Error' ) ) {

@@ -334,7 +334,13 @@ class CRM_Core_Config {
 
     /**
      * Type of billing mode
+     *
+     * 1 - billing information collected
+     * 2 - button displayed, billing information on processor side
+     * 3 - both
+     * @var int
      */
+    public $paymentBillingMode = null;
 
     /**
      * Where are the payment processor secret files stored
@@ -661,13 +667,23 @@ class CRM_Core_Config {
         }
         
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
+            require_once 'CRM/Utils/Payment.php';
             $this->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             switch ( $this->paymentProcessor ) {
             case 'PayPal':
                 $this->paymentClass = 'CRM_Utils_Payment_PayPal';
+                $this->paymentBillingMode =
+                    CRM_Utils_Payment::BILLING_MODE_FORM &
+                    CRM_Utils_Payment::BILLING_MODE_BUTTON;
+                break;
+
+            case 'PayPalExpress':
+                $this->paymentClass = 'CRM_Utils_Payment_PayPal';
+                $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_BUTTON;
                 break;
             case 'Moneris':
                 $this->paymentClass = 'CRM_Utils_Payment_Moneris';
+                $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_FORM;
                 break;
             }
         }

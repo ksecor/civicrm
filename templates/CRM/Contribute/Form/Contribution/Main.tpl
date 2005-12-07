@@ -50,10 +50,12 @@ function clearAmountOther() {
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
 
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
+{if $config.paymentBillingMode & 2}
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
     <tr><td>{$form._qf_Main_next_express.html}<span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information.</span></td></tr>
     </table>
+{/if}
     <table class="form-layout-compressed">
     <tr><td class="label">{$form.credit_card_type.label}{$reqMark}</td><td>{$form.credit_card_type.html}</td></tr>
     <tr><td class="label">{$form.credit_card_number.label}{$reqMark}</td><td>{$form.credit_card_number.html}<br />

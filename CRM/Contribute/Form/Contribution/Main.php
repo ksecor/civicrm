@@ -36,6 +36,7 @@
  */
 
 require_once 'CRM/Contribute/Form/ContributionBase.php';
+require_once 'CRM/Utils/Payment.php';
 
 /**
  * This class generates form components for processing a ontribution 
@@ -180,11 +181,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
-        $this->add('image',
-                   $this->_expressButtonName,
-                   'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
-                   array( 'class' => 'form-submit' ) );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
+            $this->add('image',
+                       $this->_expressButtonName,
+                       'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
+                       array( 'class' => 'form-submit' ) );
+        }
 
     }
 
@@ -222,10 +226,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // make sure either 
         // return if this is express mode
-        if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
-             CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
-             CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
-            return $errors;
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+            if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
+                 CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
+                 CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
+                return $errors;
+            }
         }
 
         foreach ( $self->_fields as $name => $fld ) {
@@ -271,30 +278,31 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->set( 'amount', $params['amount'] ); 
 
-        require_once 'CRM/Utils/Payment/PayPal.php';                                                                                      
-        $paypal =& CRM_Utils_Payment_PayPal::singleton( ); 
+        $payment =& CRM_Utils_Payment::singleton( ); 
   
-        //get the button name  
-        $buttonName = $this->controller->getButtonName( );  
-        if ($buttonName == $this->_expressButtonName || 
-            $buttonName == $this->_expressButtonName . '_x' || 
-            $buttonName == $this->_expressButtonName . '_y' ) { 
-            $this->set( 'contributeMode', 'express' ); 
- 
-            $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
-            $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
-            $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
-             
-            $token = $paypal->setExpressCheckout( $params ); 
-            if ( is_a( $token, 'CRM_Core_Error' ) ) { 
-                CRM_Core_Error::displaySessionError( $token ); 
-                CRM_Utils_System::redirect( $params['cancelURL' ] );
-            } 
+        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+            //get the button name  
+            $buttonName = $this->controller->getButtonName( );  
+            if ($buttonName == $this->_expressButtonName || 
+                $buttonName == $this->_expressButtonName . '_x' || 
+                $buttonName == $this->_expressButtonName . '_y' ) { 
+                $this->set( 'contributeMode', 'express' ); 
+                
+                $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
+                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
+                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                
+                $token = $payment->setExpressCheckout( $params ); 
+                if ( is_a( $token, 'CRM_Core_Error' ) ) { 
+                    CRM_Core_Error::displaySessionError( $token ); 
+                    CRM_Utils_System::redirect( $params['cancelURL' ] );
+                } 
 
-            $this->set( 'token', $token ); 
-             
-            $paypalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-            CRM_Utils_System::redirect( $paypalURL ); 
+                $this->set( 'token', $token ); 
+                
+                $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                CRM_Utils_System::redirect( $paymentURL ); 
+            }
         } else { 
             $this->set( 'contributeMode', 'direct' ); 
         } 
