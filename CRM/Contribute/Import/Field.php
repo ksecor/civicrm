@@ -108,14 +108,14 @@ class CRM_Contribute_Import_Field {
 
     function validate( ) {
 
-        static $seenTrxnIds = array();
-
         if ( $this->_value === null ) {
             return true;
         }
 
         switch ($this->_name) {
         case 'contact_id':
+            // note: we validate extistence of the contact in API, upon
+            // insert (it would be too costlty to do a db call here)
             return CRM_Utils_Rule::integer($this->_value);
             break;
         case 'receive_date':
@@ -131,6 +131,7 @@ class CRM_Contribute_Import_Field {
             return CRM_Utils_Rule::money($this->_value);
             break;
         case 'trxn_id':
+            static $seenTrxnIds = array();
             if (in_array($this->_value, $seenTrxnIds)) {
                 return false;
             } else {
@@ -143,21 +144,43 @@ class CRM_Contribute_Import_Field {
             break;
         case 'contribution_type':
             static $contributionTypes = null;
-            if ($contributionTypes == null) {
+            if (!$contributionTypes) {
                 $contributionTypes =& CRM_Contribute_PseudoConstant::contributionType();
             }
-            if (!in_array($this->_value, $contributionTypes)) return false;
+            if (in_array($this->_value, $contributionTypes)) {
+                return true;
+            } else {
+                return false;
+            }
             break;
         case 'payment_instrument':
             static $paymentInstruments = null;
-            if ($paymentInstruments == null) {
+            if (!$paymentInstruments) {
                 $paymentInstruments =& CRM_Contribute_PseudoConstant::paymentInstrument();
             }
-            if (!in_array($this->_value, $paymentInstruments)) return false;
+            if (in_array($this->_value, $paymentInstruments)) {
+                return true;
+            } else {
+                return false;
+            }
             break;
         default:
-            return true;
+            break;
         }
+
+        // check whether that's a valid custom field id
+        // and if so, check the contents' validity
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($this->_name)) {
+            static $customFields = null;
+            if (!$customFields) {
+                $customFields =& CRM_Core_BAO_CustomField::getFields('Contribution');
+            }
+            if (!array_key_exists($customFieldID, $customFields)) {
+                return false;
+            }
+            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
+        }
+        
         return true;
     }
 
