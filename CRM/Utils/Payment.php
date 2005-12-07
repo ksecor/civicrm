@@ -56,6 +56,9 @@ abstract class CRM_Utils_Payment {
      */  
     static function &singleton( ) {
         $config   =& CRM_Core_Config::singleton( );
+        
+        $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
+        require_once($classPath);
         return eval( 'return ' . $config->paymentClass . '::singleton( );' );
     }
 

@@ -68,9 +68,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
-            $fields['state_province'] = $fields['country'] = 1;
+            $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
             $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
-            foreach ($this->_fields as $name => $field ) { 
+            foreach ($fields as $name => $dontCare ) { 
                 if ( $contact->$name ) {
                     $this->_defaults[$name] = $contact->$name;
                 }
