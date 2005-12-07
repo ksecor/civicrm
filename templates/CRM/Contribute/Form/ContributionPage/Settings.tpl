@@ -3,9 +3,9 @@
 <div id="help">
     {if $action eq 0}
         <p>{ts}This is the first step in creating a new online Contribution Page. You can create one or more different Contribution Pages for different purposes, audiences, campaigns, etc. Each page can have it's own introductory message, pre-configured contribution amounts, custom data collection fields, etc.{/ts}</p>
-        <p>{ts}In this step, you will configure the page title, contribution type (donation, campaign contribution, etc.), introductory message, and allowable payment types. You will be able to go back and modify all aspects of this page at any time after completing the setup wizard.{/ts}</p>
+        <p>{ts}In this step, you will configure the page title, contribution type (donation, campaign contribution, etc.), and introductory message. You will be able to go back and modify all aspects of this page at any time after completing the setup wizard.{/ts}</p>
     {else}
-        {ts}Use this form to edit the page title, contribution type (donation, campaign contribution, etc.), introduction, allowable payment types, and status (active/inactive) for this online contribution page.{/ts}
+        {ts}Use this form to edit the page title, contribution type (e.g. donation, campaign contribution, etc.), introduction, and status (active/inactive) for this online contribution page.{/ts}
     {/if}
 </div>
  
@@ -16,13 +16,11 @@
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the page.{/ts}</dd>
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
-    <dt>&nbsp;</dt><dd>{$form.is_credit_card_only.html} {$form.is_credit_card_only.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to restrict online contributors to using credit cards only (e.g. block use of PayPal or debit accounts).{/ts}</dd>
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
-        <strong>{crmURL p='civicrm/contribute' q="reset&action=live&id=`$id`"}</strong></dd>
+        <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
     </dl>
     </fieldset>
 </div>

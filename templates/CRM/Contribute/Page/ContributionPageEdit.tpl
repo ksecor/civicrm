@@ -5,7 +5,7 @@
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
         <dd><p>{ts}This page is <strong>active</strong>.{/ts}</p>
         <p>{ts}Link visitors to this page using the following URL{/ts}:<br />
-        <a href="{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/contribution' q="reset=1&id=`$id`"}</a>
+        <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}
         <dt><img src="{$config->resourceBase}i/traffic_red.gif" alt="{ts}status{/ts}"/></dt>
@@ -38,7 +38,7 @@
     to include in this contribution page.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute/contribution' q="reset&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
+    <td nowrap><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
     <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your Payment Processors test servers - <strong>no live charges will occur</strong>.{/ts}</td>
 </tr>
 </table>
