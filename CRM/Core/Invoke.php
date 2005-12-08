@@ -442,6 +442,11 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contribute_Page_PaymentInstrument(ts('Payment Instruments'));
                 break;
 
+            case 'acceptCreditCard':
+                require_once 'CRM/Contribute/Page/AcceptCreditCard.php';
+                $view =& new CRM_Contribute_Page_AcceptCreditCard(ts('Accept Credit Cards'));
+                break;
+
             default:
                 require_once 'CRM/Contribute/Page/ContributionPage.php'; 
                 $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page'));  

@@ -8,5 +8,6 @@
 <xi:include href="FinancialTrxn.xml"     parse="xml" />
 <xi:include href="FinancialTrxn.xml"     parse="xml" />
 <xi:include href="PaymentInstrument.xml" parse="xml" />
+<xi:include href="AcceptCreditCard.xml" parse="xml" />
 
 </tables>

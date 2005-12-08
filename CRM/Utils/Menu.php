@@ -610,6 +610,19 @@ class CRM_Utils_Menu {
                                      'icon'    => 'admin/payment_instruments.png',
                                      'weight'  => 380
                                      ),
+                               //added below
+                               array(
+                                     'path'    => 'civicrm/admin/contribute/acceptCreditCard',
+                                     'title'   => ts('Accept Credit Card'),
+                                     'qs'     => 'reset=1',
+                                     'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                                                  CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::LOCAL_TASK,
+                                     'adminGroup' => 'CiviContribute',
+                                     'icon'    => 'admin/payment_instruments.png',
+                                     'weight'  => 390
+                                     ),
                                
                                array( 
                                      'path'    => 'civicrm/contact/view/contribution', 
