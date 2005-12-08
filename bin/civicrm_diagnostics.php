@@ -4,18 +4,19 @@ function civicrm_diagnostic() {
     require_once '../modules/config.inc.php';
     require_once 'CRM/Core/Config.php';
     
-    $config = & new CRM_Core_Config();
+    $config  =& new CRM_Core_Config();
     
-    $drupalPath = explode('/',$config->templateDir);
+    $drupalPath = explode('/', $config->templateCompileDir);
     
     $pathArray = array();
     foreach($drupalPath as $path ) {
-        if ($path == 'modules') {
+        if ($path == 'files') {
             break;
         }
         $pathArray[] = $path;
     }
-    
+
+
     $drupalPath = implode( '/',$pathArray );
     $PHPVersion = phpversion();
     
