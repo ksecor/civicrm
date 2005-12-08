@@ -34,12 +34,11 @@
  * 
  */ 
 
-class CRM_Utils_Payment_TransactionProcessor { /* transaction processor object */
+require_once 'CRM/Utils/Payment.php';
+
+class CRM_Utils_Payment_Moneris extends CRM_Utils_Payment { 
     const
-        # required: storeid and api token strings, assign to mpg object property 'Globals'
-        # CHARSET  = 'UFT-8'; (not used)
-        STORE_ID = 'store2', # use these for testing  on https://esqa
-        API_TOKEN = 'yesguy';
+        CHARSET  = 'UFT-8'; # (not used, implicit in the API, might need to convert?)
          
     /** 
      * We only need one instance of this object. So we use the singleton 
@@ -52,46 +51,55 @@ class CRM_Utils_Payment_TransactionProcessor { /* transaction processor object *
 
     /** 
      * Constructor 
+     *
+     * @param string $mode the mode of operation: live or test
      * 
      * @return void 
      */ 
-    function __construct( ) {
+    function __construct( $mode ) {
         require_once 'Services/mpgClasses.php'; // require moneris supplied api library
         $config =& CRM_Core_Config::singleton( ); // get merchant data from config
-        $this->_profile['storeid'] = $config->paymentKey;
-        $this->_profile['apitoken'] = $config->paymentPassword;
+        $this->_profile['mode'] = $mode; // live or test
+        $this->_profile['storeid'] = $config->paymentKey[$mode];
+        $this->_profile['apitoken'] = $config->paymentPassword[$mode];
+        if ('CAD' != $config->currencyID) {
+          return self::error(); // Configuration error: default currency must be CAD
+        }
     }
 
     /** 
      * singleton function used to manage this object 
      * 
-     * @param string the key to permit session scope's 
-     * 
+     * @param string $mode the mode of operation: live or test
+ 
      * @return object 
      * @static 
      * 
      */ 
-    static function &singleton( ) {
+    static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Utils_Payment_TransactionProcessor( );
+            self::$_singleton =& new CRM_Utils_Payment_Moneris( $mode );
         } 
         return self::$_singleton; 
     } 
 
-    function getAmount( &$amount ) {
-        return $amount->_value;
-    }
 
     function doDirectPayment( &$params ) {
-      # this code based on Moneris example code #
-      /* still unused params: cvv not yet implemented, currency ignored, payment action ingored
+      # make sure i've been called correctly ...
+      if ( ! $this->_profile ) {
+          return self::error( );
+      }
+      if ($params['currencyID'] != 'CAD') {
+         return self::error();
+      }
+
+      /* unused params: cvv not yet implemented, payment action ingored (should test for 'Sale' value?)
       [cvv2] => 000
       [ip_address] => 192.168.0.103
-      [currencyID] => USD
       [payment_action] => Sale
       [contact_type] => Individual
-      [contact_id] => 101
       [geo_coord_id] => 1 */
+      # this code based on Moneris example code #
       ## create an mpgCustInfo object
       $mpgCustInfo = new mpgCustInfo();
       ## call set methods of the mpgCustinfo object
@@ -107,15 +115,15 @@ class CRM_Utils_Payment_TransactionProcessor { /* transaction processor object *
          postal_code => $params['postal_code'],
          country => $country);
       $mpgCustInfo->setBilling($billing);
-      // todo: set a better orderid ?
-      $orderid = sprintf('%6d-%d',$params['contact_id'],time());
+      $my_orderid = $params['invoiceID']; // set orderid as invoiceID to help match things up with Moneris later
       $expiry_string = sprintf('%04d%02d',$params['year'],$params['month']);
       $txnArray=array(type=>'purchase',
-         order_id=>$orderid,
+         order_id=>$my_orderid,
          amount=> sprintf('%01.2f',$params['amount']),
          pan=> $params['credit_card_number'],
          expdate=>substr($expiry_string,2,4),
-         crypt_type=>'7');
+         crypt_type=>'7',
+         cust_id=>$params['contact_id']);
       ## create a transaction object passing the hash created above
       $mpgTxn = new mpgTransaction($txnArray);
   
@@ -127,8 +135,8 @@ class CRM_Utils_Payment_TransactionProcessor { /* transaction processor object *
       $mpgRequest = new mpgRequest($mpgTxn);
   
       ## create mpgHttpsPost object which does an https post ## 
-      $isProduction = false; // todo: change this to true for production environment
       // [extra parameter added to library by AD] 
+      $isProduction = ($this->_profile['mode'] == 'live');
       $mpgHttpPost = new mpgHttpsPost($this->_profile['storeid'],$this->_profile['apitoken'],$mpgRequest,$isProduction);
       ## get an mpgResponse object ##
       $mpgResponse=$mpgHttpPost->getMpgResponse();
@@ -146,7 +154,7 @@ class CRM_Utils_Payment_TransactionProcessor { /* transaction processor object *
 
       /* Success */
       $params['trxn_result_code']        = (integer) $mpgResponse->getResponseCode();  
-        // todo: above assignment seems to be ignored, not getting stored in the civicrm_financial_trxn table
+      // todo: above assignment seems to be ignored, not getting stored in the civicrm_financial_trxn table
       $params['trxn_id']        = $mpgResponse->getTxnNumber();
       $params['gross_amount'  ] = $mpgResponse->getTransAmount();
       return $params;
