@@ -248,34 +248,54 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     function addDisplay()
     {
         $config =& CRM_Core_Config::singleton();
+        $formatted = $config->addressFormat;
 
         $fullPostalCode = $this->postal_code;
         if ($this->postal_code_suffix) $fullPostalCode .= "-$this->postal_code_suffix";
 
-        // this is a gross hack, so please forgive me: lobo:)
-        // we need to add a comma between city and state only if both are non empty
-        // so we just add it to the city field
-        if ( $this->city && $this->state ) {
-            $city = $this->city . ',';
-        } else {
-            $city = $this->city;
-        }
-        
         $replacements = array(
             'street_address'         => $this->street_address,
             'supplemental_address_1' => $this->supplemental_address_1,
             'supplemental_address_2' => $this->supplemental_address_2,
-            'city'                   => $city,
+            'city'                   => $this->city,
             'state_province'         => $this->state,
             'postal_code'            => $fullPostalCode,
             'country'                => $this->country
         );
 
-        $this->display = str_replace(array_keys($replacements), $replacements, $config->addressFormat);
-        while ( substr_count( $this->display, "\n\n" ) ) {
-            // note not sure why the below does not replace all double new lines, seems like a php bug
-            $this->display = trim( str_replace("\n\n", "\n", $this->display) );
+        // for every token, replace {fooTOKENbar} with fooVALUEbar if
+        // the value is not empty, otherwise drop the whole {fooTOKENbar}
+        foreach ($replacements as $token => $value) {
+            if ($value) {
+                // note: we have to use the bogus (and empty) \99 backreference,
+                // otherwise a '00-666' postal code would get glued to
+                // \1 backreference producing \10 backreference followed
+                // by '0-666' string; FIXME if there is Another Way(tm)
+                $formatted = preg_replace("/{([^}]*){$token}([^{]*)}/u", "\\1\\99$value\\2", $formatted);
+            } else {
+                $formatted = preg_replace("/{[^}]*{$token}[^{]*}/u", '', $formatted);
+            }
         }
+
+        // drop any {...} constructs from lines' ends
+        $formatted = "\n$formatted\n";
+        $formatted = preg_replace('/\n{[^}]*}/', "\n", $formatted);
+        $formatted = preg_replace('/{[^}]*}\n/', "\n", $formatted);
+
+        // if there are any 'sibling' {...} constructs, replace them with the
+        // contents of first; for example, when there's no state_province:
+        // 1. {city}{, }{state_province}{ }{postal_code}
+        // 2. San Francisco{, }{ }12345
+        // 3. San Francisco, 12345
+        $formatted = preg_replace('/{([^}]*)}({[^}]*})+/', '\1', $formatted);
+
+        // drop any remaining curly braces leaving their contents
+        $formatted = str_replace(array('{', '}'), '', $formatted);
+
+        // drop any empty lines left after the replacements and trim the result
+        $formatted = trim(preg_replace('/\n+/', "\n", $formatted));
+
+        $this->display = $formatted;
     }
 }
 

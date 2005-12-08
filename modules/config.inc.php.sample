@@ -214,13 +214,25 @@ define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
  * Address format:
  *
  * The format of address display and the source for address fields sequence in the edit forms.
+ *
+ * - Every {...token...} will be replaced with the token's value (keeping anything else inside
+ *   the curly braces intact).
+ * - If the value of a given token is missing, the whole {...} construct will be dropped.
+ * - Any {non-token} construct will be turned into non-token if have tokens on both sides
+ *   (i.e., will be dropped if on the beginning or end of any line after tokens are replaced).
+ *   If there's no city, "{city}{, }{state_province}{ }{postal_code}" will turn first into
+ *   "{, }California{ }12345" and then into "California 12345".
+ * - If after token replacements there are consecutive {non-token} constructs, the first
+ *   one's contents will replace the whole series. For example, if there's no state_province,
+ *   "{city}{, }{state_province}{ }{postal_code}" will first turn into "San Francisco{, }{ }12345"
+ *   and then into "San Francisco, 12345".
  */
 define( 'CIVICRM_ADDRESS_FORMAT' , '
-street_address
-supplemental_address_1
-supplemental_address_2
-city state_province postal_code
-country
+{street_address}
+{supplemental_address_1}
+{supplemental_address_2}
+{city}{, }{state_province}{ }{postal_code}
+{country}
 ' );
 
 /**
