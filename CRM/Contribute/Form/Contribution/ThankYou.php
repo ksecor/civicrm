@@ -73,6 +73,9 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
         $this->assign( 'receive_date', 
                        CRM_Utils_Date::mysqlToIso( $this->_params['receive_date'] ) );
+
+        // can we blow away the session now to prevent hackery
+        $this->controller->reset( );
     }
 
 }
