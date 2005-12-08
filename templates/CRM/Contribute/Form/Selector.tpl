@@ -1,4 +1,4 @@
-{if $context NEQ 'Contact Summary'} 
+{if $context EQ 'Search'}
     {include file="CRM/pager.tpl" location="top"}
 {/if}
 {strip}
@@ -30,7 +30,7 @@
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}
-    <td class="right bold">{$row.total_amount|crmMoney}</td>
+    <td class="right bold" nowrap>{$row.total_amount|crmMoney}</td>
     <td>{$row.contribution_type}</td>
     <td>{$row.source}</td>
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
@@ -40,20 +40,27 @@
   </tr>
   {/foreach}
 {* Link to "View all contributions" for Contact Summary selector display *}
-{if $context EQ 'Contact Summary' AND $pager->_totalItems GT $limit}
+{if ($context EQ 'Contact Summary') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="7"><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View All Contributions{/ts}...</a></td></tr>
+    <td colspan="7"><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View all contributions from this contact{/ts}...</a></td></tr>
+  </tr>
+{/if}
+{if ($context EQ 'Dashboard') AND $pager->_totalItems GT $limit}
+  <tr class="even-row">
+    <td colspan="9"><a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}List more contributions{/ts}...</a></td></tr>
   </tr>
 {/if}
 </table>
 {/strip}
 
+{if $context EQ 'Search'}
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);
  </script>
+{/if}
 
-{if $context NEQ 'Contact Summary'} 
+{if $context EQ 'Search'}
     {include file="CRM/pager.tpl" location="bottom"}
 {/if}

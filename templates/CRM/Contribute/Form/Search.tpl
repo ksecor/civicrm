@@ -62,7 +62,7 @@
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
-       {include file="CRM/Contribute/Form/Selector.tpl"}
+       {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
        
     </fieldset>
     {* END Actions/Results section *}

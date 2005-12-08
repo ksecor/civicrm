@@ -419,7 +419,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
             $dao =& new CRM_Core_DAO();
             $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value");
             if (!$svq) {
-                return _crm_error("there's no contact with contact_id of $value");
+                return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
             break;
         case 'receive_date':

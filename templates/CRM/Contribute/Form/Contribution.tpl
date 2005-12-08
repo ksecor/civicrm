@@ -5,10 +5,10 @@
    {if $action eq 8} 
       <div class="messages status"> 
         <dl> 
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></td> 
-          <td>     
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt> 
+          <dd> 
           {ts}WARNING: Deleting this contribution will result in the loss of this contribution and the associated financial transactions (if any).{/ts} {ts}Do you want to continue?{/ts} 
-          </td> 
+          </dd> 
        </dl> 
       </div> 
    {else} 

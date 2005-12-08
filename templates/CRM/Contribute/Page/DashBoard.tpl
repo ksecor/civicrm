@@ -40,11 +40,6 @@
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
     <div class="form-item">
-    {include file="CRM/Contribute/Form/Selector.tpl"}
+        {include file="CRM/Contribute/Form/Selector.tpl" context="Dashboard"}
     </div>
-    {if $pager->_totalItems GT 10}
-        <div class="action-link">
-            <a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}More Contributions{/ts}...</a>
-        </div>
-    {/if}
 {/if}
