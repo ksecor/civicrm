@@ -2,7 +2,10 @@
    {include file="CRM/Contribute/Form/AcceptCreditCard.tpl"}
 {else}
     <div id="help">
-        <p>{ts}You may choose to record the Credit Card used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
+        <p>{ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages.
+        You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}</p>
+        <p>{ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information
+        is collected on the Payment Processor's website).{/ts}</p>
     </div>
 {/if}
 
@@ -38,12 +41,12 @@
         {/if}
     </div>
 </div>
-{else}
+{elseif $action NEQ 1}
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/contribute/acceptCreditCard' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no custom Credit-Card entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are currently no accepted Credit Cards configured for this site. You can <a href="%1">add one now</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

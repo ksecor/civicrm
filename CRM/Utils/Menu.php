@@ -613,7 +613,7 @@ class CRM_Utils_Menu {
                                //added below
                                array(
                                      'path'    => 'civicrm/admin/contribute/acceptCreditCard',
-                                     'title'   => ts('Accept Credit Card'),
+                                     'title'   => ts('Accepted Credit Cards'),
                                      'qs'     => 'reset=1',
                                      'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                                                   CRM_Utils_System::checkPermission( 'access CiviContribute' ),

@@ -2,9 +2,9 @@
 <fieldset>
       <legend>{ts}View Contribution{/ts}</legend>
       <dl>  
-        <dt>{ts}From{/ts}</dt><dd><strong>{$displayName}</strong>&nbsp;</dd>
+        <dt class="font-size12pt">{ts}From{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{ts}Contribution Type{/ts}</dt><dd>{$contribution_type}&nbsp;</dd>
-        <dt>{ts}Received{/ts}</dt><dd>{$receive_date|truncate:10:''|crmDate}&nbsp;</dd>
+        <dt>{ts}Received{/ts}</dt><dd>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
         <dt>{ts}Paid By{/ts}</dt><dd>{$payment_instrument}&nbsp;</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         <dt>{ts}Total Amount{/ts}</dt><dd>{$total_amount|crmMoney}&nbsp;</dd>
@@ -23,7 +23,10 @@
         <dt>{ts}Cancelled{/ts}</dt><dd>{$cancel_date|truncate:10:''|crmDate}</dd>
         <dt>{ts}Cancellation Reason{/ts}</dt><dd>{$cancel_reason}</dd>
 {/if}
-        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+    </dl>
+
+{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+    <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>  

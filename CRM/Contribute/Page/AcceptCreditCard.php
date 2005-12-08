@@ -68,33 +68,33 @@ class CRM_Contribute_Page_AcceptCreditCard extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Credit Card?');
+            $disableExtra = ts('Are you sure you want to disable this Credit Card? Your contributors will no longer be able to use this card type for online contributions.');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/contribute/acceptCreditCard',
                                                                     'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit Accept Credit Card') 
+                                                                    'title' => ts('Edit Credit Card') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/admin/contribute/acceptCreditCard',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Accept Credit Card') 
+                                                                    'title' => ts('Disable Credit Card') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'url'   => 'civicrm/admin/contribute/acceptCreditCard',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Accept Credit Card') 
+                                                                    'title' => ts('Enable Credit Card') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/contribute/acceptCreditCard',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Accept Credit Card') 
+                                                                    'title' => ts('Delete Accepted Credit Card') 
                                                                    )
                                  );
         }
@@ -133,7 +133,7 @@ class CRM_Contribute_Page_AcceptCreditCard extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all accepted credit cards.
      *  
      * 
      * @return void
@@ -142,7 +142,7 @@ class CRM_Contribute_Page_AcceptCreditCard extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
+        // get all objects sorted by weight
         $acceptCreditCard = array();
         require_once 'CRM/Contribute/DAO/AcceptCreditCard.php';
         $dao =& new CRM_Contribute_DAO_AcceptCreditCard();

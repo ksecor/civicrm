@@ -59,8 +59,8 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_AcceptCreditCard', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid AcceptCreditCard name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_AcceptCreditCard', $this->_id ) );
+        $this->addRule( 'name', ts('Please enter a valid Credit Card name.'), 'required' );
+        $this->addRule( 'name', ts('That name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_AcceptCreditCard', $this->_id ) );
         
         $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_AcceptCreditCard', 'title' ) );
 
@@ -84,7 +84,7 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
         require_once 'CRM/Contribute/BAO/AcceptCreditCard.php';
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Contribute_BAO_AcceptCreditCard::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected Accept-Credit-Card has been deleted.') );
+            CRM_Core_Session::setStatus( ts('Selected Credit Card has been deleted.') );
         } else { 
 
             $params = $ids = array( );
@@ -96,7 +96,7 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
             }
             
             $acceptCreditCard = CRM_Contribute_BAO_AcceptCreditCard::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Accept-Credit-Card "%1" has been saved.', array( 1 => $acceptCreditCard->name )) );
+            CRM_Core_Session::setStatus( ts('The Credit Card "%1" has been saved.', array( 1 => $acceptCreditCard->name )) );
         }
     }
 }

@@ -157,7 +157,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // add various dates
-        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('manual', 3, 1), true );         
+        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
             $element->freeze( );
@@ -251,10 +251,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( ); 
-
-        if ( CRM_Utils_System::isNull( $fields['receive_date'] ) ) {
-            $errors['receive_date'] = ts('Received Date is a required field.' );
-        }
         return $errors;
     }
 

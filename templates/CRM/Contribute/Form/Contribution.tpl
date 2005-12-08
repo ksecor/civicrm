@@ -5,46 +5,47 @@
    {if $action eq 8} 
       <div class="messages status"> 
         <dl> 
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt> 
-          <dd>     
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></td> 
+          <td>     
           {ts}WARNING: Deleting this contribution will result in the loss of this contribution and the associated financial transactions (if any).{/ts} {ts}Do you want to continue?{/ts} 
-          </dd> 
+          </td> 
        </dl> 
       </div> 
    {else} 
-      <dl> 
-        <dt>{ts}From{/ts}</dt><dd><strong>{$displayName}</strong>&nbsp;</dd>
-        <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd>
-        <dt>{$form.receive_date.label}</dt><dd>{$form.receive_date.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}The date this contribution was received.{/ts}</dd>
-        <dt>{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Leave this field blank for non-monetary contributions.{/ts}</dd>
-        <dt>{$form.source.label}</dt><dd>{$form.source.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</dd>
-        <dt>{$form.total_amount.label}</dt><dd>{$form.total_amount.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Actual amount given by contributor.{/ts}</dd>
-        <dt>{$form.non_deductible_amount.label}</dt><dd>{$form.non_deductible_amount.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}You can optionally record a non-deductible portion of this contribution.{/ts}</dd>
-        <dt>{$form.fee_amount.label}</dt><dd>{$form.fee_amount.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Processing fee for this transaction (if applicable).{/ts}</dd>
-        <dt>{$form.net_amount.label}</dt><dd>{$form.net_amount.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Net value of the contribution (Total Amount minus Fee).{/ts}</dd>
-        <dt>{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd> 
-        <dt>{$form.invoice_id.label}</dt><dd>{$form.invoice_id.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Unique identifier for this transaction. Online contributions will have the Payment Processor's tranaction ID here. For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</dd>
-        <dt>{$form.receipt_date.label}</dt><dd>{$form.receipt_date.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</dd>
-        <dt>{$form.thankyou_date.label}</dt><dd>{$form.thankyou_date.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</dd>
-        <dt>{$form.cancel_date.label}</dt><dd>{$form.cancel_date.html}</dd> 
-        <dt>&nbsp;</dt><dd class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</dd>
-        <dt>{$form.cancel_reason.label}</dt><dd>{$form.cancel_reason.html|crmReplace:class:huge}</dd> 
-        {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
-      </dl>  
+      <table class="form-layout-compressed">
+        <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}</td></tr> 
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
+        <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
+        <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
+        <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
+        <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$form.non_deductible_amount.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Non-deductible portion of this contribution.{/ts}</td></tr>
+        <tr><td class="label">{$form.fee_amount.label}</td><td>{$form.fee_amount.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Processing fee for this transaction (if applicable).{/ts}</td></tr>
+        <tr><td class="label">{$form.net_amount.label}</td><td>{$form.net_amount.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Net value of the contribution (Total Amount minus Fee).{/ts}</td></tr>
+        <tr><td class="label">{$form.invoice_id.label}</td><td>{$form.invoice_id.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique internal reference ID for this contribution.{/ts}</td></tr>
+        <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.<br />For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
+        <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
+        <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
+        <tr><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
+        <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
+      </table>
+      {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
      {/if} 
     <dl>    
-      <dt></dt><dd>{$form.buttons.html}</dd> 
+      <dt>&nbsp;</dt><dt>{$form.buttons.html}</dt> 
     </dl> 
 </fieldset> 
 </div> 
