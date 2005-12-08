@@ -192,20 +192,20 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&id=%%id%%&action=view&context=%%cxt%%',
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%',
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&context=%%cxt%%',
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contribute/contribution',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&context=%%cxt%%',
+                                                                   'url'      => 'civicrm/contact/view/contribution',
+                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
                                   );
@@ -285,6 +285,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                           array( 'id'  => $result->contribution_id,
+                                                                 'cid' => $result->contact_id,
                                                                  'cxt' => $this->_context ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';

@@ -189,6 +189,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->_params['receive_date'] = $now;
         $this->set( 'params', $this->_params );
         $this->assign( 'trxn_id', $result['trxn_id'] );
+        $this->assign( 'receive_date',
+                       CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
 
         // result has all the stuff we need
         // lets archive it to a financial transaction

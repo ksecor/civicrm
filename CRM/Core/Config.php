@@ -311,12 +311,12 @@ class CRM_Core_Config {
     public $mailerPeriod    = 180;
 
     /**
-        * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
+     * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
      * @var array
      */
     public $enableComponents = array();
-    
+
     /**
      * Name of the payment processor
      *

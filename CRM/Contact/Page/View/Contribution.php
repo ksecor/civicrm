@@ -54,6 +54,39 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         $controller->run( );
     }
 
+    /** 
+     * This function is called when action is view
+     *  
+     * return null 
+     * @access public 
+     */ 
+    function view( ) {
+        $values = array( );
+        $ids    = array( );
+        $params = array( 'id' => $this->_id );
+        CRM_Contribute_BAO_Contribution::getValues( $params,
+                                                    $values,
+                                                    $ids );
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
+
+        $this->assign( $values );
+    }
+    
+    /** 
+     * This function is called when action is update or new 
+     *  
+     * return null 
+     * @access public 
+     */ 
+    function edit( ) { 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution', 
+                                                       'Create Contribution', 
+                                                       $action );
+        $controller->setEmbedded( true ); 
+        $controller->set( 'id' , $this->_id ); 
+        $controller->set( 'cid', $this->_contactId ); 
+        return $controller->run( );
+    }
 
 
    /**
@@ -65,7 +98,13 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
     function run( ) {
         $this->preProcess( );
 
-        $this->browse( );
+        if ( $this->_action & CRM_Core_Action::VIEW ) { 
+            $this->view( ); 
+        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) { 
+            $this->edit( ); 
+        } else {
+            $this->browse( );
+        }
 
         return parent::run( );
     }
