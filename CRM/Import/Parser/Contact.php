@@ -94,6 +94,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->_mapperRelatedContactDetails =& $mapperRelatedContactDetails;
         $this->_mapperRelatedContactLocType =& $mapperRelatedContactLocType;
         $this->_mapperRelatedContactPhoneType =& $mapperRelatedContactPhoneType;
+
     }
 
     /**
@@ -169,6 +170,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             $index++;
         }
+
+        $this->_updateWithId = false;
+        if (in_array('id',$this->_mapperKeys)) {
+            $this->_updateWithId = true;
+        }
     }
 
     /**
@@ -235,7 +241,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
         if ( $this->_emailIndex >= 0 ) {
             /* If we don't have the required fields, bail */
-            if ($this->_contactType == 'Individual') {
+            if ($this->_contactType == 'Individual' &&! $this->_updateWithId ) {
                 if ($errorRequired && ! CRM_Utils_Array::value($this->_emailIndex, $values)) {
                     array_unshift($values, ts('Missing required fields'));
                     return CRM_Import_Parser::ERROR;
@@ -257,7 +263,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = $this->_lineCount;
             }
-        } else if ($errorRequired) {
+        } else if ($errorRequired && ! $this->_updateWithId) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Import_Parser::ERROR;
         }
@@ -291,8 +297,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function import( $onDuplicate, &$values) {
+
         // first make sure this is a valid line
-        $this->_updateWithId = false;
+        //$this->_updateWithId = false;
         $response = $this->summary( $values );
         if ( $response != CRM_Import_Parser::VALID ) {
             return $response;
@@ -340,17 +347,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
             _crm_add_formatted_param($value, $formatted);
         }
-        if (in_array('id',$this->_mapperKeys)) {
+        /*if (in_array('id',$this->_mapperKeys)) {
             $this->_updateWithId = true;
-        }
+        }*/
         $relationship = false;
         // Support Match and Update Via Contact ID
         if($this->_updateWithId) {
             $error = _crm_duplicate_formatted_contact($formatted);
             if ( self::isDuplicate($error) ) {
-                if(count($error->_errors[0]['params']) >= 1){
+                $matchedIDs= explode(',',$error->_errors[0]['params'][0]);
+                if(count( $matchedIDs) >= 1){
                         $updateflag = true;
-                        foreach ($error->_errors[0]['params'] as $contactId) {
+                        foreach ($matchedIDs  as $contactId) {
                             if($params['id'] == $contactId) {
                                 $paramsValues = array('contact_id'=>$contactId);
                                 $contactExits = crm_get_contact($paramsValues);
@@ -359,6 +367,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                     $updateflag = false; 
                                     $this->_retCode = CRM_Import_Parser::VALID;
                                 } else {
+                                    
                                     $message = "Mismatched contact Types :";
                                     array_unshift($values, $message);
                                     $updateflag = false;
@@ -366,8 +375,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                 }
                             } 
                         }
-                        if ($updateflag) {
-                            $message = "Mismatched contact ID :".$params['id'];
+                        if ( $updateflag ) {
+                            $message = "Mismatched contact IDs OR Mismatched contact Types :" ;
                             array_unshift($values, $message);
                             $this->_retCode = CRM_Import_Parser::NO_MATCH;
                         }
