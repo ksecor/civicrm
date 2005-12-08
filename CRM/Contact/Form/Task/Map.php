@@ -114,7 +114,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
 
         if ( empty( $locations ) ) {
-            CRM_Utils_System::statusBounce(ts('The location did not have any latitude / longitude information.'));
+            CRM_Utils_System::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
         } else {
             $session =& CRM_Core_Session::singleton(); 
             $redirect = $session->readUserContext(); 
