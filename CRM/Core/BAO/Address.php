@@ -202,37 +202,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
             }
 
-            // add address's display form based on the $config->addressFormat setting
-            // FIXME: whe should keep $allowedFields' keys and the default $config->addressSequence in one place
-            $config =& CRM_Core_Config::singleton();
+            $address->addDisplay();
 
-            $fullPostalCode = $address->postal_code;
-            if ($address->postal_code_suffix) $fullPostalCode .= "-$address->postal_code_suffix";
-
-            // this is a gross hack, so please forgive me: lobo:)
-            // we need to add a comma between city and state only if both are non empty
-            // so we just add it to the city field
-            if ( $address->city && $address->state ) {
-                $city = $address->city . ',';
-            } else {
-                $city = $address->city;
-            }
-            
-            $replacements = array(
-                'street_address'         => $address->street_address,
-                'supplemental_address_1' => $address->supplemental_address_1,
-                'supplemental_address_2' => $address->supplemental_address_2,
-                'city'                   => $city,
-                'state_province'         => $address->state,
-                'postal_code'            => $fullPostalCode,
-                'country'                => $address->country
-            );
-
-            $address->display = str_replace(array_keys($replacements), $replacements, $config->addressFormat);
-            while ( substr_count( $address->display, "\n\n" ) ) {
-                // note not sure why the below does not replace all double new lines, seems like a php bug
-                $address->display = trim( str_replace("\n\n", "\n", $address->display) );
-            }
             // FIXME: not sure whether non-DB values are safe to store here
             // if so, we should store state_province and country as well and
             // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
@@ -269,6 +240,42 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
         }
         return implode($separator, $formatted);
+    }
+
+    /**
+     * Add address's display basing on the config addressFormat setting
+     */
+    function addDisplay()
+    {
+        $config =& CRM_Core_Config::singleton();
+
+        $fullPostalCode = $this->postal_code;
+        if ($this->postal_code_suffix) $fullPostalCode .= "-$this->postal_code_suffix";
+
+        // this is a gross hack, so please forgive me: lobo:)
+        // we need to add a comma between city and state only if both are non empty
+        // so we just add it to the city field
+        if ( $this->city && $this->state ) {
+            $city = $this->city . ',';
+        } else {
+            $city = $this->city;
+        }
+        
+        $replacements = array(
+            'street_address'         => $this->street_address,
+            'supplemental_address_1' => $this->supplemental_address_1,
+            'supplemental_address_2' => $this->supplemental_address_2,
+            'city'                   => $city,
+            'state_province'         => $this->state,
+            'postal_code'            => $fullPostalCode,
+            'country'                => $this->country
+        );
+
+        $this->display = str_replace(array_keys($replacements), $replacements, $config->addressFormat);
+        while ( substr_count( $this->display, "\n\n" ) ) {
+            // note not sure why the below does not replace all double new lines, seems like a php bug
+            $this->display = trim( str_replace("\n\n", "\n", $this->display) );
+        }
     }
 }
 

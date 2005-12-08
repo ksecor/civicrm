@@ -520,20 +520,18 @@ class CRM_Core_Config {
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
-
             $this->addressFormat = trim(CIVICRM_ADDRESS_FORMAT);
 
-            // get the field sequence from the format, using the class's
-            // default as the filter for allowed fields (FIXME?)
-            $allowedFields = $this->addressSequence;
-            $this->addressSequence = array();
-            foreach($allowedFields as $field) {
+            // get the field sequence from the format, using the
+            // class's default as the filter for allowed fields
+            $newSequence = array();
+            foreach($this->addressSequence as $field) {
                 if (substr_count($this->addressFormat, $field)) {
-                    $this->addressSequence[strpos($this->addressFormat, $field)] = $field;
+                    $newSequence[strpos($this->addressFormat, $field)] = $field;
                 }
             }
-            ksort($this->addressSequence);
-            
+            ksort($newSequence);
+            $this->addressSequence = $newSequence;
         }
         
         if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {
