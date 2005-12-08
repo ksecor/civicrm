@@ -27,6 +27,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo (c) 2005
@@ -34,40 +35,50 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
-require_once 'CRM/Contribute/DAO/Contribution.php';
+require_once 'CRM/Core/Form.php';
 
 /**
- * Create a page for displaying Contributions
- *
+ * This class generates form components for Payment-Instrument
+ * 
  */
-class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
+class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
+{
+    /**  
+     * Function to set variables up before form is built  
+     *                                                            
+     * @return void  
+     * @access public  
+     */
+    public function preProcess( ) {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
 
-    /** 
-     * compose the url to show details of this specific contribution 
-     * 
-     * @param int $id 
-     * @param int $activityHistoryId 
-     * 
-     * @static 
-     * @access public 
-     */ 
-    static function details($id, $activityHistoryId) { 
-        $params   = array(); 
-        $defaults = array(); 
-        $params['id'          ] = $activityHistoryId; 
-        $params['entity_table'] = 'civicrm_contact'; 
+        $values = array( ); 
+        $ids    = array( ); 
+        $params = array( 'id' => $this->get( 'id' ) ); 
+        CRM_Contribute_BAO_Contribution::getValues( $params, 
+                                                    $values, 
+                                                    $ids );             
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values ); 
  
-        require_once 'CRM/Core/BAO/History.php'; 
-        $history        = CRM_Core_BAO_History::retrieve($params, $defaults); 
-        $contributionId = CRM_Utils_Array::value('activity_id', $defaults); 
- 
-        if ($contributionId) { 
-            return CRM_Utils_System::url('civicrm/contribute/contribution', "reset=1&action=view&id=$contributionId"); 
-        } else { 
-            return CRM_Utils_System::url('civicrm'); 
-        } 
-    } 
+        $this->assign( $values ); 
+    }
+
+    /**
+     * Function to build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+        $this->addButtons(array(  
+                                array ( 'type'      => 'next',  
+                                        'name'      => ts('Done'),  
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
+                                        'isDefault' => true   )
+                                )
+                          );
+    }
 
 }
 

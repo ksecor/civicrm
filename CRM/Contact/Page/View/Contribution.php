@@ -61,17 +61,16 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
      * @access public 
      */ 
     function view( ) {
-        $values = array( );
-        $ids    = array( );
-        $params = array( 'id' => $this->_id );
-        CRM_Contribute_BAO_Contribution::getValues( $params,
-                                                    $values,
-                                                    $ids );
-        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
-
-        $this->assign( $values );
-    }
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionView',  
+                                                       'View Contribution',  
+                                                       $this->_action ); 
+        $controller->setEmbedded( true );  
+        $controller->set( 'id' , $this->_id );  
+        $controller->set( 'cid', $this->_contactId );  
     
+        return $controller->run( ); 
+    }
+
     /** 
      * This function is called when action is update or new 
      *  
@@ -81,10 +80,11 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
     function edit( ) { 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution', 
                                                        'Create Contribution', 
-                                                       $action );
+                                                       $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
+
         return $controller->run( );
     }
 
@@ -98,6 +98,8 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
     function run( ) {
         $this->preProcess( );
 
+        $this->setContext( );
+
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) { 
@@ -107,6 +109,39 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         }
 
         return parent::run( );
+    }
+
+    function setContext( ) {
+        $context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+
+        switch ( $context ) {
+        case 'basic':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/basic',
+                                          'reset=1&cid=' . $this->_contactId );
+            break;
+
+        case 'dashboard':
+            $url = CRM_Utils_System::url( 'civicrm/contribute',
+                                          'reset=1' );
+            break;
+
+        case 'contribution':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                          'reset=1&force=1&cid=' . $this->_contactId );
+            break;
+
+        default:
+            $cid = null;
+            if ( $this->_contactId ) {
+                $cid = '&cid=' . $this->_contactId;
+            }
+            $url = CRM_Utils_System::url( 'civicrm/contribute/search', 
+                                          'reset=1&force=1' . $cid );
+            break;
+        }
+
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
 
 }

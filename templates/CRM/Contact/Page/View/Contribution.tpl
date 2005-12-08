@@ -1,7 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}              
     {include file="CRM/Contribute/Form/Contribution.tpl"}
 {elseif $action eq 4}
-    {include file="CRM/Contribute/Page/Contribution.tpl"}
+    {include file="CRM/Contribute/Form/ContributionView.tpl"}
 {else}
 {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`"}{/capture}
 <div id="help">
