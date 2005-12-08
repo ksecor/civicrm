@@ -52,16 +52,18 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
     /** 
      * Constructor 
      * 
+     * @param string $mode the mode of operation: live or test
+     *
      * @return void 
      */ 
-    function __construct( ) {
+    function __construct( $mode ) {
         require_once 'Services/PayPal.php';
         require_once 'Services/PayPal/Profile/Handler/File.php';
         require_once 'Services/PayPal/Profile/API.php';
 
         $config =& CRM_Core_Config::singleton( );
         $this->_handler =& ProfileHandler_File::getInstance( array(
-                                                                   'path' => $config->paymentCertPath,
+                                                                   'path' => $config->paymentCertPath[$mode],
                                                                    'charset' => self::CHARSET,
                                                                    )
                                                              );
@@ -70,13 +72,13 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
             return self::error( $handler );
         }
 
-        $this->_profile =& APIProfile::getInstance( $config->paymentKey, $this->_handler );
+        $this->_profile =& APIProfile::getInstance( $config->paymentKey[$mode], $this->_handler );
 
         if ( Services_PayPal::isError( $this->_profile ) ) {
             return self::error( $this->_profile );
         }
 
-        $this->_profile->setAPIPassword( $config->paymentPassword );
+        $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
 
         $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
 
@@ -90,15 +92,15 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
     /** 
      * singleton function used to manage this object 
      * 
-     * @param string the key to permit session scope's 
+     * @param string $mode the mode of operation: live or test
      * 
      * @return object 
      * @static 
      * 
      */ 
-    static function &singleton( ) {
+    static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Utils_Payment_Paypal( );
+            self::$_singleton =& new CRM_Utils_Payment_Paypal( $mode );
         } 
         return self::$_singleton; 
     } 

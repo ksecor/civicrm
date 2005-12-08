@@ -348,21 +348,21 @@ class CRM_Core_Config {
      *
      * @var string
      */
-    public $paymentCertPath = null;
+    public $paymentCertPath = array( );
 
     /** 
      * What is the payment file key
      * 
      * @var string                
      */ 
-    public $paymentKey = null;
+    public $paymentKey = array( );
 
     /** 
      * What is the payment password
      * 
      * @var string                
      */ 
-    public $paymentPassword = null;
+    public $paymentPassword = array( );
 
     /** 
      * What is the payment response email address
@@ -688,20 +688,32 @@ class CRM_Core_Config {
             }
         }
 
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL' ) ) {
+            $this->paymentResponseEmail = CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL;
+        }
+
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
-            $this->paymentCertPath = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
+            $this->paymentCertPath['live'] = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
+            $this->paymentCertPath['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
-            $this->paymentKey = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
+            $this->paymentKey['live'] = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY' ) ) {
+            $this->paymentKey['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' ) ) {
-            $this->paymentPassword = CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD;
+            $this->paymentPassword['live'] = CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD;
         }
 
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL' ) ) {
-            $this->paymentResponseEmail = CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL;
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
+            $this->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
         }
 
         // initialize the framework

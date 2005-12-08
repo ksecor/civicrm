@@ -48,18 +48,18 @@ abstract class CRM_Utils_Payment {
     /**  
      * singleton function used to manage this object  
      *  
-     * @param string the key to permit session scope's  
+     * @param string $mode the mode of operation: live or test
      *  
      * @return object  
      * @static  
      *  
      */  
-    static function &singleton( ) {
+    static function &singleton( $mode = 'test' ) {
         $config   =& CRM_Core_Config::singleton( );
         
         $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
         require_once($classPath);
-        return eval( 'return ' . $config->paymentClass . '::singleton( );' );
+        return eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
     }
 
     abstract function doDirectPayment( &$params );

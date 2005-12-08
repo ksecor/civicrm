@@ -59,7 +59,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $rfp = CRM_Utils_Request::retrieve( 'rfp', $nullObject, false, null, 'GET' );
             if ( $rfp ) {
                 require_once 'CRM/Utils/Payment.php'; 
-                $payment =& CRM_Utils_Payment::singleton( );
+                $payment =& CRM_Utils_Payment::singleton( $this->_mode );
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
                 // set a few other parameters for PayPal
@@ -68,6 +68,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['amount'        ] = $this->get( 'amount' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
+                $this->_params['email'         ] = $this->controller->exportValue( 'Main', 'email' );
 
                 $this->set( 'getExpressCheckoutDetails', $this->_params );
             } else {
@@ -150,27 +151,32 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
             }
 
-            $ids = array( );
-            if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+            if ( $this->_action != 1024 ) { // no db transactions during preview
+                $ids = array( );
+                if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
+                    $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+                } else {
+                    // need to fix and unify all contact creation
+                    $params = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                    $defaults = array( );
+                    CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+                    $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+                }
+                
+                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                    CRM_Core_Error::fatal( "Failed creating contact for contributor" );
+                }
+
+                $contactID = $contact->id;
             } else {
-                // need to fix and unify all contact creation
-                $params = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-                $defaults = array( );
-                CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+                $contactID = 1;
             }
 
-            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                CRM_Core_Error::fatal( "Failed creating contact for contributor" );
-            }
-
-            $contactID = $contact->id;
             $this->set( 'contactID', $contactID );
         }
 
         require_once 'CRM/Utils/Payment.php';
-        $payment =& CRM_Utils_Payment::singleton( );
+        $payment =& CRM_Utils_Payment::singleton( $this->_mode );
 
         if ( $this->_contributeMode == 'express' ) {
             $result =& $payment->doExpressCheckout( $this->_params );
@@ -196,87 +202,94 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // lets archive it to a financial transaction
         $config =& CRM_Core_Config::singleton( );
 
-        CRM_Core_DAO::transaction( 'BEGIN' );
-
         $receiptDate = null;
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now;
         }
 
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $this->_values['contribution_type_id'];
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Utils_System::fatal( "Could not find a system table" );
+        if ( $this->_action != 1024 ) { // no db transactions during preview
+            CRM_Core_DAO::transaction( 'BEGIN' );
+
+            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+            $contributionType->id = $this->_values['contribution_type_id'];
+            if ( ! $contributionType->find( true ) ) {
+                CRM_Utils_System::fatal( "Could not find a system table" );
+            }
+            
+            if ( $contributionType->is_deductible ) {
+                $nonDeductibeAmount = $result['gross_amount'];
+            } else {
+                $nonDeductibeAmount = 0.00;
+            }
+            
+            // check contribution Type
+            // first create the contribution record
+            $params = array(
+                            'contact_id'            => $contactID,
+                            'contribution_type_id'  => $contributionType->id,
+                            'payment_instrument_id' => 1,
+                            'receive_date'          => $now,
+                            'non_deductible_amount' => $nonDeductibeAmount,
+                            'total_amount'          => $result['gross_amount'],
+                            'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
+                            'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                            'trxn_id'               => $result['trxn_id'],
+                            'invoice_id'            => $this->_params['invoiceID'],
+                            'currency'              => $this->_params['currencyID'],
+                            'receipt_date'          => $receiptDate,
+                            'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],
+                            );
+            
+            $ids = array( );
+            $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
+            
+            // next create the transaction record
+            $params = array(
+                            'entity_table'      => 'civicrm_contribution',
+                            'entity_id'         => $contribution->id,
+                            'trxn_date'         => $now,
+                            'trxn_type'         => 'Debit',
+                            'total_amount'      => $result['gross_amount'],
+                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
+                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                            'currency'          => $this->_params['currencyID'],
+                            'payment_processor' => $config->paymentProcessor,
+                            'trxn_id'           => $result['trxn_id'],
+                            );
+            
+            require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+            $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
+            
+            // also create an activity history record
+            $params = array('entity_table'     => 'civicrm_contact', 
+                            'entity_id'        => $contactID, 
+                            'activity_type'    => $contributionType->name,
+                            'module'           => 'CiviContribute', 
+                            'callback'         => 'CRM_Contribute_Page_Contribution::details',
+                            'activity_id'      => $contribution->id, 
+                            'activity_summary' => 'Online - $' . $this->_params['amount'],
+                            'activity_date'    => $now,
+                            );
+            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
+                CRM_Utils_System::fatal( "Could not create a system record" );
+            }
+
+            CRM_Core_DAO::transaction( 'COMMIT' );
         }
-
-        if ( $contributionType->is_deductible ) {
-            $nonDeductibeAmount = $result['gross_amount'];
-        } else {
-            $nonDeductibeAmount = 0.00;
-        }
-
-        // check contribution Type
-        // first create the contribution record
-        $params = array(
-                        'contact_id'            => $contactID,
-                        'contribution_type_id'  => $contributionType->id,
-                        'payment_instrument_id' => 1,
-                        'receive_date'          => $now,
-                        'non_deductible_amount' => $nonDeductibeAmount,
-                        'total_amount'          => $result['gross_amount'],
-                        'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
-                        'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
-                        'trxn_id'               => $result['trxn_id'],
-                        'invoice_id'            => $this->_params['invoiceID'],
-                        'currency'              => $this->_params['currencyID'],
-                        'receipt_date'          => $receiptDate,
-                        'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],
-                        );
-        $ids = array( );
-        $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
-
-        // next create the transaction record
-        $params = array(
-                        'entity_table'      => 'civicrm_contribution',
-                        'entity_id'         => $contribution->id,
-                        'trxn_date'         => $now,
-                        'trxn_type'         => 'Debit',
-                        'total_amount'      => $result['gross_amount'],
-                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
-                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
-                        'currency'          => $this->_params['currencyID'],
-                        'payment_processor' => $config->paymentProcessor,
-                        'trxn_id'           => $result['trxn_id'],
-                        );
-                        
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
-
-        // also create an activity history record
-        $params = array('entity_table'     => 'civicrm_contact', 
-                        'entity_id'        => $contactID, 
-                        'activity_type'    => $contributionType->name,
-                        'module'           => 'CiviContribute', 
-                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                        'activity_id'      => $contribution->id, 
-                        'activity_summary' => 'Online - $' . $this->_params['amount'],
-                        'activity_date'    => $now,
-                        );
-        if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-            CRM_Utils_System::fatal( "Could not create a system record" );
-        }
-
-        CRM_Core_DAO::transaction( 'COMMIT' );
 
         // finally send an email receipt
         if ( $this->_values['is_email_receipt'] ) {
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+            if ( $this->_action != 1024 ) {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+            } else {
+                list( $displayName, $email ) = array( $this->get( 'name' ), $this->_params['email'] );
+            }
 
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             
-            $this->_values['receipt_from_email'] = '"Donald A. Lobo" <lobo@yahoo.com>';
+            $this->_values['receipt_from_email'] = $config->paymentResponseEmail;
 
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $this->_values['receipt_from_email'],

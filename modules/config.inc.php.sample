@@ -387,6 +387,12 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , 'hash of the .ppd file (ppd
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , 'your api password' ); 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', 'the FROM email address for all emails sent via system' );
 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PROCESSOR'     , 'PayPal' ); // this is either PayPal / Moneris / PayPal_Express
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , 'Path to the .cert AND .ppd files (SDK API Profile files for PayPal)' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , 'hash of the .ppd file (ppd filename without extension)' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , 'your api password' ); 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_RESPONSE_EMAIL', 'the FROM email address for all emails sent via system' );
+
 include_once 'config.main.php';
 
 ?>

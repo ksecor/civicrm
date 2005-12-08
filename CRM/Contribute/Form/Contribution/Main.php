@@ -287,7 +287,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $invoiceID = md5(uniqid(rand(), true));
         $this->set( 'invoiceID', $invoiceID );
 
-        $payment =& CRM_Utils_Payment::singleton( ); 
+        $payment =& CRM_Utils_Payment::singleton( $this->_mode ); 
   
         if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
             //get the button name  

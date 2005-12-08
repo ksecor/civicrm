@@ -50,7 +50,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_int;
+    protected $_id;
+
+    /**
+     * the mode that we are in
+     * 
+     * @var string
+     * @protect
+     */
+    protected $_mode;
 
     /**
      * the values for the contribution db object
@@ -97,9 +105,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
 
+
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
+
+        // current mode
+        $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
 
         $this->_values = $this->get( 'values' );
         $this->_fields = $this->get( 'fields' );
@@ -162,6 +174,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
         $name .= " {$this->_params['last_name']}";
         $this->assign( 'name', $name );
+        $this->set( 'name', $name );
 
         $vars = array( 'amount', 'currencyID',
                        'street_address', 'city', 'postal_code',

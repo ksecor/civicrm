@@ -131,29 +131,21 @@ class CRM_Core_Report_Excel {
         $fileName = CRM_Utils_String::munge( $fileName );
 
         $config =& CRM_Core_Config::singleton( );       
-        if ( $config->userFramework != 'Mambo' ) {  
-            header('Content-Type: ' . $mime_type); 
-            header('Expires: ' . $now);
-            
-            // lem9 & loic1: IE need specific headers
-            $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
-            if ( $isIE ) {
-                header('Content-Disposition: inline; filename="' . $fileName . '.' . $ext . '"');
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                header('Pragma: public');
-            } else {
-                header('Content-Disposition: attachment; filename="' . $fileName . '.' . $ext . '"');
-                header('Pragma: no-cache');
-            }
+        header('Content-Type: ' . $mime_type); 
+        header('Expires: ' . $now);
+        
+        // lem9 & loic1: IE need specific headers
+        $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
+        if ( $isIE ) {
+            header('Content-Disposition: inline; filename="' . $fileName . '.' . $ext . '"');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
         } else {
-            echo "<pre>";
+            header('Content-Disposition: attachment; filename="' . $fileName . '.' . $ext . '"');
+            header('Pragma: no-cache');
         }
     
         self::makeCSVTable( $header, $rows, true );
-
-        if ( $config->userFramework == 'Mambo' ) {
-            echo "</pre>";
-        }
     }
 
 }
