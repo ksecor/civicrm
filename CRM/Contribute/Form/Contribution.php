@@ -85,8 +85,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // current contribution id
+        // action
+        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
+        $this->assign( 'action'  , $this->_action   ); 
+
         $this->_id        = CRM_Utils_Request::retrieve( 'id', $this );
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+
+        // current contribution id
         if ( $this->_id ) {
             require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
             $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );
@@ -102,15 +111,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
-        // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
-        $this->assign( 'action'  , $this->_action   ); 
-
-        
     }
 
     function setDefaultValues( ) {
         $defaults = array( );
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return $defaults;
+        }
+
         if ( $this->_id ) {
             $ids = array( );
             $params = array( 'id' => $this->_id );
@@ -137,6 +146,19 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
 
@@ -263,6 +285,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function postProcess()  
     { 
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContribution( $this->_id );
+            return;
+        }
+
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
 

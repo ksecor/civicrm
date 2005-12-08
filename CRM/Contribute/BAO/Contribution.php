@@ -371,9 +371,25 @@ WHERE  domain_id = $domainID AND $whereCond
         while ( $contribution->fetch( ) ) {
             $trxn =& new CRM_Contribute_DAO_FinancialTrxn( ); 
             $trxn->entity_table = 'civicrm_contribution'; 
-            $trxn->entity_id    = $contribution->id( );
+            $trxn->entity_id    = $contribution->id;
             $trxn->delete( );
             $contribution->delete( );
+        }
+    }
+
+    static function deleteContribution( $id ) {
+        $contribution =& new CRM_Contribute_DAO_Contribution( ); 
+        $contribution->id = $id;
+        if ( $contribution->find( true ) ) {
+            require_once 'CRM/Contribute/DAO/FinancialTrxn.php'; 
+            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );  
+            $trxn->entity_table = 'civicrm_contribution';  
+            $trxn->entity_id    = $contribution->id; 
+            if ( $trxn->find( true ) ) {
+                $trxn->delete( ); 
+            }
+
+            $contribution->delete( ); 
         }
     }
 
