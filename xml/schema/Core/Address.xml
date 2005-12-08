@@ -176,6 +176,9 @@
        <name>postal_code_suffix</name>
        <type>varchar</type>
        <length>12</length>
+       <import>true</import>
+       <headerPattern>/postal_code/i</headerPattern>
+       <dataPattern>/\d?\d{4}(-\d{4})?/</dataPattern>
        <comment>Store the suffix, like the +4 part in the USPS system.</comment>
        <add>1.1</add>
   </field>
