@@ -532,31 +532,6 @@ class CRM_Utils_Menu {
                             'weight'  => 0,
                             ),
 
-                      array(
-                            'path'    => 'civicrm/mailing/component',
-                            'title'   => ts('Mailing Header / Footer'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::CALLBACK,
-                            'weight'  => 0,
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/mailing/send',
-                            'title'   => ts('Mailing Message'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::CALLBACK,
-                            'weight'  => 0,
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/mailing/forward',
-                            'title'   => ts( 'Forward Mailing' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
-                            'type'    => self::CALLBACK, 
-                            'crmType' => self::CALLBACK, 
-                            'weight'  => 0, 
-                            ),
-
                       );
 
             $config =& CRM_Core_Config::singleton( );
@@ -641,7 +616,7 @@ class CRM_Utils_Menu {
                                      'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
                                      'type'    => self::CALLBACK,  
                                      'crmType' => self::NORMAL_ITEM,
-                                     'weight'  => 50,  
+                                     'weight'  => 500,  
                                      ),
 
                                array( 
@@ -651,7 +626,7 @@ class CRM_Utils_Menu {
                                      'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
                                      'type'    => self::CALLBACK,  
                                      'crmType' => self::NORMAL_ITEM,  
-                                     'weight'  => 60,  
+                                     'weight'  => 510,  
                                      ),
                                array( 
                                      'path'    => 'civicrm/contribute/import', 
@@ -661,9 +636,61 @@ class CRM_Utils_Menu {
                                                  CRM_Utils_System::checkPermission( 'access CiviContribute' ),
                                      'type'    => self::CALLBACK,  
                                      'crmType' => self::NORMAL_ITEM,  
-                                     'weight'  => 80,  
+                                     'weight'  => 520,  
                                      ),
                                );
+                self::$_items = array_merge( self::$_items, $items );
+            }
+
+            if ( in_array( 'CiviMail', $config->enableComponents) ) { 
+                $items = array(
+                               array(
+                                     'path'    => 'civicrm/mailing',
+                                     'title'   => ts('CiviMail'),
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 600,
+                                     ),
+
+                               array(
+                                     'path'    => 'civicrm/mailing/component',
+                                     'title'   => ts('Mailing Header / Footer'),
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 610,
+                                     ),
+
+                               array(
+                                     'path'    => 'civicrm/mailing/send',
+                                     'title'   => ts('Send Mailing'),
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 620,
+                                     ),
+                      
+                               array(
+                                     'path'    => 'civicrm/mailing/browse',
+                                     'title'   => ts( 'Browse Sent Mailings' ),
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                                     'type'    => self::CALLBACK, 
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 630, 
+                                     ),
+
+                               array(
+                                     'path'    => 'civicrm/mailing/queue',
+                                     'title'   => ts( 'Process Mailing Queue' ),
+                                     'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                                     'type'    => self::CALLBACK, 
+                                     'crmType' => self::NORMAL_ITEM,  
+                                     'weight'  => 630, 
+                                     ),
+
+                               );
+                
                 self::$_items = array_merge( self::$_items, $items );
             }
             

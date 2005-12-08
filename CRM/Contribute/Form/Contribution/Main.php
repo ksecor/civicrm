@@ -70,9 +70,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
             $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
-            foreach ($fields as $name => $dontCare ) { 
+
+            foreach ($fields as $name => $dontCare ) {
                 if ( $contact->$name ) {
-                    $this->_defaults[$name] = $contact->$name;
+                    if ( substr( $name, 0, 7 ) == 'custom_' ) {
+                        $id = substr( $name, 7 );
+                        $this->_defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact->$name,
+                                                                                             $id,
+                                                                                             $options );
+                    } else {
+                        $this->_defaults[$name] = $contact->$name;
+                    }
                 }
             }
         }

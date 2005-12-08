@@ -508,6 +508,32 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return $display;
     }
 
+    function getDefaultValue( $value, $id, &$options ) { 
+        $option     =& $options[$id]; 
+        $attributes =& $option['attributes']; 
+        $html_type  =  $attributes['html_type']; 
+        $index      =  $attributes['label'];
+
+        $default = $value;
+
+        switch ( $html_type ) {
+
+        case "CheckBox":
+            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            $default = array( );
+            foreach ( $checkedData as $val ) {
+                $default[$val] = 1;
+            }
+            break;
+
+        case "Select Date":
+            $default = CRM_Utils_Date::unformat($value);
+            break;
+
+        }
+
+        return $default;
+    }
 
 }
 

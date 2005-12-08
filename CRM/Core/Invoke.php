@@ -596,6 +596,8 @@ class CRM_Core_Invoke {
             return;
         }
 
+        $view =& new CRM_Mailing_Page_Browse( );
+        return $view->run( );
     }
 
     /** 

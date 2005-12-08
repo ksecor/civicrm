@@ -52,8 +52,7 @@ class CRM_Core_Block {
         MENU       =  1,
         SHORTCUTS  =  2,
         SEARCH     =  4,
-        ADD        =  8,
-        MAIL       = 16;
+        ADD        =  8;
 
     /**
      * template file names for the above blocks
@@ -90,11 +89,7 @@ class CRM_Core_Block {
                                        self::MENU        => array( 'template' => 'Menu.tpl',
                                                                    'info'     => ts('CiviCRM Menu'),
                                                                    'subject'  => ts('CiviCRM'),
-                                                                   'active'   => true ),
-                                       self::MAIL        => array( 'template' => 'Mail.tpl',
-                                                                   'info'     => ts('CiviMail Menu'),
-                                                                   'subject'  => ts('CiviMail'),
-                                                                   'active'   => false ),
+                                                                   'active'   => true )
                                        );
         }
     }
@@ -194,8 +189,6 @@ class CRM_Core_Block {
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
-        } else if ( $id == self::MAIL ) {  
-            self::setTemplateMailValues( ); 
         }
     }
 

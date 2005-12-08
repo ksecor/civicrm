@@ -250,7 +250,6 @@ define( 'CIVICRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 
-
 /**
  * Monetary values formatting:
  *
