@@ -142,7 +142,7 @@ class CRM_Utils_Date {
             return $value;
         }
 
-        if ( $seperator != '' ) {
+        if ( $separator != '' ) {
             list( $year, $mon, $day ) = explode( $separator, $date, 3 );
         } else {
             $year = substr( $date, 0, 4 );
@@ -163,7 +163,6 @@ class CRM_Utils_Date {
         if ( is_numeric( $day ) && $day > 0 ) {
             $value['d'] = $day;
         }
-        
         return $value;
     }
 

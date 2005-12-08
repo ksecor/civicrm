@@ -59,7 +59,10 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                                                     $values, 
                                                     $ids );             
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values ); 
- 
+
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ) );
+        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+
         $this->assign( $values ); 
     }
 

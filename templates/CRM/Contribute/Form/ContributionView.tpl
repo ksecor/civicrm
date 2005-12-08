@@ -23,7 +23,7 @@
         <dt>{ts}Cancelled{/ts}</dt><dd>{$cancel_date|truncate:10:''|crmDate}</dd>
         <dt>{ts}Cancellation Reason{/ts}</dt><dd>{$cancel_reason}</dd>
 {/if}
-        {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>  

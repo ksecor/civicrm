@@ -750,7 +750,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     
                 case 'Select Date':
                     if (isset($value)) {
-                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value );
+                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }
                     break;
 

@@ -123,7 +123,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
         return $defaults;
     }
@@ -209,7 +209,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
 
-        $element =& $this->add( 'text', 'invoice_id', ts('Transaction ID'), 
+        $element =& $this->add( 'text', 'invoice_id', ts('Invoice ID'), 
                                 $attributes['invoice_id'] );
         if ( $this->_online ) {
             $element->freeze( );
