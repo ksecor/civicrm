@@ -274,8 +274,6 @@ VALUES
     ({$civicrmDomainId},'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
 
 
-{if $build_version  >= 1.2}
-
 {if $locale == 'en_US'}
 INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, 'Mrs', 1, 1);
 {/if}
@@ -292,8 +290,6 @@ INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civic
 INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( {$civicrmDomainId}, '{ts}Transgender{/ts}', 3, 1);
 
 INSERT INTO civicrm_dupe_match (domain_id, entity_table , rule) VALUES ( {$civicrmDomainId},'contact_individual','first_name AND last_name AND email');
-
-{/if}
 
 -- contribution types
 INSERT INTO
@@ -312,3 +308,12 @@ VALUES
   ( '{ts}Cash{/ts}'       , {$civicrmDomainId}, 1, 1 ),     
   ( '{ts}Check{/ts}'      , {$civicrmDomainId}, 1, 1 ),      
   ( '{ts}EFT{/ts}'        , {$civicrmDomainId}, 1, 1 );
+  
+-- accepted credit cards
+INSERT INTO
+    civicrm_accept_credit_card(name, title, domain_id, is_reserved, is_active)
+VALUES
+  ( 'American Express', '{ts}American Express{/ts}', {$civicrmDomainId}, 0, 1 ),   
+  ( 'Discover', '{ts}Discover{/ts}', {$civicrmDomainId}, 0, 1 ),
+  ( 'Master Card', '{ts}Master Card{/ts}', {$civicrmDomainId}, 0, 1 ),
+  ( 'Visa', '{ts}Visa{/ts}', {$civicrmDomainId}, 0, 1 );

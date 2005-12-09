@@ -4,7 +4,6 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.street_address.html}
-    {*<div class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</div>*}
     <br class="spacer"/>
     <span class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</span>
     </span>

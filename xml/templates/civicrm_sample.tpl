@@ -65,7 +65,7 @@ VALUES
    (1,'User Registration','','',1,1),
    (1,'User Account','','',1,1),
    (1,'Profile','','',1,1), 
-   (1,'CiviDonate','civicrm_contribution_page',1,2,2);
+   (1,'CiviContribute','civicrm_contribution_page',1,2,2);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,default_amount,min_amount,max_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
