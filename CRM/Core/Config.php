@@ -528,8 +528,7 @@ class CRM_Core_Config {
             $format = trim(CIVICRM_ADDRESS_FORMAT);
             $format = str_replace(array("\r\n", "\r"), "\n", $format);
 
-            // get the field sequence from the format, using the
-            // class's default as the filter for allowed fields
+            // get the field sequence from the format
             $newSequence = array();
             foreach($this->addressSequence as $field) {
                 if (substr_count($format, $field)) {
@@ -537,6 +536,13 @@ class CRM_Core_Config {
                 }
             }
             ksort($newSequence);
+
+            // add the addressSequence fields that are missing in the addressFormat
+            // to the end of the list, so that (for example) if state_province is not
+            // specified in the addressFormat it's still in the address-editing form
+            $newSequence = array_merge($newSequence, $this->addressSequence);
+            $newSequence = array_unique($newSequence);
+
             $this->addressSequence = $newSequence;
             $this->addressFormat   = $format;
         }
