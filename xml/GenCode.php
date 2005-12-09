@@ -101,7 +101,9 @@ foreach ($tables as $key => $value) {
     }
     
     foreach ($value['foreignKey'] as $k1 => $v1) {
-        $frTable[$value['name']][$v1['table']] = $v1['name'];        
+        if(@!array_key_exists($v1['table'], $frTable[$value['name']])) {
+            $frTable[$value['name']][$v1['table']] = $v1['name'];        
+        }
     }
 }
 
