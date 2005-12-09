@@ -932,8 +932,14 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             $location['lat'          ] = $dao->latitude;
             $location['lng'          ] = $dao->longitude;
             $address = '';
+            /*CRM_Utils_String::append( $address, ', ',
+                                      array( $dao->street_address, $dao->city, $dao->state, $dao->postal_code, $dao->country ) );*/
+            CRM_Utils_String::append( $address, '<br />',
+                                      array( $dao->street_address, $dao->city) );
             CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->street_address, $dao->city, $dao->state, $dao->postal_code, $dao->country ) );
+                                      array(   $dao->state, $dao->postal_code ) );
+            CRM_Utils_String::append( $address, '<br /> ',
+                                      array( $dao->country ) );
             $location['address'      ] = $address;
             $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type'] = $dao->location_type;
