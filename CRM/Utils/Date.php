@@ -58,14 +58,14 @@ class CRM_Utils_Date {
             $date['M'] = (int ) $date['M'];
             $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
         } else {
-            $date['M'] = '00';
+            $date['M'] = '01';
         }
 
         if ( CRM_Utils_Array::value( 'd', $date ) ) {
             $date['d'] = (int ) $date['d'];
             $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         } else {
-            $date['d'] = null;
+            $date['d'] = '01';
         }
 
         $time = '';

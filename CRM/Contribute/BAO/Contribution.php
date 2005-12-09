@@ -84,7 +84,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $config =& CRM_Core_Config::singleton();
             $contribution->currency = $config->defaultCurrency;
         }
-        
+
         return $contribution->save();
     }
 

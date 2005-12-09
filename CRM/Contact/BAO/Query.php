@@ -922,7 +922,6 @@ class CRM_Contact_BAO_Query {
     function contactType( ) {
         // check for contact type restriction 
         if ( ! CRM_Utils_Array::value( 'contact_type', $this->_params ) ) {
-            $this->_qill[]  = ts('Contact Type - All');
             return;
         }
 
@@ -1471,7 +1470,8 @@ class CRM_Contact_BAO_Query {
             $sql .= " LIMIT $offset, $row_count ";
         }
 
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
+
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );

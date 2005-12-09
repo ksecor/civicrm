@@ -75,7 +75,6 @@
   <field> 
       <name>receive_date</name> 
       <type>datetime</type> 
-      <required>true</required> 
       <import>true</import>
       <headerPattern>/receive(.?date)?/i</headerPattern>
       <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>

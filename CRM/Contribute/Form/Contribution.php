@@ -323,13 +323,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                         'thankyou_date',
                         'cancel_date' );
         foreach ( $dates as $d ) {
-            if ( $formValues[$d] ) {
+            if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             }
         }
 
         $ids['contribution'] = $params['id'] = $this->_id;
-
+        
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         // do the updates/inserts

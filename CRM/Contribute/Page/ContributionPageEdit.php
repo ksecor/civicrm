@@ -123,25 +123,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
 
 
     /**
-     * Preview contribution page
-     *
-     * @param int $id custom group id
-     * @return void
-     * @access public
-     */
-    function preview($id)
-    {
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action);
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/commerce/donation', 'action=browse'));
-        $controller->set('id', $id);
-        $controller->process();
-        $controller->run();
-    }
-
-
-    /**
-     * Browse all custom data groups.
+     * Browse all contribution pages
      *
      * @return void
      * @access public

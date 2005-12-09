@@ -88,7 +88,7 @@ function crm_contact_search_count( &$params ) {
  */ 
 function crm_contact_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
     $sortString = CRM_Core_DAO::getSortString( $sort );
-    return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, $sortString, $offset, $row_count );
+    return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, null, $sortString, $offset, $row_count );
 } 
  
 
