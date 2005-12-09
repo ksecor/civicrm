@@ -35,7 +35,7 @@
       {literal} 
          var point = new GPoint({/literal}{$location.lng},{$location.lat}{literal});
 
-	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br>{$location.location_type}<br>{$location.address}{literal}";
+	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}";
          
          var marker = createMarker(point, data);
          map.addOverlay(marker);
@@ -93,9 +93,11 @@
    map.addZoomLong();
  
   // Display the map centered on a latitude and longitude 
-  map.drawZoomAndCenter(myPoint,13);
+  // map.drawZoomAndCenter(myPoint,13);
+
 
   function createYahooMarker(geopoint, data, img) { 
+
     var myImage = new YImage(); 
     myImage.src = 'http://us.i1.yimg.com/us.yimg.com/i/us/map/gr/mt_ic_cw.gif'; 
     myImage.size = new YSize(20,20); 
@@ -110,17 +112,25 @@
   } 
 
   {/literal}
-  {foreach from=$locations item=location}
+	var count=0;	
+  {foreach from=$locations item=location}	
   {literal} 
      var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng}{literal});
 
-     var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br/>{$location.location_type}<br/>{$location.address}{literal}";
+     var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}";
      var img  = '{/literal}{$location.contactImage}{literal}';
 
      var marker = createYahooMarker(GeoPoint, data, img); 
      map.addOverlay(marker); 
+	count++;
   {/literal} 
   {/foreach}
+
+	if (count>1)
+	   map.drawZoomAndCenter(myPoint,13);
+	else
+ 	   map.drawZoomAndCenter(myPoint,5);
+
   {literal}
 </script> 
 {/literal}
