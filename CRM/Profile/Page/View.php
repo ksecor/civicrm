@@ -52,7 +52,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
     function preProcess( )
     {
         $id = CRM_Utils_Request::retrieve('cid', $this, true);
-        $gid = CRM_Utils_Request::retrieve('gid', $this, true);
+        $gid = CRM_Utils_Request::retrieve('gid', $this);
 
         if ($gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
@@ -63,14 +63,14 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             $profileGroups[] = $profileGroup;
             
         } else {
-            $ufGroups =& CRM_Core_PseudoConstant::ufGroup();
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 
             
             $profileGroups = array();
-            foreach ($ufGroups as $groupid => $title) {
+            foreach ($ufGroups as $groupid => $group) {
                 require_once 'CRM/Profile/Page/Dynamic.php';
                 $page =& new CRM_Profile_Page_Dynamic($id, $groupid);
                 $profileGroup = array( );
-                $profileGroup['title'] = $title;
+                $profileGroup['title'] = $group['title'];
                 $profileGroup['content'] = $page->run();
                 $profileGroups[] = $profileGroup;
             }

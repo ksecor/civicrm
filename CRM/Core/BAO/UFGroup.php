@@ -510,6 +510,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
+            $params[$index] = $values[$index] = '';
             if (CRM_Utils_Array::value($name, $details )) {
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
@@ -559,8 +560,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = $details[$name];
                     }
                 }
-            } else if ( strpos( $name, '-' ) === false ) {
-                $params[$index] = $values[$index] = '';
             } else {
                 $nameValue = explode( '-' , $name );
                 foreach ($details as $key => $value) {
