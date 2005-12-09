@@ -146,10 +146,10 @@ class CRM_Core_Config {
     public $provinceLimit = 'US';
 
     /**
-     * Database id of default country for contact.
+     * ISO code of default country for contact.
      * @var int
      */
-    public $defaultContactCountryId = 1228;
+    public $defaultContactCountry = 'US';
 
     /**
      * ISO code of default currency.
@@ -508,9 +508,11 @@ class CRM_Core_Config {
             $this->provinceLimit = CIVICRM_PROVINCE_LIMIT;
         }
         
-        if ( defined( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' ) ) {
-            $this->defaultContactCountryId = CIVICRM_DEFAULT_CONTACT_COUNTRY_ID;
-        }        
+        // Note: we can't change the ISO code to country_id
+        // here, as we can't access the database yet...
+        if ( defined( 'CIVICRM_DEFAULT_CONTACT_COUNTRY' ) ) {
+            $this->defaultContactCountry = CIVICRM_DEFAULT_CONTACT_COUNTRY;
+        }
         
         if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) and CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
             $this->defaultCurrency = CIVICONTRIBUTE_DEFAULT_CURRENCY;

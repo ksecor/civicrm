@@ -190,8 +190,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     
-                    $config  =& CRM_Core_Config::singleton( );
-                    $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountryId;
+                    $config          =& CRM_Core_Config::singleton( );
+                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                    $defaultCountryId = array_search($config->defaultContactCountry, $countryIsoCodes);
+                    $defaults['location'][$i+1]['address']['country_id'] = $defaultCountryId;
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }

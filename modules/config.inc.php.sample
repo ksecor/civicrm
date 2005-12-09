@@ -179,11 +179,9 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
  * Default contact country
  * 
  * When new contacts are added, the country field can be automatically populated wih
- * a default value. Use the civicrm_country.id (primary key) value. United States is 1228.
- * To find the value for another country, use PHPMyAdmin or your favorite MySQL client
- * and check for the 'id' value in the civicrm_country table.
+ * a default value. Use the country's ISO code here.
  */
-define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY_ID' , 1228 );
+define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY', 'US' );
 
 /**
  * Default currency
