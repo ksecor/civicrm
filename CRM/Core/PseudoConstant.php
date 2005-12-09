@@ -390,7 +390,7 @@ class CRM_Core_PseudoConstant {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
             $config =& CRM_Core_Config::singleton();
-            $countryIsoCodes = self::countryIsoCode();
+            $countryIsoCodes =& self::countryIsoCode();
             $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
             $limitIds = array();
             foreach ($limitCodes as $code) {
@@ -426,7 +426,7 @@ class CRM_Core_PseudoConstant {
 
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
             $config =& CRM_Core_Config::singleton();
-            $countryIsoCodes = self::countryIsoCode();
+            $countryIsoCodes =& self::countryIsoCode();
             $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
             $limitIds = array();
             foreach ($limitCodes as $code) {
@@ -519,7 +519,7 @@ class CRM_Core_PseudoConstant {
     {
         if (!self::$countryIsoCode) {
             self::populate( self::$countryIsoCode, 'CRM_Core_DAO_Country',
-            'true', 'iso_code');
+            true, 'iso_code');
         }
         if ($id) { 
             if (array_key_exists($id, self::$countryIsoCode)) { 
