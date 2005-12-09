@@ -168,38 +168,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        $this->assign('groupTree', $this->_groupTree);
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
 
-        // u need inactive options only when editing stuff, not when displaying them
-        // on a per contact basis
-        $inactiveNeeded = false;
-        
-        // add the form elements
-        foreach ($this->_groupTree as $group) {
-            $_flag = 0;
-            
-            $this->_groupTitle[]           = $group['title'];
-            $this->_groupCollapseDisplay[] = $group['collapse_display'];
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
-            
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-
-                $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded, true);
-                
-                if ($field['html_type'] == 'Select State/Province' || $field['html_type'] == 'Select Country') {
-                    $_flag++;
-                }
-            }            
-        }
-
-        if ( $_flag == 2 ) {
-            // add a form rule to check default value
-            $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
-        }
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -213,82 +183,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
-        $this->setShowHide($this->_groupTitle, $this->_groupCollapseDisplay);        
     }
     
-     /**
-     * check for correct state / country mapping.
-     *
-     * @param array reference $fields - submitted form values.
-     * @param array reference $errors - if any errors found add to this array. please.
-     * @return true if no errors
-     *         array of errors if any present.
-     *
-     * @access protected
-     * @static
-     */
-    static function formRule(&$fields, &$errors )
-    {
-        $grpId = array();
-        foreach ($fields as $k => $v) {
-            list($gId, $fId, $elementName) = explode('_', $k, 3);
-            if($gId)
-                $grpId[] = $gId;
-        }
-        
-        $uniGroupId = array_unique($grpId);
-        $groupDetails = array();
-        foreach($uniGroupId as $val) {
-            $groupDetails[] = CRM_Core_BAO_CustomGroup::getGroupDetail($val);
-        }
-        
-        $_flag = 0;
-        foreach ($groupDetails as $value) {
-            foreach ($value as $group) {
-                $groupId = $group['id'];
-                foreach ($group['fields'] as $field) {
-                    
-                    $fieldId = $field['id'];
-                    $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
-                    switch($field['html_type']) {
-                case 'Select Country':
-                    $country  = $elementName;
-                    $_flag++;
-                    break;
-                    
-                    case 'Select State/Province':
-                        $stateProvince  = $elementName;
-                        $_flag++;
-                    break;
-                    }
-                }
-            }
-            if ($_flag == 2) {
-                if ( array_key_exists($country, $fields) ) {
-                    $countryId = $fields[$country];
-                }
-                
-                if ( array_key_exists($stateProvince, $fields) ) {
-                    $stateProvinceId = $fields[$stateProvince];
-                }
-                
-                if ($stateProvinceId && $countryId) {
-                    $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-                    $stateProvinceDAO->id = $stateProvinceId;
-                    $stateProvinceDAO->find(true);
-                    
-                    if ($stateProvinceDAO->country_id != $countryId) {
-                        // countries mismatch hence display error
-                        $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                        $countries =& CRM_Core_PseudoConstant::country();
-                        $errors[$stateProvince] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
-                    }
-                }
-            }
-        }
-        return empty($errors) ? true : $errors;
-    }
-
     /**
      * Set the default form values
      *
