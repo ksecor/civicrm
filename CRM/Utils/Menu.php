@@ -595,7 +595,7 @@ class CRM_Utils_Menu {
                                      'type'    => self::CALLBACK,
                                      'crmType' => self::LOCAL_TASK,
                                      'adminGroup' => 'CiviContribute',
-                                     'icon'    => 'admin/payment_instruments.png',
+                                     'icon'    => 'admin/accepted_creditcards.png',
                                      'weight'  => 390
                                      ),
                                
