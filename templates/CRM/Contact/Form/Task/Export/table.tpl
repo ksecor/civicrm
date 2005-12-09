@@ -2,10 +2,10 @@
  <div id="map-field">
     {if $savedMapping}
     <div>
-	<a href="#" onclick="mappingOption(); return false;" > &raquo; Load Saved Field Mapping </a>
+	<a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a>
     </div>
     <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>
+	<span>{$form.savedMapping.label}</span>&nbsp;<span>{$form.savedMapping.html}</span>
         <span>{$form.loadMapping.html}</span> 
     </div>
     
@@ -33,7 +33,7 @@
     {strip}
     <table>
         {if $loadedMapping}
-            <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
+            <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Using Field Mapping: %1{/ts}</td></tr>
         {/if}
         <tr class="columnheader">
             <th>{ts}Fields to Include in Export File{/ts}</th>
