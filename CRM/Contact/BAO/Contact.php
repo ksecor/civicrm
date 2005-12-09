@@ -902,6 +902,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $sql = "
 SELECT
   civicrm_contact.id as contact_id,
+  civicrm_contact.display_name as display_name,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
   civicrm_address.postal_code as postal_code,
@@ -925,12 +926,15 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $dao->query( $sql );
 
         $locations = array( );
+
+        $config =& CRM_Core_Config::singleton( );
+        $image  = '<img src="' . $config->resourceBase . 'i/arrow.gif" alt="' . ts('Contact') . '" />'; 
+
         while ( $dao->fetch( ) ) {
             $location = array( );
-            list( $location['displayName'], $location['contactImage'] ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id );
-           
-            $location['lat'          ] = $dao->latitude;
-            $location['lng'          ] = $dao->longitude;
+            $location['displayName'] = $dao->display_name;
+            $location['lat'        ] = $dao->latitude;
+            $location['lng'        ] = $dao->longitude;
             $address = '';
             /*CRM_Utils_String::append( $address, ', ',
                                       array( $dao->street_address, $dao->city, $dao->state, $dao->postal_code, $dao->country ) );*/
@@ -943,6 +947,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             $location['address'      ] = $address;
             $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type'] = $dao->location_type;
+            $location['contactImage']  = $image;
+
             $locations[] = $location;
         }
         return $locations;
