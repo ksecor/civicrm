@@ -58,10 +58,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
      */
     function preProcess()
     {
-        if (!CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET')) {
-            $this->_mode = CRM_Profile_Form::MODE_CREATE;
-        }
-        
+        $this->_mode = CRM_Profile_Form::MODE_CREATE;
         parent::preProcess( );
     }
 

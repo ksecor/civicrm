@@ -125,6 +125,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         $fields = array( );
+
         foreach ( $ufGroups as $id => $title ) {
             $subset = self::getFields( $id, true, $action );
 
@@ -152,16 +153,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ) {
         if ($ufGroupId) {
             $subset = self::getFields( $ufGroupId, false, $action, false, $visibility );
-                if ($considerSelector) {
-                    // drop the fields not meant for the selector
-                    foreach ($subset as $name => $field) {
-                        if (!$field['in_selector']) unset($subset[$name]);
+            if ($considerSelector) {
+                // drop the fields not meant for the selector
+                foreach ($subset as $name => $field) {
+                    if ( ! $field['in_selector'] ) {
+                        unset($subset[$name]);
                     }
                 }
-                $fields = $subset ; 
-
+            }
+            $fields = $subset ; 
         } else {
-
             $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
             
             $fields = array( ); 
@@ -216,24 +217,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
     static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
-        
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
-        
+
         $group =& new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
         if ( $group->find( true ) ) {
-            $field =& new CRM_Core_DAO_UFField( );
-            $field->uf_group_id = $group->id;
-            $field->is_active   = 1;
-            if ( $register ) {
-                $field->is_registration = 1;
-            }
-            if ( $match ) {
-                $field->is_match = 1;
-            }
+
+            $where = "WHERE uf_group_id = {$group->id} AND is_active = 1";
             if ( $visibility ) {
                 $clause = array( );
                 if ( $visibility & self::PUBLIC_VISIBILITY ) {
@@ -245,11 +238,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $visibility & self::LISTINGS_VISIBILITY ) {
                     $clause[] = 'visibility = "Public User Pages and Listings"';
                 }
-                $field->whereAdd( implode( ' OR ' , $clause ) );
+                if ( ! empty( $clause ) ) {
+                    $where .= ' AND ( ' . implode( ' OR ' , $clause ) . ' ) ';
+                }
             }
 
-            $field->orderBy('weight', 'field_name');
-            $field->find( );
+            $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
+
+            $field =& CRM_Core_DAO::executeQuery( $query );
+
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
             $importableFields['group']['title'] = ts('Group(s)');
@@ -275,7 +272,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     
                     $title .= $phoneType . $locType;
-                    
+
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
@@ -299,6 +296,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               );
                 }
             }
+
             return $fields;
         }
         return null;
@@ -504,11 +502,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $id, &$fields, &$values ) {
         $options = array( );
-        
+
         // get the contact details (hier)
         list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
         $details = $contactDetails[$id];
-  
+
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
@@ -561,6 +559,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = $details[$name];
                     }
                 }
+            } else if ( strpos( $name, '-' ) === false ) {
+                $params[$index] = $values[$index] = '';
             } else {
                 $nameValue = explode( '-' , $name );
                 foreach ($details as $key => $value) {
@@ -987,12 +987,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     public static function getModuleUFGroup( $moduleName = null, $count = 0) 
     {
         require_once 'CRM/Core/DAO.php';
-        $dao =& new CRM_Core_DAO( );
 
+        $dao =& new CRM_Core_DAO( );
         $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
                                civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
                         FROM civicrm_uf_group
-                        LEFT OUTER JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
+                        INNER JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
                         WHERE  civicrm_uf_group.is_active = 1
                           AND civicrm_uf_group.domain_id = ' . CRM_Core_Config::domainID( ); 
         if ($moduleName) {
@@ -1000,7 +1000,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
-        
+
         $dao->query($queryString);
         
         while ($dao->fetch( )) {
@@ -1009,6 +1009,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
             $ufGroups[$dao->id]['is_active'] = $dao->is_active;
         }
+
         return $ufGroups;
     }
     

@@ -91,7 +91,8 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
-                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $gid );
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $this->_gid );
+
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
         $this->_params   = array( );
