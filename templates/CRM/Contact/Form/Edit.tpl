@@ -6,10 +6,7 @@
 
  {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
- <link rel="stylesheet" type="text/css" media="all" href="{$config->resourceBase}css/skins/aqua/theme.css" title="Aqua" />
- <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
- <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php"></script>
- <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script>
+{include file="CRM/common/calendar/js.tpl}
  
  <div class="crm-submit-buttons">
     {$form.buttons.html}
@@ -140,27 +137,11 @@
         </span>
         <span class="fields">
 		{$form.birth_date.html}
-        <div class="description">
-            <img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calendar{/ts}" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>
-            {ts}Click to select date/time from calendar.{/ts}
-        </div>
+                <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl"}
+                </div>
         </span>
-        {literal}
-        <script type="text/javascript">
-          var obj = new Date();
-          var currentYear = obj.getFullYear();
-
-          Calendar.setup(
-            {
-              dateField   : "birth_date[d]",
-              monthField  : "birth_date[M]",
-              yearField   : "birth_date[Y]",
-              button      : "trigger",
-              range       : [1905, currentYear]  
-            }
-          );
-        </script>
-        {/literal}
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}

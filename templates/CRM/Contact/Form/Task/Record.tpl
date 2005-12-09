@@ -1,7 +1,4 @@
-<link rel="stylesheet" type="text/css" media="all" href="{$config->resourceBase}css/skins/aqua/theme.css" title="Aqua" /> 
-<script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
+{include file="CRM/common/calendar/js.tpl}
 
 <div class="form-item">
 <fieldset>
@@ -16,30 +13,9 @@
 <dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
 <dt>&nbsp;</dt>
 <dd class="description">
-  <img src="{$config->resourceBase}i/cal.gif" id="trigger" alt="{ts}Calender{/ts}"/>
-  {ts}Click to select date/time from calendar.{/ts}
+   {include file="CRM/common/calendar/desc.tpl"}
 </dd>
-            {literal}
-            <script type="text/javascript">
-              var obj = new Date();
-              var currentYear = obj.getFullYear();
-              var endYear     = currentYear + 3 ;
-              Calendar.setup(
-                {
-                  dateField   : "scheduled_date_time[d]",
-                  monthField  : "scheduled_date_time[M]",
-                  yearField   : "scheduled_date_time[Y]",
-                  hourField   : "scheduled_date_time[h]",
-                  minuteField : "scheduled_date_time[i]",
-                  ampmField   : "scheduled_date_time[A]",
-                  button      : "trigger",
-                  range       : [currentYear, endYear],
-                  showsTime   : true,
-                  timeFormat  : "12"
-                }
-              );
-            </script>
-            {/literal}
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
 <dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
 <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>

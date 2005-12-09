@@ -1,9 +1,6 @@
 {* this template is used for adding/editing/viewing relationships  *}
 
- <link rel="stylesheet" type="text/css" media="all" href="{$config->resourceBase}css/skins/aqua/theme.css" title="Aqua" />
- <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
- <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php"></script>
- <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script>
+{include file="CRM/common/calendar/js.tpl}
 
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
@@ -106,36 +103,12 @@
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger1" alt="{ts}Calender{/ts}"/>
-                {literal}
-                <script type="text/javascript">
-                  Calendar.setup(
-                    {
-                      dateField   : "start_date[d]",
-                      monthField  : "start_date[M]",
-                      yearField   : "start_date[Y]",
-                      button      : "trigger1",
-                      range       : [1985, 2025]  
-                    }
-                  );
-                </script>
-                {/literal}
+                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
+{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger1}
                 </dd>
                 <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html}<img src="{$config->resourceBase}i/cal.gif" id="trigger2" alt="{ts}Calender{/ts}"/>
-                {literal}
-                <script type="text/javascript">
-                  Calendar.setup(
-                    {
-                      dateField   : "end_date[d]",
-                      monthField  : "end_date[M]",
-                      yearField   : "end_date[Y]",
-                      button      : "trigger2",
-                      range       : [1985, 2025]  
-                    }
-                  );
-                </script>
-                {/literal}
+                <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger2} 
+{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger2}
                 </dd>
                 <dt> </dt>
                     <dd class="description">
