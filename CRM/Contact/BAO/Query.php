@@ -603,20 +603,34 @@ class CRM_Contact_BAO_Query {
             // for the user the webserver runs at (or suEXECs); we should use
             // mb_strtolower(), but then we'd require mb_strings support; we
             // could wrap this in function_exist(), though
-            if ( $name === 'state_province' ) {
+            if ( substr($name,0,14) === 'state_province' ) {
                 $states =& CRM_Core_PseudoConstant::stateProvince(); 
                 if ( is_numeric( $value ) ) {
                     $value  =  $states[(int ) $value];
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
-            } else if ( $name === 'country' ) {
+            } else if ( substr($name,0,7) === 'country' ) {
                 $countries =& CRM_Core_PseudoConstant::country( ); 
                 if ( is_numeric( $value ) ) { 
                     $value     =  $countries[(int ) $value]; 
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
+            } else if ( $name === 'individual_prefix' ) {
+                $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
+                if ( is_numeric( $value ) ) { 
+                    $value     =  $individualPrefixs[(int ) $value];  
+                }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_qill[] = ts('Individual Prefix - "%1"', array( 1 => $value ) );
+            } else if ( $name === 'individual_suffix' ) {
+                $individualSuffixs =& CRM_Core_PseudoConstant::individualsuffix( ); 
+                if ( is_numeric( $value ) ) { 
+                    $value     =  $individualSuffixs[(int ) $value];  
+                }
+                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_qill[] = ts('Individual Suffix - "%1"', array( 1 => $value ) );
             } else if ( $name === 'gender' ) {
                 $genders =& CRM_Core_PseudoConstant::gender( );  
                 if ( is_numeric( $value ) ) {  
