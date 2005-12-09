@@ -37,7 +37,7 @@
        <import>true</import>
        <headerPattern>/credit|card?/i</headerPattern>
        <dataPattern>/card|cash|check|eft/i</dataPattern>
-       <comment> Credit Card Type.</comment>
+       <comment> Credit Card Type as defined by the payment processor.</comment>
        <add>1.3</add>
   </field>
   <field>
@@ -48,7 +48,7 @@
        <import>true</import>
        <headerPattern>/credit|card?/i</headerPattern>
        <dataPattern>/card|cash|check|eft/i</dataPattern>
-       <comment> Credit Card Type.</comment>
+       <comment>Descriptive Credit Card Name.</comment>
        <add>1.3</add>
   </field>
   <field>

@@ -49,10 +49,19 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
 
     /**
      * payment instruments
+     *
      * @var array
      * @static
      */
     private static $paymentInstrument;
+
+    /**
+     * credit card
+     *
+     * @var array
+     * @static
+     */
+    private static $creditCard;
 
     /**
      * Get all the contribution types
@@ -98,6 +107,29 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
             }
         }
         return self::$paymentInstrument;
+    }
+
+    /**
+     * Get all the valid accepted credit cards
+     *               
+     * @access public 
+     * @return array - array reference of all payment instruments if any 
+     * @static 
+     */                  
+    public static function &creditCard( ) {
+        if ( ! self::$creditCard ) { 
+            self::$creditCard = array( );
+
+            require_once 'CRM/Contribute/DAO/AcceptCreditCard.php';
+            $dao =& new CRM_Contribute_DAO_AcceptCreditCard( );
+            $dao->is_active = 1;
+            $dao->orderBy( 'id' );
+            $dao->find( );
+            while ( $dao->fetch( ) ) {
+                self::$creditCard[$dao->name] = $dao->title;
+            }
+        }
+        return self::$creditCard;
     }
 
 }

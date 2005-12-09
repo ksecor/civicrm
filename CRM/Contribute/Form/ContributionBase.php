@@ -266,11 +266,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                         'title'      => ts('Expiration Date'), 
                                                         'attributes' => CRM_Core_SelectValues::date( 'creditCard' ),
                                                         'is_required'=> true );
-        $creditCardType = array( ''           => '- select -', 
-                                 'Visa'       => 'Visa'      , 
-                                 'MasterCard' => 'MasterCard', 
-                                 'Discover'   => 'Discover'  , 
-                                 'Amex'       => 'Amex' );
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $creditCardType = array( ''           => '- select -') + CRM_Contribute_PseudoConstant::creditCard( );
         $this->_fields['credit_card_type'] = array( 'htmlType'   => 'select', 
                                                     'name'       => 'credit_card_type', 
                                                     'title'      => ts('Card Type'), 
