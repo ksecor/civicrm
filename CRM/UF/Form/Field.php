@@ -323,6 +323,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $ufField->id = $this->_id;
         }
 
+
         // fix for CRM-316
         if ($this->_action & CRM_Core_Action::UPDATE) {
 
@@ -386,7 +387,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         // need the FKEY - uf group id
         $ufField->uf_group_id = $this->_gid;
-
         $ufField->save();
         
         $name = $this->_selectFields[$ufField->field_name];
