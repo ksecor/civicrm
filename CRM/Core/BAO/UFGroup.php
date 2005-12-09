@@ -560,8 +560,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = $details[$name];
                     }
                 }
-            } else {
+            } else if ( strpos( $name, '-' ) !== false ) {
                 $nameValue = explode( '-' , $name );
+
                 foreach ($details as $key => $value) {
                     if (is_numeric($key)) {
                         if ($nameValue[1] == $value['location_type_id'] ) {
