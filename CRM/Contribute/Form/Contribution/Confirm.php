@@ -157,9 +157,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
                 } else {
                     // need to fix and unify all contact creation
-                    $params = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                    $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
                     $defaults = array( );
-                    CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+                    CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
                     $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
                 }
                 
