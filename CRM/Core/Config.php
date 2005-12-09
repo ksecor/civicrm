@@ -501,11 +501,13 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_COUNTRY_LIMIT' ) ) {
-            $this->countryLimit = CIVICRM_COUNTRY_LIMIT;
+            $isoCodes = preg_split('/[^a-zA-Z]/', CIVICRM_COUNTRY_LIMIT);
+            $this->countryLimit = array_filter($isoCodes);
         }
         
         if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
-            $this->provinceLimit = CIVICRM_PROVINCE_LIMIT;
+            $isoCodes = preg_split('/[^a-zA-Z]/', CIVICRM_PROVINCE_LIMIT);
+            $this->provinceLimit = array_filter($isoCodes);
         }
         
         // Note: we can't change the ISO code to country_id

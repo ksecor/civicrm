@@ -391,7 +391,7 @@ class CRM_Core_PseudoConstant {
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
             $config =& CRM_Core_Config::singleton();
             $countryIsoCodes =& self::countryIsoCode();
-            $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
+            $limitCodes = $config->provinceLimit;
             $limitIds = array();
             foreach ($limitCodes as $code) {
                 $limitIds = array_merge($limitIds, array_keys($countryIsoCodes, $code));
@@ -427,7 +427,7 @@ class CRM_Core_PseudoConstant {
             // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
             $config =& CRM_Core_Config::singleton();
             $countryIsoCodes =& self::countryIsoCode();
-            $limitCodes = preg_split('/[^a-zA-Z]/', $config->provinceLimit);
+            $limitCodes = $config->provinceLimit;
             $limitIds = array();
             foreach ($limitCodes as $code) {
                 $tmpArray   = array_keys($countryIsoCodes, $code);
@@ -473,7 +473,7 @@ class CRM_Core_PseudoConstant {
 
             // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
             // (ensuring it's a subset of the legal values)
-            $limitCodes = preg_split('/[^a-zA-Z]/', $config->countryLimit);
+            $limitCodes = $config->countryLimit;
             $limitCodes = array_intersect(self::countryIsoCode(), $limitCodes);
             if (count($limitCodes)) {
                 $whereClause = "iso_code IN ('" . implode("', '", $limitCodes) . "')";
