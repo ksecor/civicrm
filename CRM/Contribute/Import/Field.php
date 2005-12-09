@@ -134,8 +134,11 @@ class CRM_Contribute_Import_Field {
             static $seenTrxnIds = array();
             if (in_array($this->_value, $seenTrxnIds)) {
                 return false;
-            } else {
+            } elseif ($this->_value) {
                 $seenTrxnIds[] = $this->_value;
+                return true;
+            } else {
+                $this->_value = null;
                 return true;
             }
             break;
