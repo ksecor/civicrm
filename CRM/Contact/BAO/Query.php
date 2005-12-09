@@ -203,6 +203,87 @@ class CRM_Contact_BAO_Query {
                                    );
 
     /**
+     * This array defines weights for table, which are used to sort array of table in from clause
+     * @var array
+     * @static
+     */
+    static $_tableWeights = array('civicrm_mailing_event_unsubscribe' => 75,
+                                  'civicrm_mailing_event_trackable_url_open' => 74,
+                                  'civicrm_mailing_event_reply' => 73,
+                                  'civicrm_mailing_event_opened' => 72,
+                                  'civicrm_mailing_event_forward' => 71,
+                                  'civicrm_mailing_event_delivered' => 70,
+                                  'civicrm_mailing_event_bounce' => 69,
+                                  'civicrm_mailing_event_queue' => 68,
+                                  'civicrm_group_contact' => 67,
+                                  'civicrm_im' => 66,
+                                  'civicrm_email' => 65,
+                                  'civicrm_address' => 64,
+                                  'civicrm_activity_history' => 63,
+                                  'civicrm_activity' => 62,
+                                  'civicrm_contribution_page' => 61,
+                                  'civicrm_contribution' => 60,
+                                  'civicrm_mailing_event_confirm' => 59,
+                                  'civicrm_mailing_event_subscribe' => 58,
+                                  'civicrm_relationship' => 57,
+                                  'civicrm_subscription_history' => 56,
+                                  'civicrm_group' => 55,
+                                  'civicrm_uf_match' => 54,
+                                  'civicrm_phonecall' => 53,
+                                  'civicrm_phone' => 52,
+                                  'civicrm_note' => 51,
+                                  'civicrm_module_profile' => 50,
+                                  'civicrm_meeting' => 49,
+                                  'civicrm_mapping_field' => 48,
+                                  'civicrm_location' => 47,
+                                  'civicrm_entity_tag' => 46,
+                                  'civicrm_email_history' => 45,
+                                  'civicrm_custom_value' => 44,
+                                  'civicrm_custom_field' => 43,
+                                  'civicrm_custom_group' => 42,
+                                  'civicrm_county' => 41,
+                                  'civicrm_activity_type' => 40,
+                                  'civicrm_accept_credit_card' => 39,
+                                  'civicrm_payment_instrument' => 38,
+                                  'civicrm_financial_trxn' => 37,
+                                  'civicrm_contribution_type' => 35,
+                                  'civicrm_mailing_bounce_pattern' => 34,
+                                  'civicrm_mailing_bounce_type' => 33,
+                                  'civicrm_mailing_job' => 32,
+                                  'civicrm_mailing_trackable_url' => 31,
+                                  'civicrm_mailing_group' => 30,
+                                  'civicrm_mailing' => 29,
+                                  'civicrm_mailing_component' => 28,
+                                  'civicrm_saved_search' => 27,
+                                  'civicrm_relationship_type' => 26,
+                                  'civicrm_organization' => 25 ,
+                                  'civicrm_household' => 24,
+                                  'civicrm_contact' => 23,
+                                  'civicrm_dupe_match' => 22,
+                                  'civicrm_validation' => 21,
+                                  'civicrm_uf_join' => 20,
+                                  'civicrm_uf_field' => 19,
+                                  'civicrm_uf_group' => 18,
+                                  'civicrm_tag' => 17,
+                                  'civicrm_state_province' => 16,
+                                  'civicrm_mobile_provider' => 15,
+                                  'civicrm_mapping' => 14,
+                                  'civicrm_location_type' => 13,
+                                  'civicrm_individual_suffix' => 12,
+                                  'civicrm_individual_prefix' => 11,
+                                  'civicrm_individual' => 10,
+                                  'civicrm_im_provider' => 9,
+                                  'civicrm_gender' => 8,
+                                  'civicrm_geo_coord' => 7,
+                                  'civicrm_acl_group_join' => 6,
+                                  'civicrm_acl_group' => 5,
+                                  'civicrm_domain' => 4,
+                                  'civicrm_custom_option' => 3,
+                                  'civicrm_country' => 2,
+                                  'civicrm_acl' => 1);
+
+
+    /**
      * class constructor which also does all the work
      *
      * @param array   $params
@@ -751,6 +832,38 @@ class CRM_Contact_BAO_Query {
      * @static
      */
     static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true ) {
+       
+        /*
+        //format the table list according to the weight
+        print_r($tables);
+        
+        //print_r(self::$_tableWeights);
+        
+        foreach ($tables as $key => $value) {
+            $keyArray = explode('-', $value);
+            if ($keyArray[1] != 'civicrm_contact') {
+                //echo $keyArray[0]."======<br>";
+                if (substr($keyArray[0], 0, 16) == 'civicrm_location') { 
+                    $k = CRM_Utils_Array::value('civicrm_location', self::$_tableWeights);
+                } else{
+                    $k = CRM_Utils_Array::value($key, self::$_tableWeights);
+                }
+                
+                $tempTable[$k] = $key;
+            }
+        }
+        
+        ksort($tempTable);
+        
+        print_r($tempTable);
+        $tables = array ();
+        foreach ($tempTable as $key) {
+            $tables[$key] = 1;
+        }
+        
+        print_r($tables);
+        */
+        
         $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
             return $from;
