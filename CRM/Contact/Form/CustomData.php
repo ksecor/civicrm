@@ -168,7 +168,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks', 'hideBlocks' );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
