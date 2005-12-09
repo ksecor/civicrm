@@ -981,10 +981,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         
         $showBlocks = implode(",",$sBlocks);
         $hideBlocks = implode(",",$hBlocks);
-
+        
         $page->assign( $viewName, $form );
-        $page->assign( $showBlocks1, $showBlocks );
-        $page->assign( $hideBlocks1, $hideBlocks );
+        $page->assign( $showName, $showBlocks );
+        $page->assign( $hideName, $hideBlocks );
 
         $page->assign_by_ref('groupTree', $groupTree);
     }
