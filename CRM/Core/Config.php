@@ -523,18 +523,22 @@ class CRM_Core_Config {
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
-            $this->addressFormat = trim(CIVICRM_ADDRESS_FORMAT);
+
+            // trim the format and unify line endings to LF
+            $format = trim(CIVICRM_ADDRESS_FORMAT);
+            $format = str_replace(array("\r\n", "\r"), "\n", $format);
 
             // get the field sequence from the format, using the
             // class's default as the filter for allowed fields
             $newSequence = array();
             foreach($this->addressSequence as $field) {
-                if (substr_count($this->addressFormat, $field)) {
-                    $newSequence[strpos($this->addressFormat, $field)] = $field;
+                if (substr_count($format, $field)) {
+                    $newSequence[strpos($format, $field)] = $field;
                 }
             }
             ksort($newSequence);
             $this->addressSequence = $newSequence;
+            $this->addressFormat   = $format;
         }
         
         if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {

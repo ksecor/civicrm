@@ -292,8 +292,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         // drop any remaining curly braces leaving their contents
         $formatted = str_replace(array('{', '}'), '', $formatted);
 
-        // drop any empty lines left after the replacements and trim the result
-        $formatted = trim(preg_replace('/\n+/', "\n", $formatted));
+        // drop any empty lines left after the replacements
+        $lines = array();
+        foreach (explode("\n", $formatted) as $line) {
+            $line = trim($line);
+            if ($line) $lines[] = $line;
+        }
+        $formatted = implode("\n", $lines);
 
         $this->display = $formatted;
     }
