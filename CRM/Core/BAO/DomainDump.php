@@ -97,6 +97,12 @@ class CRM_Core_BAO_DomainDump
             }
         }
 
+        /*speacial case for table civicrm_custom_option
+        need to fix*/
+
+        $dumpCommand = $config->mysqlPath."mysqldump  -u".$username." -p".$password." --opt --single-transaction  ".$database." "."civicrm_custom_option >> " . $fileName;
+        exec($dumpCommand);
+
         $tarFileName = 'backupData.tgz';
 
         if ( is_file($tarFileName) ) {
