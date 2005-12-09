@@ -7,7 +7,7 @@
 {elseif $action eq 8192}
     {* Display HTML Code for standalone Profile form *}
     <div id="help">
-    <p>{ts}The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>
+    <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>
     <p>{ts}You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s).{/ts}</p>
     <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
     </div>
@@ -25,14 +25,18 @@
 {else}
 
     <div id="help">
-    <p>{ts}By configuring 'CiviCRM Profile(s)', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'CiviCRM Profile' fields control which fields are used to check for duplicate contacts when adding or editing a record. You can also mark 'CiviCRM Profile' fields as viewable by other users and site visitors.{/ts}</p>
-    <p>{ts}Each 'CiviCRM Profile' is presented as a separate fieldset when new users register for an account, as well as when they edit an existing account.{/ts}</p>
-
-    <p>{ts}Use the Stand-alone Profile Form link to get the HTML code needed to add a profile form to blocks or pages other than User Registration and My Account. You can add these 'stand-alone forms' to any website (e.g. for a signup form).{/ts}</p>
-
-    {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q="action=profile"}{/capture}
-    <p>{ts 1=$crmURL}Use the <a href="%1"> Profile Form</a> link to get the HTML code needed to add a profile form to blocks.{/ts}</p>
-
+    {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q="reset=1&action=profile"}{/capture}
+    <p>{ts}CiviCRM Profile(s) allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.
+    They provide a powerful set of tools for you to collect information from constituents and selectively share contact information.</p>
+    <p>Profiles may be linked to specific modules, or used to create standalone forms and listing pages. Examples of module links include:
+    <ul>
+    <li><strong>User</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>.
+    <li><strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link to to your contribution page.
+    <li><strong>Profile Listings</strong> - A default profile search form and search result listings is displayed when you link users to the <site root>/civicrm/profile?reset=1 path. If you have several
+    profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter: <site root>/civicrm/profile?reset=1&gid=3
+    </ul>{/ts}</p>
+    <p>{ts 1=$crmURL}Use the <strong>Stand-alone Form</strong> links to get the HTML code needed to add a profile form to any block or page on any website (e.g. for a signup form). You can also get the <a href="%1">HTML for
+    ALL Active Profiles</a> as a single form.{/ts}</p>
     </div>
 
     {if $rows}
@@ -64,9 +68,9 @@
         <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}">&raquo;  {ts}New CiviCRM Profile{/ts}</a>
         </div>
-        {*<div class="action-link">
-        <a href="{crmURL p='civicrm/admin/uf/group' q="action=profile"}">&raquo;  {ts}Stand-alone Profile Form{/ts}</a>
-        </div>*}
+        <div class="action-link">
+            <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1&action=profile"}">&raquo;  {ts}Get HTML for All Active Profiles{/ts}</a>
+        </div>
         {/if}
 
         {/strip}
