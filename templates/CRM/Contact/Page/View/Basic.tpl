@@ -130,6 +130,7 @@
 
 {* Show Contributions block if CiviContribute is enabled *}
 {if in_array("CiviContribute", $config->enableComponents)}
+    {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
 <div id="contributions[show]" class="data-group">
   {if $pager->_totalItems}
     <dl><dt><a href="#" onclick="hide('contributions[show]'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
@@ -139,7 +140,6 @@
   {else}
     <dl><dt>{ts}Contributions{/ts}</dt>
     {if $permission EQ 'edit'}
-        {capture assign=newContribURL}{crmURL p="civicrm/contribute/contribution" q="reset=1&action=add&cid=`$contactId`"}{/capture}
         <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
     {else}
         {ts}There are no contributions recorded for this contact.{/ts}
@@ -156,7 +156,7 @@
     </p>
     
     <div class="action-link">
-        <a href="{crmURL p='civicrm/contribute/contribution' q="reset=1&action=add&cid=$contactId"}">&raquo; {ts}New Contribution{/ts}</a> 
+        <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
     </div>
     </fieldset>
 </div>
