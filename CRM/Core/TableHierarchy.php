@@ -71,6 +71,10 @@ class CRM_Core_TableHierarchy {
                          'civicrm_contribution_type'    => '25',
                          );
 
+    static function &info( ) {
+        return self::$info;
+    }
+
 }
 
 ?>

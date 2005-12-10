@@ -759,7 +759,7 @@ class CRM_Contact_BAO_Query {
         
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
-        $info =& CRM_Core_TableHierarchy::$info;
+        $info =& CRM_Core_TableHierarchy::info( );
 
         foreach ($tables as $key => $value) {
             $k = 99;
