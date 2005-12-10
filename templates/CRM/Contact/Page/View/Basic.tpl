@@ -187,42 +187,38 @@
 		<th>{ts}Subject{/ts}</th>
         <th>{ts}Created By{/ts}</th>
         <th>{ts}With{/ts}</th>
-		<th>{ts}Scheduled Date{/ts}</th>
-        <th>{ts}Status{/ts}</th>
+		<th>{ts}Scheduled Date{/ts}</th><th></th>
 	</tr>
     {foreach from=$openActivity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td>{$row.activity_type}</td>
-            <td>
-             {if $row.activity_type_id eq 1}  
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
-             {elseif $row.activity_type_id eq 2}
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
+           <tr class="{cycle values="odd-row,even-row"}">
+             <td>{$row.activity_type}</td>
+             <td>
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
+             </td>
+             <td>
+             {if $contactId  NEQ $row.sourceID} 
+                <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">{$row.sourceName}</a>
              {else}
-	       <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=other&action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>			
-             {/if }
-            </td>
-            <td>
-            {if $contactId  NEQ $row.sourceID} 
-                <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">
                 {$row.sourceName}
-                </a>
-            {else}
-                {$row.sourceName}
-            {/if}
-            </td>
-            <td>
-             {if $$contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
-               <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">
-             {$row.targetName}
-               </a>
-                 {else}
-             {$row.targetName} 
-             {/if}	
-            </td>
-            <td>{$row.date|crmDate}</td>
-   	    	<td>{$row.status_display}</td>	
-        </tr>
+             {/if}			
+             </td>
+             <td>
+                {if $$contactId NEQ $row.targetID and $contactId  EQ $row.sourceID }
+                    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">{$row.targetName}</a>
+                {else}
+                    {$row.targetName} 
+                {/if}	
+             </td>
+             <td>{$row.date|crmDate}</td>
+             <td>
+                {if $permission EQ 'edit'}
+                    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=update&id=`$row.id`&cid=$contactId&history=0"}">{ts}Edit{/ts}</a>
+                {else}
+                    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0"}">{ts}Details{/ts}</a>
+                {/if}
+             </td>
+           </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
         <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&cid=$contactId"}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
