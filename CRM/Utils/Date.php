@@ -114,7 +114,11 @@ class CRM_Utils_Date {
             } else {
                 $date['s'] = '00';
             }
-            $time = '&nbsp;' . $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
+            $time = '';
+            if ( $seperator ) {
+                $time = '&nbsp;';
+            }
+            $time = $time . $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
         }
 
         if ( $date['d'] ) {
