@@ -202,8 +202,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
             $extends = '';
             if ( $contactType ) {
-                $extends = "AND   $cgTable.extends IN  
-                            ('" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact') ";
+                if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
+                } else {
+                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+                }
+                $extends = "AND   $cgTable.extends IN ( $value ) ";
             }
 
             $query ="SELECT $cfTable.id, $cfTable.label,

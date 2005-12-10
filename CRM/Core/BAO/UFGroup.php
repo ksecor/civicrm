@@ -992,7 +992,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
                                civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
                         FROM civicrm_uf_group
-                        INNER JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
+                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
                         WHERE  civicrm_uf_group.is_active = 1
                           AND civicrm_uf_group.domain_id = ' . CRM_Core_Config::domainID( ); 
         if ($moduleName) {

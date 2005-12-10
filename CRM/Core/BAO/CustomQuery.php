@@ -97,6 +97,14 @@ class CRM_Core_BAO_CustomQuery {
      */ 
     protected $_fields;
 
+    static $extendsMap = array(
+                               'Contact'      => 'civicrm_contact',
+                               'Individual'   => 'civicrm_contact',
+                               'Household'    => 'civicrm_contact',
+                               'Organization' => 'civicrm_contact',
+                               'Contribution' => 'civicrm_contribution',
+                               );
+
     /**
      * class constructor
      *
@@ -131,9 +139,12 @@ class CRM_Core_BAO_CustomQuery {
         $dao =& CRM_Core_DAO::executeQuery( $query );
         $optionIds = array( );
         while ( $dao->fetch( ) ) {
+            // get the group dao to figure which class this custom field extends
+            $extends =& CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $dao->custom_group_id, 'extends' );
+            $extendsTable = self::$extendsMap[$extends];
             $this->_fields[$dao->id] = array( 'id'        => $dao->id,
                                               'label'     => $dao->label,
-                                              'extends'   => 'civicrm_contact',
+                                              'extends'   => $extendsTable,
                                               'data_type' => $dao->data_type,
                                               'html_type' => $dao->html_type,
                                               'db_field'  => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
@@ -181,8 +192,14 @@ class CRM_Core_BAO_CustomQuery {
             $this->_element["{$name}_id"] = 1;
             $this->_select[$fieldName]    = $name . '.' . $field['db_field'] . " as $fieldName";
             $this->_element[$fieldName]   = 1;
-            $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = civicrm_contact.id ";
+            if ( $field['extends'] == 'civicrm_contact' ) {
+                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
+                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = civicrm_contact.id ";
+            } else if ( $field['extends'] == 'civicrm_contribution' ) {
+                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
+                    " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
+                $this->_tables['civicrm_contribution'] = 1;
+            }
         }
 
     }

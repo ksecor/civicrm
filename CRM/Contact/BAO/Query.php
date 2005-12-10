@@ -1455,6 +1455,14 @@ class CRM_Contact_BAO_Query {
                                     'cancel_date'            => 1,
                                     'total_amount'           => 1,
                                     );
+
+                // also get all the custom contribution properties
+                $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
+                if ( ! empty( $fields ) ) {
+                    foreach ( $fields as $name => $dontCare ) {
+                        $properties[$name] = 1;
+                    }
+                }
                 self::$_defaultReturnProperties = array_merge( self::$_defaultReturnProperties,
                                                                $properties );
             }
