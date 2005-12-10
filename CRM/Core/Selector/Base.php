@@ -117,6 +117,7 @@ class CRM_Core_Selector_Base {
      */
     function &getSortOrder( $action ) {
         $columnHeaders =& $this->getColumnHeaders( null );
+
         if ( ! isset( $this->_order ) ) {
             $this->_order = array( );
             $start  = 2;
