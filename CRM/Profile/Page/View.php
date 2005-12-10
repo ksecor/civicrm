@@ -64,7 +64,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 
-            
+
             $profileGroups = array();
             foreach ($ufGroups as $groupid => $group) {
                 require_once 'CRM/Profile/Page/Dynamic.php';

@@ -1000,7 +1000,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
-
         $dao->query($queryString);
         
         while ($dao->fetch( )) {

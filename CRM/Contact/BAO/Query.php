@@ -762,22 +762,27 @@ class CRM_Contact_BAO_Query {
         $info =& CRM_Core_TableHierarchy::$info;
 
         foreach ($tables as $key => $value) {
-            $k = 100;
+            $k = 99;
             if ( strpos( $key, '-' ) ) {
                 $keyArray = explode('-', $key);
+                if ( is_numeric( array_shift( $keyArray ) ) ) {
+                    $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[0], $info, 99 );
+                }
+            } if ( strpos( $key, '_' ) ) {
+                $keyArray = explode( '_', $key );
                 if ( is_numeric( array_pop( $keyArray ) ) ) {
-                    $k = CRM_Utils_Array::value( $keyArray[0], $info, 100 );
+                    $k = CRM_Utils_Array::value( implode( '_', $keyArray ), $info, 99 );
                 } else {
-                    $k = CRM_Utils_Array::value($key, $info, 100 );
+                    $k = CRM_Utils_Array::value($key, $info, 99 );
                 }
             } else {
-                $k = CRM_Utils_Array::value($key, $info, 100 );
+                $k = CRM_Utils_Array::value($key, $info, 99 );
             }
             $tempTable[$k . ".$key"] = $key;
         }
         
         ksort($tempTable);
-        
+
         $newTables = array ();
         foreach ($tempTable as $key) {
             $newTables[$key] = $tables[$key];
