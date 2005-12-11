@@ -51,13 +51,6 @@ require_once 'CRM/Core/Session.php';
 class CRM_Core_Config {
 
     /**
-     * constants to determine method of geocode resolution
-     */
-    const
-        GEOCODE_RPC = 1,
-        GEOCODE_ZIP = 2;
-
-    /**
      * the dsn of the database connection
      * @var string
      */
@@ -659,7 +652,8 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
-                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC' ) {
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC'      ||
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo' ) {
                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
             }
         }
