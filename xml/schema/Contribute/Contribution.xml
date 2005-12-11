@@ -118,7 +118,7 @@
       <import>true</import>
       <headerPattern>/net(.?am(ou)?nt)?/i</headerPattern>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-      <comment>actual funds transfer amount; total less fees; if processor does not report actual fee during transaction, this is set to total_amount.</comment>
+      <comment>actual funds transfer amount. total less fees. if processor does not report actual fee during transaction, this is set to total_amount.</comment>
       <add>1.3</add>    
   </field>
   <field>        
@@ -128,7 +128,7 @@
       <length>255</length>  
       <import>true</import>
       <headerPattern>/tr(ansactio|x)n(.?id)?/i</headerPattern>
-      <comment>unique transaction id; may be processor id, bank id + trans id, or account number + check number... depending on payment_method</comment>
+      <comment>unique transaction id. may be processor id, bank id + trans id, or account number + check number... depending on payment_method</comment>
       <add>1.3</add>     
   </field>   
   <field>        
@@ -174,7 +174,7 @@
       <import>true</import>
       <headerPattern>/receipt(.?date)?/i</headerPattern>
       <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
-      <comment>when (if) receipt was sent; populated automatically for online donations w/ automatic receipting</comment>   
+      <comment>when (if) receipt was sent. populated automatically for online donations w/ automatic receipting</comment>   
       <add>1.3</add>   
   </field>  
   <field>    

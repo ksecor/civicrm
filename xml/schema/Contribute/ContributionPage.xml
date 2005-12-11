@@ -102,7 +102,7 @@
        <htmlType>textarea</htmlType>
        <rows>6</rows>
        <cols>50</cols>
-       <comment>text and html allowed; displayed above result on success page</comment> 
+       <comment>text and html allowed. displayed above result on success page</comment> 
        <add>1.3</add> 
   </field> 
   <field> 
@@ -111,7 +111,7 @@
        <htmlType>textarea</htmlType>
        <rows>6</rows>
        <cols>50</cols>
-       <comment>Text and html allowed; displayed at the bottom of the success page. Common usage is to include link(s) to other pages such as tell-a-friend, etc.</comment> 
+       <comment>Text and html allowed. displayed at the bottom of the success page. Common usage is to include link(s) to other pages such as tell-a-friend, etc.</comment> 
        <add>1.3</add> 
   </field> 
   <field> 
@@ -155,7 +155,7 @@
        <htmlType>textarea</htmlType>
        <rows>6</rows>
        <cols>50</cols>
-       <comment>text to include above standard receipt info on receipt email; emails are text-only, so do not allow html for now</comment>
+       <comment>text to include above standard receipt info on receipt email. emails are text-only, so do not allow html for now</comment>
        <add>1.3</add>  
   </field>  
   <field>

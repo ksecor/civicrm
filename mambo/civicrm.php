@@ -140,6 +140,7 @@ define( 'CIVICRM_DSN'         , '$dsn' );
 define( 'CIVICRM_SMTP_SERVER' , '$mosConfig_smtphost' );
 
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' ); 
+define( 'CIVICRM_COUNTRY_LIMIT'  , 'US' );
 
 define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
@@ -150,11 +151,32 @@ define( 'CIVICRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' ); 
 define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' ); 
 
-define('CIVICRM_GOOGLE_MAP_API_KEY', 'ABQIAAAAJqPUffDG76eXgUTeRaGh9hQjQG_QTQsz9JF3GmcmKBQr3bx34RR4Dj1RteDd-FoQ3iCpVIznWMLUtQ'); 
+define('CIVICRM_MAP_PROVIDER','Yahoo');
+define('CIVICRM_MAP_API_KEY', '');
 
 // define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' ); 
 
-define('CIVICRM_DOMAIN_ID' , 1 ); 
+define( 'CIVICRM_DOMAIN_ID' , 1 ); 
+
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR', 'PayPal' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH', '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'      , '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' , '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '\"Please Fix Me\" <fixme@example.com>' );
+
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH', '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'      , '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' , '' );
+
+define( 'ENABLE_COMPONENTS', 'CiviContribute' );
+
+define( 'CIVICRM_ADDRESS_FORMAT' , ' 
+{street_address} 
+{supplemental_address_1} 
+{supplemental_address_2} 
+{city}{, }{state_province}{ }{postal_code} 
+{country} 
+' );
 
 include_once 'config.main.php';
 
