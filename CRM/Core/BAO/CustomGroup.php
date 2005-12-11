@@ -792,9 +792,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     while($optionDAO->fetch() ) {
                         $optionValue[$optionDAO->label] = $optionDAO->value;
                     }
-                    $customValue = array_keys( $v );
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                    if ( ! empty( $v ) ) {
+                        $customValue = array_keys( $v );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
+                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                    } else {
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
+                    }
                     break;
 
                 //added for Multi-Select
@@ -806,9 +810,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     while($optionDAO->fetch() ) {
                         $optionValue[$optionDAO->label] = $optionDAO->value;
                     }
-                    $customValue =  $v ;
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                    if ( ! empty( $v ) ) {
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
+                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v);
+                    } else {
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
+                    }
                     break;
 
                 case 'Select Date':
