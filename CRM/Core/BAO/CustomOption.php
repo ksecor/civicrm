@@ -237,7 +237,18 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $optionDAO->delete();
         return null;
     }
-    
+
+    /**
+     * return the custom options associated with a specific entity id/table
+     * as a name/value pair
+     *
+     * @param string $entity_table name of the table
+     * @param string $entity_id   
+     * @param array  $values       array tos tore the options in
+     *
+     * @return void
+     * @static
+     */
     static function getAssoc( $entity_table, $entity_id, &$values ) {
         require_once 'CRM/Core/DAO/CustomOption.php';  
         $dao =& new CRM_Core_DAO_CustomOption( );  

@@ -163,10 +163,22 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
     }
 
+    /** 
+     * set the default values
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
     function setDefaultValues( ) {
         return $this->_defaults;
     }
 
+    /** 
+     * assign the minimal set of variables to the template
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
     function assignToTemplate( ) {
         $name = $this->_params['first_name'];
         if ( CRM_Utils_Array::value( 'middle_name', $this->_params ) ) {
@@ -197,6 +209,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
     }
 
+    /** 
+     * create all fields needed for a credit card transaction
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
     function setCreditCardFields( ) {
         
         $this->_fields['first_name'] = array( 'htmlType'   => 'text', 
@@ -275,7 +293,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                     'attributes' => $creditCardType,
                                                     'is_required'=> true );
     }
-
 
 }
 

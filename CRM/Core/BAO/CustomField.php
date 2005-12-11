@@ -455,6 +455,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return true;
     }
 
+    /**
+     * Given a custom field value, its id and the set of options
+     * find the display value for this field
+     *
+     * @param mixed $value   the custom field value
+     * @param int   $id      the custom field id
+     * @param int   $options the assoc array of option name/value pairs
+     *
+     * @return string the display value
+     * @static
+     * @public
+     */
     static function getDisplayValue( $value, $id, &$options ) {
         $option     =& $options[$id];
         $attributes =& $option['attributes'];
@@ -512,6 +524,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return $display;
     }
 
+    /**
+     * Given a custom field value, its id and the set of options
+     * find the default value for this field
+     *
+     * @param mixed $value   the custom field value
+     * @param int   $id      the custom field id
+     * @param int   $options the assoc array of option name/value pairs
+     *
+     * @return mixed the default value
+     * @static
+     * @public
+     */
     function getDefaultValue( $value, $id, &$options ) { 
         $option     =& $options[$id]; 
         $attributes =& $option['attributes']; 

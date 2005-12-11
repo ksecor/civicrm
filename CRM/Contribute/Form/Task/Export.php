@@ -116,6 +116,13 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
         exit( );
     }
 
+    /**
+     * return a filename for this export
+     *
+     * @return string the export file name
+     * @access public
+     * @static
+     */
     static function getExportFileName( ) {
         return ts( 'CiviCRM Contributions' );
     }

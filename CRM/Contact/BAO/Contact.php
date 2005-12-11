@@ -497,6 +497,21 @@ ORDER BY
         return $contact;
     }
 
+    /** 
+     * takes an associative array and creates a contact object and all the associated 
+     * derived objects (i.e. individual, location, email, phone etc) 
+     * 
+     * This function is invoked from within the web form layer and also from the api layer
+     * primarily from the profile / contribute forms where we dont have a nice hierarchy
+     * and are too lazy to create one. This function should be obsoleted at some time
+     * 
+     * @param array $params (reference ) an assoc array of name/value pairs 
+     * @param array $ids    the array that holds all the db ids 
+     * 
+     * @return object CRM_Contact_BAO_Contact object  
+     * @access public 
+     * @static 
+     */ 
     static function &createFlat( &$params, &$ids ) {
         require_once 'CRM/Utils/Hook.php';
 

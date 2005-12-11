@@ -41,6 +41,15 @@ require_once 'CRM/Core/DAO/UFJoin.php';
  */
 class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
+    /**
+     * takes an associative array and creates a uf join object
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_DAO_UFJoin object 
+     * @access public
+     * @static
+     */
     public static function &create($params) {
         // see if a record exists with the same weight
         $id = self::findJoinEntryId( $params );
@@ -59,6 +68,16 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         return $dao; 
     } 
 
+    /**
+     * Given an assoc list of params, find if there is a record
+     * for this set of params
+     *
+     * @param array $params (reference) an assoc array of name/value pairs 
+     * 
+     * @return int or null
+     * @access public
+     * @static
+     */
     public static function findJoinEntryId(&$params) {
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             return $params['id'];
@@ -66,22 +85,32 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
         $dao =& new CRM_Core_DAO_UFJoin( );
         
-        $dao->entity_table = $params['entity_table'];
-        $dao->entity_id    = $params['entity_id'   ];
-        $dao->weight       = $params['weight'      ];
+        $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
+        $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
+        $dao->weight       = CRM_Utils_Array::value( 'weight'      , $params );
         if ( $dao->find( true ) ) {
             return $dao->id;
         }
         return null;
     }
 
+    /**
+     * Given an assoc list of params, find if there is a record
+     * for this set of params and return the group id
+     *
+     * @param array $params (reference) an assoc array of name/value pairs 
+     * 
+     * @return int or null
+     * @access public
+     * @static
+     */
     public static function findUFGroupId(&$params) { 
     
         $dao =& new CRM_Core_DAO_UFJoin( ); 
          
-        $dao->entity_table = $params['entity_table']; 
-        $dao->entity_id    = $params['entity_id'   ]; 
-        $dao->weight       = $params['weight'      ]; 
+        $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
+        $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
+        $dao->weight       = CRM_Utils_Array::value( 'weight'      , $params );
         if ( $dao->find( true ) ) { 
             return $dao->uf_group_id; 
         } 

@@ -49,16 +49,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         parent::__construct( );
     }
 
-
-
     /**
      * takes an associative array and creates a custom group object
      *
-     * This function is invoked from within the web form layer and also from the api layer
-     *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_DAO_HistoryHistory object 
+     * @return object CRM_Core_DAO_CustomGroup object 
      * @access public
      * @static
      */
@@ -834,6 +830,18 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         }
     }
 
+    /**
+     * generic function to build all the form elements for a specific group tree
+     *
+     * @param CRM_Core_Form $form      the form object
+     * @param array         $groupTree the group tree object
+     * @param string        $showName  
+     * @param string        $hideName
+     *
+     * @return void
+     * @access public
+     * @static
+     */
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
         $form->assign_by_ref( 'groupTree', $groupTree );
 
@@ -867,6 +875,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $form->assign( $hideName, $hideBlocks ); 
     }
 
+    /**
+     * generic function to build all the view form elements for a specific group tree
+     *
+     * @param CRM_Core_Form $page      the page object
+     * @param array         $groupTree the group tree object
+     * @param string        $viewName  what name should all the values be stored under
+     * @param string        $showName  
+     * @param string        $hideName
+     *
+     * @return void
+     * @access public
+     * @static
+     */
     static function buildViewHTML( &$page, &$groupTree,
                                    $viewName = 'viewForm',
                                    $showName = 'showBlocks1',

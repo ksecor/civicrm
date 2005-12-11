@@ -299,7 +299,14 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    function addContributeFields( ) {
+    /** 
+     * if contributions are involved, add the specific contribute fields
+     * 
+     * @return void  
+     * @access public  
+     */
+    
+function addContributeFields( ) {
         if ( ! ( $this->_mode & self::MODE_CONTRIBUTE ) ) {
             return;
         }

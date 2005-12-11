@@ -105,6 +105,13 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return self::$_singleton; 
     } 
 
+    /**
+     * express checkout code. Check PayPal documentation for more information
+     * @param  array $params assoc array of input parameters for this transaction 
+     * 
+     * @return array the result in an nice formatted array (or an error object) 
+     * @public
+     */
     function setExpressCheckOut( &$params ) {
         if ( ! $this->_caller ) {
             return self::error( );
@@ -151,6 +158,14 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return $result->getToken( );
     }
 
+    /**
+     * get details from paypal. Check PayPal documentation for more information
+     *
+     * @param  string $token the key associated with this transaction
+     * 
+     * @return array the result in an nice formatted array (or an error object) 
+     * @public
+     */
     function getExpressCheckoutDetails( $token ) {
         if ( ! $this->_caller ) {
             return self::error( );
@@ -197,6 +212,14 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return $params;
     }
 
+    /**
+     * do the express checkout at paypal. Check PayPal documentation for more information
+     *
+     * @param  string $token the key associated with this transaction
+     * 
+     * @return array the result in an nice formatted array (or an error object) 
+     * @public
+     */
     function doExpressCheckout( &$params ) {
         if ( ! $this->_caller ) {
             return self::error( );
@@ -262,10 +285,27 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return $params;
     }
 
+    /**
+     * extract the value from the paypal amount structure
+     *
+     * @param Object $amount the paypal amount type
+     *
+     * @return string the amount value
+     * @public
+     */
     function getAmount( &$amount ) {
         return $amount->_value;
     }
 
+    /**
+     * This function collects all the information from a web/api form and invokes
+     * the relevant payment processor specific functions to perform the transaction
+     *
+     * @param  array $params assoc array of input parameters for this transaction
+     *
+     * @return array the result in an nice formatted array (or an error object)
+     * @public
+     */
     function doDirectPayment( &$params ) {
         if ( ! $this->_caller ) {
             return self::error( );
@@ -365,6 +405,15 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return $params;
     }
 
+    /**
+     * helper function to check the result and construct an error packet 
+     * if needed
+     *
+     * @param Object an object returned by the paypal SDK
+     *
+     * @return Object the same object if not an error, else a CRM_Core_Error object
+     * @public
+     */
     function &checkResult( &$result ) {
         $errors = $result->getErrors( );
         if ( empty( $errors ) ) {
@@ -386,6 +435,14 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         return $e;
     }
 
+    /**
+     * create a CiviCRM error object and return
+     *
+     * @param Object a PEAR_Error object
+     *
+     * @return Object a CiviCRM Error object
+     * @public
+     */
     function &error( $error = null ) {
         $e =& CRM_Core_Error::singleton( );
         if ( $error ) {

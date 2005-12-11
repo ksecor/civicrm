@@ -38,6 +38,15 @@ require_once 'CRM/Contribute/DAO/ContributionPage.php';
 
 class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_ContributionPage {
 
+    /**
+     * takes an associative array and creates a contribution page object
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     *
+     * @return object CRM_Contribute_DAO_ContributionPage object 
+     * @access public
+     * @static
+     */
     public static function &create(&$params) {
         $dao =& new CRM_Contribute_DAO_ContributionPage( );
         $dao->copyValues( $params );

@@ -62,6 +62,15 @@ abstract class CRM_Utils_Payment {
         return eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
     }
 
+    /**
+     * This function collects all the information from a web/api form and invokes
+     * the relevant payment processor specific functions to perform the transaction
+     *
+     * @param  array $params assoc array of input parameters for this transaction
+     *
+     * @return array the result in an nice formatted array (or an error object)
+     * @abstract
+     */
     abstract function doDirectPayment( &$params );
 }
 

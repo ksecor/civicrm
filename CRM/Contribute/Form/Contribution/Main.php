@@ -126,6 +126,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
 
+    /**
+     * build the radio/text form elements for the amount field
+     *
+     * @return void
+     * @access private
+     */
     function buildAmount( ) {
         $elements = array( );
 

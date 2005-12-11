@@ -521,6 +521,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         return $primaryEmail;
     }
 
+    /**
+     * is there any real significant data in the hierarchical location array
+     *
+     * @param array $fields the hierarchical value representation of this location
+     *
+     * @return boolean true if data exists, false otherwise
+     * @static
+     * @access public
+     */
     static function locationDataExists( &$fields ) {
         static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
         foreach ( $fields as $name => $value ) {

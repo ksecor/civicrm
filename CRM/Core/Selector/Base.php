@@ -153,6 +153,13 @@ class CRM_Core_Selector_Base {
         $this->_permission = $permission;
     }
 
+    /**
+     * get the display text in plain language for the search 
+     * to display on the results page
+     *
+     * @return string
+     * @access public
+     */
     public function getQill( ) {
         return null;
     }

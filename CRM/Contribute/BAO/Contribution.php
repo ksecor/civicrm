@@ -120,8 +120,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     /**
      * takes an associative array and creates a contribution object
      *
-     * This function is invoked from within the web form layer and also from the api layer
-     *
      * @param array $params (reference ) an assoc array of name/value pairs
      * @param array $ids    the array that holds all the db ids
      *
