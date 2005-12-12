@@ -233,7 +233,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             // value
             $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'));
-            $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
+            //$this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
 
             // weight
             $this->add('text', 'option_weight['.$i.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
@@ -363,6 +363,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             }
         }
         
+
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.

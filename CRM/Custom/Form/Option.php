@@ -138,7 +138,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
         
             // the above value is used directly by QF, so the value has to be have a rule
-            $this->addRule('value', ts('Please enter a valid value for this field.'), 'qfVariable');
+            //$this->addRule('value', ts('Please enter a valid value for this field.'), 'qfVariable');
 
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
@@ -218,6 +218,61 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 $errors['value'] = 'There is an entry with same value';
             }
         }
+
+        $query = "SELECT data_type FROM civicrm_custom_field WHERE id = '$fieldId'";
+        $dao = new CRM_Core_DAO();
+        $dao->query($query);
+        $dao->fetch();
+
+            switch ( $dao->data_type ) {
+            case 'Int':
+                if ( ! CRM_Utils_Rule::integer( $fields["value"] ) ) {
+                    $errors['value'] = ts( 'Please enter a valid integer as default value.' );
+                }
+                break;
+
+            case 'Float':
+            case 'Money':
+                if ( ! CRM_Utils_Rule::numeric( $fields["value"] ) ) {
+                    $errors['value'] = ts( 'Please enter a valid number as default value.' );
+                }
+                break;
+                    
+            case 'Date':
+                if ( ! CRM_Utils_Rule::date( $fields["value"] ) ) {
+                    $errors['value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
+                }
+                break;
+
+            case 'Boolean':
+                if ( ! CRM_Utils_Rule::integer( $fields["value"] ) &&
+                     ( $fields["value"] != '1' || $fields["value"] != '0' ) ) {
+                    $errors['value'] = ts( 'Please enter 1 or 0 as default value.' );
+                }
+                break;
+
+            case 'Country':
+                if( !empty($fields["value"]) ) {
+                    $fieldCountry = addslashes( $fields['value'] );
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
+                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                        $errors['value'] = ts( 'Invalid default value for country.' );
+                    }
+                }
+                break;
+
+            case 'StateProvince':
+                if( !empty($fields["value"]) ) {
+                    $fieldStateProvince = addslashes( $fields['value'] );
+                    $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                        $errors['value'] = ts( 'The invalid default value for State/Province data type' );
+                    }
+                }
+                break;
+            }
+
+
         return empty($errors) ? true : $errors;
     }
 
