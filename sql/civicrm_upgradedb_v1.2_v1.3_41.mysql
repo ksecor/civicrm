@@ -1,4 +1,36 @@
 
+-- /*******************************************************
+-- *
+-- * adding of new tables
+-- *
+-- *******************************************************/
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_accept_credit_card
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_accept_credit_card (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT ' Accept Credit Card ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this credit card.',
+     name varchar(64)    COMMENT ' Credit Card Type as defined by the payment processor.',
+     title varchar(64)    COMMENT 'Descriptive Credit Card Name.',
+     is_reserved tinyint    COMMENT 'Is this a predefined system object?',
+     is_active tinyint    COMMENT 'Is this property active?' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+
 
 -- /*******************************************************
 -- *
@@ -341,9 +373,6 @@ CREATE TABLE civicrm_contribution (
 -- *
 -- *******************************************************/
 
-   
-
-   
     ALTER TABLE `civicrm_custom_option` ADD `entity_table` VARCHAR( 64 )  COMMENT 'Name of table where item being referenced is stored.' ;   
     ALTER TABLE `civicrm_custom_option` DROP FOREIGN KEY `civicrm_custom_option_ibfk_1`;
 
@@ -364,7 +393,35 @@ CREATE TABLE civicrm_contribution (
     ('civicrm_contribution_page',1,'Strong Believer','10000',6,1);
 
 
+-- /*******************************************************
+-- *
+-- * Insert Default data in to civicrm_accept_credit_card
+-- *
+-- *******************************************************/
+
+  INSERT INTO `civicrm_accept_credit_card` VALUES (1,1,'Visa','Visa',0,1),
+					          (2,1,'MasterCard','Master Card',0,1),
+						  (3,1,'Amex','American Express',0,1),
+						  (4,1,'Discover','Discover',0,1);
+
+
+-- /*******************************************************
+-- *
+-- * Modify the  civicrm_custom_group Table Structure
+-- *
+-- *******************************************************/
+
+  ALTER TABLE `civicrm_custom_group` CHANGE `extends` `extends` ENUM( 'Contact', 'Individual', 'Household', 'Organization', 'Location', 'Address', 'Contribution', 'Activity', 'Phonecall', 'Meeting', 'Group' ) DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
+
+
+-- /*******************************************************
+-- *
+-- * Modify the  civicrm_custom_field Table Structure
+-- *
+-- *******************************************************/
    
+   ALTER TABLE `civicrm_custom_field` CHANGE `html_type` `html_type` ENUM( 'Text', 'TextArea', 'Select', 'Multi-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country' ) DEFAULT NULL COMMENT 'HTML types plus several built-in extended types.';
+
 
 
 -- /*******************************************************
