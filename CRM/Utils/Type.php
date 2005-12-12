@@ -39,10 +39,9 @@ class CRM_Utils_Type {
         T_TIMESTAMP =   256,
         T_FLOAT     =   512,
         T_MONEY     =  1024,
-        T_DATE      =  2048,
-        T_EMAIL     =  4096,
-        T_URL       =  8192,
-        T_CCNUM     = 16384;
+        T_EMAIL     =  2048,
+        T_URL       =  4096,
+        T_CCNUM     =  8192;
 
     const
         TWO          =  2,

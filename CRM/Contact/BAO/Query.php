@@ -868,7 +868,7 @@ function addContributeFields( ) {
 
             case 'civicrm_location':
                 $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                          civicrm_contact.id = civicrm_location.entity_id ";
+                                                           civicrm_contact.id = civicrm_location.entity_id ";
                 if ( $primaryLocation ) {
                     $from .= "AND civicrm_location.is_primary = 1";
                 }

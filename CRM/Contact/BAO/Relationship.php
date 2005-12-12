@@ -506,7 +506,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         }
         
-        $from = " FROM civicrm_contact, civicrm_relationship, civicrm_relationship_type
+        $from = " FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact
                         LEFT OUTER JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
                                                               civicrm_contact.id = civicrm_location.entity_id AND
                                                               civicrm_location.is_primary = 1 )
