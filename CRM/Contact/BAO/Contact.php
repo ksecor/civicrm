@@ -943,11 +943,10 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $locations = array( );
 
         $config =& CRM_Core_Config::singleton( );
-        $image  = '<img src="' . $config->resourceBase . 'i/arrow.gif" alt="' . ts('Contact') . '" />'; 
 
         while ( $dao->fetch( ) ) {
             $location = array( );
-            $location['displayName'] = $dao->display_name;
+            list( $location['displayName'], $location['contactImage'] ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id );
             $location['lat'        ] = $dao->latitude;
             $location['lng'        ] = $dao->longitude;
             $address = '';
@@ -962,7 +961,6 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             $location['address'      ] = $address;
             $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type'] = $dao->location_type;
-            $location['contactImage']  = $image;
 
             $locations[] = $location;
         }
