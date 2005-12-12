@@ -659,11 +659,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }
                 /* validate the data against the CF type */
                 //CRM_Core_Error::debug( $value, $customFields[$customFieldID] );
-                $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                             $customFields[$customFieldID][2], $value);
-                if (! $valid) {
-                    return _crm_error('Invalid value for custom field ' .
-                                      $customFields[$customFieldID][0]);
+                if ( $value ) {
+                    $valid = CRM_Core_BAO_CustomValue::typecheck(
+                                                                 $customFields[$customFieldID][2], $value);
+                    if (! $valid) {
+                        return _crm_error('Invalid value for custom field :' .
+                                          $customFields[$customFieldID][0]);
+                    }
                 }
             }
         }
@@ -691,6 +693,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 case 'gender':    
                     if (!in_array($value,CRM_Core_PseudoConstant::gender(true))) {
                         return _crm_error('Invalid value for field  : Gender');
+                    }
+                    break;
+                case 'preferred_communication_method':
+                    if(!array_key_exists($value,CRM_Core_SelectValues::pcm())) {
+                        return _crm_error('Invalid value for field  : Preferred Communication Method');
                     }
                     break;
                 case 'individual_prefix':
