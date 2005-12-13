@@ -22,7 +22,7 @@ class UnitTests extends GroupTest {
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM619.php' );
@@ -39,7 +39,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM522.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM523.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM531.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM627.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM627.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
