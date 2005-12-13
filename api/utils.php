@@ -1422,7 +1422,7 @@ function &_crm_duplicate_formatted_contact(&$params) {
 
 function &_crm_duplicate_formatted_contribution(&$params) {
     require_once 'CRM/Contribute/BAO/Contribution.php';
-    return CRM_Contribute_BAO_Contribution::checkDuplicate( $params );
+    return CRM_Contribute_BAO_Contribution::checkDuplicate( $params,$duplicate );
 }
 
 
