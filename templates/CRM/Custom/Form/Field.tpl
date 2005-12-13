@@ -67,7 +67,7 @@
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
         <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
         {if $action neq 4 and $action neq 2}
-            <dt>&nbsp;</dt><dd class="description font-italic">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
         </dl>
 
@@ -82,20 +82,23 @@
         
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description font-italic">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
         <dt id="hideDefaultValTxt" title="hideDefaultValTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}>{$form.default_value.label}</dt>
         <dd id="hideDefaultValDef" title="hideDefaultValDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}>{$form.default_value.html}</dd>
         {if $action neq 4}
         <dt id="hideDescTxt" title="hideDescTxt" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}>&nbsp;</dt>
-        <dd id="hideDescDef" title="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}><span class="description font-italic">{ts}If you want to provide a default value for this field, enter it here. For date fields, format is YYYY-MM-DD.{/ts}</span></dd>
+        <dd id="hideDescDef" title="hideDescDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 NEQ 'Text')}class="hide-block"{/if}><span class="description">{ts}If you want to provide a default value for this field, enter it here. For date fields, format is YYYY-MM-DD.{/ts}</span></dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description font-italic">{ts}Explanatory text displayed to users for this field.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/if}
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
 	    <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
+        {if $action neq 4}
+        <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
+        {/if}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>
     </div>

@@ -1,3 +1,6 @@
+{* Search form and results for Contributions *}
+{include file="CRM/common/calendar/js.tpl}
+
 <div id="help">
     {ts}Use this form to find contributions by contributor name, contribution date or amount ranges, type of contribution, payment method and / or status.{/ts}
 </div>
@@ -18,10 +21,14 @@
                 {$form.contribution_from_date.label} 
             </td>
             <td>
-                {$form.contribution_from_date.html} &nbsp; 
+                {$form.contribution_from_date.html} &nbsp;<br />
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
+                {include file="CRM/common/calendar/body.tpl" dateVar=contribution_from_date startDate=startYear endDate=endYear offset=5 trigger=trigger1}
             </td>
             <td colspan="2"> 
-                 {$form.contribution_to_date.label} {$form.contribution_to_date.html} 
+                 {$form.contribution_to_date.label} {$form.contribution_to_date.html}<br />
+                 &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger2}
+                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_to_date startDate=startYear endDate=endYear offset=5 trigger=trigger2}
             </td> 
         </tr> 
         <tr> 

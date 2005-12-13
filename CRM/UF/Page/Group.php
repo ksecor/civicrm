@@ -233,11 +233,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         require_once 'CRM/Core/BAO/UFGroup.php';
         $allUFGroups = CRM_Core_BAO_UFGroup::getModuleUFGroup( );
 
-        foreach ($allUFGroups as $key => $value) {
-            $ufGroup[$key] = array();
-            $ufGroup[$key]['title'    ] = $value['title'];
-            $ufGroup[$key]['weight'   ] = $value['weight'];
-            $ufGroup[$key]['is_active'] = $value['is_active'];
+        foreach ($allUFGroups as $id => $value) {
+            $ufGroup[$id] = array();
+            $ufGroup[$id]['id'       ] = $id;
+            $ufGroup[$id]['title'    ] = $value['title'];
+            $ufGroup[$id]['weight'   ] = $value['weight'];
+            $ufGroup[$id]['is_active'] = $value['is_active'];
 
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
@@ -249,10 +250,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $ufGroup[$key]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                 array('id' => $key));
+            $ufGroup[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+                                                                 array('id' => $id));
             //get the "Used For" from uf_join
-            $ufGroup[$key]['module'] = implode( ', ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $key, true ));
+            $ufGroup[$id]['module'] = implode( ', ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $id, true ));
         }
         $this->assign('rows', $ufGroup);
     }

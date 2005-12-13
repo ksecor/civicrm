@@ -8,6 +8,7 @@
     var currentYear = obj.getFullYear();
 {/literal}
 {if $offset}
+    var startYear = currentYear - {$offset};
     var endYear = currentYear + {$offset};
 {/if}
 
