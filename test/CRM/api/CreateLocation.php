@@ -72,26 +72,26 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $workFax->is_primary    = TRUE;
         
         $phone     = array ($workPhone, $workMobile, $workFax);
-        /*
+        
         $workIMFirst  =& new CRM_Core_DAO_IM();
         $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = 'Yahoo';
+        $workIMFirst->provider_id    = '1';
         $workIMFirst->is_primary    = FALSE;
         
         $workIMSecond =& new CRM_Core_DAO_IM();
         $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = 'AIM';
+        $workIMSecond->provider_id    = '3';
         $workIMSecond->is_primary    = FALSE;
         
         $workIMThird  =& new CRM_Core_DAO_IM();
         $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = 'Indiatimes';
+        $workIMThird->provider_id    = '5';
         $workIMThird->is_primary    = TRUE;
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
-        */
+        
         $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        $workEmailFirst->email = 'manish@5.com';
         
         $workEmailSecond =& new CRM_Core_DAO_Email();
         $workEmailSecond->email = 'manish@hotmail.com';
@@ -107,7 +107,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'country_id'             => 1001,
                         'supplemental_address_1' => 'Andheri',
                         'is_primary'             => 1,
-                        //'im'                     => $im,
+                        'im'                     => $im,
                         'email'                  => $email
                         );
         
@@ -119,8 +119,8 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
         $this->assertNull($newLocation->phone[2]->mobile_provider_id, 'Sprint');
-        //$this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        //$this->assertEqual($newLocation->im[2]->provider_id, 3);
+        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
+        $this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
     }
     
@@ -156,26 +156,26 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $workFax->is_primary    = TRUE;
         
         $phone     = array ($workPhone, $workMobile, $workFax);
-        /*
+        
         $workIMFirst  =& new CRM_Core_DAO_IM();
         $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = 'Yahoo';
+        $workIMFirst->provider_id    = '1';
         $workIMFirst->is_primary    = FALSE;
         
         $workIMSecond =& new CRM_Core_DAO_IM();
         $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = 'AIM';
+        $workIMSecond->provider_id    = '3';
         $workIMSecond->is_primary    = FALSE;
         
         $workIMThird  =& new CRM_Core_DAO_IM();
         $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = 'Indiatimes';
+        $workIMThird->provider_id    = '5';
         $workIMThird->is_primary    = TRUE;
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
-        */
+        
         $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        $workEmailFirst->email = 'manish@5.com';
         
         $workEmailSecond =& new CRM_Core_DAO_Email();
         $workEmailSecond->email = 'manish@hotmail.com';
@@ -191,7 +191,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'country_id'             => 1001,
                         'supplemental_address_1' => 'Andheri',
                         'is_primary'             => 1,
-                        //'im'                     => $im,
+                        'im'                     => $im,
                         'email'                  => $email
                         );
         
@@ -203,8 +203,8 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
         $this->assertNull($newLocation->phone[2]->mobile_provider_id, 'Sprint');
-        //$this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        //$this->assertEqual($newLocation->im[2]->provider_id, 3);
+        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
+        $this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
     }
     
@@ -240,26 +240,26 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $workFax->is_primary    = TRUE;
         
         $phone     = array ($workPhone, $workMobile, $workFax);
-        /*
+        
         $workIMFirst  =& new CRM_Core_DAO_IM();
         $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = 'Yahoo';
+        $workIMFirst->provider_id    = '1';
         $workIMFirst->is_primary    = FALSE;
         
         $workIMSecond =& new CRM_Core_DAO_IM();
         $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = 'AIM';
+        $workIMSecond->provider_id    = '3';
         $workIMSecond->is_primary    = FALSE;
         
         $workIMThird  =& new CRM_Core_DAO_IM();
         $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = 'Indiatimes';
+        $workIMThird->provider_id    = '5';
         $workIMThird->is_primary    = TRUE;
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
-        */
+        
         $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        $workEmailFirst->email = 'manish@5.com';
         
         $workEmailSecond =& new CRM_Core_DAO_Email();
         $workEmailSecond->email = 'manish@hotmail.com';
@@ -275,7 +275,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'country_id'             => 1001,
                         'supplemental_address_1' => 'Andheri',
                         'is_primary'             => 1,
-                        //'im'                     => $im,
+                        'im'                     => $im,
                         'email'                  => $email
                         );
         
@@ -287,8 +287,8 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
         $this->assertNull($newLocation->phone[2]->mobile_provider_id, 'Sprint');
-        //$this->assertEqual($newLocation->im[1]->name, 'mlzope');
-        //$this->assertEqual($newLocation->im[2]->provider_id, 3);
+        $this->assertEqual($newLocation->im[1]->name, 'mlzope');
+        $this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
     }
     

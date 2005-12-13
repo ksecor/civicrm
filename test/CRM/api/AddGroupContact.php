@@ -7,15 +7,11 @@ class TestOfAddGroupContactAPI extends UnitTestCase
     protected $_individual;
     protected $_houseHold ;
     protected $_organization;
-
-    protected $_ii = 0;
-    protected $_ih = 0;
-    protected $_io = 0;
     
     function setUp() 
     {
     }
-
+    
     function tearDown() 
     {
     }
@@ -55,11 +51,8 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type, 'Organization');
         $this->_organization = $contact;
-
     }
-
-
-   
+    
     function testAddContactToGroup() 
     {
         $contacts = array($this->_individual);
@@ -69,7 +62,7 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $this->assertNull($return); 
         
     }
-
+    
     function testAddContactsToGroup()
     {
         $contacts = array($this->_houseHold ,$this->_organization);
@@ -79,36 +72,25 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $this->assertNull($return); 
     }
     
-    
     function testDeleteIndividual() 
     {
-     
-            $contact = $this->_individual;
-            $val =& crm_delete_contact(& $contact);
-            $this->assertNull($val);
-     
+        $contact = $this->_individual;
+        $val =& crm_delete_contact(& $contact);
+        $this->assertNull($val);
     }
     
     function testDeleteHousehold() 
     {
-       
-            $contact = $this->_houseHold;
-            $val =& crm_delete_contact(& $contact);
-            $this->assertNull($val);
-       
-    }
-
-    function testDeleteOrganization() 
-    {
-        
-            $contact = $this->_organization;
-            $val =& crm_delete_contact(& $contact);
-            $this->assertNull($val);
-        
+        $contact = $this->_houseHold;
+        $val =& crm_delete_contact(& $contact);
+        $this->assertNull($val);
     }
     
-
-
-
+    function testDeleteOrganization() 
+    {
+        $contact = $this->_organization;
+        $val =& crm_delete_contact(& $contact);
+        $this->assertNull($val);
+    }
 }
 ?>
