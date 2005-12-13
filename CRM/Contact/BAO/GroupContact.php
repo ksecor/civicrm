@@ -401,7 +401,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $query = '';
         if ( empty($returnProperties) ) {
-            $query = "SELECT civicrm_contact.id as contact_id,
+            //$query = "SELECT civicrm_contact.id as contact_id,(fixed for broken api crm_get_group_contacts )
+            //            civicrm_email.email as email";
+            $query = "SELECT *,civicrm_contact.id as contact_id,
                         civicrm_email.email as email";
         } else {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
@@ -451,9 +453,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $offset != null && $row_count != null ) {
             $query .= " LIMIT $offset, $row_count";
         }
-
         // CRM_Core_Error::debug( 'q', $query );
-
+        
         $dao =& new CRM_Contact_DAO_Contact();
         $dao->query($query);
         
