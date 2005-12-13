@@ -243,64 +243,22 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     }
 
     /**
-     * Add address's display basing on the config addressFormat setting
+     * Add the formatted address to $this-> display
      */
     function addDisplay()
     {
-        $config =& CRM_Core_Config::singleton();
-        $formatted = $config->addressFormat;
-
-        $fullPostalCode = $this->postal_code;
-        if ($this->postal_code_suffix) $fullPostalCode .= "-$this->postal_code_suffix";
-
-        $replacements = array(
+        require_once 'CRM/Utils/Address.php';
+        $fields = array(
             'street_address'         => $this->street_address,
             'supplemental_address_1' => $this->supplemental_address_1,
             'supplemental_address_2' => $this->supplemental_address_2,
             'city'                   => $this->city,
             'state_province'         => $this->state,
-            'postal_code'            => $fullPostalCode,
+            'postal_code'            => $this->postal_code,
+            'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
         );
-
-        // for every token, replace {fooTOKENbar} with fooVALUEbar if
-        // the value is not empty, otherwise drop the whole {fooTOKENbar}
-        foreach ($replacements as $token => $value) {
-            if ($value) {
-                // note: we have to use the bogus (and empty) \99 backreference,
-                // otherwise a '00-666' postal code would get glued to
-                // \1 backreference producing \10 backreference followed
-                // by '0-666' string; FIXME if there is Another Way(tm)
-                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\\1\\99{$value}\\2", $formatted);
-            } else {
-                $formatted = preg_replace("/{[^{}]*{$token}[^{}]*}/u", '', $formatted);
-            }
-        }
-
-        // drop any {...} constructs from lines' ends
-        $formatted = "\n$formatted\n";
-        $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
-        $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
-
-        // if there are any 'sibling' {...} constructs, replace them with the
-        // contents of the first one; for example, when there's no state_province:
-        // 1. {city}{, }{state_province}{ }{postal_code}
-        // 2. San Francisco{, }{ }12345
-        // 3. San Francisco, 12345
-        $formatted = preg_replace('/{([^{}]*)}({[^{}]*})+/u', '\1', $formatted);
-
-        // drop any remaining curly braces leaving their contents
-        $formatted = str_replace(array('{', '}'), '', $formatted);
-
-        // drop any empty lines left after the replacements
-        $lines = array();
-        foreach (explode("\n", $formatted) as $line) {
-            $line = trim($line);
-            if ($line) $lines[] = $line;
-        }
-        $formatted = implode("\n", $lines);
-
-        $this->display = $formatted;
+        $this->display = CRM_Utils_Address::format($fields);
     }
 }
 
