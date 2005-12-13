@@ -1,8 +1,8 @@
 <?php
 
-ini_set('include_path', '../..:../../packages');
+ini_set('include_path', '../..:../../modules:../../packages:../../..');
 
-require_once 'modules/config.inc.php';
+require_once 'config.inc.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Utils/Date.php';

@@ -183,6 +183,7 @@ include_once 'config.main.php';
 ?>
 ";
 
+    $str = trim( $str );
     return $str;
 }
 
