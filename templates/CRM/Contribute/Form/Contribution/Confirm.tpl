@@ -21,8 +21,7 @@
     </div>
     <div class="display-block">
         <strong>{$name}</strong><br />
-        {$street_address}<br />
-        {$city} {$state_province}, {$postal_code} &nbsp; {$country}
+        {$address|nl2br}
     </div>
     <div class="display-block">
         {$email}

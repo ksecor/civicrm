@@ -189,14 +189,22 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->set( 'name', $name );
 
         $vars = array( 'amount', 'currencyID',
-                       'street_address', 'city', 'postal_code',
-                       'state_province', 'country', 'credit_card_type', 'trxn_id' );
+                       'credit_card_type', 'trxn_id' );
 
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
                 $this->assign( $v, $this->_params[$v] );
             }
         }
+        
+        // assign the address formatted up for display
+        $addressParts  = array('street_address', 'city', 'postal_code', 'state_province', 'country');
+        $addressFields = array();
+        foreach ($addressParts as $part) {
+            $addressFields[$part] = $this->_params[$part];
+        }
+        require_once 'CRM/Utils/Address.php';
+        $this->assign('address', CRM_Utils_Address::format($addressFields));
 
         $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
         $date = CRM_Utils_Date::mysqlToIso( $date );

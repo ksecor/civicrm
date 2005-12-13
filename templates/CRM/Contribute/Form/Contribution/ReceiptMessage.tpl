@@ -15,8 +15,7 @@
 
 ===========================================================
         {$name}
-        {$street_address}
-        {$city} {$state_province}, {$postal_code} &nbsp; {$country}
+        {$address}
 
         {$email}
 
