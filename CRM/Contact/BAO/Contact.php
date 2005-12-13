@@ -682,7 +682,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $image = '<img src="' . $config->resourceBase . 'i/contact_';
         switch ( $contactType ) { 
         case 'Individual' : 
-            $image .= 'ind.gif" alt="' . ts('Individual') . '" height="14" width="14" />'; 
+            $image .= 'ind.gif" alt="' . ts('Individual') . '" />'; 
             break; 
         case 'Household' : 
             $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />'; 
@@ -966,13 +966,13 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($dao->contact_type) {
             case 'Individual' :
-                $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" height="25" width="25" />';
+                $contact_type .= 'ind_medium.gif" alt="' . ts('Individual') . '" />';
                 break;
             case 'Household' :
                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="25" width="25" />';
                 break;
             case 'Organization' :
-                $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="25" width="25" />';
+                $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="25" width="30" />';
                 break;
             }
             $location['contactImage'] = $contact_type;

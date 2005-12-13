@@ -149,11 +149,11 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 // define( 'CIVICRM_SMTP_PORT'   , 25 );
 
 /**
- * Country availability:
+ * Country Availability:
  *
  * The CIVICRM_COUNTRY_LIMIT option selects which countries are
  * available to the users of this CiviCRM install. The format of this option
- * is a space-separated list of country ISO codes (US for United States, PL for
+ * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
  * file. The empty default does not limit the country list.
@@ -161,13 +161,13 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 define( 'CIVICRM_COUNTRY_LIMIT' , '' );
 
 /**
- * Province availability:
+ * Province Availability:
  *
  * CiviCRM ships with a set of provinces derived from the ISO 3166-2 standard;
  * the civicrm_state_province table includes almost 3800 provinces. The
  * CIVICRM_PROVINCE_LIMIT option selects which countries' provinces are
  * available to the users of this CiviCRM install. The format of this option
- * is a space-separated list of country ISO codes (US for United States, PL for
+ * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
  * file. The default limits the province list to United States.
@@ -176,15 +176,15 @@ define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
 
 /**
- * Default contact country
+ * Default Contact Country
  * 
  * When new contacts are added, the country field can be automatically populated wih
- * a default value. Use the country's ISO code here.
+ * a default value. Use the country's ISO code here (US for United States, CA for Canada, etc).
  */
 define( 'CIVICRM_DEFAULT_CONTACT_COUNTRY', 'US' );
 
 /**
- * Default currency
+ * Default Currency
  *
  * For clarity, all of the money amounts in the CiviCRM database must have
  * their currencies specified. If the currency is not specified by the user
@@ -209,7 +209,7 @@ define( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' , 'USD' );
 define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
 /**
- * Address format:
+ * Address Format:
  *
  * The format of address display and the source for address fields sequence in the edit forms.
  *
@@ -234,7 +234,7 @@ define( 'CIVICRM_ADDRESS_FORMAT' , '
 ' );
 
 /**
- * Date formatting:
+ * Date Formatting:
  *
  * Formats for date display and input fields are configurable. Settings use standard POSIX sequences.
  * Standard U.S. layouts are set by default. Adjust as needed to match your locale/requirements.
@@ -249,7 +249,7 @@ define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
 define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 
 /**
- * Monetary values formatting:
+ * Money Display:
  *
  * Format for monetary values display.
  * %c - currency symbol ('$')
@@ -257,14 +257,14 @@ define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
  * %a - monetary amount, formatted by properly set LC_MONETARY
  *
  * The final 'look' of the formatted amount depends on the defined
- * CIVICRM_LC_MONETARY locale (this locale must be supported by the
- * underlying operating system).
+ * CIVICRM_LC_MONETARY locale Locale format is 'langageCode_countryCode'.
+ * The specified locale must be supported by the underlying operating system.
  */
 define( 'CIVICRM_MONEYFORMAT', '%c %a' );
 define( 'CIVICRM_LC_MONETARY', 'en_US' );
 
 /**
- * Import - maximum file size:
+ * Import - Maximum File Size:
  *
  * Default maximum Contact Import filesize is 1MB. You may increase this up to a hard-limit of 8MB.
  * However, imports above 1MB will take a 'long time' and are server resource intensive.
@@ -273,65 +273,119 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
 define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
 
 /**
- * Map Contacts with Google Maps API:
- * 
- * If you want to utilize the Google mapping feature, you must request an API key for your site
- * here: http://www.google.com/apis/maps/signup.html
+ * Mapping:
+ *
+ * Plug-ins are included for both Google and Yahoo mapping service providers. Choose the
+ * provider that has the best coverage for your commonly used locales by setting the Map
+ * CIVICRM_MAP_PROVIDER to either 'Google' or 'Yahoo'.
+ *
+ * For GOOGLE mapping - request an API key for your site here:
+ * http://www.google.com/apis/maps/signup.html
  *
  * When prompted for 'My Web Site URL' - enter the url for your CiviCRM menu followed by
- * the path '/contact/search'. You API Key will be generated and displayed on the next page.
+ * the path '/contact/search'. Your API Key will be generated and displayed on the next page.
  *
  * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/ you would enter
  * 'http://www.example.com/civicspace/civicrm/contact/search'
  *
- * Enter your API key below to enable the mapping feature for your CiviCRM installation.
- * 
- * IMPORTANT: You must enable some form of Geocode lookup (see next section) for mapping to
- * function, since the mapping API requires latitude and longitude to be populated for
- * contacts' addresses.
+ * For YAHOO mapping - request an Application ID for your site here:
+ * http://api.search.yahoo.com/webservices/register_application
  *
- * Map Contacts with Yahoo Maps API:
+ * Enter either your Google API key OR Yahoo Application ID in the CIVICRM_MAP_API_KEY
+ * setting below.
  * 
- * If you want to utilize the Yahoo mapping feature, you must request an API key for your site
- * here: http://api.search.yahoo.com/webservices/register_application
+ * IMPORTANT: Both mapping providers require that Contact addresses include latitude
+ * and longitude. You can populate these manually, or you must enable one of the
+ * automatic Geocode lookup methods described in the next section.
  *
- * Enter your API key below to enable the mapping feature for your CiviCRM installation.
- * 
- * For Yahoo for yahoo Maps and Google for google maps 	
- * 
  */
-define('CIVICRM_MAP_PROVIDER','Yahoo');
+define('CIVICRM_MAP_PROVIDER','');
 define('CIVICRM_MAP_API_KEY', '');
 
 /**
- * Geocode (latitude and longitude) lookup:
+ * Geocode (latitude and longitude) Lookup:
  *
- * CiviCRM can be configured to automatically lookup and insert geo-coordinates for contact
- * addresses. The current version offers two methods for this lookup:
+ * CiviCRM can be configured to automatically lookup and insert latitude and longitude for contact
+ * addresses. The current version offers three methods for this lookup:
  * - local lookup in the Drupal zipcodes table (requires this table to be installed in the
  *   civicrm_db)
  *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_ZipTable' );
  *
- * - remote lookup using geocoder.us
+ * - remote geocode lookup using Yahoo
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_Yahoo' );
+ *
+ * NOTE: You must request and enter a Yahoo Application ID to use Yahoo's geocode lookup service.
+ * Enter this value in the CIVICRM_MAP_API_KEY above if you haven't already done so (the same ID
+ * is used for mapping and geocode lookups).
+ * 
+ * - remote geocode lookup using geocoder.us
  *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' );
  *
- * NOTE: The default Geocode_RPC implementation queries the geocoder.us service. This may
- * result in significant overhead, especially for import operations.
+ * NOTE: Both remote lookup methods involve moderate to significant network overhead and have
+ * usage limits. Yahoo's lookup is a bit faster, but neither method should be enabled when
+ * Importing more than a few hundred contacts.
  *
  * You may also create and call your own class using the interface defined at
  * 'CRM_Utils_Geocode_API'.
  */
 define('CIVICRM_GEOCODE_METHOD', '' );
 
+
 /**
- * Automatically check for new CiviCRM versions
+ * Automatically Check for New CiviCRM Versions
  *
  * CiviCRM can be configured to connect periodically to the OpenNGO website and
  * check for the availability of new versions. Set this value to true if you
  * want this install to perform such checks (the info about new versions will
- * be displayed at the main Administer CiviCRM screen).
+ * be displayed on the main Administer CiviCRM control panel).
  */
 define('CIVICRM_VERSION_CHECK', false);
+
+
+/**
+ * Payment Processor Settings
+ *
+ * If you are using CiviContribute for Online Contributions, you must obtain a Payment Processor
+ * (merchant) account and configure your site and the settings below with that account information.
+ * 
+ * You should start with a Test Server (e.g. Sandbox) account, and configure both the LIVE and TEST
+ * settings below using your test (sandbox) account info. Once you are ready to go live, update
+ * the LIVE settings to use your live account info. Consult your Payment Processor's documentation
+ * and CiviCRM Payment Processor Configuration documentation (http://objectledge.org/confluence/display/CRM/CiviContribute+Payment+Processor+Configuration)
+ * for details on these settings.
+ */
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , '' );
+// Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', and 'Moneris'.
+
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '' );
+// The FROM email address for all automatic payment response (receipt) emails.
+
+/*
+ * TEST Payment Server (Sandbox) Settings
+ */
+// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
+
+// Authentication key. For PayPal - hash of the .ppd file - e.g. ppd filename without extension for PayPal.
+// For Moneris - storeid.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
+
+// API Password (PayPal) or API Token (Moneris)
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
+
+/*
+ * LIVE Payment Server Settings
+ */
+// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
+
+// Authentication key. For PayPal - hash of the .ppd file - e.g. ppd filename without extension for PayPal.
+// For Moneris - storeid.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
+
+// API Password (PayPal) or API Token (Moneris)
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
+
 
 /**
  * Multi-site Support
@@ -373,20 +427,6 @@ define( 'CIVICRM_DEBUG', 0 );
  * for new outgoing mailings. (Used for CiviMail only.)
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
-
-/**
- * Payment Processor settings
- *
- */
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , 'PayPal' ); // this is either PayPal / Moneris / PayPal_Express
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , 'Path to the .cert AND .ppd files (SDK API Profile files for PayPal)' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , 'hash of the .ppd file (ppd filename without extension)' ); // storeid for Moneris
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , 'your api password' ); // apitoken for Moneris
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', 'the FROM email address for all emails sent via system' );
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , 'Path to the .cert AND .ppd files (SDK API Profile files for PayPal)' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , 'hash of the .ppd file (ppd filename without extension)' ); 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , 'your api password' ); 
 
 include_once 'config.main.php';
 
