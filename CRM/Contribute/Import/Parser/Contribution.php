@@ -193,55 +193,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
 
         if ( is_a( $newContribution, CRM_Core_Error ) ) {
-            foreach ($newContribution->_errors[0]['params'] as $cid) {
-                $contributionId = $cid;
-            }
-        } else {
-            $contributionId = $newContribution->id;
+            array_unshift($values, $newContribution->_errors[0]['message']);
+            return CRM_Contribute_Import_Parser::ERROR;
         }
         
-        //dupe checking
-        if ( is_a( $newContribution, CRM_Core_Error ) ) 
-        {    
-            $code = $newContribution->_errors[0]['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTRIBUTION) {
-                $urls = array( );
-            
-                foreach ($newContribution->_errors[0]['params'] as $cid) {
-                    $urls[] = CRM_Utils_System::url('civicrm/contribution/view',
-                                                    'reset=1&cid=' . $cid, true);
-                }
-                
-                $url_string = implode("\n", $urls);
-                array_unshift($values, $url_string); 
-                
-                /* Params only had one id, so shift it out */
-                $contributionId = array_shift($newContribution->_errors[0]['params']);
-            
-                if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE) {
-                    $newContribution = crm_update_contribution_formatted($contributionId, $formatted, true);
-                } else if ($onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_FILL) {
-                    $newContribution = crm_update_contribution_formatted($contributionId, $formatted, false);
-                } // else skip does nothing and just returns an error code.
-            
-                if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
-                    $this->_newContributions[] = $newContribution->id;
-                }
-                //CRM-262 No Duplicate Checking  
-                if ($onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_SKIP) {
-                    return CRM_Contribute_Import_Parser::DUPLICATE; 
-                }
-                return CRM_Contribute_Import_Parser::VALID;
-            } else { 
-                /* Not a dupe, so we had an error */
-                array_unshift($values, $newContribution->_errors[0]['message']);
-                return CRM_Contribute_Import_Parser::ERROR;
-            }
-        }
-        
-        if ($newContribution && ! is_a($newContribution, CRM_Core_Error)) {
-            $this->_newContributions[] = $newContribution->id;
-        }
+        $this->_newContributions[] = $newContribution->id;
         return CRM_Contribute_Import_Parser::VALID;
     }
    

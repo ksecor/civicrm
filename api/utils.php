@@ -41,7 +41,7 @@ require_once 'CRM/Utils/Array.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
-    $error = CRM_Core_Error::singleton( );
+    $error =& CRM_Core_Error::singleton( );
     $error->push( $code, $level, array( $params ), $message );
     return $error;
 }
@@ -1421,19 +1421,8 @@ function &_crm_duplicate_formatted_contact(&$params) {
 
 
 function &_crm_duplicate_formatted_contribution(&$params) {
-    if (!isset($params['trxn_id'])) {
-        return true;
-    }
-    $contribution =& new CRM_Contribute_DAO_Contribution();
-    $contribution->trxn_id = $params['trxn_id'];
-
-    if ( $contribution->find( true ) ) {
-        if ( $ids =& $contribution->id ) {
-            $error =& _crm_error( "Found matching contributions: $ids", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $ids );
-            return $error;
-        }
-    }
-    return true;
+    require_once 'CRM/Contribute/BAO/Contribution.php';
+    return CRM_Contribute_BAO_Contribution::checkDuplicate( $params );
 }
 
 

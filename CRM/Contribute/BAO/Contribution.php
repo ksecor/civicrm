@@ -71,6 +71,14 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @static
      */
     static function add(&$params, &$ids) {
+        $duplicates = array( );
+        if ( self::checkDuplicate( $params, $duplicates ) ) {
+            $error =& CRM_Core_Error::singleton( ); 
+            $d = implode( ', ', $duplicates );
+            $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Found matching contribution(s): $d" );
+            return $error;
+        }
+
         $contribution =& new CRM_Contribute_BAO_Contribution();
         
         $contribution->copyValues($params);
@@ -140,6 +148,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         CRM_Core_DAO::transaction('BEGIN');
 
         $contribution = self::add($params, $ids);
+        if ( is_a( $contribution, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $contribution;
+        }
 
         $params['contribution_id'] = $contribution->id;
 
@@ -165,10 +177,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         // let's create an (or update the relevant) Acitivity History record
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
-        if (!$contributionType) $contributionType = ts('Contribution');
+        if (!$contributionType) {
+            $contributionType = ts('Contribution');
+        }
 
         static $insertDate = null;
-        if (!$insertDate) $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
+        if ( ! $insertDate ) {
+            $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
+        }
+
         $activitySummary = ts(
             '%1 - %2 (from import on %3)',
             array(
@@ -189,7 +206,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             'activity_date'    => $contribution->receive_date
         );
 
-        if (CRM_Utils_Array::value('contribution', $ids)) {
+        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             // this contribution should have an Activity History record already
             $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
             $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
@@ -389,6 +406,44 @@ WHERE  domain_id = $domainID AND $whereCond
 
             $contribution->delete( ); 
         }
+    }
+
+    /**
+     * Check if there is a contribution with the same trxn_id or invoice_id
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param array  $duplicates (reference ) store ids of duplicate contribs
+     *
+     * @return boolean true if duplicate, false otherwise
+     * @access public
+     * static
+     */
+    static function checkDuplicate( &$params, &$duplicates ) {
+        $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
+        $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
+
+        $clause = array( );
+        if ( $trxn_id ) {
+            $clause[] = "trxn_id = '" . CRM_Utils_Type::escape( $trxn_id, 'String' ) . "'";
+        }
+
+        if ( $invoice_id ) {
+            $clause[] = "invoice_id = '" . CRM_Utils_Type::escape( $invoice_id, 'String' ) . "'";
+        }
+
+        if ( empty( $clause ) ) {
+            return false;
+        }
+
+        $query = "SELECT id FROM civicrm_contribution WHERE " .
+            implode( ' OR ', $clause );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $result = false;
+        while ( $dao->fetch( ) ) {
+            $duplicates[] = $dao->id;
+            $result = true;
+        }
+        return $result;
     }
 
 }
