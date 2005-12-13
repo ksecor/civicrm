@@ -50,6 +50,7 @@ class CRM_Utils_System {
      */
     public static $php4SpecialClassName = array(
                                                 'crm'                => 'CRM',
+                                                'acceptcreditcard'   => 'AcceptCreditCard',
                                                 'activityhistory'    => 'ActivityHistory',
                                                 'addtogroup'         => 'AddToGroup',
                                                 'addtohousehold'     => 'AddToHousehold',
@@ -67,6 +68,7 @@ class CRM_Utils_System {
                                                 'customvalue'        => 'CustomValue',
                                                 'contributionpage'   => 'ContributionPage',
                                                 'contributionpageedit'=> 'ContributionPageEdit',
+                                                'contributiontype'   => 'ContributionType',
                                                 'dupematch'          => 'DupeMatch', 
                                                 'dashboard'          => 'DashBoard',
                                                 'dao'                => 'DAO',
@@ -87,6 +89,7 @@ class CRM_Utils_System {
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
                                                 'pagerAToZ'          => 'pagerAToZ',//not needed here 
+                                                'paymentinstrument'  => 'PaymentInstrument',
                                                 'relationshiptype'   => 'RelationshipType',
                                                 'removefromgroup'    => 'RemoveFromGroup',
                                                 'savedsearch'        => 'SavedSearch',
