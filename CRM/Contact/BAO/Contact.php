@@ -682,7 +682,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $image = '<img src="' . $config->resourceBase . 'i/contact_';
         switch ( $contactType ) { 
         case 'Individual' : 
-            $image .= 'ind.gif" alt="' . ts('Individual') . '" />'; 
+            $image .= 'ind.gif" alt="' . ts('Individual') . '" height="14" width="14" />'; 
             break; 
         case 'Household' : 
             $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />'; 
@@ -917,6 +917,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $sql = "
 SELECT
   civicrm_contact.id as contact_id,
+  civicrm_contact.contact_type as contact_type,
   civicrm_contact.display_name as display_name,
   civicrm_address.street_address as street_address,
   civicrm_address.city as city,
@@ -946,7 +947,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
 
         while ( $dao->fetch( ) ) {
             $location = array( );
-            list( $location['displayName'], $location['contactImage'] ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id );
+            $location['displayName'] = $dao->display_name ;
             $location['lat'        ] = $dao->latitude;
             $location['lng'        ] = $dao->longitude;
             $address = '';
@@ -961,7 +962,20 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             $location['address'      ] = $address;
             $location['url'          ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type'] = $dao->location_type;
-
+            
+            $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
+            switch ($dao->contact_type) {
+            case 'Individual' :
+                $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" height="25" width="25" />';
+                break;
+            case 'Household' :
+                $contact_type .= 'house.png" alt="' . ts('Household') . '" height="25" width="25" />';
+                break;
+            case 'Organization' :
+                $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="25" width="25" />';
+                break;
+            }
+            $location['contactImage'] = $contact_type;
             $locations[] = $location;
         }
         return $locations;
