@@ -227,27 +227,27 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             switch ( $dao->data_type ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $fields["value"] ) ) {
-                    $errors['value'] = ts( 'Please enter a valid integer as default value.' );
+                    $errors['value'] = ts( 'Please enter a valid integer value.' );
                 }
                 break;
 
             case 'Float':
             case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $fields["value"] ) ) {
-                    $errors['value'] = ts( 'Please enter a valid number as default value.' );
+                    $errors['value'] = ts( 'Please enter a valid number value.' );
                 }
                 break;
                     
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $fields["value"] ) ) {
-                    $errors['value'] = ts ( 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.' );
+                    $errors['value'] = ts ( 'Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31.' );
                 }
                 break;
 
             case 'Boolean':
                 if ( ! CRM_Utils_Rule::integer( $fields["value"] ) &&
                      ( $fields["value"] != '1' || $fields["value"] != '0' ) ) {
-                    $errors['value'] = ts( 'Please enter 1 or 0 as default value.' );
+                    $errors['value'] = ts( 'Please enter 1 or 0 as value.' );
                 }
                 break;
 
@@ -266,7 +266,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                     $fieldStateProvince = addslashes( $fields['value'] );
                     $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
                     if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
-                        $errors['value'] = ts( 'The invalid default value for State/Province data type' );
+                        $errors['value'] = ts( 'The invalid value for State/Province data type' );
                     }
                 }
                 break;

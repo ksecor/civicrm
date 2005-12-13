@@ -154,10 +154,17 @@ class CRM_Utils_Rule {
     }
 
     static function integer($value) {
-        if (is_int($value)) {
+        if ( is_int($value)) {
             return true;
         }
-    
+        
+        if (($value < 0)) {
+            $negValue = -1 * $value;
+            if(is_int($negValue)) {
+                return true;
+            }
+        }
+
         if (is_numeric($value) && preg_match('/^\d+$/', $value)) {
             return true;
         }
