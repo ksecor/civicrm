@@ -328,15 +328,7 @@ CREATE TABLE civicrm_dupe_match (
    INSERT INTO `civicrm_payment_instrument` VALUES (4, 1, 'Check', NULL, 1, 1); 
    INSERT INTO `civicrm_payment_instrument` VALUES (5, 1, 'EFT', NULL, 1, 1);
 
-   INSERT INTO `civicrm_contribution_page` VALUES (1, 1, 'Support OpenNGO!', 'Like CiviCRM? Use CiviCRM? Support CiviCRM! Contribute NOW!', 1, 0, 1, 500.00, 10.00, 10000.00, 'Thanks for Your Support!', '<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please print this page for your records.</p>', '<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>', 1, 'OpenNGO Membership Dept.', 'memberships@openngo.org', 'receipt@example.com', 'bcc@example.com', 'Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345', 1);
-
-   
    INSERT INTO `civicrm_dupe_match` VALUES (1, 1, 'contact_individual', 'first_name AND last_name AND email');
-   
-
-    
-   
-  
 
 
 -- /*******************************************************
@@ -381,17 +373,6 @@ CREATE TABLE civicrm_dupe_match (
 
     UPDATE `civicrm_custom_option` SET `entity_table` = 'civicrm_custom_field' ;
 
-
-    INSERT INTO civicrm_custom_option(entity_table,entity_id,label,value,weight,is_active)
-    VALUES
-    ('civicrm_contribution_page',1,'Small','10',1,1),
-    ('civicrm_contribution_page',1,'Medium','20',2,1),
-    ('civicrm_contribution_page',1,'Big','50',3,1),
-    ('civicrm_contribution_page',1,'Large','100',4,1),
-    ('civicrm_contribution_page',1,'Huge','500',5,1),
-    ('civicrm_contribution_page',1,'Strong Believer','10000',6,1);
-
-  
 
 -- /*******************************************************
 -- *

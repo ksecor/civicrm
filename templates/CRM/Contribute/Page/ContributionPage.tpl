@@ -1,4 +1,4 @@
-{capture assign=newPageURL}{crmURL p='civicrm/contribute' q='action=add&reset=1'}{/capture}
+{capture assign=newPageURL}{crmURL p='civicrm/admin/contribute' q='action=add&reset=1'}{/capture}
 <div id="help">
     <p>{ts}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.{/ts}</p>
     
@@ -37,7 +37,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/contribute' q="action=add&reset=1"}">&raquo;  {ts}New Contribution Page{/ts}</a>
+        <a href="{$newPageURL}">&raquo;  {ts}New Contribution Page{/ts}</a>
         </div>
         </p>
         {/if}
