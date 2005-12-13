@@ -164,7 +164,7 @@ class CRM_Contact_BAO_Query {
      */
     protected $_strict = false;
 
-    protected $_mode = self::MODE_CONTACTS;
+    protected $_mode = 1;
 
     /** 
      * Should we only search on primary location
@@ -216,7 +216,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $mode = self::MODE_CONTACTS ) {
+                          $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
@@ -1417,7 +1417,7 @@ function addContributeFields( ) {
      * @return void
      * @access public
      */
-    static function &defaultReturnProperties( $mode = self::MODE_CONTACTS ) {
+    static function &defaultReturnProperties( $mode = 1 ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
             self::$_defaultReturnProperties = array( );
             if ( $mode & self::MODE_CONTACTS ) {
