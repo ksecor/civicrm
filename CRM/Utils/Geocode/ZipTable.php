@@ -66,12 +66,13 @@ class CRM_Utils_Geocode_ZipTable {
             return false;
         }
 
-        if ( empty( trim( $values['postal_code'] ) ) ) {
+        $postalCode = trim( $values['postal_code'] );
+        if ( empty( trim( $postalCode ) ) ) {
             return false;
         }
         
         $query = 'SELECT latitude, longitude FROM zipcodes WHERE zip = ' .
-            CRM_Utils_Type::escape( $values['postal_code'], 'String' );
+            CRM_Utils_Type::escape( $postalCode, 'String' );
         $dao =& CRM_Core_DAO::executeQuery( $query );
 
         if ( $dao->fetch( ) ) {

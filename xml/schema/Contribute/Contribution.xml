@@ -204,4 +204,11 @@
     <unique>true</unique>
     <add>1.3</add>
   </index>
+  <index>
+    <name>UI_contrib_invoice_id_domain_id</name>
+    <fieldName>invoice_id</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+    <add>1.3</add>
+  </index>
 </table>

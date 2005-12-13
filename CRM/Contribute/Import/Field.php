@@ -108,7 +108,7 @@ class CRM_Contribute_Import_Field {
 
     function validate( ) {
 
-        if ( $this->_value === null ) {
+        if ( CRM_Utils_System::isNull( $this->_value ) ) {
             return true;
         }
 

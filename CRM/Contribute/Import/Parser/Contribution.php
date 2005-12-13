@@ -47,7 +47,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
     private $_contactIdIndex;
     private $_totalAmountIndex;
-    private $_receiveDateIndex;
     private $_contributionTypeIndex;
 
     /**
@@ -86,7 +85,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
         $this->_totalAmountIndex      = -1;
-        $this->_receiveDateIndex      = -1;
         $this->_contributionTypeIndex = -1;
 
         $index = 0;
@@ -97,9 +95,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 break;
             case 'total_amount':
                 $this->_totalAmountIndex      = $index;
-                break;
-            case 'receive_date':
-                $this->_receiveDateIndex      = $index;
                 break;
             case 'contribution_type':
                 $this->_contributionTypeIndex = $index;
@@ -152,7 +147,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $errorRequired = false;
         if ($this->_contactIdIndex        < 0 or
             $this->_totalAmountIndex      < 0 or
-            $this->_receiveDateIndex      < 0 or
             $this->_contributionTypeIndex < 0) {
             $errorRequired = true;
         }

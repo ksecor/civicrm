@@ -210,7 +210,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
  * @access public
  */
 function _crm_check_contrib_params( &$params ) {
-    static $required = array( 'contact_id', 'receive_date', 'total_amount', 'contribution_type' );
+    static $required = array( 'contact_id', 'total_amount', 'contribution_type' );
 
     // cannot create a contribution with empty params
     if ( empty( $params ) ) {
@@ -411,6 +411,12 @@ function _crm_format_contrib_params( &$params, &$values ) {
     _crm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
+
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+
         switch ($key) {
         case 'contact_id':
             if (!CRM_Utils_Rule::integer($value)) {

@@ -394,7 +394,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $requiredFields = array(
                 'contact_id'        => ts('Contact ID'),
                 'total_amount'      => ts('Total Amount'),
-                'receive_date'      => ts('Receive Date'),
                 'contribution_type' => ts('Contribution Type')
             );
             foreach ($requiredFields as $field => $title) {
