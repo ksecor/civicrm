@@ -417,7 +417,9 @@ function addContributeFields( ) {
 
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
         $processed     = array( );
+        $index = 0;
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
+            $index++;
             $lName = "`$name-location`";
             $lCond = self::getPrimaryCondition( $name );
 
@@ -434,7 +436,7 @@ function addContributeFields( ) {
             $tName = "$name-location";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $this->_tables[ 'civicrm_location_' . $name ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
+            $this->_tables[ 'civicrm_location_' . $index ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
 
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
@@ -442,17 +444,18 @@ function addContributeFields( ) {
             $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
-            $this->_tables[ 'civicrm_location_type' . $name ] = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
+            $this->_tables[ 'civicrm_location_type_' . $index ] = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
 
 
             $aName = "`$name-address`";
             $tName = "$name-address";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $this->_tables[ 'civicrm_address_' . $name ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
+            $this->_tables[ 'civicrm_address_' . $index ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
 
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
+                $index++;
                 $cond = "is_primary = 1";
                 $elementName = $elementFullName;
                 $elementType = '';
@@ -482,15 +485,15 @@ function addContributeFields( ) {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
+                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
                                 break;
 
                             case 'civicrm_state_province':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
+                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
                                 break;
 
                             case 'civicrm_country':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
+                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
                                 break;
                             }
                         }
@@ -764,39 +767,6 @@ function addContributeFields( ) {
             return $from;
         }
         
-        //format the table list according to the weight
-        require_once 'CRM/Core/TableHierarchy.php';
-        $info =& CRM_Core_TableHierarchy::info( );
-
-        foreach ($tables as $key => $value) {
-            $k = 99;
-            if ( strpos( $key, '-' ) ) {
-                $keyArray = explode('-', $key);
-                if ( is_numeric( array_shift( $keyArray ) ) ) {
-                    $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[0], $info, 99 );
-                }
-            } if ( strpos( $key, '_' ) ) {
-                $keyArray = explode( '_', $key );
-                if ( is_numeric( array_pop( $keyArray ) ) ) {
-                    $k = CRM_Utils_Array::value( implode( '_', $keyArray ), $info, 99 );
-                } else {
-                    $k = CRM_Utils_Array::value($key, $info, 99 );
-                }
-            } else {
-                $k = CRM_Utils_Array::value($key, $info, 99 );
-            }
-            $tempTable[$k . ".$key"] = $key;
-        }
-        
-        ksort($tempTable);
-
-        $newTables = array ();
-        foreach ($tempTable as $key) {
-            $newTables[$key] = $tables[$key];
-        }
-        
-        $tables = $newTables;
-        
         if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ) &&
              ! CRM_Utils_Array::value( 'civicrm_address'       , $tables ) ) {
@@ -829,6 +799,39 @@ function addContributeFields( ) {
         }
 
 
+        //format the table list according to the weight
+        require_once 'CRM/Core/TableHierarchy.php';
+        $info =& CRM_Core_TableHierarchy::info( );
+
+        foreach ($tables as $key => $value) {
+            $k = 99;
+            if ( strpos( $key, '-' ) ) {
+                $keyArray = explode('-', $key);
+                if ( is_numeric( array_shift( $keyArray ) ) ) {
+                    $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[0], $info, 99 );
+                }
+            } if ( strpos( $key, '_' ) ) {
+                $keyArray = explode( '_', $key );
+                if ( is_numeric( array_pop( $keyArray ) ) ) {
+                    $k = CRM_Utils_Array::value( implode( '_', $keyArray ), $info, 99 );
+                } else {
+                    $k = CRM_Utils_Array::value($key, $info, 99 );
+                }
+            } else {
+                $k = CRM_Utils_Array::value($key, $info, 99 );
+            }
+            $tempTable[$k . ".$key"] = $key;
+        }
+        
+        ksort($tempTable);
+
+        $newTables = array ();
+        foreach ($tempTable as $key) {
+            $newTables[$key] = $tables[$key];
+        }
+
+        $tables = $newTables;
+        
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
