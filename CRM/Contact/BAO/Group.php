@@ -236,8 +236,9 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $group =& new CRM_Contact_DAO_Group();
 
         // form the name
+        if(! $params['name'] ) {
         $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
-
+        }
         $group->copyValues($params);
         $group->domain_id = CRM_Core_Config::domainID( ); 
         $group->save();
