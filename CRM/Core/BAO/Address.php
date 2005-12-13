@@ -271,23 +271,23 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
                 // otherwise a '00-666' postal code would get glued to
                 // \1 backreference producing \10 backreference followed
                 // by '0-666' string; FIXME if there is Another Way(tm)
-                $formatted = preg_replace("/{([^}]*){$token}([^{]*)}/u", "\\1\\99$value\\2", $formatted);
+                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\\1\\99{$value}\\2", $formatted);
             } else {
-                $formatted = preg_replace("/{[^}]*{$token}[^{]*}/u", '', $formatted);
+                $formatted = preg_replace("/{[^{}]*{$token}[^{}]*}/u", '', $formatted);
             }
         }
 
         // drop any {...} constructs from lines' ends
         $formatted = "\n$formatted\n";
-        $formatted = preg_replace('/\n{[^}]*}/', "\n", $formatted);
-        $formatted = preg_replace('/{[^}]*}\n/', "\n", $formatted);
+        $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
+        $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
 
         // if there are any 'sibling' {...} constructs, replace them with the
-        // contents of first; for example, when there's no state_province:
+        // contents of the first one; for example, when there's no state_province:
         // 1. {city}{, }{state_province}{ }{postal_code}
         // 2. San Francisco{, }{ }12345
         // 3. San Francisco, 12345
-        $formatted = preg_replace('/{([^}]*)}({[^}]*})+/', '\1', $formatted);
+        $formatted = preg_replace('/{([^{}]*)}({[^{}]*})+/u', '\1', $formatted);
 
         // drop any remaining curly braces leaving their contents
         $formatted = str_replace(array('{', '}'), '', $formatted);
