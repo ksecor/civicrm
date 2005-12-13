@@ -205,6 +205,13 @@ abstract class CRM_Contribute_Import_Parser {
      */
     protected $_duplicateFileName;
 
+    /**
+     * whether the file has a column header or not
+     *
+     * @var boolean
+     */
+    protected $_haveColumnHeader;
+
  
 
     function __construct() {
@@ -222,6 +229,8 @@ abstract class CRM_Contribute_Import_Parser {
                   $onDuplicate = self::DUPLICATE_SKIP ) {
 
         $this->init();
+
+        $this->_haveColumnHeader = $skipColumnHeader;
       
         $this->_seperator = $seperator;
 
@@ -305,14 +314,18 @@ abstract class CRM_Contribute_Import_Parser {
             if ( $returnCode & self::ERROR ) {
                 $this->_invalidRowCount++;
                 if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
-                    array_unshift($values, $this->_lineCount);
+                    $recordNumber = $this->_lineCount;
+                    if ($this->_haveColumnHeader) $recordNumber--;
+                    array_unshift($values, $recordNumber);
                     $this->_errors[] = $values;
                 }
             } 
 
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
-                array_unshift($values, $this->_lineCount);
+                $recordNumber = $this->_lineCount;
+                if ($this->_haveColumnHeader) $recordNumber--;
+                array_unshift($values, $recordNumber);
                 $this->_conflicts[] = $values;
             } 
             
@@ -322,7 +335,9 @@ abstract class CRM_Contribute_Import_Parser {
                      * on non-skip action */
                 }
                 $this->_duplicateCount++;
-                array_unshift($values, $this->_lineCount);
+                $recordNumber = $this->_lineCount;
+                if ($this->_haveColumnHeader) $recordNumber--;
+                array_unshift($values, $recordNumber);
                 $this->_duplicates[] = $values;
                 if ($onDuplicate != self::DUPLICATE_SKIP) {
                     $this->_validCount++;
