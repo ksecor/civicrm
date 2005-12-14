@@ -229,7 +229,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
 
-
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
 
         // should the field appear in selector?
@@ -262,7 +261,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                                 )
                           );
 
-        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ));
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -299,7 +298,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             CRM_Core_Session::setStatus(ts('The selected field was not added. It already exists in this profile.'));
             return;
         }
-
         
         // set values for uf field properties and save
         $ufField                   =& new CRM_Core_DAO_UFField();
@@ -403,7 +401,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      * @access public
      */
     static function formRule( &$fields ) {
-
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
         $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );     
@@ -415,19 +412,24 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if ( $is_view && $is_required ) {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
+
+        $fieldName = $fields['field_name'][0];
+        if (!$fieldName) {
+            $errors['field_name'] = 'Please select a field name';
+        }
         
+        /*
         if (CRM_Core_Action::ADD && empty($fields['field_id'])) {
-            $fieldName = $fields['field_name'];
             $groupId = $fields['group_id'];
             $query = "SELECT count(*) FROM civicrm_uf_field WHERE uf_group_id = " . CRM_Utils_Type::escape($groupId, 'Integer')  . " AND field_name = '" . CRM_Utils_Type::escape($fieldName, 'String') . "'";
-
+            
             if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {
                 $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
             }
-        }
-
+        }*/
         return empty($errors) ? true : $errors;
     }
+
 }
 
 ?>
