@@ -101,7 +101,8 @@ class CRM_Utils_System_Mambo {
             $fragment = '#'. $fragment;
         }
 
-        $base = ($absolute ? $config->httpBase : '');
+        //$base = ($absolute ? $config->httpBase : '');
+        $base = ($absolute ? $config->userFrameworkBaseURL : '');
 
         if ( isset( $query ) ) {
             return $base . $script .'?option=com_civicrm&task=' . $path .'&'. $query . $fragment;

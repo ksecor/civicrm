@@ -102,7 +102,7 @@ function civicrm_source( $fileName ) {
 }
 
 function civicrm_config( ) {
-    global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir;
+    global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
 
     /**
@@ -124,7 +124,7 @@ define( 'CIVICRM_UF'               , 'Mambo' );
 define( 'CIVICRM_UF_URLVAR'        , 'task'  ); 
 define( 'CIVICRM_UF_DSN'           , '$dsn' );
 define( 'CIVICRM_UF_USERSTABLENAME', 'mos_users' ); 
-define( 'CIVICRM_UF_BASEURL'       , '$mosConfig_live_site' );
+define( 'CIVICRM_UF_BASEURL'       , '$mosConfig_live_site/administrator/' );
 
 \$civicrm_root = '$crmPath';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '$compileDir' );
@@ -136,7 +136,7 @@ define( 'CIVICRM_MAINMENU'    , '$mainMenu'     );
 
 define( 'CIVICRM_MYSQL_VERSION', 4.0 );
 define( 'CIVICRM_DSN'         , '$dsn' );
-define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
+define( 'CIVICRM_MYSQL_PATH', '$mysqlPath' );
 
 define( 'CIVICRM_SMTP_SERVER' , '$mosConfig_smtphost' );
 
