@@ -112,13 +112,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     public function defaultFromHeader($header, &$patterns) {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
-            if (empty($re)) continue;
-            
-            /* if we've already used this field, move on */
-//             if ($this->_fieldUsed[$key])
-//                 continue;
-            /* Scan through the headerPatterns defined in the schema for a
-             * match */
+            if ( empty( $re ) ) {
+                continue;
+            }
+
             if (preg_match($re, $header)) {
                 $this->_fieldUsed[$key] = true;
                 return $key;
@@ -142,9 +139,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         
         foreach ($patterns as $key => $re) {
             if (empty($re)) continue;
-
-//             if ($this->_fieldUsed[$key])
-//                 continue;
 
             /* Take a vote over the preview data set */
             $hits = 0;
@@ -446,7 +440,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     $defaults["mapper[$i]"] = array(
                                                            $this->defaultFromHeader($this->_columnHeaders[$i], 
                                                                                     $headerPatterns),
-                                                           //                     $defaultLocationType->id
                                                            0
                                                            );
                     
