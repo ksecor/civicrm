@@ -102,7 +102,6 @@ class CRM_Utils_VersionCheck
                 set_error_handler(array(self, 'downloadError'));
                 $this->latestVersion = file_get_contents(self::LATEST_VERSION_AT);
                 ini_restore('default_socket_timeout');
-                die(ini_get('default_socket_timeout'));
                 restore_error_handler();
 
                 if (!$this->latestVersion) return;
