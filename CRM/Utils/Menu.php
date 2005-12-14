@@ -585,6 +585,20 @@ class CRM_Utils_Menu {
                                      'icon'    => 'admin/payment_instruments.png',
                                      'weight'  => 380
                                      ),
+
+                               array(
+                                     'path'    => 'civicrm/admin/contribute/createPPD',
+                                     'title'   => ts('Create PayPal PPD'),
+                                     'qs'     => 'reset=1',
+                                     'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                                                  CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                                     'type'    => self::CALLBACK,
+                                     'crmType' => self::LOCAL_TASK,
+                                     'adminGroup' => 'CiviContribute',
+                                     'icon'    => 'admin/payment_instruments.png',
+                                     'weight'  => 390
+                                     ),
+
                                //added below
                                array(
                                      'path'    => 'civicrm/admin/contribute/acceptCreditCard',
@@ -596,7 +610,7 @@ class CRM_Utils_Menu {
                                      'crmType' => self::LOCAL_TASK,
                                      'adminGroup' => 'CiviContribute',
                                      'icon'    => 'admin/accepted_creditcards.png',
-                                     'weight'  => 390
+                                     'weight'  => 395
                                      ),
                                
                                array( 

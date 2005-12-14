@@ -204,10 +204,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function addActions( $uploadDirectory = null, $uploadNames = null ) {
-
-        // statics dont work well with php4 - since they are converted to global variables
-        // it makes the code heavier.
-        //static $names = array(
         $names = array(
                        'display'   => 'CRM_Core_QuickForm_Action_Display',
                        'next'      => 'CRM_Core_QuickForm_Action_Next'   ,

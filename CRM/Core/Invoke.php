@@ -337,6 +337,7 @@ class CRM_Core_Invoke {
 
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
+
         case 'locationType':
             require_once 'CRM/Admin/Page/LocationType.php';
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
@@ -447,10 +448,14 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contribute_Page_AcceptCreditCard(ts('Accept Credit Cards'));
                 break;
 
+            case 'createPPD':
+                $wrapper =& new CRM_Utils_Wrapper( ); 
+                return $wrapper->run( 'CRM_Contribute_Form_CreatePPD', ts( 'Create PPD' ), null );
+                break;
+                
             default:
                 require_once 'CRM/Contribute/Page/ContributionPage.php'; 
                 $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page'));  
-                return $view->run( ); 
                 break;
             }
             break;
@@ -458,7 +463,6 @@ class CRM_Core_Invoke {
         default:
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
-            // CRM_Core_Error::debug('r',$view);
             break;
         }
 
