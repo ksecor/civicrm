@@ -71,9 +71,7 @@ cp $SRC/Readme.txt $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "CiviCRM trunk version rev$REV snapshot for Mambo on PHP4" > $TRG/version.txt
-
-echo "trunk.trunk.$REV" > $TRG/civicrm-version.txt
+echo "trunk.$REV Mambo PHP4" > $TRG/civicrm-version.txt
 
 
 # gen zip file
