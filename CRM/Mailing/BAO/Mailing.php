@@ -461,6 +461,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $hash = 'HASH';
         }
         if ($this->_domain == null) {
+            require_once 'CRM/Core/BAO/Domain.php';
             $this->_domain =& 
                 CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
@@ -497,6 +498,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             'Subject'   => $this->subject,
         );
 
+        require_once 'CRM/Utils/Token.php';
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
         

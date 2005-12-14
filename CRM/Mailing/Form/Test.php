@@ -93,6 +93,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $email      = $session->get('ufEmail');
         
         /* Create a new mailing object for test purposes only */
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing    =& new CRM_Mailing_BAO_Mailing();
         $mailing->domain_id = $session->get('domainID');
         $mailing->header_id = $options['header_id'];

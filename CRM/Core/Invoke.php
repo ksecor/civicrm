@@ -554,10 +554,12 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'component' ) {
+            require_once 'CRM/Mailing/Page/Component.php';
             $view =& new CRM_Mailing_Page_Component( );
             return $view->run( );
         }
         if ( $args[2] == 'browse' ) {
+            require_once 'CRM/Mailing/Page/Browse.php';
             $view =& new CRM_Mailing_Page_Browse( );
             return $view->run( );
         }
@@ -568,6 +570,7 @@ class CRM_Core_Invoke {
             CRM_Utils_System::appendBreadCrumb(
                 '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
             );
+            require_once 'CRM/Mailing/Page/Event.php';
             $view =& new CRM_Mailing_Page_Event( );
             return $view->run( );
         }
@@ -596,6 +599,7 @@ class CRM_Core_Invoke {
             return;
         }
 
+        require_once 'CRM/Mailing/Page/Browse.php';
         $view =& new CRM_Mailing_Page_Browse( );
         return $view->run( );
     }

@@ -112,6 +112,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
      * @access public
      */
     public function queue() {
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
         

@@ -34,6 +34,8 @@
  *
  */
 
+require_once 'CRM/Core/Page/Basic.php';
+
 /**
  * Page to display / edit the header / footer of a mailing
  *
