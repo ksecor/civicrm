@@ -72,7 +72,7 @@
     </div>
  </div>
 
-{else}
+{elseif ! ($action eq 1)}
    <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
