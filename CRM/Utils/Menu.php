@@ -616,7 +616,7 @@ class CRM_Utils_Menu {
                                array( 
                                      'path'    => 'civicrm/contact/view/contribution', 
                                      'qs'      => 'reset=1&force=1&cid=%%cid%%', 
-                                     'access'  => CRM_Utils_System::checkPermission('view contributions'),
+                                     'access'  => CRM_Utils_System::checkPermission('access CiviContribute'),
                                      'title'   => ts('Contributions'), 
                                      'type'    => self::CALLBACK, 
                                      'crmType' => self::LOCAL_TASK, 
