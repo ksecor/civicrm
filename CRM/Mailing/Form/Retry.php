@@ -46,6 +46,7 @@ class CRM_Mailing_Form_Retry extends CRM_Core_Form
     function preProcess( ) {
         $mailing_id     = CRM_Utils_Request::retrieve('mid', $this, null);
 
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $mailing_id;
         $session =& CRM_Core_Session::singleton();
@@ -73,6 +74,7 @@ class CRM_Mailing_Form_Retry extends CRM_Core_Form
             CRM_Core_SelectValues::date('mailing'));
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
 
+        require_once 'CRM/Mailing/Form/Schedule.php';
         $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'));
     
         $this->addButtons( array(
@@ -115,6 +117,7 @@ class CRM_Mailing_Form_Retry extends CRM_Core_Form
         } else {
             $start_date = CRM_Utils_Date::format($start_date);
         }
+        require_once 'CRM/Mailing/BAO/Job.php';
         CRM_Mailing_BAO_Job::retry($mailing_id, $start_date);
         
         CRM_Core_Session::setStatus(ts('Retry scheduled for mailing: %1',
