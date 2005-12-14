@@ -366,12 +366,12 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '' );
 // PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 
-// Authentication key. For PayPal - hash of the .ppd file - e.g. ppd filename without extension for PayPal.
-// For Moneris - storeid.
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
-
 // API Password (PayPal) or API Token (Moneris)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
+
+// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
+// For Moneris - storeid.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
 /*
  * LIVE Payment Server Settings
@@ -379,12 +379,12 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' );
 // PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
-// Authentication key. For PayPal - hash of the .ppd file - e.g. ppd filename without extension for PayPal.
-// For Moneris - storeid.
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
-
 // API Password (PayPal) or API Token (Moneris)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
+
+// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
+// For Moneris - storeid.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
 
 /**
