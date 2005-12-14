@@ -84,7 +84,8 @@ class CRM_Utils_VersionCheck
 
         if ($config->versionCheck and file_exists($localfile)) {
 
-            $this->localVersion = file_get_contents($localfile);
+            $localParts         = explode(' ', trim(file_get_contents($localfile)));
+            $this->localVersion = $localParts[0];
             $expiryTime         = time() - CRM_Utils_VersionCheck::CACHEFILE_EXPIRE;
 
             // if there's a cachefile and it's not stale use it to
@@ -119,7 +120,7 @@ class CRM_Utils_VersionCheck
     /**
      * Get the latest version number if it's newer than the local one
      *
-     * @return string
+     * @return string|null  returns the newer version's number or null if the versions are equal
      */
     function newerVersion()
     {
