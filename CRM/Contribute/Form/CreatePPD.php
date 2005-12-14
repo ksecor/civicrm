@@ -64,6 +64,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
 
         $this->add( 'file', 'uploadFile', ts( 'API SSL Certificate' ), "size=30 maxlength=60", true );
         $this->addRule( 'uploadFile', ts('File size should be less than 8192 bytes'), 'maxfilesize', 8192 );
+        $this->addRule( 'uploadFile', ts('A valid file must be uploaded.'), 'uploadedfile' );
         
         $this->addButtons( array( 
                                  array ( 'type'      => 'upload', 
@@ -123,7 +124,16 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
         $result = $profile->save();                  
  
         if (Services_PayPal::isError($result)) {
-            CRM_Core_Error::fatal( "Could not create new profile: ".$result->getMessage() );
+            CRM_Core_Error::statusBounce( "Could not create new profile: ".$result->getMessage() );
+        } else {
+            if ( $params['api_environment'] == 'live' ) {
+                $name = 'CIVICRM_CONTRIBUTE_PAYMENT_KEY';
+            } else {
+                $name = 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY';
+            }
+            $message = ts( "Your %1 values is: '%2'. This value must be entered in the Payment Processor section of the CiviCRM configuration file. ",
+                           array( 1 => $name, 2 => $pid ) );
+            CRM_Core_Session::setStatus( $message );
         }
     }
 

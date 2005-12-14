@@ -449,6 +449,8 @@ class CRM_Core_Invoke {
                 break;
 
             case 'createPPD':
+                $session =& CRM_Core_Session::singleton( );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Contribute_Form_CreatePPD', ts( 'Create PPD' ), null );
                 break;
