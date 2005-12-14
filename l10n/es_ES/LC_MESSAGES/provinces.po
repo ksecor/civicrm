@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2001-12-02 20:54+0100\n"
-"Last-Translator: Juan Manuel García Molina <juanmagm@mail.com>\n"
+"PO-Revision-Date: 2005-12-14 00:04+0100\n"
+"Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: Spanish <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -4139,303 +4139,264 @@ msgid "Semenawi Keyih Bahri [Semien-Keih-Bahri]"
 msgstr ""
 
 #. name for ES-VI
-#, fuzzy
 msgid "Álava"
-msgstr "Alaska"
+msgstr "Álava"
 
 #. name for ES-AB
-#, fuzzy
 msgid "Albacete"
-msgstr "Alberta"
+msgstr "Albacete"
 
 #. name for ES-A
-#, fuzzy
 msgid "Alicante"
-msgstr "Martinica"
+msgstr "Alicante"
 
 #. name for ES-AL
-#, fuzzy
 msgid "Almería"
-msgstr "Argelia"
+msgstr "Almería"
 
 #. name for ES-O
-#, fuzzy
 msgid "Asturias"
-msgstr "Austria"
+msgstr "Asturias"
 
 #. name for ES-AV
-#, fuzzy
 msgid "Ávila"
-msgstr "Anguilla"
+msgstr "Ávila"
 
 #. name for ES-BA
 msgid "Badajoz"
-msgstr ""
+msgstr "Badajoz"
 
 #. name for ES-PM
-#, fuzzy
 msgid "Baleares"
-msgstr "Bielorrusia"
+msgstr "Baleares"
 
 #. name for ES-B
-#, fuzzy
 msgid "Barcelona"
-msgstr "Macedonia"
+msgstr "Barcelona"
 
 #. name for ES-BU
 msgid "Burgos"
-msgstr ""
+msgstr "Burgos"
 
 #. name for ES-CC
 msgid "Cáceres"
-msgstr ""
+msgstr "Cáceres"
 
 #. name for ES-CA
-#, fuzzy
 msgid "Cádiz"
-msgstr "Chad"
+msgstr "Cádiz"
 
 #. name for ES-S
-#, fuzzy
 msgid "Cantabria"
-msgstr "Ontario"
+msgstr "Cantabria"
 
 #. name for ES-CS
 msgid "Castellón"
-msgstr ""
+msgstr "Castellón"
 
 #. name for ES-CR
 msgid "Ciudad Real"
-msgstr ""
+msgstr "Ciudad Real"
 
 #. name for ES-CU
-#, fuzzy
 msgid "Cuenca"
-msgstr "Cuba"
+msgstr "Cuenca"
 
 #. name for ES-GE
 msgid "Girona [Gerona]"
-msgstr ""
+msgstr "Girona [Gerona]"
 
 #. name for ES-GR
-#, fuzzy
 msgid "Granada"
 msgstr "Granada"
 
 #. name for ES-GU
-#, fuzzy
 msgid "Guadalajara"
-msgstr "Guatemala"
+msgstr "Guadalajara"
 
 #. name for ES-SS
 msgid "Guipúzcoa"
-msgstr ""
+msgstr "Guipúzcoa"
 
 #. name for ES-H
 msgid "Huelva"
-msgstr ""
+msgstr "Huelva"
 
 #. name for ES-HU
 msgid "Huesca"
-msgstr ""
+msgstr "Huesca"
 
 #. name for ES-J
-#, fuzzy
 msgid "Jaén"
-msgstr "Japón"
+msgstr "Jaén"
 
 #. name for ES-C
-#, fuzzy
 msgid "La Coruña"
-msgstr "Aruba"
+msgstr "La Coruña"
 
 #. name for ES-LO
 msgid "La Rioja"
-msgstr ""
+msgstr "La Rioja"
 
 #. name for ES-GC
-#, fuzzy
 msgid "Las Palmas"
-msgstr "Apellido:"
+msgstr "Las Palmas"
 
 #. name for ES-LE
-#, fuzzy
 msgid "León"
-msgstr "Líbano"
+msgstr "León"
 
 #. name for ES-L
 msgid "Lleida [Lérida]"
-msgstr ""
+msgstr "Lleida [Lérida]"
 
 #. name for ES-LU
 msgid "Lugo"
-msgstr ""
+msgstr "Lugo"
 
 #. name for ES-M
-#, fuzzy
 msgid "Madrid"
-msgstr "Mali"
+msgstr "Madrid"
 
 #. name for ES-MA
-#, fuzzy
 msgid "Málaga"
-msgstr "Malta"
+msgstr "Málaga"
 
 #. name for ES-MU
-#, fuzzy
 msgid "Murcia"
-msgstr "Mauritania"
+msgstr "Murcia"
 
 #. name for ES-NA
-#, fuzzy
 msgid "Navarra"
-msgstr "Nevada"
+msgstr "Navarra"
 
 #. name for ES-OR
-#, fuzzy
 msgid "Ourense"
-msgstr "Oregon"
+msgstr "Ourense"
 
 #. name for ES-P
-#, fuzzy
 msgid "Palencia"
-msgstr "Eslovenia"
+msgstr "Palencia"
 
 #. name for ES-PO
-#, fuzzy
 msgid "Pontevedra"
-msgstr "Montserrat"
+msgstr "Pontevedra"
 
 #. name for ES-SA
-#, fuzzy
 msgid "Salamanca"
-msgstr "Jamaica"
+msgstr "Salamanca"
 
 #. name for ES-TF
 msgid "Santa Cruz de Tenerife"
-msgstr ""
+msgstr "Santa Cruz de Tenerife"
 
 #. name for ES-SG
-#, fuzzy
 msgid "Segovia"
-msgstr "Eslovenia"
+msgstr "Segovia"
 
 #. name for ES-SE
 msgid "Sevilla"
-msgstr ""
+msgstr "Sevilla"
 
 #. name for ES-SO
-#, fuzzy
 msgid "Soria"
-msgstr "Florida"
+msgstr "Soria"
 
 #. name for ES-T
 msgid "Tarragona"
-msgstr ""
+msgstr "Tarragona"
 
 #. name for ES-TE
-#, fuzzy
 msgid "Teruel"
-msgstr "Perú"
+msgstr "Teruel"
 
 #. name for ES-V
-#, fuzzy
 msgid "Valencia"
-msgstr "Eslovenia"
+msgstr "Valencia"
 
 #. name for ES-VA
 msgid "Valladolid"
-msgstr ""
+msgstr "Valladolid"
 
 #. name for ES-BI
 msgid "Vizcaya"
-msgstr ""
+msgstr "Vizcaya"
 
 #. name for ES-ZA
-#, fuzzy
 msgid "Zamora"
-msgstr "Samoa"
+msgstr "Zamora"
 
 #. name for ES-Z
-#, fuzzy
 msgid "Zaragoza"
-msgstr "Paraguay"
+msgstr "Zaragoza"
 
 #. name for ES-CE
-#, fuzzy
 msgid "Ceuta"
-msgstr "Cuba"
+msgstr "Ceuta"
 
 #. name for ES-ML
-#, fuzzy
 msgid "Melilla"
-msgstr "Mozilla"
+msgstr "Melilla"
 
 #. name for AN
-#, fuzzy
 msgid "Andalucía"
-msgstr "Aruba"
+msgstr "Andalucía"
 
 #. name for AR
-#, fuzzy
 msgid "Aragón"
-msgstr "Omán"
+msgstr "Aragón"
 
 #. name for O
 msgid "Asturias, Principado de"
-msgstr ""
+msgstr "Asturias, Principado de"
 
 #. name for CN
-#, fuzzy
 msgid "Canarias"
-msgstr "Ontario"
+msgstr "Canarias"
 
 #. name for CM
 msgid "Castilla-La Mancha"
-msgstr ""
+msgstr "Castilla-La Mancha"
 
 #. name for CL
 msgid "Castilla y León"
-msgstr ""
+msgstr "Castilla y León"
 
 #. name for CT
-#, fuzzy
 msgid "Cataluña"
-msgstr "Canadá"
+msgstr "Cataluña"
 
 #. name for EX
 msgid "Extremadura"
-msgstr ""
+msgstr "Extremadura"
 
 #. name for GA
-#, fuzzy
 msgid "Galicia"
-msgstr "Guinea"
+msgstr "Galicia"
 
 #. name for PM
-#, fuzzy
 msgid "Islas Baleares"
-msgstr "Bielorrusia"
+msgstr "Islas Baleares"
 
 #. name for M
 msgid "Madrid, Comunidad de"
-msgstr ""
+msgstr "Madrid, Comunidad de"
 
 #. name for MU
 msgid "Murcia, Region de"
-msgstr ""
+msgstr "Murcia, Region de"
 
 #. name for NA
 msgid "Navarra, Comunidad Foral de"
-msgstr ""
+msgstr "Navarra, Comunidad Foral de"
 
 #. name for PV
 msgid "País Vasco"
-msgstr ""
+msgstr "País Vasco"
 
 #. name for VC
 msgid "Valenciana, Comunidad"
-msgstr ""
+msgstr "Valenciana, Comunidad"
 
 #. name for ET-AA
 #, fuzzy
@@ -17044,3 +17005,4 @@ msgstr "Finlandia"
 #, fuzzy
 #~ msgid "Northern Province"
 #~ msgstr "Northern Marianas"
+

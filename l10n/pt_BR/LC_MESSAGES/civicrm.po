@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-10 15:33+0100\n"
-"PO-Revision-Date: 2005-12-05 02:54+0100\n"
+"PO-Revision-Date: 2005-12-11 00:24+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1318,7 +1318,7 @@ msgstr "O tipo de atividade \"%1\" está salvo."
 
 #: CRM/Admin/Form/Gender.php
 msgid "Please enter a valid gender name."
-msgstr "Digite um nome de sexo válido."
+msgstr "Digite um sexo válido."
 
 #: CRM/Admin/Form/Gender.php
 msgid "Selected Gender type has been deleted."
@@ -1354,7 +1354,7 @@ msgstr "Não foi excluído o Prefixo Individual selecionado."
 
 #: CRM/Admin/Form/IndividualPrefix.php
 msgid "The Individual Prefix \"%1\" has been saved."
-msgstr "Gravado o Prefixo Iindividual \"%1\"."
+msgstr "Gravado o Prefixo Individual \"%1\"."
 
 #: CRM/Admin/Form/IndividualSuffix.php
 msgid "Please enter a valid individual suffix name."
@@ -2012,7 +2012,7 @@ msgstr "ocultar este email"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add to a group"
-msgstr "Adicionar a um grupo"
+msgstr "Adicionar à um grupo"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Please select the group."
