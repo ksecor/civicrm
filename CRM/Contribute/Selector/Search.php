@@ -272,9 +272,14 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         // process the result of the query
         $rows = array( );
 
-        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
-        while ($result->fetch()) {
+        // check is the user has view/edit contribution permission
+        $permission = CRM_Core_Permission::VIEW;
+        if ( CRM_Utils_System::checkPermission( 'edit contributions' ) ) {
+            $permission = CRM_Core_Permission::EDIT;
+        }
+        
+        $mask = CRM_Core_Action::mask( $permission );
+        While ($result->fetch()) {
             $row = array();
 
             // the columns we are interested in

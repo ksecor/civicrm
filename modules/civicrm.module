@@ -108,7 +108,7 @@ function civicrm_perm()
                    'access CiviCRM Profile Listings',
                    'make online contributions',
                    'access CiviContribute',
-                   'edit contributions', 'view contributions',
+                   'edit contributions',
                    'access CiviCRM' );
 
     // dynamic permissions - access by group (title)

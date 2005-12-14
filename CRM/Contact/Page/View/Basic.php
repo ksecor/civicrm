@@ -137,15 +137,23 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $this->setShowHide( $defaults );        
 
         // get the contributions, new style of doing stuff
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
-        $controller->setEmbedded( true );                           
-        $controller->reset( );  
-        $controller->set( 'limit', 3 ); 
-        $controller->set( 'force', 1 );
-        $controller->set( 'cid'  , $this->_contactId );
-        $controller->set( 'context', 'basic' ); 
-        $controller->process( );  
-        $controller->run( );
+        // do the below only if the person has access to contributions
+        $config =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_System::checkPermissions( 'access CiviContribute' ) &&
+             in_array( 'CiviContribute', $config->enableComponents ) ) {
+            $this->assign( 'accessContribution', true );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
+            $controller->setEmbedded( true );                           
+            $controller->reset( );  
+            $controller->set( 'limit', 3 ); 
+            $controller->set( 'force', 1 );
+            $controller->set( 'cid'  , $this->_contactId );
+            $controller->set( 'context', 'basic' ); 
+            $controller->process( );  
+            $controller->run( );
+        } else {
+            $this->assign( 'accessContribution', false );
+        }
     }
 
 

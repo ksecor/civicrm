@@ -129,7 +129,7 @@
  {/if}
 
 {* Show Contributions block if CiviContribute is enabled *}
-{if in_array("CiviContribute", $config->enableComponents)}
+{if $accessContribution}
     {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
 <div id="contributions[show]" class="data-group">
   {if $pager->_totalItems}
