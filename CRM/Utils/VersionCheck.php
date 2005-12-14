@@ -42,6 +42,7 @@ class CRM_Utils_VersionCheck
 
     const
         LATEST_VERSION_AT = 'http://downloads.openngo.org/civicrm/latest-version.txt',
+        CHECK_TIMEOUT     = 5,                          // timeout for when the connection or the server is slow
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
         CACHEFILE_EXPIRE  = 86400;                      // cachefile expiry time (in seconds)
@@ -79,14 +80,14 @@ class CRM_Utils_VersionCheck
         global $civicrm_root;
         $config =& CRM_Core_Config::singleton();
 
-        $localfile = $civicrm_root . DIRECTORY_SEPARATOR . CRM_Utils_VersionCheck::LOCALFILE_NAME;
-        $cachefile = $config->uploadDir . CRM_Utils_VersionCheck::CACHEFILE_NAME;
+        $localfile = $civicrm_root . DIRECTORY_SEPARATOR . self::LOCALFILE_NAME;
+        $cachefile = $config->uploadDir . self::CACHEFILE_NAME;
 
         if ($config->versionCheck and file_exists($localfile)) {
 
             $localParts         = explode(' ', trim(file_get_contents($localfile)));
             $this->localVersion = $localParts[0];
-            $expiryTime         = time() - CRM_Utils_VersionCheck::CACHEFILE_EXPIRE;
+            $expiryTime         = time() - self::CACHEFILE_EXPIRE;
 
             // if there's a cachefile and it's not stale use it to
             // read the latestVersion, else read it from the Internet
@@ -97,8 +98,11 @@ class CRM_Utils_VersionCheck
                 // we have to set the error handling to a dummy function, otherwise
                 // if the URL is not working (e.g., due to our server being down)
                 // the users would be presented with an unsuppressable warning
+                ini_set('default_socket_timeout', self::CHECK_TIMEOUT);
                 set_error_handler(array(self, 'downloadError'));
-                $this->latestVersion = file_get_contents(CRM_Utils_VersionCheck::LATEST_VERSION_AT);
+                $this->latestVersion = file_get_contents(self::LATEST_VERSION_AT);
+                ini_restore('default_socket_timeout');
+                die(ini_get('default_socket_timeout'));
                 restore_error_handler();
 
                 if (!$this->latestVersion) return;
