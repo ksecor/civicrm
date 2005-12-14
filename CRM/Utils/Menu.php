@@ -587,20 +587,6 @@ class CRM_Utils_Menu {
                                      ),
 
                                array(
-                                     'path'    => 'civicrm/admin/contribute/createPPD',
-                                     'title'   => ts('Create PayPal PPD'),
-                                     'qs'     => 'reset=1',
-                                     'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                                  CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                                     'type'    => self::CALLBACK,
-                                     'crmType' => self::LOCAL_TASK,
-                                     'adminGroup' => 'CiviContribute',
-                                     'icon'    => 'admin/payment_instruments.png',
-                                     'weight'  => 390
-                                     ),
-
-                               //added below
-                               array(
                                      'path'    => 'civicrm/admin/contribute/acceptCreditCard',
                                      'title'   => ts('Accepted Credit Cards'),
                                      'qs'     => 'reset=1',
@@ -612,7 +598,7 @@ class CRM_Utils_Menu {
                                      'icon'    => 'admin/accepted_creditcards.png',
                                      'weight'  => 395
                                      ),
-                               
+
                                array( 
                                      'path'    => 'civicrm/contact/view/contribution', 
                                      'qs'      => 'reset=1&force=1&cid=%%cid%%', 
@@ -653,6 +639,20 @@ class CRM_Utils_Menu {
                                      'weight'  => 520,  
                                      ),
                                );
+                if ( $config->paymentProcessor == 'PayPal' || $config->paymentProcessor == 'PayPal_express' ) {
+                    $items[] = array(
+                          'path'    => 'civicrm/admin/contribute/createPPD',
+                          'title'   => ts('Create PayPal API Profile'),
+                          'qs'     => 'reset=1',
+                          'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                          CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                          'type'    => self::CALLBACK,
+                          'crmType' => self::LOCAL_TASK,
+                          'adminGroup' => 'CiviContribute',
+                          'icon'    => 'admin/PayPal_mark_37x23.gif',
+                          'weight'  => 400
+                                     );
+                }
                 self::$_items = array_merge( self::$_items, $items );
             }
 
