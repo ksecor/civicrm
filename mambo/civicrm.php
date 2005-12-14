@@ -136,6 +136,7 @@ define( 'CIVICRM_MAINMENU'    , '$mainMenu'     );
 
 define( 'CIVICRM_MYSQL_VERSION', 4.0 );
 define( 'CIVICRM_DSN'         , '$dsn' );
+define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 define( 'CIVICRM_SMTP_SERVER' , '$mosConfig_smtphost' );
 
