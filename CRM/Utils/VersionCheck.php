@@ -93,7 +93,16 @@ class CRM_Utils_VersionCheck
             if (file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
                 $this->latestVersion = file_get_contents($cachefile);
             } else {
+
+                // we have to set the error handling to a dummy function, otherwise
+                // if the URL is not working (e.g., due to our server being down)
+                // the users would be presented with an unsuppressable warning
+                set_error_handler(array(self, 'downloadError'));
                 $this->latestVersion = file_get_contents(CRM_Utils_VersionCheck::LATEST_VERSION_AT);
+                restore_error_handler();
+
+                if (!$this->latestVersion) return;
+
                 $fp = fopen($cachefile, 'w');
                 fwrite($fp, $this->latestVersion);
                 fclose($fp);
@@ -136,6 +145,14 @@ class CRM_Utils_VersionCheck
             }
         }
         return null;
+    }
+
+    /**
+     * A dummy function required for suppressing download errors
+     */
+    function downloadError($errorNumber, $errorString)
+    {
+        return;
     }
 
 }
