@@ -233,12 +233,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Utils_Hook::pre( 'create', 'Group', null, $params ); 
         }
 
-        $group =& new CRM_Contact_DAO_Group();
-
-        // form the name
-        if(! $params['name'] ) {
-        $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
+        // form the name only if missing: CRM-627
+        if( ! CRM_Utils_Array::value( 'name', $params ) ) {
+            $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
         }
+
+        $group =& new CRM_Contact_DAO_Group();
         $group->copyValues($params);
         $group->domain_id = CRM_Core_Config::domainID( ); 
         $group->save();
