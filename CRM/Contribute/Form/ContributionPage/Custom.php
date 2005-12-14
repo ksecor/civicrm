@@ -100,6 +100,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
          
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
+                               'module'       => 'CiviContribute',
                                'entity_table' => 'civicrm_contribution_page', 
                                'entity_id'    => $this->_id, 
                                'weight'       => 1, 
