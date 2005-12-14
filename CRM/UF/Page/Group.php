@@ -232,7 +232,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         $allUFGroups = array( );
         require_once 'CRM/Core/BAO/UFGroup.php';
         $allUFGroups = CRM_Core_BAO_UFGroup::getModuleUFGroup( );
-
+        if (empty($allUFGroups)) {
+            return;
+        }
+        
         foreach ($allUFGroups as $id => $value) {
             $ufGroup[$id] = array();
             $ufGroup[$id]['id'       ] = $id;
