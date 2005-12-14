@@ -119,7 +119,7 @@
        <type>enum</type>
        <values>Phone, Email, Post</values>
        <import>true</import>
-       <headerPattern>/^(communication|method)/i</headerPattern>
+       <headerPattern>/(communication|method)/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
