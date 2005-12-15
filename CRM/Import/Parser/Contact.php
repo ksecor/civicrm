@@ -666,7 +666,26 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         return _crm_error('Invalid value for custom field :' .
                                           $customFields[$customFieldID][0]);
                     }
+                    
+                    // check for values for custom fields for checkboxes and multiselect
+                    if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
+                        $mulValues = explode( ',' , $value );
+                        $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                        foreach( $mulValues as $v1 ) {
+                            $flag = false; 
+                            foreach( $custuomOption as $v2 ) {
+                                if ( $v2['label'] == trim($v1) ) {
+                                    $flag = true; 
+                                }
+                            }
+                            if (! $flag ) {
+                                return _crm_error('Invalid value for custom field :' .
+                                                  $customFields[$customFieldID][0]);
+                            }
+                        }
+                    }
                 }
+                
             }
         }
         return true;

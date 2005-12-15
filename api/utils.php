@@ -370,6 +370,20 @@ function _crm_format_params( &$params, &$values ) {
                 $value = str_replace( '-', '', $value );
             }
 
+            $newMulValues = array();
+            if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select') {
+                $mulValues = explode( ',' , $value );
+                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $mulValues as $v1 ) {
+                    foreach( $custuomOption as $v2 ) {
+                        if ( $v2['label'] == trim($v1) ) {
+                            $newMulValues[] = $v2['value'];
+                        }
+                    }
+                }
+                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+            }
+            
             $values['custom'][$customFieldID] = array( 
                 'value'   => $value,
                 'extends' => $customFields[$customFieldID][3],
@@ -785,8 +799,28 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             $value = $customValue['value'];
         }
 
+        //fixed for Importing values For Checkbox and mulitselect Option
+        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
+        $newMulValues = array();
+        if ( $fields['custom'][$customFieldID][3] == 'CheckBox' || $fields['custom'][$customFieldID][3] =='Multi-Select') {
+            $mulValues = explode( ',' , $value );
+            $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customValue['custom_field_id'], true);
+            foreach( $mulValues as $v1 ) {
+                foreach( $custuomOption as $v2 ) {
+                    if ( $v2['label'] == trim($v1) ) {
+                        $newMulValues[] = $v2['value'];
+                    }
+                }
+            }
+            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+        }
+        
+        
         /* look for a matching existing custom value */
         $match = false;
+
+        
+
         
         foreach ($contact->custom_values as $cv) {
             if ($cv->custom_field_id == $customValue['custom_field_id']) {
@@ -1122,6 +1156,20 @@ function _crm_add_formatted_param(&$values, &$params) {
             
             if (!isset($params['custom'])) {
                 $params['custom'] = array();
+            }
+            // fixed for Import
+            $newMulValues = array();
+            if ( $fields['custom'][$customFieldID][3] == 'CheckBox' || $fields['custom'][$customFieldID][3] =='Multi-Select') {
+                $mulValues = explode( ',' , $value );
+                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $mulValues as $v1 ) {
+                    foreach( $custuomOption as $v2 ) {
+                        if ( $v2['label'] == trim($v1) ) {
+                            $newMulValues[] = $v2['value'];
+                        }
+                    }
+                }
+                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
             }
             $customBlock = count($params['custom']) + 1;
             $params['custom'][$customBlock] = array(
