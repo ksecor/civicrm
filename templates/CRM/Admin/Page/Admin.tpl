@@ -4,8 +4,8 @@
 
 {if $newVersion}
     <div class="message status">
-        <p>{ts 1=$newVersion 2=$localVersion}A new version of CiviCRM is avaliable: %1 (this site is currently running %2).{/ts}</p>
-        <p>{ts 1='http://openngo.org/' 2='http://downloads.openngo.org/civicrm/'}Read about the new version on the <a href="%1">OpenNGO pages</a> and <a href="%2">download it</a>.{/ts}</p>
+        <p>{ts 1=$newVersion 2=$localVersion}A new version of CiviCRM is available: %1 (this site is currently running %2).{/ts}</p>
+        <p>{ts 1='http://www.openngo.org/' 2='http://downloads.openngo.org/civicrm/'}Read about the new version on <a href="%1">our website</a> and <a href="%2">download it here</a>.{/ts}</p>
     </div>
 {/if}
 
