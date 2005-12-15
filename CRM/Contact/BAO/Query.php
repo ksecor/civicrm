@@ -610,6 +610,11 @@ class CRM_Contact_BAO_Query {
                 $this->_params['location_type'] = array($locType[1] => 1);
                 $lType = $this->locationType( true );
             }
+            
+            //add phone type if exists
+            if ($locType[2]) {
+                $this->_where[] = "civicrm_phone.phone_type ='".$locType[2]."'";
+            }
 
             // FIXME: the LOWER/strtolower pairs below most probably won't work
             // with non-US-ASCII characters, as even if MySQL does the proper
@@ -980,8 +985,6 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_contribution_type':
                 $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
                 continue;
-
-
             }
 
         }
