@@ -87,7 +87,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Host', '{ts}Unable to deliver to desintation mail server{/ts}', 3);
+        VALUES ('Host', '{ts}Unable to deliver to destintation mail server{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
