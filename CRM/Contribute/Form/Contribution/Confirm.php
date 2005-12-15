@@ -213,7 +213,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $this->_values['contribution_type_id'];
             if ( ! $contributionType->find( true ) ) {
-                CRM_Utils_System::fatal( "Could not find a system table" );
+                CRM_Core_Error::fatal( "Could not find a system table" );
             }
             
             if ( $contributionType->is_deductible ) {
@@ -271,7 +271,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'activity_date'    => $now,
                             );
             if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-                CRM_Utils_System::fatal( "Could not create a system record" );
+                CRM_Core_Error::fatal( "Could not create a system record" );
             }
 
             CRM_Core_DAO::transaction( 'COMMIT' );

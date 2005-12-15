@@ -94,17 +94,18 @@ class CRM_Utils_VersionCheck
             if (file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
                 $this->latestVersion = file_get_contents($cachefile);
             } else {
-
                 // we have to set the error handling to a dummy function, otherwise
                 // if the URL is not working (e.g., due to our server being down)
                 // the users would be presented with an unsuppressable warning
                 ini_set('default_socket_timeout', self::CHECK_TIMEOUT);
-                set_error_handler(array(self, 'downloadError'));
+                set_error_handler(array('CRM_Utils_VersionCheck', 'downloadError'));
                 $this->latestVersion = file_get_contents(self::LATEST_VERSION_AT);
                 ini_restore('default_socket_timeout');
                 restore_error_handler();
 
-                if (!$this->latestVersion) return;
+                if (!$this->latestVersion) {
+                    return;
+                }
 
                 $fp = fopen($cachefile, 'w');
                 fwrite($fp, $this->latestVersion);
@@ -140,7 +141,8 @@ class CRM_Utils_VersionCheck
         $latest = explode('.', $this->latestVersion);
         // compare by version part; this allows us to use trunk.$rev
         // for trunk versions ('trunk' is greater than '1')
-        for ($i = 0; $i < max(count($local), count($latest)); $i++) {
+        // we only do major / minor version comparison, so stick to 2
+        for ($i = 0; $i < 2; $i++) {
             if ($local[$i] > $latest[$i]) {
                 return null;
             } elseif ($local[$i] < $latest[$i]) {
