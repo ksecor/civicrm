@@ -340,8 +340,10 @@ class CRM_Core_Block {
         
         // add the start / end tags
         $len = count($activeChildren) - 1;
-        $values[$activeChildren[0   ]]['start'] = true;
-        $values[$activeChildren[$len]]['end'  ] = true;
+        if ( $len >= 0 ) {
+            $values[$activeChildren[0   ]]['start'] = true;
+            $values[$activeChildren[$len]]['end'  ] = true;
+        }
 
         ksort($values);
 
