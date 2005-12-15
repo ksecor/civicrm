@@ -151,6 +151,10 @@ class CRM_Utils_Sort {
      * @access public
      */
     function orderBy( ) {
+        if ( ! CRM_Utils_Array::value( $this->_currentSortID, $this->_vars ) ) {
+            return '';
+        }
+
         if ( $this->_vars[$this->_currentSortID]['direction'] == self::ASCENDING || 
              $this->_vars[$this->_currentSortID]['direction'] == self::DONTCARE ) {
             return $this->_vars[$this->_currentSortID]['name'] . ' asc';

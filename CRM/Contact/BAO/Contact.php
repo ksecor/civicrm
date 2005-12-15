@@ -1288,9 +1288,15 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
     civicrm_activity.status != 'Completed'
             )
 ";
+        $order = '';
         if ($sort) {
-            $order = " ORDER BY " . $sort->orderBy(); 
-        } else {
+            $orderBy = $sort->orderBy();
+            if ( ! empty( $orderBy ) ) {
+                $order = " ORDER BY $orderBy";
+            }
+        }
+
+        if ( empty( $order ) ) {
             $order = " ORDER BY date desc ";
         }
         

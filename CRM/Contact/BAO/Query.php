@@ -247,7 +247,7 @@ class CRM_Contact_BAO_Query {
  
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -1628,10 +1628,14 @@ class CRM_Contact_BAO_Query {
 
         if ( ! $count ) {
             if ($sort) {
-                $order = " ORDER BY " . $sort->orderBy(); 
+                $orderBy = trim( $sort->orderBy() );
+                if ( ! empty( $orderBy ) ) {
+                    $order = " ORDER BY $orderBy";
+                }
             } else if ($sortByChar) { 
                 $order = " ORDER BY LEFT(civicrm_contact.sort_name, 1) ";
             }
+
             if ( $rowCount > 0 && $offset >= 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
             }
@@ -1639,6 +1643,8 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
+        // CRM_Core_Error::debug( 'q', $query );
+
         if ( $returnQuery ) {
             return $query;
         }
