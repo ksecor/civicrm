@@ -1,3 +1,4 @@
+{if ! empty( $fields )}
 <p>
     <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}
@@ -10,3 +11,4 @@
     <tr><td></td><td>{$form.buttons.html}</td></tr>
     </table>
 </p>
+{/if}

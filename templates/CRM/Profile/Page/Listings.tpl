@@ -1,3 +1,6 @@
+{* make sure there are some fields in the selector *}
+{ if empty( $columnHeaders ) }
+
 {include file="CRM/Profile/Form/Search.tpl"}
 
 {include file="CRM/pager.tpl" location="top"}
@@ -43,3 +46,9 @@
 {/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}
+
+{else}
+<div class="messages status">
+{ts}No fields have been selected to display in the listings.{/ts}
+</div>
+{/if}
