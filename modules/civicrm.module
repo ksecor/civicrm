@@ -101,15 +101,22 @@ function civicrm_perm()
 {
     // make sure the system is initialized
     civicrm_initialize( );
+    $config =& CRM_Core_Config::singleton();
 
     // static permissions
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
                    'edit groups', 'administer CiviCRM', 
                    'access CiviCRM Profile Listings',
-                   'make online contributions',
-                   'access CiviContribute',
-                   'edit contributions',
                    'access CiviCRM' );
+                   
+    // permissions for components which are conditionally enabled via config file setting
+    if ( in_array( 'CiviContribute', $config->enableComponents) ) {
+        $cPerm = array_merge($cPerm,array('access CiviContribute','edit contributions','make online contributions'));
+    }
+
+    if ( in_array( 'CiviMail', $config->enableComponents) ) {
+        $cPerm[] = 'access CiviMail';
+    }
 
     // dynamic permissions - access by group (title)
     require_once 'CRM/Core/PseudoConstant.php';

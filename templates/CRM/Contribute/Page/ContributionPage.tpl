@@ -20,7 +20,7 @@
         <tr class="columnheader">
             <th>{ts}Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
-            <th></th>
+            <th>&nbsp;</th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
