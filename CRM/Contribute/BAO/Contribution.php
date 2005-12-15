@@ -138,7 +138,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     static function &create(&$params, &$ids) {
         require_once 'CRM/Utils/Hook.php';
         require_once 'CRM/Utils/Money.php';
+        require_once 'CRM/Utils/Date.php';
 
+        // FIXME: a cludgy hack to fix the dates to MySQL format
+        $dateFields = array('receive_date', 'cancel_date', 'receipt_date', 'thankyou_date');
+        foreach ($dateFields as $df) {
+            if (isset($params[$df])) {
+                $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
+            }
+        }
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
         } else {
