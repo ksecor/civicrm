@@ -9,7 +9,7 @@
 <hr size="1" noshade/>
 <h3>{ts}Contributions Summary{/ts}</h3>
 <div class="description">
-    {capture assign=findContribsURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
+    {capture assign=findContribsURL}{crmURL p="civicrm/contribute/search/basic" q="reset=1"}{/capture}
     <p>{ts 1=$findContribsURL}This table provides a summary of <strong>Contribution Totals</strong>, and includes shortcuts to view the contribution details for these commonly used search periods. To run your own customized searches - click <a href="%1">Find Contributions</a>. You can search by Contributor Name, Amount Range, and a variety of other criteria.{/ts}</p>
 </div>
 <table class="report form-layout-compressed">
