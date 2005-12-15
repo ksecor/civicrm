@@ -1,5 +1,4 @@
 <?php 
-
 /* 
  +--------------------------------------------------------------------+ 
  | CiviCRM version 1.3                                                | 
@@ -603,12 +602,13 @@ class CRM_Contact_BAO_Query {
             }
 
             //check if the location type exits for fields
+            $lType = '';
             $locType = array( );
             $locType = explode('-', $name);
             
             if (is_numeric($locType[1])) {
                 $this->_params['location_type'] = array($locType[1] => 1);
-                $this->locationType( );
+                $lType = $this->locationType( true );
             }
 
             // FIXME: the LOWER/strtolower pairs below most probably won't work
@@ -626,14 +626,23 @@ class CRM_Contact_BAO_Query {
                     $value  =  $states[(int ) $value];
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
-                $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );         
+                if (!$lType) {
+                    $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );         
+                } else {
+                    $this->_qill[] = ts('State (%2) - "%1"', array( 1 => $value, 2 => $lType ) );         
+                }
             } else if ( substr($name,0,7) === 'country' ) {
                 $countries =& CRM_Core_PseudoConstant::country( ); 
                 if ( is_numeric( $value ) ) { 
                     $value     =  $countries[(int ) $value]; 
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
-                $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
+                if (!$lType) {
+                    $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
+                } else {
+                    $this->_qill[] = ts('Country (%2) - "%1"', array( 1 => $value, 2 => $lType ) );         
+                }
+
             } else if ( $name === 'individual_prefix' ) {
                 $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
                 if ( is_numeric( $value ) ) { 
@@ -1260,7 +1269,7 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function locationType( ) {
+    function locationType( $status = null ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
             if (is_array($this->_params['location_type'])) {
                 $this->_where[] = 'civicrm_location.location_type_id IN (' .
@@ -1273,8 +1282,14 @@ class CRM_Contact_BAO_Query {
                 foreach ( array_keys( $this->_params['location_type'] ) as $id ) {
                     $names[] = $locationType[$id];
                 }
-                $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
+
                 $this->_primaryLocation = false;
+                
+                if (!$status) {
+                    $this->_qill[] = ts('Location type -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
+                } else {
+                    return implode( ' ' . ts('or') . ' ', $names );
+                }
             }
         }
     }
