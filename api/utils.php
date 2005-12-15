@@ -1234,6 +1234,22 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
             if (!isset($params['custom'])) {
                 $params['custom'] = array();
             }
+            
+            // fixed for Import
+            $newMulValues = array();
+            if ( $fields['custom'][$customFieldID][3] == 'CheckBox' || $fields['custom'][$customFieldID][3] =='Multi-Select') {
+                $mulValues = explode( ',' , $value );
+                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $mulValues as $v1 ) {
+                    foreach( $custuomOption as $v2 ) {
+                        if ( $v2['label'] == trim($v1) ) {
+                            $newMulValues[] = $v2['value'];
+                        }
+                    }
+                }
+                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+            }
+            
             $customBlock = count($params['custom']) + 1;
             $params['custom'][$customBlock] = array(
                 'custom_field_id'    => $customFieldID,

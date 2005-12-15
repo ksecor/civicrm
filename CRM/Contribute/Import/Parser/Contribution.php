@@ -154,6 +154,17 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             array_unshift($values, ts('Missing required fields'));
             return CRM_Contribute_Import_Parser::ERROR;
         }
+
+         //checking error in custom data
+        $params =& $this->getActiveFieldParams( );
+        $params['contact_type'] =  $this->_contactType;
+        require_once 'CRM/Import/Parser/Contact.php';
+        $error = CRM_Import_Parser_Contact::isErrorInCustomData($params);
+        if (is_a( $error,CRM_Core_Error )) {
+            array_unshift($values, $error->_errors[0]['message']);
+            return CRM_Import_Parser::ERROR;
+        }
+        
         return CRM_Contribute_Import_Parser::VALID;
     }
 
