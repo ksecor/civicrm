@@ -305,8 +305,7 @@ class CRM_Contact_BAO_Query {
      * @return void  
      * @access public  
      */
-    
-function addContributeFields( ) {
+    function addContributeFields( ) {
         if ( ! ( $this->_mode & self::MODE_CONTRIBUTE ) ) {
             return;
         }
@@ -318,7 +317,6 @@ function addContributeFields( ) {
             $this->_tables['civicrm_contribution'] = 1;
             $this->_tables['civicrm_contribution_type'] = 1;
         }
-
     }
 
     /**
@@ -604,6 +602,15 @@ function addContributeFields( ) {
                 continue;
             }
 
+            //check if the location type exits for fields
+            $locType = array( );
+            $locType = explode('-', $name);
+            
+            if (is_numeric($locType[1])) {
+                $this->_params['location_type'] = array($locType[1] => 1);
+                $this->locationType( );
+            }
+
             // FIXME: the LOWER/strtolower pairs below most probably won't work
             // with non-US-ASCII characters, as even if MySQL does the proper
             // thing with LOWER-ing them (4.0 almost certainly won't, but then
@@ -619,7 +626,7 @@ function addContributeFields( ) {
                     $value  =  $states[(int ) $value];
                 }
                 $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
-                $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );
+                $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );         
             } else if ( substr($name,0,7) === 'country' ) {
                 $countries =& CRM_Core_PseudoConstant::country( ); 
                 if ( is_numeric( $value ) ) { 
@@ -672,7 +679,8 @@ function addContributeFields( ) {
                     $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
                     $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
                 }
-            }
+            }           
+
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
             if ( isset( $tableName ) ) { 
                 $this->_tables[$tableName] = 1;  
