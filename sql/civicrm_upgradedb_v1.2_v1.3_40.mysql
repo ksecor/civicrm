@@ -364,14 +364,17 @@ CREATE TABLE civicrm_dupe_match (
 -- *******************************************************/
 
    
-    ALTER TABLE `civicrm_custom_option` ADD `entity_table` VARCHAR( 64 )  COMMENT 'Name of table where item being referenced is stored.' ;   
-    ALTER TABLE `civicrm_custom_option` DROP FOREIGN KEY `civicrm_custom_option_ibfk_1`;
-
-    ALTER TABLE `civicrm_custom_option` CHANGE `custom_field_id` `entity_id`  INT( 10 ) UNSIGNED DEFAULT '0' NOT NULL; 
-
-    ALTER TABLE `civicrm_custom_option` ADD INDEX ( `entity_id` ) ;
-
+    ALTER TABLE `civicrm_custom_option` ADD `entity_table` VARCHAR( 64 )  COMMENT 'Name of table where item being referenced is stored.' ;
     UPDATE `civicrm_custom_option` SET `entity_table` = 'civicrm_custom_field' ;
+
+    ALTER TABLE `civicrm_custom_option` ADD `entity_id`  INT( 10 ) UNSIGNED DEFAULT '0' NOT NULL; 
+    UPDATE `civicrm_custom_option` SET entity_id = custom_field_id;
+
+    ALTER TABLE `civicrm_custom_option` DROP KEY `UI_label_custom_field_id`;
+    ALTER TABLE `civicrm_custom_option` DROP FOREIGN KEY `civicrm_custom_option_ibfk_1`;
+    ALTER TABLE `civicrm_custom_option` DROP `custom_field_id`;
+
+    ALTER TABLE `civicrm_custom_option` ADD INDEX `index_entity` ( `entity_table`, `entity_id` ) ;
 
 
 -- /*******************************************************
