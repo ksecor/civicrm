@@ -576,12 +576,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $params[$index] = $value['country'];
                                 } else if ( $nameValue[0] == 'phone' ) {
                                     $values[$index] = $value['phone'][1];
+                                    $params[$index] = $value['phone'][1];
                                 } else if ( $nameValue[0] == 'email' ) {
                                     //adding the first email (currently we don't support multiple emails of same location type)
                                     $values[$index] = $value['email'][1];
+                                    $params[$index] = $value['email'][1];
                                 } else if ( $nameValue[0] == 'im' ) {
                                     //adding the first email (currently we don't support multiple ims of same location type)
                                     $values[$index] = $value['im'][1];
+                                    $params[$index] = $value['im'][1];
                                 } else {
                                     $values[$index] = $value[$nameValue[0]];
                                     $params[$index] = $value[$nameValue[0]];
