@@ -130,6 +130,16 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             }
         }
 
+        $status = '';
+        //check if same groups are selected in include and exclude groups 
+        if (is_array($groups['include']) && is_array($groups['exclude'])) {
+            $checkGroups = array();
+            $checkGroups = array_intersect($groups['include'], $groups['exclude']);
+            if (!empty($checkGroups)) {
+                $status = ts('Cannot have same groups in Include group(s) and Exclude group(s). ');
+            }
+        }
+
         $mailings = array();
         if (is_array($inMailings)) {
             foreach($inMailings as $key => $id) {
@@ -144,6 +154,21 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
                     $mailings['exclude'][] = $id;
                 }
             }
+        }
+
+        //check if same mailings are selected in include and exclude mailings 
+        if (is_array($mailings['include']) && is_array($mailings['exclude'])) {
+            $checkMailings = array();
+            $checkMailings = array_intersect($mailings['include'], $mailings['exclude']);
+            if (!empty($checkMailings)) {
+                $status .= ts('Cannot have same mail in Include mailing(s) and Exclude mailing(s).');
+            }
+        }
+        
+        if ($status) {
+            $this->controller->resetPage( $this->_name );
+            CRM_Core_Session::setStatus($status);
+            return;
         }
 
         $this->set('groups', $groups);
