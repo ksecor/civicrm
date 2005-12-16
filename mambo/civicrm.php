@@ -123,7 +123,7 @@ global \$civicrm_root;
 define( 'CIVICRM_UF'               , 'Mambo' ); 
 define( 'CIVICRM_UF_URLVAR'        , 'task'  ); 
 define( 'CIVICRM_UF_DSN'           , '$dsn' );
-define( 'CIVICRM_UF_USERSTABLENAME', 'mos_users' ); 
+define( 'CIVICRM_UF_USERSTABLENAME', 'jos_users' ); 
 define( 'CIVICRM_UF_BASEURL'       , '$mosConfig_live_site/administrator/' );
 
 \$civicrm_root = '$crmPath';
