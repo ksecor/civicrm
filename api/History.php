@@ -128,17 +128,9 @@ function &crm_get_activity_history(&$params, $offset = null, $numRow = null, $so
  * values passed in $params. An error object is returned if there is
  * no match, or more than one match. 
  *
- * @param array $params           Associative array of property name/value
- *                                pairs to attempt to match on.
- *
- * @param int     $offset          which row to start from ?
- * @param int     $rowCount        how many rows to fetch
- * @param object|array  $sort      object or array describing sort order for sql query.
- *
- *
- * @param array $returnProperties Which properties should be included in the
- *                                returned Contact object. If NULL, the default
- *                                set of properties will be included.
+ * @param array   $params    Associative array of property name/value
+ *                           pairs to attempt to match on.
+ * @param array   $deaults   An assoc array to hold the flattened values.   
  *
  * @return CRM_Core_DAO_$typeHistory|CRM_Core_Error  Return the Contact Object if found, else Error Object
  *
