@@ -2,8 +2,8 @@
 <mosinstall type="component">
   <name>CiviCRM</name>
   <creationDate>07/28/2005</creationDate>
-  <author>Social Source Foundation and PICnet Inc.</author>
-  <copyright>(C) Copyright 2005 by PICnet, Inc., and  Social Source Foundation</copyright>
+  <author>Donald A. Lobo.</author>
+  <copyright>(C) Donald A. Lobo</copyright>
   <authorEmail>lobo@yahoo.com</authorEmail>
   <authorUrl>www.openngo.org</authorUrl>
   <version>1.3</version>

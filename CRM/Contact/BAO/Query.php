@@ -247,7 +247,7 @@ class CRM_Contact_BAO_Query {
  
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**

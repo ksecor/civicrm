@@ -1,5 +1,5 @@
 {* make sure there are some fields in the selector *}
-{ if empty( $columnHeaders ) }
+{if ! empty( $columnHeaders ) }
 
 {include file="CRM/Profile/Form/Search.tpl"}
 

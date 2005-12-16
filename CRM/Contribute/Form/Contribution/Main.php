@@ -225,6 +225,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) { 
         $errors = array( ); 
 
+        $payment =& CRM_Utils_Payment::singleton( $self->_mode );
+        $error   =  $payment->checkConfig( $self->_mode );
+        if ( $error ) {
+            $errors['_qf_default'] = $error;
+        }
+
         if ( $fields['amount'] == 'amount_other_radio' ) {
             if ( $self->_values['min_amount'] > 0 ) {
                 $min = $self->_values['min_amount'];

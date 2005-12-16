@@ -454,6 +454,51 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
         }
         return $e;
     }
+
+    /** 
+     * This function checks to see if we have the right config values 
+     * 
+     * @param  string $mode the mode we are operating in (live or test) 
+     * 
+     * @return string the error message if any 
+     * @public 
+     */ 
+    function checkConfig( $mode ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        $error = array( );
+
+        if ( empty( $config->paymentCertPath[$mode] ) ) {
+            if ( $mode == 'live' ) {
+                $error[] = ts( "CIVICRM_PAYMENT_CERT_PATH is not set in the config file." );
+            } else {
+                $error[] = ts( "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file." );
+            }
+        }
+        
+        if ( empty( $config->paymentKey[$mode] ) ) {
+            if ( $mode == 'live' ) {
+                $error[] = ts( "CIVICRM_PAYMENT_KEY is not set in the config file." ); 
+            } else {
+                $error[] = ts( "CIVICRM_PAYMENT_TEST_KEY is not set in the config file." ); 
+            }
+        }
+        
+        if ( empty( $config->paymentPassword[$mode] ) ) {
+            if ( $mode == 'live' ) {
+                $error[] = ts( "CIVICRM_PAYMENT_PASSWORD is not set in the config file." );
+            } else {
+                $error[] = ts( "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file." );
+            }
+        }
+
+        if ( ! empty( $error ) ) {
+            return implode( ' ', $error );
+        } else {
+            return null;
+        }
+    }
+
 }
 
 ?>

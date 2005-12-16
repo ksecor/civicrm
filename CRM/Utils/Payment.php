@@ -72,6 +72,17 @@ abstract class CRM_Utils_Payment {
      * @abstract
      */
     abstract function doDirectPayment( &$params );
+
+    /**
+     * This function checks to see if we have the right config values
+     *
+     * @param  string $mode the mode we are operating in (live or test)
+     *
+     * @return string the error message if any
+     * @public
+     */
+    abstract function checkConfig( $mode );
+
 }
 
 ?>
