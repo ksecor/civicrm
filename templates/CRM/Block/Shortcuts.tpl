@@ -1,5 +1,7 @@
-<div id='crm-shortcuts'>
+<div id='crm-shortcuts' class="menu">
+<ul>
 {foreach from=$shortCuts item=short}
-  <a href="{$short.url}">{$short.title}</a><br />
+    <li class="leaf"><a href="{$short.url}">{$short.title}</a></li>
 {/foreach}
+</ul>
 </div>
