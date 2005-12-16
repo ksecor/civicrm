@@ -54,46 +54,46 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-    $template = '
+        $template = '
 <table{class}>
 <tr><td>{unselected}</td><td>{selected}</tr></tr>
 <tr><td>{add}</td><td>{remove}</tr></tr>
 </table>';
+        
         $groups =& CRM_Core_PseudoConstant::group();
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-            ts('Include group(s)') . ' ', $groups,
-            array('size' => 5, 'style' => 'width:240px'));
+                                  ts('Include group(s)') . ' ', $groups,
+                                  array('size' => 5, 'style' => 'width:240px'));
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-            ts('Exclude group(s)') . ' ', $groups,
-            array('size' => 5, 'style' => 'width:240px'));
+                                   ts('Exclude group(s)') . ' ', $groups,
+                                   array('size' => 5, 'style' => 'width:240px'));
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-//         $inG->setElementTemplate($template);
-//         $outG->setElementTemplate($template);
+        //         $inG->setElementTemplate($template);
+        //         $outG->setElementTemplate($template);
         
-
         $mailings =& CRM_Mailing_PseudoConstant::completed();
         if (! $mailings) {
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-            ts('Include mailing(s)') . ' ', $mailings,
-            array('size' => 5, 'style' => 'width:240px'));
+                                  ts('Include mailing(s)') . ' ', $mailings,
+                                  array('size' => 5, 'style' => 'width:240px'));
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-            ts('Exclude mailing(s)') . ' ', $mailings,
-            array('size' => 5, 'style' => 'width:240px'));
-
+                                   ts('Exclude mailing(s)') . ' ', $mailings,
+                                   array('size' => 5, 'style' => 'width:240px'));
+        
         $inM->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outM->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-//         $inM->setElementTemplate($template);
-//         $outM->setElementTemplate($template);
+        //         $inM->setElementTemplate($template);
+        //         $outM->setElementTemplate($template);
         
-
-
+        $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -104,7 +104,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-
+        
         $this->assign('groupCount', count($groups));
         $this->assign('mailingCount', count($mailings));
     }
@@ -130,16 +130,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             }
         }
 
-        $status = '';
-        //check if same groups are selected in include and exclude groups 
-        if (is_array($groups['include']) && is_array($groups['exclude'])) {
-            $checkGroups = array();
-            $checkGroups = array_intersect($groups['include'], $groups['exclude']);
-            if (!empty($checkGroups)) {
-                $status = ts('Cannot have same groups in Include group(s) and Exclude group(s). ');
-            }
-        }
-
         $mailings = array();
         if (is_array($inMailings)) {
             foreach($inMailings as $key => $id) {
@@ -155,22 +145,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
                 }
             }
         }
-
-        //check if same mailings are selected in include and exclude mailings 
-        if (is_array($mailings['include']) && is_array($mailings['exclude'])) {
-            $checkMailings = array();
-            $checkMailings = array_intersect($mailings['include'], $mailings['exclude']);
-            if (!empty($checkMailings)) {
-                $status .= ts('Cannot have same mail in Include mailing(s) and Exclude mailing(s).');
-            }
-        }
         
-        if ($status) {
-            $this->controller->resetPage( $this->_name );
-            CRM_Core_Session::setStatus($status);
-            return;
-        }
-
         $this->set('groups', $groups);
         $this->set('mailings', $mailings);
     }
@@ -184,6 +159,38 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
     public function getTitle( ) {
         return ts( 'Select Mailing Recipients' );
     }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) {
+        $errors = array( );
+        if (is_array($fields['includeGroups']) && is_array($fields['excludeGroups'])) {
+            $checkGroups = array();
+            $checkGroups = array_intersect($fields['includeGroups'], $fields['excludeGroups']);
+            if (!empty($checkGroups)) {
+                $errors['excludeGroups'] = ts('Cannot have same groups in Include group(s) and Exclude group(s). ');
+            }
+        }
+
+        if (is_array($fields['includeMailings']) && is_array($fields['excludeMailings'])) {
+            $checkMailings = array();
+            $checkMailings = array_intersect($fields['includeMailings'], $fields['excludeMailings']);
+            if (!empty($checkMailings)) {
+                $errors['excludeMailings'] = ts('Cannot have same mail in Include mailing(s) and Exclude mailing(s).');
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+
+    
 
 }
 
