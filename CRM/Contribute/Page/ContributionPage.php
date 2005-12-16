@@ -159,9 +159,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                                                            $mode );
             $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
             $controller->set('id', $id);
-            $controller->setEmbedded( true );
             $controller->process( );
-            $controller->run( );
+            return $controller->run( );
         } else {
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
             // if action is enable or disable to the needful.

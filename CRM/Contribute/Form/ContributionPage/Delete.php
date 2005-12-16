@@ -42,12 +42,23 @@ require_once 'CRM/Contribute/Form/ContributionPage.php';
 class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_ContributionPage {
 
     /**
+     * page title
+     *
+     * @var string
+     * @protected
+     */
+    protected $_title;
+
+    /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
     public function buildQuickForm( ) {
+
+        $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+        $this->assign( 'title', $this->_title );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -69,6 +80,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         CRM_Core_DAO::transaction('BEGIN');
 
         // first delete the join entries associated with this contribution page
+        require_once 'CRM/Core/DAO/UFJoin.php';
         $dao =& new CRM_Core_DAO_UFJoin( );
         
         $params = array( 'entity_table' => 'civicrm_contribution_page',

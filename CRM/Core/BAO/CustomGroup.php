@@ -396,7 +396,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * An array containing custom group details (including their custom field) is returned.
      *
-     * @param int    $groupId  - group id whose details are needed
+     * @param int     $groupId    - group id whose details are needed
+     * @param boolean $searchable - is this field searchable
+     * @param extends $extends    - which table does it extend if any 
      * @return array $groupTree - array consisting of all group and field details
      *
      * @access public
@@ -404,7 +406,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getGroupDetail($groupId = null, $searchable = null)
+    public static function getGroupDetail($groupId = null, $searchable = null, $extends = null)
     {
         // create a new tree
         $groupTree = array();
@@ -416,7 +418,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable' ),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post'),
+                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post' ),
                            );
 
         // create select
@@ -438,8 +440,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $where .= " AND civicrm_custom_group.id = " .
                             CRM_Utils_Type::escape($groupId, 'Integer');
         }
+
         if ( $searchable ) {
             $where .= " AND civicrm_custom_field.is_searchable = 1";
+        }
+
+        if ( $extends ) {
+            $clause = array( );
+            foreach ( $extends as $e ) {
+                $clause[] = "civicrm_custom_group.extends = '$e'";
+            }
+            $where .= " AND ( " . implode( ' OR ', $clause ) . " ) ";
         }
 
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
