@@ -415,9 +415,13 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
-        
+
         $locationType = array( );
         $count = 1;
+        if ($this->_id ) {
+            $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($this->_id);
+        }
+            
         foreach ($params as $key => $value) {
             $keyValue = explode('-', $key);
             if (is_numeric($keyValue[1])) {
@@ -430,8 +434,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
 
                 $data['location'][$loc]['location_type_id'] = $keyValue[1];
-                if ($loc == 1 ) {
-                    $data['location'][$loc]['is_primary'] = 1;
+                if ($this->_id) {
+                    //get the primary location type
+                    if ($keyValue[1] == $primaryLocationType) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    }
+                } else {
+                    if ($loc == 1 ) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    }
                 }
 
                 if ($keyValue[0] == 'phone') {

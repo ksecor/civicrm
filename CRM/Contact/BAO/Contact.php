@@ -1446,7 +1446,29 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
             }
         }
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
-    } 
+    }
+
+    /**
+     * Function to return the primary location type of a contact 
+     * 
+     * $params int $contactId contact_id
+     *
+     * @return int $locationType location_type_id
+     * @access public
+     * @static
+     */
+    static function getPrimaryLocationType($contactId) 
+    {
+        require_once 'CRM/Core/BAO/Location.php';
+        $location =& new CRM_Core_DAO_Location( ); 
+        $location->entity_table = 'civicrm_contact';
+        $location->entity_id    = $contactId;
+        $location->is_primary   = 1;
+        $location->find(true);
+        
+        return $location->location_type_id;
+    }
+ 
 }
 
 ?>
