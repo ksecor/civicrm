@@ -14,18 +14,20 @@
             </ul>
             <br />
             {else}
-            {ts}No matches found{/ts}
+            {ts}No matches found.{/ts}
             {/if}
             {ts}Suggestions:{/ts}
             <ul>
             <li>{ts}check your spelling{/ts}</li>
             <li>{ts}try a different spelling or use fewer letters{/ts}</li>
             <li>{ts}if you are searching within a Group or for Tagged contacts, try 'any group' or 'any tag'{/ts}</li>
+            {if $context NEQ 'Profile'}
             {capture assign=crmURLI}{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}{/capture}
             {capture assign=crmURLO}{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}{/capture}
             {capture assign=crmURLH}{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}{/capture}
             <li>{ts 1=$crmURLI 2=$crmURLO 3=$crmURLH}add a <a href="%1">New Individual</a>, <a href="%2">Organization</a> or <a href="%3">Household</a>{/ts}</li>
             <li>{ts}make sure you have enough privileges in the access control system{/ts}</li>
+            {/if}
             </ul>
         {/if}
     </dd>

@@ -3,17 +3,16 @@
 
 {include file="CRM/Profile/Form/Search.tpl"}
 
-{include file="CRM/pager.tpl" location="top"}
-
-{* show profile listings criteria *}
+{* show profile listings criteria ($qill) *}
 {if $rows}
-    {if $criteria}
+    {include file="CRM/pager.tpl" location="top"}
+    {if $qill}
      <p>
      <div id="search-status">
         {ts}Displaying contacts where:{/ts}
         <ul>
-        {foreach from=$criteria item=item}
-          <li>{$item}</li>
+        {foreach from=$qill item=criteria}
+          <li>{$criteria}</li>
         {/foreach}
         </ul>
      </div>
@@ -45,14 +44,18 @@
       {/foreach}
     </table>
     {/strip}
+    {include file="CRM/pager.tpl" location="bottom"}
 {else}
-    {include file="CRM/Contact/Form/Search/EmptyResults.tpl"}
+    {include file="CRM/Contact/Form/Search/EmptyResults.tpl" context="Profile"}
 {/if}
 
-{include file="CRM/pager.tpl" location="bottom"}
 
 {else}
-<div class="messages status">
-{ts}No fields have been selected to display in the listings.{/ts}
-</div>
+    <div class="messages status">
+      <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>{ts}No fields in this Profile have been configured to display as columns in the listings (selector) table.
+        Ask the site administrator to check the Profile setup.{/ts}</dd>
+      </dl>
+    </div>
 {/if}

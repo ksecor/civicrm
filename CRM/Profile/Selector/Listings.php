@@ -248,8 +248,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
 
         // HACK: add qill to template
-        $template = CRM_Core_Smarty::singleton( ); 
-        $template->assign( 'criteria', $this->_query->qill( ) );
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'qill', $this->_query->qill( ) );
         
         // process the result of the query
         $rows = array( );
