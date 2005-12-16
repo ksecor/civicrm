@@ -64,6 +64,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include group(s)') . ' ', $groups,
                                   array('size' => 5, 'style' => 'width:240px'));
+
+        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
                                    ts('Exclude group(s)') . ' ', $groups,
                                    array('size' => 5, 'style' => 'width:240px'));
