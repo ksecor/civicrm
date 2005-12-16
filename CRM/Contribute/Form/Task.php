@@ -59,6 +59,13 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
     protected $_contributionClause = null;
 
     /**
+     * The array that holds all the contribution ids
+     *
+     * @var array
+     */
+    protected $_contributionIds;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @param
@@ -67,21 +74,20 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $this->_contributionIds = array();
 
         $values = $this->controller->exportValues( 'Search' );
         
         $this->_task = $values['task'];
         $contributeTasks = CRM_Contribute_Task::tasks();
         $this->assign( 'taskName', $contributeTasks[$this->_task] );
-
+        $ids = array();
         if ( $values['radio_ts'] == 'ts_sel' ) {
-            $ids = array( );
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
-
             if ( ! empty( $ids ) ) {
                 $this->_contributionClause =
                     ' civicrm_contribution.id IN ( ' .
@@ -89,8 +95,16 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                 $this->assign( 'totalSelectedContributions', count( $ids ) );
             }
         } else {
+            $fv = $this->get('formValues');
+            $query =& new CRM_Contact_BAO_Query($fv, null, null, false, false,
+                                                CRM_Contact_BAO_Query::MODE_CONTRIBUTE);
+            $result = $query->searchQuery(0, 0, null);
+            while ($result->fetch()) {
+                $ids[] = $result->contribution_id;
+            }
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
+        $this->_contributionIds = $ids;
     }
 
     /**

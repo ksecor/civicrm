@@ -381,7 +381,7 @@ WHERE  domain_id = $domainID AND $whereCond
      *                    
      * @param  int  $contactId id of the contact to delete                                                                           
      * 
-     * @return void 
+     * @return boolean  true if deleted, false otherwise
      * @access public 
      * @static 
      */ 
@@ -392,10 +392,7 @@ WHERE  domain_id = $domainID AND $whereCond
 
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         while ( $contribution->fetch( ) ) {
-            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( ); 
-            $trxn->entity_table = 'civicrm_contribution'; 
-            $trxn->entity_id    = $contribution->id;
-            $trxn->delete( );
+            self::deleteContributionSubobjects($contribution->id);
             $contribution->delete( );
         }
     }
@@ -404,15 +401,27 @@ WHERE  domain_id = $domainID AND $whereCond
         $contribution =& new CRM_Contribute_DAO_Contribution( ); 
         $contribution->id = $id;
         if ( $contribution->find( true ) ) {
-            require_once 'CRM/Contribute/DAO/FinancialTrxn.php'; 
-            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );  
-            $trxn->entity_table = 'civicrm_contribution';  
-            $trxn->entity_id    = $contribution->id; 
-            if ( $trxn->find( true ) ) {
-                $trxn->delete( ); 
-            }
-
+            self::deleteContributionSubobjects($id);
             $contribution->delete( ); 
+        }
+        return true;
+    }
+
+    static function deleteContributionSubobjects($contribId) {
+        require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
+        $trxn =& new CRM_Contribute_DAO_FinancialTrxn();
+        $trxn->entity_table = 'civicrm_contribution';
+        $trxn->entity_id    = $contribution->id;
+        if ($trxn->find(true)) {
+            $trxn->delete();
+        }
+
+        require_once 'CRM/Core/DAO/ActivityHistory.php';
+        $activityHistory =& new CRM_Core_DAO_ActivityHistory();
+        $activityHistory->module      = 'CiviContribute';
+        $activityHistory->activity_id = $contribution->id;
+        if ($activityHistory->find(true)) {
+            $activityHistory->delete();
         }
     }
 
