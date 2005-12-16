@@ -973,7 +973,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         $dao->query($queryString);
         $dao->fetch();
-        return $dao->new_weight; 
+        return ($dao->new_weight) ? $dao->new_weight : 1; 
     }
 
 

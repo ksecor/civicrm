@@ -216,8 +216,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
-        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="getHelpText(this,event, false);"  onblur="getHelpText(this,event, false);" autocomplete="off"', '&nbsp;&nbsp;');
+        //$sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="getHelpText(this,event, false);"  onblur="getHelpText(this,event, false);" autocomplete="off"', '&nbsp;&nbsp;'); //this commented to fix javascript error
         
+        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'));
+
         for ( $k = 1; $k < 3; $k++ ) {
             if (!$defaults['field_name'][$k]) {
                 $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
