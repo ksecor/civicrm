@@ -556,7 +556,7 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */ 
     function whereClause( ) {
-        // CRM_Core_Error::debug( 'p', $this->_params );
+        //CRM_Core_Error::debug( 'p', $this->_params );
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
         $this->_where[] = 'civicrm_contact.domain_id = ' . $config->domainID( );
@@ -795,6 +795,14 @@ class CRM_Contact_BAO_Query {
             return $from;
         }
         
+        if ( ( CRM_Utils_Array::value( 'civicrm_gender', $tables ) ||
+               CRM_Utils_Array::value( 'civicrm_individual_prefix' , $tables ) ||
+               CRM_Utils_Array::value( 'civicrm_individual_suffix' , $tables )) &&
+             ! CRM_Utils_Array::value( 'civicrm_individual'       , $tables ) ) {
+            $tables = array_merge( array( 'civicrm_individual' => 1 ),
+                                   $tables );
+        }        
+
         if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ) &&
              ! CRM_Utils_Array::value( 'civicrm_address'       , $tables ) ) {
