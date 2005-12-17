@@ -252,13 +252,31 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $rows = array( );
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
+
+        require_once 'CRM/Core/PseudoConstant.php';
+        $locationTypes = CRM_Core_PseudoConstant::locationType( );
+
         $links =& self::links( );
         $names = array( );
         static $skipFields = array( 'group', 'tag' ); 
         foreach ( $this->_fields as $key => $field ) {
             if ( $field['in_selector'] && 
                  ! in_array( $key, $skipFields ) ) { 
-                $names[] = $field['name'];
+                if ( strpos( $key, '-' ) !== false ) {
+                    list( $fieldName, $id ) = explode( '-', $key );
+                    $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                    if ( ! $locationTypeName ) {
+                        continue;
+                    }
+
+                    if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
+                        $names[] = "{$locationTypeName}-{$fieldName}-1";
+                    } else {
+                        $names[] = "{$locationTypeName}-{$fieldName}";
+                    }
+                } else {
+                    $names[] = $field['name'];
+                }
             }
         }
 
