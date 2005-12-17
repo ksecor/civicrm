@@ -1376,7 +1376,7 @@ VALUES
 INSERT INTO civicrm_activity_history
     (entity_table, entity_id, activity_type, module, callback, activity_id, activity_summary, activity_date)
 VALUES
-    ('civicrm_contact', 4, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 1, '125.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
+    ('civicrm_contact', 2, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 1, '125.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
     ('civicrm_contact', 4, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 2, '50.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-09-21 00:00:00'),
     ('civicrm_contact', 6, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 3, '25.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-29 00:00:00'),
     ('civicrm_contact', 8, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 4, '50.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-11 00:00:00'),
