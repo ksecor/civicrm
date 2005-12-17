@@ -63,7 +63,8 @@ class CRM_Contribute_Page_Contribution extends CRM_Core_Page {
         $contributionId = CRM_Utils_Array::value('activity_id', $defaults); 
  
         if ($contributionId) { 
-            return CRM_Utils_System::url('civicrm/contribute/contribution', "reset=1&action=view&id=$contributionId"); 
+            $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $contributionId, 'contact_id' );
+            return CRM_Utils_System::url('civicrm/contact/view/contribution', "reset=1&action=view&id=$contributionId&cid=$cid&context=basic");
         } else { 
             return CRM_Utils_System::url('civicrm'); 
         } 
