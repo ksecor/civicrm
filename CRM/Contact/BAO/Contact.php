@@ -1432,8 +1432,7 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
      * @static
      * @access public
      */
-    static function getHierContactDetails( $contactId, &$fields ) 
-    {
+    static function getHierContactDetails( $contactId, &$fields ) {
         $params  = array( 'id' => $contactId );
         $options = array( );
                 
@@ -1448,6 +1447,50 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
     }
 
+    /**
+     * given a set of flat profile style field names, create a hierarchy
+     * for query to use and crete the right sql
+     *
+     * @param array $properties a flat return properties name value array
+     * 
+     * @return array a hierarchical property tree if appropriate
+     * @access public
+     * @static
+     */
+    static function &makeHierReturnProperties( $fields ) {
+
+        require_once 'CRM/Core/PseudoConstant.php';
+        $locationTypes = CRM_Core_PseudoConstant::locationType( );
+
+        $returnProperties = array( );
+        $locationIds = array( );
+        foreach ( $fields as $name => $dontCare ) {
+            if ( strpos( $name, '-' ) !== false ) {
+                list( $fieldName, $id ) = explode( '-', $name );
+                $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                if ( ! $locationTypeName ) {
+                  continue;
+                }
+
+                if ( ! CRM_Utils_Array::value( 'location', $returnProperties ) ) {
+                    $returnProperties['location'] = array( );
+                }
+                if ( ! CRM_Utils_Array::value( $locationTypeName, $returnProperties['location'] ) ) {
+                    $returnProperties['location'][$locationTypeName] = array( );
+                    $returnProperties['location'][$locationTypeName]['location_type'] = 1;
+                }
+                if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                    $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;
+                } else {
+                    $returnProperties['location'][$locationTypeName][$fieldName] = 1;
+                }
+            } else {
+                $returnProperties[$name] = 1;
+            }
+        }
+        return $returnProperties;
+    }
+    
     /**
      * Function to return the primary location type of a contact 
      * 

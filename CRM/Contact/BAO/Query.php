@@ -337,6 +337,8 @@ class CRM_Contact_BAO_Query {
         $this->addContributeFields( );
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
+        //CRM_Core_Error::debug( 'p', $this->_params );
+
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
@@ -466,7 +468,11 @@ class CRM_Contact_BAO_Query {
                     $elementType = '-' . $elementType;
                 }
                 
-                $field = CRM_Utils_Array::value( $elementName, $this->_fields );
+                $field = CRM_Utils_Array::value( $elementName, $this->_fields ); 
+               // hack for profile, add location id
+                if ( ! $field ) {
+                    $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                }
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
@@ -1643,7 +1649,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        // CRM_Core_Error::debug( 'q', $query );
+        //CRM_Core_Error::debug( 'q', $query );
 
         if ( $returnQuery ) {
             return $query;

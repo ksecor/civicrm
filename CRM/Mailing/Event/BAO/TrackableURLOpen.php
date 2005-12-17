@@ -34,8 +34,8 @@
  *
  */
 
-
 require_once 'CRM/Mailing/Event/DAO/TrackableURLOpen.php';
+
 class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_TrackableURLOpen {
 
     /**

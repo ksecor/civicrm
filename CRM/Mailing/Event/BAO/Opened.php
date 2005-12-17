@@ -35,6 +35,7 @@
  */
 
 require_once 'CRM/Mailing/Event/DAO/Opened.php';
+
 class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
 
     /**

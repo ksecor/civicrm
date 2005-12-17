@@ -60,7 +60,8 @@ class CRM_Utils_SoapServer
      */
     public function __construct() {
         session_start();
-        $this->ufClass = array_shift(func_get_args());
+        $args = func_get_args( );
+        $this->ufClass = array_shift( $foo );
     }
 
     /**

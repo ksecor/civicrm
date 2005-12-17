@@ -139,10 +139,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
         $this->_customFields =& $customFields;
 
-        $returnProperties = array( );
-        foreach ( $this->_fields as $name => $dontCare ) {
-            $returnProperties[$name] = 1;
-        }
+        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
         $returnProperties['contact_type'] = 1;
 
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );

@@ -37,6 +37,7 @@
 require_once 'api/crm.php';
 require_once 'Mail/mime.php';
 require_once 'CRM/Utils/Verp.php';
+
 require_once 'CRM/Mailing/Event/DAO/Subscribe.php';
 
 class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
