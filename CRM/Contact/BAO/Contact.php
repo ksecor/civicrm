@@ -1436,14 +1436,8 @@ WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not 
         $params  = array( 'id' => $contactId );
         $options = array( );
                 
-        $returnProperties = CRM_Contact_BAO_Query::defaultHierReturnProperties( );
+        $returnProperties =& self::makeHierReturnProperties( $fields );
 
-        //add custom fields to the return array
-        foreach ($fields as $key => $value) {
-            if (substr($key, 0, 6) === 'custom') {
-                $returnProperties[$key] = 1; 
-            }
-        }
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
     }
 

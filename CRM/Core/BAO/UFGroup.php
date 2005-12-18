@@ -504,27 +504,34 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $options = array( );
 
         // get the contact details (hier)
-        list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $id, $fields );
-        $details = $contactDetails[$id];
+        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
+        $params  = array( 'id' => $id );
+        $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
+        $options =& $query->_options;
+
+        $details = $query->searchQuery( );
+        if ( ! $details->fetch( ) ) {
+            return;
+        }
+
+        require_once 'CRM/Core/PseudoConstant.php'; 
+        $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
-            if (CRM_Utils_Array::value($name, $details )) {
+            if ( $details->$name ) {
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
-                if ($name == 'gender') { 
-                    $params[$index] = $details['gender'];
-                    $values[$index] = $details['gender'];
-                } else if ($name == 'individual_prefix') {
-                    $values[$index] = $details['individual_prefix'];
-                    $params[$index] = $details['individual_prefix'];
-                } else if ($name == 'individual_suffix') {
-                    $values[$index] = $details['individual_suffix'];
-                    $params[$index] = $details['individual_suffix'];
+                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
+                    $params[$index] = $values[$index] = $details->$name;
+                } else if ( in_array( $name, array( 'state_province', 'country' ) ) ) {
+                    $values[$index] = $details->$name;
+                    $idx = $name . '_id';
+                    $params[$index] = $details->$idx;
                 } else if ( substr($name, 0, 7) === 'do_not_' ) {  
-                    if ($details[$name]) {
+                    if ($details->$name) {
                         $values[$index] = '[ x ]';
                     }
                 } else if ( $name == 'group' ) {
@@ -554,44 +561,30 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else {
                     require_once 'CRM/Core/BAO/CustomField.php';
                     if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                        $params[$index] = $details[$name];
-                        $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details[$name], $cfID, $options );
+                        $params[$index] = $details->$name;
+                        $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
                     } else {
-                        $values[$index] = $details[$name];
+                        $values[$index] = $details->$name;
                     }
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
-                $nameValue = explode( '-' , $name );
+                list( $fieldName, $id ) = explode( '-', $name );
+                $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                if ( ! $locationTypeName ) {
+                    continue;
+                }
 
-                foreach ($details as $key => $value) {
-                    if (is_numeric($key)) {
-                        if ($nameValue[1] == $value['location_type_id'] ) {
-                            if (CRM_Utils_Array::value($nameValue[0], $value )) {
-                                //to handle stateprovince and country
-                                if ( $nameValue[0] == 'state_province' ) {
-                                    $values[$index] = $value['state_province'];
-                                    $params[$index] = $value['state_province'];
-                                } else if ( $nameValue[0] == 'country' ) {
-                                    $values[$index] = $value['country'];
-                                    $params[$index] = $value['country'];
-                                } else if ( $nameValue[0] == 'phone' ) {
-                                    $values[$index] = $value['phone'][1];
-                                    $params[$index] = $value['phone'][1];
-                                } else if ( $nameValue[0] == 'email' ) {
-                                    //adding the first email (currently we don't support multiple emails of same location type)
-                                    $values[$index] = $value['email'][1];
-                                    $params[$index] = $value['email'][1];
-                                } else if ( $nameValue[0] == 'im' ) {
-                                    //adding the first email (currently we don't support multiple ims of same location type)
-                                    $values[$index] = $value['im'][1];
-                                    $params[$index] = $value['im'][1];
-                                } else {
-                                    $values[$index] = $value[$nameValue[0]];
-                                    $params[$index] = $value[$nameValue[0]];
-                                }
-                            }
-                        }
-                    }
+                $detailName = "{$locationTypeName}-{$fieldName}";
+                if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                    $detailName .= '-1';
+                }
+                
+                if ( in_array( $fieldName, array( 'state_province', 'country' ) ) ) {
+                    $values[$index] = $details->$detailName;
+                    $idx = $detailName . '_id';
+                    $params[$index] = $details->$idx;
+                } else {
+                    $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
         
