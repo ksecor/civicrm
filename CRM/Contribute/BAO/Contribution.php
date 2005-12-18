@@ -147,6 +147,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
             }
         }
+
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
         } else {
@@ -181,8 +182,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
         }
 
-        CRM_Core_DAO::transaction('COMMIT');
-
         // let's create an (or update the relevant) Acitivity History record
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
         if (!$contributionType) {
@@ -195,7 +194,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $activitySummary = ts(
-            '%1 - %2 (from import on %3)',
+            '%1 - %2 (updated on %3)',
             array(
                 1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
                 2 => $contributionType,
@@ -218,7 +217,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             // this contribution should have an Activity History record already
             $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
             $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
-            $ids['activity_history'] = CRM_Utils_Array::value('id', $getHistoryValues);
+            if ( ! empty( $getHistoryValues ) ) {
+                $tmp = array_keys( $getHistoryValues  );
+                $ids['activity_history'] = $tmp[0];
+            }
         }
 
         $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
@@ -226,6 +228,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
         }
 
+        CRM_Core_DAO::transaction('COMMIT');
 
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Contribution', $contribution->id, $contribution );
@@ -436,10 +439,12 @@ WHERE  domain_id = $domainID AND $whereCond
      * static
      */
     static function checkDuplicate( &$params, &$duplicates ) {
+        $id         = CRM_Utils_Array::value( 'id'        , $params );
         $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
         $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
 
         $clause = array( );
+
         if ( $trxn_id ) {
             $clause[] = "trxn_id = '" . CRM_Utils_Type::escape( $trxn_id, 'String' ) . "'";
         }
@@ -452,8 +457,12 @@ WHERE  domain_id = $domainID AND $whereCond
             return false;
         }
 
-        $query = "SELECT id FROM civicrm_contribution WHERE " .
-            implode( ' OR ', $clause );
+        $clause = implode( ' OR ', $clause );
+        if ( $id ) {
+            $clause = "( $clause ) AND id != " . CRM_Utils_Type::escape( $id, 'Integer' );
+        }
+
+        $query = "SELECT id FROM civicrm_contribution WHERE $clause";
         $dao =& CRM_Core_DAO::executeQuery( $query );
         $result = false;
         while ( $dao->fetch( ) ) {

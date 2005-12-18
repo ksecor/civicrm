@@ -329,7 +329,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         $ids['contribution'] = $params['id'] = $this->_id;
-        
+
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         // do the updates/inserts

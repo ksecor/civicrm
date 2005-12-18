@@ -201,6 +201,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     {
         static $skipFields = array( 'group', 'tag' );
         $direction = CRM_Utils_Sort::ASCENDING;
+        $empty = true;
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( array( 'name' => '' ) );
             foreach ( $this->_fields as $name => $field ) { 
@@ -210,9 +211,17 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                      'sort'     => $name,
                                                      'direction' => $direction );
                     $direction = CRM_Utils_Sort::DONTCARE;
+                    $empty = false;
                 }
-            } 
-            self::$_columnHeaders[] = array('desc' => ts('Actions'));
+            }
+
+            // if we dont have any valid columns, dont add the implicit ones
+            // this allows the template to check on emptiness of column headers
+            if ( $empty ) {
+                self::$_columnHeaders = array( );
+            } else {
+                self::$_columnHeaders[] = array('desc' => ts('Actions'));
+            }
         }
         return self::$_columnHeaders;
     }
@@ -231,6 +240,16 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     }
 
     /**
+     * Return the qill for this selector
+     *
+     * @return string
+     * @access public
+     */
+    function getQill( ) {
+        return $this->_query->qill( );
+    }
+
+    /**
      * returns all the rows in the given offset and rowCount
      *
      * @param enum   $action   the action being performed
@@ -244,10 +263,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
 
-        // HACK: add qill to template
-        $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'qill', $this->_query->qill( ) );
-        
         // process the result of the query
         $rows = array( );
 
