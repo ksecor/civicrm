@@ -373,9 +373,14 @@ class CRM_Contact_BAO_Query {
                         
                         //special case for phone
                         if ($name == 'phone') {
-                            $this->_select[$name]              = "phone_type as phone_type, " . $field['where'] . " as `$name` ";
+                            $this->_select ['phone_type'] = "civicrm_phone.phone_type as phone_type";
+                            $this->_element['phone_type'] = 1;
+                        }
+
+                        if ( $name == 'state_province' ) {
+                            $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`";
                         } else {
-                            $this->_select[$name]              = $field['where'] . " as `$name`";
+                            $this->_select [$name]              = $field['where'] . " as `$name`";
                         }
                         $this->_element[$name]             = 1;
 
@@ -480,7 +485,11 @@ class CRM_Contact_BAO_Query {
                     if ( isset( $tableName ) ) {
                         $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}_id`";
                         $this->_element["{$tName}_id"]                  = 1;
-                        $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
+                        if ( $tName == 'civicrm_state_province' ) {
+                            $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.abbreviation as `{$name}-{$elementFullName}`";
+                        } else {
+                            $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";
+                        }
                         $this->_element["{$name}-{$elementFullName}"] = 1;
                         if ( ! CRM_Utils_Array::value( "`$tName`", $processed ) ) {
                             $processed["`$tName`"] = 1;
