@@ -246,6 +246,9 @@ div.spacer {
   margin: 0px;
 } 
 
+#crm-container ul.indented {
+  padding-left: 40px;
+}
 
 /*
 ** Styles for formating of text
