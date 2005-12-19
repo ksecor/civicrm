@@ -55,6 +55,23 @@
 			document.getElementById("optionsPerLineDef").style.display="none";
 		}
 	}
+	
+	if(data_type.selectedIndex == 5) {
+	     document.getElementById("startDateRange").style.display="block";
+	     document.getElementById("startDateRangeDef").style.display="block";
+	     document.getElementById("endDateRange").style.display="block";
+	     document.getElementById("endDateRangeDef").style.display="block";
+	     document.getElementById("incudedDatePart").style.display="block";
+	     document.getElementById("incudedDatePartDef").style.display="block";	
+ 	} else {
+	     document.getElementById("startDateRange").style.display="none";
+	     document.getElementById("startDateRangeDef").style.display="none";
+	     document.getElementById("endDateRange").style.display="none";
+	     document.getElementById("endDateRangeDef").style.display="none";
+	     document.getElementById("incudedDatePart").style.display="none";
+	     document.getElementById("incudedDatePartDef").style.display="none";	 	
+			
+	}
 			 
 
     }
@@ -75,12 +92,17 @@
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' class="hide-block">{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
     {/if}
-        
         <dl>
 	    <dt id="optionsPerLine" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
 	    <dd id="optionsPerLineDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block"{/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
+
+	<dt id="startDateRange" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block" {/if}>{$form.start_date_years.label}</dt><dd id="startDateRangeDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.start_date_years.html}{ts} years prior to current date.{/ts}</dd> 
         
-        <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
+	<dt id="endDateRange" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.label}</dt><dd id="endDateRangeDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.html}{ts} years after the current date.{/ts}</dd> 
+
+	 <dt id="incudedDatePart"{if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.label}</dt><dd id="incudedDatePartDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.html}</dd> 
+
+	<dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}

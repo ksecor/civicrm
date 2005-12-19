@@ -295,7 +295,7 @@ class CRM_Core_SelectValues {
      * @return array         the date array
      * @static
      */
-    static function &date($type = 'birth', $min = null, $max = null)
+    static function &date($type = 'birth', $min = null, $max = null,$dateParts = null)
     {
         static $_date = null;
         static $config = null;
@@ -322,9 +322,16 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'relative') {
             $minOffset = 20;
             $maxOffset = 20;
-        } elseif ($type == 'custom') { 
-            $minOffset = 10; 
-            $maxOffset = 10; 
+        } elseif ($type == 'custom') {
+            $minOffset = $min; 
+            $maxOffset = $max; 
+            if( $dateParts ) {
+                $format = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$dateParts);
+                foreach( $format as $v ) {
+                    $stringFormat = $stringFormat ." ".$v;  
+                }
+                $newDate['format'] = $stringFormat;
+            }
         } elseif ($type == 'fixed') {
             $minOffset = 0;
             $maxOffset = 5;

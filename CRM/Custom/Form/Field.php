@@ -163,7 +163,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys), '1' => $defaults['html_type']);
             }
-
+            
+            $date_parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$defaults['date_parts']);
+            $temp_date_parts = array();
+            if (is_array( $date_parts )) {
+                foreach($date_parts as $v  ) {
+                    $temp_date_parts[$v] = 1;
+                }
+                $defaults['date_parts'] = $temp_date_parts;
+            }
         } else {
             $defaults['is_active'] = 1;
             for($i=1; $i<=self::NUM_OPTION; $i++) {
@@ -183,7 +191,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             if ( empty($defaults['weight']) ) {
                 $defaults['weight'] = 1;
             }
+            $defaults['date_parts'] = array('d' => 1,'M' => 1,'Y' => 1); 
+            
+            
         }
+        
         return $defaults;
     }
 
@@ -251,7 +263,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $_showHide->addToTemplate();                
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
-		
+        $this->add('text', 'start_date_years', ts('Dates may be up to'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'start_date_years'), false);
+        $this->add('text', 'end_date_years', ts('Dates may be up to'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'end_date_years'),false);
+        
+        $this->addRule('start_date_years', ts('value should be Positive number') , 'integer');
+        $this->addRule('end_date_years', ts('value should be Positive number') , 'integer');
+
+        $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
+        $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
+        $includedPart[] = $this->createElement('checkbox', 'Y',true,ts('Year'));
+
+        $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
+        
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
@@ -526,7 +549,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
@@ -646,7 +668,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
         $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
         $customField->options_per_line = $params['options_per_line'];
-
+        $customField->start_date_years = $params['start_date_years'];
+        $customField->end_date_years   = $params['end_date_years'];
+        $customField->date_parts       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
+        
+        
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
             $customField->attributes = 'rows=4, cols=80';
         }

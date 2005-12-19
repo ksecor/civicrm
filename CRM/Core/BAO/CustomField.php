@@ -319,10 +319,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                                                 CRM_Core_SelectValues::date( 'custom' )); 
                 $dates[] = $this->createElement('date', 'to', 
                                                 $field->label . ' ' . ts('To'), 
-                                                CRM_Core_SelectValues::date( 'custom' )); 
+                                                CRM_Core_SelectValues::date( 'custom')); 
                 $qf->addGroup($dates, $elementName, $field['label'] . ' - ' . ts('From'), '&nbsp;&nbsp;<strong>' . ts('To') . '</strong>&nbsp;&nbsp;'); 
             } else {
-                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $field->is_required));
+                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom',$field->start_date_years,$field->end_date_years,$field->date_parts), ($useRequired && $field->is_required));
             }
             break;
 
