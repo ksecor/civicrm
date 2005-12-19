@@ -260,6 +260,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $rows = array( );
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
+        
+        $mapMask = 4095; // mask value to hide map link if there are not lat/long
 
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
@@ -296,7 +298,17 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
+                
+                $locations = array();
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $locations =& CRM_Contact_BAO_Contact::getMapInfo( array($result->contact_id) );
+
+                if ( empty( $locations ) ) {
+                    $row['action']   = CRM_Core_Action::formLink( self::links(), $mapMask, array( 'id' => $result->contact_id ) );
+                } else {
+                    $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
+                }
+                
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
@@ -314,6 +326,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             $rows[] = $row;
         }
+        
         return $rows;
     }
     

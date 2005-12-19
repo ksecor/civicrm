@@ -58,13 +58,14 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      */
     function preProcess( ) {
         $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+        $lid = CRM_Utils_Request::retrieve( 'lid', $this, false );
         if ( $cid ) {
             $this->_contactIds = array( $cid );
             $this->_single     = true;
         } else {
             parent::preProcess( );
         }
-        $this->createLocation( $this->_contactIds );
+        $this->createLocation( $this->_contactIds, $lid );
         $this->assign( 'single', $this->_single );
     }
     
@@ -99,11 +100,12 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * assign smarty variables to the template that will be used by google api to plot the contacts
      *
      * @param array $contactIds list of contact ids that we need to plot
+     * @param int   $locationId location_id
      *
      * @return string           the location of the file we have created
      * @access protected
      */
-    function createLocation( $contactIds ) {
+    function createLocation( $contactIds, $locationId = null ) {
         $config =& CRM_Core_Config::singleton( );
 
         $this->assign( 'query', 'CiviCRM Search Query' );
@@ -111,7 +113,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $this->assign( 'mapKey', $config->mapAPIKey );
        
         require_once 'CRM/Contact/BAO/Contact.php';
-        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
+        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds , $locationId );
 
         if ( empty( $locations ) ) {
             CRM_Utils_System::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));

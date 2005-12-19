@@ -906,13 +906,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     /**
      * function to get the information to map a contact
      *
-     * @param  array    $ids   the list of ids for which we want map info
+     * @param  array  $ids    the list of ids for which we want map info
+     * $param  int    $locationId location_id
      *
      * @return null|string     display name of the contact if found
      * @static
      * @access public
      */
-    static function &getMapInfo( $ids ) {
+    static function &getMapInfo( $ids, $locationId = null ) {
         $idString = ' ( ' . implode( ',', $ids ) . ' ) ';
         $sql = "
 SELECT
@@ -928,15 +929,22 @@ SELECT
   civicrm_state_province.abbreviation as state,
   civicrm_country.name as country,
   civicrm_location_type.name as location_type
-FROM      civicrm_contact
+FROM civicrm_contact
 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                               civicrm_contact.id = civicrm_location.entity_id AND
-                               civicrm_location.is_primary = 1)
+                               civicrm_contact.id = civicrm_location.entity_id";
+
+        if (!$locationId) {
+            $sql .= " AND civicrm_location.is_primary = 1";
+        } else {
+            $sql .= " AND civicrm_location.id = " . CRM_Utils_Type::escape($locationId, 'Integer');
+        }
+
+        $sql .= ")
 LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
 LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
-WHERE     civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null AND civicrm_address.geo_code_2 is not null";
+WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null AND civicrm_address.geo_code_2 is not null";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
