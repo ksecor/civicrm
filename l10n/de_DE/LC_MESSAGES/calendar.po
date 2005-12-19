@@ -42,7 +42,8 @@ msgstr "- Benutzen Sie die \\u2039, \\u203a Buttons um den Monat zu wählen"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- Für eine Schnellauswahl halten Sie die Maustaste über diesen Buttons fest."
+msgstr ""
+"- Für eine Schnellauswahl halten Sie die Maustaste über diesen Buttons fest."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
@@ -54,7 +55,8 @@ msgstr "- Klicken Sie auf die Teile der Uhrzeit, um diese zu erhöhen"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr "- oder klicken Sie mit festgehaltener Shift-Taste um diese zu verringern"
+msgstr ""
+"- oder klicken Sie mit festgehaltener Shift-Taste um diese zu verringern"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
@@ -117,5 +119,5 @@ msgid "wk"
 msgstr ""
 
 #: js/lang/calendar-lang.php
-msgid "Zeit:"
+msgid "Time:"
 msgstr ""

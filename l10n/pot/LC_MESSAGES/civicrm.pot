@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 18:12+0200\n"
+"POT-Creation-Date: 2005-12-19 12:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -17,55 +17,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php CRM/Core/DAO/EmailHistory.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Report.tpl
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php CRM/Core/DAO/EmailHistory.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Report.tpl
 msgid "Subject"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please enter a valid subject."
-msgstr ""
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Profile/Form/Dojo.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php CRM/Profile/Form/Dojo.php
 msgid "Date and Time"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Task/Record.php CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
 msgid "Select a valid date."
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-msgid "Please select Scheduled Date."
-msgstr ""
-
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php templates/CRM/Activity/Form/Phonecall.tpl
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Duration"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Core/DAO/Activity.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Mailing/Page/Report.tpl templates/CRM/Mailing/Page/Report.tpl
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contribute/Form/Search.tpl templates/CRM/Mailing/Page/Report.tpl templates/CRM/Mailing/Page/Report.tpl
 msgid "Status"
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php
+#: CRM/Activity/Form/Meeting.php CRM/Activity/Form/Phonecall.php
 msgid "Please select status."
 msgstr ""
 
-#: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php xml/templates/civicrm_data.tpl
+#: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
 msgid "Meeting"
 msgstr ""
 
-#: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Type"
 msgstr ""
 
-#: CRM/Activity/Form/OtherActivity.php CRM/Admin/Form/ActivityType.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Commerce/Donation/DAO/DonationPage.php CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/DAO/Group.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityType.php CRM/Core/DAO/Domain.php CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Validation.php CRM/History/Selector/Activity.php CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Group/Page/Group.tpl
+#: CRM/Activity/Form/OtherActivity.php CRM/Admin/Form/ActivityType.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector/Activity.php CRM/Contribute/DAO/ContributionType.php CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/Form/ContributionType.php CRM/Contribute/Form/PaymentInstrument.php CRM/Contribute/Import/Form/MapField.php CRM/Core/DAO/ActivityType.php CRM/Core/DAO/Domain.php CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Validation.php CRM/History/Selector/Activity.php CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr ""
 
@@ -77,31 +69,31 @@ msgstr ""
 msgid "Phone Call"
 msgstr ""
 
-#: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php CRM/Contact/Form/Task/Print.php CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Import/Form/Summary.php CRM/Mailing/Form/Schedule.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl
+#: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php CRM/Contact/Form/Task/Print.php CRM/Contact/Form/Task/Result.php CRM/Contribute/Form/ContributionPage.php CRM/Contribute/Form/ContributionView.php CRM/Contribute/Form/Task/Export.php CRM/Contribute/Form/Task/Print.php CRM/Contribute/Import/Form/Summary.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Import/Form/Summary.php CRM/Mailing/Form/Schedule.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl
 msgid "Done"
 msgstr ""
 
-#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Edit.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php CRM/Note/Form/Note.php CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
+#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Edit.php CRM/Contribute/Form/ContributionPage.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Form.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php CRM/Note/Form/Note.php CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Form.php CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Edit.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Task/Export/Select.php CRM/Contact/Form/Task.php CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Group/Form/Edit.php CRM/History/Form/Activity.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php CRM/Mailing/Form/Component.php CRM/Mailing/Form/Group.php CRM/Mailing/Form/Name.php CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php CRM/Note/Form/Note.php CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: CRM/Activity/Form.php CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Edit.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Task/Export/Select.php CRM/Contact/Form/Task.php CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/ContributionPage/Delete.php CRM/Contribute/Form/ContributionPage.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Form.php CRM/Contribute/Form/Task.php CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Form/Preview.php CRM/Contribute/Import/Form/UploadFile.php CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Group/Form/Edit.php CRM/History/Form/Activity.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php CRM/Mailing/Form/Component.php CRM/Mailing/Form/Group.php CRM/Mailing/Form/Name.php CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php CRM/Note/Form/Note.php CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
 msgstr ""
 
-#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Core/DAO/ACL.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/History/Form/Activity.php CRM/History/Selector/Activity.php CRM/Note/Form/Note.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Form.php CRM/Contribute/Page/AcceptCreditCard.php CRM/Contribute/Page/ContributionPage.php CRM/Contribute/Page/ContributionType.php CRM/Contribute/Page/PaymentInstrument.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/History/Form/Activity.php CRM/History/Selector/Activity.php CRM/Note/Form/Note.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr ""
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php CRM/Commerce/Donation/DAO/DonationPage.php CRM/Commerce/Donation/Form/DonationPage.php CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/MobileProvider.php CRM/Core/DAO/Tag.php CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Component.tpl
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php CRM/Contribute/Form/AcceptCreditCard.php CRM/Contribute/Form/ContributionType.php CRM/Contribute/Form/PaymentInstrument.php CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/MobileProvider.php CRM/Core/DAO/Tag.php CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Contribute/Form/Task/Print.tpl templates/CRM/Contribute/Form/Task.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Component.tpl
 msgid "Name"
 msgstr ""
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Contact/Form/Task/SaveSearch.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php CRM/Mailing/Form/Component.php CRM/Mailing/Form/Name.php
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contribute/Form/PaymentInstrument.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php CRM/Import/Form/Preview.php CRM/Mailing/Form/Component.php CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
 msgstr ""
 
-#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Mailing/Page/Component.tpl
+#: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/RelationshipType.php CRM/Contribute/Form/AcceptCreditCard.php CRM/Contribute/Form/ContributionType.php CRM/Contribute/Form/PaymentInstrument.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Mailing/Page/Component.tpl
 msgid "Enabled?"
 msgstr ""
 
@@ -109,7 +101,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/CustomOption.php CRM/Core/DAO/Gender.php CRM/Core/DAO/IndividualPrefix.php CRM/Core/DAO/IndividualSuffix.php CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/CustomOption.php CRM/Core/DAO/Gender.php CRM/Core/DAO/IndividualPrefix.php CRM/Core/DAO/IndividualSuffix.php CRM/Core/DAO/ModuleProfile.php CRM/Core/DAO/UFField.php CRM/Core/DAO/UFJoin.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Weight"
 msgstr ""
 
@@ -121,7 +113,7 @@ msgstr ""
 msgid "Please enter a valid name."
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Mailing/Page/Component.tpl
+#: CRM/Admin/Form/LocationType.php CRM/Mailing/Form/Component.php templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contribute/Form/ContributionPage/Amount.tpl templates/CRM/Mailing/Page/Component.tpl
 msgid "Default?"
 msgstr ""
 
@@ -133,51 +125,59 @@ msgstr ""
 msgid "Contact Type B"
 msgstr ""
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php CRM/Core/DAO/ACL.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php CRM/Contribute/Page/AcceptCreditCard.php CRM/Contribute/Page/ContributionType.php CRM/Contribute/Page/PaymentInstrument.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Edit"
 msgstr ""
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Commerce/Donation/Page/DonationPage.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Contribute/Page/AcceptCreditCard.php CRM/Contribute/Page/ContributionPage.php CRM/Contribute/Page/ContributionType.php CRM/Contribute/Page/PaymentInstrument.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
 msgstr ""
 
-#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Commerce/Donation/Page/DonationPage.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MobileProvider.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Contribute/Page/AcceptCreditCard.php CRM/Contribute/Page/ContributionPage.php CRM/Contribute/Page/ContributionType.php CRM/Contribute/Page/PaymentInstrument.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Manage"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Contribute/Page/ContributionPage.php CRM/Utils/Menu.php
+msgid "Configure"
+msgstr ""
+
+#: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
+msgid "Setup"
 msgstr ""
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
 msgstr ""
 
-#: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php CRM/Core/DAO/ACL.php CRM/Custom/Page/Option.php CRM/Profile/Page/Note.php CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Group.tpl
+#: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php CRM/Custom/Page/Option.php CRM/Profile/Page/Note.php templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
 msgstr ""
 
-#: CRM/Commerce/Donation/Page/DonationPage.php CRM/Custom/Page/Group.php
-msgid "Are you sure you want to disable this custom data group?"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php CRM/Core/Invoke.php templates/CRM/Commerce/Donation/Form/DonationPage.tpl
-msgid "Donation Page"
-msgstr ""
-
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
+msgstr ""
+
+#: CRM/Contact/BAO/Contact.php CRM/Contribute/BAO/Contribution.php CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Parser.php CRM/Import/Form/MapField.php CRM/Import/Parser.php
+msgid "- do not import -"
 msgstr ""
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
 msgstr ""
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php CRM/Core/DAO/MappingField.php CRM/Import/Form/UploadFile.php
+#: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/MappingField.php CRM/Import/Form/UploadFile.php
 msgid "Contact Type"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Nick Name"
 msgstr ""
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/Group.php
+#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/Group.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Source"
 msgstr ""
 
@@ -193,11 +193,11 @@ msgstr ""
 msgid "Hash"
 msgstr ""
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
+#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php CRM/Contact/Selector.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Phone.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php CRM/UF/Page/Field.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Phone"
 msgstr ""
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl xml/templates/civicrm_data.tpl
+#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl xml/templates/civicrm_data.tpl
 msgid "Email"
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/ACLGroup.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
+#: CRM/Contact/DAO/Group.php CRM/Contribute/DAO/ContributionPage.php CRM/Contribute/Form/AcceptCreditCard.php CRM/Contribute/Form/ContributionPage/Settings.php CRM/Core/DAO/ACLGroup.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "Title"
 msgstr ""
 
@@ -241,15 +241,15 @@ msgstr ""
 msgid "Household Name"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "First Name"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "Middle Name"
 msgstr ""
 
-#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "Last Name"
 msgstr ""
 
@@ -269,27 +269,27 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php CRM/Mailing/Selector/Event.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php CRM/Mailing/Selector/Event.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl templates/CRM/Profile/Page/Note.tpl
 msgid "Date"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Core/DAO/Address.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php CRM/Core/DAO/Address.php
 msgid "Street Address"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Selector.php CRM/Core/DAO/Address.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Selector.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php CRM/Core/DAO/Address.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "City"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "State / Province"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php CRM/Profile/Form.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/ContributionPage/Custom.php CRM/Contribute/Form/Preview.php CRM/Contribute/Form/Search.php CRM/Contribute/Import/Form/MapField.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/SelectValues.php CRM/Import/Form/MapField.php CRM/Profile/Form.php CRM/UF/Form/Preview.php
 msgid "- select -"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php CRM/Contact/Selector.php CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php CRM/Core/DAO/County.php CRM/Core/DAO/CustomField.php CRM/Profile/Form/Dojo.php templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php CRM/Contact/Selector.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php CRM/Core/DAO/County.php CRM/Core/DAO/CustomField.php CRM/Profile/Form/Dojo.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr ""
 
@@ -309,7 +309,7 @@ msgstr ""
 msgid "Tag(s)"
 msgstr ""
 
-#: CRM/Contact/Form/Individual.php CRM/Core/DAO/Gender.php CRM/Profile/Form.php
+#: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Gender.php CRM/Profile/Form.php CRM/UF/Form/Preview.php
 msgid "Gender"
 msgstr ""
 
@@ -333,7 +333,7 @@ msgstr ""
 msgid "Relationship Type"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php CRM/Group/Page/Group.php CRM/Profile/Form/Dojo.php CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
+#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Page/SavedSearch.php CRM/Contribute/Form/Search.php CRM/Core/Invoke.php CRM/Group/Page/Group.php CRM/Profile/Form/Dojo.php CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr ""
 
@@ -353,20 +353,32 @@ msgstr ""
 msgid "- any country -"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Core/DAO/Address.php
+#: CRM/Contact/Form/Search/Advanced.php CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php CRM/Core/DAO/Address.php
 msgid "Postal Code"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Task/Email.php CRM/Core/BAO/CustomField.php templates/CRM/Contact/Page/View/Email.tpl
+#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Task/Email.php CRM/Contribute/Form/Search.php CRM/Core/BAO/CustomField.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "To"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
+msgid "- more actions -"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members: %1"
 msgstr ""
 
-#: CRM/Contact/Form/Search.php CRM/Core/DAO/Mapping.php
-msgid "Export"
+#: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
+msgid "Actions:"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php templates/CRM/pager.tpl templates/CRM/pager.tpl
+msgid "Go"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
+msgid "Print"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
@@ -409,40 +421,44 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Mapping Option"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Load Mapping"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Upload.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Contribute/Form/ContributionPage.php CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Form/Preview.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php CRM/Mailing/Form/Upload.php
 msgid "<< Previous"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Export/Select.php CRM/Import/Form/MapField.php CRM/Import/Form/UploadFile.php
+#: CRM/Contact/Form/Task/Export/Select.php CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/ContributionPage.php CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/MapField.php CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php
 msgid "Search Results"
+msgstr ""
+
+#: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
+msgid "Record Activity for Contacts"
 msgstr ""
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
@@ -459,6 +475,10 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Basic.php CRM/Core/Invoke.php
 msgid "Contact Page"
+msgstr ""
+
+#: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Contribution.php CRM/Contribute/Page/DashBoard.php CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Contributions"
 msgstr ""
 
 #: CRM/Contact/Page/View/CustomData.php CRM/Utils/Menu.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
@@ -489,7 +509,7 @@ msgstr ""
 msgid "Scheduled"
 msgstr ""
 
-#: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
+#: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
 msgid "Actions"
 msgstr ""
 
@@ -513,6 +533,238 @@ msgstr ""
 msgid "Export Contacts"
 msgstr ""
 
+#: CRM/Contribute/BAO/Contribution.php CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
+msgid "Contribution"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Name"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Email"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Task/Export.php CRM/Contribute/Import/Form/MapField.php
+msgid "Contact ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Import/Form/MapField.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Page/ContributionTotals.tpl templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Total Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Fee Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Transaction ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Currency"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionType.php CRM/Contribute/Form/ContributionPage/Settings.php CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php CRM/Contribute/Import/Form/MapField.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Search.tpl
+msgid "Contribution Type"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionType.php CRM/Contribute/Form/ContributionType.php
+msgid "Accounting Code"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php CRM/Core/DAO/ACLGroupJoin.php CRM/Core/DAO/ACL.php CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomOption.php CRM/Core/DAO/CustomValue.php CRM/Core/DAO/DupeMatch.php CRM/Core/DAO/EntityTag.php CRM/Core/DAO/Location.php CRM/Core/DAO/ModuleProfile.php CRM/Core/DAO/Note.php CRM/Core/DAO/UFJoin.php CRM/Mailing/DAO/Group.php
+msgid "Entity Table"
+msgstr ""
+
+#: CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/Form/Search.php
+msgid "Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php CRM/Mailing/Selector/Event.php
+msgid "Email Address"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
+msgid "Other Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
+msgid "%1 is a required field"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Contribute/Form/Search.php
+msgid "Minimum Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Contribute/Form/Search.php
+msgid "Please enter a valid money value (e.g. 9.99)."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Contribute/Form/Search.php
+msgid "Maximum Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Contribute/Form/Search.php
+msgid "Please enter a valid money value (e.g. 99.99)."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl
+msgid "Label"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl
+msgid "Value"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage.php CRM/Custom/Form/Group.php
+msgid "Preview %1"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage.php CRM/UF/Form/Group.php
+msgid "Delete %1"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Core/SelectValues.php
+msgid "-select-"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Received"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Thank-you Sent"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Task/Print.tpl templates/CRM/Contribute/Page/ContributionTotals.tpl
+msgid "Cancelled"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "A valid file must be uploaded."
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionPage/Amount.tpl templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
+msgid "Delete Contributions"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php CRM/Core/DAO/Mapping.php
+msgid "Export Contributions"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing."
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Name is required to save Import Mapping"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Duplicate Import Mapping Name"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
+msgid "Match Fields"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Preview.php CRM/Import/Form/Preview.php
+msgid "Import Now >>"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Preview.php CRM/Contribute/Page/ContributionPage.php CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+msgid "Preview"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
+msgid "These records have been updated with the imported data."
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
+msgid "These records have been filled in with the imported data."
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
+msgid "These records have not been imported."
+msgstr ""
+
+#: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
+msgid "Summary"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Import Data File"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "File size should be less than %1 MBytes (%2 bytes)"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Input file must be in CSV format"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "First row contains column headers"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Skip"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Update"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Fill"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "On duplicate entries"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+msgid "Upload Data"
+msgstr ""
+
+#: CRM/Contribute/Import/Parser/Contribution.php CRM/Import/Parser/Contact.php
+msgid "Missing required fields"
+msgstr ""
+
+#: CRM/Contribute/Import/Parser.php CRM/Import/Parser.php
+msgid "Record Number"
+msgstr ""
+
+#: CRM/Contribute/Import/Parser.php CRM/Import/Parser.php
+msgid "Reason"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
+msgid "Delete Custom Field"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php CRM/Utils/Menu.php
+msgid "Configure Online Contribution Pages"
+msgstr ""
+
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php templates/CRM/Contribute/Form/Task/Print.tpl templates/CRM/Mailing/Page/Component.tpl
+msgid "Type"
+msgstr ""
+
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
 msgstr ""
@@ -525,20 +777,24 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Mailing/Event/BAO/Unsubscribe.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Mailing/Event/BAO/Unsubscribe.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Mailing/Event/BAO/Unsubscribe.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Mailing/Event/BAO/Unsubscribe.php templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php CRM/Profile/Form.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
 msgid "%1 is a required field."
 msgstr ""
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
+msgstr ""
+
+#: CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
+msgid "Please enter a valid %1"
 msgstr ""
 
 #: CRM/Core/Block.php CRM/Utils/Menu.php
@@ -557,16 +813,24 @@ msgstr ""
 msgid "New Household"
 msgstr ""
 
-#: CRM/Core/Block.php CRM/Core/Invoke.php
+#: CRM/Core/Block.php CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Send Mailing"
 msgstr ""
 
-#: CRM/Core/DAO/ACLGroupJoin.php CRM/Core/DAO/ACL.php CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomValue.php CRM/Core/DAO/EntityTag.php CRM/Core/DAO/Location.php CRM/Core/DAO/Note.php CRM/Mailing/DAO/Group.php
-msgid "Entity Table"
+#: CRM/Core/Block.php CRM/Utils/Menu.php
+msgid "Browse Sent Mailings"
+msgstr ""
+
+#: CRM/Core/Block.php CRM/Utils/Menu.php
+msgid "Process Mailing Queue"
 msgstr ""
 
 #: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
+msgstr ""
+
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ModuleProfile.php CRM/Core/DAO/UFJoin.php
+msgid "Module"
 msgstr ""
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
@@ -589,10 +853,6 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl
-msgid "Label"
-msgstr ""
-
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
 msgstr ""
@@ -609,6 +869,10 @@ msgstr ""
 msgid "Mask"
 msgstr ""
 
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Options Per Line"
+msgstr ""
+
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
 msgstr ""
@@ -619,6 +883,10 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Multi-Select"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
@@ -646,6 +914,14 @@ msgid "Contact"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
+msgid "Phonecall"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php templates/CRM/Contact/Form/Task/AddToGroup.tpl templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Group"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
 msgstr ""
 
@@ -653,12 +929,12 @@ msgstr ""
 msgid "Inline"
 msgstr ""
 
-#: CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl
-msgid "Value"
+#: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php CRM/Core/DAO/UFField.php
+msgid "Phone Type"
 msgstr ""
 
-#: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
-msgid "Phone Type"
+#: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Import Contributions"
 msgstr ""
 
 #: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
@@ -706,6 +982,18 @@ msgid "CiviCRM Profile Field"
 msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Duplicate Matching"
+msgstr ""
+
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Contribution Types"
+msgstr ""
+
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
+msgid "Payment Instruments"
+msgstr ""
+
+#: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Administer CiviCRM"
 msgstr ""
 
@@ -715,10 +1003,6 @@ msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Profile/Form/Dojo.php CRM/Utils/Menu.php
 msgid "Groups"
-msgstr ""
-
-#: CRM/Core/Invoke.php CRM/Utils/Menu.php templates/CRM/Profile/Form/ForwardMailing.tpl
-msgid "Forward Mailing"
 msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Mailing/Page/Browse.php
@@ -731,6 +1015,10 @@ msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Mailing/Form/Retry.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Retry Mailing"
+msgstr ""
+
+#: CRM/Core/SelectValues.php CRM/Utils/Menu.php
+msgid "Activities"
 msgstr ""
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
@@ -749,8 +1037,16 @@ msgstr ""
 msgid "Field Help"
 msgstr ""
 
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
+msgid "Invalid default value for country."
+msgstr ""
+
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
+msgstr ""
+
+#: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
+msgid "Used For"
 msgstr ""
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
@@ -761,12 +1057,12 @@ msgstr ""
 msgid "Post-form Help"
 msgstr ""
 
-#: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
-msgid "Preview Custom Data"
+#: CRM/Custom/Form/Preview.php CRM/UF/Form/Preview.php
+msgid "Done with Preview"
 msgstr ""
 
-#: CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php
-msgid "Preview"
+#: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/UF/Page/Field.php
+msgid "Preview Custom Data"
 msgstr ""
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
@@ -775,6 +1071,10 @@ msgstr ""
 
 #: CRM/Group/Page/Group.php CRM/Utils/Menu.php
 msgid "Group Members"
+msgstr ""
+
+#: CRM/Group/Page/Group.php CRM/UF/Page/Group.php
+msgid "Settings"
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
@@ -865,12 +1165,36 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
+#: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
+msgstr ""
+
+#: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
+msgstr ""
+
+#: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
+msgstr ""
+
+#: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
+msgstr ""
+
 #: CRM/Activity/Form/Meeting.php
-msgid "Meeting \"%1\" has been logged to Activity History."
+msgid "Please enter a valid subject."
+msgstr ""
+
+#: CRM/Activity/Form/Meeting.php
+msgid "Please select Scheduled Date."
 msgstr ""
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Selected Meeting is deleted sucessfully."
+msgstr ""
+
+#: CRM/Activity/Form/Meeting.php
+msgid "Meeting \"%1\" has been logged to Activity History."
 msgstr ""
 
 #: CRM/Activity/Form/Meeting.php
@@ -879,10 +1203,6 @@ msgstr ""
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr ""
-
-#: CRM/Activity/Form/OtherActivity.php
-msgid "Please select the Activity Type."
 msgstr ""
 
 #: CRM/Activity/Form/OtherActivity.php
@@ -914,11 +1234,11 @@ msgid "OR New Phone"
 msgstr ""
 
 #: CRM/Activity/Form/Phonecall.php
-msgid "Phone Call \"%1\" has been logged to Activity History."
+msgid "Selected Phone Call is deleted sucessfully."
 msgstr ""
 
 #: CRM/Activity/Form/Phonecall.php
-msgid "Selected Phone Call is deleted sucessfully."
+msgid "Phone Call \"%1\" has been logged to Activity History."
 msgstr ""
 
 #: CRM/Activity/Form/Phonecall.php
@@ -935,6 +1255,18 @@ msgstr ""
 
 #: CRM/Admin/Form/ActivityType.php
 msgid "The activity type \"%1\" has been saved."
+msgstr ""
+
+#: CRM/Admin/Form/DupeMatch.php
+msgid "Match On:"
+msgstr ""
+
+#: CRM/Admin/Form/DupeMatch.php
+msgid "The Duplicate Matching rule has not been saved because of the rule is invalid. Rules should contain only valid field names,'AND','OR' or 'parentheses'  )"
+msgstr ""
+
+#: CRM/Admin/Form/DupeMatch.php
+msgid "The Duplicate Matching rule has been saved."
 msgstr ""
 
 #: CRM/Admin/Form/Gender.php
@@ -998,6 +1330,10 @@ msgid "Please enter a valid location type name."
 msgstr ""
 
 #: CRM/Admin/Form/LocationType.php
+msgid "vCard Name"
+msgstr ""
+
+#: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
 msgstr ""
 
@@ -1051,6 +1387,14 @@ msgstr ""
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Delete Activity Type"
+msgstr ""
+
+#: CRM/Admin/Page/DupeMatch.php
+msgid "Edit Rule"
+msgstr ""
+
+#: CRM/Admin/Page/DupeMatch.php
+msgid "Edit DupeMatch"
 msgstr ""
 
 #: CRM/Admin/Page/Gender.php
@@ -1209,60 +1553,8 @@ msgstr ""
 msgid "Delete Tag"
 msgstr ""
 
-#: CRM/Commerce/Donation/DAO/DonationPage.php
-msgid "Intro Title"
-msgstr ""
-
-#: CRM/Commerce/Donation/DAO/DonationPage.php
-msgid "Intro Description"
-msgstr ""
-
-#: CRM/Commerce/Donation/DAO/DonationPage.php
-msgid "Anonymous"
-msgstr ""
-
-#: CRM/Commerce/Donation/Form/DonationPage.php templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-msgid "New Donation Page"
-msgstr ""
-
-#: CRM/Commerce/Donation/Form/DonationPage.php
-msgid "Is this Donation Page active?"
-msgstr ""
-
-#: CRM/Commerce/Donation/Form/DonationPage.php
-msgid "Your Donation Page \"%1\" has been saved."
-msgstr ""
-
-#: CRM/Commerce/Donation/Form/DonationPage.php
-msgid "Your Donation Page \"%1\" has been added. You can <a href=\"%2\">add custom fields</a> to this group now."
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "Preview Donation Page"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "Edit Sections"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "List Page Sections"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "Edit Donation Page"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "Disable Donation Page"
-msgstr ""
-
-#: CRM/Commerce/Donation/Page/DonationPage.php
-msgid "Enable Donation Page"
-msgstr ""
-
 #: CRM/Contact/BAO/Contact.php
-msgid "- do not import -"
+msgid "- Contact Fields -"
 msgstr ""
 
 #: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
@@ -1282,11 +1574,31 @@ msgid "State - \"%1\""
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
+msgid "State (%2) - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
 msgid "Country - \"%1\""
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
+msgid "Country (%2) - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Individual Prefix - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Individual Suffix - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
 msgid "Gender - \"%1\""
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "%1 is equal to %2"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -1295,10 +1607,6 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 like \"%2\""
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Contact Type - All"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -1361,8 +1669,32 @@ msgstr ""
 msgid "Activity Date - %1"
 msgstr ""
 
+#: CRM/Contact/BAO/Query.php
+msgid "Contribution Date - %1"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Contribution Type - %1"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Payment Instrument - %1"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Contribution Status - Valid"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Contribution Status - Cancelled"
+msgstr ""
+
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Internal Contact ID"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
@@ -1439,6 +1771,10 @@ msgstr ""
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Birth Date"
+msgstr ""
+
+#: CRM/Contact/DAO/Individual.php
+msgid "Is Deceased"
 msgstr ""
 
 #: CRM/Contact/DAO/Individual.php
@@ -1574,6 +1910,10 @@ msgid "One location should be marked as primary."
 msgstr ""
 
 #: CRM/Contact/Form/Email.php
+msgid "Email (preferred)"
+msgstr ""
+
+#: CRM/Contact/Form/Email.php
 msgid "another email"
 msgstr ""
 
@@ -1650,8 +1990,8 @@ msgid "First Name and Last Name OR an email in the Primary Location should be se
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
-msgid "One matching contact was found. You can edit it here: %1"
-msgid_plural "%count matching contacts were found. You can edit them here: %1"
+msgid "One matching contact was found. You can edit it here: %1, or click Save Duplicate Contact button below."
+msgid_plural "%count matching contacts were found. You can edit them here: %1, or click Save Duplicate Contact button below."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1726,10 +2066,6 @@ msgid "Contact Type(s)"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
-msgid "Enter valid Postal Code"
-msgstr ""
-
-#: CRM/Contact/Form/Search/Advanced.php
 msgid "Range-From"
 msgstr ""
 
@@ -1739,10 +2075,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Activity Dates - From"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php
-msgid "- more actions -"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
@@ -1759,18 +2091,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php
-msgid "Actions:"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php templates/CRM/pager.tpl templates/CRM/pager.tpl
-msgid "Go"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php
-msgid "Print"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
@@ -1850,15 +2170,19 @@ msgid "Deleted Contact(s): %1"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
-msgid "Your contact record \"%1\" was not deleted."
+msgid "The contact record which is linked to the currently logged in user account - \"%1\" - can not be deleted."
 msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
-msgid "Selected Contact was deleted sucessfully."
+msgid "Selected contact was deleted sucessfully."
 msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
-msgid "Selected Contact cannot be deleted."
+msgid "Selected contact cannot be deleted."
+msgstr ""
+
+#: CRM/Contact/Form/Task/Delete.php
+msgid "This contact record is linked to the currently logged in user account - \"%1\" - and can not be deleted."
 msgstr ""
 
 #: CRM/Contact/Form/Task/Email.php
@@ -1910,7 +2234,7 @@ msgid "Export All or Selected Fields"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
-msgid "The location did not have any latitude / longitude information."
+msgid "This contact's primary address does not contain latitude/longitude information and can not be mapped."
 msgstr ""
 
 #: CRM/Contact/Form/Task.php
@@ -1919,6 +2243,10 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
+msgstr ""
+
+#: CRM/Contact/Form/Task/Record.php
+msgid "Your user record does not have a valid user ID"
 msgstr ""
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -1973,7 +2301,7 @@ msgstr ""
 msgid "Edit Note"
 msgstr ""
 
-#: CRM/Contact/Page/View/Note.php templates/CRM/Profile/Page/Note.tpl
+#: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl
 msgid "Delete Note"
 msgstr ""
 
@@ -2045,7 +2373,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Activity/Form/Phonecall.tpl
+#: CRM/Contact/Selector/Activity.php templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Contact/Form/Task/Record.tpl
 msgid "With Contact"
 msgstr ""
 
@@ -2098,11 +2426,543 @@ msgid "Add Contacts to Organization"
 msgstr ""
 
 #: CRM/Contact/Task.php
-msgid "Map Contacts using Google Maps"
+msgid "Map Contacts"
 msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
+msgstr ""
+
+#: CRM/Contact/Task.php
+msgid "Map Contacts using Google Maps"
+msgstr ""
+
+#: CRM/Contribute/BAO/Contribution.php
+msgid "%1 - %2 (updated on %3)"
+msgstr ""
+
+#: CRM/Contribute/BAO/Contribution.php
+msgid "- Contribution Fields -"
+msgstr ""
+
+#: CRM/Contribute/DAO/AcceptCreditCard.php
+msgid "Accept Credit Card"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Intro Text"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Default Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Min Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Max Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Thankyou Title"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Thankyou Text"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Thankyou Footer"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Cc Receipt"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Bcc Receipt"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Receipt Text"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Receive Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Non Deductible Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Cancel Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Cancel Reason"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Receipt Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Thank-you Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Contribution Source"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Trxn Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Trxn Type"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Payment Processor"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Trxn Result Code"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Debit"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Credit"
+msgstr ""
+
+#: CRM/Contribute/Form/AcceptCreditCard.php
+msgid "Please enter a valid Credit Card name."
+msgstr ""
+
+#: CRM/Contribute/Form/AcceptCreditCard.php
+msgid "That name already exists in Database."
+msgstr ""
+
+#: CRM/Contribute/Form/AcceptCreditCard.php
+msgid "Selected Credit Card has been deleted."
+msgstr ""
+
+#: CRM/Contribute/Form/AcceptCreditCard.php
+msgid "The Credit Card \"%1\" has been saved."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "The page you requested is currently unavailable."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Card Number"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Security Code"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Expiration Date"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Card Type"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Confirm.php
+msgid "Make Contribution"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Confirm.php
+msgid "<< Go Back"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Confirm.php
+msgid "Online Contribution: "
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Please enter a valid amount (numbers and decimal point only)."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid "Contribution Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Amount is a required field"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card's signature panel."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "This amount has to be greater than %1"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "This amount has to be less than %1"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Please enter a valid Credit Card Number"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Please enter a valid Credit Card Verification Number"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Allow Other Amounts?"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Please enter a valid money value for this field (e.g. 99.99)."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Minimum Amount should be less than Maximum Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php templates/CRM/Contribute/Form/ContributionPage/Amount.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Contribution Amounts"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+msgid "Custom Fields<br />(above billing info)"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+msgid "Custom Fields<br />(below billing info)"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php templates/CRM/Contribute/Form/ContributionPage/Custom.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Custom Page Elements"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Delete.php
+msgid "Delete Contribution Page"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Delete.php
+msgid "The contribution page \"%1\" has been deleted."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage.php
+msgid "Configure %1"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Introductory Message"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Is this Online Contribution Page Active?"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php templates/CRM/Contribute/Form/ContributionPage/Settings.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Title and Settings"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Thank-you Page Title"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Thank You Message"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Thank You Page Footer"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Email Receipt to Contributor?"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt Message"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "CC Receipt To"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Please enter a valid list of comma delimited email addresses"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "BCC Receipt To"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "A Receipt message must be specified if Email Receipt to Contributor is enabled"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Thank-you and Receipting"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Contribute/Form/Search.tpl
+msgid "Paid By"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Receipt Sent"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Cancellation Reason"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+msgid "Please enter a valid amount."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionType.php
+msgid "Please enter a valid contribution type name."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionType.php
+msgid "A contribution type with this name already exists. Please select another name."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionType.php
+msgid "Tax-deductible?"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionType.php
+msgid "Selected contribution type has been deleted."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionType.php
+msgid "The contribution type \"%1\" has been saved."
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "API Username"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "API Subject"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "API Environment"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "API SSL Certificate"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "File size should be less than 8192 bytes"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "Could not open %1 file for writing"
+msgstr ""
+
+#: CRM/Contribute/Form/CreatePPD.php
+msgid "Your %1 values is: '%2'. This value must be entered in the Payment Processor section of the CiviCRM configuration file. "
+msgstr ""
+
+#: CRM/Contribute/Form/PaymentInstrument.php
+msgid "Please enter a valid PaymentInstrument name."
+msgstr ""
+
+#: CRM/Contribute/Form/PaymentInstrument.php
+msgid "Selected Payment-Instrument has been deleted."
+msgstr ""
+
+#: CRM/Contribute/Form/PaymentInstrument.php
+msgid "The Payment-Instrument \"%1\" has been saved."
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php
+msgid "Credit Card Number"
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php
+msgid "Credit Card Verification Number"
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php
+msgid "Credit Card Expiration Date"
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php
+msgid "Credit Card Type"
+msgstr ""
+
+#: CRM/Contribute/Form/Preview.php
+msgid "Contribute via PayPal"
+msgstr ""
+
+#: CRM/Contribute/Form/Search.php
+msgid "Contributor"
+msgstr ""
+
+#: CRM/Contribute/Form/Search.php
+msgid "Contribution Dates - From"
+msgstr ""
+
+#: CRM/Contribute/Form/Search.php
+msgid "Valid"
+msgstr ""
+
+#: CRM/Contribute/Form/Search.php
+msgid "All"
+msgstr ""
+
+#: CRM/Contribute/Form/Search.php
+msgid "Contribution Status"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Delete.php
+msgid "Deleted Contribution(s): %1"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Delete.php
+msgid "Total Selected Contribution(s): %1"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Export.php
+msgid "Contribution ID"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Export.php
+msgid "CiviCRM Contributions"
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Print.php
+msgid "Print Contributions"
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php
+msgid "Missing required field: %1"
+msgstr ""
+
+#: CRM/Contribute/Import/Parser/Contribution.php
+msgid "Invalid field value: %1"
+msgstr ""
+
+#: CRM/Contribute/Import/Parser.php
+msgid "View Contribution URL"
+msgstr ""
+
+#: CRM/Contribute/Page/AcceptCreditCard.php
+msgid "Are you sure you want to disable this Credit Card? Your contributors will no longer be able to use this card type for online contributions."
+msgstr ""
+
+#: CRM/Contribute/Page/AcceptCreditCard.php templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "Edit Credit Card"
+msgstr ""
+
+#: CRM/Contribute/Page/AcceptCreditCard.php
+msgid "Disable Credit Card"
+msgstr ""
+
+#: CRM/Contribute/Page/AcceptCreditCard.php
+msgid "Enable Credit Card"
+msgstr ""
+
+#: CRM/Contribute/Page/AcceptCreditCard.php
+msgid "Delete Accepted Credit Card"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPageEdit.php
+msgid "Configure Contribution Page"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php
+msgid "Are you sure you want to disable this Contribution page?"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php
+msgid "Are you sure you want to delete this Contribution page?"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Test-drive"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php
+msgid "New Online Contribution Page"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php
+msgid "Preview Contribute Page"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionType.php
+msgid "Are you sure you want to disable this contribution type?"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionType.php templates/CRM/Contribute/Form/ContributionType.tpl
+msgid "Edit Contribution Type"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionType.php
+msgid "Disable Contribution Type"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionType.php
+msgid "Enable Contribution Type"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionType.php templates/CRM/Contribute/Form/ContributionType.tpl
+msgid "Delete Contribution Type"
+msgstr ""
+
+#: CRM/Contribute/Page/PaymentInstrument.php
+msgid "Are you sure you want to disable this Payment Instrument?"
+msgstr ""
+
+#: CRM/Contribute/Page/PaymentInstrument.php templates/CRM/Contribute/Form/PaymentInstrument.tpl
+msgid "Edit Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/Page/PaymentInstrument.php
+msgid "Disable Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/Page/PaymentInstrument.php
+msgid "Enable Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/Page/PaymentInstrument.php templates/CRM/Contribute/Form/PaymentInstrument.tpl
+msgid "Delete Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "View Contribution"
+msgstr ""
+
+#: CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Edit Contribution"
+msgstr ""
+
+#: CRM/Contribute/Selector/Search.php templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Delete Contribution"
+msgstr ""
+
+#: CRM/Contribute/Selector/Search.php
+msgid "CiviCRM Contribution Search"
 msgstr ""
 
 #: CRM/Core/BAO/CustomField.php
@@ -2117,7 +2977,7 @@ msgstr ""
 msgid "Yes or No"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Form/Task/Email.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Mailing/Page/Report.tpl
+#: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Form/Task/Email.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Contribute/Form/Contribution.tpl templates/CRM/Contribute/Form/ContributionView.tpl templates/CRM/Mailing/Page/Report.tpl
 msgid "From"
 msgstr ""
 
@@ -2135,6 +2995,14 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "%1 like - %2"
+msgstr ""
+
+#: CRM/Core/BAO/DomainDump.php
+msgid "We could not find the backup sql script. Check sql/civicrm_backup.mysql in the CiviCRM root directory."
+msgstr ""
+
+#: CRM/Core/BAO/DomainDump.php
+msgid "We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file."
 msgstr ""
 
 #: CRM/Core/BAO/DrupalUser.php
@@ -2219,24 +3087,8 @@ msgstr ""
 msgid "CiviCRM Menu"
 msgstr ""
 
-#: CRM/Core/Block.php
-msgid "CiviMail Menu"
-msgstr ""
-
-#: CRM/Core/Block.php
-msgid "CiviMail"
-msgstr ""
-
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
-msgstr ""
-
-#: CRM/Core/Block.php
-msgid "Browse Sent Mailings"
-msgstr ""
-
-#: CRM/Core/Block.php
-msgid "Process Mailing Queue"
 msgstr ""
 
 #: CRM/Core/DAO/ACL.php
@@ -2261,10 +3113,6 @@ msgstr ""
 
 #: CRM/Core/DAO/ACL.php
 msgid "Revoke"
-msgstr ""
-
-#: CRM/Core/DAO/ActivityHistory.php
-msgid "Module"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
@@ -2372,10 +3220,6 @@ msgid "Javascript"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
-msgid "Options Per Line"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
 msgid "String"
 msgstr ""
 
@@ -2405,6 +3249,10 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Collapse Display"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php
+msgid "Activity"
 msgstr ""
 
 #: CRM/Core/DAO/CustomValue.php
@@ -2437,6 +3285,10 @@ msgstr ""
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Domain"
+msgstr ""
+
+#: CRM/Core/DAO/DupeMatch.php
+msgid "Rule"
 msgstr ""
 
 #: CRM/Core/DAO/EmailHistory.php
@@ -2528,6 +3380,10 @@ msgid "Mapping Type"
 msgstr ""
 
 #: CRM/Core/DAO/Mapping.php
+msgid "Export"
+msgstr ""
+
+#: CRM/Core/DAO/Mapping.php
 msgid "Import"
 msgstr ""
 
@@ -2549,10 +3405,6 @@ msgstr ""
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
-msgstr ""
-
-#: CRM/Core/DAO/Validation.php templates/CRM/Mailing/Page/Component.tpl
-msgid "Type"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
@@ -2583,10 +3435,6 @@ msgstr ""
 msgid "Regular Expression No Match"
 msgstr ""
 
-#: CRM/Core/Form.php
-msgid "%1 is a required field"
-msgstr ""
-
 #: CRM/Core/Invoke.php
 msgid "Test Ajax Page"
 msgstr ""
@@ -2597,6 +3445,10 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Delete Contact"
+msgstr ""
+
+#: CRM/Core/Invoke.php
+msgid "YMap Contact"
 msgstr ""
 
 #: CRM/Core/Invoke.php
@@ -2648,11 +3500,31 @@ msgid "Sync Drupal Users"
 msgstr ""
 
 #: CRM/Core/Invoke.php
+msgid "Accept Credit Cards"
+msgstr ""
+
+#: CRM/Core/Invoke.php
+msgid "Create PPD"
+msgstr ""
+
+#: CRM/Core/Invoke.php templates/CRM/Contribute/Form/Preview.tpl
+msgid "Contribution Page"
+msgstr ""
+
+#: CRM/Core/Invoke.php
 msgid "View Groups"
+msgstr ""
+
+#: CRM/Core/Invoke.php templates/CRM/Profile/Form/ForwardMailing.tpl
+msgid "Forward Mailing"
 msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
+msgstr ""
+
+#: CRM/Core/Invoke.php
+msgid "DashBoard"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -2669,10 +3541,6 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "-select-"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -2760,7 +3628,19 @@ msgid "Country selector"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "- all contact types -"
+msgid "- All Contacts -"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "User Registration"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "View/Edit User Account"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Profile"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -2781,10 +3661,6 @@ msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php
 msgid "Confirm Custom Field Delete"
-msgstr ""
-
-#: CRM/Custom/Form/DeleteField.php
-msgid "Delete Custom Field"
 msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php
@@ -2812,10 +3688,6 @@ msgid "Data and Input Field Type"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-msgid "Number of Options Per Line"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
 msgid " must be a numeric value"
 msgstr ""
 
@@ -2837,10 +3709,6 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter 1 or 0 as default value."
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-msgid "Invalid default value for country."
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
@@ -2875,20 +3743,12 @@ msgstr ""
 msgid "Your custom field \"%1\" has been saved"
 msgstr ""
 
-#: CRM/Custom/Form/Group.php
-msgid "Preview %1"
-msgstr ""
-
 #: CRM/Custom/Form/Group.php templates/CRM/Custom/Page/Group.tpl
 msgid "New Custom Data Group"
 msgstr ""
 
 #: CRM/Custom/Form/Group.php
 msgid "Group Name"
-msgstr ""
-
-#: CRM/Custom/Form/Group.php templates/CRM/Custom/Page/Group.tpl
-msgid "Used For"
 msgstr ""
 
 #: CRM/Custom/Form/Group.php
@@ -2924,6 +3784,26 @@ msgid "Default"
 msgstr ""
 
 #: CRM/Custom/Form/Option.php
+msgid "Please enter a valid integer value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "Please enter a valid number value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "Please enter 1 or 0 as value."
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
+msgid "The invalid value for State/Province data type"
+msgstr ""
+
+#: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option has been deleted"
 msgstr ""
 
@@ -2931,12 +3811,12 @@ msgstr ""
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr ""
 
-#: CRM/Custom/Form/Preview.php
-msgid "Done with Preview"
+#: CRM/Custom/Page/Field.php
+msgid "Are you sure you want to disable this custom data field?"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
-msgid "Are you sure you want to disable this custom data field?"
+msgid "Are you sure you want to delete this custom data field?"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
@@ -2977,6 +3857,10 @@ msgstr ""
 
 #: CRM/Custom/Page/Field.php
 msgid "%1 - Custom Fields"
+msgstr ""
+
+#: CRM/Custom/Page/Group.php
+msgid "Are you sure you want to disable this custom data group?"
 msgstr ""
 
 #: CRM/Custom/Page/Group.php
@@ -3072,10 +3956,6 @@ msgid "Members"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
-msgid "Settings"
-msgstr ""
-
-#: CRM/Group/Page/Group.php
 msgid "Edit Group"
 msgstr ""
 
@@ -3119,14 +3999,6 @@ msgstr ""
 msgid "History %%StatusMessage%%"
 msgstr ""
 
-#: CRM/Import/Form/MapField.php
-msgid "The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing."
-msgstr ""
-
-#: CRM/Import/Form/MapField.php
-msgid "Match Fields"
-msgstr ""
-
 #: CRM/Import/Form/Preview.php
 msgid "Create a new group from imported records"
 msgstr ""
@@ -3144,79 +4016,15 @@ msgid "Join new contacts to existing group(s)"
 msgstr ""
 
 #: CRM/Import/Form/Preview.php
-msgid "Import Now >>"
-msgstr ""
-
-#: CRM/Import/Form/Preview.php
-msgid "Please enter a name for the new group."
-msgstr ""
-
-#: CRM/Import/Form/Preview.php
 msgid "Group '%1' already exists."
-msgstr ""
-
-#: CRM/Import/Form/Summary.php
-msgid "These records have been updated with the imported data."
 msgstr ""
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
 msgstr ""
 
-#: CRM/Import/Form/Summary.php
-msgid "These records have been filled in with the imported data."
-msgstr ""
-
-#: CRM/Import/Form/Summary.php
-msgid "These records have not been imported."
-msgstr ""
-
-#: CRM/Import/Form/Summary.php
-msgid "Summary"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Import Data File"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Input file must be in CSV format"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "First row contains column headers"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Skip"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Update"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Fill"
-msgstr ""
-
 #: CRM/Import/Form/UploadFile.php
 msgid "No Duplicate Checking"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "On duplicate entries"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php
-msgid "Upload Data"
-msgstr ""
-
-#: CRM/Import/Parser/Contact.php
-msgid "Missing required fields"
 msgstr ""
 
 #: CRM/Import/Parser/Contact.php
@@ -3229,14 +4037,6 @@ msgstr ""
 
 #: CRM/Import/Parser/Contact.php
 msgid "Record duplicates multiple contacts"
-msgstr ""
-
-#: CRM/Import/Parser.php
-msgid "Record Number"
-msgstr ""
-
-#: CRM/Import/Parser.php
-msgid "Reason"
 msgstr ""
 
 #: CRM/Import/Parser.php
@@ -3267,7 +4067,7 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-#: CRM/Mailing/DAO/BounceType.php templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
+#: CRM/Mailing/DAO/BounceType.php templates/CRM/Contribute/Page/ContributionPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Inactive"
 msgstr ""
 
@@ -3372,6 +4172,10 @@ msgid "Include group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
+msgid "Please select a group to be mailed."
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
 msgid "Exclude group(s)"
 msgstr ""
 
@@ -3393,6 +4197,14 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Mailing Recipients"
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
+msgid "Cannot have same groups in Include group(s) and Exclude group(s). "
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
+msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
 msgstr ""
 
 #: CRM/Mailing/Form/Name.php
@@ -3580,10 +4392,6 @@ msgid "%1 %%StatusMessage%%"
 msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
-msgid "Email Address"
-msgstr ""
-
-#: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
 msgstr ""
 
@@ -3664,7 +4472,7 @@ msgid "Forward"
 msgstr ""
 
 #: CRM/Profile/Form.php
-msgid "Please enter a valid %1"
+msgid "This feature is not currently available."
 msgstr ""
 
 #: CRM/Profile/Form.php
@@ -3720,23 +4528,15 @@ msgid "View Only?"
 msgstr ""
 
 #: CRM/UF/Form/Field.php
-msgid "Display in Registration Form?"
-msgstr ""
-
-#: CRM/UF/Form/Field.php
-msgid "Key to Match Contacts?"
-msgstr ""
-
-#: CRM/UF/Form/Field.php
 msgid "Selected Profile Field has been deleted."
 msgstr ""
 
 #: CRM/UF/Form/Field.php
-msgid "Your civicrm profile field \"%1\" has been saved."
+msgid "The selected field was not added. It already exists in this profile."
 msgstr ""
 
-#: CRM/UF/Form/Group.php
-msgid "Delete %1"
+#: CRM/UF/Form/Field.php
+msgid "Your civicrm profile field \"%1\" has been saved."
 msgstr ""
 
 #: CRM/UF/Form/Group.php
@@ -3756,11 +4556,15 @@ msgid "Is this CiviCRM Profile active?"
 msgstr ""
 
 #: CRM/UF/Form/Group.php
-msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
+msgid "This profile cannot be deleted since it is used for other modules."
 msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid "You must delete all profile fields for \"%1\" prior to deleting the profile."
+msgstr ""
+
+#: CRM/UF/Form/Group.php
+msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
 msgstr ""
 
 #: CRM/UF/Form/Group.php
@@ -3780,7 +4584,7 @@ msgid "Edit CiviCRM Profile Field"
 msgstr ""
 
 #: CRM/UF/Page/Field.php
-msgid "View CiviCRM Profile Field"
+msgid "Preview CiviCRM Profile Field"
 msgstr ""
 
 #: CRM/UF/Page/Field.php
@@ -3808,10 +4612,6 @@ msgid "List CiviCRM Profile Group Fields"
 msgstr ""
 
 #: CRM/UF/Page/Group.php
-msgid "Edit Profile Name"
-msgstr ""
-
-#: CRM/UF/Page/Group.php
 msgid "Edit CiviCRM Profile Group"
 msgstr ""
 
@@ -3827,6 +4627,18 @@ msgstr ""
 msgid "Delete CiviCRM Profile Group"
 msgstr ""
 
+#: CRM/UF/Page/Group.php
+msgid "Standalone Form"
+msgstr ""
+
+#: CRM/UF/Page/Group.php
+msgid "Standalone Form for Profile Group"
+msgstr ""
+
+#: CRM/UF/Page/Group.php
+msgid "CiviCRM Profile Group Preview"
+msgstr ""
+
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
 msgstr ""
@@ -3835,7 +4647,7 @@ msgstr ""
 msgid "CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist."
 msgstr ""
 
-#: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Contribute/Form/AcceptCreditCard.tpl templates/CRM/Contribute/Form/Contribution.tpl templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
 msgstr ""
 
@@ -3900,6 +4712,10 @@ msgid "Individual Suffixes (Jr, Sr...)"
 msgstr ""
 
 #: CRM/Utils/Menu.php
+msgid "Quick Registration"
+msgstr ""
+
+#: CRM/Utils/Menu.php
 msgid "Contacts"
 msgstr ""
 
@@ -3909,10 +4725,6 @@ msgstr ""
 
 #: CRM/Utils/Menu.php
 msgid "Contact Summary"
-msgstr ""
-
-#: CRM/Utils/Menu.php
-msgid "Activities"
 msgstr ""
 
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
@@ -3948,11 +4760,27 @@ msgid "Notes about the Person"
 msgstr ""
 
 #: CRM/Utils/Menu.php
-msgid "Mailing Header / Footer"
+msgid "CiviContribute"
 msgstr ""
 
 #: CRM/Utils/Menu.php
-msgid "Mailing Message"
+msgid "Accepted Credit Cards"
+msgstr ""
+
+#: CRM/Utils/Menu.php templates/CRM/Contribute/Form/Search.tpl
+msgid "Find Contributions"
+msgstr ""
+
+#: CRM/Utils/Menu.php templates/CRM/Contribute/Form/CreatePPD.tpl
+msgid "Create PayPal API Profile"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "CiviMail"
+msgstr ""
+
+#: CRM/Utils/Menu.php
+msgid "Mailing Header / Footer"
 msgstr ""
 
 #: CRM/Utils/Pager.php
@@ -3983,6 +4811,14 @@ msgstr ""
 msgid "Last &gt;&gt;"
 msgstr ""
 
+#: CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
+msgstr ""
+
+#: CRM/Utils/Payment/PayPal.php
+msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
+msgstr ""
+
 #: CRM/Utils/Token.php
 msgid "Your organization's postal address"
 msgstr ""
@@ -4001,10 +4837,6 @@ msgstr ""
 
 #: CRM/Utils/Token.php
 msgid "(re-subscribe: %1)"
-msgstr ""
-
-#: CRM/Utils/Type.php
-msgid "Data-type mismatch: \"%1\" is not of type \"%2\""
 msgstr ""
 
 #: packages/HTML/QuickForm/date.php
@@ -4055,19 +4887,11 @@ msgstr ""
 msgid "View Scheduled Meeting"
 msgstr ""
 
-#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Relationship.tpl
-msgid "Calender"
-msgstr ""
-
-#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Contact/Form/Edit.tpl
-msgid "Click to select date/time from calendar."
-msgstr ""
-
-#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Hrs"
 msgstr ""
 
-#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl
+#: templates/CRM/Activity/Form/Meeting.tpl templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Activity/Form/Phonecall.tpl templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
 msgstr ""
 
@@ -4095,11 +4919,11 @@ msgstr ""
 msgid "View Scheduled Activity"
 msgstr ""
 
-#: templates/CRM/Activity/Form/OtherActivity.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Activity will be moved to Activity History when status is 'Completed'."
 msgstr ""
 
-#: templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/common/info.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/Delete.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Browse.tpl templates/CRM/print.tpl templates/CRM/Profile/Page/Note.tpl templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#: templates/CRM/Activity/Form/OtherActivity.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/DupeMatch.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/Admin.tpl templates/CRM/Admin/Page/Gender.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IndividualPrefix.tpl templates/CRM/Admin/Page/IndividualSuffix.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/common/info.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Contribution.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/Delete.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contribute/Form/AcceptCreditCard.tpl templates/CRM/Contribute/Form/ContributionPage/Delete.tpl templates/CRM/Contribute/Form/Contribution.tpl templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Contribute/Form/Search/EmptyResults.tpl templates/CRM/Contribute/Form/Task/Delete.tpl templates/CRM/Contribute/Form/Task/Print.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl templates/CRM/Contribute/Page/ContributionPageEdit.tpl templates/CRM/Contribute/Page/ContributionPage.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Browse.tpl templates/CRM/print.tpl templates/CRM/Profile/Page/Listings.tpl templates/CRM/Profile/Page/Note.tpl templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "status"
 msgstr ""
 
@@ -4139,12 +4963,40 @@ msgstr ""
 msgid "WARNING: Deleting this option will result in the loss of all activity type records which use the option."
 msgstr ""
 
-#: templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl
+#: templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "This may mean the loss of a substantial amount of data, and the action cannot be undone."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Drupal Users"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Advanced Duplicate Matching Rule "
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Delete Duplicate Matching Rule"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Configure Duplicate Matching Rule "
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Are you sure you want to delete this Duplicate Matching Rule?"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Select up to five contact field(s) to use when comparing a new Individual contact to existing\n    contact records for duplicate matching. If some of the fields in your matching rule are OPTIONAL, then\n    all <strong>non-empty</strong> fields in the incoming data are used."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "For example, using the default matching rule of <strong>Email AND First Name AND Last Name</strong>... Jane Doe jane.doe@example.org\n    exists in your database. Now someone tries to add a new contact with the same email address and leaves\n    the first and last name blank. The new contact will be flagged as a potential duplicate."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DupeMatch.tpl
+msgid "Advanced Configuration"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
@@ -4191,16 +5043,12 @@ msgstr ""
 msgid "Edit Individual Prefix Option"
 msgstr ""
 
-#: templates/CRM/Admin/Form/IndividualPrefix.tpl
-msgid "WARNING: Deleting this option will result in the loss of all Prefix related records which use the option."
+#: templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl
+msgid "WARNING: Deleting this option will change all Individual records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid "New Individual Suffix"
-msgstr ""
-
-#: templates/CRM/Admin/Form/IndividualSuffix.tpl
-msgid "WARNING: Deleting this option will result in the loss of all Individual suffix related records which use the option."
 msgstr ""
 
 #: templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl
@@ -4247,12 +5095,24 @@ msgstr ""
 msgid "Completed activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to our Administrator Documentation."
 msgstr ""
 
-#: templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl
+#: templates/CRM/Admin/Page/ActivityType.tpl templates/CRM/Contribute/Page/AcceptCreditCard.tpl templates/CRM/Contribute/Page/ContributionType.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "Reserved?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 msgid "There are no custom Activity Types entered. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "A newer version of CiviCRM is available: %1 (this site is currently running %2)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2\">download it here</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DupeMatch.tpl
+msgid " Duplicate Matching Rule "
 msgstr ""
 
 #: templates/CRM/Admin/Page/Gender.tpl
@@ -4296,7 +5156,11 @@ msgid "There are no Individual Suffixes entered. You can <a href=\"%1\">add one<
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
-msgid "Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes several commonly used 'reserved' types (Home and Work). Administrators may define as many additional types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...)."
+msgid "Location types provide convenient labels to differentiate contacts' location(s). Administrators may define as many additional types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Page/View/Basic.tpl
+msgid "vCard"
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -4320,7 +5184,7 @@ msgid "There are no Mobile Providers entered for this Contact. You can <a href=\
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee)."
+msgid "Relationship types describe relationships between people, households and organizations."
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -4360,39 +5224,23 @@ msgid "Email:"
 msgstr ""
 
 #: templates/CRM/Block/Search.tpl
-msgid "- exact or partial name -"
-msgstr ""
-
-#: templates/CRM/Block/Search.tpl
 msgid "Go to Advanced Search"
 msgstr ""
 
-#: templates/CRM/Commerce/Donation/Form/DonationPage.tpl
-msgid "Use this form to setup the name, description and more for a customized donation page."
+#: templates/CRM/common/calendar/desc.tpl
+msgid "Calendar"
 msgstr ""
 
-#: templates/CRM/Commerce/Donation/Form/DonationPage.tpl templates/CRM/Custom/Form/Group.tpl
-msgid "Custom Fields for this Group"
-msgstr ""
-
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl
-msgid "Donation Pages are used for creating customized pages for collecting donations."
-msgstr ""
-
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
-msgid "Status?"
-msgstr ""
-
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
-msgid "Active"
-msgstr ""
-
-#: templates/CRM/Commerce/Donation/Page/DonationPage.tpl templates/CRM/Custom/Page/Group.tpl
-msgid "No custom data groups have been created yet. You can <a href=\"%1\">add one</a>."
+#: templates/CRM/common/calendar/desc.tpl
+msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "<p>This site is running development code towards the 1.2 release.</p>\n<p>To see a list of known bugs and issues, and to report new bugs, please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n<p>Please add any comments on the look and feel of these pages, along with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgid "<p>This site is running development code towards the 1.3 Developer release.</p>\n<p>To see a list of known bugs and issues, and to report new bugs, please use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n<p>Please add any comments on the look and feel of these pages, along with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgstr ""
+
+#: templates/CRM/common/feedback.tpl
+msgid "CiviCRM software is openly available to any person or organization under the terms of the <a href=\"%1\">Affero General Public License (AGPL)</a>. Source code can be downloaded from our <a href=\"%2\">downloads site</a>."
 msgstr ""
 
 #: templates/CRM/common/form_body.tpl
@@ -4403,16 +5251,16 @@ msgstr ""
 msgid "Recently Viewed:"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Address/postal_code.tpl templates/CRM/Contact/Form/Address/postal_code.tpl
+msgid "Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Address/street_address.tpl
 msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Address/supplemental_address_1.tpl templates/CRM/Contact/Form/Address/supplemental_address_1.tpl templates/CRM/Contact/Form/Address/supplemental_address_2.tpl templates/CRM/Contact/Form/Address/supplemental_address_2.tpl
 msgid "Supplemental address info, e.g. c/o, department name, building name, etc."
-msgstr ""
-
-#: templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl
-msgid "Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses)."
 msgstr ""
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
@@ -4423,11 +5271,11 @@ msgstr ""
 msgid "Select the preferred method of communicating with this contact."
 msgstr ""
 
-#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
+#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
 msgid "open section"
 msgstr ""
 
-#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
+#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
 msgid "close section"
 msgstr ""
 
@@ -4437,10 +5285,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Demographics"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Edit.tpl
-msgid "Calendar"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Edit.tpl
@@ -4543,6 +5387,10 @@ msgstr ""
 msgid "OR"
 msgstr ""
 
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above."
+msgstr ""
+
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
 msgstr ""
@@ -4567,15 +5415,15 @@ msgstr ""
 msgid "%1 has no members which match your search criteria. You can <a href=\"%2\">add members here.</a>"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matches found for:"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-msgid "No matches found"
+msgid "No matches found."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "Suggestions:"
 msgstr ""
 
@@ -4583,7 +5431,7 @@ msgstr ""
 msgid "check your spelling"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "try a different spelling or use fewer letters"
 msgstr ""
 
@@ -4595,7 +5443,7 @@ msgstr ""
 msgid "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or <a href=\"%3\">Household</a>"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
 msgstr ""
 
@@ -4647,11 +5495,11 @@ msgid_plural "Found %count contacts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "selected records only"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] ""
@@ -4659,10 +5507,6 @@ msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 msgid "Add Members to a Group"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Task/AddToGroup.tpl templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
-msgid "Group"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -4693,12 +5537,20 @@ msgstr ""
 msgid "Recipient(s)"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task/Export/Map.tpl templates/CRM/Export/Form/MapField.tpl
-msgid "Select the fields which you want included for this export, in the order you want them included. Rows marked  '- do not export -' will be ignored. Click <strong>Select more fields...</strong> if you want to export more fields than are presented in the table below."
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid "Select the fields to be exported using the table below. For each field, first select the contact type that the field belongs to (e.g. select <strong>Individuals</strong> if you are exporting <strong>Last Name</strong>). Then select the actual field to be exported from the drop-down menu which will appear next to the contact type. Your export can include multiple types of contact records, and non-applicable fields will be empty (e.g. <strong>Last Name</strong> will not be populated for an Organization record)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid "Click <strong>Select more fields...</strong> if you want to export more fields than are initially displayed in the table."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid "Click 'Load Saved Field Mapping' to retrieve an export setup that you have previously saved."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/Map.tpl
+msgid "If you want to use the same export setup in the future, check 'Save this field mapping' at the bottom of the page before continuing. You will then be able to reload this setup with a single click."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
@@ -4709,22 +5561,34 @@ msgstr ""
 msgid "Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields for export. This option allows you to export multiple specific locations (Home, Work, etc.). You can also save your selections as a 'field mapping' so you can use it again later."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task/Export/Select.tpl templates/CRM/Export/Form/SelectField.tpl
+#: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
 msgid_plural "%count records selected for export."
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/CRM/Contact/Form/Task/Export/table.tpl templates/CRM/Export/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
-msgid "Saved Field Mapping: %1"
+#: templates/CRM/Contact/Form/Task/Export/table.tpl
+msgid "Select a Different Mapping"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task/Export/table.tpl templates/CRM/Export/Form/MapTable.tpl
+#: templates/CRM/Contact/Form/Task/Export/table.tpl templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Load Saved Field Mapping"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/table.tpl
+msgid "Using Field Mapping: %1"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Fields to Include in Export File"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Record.tpl
+msgid "Record an Activity"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
@@ -4788,6 +5652,14 @@ msgid "(primary location)"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Email:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Preferred Phone:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Instant Messenger:"
 msgstr ""
 
@@ -4821,6 +5693,30 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Date of Birth:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Total Contributed"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contribute/Page/ContributionTotals.tpl
+msgid "# Contributions"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "There are no contributions recorded for this contact. You can <a href=\"%1\">enter one now</a>."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "There are no contributions recorded for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Contributions (3 of %1)"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Contribution.tpl templates/CRM/Contribute/Form/Contribution.tpl
+msgid "New Contribution"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
@@ -4933,6 +5829,14 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Profile/Page/Note.tpl templates/CRM/Profile/Page/Note.tpl
 msgid "New Note"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Contribution.tpl
+msgid "There are no Contributions recorded for this contact. You can <a href=\"%1\">enter one now</a>."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Contribution.tpl
+msgid "There are no Contributions recorded for this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
@@ -5083,6 +5987,754 @@ msgstr ""
 msgid "These relationships have been marked as disabled (no longer active)."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "New Credit Card"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "Delete Credit-Card"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "WARNING: If you delete this option, contributors will not be able to use this credit card type on your Online Contribution pages."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "The name for this credit card type as it should be provided to your payment processor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+msgid "The name for this credit card type as it is displayed to contributors. This may be the same value as the Name above, or a localised title."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid "Please verify Contribution Amount, Billing Name and Address and Credit Card information carefully. Click <strong>Go Back</strong> if you need to make changes. To complete your contribution, click the <strong>Make Contribution</strong> button below."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl templates/CRM/Contribute/Form/Contribution/Main.tpl templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Billing Name and Address"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl templates/CRM/Contribute/Form/Contribution/Main.tpl templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Credit or Debit Card Information"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Expires"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid "Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.</strong>"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Enter numbers only, no spaces or dashes."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Security Code Location on Credit Card"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Usually the last 3-4 digits in the signature area on the back of the card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Enter the name as shown on your credit or debit card, and the billing address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "If you allow people to enter their own dollar amounts, you can also set minimum and maximum values."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than $5.00)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Contribution Label"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+msgid "You may want to collect information from contributors in addition to the name and address required for billing purposes. Add these custom elements to your page by selecting CiviCRM Profiles (collections of fields) to include at the beginning of the page, and/or below the billing section."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+msgid "You can use existing CiviCRM Profiles on your page - OR create profile(s) specifically for use in Online Contribution pages. Click <a href=\"%1\">here</a> if you need to review, modify or create profiles (you can come back at any time to select or update the Profile(s) used for this page)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+msgid "Select a CiviCRM Profile to be included at the top of the page (below the introductory message, and above the billing information fields)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+msgid "Select a CiviCRM Profile to be included at the bottom of the page (below the billing information fields)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
+msgid "Are you sure you want to delete the contribution page '%1'?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "This is the first step in creating a new online Contribution Page. You can create one or more different Contribution Pages for different purposes, audiences, campaigns, etc. Each page can have it's own introductory message, pre-configured contribution amounts, custom data collection fields, etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "In this step, you will configure the page title, contribution type (donation, campaign contribution, etc.), and introductory message. You will be able to go back and modify all aspects of this page at any time after completing the setup wizard."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "Use this form to edit the page title, contribution type (e.g. donation, campaign contribution, etc.), introduction, and status (active/inactive) for this online contribution page."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "This title will be displayed at the top of the page."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid "When your page is active, you can link people to the page by copying and pasting the following URL:"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Use this form to configure the Thank-you message and receipting options. Contributors will see a confirmation and thank-you page after whenever an online contribution is successfully processed. You provide the content and layout of the thank-you section below. You also control whether an electronic receipt is automatically emailed to each contributor - and can add a custom message to that receipt."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Thank-you Message and Receipting"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "This title will be displayed at the top of the thank-you / transaction confirmation page."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Enter text (and optional HTML layout tags) for the thank-you message that will appear at the top of the confirmation page."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Enter link(s) and/or text that you want to appear at the bottom of the thank-you page. You can use this content area to encourage contributors to visit a tell-a-friend page or take some other action."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Check this box if you want an electronic receipt to be sent automatically."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Enter the FROM name to be used when receipts are emailed to contributors."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Enter the FROM email address to be used when receipts are emailed to contributors."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "Enter a message you want included at the beginning of emailed receipts. NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "If you want member(s) of your organization to receive a carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
+msgid "If you want member(s) of your organization to receive a BLIND carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
+msgid "Test-drive Your Contribution Page"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
+msgid "This page is currently running in <strong>test-drive mode</strong>. Transactions will be sent to your payment processor's test server. <strong>No live financial transactions will be submitted, and no contribution records or contact information will be saved to the database</strong>. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+msgid "Please print this receipt for your records."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Contribution Information"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Transaction #"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
+msgid "Test-drive Transaction Receipt"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
+msgid "This is a test-drive transaction receipt. No live financial\ntransaction has occurred."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
+msgid "Contribution Receipt"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "Your contribution has been processed successfully. Please print this page for your records."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "An email receipt for this contribution has also been sent to %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "WARNING: Deleting this contribution will result in the loss of this contribution and the associated financial transactions (if any)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Select the appropriate contribution type for this transaction."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "The date this contribution was received."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "This field is blank for non-monetary contributions."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Optional identifier for the contribution source (campaign name, event, mailer, etc.)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Actual amount given by contributor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Non-deductible portion of this contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Processing fee for this transaction (if applicable)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Net value of the contribution (Total Amount minus Fee)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Unique internal reference ID for this contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.<br />For offline contributions, you can enter an account+check number, bank transfer identifier, etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Date that a receipt was sent to the contributor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "Date that a thank-you message was sent to the contributor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "To mark a contribution as cancelled, enter the cancellation date here."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Page/ContributionType.tpl
+msgid "New Contribution Type"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionType.tpl
+msgid "WARNING: Deleting this option will result in the loss of all contribution records of this type."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionType.tpl
+msgid "Use this field to flag contributions of this type with the corresponding code used in your accounting system. This code will be included when you export contribution data to your accounting package."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionType.tpl
+msgid "Are contributions of this type tax-deductible?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "pending"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/CreatePPD.tpl
+msgid "Select <strong>sandbox</strong> to create test (sandbox) profile files in your CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH. Select <strong>live</strong> to create live profile files in your CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/CreatePPD.tpl
+msgid "Enter the API Username you used when requesting the digital certificate for this environment."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/CreatePPD.tpl
+msgid "Browse to the digital certificate that you downloaded from PayPal. Choose the <strong>sandbox</strong> or <strong>live</strong> certificate based on the environment you are creating this profile for."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/CreatePPD.tpl
+msgid "Subject is left blank unless you are processing on behalf of a third party."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl
+msgid "New Payment Instrument"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/PaymentInstrument.tpl
+msgid "WARNING: Deleting this option will result in the loss of all Contribution records which use this option."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
+msgid "No matching contributions found."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
+msgid "if you are searching by contributor name, check your spelling"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
+msgid "if you are searching within a date or amount range, try a wider range of values"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
+msgid "Found %count contribution."
+msgid_plural "Found %count contributions."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
+msgid "Total Amount:"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
+msgid "Cancelled Contribution Amount"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search.tpl
+msgid "Use this form to find contributions by contributor name, contribution date or amount ranges, type of contribution, payment method and / or status."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search.tpl
+msgid "Complete OR partial name OR email."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Selector.tpl
+msgid "View all contributions from this contact"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Selector.tpl
+msgid "List more contributions"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Delete.tpl
+msgid "Are you sure you want to delete the selected contributions? This delete operation cannot be undone and will delete all transactions and activity history associated with these contributions."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Export.tpl
+msgid "One contribution record selected for export."
+msgid_plural "%count contribution records selected for export."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Form/Task/Export.tpl
+msgid "Click <strong>Export Contributions</strong> to download a comma-separated values (CSV) file of contribution data. Each row will also\ninclude contributor contact information (name, address, email, phone...) as available."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task.tpl
+msgid "Number of selected contributions: %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '- do not import -' for any columns in the import file that you want ignored."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+msgid "Click 'Load Saved Field Mapping' if data has been previously imported from the same source. You can then select the saved import mapping setup and load it automatically."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+msgid "If you think you may be importing additional data from the same data source, check 'Save this field mapping' at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is imported."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Select a Different Field Mapping"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Saved Field Mapping: %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Column Headers"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Import Data (row %1)"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Matching CiviCRM Field"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href=\"%2\">Download Errors</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl
+msgid "CiviCRM has detected %1 records with conflicting transaction ids within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href=\"%2\">Download Conflicts</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "Click 'Import Now' if you are ready to proceed."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Total Rows"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Total rows (contribution records) in uploaded file."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "Rows with Errors"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Rows with invalid data in one or more fields. These rows will be skipped (not imported)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Download Errors"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "Conflicting Rows"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl
+msgid "Rows with conflicting transaciton ids within this file. These rows will be skipped (not imported)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Download Conflicts"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "Valid Rows"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+msgid "Total rows to be imported."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "<strong>Import has completed successfully.</strong> The information below summarizes the results."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "CiviCRM has detected Mismatched Contribution Id. This record have not been Updated."
+msgid_plural "CiviCRM has detected Mismatched Contribution Ids. These records have not been Updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "You can <a href=\"%1\">Download Mismatched Contributions</a>. You may then correct them, and import the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "CiviCRM has detected invalid data and/or formatting errors in one record. This record have not been imported."
+msgid_plural "CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and import the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "CiviCRM has detected one record with conflicting transaction ID within this data file or relative to existing contribution records. This record have not been imported."
+msgid_plural "CiviCRM has detected %count records with conflicting transaction IDs within this data file or relative to existing contribution records. These records have not been imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "You can <a href=\"%1\">Download Conflicts</a>. You may then review these records to determine if they are actually conflicts, and correct the transaction IDs for those that are not."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "CiviCRM has detected one record which is a duplicate of existing CiviCRM contribution record."
+msgid_plural "CiviCRM has detected %count records which are duplicates of existing CiviCRM contribution records."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "You can <a href=\"%1\">Download Duplicates</a>. You may then review these records to determine if they are actually duplicates, and correct the transaction IDs for those that are not."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Invalid Rows (skipped)"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Mismatched  Rows (skipped)"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Rows with Mismatched contribution IDs... (NOT Updated)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Download Mismatched Contributions"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Conflicting Rows (skipped)"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Rows with conflicting transaction IDs (NOT imported)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Duplicate Rows"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+msgid "Rows which are duplicates of existing CiviCRM contribution records."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Download Duplicates"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Records Imported"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Rows imported successfully."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl
+msgid "The Contribution Import Wizard allows you to easily upload contributions from other applications into CiviCRM."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+msgid "Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+msgid "Upload Data File"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+msgid "File format must be comma-separated-values (CSV)."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+msgid "Maximum Upload File Size: %1 MB"
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl
+msgid "Check this box if the first row of your file consists of field names (Example: \"Contact ID\", \"Amount\")."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
+msgid "This page lists the credit card options that will be offered to contributors using your Online Contribution pages.\n        You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
+msgid "IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information\n        is collected on the Payment Processor's website)."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
+msgid "New Credit-Card"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
+msgid "There are currently no accepted Credit Cards configured for this site. You can <a href=\"%1\">add one now</a>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "This page is <strong>active</strong>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Link visitors to this page using the following URL"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "This page is currently <strong>inactive</strong> (not accessible to visitors)."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "When you are ready to make this page live, click <a href=\"%1\">Title and Settings</a> and update the <strong>Active?</strong> checkbox."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Use the options below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Set page title, contribution type (donation, campaign contribution, etc.), introduction, allowable payment types, activate the page."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Configure contribution amount options and labels, minimum and maximum amounts."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Edit Thank-you page contents and receipting features."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Collect additional information from contributors by selecting CiviCRM Profile(s)\n    to include in this contribution page."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid "Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live charges will occur, and no contribution records or contact information will be saved to the database.</strong>"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "For existing pages"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "Click the <strong>title</strong> to go to the live page (enabled pages only)."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "Click <strong>Configure</strong> to view and modify settings, amounts, and text for existing pages."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "Click <strong>Test-drive</strong> to try out the page in <strong>test mode</strong>. This allows you to go through the full contribution process using a dummy credit card on a test server."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "Click <a href=\"%1\">New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
+msgid "Status?"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+msgid "Active"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "New Contribution Page"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "No contribution pages have been created yet. Click <a href=\"%1\">here</a> to create a new contribution page using the step-by-step wizard."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionTotals.tpl
+msgid "Avg Amount"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionType.tpl
+msgid "Contribution types are used to categorize contributions for reporting and accounting purposes. These are also referred to as <strong>Funds</strong>. You may set up as many types as needed. Each type can carry an accounting code which can be used to map contributions to codes in your accounting system. Commonly used contribution types are: Donation, Campaign Contribution, Membership Dues..."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionType.tpl
+msgid "Acctg Code"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionType.tpl
+msgid "Deductible?"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionType.tpl
+msgid "There are no custom Contribution Types entered. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "CiviContribute allows you to create customized page(s) for collecting online contributions. Administrators can create or modify your Online Contribution Pages from <a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "You can also input and track offline contributions. To enter contributions manually for individual contacts, use <a href=\"%1\">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the </strong>New Contribution</strong> link. You can also <a href=\"%2\">import batches of offline contributions</a> from other sources."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Contributions Summary"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "This table provides a summary of <strong>Contribution Totals</strong>, and includes shortcuts to view the contribution details for these commonly used search periods. To run your own customized searches - click <a href=\"%1\">Find Contributions</a>. You can search by Contributor Name, Amount Range, and a variety of other criteria."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Period"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Current Month-To-Date"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl templates/CRM/Contribute/Page/DashBoard.tpl templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "(n/a)"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl templates/CRM/Contribute/Page/DashBoard.tpl templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "view details"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Current Year-To-Date"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Cumulative"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "(since inception)"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Recent Contributions"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/PaymentInstrument.tpl
+msgid "You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/PaymentInstrument.tpl
+msgid "There are no custom Payment-Instrument entered. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid "WARNING: Deleting this custom field will result in the loss of all %1 data."
 msgstr ""
@@ -5099,7 +6751,7 @@ msgstr ""
 msgid "Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected)."
 msgstr ""
 
-#: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
+#: templates/CRM/Custom/Form/Field.tpl
 msgid "Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers."
 msgstr ""
 
@@ -5107,8 +6759,12 @@ msgstr ""
 msgid "If you want to provide a default value for this field, enter it here. For date fields, format is YYYY-MM-DD."
 msgstr ""
 
-#: templates/CRM/Custom/Form/Field.tpl
+#: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Explanatory text displayed to users for this field."
+msgstr ""
+
+#: templates/CRM/Custom/Form/Field.tpl
+msgid "Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -5116,15 +6772,15 @@ msgid "View / Edit Multiple Choice Options"
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Use this form to setup the title, group-level help, and display characteristics of each group of Custom Data fields. The 'Display Style' you select determines whether this group is edited and displayed together with other Custom Data Groups on a single consolidated form ('Inline' style), or has it's own menu tab ('Tab' style)."
+msgid "Use this form to setup the title, group-level help, and display characteristics of each group of Custom Data fields. The 'Display Style' you select determines whether this group is edited and displayed on the same screens as the standard contact field ('Inline' style), or has it's own menu tab ('Tab' style)."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "For 'inline' custom groups, the menu tab will use the title for the first 'inline' group."
+msgid "For 'inline' display custom groups, this name will appear as the fieldset legend. If this group uses the 'tab' display style, this name will be used for the navigation tab."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Select the type of record that this group of custom data is available for."
+msgid "Select the type of record that this group of custom fields is applicable for. You can configure custom data for a specific type of contact (e.g. Individuals but NOT Organizations), ANY type of contact, or other record types such as Activities and Contributions."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -5132,7 +6788,7 @@ msgid "Weight controls the order in which custom data groups are presented when 
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Select 'inline' to display this group on a shared form with other 'inline' custom data groups."
+msgid "Select 'Inline' to include this group of fields in the main contact Add/Edit form and Contact Summary screens. Select 'Tab' to create a separate navigation tab for display and editing these values (generally for less frequently accessed and/or larger sets of fields)."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -5140,11 +6796,15 @@ msgid "Check this box if you want only the title for this fieldset to be display
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the beginning of the group fieldset."
+msgid "Explanatory text displayed at the beginning of this group of fields."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
-msgid "Explanatory text displayed at the end of the group fieldset."
+msgid "Explanatory text displayed below this group of fields."
+msgstr ""
+
+#: templates/CRM/Custom/Form/Group.tpl
+msgid "Custom Fields for this Group"
 msgstr ""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -5215,6 +6875,10 @@ msgstr ""
 msgid "All Contact Types"
 msgstr ""
 
+#: templates/CRM/Custom/Page/Group.tpl
+msgid "No custom data groups have been created yet. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "New Option for \"%1\""
 msgstr ""
@@ -5247,14 +6911,6 @@ msgstr ""
 msgid "Return to CiviCRM menu."
 msgstr ""
 
-#: templates/CRM/Export/Form/SelectField.tpl
-msgid "<strong>Export ALL contact fields</strong> if you want all available data values (including custom fields) included in the export file."
-msgstr ""
-
-#: templates/CRM/Export/Form/SelectField.tpl
-msgid "Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields for export. This option also allows you to save your selections as a 'field mapping' so you can use it again later."
-msgstr ""
-
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
 msgstr ""
@@ -5278,7 +6934,7 @@ msgid "Enter a unique name and a description for your new group here. Then click
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Group Name and Description"
+msgid "Group Settings"
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -5313,90 +6969,30 @@ msgstr ""
 msgid "No activity history for this contact."
 msgstr ""
 
-#: templates/CRM/Import/Form/MapTable.tpl
-msgid "Select a Different Field Mapping"
-msgstr ""
-
-#: templates/CRM/Import/Form/MapTable.tpl
-msgid "Load Saved Field Mapping"
-msgstr ""
-
-#: templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
-msgid "Import Data (row %1)"
-msgstr ""
-
-#: templates/CRM/Import/Form/MapTable.tpl
-msgid "Matching CiviCRM Field"
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results."
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href=\"%2\">Download Errors</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
-msgstr ""
-
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "CiviCRM has detected %1 records with conflicting email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href=\"%2\">Download Conflicts</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "Click 'Import Now' if you are ready to proceed."
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Total Rows"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total rows (contact records) in uploaded file."
 msgstr ""
 
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "Rows with Errors"
-msgstr ""
-
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported)."
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Errors"
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "Conflicting Rows"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Rows with conflicting email addresses within this file. These rows will be skipped (not imported)."
 msgstr ""
 
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Conflicts"
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "Valid Rows"
-msgstr ""
-
-#: templates/CRM/Import/Form/Preview.tpl
-msgid "Total rows to be imported."
-msgstr ""
-
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "<strong>Import has completed successfully.</strong> The information below summarizes the results."
-msgstr ""
-
-#: templates/CRM/Import/Form/Summary.tpl
-msgid "CiviCRM has detected invalid data and/or formatting errors in one record. This record have not been imported."
-msgid_plural "CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported."
+msgid "CiviCRM has detected Mismatched Contact Id . This record have not been Updated."
+msgid_plural "CiviCRM has detected Mismatched Contact Ids. These records have not been Updated."
 msgstr[0] ""
 msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and import the new file with the corrected data."
+msgid "You can <a href=\"%1\">Download Mismatched Contacts</a>. You may then correct them, and import the new file with the corrected data."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5424,11 +7020,11 @@ msgid "You can <a href=\"%1\">Download Duplicates</a>. You may then review these
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Invalid Rows (skipped)"
+msgid "Rows with Mismatched contact IDs ... (NOT Updated)."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Conflicting Rows (skipped)"
+msgid "Download Mismatched Contacts"
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5436,23 +7032,7 @@ msgid "Rows with conflicting email addresses (NOT imported)."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Duplicate Rows"
-msgstr ""
-
-#: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contact records."
-msgstr ""
-
-#: templates/CRM/Import/Form/Summary.tpl
-msgid "Download Duplicates"
-msgstr ""
-
-#: templates/CRM/Import/Form/Summary.tpl
-msgid "Records Imported"
-msgstr ""
-
-#: templates/CRM/Import/Form/Summary.tpl
-msgid "Rows imported successfully."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -5479,22 +7059,6 @@ msgstr[1] ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "The Import Wizard allows you to easily upload contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here."
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Upload Data File"
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid "File format must be comma-separated-values (CSV)."
-msgstr ""
-
-#: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Maximum Upload File Size: %1 MB"
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -5677,8 +7241,16 @@ msgstr ""
 msgid "Displaying contacts where:"
 msgstr ""
 
+#: templates/CRM/Profile/Page/Listings.tpl
+msgid "No fields in this Profile have been configured to display as columns in the listings (selector) table.\n        Ask the site administrator to check the Profile setup."
+msgstr ""
+
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Return to Find People"
+msgstr ""
+
+#: templates/CRM/Profile/Page/View.tpl
+msgid "Back to Listings"
 msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
@@ -5706,7 +7278,7 @@ msgid "WARNING: Deleting this profile field will remove it from Profile forms an
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "Select the CiviCRM field you want to share (expose) on the User Account screens."
+msgid "Select the CiviCRM field you want to include in this Profile."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
@@ -5714,31 +7286,19 @@ msgid "Are users required to complete this field?"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "If checked, users can view but not edit this field for their account."
+msgid "If checked, users can view but not edit this field."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "Do you want to include this field in the new account registration form?"
+msgid "Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). If this profile is linked to the User Account screen, links to find other contacts with common value(s) will be included."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form), and to include links to find other contacts with common value(s) in the account profile screen."
+msgid "Is this field visible in the selector table displayed in profile searches? This setting applies only to fields with 'Public User Pages and Listings' visibility."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "Is this field visible in the selector table displayed in profile searches?"
-msgstr ""
-
-#: templates/CRM/UF/Form/Field.tpl
-msgid "When this field is used to aggregate a user listings page, what is the title of that page?"
-msgstr ""
-
-#: templates/CRM/UF/Form/Field.tpl
-msgid "Is this field part of the data set used to identify potential duplicate contact records?"
-msgstr ""
-
-#: templates/CRM/UF/Form/Field.tpl
-msgid "Explanatory text displayed to users for this field. All fields marked as 'Key to Contacts' will be combined when evaluating a match."
+msgid "Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -5747,6 +7307,22 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete %1 Profile?"
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding it's ID to the civicrm/profile path."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form. "
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Check <strong>Profile</strong> if you want it included in the default search and listings screens for the civicrm/profile path."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -5765,20 +7341,24 @@ msgstr ""
 msgid "View or Edit Fields for this Profile"
 msgstr ""
 
+#: templates/CRM/UF/Form/Preview.tpl
+msgid "Profile Field Preview</strong>."
+msgstr ""
+
+#: templates/CRM/UF/Form/Preview.tpl
+msgid "<strong>Profile Preview</strong>"
+msgstr ""
+
+#: templates/CRM/UF/Form/Preview.tpl
+msgid "This Civicrm profile field is view only."
+msgstr ""
+
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
-
-#: templates/CRM/UF/Page/Field.tpl
-msgid "Registration"
-msgstr ""
-
-#: templates/CRM/UF/Page/Field.tpl
-msgid "Match"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
@@ -5790,7 +7370,7 @@ msgid "There are no CiviCRM Profile Fields for \"%1\", you can <a href=\"%2\">ad
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
-msgid "The HTML code below will display a form consisting of all your active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information."
+msgid "The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -5802,11 +7382,15 @@ msgid "EXAMPLE:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
-msgid "CiviCRM Profile - Code for Stand-alone HTML Form"
+msgid "Back to Profile Listings"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
-msgid "Back to Profile Listings"
+msgid "CiviCRM Profile(s) allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.\n    They provide a powerful set of tools for you to collect information from constituents and selectively share contact information.</p>\n    <p>Profiles may be linked to specific modules, or used to create standalone forms and listing pages. Examples of module links include:\n    <ul class=\"indented\">\n    <li><strong>User</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>.\n    <li><strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link to to your contribution page.\n    <li><strong>Profile Listings</strong> - A default profile search form and search result listings is displayed when you link users to the <site root>/civicrm/profile?reset=1 path. If you have several\n    profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and\n    listings page for a Profile with ID = 3 would be:<br /><strong>&lt;your site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>\n    </ul></p>"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid "Use the <strong>Stand-alone Form</strong> links to get the HTML code needed to add a profile form to any block or page on any website (e.g. for a signup form). You can also get the <a href=\"%1\">HTML for\n    ALL Active Profiles</a> as a single form."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -5814,11 +7398,15 @@ msgid "Profile Title"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid "New CiviCRM Profile"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
-msgid "Stand-alone Profile Form"
+msgid "Get HTML for All Active Profiles"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -5986,7 +7574,7 @@ msgid "Unable to resolve recipient domain"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
-msgid "Unable to deliver to desintation mail server"
+msgid "Unable to deliver to destintation mail server"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
@@ -6017,8 +7605,8 @@ msgstr ""
 msgid "Error in SMTP transaction"
 msgstr ""
 
-#: xml/templates/civicrm_data.tpl
-msgid "Mrs"
+#: xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
+msgid "Event"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
@@ -6043,4 +7631,52 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "II"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Donation"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Member Dues"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Campaign Contribution"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Credit Card"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Debit Card"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Cash"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Check"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "EFT"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Visa"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Master Card"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "American Express"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Discover"
 msgstr ""

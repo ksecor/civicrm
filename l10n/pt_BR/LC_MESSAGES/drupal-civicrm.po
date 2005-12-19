@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-12 11:37+0200\n"
-"PO-Revision-Date: 2005-09-13 19:17+0200\n"
+"PO-Revision-Date: 2005-12-15 14:32+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -33,20 +33,20 @@ msgid "administer CiviCRM"
 msgstr "administrar CiviCRM"
 
 msgid "access CiviCRM"
-msgstr "Acessar CiviCRM"
+msgstr "acessar CiviCRM"
 
-#, fuzzy
 msgid "edit contacts in %1"
-msgstr "editar todos os contatos"
+msgstr "editar contatos em %1"
 
-#, fuzzy
 msgid "view contacts in %1"
-msgstr "ver todos os contatos"
+msgstr "ver contatos em %1"
 
 msgid ""
 "Constituent Relationship Management (CRM). Allows sites to manage contacts, "
 "relationships and groups, and track contact activities."
 msgstr ""
+"Gerenciador de Relacionamento (CRM). Permite aos sites gerenciar contatos, "
+"relacionamentos e grupos, e fazer o acompanhamento dessas atividades todas."
 
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -58,6 +58,14 @@ msgid ""
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
 msgstr ""
+"O módulo CiviCRM armazena informações de um universo de pessoas associadas a "
+"uma comunidade e suas respectivas interações tais como emails, doações, "
+"eventos, etc. Pode atuar como um gerenciador de contatos isolado ou pode ser "
+"integrado com o envio de email em massa, gerenciamento de voluntários, e "
+"pesquisa de eventos. CiviCRM permite organizações a manterem essas "
+"atividades em uma única base de dados,criando eficiência e oportunidades "
+"para a comunidade melhor se comunicar, e se beneficiar do relacionamento "
+"entre seus membros."
 
 msgid ""
 "The CiviCRM module allows you to create contacts, or import them from other "
@@ -78,17 +86,19 @@ msgid ""
 msgstr ""
 
 msgid "You can:"
-msgstr ""
+msgstr "Você pode:"
 
 msgid "enable CiviCRM blocks at %1."
-msgstr ""
+msgstr "habilitar blocos CiviCRM em %1."
 
 msgid "set access permissions at %1."
-msgstr ""
+msgstr "Configurar permissões de acesso em %1."
 
 msgid ""
 "find contacts by name, email address, group membership and/or tagging at %1."
 msgstr ""
+"buscar contatos pelo nome, endereço de email, participação em grupos e/ou "
+"tagging em %1."
 
 #, fuzzy
 msgid "find contacts"
@@ -98,85 +108,96 @@ msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at %1."
 msgstr ""
+"faça pesquisas complexas baseadas em rótulos, membros de grupos, "
+"localização, atividades e campos customizados em %1"
 
 msgid "advanced search"
-msgstr ""
+msgstr "pesquisa avançada"
 
 msgid "reuse a saved search at %1."
-msgstr ""
+msgstr "reusar uma pesquisa salva em %1"
 
 msgid "saved searches"
-msgstr ""
+msgstr "pesquisas salvas"
 
 msgid "create or manage groups at %1."
-msgstr ""
+msgstr "criar ou gerenciar grupos em %1."
 
-#, fuzzy
 msgid "manage groups"
-msgstr "editar grupos"
+msgstr "gerenciar grupos"
 
 msgid "import contacts from other sources at %1."
-msgstr ""
+msgstr "importar contatos de outras fontes em %1."
 
-#, fuzzy
 msgid "import contacts"
-msgstr "editar todos os contatos"
+msgstr "importar contatos"
 
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at %1."
-msgstr ""
+msgstr "criar ou administrar rótulos (ex. organizadores, fundações, etc..)"
 
 msgid "civicrm"
-msgstr ""
+msgstr "civicrm"
 
 msgid "admin"
-msgstr ""
+msgstr "admin"
 
 msgid "tags"
-msgstr ""
+msgstr "rótulos"
 
 msgid ""
 "create or administer relationship types (e.g. household member, board "
 "member, spouse...) at %1."
 msgstr ""
+"criar ou administrar tipos de relacionamentos ( ex. esposa,funcionário ,  "
+"filhos ) em %1. "
 
 msgid "relationship types"
-msgstr ""
+msgstr "tipos de relacionamentos"
 
 msgid "create or administer location types (e.g. home, work, school...) at %1."
 msgstr ""
+"criar ou administrar tipo de localização(residência, trabalho, escola.. ) em "
+"%1."
 
 msgid "location types"
-msgstr ""
+msgstr "tipos de localização"
 
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at %1."
-msgstr ""
+msgstr "Criar ou administrar tipos de atividades (ex. reunião, entrevista...) "
 
 msgid "activity types"
-msgstr ""
+msgstr "tipo de atividades"
 
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
 "contact info...) at %1."
-msgstr ""
+msgstr "criar ou administrar campos de dados customizados em %1"
 
 msgid "custom data"
-msgstr ""
+msgstr "dados customizados"
 
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
 "during user registration) at %1."
 msgstr ""
+"criar ou administrar perfis civicrm ( dados de contatos coletados durante o "
+"registro do usuário ) em %1"
 
 msgid "civicrm profile"
-msgstr ""
+msgstr "perfil civicrm"
 
 msgid ""
 "For more information please read the <a href=\"%1\">configuration and "
 "customization handbook CiviCRM page</a>."
 msgstr ""
+"Para maiores informações por favor leia<a href=\"%1\">sobre a configuração e "
+"customização do CiviCRM </a>."
+
+#~ msgid "access CiviCRM Profile Listings"
+#~ msgstr "Acessar Lista de Perfis CiviCRM"
 
 #~ msgid "edit %group"
 #~ msgstr "editar %group"

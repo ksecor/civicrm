@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2002-01-05 17:04+0000\n"
-"Last-Translator: Lisiane Sztoltz <lisiane@conectiva.com.br>\n"
+"PO-Revision-Date: 2005-10-30 19:36+0100\n"
+"Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese Brazilian <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -97,11 +98,11 @@ msgstr "Coreano"
 
 #. name for AF-KAB
 msgid "Kabul"
-msgstr ""
+msgstr "Kabul"
 
 #. name for AF-KAN
 msgid "Kandahar"
-msgstr ""
+msgstr "Kandahar"
 
 #. name for AF-KAP
 msgid "Kapisa"
@@ -16327,3 +16328,4 @@ msgstr "Finlândia"
 #, fuzzy
 #~ msgid "Casablanca "
 #~ msgstr "Caribenho"
+

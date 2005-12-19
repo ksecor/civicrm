@@ -178,6 +178,10 @@ msgid ""
 "customization handbook CiviCRM page</a>."
 msgstr ""
 
+#, fuzzy
+#~ msgid "access CiviCRM Profile Listings"
+#~ msgstr "Auf CiviCRM zugreifen"
+
 #~ msgid "edit %group"
 #~ msgstr "%group bearbeiten"
 

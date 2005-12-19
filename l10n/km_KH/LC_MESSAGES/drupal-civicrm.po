@@ -179,6 +179,10 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#~ msgid "access CiviCRM Profile Listings"
+#~ msgstr "អ្នក​គ្រប់គ្រង CiviCRM"
+
+#, fuzzy
 #~ msgid "edit %group"
 #~ msgstr "កែសម្រួល​ក្រុម"
 
