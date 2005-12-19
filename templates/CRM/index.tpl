@@ -1,7 +1,7 @@
 {if $config->debug}
 {include file="CRM/common/debug.tpl"}
-{include file="CRM/common/calendar/js.tpl}
 {/if}
+{include file="CRM/common/calendar/js.tpl}
 
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
