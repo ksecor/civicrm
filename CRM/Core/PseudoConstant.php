@@ -399,6 +399,13 @@ class CRM_Core_PseudoConstant {
             $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
 
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true, 'name', 'is_active', $whereClause );
+
+            // localise the province names if in an non-en_US locale
+            if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+                $i18n =& CRM_Core_I18n::singleton();
+                $i18n->localizeArray(self::$stateProvince);
+                asort(self::$stateProvince);
+            }
         }
         if ($id) {
             if (array_key_exists($id, self::$stateProvince)) {
