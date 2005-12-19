@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-10 15:33+0100\n"
-"PO-Revision-Date: 2005-12-11 00:24+0100\n"
+"PO-Revision-Date: 2005-12-15 16:04+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -5699,9 +5699,8 @@ msgid "There are no records selected for Print."
 msgstr "Não há registros selecionados para Imprimir."
 
 #: templates/CRM/Contact/Form/Task/Record.tpl
-#, fuzzy
 msgid "Record an Activity"
-msgstr "Agendar uma atividade"
+msgstr "Registrar uma atividade"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 msgid "Remove Members"
@@ -5818,7 +5817,7 @@ msgstr "Contato falecido"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Date of Birth:"
-msgstr "Data de Nascimento"
+msgstr "Data de Nascimento:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
@@ -6472,7 +6471,7 @@ msgid ""
 "'Steering Committee'). You can also create 'smart' groups whose membership "
 "is based on contact characteristics (e.g. this group consists of all people "
 "in our database who live in a specific locality)."
-msgstr ""
+msgstr "Utilize Grupos para organizar contatos (ex. estes contatos pode ser membros de nosso 'comitê politico'). Você pode também criar grupos 'inteligentes', que são membros baseados em características de contatos (ex. este grupo pode consistir de todas as pessoas que vivem em derterminada localidade)."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
@@ -6529,14 +6528,14 @@ msgid ""
 "Click 'Load Saved Field Mapping' if data has been previously imported from "
 "the same source. You can then select the saved import mapping setup and load "
 "it automatically."
-msgstr ""
+msgstr "Clique em 'Carregar mapeamento de campos' se os dados foram préviamente importados da mesma fonte de dados. Você pode então selecionar o mapeamento de importação salvo e carregá-lo automaticamente."
 
 #: templates/CRM/Import/Form/MapField.tpl
 msgid ""
 "If you think you may be importing additional data from the same data source, "
 "check 'Save this field mapping' at the bottom of the page before continuing. "
 "The saved mapping can then be easily reused the next time data is imported."
-msgstr ""
+msgstr "Caso deseje você pode importar dados adicionais da mesma fonte de dados, clique em 'Salvar este mapeamento de campos' ao final da página antes de continuar. Mapeamentos salvos podem fácilmente ser reusados na próxima vez que os dados forem importados."
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
@@ -6857,13 +6856,13 @@ msgid ""
 "Select 'Individual' if each record in your file represents and individual "
 "person - even if the file also contains related Organization data (e.g. "
 "Employer Name, Employer Address, etc.)."
-msgstr ""
+msgstr "Selecione 'Inividual' se cada regitro de seu arquivo representa uma pessoa individual - ainda se o arquivo contenha dados relacionados a Organizações (ex. Nome do empregador, endereço do empregador, etc.. )."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Organization' or 'Household' if each record in your file represents "
 "a contact of that type."
-msgstr ""
+msgstr "Selecione 'Organização' ou 'dono(a) de casa' se cada registro em seu arquivo representa um tipo de contato."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -7152,7 +7151,7 @@ msgstr ""
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Is this field visible in the selector table displayed in profile searches?"
-msgstr ""
+msgstr "Este canpo é visível no seletor de tabelas mostrado na pesquisa de perfis ?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -7180,14 +7179,12 @@ msgstr ""
 "'Chave para Contatos' será combinado quando realizada uma pesquisa."
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid "Delete CiviCRM Profile"
-msgstr "Novo perfil CiviCRM"
+msgstr "Excluir perfil CiviCRM"
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid "Delete %1 Profile?"
-msgstr "CiviCRM Perfil"
+msgstr "Excluír o perfil %1?"
 
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
@@ -7257,7 +7254,7 @@ msgid ""
 "the form by modifying the contents of the hidden <strong>postURL</strong> "
 "input field. Replace the default value with any valid complete URL prior to "
 "saving the form code to the desired page(s)."
-msgstr ""
+msgstr "Você poderá controlar a página web que alguém será direcionado APÓS completar o formulário modificando o campo de entrada <strong>postURL</strong> oculto. Alter o valor padrão por qualquer URL válida antes de salvar o código do formulário na(s) página(s) desejada(s)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "EXAMPLE:"
@@ -7483,15 +7480,15 @@ msgstr "de acordo com os Termos de serviço AOL"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Destinatário em férias"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Incapaz de resolver o dominio do destinatário"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to desintation mail server"
-msgstr ""
+msgstr "Incapaz de fazer a entrega para o servidor destino "
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
@@ -7517,7 +7514,7 @@ msgstr "Incapaz de encontrar o servidor de email destino"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Mensagem capturada por filtro ed conteúdo."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
