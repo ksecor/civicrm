@@ -1,4 +1,3 @@
-{include file="CRM/common/calendar/js.tpl}
 
 <div class="form-item">
 <fieldset>

@@ -6,7 +6,6 @@
 
  {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
-{include file="CRM/common/calendar/js.tpl}
  
  <div class="crm-submit-buttons">
     {$form.buttons.html}

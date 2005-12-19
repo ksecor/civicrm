@@ -1,6 +1,4 @@
 {* Search form and results for Contributions *}
-{include file="CRM/common/calendar/js.tpl}
-
 <div id="help">
     {ts}Use this form to find contributions by contributor name, contribution date or amount ranges, type of contribution, payment method and / or status.{/ts}
 </div>

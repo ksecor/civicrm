@@ -1,5 +1,6 @@
 {if $config->debug}
 {include file="CRM/common/debug.tpl"}
+{include file="CRM/common/calendar/js.tpl}
 {/if}
 
 <div id="crm-container">

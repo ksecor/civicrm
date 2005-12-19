@@ -1,4 +1,3 @@
-{include file="CRM/common/calendar/js.tpl}
 
 {* this template is used for adding/editing/deleting contribution *} 
 <div class="form-item"> 

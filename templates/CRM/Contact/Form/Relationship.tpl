@@ -1,7 +1,5 @@
 {* this template is used for adding/editing/viewing relationships  *}
 
-{include file="CRM/common/calendar/js.tpl}
-
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
         <fieldset><legend>{ts}View Relationship{/ts}</legend>

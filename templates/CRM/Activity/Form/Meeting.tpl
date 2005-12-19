@@ -1,6 +1,4 @@
 {* this template is used for adding/editing meeting  *}
-{include file="CRM/common/calendar/js.tpl}
-
 <div class="form-item">
 <fieldset>
    <legend>

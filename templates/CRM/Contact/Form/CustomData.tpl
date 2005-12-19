@@ -44,7 +44,18 @@
 	{else}
               {assign var="name" value=`$element.name`} 
               {assign var="element_name" value="custom_"|cat:$field_id}			
-              <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
+              <dt>
+		{$form.$element_name.label}
+              </dt>
+             <dd>&nbsp;
+	  	{$form.$element_name.html}
+                {if $element.data_type eq 'Date'}
+                <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl"}
+                </div>
+	        {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=currentYear}
+		{/if}
+             </dd>
         	{if $element.help_post}
             	<dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         	{/if}
