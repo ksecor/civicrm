@@ -127,7 +127,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                       'is_required', 'help_post','options_per_line','start_date_years','end_date_years'),
+                                                       'is_required', 'help_post','options_per_line','start_date_years','end_date_years','date_parts'),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post', 'collapse_display'),
                            );
 
@@ -207,7 +207,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             // add the fields now (note - the query row will always contain a field)
             $groupTree[$groupId]['fields'][$fieldId] = array();
             $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
-            
             // populate information for a custom field
             foreach ($tableData['civicrm_custom_field'] as $fieldName) {
                 $fullFieldName = "civicrm_custom_field_" . $fieldName;
@@ -252,7 +251,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 }
             }
         }
-            
         return $groupTree;
     }
 
@@ -826,10 +824,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     break;
 
                 case 'Select Date':
+                    //print_r($v);
                     $date = CRM_Utils_Date::format( $v );
-                    if ( ! $date ) {
+                    /*if ( ! $date ) {
                         $date = '';
-                    }
+                    }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
                     
@@ -1002,7 +1001,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             break;
                             
                         case 'Date':
-                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data']);
+                            $format = null;
+                            if($field['date_parts']) {
+                                $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$field['date_parts']);
+                                foreach($parts as $v ) {
+                                    $format = $format." %".$v ;
+                                }
+                                $format = str_replace('M','B',$format);
+                            }
+                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
                             break;
                             
                         default:

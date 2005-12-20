@@ -50,7 +50,7 @@ class CRM_Utils_Date {
      */
     static function format( $date, $separator = '' )
     {
-        if ( ! $date || ! is_array( $date ) || ( ! $date['Y'] ) ) {
+        if ( ! $date || ! is_array( $date )) {
             return null;
         }
 
