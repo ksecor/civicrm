@@ -1612,7 +1612,7 @@ class CRM_Contact_BAO_Query {
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function searchQuery( $offset, $rowCount, $sort, 
+    function searchQuery( $offset = 0, $rowCount = 0, $sort = null, 
                           $count = false, $includeContactIds = false,
                           $sortByChar = false, $groupContacts = false,
                           $returnQuery = false,
