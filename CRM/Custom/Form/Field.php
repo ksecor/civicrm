@@ -296,7 +296,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('checkbox', 'is_active', ts('Active?'));
 
         // is searchable ?
-        $this->add('checkbox', 'is_searchable', ts('Is this Field Searchable?'));
+        $this->addElement('checkbox', 'is_searchable', ts('Is this Field Searchable?'), null, array('onclick' =>"showSearchRange(this)"));
+
+        // is searchable by range?
+        //$this->add('radio', 'is_search_range', ts('Search by Range?'), 'Yes');
+        //        $this->add('radio', 'is_search_range', null, 'Yes', 'no');
+        $searchRange = array( );
+        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'Yes' )    , '1'     );
+        $searchRange[] = $this->createElement( 'radio', null, null, ts( 'No' ), '0' );
+        
+        $this->addGroup( $searchRange, 'is_search_range', ts( 'Search by Range?' ));
+        $this->setDefaults(array('is_search_range' => '1'));
+
         
         // add buttons
         $this->addButtons(array(
@@ -663,10 +674,27 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             }
         }
 
+        // for 'is_search_range' field.   
+        if ($params['data_type'][0] == 1 || $params['data_type'][0] == 2 || $params['data_type'][0] == 3 || $params['data_type'][0] == 5) {
+            if (!$params['is_searchable']) {
+                $params['is_search_range'] = 0;
+            }
+            
+        }
+        else {
+            if ($params['is_searchable']) {
+                $params['is_search_range'] = 0;
+            }
+            else {
+                $params['is_search_range'] = 0;
+            }
+        }
+
         $customField->help_post        = $params['help_post'];
         $customField->mask             = $params['mask'];
         $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
+        $customField->is_search_range    = CRM_Utils_Array::value( 'is_search_range', $params, false );
         $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];

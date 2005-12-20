@@ -78,6 +78,13 @@
        <add>1.1</add>
   </field>
   <field>
+     <name>is_search_range</name>
+     <type>boolean</type>
+     <comment>Is this property range searchable.</comment>
+       <add>1.4</add>
+     <default>0</default>
+  </field>
+  <field>
       <name>weight</name>
       <type>int</type>
       <required>true</required>
@@ -158,12 +165,6 @@
        <type>varchar</type>
        <length>255</length>
        <comment>which date part included in display </comment>
-       <add>1.4</add>
-  </field>
-  <field>
-     <name>is_search_range</name>
-     <type>boolean</type>
-     <comment>Is this property range searchable.</comment>
        <add>1.4</add>
   </field>
   <index>

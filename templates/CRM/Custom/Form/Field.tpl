@@ -121,6 +121,11 @@
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
         {/if}
+    	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5)} class="show-block"{else} class="hide-block"{/if} >
+    	      <dl>
+	        <dt>{$form.is_search_range.label}</dt><dd>&nbsp;{$form.is_search_range.html}</dd>
+    	      </dl>
+    	</div>
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>
     </div>
@@ -136,12 +141,36 @@
     </div>
 
 </fieldset>
-	
+
 <script type="text/javascript">
-	{if ($optionRowError OR $fieldError) AND $action eq 1}
-         custom_option_html_type(document.getElementById('Field'));
+	
+   	var action = {$action};
+	{if $action eq 2}
+           var editIndex = {$form.data_type.value.0.0};
 	{/if}
+ 	   {literal}
+   
+ 	         function showSearchRange(chkbox) {
+		     if (action == 2) {
+			var data_type = editIndex;
+			}
+		     else {
+		        var data_type = document.getElementsByName("data_type[0]")[0].selectedIndex;
+			}
+        	     if (data_type == 1 || data_type == 2 || data_type == 3 || data_type == 5) {
+        		 if (chkbox.checked) {
+        			document.getElementById("searchByRange").style.display = "block";
+        		    }
+			 else {
+        			document.getElementById("searchByRange").style.display = "none";
+        		    }
+		         } 
+			
+                 }
+	  {/literal}
+   
 	</script>
+
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select' OR $form.data_type.value.1.0 eq 'Multi-Select') }
     <div class="action-link">

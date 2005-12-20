@@ -146,12 +146,20 @@
             {/strip}
             </dd>
         	{else}
-            {assign var="type" value=`$element.html_type`}
+                {assign var="type" value=`$element.html_type`}
 	        {assign var="element_name" value='custom_'|cat:$field_id}
-  	        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
-                  {if $element.html_type eq 'Radio'}
-&nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >unselect</a>
-                  {/if}
+		
+		{if $element.is_search_range}
+			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label> 
+        	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 Range-{$form.from.label}&nbsp;{$form.from.html|crmReplace:class:six}
+                	{$form.to.label}{$form.to.html|crmReplace:class:six}
+	        {else}
+			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
+		{/if}
+		{if $element.html_type eq 'Radio'}
+		&nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >unselect</a>
+                {/if}
                 </dd>
 	{/if}
 	    {/foreach}

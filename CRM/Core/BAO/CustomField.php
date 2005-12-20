@@ -300,6 +300,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             return null;
         }
         
+        $dao = new CRM_Core_DAO_CustomField();
+        $dao->id = $fieldId;
+        $dao->find(true);
+
+        if ($dao->is_search_range) {
+            $qf->add('text', 'from', ts('From'), $field->attributes);
+            $qf->add('text', 'to', ts('To'), $field->attributes);
+        }
+        
         /**
          * THis was split into a different function before. however thanx to php4's bug with references,
          * it was not working, so i munged it back into one big function - lobo
