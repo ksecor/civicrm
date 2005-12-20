@@ -49,7 +49,18 @@
 	{else}
         {assign var="name" value=`$element.name`} 
         {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
-        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
+        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
+	       {if $element.data_type eq 'Date'}
+	        {if $element.skip_calendar NEQ true } 
+                <span>
+                   
+		    {include file="CRM/common/calendar/desc.tpl"}
+		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 }
+		</span>
+	
+	        {/if}
+              {/if}
+        </dd>		
         {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}

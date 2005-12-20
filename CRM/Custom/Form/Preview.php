@@ -117,6 +117,17 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        //this is fix for calendar for date field
+        foreach ($this->_groupTree as $key1 => $group) { 
+            foreach ($group['fields'] as $key2 => $field) {
+                if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
+                    $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
+                    if ( count( $datePart ) < 3) {
+                        $this->_groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
+                    }
+                }
+            }
+        }
         $this->assign('groupTree', $this->_groupTree);
 
         // add the form elements

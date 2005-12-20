@@ -48,11 +48,13 @@
               <dd>
               <span>&nbsp;{$form.$element_name.html}</span>
               {if $element.data_type eq 'Date'}
+	        {if $element.skip_calendar NEQ true } 
                 <span>
-                    {include file="CRM/common/calendar/desc.tpl"}
-		    {$currentYear-$element.start_date_years}	
-                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
-		        </span>
+                   
+		    {include file="CRM/common/calendar/desc.tpl"}
+		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
+		</span>
+	        {/if}
               {/if}
               </dd>                  
         	{if $element.help_post}

@@ -415,7 +415,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                           'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range' ),
+                                                           'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts'),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post' ),
                            );
 
@@ -853,8 +853,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      */
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
+        
+        //this is fix for calendar for date field
+        foreach ($groupTree as $key1 => $group) { 
+            foreach ($group['fields'] as $key2 => $field) {
+                if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
+                    $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
+                    if ( count( $datePart ) < 3) {
+                        $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
+                    }
+                }
+            }
+        }
         $form->assign_by_ref( 'groupTree', $groupTree );
-
         $sBlocks = array( );
         $hBlocks = array( );
 
