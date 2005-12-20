@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-19 12:01+0100\n"
-"PO-Revision-Date: 2005-12-15 16:04+0100\n"
+"PO-Revision-Date: 2005-12-19 21:41+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -856,9 +856,8 @@ msgstr "Página do contato"
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Contribution.php
 #: CRM/Contribute/Page/DashBoard.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Contributions"
-msgstr "Atributos"
+msgstr "Contribuicoes"
 
 #: CRM/Contact/Page/View/CustomData.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
@@ -960,9 +959,8 @@ msgstr "ID de Contato"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "Total Amount"
-msgstr "Total de linhas"
+msgstr "Quantidade Total"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
@@ -1018,7 +1016,7 @@ msgstr "Entidade da Tabela"
 
 #: CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/Form/Search.php
 msgid "Payment Instrument"
-msgstr ""
+msgstr "Instrumento de Pagamento"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 #: CRM/Mailing/Selector/Event.php
@@ -1048,7 +1046,7 @@ msgstr "Digite um nome válido."
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Quantidade Maxima"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1228,7 +1226,7 @@ msgstr "Desativar campo Customizado"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Utils/Menu.php
 msgid "Configure Online Contribution Pages"
-msgstr ""
+msgstr "Configurar pagina(s) de Contribuicoes Online"
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -1512,7 +1510,7 @@ msgstr "Tipos de localização"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Instrumentos de Pagamento"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Administer CiviCRM"
@@ -2178,9 +2176,8 @@ msgid "State - \"%1\""
 msgstr "Estado/UF  - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "State (%2) - \"%1\""
-msgstr "Estado/UF  - \"%1\""
+msgstr "Estado/UF (%2) - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country - \"%1\""
@@ -2284,21 +2281,20 @@ msgid "Contribution Date - %1"
 msgstr "Data da Atividade - %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Contribution Type - %1"
-msgstr "Tipo de Contato -"
+msgstr "Tipo de Contribuicao - %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Payment Instrument - %1"
-msgstr ""
+msgstr "Instrumento de Pagamento - %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Valid"
-msgstr ""
+msgstr "Situacao da Contribuicao - Valida"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Cancelled"
-msgstr ""
+msgstr "Situacao da Contribuicao - Cancelada"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -3166,14 +3162,12 @@ msgid "Non Deductible Amount"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Date"
-msgstr "Cancelado"
+msgstr "Data Cancelamento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "Razão do Bounce"
+msgstr "Razão do Cancelamento"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -3207,19 +3201,16 @@ msgid "Trxn Result Code"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Website"
+msgstr "Debito"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Criar"
+msgstr "Credito"
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "Please enter a valid Credit Card name."
-msgstr "Digite um sexo válido."
+msgstr "Por favor ente com um nome de Cartao de Credito Valido."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 #, fuzzy
@@ -3227,9 +3218,8 @@ msgid "That name already exists in Database."
 msgstr "Nome já existente na Base de Dados"
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "Selected Credit Card has been deleted."
-msgstr "Excluído o Telefonema selecionado."
+msgstr "Selecione o Cartao de Credito a ser Excluído."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 #, fuzzy
@@ -3238,7 +3228,7 @@ msgstr "O rótulo \"%1\" foi salvo."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
-msgstr ""
+msgstr "Esta pagina solicitada nao esta mais disponivel."
 
 #: CRM/Contribute/Form/ContributionBase.php
 #, fuzzy
@@ -3251,41 +3241,37 @@ msgid "Security Code"
 msgstr "Cód. Sic"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Data de Nascimento"
+msgstr "Data de Expiracao"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Tipo de Coord"
+msgstr "Tipo de Cartao"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr ""
+msgstr "Fazer contribuicao"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "<< Go Back"
-msgstr ""
+msgstr "<< Voltar"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Online Contribution: "
-msgstr ""
+msgstr "Contribuicao Online:"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr "Entre com um número Válido como valor padrão."
+msgstr "Entre com uma quantidade válida (numeros e pontos decimais somente)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
-msgstr ""
+msgstr "Quantidade das Contribuicoes"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Amount is a required field"
-msgstr "%1 é um campo obrigatório"
+msgstr "Quantidade é um campo obrigatório"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -3295,11 +3281,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
-msgstr ""
+msgstr "Esta quantidade nao pode ser maior que %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be less than %1"
-msgstr ""
+msgstr "Esta quantidade nao pode ser menos que %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #, fuzzy
@@ -3342,7 +3328,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Custom Page Elements"
-msgstr ""
+msgstr "Elementos da Pagina Customizada"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 #, fuzzy
@@ -3426,7 +3412,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid "Paid By"
-msgstr ""
+msgstr "Pago por"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -3436,14 +3422,13 @@ msgstr "Destinatário(s)"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Cancellation Reason"
-msgstr "Razão do Bounce"
+msgstr "Razão do Cancelamento"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
-msgstr ""
+msgstr "Quantidade nao-dedutivel"
 
 #: CRM/Contribute/Form/Contribution.php
 #, fuzzy
@@ -3459,16 +3444,15 @@ msgstr "Digite um nome de tipo de localização válido."
 msgid ""
 "A contribution type with this name already exists. Please select another "
 "name."
-msgstr ""
+msgstr "Tipo de contribuicao com esse nome ja existe. Por favor selecione um outro nome."
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
-msgstr ""
+msgstr "Dedutivel de Taxas?"
 
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "Selected contribution type has been deleted."
-msgstr "Excluído o Tipo de Localização selecionado."
+msgstr "Tipo de contribuicao selecionada excluida."
 
 #: CRM/Contribute/Form/ContributionType.php
 #, fuzzy
@@ -3529,25 +3513,23 @@ msgstr "Registro número"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Verification Number"
-msgstr ""
+msgstr "Numero de verificacao do Cartao de Credito"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Expiration Date"
-msgstr ""
+msgstr "Data de expiracao do Cartao de Credito"
 
 #: CRM/Contribute/Form/Preview.php
-#, fuzzy
 msgid "Credit Card Type"
-msgstr "Tipo de Coord"
+msgstr "Tipo de Cartao de Credito"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Contribute via PayPal"
-msgstr ""
+msgstr "Contribuir via PayPal"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor"
-msgstr "Continuar"
+msgstr "Contribuinte"
 
 #: CRM/Contribute/Form/Search.php
 #, fuzzy
@@ -3555,9 +3537,8 @@ msgid "Contribution Dates - From"
 msgstr "Datas de atividades - Origem"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Valid"
-msgstr "Linhas válidas"
+msgstr "Válido"
 
 #: CRM/Contribute/Form/Search.php
 msgid "All"
@@ -3565,7 +3546,7 @@ msgstr "Todos"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Status"
-msgstr ""
+msgstr "Situacao das Contribuicoes"
 
 #: CRM/Contribute/Form/Task/Delete.php
 #, fuzzy
@@ -3579,17 +3560,15 @@ msgstr "Total de Contato(s) selecionado(s): %1 "
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "Contribution ID"
-msgstr ""
+msgstr "Contribuicao ID"
 
 #: CRM/Contribute/Form/Task/Export.php
-#, fuzzy
 msgid "CiviCRM Contributions"
-msgstr "Atalhos CiviCRM"
+msgstr "CiviCRM Contribuicoes"
 
 #: CRM/Contribute/Form/Task/Print.php
-#, fuzzy
 msgid "Print Contributions"
-msgstr "Imprimir Lista de Contatos"
+msgstr "Imprimir Contribuicoes"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #, fuzzy
@@ -3598,7 +3577,7 @@ msgstr "campos obrigatórios faltando"
 
 #: CRM/Contribute/Import/Parser/Contribution.php
 msgid "Invalid field value: %1"
-msgstr ""
+msgstr "Valor de campo invalido: %1"
 
 #: CRM/Contribute/Import/Parser.php
 #, fuzzy
@@ -3618,17 +3597,15 @@ msgstr ""
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr ""
+msgstr "Editar Cartao de Credito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Disable Credit Card"
-msgstr "Desativar Gênero"
+msgstr "Desabilitar Cartao de Credito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Enable Credit Card"
-msgstr "Ativar Gênero"
+msgstr "Habilitar Cartao de Credito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
@@ -3636,101 +3613,88 @@ msgstr ""
 
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Configurar Pagina de Contribuicoes"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Quer mesmo desativar este relacionamento?"
+msgstr "Quer mesmo desativar esta Pagina de Contribuicao?"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "Quer mesmo excluir esta nota?"
+msgstr "Quer mesmo excluir esta pagina de Contribuicao?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Teste-drive"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "New Online Contribution Page"
-msgstr "Nova Página de Doação"
+msgstr "Nova Página de Contribuicao Online"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Preview Contribute Page"
-msgstr "Visualizar Página de Doações"
+msgstr "Visualizar Página de Contribuicao"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Você tem certeza de que deseja desabilitar este componente?"
+msgstr "Você tem certeza de que deseja desabilitar este tipo de Contribuicao?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Edit Contribution Type"
-msgstr "Editar Tipo de Localização"
+msgstr "Editar Tipo de Contribuicao"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Disable Contribution Type"
-msgstr "Desativar Tipo de Localização"
+msgstr "Desabilitar Tipo de Contribuicao"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Enable Contribution Type"
-msgstr "Ativar Tipo de Localização"
+msgstr "Habilitar Tipo de Contribuicao"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Delete Contribution Type"
-msgstr "Excluir Tipo de Localização"
+msgstr "Excluir Tipo de Contribuicao"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
-#, fuzzy
 msgid "Are you sure you want to disable this Payment Instrument?"
-msgstr "Você tem certeza de que deseja desabilitar este componente?"
+msgstr "Você tem certeza de que deseja desabilitar este instrumento de Pagamento?"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Edit Payment Instrument"
-msgstr ""
+msgstr "Editar Instrumento de Pagamento"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Disable Payment Instrument"
-msgstr ""
+msgstr "Desabilitar Instrumento de Pagamento"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Enable Payment Instrument"
-msgstr ""
+msgstr "Habilitar Instrumento de Pagamento"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Delete Payment Instrument"
-msgstr ""
+msgstr "Excluir Instrumento de Pagamento"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "View Contribution"
-msgstr "Ver contato"
+msgstr "Visualizar Contribuicao"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Edit Contribution"
-msgstr "Editar opções"
+msgstr "Editar Contribuicao"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Delete Contribution"
-msgstr "Excluir Contato"
+msgstr "Excluir Contribuicao"
 
 #: CRM/Contribute/Selector/Search.php
 #, fuzzy
@@ -4284,7 +4248,7 @@ msgstr "Sincronizar Usuários Drupal"
 
 #: CRM/Core/Invoke.php
 msgid "Accept Credit Cards"
-msgstr ""
+msgstr "Cartoes de Creditos Aceitos"
 
 #: CRM/Core/Invoke.php
 #, fuzzy
@@ -4424,7 +4388,7 @@ msgstr "Inscrição"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Ver/Editar conta de usuario"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
@@ -5176,7 +5140,7 @@ msgstr "Token obrigatório faltando"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Invalid token code"
-msgstr "Códifo de token inválido"
+msgstr "Código de token inválido"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "The following errors were detected in %1:"
@@ -5328,7 +5292,7 @@ msgstr "Encaminhar "
 
 #: CRM/Profile/Form.php
 msgid "This feature is not currently available."
-msgstr ""
+msgstr "Este recurso nao esta atualmente suportado."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
@@ -5394,7 +5358,8 @@ msgstr "Selecione chamada telefônica a ser excluída."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr ""
+msgstr "O campo selecionado nao foi adicionado. Ja "
+" existe neste perfil."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
@@ -5499,7 +5464,7 @@ msgstr "Desabilitar Perfil de Grupos CiviCRM"
 
 #: CRM/UF/Page/Group.php
 msgid "Standalone Form"
-msgstr ""
+msgstr "Formulario Padrao"
 
 #: CRM/UF/Page/Group.php
 #, fuzzy
@@ -5554,7 +5519,7 @@ msgstr ""
 
 #: CRM/Utils/Menu.php
 msgid "Access Control"
-msgstr ""
+msgstr "Controle de Acesso"
 
 #: CRM/Utils/Menu.php
 #, fuzzy
@@ -5668,7 +5633,7 @@ msgstr "Continuar"
 
 #: CRM/Utils/Menu.php
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Cartoes de Creditos Aceitos"
 
 #: CRM/Utils/Menu.php templates/CRM/Contribute/Form/Search.tpl
 #, fuzzy
@@ -5722,11 +5687,11 @@ msgstr "Último &gt;&gt;"
 
 #: CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_CERT_PATH nao esta no arquivo de configuracao"
 
 #: CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_TEST_CERT_PATH nao esta no arquivo de configuracao"
 
 #: CRM/Utils/Token.php
 msgid "Your organization's postal address"
@@ -5935,7 +5900,7 @@ msgstr "Excluir chamada Telefônica"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "View Scheduled Call"
-msgstr "Ver chamada Telefônica"
+msgstr "Ver chamada Telefônica Agendada"
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Call will be moved to Activity History when status is 'Completed'."
@@ -6179,7 +6144,7 @@ msgstr ""
 msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
-msgstr ""
+msgstr "Uma nova versao do CiviCRM esta disponivel: %1 (este site esta atualmente na versao %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
@@ -6188,9 +6153,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
-#, fuzzy
 msgid " Duplicate Matching Rule "
-msgstr "Opção rótulo duplicado"
+msgstr "Regra de igualdade duplicada"
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid ""
@@ -6368,7 +6332,7 @@ msgstr "Nome:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
-msgstr "Sobre Nome"
+msgstr "Sobre Nome:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Email:"
@@ -7047,12 +7011,12 @@ msgstr "Data de Nascimento:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
-msgstr ""
+msgstr "Total contribuido"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "# Contributions"
-msgstr ""
+msgstr "# Contribuicoes"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #, fuzzy
@@ -7069,16 +7033,14 @@ msgid "There are no contributions recorded for this contact."
 msgstr "Não há relacionamentos para este contato."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Contributions (3 of %1)"
-msgstr "Notas (3 de %1)"
+msgstr "Contribuicoes (3 de %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "New Contribution"
-msgstr "Nova Organização"
+msgstr "Nova Contribuicao"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
@@ -7412,12 +7374,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "New Credit Card"
-msgstr ""
+msgstr "Novo Cartao de Credito"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid "Delete Credit-Card"
-msgstr "Excluir Contato"
+msgstr "Excluir Cartao de Credito"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -7597,7 +7558,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
-msgstr ""
+msgstr "Este titulo sera mostrado no topo da pagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7694,7 +7655,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr ""
+msgstr "Testar sua pagina de Contribuicao."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -7718,9 +7679,8 @@ msgstr "Adicionar contatos à Organização"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Transaction #"
-msgstr "Organização"
+msgstr "Transacao #"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -7764,7 +7724,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
-msgstr ""
+msgstr "Data em que esta contribuicao foi recebida."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "This field is blank for non-monetary contributions."
@@ -7814,7 +7774,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "To mark a contribution as cancelled, enter the cancellation date here."
-msgstr ""
+msgstr "Para marcar a contribuicao como cancelada, entre com a data de cancelamento aqui."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
@@ -7840,7 +7800,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
-msgstr ""
+msgstr "Estas contribuicoes sao do tipo dedutiveis de taxas?"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #, fuzzy
@@ -8530,7 +8490,7 @@ msgstr "Cód. Sic"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
-msgstr ""
+msgstr "Dedutivel?"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 #, fuzzy
@@ -8546,7 +8506,8 @@ msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
 "contributions. Administrators can create or modify your Online Contribution "
 "Pages from <a href=\"%1\">here</a>."
-msgstr ""
+msgstr "CiviContribute permite a voce criar pagina(s) customizada(s) para coleta e contribuicoes online. Admnistradores podem  "
+" criar ou modificar suas pagina(s) de Contribuicoe(s) online <a href=\"%1\">aqui</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -8585,9 +8546,8 @@ msgid "(n/a)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "view details"
-msgstr "Detalhes"
+msgstr "Visualizar Detalhes"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
@@ -8595,7 +8555,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Cumulative"
-msgstr ""
+msgstr "Cumulativo"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(since inception)"
@@ -8603,7 +8563,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
-msgstr ""
+msgstr "Contribuições recentes"
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -9591,7 +9551,7 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "<strong>Profile Preview</strong>"
-msgstr ""
+msgstr "<strong>Visualizar Perfil</strong>"
 
 #: templates/CRM/UF/Form/Preview.tpl
 #, fuzzy
@@ -9905,7 +9865,7 @@ msgstr "Erro na transação do SMTP"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Event"
-msgstr ""
+msgstr "Evento"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -9956,7 +9916,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Debit Card"
-msgstr ""
+msgstr "Debito em cartao"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -9974,7 +9934,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Visa"
-msgstr ""
+msgstr "Visa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Master Card"
@@ -9982,7 +9942,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "American Express"
-msgstr ""
+msgstr "American Express"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
@@ -10456,3 +10416,4 @@ msgstr ""
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
+
