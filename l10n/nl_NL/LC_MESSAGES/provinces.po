@@ -4072,29 +4072,97 @@ msgstr "Zuidelijke naties, nationaliteiten en volkeren"
 msgid "Tigrai"
 msgstr "Tigrai"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr "Åland"
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "Zuid-Carolina"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Zuid-Australië"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
-msgstr "Zuid-Finland"
+#, fuzzy
+msgid "Etelä-Savo"
+msgstr "Hoog-Savoie"
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
-msgstr "Oost-Finland"
+#. name for FI-HH
+msgid "Häme"
+msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
-msgstr "Lapland"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
+msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
-msgstr "West-Finland"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Kanungu"
 
-#. name for FI-OL
-msgid "Oulun Lasni"
-msgstr "Oulu"
+#. name for FI-CO
+msgid "Central Ostrobothnia"
+msgstr ""
+
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Centraal"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
+msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Luapula"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "Noord-Carolina"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Noordelijk Samar"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Santaun "
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Fukusima"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "Zuid-West"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Helmand"
 
 #. name for FJ-E
 msgid "Eastern"
@@ -15469,3 +15537,21 @@ msgstr "Matabeleland Zuid"
 #. name for ZW-MI
 msgid "Midlands"
 msgstr "Midlands"
+
+#~ msgid "Ahvenanmasn laani"
+#~ msgstr "Åland"
+
+#~ msgid "Etela-Suomen laani"
+#~ msgstr "Zuid-Finland"
+
+#~ msgid "Ita-Suomen lasni"
+#~ msgstr "Oost-Finland"
+
+#~ msgid "Lapin Laani"
+#~ msgstr "Lapland"
+
+#~ msgid "Lansi-Suomen Laani"
+#~ msgstr "West-Finland"
+
+#~ msgid "Oulun Lasni"
+#~ msgstr "Oulu"

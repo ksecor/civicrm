@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
-"POT-Creation-Date: 2005-03-07 08:29-0500\n"
+"POT-Creation-Date: 2005-09-08 08:52+0200\n"
 "PO-Revision-Date: 2005-12-14 00:04+0100\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: Spanish <cooker-i18n@linux-mandrake.com>\n"
@@ -4448,29 +4448,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Nigeria"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "South Carolina"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Australia"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Kansas"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Canadá"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Japón"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "North Carolina"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Northern Marianas"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Sudán"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Guyana"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "South Dakota"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Islandia"
 
 #. name for FJ-E
 msgid "Eastern"
@@ -16947,10 +17014,6 @@ msgstr "Finlandia"
 #~ msgstr "Sudán"
 
 #, fuzzy
-#~ msgid "Central "
-#~ msgstr "Canadá"
-
-#, fuzzy
 #~ msgid "Chobe"
 #~ msgstr "Cerrar"
 
@@ -17005,4 +17068,3 @@ msgstr "Finlandia"
 #, fuzzy
 #~ msgid "Northern Province"
 #~ msgstr "Northern Marianas"
-

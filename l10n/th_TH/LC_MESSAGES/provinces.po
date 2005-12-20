@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
-"POT-Creation-Date: 2005-03-07 08:29-0500\n"
+"POT-Creation-Date: 2005-09-08 08:52+0200\n"
 "PO-Revision-Date: 2002-01-05 1835+0000\n"
 "Last-Translator: Thanomsub Noppaburana <donga@midaassets.com>\n"
 "Language-Team: Deutsch <kde-i18n-de@kde.org>\n"
@@ -4298,29 +4298,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Taiwan"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "South Africa"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Australia"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Spain"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Europe, Central"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Japan"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "North Korea"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Europe, Northern"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "ระบบเสียง"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Grenada"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "South Korea"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Ireland"
 
 #. name for FJ-E
 #, fuzzy
@@ -16288,10 +16355,6 @@ msgstr "Finland"
 #, fuzzy
 #~ msgid "Susa "
 #~ msgstr "ระบบเสียง"
-
-#, fuzzy
-#~ msgid "Central "
-#~ msgstr "Europe, Central"
 
 #, fuzzy
 #~ msgid "Chobe"

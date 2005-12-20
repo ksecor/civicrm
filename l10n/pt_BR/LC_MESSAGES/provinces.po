@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
-"POT-Creation-Date: 2005-03-07 08:29-0500\n"
+"POT-Creation-Date: 2005-09-08 08:52+0200\n"
 "PO-Revision-Date: 2005-10-30 19:36+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese Brazilian <pt_BR@li.org>\n"
@@ -4298,29 +4298,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Taiwan"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "África do Sul"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Austrália"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Espanha"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Europa, Central"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Japão"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "Coréia do Norte"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Europa, setentrional"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Som"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Granada"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "Coréia do Sul"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Irlanda"
 
 #. name for FJ-E
 #, fuzzy
@@ -16290,10 +16357,6 @@ msgstr "Finlândia"
 #~ msgstr "Som"
 
 #, fuzzy
-#~ msgid "Central "
-#~ msgstr "Europa, Central"
-
-#, fuzzy
 #~ msgid "Chobe"
 #~ msgstr "Chile"
 
@@ -16328,4 +16391,3 @@ msgstr "Finlândia"
 #, fuzzy
 #~ msgid "Casablanca "
 #~ msgstr "Caribenho"
-

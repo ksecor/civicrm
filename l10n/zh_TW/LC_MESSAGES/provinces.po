@@ -4297,29 +4297,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "台灣"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "南非"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "澳大利亞"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "西班牙"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "歐洲，中部"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "日本"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "北朝鮮"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "歐洲，北部"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "音效"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "格林納達"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "南朝鮮"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "愛爾蘭"
 
 #. name for FJ-E
 #, fuzzy
@@ -16286,10 +16353,6 @@ msgstr "芬蘭"
 #, fuzzy
 #~ msgid "Susa "
 #~ msgstr "音效"
-
-#, fuzzy
-#~ msgid "Central "
-#~ msgstr "歐洲，中部"
 
 #, fuzzy
 #~ msgid "Chobe"

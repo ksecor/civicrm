@@ -4508,29 +4508,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Nigeria"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "Corea del Sud"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Australia"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Motivazione:"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Generale"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Giappone"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "Corea del Sud"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Paesi Bassi"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Saipan"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Guyana"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "Corea del Sud"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Islanda"
 
 #. name for FJ-E
 msgid "Eastern"
@@ -16995,10 +17062,6 @@ msgstr "Finlandia"
 #, fuzzy
 #~ msgid "Susa "
 #~ msgstr "Russia"
-
-#, fuzzy
-#~ msgid "Central "
-#~ msgstr "Generale"
 
 #, fuzzy
 #~ msgid "Chobe"
