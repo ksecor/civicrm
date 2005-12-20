@@ -127,7 +127,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                       'is_required', 'help_post','options_per_line'),
+                                                       'is_required', 'help_post','options_per_line','start_date_years','end_date_years'),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post', 'collapse_display'),
                            );
 
@@ -417,7 +417,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
-                                                           'is_required', 'help_post','options_per_line', 'is_searchable' ),
+                                                           'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years' ),
                            'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post' ),
                            );
 
@@ -858,6 +858,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         $sBlocks = array( );
         $hBlocks = array( );
+
+        // this is fix for date field
+        $form->assign('currentYear',date('Y'));
+        
 
         require_once 'CRM/Core/ShowHideBlocks.php'; 
         foreach ($groupTree as $group) { 

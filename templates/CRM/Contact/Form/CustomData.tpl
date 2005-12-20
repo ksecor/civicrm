@@ -53,7 +53,7 @@
                 <div class="description"> 
                    {include file="CRM/common/calendar/desc.tpl"}
                 </div>
-	        {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=currentYear}
+	        {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years. endDate=$currentYear+$element.end_date_years}
 		{/if}
              </dd>
         	{if $element.help_post}

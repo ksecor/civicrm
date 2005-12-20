@@ -269,8 +269,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('start_date_years', ts('value should be Positive number') , 'integer');
         $this->addRule('end_date_years', ts('value should be Positive number') , 'integer');
 
-        $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
+        
         $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
+        $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
         $includedPart[] = $this->createElement('checkbox', 'Y',true,ts('Year'));
 
         $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
@@ -670,8 +671,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];
         $customField->end_date_years   = $params['end_date_years'];
-        $customField->date_parts       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
-        
+        if( is_array($params['date_parts']) ) {
+            $customField->date_parts       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
+        } else {
+            $customField->date_parts       = "";
+        }
         
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
             $customField->attributes = 'rows=4, cols=80';

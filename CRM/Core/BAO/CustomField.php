@@ -413,7 +413,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
             
         case 'Date':
-            $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
+            //$qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
             break;
             
         case 'Float':
