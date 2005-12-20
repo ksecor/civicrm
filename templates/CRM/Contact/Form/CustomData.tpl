@@ -50,7 +50,8 @@
               {if $element.data_type eq 'Date'}
                 <span>
                     {include file="CRM/common/calendar/desc.tpl"}
-                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years. endDate=$currentYear+$element.end_date_years}
+		    {$currentYear-$element.start_date_years}	
+                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
 		        </span>
               {/if}
               </dd>                  
