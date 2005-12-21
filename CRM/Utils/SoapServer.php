@@ -59,7 +59,9 @@ class CRM_Utils_SoapServer
      * @param  string $uf       The userframework class
      */
     public function __construct() {
-        session_start();
+        // any external program which call SoapServer is responsible for
+        // creating and attaching the session
+        // session_start();
         $args = func_get_args( );
         $this->ufClass = array_shift( $args );
     }

@@ -304,7 +304,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->set( 'amount', $params['amount'] ); 
 
         // generate and set an invoiceID for this transaction
-        $invoiceID = md5(uniqid(rand(), true));
+        $invoiceID = $this_>get( 'invoiceID' );
+        if ( ! $invoiceID ) {
+            $invoiceID = md5(uniqid(rand(), true));
+        }
         $this->set( 'invoiceID', $invoiceID );
 
         $payment =& CRM_Utils_Payment::singleton( $this->_mode ); 
