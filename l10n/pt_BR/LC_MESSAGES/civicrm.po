@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 17:00+0100\n"
+"POT-Creation-Date: 2005-12-21 19:43+0100\n"
 "PO-Revision-Date: 2005-12-21 12:25+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -953,6 +953,11 @@ msgstr "Email de Origem"
 #, fuzzy
 msgid "Contact ID"
 msgstr "ID de Contato"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr "Quantidade nao-dedutivel"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
@@ -3227,10 +3232,6 @@ msgid "Receive Date"
 msgstr "Data de Limpar"
 
 #: CRM/Contribute/DAO/Contribution.php
-msgid "Non Deductible Amount"
-msgstr "Valor Não-Dedutível"
-
-#: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Date"
 msgstr "Data Cancelamento"
 
@@ -3326,7 +3327,8 @@ msgid "<< Go Back"
 msgstr "<< Voltar"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
-msgid "Online Contribution: "
+#, fuzzy
+msgid "Online Contribution:"
 msgstr "Contribuicao Online:"
 
 #: CRM/Contribute/Form/Contribution/Main.php
@@ -3388,11 +3390,18 @@ msgid "Contribution Amounts"
 msgstr "Valores de Contribuição"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-msgid "Custom Fields<br />(above billing info)"
+#, fuzzy
+msgid "Custom Fields"
+msgstr "Campo customizado"
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+#, fuzzy
+msgid "(above billing info)"
 msgstr "Campos Customizados<br />(acima da info de cobrança)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-msgid "Custom Fields<br />(below billing info)"
+#, fuzzy
+msgid "(below billing info)"
 msgstr "Campos Customizados<br />(abaixo da info de cobrança)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
@@ -3500,11 +3509,6 @@ msgid "Cancellation Reason"
 msgstr "Razão do Cancelamento"
 
 #: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr "Quantidade nao-dedutivel"
-
-#: CRM/Contribute/Form/Contribution.php
 #, fuzzy
 msgid "Please enter a valid amount."
 msgstr "Digite um nome válido."
@@ -3561,9 +3565,10 @@ msgid "Could not open %1 file for writing"
 msgstr "Impossível abrir arquivo %1 para gravar"
 
 #: CRM/Contribute/Form/CreatePPD.php
+#, fuzzy
 msgid ""
-"Your %1 values is: '%2'. This value must be entered in the Payment Processor "
-"section of the CiviCRM configuration file. "
+"Your %1 values is: \"%2\". This value must be entered in the Payment "
+"Processor section of the CiviCRM configuration file."
 msgstr ""
 "Seus valores %1 são: '%2'. Este valor precisa estar inscrito na seção "
 "Processador de Pagamento do arquivo de configuração do CiviCRM. "
@@ -3816,9 +3821,10 @@ msgid "%1 like - %2"
 msgstr "%1 parecido - \"%2\""
 
 #: CRM/Core/BAO/DomainDump.php
+#, fuzzy
 msgid ""
-"We could not find the backup sql script. Check sql/civicrm_backup.mysql in "
-"the CiviCRM root directory."
+"We could not find the backup sql script. Check %1 in the CiviCRM root "
+"directory."
 msgstr ""
 "Impossível encontrar o script de backup do sql. Verifique sql/civicrm_backup."
 "mysql no diretório raiz do CiviCRM."
@@ -6036,8 +6042,9 @@ msgid "Synchronize Drupal Users"
 msgstr "Sincronizar Usuários Drupal"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-msgid "Advanced Duplicate Matching Rule "
-msgstr ""
+#, fuzzy
+msgid "Advanced Duplicate Matching Rule"
+msgstr "Regra de igualdade duplicada"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 #, fuzzy
@@ -6045,8 +6052,9 @@ msgid "Delete Duplicate Matching Rule"
 msgstr "Opção rótulo duplicado"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-msgid "Configure Duplicate Matching Rule "
-msgstr ""
+#, fuzzy
+msgid "Configure Duplicate Matching Rule"
+msgstr "Regra de igualdade duplicada"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 #, fuzzy
@@ -7607,7 +7615,7 @@ msgstr "Exportar"
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "Your contribution will not be completed until you click the <strong>Make "
-"Contribution</strong> button. Please click the button one time only.</strong>"
+"Contribution</strong> button. Please click the button one time only."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -10155,6 +10163,9 @@ msgstr "American Express"
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr "Descobrir"
+
+#~ msgid "Non Deductible Amount"
+#~ msgstr "Valor Não-Dedutível"
 
 #, fuzzy
 #~ msgid ""
