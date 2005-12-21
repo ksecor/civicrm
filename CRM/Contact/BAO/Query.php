@@ -1342,7 +1342,8 @@ class CRM_Contact_BAO_Query {
         }
 
         $qill = array( );
-        if ( isset( $this->_params['activity_from_date'] ) ) {
+        //if ( isset( $this->_params['activity_from_date'] ) ) {
+        if ( $this->_params['activity_from_date']['M'] ) {            
             $revDate = array_reverse( $this->_params['activity_from_date'] );
             $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
@@ -1353,7 +1354,8 @@ class CRM_Contact_BAO_Query {
             }
         } 
 
-        if ( isset( $this->_params['activity_to_date'] ) ) {
+        //if ( isset( $this->_params['activity_to_date']) ) {
+        if ( $this->_params['activity_to_date']['M'] ) {
             $revDate = array_reverse( $this->_params['activity_to_date'] );
             $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
