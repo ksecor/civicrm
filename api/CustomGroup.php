@@ -119,6 +119,60 @@ function crm_get_option_values($customField)
 
 
 /**
+ *
+ * updates one or more option values for "enum" type properties 
+ *
+ * @param params         Array    Associative array of property name/value pairs to insert in group.
+ * @param $optionID  object   A valid custom field object 
+ *
+ * @return object of newly created custom_option.
+ *
+ * @access public 
+ *
+ */
+function crm_update_option_value($params , $optionID )
+{
+    _crm_initialize( );
+    
+    if( ! isset ( $optionID ) ) {
+        return _crm_error( "custom option ID  is not valid one" );
+    }
+
+    if( ! is_array($params) ) {
+        return _crm_error( "params is not of array type" );
+    }
+    $params['id'] = $optionID;
+
+    require_once 'CRM/Core/BAO/CustomOption.php';
+    return CRM_Core_BAO_CustomOption::create($params);
+    
+} 
+
+/**
+ *
+ * delete one or more option values for "enum" type properties 
+ *
+ * @param $optionID  object   A valid custom field object 
+ *
+ * @return null  if success
+ *
+ * @access public 
+ *
+ */
+function crm_delete_option_value( $optionID) {
+    _crm_initialize( );
+    
+    if( ! isset ( $optionID ) ) {
+        return _crm_error( "custom option ID  is not valid one" );
+    }
+    
+    require_once 'CRM/Core/BAO/CustomOption.php';
+    return CRM_Core_BAO_CustomOption::del( $optionID );
+}
+
+
+
+/**
  * Returns an array of property objects for the requested class.
  *
  * @param String      $class_name      'class_name' (string) A valid class name.
@@ -245,7 +299,29 @@ function crm_create_custom_field(&$custom_group, $params)
     return $customField;
 }
 
+/**
+ * get 'custom field' 
+ *
+ * @param $params       array  Associative array of property name/value pairs to create new custom field.
+ *
+ * @return  custom_field object
+ *
+ * @access public 
+ *
+ */
+function crm_get_custom_field( $params ) {
+    _crm_initialize( );
+    
+    if(! is_array($params) ) {
+        return _crm_error("params is not an array ");
+    }
 
+    $dao = new CRM_Core_DAO_CustomField();
+    $dao->id   = $params['id'];
+    $dao->name = $params['name'];
+    $dao->find(true);
+    return $dao;
+}
 /**
  *  Defines 'custom value' within a field for a specific entity table/id combination.
  *
