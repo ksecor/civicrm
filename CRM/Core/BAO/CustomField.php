@@ -305,8 +305,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $dao->find(true);
 
         if ($dao->is_search_range) {
-            $qf->add('text', 'from', ts('From'), $field->attributes);
-            $qf->add('text', 'to', ts('To'), $field->attributes);
+            $qf->add('text', $elementName.'-from', ts('From'), $field->attributes);
+            $qf->add('text', $elementName.'-to', ts('To'), $field->attributes);
         }
         
         /**

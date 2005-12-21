@@ -147,14 +147,16 @@
             </dd>
         	{else}
                 {assign var="type" value=`$element.html_type`}
-	        {assign var="element_name" value='custom_'|cat:$field_id}
+  	            {assign var="element_name" value='custom_'|cat:$field_id}
 		
 		{if $element.is_search_range}
+            {assign var="element_name_from" value=$element_name|cat:"-from"}
+            {assign var="element_name_to" value=$element_name|cat:"-to"}
 			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label> 
         	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 Range-{$form.from.label}&nbsp;{$form.from.html|crmReplace:class:six}
-                	{$form.to.label}{$form.to.html|crmReplace:class:six}
-	        {else}
+			 <label>{ts}Range{/ts}-</label>{$form.$element_name_from.label}&nbsp;{$form.$element_name_from.html|crmReplace:class:six}
+                	{$form.$element_name_to.label}{$form.$element_name_to.html|crmReplace:class:six}
+	    {else}
 			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
 		{/if}
 		{if $element.html_type eq 'Radio'}
