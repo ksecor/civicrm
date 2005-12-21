@@ -19,12 +19,8 @@
       </div>
 {else}
     <div id="help">
-    <p>{ts}Select up to five contact field(s) to use when comparing a new Individual contact to existing
-    contact records for duplicate matching. If some of the fields in your matching rule are OPTIONAL, then
-    all <strong>non-empty</strong> fields in the incoming data are used.{/ts}</p>
-    <p>{ts}For example, using the default matching rule of <strong>Email AND First Name AND Last Name</strong>... Jane Doe jane.doe@example.org
-    exists in your database. Now someone tries to add a new contact with the same email address and leaves
-    the first and last name blank. The new contact will be flagged as a potential duplicate.{/ts}</p> 
+    <p>{ts}Select up to five contact field(s) to use when comparing a new Individual contact to existing contact records for duplicate matching. If some of the fields in your matching rule are OPTIONAL, then all <strong>non-empty</strong> fields in the incoming data are used.{/ts}</p>
+    <p>{ts}For example, using the default matching rule of <strong>Email AND First Name AND Last Name</strong>... Jane Doe jane.doe@example.org exists in your database. Now someone tries to add a new contact with the same email address and leaves the first and last name blank. The new contact will be flagged as a potential duplicate.{/ts}</p> 
     </div>
         <dl>
         {if $advance }

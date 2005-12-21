@@ -70,7 +70,7 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $deleteExtra = ts('Are you sure you want to delete this tag?\n\nThis tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.');
+            $deleteExtra = ts('Are you sure you want to delete this tag?') . '\n\n' . ts('This tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
