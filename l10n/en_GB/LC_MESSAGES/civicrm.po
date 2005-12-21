@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 11:53+0100\n"
+"POT-Creation-Date: 2005-12-21 12:59+0100\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -9601,12 +9601,14 @@ msgid "View or Edit Fields for this Profile"
 msgstr "View or Edit Fields for this Profile"
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "Profile Field Preview</strong>."
-msgstr ""
+#, fuzzy
+msgid "Profile Field Preview"
+msgstr "Profile Title"
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "<strong>Profile Preview</strong>"
-msgstr ""
+#, fuzzy
+msgid "Profile Preview"
+msgstr "Profile Title"
 
 #: templates/CRM/UF/Form/Preview.tpl
 #, fuzzy

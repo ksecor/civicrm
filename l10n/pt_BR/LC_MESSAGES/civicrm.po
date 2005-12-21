@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 11:53+0100\n"
+"POT-Creation-Date: 2005-12-21 12:59+0100\n"
 "PO-Revision-Date: 2005-12-21 12:25+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -8545,7 +8545,8 @@ msgstr ""
 msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
-msgstr "A página atual está <strong>inativa</strong> (não acessível a visitantes)"
+msgstr ""
+"A página atual está <strong>inativa</strong> (não acessível a visitantes)"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9735,12 +9736,14 @@ msgid "View or Edit Fields for this Profile"
 msgstr "Ver ou Editar campos deste Perfil"
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "Profile Field Preview</strong>."
+#, fuzzy
+msgid "Profile Field Preview"
 msgstr "<strong>Visualizar Campo do Perfil</strong>"
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "<strong>Profile Preview</strong>"
-msgstr "<strong>Visualizar Perfil</strong>"
+#, fuzzy
+msgid "Profile Preview"
+msgstr "Título do Perfil"
 
 #: templates/CRM/UF/Form/Preview.tpl
 #, fuzzy
@@ -10147,6 +10150,9 @@ msgstr "American Express"
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr "Descobrir"
+
+#~ msgid "<strong>Profile Preview</strong>"
+#~ msgstr "<strong>Visualizar Perfil</strong>"
 
 #~ msgid ""
 #~ "%count relationship record not created due to invalid target contact type."
@@ -10674,4 +10680,3 @@ msgstr "Descobrir"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
-
