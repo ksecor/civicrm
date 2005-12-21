@@ -852,9 +852,8 @@ msgstr "Strona kontaktu"
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Contribution.php
 #: CRM/Contribute/Page/DashBoard.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Contributions"
-msgstr "Własności"
+msgstr "Dotacje"
 
 #: CRM/Contact/Page/View/CustomData.php CRM/Utils/Menu.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
@@ -927,25 +926,21 @@ msgstr "Eksportuj kontakty"
 
 #: CRM/Contribute/BAO/Contribution.php CRM/Contribute/Selector/Search.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Contribution"
-msgstr "Skrót nazwy kraju"
+msgstr "Dotacja"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Receipt From Name"
-msgstr "Nazwa nadawcy"
+msgstr "Nazwa nadawcy pokwitowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Receipt From Email"
-msgstr "Adres nadawcy"
+msgstr "Email nadawcy pokwitowania"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Task/Export.php
 #: CRM/Contribute/Import/Form/MapField.php
-#, fuzzy
 msgid "Contact ID"
 msgstr "Id kontaktu"
 
@@ -955,9 +950,8 @@ msgstr "Id kontaktu"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "Total Amount"
-msgstr "Suma wierszy"
+msgstr "Suma kwot"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
@@ -973,9 +967,8 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Transaction ID"
-msgstr "Organizacja"
+msgstr "Id transakcji"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -992,15 +985,13 @@ msgstr ""
 #: CRM/Contribute/Import/Form/MapField.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Contribution Type"
-msgstr "Rodzaj kontaktu"
+msgstr "Rodzaj dotacji"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "Accounting Code"
-msgstr "Kod kraju"
+msgstr "Kod księgowania"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php CRM/Core/DAO/ACLGroupJoin.php
 #: CRM/Core/DAO/ACL.php CRM/Core/DAO/ActivityHistory.php
@@ -1035,9 +1026,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr "Wprowadź poprawną nazwę."
+msgstr "Wprowadź poprawną kwotę (np. 9.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1046,9 +1036,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr "Wprowadź poprawną nazwę."
+msgstr "Wprowadź poprawną kwotę (np. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php
@@ -1077,9 +1066,8 @@ msgstr "-wybierz-"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
 msgid "Received"
-msgstr "Zarezerwowany?"
+msgstr "Otrzymany"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1092,7 +1080,6 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Cancelled"
 msgstr "Anulowany"
 
@@ -1106,20 +1093,17 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
 msgid "Amount"
-msgstr "Kraj"
+msgstr "Kwota"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Delete Contributions"
-msgstr "Usuń kontakty"
+msgstr "Usuń dotacje"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Eksportuj kontakty"
+msgstr "Eksportuj dotacje"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
@@ -1135,9 +1119,8 @@ msgid "Name is required to save Import Mapping"
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Mapping Name"
-msgstr "Powtórzone etykiety opcji"
+msgstr "Powtórzona nazwa mapowania importu"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
@@ -1389,9 +1372,8 @@ msgid "Select"
 msgstr "Lista wyboru"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Multi-Select"
-msgstr "Lista wyboru"
+msgstr "Wybór wielokrotny"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
@@ -1418,7 +1400,6 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Phonecall"
 msgstr "Rozmowa"
 
@@ -1444,9 +1425,8 @@ msgid "Phone Type"
 msgstr "Rodzaj telefonu"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Import Contributions"
-msgstr "Import kontaktów"
+msgstr "Import dotacji"
 
 #: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
@@ -1495,14 +1475,12 @@ msgid "CiviCRM Profile Field"
 msgstr "Pole profilu CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Duplicate Matching"
-msgstr "Brak sprawdzania powtórzeń"
+msgstr "Dopasowywanie powtórzeń"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Contribution Types"
-msgstr "Rodzaje lokalizacji"
+msgstr "Rodzaje dotacji"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Payment Instruments"
@@ -1789,9 +1767,8 @@ msgid "The activity type \"%1\" has been saved."
 msgstr "Rodzaj zdarzenia „%1” został zapisany."
 
 #: CRM/Admin/Form/DupeMatch.php
-#, fuzzy
 msgid "Match On:"
-msgstr "Dopasowanie"
+msgstr "Dopasowanie:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
@@ -1801,9 +1778,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
-#, fuzzy
 msgid "The Duplicate Matching rule has been saved."
-msgstr "Rodzaj lokalizacji „%1” został zapisany."
+msgstr "Zasada dopasowywania powtórzeń została zapisana."
 
 #: CRM/Admin/Form/Gender.php
 msgid "Please enter a valid gender name."
@@ -1906,18 +1882,15 @@ msgid "The Relationship Type has been saved."
 msgstr "Rodzaj powiązania został zapisany."
 
 #: CRM/Admin/Page/ActivityType.php
-#, fuzzy
 msgid "Are you sure you want to disable this activity type?"
-msgstr "Na pewno wyłączyć ten składnik?"
+msgstr "Na pewno wyłączyć ten rodzaj zdarzeń?"
 
 #: CRM/Admin/Page/ActivityType.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "activities."
 msgstr ""
-"Na pewno wyłączyć ten rodzaj zdarzenia?\\n\\nUżytkownicy nie będą mogli "
-"wybierać tej wartości przy dodawaniu i edytowaniu zdarzeń."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu zdarzeń."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
@@ -1936,27 +1909,23 @@ msgid "Delete Activity Type"
 msgstr "Usuń typ zdarzeń"
 
 #: CRM/Admin/Page/DupeMatch.php
-#, fuzzy
 msgid "Edit Rule"
-msgstr "Edytuj notatkę"
+msgstr "Edytuj zasadę"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
 msgstr ""
 
 #: CRM/Admin/Page/Gender.php
-#, fuzzy
 msgid "Are you sure you want to disable this Gender?"
-msgstr "Na pewno wyłączyć tę grupę?"
+msgstr "Na pewno wyłączyć tę płeć?"
 
 #: CRM/Admin/Page/Gender.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Gender."
 msgstr ""
-"Na pewno wyłączyć tę płeć?\\n\\nUżytkownicy nie będą mogli wybierać tej "
-"wartości przy dodawaniu i edytowaniu płci."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu płci."
 
 #: CRM/Admin/Page/Gender.php
 msgid "Edit Gender"
@@ -1975,18 +1944,15 @@ msgid "Delete Gender Type"
 msgstr "Usuń typ płci"
 
 #: CRM/Admin/Page/IMProvider.php
-#, fuzzy
 msgid "Are you sure you want to disable this IM Service Provider?"
-msgstr "Na pewno wyłączyć tę grupę profilu CiviCRM?"
+msgstr "Na pewno wyłączyć ten komunikator?"
 
 #: CRM/Admin/Page/IMProvider.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact IM screen names."
 msgstr ""
-"Na pewno wyłączyć ten komunikator?\\n\\nUżytkownicy nie będą mogli wybierać "
-"tej wartości przy dodawaniu i edytowaniu nazw kontaktów."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu nazw kontaktów w komunikatorach."
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "IM Provider"
@@ -2005,17 +1971,15 @@ msgid "Delete IM Provider"
 msgstr "Usuń komunikator"
 
 #: CRM/Admin/Page/IndividualPrefix.php
-#, fuzzy
 msgid "Are you sure you want to disable this Individual Prefix?"
-msgstr "Na pewno wyłączyć to pole profilu CiviCRM?"
+msgstr "Na pewno wyłączyć ten prefiks?"
 
 #: CRM/Admin/Page/IndividualPrefix.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Prefix."
 msgstr ""
-"Na pewno wyłączyć ten prefiks?\\n\\nUżytkownicy nie będą mogli wybierać tej "
+"Użytkownicy nie będą mogli wybierać tej "
 "wartości przy dodawaniu i edytowaniu prefiksu."
 
 #: CRM/Admin/Page/IndividualPrefix.php
@@ -2035,17 +1999,15 @@ msgid "Delete Individual Prefix"
 msgstr "Usuń prefiks"
 
 #: CRM/Admin/Page/IndividualSuffix.php
-#, fuzzy
 msgid "Are you sure you want to disable this Individual Suffix?"
-msgstr "Na pewno wyłączyć tę grupę?"
+msgstr "Na pewno wyłączyć ten przyrostek?"
 
 #: CRM/Admin/Page/IndividualSuffix.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Suffix."
 msgstr ""
-"Na pewno wyłączyć ten przyrostek?\\n\\nUżytkownicy nie będą mogli wybierać "
+"Użytkownicy nie będą mogli wybierać "
 "tej wartości przy dodawaniu i edytowaniu przyrostków."
 
 #: CRM/Admin/Page/IndividualSuffix.php
@@ -2067,17 +2029,15 @@ msgid "Delete Individual Suffix"
 msgstr "Usuń przyrostek"
 
 #: CRM/Admin/Page/LocationType.php
-#, fuzzy
 msgid "Are you sure you want to disable this location type?"
-msgstr "Na pewno wyłączyć ten składnik?"
+msgstr "Na pewno wyłączyć ten rodzaj lokalizacji?"
 
 #: CRM/Admin/Page/LocationType.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
 msgstr ""
-"Na pewno wyłączyć ten rodzaj lokalizacji?\\n\\nUżytkownicy nie będą mogli "
+"Użytkownicy nie będą mogli "
 "wybierać tej wartości przy dodawaniu i edytowaniu lokalizacji."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
@@ -2097,17 +2057,15 @@ msgid "Delete Location Type"
 msgstr "Usuń rodzaj lokalizacji"
 
 #: CRM/Admin/Page/MobileProvider.php
-#, fuzzy
 msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
-msgstr "Na pewno wyłączyć tę grupę profilu CiviCRM?"
+msgstr "Na pewno wyłączyć tę sieć komórkową?"
 
 #: CRM/Admin/Page/MobileProvider.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
 msgstr ""
-"Na pewno wyłączyć tę sieć komórkową?\\n\\nUżytkownicy nie będą mogli "
+"Użytkownicy nie będą mogli "
 "wybierać tej wartości przy dodwaniu i edytowaniu numerów telefonów kontaktów."
 
 #: CRM/Admin/Page/MobileProvider.php
@@ -2129,17 +2087,15 @@ msgid "Delete Mobile Provider"
 msgstr "Usuń sieć komórkową"
 
 #: CRM/Admin/Page/RelationshipType.php
-#, fuzzy
 msgid "Are you sure you want to disable this relationship type?"
-msgstr "Na pewno wyłączyć to powiązanie?"
+msgstr "Na pewno wyłączyć ten rodzaj powiązania?"
 
 #: CRM/Admin/Page/RelationshipType.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
 msgstr ""
-"Na pewno wyłączyć ten rodzaj powiązania?\\n\\nUżytkownicy nie będą mogli "
+"Użytkownicy nie będą mogli "
 "wybierać tej wartości przy dodawaniu i edytowaniu powiązań między kontaktami."
 
 #: CRM/Admin/Page/RelationshipType.php
@@ -2165,17 +2121,15 @@ msgid "Delete Reletionship Type"
 msgstr "Usuń powiązanie"
 
 #: CRM/Admin/Page/Tag.php
-#, fuzzy
 msgid "Are you sure you want to delete this tag?"
-msgstr "Na pewno usunąć tę notatkę?"
+msgstr "Na pewno usunąć tę kategorię?"
 
 #: CRM/Admin/Page/Tag.php
-#, fuzzy
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Na pewno usunąć tę kategorię?\\n\\nTa kategoria zostanie usunięta ze "
+"Ta kategoria zostanie usunięta ze "
 "wszystkich przypisanych do niej kontkatów, a użytkownicy nie będą już mogli "
 "przypisywać ich do tej kategorii."
 
@@ -2188,9 +2142,8 @@ msgid "Delete Tag"
 msgstr "Usuń kategorię"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "- Contact Fields -"
-msgstr "Rodzaj kontaktu –"
+msgstr "- pola kontaktu –"
 
 #: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
 msgid "Male"
@@ -2209,37 +2162,32 @@ msgid "State - \"%1\""
 msgstr "Stan / Województwo – „%1”"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "State (%2) - \"%1\""
-msgstr "Stan / Województwo – „%1”"
+msgstr "Stan / Województwo (%2) – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country - \"%1\""
 msgstr "Kraj – „%1”"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Country (%2) - \"%1\""
-msgstr "Kraj – „%1”"
+msgstr "Kraj (%2) – „%1”"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix - \"%1\""
-msgstr "Prefiks"
+msgstr "Prefiks – „%1”"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix - \"%1\""
-msgstr "Przyrostek"
+msgstr "Przyrostek – „%1”"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender - \"%1\""
 msgstr "Płeć – „%1”"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "%1 is equal to %2"
-msgstr "%1 zawiera – %2"
+msgstr "%1 to %2"
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 = \"%2\""
@@ -2310,14 +2258,12 @@ msgid "Activity Date - %1"
 msgstr "Data zdarzenia – %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Contribution Date - %1"
-msgstr "Data zdarzenia – %1"
+msgstr "Data dotacji – %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Contribution Type - %1"
-msgstr "Rodzaj kontaktu –"
+msgstr "Rodzaj dotacji – %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Payment Instrument - %1"
@@ -2336,9 +2282,8 @@ msgid "Selected Relationship has been Deleted Successfuly."
 msgstr "Wybrane powiązanie zostało usunięte."
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Id kontaktu"
+msgstr "Wewnętzny id kontaktu"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
@@ -2417,9 +2362,8 @@ msgid "Birth Date"
 msgstr "Data urodzenia"
 
 #: CRM/Contact/DAO/Individual.php
-#, fuzzy
 msgid "Is Deceased"
-msgstr "Osoba nie żyje"
+msgstr "Nie żyje"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Formal"
@@ -2848,14 +2792,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
-#, fuzzy
 msgid "Selected contact was deleted sucessfully."
 msgstr "Wybrany kontakt został usunięty."
 
 #: CRM/Contact/Form/Task/Delete.php
-#, fuzzy
 msgid "Selected contact cannot be deleted."
-msgstr "Wybrany kontakt nie może być usunięty."
+msgstr "Wybrany kontakt nie może zostać usunięty."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
@@ -3118,7 +3060,6 @@ msgid "Add Contacts to Organization"
 msgstr "Dodaj kontakty do organizacji"
 
 #: CRM/Contact/Task.php
-#, fuzzy
 msgid "Map Contacts"
 msgstr "Pokaż na mapie"
 
@@ -3131,28 +3072,24 @@ msgid "Map Contacts using Google Maps"
 msgstr "Pokaż kontakty używając Google Maps"
 
 #: CRM/Contribute/BAO/Contribution.php
-#, fuzzy
 msgid "%1 - %2 (updated on %3)"
-msgstr "%1 – %2 z %3"
+msgstr "%1 – %2 z (uaktualnienie %3)"
 
 #: CRM/Contribute/BAO/Contribution.php
-#, fuzzy
 msgid "- Contribution Fields -"
-msgstr "%1 – pola dodatkowe"
+msgstr "- pola dotacji -"
 
 #: CRM/Contribute/DAO/AcceptCreditCard.php
 msgid "Accept Credit Card"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Tytuł wprowadzenia"
+msgstr "Tekst wprowadzający"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Default Amount"
-msgstr "Domyślnie"
+msgstr "Kwota domyślna"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Min Amount"
@@ -3163,56 +3100,48 @@ msgid "Max Amount"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Thankyou Title"
-msgstr "Tytuł wprowadzenia"
+msgid "Thank-you Title"
+msgstr "Tytuł podziękowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thankyou Text"
+msgid "Thank-you Text"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Thankyou Footer"
-msgstr "Stopka wysyłki"
+msgid "Thank-you Footer"
+msgstr "Stopka podziękowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
-msgstr "Odbiorcy"
+msgstr "Adresy DW pokwitowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Odbiorcy"
+msgstr "Tekst pokwitowania"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
-msgstr "Data zresetowania"
+msgstr "Data otrzymania"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Non Deductible Amount"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Date"
-msgstr "Anulowany"
+msgstr "Data anulowania"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "Powód odbicia"
+msgstr "Powód anulowania"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receipt Date"
-msgstr "Data zresetowania"
+msgstr "Data pokwitowania"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Thank-you Date"
@@ -3223,14 +3152,12 @@ msgid "Contribution Source"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
-msgstr "Data przyjścia"
+msgstr "Data transakcji"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
-msgstr "Rodzaj HTML"
+msgstr "Rodzaj transakcji"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Payment Processor"
@@ -3241,58 +3168,48 @@ msgid "Trxn Result Code"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Strona WWW"
+msgstr "Obciążenie"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Stwórz"
+msgstr "Uznanie"
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "Please enter a valid Credit Card name."
-msgstr "Wprowadź poprawną nazwę płci."
+msgstr "Wprowadź poprawną nazwę karty kredytowej."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "That name already exists in Database."
 msgstr "Nazwa już występuje w bazie danych."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "Selected Credit Card has been deleted."
-msgstr "Wybrana rozmowa została usunięta."
+msgstr "Wybrana karta kredytowa została usunięta."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
-#, fuzzy
 msgid "The Credit Card \"%1\" has been saved."
-msgstr "Kategoria „%1” została usunięta."
+msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Card Number"
-msgstr "Nazwa w vCardach"
+msgstr "Numer karty"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Security Code"
-msgstr "Zaznacz kod"
+msgstr "Kod bezpieczeństwa"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Data urodzenia"
+msgstr "Data wygaśnięcia"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Rodzaj współrzędnych"
+msgstr "Rodzaj karty"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -3307,9 +3224,8 @@ msgid "Online Contribution: "
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr "Wprowadź poprawną liczbę jako wartość domyślną."
+msgstr "Wprowadź poprawną kwotę (używając wyłącznie cyfr i kropki)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -3317,9 +3233,8 @@ msgid "Contribution Amount"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Amount is a required field"
-msgstr "%1 jest polem wymaganym"
+msgstr "Kwota jest polem wymaganym"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -3336,23 +3251,20 @@ msgid "This amount has to be less than %1"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid Credit Card Number"
-msgstr "Wprowadź poprawny numer."
+msgstr "Wprowadź poprawny numer karty kredytowej."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Wprowadź poprawny numer."
+msgstr "Wprowadź poprawny numer weryfikacji karty kredytowej."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow Other Amounts?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr "Wprowadź poprawną wartość dla tego pola."
+msgstr "Wprowadź poprawną kwotę (np. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
@@ -3379,45 +3291,38 @@ msgid "Custom Page Elements"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
-#, fuzzy
 msgid "Delete Contribution Page"
-msgstr "Wyłącz stronę dotacji"
+msgstr "Usuń stronę dotacji"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
-#, fuzzy
 msgid "The contribution page \"%1\" has been deleted."
-msgstr "Pole dodatkowe „%1” zostało usunięte."
+msgstr "Strona dotacji „%1” została usunięta."
 
 #: CRM/Contribute/Form/ContributionPage.php
-#, fuzzy
 msgid "Configure %1"
-msgstr "Konfiguracja"
+msgstr "Konfiguracja %1"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Introductory Message"
-msgstr "Wiadomość o rezygnacji"
+msgstr "Wiadomość wprowadzająca"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Is this Online Contribution Page Active?"
-msgstr "Czy ta strona dotacji jest aktywna?"
+msgstr "Czy ta strona dotacji on-line jest aktywna?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Title and Settings"
-msgstr "Ustawienia wysyłki"
+msgstr "Tytuł i ustawienia"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Page Title"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Thank You Message"
-msgstr "Wiadomość o rezygnacji"
+msgid "Thank-you Message"
+msgstr "Wiadomość z podziękowaniem"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank You Page Footer"
@@ -3428,18 +3333,16 @@ msgid "Email Receipt to Contributor?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Receipt Message"
-msgstr "Zostawiono wiadomość"
+msgstr "Wiadomość pokwitowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Please enter a valid list of comma delimited email addresses"
-msgstr "Wprowadź poprawną liczbę całkowitą jako wartość domyślną."
+msgstr "Wprowadź poprawną listę adresów email oddzielonych przecinkami"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "BCC Receipt To"
@@ -3464,15 +3367,13 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Receipt Sent"
-msgstr "Odbiorcy"
+msgstr "Wysłano pokwitowanie"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Cancellation Reason"
-msgstr "Powód odbicia"
+msgstr "Powód anulowania"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -3480,14 +3381,12 @@ msgid "Non-deductible Amount"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
-#, fuzzy
 msgid "Please enter a valid amount."
-msgstr "Wprowadź poprawną nazwę."
+msgstr "Wprowadź poprawną kwotę."
 
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "Please enter a valid contribution type name."
-msgstr "Wprowadź nazwę poprawnego rodzaju lokalizacji."
+msgstr "Wprowadź poprawny nazwę rodzaju dotacji."
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid ""
@@ -3500,23 +3399,20 @@ msgid "Tax-deductible?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "Selected contribution type has been deleted."
-msgstr "Wybrany rodzaj lokalizacji został usunięty."
+msgstr "Wybrany rodzaj dotacji został usunięty."
 
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "The contribution type \"%1\" has been saved."
-msgstr "Rodzaj lokalizacji „%1” został zapisany."
+msgstr "Rodzaj dotacji „%1” został zapisany."
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Username"
 msgstr ""
 
 #: CRM/Contribute/Form/CreatePPD.php
-#, fuzzy
 msgid "API Subject"
-msgstr "Temat"
+msgstr "Temat API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Environment"
@@ -3527,9 +3423,8 @@ msgid "API SSL Certificate"
 msgstr ""
 
 #: CRM/Contribute/Form/CreatePPD.php
-#, fuzzy
 msgid "File size should be less than 8192 bytes"
-msgstr "Wielkość pliku powinna być mniejsza niż 1 MB"
+msgstr "Wielkość pliku powinna być mniejsza niż 8192 bajty"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "Could not open %1 file for writing"
@@ -3542,24 +3437,20 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Please enter a valid PaymentInstrument name."
-msgstr "Wprowadź poprawną nazwę płci."
+msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Selected Payment-Instrument has been deleted."
-msgstr "Wybrane spotkanie zostało usunięte."
+msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "The Payment-Instrument \"%1\" has been saved."
-msgstr "Płeć „%1” została zapisana."
+msgstr ""
 
 #: CRM/Contribute/Form/Preview.php
-#, fuzzy
 msgid "Credit Card Number"
-msgstr "Liczba wpisów"
+msgstr "Numer karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Verification Number"
@@ -3570,28 +3461,24 @@ msgid "Credit Card Expiration Date"
 msgstr ""
 
 #: CRM/Contribute/Form/Preview.php
-#, fuzzy
 msgid "Credit Card Type"
-msgstr "Rodzaj współrzędnych"
+msgstr "Rodzaj karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Contribute via PayPal"
 msgstr ""
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor"
-msgstr "Dalej"
+msgstr "Ofiarodawca"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contribution Dates - From"
-msgstr "Daty zdarzeń – od"
+msgstr "Daty dotacji – od"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Valid"
-msgstr "Wiersze poprawne"
+msgstr ""
 
 #: CRM/Contribute/Form/Search.php
 msgid "All"
@@ -3602,51 +3489,44 @@ msgid "Contribution Status"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Contribution(s): %1"
-msgstr "Usunięte kontakty: %1"
+msgstr "Usuniętych dotacji: %1"
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Contribution(s): %1"
-msgstr "Suma wybranych kontaktów: %1"
+msgstr "Suma wybranych dotacji: %1"
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "Contribution ID"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Export.php
-#, fuzzy
 msgid "CiviCRM Contributions"
-msgstr "Skróty CiviCRM"
+msgstr "CiviCRM Dotacje"
 
 #: CRM/Contribute/Form/Task/Print.php
-#, fuzzy
 msgid "Print Contributions"
-msgstr "Wydrukuj listę kontaktów"
+msgstr "Wydrukuj dotacje"
 
 #: CRM/Contribute/Import/Form/MapField.php
-#, fuzzy
 msgid "Missing required field: %1"
-msgstr "Brak wymaganych pól"
+msgstr "Brak wymaganych pól: %1"
 
 #: CRM/Contribute/Import/Parser/Contribution.php
 msgid "Invalid field value: %1"
 msgstr ""
 
 #: CRM/Contribute/Import/Parser.php
-#, fuzzy
 msgid "View Contribution URL"
-msgstr "Zobacz URL kontaktu"
+msgstr "Zobacz URL dotacji"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this Credit Card? Your contributors will no "
 "longer be able to use this card type for online contributions."
 msgstr ""
-"Na pewno wyłączyć tę płeć?\\n\\nUżytkownicy nie będą mogli wybierać tej "
-"wartości przy dodawaniu i edytowaniu płci."
+"Na pewno wyłączyć tę kartę kredytową? Ofiarodawcy nie będą mogi używać tego rodzaju "
+"karty kredytowej do dotacji on-line."
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
@@ -3654,14 +3534,12 @@ msgid "Edit Credit Card"
 msgstr ""
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Disable Credit Card"
-msgstr "Wyłącz płeć"
+msgstr "Wyłącz kartę kredytową"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Enable Credit Card"
-msgstr "Włącz płeć"
+msgstr "Włącz kartę kredytową"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
@@ -3672,14 +3550,12 @@ msgid "Configure Contribution Page"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Na pewno wyłączyć to powiązanie?"
+msgstr "Na pewno wyłączyć tę stronę dotacji?"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "Na pewno usunąć tę notatkę?"
+msgstr "Na pewno usunąć tę stronę dotacji?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -3688,46 +3564,38 @@ msgid "Test-drive"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "New Online Contribution Page"
-msgstr "Nowa strona dotacji"
+msgstr "Nowa strona dotacji on-line"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Preview Contribute Page"
 msgstr "Zobacz stronę dotacji"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Na pewno wyłączyć ten składnik?"
+msgstr "Na pewno wyłączyć ten rodzaj dotacji?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Edit Contribution Type"
-msgstr "Edytuj rodzaj lokalizacji"
+msgstr "Edytuj rodzaj dotacji"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Disable Contribution Type"
-msgstr "Wyłącz rodzaj lokalizacji"
+msgstr "Wyłącz rodzaj dotacji"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Enable Contribution Type"
-msgstr "Włącz rodzaj lokalizacji"
+msgstr "Włącz rodzaj dotacji"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Delete Contribution Type"
-msgstr "Usuń rodzaj lokalizacji"
+msgstr "Usuń rodzaj dotacji"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
-#, fuzzy
 msgid "Are you sure you want to disable this Payment Instrument?"
-msgstr "Na pewno wyłączyć ten składnik?"
+msgstr "Na pewno wyłączyć ten rodzaj płatności?"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
@@ -3749,26 +3617,22 @@ msgstr ""
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "View Contribution"
-msgstr "Zobacz kontakt"
+msgstr "Zobacz dotację"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Edit Contribution"
-msgstr "Edytuj opcję"
+msgstr "Edytuj dotację"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Delete Contribution"
-msgstr "Usuń kontakt"
+msgstr "Usuń dotację"
 
 #: CRM/Contribute/Selector/Search.php
-#, fuzzy
 msgid "CiviCRM Contribution Search"
-msgstr "Wyszukiwarka kontaktów CiviCRM"
+msgstr "Wyszukiwarka dotacji CiviCRM"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
@@ -4068,9 +3932,8 @@ msgid "Collapse Display"
 msgstr "Zwiń widok"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Activity"
-msgstr "Zdarzenia"
+msgstr "Zdarzenie"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Int Data"
@@ -4105,9 +3968,8 @@ msgid "Email Domain"
 msgstr "Domena emailowa"
 
 #: CRM/Core/DAO/DupeMatch.php
-#, fuzzy
 msgid "Rule"
-msgstr "Moduł"
+msgstr "Reguła"
 
 #: CRM/Core/DAO/EmailHistory.php
 msgid "Sent Date"
@@ -4266,7 +4128,6 @@ msgid "Delete Contact"
 msgstr "Usuń kontakt"
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "YMap Contact"
 msgstr "Pokaż na mapie"
 
@@ -4323,12 +4184,10 @@ msgid "Accept Credit Cards"
 msgstr ""
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Create PPD"
-msgstr "Stwórz"
+msgstr ""
 
 #: CRM/Core/Invoke.php templates/CRM/Contribute/Form/Preview.tpl
-#, fuzzy
 msgid "Contribution Page"
 msgstr "Strona dotacji"
 
@@ -4449,23 +4308,20 @@ msgid "Country selector"
 msgstr "Wybór kraju"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "- All Contacts -"
 msgstr "- wszystkie -"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "User Registration"
-msgstr "Rejestracja"
+msgstr "Rejestracja użytkowników"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Profile"
-msgstr "Nazwa profilu"
+msgstr "Profil"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
@@ -4620,31 +4476,26 @@ msgid "Default"
 msgstr "Domyślnie"
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid integer value."
 msgstr "Wprowadź poprawną liczbę całkowitą."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid number value."
-msgstr "Wprowadź poprawny numer."
+msgstr "Wprowadź poprawną liczbę."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
 msgstr ""
-"Wprowadź poprawną datę jako wartość domyślną, używając notacji RRRR-MM-DD. "
+"Wprowadź poprawną datę, używając notacji RRRR-MM-DD. "
 "Przykład: 2004-12-31."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter 1 or 0 as value."
-msgstr "Wprowadź 1 lub 0 jako wartość domyślną."
+msgstr "Wprowadź wartość 1 lub 0."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "The invalid value for State/Province data type"
-msgstr "Niepoprawna wartość domyślna dla typu stan/województwo"
+msgstr "Niepoprawna wartość dla typu stan/województwo"
 
 #: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option has been deleted"
@@ -4659,9 +4510,8 @@ msgid "Are you sure you want to disable this custom data field?"
 msgstr "Na pewno wyłączyć to pole dodatkowych danych?"
 
 #: CRM/Custom/Page/Field.php
-#, fuzzy
 msgid "Are you sure you want to delete this custom data field?"
-msgstr "Na pewno wyłączyć to pole dodatkowych danych?"
+msgstr "Na pewno usunąć to pole dodatkowych danych?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
@@ -4865,7 +4715,7 @@ msgid "Join new contacts to existing group(s)"
 msgstr "Dopisz nowe kontakty do istniejących grup"
 
 #: CRM/Import/Form/Preview.php
-msgid "Group '%1' already exists."
+msgid "Group \"%1\" already exists."
 msgstr "Grupa „%1” już istnieje."
 
 #: CRM/Import/Form/Summary.php
@@ -5024,9 +4874,8 @@ msgid "Include group(s)"
 msgstr "Dołącz grupy"
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Please select a group to be mailed."
-msgstr "Wybierz grupę."
+msgstr "Wybierz grupę, do wysyłki."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Exclude group(s)"
@@ -5445,7 +5294,6 @@ msgid "Edit CiviCRM Profile Field"
 msgstr "Edytuj pole profilu CiviCRM"
 
 #: CRM/UF/Page/Field.php
-#, fuzzy
 msgid "Preview CiviCRM Profile Field"
 msgstr "Zobacz pole profilu CiviCRM"
 
@@ -5490,19 +5338,16 @@ msgid "Delete CiviCRM Profile Group"
 msgstr "Usuń grupę profilu CiviCRM"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Standalone Form"
-msgstr "Niezależny formularz profilu"
+msgstr "Niezależny formularz"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Standalone Form for Profile Group"
-msgstr "Niezależny formularz profilu"
+msgstr "Niezależny formularz dla grupy profilu"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "CiviCRM Profile Group Preview"
-msgstr "Grupa profilu CiviCRM"
+msgstr "Podgląd grupa profilu CiviCRM"
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -5652,23 +5497,20 @@ msgid "Notes about the Person"
 msgstr "Notatki o osobie"
 
 #: CRM/Utils/Menu.php
-#, fuzzy
 msgid "CiviContribute"
-msgstr "Dalej"
+msgstr ""
 
 #: CRM/Utils/Menu.php
 msgid "Accepted Credit Cards"
 msgstr ""
 
 #: CRM/Utils/Menu.php templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Find Contributions"
-msgstr "Szukanie kontaktów"
+msgstr "Szukanie dotacji"
 
 #: CRM/Utils/Menu.php templates/CRM/Contribute/Form/CreatePPD.tpl
-#, fuzzy
 msgid "Create PayPal API Profile"
-msgstr "Stwórz profil"
+msgstr "Stwórz profil API PayPal"
 
 #: CRM/Utils/Menu.php
 msgid "CiviMail"
@@ -5964,18 +5806,16 @@ msgid "Advanced Duplicate Matching Rule "
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Delete Duplicate Matching Rule"
-msgstr "Powtórzone etykiety opcji"
+msgstr "Usuń regułę dopasowywania powtórzeń"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Configure Duplicate Matching Rule "
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr "Na pewno usunąć tę notatkę?"
+msgstr "Na pewno usunąć tę regułę dopasowywania powtórzeń?"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -5995,9 +5835,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Advanced Configuration"
-msgstr "Dodaj informacje kontaktu"
+msgstr "Konfiguracja zaawansowana"
 
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
 msgid "New Gender Option"
@@ -6077,9 +5916,7 @@ msgid ""
 "records which use the option."
 msgstr ""
 "UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z rodzajami lokalizacji używających tej opcji.UWAGA: Usunięcie tej opcji "
-"spowoduje skasowanie wszystkich wpisów o rodzajach lokalizacji używających "
-"tej opcji."
+"z rodzajami lokalizacji używających tej opcji."
 
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 msgid "New Mobile Provider"
@@ -6174,9 +6011,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
-#, fuzzy
-msgid " Duplicate Matching Rule "
-msgstr "Powtórzone etykiety opcji"
+msgid "Duplicate Matching Rule"
+msgstr "Reguła dopasowywania powtórzeń"
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid ""
@@ -6646,7 +6482,6 @@ msgid "No matches found for:"
 msgstr "Brak wyników dla:"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "No matches found."
 msgstr "Nie znaleziono rezultatów."
 
@@ -6899,9 +6734,8 @@ msgstr[1] "%count wpisy wybrane do eksportu."
 msgstr[2] "%count wpisów wybranych do eksportu."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
-#, fuzzy
 msgid "Select a Different Mapping"
-msgstr "Wybierz inne mapowanie pola"
+msgstr "Wybierz inne mapowanie"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
@@ -6910,9 +6744,8 @@ msgid "Load Saved Field Mapping"
 msgstr "Załaduj zapisane mapowanie pola"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
-#, fuzzy
 msgid "Using Field Mapping: %1"
-msgstr "Zapisane mapowanie pola: %1"
+msgstr "Używane mapowanie: %1"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Fields to Include in Export File"
@@ -7050,28 +6883,24 @@ msgid "# Contributions"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr "Ten kontakt nie ma powiązań. <a href=\"%1\">Możesz je dodać</a>."
+msgstr "Ten kontakt nie ma dotacji. <a href=\"%1\">Możesz je dodać</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "There are no contributions recorded for this contact."
-msgstr "Ten kontakt nie ma powiązań."
+msgstr "Ten kontakt nie ma dotacji."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Contributions (3 of %1)"
-msgstr "Notatki (3 z %1)"
+msgstr "Dotacje (3 z %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "New Contribution"
-msgstr "Nowa organizacja"
+msgstr "Nowa dotacja"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
@@ -7203,18 +7032,6 @@ msgstr "Zobacz wszystkie notatki…"
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "New Note"
 msgstr "Nowa notatka"
-
-#: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
-msgid ""
-"There are no Contributions recorded for this contact. You can <a href=\"%1"
-"\">enter one now</a>."
-msgstr "Ten kontakt nie ma powiązań. <a href=\"%1\">Możesz je dodać</a>."
-
-#: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
-msgid "There are no Contributions recorded for this contact."
-msgstr "Ten kontakt nie ma powiązań."
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit custom data"
@@ -7390,9 +7207,8 @@ msgid "New Credit Card"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
-msgid "Delete Credit-Card"
-msgstr "Usuń kontakt"
+msgid "Delete Credit Card"
+msgstr "Usuń kartę kredytową"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -7431,16 +7247,14 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Credit or Debit Card Information"
-msgstr "Dodaj informacje kontaktu"
+msgstr "Informacje o karcie kredytowej (lub debetowej)"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Expires"
-msgstr "Eksportuj"
+msgstr "Wygasa"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -7510,9 +7324,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#, fuzzy
 msgid "Contribution Label"
-msgstr "Etykieta opcji"
+msgstr "Etykieta dotacji"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -7543,9 +7356,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
-#, fuzzy
-msgid "Are you sure you want to delete the contribution page '%1'?"
-msgstr "Na pewno usunąć grupę %1?"
+msgid "Are you sure you want to delete the contribution page \"%1\"?"
+msgstr "Na pewno usunąć stronę dotacji „%1”?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7687,15 +7499,13 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Contribution Information"
-msgstr "Dodaj informacje kontaktu"
+msgstr "Informacje o dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Transaction #"
-msgstr "Organizacja"
+msgstr "Nr transakcji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -7722,22 +7532,16 @@ msgid "An email receipt for this contribution has also been sent to %1"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid ""
-"WARNING: Deleting this contribution will result in the loss of this "
-"contribution and the associated financial transactions (if any)."
+"WARNING: Deleting this contribution will result in the loss of "
+"the associated financial transactions (if any)."
 msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z rodzajami lokalizacji używających tej opcji.UWAGA: Usunięcie tej opcji "
-"spowoduje skasowanie wszystkich wpisów o rodzajach lokalizacji używających "
-"tej opcji."
+"UWAGA: Usunięcie tej dotacji spowoduje skasowanie wszystkich powiązanych transakcji (jeśli takie istnieją)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Select the appropriate contribution type for this transaction."
 msgstr ""
-"Wybierz rodzaj informacji o tym kontakcie, które chcesz zbierać i "
-"przechowywać."
+"Wybierz rodzaj dotacji właściwy dla tej transakcji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
@@ -7795,20 +7599,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid "New Contribution Type"
-msgstr "Nowy rodzaj lokalizacji"
+msgstr "Nowy rodzaj dotacji"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records of this type."
 msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z rodzajami lokalizacji używających tej opcji.UWAGA: Usunięcie tej opcji "
-"spowoduje skasowanie wszystkich wpisów o rodzajach lokalizacji używających "
-"tej opcji."
+"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich dotacji tego typu."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
@@ -7822,9 +7621,8 @@ msgid "Are contributions of this type tax-deductible?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "pending"
-msgstr "Oczekuje"
+msgstr "oczekuje"
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
@@ -7857,46 +7655,37 @@ msgid "New Payment Instrument"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Contribution "
 "records which use this option."
 msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich wpisów związanych "
-"z rodzajami lokalizacji używających tej opcji.UWAGA: Usunięcie tej opcji "
-"spowoduje skasowanie wszystkich wpisów o rodzajach lokalizacji używających "
-"tej opcji."
+"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich dotacji używających tej opcji."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "No matching contributions found."
-msgstr "Nie znaleziono rezultatów."
+msgstr "Nie znaleziono pasujących dotacji."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid ""
 "if you are searching within a date or amount range, try a wider range of "
 "values"
 msgstr ""
-"jeśli wyszukujesz w grupie lub w obrębie znacznika, wybiersz „dowolną grupę” "
-"lub „dowolny znacznik”"
+"jeśli wyszukujesz w zakresie dat lub kwot, wybierz szerszy zakres wartości"
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Found %count contribution."
 msgid_plural "Found %count contributions."
-msgstr[0] "Znaleziono jeden kontakt"
-msgstr[1] "Znaleziono %count kontakty"
-msgstr[2] "Znaleziono %count kontaktów"
+msgstr[0] "Znaleziono jedną dotację"
+msgstr[1] "Znaleziono %count dotacje"
+msgstr[2] "Znaleziono %count dotcji"
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Total Amount:"
-msgstr "Suma wierszy"
+msgstr "Suma kwot:"
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "Cancelled Contribution Amount"
@@ -7909,35 +7698,30 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Complete OR partial name OR email."
-msgstr "Pełna lub częściowa nazwa kontaktu lub email."
+msgstr "Pełna lub częściowa nazwa lub email."
 
 #: templates/CRM/Contribute/Form/Selector.tpl
-#, fuzzy
 msgid "View all contributions from this contact"
-msgstr "Lokalizacja główna tego kontaktu"
+msgstr "Zobacz wszystkie dotacje tego kontaktu"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
-#, fuzzy
 msgid "List more contributions"
-msgstr "Wyświetl wybory stron"
+msgstr "Wyświetl więcej dotacji"
 
 #: templates/CRM/Contribute/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected contributions? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these contributions."
-msgstr "Na pewno usunąć wybrane kontakty? Tej operacji nie można cofnąć."
+msgstr "Na pewno usunąć wybrane dotacje? Tej operacji nie można cofnąć, a spowoduje ona usunięcie wszystkich transakcji i historii zdarzeń powiązanych z tą dotacją."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
-#, fuzzy
 msgid "One contribution record selected for export."
 msgid_plural "%count contribution records selected for export."
-msgstr[0] "Jeden wpis wybrany do eksportu."
-msgstr[1] "%count wpisy wybrane do eksportu."
-msgstr[2] "%count wpisów wybranych do eksportu."
+msgstr[0] "Jedna dotacja wybrany do eksportu."
+msgstr[1] "%count dotacje wybrane do eksportu."
+msgstr[2] "%count dotacji wybranych do eksportu."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
@@ -7948,9 +7732,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task.tpl
-#, fuzzy
 msgid "Number of selected contributions: %1"
-msgstr "Liczba wybranych kontaktów: %1"
+msgstr "Liczba wybranych dotacji: %1"
 
 #: templates/CRM/Contribute/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -8038,7 +7821,6 @@ msgstr ""
 "powrócić do kroku 1."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected %1 records with conflicting transaction ids within this "
 "data file. If you continue, these records will be skipped. OR, you can "
@@ -8046,7 +7828,7 @@ msgid ""
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
-"CiviCRM wykrył w tym pliku %1 pozycji z kolidującymi adresami email. Jeśli "
+"CiviCRM wykrył w tym pliku %1 pozycji z kolidującymi identyfikatorami transakcji. Jeśli "
 "przejdziesz dalej, te pozycje zostaną pomnięte. Możesz też ściągnąć plik "
 "zawierający jedynie te błędy – <a href=\"%2\">ściągnij kolizje</a>, a "
 "następnie poprawić je w oryginalnym pliku z danymi, anulować ten import i "
@@ -8065,9 +7847,8 @@ msgstr "Suma wierszy"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total rows (contribution records) in uploaded file."
-msgstr "Suma wierszy (wpisów z kontaktami) w pliku."
+msgstr "Suma wierszy (wpisów z dotacjami) w pliku."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -8076,13 +7857,11 @@ msgstr "Wiersze z błędami"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
 msgstr ""
-"Wiersze z błędnymi danymi w jednym lub większej ilości pól (np. błędnie "
-"podany adres email). Wiersze te zostaną pominięte (nie zostaną "
+"Wiersze z błędnymi danymi w jednym lub większej ilości pól. Wiersze te zostaną pominięte (nie zostaną "
 "zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
@@ -8097,12 +7876,11 @@ msgid "Conflicting Rows"
 msgstr "Wiersze z kolizjami"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
-#, fuzzy
 msgid ""
 "Rows with conflicting transaciton ids within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
-"Wiersze z kolidującymi adresami email w tym pliku. Wiersze te zostaną "
+"Wiersze z kolidującymi identyfikatorami transakcji w tym pliku. Wiersze te zostaną "
 "pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
@@ -8149,7 +7927,6 @@ msgstr[2] ""
 "nie zostały zaimportowane."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contributions</a>. You may then "
 "correct them, and import the new file with the corrected data."
@@ -8269,9 +8046,8 @@ msgid "Conflicting Rows (skipped)"
 msgstr "Wiersze z kolizjami (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with conflicting transaction IDs (NOT imported)."
-msgstr "Wiersze z kolidującymi adresami email (NIE zaimportowane)."
+msgstr "Wiersze z kolidującymi identyfikatorami transakcji (NIE zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8279,9 +8055,8 @@ msgid "Duplicate Rows"
 msgstr "Wiersze z powtórzeniami"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM contribution records."
-msgstr "Wiersze z wpisami istniejącymi już w CiviCRM."
+msgstr "Wiersze z dotacjami istniejącymi już w CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8335,13 +8110,12 @@ msgid "Maximum Upload File Size: %1 MB"
 msgstr "Maksymalna wielkość wgrywanego pliku: %1 MB"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"Contact ID\", \"Amount\")."
 msgstr ""
 "Zaznacz to pole, jeśli pierwszy wiersz pliku składa się z nazw pól "
-"(przykład: „Imię”, „Nazwisko”, „Email”)"
+"(przykład: „Id kontaktu”, „Kwota”)."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
@@ -8363,11 +8137,10 @@ msgid "New Credit-Card"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
-"There are currently no accepted Credit Cards configured for this site. You "
+"There are currently no accepted credit cards configured for this site. You "
 "can <a href=\"%1\">add one now</a>."
-msgstr "Ten kontakt nie ma znaczników. <a href=\"%1\">Możesz je dodać</a>."
+msgstr "Ta instalacja nie ma skonfigurowanych kart kredytowych. <a href=\"%1\">Możesz je dodać</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "This page is <strong>active</strong>."
@@ -8477,7 +8250,6 @@ msgid "Active"
 msgstr "Aktywne"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
-#, fuzzy
 msgid "New Contribution Page"
 msgstr "Nowa strona dotacji"
 
@@ -8502,21 +8274,19 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid "Acctg Code"
-msgstr "Zaznacz kod"
+msgstr "Kod księgowania"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid ""
-"There are no custom Contribution Types entered. You can <a href=\"%1\">add "
+"There are no custom contribution types entered. You can <a href=\"%1\">add "
 "one</a>."
 msgstr ""
-"Nie zostały wprowadzone żadne dodatkowe rodzaje zdarzeń. <a href=\"%1"
+"Nie zostały wprowadzone żadne dodatkowe rodzaje dotacji. <a href=\"%1"
 "\">Możesz je dodać</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -8537,9 +8307,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "Contributions Summary"
-msgstr "Podsumowanie"
+msgstr "Podsumowanie dotacji"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -8563,9 +8332,8 @@ msgid "(n/a)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "view details"
-msgstr "Szczegóły"
+msgstr "szczegóły"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
@@ -8590,15 +8358,6 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
-
-#: templates/CRM/Contribute/Page/PaymentInstrument.tpl
-#, fuzzy
-msgid ""
-"There are no custom Payment-Instrument entered. You can <a href=\"%1\">add "
-"one</a>."
-msgstr ""
-"Nie zostały wprowadzone żadne dodatkowe rodzaje zdarzeń. <a href=\"%1"
-"\">Możesz je dodać</a>."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
@@ -8688,16 +8447,15 @@ msgstr ""
 "zakładki nawigacyjnej."
 
 #: templates/CRM/Custom/Form/Group.tpl
-#, fuzzy
 msgid ""
 "Select the type of record that this group of custom fields is applicable "
 "for. You can configure custom data for a specific type of contact (e.g. "
 "Individuals but NOT Organizations), ANY type of contact, or other record "
-"types such as Activities and Contributions."
+"types such as activities and contributions."
 msgstr ""
-"Wybierz rodzaj kontaktów, dla których ta grupa pól dodatkowych ma "
-"zastosowanie (np. jeśli są to dane odnoszące się do Osób ale nie do "
-"Organizacji)."
+"Wybierz rodzaj wpisów, dla których ta grupa pól dodatkowych ma "
+"zastosowanie. Można skonfigurować dane dodatkowe dla danego rodzaju kontaktów (np. dla Osób ale nie dla "
+"Organizacji), dowolnego rodzaju kontaktów lub dowolnego innego rodzaju wpisów, takich jak zdarzenia czy dotacjei."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -9423,9 +9181,8 @@ msgid "Return to Find People"
 msgstr "Wróć do szukania osób"
 
 #: templates/CRM/Profile/Page/View.tpl
-#, fuzzy
 msgid "Back to Listings"
-msgstr "Wróć do spisu profili"
+msgstr "Wróć do spisu"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid ""
@@ -9462,24 +9219,20 @@ msgstr ""
 "formularzy profili i spisów."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid "Select the CiviCRM field you want to include in this Profile."
 msgstr ""
-"Wybierz pole CiviCRM-a, które chcesz wstawić na ekran konta użytkownika."
+"Wybierz pole CiviCRM-a, które chcesz dołączyć do tego profilu."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
 msgstr "Czy użytkownicy mają zawsze wypełniać to pole?"
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid "If checked, users can view but not edit this field."
 msgstr ""
-"Jeśli zaznaczone, użytkownicy mogą oglądać, ale nie edytować to pole na "
-"swoich kontach."
+"Jeśli zaznaczone, użytkownicy mogą oglądać, ale nie mogą edytować tego pola."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Is this field visible only to User Administrators and the user themself, or "
 "is it visible to others (Public User Pages)? Select 'Public User Pages and "
@@ -9488,29 +9241,25 @@ msgid ""
 "with common value(s) will be included."
 msgstr ""
 "Czy to pole powinno być widoczne tylko dla administratorów użytkowników i "
-"samego użytkownika, czy powinno być widoczne dla innych (publiczne srony "
+"samego użytkownika, czy powinno być widoczne dla innych (publiczne strony "
 "użytkowników)? Wybierz „Publiczne strony użytkowników i spisy” jeśli chcesz, "
-"by to pole było przeszukiwalne (w formularzu przeszukiwania profili) i by "
-"dodać odnośniki pozwalające znaleźć inne kontakty z podobnymi wartościami na "
-"ekranie profilu."
+"by to pole było przeszukiwalne (w formularzu przeszukiwania profili). Jeśli ten profil jest połączony z ekranem konta użytkownika, zostaną też dołączone odnośniki do wyszukiwania innych kontaktów o tych samych wartościach."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Is this field visible in the selector table displayed in profile searches? "
 "This setting applies only to fields with 'Public User Pages and Listings' "
 "visibility."
 msgstr ""
-"Czy to pole jest widoczne w spisie wyświetlanym w wyszukiwaniach profili?"
+"Czy to pole jest widoczne w spisie wyświetlanym w wyszukiwaniach profili? To ustawienie dotyczy wyłącznie pól z widocznością „Publiczne strony użytkowników i spisy”."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Weight controls the order in which fields are displayed within a profile. "
 "Enter a positive or negative integer - lower numbers are displayed ahead of "
 "higher numbers."
 msgstr ""
-"Kolejność wyświetlania pól w grupie zależy od ich wagi. Wprowadź dodatnie "
+"Kolejność wyświetlania pól w profilu zależy od ich wagi. Wprowadź dodatnie "
 "lub ujemne liczby całkowite – mniejsze liczby zostaną wyświetlone przed "
 "większymi."
 
@@ -9530,11 +9279,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
 "included in the New Account registration form. "
-msgstr "Umieścić to pole na formularzu zakładania nowych kont?"
+msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -9571,19 +9319,16 @@ msgid "View or Edit Fields for this Profile"
 msgstr "Zobacz lub edytuj pola dla tego profilu"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "Profile Field Preview"
-msgstr "Tytuł profilu"
+msgstr "Podgląd pola profilu"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "Profile Preview"
-msgstr "Tytuł profilu"
+msgstr "Podgląd profilu"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "This Civicrm profile field is view only."
-msgstr "Pole profilu CiviCRM „%1” zostało zapisane."
+msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
@@ -9606,15 +9351,14 @@ msgstr ""
 "dodać</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid ""
 "The HTML code below will display a form consisting of the active CiviCRM "
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
-"Poniższy kod HTML tworzy formularz składający się z wszystkich aktywnych pól "
+"Poniższy kod HTML tworzy formularz składający się z aktywnych pól "
 "profili CiviCRM. Możesz skopiować ten formularz i wkleić go w dowolny blok "
-"lub na dowolną stronę, na której chcesz zbierać informacje."
+"lub na dowolną stronę, na której chcesz zbierać informacje o kontaktach."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9872,7 +9616,6 @@ msgid "Unable to resolve recipient domain"
 msgstr "Nie udało się znaleźć domeny odbiorcy"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Unable to deliver to destintation mail server"
 msgstr "Nie udało się dostarczyć na docelowy serwer pocztowy"
 
@@ -9933,14 +9676,12 @@ msgid "II"
 msgstr "II"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Donation"
-msgstr "Strona dotacji"
+msgstr "Dotacja"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Member Dues"
-msgstr "Członkowie"
+msgstr "Opłaty członkowskie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Campaign Contribution"
@@ -9955,14 +9696,12 @@ msgid "Debit Card"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Cash"
-msgstr "Hash"
+msgstr "Gotówka"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Check"
-msgstr "Wybór wielokrotny (checkbox)"
+msgstr "Czek"
 
 #: xml/templates/civicrm_data.tpl
 msgid "EFT"
