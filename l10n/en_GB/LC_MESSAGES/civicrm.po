@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 16:10+0100\n"
+"POT-Creation-Date: 2005-12-21 17:00+0100\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -8328,6 +8328,7 @@ msgid "Invalid Rows (skipped)"
 msgstr "Invalid Rows (skipped)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
+#: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
 msgid "Mismatched Rows (skipped)"
 msgstr "Invalid Rows (skipped)"
@@ -9080,11 +9081,11 @@ msgstr ""
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"CiviCRM has detected Mismatched Contact Id . This record have not been "
-"Updated."
+"CiviCRM has detected mismatched contact ID. This record have not been "
+"updated."
 msgid_plural ""
-"CiviCRM has detected Mismatched Contact Ids. These records have not been "
-"Updated."
+"CiviCRM has detected mismatched contact IDs. These records have not been "
+"updated."
 msgstr[0] ""
 "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
 "These records have not been imported."
@@ -9165,12 +9166,8 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
-msgid "Mismatched  Rows (skipped)"
-msgstr "Invalid Rows (skipped)"
-
-#: templates/CRM/Import/Form/Summary.tpl
-msgid "Rows with Mismatched contact IDs ... (NOT Updated)."
-msgstr ""
+msgid "Rows with mismatched contact IDs... (NOT updated)."
+msgstr "Rows with conflicting email addresses (NOT imported)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
@@ -10014,6 +10011,24 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected Mismatched Contact Id . This record have not been "
+#~ "Updated."
+#~ msgid_plural ""
+#~ "CiviCRM has detected Mismatched Contact Ids. These records have not been "
+#~ "Updated."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+#~ msgstr[1] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+
+#, fuzzy
+#~ msgid "Mismatched  Rows (skipped)"
+#~ msgstr "Invalid Rows (skipped)"
 
 #, fuzzy
 #~ msgid ""

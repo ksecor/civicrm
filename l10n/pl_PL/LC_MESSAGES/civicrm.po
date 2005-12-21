@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 16:10+0100\n"
+"POT-Creation-Date: 2005-12-21 17:00+0100\n"
 "PO-Revision-Date: 2005-11-10 15:48+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -3326,9 +3326,8 @@ msgid "Thank-you Message"
 msgstr "Wiadomość z podziękowaniem"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Thank-you Page Footer"
-msgstr "Stopka podziękowania"
+msgstr "Stopka strony podziękowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
@@ -3439,19 +3438,16 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Please enter a valid Payment Instrument name."
-msgstr "Wprowadź poprawną nazwę płci."
+msgstr "Wprowadź poprawną nazwę rodzaju płatności."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Selected Payment Instrument has been deleted."
-msgstr "Wybrany rodzaj płci został usunięty."
+msgstr "Wybrany rodzaj płatności został usunięty."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "The Payment Instrument \"%1\" has been saved."
-msgstr "Płeć „%1” została zapisana."
+msgstr "Rodzaj płatności „%1” został zapisany."
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Number"
@@ -7673,7 +7669,6 @@ msgid "New Payment Instrument"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
@@ -7932,7 +7927,6 @@ msgstr ""
 "wynik."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched contribution ID. This record have not been "
 "updated."
@@ -7940,14 +7934,14 @@ msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
 msgstr[0] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w jednym wpisie. Ten "
-"wpis nie został zaimportowany."
+"CiviCRM wykrył błędny identyfikator dotacji. Ten wpis nie został "
+"zaimportowany."
 msgstr[1] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te "
-"nie zostały zaimportowane."
+"CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
+"zaimportowane."
 msgstr[2] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te "
-"nie zostały zaimportowane."
+"CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
+"zaimportowane."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -7987,7 +7981,6 @@ msgstr ""
 "danymi."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing contribution records. This record have not "
@@ -7997,20 +7990,19 @@ msgid_plural ""
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
 msgstr[0] ""
-"CiviCRM wykrył jeden wpis z adresem email kolidującym w obrębie tego pliku "
-"lub w stosunku do danych istniejących kontaktów. Ten wpis nie został "
+"CiviCRM wykrył jeden wpis z identyfikatorem transakcji kolidującym w obrębie "
+"tego pliku lub w stosunku do istniejących dotacji. Ten wpis nie został "
 "zaimportowany."
 msgstr[1] ""
-"CiviCRM wykrył %1 wpisy z adresami email kolidującymi w obrębie tego pliku "
-"lub w stosunku do danych istniejących kontaktów. Te wpisy nie zostały "
+"CiviCRM wykrył %1 wpisy z identyfikatorami transakcji kolidującymi w obrębie "
+"tego pliku lub w stosunku do istniejących dotacji. Te wpisy nie zostały "
 "zaimportowane."
 msgstr[2] ""
-"CiviCRM wykrył %1 wpisów z adresami email kolidującymi w obrębie tego pliku "
-"lub w stosunku do danych istniejących kontaktów. Te wpisy nie zostały "
-"zaimportowane."
+"CiviCRM wykrył %1 wpisów z identyfikatorami transakcji kolidującymi w "
+"obrębie tego pliku lub w stosunku do istniejących dotacji. Te wpisy nie "
+"zostały zaimportowane."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the "
@@ -8018,23 +8010,20 @@ msgid ""
 msgstr ""
 "Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij kolizje</"
 "a>. Możesz następnie sprawdzić, czy te wpisy faktycznie są kolizjami, i "
-"poprawić adresy email dla tych, które nimi nie są."
+"poprawić identyfikatory transakcji dla tych, które nimi nie są."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contribution record."
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
-msgstr[0] "CiviCRM wykrył jeden wpis, który jest kopią istniejącego kontaktu."
-msgstr[1] "CiviCRM wykrył %count wpisy, które są kopią istniejących kontaktów."
-msgstr[2] ""
-"CiviCRM wykrył %count wpisów, które są kopią istniejących kontaktów."
+msgstr[0] "CiviCRM wykrył jeden wpis, który jest kopią istniejącej dotacji."
+msgstr[1] "CiviCRM wykrył %count wpisy, które są kopią istniejących dotacji."
+msgstr[2] "CiviCRM wykrył %count wpisów, które są kopią istniejących dotacji."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the "
@@ -8042,7 +8031,8 @@ msgid ""
 msgstr ""
 "Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij "
 "powtórzenia</a>. Możesz następnie sprawdzić, czy te wpisy faktycznie są "
-"powtórzeniami, i poprawić adresy email dla tych, które nimi nie są."
+"powtórzeniami, i poprawić identyfikatory transakcji dla tych, które nimi nie "
+"są."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8050,14 +8040,13 @@ msgid "Invalid Rows (skipped)"
 msgstr "Wiersze błędne (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
+#: templates/CRM/Import/Form/Summary.tpl
 msgid "Mismatched Rows (skipped)"
 msgstr "Wiersze błędne (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
-msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
+msgstr "Wiersze z błędnymi identyfikatorami dotacji (NIE uaktualnione)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
@@ -8382,12 +8371,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
-#, fuzzy
 msgid ""
 "There are no custom Payment Instruments entered. You can <a href=\"%1\">add "
 "one</a>."
 msgstr ""
-"Nie zostały wprowadzone żadne dodatkowe rodzaje dotacji. <a href=\"%1"
+"Nie zostały wprowadzone żadne dodatkowe rodzaje płatności. <a href=\"%1"
 "\">Możesz je dodać</a>."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
@@ -8825,30 +8813,28 @@ msgstr ""
 "pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
-"CiviCRM has detected Mismatched Contact Id . This record have not been "
-"Updated."
+"CiviCRM has detected mismatched contact ID. This record have not been "
+"updated."
 msgid_plural ""
-"CiviCRM has detected Mismatched Contact Ids. These records have not been "
-"Updated."
+"CiviCRM has detected mismatched contact IDs. These records have not been "
+"updated."
 msgstr[0] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w jednym wpisie. Ten "
-"wpis nie został zaimportowany."
+"CiviCRM wykrył błędny identyfikator kontaktu. Ten wpis nie został "
+"zaimportowany."
 msgstr[1] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te "
-"nie zostały zaimportowane."
+"CiviCRM wykrył błędne identyfikatory kontaktów. Wpisy te nie zostały "
+"zaimportowane."
 msgstr[2] ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te "
-"nie zostały zaimportowane."
+"CiviCRM wykrył błędne identyfikatory kontaktów. Wpisy te nie zostały "
+"zaimportowane."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contacts</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij błędy</"
+"Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij kolizje</"
 "a>. Możesz je następnie poprawić i zaimportować nowy plik z poprawionymi "
 "danymi."
 
@@ -8914,17 +8900,10 @@ msgstr ""
 "powtórzeniami, i poprawić adresy email dla tych, które nimi nie są."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
-msgid "Mismatched  Rows (skipped)"
-msgstr "Wiersze błędne (pominięte)"
+msgid "Rows with mismatched contact IDs... (NOT updated)."
+msgstr "Wiersze z błędnymi identyfikatorami kontaktów... (NIE uaktualnione)."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
-msgid "Rows with Mismatched contact IDs ... (NOT Updated)."
-msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
-
-#: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Contacts"
 msgstr "Ściągnij kolizje"
 
@@ -9463,17 +9442,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid ""
 "Use the <strong>Stand-alone Form</strong> links to get the HTML code needed "
 "to add a profile form to any block or page on any website (e.g. for a signup "
 "form). You can also get the <a href=\"%1\">HTML for ALL Active Profiles</a> "
 "as a single form."
 msgstr ""
-"Skorzystaj z odnośnika <a href=\"%1\">Niezależny formularz profilu</a> by "
-"otrzymać kod HTML umożliwiający dodanie formularza profilu do bloków i stron "
-"innych niż Rejestracja użytkownika i Moje konto. Te „niezależne formularze” "
-"można dodać do dowolnej strony (np. jako formularz rejestracyjny)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
