@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 12:59+0100\n"
+"POT-Creation-Date: 2005-12-21 16:10+0100\n"
 "PO-Revision-Date: 2005-11-10 15:48+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1772,9 +1772,8 @@ msgstr "Dopasowanie:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
-"The Duplicate Matching rule has not been saved because of the rule is "
-"invalid. Rules should contain only valid field names,'AND','OR' or "
-"'parentheses'  )"
+"The Duplicate Matching rule has not been saved, because the rule is invalid. "
+"Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
@@ -1890,7 +1889,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "activities."
 msgstr ""
-"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu zdarzeń."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"zdarzeń."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
@@ -1925,7 +1925,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Gender."
 msgstr ""
-"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu płci."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"płci."
 
 #: CRM/Admin/Page/Gender.php
 msgid "Edit Gender"
@@ -1952,7 +1953,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact IM screen names."
 msgstr ""
-"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu nazw kontaktów w komunikatorach."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"nazw kontaktów w komunikatorach."
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "IM Provider"
@@ -1979,8 +1981,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Prefix."
 msgstr ""
-"Użytkownicy nie będą mogli wybierać tej "
-"wartości przy dodawaniu i edytowaniu prefiksu."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"prefiksu."
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Edit Individual Prefix"
@@ -2007,8 +2009,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Suffix."
 msgstr ""
-"Użytkownicy nie będą mogli wybierać "
-"tej wartości przy dodawaniu i edytowaniu przyrostków."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"przyrostków."
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -2037,8 +2039,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
 msgstr ""
-"Użytkownicy nie będą mogli "
-"wybierać tej wartości przy dodawaniu i edytowaniu lokalizacji."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"lokalizacji."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
@@ -2065,8 +2067,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
 msgstr ""
-"Użytkownicy nie będą mogli "
-"wybierać tej wartości przy dodwaniu i edytowaniu numerów telefonów kontaktów."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodwaniu i edytowaniu "
+"numerów telefonów kontaktów."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -2095,8 +2097,8 @@ msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
 msgstr ""
-"Użytkownicy nie będą mogli "
-"wybierać tej wartości przy dodawaniu i edytowaniu powiązań między kontaktami."
+"Użytkownicy nie będą mogli wybierać tej wartości przy dodawaniu i edytowaniu "
+"powiązań między kontaktami."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -2129,9 +2131,8 @@ msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Ta kategoria zostanie usunięta ze "
-"wszystkich przypisanych do niej kontkatów, a użytkownicy nie będą już mogli "
-"przypisywać ich do tej kategorii."
+"Ta kategoria zostanie usunięta ze wszystkich przypisanych do niej kontkatów, "
+"a użytkownicy nie będą już mogli przypisywać ich do tej kategorii."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -3325,8 +3326,9 @@ msgid "Thank-you Message"
 msgstr "Wiadomość z podziękowaniem"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Thank You Page Footer"
-msgstr ""
+#, fuzzy
+msgid "Thank-you Page Footer"
+msgstr "Stopka podziękowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
@@ -3437,16 +3439,19 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-msgid "Please enter a valid PaymentInstrument name."
-msgstr ""
+#, fuzzy
+msgid "Please enter a valid Payment Instrument name."
+msgstr "Wprowadź poprawną nazwę płci."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-msgid "Selected Payment-Instrument has been deleted."
-msgstr ""
+#, fuzzy
+msgid "Selected Payment Instrument has been deleted."
+msgstr "Wybrany rodzaj płci został usunięty."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-msgid "The Payment-Instrument \"%1\" has been saved."
-msgstr ""
+#, fuzzy
+msgid "The Payment Instrument \"%1\" has been saved."
+msgstr "Płeć „%1” została zapisana."
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Number"
@@ -3525,8 +3530,8 @@ msgid ""
 "Are you sure you want to disable this Credit Card? Your contributors will no "
 "longer be able to use this card type for online contributions."
 msgstr ""
-"Na pewno wyłączyć tę kartę kredytową? Ofiarodawcy nie będą mogi używać tego rodzaju "
-"karty kredytowej do dotacji on-line."
+"Na pewno wyłączyć tę kartę kredytową? Ofiarodawcy nie będą mogi używać tego "
+"rodzaju karty kredytowej do dotacji on-line."
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
@@ -4486,8 +4491,7 @@ msgstr "Wprowadź poprawną liczbę."
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
 msgstr ""
-"Wprowadź poprawną datę, używając notacji RRRR-MM-DD. "
-"Przykład: 2004-12-31."
+"Wprowadź poprawną datę, używając notacji RRRR-MM-DD. Przykład: 2004-12-31."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter 1 or 0 as value."
@@ -6011,6 +6015,17 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
+msgid ""
+"CiviCRM uses a configurable Duplicate Matching Rule to determine when a new "
+"Individual contact should be flagged as a potential duplicate of an existing "
+"record. The default configuration compares email address AND first name AND "
+"last name. This rule is used when entering a new individual contact, "
+"updating an existing contact, and importing contacts with the Import Wizard. "
+"Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
+"for identifying duplicate contacts."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Duplicate Matching Rule"
 msgstr "Reguła dopasowywania powtórzeń"
 
@@ -6883,12 +6898,14 @@ msgid "# Contributions"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
 msgstr "Ten kontakt nie ma dotacji. <a href=\"%1\">Możesz je dodać</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "There are no contributions recorded for this contact."
 msgstr "Ten kontakt nie ma dotacji."
 
@@ -7203,6 +7220,7 @@ msgid "These relationships have been marked as disabled (no longer active)."
 msgstr "Poniższe powiązania zostały oznaczone jako wyłączone (nieaktywne)."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
 msgstr ""
 
@@ -7410,7 +7428,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
-"Use this form to configure the Thank-you message and receipting options. "
+"Use this form to configure the thank-you message and receipting options. "
 "Contributors will see a confirmation and thank-you page after whenever an "
 "online contribution is successfully processed. You provide the content and "
 "layout of the thank-you section below. You also control whether an "
@@ -7533,15 +7551,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
-"WARNING: Deleting this contribution will result in the loss of "
-"the associated financial transactions (if any)."
+"WARNING: Deleting this contribution will result in the loss of the "
+"associated financial transactions (if any)."
 msgstr ""
-"UWAGA: Usunięcie tej dotacji spowoduje skasowanie wszystkich powiązanych transakcji (jeśli takie istnieją)."
+"UWAGA: Usunięcie tej dotacji spowoduje skasowanie wszystkich powiązanych "
+"transakcji (jeśli takie istnieją)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
-msgstr ""
-"Wybierz rodzaj dotacji właściwy dla tej transakcji."
+msgstr "Wybierz rodzaj dotacji właściwy dla tej transakcji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
@@ -7655,11 +7673,13 @@ msgid "New Payment Instrument"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
+#, fuzzy
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Contribution "
+"WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
 msgstr ""
-"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich dotacji używających tej opcji."
+"UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich dotacji "
+"używających tej opcji."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
@@ -7714,7 +7734,10 @@ msgid ""
 "Are you sure you want to delete the selected contributions? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these contributions."
-msgstr "Na pewno usunąć wybrane dotacje? Tej operacji nie można cofnąć, a spowoduje ona usunięcie wszystkich transakcji i historii zdarzeń powiązanych z tą dotacją."
+msgstr ""
+"Na pewno usunąć wybrane dotacje? Tej operacji nie można cofnąć, a spowoduje "
+"ona usunięcie wszystkich transakcji i historii zdarzeń powiązanych z tą "
+"dotacją."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid "One contribution record selected for export."
@@ -7828,11 +7851,11 @@ msgid ""
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
-"CiviCRM wykrył w tym pliku %1 pozycji z kolidującymi identyfikatorami transakcji. Jeśli "
-"przejdziesz dalej, te pozycje zostaną pomnięte. Możesz też ściągnąć plik "
-"zawierający jedynie te błędy – <a href=\"%2\">ściągnij kolizje</a>, a "
-"następnie poprawić je w oryginalnym pliku z danymi, anulować ten import i "
-"powrócić do kroku 1."
+"CiviCRM wykrył w tym pliku %1 pozycji z kolidującymi identyfikatorami "
+"transakcji. Jeśli przejdziesz dalej, te pozycje zostaną pomnięte. Możesz też "
+"ściągnąć plik zawierający jedynie te błędy – <a href=\"%2\">ściągnij "
+"kolizje</a>, a następnie poprawić je w oryginalnym pliku z danymi, anulować "
+"ten import i powrócić do kroku 1."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -7861,8 +7884,8 @@ msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
 msgstr ""
-"Wiersze z błędnymi danymi w jednym lub większej ilości pól. Wiersze te zostaną pominięte (nie zostaną "
-"zaimportowane)."
+"Wiersze z błędnymi danymi w jednym lub większej ilości pól. Wiersze te "
+"zostaną pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -7880,8 +7903,8 @@ msgid ""
 "Rows with conflicting transaciton ids within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
-"Wiersze z kolidującymi identyfikatorami transakcji w tym pliku. Wiersze te zostaną "
-"pominięte (nie zostaną zaimportowane)."
+"Wiersze z kolidującymi identyfikatorami transakcji w tym pliku. Wiersze te "
+"zostaną pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -7911,10 +7934,10 @@ msgstr ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"CiviCRM has detected Mismatched Contribution Id. This record have not been "
-"Updated."
+"CiviCRM has detected mismatched contribution ID. This record have not been "
+"updated."
 msgid_plural ""
-"CiviCRM has detected Mismatched Contribution Ids. These records have not "
+"CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
 msgstr[0] ""
 "CiviCRM wykrył błędne dane i/lub błedne sformatowanie w jednym wpisie. Ten "
@@ -8027,14 +8050,14 @@ msgid "Invalid Rows (skipped)"
 msgstr "Wiersze błędne (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
-msgid "Mismatched  Rows (skipped)"
+msgid "Mismatched Rows (skipped)"
 msgstr "Wiersze błędne (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-msgid "Rows with Mismatched contribution IDs... (NOT Updated)."
-msgstr ""
+#, fuzzy
+msgid "Rows with mismatched contribution IDs... (NOT updated)."
+msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
@@ -8047,7 +8070,8 @@ msgstr "Wiersze z kolizjami (pominięte)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with conflicting transaction IDs (NOT imported)."
-msgstr "Wiersze z kolidującymi identyfikatorami transakcji (NIE zaimportowane)."
+msgstr ""
+"Wiersze z kolidującymi identyfikatorami transakcji (NIE zaimportowane)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8133,14 +8157,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
-msgid "New Credit-Card"
-msgstr ""
-
-#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
 "can <a href=\"%1\">add one now</a>."
-msgstr "Ta instalacja nie ma skonfigurowanych kart kredytowych. <a href=\"%1\">Możesz je dodać</a>."
+msgstr ""
+"Ta instalacja nie ma skonfigurowanych kart kredytowych. <a href=\"%1"
+"\">Możesz je dodać</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "This page is <strong>active</strong>."
@@ -8182,7 +8204,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Edit Thank-you page contents and receipting features."
+msgid "Edit thank-you page contents and receipting features."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -8359,6 +8381,15 @@ msgid ""
 "methods, you can add them here."
 msgstr ""
 
+#: templates/CRM/Contribute/Page/PaymentInstrument.tpl
+#, fuzzy
+msgid ""
+"There are no custom Payment Instruments entered. You can <a href=\"%1\">add "
+"one</a>."
+msgstr ""
+"Nie zostały wprowadzone żadne dodatkowe rodzaje dotacji. <a href=\"%1"
+"\">Możesz je dodać</a>."
+
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
 "WARNING: Deleting this custom field will result in the loss of all %1 data."
@@ -8453,9 +8484,10 @@ msgid ""
 "Individuals but NOT Organizations), ANY type of contact, or other record "
 "types such as activities and contributions."
 msgstr ""
-"Wybierz rodzaj wpisów, dla których ta grupa pól dodatkowych ma "
-"zastosowanie. Można skonfigurować dane dodatkowe dla danego rodzaju kontaktów (np. dla Osób ale nie dla "
-"Organizacji), dowolnego rodzaju kontaktów lub dowolnego innego rodzaju wpisów, takich jak zdarzenia czy dotacjei."
+"Wybierz rodzaj wpisów, dla których ta grupa pól dodatkowych ma zastosowanie. "
+"Można skonfigurować dane dodatkowe dla danego rodzaju kontaktów (np. dla "
+"Osób ale nie dla Organizacji), dowolnego rodzaju kontaktów lub dowolnego "
+"innego rodzaju wpisów, takich jak zdarzenia czy dotacjei."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -8883,6 +8915,11 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
+msgid "Mismatched  Rows (skipped)"
+msgstr "Wiersze błędne (pominięte)"
+
+#: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Rows with Mismatched contact IDs ... (NOT Updated)."
 msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
 
@@ -9220,8 +9257,7 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Select the CiviCRM field you want to include in this Profile."
-msgstr ""
-"Wybierz pole CiviCRM-a, które chcesz dołączyć do tego profilu."
+msgstr "Wybierz pole CiviCRM-a, które chcesz dołączyć do tego profilu."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
@@ -9243,7 +9279,9 @@ msgstr ""
 "Czy to pole powinno być widoczne tylko dla administratorów użytkowników i "
 "samego użytkownika, czy powinno być widoczne dla innych (publiczne strony "
 "użytkowników)? Wybierz „Publiczne strony użytkowników i spisy” jeśli chcesz, "
-"by to pole było przeszukiwalne (w formularzu przeszukiwania profili). Jeśli ten profil jest połączony z ekranem konta użytkownika, zostaną też dołączone odnośniki do wyszukiwania innych kontaktów o tych samych wartościach."
+"by to pole było przeszukiwalne (w formularzu przeszukiwania profili). Jeśli "
+"ten profil jest połączony z ekranem konta użytkownika, zostaną też dołączone "
+"odnośniki do wyszukiwania innych kontaktów o tych samych wartościach."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -9251,7 +9289,9 @@ msgid ""
 "This setting applies only to fields with 'Public User Pages and Listings' "
 "visibility."
 msgstr ""
-"Czy to pole jest widoczne w spisie wyświetlanym w wyszukiwaniach profili? To ustawienie dotyczy wyłącznie pól z widocznością „Publiczne strony użytkowników i spisy”."
+"Czy to pole jest widoczne w spisie wyświetlanym w wyszukiwaniach profili? To "
+"ustawienie dotyczy wyłącznie pól z widocznością „Publiczne strony "
+"użytkowników i spisy”."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -9356,9 +9396,9 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
-"Poniższy kod HTML tworzy formularz składający się z aktywnych pól "
-"profili CiviCRM. Możesz skopiować ten formularz i wkleić go w dowolny blok "
-"lub na dowolną stronę, na której chcesz zbierać informacje o kontaktach."
+"Poniższy kod HTML tworzy formularz składający się z aktywnych pól profili "
+"CiviCRM. Możesz skopiować ten formularz i wkleić go w dowolny blok lub na "
+"dowolną stronę, na której chcesz zbierać informacje o kontaktach."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9409,14 +9449,17 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>Profile Listings</strong> - A default profile search form and search "
-"result listings is displayed when you link users to the <site root>/civicrm/"
-"profile?reset=1 path. If you have several profiles which you want to use for "
-"different search and listings purposes, simply add the profile ID to the end "
-"of your query string using the 'gid' parameter. For example, the link to "
-"display a search and listings page for a Profile with ID = 3 would be:<br /"
-"><strong>&lt;your site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>"
+"result listings is displayed when you link users to the %1/%2 path. If you "
+"have several profiles which you want to use for different search and "
+"listings purposes, simply add the profile ID to the end of your query string "
+"using the 'gid' parameter. For example, the link to display a search and "
+"listings page for a Profile with ID = 3 would be:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl

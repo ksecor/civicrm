@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 12:59+0100\n"
+"POT-Creation-Date: 2005-12-21 16:10+0100\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -1818,9 +1818,8 @@ msgstr "Match"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
-"The Duplicate Matching rule has not been saved because of the rule is "
-"invalid. Rules should contain only valid field names,'AND','OR' or "
-"'parentheses'  )"
+"The Duplicate Matching rule has not been saved, because the rule is invalid. "
+"Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
@@ -3241,16 +3240,17 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
-msgid "Thankyou Title"
+msgid "Thank-you Title"
 msgstr "Intro Title"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thankyou Text"
-msgstr ""
+#, fuzzy
+msgid "Thank-you Text"
+msgstr "Intro Title"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
-msgid "Thankyou Footer"
+msgid "Thank-you Footer"
 msgstr "Mailing Footer"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -3493,12 +3493,13 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #, fuzzy
-msgid "Thank You Message"
+msgid "Thank-you Message"
 msgstr "Opt-out Message"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Thank You Page Footer"
-msgstr ""
+#, fuzzy
+msgid "Thank-you Page Footer"
+msgstr "Mailing Footer"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
@@ -3620,17 +3621,17 @@ msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 #, fuzzy
-msgid "Please enter a valid PaymentInstrument name."
+msgid "Please enter a valid Payment Instrument name."
 msgstr "Please enter a valid name."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 #, fuzzy
-msgid "Selected Payment-Instrument has been deleted."
+msgid "Selected Payment Instrument has been deleted."
 msgstr "Selected Meeting has been deleted."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 #, fuzzy
-msgid "The Payment-Instrument \"%1\" has been saved."
+msgid "The Payment Instrument \"%1\" has been saved."
 msgstr "The Group \"%1\" has been saved."
 
 #: CRM/Contribute/Form/Preview.php
@@ -4966,7 +4967,8 @@ msgid "Join new contacts to existing group(s)"
 msgstr "Join new contacts to existing group(s)"
 
 #: CRM/Import/Form/Preview.php
-msgid "Group '%1' already exists."
+#, fuzzy
+msgid "Group \"%1\" already exists."
 msgstr "Group '%1' already exists."
 
 #: CRM/Import/Form/Summary.php
@@ -6288,8 +6290,19 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
+msgid ""
+"CiviCRM uses a configurable Duplicate Matching Rule to determine when a new "
+"Individual contact should be flagged as a potential duplicate of an existing "
+"record. The default configuration compares email address AND first name AND "
+"last name. This rule is used when entering a new individual contact, "
+"updating an existing contact, and importing contacts with the Import Wizard. "
+"Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
+"for identifying duplicate contacts."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DupeMatch.tpl
 #, fuzzy
-msgid " Duplicate Matching Rule "
+msgid "Duplicate Matching Rule"
 msgstr "Duplicate Option label"
 
 #: templates/CRM/Admin/Page/Gender.tpl
@@ -7139,6 +7152,7 @@ msgid "# Contributions"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Contribution.tpl
 #, fuzzy
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
@@ -7148,6 +7162,7 @@ msgstr ""
 "\">add one</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Contribution.tpl
 #, fuzzy
 msgid "There are no contributions recorded for this contact."
 msgstr "There are no Relationships entered for this contact."
@@ -7296,20 +7311,6 @@ msgstr "View All Notes..."
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "New Note"
 msgstr "New Note"
-
-#: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
-msgid ""
-"There are no Contributions recorded for this contact. You can <a href=\"%1"
-"\">enter one now</a>."
-msgstr ""
-"There are no Relationships entered for this contact. You can <a href=\"%1"
-"\">add one</a>."
-
-#: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
-msgid "There are no Contributions recorded for this contact."
-msgstr "There are no Relationships entered for this contact."
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit custom data"
@@ -7491,12 +7492,13 @@ msgid "These relationships have been marked as disabled (no longer active)."
 msgstr "These relationships have been marked as disabled (no longer active)."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #, fuzzy
-msgid "Delete Credit-Card"
+msgid "Delete Credit Card"
 msgstr "Delete Contacts"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
@@ -7649,7 +7651,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 #, fuzzy
-msgid "Are you sure you want to delete the contribution page '%1'?"
+msgid "Are you sure you want to delete the contribution page \"%1\"?"
 msgstr "Are you sure you want to delete the group %1?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -7703,7 +7705,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
-"Use this form to configure the Thank-you message and receipting options. "
+"Use this form to configure the thank-you message and receipting options. "
 "Contributors will see a confirmation and thank-you page after whenever an "
 "online contribution is successfully processed. You provide the content and "
 "layout of the thank-you section below. You also control whether an "
@@ -7828,8 +7830,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
-"WARNING: Deleting this contribution will result in the loss of this "
-"contribution and the associated financial transactions (if any)."
+"WARNING: Deleting this contribution will result in the loss of the "
+"associated financial transactions (if any)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -7950,7 +7952,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid ""
-"WARNING: Deleting this option will result in the loss of all Contribution "
+"WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
 msgstr ""
 
@@ -8216,10 +8218,10 @@ msgstr ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"CiviCRM has detected Mismatched Contribution Id. This record have not been "
-"Updated."
+"CiviCRM has detected mismatched contribution ID. This record have not been "
+"updated."
 msgid_plural ""
-"CiviCRM has detected Mismatched Contribution Ids. These records have not "
+"CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
 msgstr[0] ""
 "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
@@ -8326,14 +8328,14 @@ msgid "Invalid Rows (skipped)"
 msgstr "Invalid Rows (skipped)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
-msgid "Mismatched  Rows (skipped)"
+msgid "Mismatched Rows (skipped)"
 msgstr "Invalid Rows (skipped)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
-msgid "Rows with Mismatched contribution IDs... (NOT Updated)."
-msgstr ""
+#, fuzzy
+msgid "Rows with mismatched contribution IDs... (NOT updated)."
+msgstr "Rows with conflicting email addresses (NOT imported)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
@@ -8435,13 +8437,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
-msgid "New Credit-Card"
-msgstr ""
-
-#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 #, fuzzy
 msgid ""
-"There are currently no accepted Credit Cards configured for this site. You "
+"There are currently no accepted credit cards configured for this site. You "
 "can <a href=\"%1\">add one now</a>."
 msgstr ""
 "There are no Tags entered for this Contact. You can <a href=\"%1\">add one</"
@@ -8487,7 +8485,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Edit Thank-you page contents and receipting features."
+msgid "Edit thank-you page contents and receipting features."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -8591,7 +8589,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 #, fuzzy
 msgid ""
-"There are no custom Contribution Types entered. You can <a href=\"%1\">add "
+"There are no custom contribution types entered. You can <a href=\"%1\">add "
 "one</a>."
 msgstr ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
@@ -8672,7 +8670,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #, fuzzy
 msgid ""
-"There are no custom Payment-Instrument entered. You can <a href=\"%1\">add "
+"There are no custom Payment Instruments entered. You can <a href=\"%1\">add "
 "one</a>."
 msgstr ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
@@ -8763,7 +8761,7 @@ msgid ""
 "Select the type of record that this group of custom fields is applicable "
 "for. You can configure custom data for a specific type of contact (e.g. "
 "Individuals but NOT Organizations), ANY type of contact, or other record "
-"types such as Activities and Contributions."
+"types such as activities and contributions."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -9164,6 +9162,11 @@ msgstr ""
 "You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
+
+#: templates/CRM/Import/Form/Summary.tpl
+#, fuzzy
+msgid "Mismatched  Rows (skipped)"
+msgstr "Invalid Rows (skipped)"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with Mismatched contact IDs ... (NOT Updated)."
@@ -9688,14 +9691,17 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>Profile Listings</strong> - A default profile search form and search "
-"result listings is displayed when you link users to the <site root>/civicrm/"
-"profile?reset=1 path. If you have several profiles which you want to use for "
-"different search and listings purposes, simply add the profile ID to the end "
-"of your query string using the 'gid' parameter. For example, the link to "
-"display a search and listings page for a Profile with ID = 3 would be:<br /"
-"><strong>&lt;your site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>"
+"result listings is displayed when you link users to the %1/%2 path. If you "
+"have several profiles which you want to use for different search and "
+"listings purposes, simply add the profile ID to the end of your query string "
+"using the 'gid' parameter. For example, the link to display a search and "
+"listings page for a Profile with ID = 3 would be:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -10008,6 +10014,18 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Contributions recorded for this contact. You can <a href=\"%1"
+#~ "\">enter one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "There are no Contributions recorded for this contact."
+#~ msgstr "There are no Relationships entered for this contact."
 
 #, fuzzy
 #~ msgid ""
