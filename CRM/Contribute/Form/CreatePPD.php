@@ -140,7 +140,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
             } else {
                 $name = 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY';
             }
-            $message = ts( "Your %1 values is: '%2'. This value must be entered in the Payment Processor section of the CiviCRM configuration file. ",
+            $message = ts( 'Your %1 values is: "%2". This value must be entered in the Payment Processor section of the CiviCRM configuration file.',
                            array( 1 => $name, 2 => $pid ) );
             CRM_Core_Session::setStatus( $message );
         }

@@ -40,7 +40,7 @@
 
     <div class="messages status">
         <p>
-        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.</strong>{/ts}
+        {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
         </p>
     </div>
     <div id="crm-submit-buttons">

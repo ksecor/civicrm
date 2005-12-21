@@ -237,7 +237,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'invoice_id'            => $this->_params['invoiceID'],
                             'currency'              => $this->_params['currencyID'],
                             'receipt_date'          => $receiptDate,
-                            'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],
+                            'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
                             );
             
             $ids = array( );
