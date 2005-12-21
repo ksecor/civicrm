@@ -2,6 +2,7 @@
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
+# Newton Calvin <calvin@spei.br>, 2005.
 # 
 # 
 msgid ""
@@ -9,14 +10,13 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-19 12:01+0100\n"
-"PO-Revision-Date: 2005-12-19 21:41+0100\n"
-"Last-Translator: Newton Calvin <calvin@spei.br>\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2005-12-20 18:31-0200\n"
+"Last-Translator: Creso Moraes <creso@enfoque.com>\n"
+"Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.6.3.20050808\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
@@ -42,7 +42,7 @@ msgstr "Data e Hora"
 #: CRM/Contact/Form/Task/Record.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
 msgid "Select a valid date."
-msgstr "Selecione uma Data válida"
+msgstr "Selecione uma data válida."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
@@ -54,7 +54,7 @@ msgstr "Duração"
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
-msgstr "Localização"
+msgstr "Localidade"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
@@ -79,7 +79,7 @@ msgstr "Status"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/Phonecall.php
 msgid "Please select status."
-msgstr "Selecione um Status"
+msgstr "Selecione status."
 
 #: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
@@ -119,12 +119,12 @@ msgstr "Descrição"
 
 #: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Phonecall.php
 msgid "Phone Number"
-msgstr "Núm. Fone"
+msgstr "Telefone"
 
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_data.tpl
 msgid "Phone Call"
-msgstr "Chamada Telefônica"
+msgstr "Telefonema"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php
@@ -248,7 +248,7 @@ msgstr "Nome"
 #: CRM/Import/Form/Preview.php CRM/Mailing/Form/Component.php
 #: CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
-msgstr "Nome já existente na Base de Dados"
+msgstr "Nome já existente na Base de Dados."
 
 #: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
@@ -268,7 +268,7 @@ msgstr "Nome já existente na Base de Dados"
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Enabled?"
-msgstr "Habilitado ?"
+msgstr "Ativado?"
 
 #: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
 msgid "OK"
@@ -348,7 +348,7 @@ msgstr "Editar"
 #: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
-msgstr "Desabilitar"
+msgstr "Desativar"
 
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
 #: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
@@ -363,7 +363,7 @@ msgstr "Desabilitar"
 #: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr "Habilitar"
+msgstr "Ativar"
 
 #: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
 msgid "Manage"
@@ -381,7 +381,7 @@ msgstr "Instalar"
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr "Backup da Base de Dados"
+msgstr "Fazer backup da Base de Dados"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
@@ -404,7 +404,7 @@ msgstr "Individual"
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr "dono(a) de casa"
+msgstr "Domicílio"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -966,13 +966,13 @@ msgstr "Quantidade Total"
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Fee Amount"
-msgstr ""
+msgstr "Valor da Taxa"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr ""
+msgstr "Valor Líquido"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -983,11 +983,11 @@ msgstr "Organização"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr ""
+msgstr "ID da Fatura"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Currency"
-msgstr ""
+msgstr "Moeda"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -1026,7 +1026,7 @@ msgstr "Endereco de email inválido"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 msgid "Other Amount"
-msgstr ""
+msgstr "Outra Quantia"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
 msgid "%1 is a required field"
@@ -1035,7 +1035,7 @@ msgstr "%1 é um campo obrigatório"
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Valor Mínimo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1089,7 +1089,7 @@ msgstr "Reservado?"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Thank-you Sent"
-msgstr ""
+msgstr "Agradecimento Enviado"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
 #: CRM/Contribute/Selector/Search.php
@@ -1103,7 +1103,7 @@ msgstr "Cancelado"
 #: CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Um arquivo válido deve ser carregado."
 
 #: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -1130,11 +1130,13 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr ""
+msgstr "As colunas de dados neste arquivo de importação parecem ser diferentes do"
+"mapeamento salvo. Antes de continuar, verifique se selecionou o mapeamento"
+"correto."
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "Necessário um nome para salvar Mapeamento de Importação"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 #, fuzzy
@@ -1703,19 +1705,19 @@ msgstr "Notas"
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_KEY ausente do arquivo config."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_TEST_KEY ausente do arquivo config."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_PASSWORD ausente do arquivo config."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr ""
+msgstr "CIVICRM_PAYMENT_TEST_PASSWORD ausente do arquivo config."
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Please enter a valid subject."
@@ -1804,7 +1806,9 @@ msgid ""
 "The Duplicate Matching rule has not been saved because of the rule is "
 "invalid. Rules should contain only valid field names,'AND','OR' or "
 "'parentheses'  )"
-msgstr ""
+msgstr "A regra Duplicate Matching não foi salva porque é inválida. Regras "
+"devem conter apenas nomes de arquivos válidos, 'AND', 'OR' ou"
+"'parentheses'  )"
 
 #: CRM/Admin/Form/DupeMatch.php
 #, fuzzy
@@ -1943,7 +1947,7 @@ msgstr "Editar Nota"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr ""
+msgstr "Editar DupeMatch"
 
 #: CRM/Admin/Page/Gender.php
 msgid ""
@@ -2605,13 +2609,11 @@ msgstr "Necessário marcar Nome e Sobrenome OU email na Localização Primária.
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Duplicate Contact button below."
-msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] ""
+msgstr ""
 "Um contato foi encontrado. Você pode editá-lo aqui: %1, ou clicar no botão "
 "Gravar Contato Duplicado abaixo."
-msgstr[1] ""
 "%count contatos iguais encontrados. Você pode editá-los aqui: %1, ou clicar "
 "no botão Gravar Contato Duplicado abaixo."
 
@@ -2660,24 +2662,20 @@ msgstr[1] "Criados %count novos registros de relacionamento."
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created due to invalid target contact type."
-msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] ""
+msgstr ""
 "%count registro de relacionamento não criado devido ao tipo de contato "
 "destino inválido."
-msgstr[1] ""
 "%count registros de relacionamentos não criados devido o tipo de contato "
 "destino inválido."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
-msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr[0] ""
+msgstr ""
 "%count registro de relacionamento não criado - duplicação de relacionamento "
 "já existente."
-msgstr[1] ""
 "%count registros de relacionamento não criados - duplicação de "
 "relacionamentos existentes."
 
@@ -2807,7 +2805,8 @@ msgstr "Contato(s) excluído(s): %1 "
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr ""
+msgstr "Não se pode apagar o registro de contato vinculado à conta do usuário "
+"atualmente logado - \"%1\"."
 
 #: CRM/Contact/Form/Task/Delete.php
 #, fuzzy
@@ -2823,7 +2822,8 @@ msgstr "O Contato selecionado não pode ser excluído."
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr ""
+msgstr "Este registro de contato está vinculado à conta do usuário atualmente"
+"logado - \"%1\" -- e por isso não pode ser apagado."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "(preferred)"
@@ -2878,7 +2878,8 @@ msgstr "Exportar Todos ou Campos Selecionados"
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr ""
+msgstr "Este endereço primário de contato não contém informação sobre"
+"latitude/longitude, e por isso não pode ser mapeado."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3104,7 +3105,7 @@ msgstr "%1 - Campos customizados"
 
 #: CRM/Contribute/DAO/AcceptCreditCard.php
 msgid "Accept Credit Card"
-msgstr ""
+msgstr "Aceitar Cartão de Crédito"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -3118,11 +3119,11 @@ msgstr "Padrão"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Valor Mínimo"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Valor Máximo"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -3131,7 +3132,7 @@ msgstr "Título de Introdução"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thankyou Text"
-msgstr ""
+msgstr "Texto de Agradecimento"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -3145,7 +3146,7 @@ msgstr "Destinatário(s)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
-msgstr ""
+msgstr "Recibo de BCC (Cópia Oculta)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -3159,7 +3160,7 @@ msgstr "Data de Limpar"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Non Deductible Amount"
-msgstr ""
+msgstr "Valor Não-Dedutível"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Date"
@@ -3176,11 +3177,11 @@ msgstr "Data de Limpar"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Thank-you Date"
-msgstr ""
+msgstr "Data do Agradecimento"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
-msgstr ""
+msgstr "Fonte da Contribuição"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 #, fuzzy
@@ -3194,7 +3195,7 @@ msgstr "tipo HTML"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Payment Processor"
-msgstr ""
+msgstr "Processador do Pagamento"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
@@ -3277,7 +3278,8 @@ msgstr "Quantidade é um campo obrigatório"
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr ""
+msgstr "Digite um valor válido como seu código de segurança de cartão. Geralmente"
+"são os últimos 3 ou 4 dígitos no painel de assinatura do cartão."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
@@ -3299,7 +3301,7 @@ msgstr "Entre com um Número Válido"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow Other Amounts?"
-msgstr ""
+msgstr "Permitir Outros Valores?"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -3308,21 +3310,21 @@ msgstr "Digite um valor válido para este campo."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
-msgstr ""
+msgstr "Valor Mínimo tem que ser menor que Valor Máximo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
-msgstr ""
+msgstr "Valores de Contribuição"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Fields<br />(above billing info)"
-msgstr ""
+msgstr "Campos Customizados<br />(acima da info de cobrança)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Fields<br />(below billing info)"
-msgstr ""
+msgstr "Campos Customizados<br />(abaixo da info de cobrança)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
@@ -3364,7 +3366,7 @@ msgstr "Endereço de Correspondência"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Page Title"
-msgstr ""
+msgstr "Título da Página de Agradecimento"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #, fuzzy
@@ -3373,11 +3375,11 @@ msgstr "Mensagem de Opção de Sair"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank You Page Footer"
-msgstr ""
+msgstr "Rodapé da Página de Agradecimento"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
-msgstr ""
+msgstr "Enviar Recibo ao Contribuinte?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #, fuzzy
@@ -3386,7 +3388,7 @@ msgstr "Deixar mensagem"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
-msgstr ""
+msgstr "Recibo CC Para"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #, fuzzy
@@ -3395,18 +3397,19 @@ msgstr "Entre com um valor inteiro como valor padrão."
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "BCC Receipt To"
-msgstr ""
+msgstr "Recibo BCC Para"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid ""
 "A Receipt message must be specified if Email Receipt to Contributor is "
 "enabled"
-msgstr ""
+msgstr "Uma mensagem de Recebimento precisa ser especificada se a função"
+"Enviar Recibo ao Contribuinte for ativada"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
-msgstr ""
+msgstr "Agradecimento e Recebimento"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -3464,17 +3467,16 @@ msgid "API Username"
 msgstr ""
 
 #: CRM/Contribute/Form/CreatePPD.php
-#, fuzzy
 msgid "API Subject"
-msgstr "Assunto"
+msgstr "Assunto da API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Environment"
-msgstr ""
+msgstr "Ambiente da API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API SSL Certificate"
-msgstr ""
+msgstr "Certificado SSL da API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 #, fuzzy
@@ -3483,13 +3485,14 @@ msgstr "O tamanho do arquivo deve ser menor que 1 MByte"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "Could not open %1 file for writing"
-msgstr ""
+msgstr "Impossível abrir arquivo %1 para gravar"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid ""
 "Your %1 values is: '%2'. This value must be entered in the Payment Processor "
 "section of the CiviCRM configuration file. "
-msgstr ""
+msgstr "Seus valores %1 são: '%2'. Este valor precisa estar inscrito na seção "
+"Processador de Pagamento do arquivo de configuração do CiviCRM. "
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 #, fuzzy
@@ -3609,7 +3612,7 @@ msgstr "Habilitar Cartao de Credito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
-msgstr ""
+msgstr "Apagar Cartão de Crédito Aceito"
 
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
@@ -3741,13 +3744,16 @@ msgstr "%1 parecido - \"%2\""
 msgid ""
 "We could not find the backup sql script. Check sql/civicrm_backup.mysql in "
 "the CiviCRM root directory."
-msgstr ""
+msgstr "Impossível encontrar o script de backup do sql. Verifique "
+"sql/civicrm_backup.mysql no diretório raiz do CiviCRM."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
+msgstr "Não encontrado o programa mysqldump. Verifique a variável de configuração"
+"CIVICRM_MYSQL_PATH no arquivo de configuração do seu CiviCRM."
+""
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -5003,11 +5009,12 @@ msgstr "Selecione os Destinatários do Mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include group(s) and Exclude group(s). "
-msgstr ""
+msgstr "Os mesmos grupos não podem estar em Incluir grupo(s) e Excluir grupo(s)."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
-msgstr ""
+msgstr "A mesma correspondência não pode estar em Incluir mailing(s) e"
+"Excluir mailing(s)."
 
 #: CRM/Mailing/Form/Name.php
 msgid "Name Your Mailing"
@@ -5042,7 +5049,7 @@ msgstr "Limpar"
 
 #: CRM/Mailing/Form/Retry.php
 msgid "Retry scheduled for mailing: %1"
-msgstr ""
+msgstr "Agendada nova tentativa de mailing: %1"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Start date cannot be earlier than the current time."
@@ -5383,12 +5390,13 @@ msgstr "Esta este perfil ativo?"
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
-msgstr ""
+msgstr "Este perfil não pode ser apagado porque é útil a outros módulos."
 
 #: CRM/UF/Form/Group.php
 msgid ""
 "You must delete all profile fields for \"%1\" prior to deleting the profile."
-msgstr ""
+msgstr "Antes de apagar perfil é necessário apagar todos os campos de perfil"
+"de \"%1\"."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
@@ -5478,13 +5486,15 @@ msgstr "Perfil de Grupo CiviCRM"
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
-msgstr ""
+msgstr "Sincronizar Usuários com Contatos:"
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid ""
 "CiviCRM will check each user record for a contact record. A new contact "
 "record will be created for each user where one does not already exist."
-msgstr ""
+msgstr "CiviCRM conferirá cada registro de usuário com um registro de contato."
+"Um novo registro de contato será criado para cada usuário que não existir"
+"ainda."
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -5515,7 +5525,10 @@ msgid ""
 "allow you to download it to your local computer. This process may take a "
 "long time and generate a very large file if you have a large number of "
 "records."
-msgstr ""
+msgstr "O CiviCRM criará um arquivo dump SQL com todos os seus dados atuais,"
+"e permitirá baixá-lo no seu computador local. Este processo pode demorar"
+"bastante e gerar um arquivo muito grande se houver um grande número"
+"de registros."
 
 #: CRM/Utils/Menu.php
 msgid "Access Control"
@@ -5879,7 +5892,8 @@ msgstr "status"
 msgid ""
 "Cannot display Activity History details since activity type for this "
 "activity has been deleted."
-msgstr ""
+msgstr "Impossível exibir detalhes do Histórico de Atividades porque o"
+"tipo de atividade foi apagado."
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
@@ -5917,7 +5931,8 @@ msgstr "Novo Tipo de atividade"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all activity type "
 "records which use the option."
-msgstr ""
+msgstr "AVISO: Apagar esta opção fará perder todos os registros de tipos de"
+"atividades que a usam."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl
@@ -5931,11 +5946,12 @@ msgstr ""
 msgid ""
 "This may mean the loss of a substantial amount of data, and the action "
 "cannot be undone."
-msgstr ""
+msgstr "Isto pode significar a perda de um substancial volume de dados -- e o "
+"pior é que a ação não poderá ser revertida."
 
 #: templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Drupal Users"
-msgstr ""
+msgstr "Sincronizar Usuários Drupal"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Duplicate Matching Rule "
@@ -5962,7 +5978,12 @@ msgid ""
 "    contact records for duplicate matching. If some of the fields in your "
 "matching rule are OPTIONAL, then\n"
 "    all <strong>non-empty</strong> fields in the incoming data are used."
-msgstr ""
+msgstr "Selecione até cinco campos de contato para usar na comparação de novo"
+"contato individual\n"
+"    com registros de contatos para duplicate matching. Se alguns dos campos"
+"em sua matching rule são OPCIONAIS, então\n"
+"    todos os campos <strong>não-vazios</strong> dos dados entrantes "
+"serão usados."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -5972,7 +5993,12 @@ msgid ""
 "same email address and leaves\n"
 "    the first and last name blank. The new contact will be flagged as a "
 "potential duplicate."
-msgstr ""
+msgstr "Por exemplo, usando a default matching rule de <strong>Email AND First Name"
+"AND Last Name</strong>... Jane Doe jane.doe@example.org\n"
+"    existe em sua base de dados. Agora alguém tenta adicionar novo contato"
+"com o mesmo endereço de email e deixa\n"
+"    em branco o primeiro e o último nomes. O novo contato será marcado como"
+"possível duplicado."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 #, fuzzy
@@ -5981,7 +6007,7 @@ msgstr "Adicionar contatos à Organização"
 
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
 msgid "New Gender Option"
-msgstr ""
+msgstr "Nova Opção de Sexo"
 
 #: templates/CRM/Admin/Form/Gender.tpl
 #, fuzzy
@@ -5997,7 +6023,8 @@ msgstr "Editar opções"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Gender related "
 "records which use the option."
-msgstr ""
+msgstr "AVISO: Apagar esta opção fará perder todos os registros relacionados com"
+"Sexo que a usam."
 
 #: templates/CRM/Admin/Form/IMProvider.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -6017,7 +6044,8 @@ msgstr "Editar Fornecedor de Serviço IM"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all IM Service "
 "Provider type records which use the option."
-msgstr ""
+msgstr "AVISO: Apagar esta opção fará perder todos os registros do tipo"
+"Provedor de Serviço IM que a usam."
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
@@ -6069,7 +6097,8 @@ msgstr "Novo Fornecedor de Serviços Móveis"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Mobile Provider "
 "type records which use the option."
-msgstr ""
+msgstr "AVISO: Apagar esta opção fará perder todos os registros do tipo de"
+"Operadora de Celular que a usam."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -6085,7 +6114,8 @@ msgstr "Excluir Relacionamento"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Relationship "
 "type records which use the option."
-msgstr ""
+msgstr "AVISO: Apagar esta opção fará perder todos os reegistros do tipo"
+"Relacionamento que a usam."
 
 #: templates/CRM/Admin/Form/Tag.tpl templates/CRM/Admin/Page/Tag.tpl
 msgid "New Tag"
@@ -6123,7 +6153,10 @@ msgid ""
 "'Advanced Search'. Other applications may record activities for CiviCRM "
 "contacts using our APIs. For more information, refer to our Administrator "
 "Documentation."
-msgstr ""
+msgstr "Atividades concluídas são pesquisáveis por tipo e/ou data de atividade"
+"usando 'Busca Avançada'. Outros aplicativos podem registrar atividades"
+"para contatos do CiviCRM usando nossas APIs. Para mais informações,"
+"consulte a nossa Documentação de Administrador."
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -6150,7 +6183,8 @@ msgstr "Uma nova versao do CiviCRM esta disponivel: %1 (este site esta atualment
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
-msgstr ""
+msgstr "Leia sobre a nova versão em <a href=\"%1\">nosso website</a> e <a href=\"%2"
+"\">baixe-a daqui</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid " Duplicate Matching Rule "
@@ -6161,7 +6195,9 @@ msgid ""
 "CiviCRM is pre-configured with standard options for individual gender (e.g. "
 "Male, Female, Transgender). You can use this page to customize these options "
 "and add new options as needed for your installation."
-msgstr ""
+msgstr "O CiviCRM é pré-configurado com opções-padrão para sexo do indivíduo (ex:"
+"Masculino, Feminino, Transgender). Você pode usar esta página para customizar"
+"essas opções ou adicionar novas conforme a necessidade de sua instalação."
 
 #: templates/CRM/Admin/Page/Gender.tpl
 #, fuzzy
@@ -6200,7 +6236,9 @@ msgid ""
 "CiviCRM is pre-configured with standard options for individual contact "
 "prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr ""
+msgstr "O CiviCRM é pré-configurado com opções-padrão para prefixos de contatos"
+"individuais (ex: Sr., Sra., Dr. etc). Pode-se usar esta página para customizar"
+"essas opções ou adicionar novas, conforme sua necessidade."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 #, fuzzy
@@ -6215,7 +6253,9 @@ msgid ""
 "CiviCRM is pre-configured with standard options for individual contact name "
 "suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr ""
+msgstr "O CiviCRM é pré-configurado com opções-padrão para sufixos de contatos"
+"individuais (ex: Jr., Fº., Nº. etc). Pode-se usar esta página para customizar"
+"essas opções ou adicionar novas, conforme sua necessidade."
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #, fuzzy
@@ -6287,13 +6327,15 @@ msgstr ""
 msgid ""
 "Relationship types describe relationships between people, households and "
 "organizations."
-msgstr ""
+msgstr "Tipos de Relacionamento descrevem relações entre pessoas, domicílios e"
+"organizações."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "You can define as many additional relationships types as needed to cover the "
 "types of relationships you want to track."
-msgstr ""
+msgstr "Pode-se definir tantos tipos de relacionamentos quantos forem necessários"
+"para cobrir o que se deseja rastrear."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Relationship A to B"
@@ -6374,7 +6416,9 @@ msgid ""
 "CiviCRM software is openly available to any person or organization under the "
 "terms of the <a href=\"%1\">Affero General Public License (AGPL)</a>. Source "
 "code can be downloaded from our <a href=\"%2\">downloads site</a>."
-msgstr ""
+msgstr "O software CiviCRM é aberto a qualquer pessoa ou organização sob os termos"
+"da <a href=\"%1\">Licença Pública Geral Affero (AGPL)</a>. O código-fonte"
+"pode ser baixado de nosso <href=\"%2\">site para downloads</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -6589,7 +6633,9 @@ msgid ""
 "Location search uses the PRIMARY location for each contact by default. To "
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
-msgstr ""
+msgstr "Por padrão, a busca por localidade usa a localidade PRIMÁRIA de cada contato."
+"Para buscar tipos específicos de localidade (ex: Casa, Trabalho...), marque uma"
+"ou mais caixas acima."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -6693,13 +6739,15 @@ msgstr ""
 msgid ""
 "Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
 "members to this group."
-msgstr ""
+msgstr "Use a tela <a href=\"%1\">Adicionar Membros...</a> se quiser acrescentar"
+"novos membros a este grupo."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Click <a href=\"%1\">Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
-msgstr ""
+msgstr "Clique <a href=\"%1\">Editar Critérios de Busca Smart Group...</a> para"
+"mudar a consulta usada para este grupo 'smart'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
@@ -6734,7 +6782,9 @@ msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu."
-msgstr ""
+msgstr "Se V. mudou o critério de busca para este 'smart group' e quer salvar as"
+"mudanças, selecione <strong>Atualizar Smart Group</strong> na opção"
+"' - mais ações -' do menu tipo drop-down."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #, fuzzy
@@ -6820,33 +6870,47 @@ msgid ""
 "multiple types of contact records, and non-applicable fields will be empty "
 "(e.g. <strong>Last Name</strong> will not be populated for an Organization "
 "record)."
-msgstr ""
+msgstr "Selecione da tabela abaixo os campos a serem exportados. Para cada"
+"campo, selecione primeiro o tipo de contato ao qual o campo pertence"
+"(ex: selecione <strong>Individuos</strong> se estiver exportando"
+" <strong>Sobrenome</strong>). Aí escolha o verdadeiro campo a ser"
+"exportado no menu tipo drop-down que aparecerá junto do tipo de"
+"contato. Sua exportação pode incluir múltiplos tipos de registros de"
+"contato, ficando vazios os campos não-aplicáveis."
+"Ex: <strong>Sobrenome</strong> não será populado para um registro"
+"de Organização."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click <strong>Select more fields...</strong> if you want to export more "
 "fields than are initially displayed in the table."
-msgstr ""
+msgstr "Clique <strong>Selecionar mais campos...</strong> se quiser exportar"
+"mais campos do que os inicialmente exibidos na tabela."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
-msgstr ""
+msgstr "Clique 'Load Saved Field Mapping' para recuperar uma configuração de "
+"exportação que V. salvou anteriormente."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "If you want to use the same export setup in the future, check 'Save this "
 "field mapping' at the bottom of the page before continuing. You will then be "
 "able to reload this setup with a single click."
-msgstr ""
+msgstr "Se quiser usar a mesma configuração de exportação no futuro, marque"
+"'Save this field mapping' no rodapé da página antes de continuar. Você"
+"então poderá recarregar essa configuração com um simples clique."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
 "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
 "used data values. This includes primary address information, preferred phone "
 "and email, as well as all custom data."
-msgstr ""
+msgstr "<strong>Exportar campos de contato PRIMÁRIO</strong> fornece os valores"
+"de dados mais freqüentemente usados. Isso inclui informação do endereço"
+"primário, fone e email preferenciais, e todos os dados customizados."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
@@ -6857,10 +6921,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
-#, fuzzy
 msgid "One record selected for export."
 msgid_plural "%count records selected for export."
-msgstr[0] "Não há registros selecionados para Imprimir."
+msgstr[0] "Um registro selecionado para exportar."
 msgstr[1] "Não há registros selecionados para Imprimir."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
@@ -7384,19 +7447,22 @@ msgstr "Excluir Cartao de Credito"
 msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
-msgstr ""
+msgstr "AVISO: Se apagar esta opção, doadores não poderão usar este tipo"
+"de cartão de crédito em suas páginas de Contribuição Online."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
-msgstr ""
+msgstr "O nome para este tipo de cartão de crédito como deve ser informado ao"
+"seu processador de pagamentos."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
-msgstr ""
+msgstr "O nome para este tipo de cartão de crédito como aparece para os doadores."
+"Ele pode ser o mesmo do Nome acima, ou um localised title."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -8119,13 +8185,11 @@ msgstr ""
 msgid ""
 "CiviCRM has detected Mismatched Contribution Id. This record have not been "
 "Updated."
-msgid_plural ""
 "CiviCRM has detected Mismatched Contribution Ids. These records have not "
 "been Updated."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
-msgstr[1] ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
 
@@ -8144,13 +8208,11 @@ msgstr ""
 msgid ""
 "CiviCRM has detected invalid data and/or formatting errors in one record. "
 "This record have not been imported."
-msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
-msgstr[1] ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
 
@@ -8169,16 +8231,14 @@ msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing contribution records. This record have not "
 "been imported."
-msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
 "mesmo endereço de email primário."
-msgstr[1] ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
@@ -8200,13 +8260,11 @@ msgstr ""
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contribution record."
-msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou %1 registros duplicados nos registros de contatos já "
 "existentes. Estes registros não foram importados."
-msgstr[1] ""
 "CiviCRM detectou %1 registros duplicados nos registros de contatos já "
 "existentes. Estes registros não foram importados."
 
@@ -9007,13 +9065,11 @@ msgstr ""
 msgid ""
 "CiviCRM has detected Mismatched Contact Id . This record have not been "
 "Updated."
-msgid_plural ""
 "CiviCRM has detected Mismatched Contact Ids. These records have not been "
 "Updated."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
-msgstr[1] ""
 "CiviCRM detectou dados inválidos e/ou erros de formatação nos registros em %"
 "1. Estes registros não foram importados."
 
@@ -9032,16 +9088,14 @@ msgid ""
 "CiviCRM has detected one record with conflicting email addresses within this "
 "data file or relative to existing contact records. This record have not been "
 "imported."
-msgid_plural ""
 "CiviCRM has detected %count records with conflicting email addresses within "
 "this data file or relative to existing contact records. These records have "
 "not been imported."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
 "mesmo endereço de email primário."
-msgstr[1] ""
 "CiviCRM detectou  %1 registros com conflito nos endereços email no arquivo "
 "de dados ou registros de contatos relativos já existentes. Estes registros "
 "não foram importados. CiviCRM não permite múltiplos contatos que tenham o "
@@ -9070,13 +9124,11 @@ msgstr ""
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "contact record."
-msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
-msgstr[0] ""
+msgstr ""
 "CiviCRM detectou %1 registros duplicados nos registros de contatos já "
 "existentes. Estes registros não foram importados."
-msgstr[1] ""
 "CiviCRM detectou %1 registros duplicados nos registros de contatos já "
 "existentes. Estes registros não foram importados."
 
@@ -10416,4 +10468,3 @@ msgstr ""
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
-
