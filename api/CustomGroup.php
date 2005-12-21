@@ -120,10 +120,10 @@ function crm_get_option_values($customField)
 
 /**
  *
- * updates one or more option values for "enum" type properties 
+ * updates one or more option values
  *
- * @param params         Array    Associative array of property name/value pairs to insert in group.
- * @param $optionID  object   A valid custom field object 
+ * @param params         Array    Associative array of property name/value pairs to insert in option.
+ * @param optionID       Object   A valid custom field object 
  *
  * @return object of newly created custom_option.
  *
@@ -150,7 +150,7 @@ function crm_update_option_value($params , $optionID )
 
 /**
  *
- * delete one or more option values for "enum" type properties 
+ * delete one or more option values
  *
  * @param $optionID  object   A valid custom field object 
  *
@@ -302,7 +302,7 @@ function crm_create_custom_field(&$custom_group, $params)
 /**
  * get 'custom field' 
  *
- * @param $params       array  Associative array of property name/value pairs to create new custom field.
+ * @param $params       array  Associative array of property name/value pairs to get custom field.
  *
  * @return  custom_field object
  *
@@ -317,8 +317,9 @@ function crm_get_custom_field( $params ) {
     }
 
     $dao = new CRM_Core_DAO_CustomField();
-    $dao->id   = $params['id'];
-    $dao->name = $params['name'];
+    $dao->id    = $params['id'];
+    $dao->name  = $params['name'];
+    $dao->label = $params['label'];
     $dao->find(true);
     return $dao;
 }
