@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-19 12:01+0100\n"
+"POT-Creation-Date: 2005-12-21 11:53+0100\n"
 "PO-Revision-Date: 2005-12-20 21:45+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
@@ -757,7 +757,9 @@ msgstr "Uusia yhteystiedostoja luoto %1"
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr "Yhteystiedostoja ei ole luotu, koska kohteen yhteystyyppi oli virheellinen: %1"
+msgstr ""
+"Yhteystiedostoja ei ole luotu, koska kohteen yhteystyyppi oli virheellinen: %"
+"1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -901,8 +903,7 @@ msgstr "Määrittele yhteys"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr "Yhteys"
-"%%StatusMessage%%"
+msgstr "Yhteys%%StatusMessage%%"
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
@@ -1109,7 +1110,9 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr "Sarakejako tiedostossa poikkeaa tallennetusta määrittelystä. Varmista että olet tallentanut oikeat määrittelyt."
+msgstr ""
+"Sarakejako tiedostossa poikkeaa tallennetusta määrittelystä. Varmista että "
+"olet tallentanut oikeat määrittelyt."
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
@@ -1317,8 +1320,7 @@ msgstr "Kohde taulukko"
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr "Aikataulutettu päivä"
-"Aika"
+msgstr "Aikataulutettu päiväAika"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
@@ -1466,8 +1468,7 @@ msgstr "Räätälöidyt kentät"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
-msgstr "CiviCRM profiilin "
-"ryhmä"
+msgstr "CiviCRM profiilin ryhmä"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
@@ -1687,7 +1688,8 @@ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_PASSWORD ei ole asetettuna in the config tiedostossa."
+msgstr ""
+"CIVICRM_PAYMENT_TEST_PASSWORD ei ole asetettuna in the config tiedostossa."
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Please enter a valid subject."
@@ -1774,7 +1776,10 @@ msgid ""
 "The Duplicate Matching rule has not been saved because of the rule is "
 "invalid. Rules should contain only valid field names,'AND','OR' or "
 "'parentheses'  )"
-msgstr "Kaksoiskappaleiden vastaavuutta koskevaa sääntöä ei ole tallennettu, koska sääntö on viallinen. Säännöt voivat sisältää vain olemassa olevien kenttien nimiä, sekä \"ja\", \"tai\" sekä sulkeita."
+msgstr ""
+"Kaksoiskappaleiden vastaavuutta koskevaa sääntöä ei ole tallennettu, koska "
+"sääntö on viallinen. Säännöt voivat sisältää vain olemassa olevien kenttien "
+"nimiä, sekä \"ja\", \"tai\" sekä sulkeita."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -1881,10 +1886,19 @@ msgid "The Relationship Type has been saved."
 msgstr "Yhteystyyppi on tallennettu."
 
 #: CRM/Admin/Page/ActivityType.php
+#, fuzzy
+msgid "Are you sure you want to disable this activity type?"
+msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän lahjoitustyypin?"
+
+#: CRM/Admin/Page/ActivityType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this activity type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing activities."
-msgstr "Oletko varma, että haluat poistaa tämän aktiviteettityypin?\n\nKäyttäjät eivät jatkossa voi valita tätä tyyppiä."
+"Users will no longer be able to select this value when adding or editing "
+"activities."
+msgstr ""
+"Oletko varma, että haluat poistaa tämän aktiviteettityypin?\n"
+"\n"
+"Käyttäjät eivät jatkossa voi valita tätä tyyppiä."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
@@ -1911,10 +1925,19 @@ msgid "Edit DupeMatch"
 msgstr "Muokkaa DupeMatch"
 
 #: CRM/Admin/Page/Gender.php
+#, fuzzy
+msgid "Are you sure you want to disable this Gender?"
+msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Gender?\\n\\nUsers will no longer be "
-"able to select this value when adding or editing Gender."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän sukupuolen?\n\nKäyttäjät eivät jatkossa voi enää käyttää sitä."
+"Users will no longer be able to select this value when adding or editing "
+"Gender."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän sukupuolen?\n"
+"\n"
+"Käyttäjät eivät jatkossa voi enää käyttää sitä."
 
 #: CRM/Admin/Page/Gender.php
 msgid "Edit Gender"
@@ -1927,19 +1950,27 @@ msgstr "Poista sukupuoli käytöstä"
 #: CRM/Admin/Page/Gender.php
 msgid "Enable Gender"
 msgstr "Ota sukupuoli käyttöön"
-""
 
 #: CRM/Admin/Page/Gender.php
 msgid "Delete Gender Type"
 msgstr "Poista sukupuoli"
-""
 
 #: CRM/Admin/Page/IMProvider.php
+#, fuzzy
+msgid "Are you sure you want to disable this IM Service Provider?"
+msgstr ""
+"Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiiliryhmän."
+
+#: CRM/Admin/Page/IMProvider.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
-"no longer be able to select this value when adding or editing contact IM "
-"screen names."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän pikaviestien (IMS) tarjoajan ?\n\nKäyttäjät eivät voi jatkossa käyttää sitä."
+"Users will no longer be able to select this value when adding or editing "
+"contact IM screen names."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän pikaviestien (IMS) "
+"tarjoajan ?\n"
+"\n"
+"Käyttäjät eivät voi jatkossa käyttää sitä."
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "IM Provider"
@@ -1958,10 +1989,21 @@ msgid "Delete IM Provider"
 msgstr "Poista pikaviestien (IMS) tarjoaja"
 
 #: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
+msgid "Are you sure you want to disable this Individual Prefix?"
+msgstr ""
+"Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiilikentän."
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Individual Prefix?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing Individual Prefix."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän henkilökohtaisen etuliitteen?\n\nKäyttäjät eivät voi enää käyttää sitä.."
+"Users will no longer be able to select this value when adding or editing "
+"Individual Prefix."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän henkilökohtaisen "
+"etuliitteen?\n"
+"\n"
+"Käyttäjät eivät voi enää käyttää sitä.."
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Edit Individual Prefix"
@@ -1980,10 +2022,19 @@ msgid "Delete Individual Prefix"
 msgstr "Poista henkilökohtainen etuliite."
 
 #: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
+msgid "Are you sure you want to disable this Individual Suffix?"
+msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Individual Suffix?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing Individual Suffix."
-msgstr "Oletko varma, että haluat poistaa tämän henkilökohtaisen tarkentimen.?\n\nKäyttäjät eivät voi enää käyttää sitä."
+"Users will no longer be able to select this value when adding or editing "
+"Individual Suffix."
+msgstr ""
+"Oletko varma, että haluat poistaa tämän henkilökohtaisen tarkentimen.?\n"
+"\n"
+"Käyttäjät eivät voi enää käyttää sitä."
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -2004,10 +2055,19 @@ msgid "Delete Individual Suffix"
 msgstr "Poista henkilökohtainen tarkennin."
 
 #: CRM/Admin/Page/LocationType.php
+#, fuzzy
+msgid "Are you sure you want to disable this location type?"
+msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän lahjoitustyypin?"
+
+#: CRM/Admin/Page/LocationType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this location type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing contact locations."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän sijaintipaikan tyypin?\n\nKäyttäjät eivät voi enää käyttää sitä."
+"Users will no longer be able to select this value when adding or editing "
+"contact locations."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän sijaintipaikan tyypin?\n"
+"\n"
+"Käyttäjät eivät voi enää käyttää sitä."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
@@ -2026,12 +2086,20 @@ msgid "Delete Location Type"
 msgstr "poista sijaintipaikan tyyppi."
 
 #: CRM/Admin/Page/MobileProvider.php
+#, fuzzy
+msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
+msgstr ""
+"Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiiliryhmän."
+
+#: CRM/Admin/Page/MobileProvider.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Mobile Phone Service Provider?\\n"
-"\\nUsers will no longer be able to select this value when adding or editing "
+"Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän matkapuhelinoperaattorin?\n"
-"\nKäyttäjät eivät voi jatkossa käyttää sitä."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän matkapuhelinoperaattorin?\n"
+"\n"
+"Käyttäjät eivät voi jatkossa käyttää sitä."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -2052,11 +2120,19 @@ msgid "Delete Mobile Provider"
 msgstr "Poista matkapuhelinoperaattori."
 
 #: CRM/Admin/Page/RelationshipType.php
+#, fuzzy
+msgid "Are you sure you want to disable this relationship type?"
+msgstr "Oletko varma, että haluat poistaa käytöstä tämän yhteyden?"
+
+#: CRM/Admin/Page/RelationshipType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this relationship type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing relationships "
-"between contacts."
-msgstr "Oletko varma, että haluat poistaa tämän yhteystyypin?\n\nKäyttäjät eivät voi jatkossa käyttää sitä."
+"Users will no longer be able to select this value when adding or editing "
+"relationships between contacts."
+msgstr ""
+"Oletko varma, että haluat poistaa tämän yhteystyypin?\n"
+"\n"
+"Käyttäjät eivät voi jatkossa käyttää sitä."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -2081,11 +2157,20 @@ msgid "Delete Reletionship Type"
 msgstr "Poista yhteystyyppi."
 
 #: CRM/Admin/Page/Tag.php
+#, fuzzy
+msgid "Are you sure you want to delete this tag?"
+msgstr "Oletko varma, että haluat poistaa nämä muistiinpanot"
+
+#: CRM/Admin/Page/Tag.php
+#, fuzzy
 msgid ""
-"Are you sure you want to delete this tag?\\n\\nThis tag will be removed from "
-"any currently tagged contacts, and users will no longer be able to assign "
-"contacts to this tag."
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän tuntomerkin?\n\nTuntomerkki poistetaan kaikista olemassa olevista yhteyksistä, eikä sitä voi enää käyttää."
+"This tag will be removed from any currently tagged contacts, and users will "
+"no longer be able to assign contacts to this tag."
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän tuntomerkin?\n"
+"\n"
+"Tuntomerkki poistetaan kaikista olemassa olevista yhteyksistä, eikä sitä voi "
+"enää käyttää."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -2530,7 +2615,9 @@ msgstr "Yhteys on edesmennyt"
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr "Etunimi ja sukunimi tai sähköpostiosoite pitää asettaa ensisijaiseen osoitteeseen."
+msgstr ""
+"Etunimi ja sukunimi tai sähköpostiosoite pitää asettaa ensisijaiseen "
+"osoitteeseen."
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -2539,8 +2626,12 @@ msgid ""
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] "Yksi samanlainen yhteystieto tieto on löytynyt. Voit muokata sitä täällä: %1 tai paina \"Tallenna  kaksoiskappale\" -painiketta alla"
-msgstr[1] "%count samanlaista yhteystietoa on löytynyt. Voit muokata niitä täällä: %1, tai painaa \"Tallenna kaksoikappale\" painiketta alla."
+msgstr[0] ""
+"Yksi samanlainen yhteystieto tieto on löytynyt. Voit muokata sitä täällä: %1 "
+"tai paina \"Tallenna  kaksoiskappale\" -painiketta alla"
+msgstr[1] ""
+"%count samanlaista yhteystietoa on löytynyt. Voit muokata niitä täällä: %1, "
+"tai painaa \"Tallenna kaksoikappale\" painiketta alla."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
@@ -2589,16 +2680,20 @@ msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] "%count yhteystietoa ei ole muodostettu, koska kohteen tyyppi oli viallinen."
-msgstr[1] "yhteystietoa ei ole muodostettu, koska kohteen tyyppi oli viallinen."
+msgstr[0] ""
+"%count yhteystietoa ei ole muodostettu, koska kohteen tyyppi oli viallinen."
+msgstr[1] ""
+"yhteystietoa ei ole muodostettu, koska kohteen tyyppi oli viallinen."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
 "%count relationship records not created - duplicate of existing relationship."
-msgstr[0] "%count yhteystietoa ei ole muodostettu - kaksoiskappale oli jo olemassa."
-msgstr[1] "%count yhteystietoa ei ole muodostettu - kaksoiskappaleet oli jo olemassa."
+msgstr[0] ""
+"%count yhteystietoa ei ole muodostettu - kaksoiskappale oli jo olemassa."
+msgstr[1] ""
+"%count yhteystietoa ei ole muodostettu - kaksoiskappaleet oli jo olemassa."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
@@ -2627,8 +2722,7 @@ msgstr "Osoitetyypit"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Activity Dates - From"
-msgstr "Aktiviteetti päivät-"
-"lähtien"
+msgstr "Aktiviteetti päivät-lähtien"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Status"
@@ -2726,8 +2820,9 @@ msgstr "Poistetut yhteydet: %1"
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr "Yhteystieto on käytössä kirjautuneella käyttäjällä -"
-"\"%1\" - sitä ei voida poistaa."
+msgstr ""
+"Yhteystieto on käytössä kirjautuneella käyttäjällä -\"%1\" - sitä ei voida "
+"poistaa."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
@@ -2741,8 +2836,9 @@ msgstr "Valittuja yhteyksiä ei voida poistaa."
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr "Tämä yhteys on parhaillaan toisen käyttäjän - \"%1"
-"\" - käytössä, eikä sitä voida poistaa."
+msgstr ""
+"Tämä yhteys on parhaillaan toisen käyttäjän - \"%1\" - käytössä, eikä sitä "
+"voida poistaa."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "(preferred)"
@@ -2797,7 +2893,9 @@ msgstr "Vie kaikki tai valitut kentät"
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr "Tämän yhteyden ensisijainen osoite ei sisällä tietoja leveys- ja pituuspiireistä, eikä ole sijoitettavissa kartalle."
+msgstr ""
+"Tämän yhteyden ensisijainen osoite ei sisällä tietoja leveys- ja "
+"pituuspiireistä, eikä ole sijoitettavissa kartalle."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3179,7 +3277,9 @@ msgstr "Lahjoituksen määrä on pakollinen tieto"
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr "Anna kortin secure koodille oikea arvo. Tämä on yleensä 3-4 numeron sarja kortin allekirjoituspuolella."
+msgstr ""
+"Anna kortin secure koodille oikea arvo. Tämä on yleensä 3-4 numeron sarja "
+"kortin allekirjoituspuolella."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
@@ -3291,7 +3391,9 @@ msgstr "Kuitin saaja piilokopiona"
 msgid ""
 "A Receipt message must be specified if Email Receipt to Contributor is "
 "enabled"
-msgstr "Kuitin viesti tulee yksilöidä, mikäli sähköpostilla lähetettävä kuitti on valittu"
+msgstr ""
+"Kuitin viesti tulee yksilöidä, mikäli sähköpostilla lähetettävä kuitti on "
+"valittu"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3373,8 +3475,9 @@ msgstr "Tiedostoa %1 ei voi avata kirjoitettavaksi"
 msgid ""
 "Your %1 values is: '%2'. This value must be entered in the Payment Processor "
 "section of the CiviCRM configuration file. "
-msgstr "Your %1 values is: '%2'. This value must be entered in the Payment Processor"
-"section of the CiviCRM configuration file."
+msgstr ""
+"Your %1 values is: '%2'. This value must be entered in the Payment "
+"Processorsection of the CiviCRM configuration file."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 msgid "Please enter a valid PaymentInstrument name."
@@ -3464,7 +3567,9 @@ msgstr "Näytä lahjoituksen URL"
 msgid ""
 "Are you sure you want to disable this Credit Card? Your contributors will no "
 "longer be able to use this card type for online contributions."
-msgstr "Oletko varma, että haluat poistaa tämän luottokortin? Lahjoittajasi ei jatkossa voi käyttää tätä korttia lahjoituksiin."
+msgstr ""
+"Oletko varma, että haluat poistaa tämän luottokortin? Lahjoittajasi ei "
+"jatkossa voi käyttää tätä korttia lahjoituksiin."
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
@@ -3533,7 +3638,8 @@ msgstr "Poista lahjoitustyyppi"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Are you sure you want to disable this Payment Instrument?"
-msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän maksunvälitystyypin"
+msgstr ""
+"Oletko varma, että haluat ottaa pois käytöstä tämän maksunvälitystyypin"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
@@ -3612,14 +3718,17 @@ msgstr "%1 kuten - %2"
 msgid ""
 "We could not find the backup sql script. Check sql/civicrm_backup.mysql in "
 "the CiviCRM root directory."
-msgstr "Emme löydä varmuuskopiota sql skriptistä. Tarkista sql/civicrm_backup.mysql  CiviCRM juuri hakemistossa."
+msgstr ""
+"Emme löydä varmuuskopiota sql skriptistä. Tarkista sql/civicrm_backup.mysql  "
+"CiviCRM juuri hakemistossa."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr "Emme kykene löytämään mysqldump ohjelmaa. Check the configuration variable"
-"CIVICRM_MYSQL_PATH in your CiviCRM config file."
+msgstr ""
+"Emme kykene löytämään mysqldump ohjelmaa. Check the configuration "
+"variableCIVICRM_MYSQL_PATH in your CiviCRM config file."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -4213,18 +4322,15 @@ msgstr "Kyllä/Ei"
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"
-msgstr "Yhden rivin kenttä"
-"(teksti tai numero)"
+msgstr "Yhden rivin kenttä(teksti tai numero)"
 
 #: CRM/Core/SelectValues.php
 msgid "Multi-line text box (textarea)"
-msgstr "Useamman rivin kenttä"
-"(tekstialue)"
+msgstr "Useamman rivin kenttä(tekstialue)"
 
 #: CRM/Core/SelectValues.php
 msgid "Drop-down (select list)"
-msgstr "Pudotusvalikko"
-"(valintalista)"
+msgstr "Pudotusvalikko(valintalista)"
 
 #: CRM/Core/SelectValues.php
 msgid "Radio buttons"
@@ -4298,7 +4404,9 @@ msgstr "Poista räätälöity ryhmä"
 msgid ""
 "The Group \"%1\" has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
-msgstr "Ryhmää \"%1\" ei ole poistettu! Sinun tulee ensin poistaa kaikki ryhmän sisältämät räätälöidyt kentät."
+msgstr ""
+"Ryhmää \"%1\" ei ole poistettu! Sinun tulee ensin poistaa kaikki ryhmän "
+"sisältämät räätälöidyt kentät."
 
 #: CRM/Custom/Form/Field.php templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
@@ -4394,8 +4502,9 @@ msgstr "Ryhmäsi \"%1\" on tallennettu."
 msgid ""
 "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</"
 "a> to this group now."
-msgstr "Ryhmäsi \"%1\" on lisätty. Voit nyt <a href=\"%2\">lisätä räätälöityjä kenttiä</"
-"a> tähän ryhmään.."
+msgstr ""
+"Ryhmäsi \"%1\" on lisätty. Voit nyt <a href=\"%2\">lisätä räätälöityjä "
+"kenttiä</a> tähän ryhmään.."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 msgid "Option Label"
@@ -4439,7 +4548,8 @@ msgstr "Valinnainen vaihtoehtosi \"%1\" on tallennettu"
 
 #: CRM/Custom/Page/Field.php
 msgid "Are you sure you want to disable this custom data field?"
-msgstr "Oletko varma, että haluat ottaa tämän räätälöidyn kentän pois käytöstä?"
+msgstr ""
+"Oletko varma, että haluat ottaa tämän räätälöidyn kentän pois käytöstä?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Are you sure you want to delete this custom data field?"
@@ -4472,7 +4582,6 @@ msgstr "Näytä räätälöity kenttä"
 #: CRM/Custom/Page/Field.php
 msgid "Disable Custom Field"
 msgstr "Piilota räätälöity kenttä"
-""
 
 #: CRM/Custom/Page/Field.php
 msgid "Enable Custom Field"
@@ -4488,7 +4597,8 @@ msgstr "%1 - Räätälöityä kenttää"
 
 #: CRM/Custom/Page/Group.php
 msgid "Are you sure you want to disable this custom data group?"
-msgstr "Oletko varma, että haluat poistaa käytöstä tämän räätälöidyn tietoryhmän?"
+msgstr ""
+"Oletko varma, että haluat poistaa käytöstä tämän räätälöidyn tietoryhmän?"
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
@@ -4521,7 +4631,9 @@ msgstr "Räätälöity ryhmä"
 #: CRM/Custom/Page/Option.php
 msgid ""
 "Are you sure you want to disable this custom data multiple choice option?"
-msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän räätälöityä tietoja koskevan valintamahdollisuuden?"
+msgstr ""
+"Oletko varma, että haluat ottaa pois käytöstä tämän räätälöityä tietoja "
+"koskevan valintamahdollisuuden?"
 
 #: CRM/Custom/Page/Option.php
 msgid "Edit Option"
@@ -4607,8 +4719,9 @@ msgstr "Älykäs ryhmä"
 msgid ""
 "Cannot include file \"%1\" corresponding to class \"%2\". Please check "
 "include_path"
-msgstr "Cannot include file \"%1\" corresponding to class \"%2\". Please check"
-"include_path"
+msgstr ""
+"Cannot include file \"%1\" corresponding to class \"%2\". Please "
+"checkinclude_path"
 
 #: CRM/History/Page/Activity.php
 msgid "Cannot find class \"%1\""
@@ -5128,7 +5241,6 @@ msgstr "Näytä profiilin yksityiskohdat"
 #: CRM/Profile/Selector/Listings.php
 msgid "CiviCRM Profile Listings"
 msgstr "CiviCRM profiilien listaukset"
-""
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
@@ -5157,7 +5269,8 @@ msgstr "Listaa otsikko"
 #: CRM/UF/Form/Field.php
 msgid ""
 "Please enter a valid title for this field when displayed in user listings."
-msgstr "Anna kelvollinen otsikko tälle kentälle näytettäessä käyttäjien listauksissa."
+msgstr ""
+"Anna kelvollinen otsikko tälle kentälle näytettäessä käyttäjien listauksissa."
 
 #: CRM/UF/Form/Field.php
 msgid "View Only?"
@@ -5169,7 +5282,8 @@ msgstr "Valittu profiilikenttä on poistettu."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr "Valittua kenttää ei ole lisätty, sillä se löytyy profiilista entuudestaan."
+msgstr ""
+"Valittua kenttää ei ole lisätty, sillä se löytyy profiilista entuudestaan."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
@@ -5198,7 +5312,9 @@ msgstr "Profiilia ei voida poistaa, sillä se on toisen moduulin käytössä."
 #: CRM/UF/Form/Group.php
 msgid ""
 "You must delete all profile fields for \"%1\" prior to deleting the profile."
-msgstr "Sinun tulee poistaa profiilin kaikki kentät \"%1\" ennen kuin voit poistaa itse profiilin.."
+msgstr ""
+"Sinun tulee poistaa profiilin kaikki kentät \"%1\" ennen kuin voit poistaa "
+"itse profiilin.."
 
 #: CRM/UF/Form/Group.php
 msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
@@ -5212,11 +5328,14 @@ msgstr "CiviCRM profiiliryhmä \"%1\" on tallennettu."
 msgid ""
 "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2\">add "
 "fields</a> to this group now."
-msgstr "CiviCRM profiiliryhmä \"%1\" on lisätty. Voit nyt <a href=\"%2\">lisätä kenttiä</a> tähän ryhmään."
+msgstr ""
+"CiviCRM profiiliryhmä \"%1\" on lisätty. Voit nyt <a href=\"%2\">lisätä "
+"kenttiä</a> tähän ryhmään."
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
-msgstr "Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiilikentän."
+msgstr ""
+"Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiilikentän."
 
 #: CRM/UF/Page/Field.php
 msgid "Edit CiviCRM Profile Field"
@@ -5240,7 +5359,8 @@ msgstr "%1 - CiviCRM profiilikentät"
 
 #: CRM/UF/Page/Group.php
 msgid "Are you sure you want to disable this CiviCRM Profile group?"
-msgstr "Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiiliryhmän."
+msgstr ""
+"Oletko varma, että haluat poistaa näkyvistä tämän CiviCRM profiiliryhmän."
 
 #: CRM/UF/Page/Group.php
 msgid "View and Edit Fields"
@@ -5286,7 +5406,10 @@ msgstr "Synkronoi käyttäjät ja yhteydet:"
 msgid ""
 "CiviCRM will check each user record for a contact record. A new contact "
 "record will be created for each user where one does not already exist."
-msgstr "CiviCRM tarkistaa jokaisen käyttäjän tiedot ja yhteystiedot. Uusi yhteystieto luodaan jokaisesta käyttäjästä, jota ei vielä löydy yhteystietojen tietokannasta."
+msgstr ""
+"CiviCRM tarkistaa jokaisen käyttäjän tiedot ja yhteystiedot. Uusi "
+"yhteystieto luodaan jokaisesta käyttäjästä, jota ei vielä löydy "
+"yhteystietojen tietokannasta."
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -5317,7 +5440,11 @@ msgid ""
 "allow you to download it to your local computer. This process may take a "
 "long time and generate a very large file if you have a large number of "
 "records."
-msgstr "CiviCRM luo SQL dump-tiedoston kaikesta olemassa olevasta tiedosta ja tarjoaa sen sinulla ladattavaksi omalle tietokoneellesi. Tämä prosessi voi viedä jonkin aikaa ja aikaansaa ison tiedoston, mikäli sinulla on tietokannassa runsaasti tietoja."
+msgstr ""
+"CiviCRM luo SQL dump-tiedoston kaikesta olemassa olevasta tiedosta ja "
+"tarjoaa sen sinulla ladattavaksi omalle tietokoneellesi. Tämä prosessi voi "
+"viedä jonkin aikaa ja aikaansaa ison tiedoston, mikäli sinulla on "
+"tietokannassa runsaasti tietoja."
 
 #: CRM/Utils/Menu.php
 msgid "Access Control"
@@ -5341,13 +5468,11 @@ msgstr "CiviCRM profiilikentät"
 
 #: CRM/Utils/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr "Osoitetyypit"
-"(Kpti, työ...)"
+msgstr "Osoitetyypit(Kpti, työ...)"
 
 #: CRM/Utils/Menu.php
 msgid "Tags (Categories)"
-msgstr "Luokat"
-"(Kategoriat)"
+msgstr "Luokat(Kategoriat)"
 
 #: CRM/Utils/Menu.php
 msgid "Relationship Types"
@@ -5355,8 +5480,7 @@ msgstr "Yhteystyypit"
 
 #: CRM/Utils/Menu.php
 msgid "Gender Options (Male, Female...)"
-msgstr "Sukupuolet"
-"(Mies, nainen...)"
+msgstr "Sukupuolet(Mies, nainen...)"
 
 #: CRM/Utils/Menu.php
 msgid "Instant Messenger Services"
@@ -5368,13 +5492,11 @@ msgstr "Matkapuhelin operaattorit"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr "Yksilölliset etuliitteet"
-"(Rva, herra, ...)"
+msgstr "Yksilölliset etuliitteet(Rva, herra, ...)"
 
 #: CRM/Utils/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Yksilölliset tarkenteet"
-"(Jr, Sr...)"
+msgstr "Yksilölliset tarkenteet(Jr, Sr...)"
 
 #: CRM/Utils/Menu.php
 msgid "Quick Registration"
@@ -5496,7 +5618,8 @@ msgstr "Linkki antaa käyttäjille mahdollisuuden erota yhteisöstäsi."
 #: CRM/Utils/Token.php
 msgid ""
 "Link to allow contacts to unsubscribe from target groups of this mailing."
-msgstr "Linkki antaa käyttäjille mahdollisuuden poistua tämän viestin kohderyhmästä."
+msgstr ""
+"Linkki antaa käyttäjille mahdollisuuden poistua tämän viestin kohderyhmästä."
 
 #: CRM/Utils/Token.php
 msgid "re-subscribe"
@@ -5662,7 +5785,9 @@ msgstr "tila"
 msgid ""
 "Cannot display Activity History details since activity type for this "
 "activity has been deleted."
-msgstr "Aktiviteetin historian/arkiston tietoja ei voida näyttää koska aktiviteetti on poistettu."
+msgstr ""
+"Aktiviteetin historian/arkiston tietoja ei voida näyttää koska aktiviteetti "
+"on poistettu."
 
 #: templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Log a Phone Call"
@@ -5697,7 +5822,9 @@ msgstr "Uusi aktiviteetin tyyppi"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all activity type "
 "records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen johtaa kaiken sen tiedon menettämiseen, missä tätä on käytetty."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen johtaa kaiken sen tiedon menettämiseen, "
+"missä tätä on käytetty."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl
@@ -5711,7 +5838,9 @@ msgstr "VAROITUS: Tämän valinnan poistaminen johtaa kaiken sen tiedon menettä
 msgid ""
 "This may mean the loss of a substantial amount of data, and the action "
 "cannot be undone."
-msgstr "Tämä voi merkitä suuren tietomäärän menettämistä, eikä toimenpidettä ole mahdollista peruuttaa kun se on suoritettu."
+msgstr ""
+"Tämä voi merkitä suuren tietomäärän menettämistä, eikä toimenpidettä ole "
+"mahdollista peruuttaa kun se on suoritettu."
 
 #: templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Drupal Users"
@@ -5731,31 +5860,39 @@ msgstr "Muotoile kaksoiskappaleiden määrittelysääntö"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr "Oletko varma, että haluat poistaa tämän kaksoiskappaleiden määrittelysäännön."
+msgstr ""
+"Oletko varma, että haluat poistaa tämän kaksoiskappaleiden määrittelysäännön."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
+#, fuzzy
 msgid ""
 "Select up to five contact field(s) to use when comparing a new Individual "
-"contact to existing\n"
-"    contact records for duplicate matching. If some of the fields in your "
-"matching rule are OPTIONAL, then\n"
-"    all <strong>non-empty</strong> fields in the incoming data are used."
-msgstr "Valitse korkeintaan viisi yhteystietokenttää käytettäväksi uuden käyttäjän tietojen vertailuun suhteessa olemassa oleviin\n"
-"yhteystietoihin kaksoikappaleiden etsimiseksi. Mikäli joku kenttä kaksoiskappaleiden määrittelysäännöissäsi on vaihtoehtoinen, niin\n"
-"kaikkia <strong>ei tyhjiä</strong> kenttiä tulevassa tiedossa verrataan siihen."
+"contact to existing contact records for duplicate matching. If some of the "
+"fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
+"strong> fields in the incoming data are used."
+msgstr ""
+"Valitse korkeintaan viisi yhteystietokenttää käytettäväksi uuden käyttäjän "
+"tietojen vertailuun suhteessa olemassa oleviin\n"
+"yhteystietoihin kaksoikappaleiden etsimiseksi. Mikäli joku kenttä "
+"kaksoiskappaleiden määrittelysäännöissäsi on vaihtoehtoinen, niin\n"
+"kaikkia <strong>ei tyhjiä</strong> kenttiä tulevassa tiedossa verrataan "
+"siihen."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
+#, fuzzy
 msgid ""
 "For example, using the default matching rule of <strong>Email AND First Name "
-"AND Last Name</strong>... Jane Doe jane.doe@example.org\n"
-"    exists in your database. Now someone tries to add a new contact with the "
-"same email address and leaves\n"
-"    the first and last name blank. The new contact will be flagged as a "
-"potential duplicate."
-msgstr "Esimerkiksi käyttämällä oletusarvoisesti määrittelyä <strong>sähköposti JA Etunimi"
-"JA Sukunimi</strong>... Jaana Niemi jaana.niemi@malli.org\n"
-"löytyy tietokannastasi. Ja jos joku nyt yrittää lisästä uutta yhteystietoa samalla sähköpostiosoitteella ja jättää\n"
-"etunimen ja sukunimen tyhjäksi. Uusi yhteystieto ilmoitetaan silloin mahdolliseksi kaksoiskappaleeksi."
+"AND Last Name</strong>... Jane Doe jane.doe@example.org exists in your "
+"database. Now someone tries to add a new contact with the same email address "
+"and leaves the first and last name blank. The new contact will be flagged as "
+"a potential duplicate."
+msgstr ""
+"Esimerkiksi käyttämällä oletusarvoisesti määrittelyä <strong>sähköposti JA "
+"EtunimiJA Sukunimi</strong>... Jaana Niemi jaana.niemi@malli.org\n"
+"löytyy tietokannastasi. Ja jos joku nyt yrittää lisästä uutta yhteystietoa "
+"samalla sähköpostiosoitteella ja jättää\n"
+"etunimen ja sukunimen tyhjäksi. Uusi yhteystieto ilmoitetaan silloin "
+"mahdolliseksi kaksoiskappaleeksi."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
@@ -5777,7 +5914,9 @@ msgstr "Muokkaa sukupuolta"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Gender related "
 "records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaiken tiedon joka on yhteydessä sukupuoleen."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaiken tiedon joka on yhteydessä "
+"sukupuoleen."
 
 #: templates/CRM/Admin/Form/IMProvider.tpl
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -5796,7 +5935,8 @@ msgstr "Muokkaa pikaviestien (IM) palveluntarjoajaa."
 msgid ""
 "WARNING: Deleting this option will result in the loss of all IM Service "
 "Provider type records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki siihen liitetyt tiedot."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki siihen liitetyt tiedot."
 
 #: templates/CRM/Admin/Form/IndividualPrefix.tpl
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
@@ -5816,7 +5956,9 @@ msgstr "Muokkaa yksilöllistä etuliitettä"
 msgid ""
 "WARNING: Deleting this option will change all Individual records which use "
 "the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät sitä."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät "
+"sitä."
 
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
 msgid "New Individual Suffix"
@@ -5831,7 +5973,9 @@ msgstr "Uusi osoitetyyppi"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all location type "
 "records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot, jotka käyttävät sitä."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot, jotka käyttävät "
+"sitä."
 
 #: templates/CRM/Admin/Form/MobileProvider.tpl
 msgid "New Mobile Provider"
@@ -5841,7 +5985,9 @@ msgstr "Uusi matkapuhelinoperaattori"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Mobile Provider "
 "type records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät sitä."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät "
+"sitä."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -5856,7 +6002,9 @@ msgstr "Tuhoa yhteyssuhteen tyyppi"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Relationship "
 "type records which use the option."
-msgstr "VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät sitä."
+msgstr ""
+"VAROITUS: Tämän valinnan poistaminen tuhoaa kaikki tiedot jotka käyttävät "
+"sitä."
 
 #: templates/CRM/Admin/Form/Tag.tpl templates/CRM/Admin/Page/Tag.tpl
 msgid "New Tag"
@@ -5874,9 +6022,13 @@ msgid ""
 "here if you need to record other types of activities. For example, you might "
 "want to include 'New Client Intake', or 'Site Audit', etc. ...as types of "
 "trackable activites."
-msgstr "Toimenpiteet ovat sellaista'vuorovaikutusta yhteystahojen kanssa' joita haluat seurata ja suunnitella. CiviCRM:ssä on useita valmiiksi asetettu (e.g. 'built-in') toimenpiteitä"
-"(tapaamiset, puhelut, sähköpostit). Luo uudet'toimenpiteet'"
-"täällä, mikäli katsot ne tarpeellisiksi. Esimerkiksi, mikäli haluat ottaa käyttöön  'uuden jäsenen hyväksymisen', tai vastaavan toimenpiteen."
+msgstr ""
+"Toimenpiteet ovat sellaista'vuorovaikutusta yhteystahojen kanssa' joita "
+"haluat seurata ja suunnitella. CiviCRM:ssä on useita valmiiksi asetettu (e."
+"g. 'built-in') toimenpiteitä(tapaamiset, puhelut, sähköpostit). Luo "
+"uudet'toimenpiteet'täällä, mikäli katsot ne tarpeellisiksi. Esimerkiksi, "
+"mikäli haluat ottaa käyttöön  'uuden jäsenen hyväksymisen', tai vastaavan "
+"toimenpiteen."
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 msgid ""
@@ -5884,7 +6036,11 @@ msgid ""
 "'Advanced Search'. Other applications may record activities for CiviCRM "
 "contacts using our APIs. For more information, refer to our Administrator "
 "Documentation."
-msgstr "Toimenpiteisiin on kohdistettavissa hakuja niiden tyypin tai päivän perusteella käyttämällä 'Tarkempi haku' toimintoa. Myös muut sovellukset voivat hyödyntää tallennettuja toimenpiteitä käyttämällä API toimintoa. Lisätietoja löytyy ylläpitäjän käsikirjastamme."
+msgstr ""
+"Toimenpiteisiin on kohdistettavissa hakuja niiden tyypin tai päivän "
+"perusteella käyttämällä 'Tarkempi haku' toimintoa. Myös muut sovellukset "
+"voivat hyödyntää tallennettuja toimenpiteitä käyttämällä API toimintoa. "
+"Lisätietoja löytyy ylläpitäjän käsikirjastamme."
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -5897,21 +6053,24 @@ msgstr "Varattu"
 msgid ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
 "a>."
-msgstr "Räätälöityjä toimenpiteitä ei ole vielä määritelty. Voit <a href=\"%1\">määritellä sellaisen</"
-"a>."
+msgstr ""
+"Räätälöityjä toimenpiteitä ei ole vielä määritelty. Voit <a href=\"%1"
+"\">määritellä sellaisen</a>."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
-msgstr "Uusin versio CiviCRM ohjelmasta on saatavilla: %1 (käytät parhaillaan versiota %"
-"2)."
+msgstr ""
+"Uusin versio CiviCRM ohjelmasta on saatavilla: %1 (käytät parhaillaan "
+"versiota %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
-msgstr "Tutustu uusimpaan versioon <a href=\"%1\">sivuillamme</a> ja <a href=\"%2"
+msgstr ""
+"Tutustu uusimpaan versioon <a href=\"%1\">sivuillamme</a> ja <a href=\"%2"
 "\">lataa se täältä</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
@@ -5923,11 +6082,15 @@ msgid ""
 "CiviCRM is pre-configured with standard options for individual gender (e.g. "
 "Male, Female, Transgender). You can use this page to customize these options "
 "and add new options as needed for your installation."
-msgstr "CiviCRM on ennakolta määritelty käytettävät sukupuolet (Mies, nainen). Voit muokata niitä tällä sivulla tai lisätä uusia."
+msgstr ""
+"CiviCRM on ennakolta määritelty käytettävät sukupuolet (Mies, nainen). Voit "
+"muokata niitä tällä sivulla tai lisätä uusia."
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid "There are no Gender entered. You can <a href=\"%1\">add one</a>."
-msgstr "Räätälöityjä sukupuolia ei ole määritelty. Voit <a href=\"%1\">lisätä täällä</a>."
+msgstr ""
+"Räätälöityjä sukupuolia ei ole määritelty. Voit <a href=\"%1\">lisätä "
+"täällä</a>."
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid ""
@@ -5935,7 +6098,10 @@ msgid ""
 "useful to include the IM Service Provider (e.g. AOL, Yahoo, etc.). CiviCRM "
 "is installed with the most commonly encountered service providers. "
 "Administrators may define as many additional providers as needed."
-msgstr "Talenettaessa pikaviestien (IM) 'käyttäjänimiä' yhteystietoihin, on hyödyllistä lisätä myös pikaviestien IM palveluntarjoaja (esim. AOL, Yahoo, jne.). CiviCRM:ään on ennakolta määritelty yleisimmät palveluntarjoajat."
+msgstr ""
+"Talenettaessa pikaviestien (IM) 'käyttäjänimiä' yhteystietoihin, on "
+"hyödyllistä lisätä myös pikaviestien IM palveluntarjoaja (esim. AOL, Yahoo, "
+"jne.). CiviCRM:ään on ennakolta määritelty yleisimmät palveluntarjoajat."
 "Ylläpitäjät voivat tarvittaessa määritellä niitä vapaasti lisää."
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -5946,27 +6112,36 @@ msgstr "Pikaviesti (IM) palvelu"
 msgid ""
 "There are no IMProviders entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr "Yhteydelle ei ole määritelty pikaviestiyhteyksiä. YVoit <a href=\"%1"
-"\">tehdä sen</a>."
+msgstr ""
+"Yhteydelle ei ole määritelty pikaviestiyhteyksiä. YVoit <a href=\"%1\">tehdä "
+"sen</a>."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact "
 "prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr "CiviCRM:ään on ennakolta määritelty käytetyimmät yksilölliset etuliitteet (esim. Ms., Mr., Dr. jne.). Tällä sivulla voit muokata niitä sekä lisätä tarvitsemiasi uusia etuliitteitä."
+msgstr ""
+"CiviCRM:ään on ennakolta määritelty käytetyimmät yksilölliset etuliitteet "
+"(esim. Ms., Mr., Dr. jne.). Tällä sivulla voit muokata niitä sekä lisätä "
+"tarvitsemiasi uusia etuliitteitä."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
 "There are no Individual Prefixes entered. You can <a href=\"%1\">add one</a>."
-msgstr "Yksilöllisiä etuliitteitä ei ole määritelty. YVoit <a href=\"%1\">tehdä sen täällä</a>."
+msgstr ""
+"Yksilöllisiä etuliitteitä ei ole määritelty. YVoit <a href=\"%1\">tehdä sen "
+"täällä</a>."
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact name "
 "suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr "CiviCRM:ään on ennakolta määritelty joitakin yksilöllisiä nimitarkenteita (esim. Jr., Sr., II jne.). Voit tällä sivulla muokata niitä tai luoda kokonaan uusia."
+msgstr ""
+"CiviCRM:ään on ennakolta määritelty joitakin yksilöllisiä nimitarkenteita "
+"(esim. Jr., Sr., II jne.). Voit tällä sivulla muokata niitä tai luoda "
+"kokonaan uusia."
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid "New Individual Suffix Option"
@@ -5975,15 +6150,19 @@ msgstr "Uusi yksilöllinen tarkenne"
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid ""
 "There are no Individual Suffixes entered. You can <a href=\"%1\">add one</a>."
-msgstr "Yksilöllisiä tarkenteita ei löydy. Voit <a href=\"%1\">luoda sellaisen täällä</a>."
+msgstr ""
+"Yksilöllisiä tarkenteita ei löydy. Voit <a href=\"%1\">luoda sellaisen "
+"täällä</a>."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "Location types provide convenient labels to differentiate contacts' location"
 "(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
-msgstr "Osoitetyyppien avulla voit määritellä yhteydelle useita vaihtoehtoisia osoitteita."
-"Ylläpitäjät voivat määritellä tarpeellisen määrn uusia osoitetyyppejä.."
+msgstr ""
+"Osoitetyyppien avulla voit määritellä yhteydelle useita vaihtoehtoisia "
+"osoitteita.Ylläpitäjät voivat määritellä tarpeellisen määrn uusia "
+"osoitetyyppejä.."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -5994,8 +6173,9 @@ msgstr "vCard"
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr "Yhteydelle ei ole määritelty osoitetyyppejä. Voit <a href=\"%1"
-"\">tehdä sen täällä</a>."
+msgstr ""
+"Yhteydelle ei ole määritelty osoitetyyppejä. Voit <a href=\"%1\">tehdä sen "
+"täällä</a>."
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid ""
@@ -6003,7 +6183,11 @@ msgid ""
 "include the Mobile Phone Service Provider (e.g. Cingular, Sprint, etc.). "
 "CiviCRM is installed with the most commonly encountered service providers. "
 "Administrators may define as many additional providers as needed."
-msgstr "Tallennettaessa matkapuhelintietoja voi olla hyödyllistä määritellä myös matkapuhelinoperaattori. CiviCRM:ään on määritelty ennakolta tunnetuimmat kansainväliset operaattorit. Ylläpitäjät voivat määritellä niitä tarpeellisen määrän lisää."
+msgstr ""
+"Tallennettaessa matkapuhelintietoja voi olla hyödyllistä määritellä myös "
+"matkapuhelinoperaattori. CiviCRM:ään on määritelty ennakolta tunnetuimmat "
+"kansainväliset operaattorit. Ylläpitäjät voivat määritellä niitä "
+"tarpeellisen määrän lisää."
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid "Mobile Phone Provider"
@@ -6017,20 +6201,25 @@ msgstr "Uusi matkapuhelinoperaattori"
 msgid ""
 "There are no Mobile Providers entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr "Yhteydelle ei ole määritelty matkapuhelinoperaattoria. Voit <a href=\"%1"
+msgstr ""
+"Yhteydelle ei ole määritelty matkapuhelinoperaattoria. Voit <a href=\"%1"
 "\">tehdä sen täällä</a>."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "Relationship types describe relationships between people, households and "
 "organizations."
-msgstr "Yhteyksien tyypit kuvaa yhteyttä henkilöiden, perheiden ja yhteisöjen välillä."
+msgstr ""
+"Yhteyksien tyypit kuvaa yhteyttä henkilöiden, perheiden ja yhteisöjen "
+"välillä."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "You can define as many additional relationships types as needed to cover the "
 "types of relationships you want to track."
-msgstr "Voit itse määritellä haluamasi määrän uusia yhteyksien tyyppejä omien tarpeidesi perusteella."
+msgstr ""
+"Voit itse määritellä haluamasi määrän uusia yhteyksien tyyppejä omien "
+"tarpeidesi perusteella."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Relationship A to B"
@@ -6045,7 +6234,8 @@ msgstr "Suhde B ja A välillä"
 msgid ""
 "There are no Tags entered for this Contact. You can <a href=\"%1\">add one</"
 "a>."
-msgstr "Yhteydelle ei ole määritelty luokkia. Voite <a href=\"%1\">tehdä sen täällä</"
+msgstr ""
+"Yhteydelle ei ole määritelty luokkia. Voite <a href=\"%1\">tehdä sen täällä</"
 "a>."
 
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -6053,7 +6243,10 @@ msgid ""
 "Tags can be assigned to any contact record, and are a convenient way to find "
 "contacts. You can create as many tags as needed to organize and segment your "
 "records."
-msgstr "Luokat voidaan liittää mihin tahansa tietoon (henkilö, kotitalous, yhteisö) ja ovat kätevä apuväline hakujen tueksi. Voit luoda tarpeellisen määrän luokkia tietojesi ryhmittelyn tueksi."
+msgstr ""
+"Luokat voidaan liittää mihin tahansa tietoon (henkilö, kotitalous, yhteisö) "
+"ja ovat kätevä apuväline hakujen tueksi. Voit luoda tarpeellisen määrän "
+"luokkia tietojesi ryhmittelyn tueksi."
 
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
@@ -6084,24 +6277,31 @@ msgid "Click to select date/time from calendar."
 msgstr "Valitse päivä/aika kalenterista."
 
 #: templates/CRM/common/feedback.tpl
+msgid "This site is running development code towards the %1 Developer release."
+msgstr ""
+
+#: templates/CRM/common/feedback.tpl
 msgid ""
-"<p>This site is running development code towards the 1.3 Developer release.</"
-"p>\n"
-"<p>To see a list of known bugs and issues, and to report new bugs, please "
-"use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
-"<p>Please add any comments on the look and feel of these pages, along with "
-"workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
-msgstr "<p>Sivu käyttää CiviCRM kehitysversiota 1.3.</"
-"p>\n"
-"<p>Nähdäksesi tiedossa olevat bugit tai ilmoittaaksesi uudesta käytä <a href=\"%1\" target=\"_blank\">bug-tracking järjestelmää</a>.</p>\n"
-"<p>Voit kommentoida sivujen toimivuutta ja ulkoasua <a href=\"%2\">CiviCRM kommentti sivuilla</a>.</p>"
+"To see a list of known bugs and issues, and to report new bugs, please use "
+"our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>."
+msgstr ""
+
+#: templates/CRM/common/feedback.tpl
+msgid ""
+"Please add any comments on the look and feel of these pages, along with "
+"workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
+msgstr ""
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "CiviCRM software is openly available to any person or organization under the "
 "terms of the <a href=\"%1\">Affero General Public License (AGPL)</a>. Source "
 "code can be downloaded from our <a href=\"%2\">downloads site</a>."
-msgstr "CiviCRM sovellus on kenen tahansa henkilön tai yhteisön vapaasti saatavissa tai hyödynnettävissä<a href=\"%1\">Affero General Public License (AGPL)</a> lisenssin puitteissa. Ohjelma on ladattavissa <a href=\"%2\">downloads sivulta</a>."
+msgstr ""
+"CiviCRM sovellus on kenen tahansa henkilön tai yhteisön vapaasti saatavissa "
+"tai hyödynnettävissä<a href=\"%1\">Affero General Public License (AGPL)</a> "
+"lisenssin puitteissa. Ohjelma on ladattavissa <a href=\"%2\">downloads "
+"sivulta</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -6115,7 +6315,8 @@ msgstr "Äskettäin katsotut:"
 msgid ""
 "Enter optional 'add-on' code after the dash ('plus 4' code for U.S. "
 "addresses)."
-msgstr "Enter optional 'add-on' code after the dash ('plus 4' code for U.S."
+msgstr ""
+"Enter optional 'add-on' code after the dash ('plus 4' code for U.S."
 "addresses)."
 
 #: templates/CRM/Contact/Form/Address/street_address.tpl
@@ -6220,7 +6421,9 @@ msgstr "Muokkaa yhteyttä"
 msgid ""
 "Select the relationship type. Then locate target contact(s) for this "
 "relationship by entering a complete or partial name and clicking 'Search'."
-msgstr "Valitse yhteyden tyyppi. Sen jälkeen valitse yhteyden kohde kirjoittamalla nimi tai sen osa ja valitsemalla \"Hae\""
+msgstr ""
+"Valitse yhteyden tyyppi. Sen jälkeen valitse yhteyden kohde kirjoittamalla "
+"nimi tai sen osa ja valitsemalla \"Hae\""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -6234,7 +6437,9 @@ msgstr "Valitse yhteyden kohde"
 msgid ""
 "Mark the target contact(s) for this relationship if it appears below. "
 "Otherwise you may modify the search name above and click Search again."
-msgstr "Valitse yhteyden kohde, mikäli se löytyy alla olevasta listauksesta. Muutoi sinun tulee muokata hakua yllä ja suorittaa uusi haku."
+msgstr ""
+"Valitse yhteyden kohde, mikäli se löytyy alla olevasta listauksesta. Muutoi "
+"sinun tulee muokata hakua yllä ja suorittaa uusi haku."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Duplicate relationship."
@@ -6246,14 +6451,17 @@ msgstr "Kopioi yhteys"
 msgid ""
 "Too many matching results. Please narrow your search by entering a more "
 "complete target contact name."
-msgstr "Liian paljon sopivia hakutuloksia. Rajoita hakuasi lisäämällä hakuehtoja."
+msgstr ""
+"Liian paljon sopivia hakutuloksia. Rajoita hakuasi lisäämällä hakuehtoja."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
-msgstr "Ei yhteensopivia hakutuloksia <ul><li>Nimi kuten: %1</li><li>Yhteyden tyyppi: %2</li></"
-"ul>Tarkista oikeenkirjoitus ja kokeile uudelleen väljemmällä haulla."
+msgstr ""
+"Ei yhteensopivia hakutuloksia <ul><li>Nimi kuten: %1</li><li>Yhteyden "
+"tyyppi: %2</li></ul>Tarkista oikeenkirjoitus ja kokeile uudelleen "
+"väljemmällä haulla."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "If this relationship has start and/or end dates, specify them here."
@@ -6298,7 +6506,9 @@ msgid ""
 "Location search uses the PRIMARY location for each contact by default. To "
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
-msgstr "Osoitehaku käyttää oletusarvoisesti ensisijaista osoitetta. Hakiaksesi muilla osoitteilla (työ, koti jne.)valitse yksi tai useampi kohta edellä."
+msgstr ""
+"Osoitehaku käyttää oletusarvoisesti ensisijaista osoitetta. Hakiaksesi "
+"muilla osoitteilla (työ, koti jne.)valitse yksi tai useampi kohta edellä."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -6322,13 +6532,17 @@ msgstr "( %1 :lle)"
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr "Täydellinen TAI osoittainen yhteyden nimi TAI sähköpostiosoite. Hakiaksesi sekä etu, ETTÄ sukunimellä,<br/> anna 'sukunimi, etunimi'. Malli: 'Niemi, Jaana'."
+msgstr ""
+"Täydellinen TAI osoittainen yhteyden nimi TAI sähköpostiosoite. Hakiaksesi "
+"sekä etu, ETTÄ sukunimellä,<br/> anna 'sukunimi, etunimi'. Malli: 'Niemi, "
+"Jaana'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
 "%1 has no members which match your search criteria. You can <a href=\"%2"
 "\">add members here.</a>"
-msgstr "%1 :lla ei ole jäsenia jotka vastaisiva hakukriteereitäsi. Voit <a href=\"%2"
+msgstr ""
+"%1 :lla ei ole jäsenia jotka vastaisiva hakukriteereitäsi. Voit <a href=\"%2"
 "\">lisätä jäseniä täällä.</a>"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -6358,15 +6572,17 @@ msgstr "kokeile erilaista kirjoitusasua tai lyhennä hakusanaa"
 msgid ""
 "if you are searching within a Group or for Tagged contacts, try 'any group' "
 "or 'any tag'"
-msgstr "jos olet hakemassa ryhmän sisällä tai luokiteltuja yhteyksiä kokeile 'mikä tahansa ryhmä'"
-"or 'mikä tahansa luokka'"
+msgstr ""
+"jos olet hakemassa ryhmän sisällä tai luokiteltuja yhteyksiä kokeile 'mikä "
+"tahansa ryhmä'or 'mikä tahansa luokka'"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
 "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
 "<a href=\"%3\">Household</a>"
-msgstr "lisää <a href=\"%1\">Uusi henkilö</a>, <a href=\"%2\">Yhteisö</a> or"
-"<a href=\"%3\">Kotitalous</a>"
+msgstr ""
+"lisää <a href=\"%1\">Uusi henkilö</a>, <a href=\"%2\">Yhteisö</a> or<a href="
+"\"%3\">Kotitalous</a>"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
@@ -6379,20 +6595,27 @@ msgid ""
 "Members...' criteria below to search for specific members. Use the 'Group "
 "Status...' checkboxes to view members with 'Pending' status and/or members "
 "who have been 'Removed' from this group."
-msgstr "Jäsenet ryhmästä <strong>%1</strong> on lueteltu alla. Käytä 'Hae jäseniä...' toimintoa alla etsiäksesi tiettyjä jäseniä. Käytä 'Ryhmän tila...' valintaruutua näyttääksesi jäsenet, joiden tila on 'Odottava' status ja/tai jäseniä, jotka on poistettu tästä ryhmästä."
-""
+msgstr ""
+"Jäsenet ryhmästä <strong>%1</strong> on lueteltu alla. Käytä 'Hae "
+"jäseniä...' toimintoa alla etsiäksesi tiettyjä jäseniä. Käytä 'Ryhmän "
+"tila...' valintaruutua näyttääksesi jäsenet, joiden tila on 'Odottava' "
+"status ja/tai jäseniä, jotka on poistettu tästä ryhmästä."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
 "members to this group."
-msgstr "Käytä <a href=\"%1\">Lisää jäseniä...</a> tilaa jos haluat lisätä uusia jäseniä tähän ryhmään."
+msgstr ""
+"Käytä <a href=\"%1\">Lisää jäseniä...</a> tilaa jos haluat lisätä uusia "
+"jäseniä tähän ryhmään."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Click <a href=\"%1\">Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
-msgstr "Valitse <a href=\"%1\">Muokkaa älykkään ryhmän hakukriteereitä...</a> muuttaaksesi tämän älykkään ryhmän koostumusta."
+msgstr ""
+"Valitse <a href=\"%1\">Muokkaa älykkään ryhmän hakukriteereitä...</a> "
+"muuttaaksesi tämän älykkään ryhmän koostumusta."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
@@ -6406,21 +6629,30 @@ msgstr "Muokkaa älykkään ryhmän koostumusta %1"
 msgid ""
 "Use the Search form to find contacts to add to %1. Mark the contacts you "
 "want to add and click 'Add Contacts...'."
-msgstr "Käytä hakulomaketta yhteyksiä jotka liität ryhmään %1. Merkitse yhteydet, jotka haluat liittää ja valitse 'Lisää yhteyksiä...'."
+msgstr ""
+"Käytä hakulomaketta yhteyksiä jotka liität ryhmään %1. Merkitse yhteydet, "
+"jotka haluat liittää ja valitse 'Lisää yhteyksiä...'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
 "print a contact list, assign tags, export contact data to a spreadsheet, etc."
-msgstr "Käytä hakukriteerit lomaketta hakeaksesi yhteyksiä nimellä, yhteyden tyypillä, ryhmän jäsenyydellä, luokalla, jne. Voit tämän jälkeen tarkastella tai muokata yhteystietoja, tulostaa yhteystietolistan, asettaa uusia luokkia, viedät tiedot taulukkolaskentaohjelmaan jne."
+msgstr ""
+"Käytä hakukriteerit lomaketta hakeaksesi yhteyksiä nimellä, yhteyden "
+"tyypillä, ryhmän jäsenyydellä, luokalla, jne. Voit tämän jälkeen tarkastella "
+"tai muokata yhteystietoja, tulostaa yhteystietolistan, asettaa uusia "
+"luokkia, viedät tiedot taulukkolaskentaohjelmaan jne."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu."
-msgstr "Jos olet muuttanut hakukriteereitä tälle älykkäälle ryhmälle ja haluat tallentaa muutokset, valitse <strong>Päivitä älykäs ryhmä</strong>  '- lisää toimenpiteitä -' pudotusvalikosta."
+msgstr ""
+"Jos olet muuttanut hakukriteereitä tälle älykkäälle ryhmälle ja haluat "
+"tallentaa muutokset, valitse <strong>Päivitä älykäs ryhmä</strong>  '- lisää "
+"toimenpiteitä -' pudotusvalikosta."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "smart group"
@@ -6464,8 +6696,10 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul><br />Check your spelling, or try fewer letters for the target contact "
 "name."
-msgstr "Ei hakukehtojen kanssa vastaavia hakutuloksia <ul><li>Nimi kuten: %1</li><li>Yhteyden tyyppi: %2</li></"
-"ul><br />Tarkista oikeenkirjoitus, tai lyhennä hakusanaa."
+msgstr ""
+"Ei hakukehtojen kanssa vastaavia hakutuloksia <ul><li>Nimi kuten: %1</"
+"li><li>Yhteyden tyyppi: %2</li></ul><br />Tarkista oikeenkirjoitus, tai "
+"lyhennä hakusanaa."
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Choose Relationship Type and Target Organization"
@@ -6479,7 +6713,9 @@ msgstr "Luokan yhteydet"
 msgid ""
 "Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
-msgstr "Oletko varma, että haluat poistaa valitut yhteydet. Toimenpidettä ei voida peruuttaa."
+msgstr ""
+"Oletko varma, että haluat poistaa valitut yhteydet. Toimenpidettä ei voida "
+"peruuttaa."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -6500,38 +6736,50 @@ msgid ""
 "multiple types of contact records, and non-applicable fields will be empty "
 "(e.g. <strong>Last Name</strong> will not be populated for an Organization "
 "record)."
-msgstr "Valitut kentät viedään tiedostoon. Valitse jokaista kenttää varten"
-"ensin yhteyden tyyppi mihin kenttä kuuluu (esim. valitse"
-"<strong>Henkilöt</strong> jos olet kokoamassa <strong>Sukunimiä</"
-"strong>). Seuraavaksi valitse vietävä kenttä pudotusvalikosta joka löytyy yhteystyypin vierestä. Voit koota samaan vientyy useita eri tyyppisiä tietoja siten että yhteensopimattomat kentät jäävät tyhjiksi.  "
-"(esim <strong>Sikunimi</strong> ei esiinny yhteisöissä."
+msgstr ""
+"Valitut kentät viedään tiedostoon. Valitse jokaista kenttää vartenensin "
+"yhteyden tyyppi mihin kenttä kuuluu (esim. valitse<strong>Henkilöt</strong> "
+"jos olet kokoamassa <strong>Sukunimiä</strong>). Seuraavaksi valitse vietävä "
+"kenttä pudotusvalikosta joka löytyy yhteystyypin vierestä. Voit koota samaan "
+"vientyy useita eri tyyppisiä tietoja siten että yhteensopimattomat kentät "
+"jäävät tyhjiksi.  (esim <strong>Sikunimi</strong> ei esiinny yhteisöissä."
 "record)."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click <strong>Select more fields...</strong> if you want to export more "
 "fields than are initially displayed in the table."
-msgstr "Valitse <strong>Valitse lisää kenttiä...</strong> jos haluat tiedostoon useampia kenttiä kun nyt on määritelty."
+msgstr ""
+"Valitse <strong>Valitse lisää kenttiä...</strong> jos haluat tiedostoon "
+"useampia kenttiä kun nyt on määritelty."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
-msgstr "Valitse \"Lataa tallennettu kenttämäärittely\" halutessasi suorittaa tietojen viennin samoilla määrittelyillä kuin aikaisemmin."
+msgstr ""
+"Valitse \"Lataa tallennettu kenttämäärittely\" halutessasi suorittaa "
+"tietojen viennin samoilla määrittelyillä kuin aikaisemmin."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "If you want to use the same export setup in the future, check 'Save this "
 "field mapping' at the bottom of the page before continuing. You will then be "
 "able to reload this setup with a single click."
-msgstr "Jos haluat käyttää samoja vientiasetuksia jatkossa valitse 'Tallenna tämä määrittely' sivun alareunasta ennen jatkoa. Voi sen jälkeen ottaa tallennetut poimintasetukset koska tahansa käyttöön yhdellä valinnalla."
+msgstr ""
+"Jos haluat käyttää samoja vientiasetuksia jatkossa valitse 'Tallenna tämä "
+"määrittely' sivun alareunasta ennen jatkoa. Voi sen jälkeen ottaa "
+"tallennetut poimintasetukset koska tahansa käyttöön yhdellä valinnalla."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
 "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
 "used data values. This includes primary address information, preferred phone "
 "and email, as well as all custom data."
-msgstr "<strong>Vie ENSISIJAISET yhteystiedot</strong> tarjoaa useimmin käytetyt tiedot. Tiedosto pitää sisällään ensisijaiset ositetiedot, puhelinnumeron ja sähköpostiosoitteen sekä räätälöityjen kenttien sisällön."
+msgstr ""
+"<strong>Vie ENSISIJAISET yhteystiedot</strong> tarjoaa useimmin käytetyt "
+"tiedot. Tiedosto pitää sisällään ensisijaiset ositetiedot, puhelinnumeron ja "
+"sähköpostiosoitteen sekä räätälöityjen kenttien sisällön."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
@@ -6539,8 +6787,11 @@ msgid ""
 "strong> to choose a subset of fields for export. This option allows you to "
 "export multiple specific locations (Home, Work, etc.). You can also save "
 "your selections as a 'field mapping' so you can use it again later."
-msgstr "Valitse <strong>Valitse kentät vientiä varten</strong> ja tämän jälkeen <strong>Jatka</"
-"strong> valitsemaan poimittavaa joukkoa. Tämä mahdolistaa useiden eri osoitteiden(Työ, koti, jne.) poiminnan. Voit myös tallentaa poimintamäärittelysi tulevaa käyttöä varten."
+msgstr ""
+"Valitse <strong>Valitse kentät vientiä varten</strong> ja tämän jälkeen "
+"<strong>Jatka</strong> valitsemaan poimittavaa joukkoa. Tämä mahdolistaa "
+"useiden eri osoitteiden(Työ, koti, jne.) poiminnan. Voit myös tallentaa "
+"poimintamäärittelysi tulevaa käyttöä varten."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
@@ -7530,8 +7781,8 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
 "Click <strong>Export Contributions</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also\n"
-"include contributor contact information (name, address, email, phone...) as "
+"values (CSV) file of contribution data. Each row will also include "
+"contributor contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
 
@@ -7845,17 +8096,16 @@ msgstr ""
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "This page lists the credit card options that will be offered to contributors "
-"using your Online Contribution pages.\n"
-"        You will need to verify which cards are accepted by your chosen "
-"Payment Processor and update these entries accordingly."
+"using your Online Contribution pages. You will need to verify which cards "
+"are accepted by your chosen Payment Processor and update these entries "
+"accordingly."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "IMPORTANT: This page does NOT control credit card/payment method choices for "
 "sites and/or contributors using the PayPal Express service (e.g. where "
-"billing information\n"
-"        is collected on the Payment Processor's website)."
+"billing information is collected on the Payment Processor's website)."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -7914,8 +8164,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Collect additional information from contributors by selecting CiviCRM Profile"
-"(s)\n"
-"    to include in this contribution page."
+"(s) to include in this contribution page."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -8744,8 +8993,8 @@ msgstr ""
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
-"listings (selector) table.\n"
-"        Ask the site administrator to check the Profile setup."
+"listings (selector) table. Ask the site administrator to check the Profile "
+"setup."
 msgstr ""
 
 #: templates/CRM/Profile/Page/Note.tpl
@@ -8928,35 +9177,47 @@ msgstr ""
 msgid ""
 "CiviCRM Profile(s) allow you to aggregate groups of fields and include them "
 "in your site as input forms, contact display pages, and search and listings "
-"features.\n"
-"    They provide a powerful set of tools for you to collect information from "
-"constituents and selectively share contact information.</p>\n"
-"    <p>Profiles may be linked to specific modules, or used to create "
-"standalone forms and listing pages. Examples of module links include:\n"
-"    <ul class=\"indented\">\n"
-"    <li><strong>User</strong> - One or several profiles can be linked to "
-"either the <strong>new user registration</strong> and/or view and edit "
-"screens for <strong>existing user accounts</strong>.\n"
-"    <li><strong>CiviContribute</strong> - When you want to collect "
-"information from Contributors via online contribution pages, you can create "
-"a profile and link to to your contribution page.\n"
-"    <li><strong>Profile Listings</strong> - A default profile search form "
-"and search result listings is displayed when you link users to the <site "
-"root>/civicrm/profile?reset=1 path. If you have several\n"
-"    profiles which you want to use for different search and listings "
-"purposes, simply add the profile ID to the end of your query string using "
-"the 'gid' parameter. For example, the link to display a search and\n"
-"    listings page for a Profile with ID = 3 would be:<br /><strong>&lt;your "
-"site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>\n"
-"    </ul></p>"
+"features. They provide a powerful set of tools for you to collect "
+"information from constituents and selectively share contact information."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Profiles may be linked to specific modules, or used to create standalone "
+"forms and listing pages. Examples of module links include:"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>User</strong> - One or several profiles can be linked to either the "
+"<strong>new user registration</strong> and/or view and edit screens for "
+"<strong>existing user accounts</strong>."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>CiviContribute</strong> - When you want to collect information from "
+"Contributors via online contribution pages, you can create a profile and "
+"link to to your contribution page."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>Profile Listings</strong> - A default profile search form and search "
+"result listings is displayed when you link users to the <site root>/civicrm/"
+"profile?reset=1 path. If you have several profiles which you want to use for "
+"different search and listings purposes, simply add the profile ID to the end "
+"of your query string using the 'gid' parameter. For example, the link to "
+"display a search and listings page for a Profile with ID = 3 would be:<br /"
+"><strong>&lt;your site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "Use the <strong>Stand-alone Form</strong> links to get the HTML code needed "
 "to add a profile form to any block or page on any website (e.g. for a signup "
-"form). You can also get the <a href=\"%1\">HTML for\n"
-"    ALL Active Profiles</a> as a single form."
+"form). You can also get the <a href=\"%1\">HTML for ALL Active Profiles</a> "
+"as a single form."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -9249,3 +9510,16 @@ msgstr ""
 msgid "Discover"
 msgstr ""
 
+#~ msgid ""
+#~ "<p>This site is running development code towards the 1.3 Developer "
+#~ "release.</p>\n"
+#~ "<p>To see a list of known bugs and issues, and to report new bugs, please "
+#~ "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
+#~ "<p>Please add any comments on the look and feel of these pages, along "
+#~ "with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+#~ msgstr ""
+#~ "<p>Sivu käyttää CiviCRM kehitysversiota 1.3.</p>\n"
+#~ "<p>Nähdäksesi tiedossa olevat bugit tai ilmoittaaksesi uudesta käytä <a "
+#~ "href=\"%1\" target=\"_blank\">bug-tracking järjestelmää</a>.</p>\n"
+#~ "<p>Voit kommentoida sivujen toimivuutta ja ulkoasua <a href=\"%2"
+#~ "\">CiviCRM kommentti sivuilla</a>.</p>"

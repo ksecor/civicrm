@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-19 12:01+0100\n"
+"POT-Creation-Date: 2005-12-21 11:53+0100\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -1955,9 +1955,15 @@ msgid "The Relationship Type has been saved."
 msgstr "Der Beziehungstyp wurde gespeichert."
 
 #: CRM/Admin/Page/ActivityType.php
+#, fuzzy
+msgid "Are you sure you want to disable this activity type?"
+msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+
+#: CRM/Admin/Page/ActivityType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this activity type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing activities."
+"Users will no longer be able to select this value when adding or editing "
+"activities."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Aktivitätsart deaktivieren möchten?\n"
 "\n"
@@ -1992,9 +1998,14 @@ msgstr ""
 
 #: CRM/Admin/Page/Gender.php
 #, fuzzy
+msgid "Are you sure you want to disable this Gender?"
+msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+
+#: CRM/Admin/Page/Gender.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Gender?\\n\\nUsers will no longer be "
-"able to select this value when adding or editing Gender."
+"Users will no longer be able to select this value when adding or editing "
+"Gender."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Aktivitätsart deaktivieren möchten?\n"
 "\n"
@@ -2022,10 +2033,16 @@ msgid "Delete Gender Type"
 msgstr "Gruppe löschen"
 
 #: CRM/Admin/Page/IMProvider.php
+#, fuzzy
+msgid "Are you sure you want to disable this IM Service Provider?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese CiviCRMprofilgruppe deaktivieren möchten?"
+
+#: CRM/Admin/Page/IMProvider.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this IM Service Provider?\\n\\nUsers will "
-"no longer be able to select this value when adding or editing contact IM "
-"screen names."
+"Users will no longer be able to select this value when adding or editing "
+"contact IM screen names."
 msgstr ""
 "Sind Sie sicher, dass Sie diesen Instantmessaging Provicer deaktivieren "
 "möchten?\n"
@@ -2052,9 +2069,15 @@ msgstr "Instantmessaging Provider"
 
 #: CRM/Admin/Page/IndividualPrefix.php
 #, fuzzy
+msgid "Are you sure you want to disable this Individual Prefix?"
+msgstr ""
+"Sind Sie sicher, dass Sie dieses CiviCRMprofilfeld deaktivieren möchten?"
+
+#: CRM/Admin/Page/IndividualPrefix.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Individual Prefix?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing Individual Prefix."
+"Users will no longer be able to select this value when adding or editing "
+"Individual Prefix."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Aktivitätsart deaktivieren möchten?\n"
 "\n"
@@ -2083,9 +2106,14 @@ msgstr "Neues Individuum"
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #, fuzzy
+msgid "Are you sure you want to disable this Individual Suffix?"
+msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+
+#: CRM/Admin/Page/IndividualSuffix.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Individual Suffix?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing Individual Suffix."
+"Users will no longer be able to select this value when adding or editing "
+"Individual Suffix."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Aktivitätsart deaktivieren möchten?\n"
 "\n"
@@ -2115,9 +2143,15 @@ msgid "Delete Individual Suffix"
 msgstr "Neues Individuum"
 
 #: CRM/Admin/Page/LocationType.php
+#, fuzzy
+msgid "Are you sure you want to disable this location type?"
+msgstr "Sind Sie sicher, dass Sie diese Komponente deaktivieren möchten?"
+
+#: CRM/Admin/Page/LocationType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this location type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing contact locations."
+"Users will no longer be able to select this value when adding or editing "
+"contact locations."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Standortsart deaktivieren möchten?\n"
 "\n"
@@ -2142,9 +2176,15 @@ msgid "Delete Location Type"
 msgstr "Standortsart deaktivieren"
 
 #: CRM/Admin/Page/MobileProvider.php
+#, fuzzy
+msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese CiviCRMprofilgruppe deaktivieren möchten?"
+
+#: CRM/Admin/Page/MobileProvider.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this Mobile Phone Service Provider?\\n"
-"\\nUsers will no longer be able to select this value when adding or editing "
+"Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
 msgstr ""
 "Sind Sie sicher, dass Sie diesen Mobiltelefonanbieter deaktivieren möchten?\n"
@@ -2172,10 +2212,15 @@ msgid "Delete Mobile Provider"
 msgstr "Neuer Mobilfunkprovider"
 
 #: CRM/Admin/Page/RelationshipType.php
+#, fuzzy
+msgid "Are you sure you want to disable this relationship type?"
+msgstr "Sind Sie sicher, dass Sie diese Beziehung deaktivieren möchten?"
+
+#: CRM/Admin/Page/RelationshipType.php
+#, fuzzy
 msgid ""
-"Are you sure you want to disable this relationship type?\\n\\nUsers will no "
-"longer be able to select this value when adding or editing relationships "
-"between contacts."
+"Users will no longer be able to select this value when adding or editing "
+"relationships between contacts."
 msgstr ""
 "Sind Sie sicher, dass Sie diese Beziehungsart deaktivieren möchten?\n"
 "\n"
@@ -2206,10 +2251,15 @@ msgid "Delete Reletionship Type"
 msgstr "Beziehung löschen"
 
 #: CRM/Admin/Page/Tag.php
+#, fuzzy
+msgid "Are you sure you want to delete this tag?"
+msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
+
+#: CRM/Admin/Page/Tag.php
+#, fuzzy
 msgid ""
-"Are you sure you want to delete this tag?\\n\\nThis tag will be removed from "
-"any currently tagged contacts, and users will no longer be able to assign "
-"contacts to this tag."
+"This tag will be removed from any currently tagged contacts, and users will "
+"no longer be able to assign contacts to this tag."
 msgstr ""
 "Sind Sie sicher, dass Sie dieses Etikett deaktivieren möchten?\n"
 "\n"
@@ -6135,20 +6185,18 @@ msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
 "Select up to five contact field(s) to use when comparing a new Individual "
-"contact to existing\n"
-"    contact records for duplicate matching. If some of the fields in your "
-"matching rule are OPTIONAL, then\n"
-"    all <strong>non-empty</strong> fields in the incoming data are used."
+"contact to existing contact records for duplicate matching. If some of the "
+"fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
+"strong> fields in the incoming data are used."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
 "For example, using the default matching rule of <strong>Email AND First Name "
-"AND Last Name</strong>... Jane Doe jane.doe@example.org\n"
-"    exists in your database. Now someone tries to add a new contact with the "
-"same email address and leaves\n"
-"    the first and last name blank. The new contact will be flagged as a "
-"potential duplicate."
+"AND Last Name</strong>... Jane Doe jane.doe@example.org exists in your "
+"database. Now someone tries to add a new contact with the same email address "
+"and leaves the first and last name blank. The new contact will be flagged as "
+"a potential duplicate."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
@@ -6526,25 +6574,20 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-#, fuzzy
-msgid ""
-"<p>This site is running development code towards the 1.3 Developer release.</"
-"p>\n"
-"<p>To see a list of known bugs and issues, and to report new bugs, please "
-"use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
-"<p>Please add any comments on the look and feel of these pages, along with "
-"workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+msgid "This site is running development code towards the %1 Developer release."
 msgstr ""
-"<p>Dieser Sandkasten benutzt Coder sich in der aktiven Entwicklung zu der "
-"Version 1.1 befindet. Manche Funktionen sind daher noch nicht ganz korrekt "
-"umgesetzt. Bitte benutzen Sie <a href=\"%2\" target=\"_blank\">unser Demo</"
-"a> wenn Sie unsere aktuelle stabile Version testen möchten.</p>\n"
-"<p>Um sich die Liste der Funktionen und der Reparaturen in der "
-"Entwicklungsphase an zu schauen gehen Sie bitte zu unserem <a href=\"%1\" "
-"target=\"_blank\">bug-tracking system</a>.</p>\n"
-"<p>Bitte fügen sie alle Kommentare zum Look and Feel dieser Seiten, genauso "
-"wie Probleme mit Arbeitsabläufen auf die <a href=\"%3\">CiviCRM "
-"Kommentarseite</a> ein.</p>"
+
+#: templates/CRM/common/feedback.tpl
+msgid ""
+"To see a list of known bugs and issues, and to report new bugs, please use "
+"our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>."
+msgstr ""
+
+#: templates/CRM/common/feedback.tpl
+msgid ""
+"Please add any comments on the look and feel of these pages, along with "
+"workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
+msgstr ""
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
@@ -8094,8 +8137,8 @@ msgstr[1] "Es wurden keine Datensätze zum Drucken ausgewählt."
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
 "Click <strong>Export Contributions</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also\n"
-"include contributor contact information (name, address, email, phone...) as "
+"values (CSV) file of contribution data. Each row will also include "
+"contributor contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
 
@@ -8487,17 +8530,16 @@ msgstr ""
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "This page lists the credit card options that will be offered to contributors "
-"using your Online Contribution pages.\n"
-"        You will need to verify which cards are accepted by your chosen "
-"Payment Processor and update these entries accordingly."
+"using your Online Contribution pages. You will need to verify which cards "
+"are accepted by your chosen Payment Processor and update these entries "
+"accordingly."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "IMPORTANT: This page does NOT control credit card/payment method choices for "
 "sites and/or contributors using the PayPal Express service (e.g. where "
-"billing information\n"
-"        is collected on the Payment Processor's website)."
+"billing information is collected on the Payment Processor's website)."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -8559,8 +8601,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Collect additional information from contributors by selecting CiviCRM Profile"
-"(s)\n"
-"    to include in this contribution page."
+"(s) to include in this contribution page."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -9537,8 +9578,8 @@ msgstr ""
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
-"listings (selector) table.\n"
-"        Ask the site administrator to check the Profile setup."
+"listings (selector) table. Ask the site administrator to check the Profile "
+"setup."
 msgstr ""
 
 #: templates/CRM/Profile/Page/Note.tpl
@@ -9752,35 +9793,47 @@ msgstr "CiviCRM Profil Aufzählung"
 msgid ""
 "CiviCRM Profile(s) allow you to aggregate groups of fields and include them "
 "in your site as input forms, contact display pages, and search and listings "
-"features.\n"
-"    They provide a powerful set of tools for you to collect information from "
-"constituents and selectively share contact information.</p>\n"
-"    <p>Profiles may be linked to specific modules, or used to create "
-"standalone forms and listing pages. Examples of module links include:\n"
-"    <ul class=\"indented\">\n"
-"    <li><strong>User</strong> - One or several profiles can be linked to "
-"either the <strong>new user registration</strong> and/or view and edit "
-"screens for <strong>existing user accounts</strong>.\n"
-"    <li><strong>CiviContribute</strong> - When you want to collect "
-"information from Contributors via online contribution pages, you can create "
-"a profile and link to to your contribution page.\n"
-"    <li><strong>Profile Listings</strong> - A default profile search form "
-"and search result listings is displayed when you link users to the <site "
-"root>/civicrm/profile?reset=1 path. If you have several\n"
-"    profiles which you want to use for different search and listings "
-"purposes, simply add the profile ID to the end of your query string using "
-"the 'gid' parameter. For example, the link to display a search and\n"
-"    listings page for a Profile with ID = 3 would be:<br /><strong>&lt;your "
-"site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>\n"
-"    </ul></p>"
+"features. They provide a powerful set of tools for you to collect "
+"information from constituents and selectively share contact information."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"Profiles may be linked to specific modules, or used to create standalone "
+"forms and listing pages. Examples of module links include:"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>User</strong> - One or several profiles can be linked to either the "
+"<strong>new user registration</strong> and/or view and edit screens for "
+"<strong>existing user accounts</strong>."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>CiviContribute</strong> - When you want to collect information from "
+"Contributors via online contribution pages, you can create a profile and "
+"link to to your contribution page."
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>Profile Listings</strong> - A default profile search form and search "
+"result listings is displayed when you link users to the <site root>/civicrm/"
+"profile?reset=1 path. If you have several profiles which you want to use for "
+"different search and listings purposes, simply add the profile ID to the end "
+"of your query string using the 'gid' parameter. For example, the link to "
+"display a search and listings page for a Profile with ID = 3 would be:<br /"
+"><strong>&lt;your site root URL&gt;/civicrm/profile?reset=1&gid=3</strong>"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "Use the <strong>Stand-alone Form</strong> links to get the HTML code needed "
 "to add a profile form to any block or page on any website (e.g. for a signup "
-"form). You can also get the <a href=\"%1\">HTML for\n"
-"    ALL Active Profiles</a> as a single form."
+"form). You can also get the <a href=\"%1\">HTML for ALL Active Profiles</a> "
+"as a single form."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -10104,6 +10157,27 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>This site is running development code towards the 1.3 Developer "
+#~ "release.</p>\n"
+#~ "<p>To see a list of known bugs and issues, and to report new bugs, please "
+#~ "use our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>.</p>\n"
+#~ "<p>Please add any comments on the look and feel of these pages, along "
+#~ "with workflow issues, on the <a href=\"%2\">CiviCRM Comments Page</a>.</p>"
+#~ msgstr ""
+#~ "<p>Dieser Sandkasten benutzt Coder sich in der aktiven Entwicklung zu der "
+#~ "Version 1.1 befindet. Manche Funktionen sind daher noch nicht ganz "
+#~ "korrekt umgesetzt. Bitte benutzen Sie <a href=\"%2\" target=\"_blank"
+#~ "\">unser Demo</a> wenn Sie unsere aktuelle stabile Version testen möchten."
+#~ "</p>\n"
+#~ "<p>Um sich die Liste der Funktionen und der Reparaturen in der "
+#~ "Entwicklungsphase an zu schauen gehen Sie bitte zu unserem <a href=\"%1\" "
+#~ "target=\"_blank\">bug-tracking system</a>.</p>\n"
+#~ "<p>Bitte fügen sie alle Kommentare zum Look and Feel dieser Seiten, "
+#~ "genauso wie Probleme mit Arbeitsabläufen auf die <a href=\"%3\">CiviCRM "
+#~ "Kommentarseite</a> ein.</p>"
 
 #~ msgid "Intro Description"
 #~ msgstr "Einführungsbeschreibung"
