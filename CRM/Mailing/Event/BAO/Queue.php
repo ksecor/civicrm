@@ -35,6 +35,10 @@
  */
 
 require_once 'CRM/Mailing/Event/DAO/Queue.php';
+require_once 'CRM/Mailing/BAO/Job.php';
+require_once 'CRM/Mailing/BAO/Mailing.php';
+
+require_once 'CRM/Contact/BAO/Contact.php';
 
 class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
 
@@ -140,7 +144,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
      */
     public static function getTotalCount($mailing_id, $job_id = null) {
         $dao =& new CRM_Core_DAO();
-        
+
         $queue      = self::getTableName();
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();

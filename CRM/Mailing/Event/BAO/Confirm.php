@@ -87,6 +87,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $group->id = $se->group_id;
         $group->find(true);
         
+        require_once 'CRM/Mailing/BAO/Component.php';
         $component =& new CRM_Mailing_BAO_Component();
         $component->domain_id = $domain->id;
         $component->is_default = 1;
@@ -106,6 +107,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         );
 
         $html = $component->body_html;
+        require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->name, true);
 

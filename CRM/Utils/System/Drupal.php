@@ -169,7 +169,7 @@ class CRM_Utils_System_Drupal {
         $config =& CRM_Core_Config::singleton( );
         
         $dbDrupal = DB::connect( $config->userFrameworkDSN );
-        if ( DB::isError( $db_drupal ) ) {
+        if ( DB::isError( $dbDrupal ) ) {
             CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbDrupal>getMessage( ) ); 
         }                                                      
 
@@ -181,6 +181,7 @@ class CRM_Utils_System_Drupal {
 
         $user = null;
         // need to change this to make sure we matched only one row
+        require_once 'CRM/Core/BAO/UFMatch.php';
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) { 
             CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['uid'], $row['mail'], 'Drupal' );
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $row['uid'] );
