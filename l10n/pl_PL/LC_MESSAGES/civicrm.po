@@ -957,13 +957,13 @@ msgstr "Suma kwot"
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Fee Amount"
-msgstr ""
+msgstr "Kwota opłat"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr ""
+msgstr "Kwota netto"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -973,11 +973,11 @@ msgstr "Id transakcji"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr ""
+msgstr "Identyfikator rachunku"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Currency"
-msgstr ""
+msgstr "Waluta"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -1004,7 +1004,7 @@ msgstr "Tabela jednostek"
 
 #: CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/Form/Search.php
 msgid "Payment Instrument"
-msgstr ""
+msgstr "Rodzaj płatności"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 #: CRM/Mailing/Selector/Event.php
@@ -1013,7 +1013,7 @@ msgstr "Adres email"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 msgid "Other Amount"
-msgstr ""
+msgstr "Inna kwota"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
 msgid "%1 is a required field"
@@ -1022,7 +1022,7 @@ msgstr "%1 jest polem wymaganym"
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Kwota minimalna"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1032,7 +1032,7 @@ msgstr "Wprowadź poprawną kwotę (np. 9.99)."
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Kwota maksymalna"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1073,7 +1073,7 @@ msgstr "Otrzymany"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Thank-you Sent"
-msgstr ""
+msgstr "Podziękowanie wysłane"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
 #: CRM/Contribute/Selector/Search.php
@@ -1086,7 +1086,7 @@ msgstr "Anulowany"
 #: CRM/Contribute/Form/CreatePPD.php CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Musi zostać wgrany poprawny plik."
 
 #: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -1116,7 +1116,7 @@ msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "By zapisać mapowanie importu należy podać jego nazwę."
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
@@ -1207,7 +1207,7 @@ msgstr "Usuń pole dodatkowe"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Utils/Menu.php
 msgid "Configure Online Contribution Pages"
-msgstr ""
+msgstr "Konfiguracja stron dotacji on-line"
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -1484,7 +1484,7 @@ msgstr "Rodzaje dotacji"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Rodzaje płatności"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Administer CiviCRM"
@@ -1676,19 +1676,19 @@ msgstr "Notatki"
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr ""
+msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_KEY."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr ""
+msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_TEST_KEY."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr ""
+msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_PASSWORD."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr ""
+msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_TEST_PASSWORD."
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Please enter a valid subject."
@@ -1775,6 +1775,7 @@ msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
+"Reguła dopasowywania powtórzeń nie została zapisana, gdyż jest niepoprawna. Reguły mogą zawierać jedynie poprawne nazwy pól, „AND”, „OR” i nawiasy."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -1914,7 +1915,7 @@ msgstr "Edytuj zasadę"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr ""
+msgstr "Edutyj"
 
 #: CRM/Admin/Page/Gender.php
 msgid "Are you sure you want to disable this Gender?"
@@ -2268,7 +2269,7 @@ msgstr "Rodzaj dotacji – %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Payment Instrument - %1"
-msgstr ""
+msgstr "Rodzaj płatności – %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Valid"
@@ -2276,7 +2277,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Cancelled"
-msgstr ""
+msgstr "Stan dotacji – anulowna"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -2791,6 +2792,7 @@ msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
 msgstr ""
+"Nie można usunąć kontaktu powiązanego z aktualnie zalogowanym użytkownikiem – „%1”."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
@@ -2805,6 +2807,7 @@ msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
 msgstr ""
+"Nie można usunąć tego kontaktu, gdyż jest powiązany z aktualnie zalogowanym użytkownikiem – „%1”."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "(preferred)"
@@ -2860,6 +2863,7 @@ msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
 msgstr ""
+"Główny adres tego kontaktu nie zawiera informacji o długości i szerokości geograficznej, więc nie można go pokazać na mapie."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3082,7 +3086,7 @@ msgstr "- pola dotacji -"
 
 #: CRM/Contribute/DAO/AcceptCreditCard.php
 msgid "Accept Credit Card"
-msgstr ""
+msgstr "Akceptuj kartę kredytową"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -3094,11 +3098,11 @@ msgstr "Kwota domyślna"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Kwota min."
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Kwota maks."
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Title"
@@ -3106,7 +3110,7 @@ msgstr "Tytuł podziękowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr ""
+msgstr "Tekst podziękowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Footer"
@@ -3114,11 +3118,11 @@ msgstr "Stopka podziękowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
-msgstr "Adresy DW pokwitowania"
+msgstr "Adres DW pokwitowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
-msgstr ""
+msgstr "Ukryty adres DW pokwitowania"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Receipt Text"
@@ -3129,8 +3133,8 @@ msgid "Receive Date"
 msgstr "Data otrzymania"
 
 #: CRM/Contribute/DAO/Contribution.php
-msgid "Non Deductible Amount"
-msgstr ""
+msgid "Non-deductible Amount"
+msgstr "Kwota nieodliczalna od podatku"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Date"
@@ -3146,11 +3150,11 @@ msgstr "Data pokwitowania"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Thank-you Date"
-msgstr ""
+msgstr "Data podziękowania"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
-msgstr ""
+msgstr "Źródło dotacji"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Date"
@@ -3166,7 +3170,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Kod rezultatu transakcji"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Debit"
@@ -3194,7 +3198,7 @@ msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
-msgstr ""
+msgstr "Ta strona jest aktualnie niedostępna."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Card Number"
@@ -3214,15 +3218,15 @@ msgstr "Rodzaj karty"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr ""
+msgstr "Złóż dotację"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "<< Go Back"
-msgstr ""
+msgstr "<< Wstecz"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
-msgid "Online Contribution: "
-msgstr ""
+msgid "Online Contribution:"
+msgstr "Dotacja on-line:"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
@@ -3231,7 +3235,7 @@ msgstr "Wprowadź poprawną kwotę (używając wyłącznie cyfr i kropki)."
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
-msgstr ""
+msgstr "Kwota dotacji"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Amount is a required field"
@@ -3242,14 +3246,15 @@ msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Wprowadź poprawną wartość kodu bezpieczeństwa karty. Są to zwykle 3-4 ostatnie cyfry podane na karcie po stronie z podpisem."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
-msgstr ""
+msgstr "Ta kwota musi być większa niż %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be less than %1"
-msgstr ""
+msgstr "Ta kwota musi być mniejsza niż %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid Credit Card Number"
@@ -3261,7 +3266,7 @@ msgstr "Wprowadź poprawny numer weryfikacji karty kredytowej."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow Other Amounts?"
-msgstr ""
+msgstr "Pozwolić na inne kwoty?"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
@@ -3269,13 +3274,13 @@ msgstr "Wprowadź poprawną kwotę (np. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
-msgstr ""
+msgstr "Kwota minimalna musi być mniejsza od maksymalnej."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
-msgstr ""
+msgstr "Kwoty dotacji"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Fields<br />(above billing info)"
@@ -3289,7 +3294,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Custom Page Elements"
-msgstr ""
+msgstr "Dodatkowe elementy strony"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
@@ -3319,7 +3324,7 @@ msgstr "Tytuł i ustawienia"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Page Title"
-msgstr ""
+msgstr "Tytuł strony z podziękowaniem"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you Message"
@@ -3331,7 +3336,7 @@ msgstr "Stopka strony podziękowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
-msgstr ""
+msgstr "Wysłać pokwitowanie do ofiarodawcy?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt Message"
@@ -3339,7 +3344,7 @@ msgstr "Wiadomość pokwitowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
-msgstr ""
+msgstr "Wyślij kopię pokwitowania do"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Please enter a valid list of comma delimited email addresses"
@@ -3347,24 +3352,25 @@ msgstr "Wprowadź poprawną listę adresów email oddzielonych przecinkami"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "BCC Receipt To"
-msgstr ""
+msgstr "Wyślij ukrytą kopię pokwitowania do"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid ""
 "A Receipt message must be specified if Email Receipt to Contributor is "
 "enabled"
 msgstr ""
+"Jeśli opcja „Wysłać pokwitowanie do ofiarodawcy?” jest wybrana, należy podać treść pokwitowania"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
-msgstr ""
+msgstr "Podziękowania i pokwitowania"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid "Paid By"
-msgstr ""
+msgstr "Zapłacona przez"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -3375,11 +3381,6 @@ msgstr "Wysłano pokwitowanie"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Cancellation Reason"
 msgstr "Powód anulowania"
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Please enter a valid amount."
@@ -3394,10 +3395,11 @@ msgid ""
 "A contribution type with this name already exists. Please select another "
 "name."
 msgstr ""
+"Rodzaj dotacji o tej nazwie już istnieje. Wybierz inną nazwę."
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
-msgstr ""
+msgstr "Odliczalna od podatku?"
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Selected contribution type has been deleted."
@@ -3409,7 +3411,7 @@ msgstr "Rodzaj dotacji „%1” został zapisany."
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Username"
-msgstr ""
+msgstr "Nazwa użytkownika API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Subject"
@@ -3417,11 +3419,11 @@ msgstr "Temat API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Environment"
-msgstr ""
+msgstr "Środowisko API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API SSL Certificate"
-msgstr ""
+msgstr "Certyfikat SSL API"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "File size should be less than 8192 bytes"
@@ -3429,12 +3431,12 @@ msgstr "Wielkość pliku powinna być mniejsza niż 8192 bajty"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "Could not open %1 file for writing"
-msgstr ""
+msgstr "Nie udało się otworzyć piku %1 do zapisu"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid ""
-"Your %1 values is: '%2'. This value must be entered in the Payment Processor "
-"section of the CiviCRM configuration file. "
+"Your %1 values is: \"%2\". This value must be entered in the Payment Processor "
+"section of the CiviCRM configuration file."
 msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
@@ -3455,11 +3457,11 @@ msgstr "Numer karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Verification Number"
-msgstr ""
+msgstr "Numer weryfikacyjny karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Expiration Date"
-msgstr ""
+msgstr "Data wygaśnięcia karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Credit Card Type"
@@ -3467,7 +3469,7 @@ msgstr "Rodzaj karty kredytowej"
 
 #: CRM/Contribute/Form/Preview.php
 msgid "Contribute via PayPal"
-msgstr ""
+msgstr "Dotacje przez PayPal"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contributor"
@@ -3487,7 +3489,7 @@ msgstr "Wszystkie"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Status"
-msgstr ""
+msgstr "Stan dotacji"
 
 #: CRM/Contribute/Form/Task/Delete.php
 msgid "Deleted Contribution(s): %1"
@@ -3499,7 +3501,7 @@ msgstr "Suma wybranych dotacji: %1"
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "Contribution ID"
-msgstr ""
+msgstr "Identyfikator dotacji"
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "CiviCRM Contributions"
@@ -3515,7 +3517,7 @@ msgstr "Brak wymaganych pól: %1"
 
 #: CRM/Contribute/Import/Parser/Contribution.php
 msgid "Invalid field value: %1"
-msgstr ""
+msgstr "Błędna wartość pola: %1"
 
 #: CRM/Contribute/Import/Parser.php
 msgid "View Contribution URL"
@@ -3532,7 +3534,7 @@ msgstr ""
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr ""
+msgstr "Edytuj kartę kredytową"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Disable Credit Card"
@@ -3544,11 +3546,11 @@ msgstr "Włącz kartę kredytową"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
-msgstr ""
+msgstr "Usuń zaakceptowaną kartę kredytową"
 
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Konfiguracja strony dotacji"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to disable this Contribution page?"
@@ -3562,7 +3564,7 @@ msgstr "Na pewno usunąć tę stronę dotacji?"
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Testuj"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "New Online Contribution Page"
@@ -3601,20 +3603,20 @@ msgstr "Na pewno wyłączyć ten rodzaj płatności?"
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Edit Payment Instrument"
-msgstr ""
+msgstr "Edytuj sposób płatności"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Disable Payment Instrument"
-msgstr ""
+msgstr "Wyłącz sposób płatności"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Enable Payment Instrument"
-msgstr ""
+msgstr "Włącz sposób płatności"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Delete Payment Instrument"
-msgstr ""
+msgstr "Usuń sposób płatności"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -3673,15 +3675,17 @@ msgstr "%1 zawiera – %2"
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
-"We could not find the backup sql script. Check sql/civicrm_backup.mysql in "
+"We could not find the backup sql script. Check %1 in "
 "the CiviCRM root directory."
 msgstr ""
+"Nie udało się znaleźć pliku SQL z kopią zapasową. Sprawdź plik %1 w katalogu głównym CiviCRM-a."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
 msgstr ""
+"Nie udało się znaleźć programu mysqldump. Sprawdź zmienną CIVICRM_MYSQL_PATH w pliku konfiguracyjnym CiviCRM-a."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -4182,7 +4186,7 @@ msgstr "Synchronizacja użytkowników Drupala"
 
 #: CRM/Core/Invoke.php
 msgid "Accept Credit Cards"
-msgstr ""
+msgstr "Akceptuj karty kredytowe"
 
 #: CRM/Core/Invoke.php
 msgid "Create PPD"
@@ -4318,7 +4322,7 @@ msgstr "Rejestracja użytkowników"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Zobacz/edytuj konto użytkownika"
 
 #: CRM/Core/SelectValues.php
 msgid "Profile"
@@ -4895,7 +4899,7 @@ msgstr "Dołącz wysyłki"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Exclude mailing(s)"
-msgstr "Odłącz wysyłki"
+msgstr "Wyklucz wysyłki"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Mailing Recipients"
@@ -4903,11 +4907,11 @@ msgstr "Wybierz odbiorców wysyłki"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include group(s) and Exclude group(s). "
-msgstr ""
+msgstr "Nie można wybrać tych samych grup w „Dołącz grupy” i „Wyklucz grupy”."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
-msgstr ""
+msgstr "Nie można wybrać tych samych wysyłek w „Dołącz wysyłki” i „Wyklucz wysyłki”."
 
 #: CRM/Mailing/Form/Name.php
 msgid "Name Your Mailing"
@@ -5175,7 +5179,7 @@ msgstr "Przekazanie"
 
 #: CRM/Profile/Form.php
 msgid "This feature is not currently available."
-msgstr ""
+msgstr "Ta opcja nie jest w tej chwili dostępna."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
@@ -5238,7 +5242,7 @@ msgstr "Wybrane pole profilu zostało usunięte."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr ""
+msgstr "Wybrane pole nie zostało dodane – już istnieje w tym profilu."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
@@ -5262,7 +5266,7 @@ msgstr "Czy ten profil CiviCRM jest aktywny?"
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
-msgstr ""
+msgstr "Nie można usunąć tego profilu, gdyż jest używany przez inne moduły."
 
 #: CRM/UF/Form/Group.php
 msgid ""
@@ -5502,7 +5506,7 @@ msgstr ""
 
 #: CRM/Utils/Menu.php
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Zaakceptowane karty kredytowe"
 
 #: CRM/Utils/Menu.php templates/CRM/Contribute/Form/Search.tpl
 msgid "Find Contributions"
@@ -5550,11 +5554,11 @@ msgstr "Ostatnie &gt;&gt;"
 
 #: CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr ""
+msgstr "Opcja CIVICRM_PAYMENT_CERT_PATH nie została podana w pliku konfiguracyjnym."
 
 #: CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr ""
+msgstr "Opcja CIVICRM_PAYMENT_TEST_CERT_PATH nie została podana w pliku konfiguracyjnym."
 
 #: CRM/Utils/Token.php
 msgid "Your organization's postal address"
@@ -5802,16 +5806,16 @@ msgid "Synchronize Drupal Users"
 msgstr "Synchronizacja użytkowników Drupala"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-msgid "Advanced Duplicate Matching Rule "
-msgstr ""
+msgid "Advanced Duplicate Matching Rule"
+msgstr "Zaawansowana reguła dopasowywania powtórzeń"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Delete Duplicate Matching Rule"
 msgstr "Usuń regułę dopasowywania powtórzeń"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-msgid "Configure Duplicate Matching Rule "
-msgstr ""
+msgid "Configure Duplicate Matching Rule"
+msgstr "Konfiguracja reguły dopasowywania powtórzeń"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
@@ -6002,13 +6006,14 @@ msgstr ""
 msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
-msgstr ""
+msgstr "Dostępna jest nowa wersja CiviCRM-a: %1 (ta instalacja to wersja %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
 msgstr ""
+"O nowej wersji można przeczytać na <a href=\"%1\">naszej stronie</a>; <a href=\"%2\">stąd można ją pobrać</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -6221,7 +6226,7 @@ msgstr "Kliknij, by wybrać datę/czas z kalendarza."
 
 #: templates/CRM/common/feedback.tpl
 msgid "This site is running development code towards the %1 Developer release."
-msgstr ""
+msgstr "Ta instalacja oparta jest o kod rozwijany w celu wydania wersji %1 Developer."
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
@@ -6245,6 +6250,7 @@ msgid ""
 "terms of the <a href=\"%1\">Affero General Public License (AGPL)</a>. Source "
 "code can be downloaded from our <a href=\"%2\">downloads site</a>."
 msgstr ""
+"CiviCRM jest dostępny dla każdej osoby lub organizacji zgodnie z zasadami <a href=\"%1\">Affero General Public License (AGPL)</a>. Kod źródłowy można pobrać z naszej <a href=\"%2\">strony WWW</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -6452,6 +6458,7 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
+"Wyszukiwanie lokalizacji używa domyślnie lokalizacji głównych wszystkich kontaktów. By wyszukać po konretnych rodzajach lokalizacji (np. Dom, Praca…), zaznacz jedno lub więcej z poniższych pól."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -6886,12 +6893,12 @@ msgstr "Data urodzenia:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
-msgstr ""
+msgstr "Suma dotacji"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "# Contributions"
-msgstr ""
+msgstr "liczba dotacji"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
@@ -7218,7 +7225,7 @@ msgstr "Poniższe powiązania zostały oznaczone jako wyłączone (nieaktywne)."
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
-msgstr ""
+msgstr "Nowa karta kredytowa"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Delete Credit Card"
@@ -7229,6 +7236,7 @@ msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
 msgstr ""
+"UWAGA: Jeśli usuniesz tę opcję, ofiarodawcy nie będą mogli wykorzystywać kart kredytowych tego rodzaju na stronach dotacji on-line."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -7241,6 +7249,7 @@ msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
 msgstr ""
+"Nazwa tej karty kredytowej w postaci wyświetlanej ofiarodawcom. Może być to ta sama nazwa, co powyżej, lub nazwa zlokalizowana."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -7273,8 +7282,9 @@ msgstr "Wygasa"
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "Your contribution will not be completed until you click the <strong>Make "
-"Contribution</strong> button. Please click the button one time only.</strong>"
+"Contribution</strong> button. Please click the button one time only."
 msgstr ""
+"Dotacja nie zostanie złożone dopóki nie naciśniesz przycisku <strong>Złóż dotację</strong>. Przyciśnij ten przycisk tylko raz."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -7285,7 +7295,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Enter numbers only, no spaces or dashes."
-msgstr ""
+msgstr "Wprowadź tylko cyfry, bez przerw i myślników."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Security Code Location on Credit Card"
@@ -7294,7 +7304,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "Usually the last 3-4 digits in the signature area on the back of the card."
-msgstr ""
+msgstr "Zazwyczaj są to 3-4 ostatnie cyfry w polu podpisu z tyłu karty."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -7309,12 +7319,14 @@ msgid ""
 "provide a fixed list of amounts. For fixed amounts, you can enter a label "
 "for each 'level' of contribution (e.g. Friend, Sustainer, etc.)."
 msgstr ""
+"Ten formularz służy do konfigurowania opcji kwot dotacji. Można umożliwić ofiarodawcom podawanie własnych kwot dotacji oraz (opcjonalnie) udostępnić listę określonych kwot. W przypadku określonych kwot można podać etykietę dla każdego „poziomu” dotacji (np. Przyjaciel, Sponsor itp.)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "If you allow people to enter their own dollar amounts, you can also set "
 "minimum and maximum values."
 msgstr ""
+"W przypadku umożliwiania wprowadzania własnych kwot, można określić ich wartość minimalną i maksymalną."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -7322,6 +7334,7 @@ msgid ""
 "contribution amount. Your page will then include a text field labeled "
 "<strong>Other Amount</strong>."
 msgstr ""
+"Zaznacz to pole, jeśli chesz umożliwić ofiarodawcom wprowadzanie własnych kwot dotacji. Strona będzie wtedy zawierać pole tekstowe opsane <strong>Inna kwota</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -7329,6 +7342,7 @@ msgid ""
 "fields above to control minimum and/or maximum acceptable values (e.g. don't "
 "allow contribution amounts less than $5.00)."
 msgstr ""
+"Jeśli pozwolono na inne kwoty, można użyć powyższych pól by określić minimalne i/lub maksymalne akceptowalne wartości (przykładowo, by nie pozwalć na kwoty dotacji mniejsze niż 5.00 zł)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -7336,6 +7350,7 @@ msgid ""
 "will be presented as a list of radio button options. Both the label and "
 "dollar amount will be displayed."
 msgstr ""
+"Użyj poniższej tabeli by wpisać do dziesięciu określonych kwot, które będą dostępne w postaci listy wyboru pojedynczego. Będzie wyświeltana zarówno etykieta, jak i kwota."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
@@ -7398,7 +7413,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
-msgstr ""
+msgstr "Ten tytuł będzie wyświetlany na górze strony."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7421,6 +7436,7 @@ msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
 msgstr ""
+"Gdy ta strona jest aktywna, można podawać jej adres kopiując i przeklejając poniższy URL:"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7434,19 +7450,21 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid "Thank-you Message and Receipting"
-msgstr ""
+msgstr "Podziękowania i pokwitowania"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "This title will be displayed at the top of the thank-you / transaction "
 "confirmation page."
 msgstr ""
+"Ten tytuł będzie wyświetlany na górze strony z podziękowaniem / potwierdzeniem transakcji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter text (and optional HTML layout tags) for the thank-you message that "
 "will appear at the top of the confirmation page."
 msgstr ""
+"Wprowadź tekst (mogący zawierać znaczniki HTML) wiadomości z podziękowaniem, wyświetlanej na górze strony z potwierdzeniem transakcji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7459,23 +7477,27 @@ msgstr ""
 msgid ""
 "Check this box if you want an electronic receipt to be sent automatically."
 msgstr ""
+"Zaznacz to pole, jeśli chcesz, by automatycznie były wysyłane potwierdzenia elektroniczne."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM name to be used when receipts are emailed to contributors."
 msgstr ""
+"Wpisz nazwę występującą w polu Od pokwitowań wysyłanych do ofiarodawców."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM email address to be used when receipts are emailed to "
 "contributors."
 msgstr ""
+"Wpisz adres email występujący w polu Od pokwitowań wysyłanych do ofiarodawców."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter a message you want included at the beginning of emailed receipts. "
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
 msgstr ""
+"Wpisz wiadomość dołączaną na początku wysyłanych pokwitowań. UWAGA: Pokwitowania to emaile czyto tekstowe – nie wpisuj tu znaczników HTML."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7484,6 +7506,7 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"Jeśłi chesz, by członkowie Twojej organizaji otrzymywali kopie każdego wysłanego pokwitowania, wprowadź tu jeden lub więcej adresów email. Kolejne adresy oddzielaj przecinkiem (np. marta@example.com, wojtek@example.com)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7492,10 +7515,11 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"Jeśłi chesz, by członkowie Twojej organizaji otrzymywali UKRYTE kopie każdego wysłanego pokwitowania, wprowadź tu jeden lub więcej adresów email. Kolejne adresy oddzielaj przecinkiem (np. marta@example.com, wojtek@example.com)."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr ""
+msgstr "Przetestuj stronę dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -7523,7 +7547,7 @@ msgstr "Nr transakcji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
-msgstr ""
+msgstr "Przetestuj pokwitowanie transakcji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid ""
@@ -7533,7 +7557,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 msgid "Contribution Receipt"
-msgstr ""
+msgstr "Pokwitowanie dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -7543,7 +7567,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt for this contribution has also been sent to %1"
-msgstr ""
+msgstr "Pokwitowanie tej dotacji zostało także wysłane do %1"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
@@ -7559,25 +7583,26 @@ msgstr "Wybierz rodzaj dotacji właściwy dla tej transakcji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
-msgstr ""
+msgstr "Data otrzymania tej dotacji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "This field is blank for non-monetary contributions."
-msgstr ""
+msgstr "To pole powinno być puste dla dotacji nie-pieniężnych."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Optional identifier for the contribution source (campaign name, event, "
 "mailer, etc.)."
 msgstr ""
+"Nieobowiązkowy identyfikator źródła tej dotacji (nazwa kampanii, wydarzenie itp.)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
-msgstr ""
+msgstr "Kwota przekazana przez ofiarodawcę."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Non-deductible portion of this contribution."
-msgstr ""
+msgstr "Nieodliczalna od podatku część dotacji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Processing fee for this transaction (if applicable)."
@@ -7585,11 +7610,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Net value of the contribution (Total Amount minus Fee)."
-msgstr ""
+msgstr "Wartość netto dotacji (kwota całości minus opłaty)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Unique internal reference ID for this contribution."
-msgstr ""
+msgstr "Unikalny wewnętrzny identyfikator tej dotacji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
@@ -7601,15 +7626,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
-msgstr ""
+msgstr "Data wysłania ofiarodawcy pokwitowania."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a thank-you message was sent to the contributor."
-msgstr ""
+msgstr "Data wysłania ofiarodawcy podziękowania."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "To mark a contribution as cancelled, enter the cancellation date here."
-msgstr ""
+msgstr "Podaj datę anulowania by zaznaczyć dotację jako anulowaną."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
@@ -7632,7 +7657,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
-msgstr ""
+msgstr "Czy dotacje tego typu podlegają odliczaniu od podatku?"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "pending"
@@ -8290,7 +8315,7 @@ msgstr "Kod księgowania"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
-msgstr ""
+msgstr "Odliczalna od podatku?"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
@@ -8332,15 +8357,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Period"
-msgstr ""
+msgstr "Okres"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
-msgstr ""
+msgstr "Od początku miesiąca"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(n/a)"
-msgstr ""
+msgstr "(nd.)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "view details"
@@ -8348,15 +8373,15 @@ msgstr "szczegóły"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
-msgstr ""
+msgstr "Od początku roku"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Cumulative"
-msgstr ""
+msgstr "W sumie"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(since inception)"
-msgstr ""
+msgstr "(od rozpoczęcia)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
