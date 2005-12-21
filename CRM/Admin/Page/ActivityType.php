@@ -68,7 +68,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this activity type?\n\nUsers will no longer be able to select this value when adding or editing activities.');
+            $disableExtra = ts('Are you sure you want to disable this activity type?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing activities.');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(

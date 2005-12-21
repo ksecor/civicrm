@@ -1,7 +1,7 @@
 {if $previewField }
-{capture assign=infoMessage}{ts}Profile Field Preview</strong>.{/ts}{/capture}
+{capture assign=infoMessage}<strong>{ts}Profile Field Preview{/ts}</strong>{/capture}
 {else}
-{capture assign=infoMessage}{ts}<strong>Profile Preview</strong>{/ts}{/capture}
+{capture assign=infoMessage}<strong>{ts}Profile Preview{/ts}</strong>{/capture}
 {/if}
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}

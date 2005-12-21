@@ -71,7 +71,7 @@ cp $SRC/Readme.txt $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "trunk.$REV Mambo PHP4" > $TRG/civicrm-version.txt
+echo "1.3.$REV Mambo PHP4" > $TRG/civicrm-version.txt
 
 
 # gen zip file
@@ -87,7 +87,7 @@ $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 cp -r com_civicrm/civicrm/mambo/* com_civicrm
 cp -r com_civicrm/civicrm/modules/config.main.php com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-SNAPSHOT-rev$REV.zip com_civicrm
+zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.3BETA-rev$REV.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm

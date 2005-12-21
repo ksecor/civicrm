@@ -54,8 +54,7 @@
     <div class="messages status">
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        <dd>{ts}No fields in this Profile have been configured to display as columns in the listings (selector) table.
-        Ask the site administrator to check the Profile setup.{/ts}</dd>
+        <dd>{ts}No fields in this Profile have been configured to display as columns in the listings (selector) table. Ask the site administrator to check the Profile setup.{/ts}</dd>
       </dl>
     </div>
 {/if}

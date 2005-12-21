@@ -80,7 +80,9 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params = $this->controller->exportValues( $this->_name );
 
         // we do this in case the user has hit the forward/back button
-        $params['id'] = $this->_id;
+        if ( $this->_id ) {
+            $params['id'] = $this->_id;
+        }
 
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);

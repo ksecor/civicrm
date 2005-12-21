@@ -2,10 +2,8 @@
    {include file="CRM/Contribute/Form/AcceptCreditCard.tpl"}
 {else}
     <div id="help">
-        <p>{ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages.
-        You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}</p>
-        <p>{ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information
-        is collected on the Payment Processor's website).{/ts}</p>
+        <p>{ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages. You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}</p>
+        <p>{ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information is collected on the Payment Processor's website).{/ts}</p>
     </div>
 {/if}
 

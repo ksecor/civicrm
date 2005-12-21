@@ -30,12 +30,11 @@
 </tr>
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
-    <td nowrap>{ts}Edit Thank-you page contents and receipting features.{/ts}</td>
+    <td nowrap>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
 </tr>
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}">&raquo; {ts}Custom Page Elements{/ts}</a></td>
-    <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s)
-    to include in this contribution page.{/ts}</td>
+    <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
 </tr>
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
