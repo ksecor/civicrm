@@ -1,6 +1,6 @@
-{* this template is used for adding/editing/deleting Credit-Card  *}
+{* this template is used for adding/editing/deleting Credit Card  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Credit Card{/ts}{elseif $action eq 2}{ts}Edit Credit Card{/ts}{else}{ts}Delete Credit-Card{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Credit Card{/ts}{elseif $action eq 2}{ts}Edit Credit Card{/ts}{else}{ts}Delete Credit Card{/ts}{/if}</legend>
   
    {if $action eq 8}
       <div class="messages status">

@@ -34,7 +34,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Credit-Card{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Credit Card{/ts}</a>
         </div>
         {/if}
     </div>
@@ -44,7 +44,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/contribute/acceptCreditCard' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are currently no accepted Credit Cards configured for this site. You can <a href="%1">add one now</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are currently no accepted credit cards configured for this site. You can <a href="%1">add one now</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

@@ -38,7 +38,7 @@
 require_once 'CRM/Contribute/Form.php';
 
 /**
- * This class generates form components for Payment-Instrument
+ * This class generates form components for Payment Instrument
  * 
  */
 class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
@@ -59,7 +59,7 @@ class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_PaymentInstrument', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid PaymentInstrument name.'), 'required' );
+        $this->addRule( 'name', ts('Please enter a valid Payment Instrument name.'), 'required' );
         $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_PaymentInstrument', $this->_id ) );
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_PaymentInstrument', 'description' ) );
@@ -84,7 +84,7 @@ class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
         require_once 'CRM/Contribute/BAO/PaymentInstrument.php';
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Contribute_BAO_PaymentInstrument::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected Payment-Instrument has been deleted.') );
+            CRM_Core_Session::setStatus( ts('Selected Payment Instrument has been deleted.') );
         } else { 
 
             $params = $ids = array( );
@@ -96,7 +96,7 @@ class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
             }
             
             $paymentInstrument = CRM_Contribute_BAO_PaymentInstrument::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Payment-Instrument "%1" has been saved.', array( 1 => $paymentInstrument->name )) );
+            CRM_Core_Session::setStatus( ts('The Payment Instrument "%1" has been saved.', array( 1 => $paymentInstrument->name )) );
         }
     }
 }
