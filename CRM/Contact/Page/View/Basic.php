@@ -182,7 +182,8 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                                                          'activityHx'           => 1 ) );
 
         $config =& CRM_Core_Config::singleton( ); 
-        if ( in_array( 'CiviContribute', $config->enableComponents) ) { 
+        if ( CRM_Utils_System::checkPermission( 'access CiviContribute' ) &&
+             in_array( 'CiviContribute', $config->enableComponents) ) {
             $showHide->addShow( 'contributions[show]' ); 
             $showHide->addHide( 'contributions' ); 
         }
