@@ -314,6 +314,6 @@ INSERT INTO
     civicrm_accept_credit_card(name, title, domain_id, is_reserved, is_active)
 VALUES
   ( 'Visa', '{ts}Visa{/ts}', {$civicrmDomainId}, 0, 1 ),
-  ( 'MasterCard', '{ts}Master Card{/ts}', {$civicrmDomainId}, 0, 1 ),
+  ( 'MasterCard', '{ts}MasterCard{/ts}', {$civicrmDomainId}, 0, 1 ),
   ( 'Amex', '{ts}American Express{/ts}', {$civicrmDomainId}, 0, 1 ),   
   ( 'Discover', '{ts}Discover{/ts}', {$civicrmDomainId}, 0, 1 );

@@ -77,7 +77,7 @@
     {/strip}
 </div> {* end crm-container div *}
 {else}
-	{capture assign=infoMessage}{ts}This Civicrm profile field is view only.{/ts}{/capture}
+	{capture assign=infoMessage}{ts}This CiviCRM profile field is view only.{/ts}{/capture}
 	{include file="CRM/common/info.tpl"}
 {/if}
 {/if} {* fields array is not empty *}
