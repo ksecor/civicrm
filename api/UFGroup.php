@@ -172,4 +172,131 @@ function crm_uf_get_uf_id ( $contactID ) {
     return CRM_Core_BAO_UFMatch::getUFId( $contactID ); 
 } 
 
+/*******************************************************************/
+
+
+/**
+ * Use this API to create a new group. See the CRM Data Model for uf_group property definitions
+ *
+ * @param $params  array   Associative array of property name/value pairs to insert in group.
+ *
+ * @return   Newly create uf_group object
+ *
+ * @access public 
+ */
+function crm_create_uf_group( $params ) {
+    _crm_initialize( );
+    
+    if(! is_array($params) ) {
+        return _crm_error("params is not an array ");
+    }
+
+    require_once 'CRM/Core/BAO/UFGroup.php';
+    
+    return CRM_Core_BAO_UFGroup::add( $params, null );
+  
+}
+
+/**
+ * Use this API to update  group. See the CRM Data Model for uf_group property definitions
+ *
+ * @param $params  array   Associative array of property name/value pairs to insert in group.
+ *  
+ * @param $groupId int     A valid Group id that to be updated.   
+ *  
+ * @return  updated  uf_group object
+ *
+ * @access public 
+ */
+function crm_update_uf_group( $params ,$groupId) {
+
+     _crm_initialize( );
+    
+    if(! is_array( $params ) ) {
+        return _crm_error("params is not an array ");
+    }
+
+    if(! isset( $groupId ) ) {
+        return _crm_error("parameter $groupId  is not set ");
+    }
+    
+    require_once 'CRM/Core/BAO/UFGroup.php';
+    
+    return CRM_Core_BAO_UFGroup::add( $params , $groupId );
+    
+    
+}
+/**
+ * Defines 'uf field' within a group.
+ *
+ * @param $UFGroup object Valid uf_group object
+ *
+ * @param $params       array  Associative array of property name/value pairs to create new uf field.
+ *
+ * @return Newly created custom_field object
+ *
+ * @access public 
+ *
+ */
+function crm_create_uf_field( $UFGroup , $params ) {
+    
+    _crm_initialize( );
+    
+    if(! isset($UFGroup->id) ) {
+        return _crm_error("id is not set in uf_group object");
+    }
+    
+    if(! is_array( $params ) ) {
+        return _crm_error("params is not an array ");
+    }   
+    require_once 'CRM/Core/BAO/UFField.php';
+    
+
+} 
+
+/**
+ * Use this API to update uf field . See the CRM Data Model for uf_field property definitions
+ *
+ * @param $params  array   Associative array of property name/value pairs to update in field.
+ *  
+ * @param $fieldId int     A valid uf field id that to be updated.   
+ *  
+ * @return  updated  uf_field object
+ *
+ * @access public 
+ */
+function crm_update_uf_field( $params , $fieldId) {
+}
+
+
+/**
+ * Delete uf group
+ *  
+ * @param $ufGroup Object  Valid uf_group object that to be deleted
+ *
+ * @return null on successful delete or return error
+ *
+ * @access public
+ *
+ */
+function crm_delete_uf_group( $ufGroup ) {
+
+}
+
+/**
+ * Delete uf field
+ *  
+ * @param $ufField Object  Valid uf_field object that to be deleted
+ *
+ * @return null on successful delete or return error
+ *
+ * @access public
+ *
+ */
+function crm_delete_uf_field( $ufField ) {
+
+}
+
+
+
 ?>
