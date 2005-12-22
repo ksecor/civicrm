@@ -249,7 +249,16 @@ function crm_create_uf_field( $UFGroup , $params ) {
     if(! is_array( $params ) ) {
         return _crm_error("params is not an array ");
     }   
+    
+    
+    $ids = array();
+    $ids['uf_group'] = $UFGroup->id;
+
     require_once 'CRM/Core/BAO/UFField.php';
+    if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
+        return _crm_error("The field was not added. It already exists in this profile.");
+    }
+    return CRM_Core_BAO_UFField::add( $params , $ids );
     
 
 } 
@@ -266,6 +275,35 @@ function crm_create_uf_field( $UFGroup , $params ) {
  * @access public 
  */
 function crm_update_uf_field( $params , $fieldId) {
+    
+    _crm_initialize( );
+    
+    if(! isset( $fieldId ) ) {
+        return _crm_error("parameter fieldId is not set");
+    }
+    
+    if(! is_array( $params ) ) {
+        return _crm_error("params is not an array ");
+    }   
+    
+    require_once 'CRM/Core/BAO/UFField.php';
+    $UFField = &new CRM_core_BAO_UFField();
+    $UFField->id = $fieldId;
+    
+    $ids = array();
+    if ( $UFField->find(true) ){ 
+        $ids['uf_group'] = $UFField->uf_group_id;
+    } else {
+        return _crm_error("there is no field for this fieldId");
+    }
+    $ids['uf_field'] = $fieldId;
+    
+    if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
+        return _crm_error("The field was not added. It already exists in this profile.");
+    }
+    
+    return CRM_Core_BAO_UFField::add( $params , $ids );
+    
 }
 
 
@@ -280,17 +318,15 @@ function crm_update_uf_field( $params , $fieldId) {
  *
  */
 function crm_delete_uf_group( $ufGroup ) {
+    _crm_initialize( );
     
-    require_once 'CRM/Core/BAO/UFGroup.php';
-
-     _crm_initialize( );
-     
-     $groupId = $ufGroup->id;
+    $groupId = $ufGroup->id;
     
     if(! isset( $groupId ) ) {
         return _crm_error("parameter $groupId  is not set ");
     }
-
+    
+    require_once 'CRM/Core/BAO/UFGroup.php';
     return CRM_Core_BAO_UFGroup::del($groupId);
 
 }
@@ -306,19 +342,17 @@ function crm_delete_uf_group( $ufGroup ) {
  *
  */
 function crm_delete_uf_field( $ufField ) {
-
-    require_once 'CRM/Core/BAO/UFField.php';
-
-     _crm_initialize( );
-     
-     $fieldId = $ufField->id;
+    _crm_initialize( );
+    
+    $fieldId = $ufField->id;
     
     if(! isset( $fieldId ) ) {
         return _crm_error("parameter $fieldId  is not set ");
     }
-
+    
+    require_once 'CRM/Core/BAO/UFField.php';
     return CRM_Core_BAO_UFField::del($fieldId);
-
+    
 }
 
 
