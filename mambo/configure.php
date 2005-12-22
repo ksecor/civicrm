@@ -4,7 +4,7 @@ global $mosConfig_absolute_path;
 require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
 
 function civicrm_setup( ) {
-    global $comPath, $crmPath, $sqlPath, $dsn;
+    global $comPath, $frontPath, $crmPath, $sqlPath, $dsn;
     global $httpBase, $resourceBase, $mainMenu;
     global $compileDir, $uploadDir;
 
@@ -22,6 +22,9 @@ function civicrm_setup( ) {
                       $pkgPath . PATH_SEPARATOR .
                       get_include_path( ) );
 
+    $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
+        'components'             . DIRECTORY_SEPARATOR . 
+        'com_civicrm'            ;
     
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
 
@@ -62,15 +65,26 @@ function civicrm_main( ) {
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
+    // generate backend config file
     $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
-    $string = civicrm_config( );
+    $string = civicrm_config( false );
     $fd = fopen( $configFile, "w" );
     if ( ! $fd ) {
         die( "Cannot open $configFile" );
     }
-
     fputs( $fd, $string );
     fclose ( $fd );
+
+    // generate frontend config file
+    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'config.inc.php'; 
+    $string = civicrm_config( true ); 
+    $fd = fopen( $configFile, "w" ); 
+    if ( ! $fd ) { 
+        die( "Cannot open $configFile" ); 
+    } 
+    fputs( $fd, $string ); 
+    fclose ( $fd );
+
 }
 
 function civicrm_source( $fileName ) {
@@ -101,8 +115,8 @@ function civicrm_source( $fileName ) {
     }
 }
 
-function civicrm_config( ) {
-    global $crmPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
+function civicrm_config( $frontend = false ) {
+    global $crmPath, $comPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
 
     /**
@@ -112,7 +126,25 @@ function civicrm_config( ) {
     $compileDir = addslashes( $compileDir );
     $uploadDir  = addslashes( $uploadDir  );
 
-    $str = "
+    if ( $frontend ) {
+        $str = "
+<?php 
+/** 
+ * CiviCRM frontend configuration file. 
+ */
+
+define( 'CIVICRM_UF_FRONTEND', 1 );
+
+define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/administrator/' );
+define( 'CIVICRM_HTTPBASE'  , '$httpBase'     );
+define( 'CIVICRM_MAINMENU'  , '$mainMenu'     );
+
+include_once $comPath . DIRECTORY_SEPARATOR . config.inc.php"; 
+                       
+?>
+";
+    } else {
+        $str = "
 <?php
 /**
  * CiviCRM configuration file.
@@ -120,19 +152,22 @@ function civicrm_config( ) {
 
 global \$civicrm_root;
 
+if ( ! defined( CIVICRM_UF_FRONTEND ) ) {
+  define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/administrator/' );
+  define( 'CIVICRM_HTTPBASE'  , '$httpBase'     );
+  define( 'CIVICRM_MAINMENU'  , '$mainMenu'     );
+}
+
 define( 'CIVICRM_UF'               , 'Mambo' ); 
 define( 'CIVICRM_UF_URLVAR'        , 'task'  ); 
 define( 'CIVICRM_UF_DSN'           , '$dsn' );
 define( 'CIVICRM_UF_USERSTABLENAME', 'jos_users' ); 
-define( 'CIVICRM_UF_BASEURL'       , '$mosConfig_live_site/administrator/' );
 
 \$civicrm_root = '$crmPath';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '$compileDir' );
 define( 'CIVICRM_UPLOADDIR'          , '$uploadDir'  );
 
-define( 'CIVICRM_HTTPBASE'    , '$httpBase'     );
 define( 'CIVICRM_RESOURCEBASE', '$resourceBase' );
-define( 'CIVICRM_MAINMENU'    , '$mainMenu'     );
 
 define( 'CIVICRM_MYSQL_VERSION', 4.0 );
 define( 'CIVICRM_DSN'         , '$dsn' );
@@ -183,6 +218,7 @@ include_once 'config.main.php';
 
 ?>
 ";
+    }
 
     $str = trim( $str );
     return $str;

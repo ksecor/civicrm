@@ -252,6 +252,7 @@ class CRM_Core_Config {
     public $userFrameworkDSN            = null;
     public $userFrameworkUsersTableName = 'users';
     public $userFrameworkBaseURL        = null;
+    public $userFrameworkFrontend       = false;
 
     /**
      * The default mysql version that we are using
@@ -616,6 +617,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = CIVICRM_UF_BASEURL;
+        }
+
+        if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
+            $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
         }
 
         if ( defined( 'CIVICRM_MYSQL_VERSION' ) ) {

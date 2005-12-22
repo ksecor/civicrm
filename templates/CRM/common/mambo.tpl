@@ -3,9 +3,11 @@
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
+{if ! $config->userFrameworkFrontend}
     <td id="sidebar-left" valign="top">
        {$sidebarLeft}
     </td>
+{/if}
     <td valign="top">
     <div class="breadcrumb">{$pageCrumb}</div>
     {if $recentlyViewed}

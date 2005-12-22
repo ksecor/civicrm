@@ -9,8 +9,8 @@
   <version>1.3</version>
   <description>CiviCRM</description>
   <files>
-      <filename>frontend.civicrm.php</filename>
-      <filename>frontend.civicrm.html.php</filename>
+      <filename>civicrm.php</filename>
+      <filename>civicrm.html.php</filename>
   </files>
   <install>
     <queries>
