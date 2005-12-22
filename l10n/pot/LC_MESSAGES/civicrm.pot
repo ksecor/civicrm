@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 19:43+0100\n"
+"POT-Creation-Date: 2005-12-22 23:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -2814,7 +2814,7 @@ msgid "Could not open %1 file for writing"
 msgstr ""
 
 #: CRM/Contribute/Form/CreatePPD.php
-msgid "Your %1 values is: \"%2\". This value must be entered in the Payment Processor section of the CiviCRM configuration file."
+msgid "Your %1 value is: \"%2\". This value must be entered in the Payment Processor section of the CiviCRM configuration file."
 msgstr ""
 
 #: CRM/Contribute/Form/PaymentInstrument.php
@@ -6284,7 +6284,11 @@ msgid "Unique internal reference ID for this contribution."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.<br />For offline contributions, you can enter an account+check number, bank transfer identifier, etc."
+msgid "Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid "For offline contributions, you can enter an account+check number, bank transfer identifier, etc."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -7350,7 +7354,7 @@ msgid "Profiles can be explicitly linked to a module page. Any Profile form/list
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form. "
+msgid "Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -7386,7 +7390,7 @@ msgid "Profile Preview"
 msgstr ""
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "This Civicrm profile field is view only."
+msgid "This CiviCRM profile field is view only."
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
@@ -7726,7 +7730,7 @@ msgid "Visa"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
-msgid "Master Card"
+msgid "MasterCard"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
