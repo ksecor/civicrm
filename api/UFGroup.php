@@ -280,6 +280,18 @@ function crm_update_uf_field( $params , $fieldId) {
  *
  */
 function crm_delete_uf_group( $ufGroup ) {
+    
+    require_once 'CRM/Core/BAO/UFGroup.php';
+
+     _crm_initialize( );
+     
+     $groupId = $ufGroup->id;
+    
+    if(! isset( $groupId ) ) {
+        return _crm_error("parameter $groupId  is not set ");
+    }
+
+    return CRM_Core_BAO_UFGroup::del($groupId);
 
 }
 
@@ -294,6 +306,18 @@ function crm_delete_uf_group( $ufGroup ) {
  *
  */
 function crm_delete_uf_field( $ufField ) {
+
+    require_once 'CRM/Core/BAO/UFField.php';
+
+     _crm_initialize( );
+     
+     $fieldId = $ufField->id;
+    
+    if(! isset( $fieldId ) ) {
+        return _crm_error("parameter $fieldId  is not set ");
+    }
+
+    return CRM_Core_BAO_UFField::del($fieldId);
 
 }
 

@@ -632,6 +632,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         //check wheter this group is used by any module(check uf join records)
+        require_once 'CRM/Core/DAO/UFJoin.php';
         $ufJoin = & new CRM_Core_DAO_UFJoin();
         $ufJoin->uf_group_id = $id;
         $ufJoin->find();
