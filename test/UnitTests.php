@@ -20,7 +20,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactWithCustomValues.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContactWithCustomValues.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContactWithCustomValues.php' );
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
@@ -42,6 +42,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM523.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM531.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM627.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM645.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -84,6 +85,11 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
+        
+        // UFGroup api
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFField.php'    );
     }
 
 }

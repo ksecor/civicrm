@@ -26,7 +26,7 @@
 */
 
 /**
- * Definition of the Custom Group of the CRM API. 
+ * Definition of the User Profile Group of the CRM API. 
  * More detailed documentation can be found 
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
@@ -51,7 +51,7 @@ require_once 'CRM/Core/BAO/UFGroup.php';
  * described below
  *
  * @param array $params           an associative array used in construction
-                                  / retrieval of the object
+ *                                / retrieval of the object
  * @param array $returnProperties the limited set of object properties that
  *                                need to be returned to the caller
  *
