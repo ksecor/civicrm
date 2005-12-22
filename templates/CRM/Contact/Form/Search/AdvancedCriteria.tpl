@@ -150,8 +150,8 @@
   	            {assign var="element_name" value='custom_'|cat:$field_id}
 		
 		{if $element.is_search_range}
-            {assign var="element_name_from" value=$element_name|cat:"-from"}
-            {assign var="element_name_to" value=$element_name|cat:"-to"}
+            {assign var="element_name_from" value=$element_name|cat:"_from"}
+            {assign var="element_name_to" value=$element_name|cat:"_to"}
 			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label> 
         	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			 <label>{ts}Range{/ts}-</label>{$form.$element_name_from.label}&nbsp;{$form.$element_name_from.html|crmReplace:class:six}
