@@ -121,7 +121,7 @@
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
         {/if}
-    	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5)} class="show-block"{else} class="hide-block"{/if} >
+    	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5) && ($form.data_type.value.1.0 eq 'Text' OR $form.data_type.value.1.0 eq 'Select Date')} class="show-block"{else} class="hide-block"{/if} >
     	      <dl>
 	        <dt>{$form.is_search_range.label}</dt><dd>&nbsp;{$form.is_search_range.html}</dd>
     	      </dl>
@@ -145,19 +145,25 @@
 <script type="text/javascript">
 	
    	var action = {$action};
-	{if $action eq 2}
-           var editIndex = {$form.data_type.value.0.0};
+	{if $action eq 2} 
+           var editIndex    = {$form.data_type.value.0.0}; 
+	   var editHtmlType = "{$form.data_type.value.1.0}";
 	{/if}
+		
  	   {literal}
    
  	         function showSearchRange(chkbox) {
 		     if (action == 2) {
-			var data_type = editIndex;
+			var data_type = editIndex; 
+			var html_type_name = editHtmlType; 
 			}
 		     else {
+	                var html_type = document.getElementsByName("data_type[1]")[0];
+		        var html_type_name = html_type.options[html_type.selectedIndex].value;
 		        var data_type = document.getElementsByName("data_type[0]")[0].selectedIndex;
 			}
-        	     if (data_type == 1 || data_type == 2 || data_type == 3 || data_type == 5) {
+        	     if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type_name == "Text")) || data_type == 5) {
+
         		 if (chkbox.checked) {
         			document.getElementById("searchByRange").style.display = "block";
         		    }
