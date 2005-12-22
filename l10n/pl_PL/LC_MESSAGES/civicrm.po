@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-21 19:43+0100\n"
+"POT-Creation-Date: 2005-12-22 23:40+0100\n"
 "PO-Revision-Date: 2005-11-10 15:48+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -2279,7 +2279,7 @@ msgstr "Rodzaj płatności – %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Valid"
-msgstr ""
+msgstr "Stan dotacji – nieanulowane"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Cancelled"
@@ -3171,7 +3171,7 @@ msgstr "Rodzaj transakcji"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Payment Processor"
-msgstr ""
+msgstr "Procesor płatności"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
@@ -3289,17 +3289,16 @@ msgid "Contribution Amounts"
 msgstr "Kwoty dotacji"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-#, fuzzy
 msgid "Custom Fields"
 msgstr "Pole dodatkowe"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "(above billing info)"
-msgstr ""
+msgstr "(nad danymi rachunkowymi)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "(below billing info)"
-msgstr ""
+msgstr "(pod danymi rachunkowymi)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
@@ -3446,9 +3445,11 @@ msgstr "Nie udało się otworzyć piku %1 do zapisu"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid ""
-"Your %1 values is: \"%2\". This value must be entered in the Payment "
+"Your %1 value is: \"%2\". This value must be entered in the Payment "
 "Processor section of the CiviCRM configuration file."
 msgstr ""
+"Wartością %1 jest „%2”. Ta wartość musi być wpisana w pliku konfiguracyjnym "
+"CiviCRM w części dotyczącej procesora płatności."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 msgid "Please enter a valid Payment Instrument name."
@@ -3492,7 +3493,7 @@ msgstr "Daty dotacji – od"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Valid"
-msgstr ""
+msgstr "Nieanulowana"
 
 #: CRM/Contribute/Form/Search.php
 msgid "All"
@@ -4203,7 +4204,7 @@ msgstr "Akceptuj karty kredytowe"
 
 #: CRM/Core/Invoke.php
 msgid "Create PPD"
-msgstr ""
+msgstr "Stwórz PPD"
 
 #: CRM/Core/Invoke.php templates/CRM/Contribute/Form/Preview.tpl
 msgid "Contribution Page"
@@ -4223,7 +4224,7 @@ msgstr "Stwórz profil"
 
 #: CRM/Core/Invoke.php
 msgid "DashBoard"
-msgstr ""
+msgstr "DashBoard"
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -5516,7 +5517,7 @@ msgstr "Notatki o osobie"
 
 #: CRM/Utils/Menu.php
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 #: CRM/Utils/Menu.php
 msgid "Accepted Credit Cards"
@@ -5845,6 +5846,10 @@ msgid ""
 "fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
 "strong> fields in the incoming data are used."
 msgstr ""
+"Wybierz do pięciu pól kontaktu, które będą użyte przy porównywaniu nowych "
+"osób z istniejącymi wpisami podczas dopasowywania powtórzeń. W przypadku, "
+"gdy część pól w regule dopasowującej jest opcjonalna, zostaną użyte "
+"wszystkie <strong>niepuste</strong> pola danych."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -5854,6 +5859,11 @@ msgid ""
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
 msgstr ""
+"Przykładowo, używając domyślnej reguły <strong>email AND imię AND nazwisko</"
+"strong> i zakładając, że Józef Tkaczuk jozef.tkaczuk@example.org istenieje w "
+"bazie, próba dodania nowego kontaktu o tym samym adresie email, ale bez "
+"imienia i nazwiska spowoduje, że nowy kontakt zostanie oznaczony jako "
+"potencjalne powtórzenie."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
@@ -6043,6 +6053,13 @@ msgid ""
 "Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
 "for identifying duplicate contacts."
 msgstr ""
+"By stwierdzić, czy nowa osoba może być powtórzeniem już istniejącego w bazie "
+"wpisu, CiviCRM używa konfigurowalnych reguł dopasowywania powtórzeń. "
+"Konfiguracja domyślna porównuje adres email, imię i nazwisko. Ta reguła "
+"używana jest podczas wpisywania nowej osoby, uaktualniania istniejącej oraz "
+"podczas importu kontaktów za pomocą Kreatora Importu. Wybierz <a href=\"%1"
+"\">Edytuj regułę</a> jeśli chcesz zmodyfikować zestaw pól kontaktu używanych "
+"do identyfikowania powtórzeń."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Duplicate Matching Rule"
@@ -7267,6 +7284,7 @@ msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
 msgstr ""
+"Nazwa rodzaju karty kredytowej w postaci wysyłanej do procesora płatności."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -7283,13 +7301,16 @@ msgid ""
 "changes. To complete your contribution, click the <strong>Make Contribution</"
 "strong> button below."
 msgstr ""
+"Sprawdź dokładnie kwotę dotacji, dane rachunkowe i dane karty kredytowej. "
+"Wybierz <strong>Wróć</strong> jeśli chcesz wprowadzić zmiany. By zakończyć, "
+"wybierz przycisk <strong>Złóż dotację</strong."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Billing Name and Address"
-msgstr ""
+msgstr "Dane rachunkowe (nazwa i adres)"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -7318,6 +7339,9 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
+"Jeśli masz konto PayPal, możesz kontynować wybierając przycisk PayPal. W "
+"przeciwnym przypadku wypełnij dane karty kredytowej i dane rachunkowe i "
+"wybierz <strong>Kontynuuj</strong> na dole strony."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Enter numbers only, no spaces or dashes."
@@ -7325,7 +7349,7 @@ msgstr "Wprowadź tylko cyfry, bez przerw i myślników."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Security Code Location on Credit Card"
-msgstr ""
+msgstr "Położenie kodu bezpieczeństwa na karcie kredytowej"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -7337,6 +7361,8 @@ msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
 msgstr ""
+"Wprowadź nazwę widniejącą na karcie kredytowej lub debetowej oraz dane "
+"rachunkowe tej karty."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -7399,6 +7425,9 @@ msgid ""
 "your page by selecting CiviCRM Profiles (collections of fields) to include "
 "at the beginning of the page, and/or below the billing section."
 msgstr ""
+"Jeśli chesz zbierać dane inne niż rachunkowe (nazwa i adres), dodaj wymagane "
+"elementy wybierając profile CiviCRM (zbiory pól) przeznaczone do dołączenia "
+"na początku strony i/lub pod częścią z danymi rachunkowymi."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -7407,18 +7436,26 @@ msgid ""
 "\">here</a> if you need to review, modify or create profiles (you can come "
 "back at any time to select or update the Profile(s) used for this page)."
 msgstr ""
+"Na stronie można wykorzystać istniejące profile CiviCRM lub stworzyć profile "
+"specjalnie na potrzeby stron dotacji on-line. <a href=\"%1\">Kliknij tu</a> "
+"jeśli chcesz przejrzeć, zmodyfikować lub stworzyć profile (profile będzie "
+"można też wybrać lub zmienić później)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the top of the page (below the "
 "introductory message, and above the billing information fields)."
 msgstr ""
+"Wybierz profil CiviCRM do dołączenia na górze strony (pod informacjami "
+"wprowadzającymi, a nad polami danych rachunkowych)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the bottom of the page (below the "
 "billing information fields)."
 msgstr ""
+"Wybierz profil CiviCRM do dołączenia na dole strony (pod polami danych "
+"rachunkowych)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid "Are you sure you want to delete the contribution page \"%1\"?"
@@ -7431,6 +7468,10 @@ msgid ""
 "audiences, campaigns, etc. Each page can have it's own introductory message, "
 "pre-configured contribution amounts, custom data collection fields, etc."
 msgstr ""
+"Oto pierwszy krok tworzenia nowej strony dotacji on-line. Można utworzyć "
+"jedną lub więcej różnych stron dotacji przeznaczonych do różnych celów, dla "
+"różnych odbiorców, kampanii itp. Każda strona może mieć własne wiadomości "
+"wprowadzające, domyślne kwoty dotacji, pola danych dodatkowych itp."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7439,6 +7480,9 @@ msgid ""
 "be able to go back and modify all aspects of this page at any time after "
 "completing the setup wizard."
 msgstr ""
+"W tym kroku można skonfigurować tytuł strony, rodzaj dotacji (darowizna, "
+"dotacja w ramach kampanii itp.) oraz wiadomość wprowadzającą. Dane te będzie "
+"też można zmieniać później, po zakończeniu korzystania z tego kreatora."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7446,6 +7490,9 @@ msgid ""
 "campaign contribution, etc.), introduction, and status (active/inactive) for "
 "this online contribution page."
 msgstr ""
+"Użyj tego formularza do zmiany tytułu strony, rodzaju dotacji (darowizna, "
+"dotacja w ramach kampanii itp.), wprowadzenia i stanu (aktywna/nieaktywna) "
+"tej strony dotacji on-line."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
@@ -7458,6 +7505,10 @@ msgid ""
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
 msgstr ""
+"Wybierz rodzaj dotacji odpowiedni dla dotacji składanych przy pomocy tej "
+"strony (np. darowizna, opłaty członkowskie itp.). Dostępne rodzaje dotacji "
+"można tworzyć i edytować za pomocą opcji <strong>Rodzaj dotacji</strong> w "
+"panelu sterowania CiviCRM-a."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7466,6 +7517,10 @@ msgid ""
 "images, as long as they are already uploaded to a server - reference them "
 "using complete URLs."
 msgstr ""
+"Wpisz treść wiadomości wprowadzającej. Ta wiadomość będzie wyświetlana pod "
+"tytułem strony. W tekście można używać znaczników HTML. Można też umieszczać "
+"w nim obrazki, o ile wcześniej zostaną wgrane na serwer – należy je podawać "
+"za pomocą pełnych adresów URL."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7484,6 +7539,12 @@ msgid ""
 "electronic receipt is automatically emailed to each contributor - and can "
 "add a custom message to that receipt."
 msgstr ""
+"Użyj tego formularza do skonfigurowania strony z podziękowaniem i opcjami "
+"pokwitowania. Ofiarodawcy zobaczą potwierdzenie i stronę z podziękowaniami "
+"za każdym razem, gdy uda się poprawnie złożyć dotację. Poniżej można podać "
+"treść i formę części z podziękowaniem. Można też zdecydować, czy do "
+"ofiarodawców ma być automatycznie wysyłane elektroniczne pokwitowanie oraz "
+"dodać do niego własną wiadomość."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid "Thank-you Message and Receipting"
@@ -7511,6 +7572,9 @@ msgid ""
 "you page. You can use this content area to encourage contributors to visit a "
 "tell-a-friend page or take some other action."
 msgstr ""
+"Wpisz odnośniki i/lub tekst, który ma się pokazać na dole strony z "
+"podziękowaniami. Można też użyć tego miejsca do zachęcenia ofiarodawców, aby "
+"odwiedzili stronę „powiadom znajomych” lub zrobili coś innego."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7577,10 +7641,16 @@ msgid ""
 "strong>. Refer to your payment processor's documentation for information on "
 "values to use for test credit card number, security code, postal code, etc."
 msgstr ""
+"Ta strona w tej chwili działa w <strong>trybie testowym</strong>. Transakcje "
+"będą wysyłane do serwera testowego Twojego procesora płatności. <strong>Nie "
+"zostaną wykonane żadne transakcje finansowe, żadne dane kontaktowe ani "
+"dotacje nie zostaną też wprowadzone do bazy danych.</strong> Informacje "
+"dotyczące danych testowych kart kredytowych, kodów bezpieczeństwa itp. można "
+"znaleźć w dokumentacji procesora płatności."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "Please print this receipt for your records."
-msgstr ""
+msgstr "Wydrukuj i zachowaj to pokwitowanie."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -7601,6 +7671,8 @@ msgid ""
 "This is a test-drive transaction receipt. No live financial\n"
 "transaction has occurred."
 msgstr ""
+"To jest testowe pokwitowanie transakcji. Nie została wykonana\n"
+"żadna faktycznia transakcja finansowa."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 msgid "Contribution Receipt"
@@ -7610,7 +7682,7 @@ msgstr "Pokwitowanie dotacji"
 msgid ""
 "Your contribution has been processed successfully. Please print this page "
 "for your records."
-msgstr ""
+msgstr "Dotacja została złożona poprawnie. Wydrukuj i zachowaj tę stronę."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt for this contribution has also been sent to %1"
@@ -7654,7 +7726,7 @@ msgstr "Nieodliczalna od podatku część dotacji."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Processing fee for this transaction (if applicable)."
-msgstr ""
+msgstr "Opłata za transakcję (jeśli pobierana)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Net value of the contribution (Total Amount minus Fee)."
@@ -7667,10 +7739,18 @@ msgstr "Unikalny wewnętrzny identyfikator tej dotacji."
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Unique payment ID for this transaction. The Payment Processor's transaction "
-"ID will be automatically stored here on online contributions.<br />For "
-"offline contributions, you can enter an account+check number, bank transfer "
-"identifier, etc."
+"ID will be automatically stored here on online contributions."
 msgstr ""
+"Unikalny identyfikator płatności dla tej transakcji. W przypadku dotacji on-"
+"line, zostanie wykorzystany identyfikator transakcji procesora płatności."
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid ""
+"For offline contributions, you can enter an account+check number, bank "
+"transfer identifier, etc."
+msgstr ""
+"Dla dotacji nie on-line można podać numer konta i czeku, identyfikator "
+"przelewu itp."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
@@ -7702,6 +7782,9 @@ msgid ""
 "code used in your accounting system. This code will be included when you "
 "export contribution data to your accounting package."
 msgstr ""
+"Użyj tego pola by oznaczyć dotacje danego typu kodem odpowiadającym im w "
+"Twoim systemie rachunkowym. Kod ten zostanie dołączony podczas eksportu "
+"danych do pakietu księgowego."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
@@ -7717,12 +7800,17 @@ msgid ""
 "your CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH. Select <strong>live</strong> "
 "to create live profile files in your CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
 msgstr ""
+"Wybierz <strong>sandbox</strong> by stworzyć testowe pliki profili w "
+"CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH. Wybierz <strong>live</strong> by "
+"stworzyć „prawdziwe” pliki profili w CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Enter the API Username you used when requesting the digital certificate for "
 "this environment."
 msgstr ""
+"Wprowadź nazwę użytkownia API, której użyto podczas zamawiania certyfikatu "
+"cyfrowego dla tego środowiska."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
@@ -7730,16 +7818,21 @@ msgid ""
 "the <strong>sandbox</strong> or <strong>live</strong> certificate based on "
 "the environment you are creating this profile for."
 msgstr ""
+"Znajdź certyfikat cyfrowy, który ściągnięto z PayPala. W zależności od "
+"środowiska, dla którego tworzony jest ten profil, wybierz certyfikat "
+"<strong>sandbox</strong> lub <strong>live</strong>."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Subject is left blank unless you are processing on behalf of a third party."
 msgstr ""
+"O ile nie następuje przetwarzanie dla strony trzeciej, pole tematu "
+"pozostanie puste."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "New Payment Instrument"
-msgstr ""
+msgstr "Nowy rodzaj płatności"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid ""
@@ -7755,7 +7848,7 @@ msgstr "Nie znaleziono pasujących dotacji."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
-msgstr ""
+msgstr "jeśli wyszukujesz po nazwie ofiarodawcy, sprawdź pisownię"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid ""
@@ -7777,13 +7870,16 @@ msgstr "Suma kwot:"
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "Cancelled Contribution Amount"
-msgstr ""
+msgstr "Kwota dotacji anulowanych"
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
 "Use this form to find contributions by contributor name, contribution date "
 "or amount ranges, type of contribution, payment method and / or status."
 msgstr ""
+"Skorzystaj z tego formularza by znaleźć dotacje na podstawie nazwy "
+"ofiarodawcy, zakresu dat lub kwot dotacji, rodzaju dotacji, rodzaju "
+"płatności i/lub stanu dotacji."
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid "Complete OR partial name OR email."
@@ -7821,6 +7917,9 @@ msgid ""
 "contributor contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
+"Wybierz <strong>Eksportuj dotacje</strong> by ściągnąć plik CSV z danymi o "
+"dotacjach. O ile są dostępne, każdy wiersz będzie zawierał też dane "
+"kontaktowe ofiarodawcy (nazwa, adres, telefon itp.)."
 
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
@@ -8123,7 +8222,7 @@ msgstr "Wiersze z błędnymi identyfikatorami dotacji (NIE uaktualnione)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
-msgstr ""
+msgstr "Ściągnij błędne dotacje"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8164,6 +8263,8 @@ msgid ""
 "The Contribution Import Wizard allows you to easily upload contributions "
 "from other applications into CiviCRM."
 msgstr ""
+"Kreator importu dotacji pozwala na łatwe wgranie do CiviCRM-a dotacji z "
+"innego programu."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -8210,6 +8311,10 @@ msgid ""
 "are accepted by your chosen Payment Processor and update these entries "
 "accordingly."
 msgstr ""
+"Na tej stronie podane są możliwości dotyczące kart kredytowych, które będą "
+"zaproponowane ofiarodawcom na stronach dotacji on-line. Należy sprawdzić, "
+"jakie karty kredytowe akcpetuje procesor płatności i zaktualizować "
+"odpowiednio poniższe dane."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
@@ -8217,6 +8322,9 @@ msgid ""
 "sites and/or contributors using the PayPal Express service (e.g. where "
 "billing information is collected on the Payment Processor's website)."
 msgstr ""
+"UWAGA: Ta strona nie dotyczy wybierania kart kredytowych ani metod płatności "
+"dla stron i/lub ofiarodawców wykorzystujących usługę PayPal Express (np. w "
+"przypadku, gdy dane rachunkowe są zbierane na stronie procesora płatności)."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
@@ -8228,23 +8336,27 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "This page is <strong>active</strong>."
-msgstr ""
+msgstr "Ta strona jest <strong>aktywna</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Link visitors to this page using the following URL"
-msgstr ""
+msgstr "Dodaj odnośnik do tej strony używając poniższego adresu"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
 msgstr ""
+"Ta strona jest aktualnie <strong>nieaktywna</strong> (niedostępna dla "
+"odwiedzających)."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "When you are ready to make this page live, click <a href=\"%1\">Title and "
 "Settings</a> and update the <strong>Active?</strong> checkbox."
 msgstr ""
+"Gdy ta strona będzie gotowa do upublicznienia, wybierz <a href=\"%1\">Tytuł "
+"i ustawienia</a> i zaznacz pole <strong>Aktywna?</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -8252,28 +8364,36 @@ msgid ""
 "Contribution Page, as well as to run through the contribution process in "
 "<strong>test mode</strong>."
 msgstr ""
+"Użyj poniższych opcji do uaktualnienia cech i treści tej strony dotacji on-"
+"line, oraz do przejścia procesu składania dotacji w <strong>trybie testowym</"
+"strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Set page title, contribution type (donation, campaign contribution, etc.), "
 "introduction, allowable payment types, activate the page."
 msgstr ""
+"Ustaw tytuł strony, rodzaj dotacji (darowizna, dotacja w ramach kampanii "
+"itp.), wprowadzenie, dopuszczalne rodzaje płatności oraz to, czy strona jest "
+"aktywna."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Configure contribution amount options and labels, minimum and maximum "
 "amounts."
-msgstr ""
+msgstr "Ustaw opcje i etykiety kwot dotacji oraz kwoty minimalne i maksymalne."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Edit thank-you page contents and receipting features."
-msgstr ""
+msgstr "Zmień treść strony z podziękowaniami oraz ustawienia pokwitowań."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Collect additional information from contributors by selecting CiviCRM Profile"
 "(s) to include in this contribution page."
 msgstr ""
+"Zbieraj dodatkowe informacje od ofiarodawców wybierając profile CiviCRM, "
+"które mają zostać dołączone do tej strony."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -8283,6 +8403,11 @@ msgid ""
 "and no contribution records or contact information will be saved to the "
 "database.</strong>"
 msgstr ""
+"Przetestuj cały proces składania dotacji – w tym pola danych dodatkowych, "
+"potwierdzenie, stronę z podziękowaniami oraz pokwitowania. Transakcje "
+"przejdą na serwer testowy procesora płatności. <strong>Nie nastąpią żadne "
+"obciążenia rachunków, żadne dotacje ani dane kontaktowe nie trafią też do "
+"bazy danych.</strong>"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
@@ -8291,21 +8416,29 @@ msgid ""
 "campaigns - and customize text, amounts, types of information collected from "
 "contributors, etc."
 msgstr ""
+"CiviContribute pozwala na tworzenie i zarządzanie dowolną ilością stron "
+"dotacji on-line. Można tworzyć różne strony dla różnych programów lub "
+"kampanii, oraz ustalać tekst, kwoty, rodzaj informacji zbieranych od "
+"ofiarodawców itp."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "For existing pages"
-msgstr ""
+msgstr "Dla istniejących stron"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click the <strong>title</strong> to go to the live page (enabled pages only)."
 msgstr ""
+"Wybierz <strong>tytuł</strong> by przejść do strony publicznej (tylko strony "
+"aktywne)."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
 msgstr ""
+"Wybierz <strong>Konfiguruj</strong> by zobaczyć i zmienić ustawienia, kwoty "
+"i treść istniejących stron."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
@@ -8313,12 +8446,17 @@ msgid ""
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
+"By sprawdzić stronę w <strong>trybie testowym</strong>, Wybierz "
+"<strong>Testuj</strong>. Dzięki temu można przejść przez cały proces "
+"składania dotacji, używając fikcyjnej karty kredytowej i serwera testowego."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click <a href=\"%1\">New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
 msgstr ""
+"Wybierz <a href=\"%1\">Nowa strona dotacji</a> by stworzyć i skonfigurować "
+"nową stronę dotacji on-line za pomocą kreatora."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
@@ -8342,10 +8480,12 @@ msgid ""
 "No contribution pages have been created yet. Click <a href=\"%1\">here</a> "
 "to create a new contribution page using the step-by-step wizard."
 msgstr ""
+"Nie stworzono jeszcze żadnych stron dotacji. <a href=\"%1\">Kliknij tu</a> "
+"by stworzyć nową stronę dotacji za pomocą kreatora."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "Avg Amount"
-msgstr ""
+msgstr "Kwota średnia"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
@@ -8356,6 +8496,12 @@ msgid ""
 "system. Commonly used contribution types are: Donation, Campaign "
 "Contribution, Membership Dues..."
 msgstr ""
+"Rodzaje dotacji są używane do podziału dotacji w raportach i w "
+"rachunkowości. Nazywa się je też <strong>zasobami pieniężnymi</strong>. "
+"Można skonfigurować dowolną ilość rodzajów dotacji. Każdy typ może mieć "
+"przypisany kod rachunkowy, który można następnie wykorzystać do "
+"przyporządkowania dotacjom kodów w systemie rachunkowym. Popularne rodzaje "
+"dotacji to darowizny, dotacje w ramach kampanii, opłaty członkowskie itp."
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Acctg Code"
@@ -8379,6 +8525,9 @@ msgid ""
 "contributions. Administrators can create or modify your Online Contribution "
 "Pages from <a href=\"%1\">here</a>."
 msgstr ""
+"CiviContribute pozwala tworzyć własne strony do zbierania dotacji on-line. "
+"Administratorzy mogą tworzyć i modyfikować strony dotacji on-line <a href=\"%"
+"1\">tu</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -8389,6 +8538,11 @@ msgid ""
 "<a href=\"%2\">import batches of offline contributions</a> from other "
 "sources."
 msgstr ""
+"Możliwe jest także wprowadzanie i śledzenie dotacji innych niż on-line. "
+"Skorzystaj z <a href=\"%1\">Szukania kontaktów</a> by znaleźć właściwy "
+"kontakt. Następnie wybierz <strong>Zobacz</strong> by przejść do strony z "
+"podsumowaniem i wybierz odnośnik <strong>Nowa dotacja</strong>. Można też <a "
+"href=\"%2\">zaimportować dotacje</a> z innych źródeł."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
@@ -8402,6 +8556,10 @@ msgid ""
 "\">Find Contributions</a>. You can search by Contributor Name, Amount Range, "
 "and a variety of other criteria."
 msgstr ""
+"Ta tabela zawiera podsumowanie <strong>sumy dotacji</strong>, w tym skróty "
+"do zobaczenia szczegółów dotacji dla tych popularnych zakresów czasu. "
+"Wybierz <a href=\"%1\">Szukanie dotacji</a> by wykonać inne wyszukiwania. "
+"Można wyszukiwać po nazwie dotacji, zakresie kwot i innych kryteriach."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Period"
@@ -8433,7 +8591,7 @@ msgstr "(od rozpoczęcia)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
-msgstr ""
+msgstr "Ostatnie dotacje"
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -8442,6 +8600,10 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
+"Można zapisywać rodzaj płatności używany przy każdej z dotacji. Domyślnie "
+"zostały zainstalowane popularne rodzaje płatności (czek, gotówka, karta "
+"kredytowa itp.). Jeśli potrzebne są inne rodzaje płatności, można je tu "
+"dodać."
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -8509,6 +8671,8 @@ msgid ""
 "only available to custom fields used for <strong>Contacts</strong> at this "
 "time."
 msgstr ""
+"Czy to pole ma należeć do formularza wyszukiwania zaawansowanego? UWAGA: W "
+"tej chwili ta funkcja dostępna jest tylko dla <strong>kontaktów</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
@@ -9264,6 +9428,8 @@ msgid ""
 "listings (selector) table. Ask the site administrator to check the Profile "
 "setup."
 msgstr ""
+"Żadne z pól tego profilu nie zostało skonfigurowane jako kolumna w tabeli "
+"spisów. Poproś administratora, by sprawdzić ustawienia profilu."
 
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Return to Find People"
@@ -9369,24 +9535,33 @@ msgid ""
 "listings page can also be linked directly by adding it's ID to the civicrm/"
 "profile path."
 msgstr ""
+"Profile mogą być podłączone do strony modułu. Każda ze stron formularza/"
+"spisu profilu może być też podłączona bezpośrednio przez dodanie jej "
+"identyfikatora do ścieżki civicrm/profile."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
-"included in the New Account registration form. "
+"included in the New Account registration form."
 msgstr ""
+"Jeśli chesz dołączyć ten profil do formularza rejestracji nowych kont, "
+"zaznacz pole <strong>Rejestracja użytkowników</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>View/Edit User Account</strong> to include it in the view and "
 "edit screens for existing user accounts."
 msgstr ""
+"By dołączyć profil do podglądu i edycji dla istniejących kont użytkowników, "
+"zaznacz <strong>Zobacz/edytuj konto użytkownika</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>Profile</strong> if you want it included in the default search "
 "and listings screens for the civicrm/profile path."
 msgstr ""
+"Jeśli chesz dołączyć profil do ekranów wyszukiwania i spisów ścieżki civicrm/"
+"profile, zaznacz <strong>Profil</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -9419,8 +9594,8 @@ msgid "Profile Preview"
 msgstr "Podgląd profilu"
 
 #: templates/CRM/UF/Form/Preview.tpl
-msgid "This Civicrm profile field is view only."
-msgstr ""
+msgid "This CiviCRM profile field is view only."
+msgstr "To pole profilu CiviCRM jest tylko do odczytu."
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
@@ -9479,12 +9654,20 @@ msgid ""
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"Profile CiviCRM pozwalają na agregowanie grup pól i dołączenie ich do strony "
+"WWW jako pól formularza, stron wyświetlających kontakty czy stron "
+"wyszukiwania i spisów. Dostarczają też zestawu narzędzi umożliwiającego "
+"zbieranie infomacji od wyborców i wybiórcze dzielenie się informacją o "
+"kontaktach."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "Profiles may be linked to specific modules, or used to create standalone "
 "forms and listing pages. Examples of module links include:"
 msgstr ""
+"Profile mogą być podłączone do konkretnych modułów lub użyte do tworzenia "
+"samodzielnych formularzy i stron ze spisami. Przykłady podłączeń do modułów "
+"zawierają:"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9492,6 +9675,9 @@ msgid ""
 "<strong>new user registration</strong> and/or view and edit screens for "
 "<strong>existing user accounts</strong>."
 msgstr ""
+"<strong>Użytkownik</strong> – Jeden lub więcej profili może być podłączonych "
+"do <strong>rejestracji nowych użytkowników</strong> i/lub ekranów podglądu i "
+"edycji <strong>użytkowników istniejących</strong>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9499,10 +9685,13 @@ msgid ""
 "Contributors via online contribution pages, you can create a profile and "
 "link to to your contribution page."
 msgstr ""
+"<strong>CiviContribute</strong> – Jeśli potrzebne jest zbieranie informacji "
+"od ofiarodawców za pomocą stron dotacji on-line, można stworzyć profil i "
+"podłączyć go do strony dotacji."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "site root"
-msgstr ""
+msgstr "adres strony"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9513,6 +9702,12 @@ msgid ""
 "using the 'gid' parameter. For example, the link to display a search and "
 "listings page for a Profile with ID = 3 would be:"
 msgstr ""
+"<strong>Spisy profili</strong> – Jeśli podasz użytkownikom adres %1/%2 będą "
+"mogli korzystać z domyślnego przeszukiwania profili i spisu wyników. Jeśli "
+"masz kilka profili, które chcesz wykorzystać do różnych zadań wyszukiwania i "
+"wyświetlania spisów, dodaj identyfikator profilu do końca zapytania używając "
+"parametru „gid”. Przykładowo, odnośnik wyświetlający wyszukiwanie i spis "
+"profilu o identyfikatorze = 3 wyglądałby tak:"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9521,6 +9716,10 @@ msgid ""
 "form). You can also get the <a href=\"%1\">HTML for ALL Active Profiles</a> "
 "as a single form."
 msgstr ""
+"Użyj odnośników <strong>Samodzielny formularz</strong> by uzyskać kod HTML "
+"potrzebny do dodania profilu do dowolnego bloku lub strony (np. jako "
+"formularz rejestracyjny). Możesz też uzyskać <a href=\"%1\">kod HTML dla "
+"wszystkich aktywnych profili</a> w postaci wspólnego formularza."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
@@ -9528,7 +9727,7 @@ msgstr "Tytuł profilu"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "ID"
-msgstr ""
+msgstr "identyfikator"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "New CiviCRM Profile"
@@ -9536,7 +9735,7 @@ msgstr "Nowy Profil CiviCRM"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Kod HTML dla wszystkich aktywnych profili"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9739,7 +9938,7 @@ msgstr "Błąd w transakcji SMTP"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Event"
-msgstr ""
+msgstr "Wydarzenie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Ms"
@@ -9775,15 +9974,15 @@ msgstr "Opłaty członkowskie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Dotacja w ramach kampanii"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Credit Card"
-msgstr ""
+msgstr "Karta kredytowa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Debit Card"
-msgstr ""
+msgstr "Karta debetowa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Cash"
@@ -9795,23 +9994,23 @@ msgstr "Czek"
 
 #: xml/templates/civicrm_data.tpl
 msgid "EFT"
-msgstr ""
+msgstr "EFT"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Visa"
-msgstr ""
+msgstr "Visa"
 
 #: xml/templates/civicrm_data.tpl
-msgid "Master Card"
-msgstr ""
+msgid "MasterCard"
+msgstr "MasterCard"
 
 #: xml/templates/civicrm_data.tpl
 msgid "American Express"
-msgstr ""
+msgstr "American Express"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
-msgstr ""
+msgstr "Discover"
 
 #, fuzzy
 #~ msgid ""
