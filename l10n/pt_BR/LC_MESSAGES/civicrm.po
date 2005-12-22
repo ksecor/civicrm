@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-21 19:43+0100\n"
-"PO-Revision-Date: 2005-12-21 12:25+0100\n"
-"Last-Translator: Newton Calvin <calvin@spei.br>\n"
+"PO-Revision-Date: 2005-12-22 12:27+0100\n"
+"Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -932,15 +932,13 @@ msgstr "Exportar Contatos"
 
 #: CRM/Contribute/BAO/Contribution.php CRM/Contribute/Selector/Search.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Contribution"
-msgstr "Abreviação de País"
+msgstr "Contribuição"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Receipt From Name"
-msgstr "do Nome"
+msgstr "Recibo do Nome"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
@@ -982,9 +980,8 @@ msgstr "Valor Líquido"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Transaction ID"
-msgstr "Organização"
+msgstr "ID de Transação"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1001,15 +998,13 @@ msgstr "Moeda"
 #: CRM/Contribute/Import/Form/MapField.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Contribution Type"
-msgstr "Tipo de Contato"
+msgstr "Tipo de Contribuição"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
 msgid "Accounting Code"
-msgstr "Código de País"
+msgstr "Código de Contabilidade"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php CRM/Core/DAO/ACLGroupJoin.php
 #: CRM/Core/DAO/ACL.php CRM/Core/DAO/ActivityHistory.php
@@ -1026,9 +1021,8 @@ msgstr "Instrumento de Pagamento"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 #: CRM/Mailing/Selector/Event.php
-#, fuzzy
 msgid "Email Address"
-msgstr "Endereco de email inválido"
+msgstr "Endereco de Email"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 msgid "Other Amount"
@@ -1045,9 +1039,8 @@ msgstr "Valor Mínimo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr "Digite um nome válido."
+msgstr "Digite um valor em dinheiro (ex: 9,99)"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1056,9 +1049,8 @@ msgstr "Quantidade Maxima"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr "Digite um nome válido."
+msgstr "Digite um valor em dinheiro (ex: 99,99)"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php
@@ -1087,9 +1079,8 @@ msgstr "-selecione-"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
 msgid "Received"
-msgstr "Reservado?"
+msgstr "Recebido"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1116,43 +1107,38 @@ msgstr "Um arquivo válido deve ser carregado."
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
 msgid "Amount"
-msgstr "País"
+msgstr "Quantia"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Delete Contributions"
-msgstr "Excluir contatos"
+msgstr "Excluir Contribuições"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
 #: CRM/Core/DAO/Mapping.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Exportar Contatos"
+msgstr "Exportar Contribuições"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr ""
-"As colunas de dados neste arquivo de importação parecem ser diferentes "
-"domapeamento salvo. Antes de continuar, verifique se selecionou o "
-"mapeamentocorreto."
+msgstr "As colunas de dados neste arquivo de importação parecem ser diferentes "
+"do mapeamento salvo. Antes de continuar, verifique se selecionou o "
+"mapeamento correto."
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
 msgstr "Necessário um nome para salvar Mapeamento de Importação"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Mapping Name"
-msgstr "Opção rótulo duplicado"
+msgstr "Duplicate Import Mapping Name"
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr "Igualar campos"
+msgstr "Confrontar Campos"
 
 #: CRM/Contribute/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
@@ -1170,7 +1156,7 @@ msgstr "Estes registros foram atualizados com os dados importados."
 
 #: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
-msgstr "Estes registros serão preenchidos com os dados Importados."
+msgstr "Estes registros foram preenchidos com os dados importados."
 
 #: CRM/Contribute/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
@@ -1186,7 +1172,7 @@ msgstr "Importar arquivo de dados"
 
 #: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr "O tamanho do arquivo deve ser menor que 1 MByte (%2 byte)"
+msgstr "O tamanho do arquivo deve ser menor que %1 MBytes (%2 bytes)"
 
 #: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
@@ -1194,7 +1180,7 @@ msgstr "O arquivo de entrada deve estar no formato CSV"
 
 #: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
-msgstr "A primeira linha contém a coluna de cabeçalhos"
+msgstr "A primeira linha contém cabeçalhos das colunas"
 
 #: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
@@ -1214,15 +1200,15 @@ msgstr "Em entradas duplicadas"
 
 #: CRM/Contribute/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr "enviar dados"
+msgstr "Carregar Dados"
 
 #: CRM/Contribute/Import/Parser/Contribution.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
-msgstr "campos obrigatórios faltando"
+msgstr "Faltando campos obrigatórios"
 
 #: CRM/Contribute/Import/Parser.php CRM/Import/Parser.php
 msgid "Record Number"
-msgstr "Registro número"
+msgstr "Número do Registro"
 
 #: CRM/Contribute/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
@@ -1231,11 +1217,11 @@ msgstr "Razão"
 #: CRM/Contribute/Page/ContributionPage.php CRM/Custom/Form/DeleteField.php
 #: CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr "Desativar campo Customizado"
+msgstr "Desativar Campo Customizado"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Utils/Menu.php
 msgid "Configure Online Contribution Pages"
-msgstr "Configurar pagina(s) de Contribuicoes Online"
+msgstr "Configurar Páginas de Contribuição Online"
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -1298,11 +1284,11 @@ msgstr "%1 é um campo obrigatório."
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr "Não encontramos usuário logado em user ID"
+msgstr "Não encontrado sua ID de usuário logado"
 
 #: CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
 msgid "Please enter a valid %1"
-msgstr "Entre com %1 válido"
+msgstr "Entre com um %1 válido"
 
 #: CRM/Core/Block.php CRM/Utils/Menu.php
 msgid "New Individual"
@@ -1318,7 +1304,7 @@ msgstr "Nova Organização"
 
 #: CRM/Core/Block.php CRM/Utils/Menu.php
 msgid "New Household"
-msgstr "Novo dono(a) de Casa"
+msgstr "Novo Domicílio"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Send Mailing"
@@ -1326,7 +1312,7 @@ msgstr "Enviar Mailing"
 
 #: CRM/Core/Block.php CRM/Utils/Menu.php
 msgid "Browse Sent Mailings"
-msgstr "Visualizar Mailings realizados"
+msgstr "Visualizar Mailings Enviados"
 
 #: CRM/Core/Block.php CRM/Utils/Menu.php
 msgid "Process Mailing Queue"
@@ -1349,12 +1335,12 @@ msgstr "Entidade da Tabela Destino"
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr "Data Hora agendado"
+msgstr "Schedule Date Time"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
 msgid "Duration Hours"
-msgstr "Duração em horas"
+msgstr "Horas de Duração"
 
 #: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
 #: CRM/Core/DAO/Phonecall.php
@@ -1402,9 +1388,8 @@ msgid "Select"
 msgstr "Selecione"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Multi-Select"
-msgstr "Selecione"
+msgstr "Seleção Múltipla"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
@@ -1431,9 +1416,8 @@ msgid "Contact"
 msgstr "Contato"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Phonecall"
-msgstr "Chamada Telefônica"
+msgstr "Telefonema"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
@@ -1457,9 +1441,8 @@ msgid "Phone Type"
 msgstr "Tipo Fone"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Import Contributions"
-msgstr "Importar Contatos"
+msgstr "Importar Contribuições"
 
 #: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
@@ -1508,14 +1491,12 @@ msgid "CiviCRM Profile Field"
 msgstr "CiviCRM campo perfil"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Duplicate Matching"
-msgstr "Sem verificar duplicados"
+msgstr "Duplicate Matching"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
-#, fuzzy
 msgid "Contribution Types"
-msgstr "Tipos de localização"
+msgstr "Tipos de Contribuição"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php
 msgid "Payment Instruments"
@@ -1568,9 +1549,8 @@ msgid "Field Help"
 msgstr "Ajuda sobre Campo"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Invalid default value for country."
-msgstr "Valor inválido como padrão para o Tipo de Dado País."
+msgstr "Valor inválido como padrão para país."
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Contact/Page/View/CustomData.tpl
@@ -1767,9 +1747,8 @@ msgid "Select Phone Number"
 msgstr "Selecione Núm. Telefone"
 
 #: CRM/Activity/Form/Phonecall.php
-#, fuzzy
 msgid "The Field Subject should not be Empty"
-msgstr "O Campo Assunto não pode estar vazio"
+msgstr "O Campo Assunto não pode ficar vazio"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Call Date and Time are required."
@@ -6222,7 +6201,6 @@ msgid "Are you sure you want to delete <b>%1</b> Tag?"
 msgstr "Esta certo de que deseja excluir o rótulo <b>%1</b>?"
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
-#, fuzzy
 msgid ""
 "Activities are 'interactions with contacts' which you want to record and "
 "track. CiviCRM has several reserved (e.g. 'built-in') activity types "
@@ -6230,10 +6208,9 @@ msgid ""
 "here if you need to record other types of activities. For example, you might "
 "want to include 'New Client Intake', or 'Site Audit', etc. ...as types of "
 "trackable activites."
-msgstr ""
-"<p>Atividades são 'interações com contatos    ' que você quer registrar e "
+msgstr "<p>Atividades são 'interações com contatos' que você quer registrar e "
 "acompanhar. CiviCRM tem diversos tipos de atividades  (pré-configurados) "
-"reservadas (reunião, chamadas telefônicas, envios de emails). Crie 'tipos de "
+"reservadas (reunião, telefonemas, envios de emails). Crie 'tipos de "
 "atividades' adicionais aqui caso deseje registrar outros tipos de "
 "atividades. Por exemplo, você pode querer incluir 'Nova admissão de Cliente' "
 "ou 'Auditoria de Site', etc...como tipo de atividade a ser acompanhada.</"
@@ -10733,3 +10710,4 @@ msgstr "Descobrir"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
+
