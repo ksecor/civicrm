@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateUFGroupAPI extends UnitTestCase 
+class TestOfUpdateUFGroupAPI extends UnitTestCase 
 {
     protected $_UFGroup;
     
@@ -40,5 +40,16 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
         $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFGroup');
     }
     
+    function testDeleteUFField()
+    {
+        $UFField = crm_delete_uf_field($this->_UFField);
+        $this->assertNull($UFField);
+    }
+    
+    function testDeleteUFGroup()
+    {
+        $UFGroup = crm_delete_uf_group($this->_UFGroup);
+        $this->assertNull($UFGroup);
+    }
 }
 ?>

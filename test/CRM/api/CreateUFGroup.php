@@ -37,5 +37,17 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
         $UFGroup = crm_create_uf_group($params);
         $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFGroup');
     }
+    
+    function testDeleteUFField()
+    {
+        $UFField = crm_delete_uf_field($this->_UFField);
+        $this->assertNull($UFField);
+    }
+    
+    function testDeleteUFGroup()
+    {
+        $UFGroup = crm_delete_uf_group($this->_UFGroup);
+        $this->assertNull($UFGroup);
+    }
 }
 ?>
