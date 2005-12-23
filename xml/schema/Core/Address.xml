@@ -219,6 +219,8 @@
   <field>
        <name>geo_code_1</name>
        <type>float</type>
+       <import>true</import>
+       <headerPattern>/geo/i</headerPattern>
        <comment>Latitude or UTM (Universal Transverse Mercator Grid) Northing.</comment>
        <add>1.1</add>
   </field>
@@ -226,6 +228,8 @@
        <name>geo_code_2</name>
        <type>float</type>
        <comment>Longitude or UTM (Universal Transverse Mercator Grid) Easting.</comment>
+       <import>true</import>
+       <headerPattern>/geo/i</headerPattern>
        <add>1.1</add>
   </field>
   <field>
