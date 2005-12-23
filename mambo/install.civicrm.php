@@ -17,6 +17,7 @@ function com_install() {
 # Show installation result to user
 
 ?>
+
 <center>
 <table width="100%" border="0">
   <tr>
@@ -33,4 +34,3 @@ function com_install() {
   </tr>
 </table>
 </center>
-
