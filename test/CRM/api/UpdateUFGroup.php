@@ -17,8 +17,8 @@ class TestOfUpdateUFGroupAPI extends UnitTestCase
     function testCreateUFGroup()
     {
         $params = array(
-                        'title'     => 'New Profile Group G03',
-                        'help_pre'  => 'Help For Profile Group G03',
+                        'title'     => 'New Profile Group G04',
+                        'help_pre'  => 'Help For Profile Group G04',
                         'is_active' => 1
                         );
         $UFGroup = crm_create_uf_group($params);
@@ -26,20 +26,16 @@ class TestOfUpdateUFGroupAPI extends UnitTestCase
         $this->_UFGroup = $UFGroup;
     }
     
-    function testUpdateUFGroupError()
-    {
-        $params = array();
-        $UFGroup = crm_update_uf_group($params, $this->_UFGroup->id);
-        $this->assertIsA($UFGroup,'CRM_Core_DAO_UFGroup');
-    }
-    
     function testUpdateUFGroup()
     {
-        $params = array('help_pre' => 'Help For Profile Group G03 .. Updated');
+        $params = array(
+                        'help_pre'  => 'Help For Profile Group G04 .. Updated',
+                        'is_active' => 0
+                        );
         $UFGroup = crm_update_uf_group($params, $this->_UFGroup->id);
         $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
+        $this->assertNotEqual($UFGroup->help_pre, 'Help For Profile Group G04');
     }
-    
     
     function testDeleteUFGroup()
     {

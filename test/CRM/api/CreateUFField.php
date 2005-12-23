@@ -5,6 +5,7 @@ require_once 'api/crm.php';
 class TestOfCreateUFFieldAPI extends UnitTestCase 
 {
     protected $_UFGroup;
+    protected $_UFField;
     
     function setUp() 
     {
@@ -33,21 +34,55 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
         $this->assertIsA($UFField , 'CRM_Core_Error');
     }
     
-    function testCreateUFField()
+    function testCreateUFFieldWeightError()
     {
         $params = array(
-                        'field_name' => 'first_name',
+                        'field_name' => 'middle_name',
+                        'location_type_id' => 1,
                         'visibility' => 'Public User Pages and Listings',
+                        'help_post' => 'This is Middle Name.'
                         );
         $UFField = crm_create_uf_field($this->_UFGroup, $params);
-        $this->_UFField =  $UFField;
+        $this->assertIsA($UFField, 'CRM_Core_Error');
+    }
+    
+    function testCreateUFField1()
+    {
+        $params = array(
+                        'field_name' => 'street_address',
+                        'location_type_id' => 2,
+                        'visibility' => 'Public User Pages and Listings',
+                        'help_post' => 'This is Street Address.',
+                        'in_selector' => 1,
+                        'weight' => 4
+                        );
+        $UFField = crm_create_uf_field($this->_UFGroup, $params);
+        $this->_UFField[$UFField->id] =  $UFField;
         $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
     }
-
+    
+    function testCreateUFField2()
+    {
+        $params = array(
+                        'field_name' => 'phone',
+                        'location_type_id' => 3,
+                        'phone_type' => 'Mobile',
+                        'visibility' => 'Public User Pages and Listings',
+                        'help_post' => 'This is Phone of Mobile Type.',
+                        'in_selector' => 1,
+                        'weight' => 5
+                        );
+        $UFField = crm_create_uf_field($this->_UFGroup, $params);
+        $this->_UFField[$UFField->id] =  $UFField;
+        $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
+    }
+    
     function testDeleteUFField()
     {
-        $UFField = crm_delete_uf_field($this->_UFField);
-        $this->assertEqual($UFField,true);
+        foreach ($this->_UFField as $id => $field) {
+            $UFField = crm_delete_uf_field($field);
+            $this->assertEqual($UFField,true);
+        }
     }
     
     function testDeleteUFGroup()
