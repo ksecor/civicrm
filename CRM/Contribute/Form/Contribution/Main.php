@@ -309,6 +309,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $payment =& CRM_Utils_Payment::singleton( $this->_mode ); 
   
+        // default mode is direct
+        $this->set( 'contributeMode', 'direct' ); 
+
         if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
             //get the button name  
             $buttonName = $this->controller->getButtonName( );  
@@ -333,9 +336,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 CRM_Utils_System::redirect( $paymentURL ); 
             }
-        } else { 
-            $this->set( 'contributeMode', 'direct' ); 
-        } 
+        }
     }
 
 }
