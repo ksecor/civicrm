@@ -9,8 +9,8 @@
   <version>1.3</version>
   <description>CiviCRM</description>
   <files>
-      <filename>frontend.civicrm.php</filename>
-      <filename>frontend.civicrm.html.php</filename>
+      <filename>civicrm.php</filename>
+      <filename>civicrm.html.php</filename>
   </files>
   <install>
     <queries>
@@ -37,7 +37,7 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>config.main.php</filename>
-      <filename>civicrm.php</filename>
+      <filename>configure.php</filename>
 {foreach from=$files item=file}
       <filename>civicrm/{$file}</filename>
 {/foreach}
