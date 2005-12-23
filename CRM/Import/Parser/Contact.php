@@ -778,7 +778,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     if (!empty( $value ) ) {
                         foreach($value as $codeValue ) {
                             if ( $codeValue['geo_code_2'] ) {
-                                if ( CRM_Utils_Rule::integer($codeValue['geo_code_2'])) {
+                                if ( CRM_Utils_Rule::numeric($codeValue['geo_code_2'])) {
                                     continue;
                                 } else {
                                     return _crm_error('Invalid value for field  : geo_code_2');
