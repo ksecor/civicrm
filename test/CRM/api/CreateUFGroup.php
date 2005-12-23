@@ -24,7 +24,7 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
     {
         $params = array('title' => 'New Profile Group G01');
         $UFGroup = crm_create_uf_group($params);
-        $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFGroup');
+        $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
     }
     
     function testCreateUFGroupAll()
@@ -35,19 +35,15 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
                         'is_active' => 1
                         );
         $UFGroup = crm_create_uf_group($params);
-        $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFGroup');
+        $this->_UFGroup = $UFGroup;
+        $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
     }
     
-    function testDeleteUFField()
-    {
-        $UFField = crm_delete_uf_field($this->_UFField);
-        $this->assertNull($UFField);
-    }
-    
+   
     function testDeleteUFGroup()
     {
         $UFGroup = crm_delete_uf_group($this->_UFGroup);
-        $this->assertNull($UFGroup);
+        $this->assertEqual($UFGroup,true);
     }
 }
 ?>

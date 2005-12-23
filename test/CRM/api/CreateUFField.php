@@ -22,7 +22,7 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
                         'is_active' => 1
                         );
         $UFGroup = crm_create_uf_group($params);
-        $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFGroup');
+        $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
         $this->_UFGroup = $UFGroup;
     }
     
@@ -30,7 +30,7 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
     {
         $params = array();
         $UFField = crm_create_uf_field($this->_UFGroup, $params);
-        $this->assertIsA($UFGroup, 'CRM_Core_Error');
+        $this->assertIsA($UFField , 'CRM_Core_Error');
     }
     
     function testCreateUFField()
@@ -40,19 +40,20 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
                         'visibility' => 'Public User Pages and Listings',
                         );
         $UFField = crm_create_uf_field($this->_UFGroup, $params);
-        $this->assertIsA($UFGroup, 'CRM_Core_BAO_UFField');
+        $this->_UFField =  $UFField;
+        $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
     }
 
     function testDeleteUFField()
     {
         $UFField = crm_delete_uf_field($this->_UFField);
-        $this->assertNull($UFField);
+        $this->assertEqual($UFField,true);
     }
     
     function testDeleteUFGroup()
     {
         $UFGroup = crm_delete_uf_group($this->_UFGroup);
-        $this->assertNull($UFGroup);
+        $this->assertEqual($UFGroup,true);
     }
 }
 ?>
