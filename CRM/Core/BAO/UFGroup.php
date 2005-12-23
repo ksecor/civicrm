@@ -704,7 +704,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, false);
                 if ($required) {
-                    $form->addRule($elementName, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
+                    $form->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
             } else {
                 $form->add('text', $name, $field['title'], $field['attributes'], $required );
