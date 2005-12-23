@@ -6,6 +6,7 @@ require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php
 function civicrm_setup( ) {
     global $comPath, $frontPath, $crmPath, $sqlPath, $dsn;
     global $httpBase, $resourceBase, $mainMenu;
+    global $httpBaseFE, $mainMenuFE;
     global $compileDir, $uploadDir;
 
     global $mosConfig_live_site, $mosConfig_absolute_path;
@@ -22,16 +23,18 @@ function civicrm_setup( ) {
                       $pkgPath . PATH_SEPARATOR .
                       get_include_path( ) );
 
-    $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
-        'components'             . DIRECTORY_SEPARATOR . 
-        'com_civicrm'            ;
-    
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
 
     $pieces = parse_url( $mosConfig_live_site );
     $httpBase     = $pieces['path'] . '/administrator/';
     $resourceBase = $httpBase . 'components/com_civicrm/civicrm/';
-    $mainMenu     = $httpBase . 'index2.php?option=com_civicrm';
+    $mainMenu     = $httpBase . 'index.php?option=com_civicrm';
+
+    $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
+        'components'             . DIRECTORY_SEPARATOR . 
+        'com_civicrm'            ;
+    $httpBaseFE = $pieces['path'];
+    $mainMenuFE = $httpBaseFE . 'index.php?option=com_civicrm';
 
     $scratchDir   = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
     if ( ! is_dir( $scratchDir ) ) {
@@ -58,7 +61,7 @@ function civicrm_setup( ) {
 }
 
 function civicrm_main( ) {
-    global $sqlPath, $comPath;
+    global $sqlPath, $comPath, $frontPath;
 
     civicrm_setup( );
 
@@ -127,6 +130,7 @@ function civicrm_config( $frontend = false ) {
     $uploadDir  = addslashes( $uploadDir  );
 
     if ( $frontend ) {
+        $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
         $str = "
 <?php 
 /** 
@@ -135,11 +139,7 @@ function civicrm_config( $frontend = false ) {
 
 define( 'CIVICRM_UF_FRONTEND', 1 );
 
-define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/administrator/' );
-define( 'CIVICRM_HTTPBASE'  , '$httpBase'     );
-define( 'CIVICRM_MAINMENU'  , '$mainMenu'     );
-
-include_once $comPath . DIRECTORY_SEPARATOR . config.inc.php"; 
+include_once '$configFile';
                        
 ?>
 ";
@@ -152,7 +152,11 @@ include_once $comPath . DIRECTORY_SEPARATOR . config.inc.php";
 
 global \$civicrm_root;
 
-if ( ! defined( CIVICRM_UF_FRONTEND ) ) {
+if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
+  define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/' );
+  define( 'CIVICRM_HTTPBASE'  , '$httpBaseFE'     );
+  define( 'CIVICRM_MAINMENU'  , '$mainMenuFE'     );
+ } else {
   define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/administrator/' );
   define( 'CIVICRM_HTTPBASE'  , '$httpBase'     );
   define( 'CIVICRM_MAINMENU'  , '$mainMenu'     );

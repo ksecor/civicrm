@@ -37,7 +37,7 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>config.main.php</filename>
-      <filename>civicrm.php</filename>
+      <filename>configure.php</filename>
 {foreach from=$files item=file}
       <filename>civicrm/{$file}</filename>
 {/foreach}
