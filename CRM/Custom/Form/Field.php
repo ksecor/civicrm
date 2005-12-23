@@ -276,6 +276,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
         
+        // for Note field
+        
+        $this->add('text', 'note_columns', ts('Number Of columns '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
+        $this->add('text', 'note_rows', ts('Number Of rows'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
+        
+        $this->addRule('note_columns', ts('value should be Positive number') , 'integer');
+        $this->addRule('note_rows', ts('value should be Positive number') , 'integer');
+
+
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
@@ -694,11 +703,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->mask             = $params['mask'];
         $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
-        $customField->is_search_range    = CRM_Utils_Array::value( 'is_search_range', $params, false );
+        $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
         $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];
         $customField->end_date_years   = $params['end_date_years'];
+        $customField->note_columns     = $params['note_columns'];
+        $customField->note_rows        = $params['note_rows'];
+        
         if( is_array($params['date_parts']) ) {
             $customField->date_parts       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
         } else {

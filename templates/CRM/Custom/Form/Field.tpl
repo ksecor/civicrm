@@ -72,6 +72,19 @@
 	     document.getElementById("incudedDatePartDef").style.display="none";	 	
 			
 	}
+
+	if (data_type.selectedIndex == 4) {
+	      document.getElementById("noteColumns").style.display="block";
+	      document.getElementById("noteColumnsDef").style.display="block";
+	      document.getElementById("noteRows").style.display="block";
+	      document.getElementById("noteRowsDef").style.display="block";
+
+	} else {
+	      document.getElementById("noteColumns").style.display="none";
+	      document.getElementById("noteColumnsDef").style.display="none";
+	      document.getElementById("noteRows").style.display="none";
+	      document.getElementById("noteRowsDef").style.display="none";
+	}
 			 
 
     }
@@ -101,6 +114,10 @@
 	<dt id="endDateRange" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.label}</dt><dd id="endDateRangeDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.html}{ts} years after the current date.{/ts}</dd> 
 
 	 <dt id="incudedDatePart"{if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.label}</dt><dd id="incudedDatePartDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.html}</dd> 
+
+	<dt id="noteColumns" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block" {/if}>{$form.note_columns.label}</dt><dd id="noteColumnsDef" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block"{/if}>{$form.note_columns.html}</dd> 
+        
+	<dt id="noteRows" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block"{/if}>{$form.note_rows.label}</dt><dd id="noteRowsDef" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block"{/if}>{$form.note_rows.html}</dd> 
 
 	<dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}

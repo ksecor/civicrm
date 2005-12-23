@@ -167,6 +167,18 @@
        <comment>which date part included in display </comment>
        <add>1.4</add>
   </field>
+    <field>
+       <name>note_columns</name>
+       <type>int unsigned</type>
+       <comment> Number of columns in Note Field </comment>
+       <add>1.4</add>
+  </field>
+  <field>
+       <name>note_rows</name>
+       <type>int unsigned</type>
+       <comment> Number of rows in Note Field </comment>
+       <add>1.4</add>
+  </field>
   <index>
     <name>UI_label_custom_group_id</name>
     <fieldName>label</fieldName>
