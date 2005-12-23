@@ -107,9 +107,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Make Contribution'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                        'isDefault' => true   ),
+                                        'isDefault' => true,
+                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','Processing');" ) ),
                                 array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back') ),
+                                        'name'      => ts('<< Go Back')),
                                 )
                           );
 
@@ -237,7 +238,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'invoice_id'            => $this->_params['invoiceID'],
                             'currency'              => $this->_params['currencyID'],
                             'receipt_date'          => $receiptDate,
-                            'source'                => ts( 'Online Contribution: ' ) . $this->_values['title'],
+                            'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
                             );
             
             $ids = array( );

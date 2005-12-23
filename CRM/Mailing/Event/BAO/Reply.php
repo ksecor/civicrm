@@ -38,6 +38,9 @@ require_once 'Mail/mime.php';
 
 require_once 'CRM/Mailing/Event/DAO/Reply.php';
 
+require_once 'CRM/Mailing/BAO/Job.php'; 
+require_once 'CRM/Mailing/BAO/Mailing.php';
+
 class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
 
     /**

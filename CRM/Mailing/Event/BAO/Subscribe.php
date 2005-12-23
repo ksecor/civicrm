@@ -63,7 +63,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
     public static function &subscribe($domain_id, $group_id, $email) {
         /* First, find out if the contact already exists */        
         $params = array('email' => $email, 'domain_id' => $domain_id);
-        $contact_id = CRM_Contact_BAO_Contact::_crm_get_contact_id($params);
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        $contact_id = CRM_Core_BAO_UFGroup::findContact($params);
         
         CRM_Core_DAO::transaction('BEGIN');
         if (is_a($contact_id, CRM_Core_Error)) {
@@ -151,14 +152,17 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      */
     public function send_confirm_request($email) {
         $config =& CRM_Core_Config::singleton();
+        require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         $confirm = CRM_Utils_Verp::encode( "confirm.{$this->contact_id}.{$this->id}.{$this->hash}@{$domain->email_domain}", 
             $email);
 
+        require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();
         $group->id = $this->group_id;
         $group->find(true);
         
+        require_once 'CRM/Mailing/BAO/Component.php';
         $component =& new CRM_Mailing_BAO_Component();
         $component->domain_id = $domain->id;
         $component->is_default = 1;
@@ -178,6 +182,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         );
         
         $html = $component->body_html;
+        require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
                                                         $group->name, true);

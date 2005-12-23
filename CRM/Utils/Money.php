@@ -77,11 +77,17 @@ class CRM_Utils_Money {
             $format = $config->moneyformat;
         }
 
+        $money = $amount;
+        // this function exists only in certain php install (CRM-650)
+        if ( function_exists( 'money_format' ) ) {
+            $money = money_format('%!i', $amount);
+        }
+
         $replacements = array(
-            '%a' => money_format('%!i', $amount),
-            '%C' => $currency,
-            '%c' => CRM_Utils_Array::value($currency, $currencySymbols, $currency),
-        );
+                              '%a' => $money,
+                              '%C' => $currency,
+                              '%c' => CRM_Utils_Array::value($currency, $currencySymbols, $currency),
+                              );
 
         return strtr($format, $replacements);
     }

@@ -38,6 +38,11 @@
 require_once 'Mail/mime.php';
 
 require_once 'CRM/Mailing/Event/DAO/Unsubscribe.php';
+require_once 'CRM/Mailing/BAO/Job.php'; 
+require_once 'CRM/Mailing/BAO/Mailing.php';
+require_once 'CRM/Mailing/DAO/Group.php';
+require_once 'CRM/Contact/BAO/Group.php';
+require_once 'CRM/Contact/BAO/GroupContact.php';
 
 class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscribe {
 
@@ -257,6 +262,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $eq->fetch();
         
         $message =& new Mail_Mime("\n");
+        require_once 'CRM/Utils/Token.php';
         if ($eq->format == 'HTML' || $eq->format == 'Both') {
             $html = 
                 CRM_Utils_Token::replaceDomainTokens($html, $domain, true);

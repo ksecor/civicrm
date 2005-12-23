@@ -11,7 +11,7 @@
     
    {if $unMatchCount }
         <p class="error">
-        {ts count=$unMatchCount plural='CiviCRM has detected Mismatched Contact Ids. These records have not been Updated.'}CiviCRM has detected Mismatched Contact Id . This record have not been Updated.{/ts}
+        {ts count=$unMatchCount plural='CiviCRM has detected mismatched contact IDs. These records have not been updated.'}CiviCRM has detected mismatched contact ID. This record have not been updated.{/ts}
         </p>
         <p class="error">
         {ts 1=$downloadMismatchRecordsUrl}You can <a href="%1">Download Mismatched Contacts</a>. You may then correct them, and import the new file with the corrected data.{/ts}
@@ -65,9 +65,9 @@
     {/if}
     
     {if $unMatchCount }
-    <tr class="error"><td class="label">{ts}Mismatched  Rows (skipped){/ts}</td>
+    <tr class="error"><td class="label">{ts}Mismatched Rows (skipped){/ts}</td>
         <td class="data">{$unMatchCount}</td>
-        <td class="explanation">{ts}Rows with Mismatched contact IDs ... (NOT Updated).{/ts}
+        <td class="explanation">{ts}Rows with mismatched contact IDs... (NOT updated).{/ts}
             {if $unMatchCount}
                 <p><a href="{$downloadMismatchRecordsUrl}">{ts}Download Mismatched Contacts{/ts}</a></p>
             {/if}

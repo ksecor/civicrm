@@ -831,7 +831,8 @@ class CRM_Utils_Menu {
                         ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) >= self::LOCAL_TASK ) ) {
                 // find parent of the local task
                 foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
-                    if ( strpos( self::$_items[$i]['path'], self::$_items[$root]['path'] ) !== false ) {
+                    if ( strpos( self::$_items[$i]['path'], self::$_items[$root]['path'] ) !== false &&
+                         CRM_Utils_Array::value( 'access', self::$_items[$i], true ) ) {
                         $isDefault =
                             ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
                         self::$_rootLocalTasks[$root]['children'][] = array( 'index'     => $i,

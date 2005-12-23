@@ -3,9 +3,9 @@
 
 {* Advanced rule editing is not yet implemented. *}
 {if $advance }
-    <fieldset><legend>{if $action eq 2}{ts}Advanced Duplicate Matching Rule {/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
+    <fieldset><legend>{if $action eq 2}{ts}Advanced Duplicate Matching Rule{/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
 {else}
-    <fieldset><legend>{if $action eq 2}{ts}Configure Duplicate Matching Rule {/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
+    <fieldset><legend>{if $action eq 2}{ts}Configure Duplicate Matching Rule{/ts}{elseif $action eq 8}{ts}Delete Duplicate Matching Rule{/ts}{/if}</legend>
 {/if}
 
 {if $action eq 8}

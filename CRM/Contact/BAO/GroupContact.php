@@ -524,18 +524,13 @@ AND civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($groupID, 'Integ
         $dao =& new CRM_Contact_DAO_GroupContact();
         $dao->query($query);
 
-//         $query = "UPDATE civicrm_subscription_history 
-// SET civicrm_subscription_history.status = 'Added' 
-// WHERE civicrm_subscription_history.contact_id = '$contactId' AND civicrm_subscription_history.group_id = '$groupID' AND civicrm_subscription_history.method = 'Email'";
-//         
-//         $dao =& new CRM_Contact_DAO_SubscriptionHistory();
-//         $dao->query($query);
         $params = array('contact_id' => $contactId,
-                        'group_id'  => $ggroupID,
+                        'group_id'  => $groupID,
                         'status'    => 'Added',
                         'method'    => $method,
                         'tracking'  => $tracking
         );
+
         CRM_Contact_BAO_SubscriptionHistory::create($params);
         return null;    
         
