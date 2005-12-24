@@ -59,6 +59,10 @@ class CRM_Utils_Money {
      */
     static function format($amount, $currency = null, $format = null)
     {
+        if ( CRM_Utils_System::isNull( $amount ) ) {
+            return '';
+        }
+
         static $config          = null;
         static $currencySymbols = null;
 

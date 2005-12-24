@@ -585,6 +585,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $queryString = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order . $limit;
 
         $relationship =& new CRM_Contact_DAO_Relationship( );
+
         $relationship->query($queryString);
         $row = array();
         if ( $count ) {

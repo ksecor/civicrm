@@ -146,7 +146,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // so now we have a confirmed financial transaction
             // lets create or update a contact first
             require_once 'api/crm.php';
-            $contact_id = CRM_Core_BAO_UFGroup::findContact( $params );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $params );
+            $contactsIDs = explode( ',', $ids );
+            
+            // if we find more than one contact, use the first one
+            $contact_id  = $contactsIDs[0];
             $contact = null;
             if ( $contact_id ) {
                 $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
@@ -217,12 +221,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_Error::fatal( "Could not find a system table" );
             }
             
+            $nonDeductibleAmount = $result['gross_amount'];
             if ( $contributionType->is_deductible ) {
-                $nonDeductibeAmount = $result['gross_amount'];
-            } else {
-                $nonDeductibeAmount = 0.00;
+                $nonDeductibleAmount = '0.00';
             }
-            
+
             // check contribution Type
             // first create the contribution record
             $params = array(
@@ -230,10 +233,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'contribution_type_id'  => $contributionType->id,
                             'payment_instrument_id' => 1,
                             'receive_date'          => $now,
-                            'non_deductible_amount' => $nonDeductibeAmount,
+                            'non_deductible_amount' => $nonDeductibleAmount,
                             'total_amount'          => $result['gross_amount'],
-                            'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
-                            'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                            'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result ),
+                            'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
                             'trxn_id'               => $result['trxn_id'],
                             'invoice_id'            => $this->_params['invoiceID'],
                             'currency'              => $this->_params['currencyID'],
@@ -251,8 +254,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'trxn_date'         => $now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $result['gross_amount'],
-                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result, 0 ),
-                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, 0 ),
+                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
+                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
                             'currency'          => $this->_params['currencyID'],
                             'payment_processor' => $config->paymentProcessor,
                             'trxn_id'           => $result['trxn_id'],

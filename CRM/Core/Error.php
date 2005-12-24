@@ -148,6 +148,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle($pearError)
     {
+        CRM_Core_Error::backtrace( );
+
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         
@@ -446,6 +448,19 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         }
         return $out;
     }
+
+    static function backtrace( ) {
+        $backTrace = debug_backtrace( );
+        
+        $msgs = array( );
+        foreach ( $backTrace as $trace ) {
+            $msgs[] = implode( ', ', array( $trace['file'], $trace['function'], $trace['line'] ) );
+        }
+
+        $message = implode( "\n", $msgs );
+        CRM_Core_Error::debug( 'backTrace', $message );
+    }
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
