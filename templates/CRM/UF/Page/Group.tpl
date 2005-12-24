@@ -30,7 +30,7 @@
     <ul class="indented">
     <li>{ts}<strong>User</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>.{/ts}</li>
     <li>{ts}<strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link to to your contribution page.{/ts}</li>
-    {captute assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/assign}
+    {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
     <li>{ts 1=$siteRoot 2='civicrm/profile?reset=1'}<strong>Profile Listings</strong> - A default profile search form and search result listings is displayed when you link users to the %1/%2 path. If you have several profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:{/ts}<br /><strong>{$siteRoot}/civicrm/profile?reset=1&gid=3</strong></li>
     </ul>
     {* Multi-profile standalone forms not supported for 1.3. dgg *}

@@ -104,7 +104,6 @@
   <field>    
       <name>fee_amount</name>    
       <type>decimal</type>    
-      <required>true</required>
       <import>true</import>
       <headerPattern>/fee(.?am(ou)?nt)?/i</headerPattern>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
@@ -114,7 +113,6 @@
   <field>    
       <name>net_amount</name>    
       <type>decimal</type>    
-      <required>true</required>
       <import>true</import>
       <headerPattern>/net(.?am(ou)?nt)?/i</headerPattern>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
