@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>07/28/2005</creationDate>
+  <creationDate>12/25/2005</creationDate>
   <author>Donald A. Lobo.</author>
   <copyright>(C) Donald A. Lobo</copyright>
   <authorEmail>lobo@yahoo.com</authorEmail>
@@ -12,6 +12,14 @@
       <filename>civicrm.php</filename>
       <filename>civicrm.html.php</filename>
   </files>
+  <params>
+    <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
+       <option value="civicrm/profile">Profile Search and Listings</option>
+       <option value="civicrm/profile/create">Profile Create</option>
+    </param>
+    <param name="gid"   type="text" size="5" default="1" label="Profile id" />
+    <param name="reset" type="text" size="5" default="1" label="Profile Reset" />
+  </params>
   <install>
     <queries>
     </queries>
