@@ -112,16 +112,27 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-
-        $this->addButtons(array( 
-                                array ( 'type'      => 'next', 
-                                        'name'      => ts('Continue >>'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );
+        
+        $config =& CRM_Core_Config::singleton( );
+        // if payment is via a button only, dont display continue
+        if ( $config->paymentBillingMode == CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'cancel',  
+                                            'name'      => ts('Cancel'),
+                                            'isDefault' => true   )
+                                    )
+                              );
+        } else {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Continue >>'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+        }
 
         $this->addFormRule( array( 'CRM_Contribute_Form_Contribution_Main', 'formRule' ), $this );
     }
