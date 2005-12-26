@@ -249,6 +249,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $this->add( 'checkbox', 'is_required'    , ts( 'Required?'                     ) );
         $this->add( 'checkbox', 'is_active'      , ts( 'Active?'                       ) );
+        $this->add( 'checkbox', 'is_searchable'  , ts( 'Searchable?'                   ) );
         $this->add( 'checkbox', 'is_view'        , ts( 'View Only?'                    ) );
         // $this->add( 'checkbox', 'is_registration', ts( 'Display in Registration Form?' ) );
         //$this->add( 'checkbox', 'is_match'       , ts( 'Key to Match Contacts?'        ) );

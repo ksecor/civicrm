@@ -57,6 +57,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/if}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
+	<dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
         </dl>
     </div>
     

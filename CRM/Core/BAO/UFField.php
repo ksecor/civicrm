@@ -160,6 +160,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_view         = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );
         $ufField->is_match        = CRM_Utils_Array::value( 'is_match'       , $params, false );
+        $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         
         // fix for CRM-316
         if ( $ids['uf_field'] ) {

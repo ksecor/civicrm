@@ -150,9 +150,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ) {
+    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ,$searchable =null ) {
         if ($ufGroupId) {
-            $subset = self::getFields( $ufGroupId, false, $action, false, $visibility );
+            $subset = self::getFields( $ufGroupId, false, $action, false, $visibility ,$searchable);
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -167,7 +167,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $fields = array( ); 
             foreach ( $ufGroups as $id => $title ) { 
-                $subset = self::getFields( $id, false, $action, false, $visibility );
+                $subset = self::getFields( $id, false, $action, false, $visibility ,$searchable);
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -216,7 +216,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null ) {
+    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null , $searchable = null ) {
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
@@ -225,8 +225,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $group->id = $id;
         if ( $group->find( true ) ) {
-
-            $where = "WHERE uf_group_id = {$group->id} AND is_active = 1";
+            if( $searchable ) {
+                $where = "WHERE uf_group_id = {$group->id} AND is_active = 1 AND is_searchable = 1"; 
+            } else {
+                $where = "WHERE uf_group_id = {$group->id} AND is_active = 1";
+            }
             if ( $visibility ) {
                 $clause = array( );
                 if ( $visibility & self::PUBLIC_VISIBILITY ) {
