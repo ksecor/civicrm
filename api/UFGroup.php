@@ -254,8 +254,8 @@ function crm_create_uf_field( $UFGroup , $params ) {
     
     $params['field_name'] =  array( $field_name, $location_type_id, $phone_type);
    
-    if(! is_array( $params ) || $params['field_name'][0] == null ) {
-        return _crm_error("params is not an array ");
+    if(! is_array( $params ) || $params['field_name'][0] == null || $params['weight'] == null) {
+        return _crm_error("missing required fields ");
     }   
     
     $ids = array();
