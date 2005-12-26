@@ -281,8 +281,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('text', 'note_columns', ts('Width (columns) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
         $this->add('text', 'note_rows', ts('Height (rows) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
         
-        $this->addRule('note_columns', ts('value should be Positive number') , 'integer');
-        $this->addRule('note_rows', ts('value should be Positive number') , 'integer');
+        $this->addRule('note_columns', ts('value should be Positive number') , 'positiveInteger');
+        $this->addRule('note_rows', ts('value should be Positive number') , 'positiveInteger');
 
 
         // weight
@@ -355,7 +355,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     static function formRule( &$fields ) {
         $default = CRM_Utils_Array::value( 'default_value', $fields );
         $errors  = array( );
-
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {

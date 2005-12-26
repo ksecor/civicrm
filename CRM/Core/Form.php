@@ -143,7 +143,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         static $rules = array( 'title', 'variable', 'qfVariable', 
                                'phone', 'integer', 'query',
                                'url', 'date', 'qfDate', 'asciiFile', 'htmlFile',
-                               'objectExists', 'postalCode', 'money' );
+                               'objectExists', 'postalCode', 'money','positiveInteger' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );

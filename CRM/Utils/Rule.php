@@ -172,6 +172,21 @@ class CRM_Utils_Rule {
         return false;
     }
 
+    static function positiveInteger($value) {
+        if ( is_int($value)) {
+            return true;
+        }
+        
+        if (($value < 0)) {
+            return false;
+        }
+        if (is_numeric($value) && preg_match('/^\d+$/', $value)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     static function numeric($value) {
         return preg_match( '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/', $value ) ? true : false;
     }
