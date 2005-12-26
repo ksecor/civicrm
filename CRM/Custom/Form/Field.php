@@ -192,8 +192,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $defaults['weight'] = 1;
             }
             $defaults['date_parts'] = array('d' => 1,'M' => 1,'Y' => 1); 
-            
-            
+            $defaults['note_columns'] = 60;
+            $defaults['note_rows']    = 4;
         }
         
         return $defaults;
@@ -278,8 +278,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // for Note field
         
-        $this->add('text', 'note_columns', ts('Number Of columns '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
-        $this->add('text', 'note_rows', ts('Number Of rows'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
+        $this->add('text', 'note_columns', ts('Width (columns) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
+        $this->add('text', 'note_rows', ts('Height (rows) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
         
         $this->addRule('note_columns', ts('value should be Positive number') , 'integer');
         $this->addRule('note_rows', ts('value should be Positive number') , 'integer');
@@ -718,7 +718,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
         
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
-            $customField->attributes = 'rows=4, cols=80';
+            $customField->attributes = 'rows=4, cols=60';
         }
 
         if ($this->_action & CRM_Core_Action::UPDATE) {

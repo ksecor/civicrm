@@ -299,7 +299,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             /* FIXME: failure! */
             return null;
         }
-        
         $dao = new CRM_Core_DAO_CustomField();
         $dao->id = $fieldId;
         $dao->find(true);
@@ -311,7 +310,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
          */
         switch($field->html_type) {
         case 'Text':
-        case 'TextArea':
             $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
                                 $field->attributes, ($useRequired && $field->is_required));
 
@@ -321,7 +319,28 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
 
             break;
-                
+        case 'TextArea':
+            $attributes = '';
+            if( $field->note_rows ) {
+                $attributes .='rows='.$field->note_rows; 
+            } else {
+                $attributes .='rows=4';
+            }
+            
+            if( $field->note_columns ) {
+                $attributes .=' cols='.$field->note_columns;
+            } else {
+                $attributes .=' cols=60';
+            }
+            $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+                                $attributes, ($useRequired && $field->is_required));
+
+            if ($dao->is_search_range) {
+                $qf->add('text', $elementName.'_from', ts('From'), $field->attributes);
+                $qf->add('text', $elementName.'_to', ts('To'), $field->attributes);
+            }
+            break;
+
         case 'Select Date':
             if ( $dao->is_search_range) {
                 $qf->add('date', $elementName.'_from', $field->label . ' ' . ts('From'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts ), ($useRequired && $field->is_required)); 
