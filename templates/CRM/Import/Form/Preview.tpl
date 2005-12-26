@@ -66,34 +66,56 @@
  <br />
  
  {* Group options *}
-
+ {* New Group *}
 <div id="newGroup[show]" class="data-group">
-    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;"><label>{ts}&raquo; {$form.newGroup.label}{/ts}</label></a><br />
+    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;">&raquo; {$form.newGroup.label}</a>
 </div>
 
 <div id="newGroup" class="data-group">
-    <legend><a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">{ts}&raquo; {$form.newGroup.label}{/ts}</a></legend>
+    <a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">&raquo; {$form.newGroup.label}</a>
     <div class="form-item">
+        <dl>
 	    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
 	    <dt class="description">{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
+        </dl>
     </div>
 </div>
-
-<div id="exitGroup[show]" class="data-group">
-    <a href="#" onclick="hide('exitGroup[show]'); show('exitGroup'); return false;"><label>{ts}&raquo; {$form.groups.label}{/ts}</label></a><br />
+  {* Existing Group *}
+<div id="existingGroup[show]" class="data-group">
+    <a href="#" onclick="hide('existingGroup[show]'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
 </div>
-<div id="exitGroup" class="data-group">
-    <legend><a href="#" onclick="hide('exitGroup'); show('exitGroup[show]'); return false;">{ts}&raquo; {$form.groups.label}{/ts}</a></legend>
+<div id="existingGroup" class="data-group">
+    <a href="#" onclick="hide('existingGroup'); show('existingGroup[show]'); return false;">&raquo; {$form.groups.label}</a>
     <div class="form-item">
-	     <dd><br />{$form.groups.html}</dd>
+        <dl>
+        <dt></dt><dd>{$form.groups.html}</dd>
+        </dl>
     </div>
 </div>
 
- <div id="crm-submit-buttons">
-    {$form.buttons.html}
- </div>
+  {* Tag Imported Contact *}
+<div id="tag[show]" class="data-group">
+    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; {ts}Tag imported contact(s){/ts}</a>
+</div>
+
+<div id="tag" class="data-group">
+    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; {ts}Tag imported contact(s){/ts}</a>
+    
+    <dl>
+        <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
+        {foreach from=$form.tag item="tag_val"} 
+        <div>{$tag_val.html}</div>
+        {/foreach}
+        </dd>
+    </dl>
+</div>
+
+<div id="crm-submit-buttons">
+   {$form.buttons.html}
+</div>
 
 <script type="text/javascript">
 hide('newGroup');
-hide('exitGroup');
+hide('existingGroup');
+hide('tag');
 </script>

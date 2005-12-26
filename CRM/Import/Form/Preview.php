@@ -78,11 +78,14 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->assign( 'rowDisplayCount', 2 );
         }
         
-
         $groups =& CRM_Core_PseudoConstant::group();
         $this->set('groups', $groups);
         
-                             
+        $tag =& CRM_Core_PseudoConstant::tag();
+        if ($tag) {
+            $this->set('tag', $tag);
+        }
+        
         if ($invalidRowCount) {
             $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
         }
@@ -126,11 +129,17 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addRule( 'newGroupName', ts('Name already exists in Database.'),'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
 
         $groups =& $this->get('groups');
-
+        
         if ( ! empty( $groups ) ) {
             $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
         }
-
+        
+        $tag =& $this->get('tag');
+        if (! empty($tag) ) {
+            foreach ($tag as $tagID => $tagName) {
+                $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
+            }
+        }
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -172,10 +181,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         $allGroups          = $this->get('groups');
-
+        $tagForContact      = $this->controller->exportValue( $this->_name, 'tag');
+        $allTags            = $this->get('tag');
         $seperator = ',';
         
-       
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         
         $mapperKeys = array();
@@ -220,14 +229,14 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $mapperRelatedContactPhoneType[$key] = null;
             }
         }
-
+        
         $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
                                                   $mapperPhoneTypes, $mapperRelated, $mapperRelatedContactType,
                                                   $mapperRelatedContactDetails, $mapperRelatedContactLocType, 
                                                   $mapperRelatedContactPhoneType);
         
         $mapFields = $this->get('fields');
-
+        
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
         $phoneTypes = CRM_Core_SelectValues::phoneType();
         
@@ -241,7 +250,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 
                 $header[] = $relationType->name_a_b;
                 $header[] = ucwords(str_replace("_", " ", $mapper[$key][1]));
-
+                
                 if ( isset($mapper[$key][2]) ) {
                     $header[] = $locationTypes[$mapper[$key][2]];
                 }
@@ -262,7 +271,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             }            
             $mapperFields[] = implode(' - ', $header);
         }
-
+        
         $parser->run( $fileName, $seperator, 
                       $mapperFields,
                       $skipColumnHeader,
@@ -272,13 +281,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
-
+        
         // add the new related contacts to selected groups
         $relatedContactIds =& $parser->getRelatedImportedContacts();
         
         $this->set('relatedCount', count($relatedContactIds));
         $newGroupId = null;
-
+        
         //changed below if-statement "if ($newGroup) {" to "if ($newGroupName) {" 
         if ($newGroupName) {
             /* Create a new group */
@@ -319,6 +328,24 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             }
             $this->set('groupAdditions', $groupAdditions);
         }
+        
+        if (is_array($tagForContact)) {
+            $tagAddition = array();
+            require_once "CRM/Core/BAO/EntityTag.php";
+            foreach ($tagForContact as $tagId => $selected) {
+                $taggedContacts = CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                
+                $tagName    = $allTags[$tagId]; 
+                
+                $tagAdditions[] = array(
+                                        'name'     => $tagName,
+                                        'added'    => $taggedContacts[1],
+                                        'notAdded' => $taggedContacts[2],
+                                        );
+            }
+            $this->set('tagAdditions', $tagAdditions);
+        }
+        
         
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );

@@ -118,6 +118,18 @@
     </tr>
     {/if}
 
+    {if $tagAdditions}
+    <tr><td class="label">{ts}Tagged imported contacts{/ts}</td>
+        <td colspan="2" class="explanation">
+            {foreach from="$tagAdditions" item="tag"}
+                <label>{$tag.name}</label>:
+                {ts count=$tag.added plural='%count contacts are tagged with this tag.'}One contact is tagged with this tag..{/ts}
+                {if $tag.notAdded}{ts count=$tag.notAdded plural='%count contacts NOT tagged (already tagged to this tag).'}One contact NOT tagged (already tagged to this tag).{/ts}{/if}<br />
+            {/foreach}
+        </td>
+    </tr>
+    {/if}
+
  </table>
  
  <div id="crm-submit-buttons">
