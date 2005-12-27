@@ -75,6 +75,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      * @var int 
      */ 
     protected $_gid; 
+
+    /** 
+     * state wether to display serch form or not
+     * 
+     * @var int 
+     */ 
+    protected $_search; 
     
 
     /**
@@ -86,8 +93,14 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      * 
      */ 
     function preProcess( ) {
-
+        
+        $this->_search = true;
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+        
+        $search = CRM_Utils_Request::retrieve('search', $this, false, 0, 'GET');
+        if( isset( $search ) && $search == 0) {
+            $this->_search = false;
+        }
         
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
@@ -146,12 +159,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                         CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
         $controller->run( );
-
-        $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', ts('Search Profile'), CRM_Core_Action::ADD );
-        $formController->setEmbedded( true );
-        $formController->process( ); 
-        $formController->run( ); 
-
+        if ( $this->_search ) {
+            $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', ts('Search Profile'), CRM_Core_Action::ADD );
+            $formController->setEmbedded( true );
+            $formController->process( ); 
+            $formController->run( ); 
+        }
         return parent::run( );
 
     }
