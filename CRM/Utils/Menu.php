@@ -639,7 +639,7 @@ class CRM_Utils_Menu {
                                      'weight'  => 520,  
                                      ),
                                );
-                if ( $config->paymentProcessor == 'PayPal' || $config->paymentProcessor == 'PayPal_express' ) {
+                if ( $config->paymentProcessor == 'PayPal' || $config->paymentProcessor == 'PayPal_Express' ) {
                     $items[] = array(
                           'path'    => 'civicrm/admin/contribute/createPPD',
                           'title'   => ts('Create PayPal API Profile'),
