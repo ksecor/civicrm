@@ -342,7 +342,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     static function formRule( &$fields, &$files, $options = null ) {
         $errors = array( );
-
         // if no values, return
         if ( empty( $fields ) ) {
             return true;
@@ -374,7 +373,92 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            $locationType = array( );
+            $count = 1;
+            foreach ($fields as $key => $value) {
+                $keyValue = explode('-', $key);
+                if (is_numeric($keyValue[1])) {
+                    if (!in_array($keyValue[1], $locationType)) {
+                        $locationType[$count] = $keyValue[1];
+                        $count++;
+                    }
+                    require_once 'CRM/Utils/Array.php';
+                    $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
+                    
+                    $data['location'][$loc]['location_type_id'] = $keyValue[1];
+                
+                    if ($loc == 1 ) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    }
+                    
+                    
+                    if ($keyValue[0] == 'phone') {
+                        if ( $keyValue[2] ) {
+                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
+                        } else {
+                            $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                        }
+                        $data['location'][$loc]['phone'][$loc]['phone'] = $value;
+                    } else if ($keyValue[0] == 'email') {
+                        $data['location'][$loc]['email'][$loc]['email'] = $value;
+                    } elseif ($keyValue[0] == 'im') {
+                        $data['location'][$loc]['im'][$loc]['name'] = $value;
+                    } else {
+                        if ($keyValue[0] === 'state_province') {
+                            $data['location'][$loc]['address']['state_province_id'] = $value;
+                        } else if ($keyValue[0] === 'country') {
+                            $data['location'][$loc]['address']['country_id'] = $value;
+                        } else {
+                            $data['location'][$loc]['address'][$keyValue[0]] = $value;
+                        }
+                    }
+                } else {
+                    if ($key === 'individual_suffix') { 
+                        $data['suffix_id'] = $value;
+                    } else if ($key === 'individual_prefix') { 
+                        $data['prefix_id'] = $value;
+                    } else if ($key === 'gender') { 
+                        $data['gender_id'] = $value;
+                    } else if (substr($key, 0, 6) === 'custom') {
+                        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                            //fix checkbox
+                            if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
+                                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                            }
+                            // fix the date field 
+                            if ( $customFields[$customFieldID][2] == 'Date' ) {
+                                $date =CRM_Utils_Date::format( $value );
+                                if ( ! $date ) {
+                                    $date = '';
+                                }
+                                $value = $date;
+                            }
+                            
+                            //to add the id of custom value if exits
+                            //$this->_contact['custom_value_5_id'] = 123; 
+                            
+                            $str = 'custom_value_' . $customFieldID . '_id';
+                            if ($this->_contact[$str]) {
+                                $id = $this->_contact[$str];
+                            }
+                            
+                            
+                            $data['custom'][$customFieldID] = array( 
+                                                                'id'      => $id,
+                                                                'value'   => $value,
+                                                                'extends' => $customFields[$customFieldID][3],
+                                                                'type'    => $customFields[$customFieldID][2],
+                                                                'custom_field_id' => $customFieldID,
+                                                                );
+                        }
+                    } else if ($key == 'edit') {
+                        continue;
+                    } else {
+                        $data[$key] = $value;
+                    }
+                }
+            }
+            $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
             if ( $ids ) {
                 $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
             }
