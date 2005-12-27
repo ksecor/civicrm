@@ -170,8 +170,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                    
                 } else {
                     $nameValue = explode( '-' , $name );
+                    //print_r($details);
                     foreach ($details as $key => $value) {
-                        if (is_numeric($key)) {
+                        //if (is_numeric($key)) {//fixed for CRM-665
                             if ($nameValue[1] == $value['location_type_id'] ) {
                                 if (CRM_Utils_Array::value($nameValue[0], $value )) {
                                     //to handle stateprovince and country
@@ -192,11 +193,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                                     }
                                 }
                             }
-                        }
+                            // }
                     }
                 }
             }
-            
+            //print_r($defaults);
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -437,10 +438,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                             //to add the id of custom value if exits
                             //$this->_contact['custom_value_5_id'] = 123; 
                             
-                            $str = 'custom_value_' . $customFieldID . '_id';
+                            /*$str = 'custom_value_' . $customFieldID . '_id';
                             if ($this->_contact[$str]) {
                                 $id = $this->_contact[$str];
-                            }
+                            }*/
                             
                             
                             $data['custom'][$customFieldID] = array( 
@@ -604,7 +605,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                 foreach ($this->_contact as $key => $value) {
                     if (in_array($key, $objects)) {
                         $ids[substr($key,0, (strlen($key)-3))] = $value;
-                    } else if (is_numeric($key)) {
+                        //} else if (is_numeric($key)) {//fixed for CRM-665
+                    } else {
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             if ($nameValue[0] == 'phone') {
                                 $ids['location'][$key]['phone'][1] = $value['phone'][$nameValue[2] . '_id'];
@@ -621,7 +623,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-     
+             
         //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
         $privacy = CRM_Core_SelectValues::privacy( );
         foreach ($privacy as $key => $value) {
@@ -635,6 +637,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
+        
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
