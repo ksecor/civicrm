@@ -170,7 +170,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                    
                 } else {
                     $nameValue = explode( '-' , $name );
-                    //print_r($details);
                     foreach ($details as $key => $value) {
                         //if (is_numeric($key)) {//fixed for CRM-665
                             if ($nameValue[1] == $value['location_type_id'] ) {
@@ -197,7 +196,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-            //print_r($defaults);
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -605,18 +603,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                 foreach ($this->_contact as $key => $value) {
                     if (in_array($key, $objects)) {
                         $ids[substr($key,0, (strlen($key)-3))] = $value;
-                        //} else if (is_numeric($key)) {//fixed for CRM-665
-                    } else {
+                    
+                    } else if (is_numeric($nameValue[1])) {//fixed for CRM-665
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             if ($nameValue[0] == 'phone') {
-                                $ids['location'][$key]['phone'][1] = $value['phone'][$nameValue[2] . '_id'];
+                                $ids['location'][$nameValue[1]]['phone'][1] = $value['phone'][$nameValue[2] . '_id'];
                             } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$key]['email'][1] = $value['email']['1_id'];
+                                $ids['location'][$nameValue[1]]['email'][1] = $value['email']['1_id'];
                             } else if ($nameValue[0] == 'im') {
-                                $ids['location'][$key]['im'][1] = $value['im']['1_id'];
+                                $ids['location'][$nameValue[1]]['im'][1] = $value['im']['1_id'];
                             } else {
-                                $ids['location'][$key]['id'] = $value['location_id'];
-                                $ids['location'][$key]['address'] = $value['address_id'];
+                                $ids['location'][$nameValue[1]]['id'] = $value['location_id'];
+                                $ids['location'][$nameValue[1]]['address'] = $value['address_id'];
                             }
                         }
                     }
@@ -637,7 +635,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
