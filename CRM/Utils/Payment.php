@@ -45,6 +45,15 @@ abstract class CRM_Utils_Payment {
         BILLING_MODE_FORM   = 1,
         BILLING_MODE_BUTTON = 2;
 
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
+
     /**  
      * singleton function used to manage this object  
      *  
@@ -55,11 +64,14 @@ abstract class CRM_Utils_Payment {
      *  
      */  
     static function &singleton( $mode = 'test' ) {
-        $config   =& CRM_Core_Config::singleton( );
-        
-        $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
-        require_once($classPath);
-        return eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+        if (self::$_singleton === null ) {
+            $config   =& CRM_Core_Config::singleton( );
+            
+            $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
+            require_once($classPath);
+            self::$_singleton =& eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+        }
+        return self::$_singleton;
     }
 
     /**

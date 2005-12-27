@@ -313,59 +313,6 @@ class CRM_Core_Config {
     public $enableComponents = array();
 
     /**
-     * Name of the payment processor
-     *
-     * @var string
-     */
-    public $paymentProcessor = null;
-
-    /** 
-     * Name of the payment class that implement
-     * the payment processor directive
-     * 
-     * @var string 
-     */ 
-    public $paymentClass = null;
-
-    /**
-     * Type of billing mode
-     *
-     * 1 - billing information collected
-     * 2 - button displayed, billing information on processor side
-     * 3 - both
-     * @var int
-     */
-    public $paymentBillingMode = null;
-
-    /**
-     * Where are the payment processor secret files stored
-     *
-     * @var string
-     */
-    public $paymentCertPath = array( );
-
-    /** 
-     * What is the payment file key
-     * 
-     * @var string                
-     */ 
-    public $paymentKey = array( );
-
-    /** 
-     * What is the payment password
-     * 
-     * @var string                
-     */ 
-    public $paymentPassword = array( );
-
-    /** 
-     * What is the payment response email address
-     * 
-     * @var string                
-     */ 
-    public $paymentResponseEmail = null;
-
-    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -426,6 +373,15 @@ class CRM_Core_Config {
         }
         $session->set( 'domainID', self::$_domainID );
 
+        // we figure this out early, since some config parameters are loaded
+        // based on what components are enabled
+        if ( defined( 'ENABLE_COMPONENTS' ) ) {
+            $this->enableComponents = explode(',', ENABLE_COMPONENTS);
+            for ( $i=0; $i < count($this->enableComponents); $i++) {
+                $this->enableComponents[$i] = trim($this->enableComponents[$i]);
+            }
+        }
+        
         if (defined('CIVICRM_DSN')) {
             $this->dsn = CIVICRM_DSN;
         }
@@ -671,62 +627,15 @@ class CRM_Core_Config {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
         
-        if ( defined( 'ENABLE_COMPONENTS' ) ) {
-            $this->enableComponents = explode(',', ENABLE_COMPONENTS);
-            for ( $i=0; $i < count($this->enableComponents); $i++) {
-                $this->enableComponents[$i] = trim($this->enableComponents[$i]);
-            }
-        }
-        
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
-            require_once 'CRM/Utils/Payment.php';
-            $this->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
-            switch ( $this->paymentProcessor ) {
-            case 'PayPal':
-                $this->paymentClass = 'CRM_Utils_Payment_PayPal';
-                $this->paymentBillingMode =
-                    CRM_Utils_Payment::BILLING_MODE_FORM |
-                    CRM_Utils_Payment::BILLING_MODE_BUTTON;
-                break;
 
-            case 'PayPal_Express':
-                $this->paymentClass = 'CRM_Utils_Payment_PayPal';
-                $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_BUTTON;
-                break;
-
-            case 'Moneris':
-                $this->paymentClass = 'CRM_Utils_Payment_Moneris';
-                $this->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_FORM;
-                break;
-            }
+        if ( in_array( 'CiviContribute', $this->enableComponents ) ) {
+            require_once 'CRM/Contribute/Config.php';
+            CRM_Contribute_Config::add( $this );
         }
 
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL' ) ) {
-            $this->paymentResponseEmail = CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
-            $this->paymentCertPath['live'] = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
-            $this->paymentCertPath['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
-            $this->paymentKey['live'] = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY' ) ) {
-            $this->paymentKey['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' ) ) {
-            $this->paymentPassword['live'] = CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD;
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
-            $this->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
+        if ( in_array( 'CiviSMS', $this->enableComponents ) ) {
+            require_once 'CRM/SMS/Config.php';
+            CRM_SMS_Config::add( $this );
         }
 
         // initialize the framework
@@ -831,7 +740,26 @@ class CRM_Core_Config {
         }
     }
 
-    
+
+    /**
+     * verify that the needed parameters are not null in the config
+     *
+     * @param CRM_Core_Config (reference ) the system config object
+     * @param array           (reference ) the parameters that need a value
+     *
+     * @return boolean
+     * @static
+     * @access public
+     */
+    static function check( &$config, &$required ) {
+        foreach ( $required as $name ) {
+            if ( CRM_Utils_System::isNull( $config->$name ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 } // end CRM_Core_Config
 
 ?>

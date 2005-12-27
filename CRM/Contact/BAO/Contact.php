@@ -212,6 +212,46 @@ ORDER BY
     }
 
     /**
+     * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of phone ids which are potential numbers
+     * @access public
+     * @static
+     */
+    static function allPhoneNumbers( $id, $type = null ) {
+        if ( ! $id ) {
+            return null;
+        }
+
+        $cond = null;
+        if ( $type ) {
+            $cond = " AND civicrm_phone.phone_type = '$type'";
+        }
+
+        $query = "
+SELECT phone, civicrm_location_type.name as locationType, civicrm_phone.is_primary as is_primary
+FROM    civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id = civicrm_location.entity_id )
+LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
+LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id $cond )
+WHERE
+  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . "
+ORDER BY
+  civicrm_location.is_primary DESC, civicrm_phone.is_primary DESC";
+        
+        $numbers = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $numbers[$dao->phone] = array( 'locationType' => $dao->locationType,
+                                           'is_primary'   => $dao->is_primary );
+        }
+        return $numbers;
+    }
+
+    /**
      * create and query the db for an contact search
      *
      * @param array    $formValues array of reference of the form values submitted
@@ -891,6 +931,47 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                                 civicrm_location.is_primary = 1)
                  LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
                  WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+        $result = $dao->getDatabaseResult();
+        if ( $result ) {
+            $row    = $result->fetchRow();
+            if ( $row ) {
+                return array( $row[0], $row[1] );
+            }
+        }
+        return array( null, null );
+    }
+
+
+    /**
+     * function to get the sms number and display name of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return array    tuple of display_name and sms if found, or (null,null)
+     * @static
+     * @access public
+     */
+    static function getPhoneDetails( $id, $type = null ) {
+        if ( ! $id ) {
+            return array( null, null );
+        }
+
+        $cond = null;
+        if ( $type ) {
+            $cond = " AND civicrm_phone.phone_type = '$type'";
+        }
+
+
+        $sql = " SELECT    civicrm_contact.display_name, civicrm_phone.phone
+                 FROM      civicrm_contact
+                 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                                                civicrm_contact.id = civicrm_location.entity_id AND
+                                                civicrm_location.is_primary = 1)
+                 LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id $cond )
+                 WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
