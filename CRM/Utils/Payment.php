@@ -69,7 +69,8 @@ abstract class CRM_Utils_Payment {
             
             $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
             require_once($classPath);
-            self::$_singleton =& eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+            //self::$_singleton =& eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+            self::$_singleton = eval( 'return & ' . $config->paymentClass . '::singleton( $mode );' );
         }
         return self::$_singleton;
     }
