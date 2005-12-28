@@ -36,7 +36,7 @@
  */
 
 require_once 'CRM/Contribute/Form/ContributionBase.php';
-require_once 'CRM/Utils/Payment.php';
+require_once 'CRM/Contribute/Payment.php';
 
 /**
  * This class generates form components for processing a ontribution 
@@ -115,7 +115,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         $config =& CRM_Core_Config::singleton( );
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode == CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode == CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             $this->addButtons(array(
                                     array ( 'type'      => 'cancel',  
                                             'name'      => ts('Cancel'),
@@ -199,7 +199,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildCreditCard( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_FORM) {
+        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) {
             foreach ( $this->_fields as $name => $field ) {
                 $this->add( $field['htmlType'],
                             $field['name'],
@@ -212,7 +212,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
         }            
             
-        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
@@ -236,7 +236,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) { 
         $errors = array( ); 
 
-        $payment =& CRM_Utils_Payment::singleton( $self->_mode );
+        $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
         $error   =  $payment->checkConfig( $self->_mode );
         if ( $error ) {
             $errors['_qf_default'] = $error;
@@ -263,7 +263,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // make sure either 
         // return if this is express mode
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
                  CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
@@ -321,12 +321,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $this->set( 'invoiceID', $invoiceID );
 
-        $payment =& CRM_Utils_Payment::singleton( $this->_mode ); 
+        $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
   
         // default mode is direct
         $this->set( 'contributeMode', 'direct' ); 
 
-        if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             //get the button name  
             $buttonName = $this->controller->getButtonName( );  
             if ($buttonName == $this->_expressButtonName || 

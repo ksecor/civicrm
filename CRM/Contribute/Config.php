@@ -120,24 +120,24 @@ class CRM_Contribute_Config {
         $config->paymentPassword     = null;
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
-            require_once 'CRM/Utils/Payment.php';
+            require_once 'CRM/Contribute/Payment.php';
             $config->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
-                $config->paymentClass = 'CRM_Utils_Payment_PayPal';
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
                 $config->paymentBillingMode =
-                    CRM_Utils_Payment::BILLING_MODE_FORM |
-                    CRM_Utils_Payment::BILLING_MODE_BUTTON;
+                    CRM_Contribute_Payment::BILLING_MODE_FORM |
+                    CRM_Contribute_Payment::BILLING_MODE_BUTTON;
                 break;
 
             case 'PayPal_Express':
-                $config->paymentClass = 'CRM_Utils_Payment_PayPal';
-                $config->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_BUTTON;
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_BUTTON;
                 break;
 
             case 'Moneris':
-                $config->paymentClass = 'CRM_Utils_Payment_Moneris';
-                $config->paymentBillingMode = CRM_Utils_Payment::BILLING_MODE_FORM;
+                $config->paymentClass = 'CRM_Contribute_Payment_Moneris';
+                $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_FORM;
                 break;
             }
         }

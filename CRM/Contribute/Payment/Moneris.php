@@ -34,9 +34,9 @@
  * 
  */ 
 
-require_once 'CRM/Utils/Payment.php';
+require_once 'CRM/Contribute/Payment.php';
 
-class CRM_Utils_Payment_Moneris extends CRM_Utils_Payment { 
+class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment { 
     const
         CHARSET  = 'UFT-8'; # (not used, implicit in the API, might need to convert?)
          
@@ -78,7 +78,7 @@ class CRM_Utils_Payment_Moneris extends CRM_Utils_Payment {
      */ 
     static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Utils_Payment_Moneris( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_Moneris( $mode );
         } 
         return self::$_singleton; 
     } 

@@ -1358,17 +1358,17 @@ function add_contributions( ) {
 
     $query = "
 INSERT INTO civicrm_contribution
-    (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, fee_amount, net_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
+    (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
 VALUES
-    (1, 2, 1, 4, '2005-10-11 00:00:00', 0.00, 125.00, 0.00, 0.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
-    (1, 4, 1, 1, '2005-09-21 00:00:00', 0.00, 50.00, 0.00, 0.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 6, 1, 4, '2005-10-29 00:00:00', 0.00, 25.00, 0.00, 0.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
-    (1, 8, 1, 4, '2005-10-11 00:00:00', 0.00, 50.00, 0.00, 0.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
-    (1, 16, 1, 4, '2005-10-15 00:00:00', 0.00, 500.00, 0.00, 0.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
-    (1, 19, 1, 4, '2005-10-11 00:00:00', 0.00, 175.00, 0.00, 0.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
-    (1, 82, 1, 1, '2005-09-27 00:00:00', 0.00, 50.00, 0.00, 0.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 92, 1, 1, '2005-09-08 00:00:00', 0.00, 10.00, 0.00, 0.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (1, 34, 1, 1, '2005-10-22 00:00:00', 0.00, 250.00, 0.00, 0.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
+    (1, 2, 1, 4, '2005-10-11 00:00:00', 0.00, 125.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 4, 1, 1, '2005-09-21 00:00:00', 0.00, 50.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 6, 1, 4, '2005-10-29 00:00:00', 0.00, 25.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 8, 1, 4, '2005-10-11 00:00:00', 0.00, 50.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 16, 1, 4, '2005-10-15 00:00:00', 0.00, 500.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 19, 1, 4, '2005-10-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Oct 2005 Mailer 1'),
+    (1, 82, 1, 1, '2005-09-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 92, 1, 1, '2005-09-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (1, 34, 1, 1, '2005-10-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
 ";
     CRM_Core_DAO::executeQuery( $query );
 

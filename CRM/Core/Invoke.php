@@ -84,13 +84,17 @@ class CRM_Core_Invoke {
 
         case 'activity' : return self::activity( $args );
 
-        case 'mailing'  : return self::mailing ( $args );
-
         case 'profile'  : return self::profile ( $args );
         
         case 'server'   :  return self::server ( $args );
 
-        case 'contribute' : return self::contribute( $args );
+        case 'mailing'  :
+            require_once 'CRM/Mailing/Invoke.php';
+            return CRM_Mailing_Invoke::main( $args );
+
+        case 'contribute' :
+            require_once 'CRM/Contribute/Invoke.php';
+            return CRM_Contribute_Invoke::main( $args );
             
         default         : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
 
@@ -431,36 +435,8 @@ class CRM_Core_Invoke {
             break;   
 
         case 'contribute':
-            switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
-
-            case 'contributionType':
-                require_once 'CRM/Contribute/Page/ContributionType.php';
-                $view =& new CRM_Contribute_Page_ContributionType(ts('Contribution Types'));
-                break;
-                
-            case 'paymentInstrument':
-                require_once 'CRM/Contribute/Page/PaymentInstrument.php';
-                $view =& new CRM_Contribute_Page_PaymentInstrument(ts('Payment Instruments'));
-                break;
-
-            case 'acceptCreditCard':
-                require_once 'CRM/Contribute/Page/AcceptCreditCard.php';
-                $view =& new CRM_Contribute_Page_AcceptCreditCard(ts('Accept Credit Cards'));
-                break;
-
-            case 'createPPD':
-                $session =& CRM_Core_Session::singleton( );
-                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin', 'reset=1' ) );
-                $wrapper =& new CRM_Utils_Wrapper( ); 
-                return $wrapper->run( 'CRM_Contribute_Form_CreatePPD', ts( 'Create PPD' ), null );
-                break;
-                
-            default:
-                require_once 'CRM/Contribute/Page/ContributionPage.php'; 
-                $view =& new CRM_Contribute_Page_ContributionPage(ts('Contribution Page'));  
-                break;
-            }
-            break;
+            require_once 'CRM/Contribute/Invoke.php';
+            return CRM_Contribute_Invoke::admin( $args );
             
         default:
             require_once 'CRM/Admin/Page/Admin.php';
@@ -521,95 +497,6 @@ class CRM_Core_Invoke {
         }
     }
     
-    /**
-     * This function contains the actions for profile arguments
-     *
-     * @param $args array this array contains the arguments of the url
-     *
-     * @static
-     * @access public
-     */
-    static function mailing( $args ) {
-        require_once 'CRM/Mailing/Controller/Send.php';
-        require_once 'CRM/Mailing/Page/Browse.php';
-        require_once 'CRM/Mailing/BAO/Job.php';
-        if ( $args[1] !== 'mailing' ) {
-            return;
-        }
-        
-        if ( $args[2] == 'forward' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(CRM_Utils_System::baseURL());
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
-        }
-        
-        if ( $args[2] == 'retry' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(
-                CRM_Utils_System::url('civicrm/mailing/browse'));
-            CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
-            );
-            CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
-            );
-            $wrapper =& new CRM_Utils_Wrapper();
-            return $wrapper->run( 'CRM_Mailing_Form_Retry', 
-                                    ts('Retry Mailing'), null);
-        }
-
-        if ( $args[2] == 'component' ) {
-            require_once 'CRM/Mailing/Page/Component.php';
-            $view =& new CRM_Mailing_Page_Component( );
-            return $view->run( );
-        }
-        if ( $args[2] == 'browse' ) {
-            require_once 'CRM/Mailing/Page/Browse.php';
-            $view =& new CRM_Mailing_Page_Browse( );
-            return $view->run( );
-        }
-        if ( $args[2] == 'event' ) {
-            CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
-            );
-            CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/report') . '">' . ts('Report') . '</a>'
-            );
-            require_once 'CRM/Mailing/Page/Event.php';
-            $view =& new CRM_Mailing_Page_Event( );
-            return $view->run( );
-        }
-        if ( $args[2] == 'report' ) {
-            CRM_Utils_System::appendBreadCrumb(
-                '<a href="' . CRM_Utils_System::url('civicrm/mailing/browse') . '">' . ts('Mailings') . '</a>'
-            );
-            require_once 'CRM/Mailing/Page/Report.php';
-            $view =& new CRM_Mailing_Page_Report( );
-            return $view->run();
-        }
-
-        if ( $args[2] == 'send' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
-            require_once 'CRM/Mailing/Controller/Send.php';
-            $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
-            return $controller->run( );
-        }
-
-        if ( $args[2] == 'queue' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
-            require_once 'CRM/Mailing/BAO/Job.php';
-            CRM_Mailing_BAO_Job::runJobs();
-            return;
-        }
-
-        require_once 'CRM/Mailing/Page/Browse.php';
-        $view =& new CRM_Mailing_Page_Browse( );
-        return $view->run( );
-    }
-
     /** 
      * This function contains the actions for profile arguments 
      * 
@@ -665,53 +552,6 @@ class CRM_Core_Invoke {
         return $page->run( );
     }
 
-    /*
-     * This function contains the actions for contribute arguments  
-     *  
-     * @param $args array this array contains the arguments of the url  
-     *  
-     * @static  
-     * @access public  
-     */  
-    static function contribute( $args ) {  
-        if ( $args[1] !== 'contribute' ) {  
-            return;  
-        }  
-
-        $session =& CRM_Core_Session::singleton();
-        if ( $args[2] == 'transact' ) { 
-            require_once 'CRM/Contribute/Controller/Contribution.php'; 
-            $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
-            return $controller->run(); 
-        } elseif ($args[2] == 'search') {
-            require_once 'CRM/Contribute/Controller/Search.php'; 
-            $controller =& new CRM_Contribute_Controller_Search($title, $mode); 
-            $url = 'civicrm/contribute/search';
-            $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
-            $controller->set( 'context', 'search' );
-            return $controller->run();
-        } elseif ($args[2] == 'import') {
-            require_once 'CRM/Contribute/Import/Controller.php';
-            $controller =& new CRM_Contribute_Import_Controller(ts('Import Contributions'));
-            return $controller->run();
-        } else if ( $args[2] == 'add' ) {
-            $session =& CRM_Core_Session::singleton( );  
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute', 'action=browse&reset=1' ) ); 
-
-            require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
-            $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
-            return $controller->run( ); 
-        } else if ( $args[2] == 'contribution' ) {
-            require_once 'CRM/Contribute/Page/Contribution.php';
-            $page =& new CRM_Contribute_Page_Contribution( );
-            return $page->run( );
-        } else {
-            require_once 'CRM/Contribute/Page/DashBoard.php';
-            $view =& new CRM_Contribute_Page_DashBoard( ts('DashBoard') );
-            return $view->run( );
-        }
-    }
-         
     /**
      * handle the export case. this is a hack, so please fix soon
      *

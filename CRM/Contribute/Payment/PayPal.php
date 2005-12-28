@@ -34,9 +34,9 @@
  * 
  */ 
 
-require_once 'CRM/Utils/Payment.php';
+require_once 'CRM/Contribute/Payment.php';
 
-class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
+class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
     const
         CHARSET  = 'iso-8859-1';
     
@@ -100,7 +100,7 @@ class CRM_Utils_Payment_PayPal extends CRM_Utils_Payment {
      */ 
     static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Utils_Payment_Paypal( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_Paypal( $mode );
         } 
         return self::$_singleton; 
     } 
