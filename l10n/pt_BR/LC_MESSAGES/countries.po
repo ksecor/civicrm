@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.18\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2005-12-15 16:03+0100\n"
+"PO-Revision-Date: 2005-12-26 13:22+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese Brazilian <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -155,14 +155,13 @@ msgstr ""
 # fuzzy
 #. name for BHR
 msgid "Bahrain"
-msgstr "Brasil"
+msgstr "Bahrain"
 
 # BH
 # fuzzy
 #. official_name for BHR
-#, fuzzy
 msgid "State of Bahrain"
-msgstr "Brasil"
+msgstr "Estado de Bahrain"
 
 # BD
 #. name for BGD
@@ -171,7 +170,7 @@ msgstr "Bangladesh"
 
 #. official_name for BGD
 msgid "People's Republic of Bangladesh"
-msgstr ""
+msgstr "República de Bangladesh"
 
 # BB
 #. name for BRB
@@ -195,7 +194,7 @@ msgstr "Bélgica"
 
 #. official_name for BEL
 msgid "Kingdom of Belgium"
-msgstr ""
+msgstr "Reino da Bélgica"
 
 # BZ
 # fuzzy
@@ -206,14 +205,13 @@ msgstr "Belize"
 # BJ
 #. name for BEN
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 # KR
 # fuzzy
 #. official_name for BEN
-#, fuzzy
 msgid "Republic of Benin"
-msgstr "República Dominicana"
+msgstr "República de Benin"
 
 # BM
 #. name for BMU
