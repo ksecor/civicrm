@@ -37,7 +37,7 @@
  *
  */
 
-require_once 'CRM/Core/Config.php'
+require_once 'CRM/Core/Config.php';
 
 class CRM_Contribute_Config {
 
