@@ -336,7 +336,7 @@ function writeHeader($file)
     $output[] = '# ';
     $output[] = 'msgid ""';
     $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM 1.3\n"';
+    $output[] = '"Project-Id-Version: CiviCRM trunk\n"';
     $output[] = '"Report-Msgid-Bugs-To: \n"';
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
