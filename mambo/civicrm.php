@@ -34,6 +34,18 @@ function civicrm_init( ) {
 function civicrm_invoke( ) {
     civicrm_init( );
 
+    // add all the values from the itemId param
+    // overrride the GET values if conflict
+    if ( CRM_Utils_Array::value( 'Itemid', $_GET ) ) {
+        global $database;
+        $menu = new mosMenu( $database );
+        $menu->load( $_GET['Itemid'] );
+        $params = new mosParameters( $menu->params );
+        foreach ( $params->_params as $name => $value ) {
+            $_GET[$name] = $value;
+        }
+    }
+
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );
 
@@ -55,13 +67,21 @@ function civicrm_check_permission( $args ) {
         return false;
     }
 
-    $validURLs = array( 'profile' );
-    if ( in_array( $args[1], $validURLs ) ) {
+    // all profile urls are valid
+    if ( CRM_Utils_Array::value( 1, $args ) == 'profile' ) {
         return true;
     }
 
+    $config = CRM_Core_Config::singleton( );
+    
+    // a transaction page is also valid
+    if ( in_array( 'CiviContribute', $config->enableComponents ) &&
+         CRM_Utils_Array::value( 1, $args ) == 'contribute' &&
+         CRM_Utils_Array::value( 2, $args ) == 'transact' ) {
+        return true;
+    }
+    
     return false;
 }
-
 
 ?>
