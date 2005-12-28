@@ -171,7 +171,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 } else {
                     $nameValue = explode( '-' , $name );
                     foreach ($details as $key => $value) {
-                        //if (is_numeric($key)) {//fixed for CRM-665
+                        if (is_numeric($nameValue[1])) {//fixed for CRM-665
                             if ($nameValue[1] == $value['location_type_id'] ) {
                                 if (CRM_Utils_Array::value($nameValue[0], $value )) {
                                     //to handle stateprovince and country
@@ -219,6 +219,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+       
         $this->assign( 'mode'    , $this->_mode     );
         $this->assign( 'action'  , $this->_action   );
         $this->assign( 'fields'  , $this->_fields   );
@@ -603,8 +604,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 foreach ($this->_contact as $key => $value) {
                     if (in_array($key, $objects)) {
                         $ids[substr($key,0, (strlen($key)-3))] = $value;
-                    
-                    } else if (is_numeric($nameValue[1])) {//fixed for CRM-665
+                    } else if(is_array($value)){ //fixed for CRM-665
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             if ($nameValue[0] == 'phone') {
                                 $ids['location'][$nameValue[1]]['phone'][1] = $value['phone'][$nameValue[2] . '_id'];
@@ -633,7 +633,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
