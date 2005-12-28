@@ -313,9 +313,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'cancel_reason',
                          'source' );
         foreach ( $fields as $f ) {
-            if ( $formValues[$f] ) {
+            //if ( $formValues[$f] ) { //fixed for Issue CRM-667
                 $params[$f] = $formValues[$f];
-            }
+                //}
         }
 
         $dates = array( 'receive_date',
