@@ -500,12 +500,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function getValues( $id, &$fields, &$values ) {
+    public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
 
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
-        $params  = array( 'id' => $id );
+        $params  = array( 'id' => $cid );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
 
@@ -521,7 +521,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
-            if ( $details->$name ) {
+            if ( $details->$name || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
@@ -535,7 +535,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = '[ x ]';
                     }
                 } else if ( $name == 'group' ) {
-                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );
+                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added' );
                     $title = array( );
                     $ids   = array( );
                     foreach ( $groups as $g ) {
@@ -550,7 +550,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$index] = implode( ',' , $ids   );
                 } else if ( $name == 'tag' ) {
                     require_once 'CRM/Core/BAO/EntityTag.php';
-                    $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id );
+                    $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $cid );
                     $allTags    =& CRM_Core_PseudoConstant::tag();
                     $title = array( );
                     foreach ( $entityTags as $tagId ) {
