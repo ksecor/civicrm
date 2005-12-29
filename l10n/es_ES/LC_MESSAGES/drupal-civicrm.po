@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-12 11:37+0200\n"
+"POT-Creation-Date: 2005-12-29 13:48+0100\n"
 "PO-Revision-Date: 2005-12-13 23:51+0100\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -40,13 +40,6 @@ msgstr "editar contactos en %1"
 
 msgid "view contacts in %1"
 msgstr "vea los contactos en %1"
-
-msgid ""
-"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
-"relationships and groups, and track contact activities."
-msgstr ""
-"CRM. Permite a los sitios manejar contactos, relaciones y grupos, y hacer "
-"seguimiento de las actividades de los contactos."
 
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -102,106 +95,144 @@ msgstr ""
 msgid "You can:"
 msgstr "Puedes:"
 
-msgid "enable CiviCRM blocks at %1."
-msgstr "habilitar bloques CiviCRM en %1."
+msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
+msgstr ""
 
-msgid "set access permissions at %1."
-msgstr "ajustar permisos de acceso en %1."
+msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
+msgstr ""
 
 msgid ""
-"find contacts by name, email address, group membership and/or tagging at %1."
+"read <a href=\"%1\">CiviCRM access permissions</a> and set access "
+"permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
+msgstr ""
+
+#, fuzzy
+msgid ""
+"find contacts by name, email address, group membership and or tagging at <a "
+"href=\"%1\">find contacts</a>."
 msgstr ""
 "encontrar contactos por nombre, dirección de email, miembros del grupo y/o "
 "etiqueta en %1."
 
-msgid "find contacts"
-msgstr "encontar contactos"
-
+#, fuzzy
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
-"and custom fields at %1."
+"and custom fields at <a href=\"%1\">advanced search</a>."
 msgstr ""
 "hacer búsquedas complejas basadas en etiquetas, localidades, actividades y "
 "campos personalizados en %1."
 
-msgid "advanced search"
-msgstr "búsqueda avanzada"
-
-msgid "reuse a saved search at %1."
-msgstr "reutilizar búsqueda guardada en %1."
-
-msgid "saved searches"
-msgstr "búsquedas guardadas"
-
-msgid "create or manage groups at %1."
+#, fuzzy
+msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
 msgstr "crear o manejar grupos en %1."
 
-msgid "manage groups"
-msgstr "manejar grupos"
-
-msgid "import contacts from other sources at %1."
+#, fuzzy
+msgid ""
+"import contacts from other sources at <a href=\"%1\">import contacts</a>."
 msgstr "importar contactos de otras fuentes en %1."
 
-msgid "import contacts"
-msgstr "importar contactos"
-
+#, fuzzy
 msgid ""
-"create or administer tags (e.g. organizer, foundation, environment...) at %1."
+"create or administer tags (e.g. organizer, foundation, environment...) at <a "
+"href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
 msgstr "crear o administrar etiquetas en %1."
 
-msgid "civicrm"
-msgstr "civicrm"
-
-msgid "admin"
-msgstr "admin"
-
-msgid "tags"
-msgstr "etiquetas"
-
+#, fuzzy
 msgid ""
 "create or administer relationship types (e.g. household member, board "
-"member, spouse...) at %1."
+"member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"relationship types</a>."
 msgstr "crear o administrar tipos de relaciones en %1."
 
-msgid "relationship types"
-msgstr "tipos de relaciones"
-
-msgid "create or administer location types (e.g. home, work, school...) at %1."
+#, fuzzy
+msgid ""
+"create or administer location types (e.g. home, work, school...) <a href=\"%1"
+"\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
 msgstr "crear o administrar tipos de localidades en %1."
 
-msgid "location types"
-msgstr "tipos de localidades"
-
+#, fuzzy
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
-"interview...) at %1."
+"interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity "
+"types</a>."
 msgstr "crear o administrar tipos de actividades en %1."
 
-msgid "activity types"
-msgstr "tipos de actividad"
-
+#, fuzzy
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
-"contact info...) at %1."
+"contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</"
+"a>."
 msgstr "crear o administrar campos de datos personalizados en %1."
 
-msgid "custom data"
-msgstr "datos personalizados"
-
+#, fuzzy
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
-"during user registration) at %1."
+"during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"civicrm profile</a>."
 msgstr "crear o administrar perfiles civicrm en %1."
 
-msgid "civicrm profile"
-msgstr "perfil civicrm"
-
+#, fuzzy
 msgid ""
-"For more information please read the <a href=\"%1\">configuration and "
-"customization handbook CiviCRM page</a>."
+"For more information please read the configuration and customization "
+"handbook <a href=\"%1\">CiviCRM page</a>."
 msgstr ""
 "Para más información, por favor, lea <a href=\"%1\">el manual de "
 "configuración y personalización CiviCRM</a>."
+
+msgid ""
+"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
+"relationships and groups, and track contact activities."
+msgstr ""
+"CRM. Permite a los sitios manejar contactos, relaciones y grupos, y hacer "
+"seguimiento de las actividades de los contactos."
+
+#~ msgid "enable CiviCRM blocks at %1."
+#~ msgstr "habilitar bloques CiviCRM en %1."
+
+#~ msgid "set access permissions at %1."
+#~ msgstr "ajustar permisos de acceso en %1."
+
+#~ msgid "find contacts"
+#~ msgstr "encontar contactos"
+
+#~ msgid "advanced search"
+#~ msgstr "búsqueda avanzada"
+
+#~ msgid "reuse a saved search at %1."
+#~ msgstr "reutilizar búsqueda guardada en %1."
+
+#~ msgid "saved searches"
+#~ msgstr "búsquedas guardadas"
+
+#~ msgid "manage groups"
+#~ msgstr "manejar grupos"
+
+#~ msgid "import contacts"
+#~ msgstr "importar contactos"
+
+#~ msgid "civicrm"
+#~ msgstr "civicrm"
+
+#~ msgid "admin"
+#~ msgstr "admin"
+
+#~ msgid "tags"
+#~ msgstr "etiquetas"
+
+#~ msgid "relationship types"
+#~ msgstr "tipos de relaciones"
+
+#~ msgid "location types"
+#~ msgstr "tipos de localidades"
+
+#~ msgid "activity types"
+#~ msgstr "tipos de actividad"
+
+#~ msgid "custom data"
+#~ msgstr "datos personalizados"
+
+#~ msgid "civicrm profile"
+#~ msgstr "perfil civicrm"
 
 #~ msgid "access CiviCRM Profile Listings"
 #~ msgstr "acceso a los perfiles de CiviCRM"

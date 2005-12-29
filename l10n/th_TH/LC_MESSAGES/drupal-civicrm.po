@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-12 11:37+0200\n"
+"POT-Creation-Date: 2005-12-29 13:48+0100\n"
 "PO-Revision-Date: 2005-08-04 09:13+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -38,11 +38,6 @@ msgid "edit contacts in %1"
 msgstr ""
 
 msgid "view contacts in %1"
-msgstr ""
-
-msgid ""
-"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
-"relationships and groups, and track contact activities."
 msgstr ""
 
 msgid ""
@@ -77,97 +72,74 @@ msgstr ""
 msgid "You can:"
 msgstr ""
 
-msgid "enable CiviCRM blocks at %1."
+msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
 msgstr ""
 
-msgid "set access permissions at %1."
+msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
 msgstr ""
 
 msgid ""
-"find contacts by name, email address, group membership and/or tagging at %1."
+"read <a href=\"%1\">CiviCRM access permissions</a> and set access "
+"permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
 msgstr ""
 
-msgid "find contacts"
+msgid ""
+"find contacts by name, email address, group membership and or tagging at <a "
+"href=\"%1\">find contacts</a>."
 msgstr ""
 
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
-"and custom fields at %1."
+"and custom fields at <a href=\"%1\">advanced search</a>."
 msgstr ""
 
-msgid "advanced search"
-msgstr ""
-
-msgid "reuse a saved search at %1."
-msgstr ""
-
-msgid "saved searches"
-msgstr ""
-
-msgid "create or manage groups at %1."
-msgstr ""
-
-msgid "manage groups"
-msgstr ""
-
-msgid "import contacts from other sources at %1."
-msgstr ""
-
-msgid "import contacts"
+msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
 msgstr ""
 
 msgid ""
-"create or administer tags (e.g. organizer, foundation, environment...) at %1."
+"import contacts from other sources at <a href=\"%1\">import contacts</a>."
 msgstr ""
 
-msgid "civicrm"
-msgstr ""
-
-msgid "admin"
-msgstr ""
-
-msgid "tags"
+msgid ""
+"create or administer tags (e.g. organizer, foundation, environment...) at <a "
+"href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
 msgstr ""
 
 msgid ""
 "create or administer relationship types (e.g. household member, board "
-"member, spouse...) at %1."
+"member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"relationship types</a>."
 msgstr ""
 
-msgid "relationship types"
-msgstr ""
-
-msgid "create or administer location types (e.g. home, work, school...) at %1."
-msgstr ""
-
-msgid "location types"
+msgid ""
+"create or administer location types (e.g. home, work, school...) <a href=\"%1"
+"\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
 msgstr ""
 
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
-"interview...) at %1."
-msgstr ""
-
-msgid "activity types"
+"interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity "
+"types</a>."
 msgstr ""
 
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
-"contact info...) at %1."
-msgstr ""
-
-msgid "custom data"
+"contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</"
+"a>."
 msgstr ""
 
 msgid ""
 "create or administer civicrm profile (i.e. what contact data is collected "
-"during user registration) at %1."
-msgstr ""
-
-msgid "civicrm profile"
+"during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"civicrm profile</a>."
 msgstr ""
 
 msgid ""
-"For more information please read the <a href=\"%1\">configuration and "
-"customization handbook CiviCRM page</a>."
+"For more information please read the configuration and customization "
+"handbook <a href=\"%1\">CiviCRM page</a>."
+msgstr ""
+
+msgid ""
+"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
+"relationships and groups, and track contact activities."
 msgstr ""
