@@ -73,7 +73,7 @@ class CRM_Utils_Sort {
      *
      * @var array
      */
-    protected $_vars;
+    public $_vars;
 
     /**
      * the newly formulated base url to be used as links

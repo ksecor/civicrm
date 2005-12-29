@@ -313,9 +313,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'cancel_reason',
                          'source' );
         foreach ( $fields as $f ) {
-            if ( $formValues[$f] ) {
-                $params[$f] = $formValues[$f];
-            }
+            $params[$f] = $formValues[$f];
         }
 
         $dates = array( 'receive_date',

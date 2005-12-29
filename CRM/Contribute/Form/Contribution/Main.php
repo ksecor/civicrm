@@ -52,7 +52,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */ 
     public function preProcess()  
     {  
-        
         parent::preProcess( );
 
         $this->assign( 'intro_text', $this->_values['intro_text'] );
