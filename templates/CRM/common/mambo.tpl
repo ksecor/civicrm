@@ -10,7 +10,7 @@
 {/if}
     <td valign="top">
     <div class="breadcrumb">{$pageCrumb}</div>
-    {if $recentlyViewed}
+    {if $displayRecent and $recentlyViewed}
         {include file="CRM/common/recentlyViewed.tpl"}
     {/if}
     
