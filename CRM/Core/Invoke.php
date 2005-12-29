@@ -239,7 +239,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
         }
         
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', true) );
     }
 
 
