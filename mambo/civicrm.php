@@ -46,6 +46,7 @@ function civicrm_invoke( ) {
         }
     }
 
+    CRM_Core_Error::debug( 'g', $_GET );
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );
 
