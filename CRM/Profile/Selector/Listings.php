@@ -261,6 +261,24 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
+        
+        //$sort object processing for location fields
+        if( $sort ) {
+            foreach ($sort->_vars as $key => &$field) {
+                $fieldArray = explode('-' , $field['name']);
+                if( is_numeric($fieldArray[1]) ) {
+                    $locationType = & new CRM_Core_DAO_LocationType();
+                    $locationType->id = $fieldArray[1];
+                    $locationType->find(true);
+                    if($fieldArray[0]!='email') {
+                        $field['name'] = "`".$locationType->name."-".$fieldArray[0]."`";
+                    } else if ($fieldArray[0] == 'email') {
+                        $field['name'] = "`".$locationType->name."-".$fieldArray[0]."-1`";
+                    }
+                }
+            }
+        }
+     
         $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
 
         // process the result of the query
