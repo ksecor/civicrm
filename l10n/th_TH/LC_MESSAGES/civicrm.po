@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-28 09:15+0100\n"
+"POT-Creation-Date: 2005-12-30 12:48+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -3085,6 +3085,10 @@ msgstr "ลบกิจกรรม"
 #, fuzzy
 msgid "Contact Calls"
 msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Contact/Page/View.php
+msgid "We could not find a contact id."
+msgstr ""
 
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
@@ -9716,6 +9720,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Non Deductible Amount"
+#~ msgstr "ค่าปริยาย"
 
 #, fuzzy
 #~ msgid "Intro Description"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-28 09:15+0100\n"
-"PO-Revision-Date: 2005-12-28 09:17+0100\n"
+"POT-Creation-Date: 2005-12-30 12:48+0100\n"
+"PO-Revision-Date: 2005-12-30 13:04+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -2955,6 +2955,10 @@ msgstr "Inne zdarzenia kontaktu"
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
 msgstr "Rozmowy kontaktu"
+
+#: CRM/Contact/Page/View.php
+msgid "We could not find a contact id."
+msgstr "Nie udało się znaleźć id kontaktu."
 
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
@@ -10014,6 +10018,9 @@ msgstr "American Express"
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr "Discover"
+
+#~ msgid "Non Deductible Amount"
+#~ msgstr "Kwota nieodliczalna od podatku"
 
 #~ msgid ""
 #~ "This site is running development code towards the %1 Developer release."

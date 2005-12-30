@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-28 09:15+0100\n"
+"POT-Creation-Date: 2005-12-30 12:48+0100\n"
 "PO-Revision-Date: 2005-12-08 02:33+0100\n"
 "Last-Translator: OB <waysail@yahoo.com>\n"
 "Language-Team: none\n"
@@ -2929,6 +2929,10 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
+msgstr ""
+
+#: CRM/Contact/Page/View.php
+msgid "We could not find a contact id."
 msgstr ""
 
 #: CRM/Contact/Page/View.php
@@ -9329,3 +9333,7 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Non Deductible Amount"
+#~ msgstr "defaut?"
