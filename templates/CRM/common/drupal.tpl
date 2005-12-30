@@ -1,4 +1,4 @@
-{if $recentlyViewed}
+{if $displayRecent and $recentlyViewed}
     {include file="CRM/common/recentlyViewed.tpl"}
 {/if}
 

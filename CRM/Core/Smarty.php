@@ -81,6 +81,7 @@ class CRM_Core_Smarty extends Smarty {
         $this->assign_by_ref( 'config'        , $config  );
         $this->assign_by_ref( 'session'       , $session );
         $this->assign_by_ref( 'recentlyViewed', $recent  );
+        $this->assign       ( 'displayRecent' , true );
 
         $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
     }

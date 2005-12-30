@@ -105,6 +105,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // current contribution page id 
         $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
 
+        // we do not want to display recently viewed items, so turn off
+        $this->assign       ( 'displayRecent' , false );
 
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );

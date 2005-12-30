@@ -264,7 +264,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         //$sort object processing for location fields
         if( $sort ) {
-            foreach ($sort->_vars as $key => &$field) {
+            foreach ($sort->_vars as $key => $field) {
                 $fieldArray = explode('-' , $field['name']);
                 if( is_numeric($fieldArray[1]) ) {
                     $locationType = & new CRM_Core_DAO_LocationType();

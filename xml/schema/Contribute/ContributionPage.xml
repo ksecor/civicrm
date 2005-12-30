@@ -91,6 +91,7 @@
   </field>
   <field>
        <name>thankyou_title</name>
+       <title>Thank-you Title</title>
        <type>varchar</type>
        <length>255</length>
        <comment>Title for Thank-you page (header title tag, and display at the top of the page).</comment>
@@ -98,6 +99,7 @@
   </field>
   <field> 
        <name>thankyou_text</name> 
+       <title>Thank-you Text</title>
        <type>text</type> 
        <htmlType>textarea</htmlType>
        <rows>6</rows>
@@ -107,6 +109,7 @@
   </field> 
   <field> 
        <name>thankyou_footer</name> 
+       <title>Thank-you Footer</title>
        <type>text</type> 
        <htmlType>textarea</htmlType>
        <rows>6</rows>

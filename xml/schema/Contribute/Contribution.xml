@@ -83,6 +83,7 @@
   </field> 
   <field>     
       <name>non_deductible_amount</name>  
+      <title>Non-deductible Amount</title>
       <type>decimal</type>
       <default>0</default>
       <import>true</import>
