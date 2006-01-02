@@ -92,9 +92,9 @@ foreach ($tables as $k => $v) {
         }
     }
 }
-
 //create a foregin key link table
 $frTable = array();
+
 foreach ($tables as $key => $value) {
     if(!isset($value['foreignKey'])) {
         continue;
@@ -106,8 +106,8 @@ foreach ($tables as $key => $value) {
         }
     }
 }
-
 $tree2 = array();
+//print_r($tree1);
 foreach ($tree1 as $k => $v) {
     foreach ($v as $k1 => $v1) {
         if (!isset($tree2[$v1])) {
@@ -119,7 +119,6 @@ foreach ($tree1 as $k => $v) {
         }
     }
 }
-
 //create the domain tree
 $domainTree =& new CRM_Utils_Tree('civicrm_domain');
 $temp = '';
@@ -127,7 +126,7 @@ foreach($tree2 as $key => $val) {
     foreach($val as $k => $v) {
         $node =& $domainTree->findNode($v, $temp);
         if(!$node) {
-            $node =& $domainTree->createNode($v);            
+            $node =& $domainTree->createNode($v);
         }
         $domainTree->addNode($key, $node);               
     }
@@ -144,11 +143,29 @@ foreach($frTable as $key => $val) {
 //exit();
 $tempTree = $domainTree->getTree();
 
+//need to process that tables which are not related to perticuler domain
+$nofrTables = array();
+$temp1 = "";
+foreach($tree1 as $key => $value) {
+    
+    $node =& $domainTree->findNode($key, $temp1);
+    if( !$node ) {
+        $nofrTables[] = $key;
+    }
+}
+$nofrArray =array();
+     
+foreach($nofrTables as $value) {
+    $query = "SELECT ".$value.".id FROM ".$value;
+    $nofrArray[$value] = array($query);
+}
+
 getDomainDump($tempTree['rootNode'], null, $frTable);
 global $UNION_ARRAY;
 
 $unionArray = $UNION_ARRAY;
 
+$unionArray = array_merge( $unionArray,$nofrArray );
 $dd = fopen($sqlCodePath . "civicrm_backup.mysql", "w");
 foreach ( $unionArray as $key => $val) {
     
