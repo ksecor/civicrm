@@ -104,6 +104,8 @@ class CRM_Utils_Geocode_Yahoo {
         $request->sendRequest( );
         $string = $request->getResponseBody( );
         $xml = simplexml_load_string( $string );
+
+        $ret = array( );
         $ret['precision'] = (string)$xml->Result['precision'];
         foreach($xml->Result->children() as $key=>$val) {
             if(strlen($val)) $ret[(string)$key] =  (string)$val;
