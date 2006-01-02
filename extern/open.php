@@ -3,11 +3,13 @@
 require_once '../civicrm.settings.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
+require_once 'extern/stubs.php';
 
 $config =& CRM_Core_Config::singleton();
 
-
 $queue_id = $_GET['q'];
+
+require_once 'CRM/Mailing/Event/BAO/Opened.php';
 CRM_Mailing_Event_BAO_Opened::open($queue_id);
 
 $filename = "../i/tracker.gif";

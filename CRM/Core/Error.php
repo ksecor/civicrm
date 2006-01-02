@@ -148,8 +148,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle($pearError)
     {
-        CRM_Core_Error::backtrace( );
-
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         

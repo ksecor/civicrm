@@ -55,7 +55,8 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
      */
     public static function open($queue_id) {
         /* First make sure there's a matching queue event */
-    
+        require_once 'CRM/Mailing/Event/BAO/Queue.php';
+
         $q =& new CRM_Mailing_Event_BAO_Queue();
         $q->id = $queue_id;
         if ($q->find(true)) {
