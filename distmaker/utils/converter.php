@@ -14,7 +14,7 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['HOME'] . '/svn/civicrm';
 }
 
-require_once "$sourceCheckoutDir/modules/config.inc.php";
+require_once "$sourceCheckoutDir/civicrm.settings.php";
 require_once 'PHP/Beautifier.php';
 
  /**
@@ -923,8 +923,8 @@ if (isset($argv[1])) {
         $dir =& new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
         foreach ( $dir as $file ) {
             if ( substr( $file, -4, 4 ) == '.php' ) {
-                // skip config.inc.php
-                if ( trim($file) == 'config.inc.php' ) {
+                // skip civicrm.settings.php
+                if ( trim($file) == 'civicrm.settings.php' ) {
                     continue;
                 }
 

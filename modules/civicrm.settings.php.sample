@@ -428,6 +428,12 @@ define( 'CIVICRM_DEBUG', 0 );
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
-include_once 'config.main.php';
+/**
+ * For Joomla! the below include should be
+ * 
+ * include_once 'civicrm.default.php';
+ *
+ */
+include_once '../../modules/civicrm/civicrm.default.php';
 
 ?>

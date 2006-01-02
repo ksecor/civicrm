@@ -69,7 +69,7 @@ function civicrm_main( ) {
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
     // generate backend config file
-    $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
+    $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
     $string = civicrm_config( false );
     $fd = fopen( $configFile, "w" );
     if ( ! $fd ) {
@@ -79,7 +79,7 @@ function civicrm_main( ) {
     fclose ( $fd );
 
     // generate frontend config file
-    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'config.inc.php'; 
+    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php'; 
     $string = civicrm_config( true ); 
     $fd = fopen( $configFile, "w" ); 
     if ( ! $fd ) { 
@@ -130,7 +130,7 @@ function civicrm_config( $frontend = false ) {
     $uploadDir  = addslashes( $uploadDir  );
 
     if ( $frontend ) {
-        $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
+        $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
         $str = "
 <?php 
 /** 
@@ -218,7 +218,7 @@ define( 'CIVICRM_ADDRESS_FORMAT' , '
 {country} 
 ' );
 
-include_once 'config.main.php';
+include_once 'civicrm.default.php';
 
 ?>
 ";

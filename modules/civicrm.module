@@ -30,7 +30,7 @@
  *
  */
 
-include_once 'config.inc.php';
+include_once conf_init( ) . '/civicrm.settings.php';
 
 /**
  * Provides a link to the CSS stylesheet associated with this module.
