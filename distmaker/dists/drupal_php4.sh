@@ -62,7 +62,6 @@ cp $SRC/license.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/affero_gpl.txt $TRG
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.default.php $TRG
 cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch

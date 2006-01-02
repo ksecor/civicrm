@@ -22,8 +22,7 @@ $files = array( 'license.txt' => 1,
                 'affero_gpl.txt' => 1,
                 'civicrm-version.txt' => 1, 
                 'gpl.txt' => 1, 
-                'README.txt' => 1, 
-                'civicrm.default.php' => 1 );
+                'README.txt' => 1 );
 foreach ( $path as $v ) {
     $rootDir = "$targetDir/$v";
     walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );

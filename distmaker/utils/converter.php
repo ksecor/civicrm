@@ -915,6 +915,7 @@ if (isset($argv[1])) {
     // this code is to convert the whole directory from php5 to php4
     
     $directory = array('CRM', 'api');
+    // $directory = array('CRM');
 
     foreach ($directory as $v) {
         $rootDir = "$sourceCheckoutDir/$v";

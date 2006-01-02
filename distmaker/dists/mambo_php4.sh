@@ -62,7 +62,6 @@ cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
 cp $SRC/gpl.txt $TRG
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.default.php $TRG
 cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
@@ -81,7 +80,6 @@ cp -r -p civicrm/* com_civicrm/civicrm
 $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 
 cp -r com_civicrm/civicrm/mambo/* com_civicrm
-cp -r com_civicrm/civicrm/civicrm.default.php com_civicrm
 
 zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.3BETA-rev$REV.zip com_civicrm
 
