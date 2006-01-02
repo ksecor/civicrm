@@ -83,8 +83,8 @@ $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 cp -r com_civicrm/civicrm/mambo/* com_civicrm
 cp -r com_civicrm/civicrm/civicrm.default.php com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.3BETA-rev$REV.zip com_civicrm
+# zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-v1.3BETA-rev$REV.zip com_civicrm
 
 # clean up
-rm -rf com_civicrm
-rm -rf $TRG
+# rm -rf com_civicrm
+# rm -rf $TRG

@@ -10,8 +10,6 @@ $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/civicrm';
 } else {
-    // backward compatibility
-    //$targetDir = $GLOBALS['_SERVER']['HOME'] . '/com_civicrm/civicrm';
     $targetDir = $argv[2];
 }
 $targetDirLength = strlen( $targetDir );
