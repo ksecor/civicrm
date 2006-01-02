@@ -13,6 +13,7 @@ fi
 echo;echo Start of code conversion from php5 to php4....;echo;
 $DM_PHP5PATH/php $P/converter.php
 
+[ ! -d $DM_GENFILESDIR/modules ] && mkdir $DM_GENFILESDIR/modules
 $DM_PHP5PATH/php $P/converter.php $DM_SOURCEDIR/modules/civicrm.module > $DM_GENFILESDIR/modules/civicrm.module
 
 rsyncOptions="-avC --exclude=svn"

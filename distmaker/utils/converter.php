@@ -914,12 +914,13 @@ if (isset($argv[1])) {
     // start of code to convert files recursively ---
     // this code is to convert the whole directory from php5 to php4
     
-    $directory = array('CRM', 'api','modules');
-    
+    $directory = array('CRM', 'api');
+
     foreach ($directory as $v) {
         $rootDir = "$sourceCheckoutDir/$v";
         $destDir = "$targetDir/$v";
-        
+        echo "$rootDir, $destDir\n";
+
         $dir =& new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
         foreach ( $dir as $file ) {
             if ( substr( $file, -4, 4 ) == '.php' ) {
@@ -927,6 +928,8 @@ if (isset($argv[1])) {
                 if ( trim($file) == 'civicrm.settings.php' ) {
                     continue;
                 }
+
+                print "Converting: $file\n";
 
                 str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
                 $x    =& new PHP_DownGrade($file->getPath( ) . '/' . $file);
@@ -936,10 +939,12 @@ if (isset($argv[1])) {
                 createDir( $php4Dir );
                 $fd   = fopen( $php4Dir . '/' . $file, "w" );
                 fputs( $fd, $php4 );
-                print "Converting: $file\n";
                 fclose( $fd );
+            } else {
+                print "Skipping: $file\n";
             }
         }
+        print "Done converting\n";
     }
 
     // end of code to convert files recursively --
