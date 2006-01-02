@@ -3,8 +3,6 @@
 if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
     $sourceCheckoutDir = $GLOBALS['_SERVER']['DM_SOURCEDIR'];
 } else {
-    // backward compatibility
-    // $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm';
     $sourceCheckoutDir = $argv[1];
 }
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
@@ -12,17 +10,19 @@ $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/civicrm';
 } else {
-    // backward compatibility
-    //$targetDir = $GLOBALS['_SERVER']['HOME'] . '/com_civicrm/civicrm';
     $targetDir = $argv[2];
 }
 $targetDirLength = strlen( $targetDir );
 
-require_once "$sourceCheckoutDir/modules/config.inc.php";
+require_once "$sourceCheckoutDir/civicrm.settings.php";
 require_once 'Smarty/Smarty.class.php';
 
 $path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
-$files = array( 'license.txt' => 1, 'affero_gpl.txt' => 1, 'civicrm-version.txt' => 1, 'gpl.txt' => 1 );
+$files = array( 'license.txt' => 1,
+                'affero_gpl.txt' => 1,
+                'civicrm-version.txt' => 1, 
+                'gpl.txt' => 1, 
+                'README.txt' => 1 );
 foreach ( $path as $v ) {
     $rootDir = "$targetDir/$v";
     walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );

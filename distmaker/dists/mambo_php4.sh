@@ -43,12 +43,6 @@ if [ -d $TRG/bin ] ; then
   rm -f $TRG/bin/setup.bat
 fi
 
-# delete current config.inc.php
-rm -f $TRG/modules/config.inc.php $TRG/mambo/config.inc.php
-
-# copy sample config file
-cp $SRC/modules/config.inc.php.sample $TRG/modules/
-
 # copy selected sqls
 if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
@@ -68,6 +62,7 @@ cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
 cp $SRC/gpl.txt $TRG
 cp $SRC/README.txt $TRG
+cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
@@ -85,7 +80,6 @@ cp -r -p civicrm/* com_civicrm/civicrm
 $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
 
 cp -r com_civicrm/civicrm/mambo/* com_civicrm
-cp -r com_civicrm/civicrm/modules/config.main.php com_civicrm
 
 zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-SNAPSHOT-rev$REV.zip com_civicrm
 

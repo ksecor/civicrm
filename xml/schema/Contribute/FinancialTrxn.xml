@@ -97,7 +97,7 @@
       <type>varchar</type>    
       <length>64</length> 
       <required>true</required>
-      <comment>derived from Processor setting in config.inc.php.</comment>    
+      <comment>derived from Processor setting in civicrm.settings.php.</comment>    
       <add>1.3</add>    
   </field>  
   <field>        

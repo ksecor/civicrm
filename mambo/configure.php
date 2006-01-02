@@ -69,7 +69,7 @@ function civicrm_main( ) {
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
     // generate backend config file
-    $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
+    $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
     $string = civicrm_config( false );
     $fd = fopen( $configFile, "w" );
     if ( ! $fd ) {
@@ -79,7 +79,7 @@ function civicrm_main( ) {
     fclose ( $fd );
 
     // generate frontend config file
-    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'config.inc.php'; 
+    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php'; 
     $string = civicrm_config( true ); 
     $fd = fopen( $configFile, "w" ); 
     if ( ! $fd ) { 
@@ -130,7 +130,7 @@ function civicrm_config( $frontend = false ) {
     $uploadDir  = addslashes( $uploadDir  );
 
     if ( $frontend ) {
-        $configFile = $comPath . DIRECTORY_SEPARATOR . 'config.inc.php';
+        $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
         $str = "
 <?php 
 /** 
@@ -144,6 +144,8 @@ include_once '$configFile';
 ?>
 ";
     } else {
+        
+        
         $str = "
 <?php
 /**
@@ -218,7 +220,23 @@ define( 'CIVICRM_ADDRESS_FORMAT' , '
 {country} 
 ' );
 
-include_once 'config.main.php';
+\$include_path = '.'        . PATH_SEPARATOR .
+                \$civicrm_root . PATH_SEPARATOR . 
+                \$civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
+                get_include_path( );
+set_include_path( \$include_path );
+
+define( 'CIVICRM_SMARTYDIR'  , \$civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
+define( 'CIVICRM_TEST_DIR'   , \$civicrm_root . DIRECTORY_SEPARATOR . 'test'   . DIRECTORY_SEPARATOR );
+define( 'CIVICRM_DAO_DEBUG'  , 0 );
+define( 'CIVICRM_TEMPLATEDIR', \$civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
+define( 'CIVICRM_PLUGINSDIR' , \$civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
+
+define( 'CIVICRM_GETTEXT_CODESET'    , 'utf-8'   );
+define( 'CIVICRM_GETTEXT_DOMAIN'     , 'civicrm' );
+define( 'CIVICRM_GETTEXT_RESOURCEDIR', \$civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
+
+define( 'CIVICRM_CLEANURL', 0 );
 
 ?>
 ";

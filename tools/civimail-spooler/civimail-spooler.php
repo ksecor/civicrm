@@ -4,7 +4,7 @@ $options = getopt('bc:ht:');
 if (isset($options['h'])) {
 print("\nUsage: php civimail-spooler.php [-bh] [-c <config>] [-t <period>]\n");
 print("   -b  Run this process continuously\n");
-print("   -c  Path to CiviCRM config.inc.php\n");
+print("   -c  Path to CiviCRM civicrm.settings.php\n");
 print("   -h  Print this help message\n");
 print("   -t  In continuous mode, the period (in seconds) to wait between queue events\n\n");
 exit();

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.inc.php';
+require_once '../civicrm.settings.php';
 
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';

@@ -1,7 +1,7 @@
 <?php
 
 function civicrm_diagnostic() {
-    require_once '../modules/config.inc.php';
+    require_once '../civicrm.settings.php';
     require_once 'CRM/Core/Config.php';
     
     $config  =& new CRM_Core_Config();

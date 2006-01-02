@@ -25,7 +25,7 @@
 
 require_once('/home/anil/vtiger_crm/include/nusoap/nusoap.php');
 
-require_once '../modules/config.inc.php';
+require_once '../civicrm.settings.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 require_once('api/Contact.php');

@@ -4,7 +4,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 
-include_once 'config.inc.php';
+include_once 'civicrm.settings.php';
 
 require_once 'PEAR.php';
 
