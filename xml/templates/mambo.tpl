@@ -16,9 +16,11 @@
     <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
        <option value="civicrm/profile">Profile Search and Listings</option>
        <option value="civicrm/profile/create">Profile Create</option>
+       <option value="civicrm/contribute/transact">Online Contribution</option>
     </param>
+    <param name="id"    type="text" size="5" default="1" label="Contribution id" />
     <param name="gid"   type="text" size="5" default="1" label="Profile id" />
-    <param name="reset" type="text" size="5" default="1" label="Profile Reset" />
+    <param name="reset" type="text" size="5" default="1" label="Reset" />
   </params>
   <install>
     <queries>

@@ -352,7 +352,7 @@ class CRM_Core_SelectValues {
             $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;
-            $maxOffset = 0;
+            $maxOffset = 3;
         } elseif ($type =='duration') {
             $newDate['format'] = 'H i';
             $newDate['optionIncrement']['i'] = 15;

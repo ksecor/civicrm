@@ -108,7 +108,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
         }
 
-        // if we dont have a giduse the default, else just use that specific gid
+        // if we dont have a gid use the default, else just use that specific gid
         if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) && ! $this->_gid ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
@@ -117,7 +117,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
-        
+
         if (!is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
@@ -264,7 +264,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             // since the CMS manages the email field, suppress the email display if in
             // edit or register mode which occur within the CMS form
             if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
-                 $name == 'email' ) {
+                 strpos( $name, 'email' ) !== false ) {
+                CRM_Core_Error::debug( $name, $this->_mode );
                 continue;
             }
 
