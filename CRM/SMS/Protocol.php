@@ -32,7 +32,7 @@ require_once 'PEAR.php';
  * @package	SMS
  */
 
-class CRM_SMS_Protocol {
+abstract class CRM_SMS_Protocol {
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -54,9 +54,9 @@ class CRM_SMS_Protocol {
         if (self::$_singleton === null ) {
             $config   =& CRM_Core_Config::singleton( );
             
-            $classPath = str_replace( '_', '/', $config->paymentClass ) . '.php';
+            $classPath = str_replace( '_', '/', $config->smsClass ) . '.php';
             require_once($classPath);
-            self::$_singleton =& eval( 'return ' . $config->paymentClass . '::singleton( $mode );' );
+            self::$_singleton = eval( 'return ' . $config->smsClass . '::singleton( $mode );' );
         }
         return self::$_singleton;
     }

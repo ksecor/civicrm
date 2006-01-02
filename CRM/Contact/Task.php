@@ -53,7 +53,8 @@ class CRM_Contact_Task {
         ORGANIZATION_CONTACTS =  1024,
         MAP_CONTACTS          =  2048,
         EXPORT_CONTACTS       =  4096,
-        RECORD_CONTACTS       =  8192;
+        RECORD_CONTACTS       =  8192,
+        SMS_CONTACTS          = 16384;
 
     /**
      * the task array
@@ -87,7 +88,8 @@ class CRM_Contact_Task {
                                   2     => ts( 'Remove Contacts from a Group'  ),
                                   4     => ts( 'Tag Contacts (assign tags)'    ),
                                   4096  => ts( 'Export Contacts'               ),
-                                  128   => ts( 'Send Email to Contacts'        ), 
+                                  128   => ts( 'Send Email to Contacts'        ),
+                                  16384 => ts( 'Send SMS to Contacts'          ),
                                   8     => ts( 'Delete Contacts'               ),
                                   512   => ts( 'Add Contacts to Household'     ),
                                   1024  => ts( 'Add Contacts to Organization'  ),
@@ -96,9 +98,14 @@ class CRM_Contact_Task {
                                   16    => ts( 'New Smart Group'               ),
                                   );
             $config =& CRM_Core_Config::singleton( );
+
             if ( ! isset( $config->smtpServer ) ||
                  $config->smtpServer == 'YOUR SMTP SERVER' ) {
                 unset( self::$_tasks[128] );
+            }
+
+            if ( ! in_array( 'CiviSMS', $config->enableComponents ) ) {
+                unset( self::$_tasks[16384] );
             }
         }
         return self::$_tasks;

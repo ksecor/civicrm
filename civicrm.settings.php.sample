@@ -429,6 +429,12 @@ define( 'CIVICRM_DEBUG', 0 );
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
 /**
+ * CiviSMS related config options
+ */
+define( 'CIVICRM_SMS_USERNAME'  , 'USERNAME' );
+define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
+
+/**
  * 
  * Do not change anything below this line. Keep as is
  *

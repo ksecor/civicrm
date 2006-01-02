@@ -62,6 +62,8 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
         if ( ! $fromSMSNumber ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
+
+        require_once 'CRM/Utils/Mail.php';
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromSMSNumber);
 
         // create the meta level record first
@@ -108,10 +110,11 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
             return false;
         }
 
-        if ( ! CRM_SMS_Protocol::send( $from,
-                                       $toDisplayName, $toSMS,
-                                       $subject,
-                                       $message ) ) {
+        $aggregator =& CRM_SMS_Protocol::singleton( );
+        if ( ! $aggregator->sendMessage( $from,
+                                         $toDisplayName, $toSMS,
+                                         $subject,
+                                         $message ) ) {
             return false;
         }
         

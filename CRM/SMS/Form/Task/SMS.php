@@ -44,7 +44,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * This class provides the functionality to sms a group of
  * contacts. 
  */
-class CRM_Contact_Form_Task_SMS extends CRM_Contact_Form_Task {
+class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
 
     /**
      * Are we operating in "single mode", i.e. sending sms to one

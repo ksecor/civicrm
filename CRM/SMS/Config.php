@@ -37,7 +37,7 @@
  *
  */
 
-require_once 'CRM/Core/Config.php'
+require_once 'CRM/Core/Config.php';
 
 class CRM_SMS_Config {
 
@@ -69,6 +69,13 @@ class CRM_SMS_Config {
      */
     protected $smsAPIServer;
 
+    /** 
+     * Class implementing the server protocol
+     * 
+     * @var string 
+     */ 
+    protected $smsClass;
+
     /**
      * Function to add additional config paramters to the core Config class
      * if CiviSMS is enabled
@@ -90,6 +97,7 @@ class CRM_SMS_Config {
         $config->smsPassword  = null;
         $config->smsAPIID     = null;
         $config->smsAPIServer = null;
+        $config->smsClass     = null;
 
         if ( defined( 'CIVICRM_SMS_USERNAME' ) ) {
             $config->smsUsername = CIVICRM_SMS_USERNAME;
@@ -106,6 +114,10 @@ class CRM_SMS_Config {
         if ( defined( 'CIVICRM_SMS_APISERVER' ) ) {
             $config->smsAPIServer = CIVICRM_SMS_APISERVER;
         }
+
+        if ( defined( 'CIVICRM_SMS_CLASS' ) ) {
+            $config->smsClass = CIVICRM_SMS_CLASS;
+        }
     }
 
     /**
@@ -118,7 +130,7 @@ class CRM_SMS_Config {
      * @access public
      */
     static function check( &$config ) {
-        $requiredParameters = array( 'smsUsername', 'smsPassword', 'smsAPIID', 'smsAPIServer' );
+        $requiredParameters = array( 'smsUsername', 'smsPassword', 'smsAPIID', 'smsAPIServer', 'smsClass' );
         return CRM_Core_Config::check( $config, $requiredParameters );
     }
 

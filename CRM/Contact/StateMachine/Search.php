@@ -137,6 +137,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $result = true;
             break;
         
+        case CRM_Contact_Task::SMS_CONTACTS:
+            $task   = 'CRM_SMS_Form_Task_SMS';
+            $result = true;
+            break;
+        
         case CRM_Contact_Task::HOUSEHOLD_CONTACTS:
             $task   = 'CRM_Contact_Form_Task_AddToHousehold';
             $result = true;

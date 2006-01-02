@@ -36,6 +36,8 @@
  *
  */
 
+require_once 'CRM/Utils/Menu.php';
+
 class CRM_Contribute_Menu {
 
     static function &main( ) {
@@ -45,8 +47,8 @@ class CRM_Contribute_Menu {
                              'qs'      => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
                              'access'  => CRM_Utils_System::checkPermission( 'make online contributions'), 
-                             'type'    => self::CALLBACK,  
-                             'crmType' => self::CALLBACK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
 
@@ -56,8 +58,8 @@ class CRM_Contribute_Menu {
                              'qs'     => 'reset=1',
                              'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/online_contribution_pages.png',
                              'weight'  => 360
@@ -69,8 +71,8 @@ class CRM_Contribute_Menu {
                              'qs'     => 'reset=1',
                              'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/contribution_types.png',
                              'weight'  => 370
@@ -82,8 +84,8 @@ class CRM_Contribute_Menu {
                              'qs'     => 'reset=1',
                              'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/payment_instruments.png',
                              'weight'  => 380
@@ -95,8 +97,8 @@ class CRM_Contribute_Menu {
                              'qs'     => 'reset=1',
                              'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/accepted_creditcards.png',
                              'weight'  => 395
@@ -107,8 +109,8 @@ class CRM_Contribute_Menu {
                              'qs'      => 'reset=1&force=1&cid=%%cid%%', 
                              'access'  => CRM_Utils_System::checkPermission('access CiviContribute'),
                              'title'   => ts('Contributions'), 
-                             'type'    => self::CALLBACK, 
-                             'crmType' => self::LOCAL_TASK, 
+                             'type'    => CRM_Utils_Menu::CALLBACK, 
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK, 
                              'weight'  => 1
                              ),
 
@@ -117,8 +119,8 @@ class CRM_Contribute_Menu {
                              'qs'      => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
                              'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
-                             'type'    => self::CALLBACK,  
-                             'crmType' => self::NORMAL_ITEM,
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,
                              'weight'  => 500,  
                              ),
 
@@ -127,8 +129,8 @@ class CRM_Contribute_Menu {
                              'qs'      => 'reset=1',
                              'title'   => ts( 'Find Contributions' ), 
                              'access'  => CRM_Utils_System::checkPermission( 'access CiviContribute'), 
-                             'type'    => self::CALLBACK,  
-                             'crmType' => self::NORMAL_ITEM,  
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 510,  
                              ),
                        array( 
@@ -137,8 +139,8 @@ class CRM_Contribute_Menu {
                              'title'   => ts( 'Import Contributions' ), 
                              'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,  
-                             'crmType' => self::NORMAL_ITEM,  
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 520,  
                              ),
                        );
@@ -151,8 +153,8 @@ class CRM_Contribute_Menu {
                              'qs'     => 'reset=1',
                              'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                              CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/PayPal_mark_37x23.gif',
                              'weight'  => 400
