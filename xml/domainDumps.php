@@ -56,7 +56,7 @@ if ( isset($argv[4]) ) {
 }
 
 
-require_once '../civicrm.settings.php';
+require_once '../civicrm.config.php';
 require_once('DB.php');
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Utils/Tree.php';

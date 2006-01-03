@@ -1,8 +1,6 @@
 <?php
 
-ini_set('include_path', '../..:../../modules:../../packages:../../..');
-
-require_once 'civicrm.settings.php';
+require_once '../../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Utils/Date.php';

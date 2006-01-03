@@ -14,7 +14,7 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['HOME'] . '/svn/civicrm';
 }
 
-require_once "$sourceCheckoutDir/civicrm.settings.php";
+require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'PHP/Beautifier.php';
 
  /**

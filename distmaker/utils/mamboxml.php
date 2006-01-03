@@ -14,7 +14,7 @@ if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
 }
 $targetDirLength = strlen( $targetDir );
 
-require_once "$sourceCheckoutDir/civicrm.settings.php";
+require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
 $path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
