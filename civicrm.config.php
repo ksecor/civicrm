@@ -5,12 +5,6 @@
  */
 
 /**
- *  If civicrm has been installed using a symlink, you will need 
- * to set this variable to your drupal root directory
- */
-define( 'CIVICRM_DRUPAL_ROOT', '/home/lobo/public_html/drupal' );
-
-/**
  * Locate the appropriate configuration file.
  *
  * Try finding a matching configuration directory by stripping the
@@ -48,29 +42,28 @@ function conf_init() {
    * We are within the civicrm module, the drupal root is 2 links
    * above us, so use that
    */
-  if ( defined( 'CIVICRM_DRUPAL_ROOT' ) ) {
-      $drupalRoot = CIVICRM_DRUPAL_ROOT;
+  if ( file_exists( dirname( __FILE__ ) . '/settings_location.txt' ) ) {
+      $confdir = trim( file_get_contents( dirname( __FILE__ ) . '/settings_location.txt' ) );
   } else {
-      $drupalRoot = '../..';
+      $confdir = '../../sites';
   }
 
-  $confdir = 'sites';
   $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
   $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
 
-  $uri = explode('/', $phpSelf );
+  $uri    = explode('/', $phpSelf );
   $server = explode('.', rtrim($httpHost, '.'));
   for ($i = count($uri) - 1; $i > 0; $i--) {
       for ($j = count($server); $j > 0; $j--) {
           $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));
-          if (file_exists("$drupalRoot/$confdir/$dir/civicrm.settings.php")) {
+          if (file_exists("$confdir/$dir/civicrm.settings.php")) {
               $conf = "$confdir/$dir";
               return $conf;
           }
       }
   }
 
-  $conf = "$drupalRoot/$confdir/default";
+  $conf = "$confdir/default";
   return $conf;
 }
 
