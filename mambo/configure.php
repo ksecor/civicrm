@@ -60,33 +60,43 @@ function civicrm_setup( ) {
 
 }
 
+function civicrm_write_file( $name, &$buffer ) {
+    $fd  = fopen( $name, "w" );
+    if ( ! $fd ) {
+        die( "Cannot open $name" );
+    }
+    fputs( $fd, $buffer );
+    fclose( $fd );
+}
+
 function civicrm_main( ) {
-    global $sqlPath, $comPath, $frontPath;
+    global $sqlPath, $comPath, $crmPath, $frontPath;
 
     civicrm_setup( );
 
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
-    // generate backend config file
+    // generate backend settings file
     $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
     $string = civicrm_config( false );
-    $fd = fopen( $configFile, "w" );
-    if ( ! $fd ) {
-        die( "Cannot open $configFile" );
-    }
-    fputs( $fd, $string );
-    fclose ( $fd );
+    civicrm_write_file( $configFile,
+                        $string );
 
-    // generate frontend config file
-    $configFile = $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php'; 
+    // generate backend config file
+    $string = "
+<?php
+include_once '$configFile';
+?>
+";
+    $string = trim( $string );
+    civicrm_write_file( $crmPath . DIRECTORY_SEPARATOR . 'civicrm.config.php',
+                        $string );
+
+    // generate frontend settings file
     $string = civicrm_config( true ); 
-    $fd = fopen( $configFile, "w" ); 
-    if ( ! $fd ) { 
-        die( "Cannot open $configFile" ); 
-    } 
-    fputs( $fd, $string ); 
-    fclose ( $fd );
+    civicrm_write_file( $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php',
+                        $string );
 
 }
 

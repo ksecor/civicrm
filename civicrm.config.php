@@ -8,7 +8,7 @@
  *  If civicrm has been installed using a symlink, you will need 
  * to set this variable to your drupal root directory
  */
-// define( 'CIVICRM_DRUPAL_ROOT', '/home/lobo/public_html/drupal' );
+define( 'CIVICRM_DRUPAL_ROOT', '/home/lobo/public_html/drupal' );
 
 /**
  * Locate the appropriate configuration file.
@@ -55,8 +55,11 @@ function conf_init() {
   }
 
   $confdir = 'sites';
-  $uri = explode('/', $_SERVER['PHP_SELF']);
-  $server = explode('.', rtrim($_SERVER['HTTP_HOST'], '.'));
+  $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
+  $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
+
+  $uri = explode('/', $phpSelf );
+  $server = explode('.', rtrim($httpHost, '.'));
   for ($i = count($uri) - 1; $i > 0; $i--) {
       for ($j = count($server); $j > 0; $j--) {
           $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));

@@ -26,7 +26,6 @@ require_once 'PHP/Beautifier.php';
   */
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
-        echo "Outdir: $dir\n";
         mkdir( $dir, $perm, true );
     }
 }
@@ -915,41 +914,48 @@ if (isset($argv[1])) {
     // this code is to convert the whole directory from php5 to php4
     
     $directory = array('CRM', 'api');
-    // $directory = array('CRM');
+    // $directory = array('api');
 
     foreach ($directory as $v) {
         $rootDir = "$sourceCheckoutDir/$v";
         $destDir = "$targetDir/$v";
         echo "$rootDir, $destDir\n";
+        convert_dir( $rootDir, $destDir, $rootDir );
+    }
+}
 
-        $dir =& new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
-        foreach ( $dir as $file ) {
-            if ( substr( $file, -4, 4 ) == '.php' ) {
-                // skip civicrm.settings.php
-                if ( trim($file) == 'civicrm.settings.php' ) {
-                    continue;
-                }
-
-                print "Converting: $file\n";
-
-                str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
-                $x    =& new PHP_DownGrade($file->getPath( ) . '/' . $file);
-                $php4 = $x->toPHP4( );
-                
-                $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
-                createDir( $php4Dir );
-                $fd   = fopen( $php4Dir . '/' . $file, "w" );
-                fputs( $fd, $php4 );
-                fclose( $fd );
-            } else {
-                print "Skipping: $file\n";
-            }
+function convert_dir( $rootDir, $destDir, $path ) {
+    $dir = opendir($path);
+    while ( false !== ($file = readdir($dir)) ) {
+        if ( $file == '.' || $file == '..' || substr( $file, 0, 1 ) == '.' ) {
+            continue;
         }
-        print "Done converting\n";
+        
+        if ( is_dir("$path/$file") ) {
+            convert_dir($rootDir, $destDir, "$path/$file");
+        } else {
+            convert_file($rootDir, $destDir, $path, $file );
+        }
+    }
+    closedir($dir);
+}
+
+function convert_file( $rootDir, $destDir, $filePath, $fileName ) {
+    if ( substr( $fileName, -4, 4 ) != '.php' ) {
+        continue;
     }
 
-    // end of code to convert files recursively --
-   
+    print "Converting: $filePath/$fileName\n"; 
+ 
+    $x    =& new PHP_DownGrade($filePath . '/' . $fileName );
+    $php4 = $x->toPHP4( ); 
+                 
+    $php4Dir  = str_replace( $rootDir, $destDir, $filePath );
+    createDir( $php4Dir ); 
+    $fd   = fopen( $php4Dir . '/' . $fileName, "w" ); 
+    fputs( $fd, $php4 ); 
+    fclose( $fd ); 
 }
+
 
 ?>
