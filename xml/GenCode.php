@@ -28,6 +28,9 @@ require_once 'PHP/Beautifier.php';
 // for SQL l10n use
 //define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
 require_once '../civicrm.config.php';
+// lets use our own include path
+ini_set( 'include_path', ".:../packages:.." );
+
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Utils/Tree.php';
