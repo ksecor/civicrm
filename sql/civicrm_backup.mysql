@@ -65,3 +65,11 @@ civicrm_payment_instrument|SELECT civicrm_payment_instrument.id FROM civicrm_dom
 civicrm_accept_credit_card|SELECT civicrm_accept_credit_card.id FROM civicrm_domain,civicrm_accept_credit_card WHERE civicrm_accept_credit_card.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_activity_type|SELECT civicrm_activity_type.id FROM civicrm_domain,civicrm_activity_type WHERE civicrm_activity_type.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_custom_group|SELECT civicrm_custom_group.id FROM civicrm_domain,civicrm_custom_group WHERE civicrm_custom_group.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
+civicrm_acl|SELECT civicrm_acl.id FROM civicrm_acl
+civicrm_country|SELECT civicrm_country.id FROM civicrm_country
+civicrm_custom_option|SELECT civicrm_custom_option.id FROM civicrm_custom_option
+civicrm_geo_coord|SELECT civicrm_geo_coord.id FROM civicrm_geo_coord
+civicrm_state_province|SELECT civicrm_state_province.id FROM civicrm_state_province
+civicrm_mailing_bounce_type|SELECT civicrm_mailing_bounce_type.id FROM civicrm_mailing_bounce_type
+civicrm_mailing_bounce_pattern|SELECT civicrm_mailing_bounce_pattern.id FROM civicrm_mailing_bounce_pattern
+civicrm_county|SELECT civicrm_county.id FROM civicrm_county

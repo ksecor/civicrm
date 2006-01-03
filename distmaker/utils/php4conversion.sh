@@ -10,6 +10,7 @@ else
 	for l in `cat $CFFILE`; do export $l; done
 fi
 
+
 echo;echo Start of code conversion from php5 to php4....;echo;
 $DM_PHP5PATH/php $P/converter.php
 

@@ -80,7 +80,6 @@ class CRM_Core_BAO_DomainDump
             CRM_Utils_System::statusBounce( ts( 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.' ) );
         }
 
-
         foreach($sql as $value) {
             $val = explode("|", $value);
             $domainDAO =& new CRM_Core_DAO();
@@ -91,18 +90,12 @@ class CRM_Core_BAO_DomainDump
                 $ids[] = $domainDAO->id; 
             }
                         
-            if ( !empty($ids) ) {
+            //if ( !empty($ids) ) {
                 $dumpCommand = $config->mysqlPath."mysqldump  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $val[0] ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
                 exec($dumpCommand); 
-            }
+            //} fixed for Issue CRM-670
         }
-
-        /*speacial case for table civicrm_custom_option
-        need to fix*/
-
-        $dumpCommand = $config->mysqlPath."mysqldump  -u".$username." -p".$password." --opt --single-transaction  ".$database." "."civicrm_custom_option >> " . $fileName;
-        exec($dumpCommand);
-
+     
         $tarFileName = 'backupData.tgz';
 
         if ( is_file($tarFileName) ) {

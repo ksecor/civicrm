@@ -1,6 +1,6 @@
 <?php
 
-require_once '../civicrm.settings.php';
+require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
 global $ufClass;
@@ -24,23 +24,6 @@ $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 // $config->userPermissionClass    = 'CRM_Core_Permission_Soap';
 
 $server->setPersistence(SOAP_PERSISTENCE_SESSION);
-
-// /* Contact functions */
-// $contact_api = array('crm_get_contact');
-
-// $server->addFunction($contact_api);
-
-// /* Mailer functions */
-// $mailer_api = array(
-//             'crm_mailer_event_bounce', 
-//             'crm_mailer_event_confirm', 
-//             'crm_mailer_event_domain_unsubscribe',
-//             'crm_mailer_event_unsubscribe',
-//             'crm_mailer_event_subscribe',
-//             'crm_mailer_event_reply'
-//         );
-
-// $server->addFunction($mailer_api);
 
 $server->handle();
 
