@@ -668,7 +668,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     }
                     
                     // check for values for custom fields for checkboxes and multiselect
-                    if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
+                    /*if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
@@ -684,7 +684,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                                   $customFields[$customFieldID][0]);
                             }
                         }
-                    }
+                    }*/
                 }
                 
             }
