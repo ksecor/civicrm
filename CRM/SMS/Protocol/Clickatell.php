@@ -350,9 +350,6 @@ class CRM_SMS_Protocol_Clickatell extends CRM_SMS_Protocol {
         $postData .= "&text=" . $message['Body'];
         $postData .= "&climsgid=" . $message['id'];
         $postData .= "&callback=3&deliv_ack=1";
-        
-
-		$response = $this->curl($url, $postData);
 
 		if (!in_array($message['Type'], $this->messageType)) {
 			return PEAR::raiseError("Invalid message type. Message ID is " . $message['id']);
@@ -424,9 +421,10 @@ class CRM_SMS_Protocol_Clickatell extends CRM_SMS_Protocol {
 			return $response;
 		}
 		$send = split(":", $response['data']);
-
+        
+        CRM_Core_Error::debug( 's', $send );
 		if ($send[0] == "ID") {
-			return array ("1", trim($send[1]));
+			return true;
 		} else {
 			return PEAR::raiseError($response['data']);
 		}

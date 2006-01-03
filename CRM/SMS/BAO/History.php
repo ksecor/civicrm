@@ -55,7 +55,6 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
      * @static
      */
     static function send( &$contactIds, &$message, $smsNumber ) {
-
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromSMSNumber ) = CRM_Contact_BAO_Contact::getPhoneDetails( $userID, 'Mobile' );
@@ -63,8 +62,7 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
             return array( count($contactIds), 0, count($contactIds) );
         }
 
-        require_once 'CRM/Utils/Mail.php';
-        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromSMSNumber);
+        $message = trim( $message );
 
         // create the meta level record first
         $history             =& new CRM_SMS_DAO_History( );
@@ -76,7 +74,7 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
         $sent = $notSent = 0;
         require_once 'CRM/SMS/Protocol.php';
         foreach ( $contactIds as $contactId ) {
-            if ( self::sendMessage( $from, $contactId, $message, $smsNumber, $history->id ) ) {
+            if ( self::sendMessage( $fromSMSNumber, $contactId, $message, $smsNumber, $history->id ) ) {
                 $sent++;
             } else {
                 $notSent++;
@@ -101,31 +99,35 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
      */
     static function sendMessage( $from, $toID, &$message, $smsNumber, $activityID ) {
         list( $toDisplayName  , $toSMS   ) = CRM_Contact_BAO_Contact::getPhoneDetails( $toID, 'Mobile' );
-        if ( $smsNumber ) {
-            $toSMS = trim( $smsNumber );
+        if ( $toSMS ) {
+            $to = trim( $toSMS );
         }
 
-        // make sure both email addresses are valid
-        if ( empty( $toSMS ) ) {
+        // make sure sms number is non-empty
+        if ( empty( $to ) ) {
             return false;
         }
 
+        $params = array( );
+        $params['From'] = $from;
+        $params['To'  ] = $to;
+        $params['Body'] = $message;
+        $params['id'  ] = substr( md5(uniqid(rand(), true)), 0, 31 );
+        $params['Type'] = "SMS_TEXT";
+
         $aggregator =& CRM_SMS_Protocol::singleton( );
-        if ( ! $aggregator->sendMessage( $from,
-                                         $toDisplayName, $toSMS,
-                                         $subject,
-                                         $message ) ) {
+        if ( ! $aggregator->sendMessage( $params ) ) {
             return false;
         }
         
         // we need to insert an activity history record here
         $params = array('entity_table'     => 'civicrm_contact',
                         'entity_id'        => $toID,
-                        'activity_type'    => ts('Email Sent'),
+                        'activity_type'    => ts('SMS Sent'),
                         'module'           => 'CiviCRM',
                         'callback'         => 'CRM_SMS_BAO_History::details',
                         'activity_id'      => $activityID,
-                        'activity_summary' => ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toSMS>", 2 => $subject)),
+                        'activity_summary' => ts('To: %1; Message: %2', array(1 => "$toDisplayName <$toSMS>", 2 => $message)),
                         'activity_date'    => date('YmdHis')
                         );
         
