@@ -126,7 +126,6 @@ class CRM_Core_Invoke {
        
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
        
-        
         if ( $args[1] !== 'contact' ) {
             return;
         }
@@ -195,7 +194,7 @@ class CRM_Core_Invoke {
                     }
                 }
 
-                if($activityId == 1) {
+                if ($activityId == 1) {
                     require_once 'CRM/Contact/Page/View/Meeting.php';
                     $view =& new CRM_Contact_Page_View_Meeting( );
                 } elseif($activityId == 2) {
@@ -208,11 +207,13 @@ class CRM_Core_Invoke {
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
                     } else {
                         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
-
                         $wrapper =& new CRM_Utils_Wrapper( );
                         return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
                     }
-                } elseif($activityId > 3 ) {
+                } elseif ($activityId == 4 ) {
+                    require_once 'CRM/Contact/Page/View/SMS.php';
+                    $view =& new CRM_Contact_Page_View_SMS( );
+                } elseif ($activityId > 3 ) {
                     require_once 'CRM/Contact/Page/View/OtherActivity.php';
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                 } else {

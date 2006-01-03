@@ -143,9 +143,9 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
      *
      * @param int $id
      */
-    public function details( $cid )
+    public function details( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=3&details=1&action=view&id=$cid");
+        return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=4&details=1&action=view&id=$id");
     }
 
     /**
