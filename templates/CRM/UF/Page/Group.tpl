@@ -26,12 +26,17 @@
 
     <div id="help">
     <p>{ts}CiviCRM Profile(s) allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features. They provide a powerful set of tools for you to collect information from constituents and selectively share contact information.{/ts}</p>
-    <p>{ts}Profiles may be linked to specific modules, or used to create standalone forms and listing pages. Examples of module links include:{/ts}</p>
+    <p>{ts}Profiles may be linked to specific modules, accessed via built-in CiviCRM URLs, or used as standalone forms on any web page. Examples include:{/ts}</p>
     <ul class="indented">
-    <li>{ts}<strong>User</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>.{/ts}</li>
-    <li>{ts}<strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link to to your contribution page.{/ts}</li>
+    {if $config->userFramework EQ 'Drupal'}
+        <li>{ts}<strong>User Screens</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>.{/ts}</li>
+    {/if}
+    {capture assign=configContribURL}{crmURL p='civicrm/admin/contribute' q='reset=1'}{/capture}
+    <li>{ts 1=$configContribURL}<strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link it to to your contribution page as a "custom page element" (<a href="%1">Configure Online Contribution Pages</a>).{/ts}</li>
     {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
-    <li>{ts 1=$siteRoot 2='civicrm/profile?reset=1'}<strong>Profile Listings</strong> - A default profile search form and search result listings is displayed when you link users to the %1/%2 path. If you have several profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:{/ts}<br /><strong>{$siteRoot}/civicrm/profile?reset=1&gid=3</strong></li>
+    <li>{ts 1=$siteRoot 2='civicrm/profile?reset=1'}<strong>Contact Search and Listings</strong> - A default profile search form and search result listings is displayed when you link users to the <em>%1/%2</em> path. If you have several profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:{/ts} <em>{$siteRoot}/civicrm/profile?reset=1&gid=3</em></li>
+    <li>{ts 1=$siteRoot 2='civicrm/profile/create?reset=1&gid=3'}<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "new contact" input form(s) for your Profiles using the following path: <em>%1/%2</em>. (This example links to an input form for Profile ID 3.){/ts}</li>
+    <li>{ts}<strong>Standalone Forms</strong> - If you want more control over form layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/or sites...click the *Standalone Form* action link for a Profile below - and copy and paste the HTML form code into any web page.{/ts}</li>
     </ul>
     {* Multi-profile standalone forms not supported for 1.3. dgg *}
     {* <p>{ts 1=$crmURL}Use the <strong>Stand-alone Form</strong> links to get the HTML code needed to add a profile form to any block or page on any website (e.g. for a signup form). You can also get the <a href="%1">HTML for ALL Active Profiles</a> as a single form.{/ts}</p> *}
