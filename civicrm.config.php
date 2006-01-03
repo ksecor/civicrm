@@ -42,8 +42,9 @@ function conf_init() {
    * We are within the civicrm module, the drupal root is 2 links
    * above us, so use that
    */
-  if ( file_exists( dirname( __FILE__ ) . '/settings_location.txt' ) ) {
-      $confdir = trim( file_get_contents( dirname( __FILE__ ) . '/settings_location.txt' ) );
+  if ( file_exists( dirname( __FILE__ ) . '/settings_location.php' ) ) {
+      include dirname( __FILE__ ) . '/settings_location.php';
+      $confdir = CIVICRM_CONFDIR;
   } else {
       $confdir = '../../sites';
   }
