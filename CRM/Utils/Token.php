@@ -148,12 +148,15 @@ class CRM_Utils_Token {
     {
         $loc =& $domain->getLocationValues();
         if (self::token_match('domain', 'address', $str)) {
+            $value = null;
             /* Construct the address token */
-            $value = CRM_Core_BAO_Address::format(  $loc['address'], 
-                                                    ($html ? '<br />' : "\n"));
+            if ( CRM_Utils_Array::value( 'address', $loc ) ) {
+                $value = CRM_Core_BAO_Address::format(  $loc['address'], 
+                                                        ($html ? '<br />' : "\n"));
+            }
             self::token_replace('domain', 'address', $value, $str);
         }
-
+        
         if (self::token_match('domain', 'name', $str)) {
             self::token_replace('domain', 'name', $domain->name, $str);
         }
@@ -162,10 +165,12 @@ class CRM_Utils_Token {
         foreach (array('phone', 'email') as $key) {
             if (self::token_match('domain', $key, $str)) {
                 $value = null;
-                foreach ($loc[$key] as $index => $entity) {
-                    if ($entity->is_primary) {
-                        $value = $entity->$key;
-                        break;
+                if ( CRM_Utils_Array::value( $key, $loc ) ) {
+                    foreach ($loc[$key] as $index => $entity) {
+                        if ($entity->is_primary) {
+                            $value = $entity->$key;
+                            break;
+                        }
                     }
                 }
                 self::token_replace('domain', $key, $value, $str);
