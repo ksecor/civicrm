@@ -42,7 +42,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {/if}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible only to User Administrators and the user themself, or is it visible to others (Public User Pages)? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). If this profile is linked to the User Account screen, links to find other contacts with common value(s) will be included.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others (Public User Pages)? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
         {/if}
         <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>
         {if $action neq 4}
