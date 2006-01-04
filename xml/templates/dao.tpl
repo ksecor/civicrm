@@ -247,15 +247,12 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                    {rdelim}
                  {rdelim}
                {rdelim}
-               {if $table.foreignKey}
-                  {foreach from=$table.foreignKey item=foreign}
-                     {if $foreign.export}
-                        self::$_export = array_merge( self::$_export,
-						      {$foreign.className}::export( true ) );
-                     {/if}
-                  {/foreach}
-               {/if}
-                
+               {foreach from=$table.foreignKey item=foreign}
+                  {if $foreign.export}
+                     self::$_export = array_merge( self::$_export,
+                                                   {$foreign.className}::export( true ) );
+                  {/if}
+               {/foreach}
           {rdelim}
           return self::$_export;
       {rdelim}
