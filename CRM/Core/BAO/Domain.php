@@ -117,26 +117,32 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             $ids = array();
             
             CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+            if ( ! CRM_Utils_Array::value( 'location', $values ) ||
+                 ! CRM_Utils_Array::value( '1', $values['location'] ) ) {
+                $this->_location = null;
+                return $this->_location;
+            }
             $loc =& $values['location'];
             
             /* Translate the state/province and country ids to names */
-            if (! array_key_exists('state_province', $loc[1]['address'])) 
-            {
-                $loc[1]['state_province'] = CRM_Core_PseudoConstant::stateProvince($loc[1]['address']['state_province_id']);
-                if (! $loc[1]['address']['state_province']) {
-                    $loc[1]['address']['state_province'] =
-                    CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc[1]['address']['state_province_id']);
+            if ( CRM_Utils_Array::value( 'address', $loc[1] ) ) {
+                if ( ! array_key_exists('state_province', $loc[1]['address'])) {
+                    $loc[1]['state_province'] = CRM_Core_PseudoConstant::stateProvince($loc[1]['address']['state_province_id']);
+                    if (! $loc[1]['address']['state_province']) {
+                        $loc[1]['address']['state_province'] =
+                            CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc[1]['address']['state_province_id']);
+                    }
                 }
-            }
-
-            if (! array_key_exists('country', $loc[1]['address'])) {
-                $loc[1]['address']['country'] = CRM_Core_PseudoConstant::country($loc[1]['address']['country_id']);
-                if (! $loc[1]['address']['country']) {
-                    $loc[1]['address']['country'] =
-                    CRM_Core_PseudoConstant::countryIsoCode($loc[1]['address']['country_id']);
+                
+                if (! array_key_exists('country', $loc[1]['address'])) {
+                    $loc[1]['address']['country'] = CRM_Core_PseudoConstant::country($loc[1]['address']['country_id']);
+                    if (! $loc[1]['address']['country']) {
+                        $loc[1]['address']['country'] =
+                            CRM_Core_PseudoConstant::countryIsoCode($loc[1]['address']['country_id']);
+                    }
                 }
+                
             }
-            
             $this->_location = $loc[1];
         }
         return $this->_location;
