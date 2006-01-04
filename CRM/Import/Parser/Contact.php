@@ -668,7 +668,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     }
                     
                     // check for values for custom fields for checkboxes and multiselect
-                    /*if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
+                    if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
@@ -684,9 +684,21 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                                   $customFields[$customFieldID][0]);
                             }
                         }
-                    }*/
+                    } else if ($customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] =='Radio') {
+                        $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                        $flag = false;
+                        foreach( $custuomOption as $v2 ) {
+                            if ( trim($v2['label']) == trim($value) ) {
+                                $flag = true; 
+                            }
+                            
+                        }
+                        if (! $flag ) {
+                                return _crm_error('Invalid value for custom field :' .
+                                                  $customFields[$customFieldID][0]);
+                        }
+                    }
                 }
-                
             }
         }
         return true;

@@ -545,7 +545,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
 }
 function _crm_update_contact( $contact, $values, $overwrite = true ) {
     // first check to make sure the location arrays sync up
-
+   
     $param = array("contact_id" =>$contact->id );
     $contact = crm_get_contact($param);
     
@@ -554,7 +554,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
     }
-    
+    $sortNameArray = array();
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {
         if ($overwrite || ! isset($contact->contact_type_object->first_name)) {
@@ -620,8 +620,14 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
                 
 
         }
-
-        $values['sort_name'] = "$lastName, $firstName";
+        
+        if ($lastName != "" && $firstName != "") {
+            $values['sort_name'] = "$lastName, $firstName";
+        } else if ( $lastName != "" ){
+            $values['sort_name'] = "$lastName";
+        } else if ( $firstName != "" ) {
+            $values['sort_name'] = "$firstName";
+        }
         $values['display_name'] = "$prefix $firstName $middleName $lastName $suffix ";
     } else if ( $contact->contact_type == 'Household' ) {
         if ($overwrite || ! isset($contact->contact_type_object->household_name)) {
