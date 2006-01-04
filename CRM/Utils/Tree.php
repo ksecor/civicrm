@@ -121,9 +121,10 @@ class CRM_Utils_Tree {
             return $parentNode;
         }
 
+        $falseRet = false;
         // no children ? return false
         if ($this->isLeafNode($node)) {
-            return false;
+            return $falseRet;
         }
 
         // search children of the subtree
@@ -135,7 +136,7 @@ class CRM_Utils_Tree {
         }
 
         // name does not match subtree or any of the children, negative result
-        return false;
+        return $falseRet;
     }
 
     /**

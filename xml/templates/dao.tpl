@@ -223,11 +223,11 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
 						      {$foreign.className}::import( true ) );
                      {/if}
                   {/foreach}
-               {/if}
-                
+               {/if} 
           {rdelim}
           return self::$_import;
       {rdelim}
+
        /**
        * returns the list of fields that can be exported
        *
@@ -248,14 +248,13 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                  {rdelim}
                {rdelim}
                {if $table.foreignKey}
-                  {foreach from=$table.foreignKey item=foreign}
-                     {if $foreign.export}
-                        self::$_export = array_merge( self::$_export,
-						      {$foreign.className}::export( true ) );
-                     {/if}
-                  {/foreach}
+                   {foreach from=$table.foreignKey item=foreign}
+                       {if $foreign.export}
+                           self::$_export = array_merge( self::$_export,
+                                                        {$foreign.className}::export( true ) );
+                       {/if}
+                   {/foreach}
                {/if}
-                
           {rdelim}
           return self::$_export;
       {rdelim}
