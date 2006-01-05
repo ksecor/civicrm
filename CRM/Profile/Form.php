@@ -640,16 +640,17 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
-        
+
         // Process group and tag  
-        foreach ($params as $key => $value) {
-            if ( $key == 'group' ) {
-                CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
-            } else if ( $key == 'tag' ) {
-                require_once 'CRM/Core/BAO/EntityTag.php';
-                CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
-            } 
+        if ( CRM_Utils_Array::value('group', $this->_fields )) {
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
         }
+        
+        if ( CRM_Utils_Array::value('tag', $this->_fields )) {
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+        } 
+        
     }
 }
 
