@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 13:22+0100\n"
+"POT-Creation-Date: 2006-01-05 15:07+0100\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -511,14 +511,17 @@ msgid "Visibility"
 msgstr "Sichtbarkeit"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
 msgstr "Nur Benutzer und Administrator"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages"
 msgstr "Öffentliche Benutzerseiten"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
 msgstr "Öffentlicher Benutzerseiten und Auflistungen"
 
@@ -1571,6 +1574,16 @@ msgstr "Testmailing"
 msgid "Activities"
 msgstr "Aktivitäten"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Header"
+msgstr "Kopfzeile"
+
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Footer"
+msgstr "Fußzeile"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "Die Gruppe \"%1\" wurde gelöscht."
@@ -1654,14 +1667,6 @@ msgstr "Abgebrochen"
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
 msgstr "Unbekannt"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Header"
-msgstr "Kopfzeile"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Footer"
-msgstr "Fußzeile"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
@@ -4629,6 +4634,26 @@ msgstr "Dynamisch"
 #: CRM/Core/SelectValues.php
 msgid "Static"
 msgstr "Statisch"
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Reply Auto-responder"
+msgstr "Auto-responder"
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Subscription Message to organization"
+msgstr "Zielorganisation finden"
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Welcome Message"
+msgstr "Hinterlasse Nachricht"
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Farewell Message"
+msgstr "Mailing Nachricht"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
@@ -10305,9 +10330,6 @@ msgstr ""
 
 #~ msgid "Key to Match Contacts?"
 #~ msgstr "Schlüssel zum auffinden von Kontakten?"
-
-#~ msgid "Mailing Message"
-#~ msgstr "Mailing Nachricht"
 
 #~ msgid "Data-type mismatch: \"%1\" is not of type \"%2\""
 #~ msgstr "Datentypen stimmen nicht überein: \"%1\" ist nicht vom Typ \"%2\""

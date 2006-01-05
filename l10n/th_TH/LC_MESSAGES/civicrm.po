@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 13:22+0100\n"
+"POT-Creation-Date: 2006-01-05 15:07+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -511,14 +511,17 @@ msgid "Visibility"
 msgstr "แสดง"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
 msgstr ""
 
@@ -1565,6 +1568,18 @@ msgstr "ข้อความ"
 msgid "Activities"
 msgstr ""
 
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Header"
+msgstr "เพศ"
+
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Footer"
+msgstr "บันทึก"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr ""
@@ -1646,16 +1661,6 @@ msgstr "ยกเลิก"
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
 msgstr ""
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-#, fuzzy
-msgid "Header"
-msgstr "เพศ"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-#, fuzzy
-msgid "Footer"
-msgstr "บันทึก"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
@@ -4610,6 +4615,24 @@ msgstr ""
 #: CRM/Core/SelectValues.php
 msgid "Static"
 msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Reply Auto-responder"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Subscription Message to organization"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Welcome Message"
+msgstr "ข้อความ"
+
+#: CRM/Core/SelectValues.php
+#, fuzzy
+msgid "Farewell Message"
+msgstr "ข้อความ"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
@@ -9771,10 +9794,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Please enter a name for the new group."
 #~ msgstr "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
-
-#, fuzzy
-#~ msgid "Mailing Message"
-#~ msgstr "ข้อความ"
 
 #, fuzzy
 #~ msgid "Calender"

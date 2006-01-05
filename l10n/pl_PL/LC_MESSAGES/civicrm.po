@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 12:27+0100\n"
-"PO-Revision-Date: 2006-01-05 13:13+0100\n"
+"POT-Creation-Date: 2006-01-05 15:07+0100\n"
+"PO-Revision-Date: 2006-01-05 15:13+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -508,14 +508,17 @@ msgid "Visibility"
 msgstr "Widoczność"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
 msgstr "Tylko użytkownicy i administratorzy użytkowników"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages"
 msgstr "Publiczne strony użytkowników"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
 msgstr "Publiczne strony użytkowników i spisy"
 
@@ -1524,6 +1527,16 @@ msgstr "Ponów wysyłkę"
 msgid "Activities"
 msgstr "Zdarzenia"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Header"
+msgstr "Nagłówek"
+
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Footer"
+msgstr "Stopka"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "Grupa „%1” została utworzona."
@@ -1603,14 +1616,6 @@ msgstr "Anulowany"
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
 msgstr "Nieznany"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Header"
-msgstr "Nagłówek"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Footer"
-msgstr "Stopka"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
@@ -4361,6 +4366,22 @@ msgstr "Dynamiczny"
 #: CRM/Core/SelectValues.php
 msgid "Static"
 msgstr "Statyczny"
+
+#: CRM/Core/SelectValues.php
+msgid "Reply Auto-responder"
+msgstr "Odpowiedź automatyczna"
+
+#: CRM/Core/SelectValues.php
+msgid "Subscription Message to organization"
+msgstr "Wiadomość zapisująca do organizacji"
+
+#: CRM/Core/SelectValues.php
+msgid "Welcome Message"
+msgstr "Wiadomość powitalna"
+
+#: CRM/Core/SelectValues.php
+msgid "Farewell Message"
+msgstr "Wiadomość pożegnalna"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
@@ -9502,12 +9523,17 @@ msgid ""
 "Is this field hidden from other users ('User and User Admin Only'), or is it "
 "visible to others ('Public User Pages')? Select 'Public User Pages and "
 "Listings' to make the field searchable (in the Profile Search form). When "
-"visibility is 'Public User Pages and Listings', users can also click the field "
-"value when viewing a contact in order to locate other contacts with the same "
-"value(s) (i.e. other contacts who live in Poland)."
+"visibility is 'Public User Pages and Listings', users can also click the "
+"field value when viewing a contact in order to locate other contacts with "
+"the same value(s) (i.e. other contacts who live in Poland)."
 msgstr ""
-"Czy to pole powinno być ukryte przed innymi użytkownikami („Tylko użytkownicy i administratorzy użytkowników”), czy powinno być widoczne dla innych („Publiczne strony użytkowników”)? Wybierz „Publiczne strony użytkowników i spisy” jeśli chcesz, "
-"by to pole było przeszukiwalne (w formularzu przeszukiwania profili). W tym przypadku użytkownicy mogą też, podczas oglądania kontaktu, kliknąć na wartość pola i znaleźć inne kontakty z taką samą wartością tego pola (np. inne osoby mieszkające w Polsce)."
+"Czy to pole powinno być ukryte przed innymi użytkownikami („Tylko "
+"użytkownicy i administratorzy użytkowników”), czy powinno być widoczne dla "
+"innych („Publiczne strony użytkowników”)? Wybierz „Publiczne strony "
+"użytkowników i spisy” jeśli chcesz, by to pole było przeszukiwalne (w "
+"formularzu przeszukiwania profili). W tym przypadku użytkownicy mogą też, "
+"podczas oglądania kontaktu, kliknąć na wartość pola i znaleźć inne kontakty "
+"z taką samą wartością tego pola (np. inne osoby mieszkające w Polsce)."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -9562,7 +9588,8 @@ msgid ""
 "Check <strong>Profile</strong> if you want it included in the default "
 "contact listing and view screens for the civicrm/profile path."
 msgstr ""
-"Jeśli chesz dołączyć profil do domyślnego spisu kontaktów i ekranów podglądu na civicrm/profile, zaznacz <strong>Profil</strong>."
+"Jeśli chesz dołączyć profil do domyślnego spisu kontaktów i ekranów podglądu "
+"na civicrm/profile, zaznacz <strong>Profil</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -9666,8 +9693,9 @@ msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
-"Profile mogą być podłączone do konkretnych modułów, dostępne przez wbudowane adresy CiviCRM lub użyte do tworzenia "
-"samodzielnych formularzy na dowolnych stronach WWW. Przykładowo:"
+"Profile mogą być podłączone do konkretnych modułów, dostępne przez wbudowane "
+"adresy CiviCRM lub użyte do tworzenia samodzielnych formularzy na dowolnych "
+"stronach WWW. Przykładowo:"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9675,9 +9703,9 @@ msgid ""
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
 msgstr ""
-"<strong>Ekrany użytkowników</strong> – Jeden lub więcej profili może być podłączonych "
-"do <strong>rejestracji nowych użytkowników</strong> i/lub ekranów podglądu i "
-"edycji <strong>użytkowników istniejących</strong>."
+"<strong>Ekrany użytkowników</strong> – Jeden lub więcej profili może być "
+"podłączonych do <strong>rejestracji nowych użytkowników</strong> i/lub "
+"ekranów podglądu i edycji <strong>użytkowników istniejących</strong>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9688,7 +9716,8 @@ msgid ""
 msgstr ""
 "<strong>CiviContribute</strong> – Jeśli potrzebne jest zbieranie informacji "
 "od ofiarodawców za pomocą stron dotacji on-line, można stworzyć profil i "
-"podłączyć go do strony dotacji jako „dodatkowy element strony” (<a href=\"%1\">Konfiguracja stron dotacji on-line</a>)."
+"podłączyć go do strony dotacji jako „dodatkowy element strony” (<a href=\"%1"
+"\">Konfiguracja stron dotacji on-line</a>)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9699,12 +9728,13 @@ msgid ""
 "of your query string using the 'gid' parameter. For example, the link to "
 "display a search and listings page for a Profile with ID = 3 would be:"
 msgstr ""
-"<strong>Wyszukiwanie kontaktów i spisy</strong> – Jeśli podasz użytkownikom adres <em>%1/%2</em> będą "
-"mogli korzystać z domyślnego przeszukiwania profili i spisu wyników. Jeśli "
-"masz kilka profili, które chcesz wykorzystać do różnych zadań wyszukiwania i "
-"wyświetlania spisów, dodaj identyfikator profilu do końca zapytania używając "
-"parametru „gid”. Przykładowo, odnośnik wyświetlający wyszukiwanie i spis "
-"profilu o identyfikatorze równym 3 wyglądałby tak:"
+"<strong>Wyszukiwanie kontaktów i spisy</strong> – Jeśli podasz użytkownikom "
+"adres <em>%1/%2</em> będą mogli korzystać z domyślnego przeszukiwania "
+"profili i spisu wyników. Jeśli masz kilka profili, które chcesz wykorzystać "
+"do różnych zadań wyszukiwania i wyświetlania spisów, dodaj identyfikator "
+"profilu do końca zapytania używając parametru „gid”. Przykładowo, odnośnik "
+"wyświetlający wyszukiwanie i spis profilu o identyfikatorze równym 3 "
+"wyglądałby tak:"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9712,7 +9742,10 @@ msgid ""
 "\"new contact\" input form(s) for your Profiles using the following path: "
 "<em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
 msgstr ""
-"<strong>Formularze zapisywania się (strony wbudowane)</strong> – Możliwość tworzenia odnośników do formularzy typu „nowy kontakt” dla profili za pomocą następującej śćieżki: <em>%1/%2</em>. (Ten przykład prowadzi do formularza dla profilu o identyfikatorze 3)."
+"<strong>Formularze zapisywania się (strony wbudowane)</strong> – Możliwość "
+"tworzenia odnośników do formularzy typu „nowy kontakt” dla profili za pomocą "
+"następującej śćieżki: <em>%1/%2</em>. (Ten przykład prowadzi do formularza "
+"dla profilu o identyfikatorze 3)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9721,7 +9754,10 @@ msgid ""
 "or sites...click the *Standalone Form* action link for a Profile below - and "
 "copy and paste the HTML form code into any web page."
 msgstr ""
-"<strong>Formularze niezależne</strong> – Jeśli chcesz mieć większy wpływ na układ formularza lub chcesz dodać formularze profili do bloków/stron nie związanych z CiviCRM-em, wybierz dla poniższego profilu akcję *Niezależny formularz* i przeklej kod HTML na stronę WWW."
+"<strong>Formularze niezależne</strong> – Jeśli chcesz mieć większy wpływ na "
+"układ formularza lub chcesz dodać formularze profili do bloków/stron nie "
+"związanych z CiviCRM-em, wybierz dla poniższego profilu akcję *Niezależny "
+"formularz* i przeklej kod HTML na stronę WWW."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -10114,9 +10150,6 @@ msgstr "Discover"
 
 #~ msgid "Key to Match Contacts?"
 #~ msgstr "Klucz do dopasowywania kontaktów?"
-
-#~ msgid "Mailing Message"
-#~ msgstr "Wiadomość wysyłki"
 
 #~ msgid "Data-type mismatch: \"%1\" is not of type \"%2\""
 #~ msgstr "Błąd dopasowania danych: „%1” nie jest typu „%2”"

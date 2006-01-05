@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 13:22+0100\n"
+"POT-Creation-Date: 2006-01-05 15:07+0100\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -507,14 +507,17 @@ msgid "Visibility"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
 msgstr ""
 
@@ -1519,6 +1522,16 @@ msgstr ""
 msgid "Activities"
 msgstr ""
 
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Header"
+msgstr ""
+
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
+msgid "Footer"
+msgstr ""
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr ""
@@ -1597,14 +1610,6 @@ msgstr ""
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr ""
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Header"
-msgstr ""
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Footer"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
@@ -4292,6 +4297,22 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Static"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Reply Auto-responder"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Subscription Message to organization"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Welcome Message"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "Farewell Message"
 msgstr ""
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
