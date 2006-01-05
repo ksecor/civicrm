@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-30 12:48+0100\n"
-"PO-Revision-Date: 2005-12-20 21:45+0100\n"
+"PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1012,9 +1012,8 @@ msgid "Payment Instrument"
 msgstr "Maksuvälineet"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Processing"
-msgstr "Lähetä viestit???"
+msgstr "Suorita"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
 #: CRM/Mailing/Selector/Event.php
@@ -1558,7 +1557,7 @@ msgstr "Käyttäjä"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Pre-form Help"
-msgstr ""
+msgstr "Ohjeet lomakkeen alussa"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 msgid "Post-form Help"
@@ -9581,3 +9580,4 @@ msgstr ""
 #~ "href=\"%1\" target=\"_blank\">bug-tracking järjestelmää</a>.</p>\n"
 #~ "<p>Voit kommentoida sivujen toimivuutta ja ulkoasua <a href=\"%2"
 #~ "\">CiviCRM kommentti sivuilla</a>.</p>"
+
