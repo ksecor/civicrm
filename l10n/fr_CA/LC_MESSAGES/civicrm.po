@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-30 12:48+0100\n"
+"POT-Creation-Date: 2006-01-05 13:22+0100\n"
 "PO-Revision-Date: 2005-12-08 02:33+0100\n"
 "Last-Translator: OB <waysail@yahoo.com>\n"
 "Language-Team: none\n"
@@ -2273,11 +2273,16 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
+msgid "Contribution Amount - %1"
+msgstr "Contact Type A"
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
 msgid "Contribution Type - %1"
 msgstr "Contact Type A"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Payment Instrument - %1"
+msgid "Paid By - %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -8867,11 +8872,12 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
-"Is this field visible only to User Administrators and the user themself, or "
-"is it visible to others (Public User Pages)? Select 'Public User Pages and "
-"Listings' to make the field searchable (in the Profile Search form). If this "
-"profile is linked to the User Account screen, links to find other contacts "
-"with common value(s) will be included."
+"Is this field hidden from other users ('User and User Admin Only'), or is it "
+"visible to others ('Public User Pages')? Select 'Public User Pages and "
+"Listings' to make the field searchable (in the Profile Search form). When "
+"visibility is 'Public User Pages and Listings', users can also click the "
+"field value when viewing a contact in order to locate other contacts with "
+"the same value(s) (i.e. other contacts who live in Poland)."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
@@ -8896,11 +8902,8 @@ msgstr ""
 msgid "Delete %1 Profile?"
 msgstr ""
 
-#: templates/CRM/UF/Form/Group.tpl
-msgid ""
-"Profiles can be explicitly linked to a module page. Any Profile form/"
-"listings page can also be linked directly by adding it's ID to the civicrm/"
-"profile path."
+#: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
+msgid "site root"
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -8917,8 +8920,8 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"Check <strong>Profile</strong> if you want it included in the default search "
-"and listings screens for the civicrm/profile path."
+"Check <strong>Profile</strong> if you want it included in the default "
+"contact listing and view screens for the civicrm/profile path."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -9003,36 +9006,48 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"Profiles may be linked to specific modules, or used to create standalone "
-"forms and listing pages. Examples of module links include:"
+"Profiles may be linked to specific modules, accessed via built-in CiviCRM "
+"URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"<strong>User</strong> - One or several profiles can be linked to either the "
-"<strong>new user registration</strong> and/or view and edit screens for "
-"<strong>existing user accounts</strong>."
+"<strong>User Screens</strong> - One or several profiles can be linked to "
+"either the <strong>new user registration</strong> and/or view and edit "
+"screens for <strong>existing user accounts</strong>."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>CiviContribute</strong> - When you want to collect information from "
 "Contributors via online contribution pages, you can create a profile and "
-"link to to your contribution page."
-msgstr ""
-
-#: templates/CRM/UF/Page/Group.tpl
-msgid "site root"
+"link it to to your contribution page as a \"custom page element\" (<a href="
+"\"%1\">Configure Online Contribution Pages</a>)."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"<strong>Profile Listings</strong> - A default profile search form and search "
-"result listings is displayed when you link users to the %1/%2 path. If you "
-"have several profiles which you want to use for different search and "
-"listings purposes, simply add the profile ID to the end of your query string "
-"using the 'gid' parameter. For example, the link to display a search and "
-"listings page for a Profile with ID = 3 would be:"
+"<strong>Contact Search and Listings</strong> - A default profile search form "
+"and search result listings is displayed when you link users to the <em>%1/%"
+"2</em> path. If you have several profiles which you want to use for "
+"different search and listings purposes, simply add the profile ID to the end "
+"of your query string using the 'gid' parameter. For example, the link to "
+"display a search and listings page for a Profile with ID = 3 would be:"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "
+"\"new contact\" input form(s) for your Profiles using the following path: "
+"<em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>Standalone Forms</strong> - If you want more control over form "
+"layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/"
+"or sites...click the *Standalone Form* action link for a Profile below - and "
+"copy and paste the HTML form code into any web page."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
