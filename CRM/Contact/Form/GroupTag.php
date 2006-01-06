@@ -59,7 +59,7 @@ Class CRM_Contact_Form_GroupTag
      * @static
      * @access public
      */
-    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL, $visibility = false ) {
+    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL, $visibility = false, $isRequired = null) {
         $type = (int ) $type;
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) {
             $elements = array( );
@@ -86,6 +86,10 @@ Class CRM_Contact_Form_GroupTag
             if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, 'group', ts( 'Group(s)' ), '<br />' );
             }
+            
+            if ( $isRequired ) {
+                $form->addRule( 'group' , ts("'Group(s)' is a required field.") , 'required');   
+            }
         }
         
         if ( $type & CRM_Contact_Form_GroupTag::TAG ) {
@@ -97,7 +101,13 @@ Class CRM_Contact_Form_GroupTag
             if ( ! empty( $elements ) ) { 
                 $form->addGroup( $elements, 'tag', ts( 'Tag(s)' ), '<br />' );
             }
+            
+            if ( $isRequired ) {
+                $form->addRule( 'tag' , ts("'Tag(s)' is a required field.") , 'required');   
+            }
         }
+        
+        
     }
 
     /**
