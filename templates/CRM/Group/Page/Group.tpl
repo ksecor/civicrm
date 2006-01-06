@@ -50,7 +50,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Groups entered for this Contact. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}No Groups have been created for this site. You can <a href="%1">add one</a> now.{/ts}</dd>
         </dl>
     </div>    
 {/if}
