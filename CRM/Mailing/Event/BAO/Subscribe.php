@@ -68,20 +68,25 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         
         CRM_Core_DAO::transaction('BEGIN');
         if (is_a($contact_id, CRM_Core_Error)) {
+            require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
             $value = array('email' => $email, 'location_type' =>
-            CRM_Core_BAO_LocationType::getDefaultID());
+                           CRM_Core_BAO_LocationType::getDefaultID());
             _crm_add_formatted_param($value, $formatted);
             $contact =& crm_create_contact_formatted($formatted,
-                CRM_Import_Parser::DUPLICATE_SKIP);
+                                                     CRM_Import_Parser::DUPLICATE_SKIP);
 
             if (is_a($contact, CRM_Core_Error)) {
                 return null;
             }
             $contact_id = $contact->id;
         }
-       
+
+        require_once 'CRM/Core/BAO/Email.php';
+        require_once 'CRM/Core/BAO/Location.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+
         /* Get the primary email id from the contact to use as a hash input */
         $dao =& new CRM_Core_DAO();
         $emailTable = CRM_Core_BAO_Email::getTableName();
@@ -105,17 +110,10 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
         $se->save();
 
-//         $shParams = array (
-//             'contact_id' => $contact_id,
-//             'group_id'  => null,
-//             'method'    => 'Email',
-//             'status'    => 'Pending',
-//             'tracking'  => $se->id
-//         );
-//         CRM_Contact_BAO_SubscriptionHistory::create($shParams);
         $contacts = array($contact_id);
+        require_once 'CRM/Contact/BAO/GroupContact.php'; 
         CRM_Contact_BAO_GroupContact::addContactsToGroup($contacts, $group_id,
-            'Email', 'Pending', $se->id);
+                                                         'Email', 'Pending', $se->id);
             
         CRM_Core_DAO::transaction('COMMIT');
         return $se;
@@ -154,6 +152,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $config =& CRM_Core_Config::singleton();
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        
+        require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( "confirm.{$this->contact_id}.{$this->id}.{$this->hash}@{$domain->email_domain}", 
             $email);
 
@@ -213,11 +213,11 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * @static
      */
     public static function deleteContact( $contactId ) {
-        require_once 'CRM/Mailing/Event/DAO/Confirm.php';
         $dao =& new CRM_Mailing_Event_DAO_Subscribe();
         $dao->contact_id = $contactId;
         $dao->find();
 
+        require_once 'CRM/Mailing/Event/DAO/Confirm.php';
         $object =& new CRM_Mailing_Event_DAO_Confirm();
 
         while ($dao->fetch()) {
@@ -243,6 +243,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $dao =& new  CRM_Core_Dao();
 
         $subscribe  = self::getTableName();
+
+        require_once 'CRM/Contact/BAO/Group.php';
         $group      = CRM_Contact_BAO_Group::getTableName();
         
         $dao->query("SELECT     $group.domain_id as domain_id
@@ -256,6 +258,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             return null;
         }
 
+        require_once 'CRM/Core/BAO/Domain.php';
         return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
     }
 }

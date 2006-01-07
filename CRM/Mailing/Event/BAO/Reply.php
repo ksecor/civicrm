@@ -184,7 +184,10 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         $component->find(true);
 
         $message =& new Mail_Mime("\n");
+
+        require_once 'CRM/Core/BAO/Domain.php';        
         $domain =& CRM_Core_BAO_Domain::getDomainById($mailing->domain_id);
+
         $headers = array(
             'Subject'   => $component->subject,
             'To'        => $to,
