@@ -525,7 +525,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     //get the primary location type
                     if ($keyValue[1] == $primaryLocationType) {
                         $data['location'][$loc]['is_primary'] = 1;
-                    }
+                    } 
                 } else {
                     if ($loc == 1 ) {
                         $data['location'][$loc]['is_primary'] = 1;
@@ -598,7 +598,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-  
+        // print_r($this->_contact);
         if ($this->_id) {
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
             $ids = array( ); 
@@ -610,18 +610,21 @@ class CRM_Profile_Form extends CRM_Core_Form
                         // } else if (is_numeric($key)) {
                     } else if(is_array($value)){ //fixed for CRM-665
                         if ($nameValue[1] == $value['location_type_id'] ) {
+                            $locations[$value['location_type_id']] = 1;
+                            $loc_no = count($locations);
                             if ($nameValue[0] == 'phone') {
-                                $ids['location'][$nameValue[1]]['phone'][1] = $value['phone'][$nameValue[2] . '_id'];
+                                $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
                             } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$nameValue[1]]['email'][1] = $value['email']['1_id'];
+                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
                             } else if ($nameValue[0] == 'im') {
-                                $ids['location'][$nameValue[1]]['im'][1] = $value['im']['1_id'];
+                                $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
                             } else {
-                                $ids['location'][$nameValue[1]]['id'] = $value['location_id'];
-                                $ids['location'][$nameValue[1]]['address'] = $value['address_id'];
-                            }
+                                $ids['location'][$loc_no]['address'] = $value['address_id'];
+                            } 
+                            $ids['location'][$loc_no]['id'] = $value['location_id'];
                         }
                     }
+                    
                 }
             }
         }
@@ -637,7 +640,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
+        // print_r($ids);
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
 
