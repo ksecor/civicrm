@@ -235,7 +235,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        return $this->_query->searchQuery( 0, 0, null, true );
+        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
+        return $this->_query->searchQuery( 0, 0, null, true , null, null, null, null, $addWhereClause);
     }
 
     /**
@@ -283,7 +284,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         }
        
         $sort->_vars = $varArray;
-        $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
+        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
+        $result = $this->_query->searchQuery( $offset, $rowCount, $sort ,null , null, null, null, null, $addWhereClause);
 
         // process the result of the query
         $rows = array( );
