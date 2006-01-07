@@ -1,14 +1,17 @@
 <?php
 
+session_start( );
+
+define( 'CIVICRM_CONFDIR', '../../../sites' );
+
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
 global $ufClass;
 
-session_start( );
-
 $server =& new SoapServer(null, 
-            array('uri' => 'urn:civicrm', 'soap_version' => SOAP_1_2));
+			  array('uri' => 'urn:civicrm',
+				'soap_version' => SOAP_1_2));
 
 
 require_once 'CRM/Utils/SoapServer.php';

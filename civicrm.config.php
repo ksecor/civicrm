@@ -43,12 +43,15 @@ function conf_init() {
    * above us, so use that
    */
   if ( file_exists( dirname( __FILE__ ) . '/settings_location.php' ) ) {
-      include dirname( __FILE__ ) . '/settings_location.php';
-      $confdir = CIVICRM_CONFDIR;
-  } else {
-      $confdir = '../../sites';
+    include dirname( __FILE__ ) . '/settings_location.php';
   }
-
+  
+  if ( defined( 'CIVICRM_CONFDIR' ) ) {
+    $confdir = CIVICRM_CONFDIR;
+  } else {
+    $confdir = '../../sites';
+  }
+  
   $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';
   $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
 

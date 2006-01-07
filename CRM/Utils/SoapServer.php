@@ -59,7 +59,7 @@ class CRM_Utils_SoapServer
      * @param  string $uf       The userframework class
      */
     public function __construct() {
-        session_start();
+      // session_start();
         $args = func_get_args( );
         $this->ufClass = array_shift( $args );
     }
