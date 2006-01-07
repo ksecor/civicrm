@@ -72,6 +72,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
+            require_once 'CRM/Core/BAO/Domain.php';
             $location->entity_table = CRM_Core_BAO_Domain::getTableName();
             $location->entity_id    = $params['domain_id'];
         } else {

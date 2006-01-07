@@ -215,19 +215,18 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
-        
+                
         //$sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="getHelpText(this,event, false);"  onblur="getHelpText(this,event, false);" autocomplete="off"', '&nbsp;&nbsp;'); //this commented to fix javascript error
         
         $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'));
-
+        
         for ( $k = 1; $k < 3; $k++ ) {
             if (!$defaults['field_name'][$k]) {
                 $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
             }
         }
-        
         $sel->setOptions(array($sel1, $sel2, $sel3));
-
+       
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
 
@@ -309,9 +308,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $name = $this->_selectFields[$ufField->field_name];
             CRM_Core_Session::setStatus(ts('Your civicrm profile field "%1" has been saved.', array(1 => $name)));
         }
-       
-            
-        
     }
 
     /**
@@ -341,7 +337,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $errors['field_name'] = 'Please select a field name';
         }
         
-        /*
+        /*   
         if (CRM_Core_Action::ADD && empty($fields['field_id'])) {
             $groupId = $fields['group_id'];
             $query = "SELECT count(*) FROM civicrm_uf_field WHERE uf_group_id = " . CRM_Utils_Type::escape($groupId, 'Integer')  . " AND field_name = '" . CRM_Utils_Type::escape($fieldName, 'String') . "'";

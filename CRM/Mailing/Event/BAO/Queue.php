@@ -294,6 +294,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
             return null;
         }
         
+        require_once 'CRM/Core/BAO/Domain.php';
         return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
     }
 
