@@ -1426,7 +1426,7 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ! empty( $qill ) ) {  
-            $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
+            $this->_qill[] = ts('Contribution Amount - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
         }  
 
         if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_params ) ) {
@@ -1444,7 +1444,7 @@ class CRM_Contact_BAO_Query {
             $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
             $this->_where[] = "civicrm_contribution.payment_instrument_id = $pi";
             $this->_tables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Payment Instrument - %1', array( 1 => $pis[$pi] ) );
+            $this->_qill[] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
         }
 
         if ( isset( $this->_params['contribution_status'] ) ) {

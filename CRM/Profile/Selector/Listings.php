@@ -141,7 +141,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
         $returnProperties['contact_type'] = 1;
-
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
         // CRM_Core_Error::debug( 'q', $this->_query );
@@ -236,7 +235,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        return $this->_query->searchQuery( 0, 0, null, true );
+        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
+        return $this->_query->searchQuery( 0, 0, null, true , null, null, null, null, $addWhereClause);
     }
 
     /**
@@ -264,22 +264,28 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         //$sort object processing for location fields
         if( $sort ) {
-            foreach ($sort->_vars as $key => $field) {
-                $fieldArray = explode('-' , $field['name']);
-                if( is_numeric($fieldArray[1]) ) {
-                    $locationType = & new CRM_Core_DAO_LocationType();
-                    $locationType->id = $fieldArray[1];
-                    $locationType->find(true);
-                    if($fieldArray[0]!='email') {
-                        $field['name'] = "`".$locationType->name."-".$fieldArray[0]."`";
-                    } else if ($fieldArray[0] == 'email') {
-                        $field['name'] = "`".$locationType->name."-".$fieldArray[0]."-1`";
+            $vars = $sort->_vars;
+            $varArray = array();
+            foreach ($vars as $key => $field) {
+                    $field = $vars[$key];
+                    $fieldArray = explode('-' , $field['name']);
+                    if( is_numeric($fieldArray[1]) ) {
+                        $locationType = & new CRM_Core_DAO_LocationType();
+                        $locationType->id = $fieldArray[1];
+                        $locationType->find(true);
+                        if ($fieldArray[0] == 'email' || $fieldArray[0] == 'im' || $fieldArray[0] == 'phone') {
+                            $field['name'] = "`".$locationType->name."-".$fieldArray[0]."-1`";
+                        } else {
+                            $field['name'] = "`".$locationType->name."-".$fieldArray[0]."`";
+                        }
                     }
-                }
+                    $varArray[$key] = $field;
             }
         }
-     
-        $result = $this->_query->searchQuery( $offset, $rowCount, $sort );
+       
+        $sort->_vars = $varArray;
+        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
+        $result = $this->_query->searchQuery( $offset, $rowCount, $sort ,null , null, null, null, null, $addWhereClause);
 
         // process the result of the query
         $rows = array( );

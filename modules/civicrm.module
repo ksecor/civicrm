@@ -286,17 +286,15 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 
     //CRM_Core_Error::debug( $type, $edit );
 
-    //echo $type.'<br>';
-
     switch ( $type ) {
-
+        
     case 'login':
         require_once 'CRM/Core/BAO/UFMatch.php';
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     case 'register':
         return civicrm_register_data($edit, $user, $category, true);
-
+    
     case 'insert':
         return civicrm_register_data($edit, $user, $category, false);
 

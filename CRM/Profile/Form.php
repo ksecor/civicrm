@@ -265,7 +265,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             // edit or register mode which occur within the CMS form
             if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
                  strpos( $name, 'email' ) !== false ) {
-                CRM_Core_Error::debug( $name, $this->_mode );
+               // CRM_Core_Error::debug( $name, $this->_mode );
                 continue;
             }
 
@@ -302,11 +302,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
                                                               CRM_Contact_Form_GroupTag::GROUP,
-                                                              true );
+                                                              true, $required );
             } else if ( $field['name'] === 'tag' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::TAG );
+                                                              CRM_Contact_Form_GroupTag::TAG, false, $required  );
             } else if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
@@ -637,16 +637,17 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
-        
+
         // Process group and tag  
-        foreach ($params as $key => $value) {
-            if ( $key == 'group' ) {
-                CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
-            } else if ( $key == 'tag' ) {
-                require_once 'CRM/Core/BAO/EntityTag.php';
-                CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
-            } 
+        if ( CRM_Utils_Array::value('group', $this->_fields )) {
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
         }
+        
+        if ( CRM_Utils_Array::value('tag', $this->_fields )) {
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+        } 
+        
     }
 }
 
