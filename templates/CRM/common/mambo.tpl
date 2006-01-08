@@ -1,5 +1,9 @@
-<link rel="stylesheet" href="components/com_civicrm/civicrm/css/mambo.css" type="text/css" />
-<link rel="stylesheet" href="components/com_civicrm/civicrm/css/civicrm.css" type="text/css" />
+{* Only include mambo.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
+
+{if ! $config->userFrameworkFrontend}
+    <link rel="stylesheet" href="{$config->resourceBase}css/mambo.css" type="text/css" />
+{/if}
+<link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
@@ -22,7 +26,7 @@
 
     {include file="CRM/common/status.tpl"}
 
-    <!-- .tlp file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
+    <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
     {if $isForm}
         {include file="CRM/form.tpl"}
     {else}
