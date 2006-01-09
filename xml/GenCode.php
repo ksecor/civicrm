@@ -280,6 +280,10 @@ if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
     $config->lcMessages = $locale;
+    print " - generating for $locale\n";
+    print '   - ' . $config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo';
+    if (file_exists($config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo')) print " [ ok ]\n";
+    else print " [ fail ]\n";
     $smarty->assign('locale', $locale);
 
     $data = '';
