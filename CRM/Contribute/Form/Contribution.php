@@ -242,7 +242,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
-
+        
+        $this->addElement('textarea', 'comment', ts('Comment'), $attributes['comment'] );
+        
         $this->addButtons(array( 
                                 array ( 'type'      => 'next', 
                                         'name'      => ts('Save'), 
@@ -311,7 +313,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'trxn_id',
                          'invoice_id',
                          'cancel_reason',
-                         'source' );
+                         'source',
+                         'comment'
+                         );
         foreach ( $fields as $f ) {
             $params[$f] = $formValues[$f];
         }

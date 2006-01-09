@@ -11,9 +11,15 @@ Click <a href="%1">New Contribution</a> to record a new offline contribution for
 
 {if $rows}
     {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
-    <p>
+    <p> </p>
     {include file="CRM/Contribute/Form/Selector.tpl"}
-    </p>
+    
+    {if $action eq 16}
+    <div class="action-link">
+    <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a>
+    </div>
+    {/if}
+
 {else}
    <div class="messages status">
        <dl>
@@ -28,9 +34,5 @@ Click <a href="%1">New Contribution</a> to record a new offline contribution for
        </dl>
   </div>
 {/if}
-
-<div class="action-link">
-<a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a>
-<div>
 
 {/if}
