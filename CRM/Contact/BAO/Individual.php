@@ -67,32 +67,12 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      */
     static function add(&$params, &$ids)
     {
-        $individual =& new CRM_Contact_BAO_Individual();
-        $fields = CRM_Contact_BAO_Individual::fields();
-        $flag = true;
-        
-        // fix for not to create empty individual record
-        foreach( $fields as $key => $field ) {
-            if (! empty($params[$key]) &&  $key != 'contact_id') {
-                $flag = false;   
-            }
-        }
-        if ( $flag ) {
+        if ( ! self::dataExists($params, $ids ) ) {
             return;
         }
+
+        $individual =& new CRM_Contact_BAO_Individual();
         $individual->copyValues($params);
-        /*$genders = array(
-                'Male' => ts('Male'),
-                'Female' => ts('Female'),
-                'Transgender' => ts('Transgender')
-            );
-        $gender = CRM_Utils_Array::value( 'gender', $params );
-        
-        if (! CRM_Utils_Array::value($gender, $genders)) {
-            $gender = CRM_Utils_Array::key($gender, $genders);
-        }
-        
-        $individual->gender = $gender;*/
         
         $date = CRM_Utils_Array::value('birth_date', $params);
         if (is_array($date)) {
@@ -205,6 +185,33 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $prefix =& CRM_Core_PseudoConstant::individualPrefix();
         $suffix =& CRM_Core_PseudoConstant::individualSuffix();
         return str_replace('  ', ' ', trim($prefix[$this->prefix_id] . ' ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name . ' ' . $suffix[$this->suffix_id]));
+    }
+
+    /** 
+     * Check if there is data to create the object 
+     * 
+     * @param array  $params         (reference ) an assoc array of name/value pairs 
+     * @param array  $ids            the array that holds all the db ids 
+     * 
+     * @return boolean 
+     * @access public 
+     * @static 
+     */ 
+    static function dataExists(&$params, &$ids) {
+        // if we should not overwrite, then the id is not relevant. 
+        if ( is_array( $ids ) && CRM_Utils_Array::value('individual', $ids ) ) {
+            return true; 
+        } 
+
+        $fields =& CRM_Contact_DAO_Individual::fields( );
+
+        foreach ( $fields as $key => $field ) {
+            if ( ! empty($params[$key]) &&  $key != 'contact_id') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
