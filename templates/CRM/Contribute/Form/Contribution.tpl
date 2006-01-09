@@ -56,8 +56,6 @@
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
- <tr><td class="label">&nbsp;</td><td class="description">{ts}ur comments{/ts}</td></tr>
-        <tr><td class="label" style="vertical-align: top;">{$form.comment.label}</td><td>{$form.comment.html|crmReplace:class:huge}</td></tr>
       </table>
       {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
      {/if} 
