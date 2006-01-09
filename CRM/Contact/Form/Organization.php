@@ -71,8 +71,9 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         $form->addElement('text', 'sic_code', ts('SIC Code'), $attributes['sic_code']);
 
         // home_URL
-        $form->addElement('text', 'home_URL', ts('Website'),
-                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL') );
+        $form->addElement('text', 'home_URL', ts('Website'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL') );
+        $form->addRule('home_URL', ts('Enter a valid Website.'), 'url');
+
     }
 
     static function formRule( &$fields ) {

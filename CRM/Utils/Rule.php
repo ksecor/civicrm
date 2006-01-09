@@ -107,6 +107,7 @@ class CRM_Utils_Rule {
         $options = array( 'domain_check'    => $checkDomain,
                           'allowed_schemes' => array( 'http', 'https', 'mailto', 'ftp' ) );
 
+        require_once 'Validate.php';
         return Validate::uri( $url, $options );
     }
 
