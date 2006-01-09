@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 15:07+0100\n"
+"POT-Creation-Date: 2006-01-09 09:49+0100\n"
 "PO-Revision-Date: 2005-12-13 23:35+0100\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -633,6 +633,12 @@ msgstr "- seleccionar grupo -"
 msgid "Group(s)"
 msgstr "Grupo(s)"
 
+#: CRM/Contact/Form/GroupTag.php CRM/Contribute/Form/Contribution/Main.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
+#: CRM/Profile/Form.php
+msgid "%1 is a required field."
+msgstr "%1 es un campo requerido."
+
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1037,9 +1043,15 @@ msgstr "Dirección de Email"
 msgid "Other Amount"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
-msgid "%1 is a required field"
-msgstr "%1 es un campo requerido"
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
+#: CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#, fuzzy
+msgid "Amount"
+msgstr "País"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1113,15 +1125,6 @@ msgstr "Cancelado"
 #: CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr ""
-
-#: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
-msgid "Amount"
-msgstr "País"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 #, fuzzy
@@ -1293,10 +1296,6 @@ msgstr "Si"
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr "No"
-
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
-msgid "%1 is a required field."
-msgstr "%1 es un campo requerido."
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
@@ -3342,11 +3341,6 @@ msgstr "Por Favor, introduce un número válido como valor por defecto."
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
 msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
-msgid "Amount is a required field"
-msgstr "%1 es un campo requerido"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -9033,12 +9027,13 @@ msgstr ""
 "tu perfil CiviCRM."
 
 #: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
 msgid ""
-"There are no Groups entered for this Contact. You can <a href=\"%1\">add "
-"one</a>."
+"No Groups have been created for this site. You can <a href=\"%1\">add one</"
+"a> now."
 msgstr ""
-"No hay Grupos introducidos para este Contacto. Puedes <a href=\"%1\">añadir "
-"uno</a>."
+"No se han creado grupos de datos personaliados todavía. Puedes <a href=\"%1"
+"\">añadir uno</a>."
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "New Activity History"
@@ -10054,6 +10049,28 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#~ msgid "%1 is a required field"
+#~ msgstr "%1 es un campo requerido"
+
+#, fuzzy
+#~ msgid "'Group(s)' is a required field."
+#~ msgstr "%1 es un campo requerido."
+
+#, fuzzy
+#~ msgid "'Tag(s)' is a required field."
+#~ msgstr "%1 es un campo requerido."
+
+#, fuzzy
+#~ msgid "Amount is a required field"
+#~ msgstr "%1 es un campo requerido"
+
+#~ msgid ""
+#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."
+#~ msgstr ""
+#~ "No hay Grupos introducidos para este Contacto. Puedes <a href=\"%1"
+#~ "\">añadir uno</a>."
 
 #, fuzzy
 #~ msgid "Non Deductible Amount"

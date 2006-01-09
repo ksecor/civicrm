@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 15:07+0100\n"
+"POT-Creation-Date: 2006-01-09 09:49+0100\n"
 "PO-Revision-Date: 2005-08-23 16:48+0200\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
@@ -636,6 +636,12 @@ msgstr "- Gruppe auswählen -"
 msgid "Group(s)"
 msgstr "Gruppe(n)"
 
+#: CRM/Contact/Form/GroupTag.php CRM/Contribute/Form/Contribution/Main.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
+#: CRM/Profile/Form.php
+msgid "%1 is a required field."
+msgstr "%1 ist ein Pflichtfeld."
+
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1054,9 +1060,15 @@ msgstr "Ungültige Emailadresse"
 msgid "Other Amount"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
-msgid "%1 is a required field"
-msgstr "%1 ist ein Pflichtpfeld"
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
+#: CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#, fuzzy
+msgid "Amount"
+msgstr "Land"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1131,15 +1143,6 @@ msgstr "Abgebrochen"
 #: CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr ""
-
-#: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
-msgid "Amount"
-msgstr "Land"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 #, fuzzy
@@ -1309,10 +1312,6 @@ msgstr "Ja"
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr "Nein"
-
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
-msgid "%1 is a required field."
-msgstr "%1 ist ein Pflichtfeld."
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
@@ -3450,11 +3449,6 @@ msgstr "Bitte geben Sie einen gültigen Namen ein."
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
 msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
-msgid "Amount is a required field"
-msgstr "%1 ist ein Pflichtpfeld"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -9181,12 +9175,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
 msgid ""
-"There are no Groups entered for this Contact. You can <a href=\"%1\">add "
-"one</a>."
+"No Groups have been created for this site. You can <a href=\"%1\">add one</"
+"a> now."
 msgstr ""
-"Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
-"\"%1\">hinzufügen</a>."
+"Es wurden noch keine eigenen Datengruppen erstellt. Sie können <a href=\"%1"
+"\">eine hinzufügen</a>."
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "New Activity History"
@@ -10223,6 +10218,28 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#~ msgid "%1 is a required field"
+#~ msgstr "%1 ist ein Pflichtpfeld"
+
+#, fuzzy
+#~ msgid "'Group(s)' is a required field."
+#~ msgstr "%1 ist ein Pflichtfeld."
+
+#, fuzzy
+#~ msgid "'Tag(s)' is a required field."
+#~ msgstr "%1 ist ein Pflichtfeld."
+
+#, fuzzy
+#~ msgid "Amount is a required field"
+#~ msgstr "%1 ist ein Pflichtpfeld"
+
+#~ msgid ""
+#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."
+#~ msgstr ""
+#~ "Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a "
+#~ "href=\"%1\">hinzufügen</a>."
 
 #, fuzzy
 #~ msgid "Non Deductible Amount"

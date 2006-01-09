@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 15:07+0100\n"
+"POT-Creation-Date: 2006-01-09 09:49+0100\n"
 "PO-Revision-Date: 2005-12-08 02:33+0100\n"
 "Last-Translator: OB <waysail@yahoo.com>\n"
 "Language-Team: none\n"
@@ -633,6 +633,12 @@ msgstr "- Selectionner un groupe -"
 msgid "Group(s)"
 msgstr "Groupe(s)"
 
+#: CRM/Contact/Form/GroupTag.php CRM/Contribute/Form/Contribution/Main.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
+#: CRM/Profile/Form.php
+msgid "%1 is a required field."
+msgstr ""
+
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1028,9 +1034,15 @@ msgstr ""
 msgid "Other Amount"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Core/Form.php
-msgid "%1 is a required field"
-msgstr ""
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Preview.php
+#: CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#, fuzzy
+msgid "Amount"
+msgstr "Pays"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/Search.php
@@ -1104,15 +1116,6 @@ msgstr "Annuler"
 #: CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr ""
-
-#: CRM/Contribute/Form/Preview.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
-msgid "Amount"
-msgstr "Pays"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 #, fuzzy
@@ -1278,10 +1281,6 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Mailing/Page/Component.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
-
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
-msgid "%1 is a required field."
 msgstr ""
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
@@ -3247,11 +3246,6 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
 msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
-msgid "Amount is a required field"
-msgstr "est un champ numerique"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -8480,8 +8474,8 @@ msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
-"There are no Groups entered for this Contact. You can <a href=\"%1\">add "
-"one</a>."
+"No Groups have been created for this site. You can <a href=\"%1\">add one</"
+"a> now."
 msgstr ""
 
 #: templates/CRM/History/Form/Activity.tpl
@@ -9371,6 +9365,18 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
+#, fuzzy
+#~ msgid "'Group(s)' is a required field."
+#~ msgstr "est un champ numerique"
+
+#, fuzzy
+#~ msgid "'Tag(s)' is a required field."
+#~ msgstr "est un champ numerique"
+
+#, fuzzy
+#~ msgid "Amount is a required field"
+#~ msgstr "est un champ numerique"
 
 #, fuzzy
 #~ msgid "Non Deductible Amount"
