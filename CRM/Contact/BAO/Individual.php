@@ -68,10 +68,20 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
     static function add(&$params, &$ids)
     {
         $individual =& new CRM_Contact_BAO_Individual();
-       
+        $fields = CRM_Contact_BAO_Individual::fields();
+        $flag = true;
+        
+        // fix for not to create empty individual record
+        foreach( $fields as $key => $field ) {
+            if (! empty($params[$key]) &&  $key != 'contact_id') {
+                $flag = false;   
+            }
+        }
+        if ( $flag ) {
+            return;
+        }
         $individual->copyValues($params);
-
-        $genders = array(
+        /*$genders = array(
                 'Male' => ts('Male'),
                 'Female' => ts('Female'),
                 'Transgender' => ts('Transgender')
@@ -82,7 +92,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $gender = CRM_Utils_Array::key($gender, $genders);
         }
         
-        $individual->gender = $gender;
+        $individual->gender = $gender;*/
         
         $date = CRM_Utils_Array::value('birth_date', $params);
         if (is_array($date)) {
