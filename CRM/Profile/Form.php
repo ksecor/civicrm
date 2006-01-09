@@ -659,6 +659,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         // print_r($ids);
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::$_overwrite = false;
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
 
