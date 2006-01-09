@@ -403,11 +403,13 @@ function civicrm_validate_data($edit, &$user, $title) {
 
     $register = ( arg(1) == 'register' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-    if ( ! CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register ) ) {
-        if ( $register ) {
-            form_set_error( 'error', 'Please correct the errors indicated below...' );
-        } else {
+	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
+    if ( is_array( $errors ) ) {
+        if ( ! $register ) {
             form_set_error( 'error', "Please complete and save required values in the tab $title" );
+        }
+        foreach ( $errors as $name => $error ) {
+            form_set_error( 'error', $error );
         }
     }
     return;
