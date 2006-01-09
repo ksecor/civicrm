@@ -27,6 +27,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
+        <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$form.non_deductible_amount.html}</td></tr>

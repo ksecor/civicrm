@@ -245,6 +245,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->addElement('textarea', 'comment', ts('Comment'), $attributes['comment'] );
         
+        $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'note' ) );
+
         $this->addButtons(array( 
                                 array ( 'type'      => 'next', 
                                         'name'      => ts('Save'), 
@@ -314,10 +316,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'invoice_id',
                          'cancel_reason',
                          'source',
-                         'comment'
-                         );
+                         'note' );
+
         foreach ( $fields as $f ) {
-            $params[$f] = $formValues[$f];
+            $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
 
         $dates = array( 'receive_date',

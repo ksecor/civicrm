@@ -115,7 +115,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
             return;
         }
 
-        $note = $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
+        $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
         $this->addRule( 'note', ts('Please enter note text.'), 'required' );
         
         $this->addButtons( array(

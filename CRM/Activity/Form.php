@@ -136,13 +136,14 @@ class CRM_Activity_Form extends CRM_Core_Form
         // marking one as complete
 
         if ( $this->_log || ! isset( $this->_id ) ) {
-            $currentDay = date("Y-m-d G:");
-            $currentTime = date("s");
             // rounding of minutes
             $min = (int ) ( date("i") / 15 ) * 15;
-            
-            $currentDate = $currentDay . ' ' . $min . ':' . $currentTime;
-            $defaults['scheduled_date_time'] = $currentDate;
+            $defaults['scheduled_date_time'] = array( 'Y' => date('Y'),
+                                                      'M' => date('m'),
+                                                      'd' => date('d'),
+                                                      'h' => date('H'),
+                                                      'i' => $min,
+                                                      'A' => date('A') );
         }
         
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {

@@ -276,6 +276,7 @@ $config =& CRM_Core_Config::singleton();
 
 $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
+$locales = array( 'en_US' );
 
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
