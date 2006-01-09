@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-05 15:07+0100\n"
-"PO-Revision-Date: 2005-12-19 12:01+0100\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2006-01-07 16:59+0100\n"
+"Last-Translator: Michaël Bauwens <michaelbauwens@mac.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
@@ -28,32 +29,32 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Component.tpl
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Subject"
-msgstr ""
+msgstr "Onderwerp"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
 #: CRM/Profile/Form/Dojo.php
 msgid "Date and Time"
-msgstr ""
+msgstr "Datum en tijd"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
 msgid "Select a valid date."
-msgstr ""
+msgstr "Selecteer een geldige datum."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Duration"
-msgstr ""
+msgstr "Duur"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
-msgstr ""
+msgstr "Locatie"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
@@ -61,7 +62,7 @@ msgstr ""
 #: CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php
 #: CRM/Profile/Selector/Listings.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php
@@ -74,24 +75,24 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Search.tpl
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/Phonecall.php
 msgid "Please select status."
-msgstr ""
+msgstr "Gelieve een status te selecteren."
 
 #: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_data.tpl
 msgid "Meeting"
-msgstr ""
+msgstr "Bijeenkomst"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php
 #: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "Type activiteit"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Admin/Form/ActivityType.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/RelationshipType.php
@@ -114,16 +115,16 @@ msgstr ""
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
-msgstr ""
+msgstr "Beschrijving"
 
 #: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Phonecall.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefoonnummer"
 
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_data.tpl
 msgid "Phone Call"
-msgstr ""
+msgstr "Telefoonoproep"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php
@@ -139,7 +140,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Done"
-msgstr ""
+msgstr "Gedaan"
 
 #: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Contact/Form/CustomData.php
 #: CRM/Contact/Form/Edit.php CRM/Contribute/Form/ContributionPage.php
@@ -150,7 +151,7 @@ msgstr ""
 #: CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 msgid "Save"
-msgstr ""
+msgstr "Bewaar"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/DomainDump.php
 #: CRM/Admin/Form/DrupalUser.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
@@ -178,7 +179,7 @@ msgstr ""
 #: CRM/Profile/Form/ForwardMailing.php CRM/Tag/Form/Tag.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleer"
 
 #: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
@@ -201,7 +202,7 @@ msgstr ""
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
@@ -235,7 +236,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/Mailing/Page/Component.tpl
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
@@ -247,7 +248,7 @@ msgstr ""
 #: CRM/Import/Form/Preview.php CRM/Mailing/Form/Component.php
 #: CRM/Mailing/Form/Name.php
 msgid "Name already exists in Database."
-msgstr ""
+msgstr "Naam bestaat al in Database."
 
 #: CRM/Admin/Form/ActivityType.php CRM/Admin/Form/Gender.php
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
@@ -267,11 +268,11 @@ msgstr ""
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Enabled?"
-msgstr ""
+msgstr "Ingeschakeld?"
 
 #: CRM/Admin/Form/DomainDump.php CRM/Admin/Form/DrupalUser.php
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php CRM/Core/DAO/CustomField.php
@@ -288,36 +289,36 @@ msgstr ""
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Weight"
-msgstr ""
+msgstr "Gewicht"
 
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid " is a numeric field"
-msgstr ""
+msgstr "is een numeriek veld"
 
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php
 #: CRM/Admin/Form/Tag.php CRM/UF/Form/Group.php
 msgid "Please enter a valid name."
-msgstr ""
+msgstr "Gelieve een geldige naam in te vullen."
 
 #: CRM/Admin/Form/LocationType.php CRM/Mailing/Form/Component.php
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Default?"
-msgstr ""
+msgstr "Standaard?"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
-msgstr ""
+msgstr "Contact Type A"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type B"
-msgstr ""
+msgstr "Contact Type B"
 
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
 #: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
@@ -332,7 +333,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Edit"
-msgstr ""
+msgstr "Wijzig"
 
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
 #: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
@@ -347,7 +348,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
-msgstr ""
+msgstr "Uitschakelen"
 
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
 #: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
@@ -362,25 +363,25 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
 #: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr ""
+msgstr "Inschakelen"
 
 #: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
 msgid "Manage"
-msgstr ""
+msgstr "Beheer"
 
 #: CRM/Admin/Page/Admin.php CRM/Contribute/Page/ContributionPage.php
 #: CRM/Utils/Menu.php
 msgid "Configure"
-msgstr ""
+msgstr "Configureer"
 
 #: CRM/Admin/Page/Admin.php CRM/Utils/Menu.php
 msgid "Setup"
-msgstr ""
+msgstr "Opstelling"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr ""
+msgstr "Backup Database"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
@@ -388,14 +389,14 @@ msgstr ""
 #: CRM/Custom/Page/Option.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
-msgstr ""
+msgstr "Toon"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
-msgstr ""
+msgstr "Individu"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -403,7 +404,7 @@ msgstr ""
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr ""
+msgstr "Gezin"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -411,35 +412,35 @@ msgstr ""
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr ""
+msgstr "Organisatie"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contribute/BAO/Contribution.php
 #: CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr ""
+msgstr "- importeer niet -"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
-msgstr ""
+msgstr "CiviCRM Contact Zoeken"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/MappingField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Contact Type"
-msgstr ""
+msgstr "Contact Type"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Nick Name"
-msgstr ""
+msgstr "Nickname"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/Group.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Source"
-msgstr ""
+msgstr "Bron"
 
 #: CRM/Contact/DAO/Contact.php CRM/Mailing/Event/DAO/Queue.php
 #: CRM/Mailing/Event/DAO/Subscribe.php
@@ -456,7 +457,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Phone"
-msgstr ""
+msgstr "Telefoon"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php
@@ -469,27 +470,27 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_data.tpl
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Added"
-msgstr ""
+msgstr "Toegevoegd"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Removed"
-msgstr ""
+msgstr "Verwijderd"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Pending"
-msgstr ""
+msgstr "In wacht"
 
 #: CRM/Contact/DAO/Group.php CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/AcceptCreditCard.php
@@ -498,23 +499,23 @@ msgstr ""
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
 #: CRM/UF/Form/Field.php templates/CRM/Group/Page/Group.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
-msgstr ""
+msgstr "Zichtbaarheid"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
-msgstr ""
+msgstr "Enkel Gebruiker en Gebruikersadmin"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages"
-msgstr ""
+msgstr "Openbare gebruikerspagina's"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -523,42 +524,42 @@ msgstr ""
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
-msgstr ""
+msgstr "Naam Gezin"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "First Name"
-msgstr ""
+msgstr "Voornaam"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "Middle Name"
-msgstr ""
+msgstr "Tweede naam"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "Last Name"
-msgstr ""
+msgstr "Achternaam"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr ""
+msgstr "Naam organisatie"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
-msgstr ""
+msgstr "Wettelijke naam"
 
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
 #: CRM/Mailing/DAO/Job.php CRM/Mailing/Form/Schedule.php
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Start Date"
-msgstr ""
+msgstr "Startdatum"
 
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
 #: CRM/Mailing/DAO/Job.php templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "End Date"
-msgstr ""
+msgstr "Einddatum"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
@@ -568,13 +569,13 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 #: CRM/Core/DAO/Address.php
 msgid "Street Address"
-msgstr ""
+msgstr "Straat en nummer"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Selector.php CRM/Contribute/Form/ContributionBase.php
@@ -586,13 +587,13 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "City"
-msgstr ""
+msgstr "Plaats"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Contribute/Form/ContributionBase.php
 #: CRM/Contribute/Form/Preview.php
 msgid "State / Province"
-msgstr ""
+msgstr "Staat/Provincie"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Task/AddToHousehold.php
@@ -604,7 +605,7 @@ msgstr ""
 #: CRM/Core/BAO/UFGroup.php CRM/Core/SelectValues.php
 #: CRM/Import/Form/MapField.php CRM/Profile/Form.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr ""
+msgstr "- selcteer -"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php
@@ -614,23 +615,23 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Profile/Form/Dojo.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: CRM/Contact/Form/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr ""
+msgstr "Emailadres is niet geldig."
 
 #: CRM/Contact/Form/GroupContact.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
-msgstr ""
+msgstr "- selecteer groep -"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Group(s)"
-msgstr ""
+msgstr "Groep(en)"
 
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
@@ -642,29 +643,29 @@ msgstr ""
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/DAO/Gender.php CRM/Profile/Form.php CRM/UF/Form/Preview.php
 msgid "Gender"
-msgstr ""
+msgstr "Geslacht"
 
 #: CRM/Contact/Form/Individual.php CRM/Profile/Form/Dojo.php
 msgid "Date of birth"
-msgstr ""
+msgstr "Geboortedatum"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Website"
-msgstr ""
+msgstr "Website"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Please select a relationship type."
-msgstr ""
+msgstr "Gelieve een relatie-type te selecteren."
 
 #: CRM/Contact/Form/Relationship.php CRM/Mailing/Form/Schedule.php
 msgid "Start date is not valid."
-msgstr ""
+msgstr "Startdatum is niet geldig."
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Relationship Type"
-msgstr ""
+msgstr "Type Relatie"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
@@ -673,30 +674,30 @@ msgstr ""
 #: CRM/Core/Invoke.php CRM/Group/Page/Group.php CRM/Profile/Form/Dojo.php
 #: CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 msgid "Search"
-msgstr ""
+msgstr "Zoek"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search.php
 msgid "Find..."
-msgstr ""
+msgstr "Vind..."
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
 msgid "- any state/province -"
-msgstr ""
+msgstr "- elke staat/provincie -"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Profile/Form/Dojo.php
 msgid "State/Province"
-msgstr ""
+msgstr "Staat/Provincie"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
 msgid "- any country -"
-msgstr ""
+msgstr "- elk land -"
 
 #: CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 #: CRM/Core/DAO/Address.php
 msgid "Postal Code"
-msgstr ""
+msgstr "Postcode"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contribute/Form/Search.php CRM/Core/BAO/CustomField.php
@@ -9287,3 +9288,4 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr ""
+
