@@ -405,11 +405,12 @@ function civicrm_validate_data($edit, &$user, $title) {
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
 	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
     if ( is_array( $errors ) ) {
-        if ( ! $register ) {
+        if ( $register ) {
+            foreach ( $errors as $name => $error ) {
+                form_set_error( 'error', $error );
+            }
+        } else {
             form_set_error( 'error', "Please complete and save required values in the tab $title" );
-        }
-        foreach ( $errors as $name => $error ) {
-            form_set_error( 'error', $error );
         }
     }
     return;
