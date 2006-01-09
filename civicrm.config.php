@@ -42,14 +42,17 @@ function conf_init() {
    * We are within the civicrm module, the drupal root is 2 links
    * above us, so use that
    */
-  if ( file_exists( dirname( __FILE__ ) . '/settings_location.php' ) ) {
-    include dirname( __FILE__ ) . '/settings_location.php';
+  $currentDir = dirname( __FILE__ ) . '/';
+  if ( file_exists( $currentDir . 'settings_location.php' ) ) {
+    include $currentDir . 'settings_location.php';
   }
   
   if ( defined( 'CIVICRM_CONFDIR' ) ) {
     $confdir = CIVICRM_CONFDIR;
   } else {
-    $confdir = '../../sites';
+    // make it relative to civicrm.config.php, else php makes it relative
+    // to the script that invokes it
+    $confdir = $currentDir . '../../sites';
   }
   
   $phpSelf  = array_key_exists( 'PHP_SELF' , $_SERVER ) ? $_SERVER['PHP_SELF' ] : '';

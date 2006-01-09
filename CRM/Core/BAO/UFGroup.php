@@ -221,8 +221,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
 
-        $group =& new CRM_Core_DAO_UFGroup( );
+        $fields = array( );
 
+        $group =& new CRM_Core_DAO_UFGroup( );
         $group->id = $id;
         if ( $group->find( true ) ) {
             if( $searchable ) {
@@ -250,7 +251,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
             $field =& CRM_Core_DAO::executeQuery( $query );
 
-            $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
             $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
@@ -299,10 +299,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               );
                 }
             }
-
-            return $fields;
         }
-        return null;
+        return $fields;
     }
 
     /**

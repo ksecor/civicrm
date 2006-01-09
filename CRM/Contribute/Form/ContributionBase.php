@@ -208,11 +208,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
 
-        $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
-        $date = CRM_Utils_Date::mysqlToIso( $date );
-        $this->assign( 'credit_card_exp_date', $date );
-        $this->assign( 'credit_card_number',
-                       CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+        if ( $this->_contributeMode != 'express' ) {
+            $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+            $date = CRM_Utils_Date::mysqlToIso( $date );
+            $this->assign( 'credit_card_exp_date', $date );
+            $this->assign( 'credit_card_number',
+                           CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+        }
 
         $this->assign( 'email',
                        $this->controller->exportValue( 'Main', 'email' ) );
