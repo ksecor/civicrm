@@ -278,7 +278,7 @@ $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResour
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
 foreach ($locales as $locale) {
-
+    echo "Generating data files for $locale\n";
     $config->lcMessages = $locale;
     $smarty->assign('locale', $locale);
 

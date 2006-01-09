@@ -88,7 +88,7 @@ Class CRM_Contact_Form_GroupTag
             }
             
             if ( $isRequired ) {
-                $form->addRule( 'group' , ts("'Group(s)' is a required field.") , 'required');   
+                $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts('Group(s)'))) , 'required');   
             }
         }
         
@@ -103,7 +103,7 @@ Class CRM_Contact_Form_GroupTag
             }
             
             if ( $isRequired ) {
-                $form->addRule( 'tag' , ts("'Tag(s)' is a required field.") , 'required');   
+                $form->addRule( 'tag' , ts('%1 is a required field.', array(1 => ts('Tag(s)'))) , 'required');   
             }
         }
         

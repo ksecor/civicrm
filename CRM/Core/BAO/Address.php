@@ -41,6 +41,12 @@ require_once 'CRM/Core/DAO/Address.php';
  */
 class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     /**
+     * Should we overwrite existing address, total hack for now
+     * Please do not use this hack in other places, its totally gross
+     */
+    static $_overwrite = true;
+
+    /**
      * takes an associative array and creates a contact object
      *
      * the function extract all the params it needs to initialize the create a
@@ -137,7 +143,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      */
     static function dataExists(&$params, $locationId, &$ids)
     {
-        if ( is_array( $ids ) && CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
+        // if we should not overwrite, then the id is not relevant.
+        if ( self::$_overwrite && is_array( $ids ) && CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
             return true;
         }
 

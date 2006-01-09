@@ -122,7 +122,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton( );
             CRM_Core_Session::setStatus(ts('This feature is not currently available.'));
 
-            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ) );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
 
         if ( $this->_id ) {
@@ -435,15 +435,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                                 $value = $date;
                             }
                             
-                            //to add the id of custom value if exits
-                            //$this->_contact['custom_value_5_id'] = 123; 
-                            
-                            /*$str = 'custom_value_' . $customFieldID . '_id';
-                            if ($this->_contact[$str]) {
-                                $id = $this->_contact[$str];
-                            }*/
-                            
-                            
                             $data['custom'][$customFieldID] = array( 
                                                                 'id'      => $id,
                                                                 'value'   => $value,
@@ -596,6 +587,32 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+
+        // fix all the custom field checkboxes which are empty
+        foreach ($this->_fields as $name => $field ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID($name); 
+            // if there is a custom field of type checkbox and it has not been set
+            // then set it to null, thanx to html protocol
+            if ( $cfID &&
+                 $customFields[$cfID][3] == 'CheckBox' &&
+                 CRM_Utils_Array::value( 'custom', $data ) &&
+                 ! CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
+
+                $str = 'custom_value_' . $cfID . '_id'; 
+                if ($this->_contact[$str]) { 
+                    $id = $this->_contact[$str]; 
+                }
+
+                $data['custom'][$cfID] = array(  
+                                               'id'      => $id, 
+                                               'value'   => '',
+                                               'extends' => $customFields[$cfID][3], 
+                                               'type'    => $customFields[$cfID][2], 
+                                               'custom_field_id' => $cfID,
+                                               ); 
+            }
+        }
+
         // print_r($this->_contact);
         if ($this->_id) {
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
@@ -637,7 +654,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+
         // print_r($ids);
+        if ( $this->_mode == self::MODE_REGISTER ) {
+            require_once 'CRM/Core/BAO/Address.php';
+            CRM_Core_BAO_Address::$_overwrite = false;
+        }
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
 

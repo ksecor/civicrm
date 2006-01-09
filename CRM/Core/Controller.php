@@ -189,7 +189,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if (true === ($data['valid'][$pageName] = $page->validate())) {
             return true;
         }
-        return false;
+        return $page->_errors;
     }
 
     /**

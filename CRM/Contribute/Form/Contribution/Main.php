@@ -173,7 +173,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
 
         $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
-        $this->addRule( 'amount', ts('Amount is a required field'), 'required' );
+        $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
     }
 
     /**  
@@ -273,7 +273,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         foreach ( $self->_fields as $name => $fld ) {
             if ( $fld['is_required'] &&
                  CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
-                $errors[$name] = ts( "%1 is a required field", array( 1 => $fld['title'] ) );
+                $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
             }
         }
 
