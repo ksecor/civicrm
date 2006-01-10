@@ -658,7 +658,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         // print_r($ids);
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
-            CRM_Core_BAO_Address::$_overwrite = false;
+            CRM_Core_BAO_Address::setOverwrite( false );
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';

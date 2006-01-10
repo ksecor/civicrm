@@ -105,7 +105,13 @@ class FileReader {
   function read($bytes) {
     if ($bytes) {
       fseek($this->_fd, $this->_pos);
-      $data = fread($this->_fd, $bytes);
+
+      // PHP 5.1.1 doesn't read more than 8192 bytes in one fread()
+      while ($bytes > 8192) {
+          $data .= fread($this->_fd, 8192);
+          $bytes -= 8192;
+      }
+      $data .= fread($this->_fd, $bytes);
       $this->_pos = ftell($this->_fd);
       
       return $data;

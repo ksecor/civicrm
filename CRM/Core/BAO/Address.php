@@ -267,6 +267,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         );
         $this->display = CRM_Utils_Address::format($fields);
     }
+
+    static function setOverwrite( $overwrite ) {
+        self::$_overwrite = $overwrite;
+    }
+
 }
 
 ?>
