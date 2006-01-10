@@ -130,13 +130,13 @@ class CRM_Core_Config {
      * List of country codes limiting the country list.
      * @var string
      */
-    public $countryLimit = '';
+    public $countryLimit = array();
 
     /**
      * List of country codes limiting the province list.
      * @var string
      */
-    public $provinceLimit = 'US';
+    public $provinceLimit = array( 'US' );
 
     /**
      * ISO code of default country for contact.

@@ -281,6 +281,7 @@ $locales = array( 'en_US' );
 foreach ($locales as $locale) {
     echo "Generating data files for $locale\n";
     $config->lcMessages = $locale;
+    print " - generating for $locale\n";
     $smarty->assign('locale', $locale);
 
     $data = '';
