@@ -128,6 +128,11 @@ CREATE TABLE civicrm_contribution (
         trxn_id
       , domain_id
   )
+    ,     UNIQUE INDEX UI_contrib_invoice_id_domain_id(
+        invoice_id
+      , domain_id
+  )
+  
   
 ,      
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
