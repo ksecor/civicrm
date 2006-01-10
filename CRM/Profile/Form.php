@@ -113,7 +113,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action,
-                                                                      CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $this->_gid ); 
+                                                                      CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $this->_gid ,true); 
         } else {
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, $this->_action ); 
         } 
@@ -192,11 +192,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                     }
                                 }
                             }
-                        }
+                            // }
                     }
                 }
             }
-            
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -344,7 +343,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     static function formRule( &$fields, &$files, $options = null ) {
         $errors = array( );
-
         // if no values, return
         if ( empty( $fields ) ) {
             return true;
@@ -452,7 +450,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data , $cid, true );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
             if ( $ids ) {
                 $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
             }
@@ -624,7 +622,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 foreach ($this->_contact as $key => $value) {
                     if (in_array($key, $objects)) {
                         $ids[substr($key,0, (strlen($key)-3))] = $value;
-                        // } else if (is_numeric($key)) {
                     } else if(is_array($value)){ //fixed for CRM-665
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             $locations[$value['location_type_id']] = 1;
@@ -645,7 +642,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-     
+             
         //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
         $privacy = CRM_Core_SelectValues::privacy( );
         foreach ($privacy as $key => $value) {
@@ -661,7 +658,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         // print_r($ids);
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
-            CRM_Core_BAO_Address::$_overwrite = false;
+            CRM_Core_BAO_Address::setOverwrite( false );
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
