@@ -33,8 +33,13 @@
     {$form.buttons.html}
 </div>
 <script type="text/javascript">
-	hide('minMaxFields');
 	{literal}
+    for( i=0; i < document.Amount.elements.length; i++) {
+        if (document.Amount.elements[i].name == "is_allow_other_amount" && document.Amount.elements[i].checked == false ) {
+            hide('minMaxFields');
+        }
+    }
+    
 	function minMax(chkbox) {
         if (chkbox.checked) {
 		    show('minMaxFields');
@@ -45,7 +50,6 @@
 		    document.getElementById("max_amount").value = '';
 		    return;
 		}
-	}
-		
+	}	
 	{/literal}
 </script>
