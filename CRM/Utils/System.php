@@ -499,6 +499,15 @@ class CRM_Utils_System {
         $replace = str_repeat( '*' , strlen( $number ) - $keep );
         return substr_replace( $number, $replace, 0, -$keep );
     }
+
+    static function accessCiviContribute( ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_System::checkPermission( 'access CiviContribute' ) && 
+             in_array( 'CiviContribute', $config->enableComponents ) ) {
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

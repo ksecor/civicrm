@@ -174,6 +174,20 @@
     </fieldset>
     {/if}
 
+    {if $validCiviContribute}
+    <div id="contributeForm[show]" class="form-item">
+      <a href="#" onClick="hide('contributeForm[show]'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      {ts}Contributions{/ts}
+    </div>
+    <div id="contributeForm">
+    <fieldset><legend><span id="contributeForm[hide]"><a href="#" onClick="hide('contributeForm','contributeForm[hide]'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>{ts}Contributions{/ts}</legend>
+    <table class="form-layout"> 
+       {include file="CRM/Contribute/Form/Search/Common.tpl"}
+    </table>
+    </fieldset>
+    </div>
+    {/if}
+
     <table class="form-layout">
     <tr>
     <td></td>

@@ -203,37 +203,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // text for sort_name 
         $this->addElement('text', 'sort_name', ts('Contributor'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
-        // Date selects for date 
-        $this->add('date', 'contribution_from_date', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('contribution_from_date', ts('Select a valid date.'), 'qfDate'); 
- 
-        $this->add('date', 'contribution_to_date', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('contribution_to_date', ts('Select a valid date.'), 'qfDate'); 
-
-        $this->add('text', 'contribution_min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'contribution_min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
-
-        $this->add('text', 'contribution_max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'contribution_max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
-
-
-        $this->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ),
-                   array( '' => ts( '- select -' ) ) +
-                   CRM_Contribute_PseudoConstant::contributionType( ) );
-
-        $this->add('select', 'payment_instrument_id', 
-                   ts( 'Payment Instrument' ), 
-                   array( '' => ts( '- select -' ) ) +
-                   CRM_Contribute_PseudoConstant::paymentInstrument( ) );
-
-        $status = array( );
-        $status[] = $this->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
-        $status[] = $this->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
-        $status[] = $this->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
-        
-        $this->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-        $this->setDefaults(array('contribution_status' => 'All'));
+        self::buildQuickFormCommon( $this );
 
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
@@ -287,6 +257,48 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                          'isDefault' => true     ) 
                                  )         
                            ); 
+
+    }
+
+    /**
+     * add all the elements shared between this and advnaced search
+     *
+     * @access public 
+     * @return void
+     * @static
+     */ 
+    static function buildQuickFormCommon( &$form ) {
+        // Date selects for date 
+        $form->add('date', 'contribution_from_date', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_from_date', ts('Select a valid date.'), 'qfDate'); 
+ 
+        $form->add('date', 'contribution_to_date', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_to_date', ts('Select a valid date.'), 'qfDate'); 
+
+        $form->add('text', 'contribution_min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'contribution_min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+
+        $form->add('text', 'contribution_max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'contribution_max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+
+
+        $form->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::contributionType( ) );
+
+        $form->add('select', 'payment_instrument_id', 
+                   ts( 'Payment Instrument' ), 
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::paymentInstrument( ) );
+
+        $status = array( );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
+        
+        $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
+        $form->setDefaults(array('contribution_status' => 'All'));
     }
 
     /**
@@ -360,7 +372,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // note that this means that GET over-rides POST :)
 
         // we fix to_date here if set to be the end of the day, i.e. 23:59:59
-        if ( ! CRM_Utils_System::isNull( 'contribution_to_date' ) ) {
+        if ( ! CRM_Utils_System::isNull( $this->_formValues['contribution_to_date'] ) ) {
             $this->_formValues['contribution_to_date']['H'] = 23;
             $this->_formValues['contribution_to_date']['i'] = 59;
             $this->_formValues['contribution_to_date']['s'] = 59;
