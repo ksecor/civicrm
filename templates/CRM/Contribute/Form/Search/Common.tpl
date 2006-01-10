@@ -34,3 +34,11 @@
             <td class="label">{ts}Status{/ts}</td> 
             <td colspan="3">{$form.contribution_status.html}</td>
         </tr>
+        <tr>
+            <td class="label">{ts}Thank-you date not set?{/ts}</td> 
+            <td colspan="3">{$form.contribution_thankyou_date_isnull.html}</td>
+        </tr>
+        <tr>
+            <td class="label">{ts}Receipt date not set?{/ts}</td> 
+            <td colspan="3">{$form.contribution_receipt_date_isnull.html}</td>
+        </tr>

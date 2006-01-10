@@ -1429,6 +1429,18 @@ class CRM_Contact_BAO_Query {
             $this->_qill[] = ts('Contribution Amount - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
         }  
 
+        if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $this->_params ) ) {
+            $this->_where[] = "civicrm_contribution.thankyou_date is null";
+            $this->_tables['civicrm_contribution'] = 1;
+            $this->_qill[] = ts( 'Contribution Thank you date is null' );
+        }
+
+        if ( CRM_Utils_Array::value( 'contribution_receipt_date_isnull', $this->_params ) ) {
+            $this->_where[] = "civicrm_contribution.receipt_date is null";
+            $this->_tables['civicrm_contribution'] = 1;
+            $this->_qill[] = ts( 'Contribution Receipt date is null' );
+        }
+
         if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_params ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
             $cType = $this->_params['contribution_type_id'];

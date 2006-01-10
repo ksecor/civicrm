@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -296,9 +296,13 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $status[] = $form->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
         $status[] = $form->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
         $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
-        
+
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
         $form->setDefaults(array('contribution_status' => 'All'));
+
+        // add null checkboxes for thank you and receipt
+        $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
+        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
     }
 
     /**
