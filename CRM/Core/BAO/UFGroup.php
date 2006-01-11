@@ -588,11 +588,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
-        
+
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings' ) ) {
                 
-                if ( CRM_Utils_Array::value( $index, $params ) === null ) {
+                if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
                 }
                 if ( empty( $params[$index] ) ) {
@@ -600,7 +600,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
                 $fieldName = $field['name'];
                 $url = CRM_Utils_System::url( 'civicrm/profile',
-                                              'reset=1&gid=' . $field['group_id'] .'&'. 
+                                              'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                               urlencode( $fieldName ) .
                                               '=' .
                                               urlencode( $params[$index] ) );

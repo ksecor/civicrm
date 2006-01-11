@@ -1,5 +1,5 @@
 {* make sure there are some fields in the selector *}
-{if ! empty( $columnHeaders ) }
+{if ! empty( $columnHeaders ) || $isReset }
 
 {include file="CRM/Profile/Form/Search.tpl"}
 
@@ -45,7 +45,7 @@
     </table>
     {/strip}
     {include file="CRM/pager.tpl" location="bottom"}
-{else}
+{elseif ! $isReset}
     {include file="CRM/Contact/Form/Search/EmptyResults.tpl" context="Profile"}
 {/if}
 

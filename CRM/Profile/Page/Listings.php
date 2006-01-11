@@ -152,19 +152,27 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid );
-        $controller =& new CRM_Core_Selector_Controller($selector ,
-                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                        $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                        CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
-        $controller->setEmbedded( true );
-        $controller->run( );
+        // do not do any work if we are in reset mode
+        if ( ! CRM_Utils_Array::value( 'reset', $_GET ) || CRM_Utils_Array::value( 'force', $_GET ) ) {
+            $this->assign( 'isReset', false );
+            $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid );
+            $controller =& new CRM_Core_Selector_Controller($selector ,
+                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
+            $controller->setEmbedded( true );
+            $controller->run( );
+        } else {
+            $this->assign( 'isReset', true );
+        }
+   
         if ( $this->_search ) {
             $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', ts('Search Profile'), CRM_Core_Action::ADD );
             $formController->setEmbedded( true );
             $formController->process( ); 
             $formController->run( ); 
         }
+
         return parent::run( );
 
     }
