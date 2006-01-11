@@ -444,9 +444,8 @@ div.spacer {
 
 #crm-container #search-status ul li{
  display: list-item;
- margin-left: 0.5em;
+ margin-left: 2.0em;
  list-style-position: inside;
- /*margin-left: 40px;*/
 }
 
 div.crm-pager {
