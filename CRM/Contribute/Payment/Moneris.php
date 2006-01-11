@@ -163,7 +163,7 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
 
     function isError( &$response) {
       $responseCode = $response->getResponseCode();
-      if ('null' == $responseCode) return true;
+      if (null === $responseCode) return true;
       if (($responseCode >= 0) && ($responseCode < 50))
         return false;
       return true;
