@@ -220,6 +220,9 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH', '' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'      , '' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' , '' );
 
+define( 'CIVICRM_MONEYFORMAT', '%c %a' );
+define( 'CIVICRM_LC_MONETARY', 'en_US' );
+
 define( 'ENABLE_COMPONENTS', 'CiviContribute' );
 
 define( 'CIVICRM_ADDRESS_FORMAT' , ' 
