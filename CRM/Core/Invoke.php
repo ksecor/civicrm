@@ -679,7 +679,18 @@ class CRM_Core_Invoke {
         }  
 
         $session =& CRM_Core_Session::singleton();
+        $config  =& CRM_Core_Config::singleton();
+
         if ( $args[2] == 'transact' ) { 
+            if ( $config->enableSSL     &&
+                 self::onlySSL( $args ) ) {
+                if ( !isset($_SERVER['HTTPS'] ) ) {
+                    CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+                } else {
+                    CRM_Utils_System::mapConfigToSSL( );
+                }
+            }
+
             require_once 'CRM/Contribute/Controller/Contribution.php'; 
             $controller =& new CRM_Contribute_Controller_Contribution($title, $mode); 
             return $controller->run(); 
@@ -819,9 +830,15 @@ class CRM_Core_Invoke {
             }
             return $server->run( $set );
         }
-
-
     }
+
+    static function onlySSL( $args ) {
+        if ( $args[1] = 'contribute' && $args[2] == 'transact' ) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 ?>

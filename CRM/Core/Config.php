@@ -313,6 +313,13 @@ class CRM_Core_Config {
     public $enableComponents = array();
 
     /**
+     * Should payments be accepted only via SSL?
+     *
+     * @var boolean
+     */
+    public $enableSSL = false;
+
+    /**
      * Name of the payment processor
      *
      * @var string
@@ -677,7 +684,11 @@ class CRM_Core_Config {
                 $this->enableComponents[$i] = trim($this->enableComponents[$i]);
             }
         }
-        
+
+        if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
+            $this->enableSSL = true;
+        }
+
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
             require_once 'CRM/Utils/Payment.php';
             $this->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;

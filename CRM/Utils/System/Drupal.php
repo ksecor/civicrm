@@ -79,6 +79,18 @@ class CRM_Utils_System_Drupal {
         drupal_set_breadcrumb( $breadCrumb );
     }
 
+    /** 
+     * rewrite various system urls to https 
+     * 
+     * @return void 
+     * access public  
+     * @static  
+     */  
+    static function mapConfigToSSL( ) {
+        global $base_url;
+        $base_url = str_replace( 'http://', 'https://', $base_url );
+    }
+
     /**
      * figure out the post url for the form
      *
