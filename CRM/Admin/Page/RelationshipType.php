@@ -75,13 +75,13 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
                                                                     'url'   => 'civicrm/admin/reltype',
-                                                                    'qs'    => 'action=view&id=%%id%%',
+                                                                    'qs'    => 'action=view&id=%%id%%&reset=1',
                                                                     'title' => ts('View Relationship Type') 
                                                                    ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/reltype',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Relationship Type') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
