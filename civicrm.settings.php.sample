@@ -346,7 +346,7 @@ define('CIVICRM_VERSION_CHECK', false);
  * should transaction pages operate under SSL. 
  *
  */
-define('CIVICRM_ENABLE_SSL', true );
+define('CIVICRM_ENABLE_SSL', 1 );
 
 /**
  * Payment Processor Settings
