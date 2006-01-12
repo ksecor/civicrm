@@ -74,7 +74,7 @@ class CRM_Contribute_Page_AcceptCreditCard extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/contribute/acceptCreditCard',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Credit Card') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(

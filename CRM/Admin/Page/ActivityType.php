@@ -74,7 +74,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/activityType',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Activity Type') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(

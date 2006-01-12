@@ -74,7 +74,7 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/suffix',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Individual Suffix') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
