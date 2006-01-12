@@ -660,9 +660,15 @@ class CRM_Core_Invoke {
             }
             return $server->run( $set );
         }
-
-
     }
+
+    static function onlySSL( $args ) {
+        if ( $args[1] = 'contribute' && $args[2] == 'transact' ) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 ?>

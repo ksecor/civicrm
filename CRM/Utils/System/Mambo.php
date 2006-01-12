@@ -116,6 +116,18 @@ class CRM_Utils_System_Mambo {
         }
     }
 
+    /** 
+     * rewrite various system urls to https 
+     * 
+     * @return void 
+     * access public  
+     * @static  
+     */  
+    static function mapConfigToSSL( ) {
+        global $mosConfig_live_site;
+        $mosConfig_live_site = str_replace( 'http://', 'https://', $mosConfig_live_site );
+    }
+
     /**
      * figure out the post url for the form
      *

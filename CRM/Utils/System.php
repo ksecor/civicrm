@@ -418,6 +418,19 @@ class CRM_Utils_System {
         return eval( 'return ' . $config->userFrameworkClass . '::postURL( "' . $action  . '" ); ' );
     }
 
+    /**
+     * rewrite various system urls to https
+     *
+     * @return void
+     * access public 
+     * @static 
+     */ 
+    static function mapConfigToSSL( ) {
+        $config   =& CRM_Core_Config::singleton( ); 
+
+        $config->userFrameworkBaseURL = str_replace( 'http://', 'https://', $config->userFrameworkBaseURL );
+        return eval( 'return ' . $config->userFrameworkClass . '::mapConfigToSSL( ); ' );
+    }
 
     /**
      * Get the base URL from the system

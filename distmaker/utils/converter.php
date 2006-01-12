@@ -942,7 +942,7 @@ function convert_dir( $rootDir, $destDir, $path ) {
 
 function convert_file( $rootDir, $destDir, $filePath, $fileName ) {
     if ( substr( $fileName, -4, 4 ) != '.php' ) {
-        continue;
+        return;
     }
 
     print "Converting: $filePath/$fileName\n"; 

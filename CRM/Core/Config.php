@@ -313,6 +313,13 @@ class CRM_Core_Config {
     public $enableComponents = array();
 
     /**
+     * Should payments be accepted only via SSL?
+     *
+     * @var boolean
+     */
+    public $enableSSL = false;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -627,6 +634,9 @@ class CRM_Core_Config {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
         
+        if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
+            $this->enableSSL = true;
+        }
 
         if ( in_array( 'CiviContribute', $this->enableComponents ) ) {
             require_once 'CRM/Contribute/Config.php';
