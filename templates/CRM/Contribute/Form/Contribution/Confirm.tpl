@@ -13,7 +13,7 @@
         {ts}Contribution Amount{/ts}
     </div>
     <div class="display-block">
-        <strong>${$amount|string_format:"%01.2f"}</strong>
+        <strong>{$amount|crmMoney}</strong>
     </div>
 
     <div class="header-dark">
@@ -34,7 +34,7 @@
     <div class="display-block">
         {$credit_card_type}<br />
         {$credit_card_number}<br />
-        {ts}Expires{/ts}: {$credit_card_exp_date}<br />
+        {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
 
