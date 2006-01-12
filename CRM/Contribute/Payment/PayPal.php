@@ -279,6 +279,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $params['gross_amount'  ] = self::getAmount( $paymentInfo->GrossAmount );
         $params['fee_amount'    ] = self::getAmount( $paymentInfo->FeeAmount    );
         $params['net_amount'    ] = self::getAmount( $paymentInfo->SettleAmount );
+        if ( $params['net_amount'] == 0 && $params['fee_amount'] != 0 ) {
+            $params['net_amount'] = $params['gross_amount'] - $params['fee_amount'];
+        }
         $params['payment_status'] = $paymentInfo->PaymentStatus;
         $params['pending_reason'] = $paymentInfo->PendingReason;
         

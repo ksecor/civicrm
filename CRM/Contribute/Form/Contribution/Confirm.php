@@ -62,14 +62,37 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
                 $this->_params = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
 
+                // fix state and country id if present
+                if ( CRM_Utils_Array::value( 'state_province', $this->_params ) ) {
+                    $states =& CRM_Core_PseudoConstant::stateProvinceAbbreviation();
+                    $states = array_flip( $states );
+                    $this->_params['state_province_id'] = CRM_Utils_Array::value( $this->_params['state_province'], $states );
+                }
+                if ( CRM_Utils_Array::value( 'country', $this->_params ) ) {
+                    $states =& CRM_Core_PseudoConstant::countryIsoCode();
+                    $states = array_flip( $states );
+                    $this->_params['country_id'] = CRM_Utils_Array::value( $this->_params['country'], $states );
+                }
+
                 // set a few other parameters for PayPal
                 $this->_params['token']          = $this->get( 'token' );
 
                 $this->_params['amount'        ] = $this->get( 'amount' );
                 $this->_params['currencyID'    ] = $config->defaultCurrency;
                 $this->_params['payment_action'] = 'Sale';
-                $this->_params['email'         ] = $this->controller->exportValue( 'Main', 'email' );
 
+                // also merge all the other values from the profile fields
+                $values = $this->controller->exportValues( 'Main' );
+                $skipFields = array( 'amount', 'amount_other',
+                                     'first_name', 'middle_name', 'last_name',
+                                     'street_address', 'city', 'state_province_id', 'postal_code',
+                                     'country_id' );
+                foreach ( $values as $name => $value ) {
+                    // skip amount field
+                    if ( ! in_array( $name, $skipFields ) ) {
+                        $this->_params[$name] = $value;
+                    }
+                }
                 $this->set( 'getExpressCheckoutDetails', $this->_params );
             } else {
                 $this->_params = $this->get( 'getExpressCheckoutDetails' );

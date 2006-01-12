@@ -350,6 +350,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 } else {
                     $paymentURL = "https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    // hack to allow us to test without donating, need to comment out below line before release
+                    // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 }
                 CRM_Utils_System::redirect( $paymentURL ); 
             }
