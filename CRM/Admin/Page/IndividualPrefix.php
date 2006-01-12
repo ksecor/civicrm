@@ -74,7 +74,7 @@ class CRM_Admin_Page_IndividualPrefix extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/prefix',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Individual Prefix') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(

@@ -80,7 +80,7 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/admin/contribute/paymentInstrument',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'qs'    => 'action=disable&id=%%id%%&reset=1',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Payment Instrument') 
                                                                    ),
