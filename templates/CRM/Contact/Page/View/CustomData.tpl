@@ -24,91 +24,46 @@
 			            {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
 			            <dd>
-			            {assign var="count" value="1"}
-                        {strip}
-			            <table class="form-layout-compressed">
-                        <tr>
-                        {* sort by fails for option per line. Added a variable to iterate through the element array*}
-                        {assign var="index" value="1"}
-                        {foreach name=outer key=key item=item from=$form.$element_name}
-                            {if $index < 10}
-                                {assign var="index" value=`$index+1`}
-                            {else}
-                        	    <td class="labels font-light">{$form.$element_name.$key.html}</td>
+                        {if $viewForm.$element_name}
+                            {assign var="count" value="1"}
+                            {assign var="no" value="1"}
+                            {strip}
+                            <table class="form-layout-compressed">
+                                <tr> 
+                            {section name=rowLoop start=1 loop=$viewForm.$element_name}
+                            {assign var=index value=$smarty.section.rowLoop.index}
+                            {if $viewForm.$element_name.$index.html != "" } 
+                                {if $no != '1'}, {/if}
+                                {$viewForm.$element_name.$index.html}
+                                {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
-                        	        </tr>
+                                    </tr> 
                                     <tr>
                                     {assign var="count" value="1"}
-                    	        {else}
-                    		        {assign var="count" value=`$count+1`}
-                    	        {/if}
+                                {else}
+                                    {assign var="count" value=`$count+1`}
+                                {/if} 
                             {/if}
-                        {/foreach}
-			            </tr>
-                        </table>
-                        {/strip}
-			            </dd>
+                            {/section}
+                            </tr>
+                            </table>
+                            {/strip}
+                        {else}
+                            &nbsp;
+                        {/if}
+                        </dd>
 		            {else}
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
-                        <dd>&nbsp;{$form.$element_name.html}</dd>
-		            {/if}
+                       <dd>{$viewForm.$element_name.html}&nbsp;</dd> 
+                    {/if}
                     {/foreach}
                     </dl>
                 </fieldset>
                 </div>
-                {/foreach}
-
-                {if $editCustomData}
-                    <div class="action-link">
-                    {if $groupId}
-                    <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
-                    {else}
-                    <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=0&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
-                    {/if}
-                    </div>
-		        {/if}
+                {/foreach}             
             </div>
-        {else}
-	        {if $editCustomData}
-                <div class="messages status">
-                {if $groupId}       
-                    <dl>
-                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-                    {capture assign=crmURL1}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}
-                    {capture assign=crmURL2}{crmURL p='civicrm/admin/custom/group/field' q="reset=1&action=add&gid=`$groupId`"}{/capture}
-                    <dd>{ts 1=$crmURL1, 2=$crmURL2}There are either no Custom Groups or no Custom Fields entered for this Contact. You can either <a href="%1">add Custom Group</a> or <a href="%2">add Custom Field</a>.{/ts}</dd>
-                    </dl>    
-                {else}    
-                    <dl>
-                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-                    {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}
-                    <dd>{ts 1=$crmURL}There are either no (Inline) Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
-                    </dl>
-                {/if}
-                </div>
-	        {else}
-	        
-                {if $groupId}       
-                   <div class="messages status">
-	            <dl>
-                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-                    <dd>{ts}There are either no Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
-                    </dl>    
-	            </div> 
-                {else}    
-                   {* 
-	            <div class="messages status">
-		    <dl>
-                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-                    <dd>{ts}There are either no (Inline) Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
-                    </dl>
-	            </div>
-	           *}
-                {/if}
-           
-	        {/if}
         {/if}    
     {/if}
     {/strip}

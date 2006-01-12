@@ -959,10 +959,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             //to show only values that are checked
                            if(in_array($coDAO->value, $customData)){
                                $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
-                               if($counter!=1)
+                               if ($counter!=1) {
                                    $form[$elementName]['html'] .= "<tt>". $checked ."</tt>,&nbsp;".$coDAO->label;
-                               else
+                               } else {
                                    $form[$elementName]['html'] .= "<tt>". $checked ."</tt>".$coDAO->label;
+                               }
                                $form[$elementName][$counter]['html'] = "<tt>". $checked ."</tt>".$coDAO->label."\n";
                                $counter++;
                            }
