@@ -148,18 +148,20 @@
   {/if}
 </div>
 
-<div id="contributions">
-    <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
-    {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
-    <p>
-    {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
-    </p>
-    
-    <div class="action-link">
-        <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
+    <div id="contributions">
+    {if $pager->_totalItems}
+        <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
+        {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
+        <p>
+        {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
+        </p>
+        
+        <div class="action-link">
+            <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
+        </div>
+        </fieldset>
+    {/if}
     </div>
-    </fieldset>
-</div>
 {/if}
 
 <div id="openActivities[show]" class="data-group">
