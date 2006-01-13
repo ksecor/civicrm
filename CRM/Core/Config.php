@@ -697,7 +697,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
-            $this->enableSSL = true;
+            $this->enableSSL = CIVICRM_ENABLE_SSL;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
