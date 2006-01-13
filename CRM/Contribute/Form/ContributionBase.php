@@ -128,6 +128,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             // get all the values from the dao object
             $params = array('id' => $this->_id); 
             $this->_values = array( );
+            $this->_fields = array( );
+
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
             
             // check if form is active
