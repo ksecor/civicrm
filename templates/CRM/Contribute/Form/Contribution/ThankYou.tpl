@@ -40,7 +40,7 @@
     <div class="display-block">
         {$credit_card_type}<br />
         {$credit_card_number}<br />
-        {ts}Expires{/ts}: {$credit_card_exp_date|crmDate}
+        {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
     </div>
     {/if}
 

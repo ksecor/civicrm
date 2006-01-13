@@ -3,7 +3,9 @@
 INSERT INTO civicrm_custom_group
     (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 'voter_info', 'Voter Info', 'Individual', 'Inline', 0, 'Please complete the voter information fields as data becomes available for this contact.', 1, 1);
+    (%%CIVICRM_DOMAIN_ID%%, 'voter_info', 'Voter Info', 'Individual', 'Inline', 0, 'Please complete the voter information fields as data becomes available for this contact.', 1, 1),
+    (%%CIVICRM_DOMAIN_ID%%, 'education', 'Education Qualification', 'Individual', 'Tab', 0, 'Please furnish educational history starting from high school', 2, 1),
+	(%%CIVICRM_DOMAIN_ID%%, 'member_dues', 'Member Dues', 'Contribution', 'Inline', 0, 'Please furnish membership information', 3, 1 );
 
 INSERT INTO civicrm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line)
@@ -14,7 +16,14 @@ VALUES
     (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1, 1, NULL),
     (1, 'most_important_issue', 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL),
     (1, 'gotv_experience', 'GOTV Experience', 'String', 'Checkbox', 0, 6, 'Which Get Out the Vote activities have you done in the past.', 1, 1, 1),
-    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL);
+    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL),
+    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 2, '', 1, 0, NULL),
+    (2, 'school_college', 'School / College', 'String', 'Text', 0, 1, '', 1, 0, NULL),
+    (2, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1, 0, NULL),
+    (2, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1, 0, NULL),
+    (3, 'join_date', 'Join date', 'Date', 'Select Date', 0, 1, '', 1, 0, NULL),
+    (3, 'member_fees', 'Member Fees', 'Money', 'Text', 0, 2, '', 1, 0, NULL),
+    (3, 'member_status', 'Member Status', 'String', 'Select', 0, 3, '', 1, 0, NULL);
 
 INSERT INTO civicrm_custom_option
     (entity_table,entity_id,label,value,weight,is_active)
@@ -31,27 +40,13 @@ VALUES
     ('civicrm_custom_field', 7, 'Domestic Partner', 'D', 3, 1),
     ('civicrm_custom_field', 7, 'Widowed', 'W', 4, 1),
     ('civicrm_custom_field', 7, 'Other', 'O', 5, 1),
-    ('civicrm_contribution_page',1,'Small','10',1,1),
-    ('civicrm_contribution_page',1,'Medium','20',2,1),
-    ('civicrm_contribution_page',1,'Big','50',3,1),
-    ('civicrm_contribution_page',1,'Large','100',4,1),
-    ('civicrm_contribution_page',1,'Huge','500',5,1),
-    ('civicrm_contribution_page',1,'Strong Believer','10000',6,1);
-
--- Custom data for educational qualifications
-INSERT INTO civicrm_custom_group
-    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
-VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 'education', 'Education Qualification', 'Individual', 'Tab', 0, 'Please furnish educational history starting from high school', 2, 1);
-
-INSERT INTO civicrm_custom_field
-    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
-VALUES
-    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 2, '', 1),
-    
-    (2, 'school_college', 'School / College', 'String', 'Text', 0, 1, '', 1),
-    (2, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1),
-    (2, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1);
+    ('civicrm_custom_field', 14, 'Past', '1', 1, 1),
+    ('civicrm_custom_field', 14, 'Current', '1', 1, 1),
+    ('civicrm_custom_field', 14, 'Life', '1', 1, 1),
+    ('civicrm_contribution_page',1,'Friend','0.10',1,1),
+    ('civicrm_contribution_page',1,'Supporter','0.50',2,1),
+    ('civicrm_contribution_page',1,'Booster','1.00',3,1),
+    ('civicrm_contribution_page',1,'Sustainer','5.00',4,1);
 
 INSERT INTO civicrm_uf_group
     (domain_id, is_active, form_type, title, help_pre)

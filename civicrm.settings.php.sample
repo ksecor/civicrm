@@ -340,13 +340,7 @@ define('CIVICRM_GEOCODE_METHOD', '' );
  * want this install to perform such checks (the info about new versions will
  * be displayed on the main Administer CiviCRM control panel).
  */
-define('CIVICRM_VERSION_CHECK', false);
-
-/**
- * should transaction pages operate under SSL. 
- *
- */
-define('CIVICRM_ENABLE_SSL', 1 );
+define('CIVICRM_VERSION_CHECK', true);
 
 /**
  * Payment Processor Settings
@@ -392,6 +386,18 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 // For Moneris - storeid.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
+/**
+ * Force SSL Redirect for Online Contribution Pages
+ *
+ * If your site includes CiviContribute Online Contribution pages, AND you use a payment
+ * processor plugin which collects credit card and billing information ON YOUR SITE (any plugin
+ * other than PayPal_Express as of now), it is strongly recommended that you create or obtain
+ * an SSL certificate and configure your webserver to support SSL connections. Once this is
+ * done, you can change this setting to 1. With CIVICRM_ENABLE_SSL set to 1, CiviCRM will
+ * automatically redirect requests for online contribution pages to an https (SSL secured) URL.
+ * 
+ */
+define('CIVICRM_ENABLE_SSL', 0 );
 
 /**
  * Multi-site Support
@@ -433,6 +439,8 @@ define( 'CIVICRM_DEBUG', 0 );
  * for new outgoing mailings. (Used for CiviMail only.)
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
+
+define( 'CIVICRM_VERP_SEPARATOR', '.' );
 
 /**
  * CiviSMS related config options

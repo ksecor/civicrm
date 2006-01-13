@@ -322,14 +322,6 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
   
         $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
         $orderTotal->setval( $params['amount'], self::CHARSET  );  
-        $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
-
-        if ( Services_PayPal::isError( $paymentDetails ) ) {
-            return self::error( $paymentDetails );
-        }
-
-        $paymentDetails->setOrderTotal($orderTotal);
-        $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
 
         $payerName =& Services_PayPal::getType( 'PersonNameType' );
 
@@ -357,6 +349,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
             return self::error( $cardOwner );
         }
 
+        $cardOwner->setPayer( $params['email'] );
         $cardOwner->setAddress( $address );
         $cardOwner->setPayerCountry( $params['country'], self::CHARSET  );
         $cardOwner->setPayerName( $payerName );
@@ -373,6 +366,19 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $creditCard->setCreditCardNumber( $params['credit_card_number'], self::CHARSET  );
         $creditCard->setCreditCardType  ( $params['credit_card_type']  , self::CHARSET  );
         $doDirectPaymentRequestDetails =& Services_PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
+
+        $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
+
+        if ( Services_PayPal::isError( $paymentDetails ) ) {
+            return self::error( $paymentDetails );
+        }
+
+        $paymentDetails->setOrderTotal($orderTotal);
+        $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
+
+        $shipToAddress = $address;
+        $shipToAddress->setName( $params['first_name' ] . ' ' . $params['last_name'] );
+        $paymentDetails->setShipToAddress( $shipToAddress );
 
         if ( Services_PayPal::isError( $doDirectPaymentRequestDetails ) ) {
             return self::error( $doDirectPaymentRequestDetails );

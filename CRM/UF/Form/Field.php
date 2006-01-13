@@ -102,25 +102,22 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     {
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
-       
 
         $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
        
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
-            // if ( $name ) {
-                // lets skip note for now since we dont support it
-                if ( $name == 'note' ) {
-                    continue;
-                }
-                $this->_selectFields    [$name] = $field['title'];
-                $this->_hasLocationTypes[$name] = $field['hasLocationType'];
-                //}
+            // lets skip note for now since we dont support it
+            if ( $name == 'note' ) {
+                continue;
+            }
+            $this->_selectFields    [$name] = $field['title'];
+            $this->_hasLocationTypes[$name] = $field['hasLocationType'];
         }
+
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
-
     }
 
     /**

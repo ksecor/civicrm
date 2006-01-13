@@ -27,7 +27,7 @@
 ===========================================================
 {$credit_card_type}
 {$credit_card_number}
-{ts}Expires{/ts}: {$credit_card_exp_date}
+{ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
 {/if}
 
 
