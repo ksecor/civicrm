@@ -72,7 +72,7 @@ echo "1.3.$REV Drupal PHP4" > $TRG/civicrm-version.txt
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-drupal-php4-v1.3BETA-rev$REV.tgz civicrm
+tar czf $DM_TARGETDIR/civicrm-drupal-php4-v1.3-rev$REV.tgz civicrm
 
 # clean up
 rm -rf $TRG
