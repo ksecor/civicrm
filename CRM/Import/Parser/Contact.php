@@ -650,7 +650,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function isErrorInCustomData($params) {
         
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
-       
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 /* check if it's a valid custom field id */
@@ -684,7 +683,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                                   $customFields[$customFieldID][0]);
                             }
                         }
-                    } else if ($customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] =='Radio') {
+                    } else if ($customFields[$customFieldID][3] == 'Select' || 
+                               ( $customFields[$customFieldID][3] =='Radio' && $customFields[$customFieldID][2] !='Boolean' ) ) {
                         $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
                         foreach( $custuomOption as $v2 ) {
