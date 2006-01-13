@@ -659,13 +659,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 /* validate the data against the CF type */
                 //CRM_Core_Error::debug( $value, $customFields[$customFieldID] );
                 if ( $value ) {
-                    $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                                 $customFields[$customFieldID][2], $value);
-                    if (! $valid) {
-                        return _crm_error('Invalid value for custom field :' .
-                                          $customFields[$customFieldID][0]);
+                    // need not check for label filed import
+                    $htmlType = array('CheckBox','Multi-Select','Select','Radio');
+                    if ( ! in_array( $customFields[$customFieldID][3], $htmlType ) || $customFields[$customFieldID][2] =='Boolean' ) {
+                        $valid = CRM_Core_BAO_CustomValue::typecheck(
+                                                                     $customFields[$customFieldID][2], $value);
+                        if (! $valid) {
+                            return _crm_error('Invalid value for custom field :' .
+                                              $customFields[$customFieldID][0]);
+                        }
                     }
-                    
                     // check for values for custom fields for checkboxes and multiselect
                     if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
