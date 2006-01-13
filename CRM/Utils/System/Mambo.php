@@ -50,6 +50,12 @@ class CRM_Utils_System_Mambo {
     function setTitle( $title ) {
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'pageTitle', $title );
+        
+        global $mainframe;
+        if ( $mainframe ) {
+            $mainframe->setPageTitle( $title );
+        }
+
         return;
     }
 

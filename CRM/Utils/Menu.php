@@ -727,10 +727,14 @@ class CRM_Utils_Menu {
 
         $config =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Mambo' ) {
-            foreach ( self::$_items as $key => $item ) {
-                if ( $item['path'] == $path ) {
-                    CRM_Utils_System::setTitle( $item['title'] );
-                    break;
+            static $processed = false;
+            if ( ! $processed ) {                
+                $processed = true;
+                foreach ( self::$_items as $key => $item ) {
+                    if ( $item['path'] == $path ) {
+                        CRM_Utils_System::setTitle( $item['title'] );
+                        break;
+                    }
                 }
             }
         }
