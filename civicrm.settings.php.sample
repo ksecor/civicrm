@@ -440,6 +440,8 @@ define( 'CIVICRM_DEBUG', 0 );
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
+define( 'CIVICRM_VERP_SEPARATOR', '.' );
+
 /**
  * 
  * Do not change anything below this line. Keep as is

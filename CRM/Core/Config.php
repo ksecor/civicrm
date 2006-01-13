@@ -306,6 +306,13 @@ class CRM_Core_Config {
     public $mailerPeriod    = 180;
 
     /**
+     * What should be the verp separator we use
+     *
+     * @var char
+     */
+    public $verpSeparator = '.';
+
+    /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
      * @var array
@@ -677,7 +684,11 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
-        
+
+        if ( defined( 'CIVICRM_VERP_SEPARATOR' ) ) {
+            $this->verpSeparator = CIVICRM_VERP_SEPARATOR;
+        }
+
         if ( defined( 'ENABLE_COMPONENTS' ) ) {
             $this->enableComponents = explode(',', ENABLE_COMPONENTS);
             for ( $i=0; $i < count($this->enableComponents); $i++) {

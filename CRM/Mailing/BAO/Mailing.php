@@ -473,16 +473,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  unsubscribe:    contact opts out of all target lists for the mailing
          *  optOut:         contact unsubscribes from the domain
          */
+        $config =& CRM_Core_Config::singleton( );
+
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
         {
-            $verp[$key] = implode('.', 
-                        array(
-                            $key, 
-                            $job_id, 
-                            $event_queue_id,
-                            $hash
-                        )
-                    ) . '@' . $this->_domain->email_domain;
+            $verp[$key] = implode($config->verpSeparator,
+                                  array(
+                                        $key, 
+                                        $job_id, 
+                                        $event_queue_id,
+                                        $hash
+                                        )
+                                  ) . '@' . $this->_domain->email_domain;
         }
 
         $urls = array(
