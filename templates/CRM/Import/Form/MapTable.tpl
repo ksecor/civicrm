@@ -6,7 +6,7 @@
 	<p><a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a></p>
     </div>
     <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span><span>{$form.savedMapping.html}</span>
+	<span>{$form.savedMapping.label}</span> <span>{$form.savedMapping.html}</span>
 	<span>{$form.loadMapping.html}</span>
     </div>
     
