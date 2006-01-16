@@ -19,44 +19,10 @@
                 <fieldset><legend><a href="#" onclick="hide('{$cd.title}'); show('{$cd.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
-			        {if $cd_value.options_per_line != 0 }
-			            {assign var="element_name" value="custom_"|cat:$field_id}			
-			            <dt>{$cd_value.label} </dt>
-			            <dd>
-                        {if $viewForm.$element_name}
-                            {assign var="count" value="1"}
-                            {assign var="no" value="1"}
-                            {strip}
-                            <table class="form-layout-compressed">
-                                <tr> 
-                            {section name=rowLoop start=1 loop=$viewForm.$element_name}
-                            {assign var=index value=$smarty.section.rowLoop.index}
-                            {if $viewForm.$element_name.$index.html != "" } 
-                                {if $no != '1'}, {/if}
-                                {$viewForm.$element_name.$index.html}
-                                {assign var="no" value=`$no+1`}
-                                {if $count == $cd_value.options_per_line}
-                                    </tr> 
-                                    <tr>
-                                    {assign var="count" value="1"}
-                                {else}
-                                    {assign var="count" value=`$count+1`}
-                                {/if} 
-                            {/if}
-                            {/section}
-                            </tr>
-                            </table>
-                            {/strip}
-                        {else}
-                            &nbsp;
-                        {/if}
-                        </dd>
-		            {else}
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
-                       <dd>{$viewForm.$element_name.html}&nbsp;</dd> 
-                    {/if}
+                        <dd>{$viewForm.$element_name.html}&nbsp;</dd> 
                     {/foreach}
                     </dl>
                 </fieldset>

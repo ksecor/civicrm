@@ -960,11 +960,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                            if(in_array($coDAO->value, $customData)){
                                $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
                                if ($counter!=1) {
-                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>,&nbsp;".$coDAO->label;
+                                   $form[$elementName]['html'] .= $checked .",&nbsp;".$coDAO->label;
                                } else {
-                                   $form[$elementName]['html'] .= "<tt>". $checked ."</tt>".$coDAO->label;
+                                   $form[$elementName]['html'] .= $checked .$coDAO->label;
                                }
-                               $form[$elementName][$counter]['html'] = "<tt>". $checked ."</tt>".$coDAO->label."\n";
+                               $form[$elementName][$counter]['html'] = $checked .$coDAO->label."\n";
                                $counter++;
                            }
                         }
@@ -995,9 +995,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             $freezeStringChecked = "";
                             if ( isset($field['customValue']['data']) ) {
                                 if ( $field['customValue']['data'] == '1' ) {
-                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>Yes\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked."Yes\n";
                                 } else {
-                                    $form[$elementName]['html'] = "<tt>".$freezeStringChecked."</tt>No\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked."No\n";
                                 }
                             } else {
                                 $form[$elementName]['html'] = "\n";
