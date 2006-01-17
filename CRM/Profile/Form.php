@@ -370,12 +370,16 @@ class CRM_Profile_Form extends CRM_Core_Form
         $cid = null;
         if ( $options ) {
             $cid = (int ) $options;
-        }
 
+            // get the primary location type id and email
+            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cid);
+        }
+        
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
             $locationType = array( );
             $count = 1;
+            $primaryLocation = 0;
             foreach ($fields as $key => $value) {
                 $keyValue = explode('-', $key);
                 if (is_numeric($keyValue[1])) {
@@ -388,11 +392,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                     
                     $data['location'][$loc]['location_type_id'] = $keyValue[1];
                 
+                    if ($keyValue[1] == $primaryLocationType ) {
+                        $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+                        $primaryLocation++;
+                    }
+
                     if ($loc == 1 ) {
                         $data['location'][$loc]['is_primary'] = 1;
-                    }
-                    
-                    
+                    }                   
+               
                     if ($keyValue[0] == 'phone') {
                         if ( $keyValue[2] ) {
                             $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
@@ -400,8 +408,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
                         }
                         $data['location'][$loc]['phone'][$loc]['phone'] = $value;
-                    } else if ($keyValue[0] == 'email') {
-                        $data['location'][$loc]['email'][$loc]['email'] = $value;
+                        /*} else if ($keyValue[0] == 'email') {
+                        $data['location'][$loc]['email'][$loc]['email'] = $value;*/
                     } elseif ($keyValue[0] == 'im') {
                         $data['location'][$loc]['im'][$loc]['name'] = $value;
                     } else {
@@ -450,6 +458,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
+
+            if (!$primaryLocation) {
+                $loc++;
+                $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+            }
+
             $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
             if ( $ids ) {
                 $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
@@ -628,8 +642,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $loc_no = count($locations);
                             if ($nameValue[0] == 'phone') {
                                 $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
-                            } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
+                                /* } else if ($nameValue[0] == 'email') {
+                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];*/
                             } else if ($nameValue[0] == 'im') {
                                 $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
                             } else {
