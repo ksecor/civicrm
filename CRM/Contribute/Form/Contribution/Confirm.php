@@ -294,7 +294,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'module'           => 'CiviContribute', 
                             'callback'         => 'CRM_Contribute_Page_Contribution::details',
                             'activity_id'      => $contribution->id, 
-                            'activity_summary' => 'Online - $' . $this->_params['amount'],
+                            'activity_summary' => 'Online - ' . $this->_params['amount'],
                             'activity_date'    => $now,
                             );
             if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
