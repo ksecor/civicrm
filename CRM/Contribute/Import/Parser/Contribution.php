@@ -193,7 +193,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         if ( $response != CRM_Contribute_Import_Parser::VALID ) {
             return $response;
         }
-
+        
         $params =& $this->getActiveFieldParams( );
         $formatted = array();
         static $indieFields = null;
@@ -273,7 +273,21 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }
                 
             } else {
-                array_unshift($values,"No matching Contact found for this Record .The contribution was not imported");
+                require_once 'CRM/Core/DAO/DupeMatch.php';
+                $dao = & new CRM_Core_DAO_DupeMatch();;
+                $dao->find(true);
+                $fieldsArray = explode('AND',$dao->rule);
+                foreach ( $fieldsArray as $value) {
+                    if(array_key_exists(trim($value),$params)) {
+                        $paramValue = $params[trim($value)];
+                        if (is_array($paramValue)) {
+                            $disp .= $params[trim($value)][0][trim($value)]." ";  
+                        } else {
+                            $disp .= $params[trim($value)]." ";
+                        }
+                    }
+                } 
+                array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
             }
           
