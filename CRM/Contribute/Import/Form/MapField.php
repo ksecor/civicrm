@@ -263,15 +263,30 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $hasHeaders      = !empty($this->_columnHeaders);
         $headerPatterns  = $this->get( 'headerPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
+        $hasLocationTypes = $this->get( 'fieldTypes' );
+      
 
         /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
             $this->_fieldUsed[$key] = false;
         }
-
+        $this->_location_types = & CRM_Core_PseudoConstant::locationType();
         $sel1 = $this->_mapperFields;
 
         $sel2[''] = null;
+        /*$phoneTypes = CRM_Core_SelectValues::phoneType();
+        foreach ($this->_location_types as $key => $value) {
+            $sel3['phone'][$key] =& $phoneTypes;
+        }
+        foreach ($mapperKeys as $key) {
+            list($id, $first, $second) = explode('_', $key);
+      
+                if ($hasLocationTypes[$key]) {
+                    $sel2[$key] = $this->_location_types;
+                } else {
+                    $sel2[$key] = null;
+                }
+        }*/
 
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
@@ -339,7 +354,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                                                            );
                 }
             }
-            
+         
             $sel->setOptions(array($sel1, $sel2, $sel3, $sel4));
         }
         $js .= "</script>\n";
@@ -396,9 +411,49 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 'total_amount'      => ts('Total Amount'),
                 'contribution_type' => ts('Contribution Type')
             );
+            
+            // validation for defalut dupe matching rule
+            $defaultFlag = true;
+            $defaultDupeMatch = array("first_name","last_name","email");
+            require_once 'CRM/Core/DAO/DupeMatch.php';
+            $dao = & new CRM_Core_DAO_DupeMatch();;
+            $dao->find(true);
+            $fieldsArray = explode('AND',$dao->rule);
+            if (count($fieldsArray) == count( $defaultDupeMatch) ){
+                foreach ( $fieldsArray  as $value ) {
+                    if (!in_array(trim($value) ,$defaultDupeMatch)) {
+                        $defaultFlag = false;
+                    }
+                }
+            } else {
+                $defaultFlag = false;
+            }
+            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                    if( $field == 'contact_id' &&  $defaultFlag ) {
+                        if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
+                            continue;    
+                        } else {
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields .( Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email )<br />');
+                        }
+                        
+                    } else if ( $field == 'contact_id' &&  ! $defaultFlag ) {
+                        $flag = true;
+                        foreach ( $fieldsArray as $v ) {
+                            if ( in_array( trim($v), $importKeys )) {
+                                $flag = false;
+                                //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
+                            }
+                        }
+                        if ( $flag ) {
+                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID <br />');
+                        }
+                        
+                    } else {
+                        $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                    }
                 }
             }
         }
@@ -442,7 +497,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     public function postProcess()
     {
         $params = $this->controller->exportValues( 'MapField' );
-
         //reload the mapfield if load mapping is pressed
         if( !empty($params['savedMapping']) ) {            
             $this->set('savedMapping', $params['savedMapping']);
@@ -460,10 +514,24 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         $mapperKeysMain     = array();
+        $mapperLocType      = array();
+        $mapperPhoneType    = array();
         
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
+            
+            if (is_numeric($mapperKeys[$i][1])) {
+                $mapperLocType[$i] = $mapperKeys[$i][1];
+            } else {
+                $mapperLocType[$i] = null;
+            }
+
+            if ( !is_numeric($mapperKeys[$i][2])) {
+                $mapperPhoneType[$i] = $mapperKeys[$i][2];
+            } else {
+                $mapperPhoneType[$i] = null;
+            }
         }
 
         $this->set( 'mapper'    , $mapper     );
@@ -520,7 +588,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             }
         }
 
-        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain );
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Contribute_Import_Parser::MODE_PREVIEW );
         

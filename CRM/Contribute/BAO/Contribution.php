@@ -328,11 +328,22 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $fields = array( '' => array( 'title' => ts('- Contribution Fields -') ) );
             }
 
-            $tmpFields = CRM_Contribute_DAO_Contribution::import( );
+            $tmpFields     = CRM_Contribute_DAO_Contribution::import( );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            require_once 'CRM/Core/DAO/DupeMatch.php';
+            $dao = & new CRM_Core_DAO_DupeMatch();;
+            $dao->find(true);
+            $fieldsArray = explode('AND',$dao->rule);
+            $tmpConatctField = array();
+            if( is_array($fieldsArray) ) {
+                foreach ( $fieldsArray as $value) {
+                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                }
+            }
+            $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
-
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
-
             self::$_importableFields = $fields;
         }
         return self::$_importableFields;

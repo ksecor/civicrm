@@ -31,7 +31,7 @@
   </foreignKey> 
   <field> 
       <name>contact_id</name> 
-      <title>Contact ID</title>
+      <title>Contact ID (match to contact)</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <import>true</import>

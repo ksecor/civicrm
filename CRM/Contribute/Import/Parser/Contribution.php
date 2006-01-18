@@ -48,7 +48,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     private $_contactIdIndex;
     private $_totalAmountIndex;
     private $_contributionTypeIndex;
-
+    //protected $_mapperLocType;
+    //protected $_mapperPhoneType;
     /**
      * Array of succesfully imported contribution id's
      *
@@ -59,9 +60,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys ) {
+    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
+        //$this->_mapperLocType =& $mapperLocType;
+        //$this->_mapperPhoneType =& $mapperPhoneType;
     }
 
     /**
@@ -81,11 +84,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $this->_newContributions = array();
 
         $this->setActiveFields( $this->_mapperKeys );
+        //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
+        //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
 
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
         $this->_totalAmountIndex      = -1;
         $this->_contributionTypeIndex = -1;
+       
 
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
@@ -140,16 +146,20 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     function summary( &$values ) {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        if ($response != CRM_Contribute_Import_Parser::VALID) {
+        /*if ($response != CRM_Contribute_Import_Parser::VALID) {
             array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
             return CRM_Contribute_Import_Parser::ERROR;
-        }
+        }*/
         $errorRequired = false;
-        if ($this->_contactIdIndex        < 0 or
-            $this->_totalAmountIndex      < 0 or
+        if ($this->_totalAmountIndex      < 0 or
             $this->_contributionTypeIndex < 0) {
             $errorRequired = true;
+        } else {
+            $errorRequired = ! CRM_Utils_Array::value($this->_totalAmountIndex, $values) ||
+                ! CRM_Utils_Array::value($this->_contributionTypeIndex, $values);
         }
+        
+        
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Contribute_Import_Parser::ERROR;
@@ -186,7 +196,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
         $params =& $this->getActiveFieldParams( );
         $formatted = array();
-        
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Contribute/DAO/Contribution.php');
@@ -201,15 +210,83 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $value = array($key => $field);
             _crm_add_formatted_contrib_param($value, $formatted);
         }
-        $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
+        if ( $this->_contactIdIndex < 0 ) {
+            static $cIndieFields = null;
+            if ($cIndieFields == null) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+                $cIndieFields = $cTempIndieFields;
+            }
 
-        if ( is_a( $newContribution, CRM_Core_Error ) ) {
-            array_unshift($values, $newContribution->_errors[0]['message']);
-            return CRM_Contribute_Import_Parser::ERROR;
+
+            foreach ($params as $key => $field) {
+                if ($field == null || $field === '') {
+                    continue;
+                }
+                if (is_array($field)) {
+                    foreach ($field as $value) {
+                        $break = false;
+                        if ( is_array($value) ) {
+                            foreach ($value as $name => $testForEmpty) {
+                                if ($name !== 'phone_type' &&
+                                    ($testForEmpty === '' || $testForEmpty == null)) {
+                                    $break = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            $break = true;
+                        }
+                        if (! $break) {    
+                            _crm_add_formatted_param($value, $contactFormatted);
+                            
+                        }
+                    }
+                    continue;
+                }
+                
+                $value = array($key => $field);
+                if (array_key_exists($key, $cIndieFields)) {
+                    $value['contact_type'] = 'Individual';
+                }
+                _crm_add_formatted_param($value, $contactFormatted);
+            }
+            $contactFormatted['contact_type'] = 'Individual';
+            $error = _crm_duplicate_formatted_contact($contactFormatted);
+            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+            if ( self::isDuplicate($error) ) {
+                if (count( $matchedIDs) >1) {
+                    array_unshift($values,"Multiple matching contact records detected for this row. The contribution was not imported");
+                    return CRM_Contribute_Import_Parser::ERROR;
+                } else {
+                    $cid = $matchedIDs[0];
+                    $formatted['contact_id'] = $cid;
+                    $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
+           
+                    if ( is_a( $newContribution, CRM_Core_Error ) ) {
+                        array_unshift($values, $newContribution->_errors[0]['message']);
+                        return CRM_Contribute_Import_Parser::ERROR;
+                    }
+                    
+                    $this->_newContributions[] = $newContribution->id;
+                    return CRM_Contribute_Import_Parser::VALID;
+                }
+                
+            } else {
+                array_unshift($values,"No matching Contact found for this Record .The contribution was not imported");
+                return CRM_Contribute_Import_Parser::ERROR;
+            }
+          
+        } else {
+            $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
+            if ( is_a( $newContribution, CRM_Core_Error ) ) {
+                array_unshift($values, $newContribution->_errors[0]['message']);
+                return CRM_Contribute_Import_Parser::ERROR;
+            }
+            
+            $this->_newContributions[] = $newContribution->id;
+            return CRM_Contribute_Import_Parser::VALID;
         }
-        
-        $this->_newContributions[] = $newContribution->id;
-        return CRM_Contribute_Import_Parser::VALID;
     }
    
     /**
@@ -230,6 +307,28 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      */
     function fini( ) {
     }
+
+    /**
+     *  function to check if an error is actually a duplicate contact error
+     *  
+     *  @param Object $error Avalid Error object
+     *  
+     *  @return ture if error is duplicate contact error 
+     *  
+     *  @access public 
+     */
+
+    function isDuplicate($error) {
+        
+        if( is_a( $error, CRM_Core_Error ) ) {
+            $code = $error->_errors[0]['code'];
+            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+                return true ;
+            }
+        }
+        return false;
+    }
+
 
 }
 

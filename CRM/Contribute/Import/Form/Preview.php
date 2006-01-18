@@ -153,18 +153,31 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         $seperator = ',';
 
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
-
         $mapperKeys = array();
-
+        $mapperLocType      = array();
+        $mapperPhoneType    = array();
         // Note: we keep the multi-dimension array (even thought it's not
         // needed in the case of contributions import) so that we can merge
         // the common code with contacts import later and subclass contact
         // and contribution imports from there
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
+
+            if (is_numeric($mapper[$key][1])) {
+                $mapperLocType[$key] = $mapper[$key][1];
+            } else {
+                $mapperLocType[$key] = null;
+            }
+            
+            if (!is_numeric($mapper[$key][2])) {
+                $mapperPhoneType[$key] = $mapper[$key][2];
+            } else {
+                $mapperPhoneType[$key] = null;
+            }
+
         }
 
-        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeys );
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
         
         $mapFields = $this->get('fields');
 
