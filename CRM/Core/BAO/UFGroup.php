@@ -729,8 +729,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @return object
      */
     static function add(&$params, &$ids) {
-        
-        $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
 
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
         $ufGroup->domain_id  = CRM_Core_Config::domainID( );

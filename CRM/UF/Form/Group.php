@@ -57,6 +57,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      * @access protected
      */
     protected $_title;
+    protected $_groupElement;
+    protected $_group;
 
     /**
      * Function to set variables up before form is built
@@ -69,10 +71,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // current form id
         $this->_id = $this->get('id');
         $this-> assign('gid',$this->_id);
+
+        $this->_group    =& CRM_Core_PseudoConstant::group( ); 
         
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
+             
             CRM_Utils_System::setTitle( ts( 'Edit %1', array(1 => $title ) ) );
         } else if($this->_action == CRM_Core_Action::DELETE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
@@ -132,6 +137,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
+
+
+        // add select for groups
+        $group               = array('' => ts('- any group -')) + $this->_group;
+        $this->_groupElement =& $this->addElement('select', 'group', ts('Group'), $group);
+
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -173,16 +185,18 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ( isset($this->_id ) ) {
             
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( $this->_id );
-            
+          
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
-            
+            $defaults['group'] = $defaults['limit_listings_group_id'];
+         
             //get the uf join records for current uf group
             $ufJoinRecords = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id );
             foreach ($ufJoinRecords as $key => $value ) {
                 $checked[$value] = 1;
             }
             $defaults['uf_group_type'] = $checked;
+            
             
             //get the uf join records for current uf group other than default modules
             $otherModules = array( );
