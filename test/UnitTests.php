@@ -1,6 +1,6 @@
 <?php
 
-require_once '../civicrm.settings.php';
+require_once '../civicrm.config.php';
 
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
@@ -42,6 +42,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM523.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM531.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM627.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM707.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -85,7 +86,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
 
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
     }
 
 }

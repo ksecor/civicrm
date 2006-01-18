@@ -273,9 +273,20 @@ function _crm_format_params( &$params, &$values ) {
         $locationTypeNeeded = true;
     }
     if ( array_key_exists( 'location_type', $params ) ) {
-        $values['location'][1]['location_type'] = $params['location_type'];
-        $locationTypes = array_flip( CRM_Core_PseudoConstant::locationType( ) );
-        $values['location'][1]['location_type_id'] = $locationTypes[$params['location_type']];
+        $locationTypes = CRM_Core_PseudoConstant::locationType( );
+
+        $locationType = $locationTypeId = '';
+        //fix for CRM-707
+        if (!is_numeric($params['location_type'])) {
+            $locationTypeName = $params['location_type'];
+            $locationTypeId   = CRM_Utils_Array::value($params['location_type'], $locationTypes);
+        } else {
+            $locationTypeName = CRM_Utils_Array::value($params['location_type'], $locationTypes);
+            $locationTypeId   = $params['location_type'];
+        }
+        
+        $values['location'][1]['location_type']    = $locationTypeName;
+        $values['location'][1]['location_type_id'] = $locationTypeId;
     }
 
     $values['location'][1]['address'] = array( );
