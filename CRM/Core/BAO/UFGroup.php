@@ -843,7 +843,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $joinParams = array( );
             $joinParams['uf_group_id'] = $ufGroupId;
             $joinParams['module'     ] = $key;
-            //$joinParams['weight'     ] = $params['weight'];
             if (array_key_exists($key, $groupTypes) && !in_array($key, $ufGroupRecord )) {
                 // insert a new record
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams);
@@ -1043,7 +1042,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
 
                         AND weight = ". CRM_Utils_Type::escape($weight, 'Integer');
-            //AND uf_group_id <> ". CRM_Utils_Type::escape($ufGroupId, 'Integer') ."
 
             $daoObj->query($query);
             while ($daoObj->fetch()) {
@@ -1059,9 +1057,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
 
                         AND weight >= ". CRM_Utils_Type::escape($weight, 'Integer');
-
-            //AND uf_group_id <> ". CRM_Utils_Type::escape($ufGroupId, 'Integer'). "
-        
             $dao->query($query);
             
             $fieldIds = array();                

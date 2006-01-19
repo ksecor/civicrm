@@ -231,9 +231,12 @@ WHERE     civicrm_contact.id = "
         // save the updated ufmatch object
         $ufmatch->email = $email;
         $ufmatch->save( );
-        $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-        user_save( $user, array( 'mail' => $email ) );
-        $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+        $config =& CRM_Core_Config::singleton( ); 
+        if ( $config->userFramework == 'Drupal' ) { 
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            user_save( $user, array( 'mail' => $email ) );
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+        }
     }
 
     /**
