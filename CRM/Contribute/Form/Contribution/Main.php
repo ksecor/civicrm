@@ -147,9 +147,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // first build the radio boxes
         if ( ! empty( $this->_values['label'] ) ) {
+            require_once 'CRM/Utils/Money.php';
             for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
                 $elements[] =& $this->createElement('radio', null, '',
-                                                    '$' . $this->_values['value'][$index] . ' ' . $this->_values['label'][$index],
+                                                    CRM_Utils_Money::format($this->_values['value'][$index]) . ' ' . $this->_values['label'][$index],
                                                     $this->_values['value'][$index],
                                                     array('onclick'=>'clearAmountOther();'));
                 if ( $this->_values['value'][$index] == $this->_values['default_amount'] ) {

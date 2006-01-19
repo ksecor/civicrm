@@ -210,7 +210,8 @@ define('CIVICRM_MAP_API_KEY', '');
 
 define( 'CIVICRM_DOMAIN_ID' , 1 ); 
 
-define( 'CIVICRM_ENABLE_SSL', 1 );
+define( 'CIVICRM_ENABLE_SSL', 0 );
+define('CIVICRM_VERSION_CHECK', true);
 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR', 'PayPal' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH', '' );

@@ -315,6 +315,13 @@ class CRM_Core_Config {
     /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
+     * @var char
+     */
+    public $verpSeparator = '.';
+
+    /**
+     * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
+     *
      * @var array
      */
     public $enableComponents = array();
@@ -646,7 +653,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
-            $this->enableSSL = true;
+            $this->enableSSL = CIVICRM_ENABLE_SSL;
         }
 
         if ( in_array( 'CiviContribute', $this->enableComponents ) ) {

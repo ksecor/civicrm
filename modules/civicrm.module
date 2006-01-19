@@ -284,7 +284,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
     // make sure the system is initialized
     civicrm_initialize( );
 
-    //CRM_Core_Error::debug( $type, $edit );
+    // CRM_Core_Error::debug( $type, $edit );
 
     switch ( $type ) {
         
@@ -318,7 +318,23 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 
 function civicrm_categories( ) {
     require_once 'CRM/Core/BAO/UFGroup.php';
-    return $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
+    $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
+    
+    require_once 'CRM/Core/BAO/UFField.php';
+    $ufGroups = array( );
+
+    //check if there are any fields in this group
+    foreach ($allUFGroups as $key => $value) {
+        $ufField = array();
+        $ufFieldBAO =& new CRM_Core_BAO_UFField();
+        
+        // fkey is gid
+        $ufFieldBAO->uf_group_id = $key;
+        if ( $ufFieldBAO->find() ) {
+            $ufGroups[$key] = $value;
+        }
+    }
+    return $ufGroups;
 }
 
 function civicrm_register_data($edit, &$user, $category, $reset) {
@@ -339,13 +355,14 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
 
     $output = array( );
     if ( $html ) {
-        $output[] = array( 'title' => null, 'data' => $html, weight => 0 );
+        $output[] = array( 'title' => null, 'data' => $html, 'weight' => 0 );
     }
 
     return $output;
 }
 
 function civicrm_form_data($edit, &$user, $category, $reset) {
+
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
 
@@ -362,10 +379,11 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
 
     // get all the data for this specific category
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
-    if ( $html ) {
-        $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
-    }
     
+    if ( $html ) {
+        $output[] = array( 'title' => $category, 'data' => $html, 'weight' => 0 );
+    }
+
     return $output;
 }
 
@@ -382,7 +400,11 @@ function civicrm_view_data($user ) {
         require_once 'CRM/Profile/Page/Dynamic.php';
         foreach ( $ufGroups as $id => $title ) {
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
-            $data[$title['title']] = $page->run( );
+            $pageContent = $page->run( );
+            
+            if ($pageContent) {
+                $data[$title['title']] = $pageContent;
+            }
         }
     }
 

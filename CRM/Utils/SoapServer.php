@@ -61,7 +61,6 @@ class CRM_Utils_SoapServer
     public function __construct() {
         // any external program which call SoapServer is responsible for
         // creating and attaching the session
-        // session_start();
         $args = func_get_args( );
         $this->ufClass = array_shift( $args );
     }
