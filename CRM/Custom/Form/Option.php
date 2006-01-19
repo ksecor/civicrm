@@ -101,6 +101,26 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         } else {
             $defaults['is_active'] = 1;
         }
+      
+        require_once 'CRM/Core/DAO.php';
+
+        if ($this->_action & CRM_Core_Action::ADD) {
+            $cf =& new CRM_Core_DAO();
+            $sql = "SELECT max(weight) as weight
+                    FROM civicrm_custom_option
+                    WHERE entity_table='civicrm_custom_field' AND entity_id=".$this->_fid."
+                    ORDER BY weight"; 
+            $cf->query($sql);
+            while( $cf->fetch( ) ) {
+                $defaults['weight'] = $cf->weight + 1;
+            }
+            
+            if ( empty($defaults['weight']) ) {
+                $defaults['weight'] = 1;
+
+            }
+        }
+        
         return $defaults;
     }
     
