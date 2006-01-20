@@ -315,13 +315,6 @@ class CRM_Core_Config {
     /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
-     * @var char
-     */
-    public $verpSeparator = '.';
-
-    /**
-     * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
-     *
      * @var array
      */
     public $enableComponents = array();
