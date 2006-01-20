@@ -132,7 +132,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     }
 
     
-<<<<<<< .working
     /**
      * function to add the UF Field
      *
