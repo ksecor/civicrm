@@ -92,7 +92,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $user->$key == 0 ) {
             return;
         }
-
+        
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );
         if ( ! $ufmatch ) {
             return;
@@ -175,10 +175,11 @@ WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String')
                 
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
+                //CRM_Core_Error::debug('M', $mail);
                 $params= array( 'email' => $mail, 'location_type' => $locationType->name );
                 $contact =& crm_create_contact( $params, 'Individual' );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                    CRM_Core_Error::debug( 'error', $contact );
+                    //CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
                 $ufmatch->contact_id = $contact->id;
@@ -238,7 +239,39 @@ WHERE     civicrm_contact.id = "
             $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
         }
     }
-
+    
+    /**
+     * Update the email value for the contact and user profile
+     *  
+     * @param  $contactId  Int     Contact ID of the user
+     * @param  $email      String  email to be modified for the user
+     *
+     * @return void
+     * @static
+     */
+    static function updateContactEmail($contactId, $email) 
+    {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->contact_id = $contactId;
+        if ( $ufmatch->find( true ) ) {
+            // Save the email in UF Match table
+            $ufmatch->email = $email;
+            $ufmatch->save( );
+            
+            $query ="UPDATE  civicrm_contact, civicrm_location,civicrm_email
+                     SET email = '". CRM_Utils_Type::escape($email, 'String') ."'
+                     WHERE civicrm_location.entity_table = 'civicrm_contact' 
+                       AND civicrm_contact.id  = civicrm_location.entity_id 
+                       AND civicrm_location.is_primary = 1 
+                       AND civicrm_location.id = civicrm_email.location_id 
+                       AND civicrm_email.is_primary = 1   
+                       AND civicrm_contact.id =  "  . CRM_Utils_Type::escape($contactId, 'Integer');
+            
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+        }
+    }
+    
     /**
      * Delete the object records that are associated with this contact
      *

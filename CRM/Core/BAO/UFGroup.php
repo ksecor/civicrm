@@ -374,17 +374,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller->process( );
             $controller->setEmbedded( true );
             $controller->run( );
-
+            
             $template =& CRM_Core_Smarty::singleton( );
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
-
             // make sure we have a valid group
             $group =& new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );
-
+            
             if ( $group->find( true ) && $userID ) {
                 require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
@@ -400,6 +399,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $template =& CRM_Core_Smarty::singleton( );
                 return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
+            } else {
+                // fix for CRM 701
+                require_once 'CRM/Contact/BAO/Contact.php';
+                
+                $userEmail = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+                
+                // if post not empty then only proceed
+                if ( ! empty ( $_POST ) ) {
+                    if ( CRM_Utils_Rule::email( $_POST['edit']['mail'] ) && ( $_POST['edit']['mail']  != $userEmail[1] ) ) {
+                        require_once 'CRM/Core/BAO/UFMatch.php';
+                        CRM_Core_BAO_UFMatch::updateContactEmail( $userID, $_POST['edit']['mail'] );
+                    }
+                }
             }
         }
         return '';
