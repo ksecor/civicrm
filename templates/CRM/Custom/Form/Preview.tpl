@@ -11,7 +11,7 @@
 {include file="CRM/common/info.tpl"}
 <div class="form-item">
 {strip}
-
+{debug}
 {foreach from=$groupTree item=cd_edit key=group_id}
     <p></p>
     <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
@@ -20,7 +20,7 @@
     {foreach from=$cd_edit.fields item=element key=field_id}
 	{if $element.options_per_line}
         {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
-        <dt>{$element.label} </dt>
+        <dt>{$form.$element_name.label} </dt>
         <dd>
             {assign var="count" value="1"}
                 <table class="form-layout-compressed">
