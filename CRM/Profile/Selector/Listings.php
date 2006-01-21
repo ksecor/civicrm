@@ -130,6 +130,18 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $this->_params = $params;
         
         $this->_gid = $ufGroupId;
+
+        //get the details of the uf group 
+        $ufGroupParam   = array('id' => $ufGroupId);
+        CRM_Core_BAO_UFGroup::retrieve($ufGroupParam, $details);
+
+        $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
+        
+        // add group id to params if a uf group belong to a any group
+        if ($groupId) {
+            $this->_params['group'] = array($groupId => 1);
+        }
+
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
