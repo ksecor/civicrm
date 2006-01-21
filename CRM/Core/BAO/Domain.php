@@ -147,6 +147,22 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         }
         return $this->_location;
     }
+
+    /**
+     * Save the values of a domain
+     *
+     * @return domain array        
+     * @access public
+     */
+    static function edit(&$params, &$id) {
+        
+        $domain     =& new CRM_Core_DAO_Domain( );
+        $domain->id = $id;
+        $domain->copyValues( $params );
+        $domain->save( );
+        return $domain;
+    }
+
 }
 
 ?>

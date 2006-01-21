@@ -108,7 +108,7 @@ class CRM_Utils_Menu {
                             'crmType' => self::NORMAL_ITEM,
                             'weight'  => 40,
                             ),
-        
+
                       array(
                             'path'    => 'admin/access',
                             'title'   => ts('Access Control'),
@@ -209,6 +209,18 @@ class CRM_Utils_Menu {
                             'icon'    => 'admin/11.png',
                             'weight'  => 260
                             ),
+
+                      array(
+                            'path'    => 'civicrm/contact/domain',
+                            'title'   => ts('Edit Domain Information'),
+                            'qs'     => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Configure'),
+                            'icon'    => 'admin/13.png',
+                            'weight'  => 270
+                            ),
+
                       array(
                             'path'    => 'civicrm/admin/reltype',
                             'title'   => ts('Relationship Types'),

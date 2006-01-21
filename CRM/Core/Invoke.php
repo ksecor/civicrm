@@ -133,7 +133,14 @@ class CRM_Core_Invoke {
         if ( substr( $args[2], 0, 3 ) == 'add' ) {
             return self::form( CRM_Core_Action::ADD );
         }
-
+        
+        if ( $args[2] == 'domain' ) {
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/domain', 'action=view' ) );
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Domain', ts('Domain Information Page'), null);
+        }
+        
         if ( $args[2] == 'email' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
