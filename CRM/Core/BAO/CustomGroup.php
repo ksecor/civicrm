@@ -881,7 +881,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             foreach ($group['fields'] as $field) { 
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, true); 
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $group['is_required']); 
             } 
  
             if ( $group['collapse_display'] ) { 

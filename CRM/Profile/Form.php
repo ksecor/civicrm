@@ -279,7 +279,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
             } else if ( $field['name'] === 'birth_date' ) {  
-                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') );  
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
             } else if ( $field['name'] === 'gender' ) {  
                 $genderOptions = array( );   
                 $gender = CRM_Core_PseudoConstant::gender();   
@@ -287,12 +287,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $this->addGroup($genderOptions, $field['name'], $field['title'] );  
+                if ($required) {
+                    $this->addRule($field['name'], ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
+                }
             } else if ( $field['name'] === 'individual_prefix' ){
                 $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix());
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
             } else if ( $field['name'] === 'individual_suffix' ){
                 $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());

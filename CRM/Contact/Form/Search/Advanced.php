@@ -205,7 +205,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 CRM_Core_BAO_CustomField::addQuickFormElement( $this,
                                                                $elementName,
                                                                $fieldId,
-                                                               false, false );
+                                                               false, false, true );
             }
         }
 
