@@ -22,19 +22,24 @@
                     {foreach from=$cd.fields item=cd_value key=field_id}
 			        {if $cd_value.options_per_line != 0 }
 			            {assign var="element_name" value="custom_"|cat:$field_id}			
-			            <dt>{$cd_value.label} </dt>
+			            <dt>{$form.$element_name.label} </dt>
 			            <dd>
-                        {if $viewForm.$element_name}
+                        {*{if $viewForm.$element_name}*}
+                        {if $form.$element_name}
                             {assign var="count" value="1"}
                             {assign var="no" value="1"}
                             {strip}
                             <table class="form-layout-compressed">
                                 <tr> 
-                            {section name=rowLoop start=1 loop=$viewForm.$element_name}
+                            {*{section name=rowLoop start=1 loop=$viewForm.$element_name}*}
+                            {section name=rowLoop start=1 loop=$form.$element_name}
                             {assign var=index value=$smarty.section.rowLoop.index}
-                            {if $viewForm.$element_name.$index.html != "" } 
+                            {*{if $viewForm.$element_name.$index.html != "" }*}
+                            {*={$index}=*}
+                            {if $form.$element_name.$index.html != "" }
                                 {if $no != '1'}, {/if}
-                                {$viewForm.$element_name.$index.html}
+                                {*{$viewForm.$element_name.$index.html}*}
+                                {$form.$element_name.$index.html}
                                 {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
                                     </tr> 
@@ -56,13 +61,21 @@
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
-                       <dd>{$viewForm.$element_name.html}&nbsp;</dd> 
+                       {*<dd>{$viewForm.$element_name.html}&nbsp;</dd> *}
+                        <dd>{$form.$element_name.html}&nbsp;</dd> 
                     {/if}
                     {/foreach}
                     </dl>
                 </fieldset>
                 </div>
-                {/foreach}             
+                {/foreach}
+                {if $editCustomData}
+                    <div class="action-link">
+                    {if $groupId}
+                    <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                    {/if}
+                    </div>
+		        {/if}
             </div>
         {/if}    
     {/if}
