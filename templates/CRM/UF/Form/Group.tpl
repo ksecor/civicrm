@@ -37,7 +37,9 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the fieldset.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the fieldset.{/ts}</dd>
+    <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>  
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+   
     
     </dl>
     {/if}

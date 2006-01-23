@@ -90,4 +90,12 @@
        <key>id</key>
       <add>1.4</add>
   </foreignKey>
+ <field>
+       <name>post_URL</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Redirect to URL.</comment>
+       <add>1.4</add>
+  </field>
+
 </table>
