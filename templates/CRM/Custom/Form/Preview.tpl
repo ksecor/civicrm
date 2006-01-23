@@ -11,7 +11,7 @@
 {include file="CRM/common/info.tpl"}
 <div class="form-item">
 {strip}
-{debug}
+
 {foreach from=$groupTree item=cd_edit key=group_id}
     <p></p>
     <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
