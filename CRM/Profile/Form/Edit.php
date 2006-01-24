@@ -70,6 +70,9 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
      */
     public function buildQuickForm()
     {
+        require_once 'CRM/UF/Form/Group.php';
+
+
         $this->addButtons(array(
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
@@ -81,10 +84,20 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
                           );
 
         // add the hidden field to redirect the postProcess from
-        $postURL = CRM_Utils_Array::value( 'postURL', $_POST );
+
+        require_once 'CRM/Core/DAO/UFGroup.php';
+        $ufGroup =& new CRM_Core_DAO_UFGroup( );
+        
+        $ufGroup->id = $this->_gid;
+        $ufGroup->find(true);
+        
+        $postURL = $ufGroup->post_URL;
+        //$postURL = CRM_Utils_Array::value( 'postURL', $_POST );
+
         if ( ! $postURL ) {
             $postURL = CRM_Utils_System::url('civicrm/profile/create', '&amp;gid='.$this->_gid.'&amp;reset=1' );
         }
+      
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL );
         $this->addElement( 'hidden', 'postURL', $postURL );
