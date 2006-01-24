@@ -141,7 +141,7 @@ class CRM_Activity_Form extends CRM_Core_Form
             $defaults['scheduled_date_time'] = array( 'Y' => date('Y'),
                                                       'M' => date('m'),
                                                       'd' => date('d'),
-                                                      'h' => date('H'),
+                                                      'h' => date('h'),
                                                       'i' => $min,
                                                       'A' => date('A') );
         }
@@ -192,7 +192,7 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Save'),
-                                         'isDefault' => true   ),
+                                             'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
                                      )
