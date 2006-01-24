@@ -468,9 +468,15 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function import( $args ) {
-        require_once 'CRM/Import/Controller.php';
-        $controller =& new CRM_Import_Controller(ts('Import Contacts'));
-        return $controller->run();
+        
+        if ($args[2] == 'activityHistory' ) {
+            require_once 'CRM/History/Import/Controller.php';
+            $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
+        } else {
+            require_once 'CRM/Import/Controller.php';
+            $controller =& new CRM_Import_Controller(ts('Import Contacts'));
+        }
+            return $controller->run();
     }
 
 
@@ -597,6 +603,8 @@ class CRM_Core_Invoke {
         $realm = $_GET['realm'];
         if ($realm == 'contribution') {
             $importController = 'CRM_Contribute_Import_Controller';
+        } else if ( $realm == 'history' ) {
+            $importController = 'CRM_History_Import_Controller';
         } else {
             $importController = 'CRM_Import_Controller';
         }

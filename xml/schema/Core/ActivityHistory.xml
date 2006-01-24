@@ -26,7 +26,11 @@
   </field>
   <field>
       <name>entity_id</name>
+      <title> Contact ID (match to contact)</title>
+      <import>true</import>
       <type>int unsigned</type>
+      <headerPattern>/contact(.?id)?/i</headerPattern>
+      <dataPattern>/^\d+$/</dataPattern>
       <required>true</required>
       <comment>FK to entity table specified in entity_table column</comment>
        <add>1.1</add>
@@ -39,6 +43,9 @@
   </index>
   <field>
       <name>activity_type</name>
+      <title>Activity Type</title>
+      <import>true</import>
+      <headerPattern>/activity type/i</headerPattern>
       <type>varchar</type>
       <length>64</length>
       <comment>sortable label for this activity assigned be registering module or user (e.g. Phone Call)</comment>
@@ -46,6 +53,9 @@
   </field>
   <field>
       <name>module</name>
+      <title>Module</title>
+      <import>true</import>
+      <headerPattern>/module/i</headerPattern>
       <type>varchar</type>
       <length>64</length>
       <comment>Display name of module which registered this activity</comment>
@@ -53,6 +63,9 @@
   </field>
   <field>
       <name>callback</name>
+      <title>Callback Method</title>
+      <import>true</import>
+      <headerPattern>/callback|method/i</headerPattern>
       <type>varchar</type>
       <length>64</length>
       <comment>Function to call which will return URL for viewing details</comment>
@@ -60,6 +73,10 @@
   </field>
   <field>
       <name>activity_id</name>
+      <title>Activity ID</title> 
+      <import>true</import>
+      <headerPattern>/actvity(.?id)?/i</headerPattern>
+      <dataPattern>/^\d+$/</dataPattern>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to details item - passed to callback</comment>
@@ -67,6 +84,9 @@
   </field>
   <field>
        <name>activity_summary</name>
+       <title>Activity Summary</title>
+       <import>true</import>
+       <headerPattern>/activity summary/i</headerPattern>
        <type>varchar</type>
        <length>255</length>
        <comment>brief description of activity for summary display - as populated by registering module</comment>
@@ -74,7 +94,10 @@
   </field>
   <field>
        <name>activity_date</name>
+       <title>Activity Date</title>
+       <import>true</import>
        <type>datetime</type>
+       <headerPattern>/activity date/i</headerPattern>
        <default>0</default>
        <comment>when did this activity occur</comment>
        <add>1.1</add>

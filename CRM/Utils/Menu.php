@@ -476,14 +476,34 @@ class CRM_Utils_Menu {
         
                       array(
                             'path'   => 'civicrm/import',
-                            'title'  => ts('Import Contacts'),
+                            'title'  => ts( 'Import' ),
                             'qs'     => 'reset=1',
                             'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                                         CRM_Utils_System::checkPermission( 'access CiviCRM' ),
-                            'type'   => self::CALLBACK,
-                            'crmType' => self::NORMAL_ITEM,
-                            'weight' => 30,
+                            'type'   =>  CRM_Utils_Menu::CALLBACK,
+                            'crmType'=>  CRM_Utils_Menu::NORMAL_ITEM,
+                            'weight' =>  400,
                             ),
+                      array( 
+                             'path'    => 'civicrm/import/contact',
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'Contacts' ), 
+                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ), 
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
+                             'weight'  => 410,
+                             ),
+                       array( 
+                             'path'    => 'civicrm/import/activityHistory', 
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'Activity History' ), 
+                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
+                             'weight'  => 420,  
+                             ),
 
                       array(
                             'path'   => 'civicrm/export/contact',

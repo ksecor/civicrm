@@ -1571,6 +1571,100 @@ function _crm_location_match(&$contact, &$values) {
     return true;
 }
 
+/**
+ * This function adds the activity history variable in $values to the
+ * parameter list $params.  For most cases, $values should have length 1.
+ *
+ * @param array  $values    The variable(s) to be added
+ * @param array  $params    The structured parameter list
+ * 
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_add_formatted_history_param(&$values, &$params) {
+
+    /* Cache the various object fields */
+    static $fields = null;
+
+    if ($fields == null) {
+        $fields = array();
+    }
+    //print_r($values); 
+    //print_r($params);
+    
+    if (isset($values['activity_type'])) {
+        $params['activity_type'] = $values['activity_type'];
+        return true;
+    }
+
+    if (isset($values['activity_date'])) {
+        $params['activity_date'] = $values['activity_date'];
+        return true;
+    }
+
+     if (isset($values['activity_id'])) {
+        $params['activity_id'] = $values['activity_id'];
+        return true;
+    }
+
+    /* Check for custom field values */
+    if ($fields['custom'] == null) {
+        $fields['custom'] =& CRM_Core_BAO_CustomField::getFields('Contribution');
+    }
+    
+    foreach ($values as $key => $value) {
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            /* check if it's a valid custom field id */
+            if (!array_key_exists($customFieldID, $fields['custom'])) {
+                return _crm_error('Invalid custom field ID');
+            }
+            
+            if (!isset($params['custom'])) {
+                $params['custom'] = array();
+            }
+            
+            // fixed for Import
+            $newMulValues = array();
+            if ( $fields['custom'][$customFieldID][3] == 'CheckBox' || $fields['custom'][$customFieldID][3] =='Multi-Select') {
+                $value = str_replace("|",",",$value);
+                $mulValues = explode( ',' , $value );
+                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $mulValues as $v1 ) {
+                    foreach( $custuomOption as $v2 ) {
+                        if ( $v2['label'] == trim($v1) ) {
+                            $newMulValues[] = $v2['value'];
+                        }
+                    }
+                }
+                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+            } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
+                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $custuomOption as $v2 ) {
+                    if ( $v2['label'] == trim($value) ) {
+                        $value = $v2['value'];
+                        break;
+                    }
+                }
+
+            }
+            
+            $customBlock = count($params['custom']) + 1;
+            $params['custom'][$customBlock] = array(
+                'custom_field_id'    => $customFieldID,
+                'value' => $value,
+                'type' => $fields['custom'][$customFieldID][2],
+                'name' => $fields['custom'][$customFieldID][0]
+            );
+        }
+    }
+    
+    /* Finally, check for contribution fields */
+    if (!isset($fields['History'])) {
+        $fields['History'] =& CRM_Core_DAO_ActivityHistory::fields( );
+    }
+    _crm_store_values( $fields['History'], $values, $params );
+}
+
 function _crm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }

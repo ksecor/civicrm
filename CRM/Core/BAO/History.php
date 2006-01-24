@@ -57,6 +57,16 @@ class CRM_Core_BAO_History {
      * @access public
      * @static
      */
+
+    /**
+     * static field for all the history information that we can potentially import
+     *
+     * @var array
+     * @static
+     */
+    static $_importableFields = null;
+
+
     static function retrieve(&$params, &$defaults, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
@@ -192,5 +202,50 @@ class CRM_Core_BAO_History {
 
         return $historyDAO->save();
     }
+
+    /**
+     * combine all the importable fields from the lower levels object
+     *
+     * The ordering is important, since currently we do not have a weight
+     * scheme. Adding weight is super important and should be done in the
+     * next week or so, before this can be called complete.
+     *
+     * @return array array of importable Fields
+     * @access public
+     */
+    function &importableFields( ) 
+    {
+        if ( ! self::$_importableFields ) {
+            if ( ! self::$_importableFields ) {
+                self::$_importableFields = array();
+            }
+            if (!$status) {
+                $fields = array( '' => array( 'title' => ts('- do not import -') ) );
+            } else {
+                $fields = array( '' => array( 'title' => ts('- Contribution Fields -') ) );
+            }
+            
+            require_once 'CRM/Core/DAO/ActivityHistory.php';
+            $tmpFields     = CRM_Core_DAO_ActivityHistory::import( );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            require_once 'CRM/Core/DAO/DupeMatch.php';
+            $dao = & new CRM_Core_DAO_DupeMatch();;
+            $dao->find(true);
+            $fieldsArray = explode('AND',$dao->rule);
+            $tmpConatctField = array();
+            if( is_array($fieldsArray) ) {
+                foreach ( $fieldsArray as $value) {
+                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                }
+            }
+            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpFields);
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activities'));
+            self::$_importableFields = $fields;
+        }
+        return self::$_importableFields;
+    }
+
 }
 ?>
