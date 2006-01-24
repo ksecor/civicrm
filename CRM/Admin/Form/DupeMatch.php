@@ -106,6 +106,7 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
             for ( $count = 1; $count <= 5 ; $count++ ) { 
                 $this->addElement('select', 'match_on_'.$count, ts('Match On:'), $selectFields );
             }
+            $this->addFormRule( array( 'CRM_Admin_Form_DupeMatch', 'formRule' ));
         }
         parent::buildQuickForm( );
     }
@@ -176,6 +177,31 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
                 }
         }
         CRM_Core_Session::setStatus(ts('The Duplicate Matching rule has been saved.'));
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param   array  $fields   posted values of the form
+     *
+     * @return  array  list of errors to be posted back to the form
+     * @static
+     * @access  public
+     */
+    static function formRule( &$fields ) 
+    {
+        $dupRecords = array();
+        $errors     = array();
+        
+        foreach ( $fields as $key => $value ) {
+            if ( array_key_exists( $value, $dupRecords ) ) {
+                $errors[$key] = 'Duplicate value(s) not allowed';
+            } elseif ( ! empty( $value ) ) {
+                $dupRecords[$value] = 1; 
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
     }
 }
 

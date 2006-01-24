@@ -319,7 +319,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     static function formRule( &$fields ) {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
-        $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );     
+        $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );
+        $in_selector     = CRM_Utils_Array::value( 'in_selector'    , $fields, false );
+        $visibility      = CRM_Utils_Array::value( 'visibility'     , $fields, false );
 
         $errors = array( );
         if ( $is_view && $is_registration ) {
@@ -328,7 +330,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if ( $is_view && $is_required ) {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
-
+        if ( $in_selector && ($visibility != 'Public User Pages and Listings' )) {
+            $errors['visibility'] = 'Visibility should be "Public User Pages and Listings" if "In Selector ?" is checked.';
+        }
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
             $errors['field_name'] = 'Please select a field name';
