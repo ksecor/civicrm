@@ -726,22 +726,22 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     }
                     break;
                 case 'gender':    
-                    if (!in_array($value,CRM_Core_PseudoConstant::gender(true))) {
+                    if (!self::in_value($value,CRM_Core_PseudoConstant::gender(true))) {
                         return _crm_error('Invalid value for field  : Gender');
                     }
                     break;
                 case 'preferred_communication_method':
-                    if(!array_key_exists($value,CRM_Core_SelectValues::pcm())) {
+                    if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
                         return _crm_error('Invalid value for field  : Preferred Communication Method');
                     }
                     break;
                 case 'individual_prefix':
-                    if (! in_array($value,CRM_Core_PseudoConstant::individualPrefix(true))) {
+                    if (! self::in_value($value,CRM_Core_PseudoConstant::individualPrefix(true))) {
                         return _crm_error('Invalid value for field  : Individual Prefix');
                     }
                     break;
                 case 'individual_suffix':
-                    if (!in_array($value,CRM_Core_PseudoConstant::individualSuffix(true))) {
+                    if (!self::in_value($value,CRM_Core_PseudoConstant::individualSuffix(true))) {
                         return _crm_error('Invalid value for field  : Individual Suffix');
                     }   
                     break;
@@ -749,8 +749,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {
                             if ( $stateValue['state_province']) {
-                                if( in_array($stateValue['state_province'],CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
-                                    || in_array($stateValue['state_province'], CRM_Core_PseudoConstant::stateProvince())) {
+                                if( self::in_value($stateValue['state_province'],CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || self::in_value($stateValue['state_province'], CRM_Core_PseudoConstant::stateProvince())) {
                                     continue;
                                 } else {
                                     return _crm_error('Invalid value for field  : State Province ');
@@ -765,8 +765,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     if (!empty( $value ) ) {
                         foreach($value as $stateValue ) {
                             if ( $stateValue['country'] ) {
-                                if(in_array($stateValue['country'], CRM_Core_PseudoConstant::countryIsoCode())
-                                   || in_array($stateValue['country'], CRM_Core_PseudoConstant::country())) {
+                                if(self::in_value($stateValue['country'], CRM_Core_PseudoConstant::countryIsoCode())
+                                   || self::in_value($stateValue['country'], CRM_Core_PseudoConstant::country())) {
                                     continue;
                                 } else {
                                     return _crm_error('Invalid value for field  : Country');
@@ -806,6 +806,23 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
         return true;
     }
+
+    /**
+     * function to ckeck a value present or not in a array
+     *
+     * @return ture if value present in array or retun false 
+     * 
+     * @access public
+     */
+    function in_value($value , $valueArray) {
+        foreach( $valueArray  as $key => $v ) {
+            if (strtolower( $v ) == strtolower( $value )) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
 
 ?>

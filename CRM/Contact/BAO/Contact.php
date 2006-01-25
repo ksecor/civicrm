@@ -821,19 +821,22 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $src = $reverse ? $property : $id;
         $dst = $reverse ? $id       : $property;
-
-        if ( ! array_key_exists( $src, $defaults ) ) {
+        
+        if ( ! array_key_exists( strtolower($src), array_change_key_case( $defaults, CASE_LOWER )) ) {
             return false;
         }
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
         
         if(is_array($look)) {
-            if ( ! array_key_exists( $defaults[$src], $look ) ) {
+            if ( ! array_key_exists( strtolower($defaults[strtolower($src)]),  array_change_key_case( $look   , CASE_LOWER )) ) {
                 return false;
             }
         }
-        $defaults[$dst] = $look[$defaults[$src]];
+        
+        $tempLook = array_change_key_case( $look ,CASE_LOWER);
+       
+        $defaults[$dst] = $tempLook[strtolower($defaults[strtolower($src)])];
         return true;
     }
 
