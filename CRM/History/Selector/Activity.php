@@ -228,7 +228,8 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 } else {
                     $actionLinks = $links;
                     unset($actionLinks[CRM_Core_Action::VIEW]);
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k));
+                    //$row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k));
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k,'cid' => $this->_entityId));
                 }
             }
             unset($row);
