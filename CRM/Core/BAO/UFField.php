@@ -161,6 +161,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->listings_title = $params['listings_title'];
         $ufField->visibility     = $params['visibility'];
         $ufField->help_post      = $params['help_post'];
+        $ufField->label          = $params['label'];
 
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
@@ -169,6 +170,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );
         $ufField->is_match        = CRM_Utils_Array::value( 'is_match'       , $params, false );
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
+
         
         // fix for CRM-316
         if ( $ids['uf_field'] ) {

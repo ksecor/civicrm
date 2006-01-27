@@ -102,6 +102,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     {
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        $this->_field= CRM_Utils_Request::retrieve('field' , $this);
 
         $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
        
@@ -249,6 +250,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->add( 'checkbox', 'is_view'        , ts( 'View Only?'                    ) );
         // $this->add( 'checkbox', 'is_registration', ts( 'Display in Registration Form?' ) );
         //$this->add( 'checkbox', 'is_match'       , ts( 'Key to Match Contacts?'        ) );
+
+        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'label'));
         
         // add buttons
         $this->addButtons(array(

@@ -1,6 +1,6 @@
 {* These jscript calls carryover the field help from the corresponding custom data field. HOWEVER
 they are currently causing sporadic failures in insert and delete - so commenting out for now. dgg *}
-{* <script type="text/javascript" src="{crmURL p='civicrm/server/uf' q="set=1&path=civicrm/server/uf"}"></script>
+{* <script type="text/javascript" src="{crmURL p='civicrm/server/uf' q="set=1&path=civicrm/server/uf"}"></script> 
 <script type="text/javascript" src="{$config->resourceBase}js/UF.js"></script> *}
 
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
@@ -32,6 +32,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {if $action neq 4}
         <dt> </dt><dd class="description">&nbsp;{ts}Select the CiviCRM field you want to include in this Profile.{/ts}</dd>
         {/if}
+        <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Are users required to complete this field?{/ts}</dd>
@@ -58,7 +59,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {/if}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
 	<dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
-        </dl>
+	    </dl>
     </div>
     
     <div id="crm-submit-buttons" class="form-item">
