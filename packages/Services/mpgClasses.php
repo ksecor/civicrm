@@ -3,7 +3,7 @@
 # to support switching from TEST/PRODUCTION hosts
 #################### mpgGlobals ###########################################
 define('MONERIS_TEST_HOST','esqa.moneris.com');
-define('MONERIS_PRODUCTION_HOST','www.moneris.com');
+define('MONERIS_PRODUCTION_HOST','www3.moneris.com');
 
 
 class mpgGlobals{
