@@ -438,4 +438,68 @@ function crm_contact_get_groups( $contactId, $status = null, $numGroupContact = 
     CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, $status, $numGroupContact, $count );
 }
 
+/**
+ * function to retrieve and update geocoding (lat/long) values for a specified 'address object' and 'contact object'  using the configured geo-coding method.
+ * 
+ * @param object  $object     valid address/contact object  
+ *
+ * @return null 
+ * 
+ * $access public 
+ */ 
+function crm_fix_address($object) {
+
+    require_once 'CRM/Utils/Geocode/Yahoo.php';
+    
+    if ( is_a($object, 'CRM_Core_BAO_Address') ) {
+        
+        $temp = array( );
+        foreach ( $object as $name => $value ) {
+            $temp[$name] = $value;
+        }
+        
+        $found = CRM_Utils_Geocode_Yahoo::format( $temp );
+        $object->copyValues($temp);
+        
+        // code for saving the changes in database
+        $params = array( );
+        $ids    = array( );
+        
+        foreach ($object  as $name => $value ) {
+            $params['location'][1]['address'][$name] = $value;
+        }
+        
+        $ids['location'][1]['id'] = $object->location_id;
+        $ids['location'][1]['address'] = $object->id;
+        
+        CRM_Core_BAO_Address::add($params, $ids, 1);
+        
+    } else if ( is_a($object, 'CRM_Contact_BAO_Contact') ) {
+        
+        $params = $ids = $temp = array();
+        $locations =& crm_get_locations($object);
+        $locNo = 1;
+        
+        foreach ($locations as $loc => $value) {
+            $addObject =& $locations[$locNo]->address;
+            foreach ( $addObject as $name => $value ) {
+                $temp[$name] = $value;
+            }
+            if (CRM_Utils_Geocode_Yahoo::format( $temp )) {
+                $params['location'][$locNo]['address']['geo_code_1'] = $temp['geo_code_1']; 
+                $params['location'][$locNo]['address']['geo_code_2'] = $temp['geo_code_2']; 
+                
+                $ids['location'][$locNo]['id']      = $object->location[$locNo]->id;
+                $ids['location'][$locNo]['address'] = $object->location[$locNo]->address->id;
+                $locationId = $locNo;
+                CRM_Core_BAO_Address::add($params, $ids, $locationId);
+            }
+            $locNo++;
+        }
+    } else { 
+        return _crm_error( 'Please pass valid contact / address object.' ); 
+    }
+}
+
+
 ?>
