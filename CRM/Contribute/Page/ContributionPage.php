@@ -148,9 +148,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return $page->run( );
-        } else if ($action & CRM_Core_Action::PREVIEW) {
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            return $this->preview($id) ;
         } else if ($action & CRM_Core_Action::DELETE) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=browse' ) );
@@ -177,25 +174,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
 
         return parent::run();
     }
-
-    /**
-     * Preview contribution page
-     *
-     * @param int $id contribute page id
-     * @return void
-     * @access public
-     */
-    function preview( $id )
-    {
-        require_once 'CRM/Core/Controller/Simple.php';
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contribute_Form_Preview', ts('Preview Contribute Page'), $action);
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=browse'));
-        $controller->set('id', $id);
-        $controller->process();
-        $controller->run();
-    }
-
 
     /**
      * Browse all custom data groups.

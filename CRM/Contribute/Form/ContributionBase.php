@@ -154,7 +154,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $ufJoinParams['weight'] = 2; 
             $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
 
-            if ( $config->paymentBillingMode & CRM_Utils_Payment::BILLING_MODE_FORM ) {
+            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM ) {
                 $this->setCreditCardFields( );
             }
 
