@@ -32,7 +32,6 @@
         {/foreach}
         </table>
         {/strip}
-
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
     	<a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Premium{/ts}</a>
@@ -44,8 +43,8 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/contribute/managePremiums' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}No premium products have been created for your site. You can<a href="%1">add one</a>.{/ts}</dd>
+        {capture assign=crmURL}{crmURL p='civicrm/admin/contribute/managePremiums' q="action=add&reset=1"}{/capture}
+        <dd>{ts 1=$crmURL}No premium products have been created for your site. You can<a href="%1"> add one </a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}
