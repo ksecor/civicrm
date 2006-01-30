@@ -62,6 +62,11 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Page/AcceptCreditCard.php';
             $view =& new CRM_Contribute_Page_AcceptCreditCard(ts('Accept Credit Cards'));
             break;
+
+        case 'managePremiums':
+            require_once 'CRM/Contribute/Page/ManagePremiums.php';
+            $view =& new CRM_Contribute_Page_ManagePremiums(ts('Manage Premiums'));
+            break;
             
         case 'createPPD':
             $session =& CRM_Core_Session::singleton( );

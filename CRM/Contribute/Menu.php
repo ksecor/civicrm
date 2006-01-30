@@ -103,6 +103,18 @@ class CRM_Contribute_Menu {
                              'icon'    => 'admin/accepted_creditcards.png',
                              'weight'  => 395
                              ),
+                        array(
+                             'path'    => 'civicrm/admin/contribute/managePremiums',
+                             'title'   => ts('Manage Premiums'),
+                             'qs'     => 'reset=1',
+                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                             CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
+                             'adminGroup' => 'CiviContribute',
+                             'icon'    => 'admin/accepted_creditcards.png',
+                             'weight'  => 395
+                             ),
 
                        array( 
                              'path'    => 'civicrm/contact/view/contribution', 
