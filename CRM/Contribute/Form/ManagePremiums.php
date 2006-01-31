@@ -61,19 +61,26 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
         $this->addRule( 'name', ts('Please enter a Product name.'), 'required' );
         $this->addRule( 'name', ts('A Product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
-        $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ) );
+        $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ),true );
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
         //$this->add('radio', 'image', ts('Get image from my computer'), null ,null);
-        $image['image']     = $this->createElement('radio',null, null,ts('Get image from my computer '),'image', null );
-        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations:'),'thumbnail', null );
-        $image['defalut']   = $this->createElement('radio',null, null,ts('Use default image'),'defalut', null );
-        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage', null );
+        $image['image']     = $this->createElement('radio',null, null,ts('Get image from my computer '),'image','onClick="add_upload_file_block(\'image\');');
+        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
+        $image['defalut']   = $this->createElement('radio',null, null,ts('Use default image'),'defalut', 'onClick="add_upload_file_block(\'default\');');
+        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
+
+        $image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
         
         $this->addGroup($image,'image',ts('Image'));
         $this->addRule( 'image', ts('Please enter the value for Image'), 'required' );
         
+        $this->add( 'text', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
+        $this->add( 'text', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
+        
+
         $this->add( 'file', 'imageFile',null, 'size=30 maxlength=60', true );
+        
         
         $this->add( 'text', 'price',ts('Market Vlaue'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
         $this->addRule( 'price', ts('Please enter the Market Value for this product'), 'required' );
@@ -84,7 +91,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->add( 'text', 'min_contribution',ts('Minimum Contribution Amount'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'min_contribution' ), true );
         $this->addRule( 'min_contribution', ts('Please enter the Minimum Contribution Amount'), 'required' );
 
-        $this->add('textarea', 'option', ts('Option'), 'rows=3, cols=60' );
+        $this->add('textarea', 'options', ts('Option'), 'rows=3, cols=60' );
 
         $this->add('select', 'period_type', ts('Period Type'),array(''=>'--Select--','rolling'=> 'Rolling','fixed'=>'Fixed'));
                
@@ -114,22 +121,40 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Contribute/BAO/ContributionType.php';
+        
+        require_once 'CRM/Contribute/BAO/ManagePremiums.php';
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Contribute_BAO_ContributionType::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected contribution type has been deleted.') );
+            CRM_Contribute_BAO_ManagePremiums::del($this->_id);
+            CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
 
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
             
+           
+            // FIX ME 
+            if(CRM_Utils_Array::value( 'image',$params, false )) {
+                
+                $value = CRM_Utils_Array::value( 'image',$params, false );
+                if ( $value == 'image' ) {
+                    $params['image'] = $params['imageFile'];
+                } else if (  $value == 'thumbnail' ) {
+                    $params['image']   = $params['imageUrl'];
+                    $params['thumbnail'] = $params['thumbnailUrl'];
+                } else if ( $value == 'default' ) {
+                    $params['image'] = 'default_image.gif';
+                } else {
+                    $params['image'] = '';
+                }
+            }
+
             if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $ids['contributionType'] = $this->_id;
+                $ids['premium'] = $this->_id;
             }
             
-            $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The contribution type "%1" has been saved.', array( 1 => $contributionType->name )) );
+            $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);
+            CRM_Core_Session::setStatus( ts('The Premium Product  "%1" has been saved.', array( 1 => $premium->name )) );
         }
     }
 }

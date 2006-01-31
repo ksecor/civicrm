@@ -11,21 +11,34 @@
           </dd>
        </dl>
       </div>
-     {else}
+  {else}
       <dl>
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
+	<dt>&nbsp;</dt><dd class="description">{ts}Optional product sku or code.{/ts}</dt>
+	
     	<dt>{$form.image.label}</dt><dd>{$form.image.image.html}&nbsp;&nbsp;{$form.imageFile.html}</dd>
 	<dt></dt><dd>{$form.image.thumbnail.html}</dd>
+	
+	<dt id="imageURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
+	<dd id="imageURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.imageUrl.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.imageUrl.html|crmReplace:class:large}</dd>
+	
+        <dt id="thumbnailURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
+	<dd id="thumbnailURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.thumbnailUrl.label}&nbsp;&nbsp;{$form.thumbnailUrl.html|crmReplace:class:large}</dd>
+	
 	<dt></dt><dd>{$form.image.defalut.html}</dd>
 	<dt></dt><dd>{$form.image.noImage.html}</dd>
+	{if $action eq 2}
+	<dt></dt><dd>{$form.image.current.html}</dd>
+	{/if}
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Sell price / market value for premiums. For tax-deductible contributions, this will be stored as non_deductible_amount in the contribution record.{/ts}</dt>
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Actual cost of this product. Useful to determine net return from sale or using this as an incentive.{/ts}</dt>
 	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Minimum contribution required to be eligible to select this premium.{/ts}</dt>
-	<dt>{$form.option.label}</dt><dd>{$form.option.html}</dd>
+	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Comma-delimited list of color, size, etc. options for the product.{/ts}</dt>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
 
@@ -56,13 +69,36 @@
 
 	</div>
       </dl> 
-     {/if}
+ {/if}
     <dl>   
       <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>
 </div>
 
+{if $action neq 8}		
+{literal}
 <script type="text/javascript">
 hide('time-delimited');
+function add_upload_file_block(parms) {
+	if (parms =='thumbnail') {
+	      
+              document.getElementById("imageURL").style.display="block";
+	      document.getElementById("imageURLDef").style.display="block";
+	                    
+	      document.getElementById("thumbnailURL").style.display="block";
+	      document.getElementById("thumbnailURLDef").style.display="block";
+	   
+	} else {
+	      document.getElementById("imageURL").style.display="none";
+	      document.getElementById("imageURLDef").style.display="none";
+	    
+	      document.getElementById("thumbnailURL").style.display="none";
+	      document.getElementById("thumbnailURLDef").style.display="none";
+	   	
+	}	
+}
+
 </script>
+{/literal}
+ {/if}

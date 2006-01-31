@@ -34,9 +34,9 @@
  *
  */
 
-require_once 'CRM/Contribute/DAO/ContributionType.php';
+require_once 'CRM/Contribute/DAO/Product.php';
 
-class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_ContributionType 
+class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product 
 {
 
     /**
@@ -63,17 +63,17 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Contribute_BAO_ContributionType object
+     * @return object CRM_Contribute_BAO_ManagePremium object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) 
     {
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->copyValues( $params );
-        if ( $contributionType->find( true ) ) {
-            CRM_Core_DAO::storeValues( $contributionType, $defaults );
-            return $contributionType;
+        $premium =& new CRM_Contribute_DAO_Product( );
+        $premium->copyValues( $params );
+        if ( $premium->find( true ) ) {
+            CRM_Core_DAO::storeValues( $premium, $defaults );
+            return $premium;
         }
         return null;
     }
@@ -89,7 +89,7 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
      */
     static function setIsActive( $id, $is_active ) 
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_ContributionType', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_Product', $id, 'is_active', $is_active );
     }
 
     /**
@@ -109,14 +109,12 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
         $params['is_deductible'] =  CRM_Utils_Array::value( 'is_deductible', $params, false );
         
         // action is taken depending upon the mode
-        $contributionType               =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->domain_id    = CRM_Core_Config::domainID( );
+        $premium               =& new CRM_Contribute_DAO_Product( );
+        $premium->copyValues( $params );;
         
-        $contributionType->copyValues( $params );;
-        
-        $contributionType->id = CRM_Utils_Array::value( 'contributionType', $ids );
-        $contributionType->save( );
-        return $contributionType;
+        $premium->id = CRM_Utils_Array::value( 'premium', $ids );
+        $premium->save( );
+        return $premium;
     }
     
     /**
@@ -126,15 +124,15 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
      * @static
      */
     
-    static function del($contributionTypeId) 
+    static function del($premiumID) 
     {
         //check dependencies
         
         //delete from contribution Type table
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $contributionTypeId;
-        $contributionType->delete();
+        require_once 'CRM/Contribute/DAO/Product.php';
+        $premium =& new CRM_Contribute_DAO_Product( );
+        $premium->id = $premiumID;
+        $premium->delete();
     }
 
 }
