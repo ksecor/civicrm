@@ -1,6 +1,5 @@
 {* template for custom data *}
-
-    {if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2}
         {include file="CRM/Contact/Form/CustomData.tpl" mainEdit=$mainEditForm}
     {/if}
 
@@ -23,7 +22,7 @@
 			        {if $cd_value.options_per_line != 0 }
 			            {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$form.$element_name.label} </dt>
-			            <dd>
+			            <dd class="html-adjust">
                         {*{if $viewForm.$element_name}*}
                         {if $form.$element_name}
                             {assign var="count" value="1"}
@@ -62,7 +61,7 @@
                         {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
                        {*<dd>{$viewForm.$element_name.html}&nbsp;</dd> *}
-                        <dd>{$form.$element_name.html}&nbsp;</dd> 
+                        <dd class="html-adjust">{$form.$element_name.html}</dd> 
                     {/if}
                     {/foreach}
                     </dl>

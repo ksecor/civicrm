@@ -22,7 +22,7 @@
 			        {if $cd_value.options_per_line != 0 }
 			            {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
-			            <dd>
+			            <dd class="html-adjust">
                         {if $viewForm.$element_name}
                             {assign var="count" value="1"}
                             {assign var="no" value="1"}
@@ -55,7 +55,7 @@
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name" value="custom_"|cat:$field_id}
                         <dt>{$cd_value.label}</dt>
-                       <dd>{$viewForm.$element_name.html}&nbsp;</dd> 
+                        <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd> 
                     {/if}
                     {/foreach}
                     </dl>

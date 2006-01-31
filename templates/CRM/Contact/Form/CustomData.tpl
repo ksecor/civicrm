@@ -13,7 +13,7 @@
 	{if $element.options_per_line != 0 }
         {assign var="element_name" value="custom_"|cat:$field_id}			
         <dt>{$form.$element_name.label}</dt>
-        <dd>
+        <dd class="html-adjust">
         {assign var="count" value="1"}
         {strip}
         <table class="form-layout-compressed">
@@ -39,30 +39,31 @@
         {/strip}
         </dd>
         {if $element.help_post}
-            <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
+            <dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
         {/if}
 	{else}
               {assign var="name" value=`$element.name`} 
               {assign var="element_name" value="custom_"|cat:$field_id}			
               <dt>{$form.$element_name.label}</dt>
-              <dd>
-              <span>&nbsp;{$form.$element_name.html}</span>
+              <dd class="html-adjust">
+              <span>{$form.$element_name.html}</span>
               {if $element.data_type eq 'Date'}
-	        {if $element.skip_calendar NEQ true } 
-                <span>
+	          {if $element.skip_calendar NEQ true } 
+              <span>
                    
-		    {include file="CRM/common/calendar/desc.tpl"}
-		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
-		</span>
-	        {/if}
+		      {include file="CRM/common/calendar/desc.tpl"}
+		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
+		      </span>
+	          {/if}
               {/if}
               </dd>                  
         	{if $element.help_post}
-            	<dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
+            	<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
         	{/if}
 	{/if}
     {/foreach}
     </dl>
+    <div class="spacer"></div>
     {if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
     </fieldset>
     </div>
@@ -71,7 +72,7 @@
 
 {if ! $mainEditForm}
 <dl>
-  <dt></dt><dd>{$form.buttons.html}</dd>
+  <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>  
 {/if}
 

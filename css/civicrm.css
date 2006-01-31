@@ -98,7 +98,7 @@ div.spacer {
   text-align: right;
   vertical-align: top;
   font-weight: bold;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   padding: 5px 15px 5px 0px;
 }
 
@@ -113,7 +113,13 @@ div.spacer {
 }
 
 #crm-container div.form-item dd, #crm-container .data-group dd {
- padding: 5px;
+  padding: 5px;
+}
+
+#crm-container div.form-item dd.html-adjust{
+  float: left;
+  width: 48%;
+  clear: right;
 }
 
 #crm-container div.form-item dd.description {
@@ -208,7 +214,7 @@ div.spacer {
   width: 30px;
 }
 
-#crm-container div.messages {
+#crm-container .messages {
   margin: 1.0em 0em 1.0em;
 }
 
