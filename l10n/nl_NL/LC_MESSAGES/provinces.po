@@ -16,12 +16,13 @@ msgstr ""
 "Project-Id-Version: iso_3166_2 0.45\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-09-08 08:52+0200\n"
-"PO-Revision-Date: 2005-03-07 20:19+0200\n"
-"Last-Translator: Taco Witte <tcwitte@cs.uu.nl>\n"
+"PO-Revision-Date: 2006-01-30 22:36+0100\n"
+"Last-Translator: Michaël Bauwens <michaelbauwens@mac.com>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -1462,7 +1463,7 @@ msgstr "Sofija"
 
 #. name for BG-24
 msgid "Stara Zagora"
-msgstr ""
+msgstr "Stara Zagora"
 
 #. name for BG-27
 msgid "Sumen"
@@ -1634,7 +1635,7 @@ msgstr "Oueme"
 
 #. name for BJ-PL
 msgid "Plateau"
-msgstr ""
+msgstr "Plateau"
 
 #. name for BJ-ZO
 msgid "Zou"
@@ -1690,7 +1691,7 @@ msgstr "Tarija"
 
 #. name for BR-AC
 msgid "Acre"
-msgstr ""
+msgstr "Acre"
 
 #. name for BR-AL
 msgid "Alagoas"
@@ -1718,7 +1719,7 @@ msgstr "Federaal district"
 
 #. name for BR-ES
 msgid "Espirito Santo"
-msgstr ""
+msgstr "Espirito Santo"
 
 #. name for BR-FN
 msgid "Fernando de Noronha"
@@ -1770,7 +1771,7 @@ msgstr "Rio de Janeiro"
 
 #. name for BR-RN
 msgid "Rio Grande do Norte"
-msgstr ""
+msgstr "Rio Grande do Norte"
 
 #. name for BR-RO
 msgid "Rondonia"
@@ -1782,7 +1783,7 @@ msgstr "Roraima"
 
 #. name for BR-RS
 msgid "Rio Grande do Sul"
-msgstr ""
+msgstr "Rio Grande do Sul"
 
 #. name for BR-SC
 msgid "Santa Catarina"
@@ -1810,7 +1811,7 @@ msgstr "Bimini"
 
 #. name for BS-CI
 msgid "Cat Island"
-msgstr ""
+msgstr "Cat Island"
 
 #. name for BS-EX
 msgid "Exuma"
@@ -1818,27 +1819,27 @@ msgstr "Exuma"
 
 #. name for BS-FP
 msgid "Freeport"
-msgstr ""
+msgstr "Freeport"
 
 #. name for BS-FC
 msgid "Fresh Creek"
-msgstr ""
+msgstr "Fresh Creek"
 
 #. name for BS-GH
 msgid "Governor's Harbour"
-msgstr ""
+msgstr "Governor's Harbour"
 
 #. name for BS-GT
 msgid "Green Turtle Cay"
-msgstr ""
+msgstr "Green Turtle Cay"
 
 #. name for BS-HI
 msgid "Harbour Island"
-msgstr ""
+msgstr "Harbour Island"
 
 #. name for BS-HR
 msgid "High Rock"
-msgstr ""
+msgstr "High Rock"
 
 #. name for BS-IN
 msgid "Inagua"
@@ -1846,15 +1847,15 @@ msgstr "Inagua"
 
 #. name for BS-KB
 msgid "Kemps Bay"
-msgstr ""
+msgstr "Kemps Bay"
 
 #. name for BS-LI
 msgid "Long Island"
-msgstr ""
+msgstr "Long Island"
 
 #. name for BS-MH
 msgid "Marsh Harbour"
-msgstr ""
+msgstr "Marsh Harbour"
 
 #. name for BS-MG
 msgid "Mayaguana"
@@ -1862,27 +1863,27 @@ msgstr "Mayaguana"
 
 #. name for BS-NP
 msgid "New Providence"
-msgstr ""
+msgstr "New Providence"
 
 #. name for BS-NB
 msgid "Nicholls Town and Berry Islands"
-msgstr ""
+msgstr "Nicholls Town and Berry Islands"
 
 #. name for BS-RI
 msgid "Ragged Island"
-msgstr ""
+msgstr "Ragged Island"
 
 #. name for BS-RS
 msgid "Rock Sound"
-msgstr ""
+msgstr "Rock Sound"
 
 #. name for BS-SP
 msgid "Sandy Point"
-msgstr ""
+msgstr "Sandy Point"
 
 #. name for BS-SR
 msgid "San Salvador and Rum Cay"
-msgstr ""
+msgstr "San Salvador and Rum Cay"
 
 #. name for BT-33
 msgid "Bumthang"
@@ -15555,3 +15556,4 @@ msgstr "Midlands"
 
 #~ msgid "Oulun Lasni"
 #~ msgstr "Oulu"
+
