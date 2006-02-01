@@ -51,7 +51,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      */
     public function buildQuickForm( ) 
     {
-        parent::buildQuickForm( );
+        //parent::buildQuickForm( );
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
@@ -75,13 +75,14 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->addGroup($image,'image',ts('Image'));
         $this->addRule( 'image', ts('Please enter the value for Image'), 'required' );
         
-        $this->add( 'text', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
-        $this->add( 'text', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
+        $this->addElement( 'file', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
+        $this->addElement( 'file', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
+       
         
 
-        $this->add( 'file', 'imageFile',null, 'size=30 maxlength=60', true );
-        
-        
+        $this->addElement( 'file','uploadFile',ts('Image File Name'), 'size=30 maxlength=60');
+
+               
         $this->add( 'text', 'price',ts('Market Vlaue'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
         $this->addRule( 'price', ts('Please enter the Market Value for this product'), 'required' );
         
@@ -108,11 +109,68 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
        
     
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-
+        
+        $this->addFormRule(array('CRM_Contribute_Form_ManagePremiums', 'formRule'));
+        
+        $this->addButtons( array( 
+                                 array ( 'type'      => 'upload', 
+                                         'name'      => ts('Save'), 
+                                         'isDefault' => true   ), 
+                                 array ( 'type'      => 'cancel', 
+                                         'name'      => ts('Cancel') ), 
+                                 ) 
+                           );
              
     }
 
-       
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        //print_r($params);
+        if ( $params['image'] == 'thumbnail' ) {
+            if ( ! $params['imageUrl']) {
+                $errors ['imageUrl']= "Image URL is Reqiured ";
+            }
+            if ( ! $params['thumbnailUrl']) {
+                $errors ['thumbnailUrl']= "Thumbnail URL is Reqiured ";
+            }
+        }
+
+        if ( ! $params['period_type'] ) {
+            if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $parmas['duration_interval'] ||
+                 $params['frequency_unit'] || $params['frequency_interval'] ) {
+                $errors ['period_type']= "Please Enter the Period Type";
+            }
+        }
+
+        if( $params['duration_unit'] && ! $params['duration_interval'] ) {
+            $errors ['duration_interval']= "Please Enter the Duration Interval";
+        }
+
+        if( $params['duration_interval'] && ! $params['duration_unit'] ) {
+            $errors ['duration_unit']= "Please Enter the Duration Unit";
+        }
+
+        if( $params['frequency_interval'] && ! $params['frequency_unit'] ) {
+            $errors ['frequency_unit']= "Please Enter the Frequency Unit";
+        }
+
+        if( $params['frequency_unit'] && ! $params['frequency_interval'] ) {
+            $errors ['frequency_interval']= "Please Enter the Frequency Interval";
+        }
+
+
+        return empty($errors) ? true : $errors;
+    }
+   
+    
     /**
      * Function to process the form
      *
@@ -127,7 +185,9 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             CRM_Contribute_BAO_ManagePremiums::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
-
+            $imageFile            = $this->controller->exportValue( $this->_name, 'uploadFile' );
+            $imageFileURL         = $this->controller->exportValue( $this->_name, 'imageUrl' );
+            $thumbnailRUL         = $this->controller->exportValue( $this->_name, 'thumbnailUrl' );
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
@@ -138,10 +198,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 
                 $value = CRM_Utils_Array::value( 'image',$params, false );
                 if ( $value == 'image' ) {
-                    $params['image'] = $params['imageFile'];
+                    $params['image'] = $imageFile;
                 } else if (  $value == 'thumbnail' ) {
-                    $params['image']   = $params['imageUrl'];
-                    $params['thumbnail'] = $params['thumbnailUrl'];
+                    $params['image']   = $imageFileURL;
+                    $params['thumbnail'] = $thumbnailRUL;
                 } else if ( $value == 'default' ) {
                     $params['image'] = 'default_image.gif';
                 } else {

@@ -18,7 +18,7 @@
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Optional product sku or code.{/ts}</dt>
 	
-    	<dt>{$form.image.label}</dt><dd>{$form.image.image.html}&nbsp;&nbsp;{$form.imageFile.html}</dd>
+    	<dt>{$form.image.label}</dt><dd>{$form.image.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
 	<dt></dt><dd>{$form.image.thumbnail.html}</dd>
 	
 	<dt id="imageURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
