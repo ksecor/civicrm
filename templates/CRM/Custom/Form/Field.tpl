@@ -165,33 +165,33 @@
 	
    	var action = {$action};
 	{if $action eq 2} 
-           var editIndex    = {$form.data_type.value.0.0}; 
+       var editIndex    = {$form.data_type.value.0.0}; 
 	   var editHtmlType = "{$form.data_type.value.1.0}";
 	{/if}
 		
  	   {literal}
    
- 	         function showSearchRange(chkbox) {
+ 	      function showSearchRange(chkbox) {
 		     if (action == 2) {
-			var data_type = editIndex; 
-			var html_type_name = editHtmlType; 
-			}
-		     else {
-	                var html_type = document.getElementsByName("data_type[1]")[0];
+			    var data_type = editIndex; 
+			    var html_type_name = editHtmlType; 
+		     } else {
+	            var html_type = document.getElementsByName("data_type[1]")[0];
 		        var html_type_name = html_type.options[html_type.selectedIndex].value;
 		        var data_type = document.getElementsByName("data_type[0]")[0].selectedIndex;
-			}
-        	     if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type_name == "Text")) || data_type == 5) {
-
-        		 if (chkbox.checked) {
-        			document.getElementById("searchByRange").style.display = "block";
-        		    }
-			 else {
-        			document.getElementById("searchByRange").style.display = "none";
-        		    }
-		         } 
+		  	 }
+        
+            if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type_name == "Text")) || data_type == 5) {
+        	   if (chkbox.checked) {
+                 document.getElementsByName("is_search_range")[0].checked = true;
+        	     document.getElementById("searchByRange").style.display = "block";
+        	   } else {
+                 document.getElementsByName("is_search_range")[1].checked = true;
+        		 document.getElementById("searchByRange").style.display = "none";
+        	   }
+		    } 
 			
-                 }
+          }
 	  {/literal}
    
 	</script>

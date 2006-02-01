@@ -315,7 +315,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $searchRange[] = $this->createElement( 'radio', null, null, ts( 'No' ), '0' );
         
         $this->addGroup( $searchRange, 'is_search_range', ts( 'Search by Range?' ));
-        $this->setDefaults(array('is_search_range' => '1'));
+        //$this->setDefaults(array('is_search_range' => '1'));
 
         
         // add buttons
