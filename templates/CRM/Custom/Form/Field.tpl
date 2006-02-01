@@ -7,21 +7,24 @@
         var data_type = document.getElementsByName("data_type[0]")[0];
         if (data_type.selectedIndex < 4) {
             if (html_type_name != "Text") {
-	    document.getElementById("showoption").style.display="block";		
-            document.getElementById("hideDefaultValTxt").style.display="none";
-            document.getElementById("hideDefaultValDef").style.display="none";
-            document.getElementById("hideDescTxt").style.display="none";
-            document.getElementById("hideDescDef").style.display="none";
+        	    document.getElementById("showoption").style.display="block";		
+                document.getElementById("hideDefaultValTxt").style.display="none";
+                document.getElementById("hideDefaultValDef").style.display="none";
+                document.getElementById("hideDescTxt").style.display="none";
+                document.getElementById("hideDescDef").style.display="none";
+                document.getElementsByName("is_search_range")[1].checked = true;
+         		document.getElementById("searchByRange").style.display = "none";
+
             } else {
-	    document.getElementById("showoption").style.display="none";
-	    document.getElementById("showoption").style.display="none";
-            document.getElementById("hideDefaultValTxt").style.display="block";
-            document.getElementById("hideDefaultValDef").style.display="block";
-            document.getElementById("hideDescTxt").style.display="block";
-            document.getElementById("hideDescDef").style.display="block";
+    	        document.getElementById("showoption").style.display="none";
+    	        document.getElementById("showoption").style.display="none";
+                document.getElementById("hideDefaultValTxt").style.display="block";
+                document.getElementById("hideDefaultValDef").style.display="block";
+                document.getElementById("hideDescTxt").style.display="block";
+                document.getElementById("hideDescDef").style.display="block";
             }
         } else {
-	    document.getElementById("showoption").style.display="none";
+    	    document.getElementById("showoption").style.display="none";
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
             document.getElementById("hideDescTxt").style.display="block";
@@ -34,15 +37,15 @@
 	    radioOption = 'radio'+i;
 	    checkBoxOption = 'checkbox'+i	
 	    if (data_type.selectedIndex < 4) {
-                 if (html_type_name != "Text") {
-		     if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
-	                 document.getElementById(checkBoxOption).style.display="block";
+           if (html_type_name != "Text") {
+		      if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
+	             document.getElementById(checkBoxOption).style.display="block";
 		         document.getElementById(radioOption).style.display="none";
-		     } else {
-                         document.getElementById(radioOption).style.display="block";	
+		      } else {
+                 document.getElementById(radioOption).style.display="block";	
 		         document.getElementById(checkBoxOption).style.display="none";
-		     }
-		 }
+		      }
+		  }
 	    }
 	}
 
