@@ -139,14 +139,18 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = $this->exportValues();
+//         commented for CRM - 721
+
+//         $params = $this->exportValues();
+//         $params['contact_id'] = $this->_contactId;
+//         $params['status']     = 'Added';
+//         $params['method']  = 'Admin';
+//         $params['date']    = date('YmdHis');
+//         $groupContact = CRM_Contact_BAO_GroupContact::add($params);
         
-        $params['contact_id'] = $this->_contactId;
-        $params['status']     = 'Added';
-        $params['method']  = 'Admin';
-        $params['date']    = date('YmdHis');
-        
-        $groupContact = CRM_Contact_BAO_GroupContact::add($params);
+        $contactID = array($this->_contactId);
+        $groupId = $this->controller->exportValue( 'GroupContact', 'group_id'  );
+        $groupContact = CRM_Contact_BAO_GroupContact::addContactsToGroup($contactID, $groupId);
         
         if ($groupContact) {
             CRM_Core_Session::setStatus( ts('Contact has been added to the selected group.') );
