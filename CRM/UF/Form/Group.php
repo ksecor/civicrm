@@ -78,7 +78,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
              
-            CRM_Utils_System::setTitle( ts( 'Edit %1', array(1 => $title ) ) );
+            CRM_Utils_System::setTitle( ts( 'Profile Settings - %1', array(1 => $title ) ) );
         } else if($this->_action == CRM_Core_Action::DELETE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle( ts( 'Delete %1', array(1 => $title ) ) );

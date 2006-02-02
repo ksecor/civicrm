@@ -98,7 +98,6 @@
     </table>
     </fieldset>
     {if $groupTree}
-    <fieldset><legend>{ts}Custom Data{/ts}</legend>
 	{foreach from=$groupTree item=cd_edit key=group_id}
 
 	    <div id="{$cd_edit.title}[show]" class="data-group">
@@ -170,17 +169,15 @@
 	    </p>
 	    </div>
 	{/foreach}
-
-    </fieldset>
     {/if}
 
     {if $validCiviContribute}
-    <div id="contributeForm[show]" class="form-item">
+    <div id="contributeForm[show]" class="data-group">
       <a href="#" onClick="hide('contributeForm[show]'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
-      {ts}Contributions{/ts}
+      <label>{ts}Contributions{/ts}</label>
     </div>
     <div id="contributeForm">
-    <fieldset><legend><span id="contributeForm[hide]"><a href="#" onClick="hide('contributeForm','contributeForm[hide]'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>{ts}Contributions{/ts}</legend>
+    <fieldset><legend><a href="#" onClick="hide('contributeForm','contributeForm[hide]'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Contributions{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>
