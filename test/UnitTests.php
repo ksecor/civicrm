@@ -23,7 +23,7 @@ class UnitTests extends GroupTest {
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM619.php' );
@@ -42,7 +42,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM531.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM627.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM645.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM707.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM707.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -87,10 +87,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
         
         // UFGroup api
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFField.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFField.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFField.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFField.php'    );
 
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
     }
