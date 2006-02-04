@@ -628,8 +628,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $loc_no = count($locations);
                             if ($nameValue[0] == 'phone') {
                                 $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
-                            } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
+                                // } else if ($nameValue[0] == 'email') {
+                                // $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
                             } else if ($nameValue[0] == 'im') {
                                 $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
                             } else {
