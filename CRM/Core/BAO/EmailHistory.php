@@ -60,10 +60,14 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
     static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress ) {
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         if ( ! $fromEmail ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
+        if ( ! trim($fromDisplayName) ) {
+            $fromDisplayName = $fromEmail;
+        }
+
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
 
         // create the meta level record first
@@ -101,7 +105,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @static
      */
     static function sendMessage( $from, $toID, &$subject, &$message, $emailAddress, $activityID ) {
-        list( $toDisplayName  , $toEmail   ) = CRM_Contact_BAO_Contact::getEmailDetails( $toID   );
+        list( $toDisplayName  , $toEmail   ) = CRM_Contact_BAO_Contact::getContactDetails( $toID   );
         if ( $emailAddress ) {
             $toEmail = trim( $emailAddress );
         }
@@ -110,6 +114,10 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( empty( $toEmail ) ) {
             return false;
         }
+        if ( ! trim($toDisplayName) ) {
+            $toDisplayName = $toEmail;
+        }
+
 
         if ( ! CRM_Utils_Mail::send( $from,
                                      $toDisplayName, $toEmail,
@@ -128,8 +136,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'activity_summary' => ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject)),
                         'activity_date'    => date('YmdHis')
                         );
-        
-        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+         if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
             return false;
         }
         return true;

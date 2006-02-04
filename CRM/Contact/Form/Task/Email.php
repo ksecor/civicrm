@@ -101,7 +101,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( ! $this->_single ) {
             $toArray = array();
             foreach ( $this->_contactIds as $contactId ) {
-                list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+                list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+                if ( ! trim($toDisplayName) ) {
+                    $toDisplayName = $toEmail;
+                }
+                
                 if ( ! empty( $toEmail ) ) {
                     $toArray[] = "\"$toDisplayName\" <$toEmail>";
                 }
@@ -121,10 +125,16 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+        
         if ( ! $fromEmail ) {
             CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
         }
+
+        if ( ! trim($fromDisplayName) ) {
+            $fromDisplayName = $fromEmail;
+        }
+        
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $this->assign( 'from', $from );
         

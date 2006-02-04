@@ -1597,7 +1597,60 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         
         return $location->location_type_id;
     }
+
+
+    /**
+     * function to get the display name, primary email and location type of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return array  of display_name, email and location type if found, or (null,null,null)
+     * @static
+     * @access public
+     */
+    static function getContactDetails( $id ) {
+        // check if the contact type
+        $contactType =  CRM_Contact_BAO_Contact::getContactType( $id );
+
+        // if individual
+       if( $contactType == 'Individual') {
+           $sql = " SELECT  civicrm_individual.first_name, civicrm_individual.last_name,  civicrm_email.email
+                    FROM    civicrm_contact
+                    LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id)
+                    LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                                                   civicrm_contact.id = civicrm_location.entity_id AND
+                                                   civicrm_location.is_primary = 1)
+                    LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+                    WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+       } else { // for household / organization
+           $sql = " SELECT civicrm_contact.display_name, civicrm_email.email
+                    FROM   civicrm_contact
+                    LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
+                                                civicrm_contact.id = civicrm_location.entity_id AND
+                                                civicrm_location.is_primary = 1)
+                    LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
+                    WHERE  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+        }
  
+       $dao =& new CRM_Core_DAO( );
+       $dao->query( $sql );
+       $result = $dao->getDatabaseResult();
+       if ( $result ) {
+           $row  = $result->fetchRow();
+           if ( $row ) {
+               if ($contactType == 'Individual') {
+                   $name  = $row[0] . ' ' . $row[1];
+                   $email = $row[2];
+               } else {
+                   $name  = $row[0];
+                   $email = $row[1];
+               }
+               return array( $name, $email );
+           }
+       }
+       return array( null, null );
+    }
+    
 }
 
 ?>
