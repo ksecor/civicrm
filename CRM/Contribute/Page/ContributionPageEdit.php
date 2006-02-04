@@ -103,6 +103,20 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         case 'ThankYou':
             $form = 'CRM_Contribute_Form_ContributionPage_ThankYou';
             break;
+
+        case 'AddProductToPage':
+            $form = 'CRM_Contribute_Form_ContributionPage_AddProduct';
+            break;
+        
+        case 'Premium':
+            //$form = 'CRM_Contribute_Form_ContributionPage_Premium';
+            require_once 'CRM/Contribute/Page/Premium.php';
+            $page =& new CRM_Contribute_Page_Premium( 'Configure Premiums' );
+            $session =& CRM_Core_Session::singleton();
+            $session->set('singleForm',true);
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id ) );
+            return $page->run( );
+            
         }
 
         if ( $form ) {

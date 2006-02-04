@@ -44,6 +44,19 @@ require_once 'CRM/Contribute/Form.php';
 class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 {
     /**
+     * Function to pre  process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function preProcess() 
+    {
+        parent::preProcess();
+ 
+    }
+
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -75,8 +88,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->addGroup($image,'image',ts('Image'));
         $this->addRule( 'image', ts('Please enter the value for Image'), 'required' );
         
-        $this->addElement( 'file', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
-        $this->addElement( 'file', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
+        $this->addElement( 'text', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
+        $this->addElement( 'text', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
        
         
 
@@ -132,8 +145,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      * @access public
      * @static
      */
-    public function formRule(&$params) {
-        //print_r($params);
+    public function formRule(&$params, &$files) {
+
         if ( $params['image'] == 'thumbnail' ) {
             if ( ! $params['imageUrl']) {
                 $errors ['imageUrl']= "Image URL is Reqiured ";
@@ -142,6 +155,24 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $errors ['thumbnailUrl']= "Thumbnail URL is Reqiured ";
             }
         }
+
+       
+        $fileLocation  = $files['uploadFile']['tmp_name'];
+        $fileInfo      = getimagesize($fileLocation); 
+        $filedimention = $fileInfo[3];
+        if ( $filedimention ) { 
+            $dimention = explode("\"" , $filedimention);
+            $width  = $dimention[1];
+            $height = $dimention[3];
+
+            if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {
+                $errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
+            }
+            
+        }
+        
+        
+
 
         if ( ! $params['period_type'] ) {
             if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $parmas['duration_interval'] ||
@@ -179,15 +210,17 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      */
     public function postProcess() 
     {
-        
         require_once 'CRM/Contribute/BAO/ManagePremiums.php';
+        
+       
+        
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Contribute_BAO_ManagePremiums::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
             $imageFile            = $this->controller->exportValue( $this->_name, 'uploadFile' );
-            $imageFileURL         = $this->controller->exportValue( $this->_name, 'imageUrl' );
-            $thumbnailRUL         = $this->controller->exportValue( $this->_name, 'thumbnailUrl' );
+            //$imageFileURL         = $this->controller->exportValue( $this->_name, 'imageUrl' );
+            //$thumbnailRUL         = $this->controller->exportValue( $this->_name, 'thumbnailUrl' );
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
@@ -198,10 +231,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 
                 $value = CRM_Utils_Array::value( 'image',$params, false );
                 if ( $value == 'image' ) {
-                    $params['image'] = $imageFile;
+                    $params['image'] = empty( $imageFile ) ? null : $imageFile;
                 } else if (  $value == 'thumbnail' ) {
-                    $params['image']   = $imageFileURL;
-                    $params['thumbnail'] = $thumbnailRUL;
+                    $params['image']   = $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
+                    $params['thumbnail'] = $parms['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
                 } else if ( $value == 'default' ) {
                     $params['image'] = 'default_image.gif';
                 } else {

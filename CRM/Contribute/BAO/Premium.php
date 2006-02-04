@@ -34,17 +34,12 @@
  *
  */
 
-require_once 'CRM/Contribute/DAO/Product.php';
+require_once 'CRM/Contribute/DAO/Premium.php';
 
-class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product 
+class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium 
 {
 
-    /**
-     * static holder for the default LT
-     */
-    static $_defaultContributionType = null;
-    
-
+   
     /**
      * class constructor
      */
@@ -89,35 +84,10 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
      */
     static function setIsActive( $id, $is_active ) 
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_Product', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_Premium', $id, 'premiums_active ', $is_active );
     }
 
-    /**
-     * function to add the contribution types
-     *
-     * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
-     * 
-     * @access public
-     * @static 
-     * @return object
-     */
-    static function add(&$params, &$ids) 
-    {
-        
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_deductible'] =  CRM_Utils_Array::value( 'is_deductible', $params, false );
-        
-        // action is taken depending upon the mode
-        $premium               =& new CRM_Contribute_DAO_Product( );
-        $premium->copyValues( $params );
-        
-        $premium->id = CRM_Utils_Array::value( 'premium', $ids );
-        $premium->save( );
-        return $premium;
-    }
-    
-    /**
+       /**
      * Function to delete contribution Types 
      * 
      * @param int $contributionTypeId
@@ -129,8 +99,8 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
         //check dependencies
         
         //delete from contribution Type table
-        require_once 'CRM/Contribute/DAO/Product.php';
-        $premium =& new CRM_Contribute_DAO_Product( );
+        require_once 'CRM/Contribute/DAO/Premium.php';
+        $premium =& new CRM_Contribute_DAO_Premium( );
         $premium->id = $premiumID;
         $premium->delete();
     }

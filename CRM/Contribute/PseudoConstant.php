@@ -132,6 +132,28 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         return self::$creditCard;
     }
 
+
+    /**
+     * Get all premiums 
+     *               
+     * @access public 
+     * @return array - array of all Premiums if any 
+     * @static 
+     */  
+    public static function products() {
+        $products = array();
+        require_once 'CRM/Contribute/DAO/Product.php';
+        $dao = & new CRM_Contribute_DAO_Product();
+        $dao->is_active = 1;
+        $dao->orderBy( 'id' );
+        $dao->find( );
+        
+        while ( $dao->fetch( ) ) {
+            $products[$dao->id] = $dao->name;
+        }
+        return $products;        
+    }
+    
 }
 
 ?>

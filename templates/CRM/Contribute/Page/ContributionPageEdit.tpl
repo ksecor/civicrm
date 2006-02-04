@@ -36,6 +36,12 @@
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}">&raquo; {ts}Custom Page Elements{/ts}</a></td>
     <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
 </tr>
+
+<tr>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Premium"}">&raquo; {ts}Configure Premiums{/ts}</a></td>
+    <td>{ts}need to write description...{/ts}</td>
+</tr>
+
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
     <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live charges will occur, and no contribution records or contact information will be saved to the database.</strong>{/ts}</td>

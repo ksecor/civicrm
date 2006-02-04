@@ -52,12 +52,16 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
      */
     function __construct( $controller, $action = CRM_Core_Action::NONE ) {
         parent::__construct( $controller, $action );
+
         
+        $session =& CRM_Core_Session::singleton();
+        $session->set('singleForm',false);
         $this->_pages = array(
                               'CRM_Contribute_Form_ContributionPage_Settings',
                               'CRM_Contribute_Form_ContributionPage_Amount',
                               'CRM_Contribute_Form_ContributionPage_ThankYou',
                               'CRM_Contribute_Form_ContributionPage_Custom',
+                              'CRM_Contribute_Form_ContributionPage_Premium',
                               );
         
         $this->addSequentialPages( $this->_pages, $action );
