@@ -67,16 +67,34 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
 
         $dao =& new CRM_Core_DAO_EmailHistory();
         $dao->id = $id;
-       
+        
         if ( $dao->find(true) ) {
-            $this->assign('fromName',
-                          CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                       $dao->contact_id,
-                                                       'display_name' ) );
-            $this->assign('toName',
-                          CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                       $cid,
-                                                       'display_name' ) );
+            // get the display name and email for the contact
+            list($toContactName, $toContactEmail) = CRM_Contact_BAO_Contact::getContactDetails($cid);
+            
+            if ( ! trim($toContactName) ) {
+                $toContactName = $toContactEmail;
+            }
+            
+            if ( trim($toContactEmail) ) {
+                $toContactName = "\"$toContactName\" <$toContactEmail>"; 
+            }
+            
+            $this->assign('toName', $toContactName);
+            
+            // get the display name and email for the contact
+            list($fromContactName, $fromContactEmail) = CRM_Contact_BAO_Contact::getContactDetails($dao->contact_id);
+            
+            if ( ! trim($fromContactEmail) ) {
+                CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
+            }
+            
+            if ( ! trim($fromContactName) ) {
+                $fromContactName = $fromContactEmail;
+            }
+            
+            $this->assign('fromName', "\"$fromContactName\" <$fromContactEmail>");
+            
             $this->assign('sentDate', $dao->sent_date);
             $this->assign('subject', $dao->subject);
             $this->assign('message', $dao->message);
