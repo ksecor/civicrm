@@ -122,11 +122,6 @@ class CRM_Contact_Task {
                            4096 => ts( 'Export Contacts'               ),
                            2048 => ts( 'Map Contacts using Google Maps')
                            );
-            if ( isset( $config->smtpServer ) &&
-                 $config->smtpServer != '' &&
-                 $config->smtpServer != 'YOUR SMTP SERVER' ) {
-               $tasks[] = array( 128  => ts( 'Send Email to Contacts' ));
-            }
             return $tasks;
         }
     }
