@@ -132,7 +132,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $locationType =& CRM_Core_PseudoConstant::locationType();
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        $fields =& CRM_Contact_BAO_Contact::importableFields( );
+        $fields =& CRM_Contact_BAO_Contact::importableFields( 'Individual', false, true );
         $select = array( );
         foreach ($fields as $name => $field ) {
             if ( $name ) {

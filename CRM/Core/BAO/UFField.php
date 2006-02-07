@@ -97,7 +97,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static
      *
      */
-
     public static function del($id) 
     { 
         //delete  field field
@@ -128,7 +127,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
 
         return $ufField->find(true);
-        
     }
 
     
@@ -178,10 +176,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             $uf =& new CRM_Core_DAO_UFField();
             $uf->id = $ids['uf_field'];
             $uf->find();
-
             
             if ( $uf->fetch() && $uf->weight != CRM_Utils_Array::value( 'weight', $params, false ) ) {
-                    
                 $searchWeight =& new CRM_Core_DAO_UFField();
                 $searchWeight->uf_group_id = $ids['uf_group'];
                 $searchWeight->weight = CRM_Utils_Array::value( 'weight', $params, false );
@@ -237,10 +233,55 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 
         return $ufField->save();
-
-        
-        
     }
+
+
+    /**
+     * Function to enable/disable profile field given a custom field
+     *
+     * @param int      $customFieldId custom field id
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    function setUFField($customFieldId, $is_active) 
+    {
+        //find the profile id given custom field
+        $ufField =& new CRM_Core_DAO_UFField();
+        $ufField->field_name = "custom_".$customFieldId;
+        
+        $ufField->find();
+        while ($ufField->fetch()) {
+            //enable/ disable profile
+            CRM_Core_BAO_UFField::setIsActive($ufField->id, $is_active);
+        }
+    }
+
+
+   /**
+     * Function to delete profile field given a custom field
+     *
+     * @param int      $customFieldId custom field id
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    function delUFField($customFieldId) 
+    {
+        //find the profile id given custom field
+        $ufField =& new CRM_Core_DAO_UFField();
+        $ufField->field_name = "custom_".$customFieldId;
+        
+        $ufField->find();
+        while ($ufField->fetch()) {
+            //enable/ disable profile
+            CRM_Core_BAO_UFField::del($ufField->id);
+        }
+    }
+
 }
 
 ?>

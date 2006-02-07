@@ -184,12 +184,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Store and return an array of all active custom fields.
      *
+     * @param int     $contactType contact type
+     * @param boolean $showAll if true returns all fields (includes disabled fields)
+     *
      * @return array $fields - 
      *
      * @access public
      * @static
      */
-    public static function &getFields($contactType = 'Individual' ) {
+    public static function &getFields($contactType = 'Individual', $showAll = false ) {
         
         if ( ! self::$_importFields || ! CRM_Utils_Array::value( $contactType, self::$_importFields ) ) { 
             
@@ -218,12 +221,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
-                     WHERE $cfTable.is_active = 1
-                     AND   $cgTable.is_active = 1
-                     $extends
-                     ORDER BY $cgTable.weight, $cgTable.title,
-                              $cfTable.weight, $cfTable.label";
-                 
+                     WHERE ";
+
+            if (! $showAll) {
+                $query .="$cfTable.is_active = 1
+                          AND $cgTable.is_active = 1";
+            } else {
+                $query .=" 1 ";
+            } 
+            
+            $query .=" $extends
+                       ORDER BY $cgTable.weight, $cgTable.title,
+                                $cfTable.weight, $cfTable.label";
+         
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
             $result = $crmDAO->getDatabaseResult();
@@ -246,14 +256,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * Return the field ids and names (with groups) for import purposes.
      *
      * @param int $contactType contact type
+     * @param boolean $showAll if true returns all fields (includes disabled fields)
      *
      * @return array $fields - 
      *
      * @access public
      * @static
      */
-    public static function &getFieldsForImport($contactType = 'Individual') {
-        $fields = self::getFields($contactType);
+    public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) {
+        $fields = self::getFields($contactType, $showAll);
         
         $importableFields = array();
         foreach ($fields as $id => $values) {

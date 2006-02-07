@@ -268,10 +268,13 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             $this->preview($id) ;
         } else {
             require_once 'CRM/Core/BAO/CustomField.php';
+            require_once 'CRM/Core/BAO/UFField.php';
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomField::setIsActive($id, 0);
+                CRM_Core_BAO_UFField::setUFField($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_CustomField::setIsActive($id, 1);
+                CRM_Core_BAO_UFField::setUFField($id, 1);
             } 
             $this->browse();
         }

@@ -1194,11 +1194,14 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * scheme. Adding weight is super important and should be done in the
      * next week or so, before this can be called complete.
      *
-     * @param int $contactType contact Type
+     * @param int     $contactType contact Type
+     * @param boolean $status  status is used to manipulate first title
+     * @param boolean $showAll if true returns all fields (includes disabled fields)
+     *
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = null ) {
+    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false ) {
         // the line below is commented coz,
         // if the importableFields are once set then they do not
         // allow to set with different contactTypes
@@ -1249,11 +1252,10 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                                   CRM_Core_DAO_Note::import());
             if ( $contactType != 'All' ) { 
 
-                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
-                    $fields = array_merge($fields, 
-                                          CRM_Core_BAO_CustomField::getFieldsForImport($type));
+                    $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($type, $showAll));
                 }
             }
 

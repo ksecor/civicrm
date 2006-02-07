@@ -104,7 +104,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
         $this->_field= CRM_Utils_Request::retrieve('field' , $this);
 
-        $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
+        if($this->_action & CRM_Core_Action::UPDATE) {
+            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', true, true);
+        } else {
+            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', true);
+        }
        
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
@@ -325,6 +329,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );
         $in_selector     = CRM_Utils_Array::value( 'in_selector'    , $fields, false );
         $visibility      = CRM_Utils_Array::value( 'visibility'     , $fields, false );
+        $is_active       = CRM_Utils_Array::value( 'is_active'      , $fields, false );
 
         $errors = array( );
         if ( $is_view && $is_registration ) {
@@ -341,15 +346,18 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $errors['field_name'] = 'Please select a field name';
         }
         
-        /*   
-        if (CRM_Core_Action::ADD && empty($fields['field_id'])) {
-            $groupId = $fields['group_id'];
-            $query = "SELECT count(*) FROM civicrm_uf_field WHERE uf_group_id = " . CRM_Utils_Type::escape($groupId, 'Integer')  . " AND field_name = '" . CRM_Utils_Type::escape($fieldName, 'String') . "'";
+        if (! empty($fields['field_id'])) {
+            //get custom field id 
+            $customFieldId = explode('_', $fieldName);
             
-            if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {
-                $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
+            $customField =& new CRM_Core_DAO_CustomField();
+            $customField->id = $customFieldId[1];
+            $customField->find(true);
+            
+            if ( !$customField->is_active && $is_active) {
+                $errors['field_name'] = 'Cannot set this field "Active" since the selected custom field is disabled.';
             }
-        }*/
+         }
         return empty($errors) ? true : $errors;
     }
 
