@@ -251,6 +251,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         while ($dao->fetch()) {
             foreach (array('Bounce', 'Delivered', 'Forward', 'Opened', 'Reply',
                 'TrackableURLOpen', 'Unsubscribe') as $event) {
+                require_once "CRM/Mailing/Event/BAO/{$event}.php";
                 eval('$object =& new CRM_Mailing_Event_BAO_' . $event . '();');
                 $object->event_queue_id = $dao->id;
                 $object->delete();
