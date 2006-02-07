@@ -48,6 +48,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @return None
      * @access public
      */
+    
     public function buildQuickForm( ) {
 
         //Setting Upload File Size
@@ -100,7 +101,10 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $this->setDefaults(array('contactType' =>
                                  CRM_Import_Parser::CONTACT_INDIVIDUAL));
 
-
+        //build date formats
+        require_once 'CRM/Core/Form/Date.php';
+        CRM_Core_Form_Date::buildAllowedDateFormats( $this );
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Continue >>'),
@@ -124,9 +128,14 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $onDuplicate      = $this->controller->exportValue( $this->_name,
                             'onDuplicate' );
         $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
+        $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
 
         $this->set('onDuplicate', $onDuplicate);
         $this->set('contactType', $contactType);
+        $this->set('dateFormats', $dateFormats);
+
+        $session =& CRM_Core_Session::singleton();
+        $session->set("dateType",$dateFormats);
 
         $seperator = ',';
         $mapper = array( );

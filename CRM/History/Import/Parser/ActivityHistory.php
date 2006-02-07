@@ -165,8 +165,24 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
             return CRM_History_Import_Parser::ERROR;
         }
 
-         //checking error in custom data
         $params =& $this->getActiveFieldParams( );
+
+        //for date-Formats
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateTypes");
+        foreach ($params as $key => $val) {
+            if ( $key == 'activity_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        return _crm_error('Invalid value for field  : Activity Date');
+                    }
+                }
+            }
+        }
+        //date-Format part ends
+
+        //checking error in custom data
         $params['contact_type'] =  $this->_contactType;
         require_once 'CRM/Import/Parser/Contact.php';
         $error = CRM_Import_Parser_Contact::isErrorInCustomData($params);
@@ -195,6 +211,20 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
         }
         
         $params =& $this->getActiveFieldParams( );
+
+        //for date-Formats
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateTypes");
+        
+        foreach ($params as $key => $val) {
+            if ( $key ==  'activity_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                }
+            }
+        }
+        //date-Format part ends
+
         $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {

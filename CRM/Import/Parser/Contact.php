@@ -106,7 +106,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function init( ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
-       
+
         //Relationship importables
         $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
         
@@ -271,6 +271,25 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         //checking error in custom data
         $params =& $this->getActiveFieldParams( );
         $params['contact_type'] =  $this->_contactType;
+
+        //date-format part
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateType");
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        foreach ( $params  as $key => $val ) {
+            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                if ($customFields[$customFieldID][2] == 'Date') {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key);
+                }
+            }
+            if ( $key == 'birth_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                }
+            }
+        }
+        //date-format part ends
+
         $error = $this->isErrorInCustomData($params);
         if (is_a( $error,CRM_Core_Error )) {
             array_unshift($values, $error->_errors[0]['message']);
@@ -305,8 +324,25 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             return $response;
         }
         $params =& $this->getActiveFieldParams( );
-        
         $formatted = array('contact_type' => $this->_contactType);
+
+        //for date-Formats
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateType");
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        foreach ( $params  as $key => $val ) {
+            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                if ($customFields[$customFieldID][2] == 'Date') {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key);
+                }
+            }
+            if ( $key == 'birth_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                }
+            }
+        }
+        //date-Format part ends
         
         static $indieFields = null;
         if ($indieFields == null) {
@@ -648,7 +684,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
 
     function isErrorInCustomData($params) {
-        
+
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
@@ -716,11 +752,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     
     function isErrorInCoreData($params) {
-        // print_r($params);
         foreach ($params as $key => $value) {
             if ( $value ) {
                 switch( $key ) {
-                case 'birth_date':
+                case 'birth_date': 
                     if (! CRM_Utils_Rule::date($value)) {
                         return _crm_error('Invalid value for field  : Birth Date');
                     }
@@ -823,6 +858,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         return false;
     }
     
+
 }
 
 ?>

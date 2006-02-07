@@ -436,6 +436,74 @@ class CRM_Utils_Date {
         return strtr($iso, $dropArray);
     }
 
+    /**
+     * converts the any given date to default date format.
+     *
+     * @param array  $params     has given date-format
+     * @param int    $dateType   type of date  
+     * @param string $dateParam  index of params
+     * @static
+     */
+    function convertToDefaultDate( &$params, $dateType, $dateParam ) {
+
+        if ( $dateType == 1 ) {
+            return ;
+        }
+        if ( $dateType == 2 ) {
+
+            if ($params[$dateParam]) {
+                $value = $params[$dateParam];
+            }
+            $year   = (int) substr($value,  6, 2);
+            $month  = (int) substr($value,  0, 2);
+            $day    = (int) substr($value,  3, 2);
+            
+            $month = ($month < 10)? "0"."$month" : $month;
+            $day   = ($day < 10)? "0"."$day" : $day;
+            
+            if ($params[$dateParam]) {
+                $params[$dateParam] = "19"."$year$month$day";
+            }
+        }
+        if ( $dateType == 4 ) {
+            
+            if ($params[$dateParam]) {
+                $value = $params[$dateParam];
+            }
+            $year   = (int) substr($value,  6, 4);
+            $month  = (int) substr($value,  0, 2);
+            $day    = (int) substr($value,  3, 2);
+            
+            $month = ($month < 10)? "0"."$month" : $month;
+            $day   = ($day < 10)? "0"."$day" : $day;
+            
+            if ($params[$dateParam]) {
+                $params[$dateParam] = "$year$month$day";
+            }
+        }
+        if ( $dateType == 8 ) {
+            
+            if ($params[$dateParam]) {
+                $value = $params[$dateParam];
+            }
+            $dateArray = explode(' ',$value);
+            $fullMonths = self::getFullMonthNames();
+            foreach ($fullMonths as $key => $val) {
+                if ($dateArray[0] == $val) {
+                    $monthInt = $key; 
+                    break;
+                }
+            }
+            $year   =  $dateArray[2];
+            $day    = (int) $dateArray[1];
+            $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
+            $day    = ($day < 10)? "0"."$day" : $day;
+            
+            if ($params[$dateParam]) {
+                $params[$dateParam] = "$year$month$day";
+            }
+        }
+    }
 }
 
 ?>

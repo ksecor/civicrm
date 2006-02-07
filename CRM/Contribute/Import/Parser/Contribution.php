@@ -165,8 +165,45 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             return CRM_Contribute_Import_Parser::ERROR;
         }
 
-         //checking error in custom data
         $params =& $this->getActiveFieldParams( );
+
+        //for date-Formats
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateTypes");
+        foreach ($params as $key => $val) {
+            if( $val ) {
+                switch( $key ) {
+                case  'receive_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        return _crm_error('Invalid value for field  : Receive Date');
+                    }
+                    break;
+                case  'cancel_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        return _crm_error('Invalid value for field  : Cancel Date');
+                    }
+                    break;
+                case  'receipt_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        return _crm_error('Invalid value for field  : Activity Date');
+                    }
+                    break;
+                case  'thankyou_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if (! CRM_Utils_Rule::date($params[$key])) {
+                        return _crm_error('Invalid value for field  : Thankyou Date');
+                    }
+                    break;
+                    
+                }
+            }
+        }
+        //date-Format part ends
+
+        //checking error in custom data
         $params['contact_type'] =  $this->_contactType;
         require_once 'CRM/Import/Parser/Contact.php';
         $error = CRM_Import_Parser_Contact::isErrorInCustomData($params);
@@ -195,6 +232,31 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
         $params =& $this->getActiveFieldParams( );
+
+        //for date-Formats
+        $session =& CRM_Core_Session::singleton();
+        $dateType = $session->get("dateTypes");
+        
+        foreach ($params as $key => $val) {
+            if( $val ) {
+                switch( $key ) {
+                case  'receive_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    break;
+                case  'cancel_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    break;
+                case  'receipt_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    break;
+                case  'thankyou_date': 
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    break;
+                }
+            }
+        }
+        //date-Format part ends
+
         $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {

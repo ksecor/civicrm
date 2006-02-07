@@ -86,6 +86,10 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
+        //build date formats
+        require_once 'CRM/Core/Form/Date.php';
+        CRM_Core_Form_Date::buildAllowedDateFormats( $this );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Continue >>'),
@@ -108,8 +112,13 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name,
                             'onDuplicate' );
+        $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
 
         $this->set('onDuplicate', $onDuplicate);
+        $this->set('dateFormats', $dateFormats);
+
+        $session =& CRM_Core_Session::singleton();
+        $session->set("dateTypes",$dateFormats);
 
         $seperator = ',';
         $mapper = array( );

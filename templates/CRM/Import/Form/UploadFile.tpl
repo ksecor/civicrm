@@ -55,6 +55,13 @@
         <dd class="description">
             {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
         </dd>
+        <dt>{$form.dateFormats.label}</dt><dd>{$form.dateFormats.html}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+
+            {ts}Select 'Individual' if each record in your file represents and individual person - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.).{/ts}
+        </dd>
+
     </dl>
  </fieldset>
  </div>
