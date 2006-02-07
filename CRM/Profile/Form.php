@@ -265,7 +265,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             // edit or register mode which occur within the CMS form
             if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
                  strpos( $name, 'email' ) !== false ) {
-               // CRM_Core_Error::debug( $name, $this->_mode );
                 continue;
             }
 

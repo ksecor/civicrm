@@ -100,6 +100,7 @@ class CRM_Contact_Task {
             $config =& CRM_Core_Config::singleton( );
 
             if ( ! isset( $config->smtpServer ) ||
+                 $config->smtpServer == '' ||
                  $config->smtpServer == 'YOUR SMTP SERVER' ) {
                 unset( self::$_tasks[128] );
             }
@@ -125,12 +126,10 @@ class CRM_Contact_Task {
             return self::tasks( );
         } else {
             $tasks = array( 
-                           128  => ts( 'Send Email to Contacts'        ), 
                            4096 => ts( 'Export Contacts'               ),
-                           2048 => ts( 'Map Contacts using Google Maps'),
+                           2048 => ts( 'Map Contacts using Google Maps')
                            );
             return $tasks;
-
         }
     }
 

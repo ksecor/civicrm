@@ -91,7 +91,7 @@ function _crm_update_object(&$object, &$values)
 #           }
         }
     }
-
+    //    print_r($object);
     if ($valueFound) {
         $object->save();
     }
@@ -708,9 +708,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             }
         }
         
-        $updateLocation['entity_id'] = $contact->id;
-        $updateLocation['entity_table'] = 
-                CRM_Contact_BAO_Contact::getTableName();
+        $updateLocation['entity_id']    = $contact->id;
+        $updateLocation['entity_table'] = CRM_Contact_BAO_Contact::getTableName();
         
         /* If we're not overwriting, copy old data back before updating */
         if (! $overwrite) {
@@ -730,21 +729,33 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             $contact->location[$contactLocationBlock]->address =& new CRM_Core_BAO_Address( );
         }
         $updateLocation['address']['location_id'] = $contact->location[$contactLocationBlock]->id;
+
+        if ($updateLocation['address']['state_province']) {
+            $state_province       = & new CRM_Core_DAO_StateProvince();
+            $state_province->name = $updateLocation['address']['state_province'];
+            $state_province->find(true);
+            $updateLocation['address']['state_province_id'] = $state_province->id;
+        }
+
+        if ($updateLocation['address']['country']) {
+            $country       = & new CRM_Core_DAO_Country();
+            $country->name = $updateLocation['address']['country'];
+            $country->find(true);
+            $updateLocation['address']['country_id'] = $country->id;
+        }
         
         if (! $overwrite) {
             _crm_update_from_object($contact->location[$contactLocationBlock]->address, $updateLocation['address'], true);
         }
         _crm_update_object( $contact->location[$contactLocationBlock]->address, $updateLocation['address'] );
-    
+        
         $blocks = array( 'Email', 'IM' );
         foreach ( $blocks as $block ) {
             $name = strtolower($block);
             if ( ! is_array($updateLocation[$name]) ) {
                 continue;
             }
-
-
-            
+          
             if ( ! isset( $contact->location[$contactLocationBlock]->$name ) ) {
                 $contact->location[$contactLocationBlock]->$name = array( );
             }
@@ -759,7 +770,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
 
             $propertyBlock = 1;
             foreach ($updateLocation[$name] as $property) {
-                
+               
                 if (! isset($contact->location[$contactLocationBlock]->{$name}[$propertyBlock])) {
                     require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_BAO_" . $block) . ".php");
                     eval( '$contact->location[$contactLocationBlock]->{$name}[$propertyBlock] =& new CRM_Core_BAO_' . $block . '( );' );

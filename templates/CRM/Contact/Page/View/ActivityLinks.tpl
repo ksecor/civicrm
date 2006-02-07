@@ -5,7 +5,7 @@
 {/if}
 
 <div class= "data-group">
-{if $config->smtpServer}
+{if $config->smtpServer AND $config->smtpServer NEQ 'YOUR SMTP SERVER'}
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=3&cid=`$contactId`&reset=1"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=3&cid=`$contactId`&reset=1"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
 {/if}

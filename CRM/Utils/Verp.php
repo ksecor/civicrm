@@ -71,9 +71,6 @@ class CRM_Utils_Verp {
      * @static
      */
     public static function encode($sender, $recipient) {
-//         var $slocal, $sdomain;
-//         var $rlocal, $rdomain;
-
         preg_match('/(.+)\@([^\@]+)$/', $sender, $match);
         $slocal     = $match[1];
         $sdomain    = $match[2];

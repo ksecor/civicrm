@@ -349,15 +349,20 @@ ORDER BY
                     $sortName = "$lastName, $firstName";
                 }
             }
-            $contact->sort_name    = trim($sortName);
-            
+            if (trim($sortName)) {
+                $contact->sort_name    = trim($sortName);
+            }
             // get prefix and suffix names
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
             $suffix = CRM_Core_PseudoConstant::individualSuffix();
             
-            $contact->display_name =
+            $display_name =
                 trim( $prefix[$prefix_id] . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix[$suffix_id] );
-            $contact->display_name = str_replace( '  ', ' ', $contact->display_name );
+            $display_name = str_replace( '  ', ' ', $display_name );
+
+            if (trim($display_name)) {
+                $contact->display_name = $display_name;
+            }
 
             if ( CRM_Utils_Array::value( 'location', $params ) ) {
                 foreach ($params['location'] as $locBlock) {
