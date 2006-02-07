@@ -237,7 +237,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
 
 
     /**
-     * Function to enable/disable profile field given a custom field
+     * Function to enable/disable profile field given a custom field id
      *
      * @param int      $customFieldId custom field id
      * @param boolean  $is_active value we want to set the is_active field
@@ -271,7 +271,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      */
     function delUFField($customFieldId) 
     {
-        //find the profile id given custom field
+        //find the profile id given custom field id
         $ufField =& new CRM_Core_DAO_UFField();
         $ufField->field_name = "custom_".$customFieldId;
         
@@ -279,6 +279,34 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         while ($ufField->fetch()) {
             //enable/ disable profile
             CRM_Core_BAO_UFField::del($ufField->id);
+        }
+    }
+
+    /**
+     * Function to enable/disable profile field given a custom group id
+     *
+     * @param int      $customGroupId custom group id
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    function setUFFieldStatus ($customGroupId, $is_active) 
+    {
+        //find the profile id given custom group id
+        $dao =& new CRM_Core_DAO();
+
+        $queryString = "SELECT civicrm_custom_field.id as custom_field_id
+                        FROM  civicrm_custom_field, civicrm_custom_group
+                        WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
+                          AND civicrm_custom_group.id =" . CRM_Utils_Type::escape($customGroupId, 'Integer');
+        
+        $dao->query($queryString);
+
+        while ($dao->fetch()) {
+            //enable/ disable profile
+            CRM_Core_BAO_UFField::setUFField($dao->custom_field_id, $is_active);
         }
     }
 

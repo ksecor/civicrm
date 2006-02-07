@@ -146,12 +146,15 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             $this->preview($id) ;
         } else {
             require_once 'CRM/Core/BAO/CustomGroup.php';
+            require_once 'CRM/Core/BAO/UFField.php';
 
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomGroup::setIsActive($id, 0);
+                CRM_Core_BAO_UFField::setUFFieldStatus($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_CustomGroup::setIsActive($id, 1);
+                CRM_Core_BAO_UFField::setUFFieldStatus($id, 1);
             }
 
             // finally browse the custom groups
