@@ -58,7 +58,7 @@ class CRM_Utils_Hook_Drupal {
         foreach (module_list() as $module) { 
             $function = $module . '_civicrm_pre';
             if ( function_exists( $function ) ) {
-                $function( $op, $objectName, $objectId, $objectRef );
+                $function( $op, $objectName, $id, $params );
             }
         }
     }
