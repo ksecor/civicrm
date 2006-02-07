@@ -71,12 +71,20 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @static
      */
     static function add(&$params, &$ids) {
+        require_once 'CRM/Utils/Hook.php';
+
         $duplicates = array( );
         if ( self::checkDuplicate( $params, $duplicates ) ) {
             $error =& CRM_Core_Error::singleton( ); 
             $d = implode( ', ', $duplicates );
             $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Found matching contribution(s): $d" );
             return $error;
+        }
+
+        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Contribution', null, $params ); 
         }
 
         $contribution =& new CRM_Contribute_BAO_Contribution();
@@ -93,7 +101,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $contribution->currency = $config->defaultCurrency;
         }
 
-        return $contribution->save();
+        $result = $contribution->save();
+
+        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Contribution', $contribution->id, $contribution );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Contribution', $contribution->id, $contribution );
+        }
+
+        return $result;
     }
 
     /**
@@ -136,7 +152,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @static
      */
     static function &create(&$params, &$ids) {
-        require_once 'CRM/Utils/Hook.php';
         require_once 'CRM/Utils/Money.php';
         require_once 'CRM/Utils/Date.php';
 
@@ -148,15 +163,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
         }
 
-        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
-        } else {
-            CRM_Utils_Hook::pre( 'create', 'Contribution', null, $params ); 
-        }
-
         CRM_Core_DAO::transaction('BEGIN');
 
         $contribution = self::add($params, $ids);
+
         if ( is_a( $contribution, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $contribution;
@@ -229,12 +239,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         CRM_Core_DAO::transaction('COMMIT');
-
-        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', 'Contribution', $contribution->id, $contribution );
-        } else {
-            CRM_Utils_Hook::post( 'create', 'Contribution', $contribution->id, $contribution );
-        }
 
         return $contribution;
     }
