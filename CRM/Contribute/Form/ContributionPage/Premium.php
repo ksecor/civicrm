@@ -52,7 +52,6 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
     function setDefaultValues()
     {
         //parent::setDefaultValues();
-        
         $defaults = array();
         if ( isset($this->_id ) ) {
             $dao =& new CRM_Contribute_DAO_Premium();
@@ -84,11 +83,14 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
         $this->add('textarea', 'premiums_intro_text', ts('Introductory Message'), 'rows=5, cols=50', true );
 
         $this->add('text','premiums_contact_email',ts('Contact Email '),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_email')); 
-
+        
+        $this->addRule('premiums_contact_email',ts('Please Enter valid email address for Contact Email '),'email');
         
         $this->add('text','premiums_contact_phone',ts('Contact Phone'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_phone'));
+        
+        $this->addRule('premiums_contact_phone',ts('Please Enter valid phone'),'phone');
 
-        // is this group active ?
+        $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount ?') );
        
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
@@ -130,9 +132,10 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
             $params['id'] = $premiumID;
         }
 
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['entity_table']  = 'civicrm_contribution_page';
-        $params['entity_id']     =  $this->_id;
+        $params['premiums_active']                   =  CRM_Utils_Array::value( 'premiums_active', $params, false );
+        $params['premiums_display_min_contribution'] =  CRM_Utils_Array::value( 'premiums_display_min_contribution', $params, false );
+        $params['entity_table']                      = 'civicrm_contribution_page';
+        $params['entity_id']                         =  $this->_id;
        
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->copyValues($params);

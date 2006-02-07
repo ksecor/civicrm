@@ -74,19 +74,19 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
+                                                                    'qs'    => 'action=update&id=%%id%%&pid=%%pid%%&reset=1&subPage=AddProductToPage',
                                                                     'title' => ts('Edit Premium') 
                                                                    ),
                                   CRM_Core_Action::PREVIEW => array(
                                                                     'name'  => ts('Preview'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=preview&id=%%id%%',
+                                                                    'qs'    => 'action=preview&id=%%id%%&pid=%%pid&subPage=AddProductToPage',
                                                                     'title' => ts('Preview Premium') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Remove'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'qs'    => 'action=delete&id=%%id%%&pid=%%pid&subPage=AddProductToPage',
                                                                     'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Disable Premium') 
                                                                    ),
@@ -142,7 +142,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         // get all custom groups sorted by weight
         $premiums = array();
         require_once 'CRM/Contribute/DAO/Product.php';
-        $pageID = CRM_Utils_Request::retrieve('id', $this, false, 0);;
+        $pageID = CRM_Utils_Request::retrieve('id', $this, false, 0);
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id = $pageID; 
@@ -165,11 +165,18 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
 
             $action = array_sum(array_keys($this->links()));
 
-           
             $premiums[$dao->product_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->product_id));
+                                                                                    array('id' => $pageID,'pid'=> $dao->id));
             
         }
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        
+        if ( count(CRM_Contribute_PseudoConstant::products($pageID)) == 0  ) {
+            $this->assign( 'products', false );
+        } else {
+            $this->assign( 'products', true );
+        }
+        
         $this->assign('rows', $premiums);
     }
 

@@ -29,6 +29,9 @@
 	
       <dt>{$form.premiums_contact_phone.label}</dt><dd>{$form.premiums_contact_phone.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}This phone number is included in receipts if it is populated and a premium has been selected.{/ts}</dd>
+
+     <dt>{$form.premiums_display_min_contribution.label}</dt><dd>{$form.premiums_display_min_contribution.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Should we automatically display minimum contribution amount text after the premium descriptions.{/ts}</dd>
 	
 	
     </dl>

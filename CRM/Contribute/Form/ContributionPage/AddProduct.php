@@ -41,6 +41,58 @@ require_once 'CRM/Contribute/PseudoConstant.php';
  * form to process actions fo adding product to contribution page                            
  */
 class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_Form_ContributionPage {
+
+    
+    static $_products;
+    static $_pid;
+    
+
+    /**
+     * Function to pre  process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function preProcess() 
+    {
+        parent::preProcess();
+      
+        $this->_products = CRM_Contribute_PseudoConstant::products($this->_id);
+        $this->_pid      = CRM_Utils_Request::retrieve('pid', $this, false, 0);
+
+        if ( $this->_pid  ) {
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->id = $this->_pid;
+            $dao->find(true);
+            $temp = CRM_Contribute_PseudoConstant::products();
+            $this->_products[$dao->product_id] = $temp[$dao->product_id];
+        }
+        
+        //$this->_products = array_merge(array('' => '-- Select Product --') , $this->_products );
+    }
+
+
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return void
+     */
+    function setDefaultValues()
+    {
+        $defaults = array();
+
+        if ( $this->_pid ) {
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->id = $this->_pid;
+            $dao->find(true);
+            $defaults['product_id']    = $dao->product_id;
+            $defaults['sort_position'] = $dao->sort_position;
+        }
+        return $defaults;
+    }
+
     /**
      * Function to actually build the form
      *
@@ -49,9 +101,11 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
      */
     public function buildQuickForm()
     {
-        $this->addElement('select', 'product_id', ts('Select the Prodcut ') ,CRM_Contribute_PseudoConstant::products());
+        $this->addElement('select', 'product_id', ts('Select the Product ') , $this->_products );
+        $this->addRule('product_id', ts('Select the Product ') ,'required' );
         $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
              
+        $this->addRule('sort_position',ts('Please Enter Integer value for Weight') , 'integer');
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
         $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );
@@ -80,9 +134,12 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
     public function postProcess()
     {
         // get the submitted form values.
-        $params = $this->controller->exportValues( $this->_name );
-
-        $pageID = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $params    = $this->controller->exportValues( $this->_name );
+        $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        
+        if ( $this->_pid ) {
+            $params['id'] =  $this->_pid;
+        }
         require_once 'CRM/Contribute/DAO/Premium.php';
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->entity_table = 'civicrm_contribution_page';

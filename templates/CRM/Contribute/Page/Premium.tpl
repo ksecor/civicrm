@@ -31,16 +31,25 @@
         </div>
         {/if}
     </div>
+        {if $products ne null }
 	<div class="action-link">
     	<a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=$id&subPage=AddProductToPage"}">&raquo; {ts}Add Product to this Contribution Page{/ts}</a>
         </div>
+	{/if}
 </div>
 {else}
     <div class="messages status">
     <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=$id&subPage=AddProductToPage"}{/capture}
-        <dd>{ts 1=$crmURL}There are no premiums linked to this contribution page yet. You can <a href="%1"> add one </a>.{/ts}</dd>
+	{if $products ne null }
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+          {capture assign=crmURL}{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=$id&subPage=AddProductToPage"}{/capture}
+          <dd>{ts 1=$crmURL}There are no premiums linked to this contribution page yet. You can <a href="%1"> add one </a>.{/ts}</dd>
+	{else}
+	   <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+           {capture assign=crmURL}{crmURL p='civicrm/admin/contribute/managePremiums' q="reset=1"}{/capture}
+           <dd>{ts 1=$crmURL}There are no active premiums for your site. You can <a href="%1">create and/or enable premiums here{/ts}</dd>
+	
+	{/if}
         </dl>
     </div>  
    

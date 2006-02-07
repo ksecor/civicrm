@@ -140,7 +140,7 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array of all Premiums if any 
      * @static 
      */  
-    public static function products() {
+    public static function products( $pageID = null ) {
         $products = array();
         require_once 'CRM/Contribute/DAO/Product.php';
         $dao = & new CRM_Contribute_DAO_Product();
@@ -151,6 +151,34 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         while ( $dao->fetch( ) ) {
             $products[$dao->id] = $dao->name;
         }
+        if ( $pageID ) {
+            require_once 'CRM/Contribute/DAO/Premium.php';
+            $dao =& new CRM_Contribute_DAO_Premium();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $pageID; 
+            $dao->find(true);
+            $premiumID = $dao->id;
+            
+            $productID = array();  
+            
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->premiums_id = $premiumID;
+            $dao->find();
+            while ($dao->fetch()) {
+                $productID[$dao->product_id] = $dao->product_id;
+            }
+           
+            $tempProduct = array();
+            foreach( $products as $key => $value ) {
+                if ( ! array_key_exists( $key , $productID ) ) {
+                    $tempProduct[$key] = $value;
+                }
+            }
+            
+            return $tempProduct;
+        }
+
         return $products;        
     }
     

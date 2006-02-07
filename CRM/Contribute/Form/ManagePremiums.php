@@ -55,6 +55,31 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
  
     }
 
+     /**
+     * This function sets the default values for the form. Manage Premiums that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        require_once 'CRM/Utils/Rule.php';
+        $defaults = parent::setDefaultValues( );
+        if ( $this->_id ) {
+            $params = array( 'id' => $this->_id );
+            CRM_Contribute_BAO_ManagePremiums::retrieve( $params , $tempDefaults );
+            $imageUrl  = $tempDefaults['image'];
+            if ( CRM_Utils_Rule::url($imageUrl) ) {
+                $defaults ['imageUrl']     = $tempDefaults['image'];
+                $defaults ['thumbnailUrl'] = $tempDefaults['thumbnail'];
+                $defaults ['imageOption' ] = 'thumbnail'; 
+            } else {
+                $defaults ['imageOption' ] = 'current'; 
+            }
+        }
+        return $defaults;
+    }
+
 
     /**
      * Function to build the form
@@ -67,6 +92,14 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         //parent::buildQuickForm( );
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
+            $this->addButtons(array(
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Delete'),
+                                           'isDefault' => true),
+                                    array ('type'      => 'cancel',
+                                           'name'      => ts('Cancel')),
+                                    )
+                              );
             return;
         }
 
@@ -85,18 +118,20 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         $image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
         
-        $this->addGroup($image,'image',ts('Image'));
-        $this->addRule( 'image', ts('Please enter the value for Image'), 'required' );
+        $this->addGroup($image,'imageOption',ts('Image'));
+        $this->addRule( 'imageOption', ts('Please enter the value for Image'), 'required' );
         
         $this->addElement( 'text', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
+        $this->addRule('imageUrl','Please Eneter the valid Image URL','url');
         $this->addElement( 'text', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
+        $this->addRule('thumbnailUrl','Please Eneter the valid Thumbnail URL','url');
        
         
 
         $this->addElement( 'file','uploadFile',ts('Image File Name'), 'size=30 maxlength=60');
 
                
-        $this->add( 'text', 'price',ts('Market Vlaue'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
+        $this->add( 'text', 'price',ts('Market Value'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
         $this->addRule( 'price', ts('Please enter the Market Value for this product'), 'required' );
         
         $this->add( 'text', 'cost',ts('Actual Cost of Product'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'cost' ), true );
@@ -105,7 +140,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->add( 'text', 'min_contribution',ts('Minimum Contribution Amount'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'min_contribution' ), true );
         $this->addRule( 'min_contribution', ts('Please enter the Minimum Contribution Amount'), 'required' );
 
-        $this->add('textarea', 'options', ts('Option'), 'rows=3, cols=60' );
+        $this->add('textarea', 'options', ts('Options'), 'rows=3, cols=60' );
 
         $this->add('select', 'period_type', ts('Period Type'),array(''=>'--Select--','rolling'=> 'Rolling','fixed'=>'Fixed'));
                
@@ -147,7 +182,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
      */
     public function formRule(&$params, &$files) {
 
-        if ( $params['image'] == 'thumbnail' ) {
+        if ( $params['imageOption'] == 'thumbnail' ) {
             if ( ! $params['imageUrl']) {
                 $errors ['imageUrl']= "Image URL is Reqiured ";
             }
@@ -219,27 +254,25 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
             $imageFile            = $this->controller->exportValue( $this->_name, 'uploadFile' );
-            //$imageFileURL         = $this->controller->exportValue( $this->_name, 'imageUrl' );
-            //$thumbnailRUL         = $this->controller->exportValue( $this->_name, 'thumbnailUrl' );
+           
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
-            
            
             // FIX ME 
-            if(CRM_Utils_Array::value( 'image',$params, false )) {
+            if(CRM_Utils_Array::value( 'imageOption',$params, false )) {
                 
-                $value = CRM_Utils_Array::value( 'image',$params, false );
+                $value = CRM_Utils_Array::value( 'imageOption',$params, false );
                 if ( $value == 'image' ) {
-                    $params['image'] = empty( $imageFile ) ? null : $imageFile;
+                    if ( $imageFile ) {
+                        $params['image'] = $imageFile;
+                    }
                 } else if (  $value == 'thumbnail' ) {
                     $params['image']   = $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
-                    $params['thumbnail'] = $parms['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
+                    $params['thumbnail'] = $params['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
                 } else if ( $value == 'default' ) {
                     $params['image'] = 'default_image.gif';
-                } else {
-                    $params['image'] = '';
-                }
+                } 
             }
 
             if ($this->_action & CRM_Core_Action::UPDATE ) {

@@ -1,6 +1,6 @@
 {* this template is used for adding/editing/deleting premium  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Preimum{/ts}{else}{ts}Delete Contribution Type{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{else}{ts}Delete Contribution Type{/ts}{/if}</legend>
   
    {if $action eq 8}
       <div class="messages status">
@@ -18,8 +18,8 @@
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Optional product sku or code.{/ts}</dt>
 	
-    	<dt>{$form.image.label}</dt><dd>{$form.image.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
-	<dt></dt><dd>{$form.image.thumbnail.html}</dd>
+    	<dt>{$form.imageOption.label}</dt><dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
+	<dt></dt><dd>{$form.imageOption.thumbnail.html}</dd>
 	
 	<dt id="imageURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
 	<dd id="imageURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.imageUrl.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.imageUrl.html|crmReplace:class:large}</dd>
@@ -27,10 +27,10 @@
         <dt id="thumbnailURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
 	<dd id="thumbnailURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.thumbnailUrl.label}&nbsp;&nbsp;{$form.thumbnailUrl.html|crmReplace:class:large}</dd>
 	
-	<dt></dt><dd>{$form.image.defalut.html}</dd>
-	<dt></dt><dd>{$form.image.noImage.html}</dd>
+	<dt></dt><dd>{$form.imageOption.defalut.html}</dd>
+	<dt></dt><dd>{$form.imageOption.noImage.html}</dd>
 	{if $action eq 2}
-	<dt></dt><dd>{$form.image.current.html}</dd>
+	<dt></dt><dd>{$form.imageOption.current.html}</dd>
 	{/if}
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Sell price / market value for premiums. For tax-deductible contributions, this will be stored as non_deductible_amount in the contribution record.{/ts}</dt>
@@ -54,7 +54,7 @@
 	<dt>&nbsp;</dt><dd class="description">{ts}Rolling means we set start/end based on current day, Fixed means we set start/end for current year or month(e.g. 1 year + fixed -> we would set start/end for 1/1/06 thru 12/31/06 for any premium chosen in 2006) {/ts}</dt>
  
 	<dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) that fixed period type subscription or membership starts.{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="descriptimageion">{ts}Month and day (MMDD) that fixed period type subscription or membership starts.{/ts}</dt>
 
 	<dt>{$form.duration_unit.label}</dt><dd>{$form.duration_unit.html}</dd>
 	

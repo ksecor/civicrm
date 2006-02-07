@@ -1,11 +1,15 @@
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Contribute/Form/ManagePremiums.tpl"}
-{else}
-    <div id="help">
-        <p>{ts} need to wirte description...    {/ts}</p>
-    </div>
 {/if}
+    
 
+{if $action ne 2}
+{if $action ne 1 or $action ne 8}
+<div id="help">
+<p>{ts} need to wirte description...    {/ts}</p>
+</div>
+
+{/if}
 {if $rows}
 <div id="ltype">
 <p></p>
@@ -49,4 +53,5 @@
         </dl>
     </div>  
     {/if}	  
+{/if}
 {/if}
