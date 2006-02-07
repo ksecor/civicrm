@@ -1570,7 +1570,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 }
                 if ( ! CRM_Utils_Array::value( $locationTypeName, $returnProperties['location'] ) ) {
                     $returnProperties['location'][$locationTypeName] = array( );
-                    $returnProperties['location'][$locationTypeName]['location_type'] = 1;
+                    $returnProperties['location'][$locationTypeName]['location_type'] = $id;
                 }
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                     $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;

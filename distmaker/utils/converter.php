@@ -4,14 +4,14 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
     $sourceCheckoutDir = $GLOBALS['_SERVER']['DM_SOURCEDIR'];
 } else {
     // backward compatibility
-    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/crm';
+    $sourceCheckoutDir = $GLOBALS['_SERVER']['HOME'] . '/svn/trunk';
 }
 
 if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     $targetDir = $GLOBALS['_SERVER']['DM_GENFILESDIR'];
 } else {
     // backward compatibility
-    $targetDir = $GLOBALS['_SERVER']['HOME'] . '/svn/civicrm';
+    $targetDir = $GLOBALS['_SERVER']['HOME'] . '/dist';
 }
 
 require_once "$sourceCheckoutDir/civicrm.config.php";
@@ -52,7 +52,6 @@ class PHP_DownGrade {
        
         $this->argcount  = array( );
         $this->tokens = token_get_all(file_get_contents($file));
-      
         $this->staticcount=0;
         
         $this->statvar    = array( );

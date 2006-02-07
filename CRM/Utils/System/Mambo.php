@@ -69,6 +69,10 @@ class CRM_Utils_System_Mambo {
      * @access public
      */
     static function checkPermission( $str ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
+            return false;
+        }
         return true;
     }
 
