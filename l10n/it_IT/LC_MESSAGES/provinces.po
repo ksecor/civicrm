@@ -9,21 +9,21 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-09-08 08:52+0200\n"
-"PO-Revision-Date: 2000-01-15 02:44+01:00\n"
-"Last-Translator: Andrea Scialpi <solopec@tiscalinet.it>\n"
+"PO-Revision-Date: 2006-02-01 22:24+0100\n"
+"Last-Translator: Marco Arciglio <marco.arciglio@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
 msgstr ""
 
 #. name for AE-AJ
-#, fuzzy
 msgid "'Ajman"
-msgstr "Oman"
+msgstr ""
 
 #. name for AE-FU
 msgid "Al Fujayrah"
@@ -34,9 +34,8 @@ msgid "Ash Shariqah"
 msgstr ""
 
 #. name for AE-DU
-#, fuzzy
 msgid "Dubayy"
-msgstr "Cuba"
+msgstr "Dubai"
 
 #. name for AE-RK
 msgid "Ra's al Khaymah"
@@ -55,9 +54,8 @@ msgid "Badghis"
 msgstr ""
 
 #. name for AF-BGL
-#, fuzzy
 msgid "Baghlan"
-msgstr "Bahrain"
+msgstr ""
 
 #. name for AF-BAL
 #, fuzzy
@@ -65,23 +63,20 @@ msgid "Balkh"
 msgstr "Batch"
 
 #. name for AF-BAM
-#, fuzzy
 msgid "Bamian"
-msgstr "Taiwan"
+msgstr ""
 
 #. name for AF-FRA
-#, fuzzy
 msgid "Farah"
-msgstr "Marzo"
+msgstr ""
 
 #. name for AF-FYB
 msgid "Faryab"
 msgstr ""
 
 #. name for AF-GHA
-#, fuzzy
 msgid "Ghazni"
-msgstr "Ghana"
+msgstr ""
 
 #. name for AF-GHO
 msgid "Ghowr"
@@ -17118,3 +17113,4 @@ msgstr "Finlandia"
 #, fuzzy
 #~ msgid "Fes"
 #~ msgstr "Colori"
+
