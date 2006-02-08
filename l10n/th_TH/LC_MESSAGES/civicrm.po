@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2269,18 +2269,6 @@ msgstr ""
 msgid "- Contact Fields -"
 msgstr "การติดต่อ ประเภท A"
 
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr "ผู้ชาย"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr "ผู้หญิง"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr "อื่นๆ"
-
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
 msgstr ""
@@ -3368,6 +3356,10 @@ msgstr "ประเภทของความสัมพันธ์ได้
 #, fuzzy
 msgid "The Credit Card \"%1\" has been saved."
 msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -6527,7 +6519,7 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+msgid "This site is running CiviCRM v%1."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
@@ -7538,6 +7530,14 @@ msgstr ""
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Checkout With PayPal"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -9702,6 +9702,18 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "ผู้หญิง"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "ผู้ชาย"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "อื่นๆ"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy

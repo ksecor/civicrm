@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2006-02-02 01:48+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
@@ -1123,7 +1123,10 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr "De gegevens kolommen in dit import-bestand blijken te verschillen van de bewaarde mapping. Gelieve te controleren dat je de juiste bewaarde mapping heb geselecteerd vooraleer verder te gaan."
+msgstr ""
+"De gegevens kolommen in dit import-bestand blijken te verschillen van de "
+"bewaarde mapping. Gelieve te controleren dat je de juiste bewaarde mapping "
+"heb geselecteerd vooraleer verder te gaan."
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
@@ -1697,7 +1700,8 @@ msgstr "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
 
 #: CRM/Utils/Payment/Moneris.php CRM/Utils/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_PASSWORD is niet ingesteld in het configuratiebestand."
+msgstr ""
+"CIVICRM_PAYMENT_TEST_PASSWORD is niet ingesteld in het configuratiebestand."
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Please enter a valid subject."
@@ -1783,7 +1787,9 @@ msgstr "Match op:"
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr "De dubbele matching-regel is niet bewaard, omdat de regel ongeldig is. Regels mogen alleen geldige veldnamen bevatten, 'AND', 'OR' of haakjes."
+msgstr ""
+"De dubbele matching-regel is niet bewaard, omdat de regel ongeldig is. "
+"Regels mogen alleen geldige veldnamen bevatten, 'AND', 'OR' of haakjes."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -1897,7 +1903,9 @@ msgstr "Ben je zeker dat je dit Activiteitstype wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "activities."
-msgstr "Gebruikers zullen niet langer in staat zijn om deze waarde te selecteren als ze activiteiten toevoegen of wijzigen."
+msgstr ""
+"Gebruikers zullen niet langer in staat zijn om deze waarde te selecteren als "
+"ze activiteiten toevoegen of wijzigen."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
@@ -1931,7 +1939,9 @@ msgstr "Ben je zeker dat je dit Geslacht wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Gender."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren als ze Geslacht toevoegen of wijzigen."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecteren als ze Geslacht "
+"toevoegen of wijzigen."
 
 #: CRM/Admin/Page/Gender.php
 msgid "Edit Gender"
@@ -1957,7 +1967,9 @@ msgstr "Ben je zeker dat je deze IM-provider wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact IM screen names."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren als ze IM screen-names toevoegen of wijzigen."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecteren als ze IM screen-"
+"names toevoegen of wijzigen."
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "IM Provider"
@@ -1977,13 +1989,16 @@ msgstr "Verwijder IM provider"
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Are you sure you want to disable this Individual Prefix?"
-msgstr "Ben je er zeker van dat je dit Individueel voorvoegsel wil uitschakelen?"
+msgstr ""
+"Ben je er zeker van dat je dit Individueel voorvoegsel wil uitschakelen?"
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Prefix."
-msgstr "Gebruikers zullen niet langer in staat zijn om deze waarde te selecteren bij het toevoegen of wijzigen van het individueel voorvoegsel."
+msgstr ""
+"Gebruikers zullen niet langer in staat zijn om deze waarde te selecteren bij "
+"het toevoegen of wijzigen van het individueel voorvoegsel."
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Edit Individual Prefix"
@@ -2003,13 +2018,16 @@ msgstr "Verwijder Individueel Voorvoegsel"
 
 #: CRM/Admin/Page/IndividualSuffix.php
 msgid "Are you sure you want to disable this Individual Suffix?"
-msgstr "Ben je er zeker van dat je dit individueel Achtervoegsel wil uitschakelen?"
+msgstr ""
+"Ben je er zeker van dat je dit individueel Achtervoegsel wil uitschakelen?"
 
 #: CRM/Admin/Page/IndividualSuffix.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Suffix."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van een Individueel achtervoegsel."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecteren bij het "
+"toevoegen of wijzigen van een Individueel achtervoegsel."
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -2037,7 +2055,9 @@ msgstr "Ben je er zeker van dat je dit type locatie wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van contact locaties."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecteren bij het "
+"toevoegen of wijzigen van contact locaties."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
@@ -2063,7 +2083,9 @@ msgstr "Ben je er zeker van dat je deze GSM-operator wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecterren bij het toevoegen of wijzigen van contact telefoonnummers."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecterren bij het "
+"toevoegen of wijzigen van contact telefoonnummers."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -2091,7 +2113,9 @@ msgstr "Ben je er zeker van dat je dit type relatie wil uitschakelen?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr "Gebruikers zullen deze waarde niet langer kunnen selecteren bij het toevoegen of wijzigen van relaties tussen contacten."
+msgstr ""
+"Gebruikers zullen deze waarde niet langer kunnen selecteren bij het "
+"toevoegen of wijzigen van relaties tussen contacten."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -2123,7 +2147,9 @@ msgstr "Ben je er zeker van dat je dit kaartje wil verwijderen?"
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr "Dit kaartje zal verwijderd worden van alle momenteel gemarkeerde contacten, en gebruikers zullen niet langer contacten kunnen toewijzen aan dit kaartje."
+msgstr ""
+"Dit kaartje zal verwijderd worden van alle momenteel gemarkeerde contacten, "
+"en gebruikers zullen niet langer contacten kunnen toewijzen aan dit kaartje."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -2136,18 +2162,6 @@ msgstr "Verwijder kaartje"
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
 msgstr "- Contact Velden -"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr "Man"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr "Vrouw"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr "Transseksueel"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
@@ -2487,7 +2501,9 @@ msgstr "Slechts één locatie kan worden aangeduid als primair."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr "Het type locatie zou moeten worden ingesteld als er enige locatie informatie is"
+msgstr ""
+"Het type locatie zou moeten worden ingesteld als er enige locatie informatie "
+"is"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -2572,7 +2588,9 @@ msgstr "Contact is overleden"
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr "Voornaam en achternaam OF een emailadres in de primaire locatie zouden ingesteld moeten zijn."
+msgstr ""
+"Voornaam en achternaam OF een emailadres in de primaire locatie zouden "
+"ingesteld moeten zijn."
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -2581,12 +2599,12 @@ msgid ""
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] "Enkel"
-"Er werd één overeenkomstig contact gevonden."
-"Je kan het hier bewerken: %1, of klik op de 'bewaar dubbel contact' knop onderaan."
-msgstr[1] "Meerdere"
-"Er werden meerdere overeenkomstige contacten gevonden."
-"Je kan ze hier bewerken: %1, of klik op de 'bewaar dubbel contact' knop onderaan."
+msgstr[0] ""
+"EnkelEr werd één overeenkomstig contact gevonden.Je kan het hier bewerken: %"
+"1, of klik op de 'bewaar dubbel contact' knop onderaan."
+msgstr[1] ""
+"MeerdereEr werden meerdere overeenkomstige contacten gevonden.Je kan ze hier "
+"bewerken: %1, of klik op de 'bewaar dubbel contact' knop onderaan."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
@@ -2627,20 +2645,19 @@ msgstr "bewaar relatie"
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
-msgstr[0] "Enkel"
-"%count nieuwe relatie aangemaakt."
-msgstr[1] "Meerdere"
-"%count nieuwe relaties aangemaakt."
+msgstr[0] "Enkel%count nieuwe relatie aangemaakt."
+msgstr[1] "Meerdere%count nieuwe relaties aangemaakt."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
 "%count relationship records not created due to invalid target contact type."
-msgstr[0] "Enkel"
-"%count relatie niet aangemaakt omwille van ongeldig type doelcontact."
-msgstr[1] "Meerdere"
-"%count relaties niet aangemaakt omwille van ongeldig type doelcontact."
+msgstr[0] ""
+"Enkel%count relatie niet aangemaakt omwille van ongeldig type doelcontact."
+msgstr[1] ""
+"Meerdere%count relaties niet aangemaakt omwille van ongeldig type "
+"doelcontact."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -3176,6 +3193,11 @@ msgstr ""
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "The Credit Card \"%1\" has been saved."
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+msgstr "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -6121,7 +6143,7 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+msgid "This site is running CiviCRM v%1."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
@@ -7117,6 +7139,14 @@ msgstr ""
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Checkout With PayPal"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -9245,6 +9275,18 @@ msgid "II"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "Vrouw"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "Man"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "Transseksueel"
+
+#: xml/templates/civicrm_data.tpl
 msgid "Donation"
 msgstr ""
 
@@ -9291,4 +9333,3 @@ msgstr "American Express"
 #: xml/templates/civicrm_data.tpl
 msgid "Discover"
 msgstr "Discover"
-

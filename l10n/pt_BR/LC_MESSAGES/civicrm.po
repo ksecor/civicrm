@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2006-01-06 17:35-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -2178,18 +2178,6 @@ msgstr "Excluir Rótulo"
 msgid "- Contact Fields -"
 msgstr "Tipo de Contato -"
 
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr "Masculino"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr "Feminino"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr "Transsexual"
-
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
 msgstr "Estado/UF  - \"%1\""
@@ -3231,6 +3219,11 @@ msgstr "Selecione o Cartao de Credito a ser Excluído."
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "The Credit Card \"%1\" has been saved."
 msgstr "O Cartão de Crédito \"%1\" foi salvo."
+
+#: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+msgstr "CIVICRM_PAYMENT_PASSWORD ausente do arquivo config."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -6329,7 +6322,8 @@ msgid "Click to select date/time from calendar."
 msgstr "Clique para selecioanr data/hora do calendário."
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+#, fuzzy
+msgid "This site is running CiviCRM v%1."
 msgstr "Este site executando %1 código Release Beta."
 
 #: templates/CRM/common/feedback.tpl
@@ -7457,6 +7451,15 @@ msgid ""
 msgstr ""
 "Digite o nome como aparece no seu cartão de crédito ou de débito, e o "
 "endereço para cobrança referente a este cartão."
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#, fuzzy
+msgid "Checkout With PayPal"
+msgstr "Contribuir via PayPal"
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
+msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -10101,6 +10104,18 @@ msgstr "Sr"
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "Feminino"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "Masculino"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "Transsexual"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Donation"

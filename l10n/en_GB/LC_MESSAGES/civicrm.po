@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -2265,18 +2265,6 @@ msgstr "Delete Tag"
 msgid "- Contact Fields -"
 msgstr "Contact Type -"
 
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr "Male"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr "Female"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr "Transgender"
-
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
 msgstr "County - \"%1\""
@@ -3366,6 +3354,10 @@ msgstr "Selected Phone Call has been deleted."
 #, fuzzy
 msgid "The Credit Card \"%1\" has been saved."
 msgstr "The tag \"%1\" has been saved."
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -6539,7 +6531,7 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+msgid "This site is running CiviCRM v%1."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
@@ -7617,6 +7609,14 @@ msgstr ""
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Checkout With PayPal"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -10014,6 +10014,18 @@ msgstr "Sr."
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr "II"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "Female"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "Male"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "Transgender"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy

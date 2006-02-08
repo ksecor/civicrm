@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
@@ -2197,18 +2197,6 @@ msgstr "Poista tuntomerkki."
 msgid "- Contact Fields -"
 msgstr "- Yhteys kentät -"
 
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr "Mies"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr "Nainen"
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr "Transsukupuoli"
-
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
 msgstr "Maakunta - \"%1\""
@@ -3250,6 +3238,11 @@ msgstr "Valittu luottokortti on poistettu"
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "The Credit Card \"%1\" has been saved."
 msgstr "Luottokortti \"%1\" on tallennettu."
+
+#: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -6341,7 +6334,7 @@ msgid "Click to select date/time from calendar."
 msgstr "Valitse päivä/aika kalenterista."
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+msgid "This site is running CiviCRM v%1."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
@@ -7406,6 +7399,15 @@ msgstr ""
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#, fuzzy
+msgid "Checkout With PayPal"
+msgstr "Lahjoita PayPallin välityksellä"
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -9554,6 +9556,18 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "II"
 msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr "Nainen"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr "Mies"
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
+msgstr "Transsukupuoli"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Donation"

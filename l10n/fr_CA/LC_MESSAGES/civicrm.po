@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 09:49+0100\n"
+"POT-Creation-Date: 2006-02-08 10:23+0100\n"
 "PO-Revision-Date: 2005-12-08 02:33+0100\n"
 "Last-Translator: OB <waysail@yahoo.com>\n"
 "Language-Team: none\n"
@@ -2159,18 +2159,6 @@ msgstr ""
 msgid "- Contact Fields -"
 msgstr "Contact Type A"
 
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Male"
-msgstr ""
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Female"
-msgstr ""
-
-#: CRM/Contact/BAO/Individual.php xml/templates/civicrm_data.tpl
-msgid "Transgender"
-msgstr ""
-
 #: CRM/Contact/BAO/Query.php
 msgid "State - \"%1\""
 msgstr ""
@@ -3200,6 +3188,10 @@ msgstr ""
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "The Credit Card \"%1\" has been saved."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -6185,7 +6177,7 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "This site is running %1 Beta release code."
+msgid "This site is running CiviCRM v%1."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
@@ -7183,6 +7175,14 @@ msgstr ""
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Checkout With PayPal"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -9315,6 +9315,18 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "II"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Female"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Male"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Transgender"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
