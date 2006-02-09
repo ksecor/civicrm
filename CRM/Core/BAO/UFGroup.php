@@ -216,7 +216,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null , $searchable = null ) {
+    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null , $searchable = null, $showAll= false ) {
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
@@ -227,10 +227,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $group->id = $id;
         if ( $group->find( true ) ) {
             if( $searchable ) {
-                $where = "WHERE uf_group_id = {$group->id} AND is_active = 1 AND is_searchable = 1"; 
+                $where = "WHERE uf_group_id = {$group->id} AND is_searchable = 1"; 
             } else {
-                $where = "WHERE uf_group_id = {$group->id} AND is_active = 1";
+                $where = "WHERE uf_group_id = {$group->id}";
             }
+
+            if ( !$showAll) {
+                $where .= " AND is_active = 1";
+            } else {
+                $where .= " AND 1";
+            }
+            
             if ( $visibility ) {
                 $clause = array( );
                 if ( $visibility & self::PUBLIC_VISIBILITY ) {
@@ -250,13 +257,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
 
             $field =& CRM_Core_DAO::executeQuery( $query );
+            
+            if ( !$showAll ) {
+                $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
+            } else {
+                $importableFields =& CRM_Contact_BAO_Contact::importableFields("Individual", false, true );
+            }
 
-            $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
             $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
-            
+
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';

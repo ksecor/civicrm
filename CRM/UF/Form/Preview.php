@@ -78,8 +78,13 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
        
         $fid             = $this->get( 'fieldId' ); 
         $this->_gid      = $this->get( 'id' );
-        $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid);
-      
+        
+        if ($field) {
+            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, false, null, null, true);
+        } else {
+            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
+        }
+
         // preview for field
        
         if( $field ) {
@@ -108,6 +113,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         } else {
             $this->assign('viewOnly',true);
         }
+
         $this->set('fieldId',null);
         $this->assign("fields",$this->_fields); 
     }
