@@ -83,7 +83,16 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static
      */
     static function setIsActive($id, $is_active) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
+        //check if custom data profile field is disabled
+        if ($is_active) {
+            if (CRM_Core_BAO_UFField::checkUFStatus($id)) {
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
+            } else {
+                CRM_Core_Session::setStatus(ts('Cannot enable this uf field since the used custom field is disabled.'));
+            }
+        } else {
+            return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
+        }
     }
 
      /**
@@ -228,13 +237,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             $ufField->weight = CRM_Utils_Array::value( 'weight', $params, false );
         }
 
-
         // need the FKEY - uf group id
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 
         return $ufField->save();
     }
-
 
     /**
      * Function to enable/disable profile field given a custom field id
@@ -246,7 +253,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static
      * @access public
      */
-    function setUFField($customFieldId, $is_active) 
+    static function setUFField($customFieldId, $is_active) 
     {
         //find the profile id given custom field
         $ufField =& new CRM_Core_DAO_UFField();
@@ -260,10 +267,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     }
 
 
-   /**
+    /**
      * Function to delete profile field given a custom field
      *
-     * @param int      $customFieldId custom field id
+     * @param int   $customFieldId custom field id
      *
      * @return null
      * @static
@@ -296,20 +303,44 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         //find the profile id given custom group id
         $dao =& new CRM_Core_DAO();
-
+        
         $queryString = "SELECT civicrm_custom_field.id as custom_field_id
                         FROM  civicrm_custom_field, civicrm_custom_group
                         WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
                           AND civicrm_custom_group.id =" . CRM_Utils_Type::escape($customGroupId, 'Integer');
         
         $dao->query($queryString);
-
+        
         while ($dao->fetch()) {
             //enable/ disable profile
             CRM_Core_BAO_UFField::setUFField($dao->custom_field_id, $is_active);
         }
     }
-
+    
+    /**
+     * Function to check the status of custom field used in uf fields
+     *
+     * @params  int $UFFieldId uf field id 
+     *
+     * @return returns null if custom field are disabled else true
+     * @static
+     * @access public
+     */
+    static function checkUFStatus($UFFieldId) 
+    {
+        $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $UFFieldId, 'field_name' );
+        
+        $customFieldId = explode('_', $fieldName);
+        
+        $customField =& new CRM_Core_DAO_CustomField();
+        $customField->id = $customFieldId[1];
+        $customField->find(true);
+        
+        if ( !$customField->is_active) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
-
 ?>
