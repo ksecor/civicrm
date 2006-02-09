@@ -19,50 +19,46 @@
                 <fieldset><legend><a href="#" onclick="hide('{$cd.title}'); show('{$cd.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
-			        {if $cd_value.options_per_line != 0 }
-			            {assign var="element_name" value="custom_"|cat:$field_id}			
-			            <dt>{$form.$element_name.label} </dt>
-			            <dd class="html-adjust">
-                        {*{if $viewForm.$element_name}*}
-                        {if $form.$element_name}
-                            {assign var="count" value="1"}
-                            {assign var="no" value="1"}
-                            {strip}
-                            <table class="form-layout-compressed">
-                                <tr> 
-                            {*{section name=rowLoop start=1 loop=$viewForm.$element_name}*}
-                            {section name=rowLoop start=1 loop=$form.$element_name}
-                            {assign var=index value=$smarty.section.rowLoop.index}
-                            {*{if $viewForm.$element_name.$index.html != "" }*}
-                            {*={$index}=*}
-                            {if $form.$element_name.$index.html != "" }
-                                {if $no != '1'}, {/if}
-                                {*{$viewForm.$element_name.$index.html}*}
-                                {$form.$element_name.$index.html}
-                                {assign var="no" value=`$no+1`}
-                                {if $count == $cd_value.options_per_line}
-                                    </tr> 
-                                    <tr>
-                                    {assign var="count" value="1"}
-                                {else}
-                                    {assign var="count" value=`$count+1`}
-                                {/if} 
-                            {/if}
-                            {/section}
-                            </tr>
-                            </table>
-                            {/strip}
-                        {else}
-                            &nbsp;
+        		        {if $cd_value.options_per_line != 0 }
+			               {assign var="element_name" value="custom_"|cat:$field_id}			
+			               <dt>{$form.$element_name.label} </dt>
+			               <dd class="html-adjust">
+                           {if $form.$element_name}
+                              {assign var="count" value="1"}
+                              {assign var="no" value="1"}
+                              {strip}
+                              <table class="form-layout-compressed">
+                                <tr>
+                                {* sort by fails for option per line. Added a variable to iterate through the element array*}
+                                {assign var="index" value="1"}
+                                {foreach name=outer key=key item=item from=$form.$element_name}
+                                   {if $index < 10}
+                                      {assign var="index" value=`$index+1`}
+                                   {else}
+                                      <td class="labels font-light">{$form.$element_name.$key.html}</td>
+                                      {if $count == $cd_value.options_per_line}{*4*}
+                                         </tr>
+                                         <tr>
+                                         {assign var="count" value="1"}
+                                      {else}
+                                         {assign var="count" value=`$count+1`}
+                                      {/if}
+                                   {/if}
+                                {/foreach}
+                                </tr>
+                              </table>
+                              {/strip}
+                           {else}
+                               &nbsp;
+                           {/if}
+                           </dd>
+	     	            {else}
+                           {assign var="name" value=`$cd_value.name`} 
+                           {assign var="element_name" value="custom_"|cat:$field_id}
+                           <dt>{$cd_value.label}</dt>
+                           {*<dd>{$viewForm.$element_name.html}&nbsp;</dd> *}
+                           <dd class="html-adjust">{$form.$element_name.html}</dd> 
                         {/if}
-                        </dd>
-		            {else}
-                        {assign var="name" value=`$cd_value.name`} 
-                        {assign var="element_name" value="custom_"|cat:$field_id}
-                        <dt>{$cd_value.label}</dt>
-                       {*<dd>{$viewForm.$element_name.html}&nbsp;</dd> *}
-                        <dd class="html-adjust">{$form.$element_name.html}</dd> 
-                    {/if}
                     {/foreach}
                     </dl>
                 </fieldset>
