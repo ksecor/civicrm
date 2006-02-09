@@ -68,7 +68,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
     {            
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $deleteExtra = ts('Are you sure you want to remove this premium.?');
+            $deleteExtra = ts('Are you sure you want to remove this product form this page.?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
@@ -80,13 +80,13 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
                                   CRM_Core_Action::PREVIEW => array(
                                                                     'name'  => ts('Preview'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=preview&id=%%id%%&pid=%%pid&subPage=AddProductToPage',
+                                                                    'qs'    => 'action=preview&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',
                                                                     'title' => ts('Preview Premium') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Remove'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=delete&id=%%id%%&pid=%%pid&subPage=AddProductToPage',
+                                                                    'qs'    => 'action=delete&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',
                                                                     'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Disable Premium') 
                                                                    ),
@@ -158,16 +158,18 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         while ($dao->fetch()) {
             $productDAO =& new CRM_Contribute_DAO_Product();
             $productDAO->id = $dao->product_id;
-            $productDAO->find(true);
-            $premiums[$productDAO->id] = array();
-            $premiums[$productDAO->id]['weight'] = $dao->sort_position;
-            CRM_Core_DAO::storeValues( $productDAO, $premiums[$productDAO->id]);
-
-            $action = array_sum(array_keys($this->links()));
-
-            $premiums[$dao->product_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $pageID,'pid'=> $dao->id));
-            
+            $productDAO->is_active = 1;
+           
+            if ($productDAO->find(true) ) {
+                $premiums[$productDAO->id] = array();
+                $premiums[$productDAO->id]['weight'] = $dao->sort_position;
+                CRM_Core_DAO::storeValues( $productDAO, $premiums[$productDAO->id]);
+                
+                $action = array_sum(array_keys($this->links()));
+                
+                $premiums[$dao->product_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                                  array('id' => $pageID,'pid'=> $dao->id));
+            }
         }
         require_once 'CRM/Contribute/PseudoConstant.php';
         

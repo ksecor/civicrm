@@ -134,6 +134,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Configure Online Contribution Pages') . '</a>';
     
         // what action to take ?
+
         if ( $action & CRM_Core_Action::ADD ) {
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=browse&reset=1' ) );
@@ -148,16 +149,29 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return $page->run( );
+        } else if ($action & CRM_Core_Action::PREVIEW) {
+            require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
+            $page =& new CRM_Contribute_Page_ContributionPageEdit( );
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            return $page->run( );
         } else if ($action & CRM_Core_Action::DELETE) {
-            $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=browse' ) );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
-                                                           'Delete Contribution Page',
-                                                           $mode );
-            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-            $controller->set('id', $id);
-            $controller->process( );
-            return $controller->run( );
+            $subPage = CRM_Utils_Request::retrieve('subPage', $this );
+            if ( $subPage == 'AddProductToPage' ) {
+                require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
+                $page =& new CRM_Contribute_Page_ContributionPageEdit( );
+                CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                return $page->run( );
+            } else {
+                $session =& CRM_Core_Session::singleton();
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=browse' ) );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
+                                                               'Delete Contribution Page',
+                                                               $mode );
+                $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+                $controller->set('id', $id);
+                $controller->process( );
+                return $controller->run( );
+            }
         } else {
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
             // if action is enable or disable to the needful.
@@ -171,7 +185,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             $this->browse();
             CRM_Utils_System::setTitle( ts('Configure Online Contribution Pages') );
         }
-
+       
         return parent::run();
     }
 

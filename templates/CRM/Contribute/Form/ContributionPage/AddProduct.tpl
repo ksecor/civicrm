@@ -10,11 +10,22 @@
 </div>
  
 <div class="form-item">
-    <fieldset><legend>{ts}Add Products to this Page{/ts}</legend>
+    <fieldset><legend>{if $action eq 2 }{ts}Add Products to this Page{/ts} { else } {ts}Remove Products from this Page{/ts}{/if}</legend>
+   {if $action eq 8}
+      <div class="messages status">
+        <dl>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dd>    
+          {ts}Are you sure you want to remove this premium product from this Contribution page ?{/ts}
+          </dd>
+       </dl>
+      </div>
+  {else}
     <dl>
     <dt>{$form.product_id.label}</dt><dd>{$form.product_id.html}</dd>
     <dt>{$form.sort_position.label}</dt><dd>{$form.sort_position.html}</dd>
     </dl>
+  {/if}	
     </fieldset>
 </div>
 

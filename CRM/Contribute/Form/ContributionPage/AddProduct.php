@@ -101,6 +101,19 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
      */
     public function buildQuickForm()
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array(
+                                    array ( 'type'      => 'next',
+                                            'name'      => ts('Delete'),
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;',
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'cancel',
+                                            'name'      => ts('Cancel') ),
+                                    )
+                              );
+            return;
+            
+        }
         $this->addElement('select', 'product_id', ts('Select the Product ') , $this->_products );
         $this->addRule('product_id', ts('Select the Product ') ,'required' );
         $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
@@ -137,25 +150,34 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         $params    = $this->controller->exportValues( $this->_name );
         $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
-        if ( $this->_pid ) {
-            $params['id'] =  $this->_pid;
+        if($this->_action & CRM_Core_Action::DELETE) {
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->id = $this->_pid;
+            $dao->delete();
+            CRM_Core_Session::setStatus( ts('Selected Premium Product has been removed from this Contribution Page.') );
+        } else { 
+            
+            if ( $this->_pid ) {
+                $params['id'] =  $this->_pid;
+            }
+            require_once 'CRM/Contribute/DAO/Premium.php';
+            $dao =& new CRM_Contribute_DAO_Premium();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $pageID; 
+            $dao->find(true);
+            $premiumID = $dao->id;
+            $params['premiums_id'] = $premiumID;
+            
+
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->copyValues($params);
+            $dao->save();
         }
-        require_once 'CRM/Contribute/DAO/Premium.php';
-        $dao =& new CRM_Contribute_DAO_Premium();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $pageID; 
-        $dao->find(true);
-        $premiumID = $dao->id;
-        $params['premiums_id'] = $premiumID;
         
-
-        require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
-        $dao =& new CRM_Contribute_DAO_PremiumsProduct();
-        $dao->copyValues($params);
-        $dao->save();
-
     }
-
+    
     /** 
      * Return a descriptive name for the page, used in wizard header 
      * 
