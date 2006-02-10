@@ -349,13 +349,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (! empty($fields['field_id'])) {
             //get custom field id 
             $customFieldId = explode('_', $fieldName);
-            
-            $customField =& new CRM_Core_DAO_CustomField();
-            $customField->id = $customFieldId[1];
-            $customField->find(true);
-            
-            if ( !$customField->is_active && $is_active) {
-                $errors['field_name'] = 'Cannot set this field "Active" since the selected custom field is disabled.';
+            if ($customFieldId[0] == 'custom') {
+                $customField =& new CRM_Core_DAO_CustomField();
+                $customField->id = $customFieldId[1];
+                $customField->find(true);
+                
+                if ( !$customField->is_active && $is_active) {
+                    $errors['field_name'] = 'Cannot set this field "Active" since the selected custom field is disabled.';
+                }
             }
          }
         return empty($errors) ? true : $errors;
