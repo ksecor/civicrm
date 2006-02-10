@@ -136,5 +136,91 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
         $this->assertIsA($customField, 'CRM_Core_Error');
     }
     
+    function testCreateCustomFieldG()
+    {
+        $paramsG = array('domain_id' => 1,
+                         'title' => 'New Group 6 For Creating Custom Field',
+                         'name'  => 'new_group_6',
+                         'weight' => 6,
+                         'collapse_display' => 1,
+                         'style' => 'Inline',
+                         'is_active' => 1,
+                         'help_pre' => 'This is Pre Help For New Group 6.',
+                         'help_post' => 'This is for extending GROUP type of Class.'
+                         );
+        $class_name = 'Group';
+        $customGroup =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        
+        $paramsF = array('label' => 'Test Field 1 for Group 6',
+                         'name'  => 'test_field_1',
+                         'weight' => 3,
+                         'data_type' => 'string',
+                         'html_type' => 'text',
+                         'is_searchable' => '1', 
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 6',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 6'
+                         );
+        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+    }
+    
+    function testCreateCustomFieldPC()
+    {
+        $paramsG = array('domain_id' => 1,
+                         'title' => 'New Group 7 For Creating Custom Field',
+                         'name'  => 'new_group_7',
+                         'weight' => 7,
+                         'collapse_display' => 1,
+                         'style' => 'Inline',
+                         'is_active' => 1,
+                         'help_pre' => 'This is Pre Help For New Group 7.',
+                         'help_post' => 'This is for extending PHONECALL type of Class.'
+                         );
+        $class_name = 'Phonecall';
+        $customGroup =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        
+        $paramsF = array('label' => 'Test Field 1 for Group 7',
+                         'name'  => 'test_field_1',
+                         'weight' => 3,
+                         'data_type' => 'string',
+                         'html_type' => 'text',
+                         'is_searchable' => '1', 
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 7',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 7'
+                         );
+        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+    }
+    
+    function testCreateCustomFieldM()
+    {
+        $paramsG = array('domain_id' => 1,
+                         'title' => 'New Group 8 For Creating Custom Field',
+                         'name'  => 'new_group_8',
+                         'weight' => 8,
+                         'collapse_display' => 1,
+                         'style' => 'Inline',
+                         'is_active' => 1,
+                         'help_pre' => 'This is Pre Help For New Group 8.',
+                         'help_post' => 'This is for extending MEETING type of Class.'
+                         );
+        $class_name = 'Meeting';
+        $customGroup =& crm_create_custom_group($class_name, $paramsG);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        
+        $paramsF = array('label' => 'Test Field 1 for Group 8',
+                         'name'  => 'test_field_1',
+                         'weight' => 3,
+                         'data_type' => 'string',
+                         'html_type' => 'text',
+                         'is_searchable' => '1', 
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 8',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 8'
+                         );
+        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+    }
 }
 ?>

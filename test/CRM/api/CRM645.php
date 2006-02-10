@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateCustomValueAPI extends UnitTestCase 
+class TestOfCRM645 extends UnitTestCase 
 {
     protected $_customFieldC1;
     protected $_customFieldC2;
