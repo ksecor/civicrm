@@ -81,19 +81,19 @@ they are currently causing sporadic failures in insert and delete - so commentin
 <script type="text/javascript">
 	function showLabel( ) {
        var labelValue = document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].text; 
-
-       if (document.forms.Field['field_name[2]'].value) { 
-           labelValue = labelValue + '-' + document.forms.Field['field_name[2]'].options[document.forms.Field['field_name[2]'].selectedIndex].text + ''; 
-       }   
-
-       if (document.forms.Field['field_name[1]'].value) { 
-           labelValue = labelValue + ' (' + document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text + ')'; 
-       }   
+       if (document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].value) { 
+           if (document.forms.Field['field_name[2]'].value) { 
+              labelValue = labelValue + '-' + document.forms.Field['field_name[2]'].options[document.forms.Field['field_name[2]'].selectedIndex].text + ''; 
+           }   
+           if (document.forms.Field['field_name[1]'].value) { 
+              labelValue = labelValue + ' (' + document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text + ')'; 
+           }   
+       } else {
+           labelValue = '';  
+       }
 
        var input = document.getElementById('label');
        input.value = labelValue;
-        
-    }
+    } 
 </script> 
-
 {/literal}
