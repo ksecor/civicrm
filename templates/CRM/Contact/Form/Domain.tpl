@@ -7,6 +7,7 @@
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.contact_name.label}</dt><dd>{$form.contact_name.html}</dd>
         <dt>{$form.email_domain.label}</dt><dd>{$form.email_domain.html}</dd>
+        <dt>{$form.email_return_path.label}</dt><dd>{$form.email_return_path.html}</dd>
         <dt>&nbsp;</dt>
     </dl>
     </fieldset>

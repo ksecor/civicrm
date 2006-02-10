@@ -110,6 +110,16 @@ class CRM_Utils_Mail {
 
     static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null ) {
 
+        require_once 'CRM/Core/DAO/Domain.php';
+        $dao = new CRM_Core_DAO_Domain();
+        $dao->id = 1;
+        $dao->find(true);
+        $returnPath = $dao->email_return_path;
+
+        if (!$returnPath) {
+            $returnPath = $from;
+        }
+
         $headers = array( );  
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
@@ -119,6 +129,8 @@ class CRM_Utils_Mail {
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
         $headers['Content-Transfer-Encoding'] = '8bit';  
+        $headers['Return-Path']               = $returnPath;
+        $headers['Reply-To']                  = $from;
 
         $to = array( $toEmail );
         if ( $cc ) {
