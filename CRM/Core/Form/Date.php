@@ -61,9 +61,9 @@ Class CRM_Core_Form_Date
 
         $dateOptions = array();        
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('yyyy-mm-dd'), self::DATE_yyyy_mm_dd);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy'), self::DATE_mm_dd_yy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy'), self::DATE_mm_dd_yyyy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('Month dd yyyy'), self::DATE_Month_dd_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy'), self::DATE_mm_dd_yy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy'), self::DATE_mm_dd_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('Month dd, yyyy'), self::DATE_Month_dd_yyyy);
         $form->addGroup($dateOptions, 'dateFormats', ts('Date Format'));
         $form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }
