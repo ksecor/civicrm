@@ -487,11 +487,22 @@ class CRM_Utils_Date {
                 $value = $params[$dateParam];
             }
             $dateArray = explode(' ',$value);
+            
+            $monthInt = 0;
             $fullMonths = self::getFullMonthNames();
             foreach ($fullMonths as $key => $val) {
                 if ($dateArray[0] == $val) {
                     $monthInt = $key; 
                     break;
+                }
+            }
+            if (!$monthInt) {
+                $abbrMonths = self::getAbbrMonthNames();
+                foreach ($abbrMonths as $key => $val) {
+                    if ($dateArray[0] == $val) {
+                        $monthInt = $key; 
+                        break;
+                    }
                 }
             }
             $year   =  $dateArray[2];
