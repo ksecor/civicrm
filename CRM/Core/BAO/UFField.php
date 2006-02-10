@@ -35,6 +35,7 @@
  */
 
 /**
+ * This class contains function for UFField
  *
  */
 class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField 
@@ -82,7 +83,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @return Object             DAO object on sucess, null otherwise
      * @static
      */
-    static function setIsActive($id, $is_active) {
+    static function setIsActive($id, $is_active) 
+    {
         //check if custom data profile field is disabled
         if ($is_active) {
             if (CRM_Core_BAO_UFField::checkUFStatus($id)) {
@@ -149,8 +151,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @static 
      * @return object
      */
-    static function add( &$params, &$ids) {
-        
+    static function add( &$params, &$ids) 
+    {
         // set values for uf field properties and save
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_name       = $params['field_name'][0];
@@ -334,11 +336,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $customFieldId[1];
-        $customField->find(true);
-        
-        if ( !$customField->is_active) {
-            return false;
-        } else {
+
+        if ($customField->find(true) ) { // if uf field is custom field
+            if ( !$customField->is_active) {
+                return false;
+            } else {
+                return true;
+            }
+        } else { // this is if field is not a custom field
             return true;
         }
     }
