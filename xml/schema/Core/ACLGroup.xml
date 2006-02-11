@@ -5,11 +5,13 @@
     <class>ACLGroup</class>
     <name>civicrm_acl_group</name>
     <comment>ACL Groups.  Each group represents a set of of ACL entries which should be treated as a unit.</comment>
+    <add>1.2</add>
     <field>
         <name>id</name>
         <type>int unsigned</type>
         <required>true</required>
         <comment>Unique table ID</comment>
+        <add>1.2</add>
     </field>
     <primaryKey>
         <name>id</name>
@@ -20,6 +22,7 @@
         <type>int unsigned</type>
         <required>true</required>
         <comment>Which Domain owns this group.</comment>
+        <add>1.2</add>
     </field>
     <foreignKey>
         <name>domain_id</name>
@@ -31,11 +34,13 @@
         <type>boolean</type>
         <default>1</default>
         <comment>Is this ACL Group currently active?</comment>
+        <add>1.2</add>
     </field>
     <field>
         <name>title</name>
         <type>varchar</type>
         <length>64</length>
         <comment>ACL Group Title</comment>
+        <add>1.2</add>
     </field>
 </table>

@@ -5,11 +5,13 @@
     <class>ACLGroupJoin</class>
     <name>civicrm_acl_group_join</name>
     <comment>Join table for Contacts and Groups to ACL Groups</comment>
+    <add>1.2</add>
     <field>
         <name>id</name>
         <type>int unsigned</type>
         <required>true</required>
         <comment>Unique table ID</comment>
+        <add>1.2</add>
     </field>
     <primaryKey>
         <name>id</name>
@@ -20,6 +22,7 @@
         <type>int unsigned</type>
         <required>true</required>
         <comment>Foreign Key to ACL Group</comment>
+        <add>1.2</add>
     </field>
     <foreignKey>
         <name>acl_group_id</name>
@@ -32,11 +35,13 @@
         <length>64</length>
         <required>true</required>
         <comment>Table of the object joined to the ACL Group (Contact or Group)</comment>
+        <add>1.2</add>
     </field>
     <field>
         <name>entity_id</name>
         <type>int unsigned</type>
         <required>true</required>
         <comment>ID of the group/contact object being joined</comment>
+        <add>1.2</add>
     </field>
 </table>

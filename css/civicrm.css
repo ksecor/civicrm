@@ -199,9 +199,12 @@ div.spacer {
   border: 1px solid #abc;
 }
 
-#crm-container #feedback-request {
+#crm-container #civicrm-footer {
   margin-top: 3em;
-  background-color: #ffcccc;
+  border-top: 1px solid #ddd;
+  padding: 0.8em;
+  font-size: 0.8em;
+  text-align: center;
 }
 
 #crm-container div.status ul {
