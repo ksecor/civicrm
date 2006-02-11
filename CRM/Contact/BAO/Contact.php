@@ -1559,7 +1559,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         $locationIds = array( );
         foreach ( $fields as $name => $dontCare ) {
             if ( strpos( $name, '-' ) !== false ) {
-                list( $fieldName, $id ) = explode( '-', $name );
+                list( $fieldName, $id, $type ) = explode( '-', $name );
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                   continue;
@@ -1573,7 +1573,11 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     $returnProperties['location'][$locationTypeName]['location_type'] = $id;
                 }
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
-                    $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;
+                    if ( $type ) {
+                        $returnProperties['location'][$locationTypeName][$fieldName . '-' . $type] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;
+                    }
                 } else {
                     $returnProperties['location'][$locationTypeName][$fieldName] = 1;
                 }
