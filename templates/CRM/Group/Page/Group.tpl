@@ -45,12 +45,16 @@
     </div>
 {/if} {* action ne add or edit *}
 </div>
-{else}
+{else} {* No groups to list. Display 'add group' prompt if user has 'edit groups' permission. *}
     <div class="status messages">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}No Groups have been created for this site. You can <a href="%1">add one</a> now.{/ts}</dd>
-        </dl>
+        <dd>{ts}No Groups have been created for this site.{/ts}
+            {if $groupPermission eq 1}
+                {ts 1=$crmURL}You can <a href="%1">add one</a> now.{/ts}
+            {/if}
+        </dd>
+    </dl>
     </div>    
 {/if}

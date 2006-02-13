@@ -540,7 +540,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile',
                             'title'   => ts( 'Find Contacts' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 
@@ -549,7 +549,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile/create',
                             'title'   => ts( 'Add Contact Information' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0,
@@ -558,7 +558,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile/note',
                             'title'   => ts( 'Notes about the Person' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM Profile Listings'),
+                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0,

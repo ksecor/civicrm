@@ -106,7 +106,7 @@ function civicrm_perm()
     // static permissions
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
                    'edit groups', 'administer CiviCRM', 
-                   'access CiviCRM Profile Listings',
+                   'profile listings and forms',
                    'access CiviCRM' );
                    
     // permissions for components which are conditionally enabled via config file setting
