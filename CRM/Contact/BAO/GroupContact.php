@@ -129,6 +129,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function addContactsToGroup( &$contactIds, $groupId, $method = 'Admin',$status = 'Added', $tracking = null)  {
+
+        require_once 'CRM/Utils/Hook.php';
+        
+        CRM_Utils_Hook::pre( 'create', 'GroupContact', $contactIds, $groupId ); 
+                
         $date = date('YmdHis');
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
@@ -173,6 +178,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 }
             }
         }
+
+        CRM_Utils_Hook::post( 'create', 'GroupContact', $contactIds, $groupId ); 
+
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
 
@@ -188,9 +196,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
+       
         if ( ! is_array( $contactIds ) ) {
             return array( 0, 0, 0 );
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pre( 'edit', 'GroupContact', $contactIds, $groupId ); 
 
         $date = date('YmdHis');
         $numContactsRemoved    = 0;
@@ -223,6 +235,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $numContactsNotRemoved++;
             }
         }
+
+        CRM_Utils_Hook::post( 'edit', 'GroupContact', $contactIds, $groupId ); 
 
         return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
