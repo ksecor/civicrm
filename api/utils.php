@@ -565,6 +565,15 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
     }
+
+    // it is possible that an contact type object record does not exist
+    // if the contact_type_object is null etc, if so we create one
+    if ( $contact->contact_type_object == null ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+        eval('$contact->contact_type_object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
+        $contact->contact_type_object->contact_id = $contact->id;
+    }
+
     $sortNameArray = array();
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {
