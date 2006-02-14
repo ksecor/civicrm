@@ -316,6 +316,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
                 eval( '$cType = $contactRelation->contact_type_' . $second . ';');
 
+                if (!$cType) {
+                    $cType = 'All';
+                }
+
                 $relatedFields = array();
                 require_once 'CRM/Contact/BAO/Contact.php'; 
                 $relatedFields =& CRM_Contact_BAO_Contact::importableFields( $cType ); 
