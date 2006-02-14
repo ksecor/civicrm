@@ -67,7 +67,7 @@ class CRM_Utils_Geocode_ZipTable {
         }
 
         $postalCode = trim( $values['postal_code'] );
-        if ( empty( trim( $postalCode ) ) ) {
+        if ( empty( $postalCode ) ) {
             return false;
         }
         
