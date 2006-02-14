@@ -252,22 +252,20 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $admin = true;
             }
         }
-
-
+        
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
             if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
                 continue;
             }
-
+           
             // since the CMS manages the email field, suppress the email display if in
             // edit or register mode which occur within the CMS form
             if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
-                 strpos( $name, 'email' ) !== false ) {
+                 strpos( $name, 'email' ) !== false && substr($name, 0, 7) !== 'do_not_') {
                 continue;
             }
-
             $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
             //if ( $field['name'] === 'state_province' ) {
@@ -391,7 +389,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                     require_once 'CRM/Utils/Array.php';
                     $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
-                    
+                     
                     $data['location'][$loc]['location_type_id'] = $keyValue[1];
                 
                     if ($keyValue[1] == $primaryLocationType ) {
@@ -402,7 +400,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                     if ($loc == 1 ) {
                         $data['location'][$loc]['is_primary'] = 1;
                     }                   
-               
                     if ($keyValue[0] == 'phone') {
                         if ( $keyValue[2] ) {
                             $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
@@ -670,7 +667,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        // print_r($ids);
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );

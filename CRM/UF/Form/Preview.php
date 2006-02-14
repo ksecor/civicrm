@@ -163,14 +163,17 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 if ($required) {
                     $this->addRule($field['name'], ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
-                            
             } else if ( $field['name'] === 'individual_prefix' ){
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
-            
             } else if ( $field['name'] === 'individual_suffix' ){
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
+            } else if ($field['name'] === 'preferred_communication_method') {
+                $this->add('select', $name, $field['title'], 
+                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+            } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  
+                $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
