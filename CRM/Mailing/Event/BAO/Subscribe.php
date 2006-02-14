@@ -154,9 +154,14 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         
         require_once 'CRM/Utils/Verp.php';
-        $confirm = CRM_Utils_Verp::encode( "confirm.{$this->contact_id}.{$this->id}.{$this->hash}@{$domain->email_domain}", 
-            $email);
-
+        $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
+                                                    array( 'confirm',
+                                                           $this->contact_id,
+                                                           $this->id,
+                                                           $this->hash )
+                                                    ) . "@{$domain->email_domain}",
+                                           $email);
+        
         require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();
         $group->id = $this->group_id;
