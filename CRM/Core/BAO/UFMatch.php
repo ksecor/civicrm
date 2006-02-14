@@ -249,26 +249,42 @@ WHERE     civicrm_contact.id = "
      * @return void
      * @static
      */
-    static function updateContactEmail($contactId, $email) 
+    static function updateContactEmail($contactId, $emailAddress) 
     {
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
         if ( $ufmatch->find( true ) ) {
             // Save the email in UF Match table
-            $ufmatch->email = $email;
+            $ufmatch->email = $emailAddress;
             $ufmatch->save( );
             
-            $query ="UPDATE  civicrm_contact, civicrm_location,civicrm_email
-                     SET email = '". CRM_Utils_Type::escape($email, 'String') ."'
+            //check if the primary email for the contact exists 
+            //$contactDetails[1] - email 
+            //$contactDetails[3] - location id
+            $contactDetails = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+
+            if (trim($contactDetails[1])) {
+                //update if record is found
+                $query ="UPDATE  civicrm_contact, civicrm_location,civicrm_email
+                     SET email = '". CRM_Utils_Type::escape($emailAddress, 'String') ."'
                      WHERE civicrm_location.entity_table = 'civicrm_contact' 
                        AND civicrm_contact.id  = civicrm_location.entity_id 
                        AND civicrm_location.is_primary = 1 
                        AND civicrm_location.id = civicrm_email.location_id 
                        AND civicrm_email.is_primary = 1   
                        AND civicrm_contact.id =  "  . CRM_Utils_Type::escape($contactId, 'Integer');
-            
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
+
+                $dao =& new CRM_Core_DAO( );
+                $dao->query( $query );
+
+            } else {
+                //else insert a new email record
+                $email =& new CRM_Core_DAO_Email();
+                $email->location_id = $contactDetails[3];
+                $email->is_primary  = 1;
+                $email->email       = $emailAddress; 
+                $email->save( );
+            }
         }
     }
     

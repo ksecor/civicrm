@@ -923,16 +923,16 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     }
 
     /**
-     * function to get the display name, primary email and location type of a contact
+     * function to get the display name, primary email, location type and location id of a contact
      *
      * @param  int    $id id of the contact
      *
-     * @return array  of display_name, email and location type if found, or (null,null,null)
+     * @return array  of display_name, email, location type and location id if found, or (null,null,null, null)
      * @static
      * @access public
      */
     static function getEmailDetails( $id ) {
-        $sql = " SELECT    civicrm_contact.display_name, civicrm_email.email, civicrm_location.location_type_id
+        $sql = " SELECT    civicrm_contact.display_name, civicrm_email.email, civicrm_location.location_type_id, civicrm_location.id
                  FROM      civicrm_contact
                  LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
                                                 civicrm_contact.id = civicrm_location.entity_id AND
@@ -945,7 +945,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         if ( $result ) {
             $row    = $result->fetchRow();
             if ( $row ) {
-                return array( $row[0], $row[1], $row[2] );
+                return array( $row[0], $row[1], $row[2], $row[3] );
             }
         }
         return array( null, null, null );
@@ -1615,7 +1615,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      *
      * @param  int    $id id of the contact
      *
-     * @return array  of display_name, email and location type if found, or (null,null,null)
+     * @return array  of display_name, email if found, or (null,null)
      * @static
      * @access public
      */
