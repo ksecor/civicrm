@@ -69,6 +69,12 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         }
 
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+        // the PEAR::Mail class doesn't handle different envelope (MAIL FROM)
+        // and From: header addresses, and Courier throws a syntax error if the
+        // MAIL FROM contains anything other than the $fromEmail itself (i.e.,
+        // we can't use $fromDisplayName with PEAR::Mail and Courier) - see
+        // http://pear.php.net/bugs/bug.php?id=5017
+        $from = $fromEmail;
 
         // create the meta level record first
         $email             =& new CRM_Core_BAO_EmailHistory( );

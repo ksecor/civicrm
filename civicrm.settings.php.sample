@@ -144,9 +144,16 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * uncomment the two lines below and enter your smtp server address here (e.g.'smtp.example.com').
  * The standard STMP Port is 25, so you should only need to change that value if you find
  * that your SMTP server is running on a non-standard port.
+ *
+ * If your server requires authentication, set CIVICRM_SMTP_AUTH to true
+ * and provide the username and password in CIVICRM_SMTP_USERNAME and
+ * CIVICRM_SMTP_PASSWORD.
  */
-// define( 'CIVICRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
-// define( 'CIVICRM_SMTP_PORT'   , 25 );
+// define( 'CIVICRM_SMTP_SERVER'  , 'YOUR SMTP SERVER' );
+// define( 'CIVICRM_SMTP_PORT'    , 25                 );
+// define( 'CIVICRM_SMTP_AUTH'    , false              );
+// define( 'CIVICRM_SMTP_USERNAME', 'SMTP AUTH USER'   );
+// define( 'CIVICRM_SMTP_PASSWORD', 'SMTP AUTH PASS'   );
 
 /**
  * Country Availability:

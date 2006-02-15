@@ -240,6 +240,9 @@ class CRM_Core_Config {
      */
     public $smtpServer         = null;
     public $smtpPort           = 25;
+    public $smtpAuth           = false;
+    public $smtpUsername       = null;
+    public $smtpPassword       = null;
 
     /**
      * Default user framework
@@ -569,6 +572,20 @@ class CRM_Core_Config {
             $this->smtpPort = CIVICRM_SMTP_PORT;
         }
 
+        if ( defined( 'CIVICRM_SMTP_AUTH' )) {
+            if (CIVICRM_SMTP_AUTH === true) {
+                $this->smtpAuth = true;
+            } // else it stays false
+        }
+
+        if ( defined( 'CIVICRM_SMTP_USERNAME' ) ) {
+            $this->smtpUsername = CIVICRM_SMTP_USERNAME;
+        }
+
+        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
+            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
+        }
+
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
@@ -725,7 +742,15 @@ class CRM_Core_Config {
         if ( ! isset( self::$_mail ) ) {
             $params['host'] = self::$_singleton->smtpServer;
             $params['port'] = self::$_singleton->smtpPort;
-            $params['auth'] = false;
+#           $params['debug'] = true;
+
+            if (self::$_singleton->smtpAuth) {
+                $params['username'] = self::$_singleton->smtpUsername;
+                $params['password'] = self::$_singleton->smtpPassword;
+                $params['auth']     = true;
+            } else {
+                $params['auth']     = false;
+            }
 
             self::$_mail =& Mail::factory( 'smtp', $params );
         }
