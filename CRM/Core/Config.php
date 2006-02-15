@@ -471,8 +471,11 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
             $isoCodes = preg_split('/[^a-zA-Z]/', CIVICRM_PROVINCE_LIMIT);
-            $this->provinceLimit = array_filter($isoCodes);
-        }
+            $provinceLimitList = array_filter($isoCodes);
+            if ( !empty($provinceLimitList)) {
+                $this->provinceLimit = array_filter($isoCodes);
+            }
+        } 
         
         // Note: we can't change the ISO code to country_id
         // here, as we can't access the database yet...
