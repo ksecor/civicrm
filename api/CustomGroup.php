@@ -123,7 +123,7 @@ function crm_get_option_values($customField)
  * updates one or more option values
  *
  * @param params         Array    Associative array of property name/value pairs to insert in option.
- * @param option         Object   A valid custom field object 
+ * @param option         Object   A valid custom field option object 
  *
  * @return object of newly created custom_option.
  *
@@ -152,14 +152,14 @@ function crm_update_option_value($params , $option )
  *
  * delete one or more option values
  *
- * @param $option  object   A valid custom field object 
+ * @param $option  object   A valid custom field option object 
  *
  * @return null  if success
  *
  * @access public 
  *
  */
-function crm_delete_option_value( $option) {
+function crm_delete_option_value( $option ) {
     _crm_initialize( );
     
     if( ! isset ( $option->id ) ) {
@@ -261,6 +261,56 @@ function crm_create_custom_group($class_name, $params)
     return $customGroup;
 }
 
+/**
+ * Updating Custom Group.
+ * 
+ * Use this API to update the custom group. See the CRM Data Model for custom_group property definitions.
+ * Updating the extends enum value is not allowed.
+ * 
+ * @param $params      Array   Associative array of property name/value pairs of custom group.
+ *
+ * @param $customGroup Object  Object of (CRM_Core_BAO_CustomGroup) custom group to be updated.
+ * 
+ * @return   Updated custom_group object
+ *
+ * @access public 
+ */
+function crm_update_custom_group($params, $customGroup)
+{
+    _crm_initialize( );
+    
+    if( ! isset ( $customGroup->id ) ) {
+        return _crm_error( "id of the custom group is not set." );
+    }
+    
+    if( ! is_array($params) ) {
+        return _crm_error( "params is not of array type" );
+    }
+    
+    if( isset ( $params['extends'] ) ) {
+        return _crm_error( "Can not update extends enum value" );
+    }
+    
+    $params['id']      = $customGroup->id;
+    $params['extends'] = $customGroup->extends;
+    
+    if ( ! isset( $params['domain_id'] ) ) {
+        $params['domain_id'] = $customGroup->domain_id;
+    }
+    
+    if ( ! isset( $params['weight'] ) ) {
+        $params['weight']    = $customGroup->weight;
+    }
+    
+    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
+    
+    if (is_a($error, 'CRM_Core_Error')) {
+        return $error;
+    }
+    
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    return CRM_Core_BAO_CustomGroup::create($params);
+}
 
 /**
  * Defines 'custom field' within a group.
@@ -281,13 +331,13 @@ function crm_create_custom_field(&$custom_group, $params)
     if(! is_array($params) ) {
         return _crm_error("params is not an array ");
     }
-  
-    $params['custom_group_id'] = $custom_group->id;
-  
+    
     if(! isset($custom_group->id) ) {
         return _crm_error("group id is not set in custom_group object");
     }
-  
+    
+    $params['custom_group_id'] = $custom_group->id;
+    
     $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
@@ -297,6 +347,56 @@ function crm_create_custom_field(&$custom_group, $params)
     $customField = CRM_Core_BAO_CustomField::create($params);
 
     return $customField;
+}
+
+/**
+ * Updating Custom Field.
+ * 
+ * Use this API to update the custom Field. See the CRM Data Model for custom_field property definitions.
+ * Updating the extends enum value is not allowed.
+ * 
+ * @param $params      Array   Associative array of property name/value pairs of custom field.
+ *
+ * @param $customField Object  Object of (CRM_Core_BAO_CustomField) custom field to be updated.
+ * 
+ * @return   Updated custom_field object
+ *
+ * @access public 
+ */
+function crm_update_custom_field($params, $customField)
+{
+    _crm_initialize( );
+    
+    if ( ! isset ( $customField->id ) ) {
+        return _crm_error( "id of the custom field is not set." );
+    }
+    
+    if ( ! is_array($params) ) {
+        return _crm_error( "params is not of array type" );
+    }
+    
+    if ( isset($params['html_type'] ) || isset($params['data_type'] ) ) {
+        return _crm_error( "Updating html_type and/or data_type is not allowed." );
+    }
+    
+    $params['id'] = $customField->id;
+    
+    if ( ! isset($params['custom_group_id'] ) ) {
+        $params['custom_group_id'] = $customField->custom_group_id;
+    }
+    
+    if ( ! isset($params['weight'] ) ) {
+        $params['weight'] = $customField->weight;
+    }
+    
+    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
+    
+    if (is_a($error, 'CRM_Core_Error')) {
+        return $error;
+    }
+    
+    require_once 'CRM/Core/BAO/CustomField.php';
+    return CRM_Core_BAO_CustomField::create($params);
 }
 
 /**
