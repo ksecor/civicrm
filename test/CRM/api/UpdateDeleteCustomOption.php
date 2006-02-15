@@ -4,6 +4,7 @@ require_once 'api/crm.php';
 
 class TestOfUpdateDeleteCustomOption extends UnitTestCase 
 {
+    var $optionError;
     function setUp() 
     {
     }
@@ -215,20 +216,27 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
     /*****************************************************
      * test cases for crm_update_option_value
      ****************************************************/
+    function testUpdateOptionValueError()
+    {
+        $option = $this->optionError;
+        $params   = array('value' => 'Hello6..Edit'); 
+        $option   =& crm_update_option_value($params, $option);
+        $this->assertIsA($option, 'CRM_Core_Error');
+    }
     function testUpdateOptionValueI()
     {
-        $optionId = $this->option3Group1;
+        $option = $this->option3Group1;
         $params   = array('value' => 'Hello3..Edit'); 
-        $option   =& crm_update_option_value($params, $optionId);
+        $option   =& crm_update_option_value($params, $option);
         $this->assertIsA($option, 'CRM_Core_BAO_CustomOption');
         $this->assertEqual('Hello3..Edit', $option->value);
     }
     
     function testUpdateOptionValuePC()
     {
-        $optionId = $this->option5Group2;
+        $option = $this->option5Group2;
         $params   = array('value' => 'Hello5..Edit'); 
-        $option   =& crm_update_option_value($params, $optionId);
+        $option   =& crm_update_option_value($params, $option);
         $this->assertIsA($option, 'CRM_Core_BAO_CustomOption');
         $this->assertEqual('Hello5..Edit', $option->value);
     }
@@ -239,15 +247,15 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
     
     function testDeleteOptionValueI()
     {
-        $optionId = $this->option4Group1;
-        $option   =& crm_delete_option_value($optionId);
+        $option = $this->option4Group1;
+        $option   =& crm_delete_option_value($option);
         $this->assertNull($option);
     }
     
     function testDeleteOptionValuePC()
     {
-        $optionId = $this->option6Group2;
-        $option   =& crm_delete_option_value($optionId);
+        $option = $this->option6Group2;
+        $option   =& crm_delete_option_value($option);
         $this->assertNull($option);
     }
 }

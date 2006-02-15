@@ -122,9 +122,10 @@ class TestOfCRM645 extends UnitTestCase
     /********************************************************************
      * test case for crm_get_custom_field
      *******************************************************************/
-
+    
     function testGetCustomFieldByName()
     {
+        CRM_Core_Error::debug_log_message('get custom field');
         $params = array(
                         'name' => 'test_field_1_group_1',
                         );
@@ -147,9 +148,9 @@ class TestOfCRM645 extends UnitTestCase
     
     function testUpdateOptionValue()
     {
-        $optionId = $this->_option2->id;
+        $option = $this->_option2;
         $params   = array('value' => 'Hello2..Edit'); 
-        $option   =& crm_update_option_value($params, $optionId);
+        $option   =& crm_update_option_value($params, $option);
         $this->assertIsA($option, 'CRM_Core_BAO_CustomOption');
         $this->assertEqual('Hello2..Edit', $option->value);
     }
@@ -160,8 +161,8 @@ class TestOfCRM645 extends UnitTestCase
     
     function testDeleteOptionValue()
     {
-        $optionId = $this->_option3->id;
-        $option   =& crm_delete_option_value($optionId);
+        $option = $this->_option3;
+        $option   =& crm_delete_option_value($option);
         $this->assertNull($option);
     }
 }

@@ -71,7 +71,7 @@ require_once 'api/utils.php';
 function crm_create_option_value($params, $customField) 
 {
     _crm_initialize( );
-
+    
     if(! is_array($params) ) {
         return _crm_error( "params is not of array type" );
     }     
@@ -123,26 +123,26 @@ function crm_get_option_values($customField)
  * updates one or more option values
  *
  * @param params         Array    Associative array of property name/value pairs to insert in option.
- * @param optionID       Object   A valid custom field object 
+ * @param option         Object   A valid custom field object 
  *
  * @return object of newly created custom_option.
  *
  * @access public 
  *
  */
-function crm_update_option_value($params , $optionID )
+function crm_update_option_value($params , $option )
 {
     _crm_initialize( );
     
-    if( ! isset ( $optionID ) ) {
-        return _crm_error( "custom option ID  is not valid one" );
+    if( ! isset ( $option->id ) ) {
+        return _crm_error( "id of the custom option is not set." );
     }
-
+    
     if( ! is_array($params) ) {
         return _crm_error( "params is not of array type" );
     }
-    $params['id'] = $optionID;
-
+    $params['id'] = $option->id;
+    
     require_once 'CRM/Core/BAO/CustomOption.php';
     return CRM_Core_BAO_CustomOption::create($params);
     
@@ -152,22 +152,22 @@ function crm_update_option_value($params , $optionID )
  *
  * delete one or more option values
  *
- * @param $optionID  object   A valid custom field object 
+ * @param $option  object   A valid custom field object 
  *
  * @return null  if success
  *
  * @access public 
  *
  */
-function crm_delete_option_value( $optionID) {
+function crm_delete_option_value( $option) {
     _crm_initialize( );
     
-    if( ! isset ( $optionID ) ) {
-        return _crm_error( "custom option ID  is not valid one" );
+    if( ! isset ( $option->id ) ) {
+        return _crm_error( "id of the custom option is not set." );
     }
     
     require_once 'CRM/Core/BAO/CustomOption.php';
-    return CRM_Core_BAO_CustomOption::del( $optionID );
+    return CRM_Core_BAO_CustomOption::del( $option->id );
 }
 
 
