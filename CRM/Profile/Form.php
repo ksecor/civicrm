@@ -131,6 +131,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             // get the contact details (hier)
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
+
             //start of code to set the default values
             foreach ($this->_fields as $name => $field ) {
                 if (CRM_Utils_Array::value($name, $details )) {
@@ -180,7 +181,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                                     } else if ( $nameValue[0] == 'country' ) {
                                         $defaults[$name] = $value['country_id'];
                                     } else if ( $nameValue[0] == 'phone' ) {
-                                        $defaults[$name] = $value['phone'][1];
+                                        if ($nameValue[2]) {
+                                            $defaults[$name] = $value['phone'][$nameValue[2]];
+                                        } else {
+                                            $defaults[$name] = $value['phone'][1];
+                                        }
                                     } else if ( $nameValue[0] == 'email' ) {
                                         //adding the first email (currently we don't support multiple emails of same location type)
                                         $defaults[$name] = $value['email'][1];
@@ -627,7 +632,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        // print_r($this->_contact);
         if ($this->_id) {
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
             $ids = array( ); 

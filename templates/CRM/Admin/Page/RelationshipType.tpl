@@ -24,8 +24,8 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td> {$row.name_a_b} </td>	
             <td> {$row.name_b_a} </td>	
-            <td> {$row.contact_type_a_display} </td>	
-            <td> {$row.contact_type_b_display} </td>	
+            <td> {if $row.contact_type_a_display} {$row.contact_type_a_display} {else} {ts} All Contacts {/ts}{/if} </td>	
+            <td> {if $row.contact_type_b_display} {$row.contact_type_b_display} {else} {ts} All Contacts {/ts}{/if} </td>	
             <td>{$row.action}</td>
         </tr>
         {/foreach}
