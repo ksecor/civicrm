@@ -96,6 +96,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
     /**
      * retrieve the default activity_type
      *
+     * @param NULL
+     * 
      * @return object           The default activity type object on success,
      *                          null otherwise
      * @static
@@ -114,6 +116,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
     /**
      * retrieve the id and decription
      *
+     * @param NULL
+     * 
      * @return Array            id and decription
      * @static
      * @access public
@@ -169,10 +173,13 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
     /**
      * Function to delete activity Types 
      * 
-     * @param int $activityTypeId
+     * @param  int  $activityTypeId     Id of the activity type to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
      * @static
      */
-    
     static function del($activityTypeId) 
     {
         require_once 'CRM/Core/DAO/Activity.php';
@@ -204,9 +211,7 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
         $activityType =& new CRM_Core_DAO_ActivityType( );
         $activityType->id = $activityTypeId;
         $activityType->delete();
-
     }
-
 }
 
 ?>

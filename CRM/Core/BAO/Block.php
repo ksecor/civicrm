@@ -49,7 +49,7 @@ class CRM_Core_BAO_Block {
      * @param array  $ids           the array that holds all the db ids
      * @param int    $blockCount    number of blocks to fetch
      *
-     * @return void
+     * @return array of $block objects.
      * @access public
      * @static
      */

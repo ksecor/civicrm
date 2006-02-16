@@ -111,9 +111,8 @@ class CRM_Core_BAO_CustomQuery {
      * Takes in a set of custom field ids andsets up the data structures to 
      * generate a query
      *
-     * @param array $ids the set of custom field ids
+     * @param  array  $ids     the set of custom field ids
      *
-     * @return Object
      * @access public
      */
     function __construct( $ids ) {
@@ -177,6 +176,7 @@ class CRM_Core_BAO_CustomQuery {
      * generate the select clause and the associated tables
      * for the from clause
      *
+     * @param  NULL 
      * @return void
      * @access public
      */   
@@ -207,8 +207,11 @@ class CRM_Core_BAO_CustomQuery {
     /**
      * generate the where clause and also the english language
      * equivalent
-     *
+     * 
+     * @param NULL
+     * 
      * @return void
+     * 
      * @access public
      */   
     function where( ) {
@@ -336,7 +339,8 @@ class CRM_Core_BAO_CustomQuery {
      * function that does the actual query generation
      * basically ties all the above functions together
      *
-     * @return void
+     * @param NULL
+     * @return  array   array of strings  
      * @access public
      */   
     function query( ) {

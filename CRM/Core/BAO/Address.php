@@ -138,6 +138,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
+     * 
      * @access public
      * @static
      */
@@ -251,6 +252,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
 
     /**
      * Add the formatted address to $this-> display
+     *
+     * @param NULL
+     * 
+     * @return void
+     *
+     * @access public
+     *
      */
     function addDisplay()
     {
@@ -268,6 +276,12 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $this->display = CRM_Utils_Address::format($fields);
     }
 
+    /**
+     *
+     * 
+     *
+     */
+    
     static function setOverwrite( $overwrite ) {
         self::$_overwrite = $overwrite;
     }

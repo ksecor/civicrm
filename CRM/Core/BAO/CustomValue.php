@@ -190,7 +190,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
      * If boolean type, set the isBool flag too (since int and bool share
      * the same mysql type, we need another differentiator
      *
-     * @param boolean $isBool (reference ) set to true if boolean     
+     * @param boolean  $isBool (reference )  set to true if boolean
      * 
      * @return string the mysql type
      * @access public

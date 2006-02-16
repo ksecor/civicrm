@@ -77,7 +77,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_CustomGroup object
+     * @return object CRM_Core_DAO_CustomGroup object
      * @access public
      * @static
      */
@@ -89,11 +89,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     /**
      * update the is_active flag in the db
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param  int      $id         id of the database record
+     * @param  boolean  $is_active  value we want to set the is_active field
      *
      * @return Object             DAO object on sucess, null otherwise
      * @static
+     * @access public
      */
     static function setIsActive($id, $is_active) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'is_active', $is_active );
@@ -552,11 +553,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     /**
      * Get the table name for the entity type
      * currently if entity type is 'Contact', 'Individual', 'Household', 'Organization'
-     * tableName is 'civicrm_contact'; 
+     * tableName is 'civicrm_contact'
      * 
-     * @param string $entityType - what entity are we extending here ?
+     * @param string $entityType  what entity are we extending here ?
      *
-     * @return void
+     * @return string $tableName
      *
      * @access private
      * @static
@@ -630,9 +631,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     /**
      * Delete the Custom Group.
      *
-     * @param int    id  Group Id 
+     * @param  int    $id  Group Id 
      * 
-     * @return void
+     * @return boolean   false if field exists for this group, true if group gets deleted.
      *
      * @access public
      * @static

@@ -66,7 +66,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Build and retrieve the list of data types and descriptions
      *
-     * @param
+     * @param NULL
      * @return array        Data type => Description
      * @access public
      * @static
@@ -118,7 +118,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_CustomField object
+     * @return object CRM_Core_DAO_CustomField object
      * @access public
      * @static
      */
@@ -130,19 +130,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * update the is_active flag in the db
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param int      $id         Id of the database record
+     * @param boolean  $is_active  Value we want to set the is_active field
      *
-     * @return Object             DAO object on sucess, null otherwise
+     * @return   Object            DAO object on sucess, null otherwise
+     * 
+     * @access public
      * @static
      */
     static function setIsActive( $id, $is_active )
     {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField', $id, 'is_active', $is_active );
     }
-
-
-
+    
     /**
      * Get number of elements for a particular field.
      *
@@ -184,10 +184,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Store and return an array of all active custom fields.
      *
-     * @param int     $contactType contact type
-     * @param boolean $showAll if true returns all fields (includes disabled fields)
+     * @param string      $contactType   Contact type
+     * @param boolean     $showAll       If true returns all fields (includes disabled fields)
      *
-     * @return array $fields - 
+     * @return array      $fields - an array of active custom fields.
      *
      * @access public
      * @static
@@ -253,12 +253,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     }
 
     /**
-     * Return the field ids and names (with groups) for import purposes.
+     * Return the field ids and names (with groups) for import purpose.
      *
-     * @param int $contactType contact type
-     * @param boolean $showAll if true returns all fields (includes disabled fields)
+     * @param int      $contactType   Contact type
+     * @param boolean  $showAll       If true returns all fields (includes disabled fields)
      *
-     * @return array $fields - 
+     * @return array   $fields - 
      *
      * @access public
      * @static
@@ -316,7 +316,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
         
         /**
-         * THis was split into a different function before. however thanx to php4's bug with references,
+         * This was split into a different function before. however thanx to php4's bug with references,
          * it was not working, so i munged it back into one big function - lobo
          */
         switch($field->html_type) {
@@ -474,9 +474,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Delete the Custom Field.
      *
-     * @param int    id  Field Id 
+     * @param   int   $id    Field Id 
      * 
-     * @return void
+     * @return  boolean
      *
      * @access public
      * @static
@@ -507,13 +507,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * Given a custom field value, its id and the set of options
      * find the display value for this field
      *
-     * @param mixed $value   the custom field value
-     * @param int   $id      the custom field id
-     * @param int   $options the assoc array of option name/value pairs
+     * @param mixed  $value     the custom field value
+     * @param int    $id        the custom field id
+     * @param int    $options   the assoc array of option name/value pairs
      *
-     * @return string the display value
+     * @return  string   the display value
+     * 
      * @static
-     * @public
+     * @access public
      */
     static function getDisplayValue( $value, $id, &$options ) {
         $option     =& $options[$id];
@@ -576,13 +577,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * Given a custom field value, its id and the set of options
      * find the default value for this field
      *
-     * @param mixed $value   the custom field value
-     * @param int   $id      the custom field id
-     * @param int   $options the assoc array of option name/value pairs
+     * @param  mixed  $value     the custom field value
+     * @param  int    $id        the custom field id
+     * @param  int    $options   the assoc array of option name/value pairs
      *
-     * @return mixed the default value
+     * @return   mixed   the default value
      * @static
-     * @public
+     * @access public
      */
     function getDefaultValue( $value, $id, &$options ) { 
         $option     =& $options[$id]; 
