@@ -100,7 +100,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        $config =& CRM_Core_Config::singleton( );
+        $config  =& CRM_Core_Config::singleton( );
+        $session =& CRM_Core_Session::singleton( );
 
         // make sure we have a valid payment class, else abort
         if ( ! $config->paymentClass ) {
@@ -109,7 +110,17 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // current contribution page id 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this, true );        
+        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
+        if ( ! $this->_id ) {
+            $pastContributionId = $session->get( 'pastContributionId' );
+            if ( ! $pastContributionId ) {
+                CRM_Core_Error::fatal( ts( 'We could not find contribution details for your request. Please try your request again.' ) );
+            } else {
+                CRM_Core_Error::fatal( ts( 'This contribution has already been submitted. Click <a href="%1">here</a> if you want to make another contribution.', array( 1 => CRM_Utils_System::url( 'civicrm/contribute/transact', 'reset=1&id=' . $pastContributionId ) ) ) );
+            }
+        } else {
+            $session->set( 'pastContributionId', $this->_id );
+        }
 
         // we do not want to display recently viewed items, so turn off
         $this->assign       ( 'displayRecent' , false );
