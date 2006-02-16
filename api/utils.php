@@ -972,17 +972,30 @@ function _crm_check_history_params(&$params, $type='Activity')
  */
 function _crm_check_required_fields(&$params, $daoName)
 {
+    if ( ( $params['extends'] == 'Activity' || 
+           $params['extends'] == 'Phonecall'  || 
+           $params['extends'] == 'Meeting'    || 
+           $params['extends'] == 'Group'      || 
+           $params['extends'] == 'Contribution' 
+           ) && 
+         ( $params['style'] == 'Tab' ) ) {
+        return _crm_error(ts("Can not create Custom Group in Tab for ". $params['extends']));
+    }
+       
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     $dao =& new $daoName();
     $fields = $dao->fields();
     
     //eval('$dao =& new CRM_Core_DAO_' . $type . 'History();');
-
+    
+    
     $missing = array();
     foreach ($fields as $k => $v) {
         if ($k == 'id') {
             continue;
         }
+        //CRM_Core_Error::debug('Check Field Params', $params);
+        
         if ($v['required'] && !(isset($params[$k]))) {
             $missing[] = $k;
         }

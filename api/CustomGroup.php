@@ -353,7 +353,7 @@ function crm_create_custom_field(&$custom_group, $params)
  * Updating Custom Field.
  * 
  * Use this API to update the custom Field. See the CRM Data Model for custom_field property definitions.
- * Updating the extends enum value is not allowed.
+ * Updating the html_type enum value and data_type enum value is not allowed.
  * 
  * @param $params      Array   Associative array of property name/value pairs of custom field.
  *
