@@ -742,7 +742,6 @@ class CRM_Core_Config {
         if ( ! isset( self::$_mail ) ) {
             $params['host'] = self::$_singleton->smtpServer;
             $params['port'] = self::$_singleton->smtpPort;
-#           $params['debug'] = true;
 
             if (self::$_singleton->smtpAuth) {
                 $params['username'] = self::$_singleton->smtpUsername;

@@ -117,7 +117,7 @@ class CRM_Utils_Mail {
         $returnPath = $dao->email_return_path;
 
         if (!$returnPath) {
-            $returnPath = $from;
+            $returnPath = self::_pluckEmailFromHeader($from);
         }
 
         $headers = array( );  
@@ -146,6 +146,19 @@ class CRM_Utils_Mail {
         } 
         
         return true;
+    }
+
+    /**
+     * Get the email address itself from a formatted full name + address string
+     *
+     * Ugly but working.
+     *
+     * @param  string $header  the full name + email address string
+     * @return string          the plucked email address
+     */
+    private function _pluckEmailFromHeader($header) {
+        preg_match('/<([^<]*)>$/', $header, $matches);
+        return $matches[1];
     }
 }
 
