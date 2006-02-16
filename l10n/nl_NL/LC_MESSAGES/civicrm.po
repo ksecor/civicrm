@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-02-12 19:48+0100\n"
+"PO-Revision-Date: 2006-02-14 23:46+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -5993,11 +5993,11 @@ msgid ""
 "CiviCRM is pre-configured with standard options for individual gender (e.g. "
 "Male, Female, Transgender). You can use this page to customize these options "
 "and add new options as needed for your installation."
-msgstr "CiviCRM is standaard opgezet, om met individuele gslachten te werken (mannelijk, vrouwelijk, trans). U kunt deze pagina gebruiken om deze opties te wijzigen, en om eventuele nieuwe opties toe te voegen."
+msgstr "CiviCRM is standaard opgezet, om met individuele geslachten te werken (mannelijk, vrouwelijk, trans). U kunt deze pagina gebruiken om deze opties te wijzigen, en om eventuele nieuwe opties toe te voegen."
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid "There are no Gender entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen geslachten ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid ""
@@ -6005,63 +6005,64 @@ msgid ""
 "useful to include the IM Service Provider (e.g. AOL, Yahoo, etc.). CiviCRM "
 "is installed with the most commonly encountered service providers. "
 "Administrators may define as many additional providers as needed."
-msgstr ""
+msgstr "Indien Instant Messengers 'schermname' worden opgeslagen, is het handig, om de IM provider op te nemen (bv AOL, Yahoo, ea.)"
+"Standaard komt CiviCRM al met een lijst van zulke providers. Systeembeheerders kunnen aanvullende providers invoeren."
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid "Instant Messenger Service"
-msgstr ""
+msgstr "Instant Messenger dienst"
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
 msgid ""
 "There are no IMProviders entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen IM provider ingevoerd voor dit contact. U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact "
 "prefixes (e.g. Ms., Mr., Dr. etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr ""
+msgstr "CiviCRM kent standaard opties voor individuele voorvoegsels(Dhr.,Mevr., Dr., etc). U kunt deze pagina gebruiken, om deze voorvoegsels te wijzigen, of nieuwe toe te voegen."
 
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 msgid ""
 "There are no Individual Prefixes entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen voorvoegsels ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid ""
 "CiviCRM is pre-configured with standard options for individual contact name "
 "suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these "
 "options and add new ones as needed for your installation."
-msgstr ""
+msgstr "CiviCRM kent standaard opties voor individuele achtervoegsels(Jr., Sr., etc). U kunt deze pagina gebruiken, om deze achtervoegsels te wijzigen, of nieuwe toe te voegen."
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid "New Individual Suffix Option"
-msgstr ""
+msgstr "Nieuw achtervoegsel optie"
 
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 msgid ""
 "There are no Individual Suffixes entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen achtervoegsels ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "Location types provide convenient labels to differentiate contacts' location"
 "(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
-msgstr ""
+msgstr "Lokatie types zijn handige labels, om contacten beter te scheiden. Systeembeheerders kunnen typen toevoegen (zoals school, hoofdkantoor, vakantiehuis), indien gewenst."
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "vCard"
-msgstr ""
+msgstr "vCard"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen lokatietypes ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid ""
@@ -6069,138 +6070,139 @@ msgid ""
 "include the Mobile Phone Service Provider (e.g. Cingular, Sprint, etc.). "
 "CiviCRM is installed with the most commonly encountered service providers. "
 "Administrators may define as many additional providers as needed."
-msgstr ""
+msgstr "Indien mobiele telefoons worden opgeslagen, is het aangenaam, om ook de provider naam ( KPN, Telfort, Orange)op te slaan."
+"CiviCRM komt met een lijst van mobiele providers. Systeembeheerders kunnen deze lijst desgewenst uitbreiden."
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid "Mobile Phone Provider"
-msgstr ""
+msgstr "Mobiele telefoon provider"
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid "New Mobile Phone Provider"
-msgstr ""
+msgstr "Nieuwe mobiele telefoon provider"
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid ""
 "There are no Mobile Providers entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen mobiele providers ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "Relationship types describe relationships between people, households and "
 "organizations."
-msgstr ""
+msgstr "Relatietypes beschijven de relaties tussen mensen, huishoudens en organisaties."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
 "You can define as many additional relationships types as needed to cover the "
 "types of relationships you want to track."
-msgstr ""
+msgstr "U kunt meerdere relatietypen invoeren, om zo de mogelijke relaties te kunnen tracken."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Relationship A to B"
-msgstr ""
+msgstr "Relatie van A naar B"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Relationship B to A"
-msgstr ""
+msgstr "Relatie van B naar A"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid ""
 "There are no Tags entered for this Contact. You can <a href=\"%1\">add one</"
 "a>."
-msgstr ""
+msgstr "Er zijn geen markeringen voor dit contact ingevoerd, U kunt er <a href\"%1\">hier</a> een toevoegen"
 
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid ""
 "Tags can be assigned to any contact record, and are a convenient way to find "
 "contacts. You can create as many tags as needed to organize and segment your "
 "records."
-msgstr ""
+msgstr "Markeringen kunnen voor elk contact aangemaakt worden, en vormen een handig hulpmiddel om contact terug te vinden.U kunt zoveel merkeringen aanmaken als wenselijk is, om uw contacten beter in te delen en te organiseren."
 
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
-msgstr ""
+msgstr "Markering"
 
 #: templates/CRM/Block/Add.tpl
 msgid "First Name:"
-msgstr ""
+msgstr "Voornaam:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
-msgstr ""
+msgstr "Achternaam:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Email:"
-msgstr ""
+msgstr "emailadres:"
 
 #: templates/CRM/Block/Search.tpl
 msgid "Go to Advanced Search"
-msgstr ""
+msgstr "Zoek uitgebreid"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
-msgstr ""
+msgstr "Klik om datum en tijd te selecteren uit de kalender"
 
 #: templates/CRM/common/feedback.tpl
 msgid "This site is running CiviCRM v%1."
-msgstr ""
+msgstr "Deze website gebruikt CiviCRM v%1."
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "To see a list of known bugs and issues, and to report new bugs, please use "
 "our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>."
-msgstr ""
+msgstr "Ga naar ons <a href=\"%1\" target=\"_blank\"> bugtracker systeem</a>Om een lijst met bekende bugs en issues te zien, of er een te melden ."
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "Please add any comments on the look and feel of these pages, along with "
 "workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
-msgstr ""
+msgstr "Voeg uw commentaar op het uiterlijk  en gebruik van deze pagina, samen met workflow kwesties, toe op onze <a href=\"%1\"> CiviCRM Commentaar Pagina</a>"
 
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "CiviCRM software is openly available to any person or organization under the "
 "terms of the <a href=\"%1\">Affero General Public License (AGPL)</a>. Source "
 "code can be downloaded from our <a href=\"%2\">downloads site</a>."
-msgstr ""
+msgstr "CiviCRM is vrij beschikbaar voor elke persoon of organisatie, conform de regels genoemdn in de <a href\"%1\"> Affero General Public License(AGPL)</a>. Broncode kan verkregen worden via onze <a href=\"%2\"> download</a> site."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
-msgstr ""
+msgstr "Corrigeer de volgende fouten in de hieronder genoemde formuliervelden :"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
-msgstr ""
+msgstr "Net bekeken:"
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
 msgid ""
 "Enter optional 'add-on' code after the dash ('plus 4' code for U.S. "
 "addresses)."
-msgstr ""
+msgstr "Voeg de optionele 'add-on' code in na het streepje (de USA 'plus 4' code)"
 
 #: templates/CRM/Contact/Form/Address/street_address.tpl
 msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
-msgstr ""
+msgstr "Straatnummer, straatnaam, flat/appartement, of postbus."
 
 #: templates/CRM/Contact/Form/Address/supplemental_address_1.tpl
 #: templates/CRM/Contact/Form/Address/supplemental_address_2.tpl
 msgid ""
 "Supplemental address info, e.g. c/o, department name, building name, etc."
-msgstr ""
+msgstr "Aanvullende adresinformatie,zoals afdeling, naam van het gebouw, etc."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Communication Preferences"
-msgstr ""
+msgstr "Voorkeur voor benaderingsmethode"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Select the preferred method of communicating with this contact."
-msgstr ""
+msgstr "Kies de voorkeur, waarmee u met dit contact communiceert"
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -6213,7 +6215,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/InlineCustomData.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "open section"
-msgstr ""
+msgstr "open sectie"
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -6225,74 +6227,74 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/InlineCustomData.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "close section"
-msgstr ""
+msgstr "afsluiten sectie"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
-msgstr ""
+msgstr "Naam en begroeting"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Demographics"
-msgstr ""
+msgstr "Demografie"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Tags and Groups"
-msgstr ""
+msgstr "Markeringen en groepen"
 
 #: templates/CRM/Contact/Form/IM.tpl
 msgid "Select im service provider, and enter screen-name / user id."
-msgstr ""
+msgstr "Kies de IM provider, en voer schermnaam of user ID in."
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Primary Location"
-msgstr ""
+msgstr "Primaire lokatie"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Additional Location"
-msgstr ""
+msgstr "Secundaire lokatie"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
-msgstr ""
+msgstr "Begindatum:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "End Date:"
-msgstr ""
+msgstr "Einddatum:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Enabled"
-msgstr ""
+msgstr "Enabled"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Disabled"
-msgstr ""
+msgstr "Disabled"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "New Relationship"
-msgstr ""
+msgstr "Nieuwe relatie"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship(s)"
-msgstr ""
+msgstr "Wijzig relatie"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid ""
 "Select the relationship type. Then locate target contact(s) for this "
 "relationship by entering a complete or partial name and clicking 'Search'."
-msgstr ""
+msgstr "Selecteer eerst het type van de relatie. Localiseer daarna het contact voor deze relatie, door een naam (of een gedeelte daarvan) in te voeren, en op Zoek te klikken."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Mark Target Contact(s) for this Relationship"
-msgstr ""
+msgstr "Markeer het contact voor deze relatie"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -6300,11 +6302,12 @@ msgstr ""
 msgid ""
 "Mark the target contact(s) for this relationship if it appears below. "
 "Otherwise you may modify the search name above and click Search again."
-msgstr ""
+msgstr "Markeer het contact voor dee relatie, als deze hieronder wordt getoond."
+"U kunt de zoeknaam aanpassen en opnieuw laten zoeken."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Duplicate relationship."
-msgstr ""
+msgstr "Dubbele relatie"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -6312,128 +6315,128 @@ msgstr ""
 msgid ""
 "Too many matching results. Please narrow your search by entering a more "
 "complete target contact name."
-msgstr ""
+msgstr "Teveel overeenkomstige resultaten. Probeer een meer complete naam, om minder overeenkosmtige resultaten te krijgen"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
-msgstr ""
+msgstr "Geen overeenkomstige resultaten voor <ul><li> Naam: %1 </li><li>Contacttype :%2</li></ul>. Controleer de spelling of voer minder karakters in voor de contactnaam"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "If this relationship has start and/or end dates, specify them here."
-msgstr ""
+msgstr "Indien deze relatie een begin en einddatum heeft, voer deze dan hier in."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Are you sure you want to delete the Relationship \"%1\"?"
-msgstr ""
+msgstr "Weet u zeker dat u relatie \"%1\" wilt verwijderen?"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search.tpl
 msgid "Find Members within this Group"
-msgstr ""
+msgstr "Zoek leden in deze groep"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search.tpl
 msgid "Find Contacts to Add to this Group"
-msgstr ""
+msgstr "Zoek contacten, om aan deze groep toe te voegen"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "%1 Smart Group Criteria"
-msgstr ""
+msgstr "%1 Smart Groep Criteria"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search.tpl
 msgid "Search Criteria"
-msgstr ""
+msgstr "Zoek criteria"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Complete OR partial contact name OR email."
-msgstr ""
+msgstr "Vul de gedeeltelijke naam of email aan. "
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "OR"
-msgstr ""
+msgstr "OF"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid ""
 "Location search uses the PRIMARY location for each contact by default. To "
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
-msgstr ""
+msgstr "Zoeken op lokatie gebuikt de primaire lokatie van elk contact. Om per locatie type te zoeken, selecteer dan de knoppen hierboven."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
-msgstr ""
+msgstr "Activiteitengeschiedenis"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit %1 Smart Group Criteria"
-msgstr ""
+msgstr "Wijzig %1 Smart groep criteria"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit Search Criteria"
-msgstr ""
+msgstr "Wijzig zoek criteria"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "(for %1)"
-msgstr ""
+msgstr "(voor %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name,"
 "<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr ""
+msgstr "Vul OF gedeeltelijke naam of email aan. Om te zoeken naar voornaam EN achternaam,<br> gebruik dan 'voornaam','achternaam', bv. 'Doe,Jane'"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
 "%1 has no members which match your search criteria. You can <a href=\"%2"
 "\">add members here.</a>"
-msgstr ""
+msgstr "Er zijn geen leden in %1 gevonden, die aan de criteria voldoen. U kunt <a href=\"%2\">hier</a> leden toevoegen."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matches found for:"
-msgstr ""
+msgstr "Er zijn geen overeenkomsten gevonden voor :"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "No matches found."
-msgstr ""
+msgstr "Geen overeenkomsten gevonden."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "Suggestions:"
-msgstr ""
+msgstr "Suggestie:"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "check your spelling"
-msgstr ""
+msgstr "controleer de  spelling"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "try a different spelling or use fewer letters"
-msgstr ""
+msgstr "prober een andere spelling, of gebruik minder karakters"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
 "if you are searching within a Group or for Tagged contacts, try 'any group' "
 "or 'any tag'"
-msgstr ""
+msgstr "als u binnen een groep zoekt,of op markeringen, selecteer dan 'elke groep', of 'elke markering'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
 "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
 "<a href=\"%3\">Household</a>"
-msgstr ""
+msgstr "Voeg een <a href\"%1\">nieuwe individueel</a>, een <a href=\"%2\"> organisatie</a>, of een <a href=\"%3\"> huishouden </a>toe"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
-msgstr ""
+msgstr "overtuig u dat u de goede rechten heeft voor het toegangssysteem"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -6441,40 +6444,40 @@ msgid ""
 "Members...' criteria below to search for specific members. Use the 'Group "
 "Status...' checkboxes to view members with 'Pending' status and/or members "
 "who have been 'Removed' from this group."
-msgstr ""
+msgstr "Hieronder staan de leden genoemd van groep <strong>%1</strong>. Gebruik 'Vind Leden', om naar specifieke leen te zoeken. Gebruik \"Groep Status' om naar in overweging zijnde leden te zoeken, of naar leden te zoeken, die 'verwijderd' zijn uit deze groep"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
 "members to this group."
-msgstr ""
+msgstr "Gebruik het <a href=\"%1> Voeg leden toe</a> scherm als u leden wilt toevoegen aan deze groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Click <a href=\"%1\">Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
-msgstr ""
+msgstr "Klik op <a href=\"%1\">Zoek criteria</a>, om de zoekformule te wijzigen voor deze smart groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
-msgstr ""
+msgstr "Voeg leden toe aan %1"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Edit Smart Group Search Criteria for %1"
-msgstr ""
+msgstr "Wijzig smart groep zoekcriteria voor %1"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the Search form to find contacts to add to %1. Mark the contacts you "
 "want to add and click 'Add Contacts...'."
-msgstr ""
+msgstr "Gebruik het zoekformulier om contacten te zoeken, die toegevoegd moeten worden aan %1. Markeer de contacten die u wilt toevoegen, en klik 'Voeg contacten toe'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
 "print a contact list, assign tags, export contact data to a spreadsheet, etc."
-msgstr ""
+msgstr "Gebruik het Zoek Criteria fomulier, om contacten te zoeken op naam, contacttype, lidmaatschap van een groep, markeringen etc. Daarna is het mogelijk, om details van contacten te wijzigen."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
