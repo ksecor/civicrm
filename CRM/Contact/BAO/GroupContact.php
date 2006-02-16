@@ -444,13 +444,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $inner = array( );
 
-        // this seemed to cause CRM-588. not sure why brian had the inner array in the first place
-        // the search query does not use it either
-        /**
-            CRM_Contact_BAO_Group::getTableName() => true
-        );
-        **/
-        
         $where = CRM_Contact_BAO_Query::getWhereClause($fv, null, $tables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables);
         $from = CRM_Contact_BAO_Query::fromClause($tables, $inner);

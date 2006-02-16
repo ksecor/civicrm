@@ -216,7 +216,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getFields( $id, $register = false, $action = null, $match = false, $visibility = null , $searchable = null, $showAll= false ) {
+    static function getFields( $id, $register = false, $action = null, $match = false,
+                               $visibility = null , $searchable = null, $showAll= false ) {
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();

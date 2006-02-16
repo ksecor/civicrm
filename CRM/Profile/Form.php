@@ -252,7 +252,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $admin = true;
             }
         }
-        
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -261,9 +261,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
            
             // since the CMS manages the email field, suppress the email display if in
-            // edit or register mode which occur within the CMS form
-            if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_EDIT ) &&
-                 strpos( $name, 'email' ) !== false && substr($name, 0, 7) !== 'do_not_') {
+            // register mode which occur within the CMS form
+            if ( $this->_mode == self::MODE_REGISTER &&
+                 substr( $name, 0, 5 ) == 'email' ) {
                 continue;
             }
             $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];

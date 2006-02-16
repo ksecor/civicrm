@@ -77,7 +77,7 @@ VALUES
     (1,'postal_code',5,1,0,0,'User and User Admin Only','',0,1,1),
     (1,'state_province',6,1,0,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,1,1),
     (1,'country',7,1,0,0,'Public User Pages and Listings','',0,1,1),
-    (1,'email',8,1,1,0,'Public User Pages','',1,1,1),
+    (1,'email',8,1,0,0,'Public User Pages','',1,1,1),
     (1,'custom_5',9,1,0,0,'Public User Pages and Listings','',1,NULL,1),
     (1,'custom_6',10,1,0,0,'Public User Pages and Listings','',1,NULL,1),
     (1,'custom_7',11,1,0,0,'Public User Pages and Listings','',0,NULL,1),
