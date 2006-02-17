@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>12/25/2005</creationDate>
+  <creationDate>03/01/2006</creationDate>
   <author>Donald A. Lobo.</author>
   <copyright>(C) Donald A. Lobo</copyright>
   <authorEmail>lobo@yahoo.com</authorEmail>
   <authorUrl>www.openngo.org</authorUrl>
-  <version>1.3</version>
+  <version>1.4</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>

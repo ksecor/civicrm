@@ -118,7 +118,7 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         // all that's left is sending the vCard to the browser
         $filename = CRM_Utils_String::munge($defaults['display_name']);
         $vcard->send($filename . '.vcf', 'attachment', 'utf-8');
-
+        exit( );
     }
 
 }
