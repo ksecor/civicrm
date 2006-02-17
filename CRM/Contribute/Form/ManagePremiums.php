@@ -273,39 +273,52 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 if ( $value == 'image' ) {
                     if ( $imageFile ) {
                         $params['image'] = $imageFile;
-                        list($width_orig, $height_orig) = getimagesize($imageFile);
-                        $imageInfo = getimagesize($imageFile);
-                        echo $mime;
-                        $width_orig."<br>";
-                        $height_orig."<br>";    
-                        $path = explode( '/', $imageFile );
-                        $thumbFileName = $path[count($path) - 1];
-                        $thumbFileName = $thumbFileName.".thumb";
-                        $path[count($path) - 1] = $thumbFileName;
-                        $path = implode('/',$path);
+                        // to check wether GD is installed or not
 
-                        $width = $height = 100;
+                        require_once 'CRM/Utils/System.php';
 
-                        $thumb = imagecreate($width, $height);
-                        if( $imageInfo['mime']  == 'image/gif' ) {
-                            $source = imagecreatefromgif($imageFile);
-                        } else if ( $imageInfo['mime']  == 'image/png' ) {
-                            $source = imagecreatefrompng($imageFile);
+                        $gdSupport = CRM_Utils_System::getModuleSetting('gd','GD Support');
+                        $jpgSupport = CRM_Utils_System::getModuleSetting('gd','JPG Support');
+                        $gifSupport = CRM_Utils_System::getModuleSetting('gd','GIF Read Support');
+                        $pngSupport = CRM_Utils_System::getModuleSetting('gd','PNG Support');
+                        $error = false; 
+                        if ( $gdSupport == 'enabled' && $jpgSupport == 'enabled' && $gifSupport == 'enabled' && $pngSupport == 'enabled' ){
+                            list($width_orig, $height_orig) = getimagesize($imageFile);
+                            $imageInfo = getimagesize($imageFile);
+                            echo $mime;
+                            $width_orig."<br>";
+                            $height_orig."<br>";    
+                            $path = explode( '/', $imageFile );
+                            $thumbFileName = $path[count($path) - 1];
+                            $thumbFileName = $thumbFileName.".thumb";
+                            $path[count($path) - 1] = $thumbFileName;
+                            $path = implode('/',$path);
+                            
+                            $width = $height = 100;
+                            
+                            $thumb = imagecreate($width, $height);
+                            if( $imageInfo['mime']  == 'image/gif' ) {
+                                $source = imagecreatefromgif($imageFile);
+                            } else if ( $imageInfo['mime']  == 'image/png' ) {
+                                $source = imagecreatefrompng($imageFile);
+                            } else {
+                                $source = imagecreatefromjpeg($imageFile);
+                            }
+                            imagecopyresized($thumb,$source, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+                            
+                            $fp=fopen( $path ,'w+');
+                            ob_start();
+                            ImageJPEG($thumb);
+                            $image_buffer = ob_get_contents();
+                            ob_end_clean();
+                            ImageDestroy($thumb);
+                            fwrite($fp, $image_buffer); 
+                            rewind($fp);
+                            fclose($fp);
+                            $params['thumbnail'] = $path;
                         } else {
-                            $source = imagecreatefromjpeg($imageFile);
+                            $error = true; 
                         }
-                        imagecopyresized($thumb,$source, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-                        
-                        $fp=fopen( $path ,'w+');
-                        ob_start();
-                        ImageJPEG($thumb);
-                        $image_buffer = ob_get_contents();
-                        ob_end_clean();
-                        ImageDestroy($thumb);
-                        fwrite($fp, $image_buffer); 
-                        rewind($fp);
-                        fclose($fp);
-                        $params['thumbnail'] = $path;
                     }
                 } else if (  $value == 'thumbnail' ) {
                     $params['image']   = $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
@@ -320,7 +333,11 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             }
             
             $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Premium Product  "%1" has been saved.', array( 1 => $premium->name )) );
+            if ( $error ) {
+                CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation. If you have a local thumbnail image you can upload it separately and enter the image URL by editing this product.'));
+            } else {
+                CRM_Core_Session::setStatus( ts('The Premium Product  "%1" has been saved.', array( 1 => $premium->name )) );
+            }
         }
     }
 }
