@@ -136,12 +136,9 @@
 <tr><td class="label">{ts}End Date{/ts}</td><td>{$report.jobs.0.end_date}</td></tr>
 <tr><td class="label">{ts}Status{/ts}</td><td>{$report.jobs.0.status}</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
-<tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered}
-{$report.jobs.0.delivered_rate|string_format:"%0.2f"}%</td></tr>
-<tr><td class="label"><a href="{$report.event_totals.links.bounce}">{ts}Bounces{/ts}</a></td><td>{$report.jobs.0.bounce} 
-{$report.jobs.0.bounce_rate|string_format:"%0.2f"}%</td></tr>
-<tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscriptions{/ts}</a></td><td>{$report.jobs.0.unsubscribe}
-{$report.jobs.0.unsubscribe_rate|string_format:"%0.2f"}%</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.bounce}">{ts}Bounces{/ts}</a></td><td>{$report.jobs.0.bounce} ({$report.jobs.0.bounce_rate|string_format:"%0.2f"}%)</td></tr>
+<tr><td class="label"><a href="{$report.event_totals.links.unsubscribe}">{ts}Unsubscriptions{/ts}</a></td><td>{$report.jobs.0.unsubscribe} ({$report.jobs.0.unsubscribe_rate|string_format:"%0.2f"}%)</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.forward}">{ts}Forwards{/ts}</a></td><td>{$report.jobs.0.forward}</td></tr>
 <tr><td class="label"><a href="{$report.event_totals.links.reply}">{ts}Replies{/ts}</a></td><td>{$report.jobs.0.reply}</td></tr>
 {if $report.mailing.open_tracking}
