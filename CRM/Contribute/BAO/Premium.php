@@ -87,7 +87,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_Premium', $id, 'premiums_active ', $is_active );
     }
 
-       /**
+    /**
      * Function to delete contribution Types 
      * 
      * @param int $contributionTypeId
@@ -105,6 +105,121 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         $premium->delete();
     }
 
-}
+    /**
+     * Function to build Premium Block im Contribution Pages 
+     * 
+     * @param int $pageId 
+     * @static
+     */
 
+    function buildPremiumBlock( $form , $pageID ,$formItems = false ,$contributedAmount = null) {
+        
+        require_once 'CRM/Contribute/DAO/Premium.php';
+        $dao =& new CRM_Contribute_DAO_Premium();
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id = $pageID; 
+        $dao->premiums_active = 1;
+        
+        if ( $dao->find(true) ) {
+            $premiumID = $dao->id;
+            $premiumBlock = array();
+            CRM_Core_DAO::storeValues($dao, $premiumBlock );
+            
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->premiums_id = $premiumID;
+            $dao->orderBy('sort_position');
+            $dao->find();
+            
+            $products = array();
+            $radio    = array();
+            while ($dao->fetch()) {
+                require_once 'CRM/Contribute/DAO/Product.php';
+                $productDAO =& new CRM_Contribute_DAO_Product();
+                $productDAO->id = $dao->product_id;
+                $productDAO->is_active = 1;
+                if ($productDAO->find(true) ) {
+                    $thumbURL = $productDAO->thumbnail;
+                    if( ! CRM_Utils_Rule::url( $thumbURL )) {
+                        require_once 'CRM/Core/Config.php';
+                        $config = & CRM_Core_Config::singleton();
+                        $thumbURL = explode($config->httpBase , $thumbURL );
+                        $productDAO->thumbnail = $config->httpBase.$thumbURL[1];
+                    }
+                    $imageURL = $productDAO->image;
+                    if( ! CRM_Utils_Rule::url( $imageURL )) {
+                        require_once 'CRM/Core/Config.php';
+                        $config = & CRM_Core_Config::singleton();
+                        $imageURL = explode($config->httpBase , $imageURL );
+                        $productDAO->image = $config->httpBase.$imageURL[1];
+                    }
+                    
+                    if( $contributedAmount != null ) {
+                        if( $contributedAmount >= $productDAO->min_contribution ) {
+                            CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
+                        }
+                    } else {
+                        CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
+                    }
+                }
+                $radio[$productDAO->id] = $form->createElement('radio',null, null, null, $productDAO->id , null);
+                $options = $temp = array();
+                $temp = explode(',' , $productDAO->options );
+                foreach ($temp as $value) {
+                    $options[$value] = $value;
+                }
+                if ( $temp[0] == '' ) {
+                    $options = array('' => 'No Options' ) ;
+                }
+
+                $form->add('select', $productDAO->id , null , $options);
+                    
+            }
+            if ( count($products) ) {
+                $form->assign( 'showRadio',$formItems );
+                if ( $formItems ) {
+                    $radio[''] = $form->createElement('radio',null,null,ts('No thank you'),'no_thanks', null);
+                    $form->addGroup($radio,'selectProduct',null);
+                }
+                $form->assign( 'showSelectOptions',$formItems );
+                $form->assign( 'products' , $products );
+                $form->assign( 'premiumBlock' , $premiumBlock );
+            }
+        }
+    }
+
+    /**
+     * Function to build Premium B im Contribution Pages 
+     * 
+     * @param int $pageId 
+     * @static
+     */
+    
+    function buildPremiumPreviewBlock( $form , $productID , $premiumProductID = null ) {
+        
+        require_once 'CRM/Contribute/DAO/Product.php';
+        if ( $premiumProductID ) {
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->id = $premiumProductID;
+            $dao->find(true);
+            $productID = $dao->product_id;
+        }
+        $productDAO =& new CRM_Contribute_DAO_Product();
+        $productDAO->id = $productID;
+        $productDAO->is_active = 1;
+        if ($productDAO->find(true) ) {
+            $thumbURL = $productDAO->thumbnail;
+            if( ! CRM_Utils_Rule::url( $thumbURL )) {
+                require_once 'CRM/Core/Config.php';
+                $config = & CRM_Core_Config::singleton();
+                $thumbURL = explode($config->httpBase , $thumbURL );
+                $productDAO->thumbnail = $config->httpBase.$thumbURL[1];
+            }
+            CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
+        }
+        
+        $form->assign( 'products' , $products );
+    }
+}
 ?>

@@ -128,7 +128,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::PREVIEW )) {
             $this->edit($action, $id) ;
         } 
         // finally browse the custom groups

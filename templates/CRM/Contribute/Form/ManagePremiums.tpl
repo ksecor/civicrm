@@ -1,6 +1,6 @@
 {* this template is used for adding/editing/deleting premium  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{else}{ts}Delete Contribution Type{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{elseif $action eq 1024}{ts}Preview{/ts}{else}{ts}Delete Premium Product {/ts}{/if}</legend>
   
    {if $action eq 8}
       <div class="messages status">
@@ -11,7 +11,9 @@
           </dd>
        </dl>
       </div>
-  {else}
+  {elseif $action eq 1024 }
+     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
+  {else}  
       <dl>
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
@@ -76,7 +78,8 @@
 </fieldset>
 </div>
 
-{if $action neq 8}		
+{if $action eq 1 or $action eq 2 }		 
+
 {literal}
 <script type="text/javascript">
 hide('time-delimited');

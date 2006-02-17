@@ -486,6 +486,27 @@ WHERE  domain_id = $domainID AND $whereCond
         }
         return $result;
     }
+    
+    /**
+     * takes an associative array and creates a contribution_product object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contribution_product object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+    
+     * @return object CRM_Contribute_BAO_ContributionProduct object
+     * @access public
+     * @static
+     */
+    static function addPrmeium ( &$params ) {
+
+        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+        $contributionProduct = new CRM_Contribute_DAO_ContributionProduct();
+        $contributionProduct->copyValues($params);
+        return $contributionProduct->save();
+    }
 
 }
 

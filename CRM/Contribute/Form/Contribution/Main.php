@@ -108,6 +108,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCreditCard( );
 
         $this->buildAmount( );
+        require_once 'CRM/Contribute/BAO/Premium.php';
+        CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id );
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
@@ -315,7 +317,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->set( 'amount', $params['amount'] ); 
 
         // generate and set an invoiceID for this transaction
-        $invoiceID = $this_>get( 'invoiceID' );
+        $invoiceID = $this->get( 'invoiceID' );
         if ( ! $invoiceID ) {
             $invoiceID = md5(uniqid(rand(), true));
         }

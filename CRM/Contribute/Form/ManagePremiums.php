@@ -91,6 +91,20 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
     {
         //parent::buildQuickForm( );
         
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            require_once 'CRM/Contribute/BAO/Premium.php';
+            CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, $this->_id );
+            
+            $this->addButtons(array(
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Done With Preview'),
+                                           'isDefault' => true),
+                                    )
+                              );
+            
+            return;
+        }
+        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             $this->addButtons(array(
                                     array ('type'      => 'next',
@@ -191,24 +205,15 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             }
         }
 
-       
+        
         $fileLocation  = $files['uploadFile']['tmp_name'];
-        $fileInfo      = getimagesize($fileLocation); 
-        $filedimention = $fileInfo[3];
-        if ( $filedimention ) { 
-            $dimention = explode("\"" , $filedimention);
-            $width  = $dimention[1];
-            $height = $dimention[3];
-
-            if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {
-                $errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
-            }
-            
+        list($width, $height ) = getimagesize($fileLocation); 
+        
+        if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {
+            //$errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
         }
-        
-        
-
-
+       
+       
         if ( ! $params['period_type'] ) {
             if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $parmas['duration_interval'] ||
                  $params['frequency_unit'] || $params['frequency_interval'] ) {
@@ -247,7 +252,9 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
     {
         require_once 'CRM/Contribute/BAO/ManagePremiums.php';
         
-       
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            return;
+        }
         
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Contribute_BAO_ManagePremiums::del($this->_id);
@@ -266,6 +273,39 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 if ( $value == 'image' ) {
                     if ( $imageFile ) {
                         $params['image'] = $imageFile;
+                        list($width_orig, $height_orig) = getimagesize($imageFile);
+                        $imageInfo = getimagesize($imageFile);
+                        echo $mime;
+                        $width_orig."<br>";
+                        $height_orig."<br>";    
+                        $path = explode( '/', $imageFile );
+                        $thumbFileName = $path[count($path) - 1];
+                        $thumbFileName = $thumbFileName.".thumb";
+                        $path[count($path) - 1] = $thumbFileName;
+                        $path = implode('/',$path);
+
+                        $width = $height = 100;
+
+                        $thumb = imagecreate($width, $height);
+                        if( $imageInfo['mime']  == 'image/gif' ) {
+                            $source = imagecreatefromgif($imageFile);
+                        } else if ( $imageInfo['mime']  == 'image/png' ) {
+                            $source = imagecreatefrompng($imageFile);
+                        } else {
+                            $source = imagecreatefromjpeg($imageFile);
+                        }
+                        imagecopyresized($thumb,$source, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+                        
+                        $fp=fopen( $path ,'w+');
+                        ob_start();
+                        ImageJPEG($thumb);
+                        $image_buffer = ob_get_contents();
+                        ob_end_clean();
+                        ImageDestroy($thumb);
+                        fwrite($fp, $image_buffer); 
+                        rewind($fp);
+                        fclose($fp);
+                        $params['thumbnail'] = $path;
                     }
                 } else if (  $value == 'thumbnail' ) {
                     $params['image']   = $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;

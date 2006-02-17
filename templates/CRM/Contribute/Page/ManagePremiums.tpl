@@ -1,6 +1,6 @@
-{if $action eq 1 or $action eq 2 or $action eq 8}
+{if $action eq 1 or $action eq 2 or $action eq 8 or $action eq 1024}
    {include file="CRM/Contribute/Form/ManagePremiums.tpl"}
-{/if}
+{else}
     
 
 {if $action ne 2}
@@ -53,5 +53,6 @@
         </dl>
     </div>  
     {/if}	  
+{/if}
 {/if}
 {/if}

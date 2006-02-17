@@ -86,6 +86,8 @@ function clearAmountOther() {
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
 
+{include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
+
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $config->paymentProcessor EQ 'PayPal_Express'}
     <fieldset><legend>{ts}Checkout With PayPal{/ts}</legend>

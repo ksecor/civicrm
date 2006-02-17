@@ -10,7 +10,7 @@
 </div>
  
 <div class="form-item">
-    <fieldset><legend>{if $action eq 2 }{ts}Add Products to this Page{/ts} { else } {ts}Remove Products from this Page{/ts}{/if}</legend>
+    <fieldset><legend>{if $action eq 2 }{ts}Add Products to this Page{/ts} {elseif $action eq 1024}{ts}Preview{/ts}{else} {ts}Remove Products from this Page{/ts}{/if}</legend>
    {if $action eq 8}
       <div class="messages status">
         <dl>
@@ -20,6 +20,8 @@
           </dd>
        </dl>
       </div>
+  {elseif $action eq 1024}
+     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
   {else}
     <dl>
     <dt>{$form.product_id.label}</dt><dd>{$form.product_id.html}</dd>

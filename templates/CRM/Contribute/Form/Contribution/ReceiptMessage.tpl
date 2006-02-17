@@ -30,4 +30,25 @@
 {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
 {/if}
 
+{if $selectPremium }
+===========================================================
+{ts}Premium  Information{/ts}
 
+===========================================================
+
+Name          : {$product_name}
+Price         : {$price}
+Option        : {$option}
+{if $start_date}
+Start Date    : {$start_date}
+{/if}
+{if $end_date  }
+End Date      : {$end_date}    
+{/if}
+{if $contact_email}
+Contact Email : {$contact_email}
+{/if}
+{if $contact_phone}
+Contact Phone : {$contact_phone}
+{/if}
+{/if}

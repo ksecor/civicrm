@@ -101,6 +101,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
      */
     public function buildQuickForm()
     {
+       
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array(
                                     array ( 'type'      => 'next',
@@ -114,6 +116,21 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             return;
             
         }
+        
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            require_once 'CRM/Contribute/BAO/Premium.php';
+            CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, null ,$this->_pid );
+            
+            $this->addButtons(array(
+                                    array ('type'      => 'next',
+                                           'name'      => ts('Done With Preview'),
+                                           'isDefault' => true),
+                                    )
+                              );
+            
+            return;
+        }
+        
         $this->addElement('select', 'product_id', ts('Select the Product ') , $this->_products );
         $this->addRule('product_id', ts('Select the Product ') ,'required' );
         $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
@@ -149,6 +166,13 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         // get the submitted form values.
         $params    = $this->controller->exportValues( $this->_name );
         $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        
+        if($this->_action & CRM_Core_Action::PREVIEW) {
+            $session =& CRM_Core_Session::singleton();
+            $single = $session->get('singleForm');
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );
+            return;
+        }
         
         if($this->_action & CRM_Core_Action::DELETE) {
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';

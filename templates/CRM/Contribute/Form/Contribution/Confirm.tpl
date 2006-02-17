@@ -37,12 +37,21 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
-
+    
+    {if $products}
+    <div class="header-dark">
+        {ts}{$premiumBlock.premiums_intro_title}{/ts}
+    </div>
+    {/if}
+    {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
+    
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
         </p>
     </div>
+    
+    
     <div id="crm-submit-buttons">
         {$form.buttons.html}
     </div>
