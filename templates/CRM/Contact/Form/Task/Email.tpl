@@ -1,4 +1,9 @@
 <div class="form-item">
+{if $config->smtpAuth and ($config->smtpUsername == '' or $config->smtpPassword == '')}
+<div class="status">
+<p>{ts}Your setup enforces SMTP authentication, but does not provide SMTP username and/or password. Please fix your civicrm.settings.php file.{/ts}</p>
+</div>
+{else}
 <fieldset>
 <legend>{ts}Send an Email{/ts}</legend>
 <dl>
@@ -16,4 +21,5 @@
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </fieldset>
+{/if}
 </div>
