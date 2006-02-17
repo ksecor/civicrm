@@ -709,11 +709,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
-                        $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         foreach( $mulValues as $v1 ) {
                             $flag = false; 
-                            foreach( $custuomOption as $v2 ) {
-                                if ( trim($v2['label']) == trim($v1) ) {
+                            foreach( $customOption as $v2 ) {
+                                if ( strtolower(trim($v2['label'])) == strtolower(trim($v1)) ) {
                                     $flag = true; 
                                 }
                             }
@@ -724,13 +724,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         }
                     } else if ($customFields[$customFieldID][3] == 'Select' || 
                                ( $customFields[$customFieldID][3] =='Radio' && $customFields[$customFieldID][2] !='Boolean' ) ) {
-                        $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
-                        foreach( $custuomOption as $v2 ) {
-                            if ( trim($v2['label']) == trim($value) ) {
+                        foreach( $customOption as $v2 ) {
+                            if ( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) {
                                 $flag = true; 
                             }
-                            
                         }
                         if (! $flag ) {
                                 return _crm_error('Invalid value for custom field :' .
