@@ -4,8 +4,8 @@
 INSERT INTO civicrm_domain( name, contact_name, email_domain ) 
     VALUES ( 'CRM Test Domain', 'Mr System Administrator', 'FIXME.ORG' );
 
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( {$civicrmDomainId}, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( {$civicrmDomainId}, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( {$civicrmDomainId}, '{ts}Other{/ts}', NULL, '{ts}Another location{/ts}', 0, 1 );
 
