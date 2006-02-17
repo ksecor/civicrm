@@ -44,7 +44,12 @@ class CRM_Core_BAO_DomainDump
 {
     /**
      * Function to create the dump from backup.sql
+     * 
+     * @param NULL
      *
+     * @return void
+     * 
+     * @access public
      * @static
      */
     static function backupData ( ) 

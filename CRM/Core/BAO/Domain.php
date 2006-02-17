@@ -72,7 +72,10 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     /**
      * Return the domain BAO for the current domain.
      *
-     * @return object CRM_Core_BAO_Domain object
+     * @param NULL
+     * 
+     * @return  object  CRM_Core_BAO_Domain object
+     * 
      * @access public
      * @static
      */
@@ -87,6 +90,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
      * Get the domain BAO with the given ID
      * 
      * @param int $id       the domain id to find
+     * 
      * @return null|object CRM_Core_BAO_Domain
      * @access public
      * @static
@@ -103,6 +107,8 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     /**
      * Get the location values of a domain
      *
+     * @param NULL
+     * 
      * @return array        Location::getValues
      * @access public
      */
