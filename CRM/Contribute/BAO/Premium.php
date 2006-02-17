@@ -216,6 +216,14 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                 $thumbURL = explode($config->httpBase , $thumbURL );
                 $productDAO->thumbnail = $config->httpBase.$thumbURL[1];
             }
+            $imageURL = $productDAO->image;
+            if( ! CRM_Utils_Rule::url( $imageURL )) {
+                require_once 'CRM/Core/Config.php';
+                $config = & CRM_Core_Config::singleton();
+                $imageURL = explode($config->httpBase , $imageURL );
+                $productDAO->image = $config->httpBase.$imageURL[1];
+            }
+            
             CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
         }
         
