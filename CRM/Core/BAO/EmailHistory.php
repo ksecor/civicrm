@@ -89,18 +89,18 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
 
         return array( count($contactIds), $sent, $notSent );
     }
-
+    
     /**
      * send the message to a specific contact
      *
-     * @param string $from       the name and email of the sender
-     * @param int    $toID       the contact id of the recipient       
-     * @param string $subject    the subject of the message
-     * @param string $message    the message contents
+     * @param string $from         the name and email of the sender
+     * @param int    $toID         the contact id of the recipient       
+     * @param string $subject      the subject of the message
+     * @param string $message      the message contents
      * @param string $emailAddress use this 'to' email address instead of the default Primary address 
-     * @param int    $activityID the activity ID that tracks the message
+     * @param int    $activityID   the activity ID that tracks the message
      *
-     * @return array             (total, added, notAdded) count of emails sent
+     * @return boolean             true if successfull else false.
      * @access public
      * @static
      */
@@ -109,7 +109,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( $emailAddress ) {
             $toEmail = trim( $emailAddress );
         }
-
+        
         // make sure both email addresses are valid
         if ( empty( $toEmail ) ) {
             return false;
@@ -117,15 +117,14 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         if ( ! trim($toDisplayName) ) {
             $toDisplayName = $toEmail;
         }
-
-
+        
         if ( ! CRM_Utils_Mail::send( $from,
                                      $toDisplayName, $toEmail,
                                      $subject,
                                      $message ) ) {
             return false;
         }
-
+        
         // we need to insert an activity history record here
         $params = array('entity_table'     => 'civicrm_contact',
                         'entity_id'        => $toID,
@@ -136,29 +135,36 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'activity_summary' => ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject)),
                         'activity_date'    => date('YmdHis')
                         );
-         if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
             return false;
         }
         return true;
     }
-
-
+    
     /**
      * compose the url to show details of this specific email
-     *
-     * @param int $id
+     * 
+     * @param  int     $id
+     * 
+     * @return string            an HTML string containing a link to the given path.
+     * 
+     * @access public
      */
     public function showEmailDetails( $id )
     {
         return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=3&details=1&action=view&id=$id");
     }
-
-
-
+    
     /**
-     * delete all records for this contact id
+     * delete all email history records for this contact id.
      *
-     * @param int $id
+     * @param int   $id   ID of the contact for which 
+     *                    the email history need to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
      */
     public static function deleteContact($id)
     {

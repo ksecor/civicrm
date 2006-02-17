@@ -164,10 +164,10 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
      * takes an associative array and creates a contact tags object 
      *
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $contactId    contact id
+     * @param array $params (reference )  an assoc array of name/value pairs
+     * @param array $contactId            contact id
      *
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -204,13 +204,13 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
             }
         }
     }
-
+    
     /**
      * This function returns all entities assigned to a specific tag
      * 
-     * @param object $tag an object of a tag
+     * @param object  $tag    an object of a tag.
      *
-     * @return array $contactIds contact ids
+     * @return  array   $contactIds    array of contact ids
      * @access public
      */
     function getEntitiesByTag($tag)

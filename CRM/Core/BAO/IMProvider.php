@@ -44,7 +44,7 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
     function __construct( ) {
         parent::__construct( );
     }
-
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -68,7 +68,7 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
         }
         return null;
     }
-
+    
     /**
      * update the is_active flag in the db
      *
@@ -76,19 +76,24 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
      * @param boolean  $is_active value we want to set the is_active field
      *
      * @return Object             DAO object on sucess, null otherwise
+     * 
+     * @access public
      * @static
      */
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_IMProvider', $id, 'is_active', $is_active );
     }
-
-     /**
+    
+    /**
      * Function to delete IMProvider Types 
      * 
-     * @param int $impProviderTypeId
+     * @param int   $imProviderTypeId      Id of the im provider type to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
      * @static
      */
-    
     static function del($imProviderTypeId) 
     {
         require_once 'CRM/Core/DAO/IM.php';

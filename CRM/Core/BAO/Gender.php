@@ -63,7 +63,8 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_IndividualSuffix object
+     * @return object         CRM_Core_DAO_Gender object on success,
+     *                        null otherwise.
      * @access public
      * @static
      */
@@ -85,6 +86,7 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
      *
      * @return Object             DAO object on sucess, null otherwise
      * @static
+     * @access public
      */
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_Gender', $id, 'is_active', $is_active );
@@ -92,19 +94,21 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
 
 
     /**
-     * retrieve the list of suffix
-     *
+     * retrieve the list of gender.
+     * 
+     * @param NULL 
+     * 
      * @return object           The default activity type object on success,
      *                          null otherwise
-     * @static
      * @access public
+     * @static
      */
     static function &getDefault() {
-        if (self::$_defaultIndividualSuffix == null) {
+        if (self::$_defaultGender == null) {
             $defaults = array();
-            self::$_defaultIndividualSuffix = self::retrieve($params, $defaults);
+            self::$_defaultGender = self::retrieve($params, $defaults);
         }
-        return self::$_defaultIndividualSuffix;
+        return self::$_defaultGender;
     }
 
     /**
@@ -131,13 +135,17 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
         $gender->save( );
         return $gender;
     }
-     /**
+
+    /**
      * Function to delete Gender 
      * 
-     * @param int $genderId
+     * @param int $genderId  ID of the gender to be deleted.
+     * 
+     * @return boolean true if success, false otherwise
+     * 
+     * @access public
      * @static
      */
-    
     static function del($genderId) 
     {
         //check dependencies
@@ -166,7 +174,6 @@ class CRM_Core_BAO_Gender extends CRM_Core_DAO_Gender {
         $gender->delete();
         return true;
     }
-
 }
 
 ?>

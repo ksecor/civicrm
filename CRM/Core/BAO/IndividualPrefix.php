@@ -63,7 +63,7 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_IndividualPrefix object
+     * @return object   CRM_Core_BAO_IndividualPrefix object on success, null otherwise
      * @access public
      * @static
      */
@@ -84,6 +84,8 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
      * @param boolean  $is_active value we want to set the is_active field
      *
      * @return Object             DAO object on sucess, null otherwise
+     * 
+     * @access public
      * @static
      */
     static function setIsActive( $id, $is_active ) {
@@ -93,7 +95,9 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
 
     /**
      * retrieve the list of prefix
-     *
+     * 
+     * @param NULL
+     * 
      * @return object           The default activity type object on success,
      *                          null otherwise
      * @static
@@ -106,7 +110,7 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
         }
         return self::$_defaultIndividualPrefix;
     }
-
+    
     /**
      * function to add the individual prefix
      *
@@ -137,7 +141,11 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
     /**
      * Function to delete Individual Prefix
      * 
-     * @param int $prefixId
+     * @param  int  $prefixId     ID of the prefix to be deleted.
+     * 
+     * @return boolean
+     * 
+     * @access public
      * @static
      */
     
@@ -151,8 +159,6 @@ class CRM_Core_BAO_IndividualPrefix extends CRM_Core_DAO_IndividualPrefix {
         $prefix->delete();
         return true;
     }
-
-    
 }
 
 ?>

@@ -53,7 +53,7 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM {
      * @param int    $imId
      * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object CRM_Core_BAO_IM object
+     * @return object  CRM_Core_BAO_IM object on success, null otherwise
      * @access public
      * @static
      */
@@ -113,7 +113,7 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM {
      * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
-     * @return void
+     * @return boolean
      * @access public
      * @static
      */

@@ -65,8 +65,23 @@ class CRM_Core_BAO_History {
      * @static
      */
     static $_importableFields = null;
-
-
+        
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param array  $params   (reference ) An assoc array of name/value pairs
+     * @param array  $defaults (reference ) An assoc array to hold the flattened values
+     * @param string $type                  Type of activity history.
+     * 
+     * @return object         CRM_Core_DAO_$typeHistory object on success,
+     *                        null otherwise.
+     * @access public
+     * @static
+     */
     static function retrieve(&$params, &$defaults, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $type . 'History') . '.php');
@@ -82,10 +97,12 @@ class CRM_Core_BAO_History {
 
     /**
      * Delete an history record from the database
-     *
-     * @param int $historyTableId
-     * @return none
-     *
+     * 
+     * @param int   $historyTableId    
+     * @param int   $type              
+     * 
+     * @return void
+     * 
      * @access public
      * @static
      */
@@ -186,7 +203,9 @@ class CRM_Core_BAO_History {
      *
      * This function is invoked from within the web form layer and also from the api layer
      *
-     * @param array $params (reference) an assoc array of name/value pairs
+     * @param array  $params (reference) an assoc array of name/value pairs
+     * @param array  $ids    (reference) the array that holds all the db ids
+     * @param string $type               name of activity type.
      *
      * @return object CRM_Core_DAO_ActivityHistory object 
      * @access public
@@ -210,7 +229,9 @@ class CRM_Core_BAO_History {
      * scheme. Adding weight is super important and should be done in the
      * next week or so, before this can be called complete.
      *
-     * @return array array of importable Fields
+     * @param NULL
+     * 
+     * @return array    array of importable Fields
      * @access public
      */
     function &importableFields( ) 

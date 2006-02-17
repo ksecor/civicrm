@@ -63,7 +63,7 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_IndividualSuffix object
+     * @return object CRM_Core_BAO_IndividualSuffix object if dupmatch found else NULL
      * @access public
      * @static
      */
@@ -91,6 +91,8 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
     /**
      * retrieve the list of suffix
      *
+     * @param NULL
+     * 
      * @return object           The default activity type object on success,
      *                          null otherwise
      * @static
@@ -106,17 +108,16 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
 
     /**
      * function to add the dupematch
-     *
+     * 
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id
      * 
+     * @return object   Object of CRM_Core_DAO_DupeMatch
+     * 
      * @access public
      * @static 
-     * @return object
      */
     static function add($rule) {
-        
-        
         // action is taken depending upon the mode
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
         $dupematch->domain_id    = CRM_Core_Config::domainID( );
@@ -132,13 +133,17 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
         $dupematch->save( );
         return $dupematch;
     }
-     /**
+    
+    /**
      * Function to delete DupeMatch 
      * 
-     * @param int $dupematchId
+     * @param   int  $dupematchId      ID of the dupematch to be deleted.
+     * 
+     * @return boolean
+     * 
      * @static
+     * @access public
      */
-    
     static function del($dupematchId) 
     {
         //check dependencies

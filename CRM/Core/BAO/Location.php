@@ -60,7 +60,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @param array  $ids            the array that holds all the db ids
      * @param array  $locationId     
      *
-     * @return object CRM_Core_BAO_Location object
+     * @return object   CRM_Core_BAO_Location object on success, null otherwise
      * @access public
      * @static
      */
@@ -109,6 +109,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $locationId     
+     * @param array  $ids            (reference ) the array that holds all the db ids
      *
      * @return boolean
      * @access public
@@ -148,7 +149,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @param array $ids           the array that holds all the db ids
      * @param int   $locationCount number of locations to fetch
      *
-     * @return void
+     * @return array   array of objects(CRM_Core_BAO_Location)
      * @access public
      * @static
      */

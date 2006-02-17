@@ -62,7 +62,7 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_LocaationType object
+     * @return object CRM_Core_BAO_LocaationType object on success, null otherwise
      * @access public
      * @static
      */
@@ -75,7 +75,7 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
         }
         return null;
     }
-
+    
     /**
      * update the is_active flag in the db
      *
@@ -83,16 +83,19 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      * @param boolean  $is_active value we want to set the is_active field
      *
      * @return Object             DAO object on sucess, null otherwise
+     * 
+     * @access public
      * @static
      */
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_LocationType', $id, 'is_active', $is_active );
     }
-
-
+    
     /**
      * retrieve the default location_type
-     *
+     * 
+     * @param NULL
+     * 
      * @return object           The default location type object on success,
      *                          null otherwise
      * @static
@@ -106,15 +109,15 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
         }
         return self::$_defaultLocationType;
     }
-
-
+    
     /**
      * Function to delete location Types 
      * 
-     * @param int $locationTypeId
+     * @param  int  $locationTypeId     ID of the location type to be deleted.
+     * 
+     * @access public
      * @static
      */
-    
     static function del($locationTypeId) 
     {
         require_once 'CRM/Core/DAO/Location.php';
@@ -153,7 +156,5 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
         $locationType->id = $locationTypeId;
         $locationType->delete();
     }
-
 }
-
 ?>

@@ -53,7 +53,8 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      * @param int    $emailId
      * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object CRM_Core_BAO_Email object
+     * @return object    CRM_Core_BAO_Email object if successful 
+     *                   else null will be returned
      * @access public
      * @static
      */
@@ -109,7 +110,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
-     * @return void
+     * @return boolean
      * @access public
      * @static
      */
@@ -122,7 +123,9 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      * Delete email address records from a location
      *
      * @param int $locationId       Location ID to delete for
-     * @return none
+     * 
+     * @return void
+     * 
      * @access public
      * @static
      */

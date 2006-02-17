@@ -63,7 +63,7 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_IndividualSuffix object
+     * @return object     CRM_Core_BAO_IndividualSuffix object on success, null otherwise
      * @access public
      * @static
      */
@@ -76,7 +76,7 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         }
         return null;
     }
-
+    
     /**
      * update the is_active flag in the db
      *
@@ -84,15 +84,18 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
      * @param boolean  $is_active value we want to set the is_active field
      *
      * @return Object             DAO object on sucess, null otherwise
+     * 
+     * @access public
      * @static
      */
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_IndividualSuffix', $id, 'is_active', $is_active );
     }
-
-
+    
     /**
      * retrieve the list of suffix
+     *
+     * @param NULL
      *
      * @return object           The default activity type object on success,
      *                          null otherwise
@@ -133,15 +136,17 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::UPDATE);
         return $individualSuffix;
     }
-
-
+    
     /**
      * Function to delete Individual Suffix
      * 
-     * @param int $suffixId
+     * @param  int   $suffixId      ID of the suffix to be deleted.
+     *  
+     * @return boolean
+     * 
+     * @access public
      * @static
      */
-    
     static function del($suffixId) 
     {
         require_once 'CRM/Contact/BAO/Individual.php';
@@ -152,8 +157,6 @@ class CRM_Core_BAO_IndividualSuffix extends CRM_Core_DAO_IndividualSuffix {
         $suffix->delete();
         return true;
     }
-    
-    
 }
 
 ?>

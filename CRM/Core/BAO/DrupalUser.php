@@ -44,9 +44,13 @@ class CRM_Core_BAO_DrupalUser
 {
     /**
      * Function for synchronizing drupal users with CiviCRM contacts
+     *  
+     * @param NULL
      * 
-     * @return null
+     * @return void
+     * 
      * @static
+     * @access public
      */
     static function synchronize( ) 
     {
