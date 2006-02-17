@@ -28,7 +28,6 @@
   <field>
       <name>header_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to the header component.</comment>
   </field>
   <foreignKey>
@@ -39,7 +38,6 @@
   <field>
       <name>footer_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to the footer component.</comment>
   </field>
   <foreignKey>
