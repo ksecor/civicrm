@@ -63,6 +63,17 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     }
 
     /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues()
+    {
+        return parent::setContactValues( );
+    }
+
+    /**
      * Function to actually build the form
      *
      * @return void
@@ -95,7 +106,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         //$postURL = CRM_Utils_Array::value( 'postURL', $_POST );
 
         if ( ! $postURL ) {
-            $postURL = CRM_Utils_System::url('civicrm/profile/create', '&amp;gid='.$this->_gid.'&amp;reset=1' );
+            $postURL = CRM_Utils_System::url('civicrm/profile/edit', '&amp;gid='.$this->_gid.'&amp;reset=1' );
         }
       
         // we do this gross hack since qf also does entity replacement

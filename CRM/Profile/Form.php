@@ -217,6 +217,102 @@ class CRM_Profile_Form extends CRM_Core_Form
     } 
 
     /**
+     * This functions sets the default values for a contact and is invoked by the inherited classes
+     *
+     * @access protected 
+     * @return array the default array reference 
+     */ 
+    function &setContactValues()
+    {
+        $defaults = array();
+
+        if ( $this->_contact ) {
+            foreach ( $this->_fields as $name => $field ) {
+                $objName = $field['name'];
+                if ( $objName == 'state_province' ) {
+                    $states =& CRM_Core_PseudoConstant::stateProvince( );
+                    if ( $this->_contact->state_province ) {
+                        $defaults[$name] = array_search( $this->_contact->state_province, $states );
+                    }
+                } else if ( $objName == 'country' ) {
+                    $country =& CRM_Core_PseudoConstant::country( );
+                    if ( $this->_contact->country ) {
+                        $defaults[$name] = array_search( $this->_contact->country, $country );
+                    }
+                } else if ( $objName == 'gender' ) {
+                    $defaults[$name] = $this->_contact->gender_id;
+                } else if ( $objName == 'group' ) {
+                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
+                                                            $defaults,
+                                                            CRM_Contact_Form_GroupTag::GROUP ); 
+                } else if ( $objName == 'tag' ) { 
+                    CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
+                                                            $defaults,
+                                                            CRM_Contact_Form_GroupTag::TAG ); 
+                } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
+                    // make sure the custom field exists
+                    $cf =& new CRM_Core_BAO_CustomField();
+                    $cf->id = $cfID;
+                    if ( ! $cf->find( true ) ) {
+                        continue;
+                    }
+
+                    // make sure the custom value exists
+                    $cv =& new CRM_Core_BAO_CustomValue();
+                    $cv->custom_field_id = $cfID;
+                    $cv->entity_table = 'civicrm_contact';
+                    $cv->entity_id = $this->_id;
+                    if ( ! $cv->find( true ) ) {
+                        $defaults[$name] = $cf->default_value;
+                        continue;
+                    }
+
+                    switch($cf->html_type) {
+
+                    case "Radio":
+                        $defaults[$name] = $cv->getValue(true); 
+                        break;
+                            
+                    case "CheckBox":
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($cf->id);    
+                        $value = $cv->getValue(true);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        foreach($customOption as $val) {
+                            $checkVal = $val['value'];
+                            $checkName = $name . '[' . $val['label'] .']';
+                            if (in_array($val['value'], $checkedData)) {
+                                $defaults[$checkName] = 1;
+                            } else {
+                                $defaults[$checkName] = 0;
+                            }
+                        }
+                        break;
+
+                    case "Select Date":
+                        $date = CRM_Utils_Date::unformat($cv->getValue(true));
+                        $customValue = $date;
+                        $defaults[$name] = $customValue;
+                        break;
+
+                    case 'Select State/Province':
+                    case 'Select Country':
+                        $defaults[$name] = $cv->int_data;
+                        break;
+
+                    default:
+                        $customValue = $cv->getValue(true);
+                        $defaults[$name] = $customValue;
+                        break;
+                    }
+                } else {
+                    $defaults[$name] = $this->_contact->$objName;
+                }
+            }
+        }
+        return $defaults;
+    }
+
+    /**
      * Function to actually build the form
      *
      * @return void
@@ -355,10 +451,10 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // hack add the email, does not work in registration, we need the real user object
         // hack this will not work in mambo/joomla, not sure why we need it
-        global $user; 
-        if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
-            $fields['email'] = $user->mail; 
-        }
+        // global $user; 
+        // if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
+        // $fields['email'] = $user->mail; 
+        // }
     
         $cid = $register = null; 
 
@@ -379,7 +475,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             // get the primary location type id and email
             list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails($cid);
         }
-        
+
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
             $locationType = array( );
@@ -397,8 +493,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                      
                     $data['location'][$loc]['location_type_id'] = $keyValue[1];
                 
-                    if ($keyValue[1] == $primaryLocationType ) {
-                        $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+                    // if we are getting in a new primary email, dont overwrite the new one
+                    if ($keyValue[1] == $primaryLocationType) {
+                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
+                            $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
+                        } else {
+                            $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+                        }
                         $primaryLocation++;
                     }
 
@@ -469,7 +570,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
-
+            
             if ( $ids ) {
                 $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
             }
@@ -547,10 +648,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
                     }
                     $data['location'][$loc]['phone'][$loc]['phone'] = $value;
+                    $data['location'][$loc]['phone'][$loc]['is_primary'] = 1;
                 } else if ($keyValue[0] == 'email') {
                     $data['location'][$loc]['email'][$loc]['email'] = $value;
+                    $data['location'][$loc]['email'][$loc]['is_primary'] = 1;
                 } elseif ($keyValue[0] == 'im') {
                     $data['location'][$loc]['im'][$loc]['name'] = $value;
+                    $data['location'][$loc]['im'][$loc]['is_primary'] = 1;
                 } else {
                     if ($keyValue[0] === 'state_province') {
                         $data['location'][$loc]['address']['state_province_id'] = $value;
@@ -648,6 +752,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                                 $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
                             } else if ($nameValue[0] == 'im') {
                                 $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
+                            } else if ($nameValue[0] == 'email') {
+                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
                             } else {
                                 $ids['location'][$loc_no]['address'] = $value['address_id'];
                             } 
@@ -658,7 +764,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-             
+
         //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
         $privacy = CRM_Core_SelectValues::privacy( );
         foreach ($privacy as $key => $value) {
