@@ -2,37 +2,33 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/WizardHeader.tpl}
 <div id="help">
-    {if $action eq 0}
-        <p>{ts}need to add discription ....{/ts}</p>
-    {else}
-        {ts}Use this form to add premium for this contribution Page .{/ts}
-    {/if}
+    {ts}Use this form to configure the Premiums section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field.
+    You can set a section title and a message about the premiums here (e.g ...In appreciation of your support, you will be able to select from a number of 
+    exciting thank-you gifts...). You can optionally provide a contact email address and/or phone number for inquiries{/ts}
 </div>
  
 <div class="form-item">
-    <fieldset><legend>{ts}Configure Premiums{/ts}</legend>
+    <fieldset><legend>{ts}Configure Premiums Section{/ts}</legend>
     <dl>
-     <dt>&nbsp;</dt><dd>{$form.premiums_active.html} {$form.premiums_active.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Premium feature enabled for this page{/ts}<br />
-        <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>	
+     <dt> {$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Is the Premiums section enabled for this Online Contributions page? (%1){/ts}</dd>	
   
 
     <dt>{$form.premiums_intro_title.label}</dt><dd>{$form.premiums_intro_title.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Title for Premiums section.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Title to appear at the top of the Premiums section.{/ts}</dd>
 
     
     <dt>{$form.premiums_intro_text.label}</dt><dd>{$form.premiums_intro_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the Premiums section title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     
     <dt>{$form.premiums_contact_email.label}</dt><dd>{$form.premiums_contact_email.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}This email address is included in receipts if it is populated and a premium has been selected.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}This email address is included in automated contribution receipts if the contributor has selected a premium. It should be an appropriate contact mailbox for inquiries about premium fulfillment/shipping.{/ts}</dd>
 	
-      <dt>{$form.premiums_contact_phone.label}</dt><dd>{$form.premiums_contact_phone.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}This phone number is included in receipts if it is populated and a premium has been selected.{/ts}</dd>
+    <dt>{$form.premiums_contact_phone.label}</dt><dd>{$form.premiums_contact_phone.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}This phone number is included in automated contribution receipts if the contributor has selected a premium. It should be an appropriate phone number for inquiries about premium fulfillment/shipping.{/ts}</dd>
 
-     <dt>{$form.premiums_display_min_contribution.label}</dt><dd>{$form.premiums_display_min_contribution.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Should we automatically display minimum contribution amount text after the premium descriptions.{/ts}</dd>
-	
+    <dt>{$form.premiums_display_min_contribution.label}</dt><dd>{$form.premiums_display_min_contribution.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Should the minimum contribution amount be automatically displayed after each premium description.{/ts}</dd>
 	
     </dl>
     </fieldset>

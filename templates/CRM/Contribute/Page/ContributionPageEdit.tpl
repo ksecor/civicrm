@@ -38,8 +38,8 @@
 </tr>
 
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Premium"}">&raquo; {ts}Configure Premiums{/ts}</a></td>
-    <td>{ts}need to write description...{/ts}</td>
+    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Premium"}">&raquo; {ts}Premiums{/ts}</a></td>
+    <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>
 </tr>
 
 <tr>

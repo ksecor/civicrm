@@ -167,7 +167,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         
         $this->add('Select', 'frequency_unit', ts('Frequency Unit'),array(''=>'--Select--','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
 
-        $this->add('text', 'frequency_interval', ts('Duration Interval'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'frequency_interval' ));
+        $this->add('text', 'frequency_interval', ts('Frequency Interval'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'frequency_interval' ));
        
     
         $this->add('checkbox', 'is_active', ts('Enabled?'));
