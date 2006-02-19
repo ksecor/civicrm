@@ -382,7 +382,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );
 
-            if ( $group->find( true ) && $userID ) {
+            if ( $group->find( true ) ) {
                 require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
