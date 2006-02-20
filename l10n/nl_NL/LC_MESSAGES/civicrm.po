@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-02-14 23:46+0100\n"
+"PO-Revision-Date: 2006-02-18 18:20+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -6484,43 +6484,43 @@ msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu."
-msgstr ""
+msgstr "Als u de zoekcriteria voor deze Smart groep heeft gewijzigd, kunt u deze opslaan middels <strong>Update Smart Group</strong> in het -moreactions- uitrolmenu."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "smart group"
-msgstr ""
+msgstr "Smart groep"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count groepslid gevonden"
+msgstr[1] "%count groepsleden gevonden"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count contact"
 msgid_plural "Found %count contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count contact gevonden"
+msgstr[1] "%count contacten gevonden"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "selected records only"
-msgstr ""
+msgstr "alleen geselecteerde records"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "the found record"
 msgid_plural "all %count records"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "het gevonden record"
+msgstr[1] "de %count gevonden records"
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 msgid "Add Members to a Group"
-msgstr ""
+msgstr "Voeg leden aan een groep toe"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Relationship Type and Target Household"
-msgstr ""
+msgstr "Kies het type relatie, en het doel-huishouden"
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -6528,30 +6528,32 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul><br />Check your spelling, or try fewer letters for the target contact "
 "name."
-msgstr ""
+msgstr "Geen overeenkomstige records gevonden voor <ul><li>Naam als: %1</li><li>Contact type: %2</li></"
+"ul><br />"
+"Controleer de spelling, en probeer minder karakters in te voeren voor de doel contactnaam."
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Choose Relationship Type and Target Organization"
-msgstr ""
+msgstr "Kies het type relatie, en de doel-organisatie"
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
 msgid "Tag Contact(s)"
-msgstr ""
+msgstr "Markeer contact(en)"
 
 #: templates/CRM/Contact/Form/Task/Delete.tpl
 msgid ""
 "Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
-msgstr ""
+msgstr "Weet u zeker, dat u deze geselecteerde cotnacten wilt verwijderen? Deze actie kan niet hersteld woden."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send an Email"
-msgstr ""
+msgstr "Stuur een email"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid "Recipient(s)"
-msgstr ""
+msgstr "Ontvanger(s)"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -6563,33 +6565,36 @@ msgid ""
 "multiple types of contact records, and non-applicable fields will be empty "
 "(e.g. <strong>Last Name</strong> will not be populated for an Organization "
 "record)."
-msgstr ""
+msgstr "Selecteer de velden, die geexporteerd moeten worden. Eerst kiest u het contacttype, waar het veld onder valt, (bv. <strong>Individuelen</strong> als u   de <strong>Achternamen</strong> wilt exporteren."
+"Daarna kiest u het betreffende veld, door dit te selecteren in het uitrolmenu, die dan verschijnt."
+"Uw export bestand kan meerdere contacttypen omvatten."
+"Velden die niet van toepassing zijn, blijven 'leeg'. Bv., het achternaam veld zal niet worden gevuld, als er sprake is van een organisatie record."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click <strong>Select more fields...</strong> if you want to export more "
 "fields than are initially displayed in the table."
-msgstr ""
+msgstr "Klik <strong> Kies meerdere velden</strong>, als u meer velden dan nu getoond van de tabel wilt exporteren."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
-msgstr ""
+msgstr "Klik \"laad opgeslagen veldoverzicht' om een opgeslagen export setup te laden."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
 "If you want to use the same export setup in the future, check 'Save this "
 "field mapping' at the bottom of the page before continuing. You will then be "
 "able to reload this setup with a single click."
-msgstr ""
+msgstr "U kunt de veldkeuze voor export opslaan voor toekomstig gebruik, door een vinkje te zetten bij \"Opslaan veldoverzicht' onderaan de pagina. Met een simpele klik kunt u dan de lijst weer laden, bij een volgende export."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
 "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
 "used data values. This includes primary address information, preferred phone "
 "and email, as well as all custom data."
-msgstr ""
+msgstr "Gebruik <strong>Exporteer primaire contact gegevens</strong> om de meest gebruikte velden voor export, zoals primair adres, telefoonnummer en emailadres te kiezen."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
@@ -6597,448 +6602,450 @@ msgid ""
 "strong> to choose a subset of fields for export. This option allows you to "
 "export multiple specific locations (Home, Work, etc.). You can also save "
 "your selections as a 'field mapping' so you can use it again later."
-msgstr ""
+msgstr "Klik op <strong> Selecteer velden voor export</strong> en daarna op <strong>Ga door</strong> om een andere slectie te maken voor export. Hiermee is hetmogelijk, om meerdere specifieke lokaties te exporteren naar een bestand. Eveneens is het mogelijk, om deze veld-selectie op te slaan voor later gebruik."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
 msgid_plural "%count records selected for export."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Enkelvoudig"
+"Eén gegeven geselecteerd voor export."
+msgstr[1] "Meervoudig"
+"%count gegevens geselecteerd voor export."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Select a Different Mapping"
-msgstr ""
+msgstr "Selecteer een andere mapping"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Load Saved Field Mapping"
-msgstr ""
+msgstr "Laad opgeslagen veld mapping"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Using Field Mapping: %1"
-msgstr ""
+msgstr "Gebruik makend van veld mapping: %1"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Fields to Include in Export File"
-msgstr ""
+msgstr "Velden om op te nemen in exportbestand"
 
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
-msgstr ""
+msgstr "Er zijn geen gegevens geselecteerd voor Print."
 
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Record an Activity"
-msgstr ""
+msgstr "Sla een activiteit op"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 msgid "Remove Members"
-msgstr ""
+msgstr "Verwijder leden"
 
 #: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
-msgstr ""
+msgstr "Aantal geselecteerde contacten: %1"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Saved Search"
-msgstr ""
+msgstr "Bewaarde zoekopdracht"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Criteria"
-msgstr ""
+msgstr "Criteria"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "There are currently no Saved Searches. To create a Saved search:"
-msgstr ""
+msgstr "Er zijn momenteel geen bewaarde zoekopdrachten. Om een bewaarde zoekopdracht aan te maken:"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid ""
 "Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to "
 "enter search criteria"
-msgstr ""
+msgstr "Gebruik het <a href=\"%1\">Zoeken</a> of <a href=\"%2\"> Geavanceerd zoeken</a> formulier om zoekcriteria in te voeren"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Run and refine the search criteria as necessary"
-msgstr ""
+msgstr "Probeer en verfijn de zoekcriteria indien nodig"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid ""
 "Select 'New Saved Search' from the '- more actions -' drop-down menu and "
 "click 'Go'"
-msgstr ""
+msgstr "Selecteer 'Nieuwe bewaarde zoekopdracht\" van het '- meer acties -' drop-down menu en klik 'Ga'"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Enter a name and description for your Saved Search"
-msgstr ""
+msgstr "Voer een naam en beschrijving in voor je bewaarde zoekopdracht"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Meeting"
-msgstr ""
+msgstr "Plan een afspraak"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Call"
-msgstr ""
+msgstr "Plan telefoongesprek"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Call"
-msgstr ""
+msgstr "Plan een telefoongesprek"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Log a Call"
-msgstr ""
+msgstr "Maak verslag aan van telefoongesprek"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Andere activiteiten"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
-msgstr ""
+msgstr "(hoofdlocatie)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Preferred Email:"
-msgstr ""
+msgstr "Email van voorkeur:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Preferred Phone:"
-msgstr ""
+msgstr "Telefoon van voorkeur:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "Instant Messenger:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Map Primary Address"
-msgstr ""
+msgstr "Breng primair adres in kaart"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Map this Address"
-msgstr ""
+msgstr "Breng dit adres in kaart"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Communications Preferences"
-msgstr ""
+msgstr "Communicatie voorkeuren"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Privacy:"
-msgstr ""
+msgstr "Privacy:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Prefers:"
-msgstr ""
+msgstr "Verkiest:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Gender:"
-msgstr ""
+msgstr "Geslacht:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contact is Deceased"
-msgstr ""
+msgstr "Contact is overleden"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Date of Birth:"
-msgstr ""
+msgstr "Geboortedatum:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
-msgstr ""
+msgstr "Totaal bijgedragen"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "# Contributions"
-msgstr ""
+msgstr "# Bijdragen"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr ""
+msgstr "Er zijn geen bijdragen opgeslagen voor dit contact. Je kan <a href=\"%1\">nu een invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "There are no contributions recorded for this contact."
-msgstr ""
+msgstr "Er zijn geen bijdragen opgeslagen voor dit contact."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions (3 of %1)"
-msgstr ""
+msgstr "Bijdragen (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "New Contribution"
-msgstr ""
+msgstr "Nieuwe bijdrage"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Open Activities"
-msgstr ""
+msgstr "Open activiteiten"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid ""
 "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
 "href=\"%2\">call</a>."
-msgstr ""
+msgstr "Geen open activiteiten. Je kan een <a href=\"%1\">bijeenkomst</a> of een <a href=\"%2\"> telefoongesprek</a> plannen."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "There are no open activities for this contact."
-msgstr ""
+msgstr "Er zijn geen open activiteiten voor dit contact."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Open Activities (3 of %1)"
-msgstr ""
+msgstr "Open activiteiten (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
-msgstr ""
+msgstr "Met"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Open Activities..."
-msgstr ""
+msgstr "Toon alle open activiteiten"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No activity history."
-msgstr ""
+msgstr "Geen activiteiten geschiedenis."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity History (3 of %1)"
-msgstr ""
+msgstr "Activiteiten geschiedenis (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Activity History..."
-msgstr ""
+msgstr "Toon alle activiteiten geschiedenis"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
-msgstr ""
+msgstr "Geen relaties. Je kan <a href=\"%1\">een nieuwe relatie aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "There are no Relationships entered for this contact."
-msgstr ""
+msgstr "Er zijn geen relaties opgegeven voor dit contact."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships (3 of %1)"
-msgstr ""
+msgstr "Relaties (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Relatie"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Relationships..."
-msgstr ""
+msgstr "Toon alle relaties..."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships"
-msgstr ""
+msgstr "Groepslidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
 "No current group memberships. You can <a href=\"%1\">add %2 to a group</a>."
-msgstr ""
+msgstr "Momenteel geen groepslidmaatschappen. Je kan <a href=\"%1\">%2 toevoegen aan een groep</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "No current group memberships."
-msgstr ""
+msgstr "Momenteel geen groesplidmaatschappen."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships (3 of %1)"
-msgstr ""
+msgstr "Groepslidmaatschappen (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Date Added"
-msgstr ""
+msgstr "Datum toegevoegd"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Added (by %1)"
-msgstr ""
+msgstr "Toegevoegd (door %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Group Memberships..."
-msgstr ""
+msgstr "Toon alle groeplidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "New Group Membership"
-msgstr ""
+msgstr "Nieuw groeplidmaatschap"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
 "There are no Notes. You can <a href=\"%1\">enter notes</a> about this "
 "contact."
-msgstr ""
+msgstr "Er zijn geen notities. U kunt over dit contact een <a href=\"%1\"> Notitie toevoegen</a>"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no Notes for this contact."
-msgstr ""
+msgstr "Er zijn geen notities voor dit contact"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes (3 of %1)"
-msgstr ""
+msgstr "Notities (3 van %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "(more)"
-msgstr ""
+msgstr "(meer)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Notes..."
-msgstr ""
+msgstr "Toon alle notities..."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "New Note"
-msgstr ""
+msgstr "Nieuwe notitie"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit custom data"
-msgstr ""
+msgstr "Wijzig specifieke gegevens"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
 "Contact. You can either <a href=\"%1\">add Custom Group</a> or <a href=\"%2"
 "\">add Custom Field</a>."
-msgstr ""
+msgstr "Er zijn geen specifieke groepen of velden voor zit contact bekend. U kunt dit doen middels <a href=\"%1> Voeg specifieke groep toe</a> of <a href=%2\"> Voeg specifiek veld toe</a>."
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
 "There are either no (Inline) Custom Groups or no Custom Fields entered for "
 "this Contact."
-msgstr ""
+msgstr "Er zijn geen directe specifieke groepen of velden ingevoerd voor dit contact."
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
 "There are either no Custom Groups or no Custom Fields entered for this "
 "Contact."
-msgstr ""
+msgstr "Er zijn geen specifieke groepen of velden ingevoerd voor dit contact."
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 msgid ""
 "Are you sure you want to delete the contact record and all related "
 "information for <strong>%1</strong>?"
-msgstr ""
+msgstr "Weet u zeker, dat u de gegevens omtrent dit contact (<strong>%1</strong>) en de gerelateerde gegevens hieraan wilt verwijderen?"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This operation cannot be undone."
-msgstr ""
+msgstr "Deze actie kan niet hersteld worden."
 
 #: templates/CRM/Contact/Page/View/Email.tpl
 msgid "Date Sent"
-msgstr ""
+msgstr "Datum verstuurd"
 
 #: templates/CRM/Contact/Page/View/Email.tpl
 msgid "(display name not available)"
-msgstr ""
+msgstr "(schermnaam niet beschikbaar)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
-msgstr ""
+msgstr "Het contact is momenteel niet onderdeel van een groep."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Current Group Memberships"
-msgstr ""
+msgstr "Huidige groeps lidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Are you sure you want to remove %1 from %2?"
-msgstr ""
+msgstr "Wilt u %1 van  %2 verwijderen?"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
-msgstr ""
+msgstr "Verwijder"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Pending Memberships"
-msgstr ""
+msgstr "Lidmaatschappen in behandeling"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Membership in these group(s) is pending confirmation by this contact."
-msgstr ""
+msgstr "Dit contact dient het lidmaatschap van deze groep nog te bevesigen"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Date Pending"
-msgstr ""
+msgstr "In behandel datum"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Pending (by %1)"
-msgstr ""
+msgstr "In behandeling (door %1)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Past Memberships"
-msgstr ""
+msgstr "Vorige lidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "%1 is no longer a member of these group(s)."
-msgstr ""
+msgstr "%1 is geen lid meer van deze groep(-en)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Date Removed"
-msgstr ""
+msgstr "Verwijder datum"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Removed (by %1)"
-msgstr ""
+msgstr "Verwijderd (door %1)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Are you sure you want to add %1 back into %2?"
-msgstr ""
+msgstr "Wilt u %1 weer aan groep %2 toevoegen?"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Rejoin Group"
-msgstr ""
+msgstr "Wordt opnieuw lid van de groep"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Group Listings"
-msgstr ""
+msgstr "Lijst van groepen"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "In Date"
-msgstr ""
+msgstr "In datum"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Out Date"
-msgstr ""
+msgstr "Uit datum"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "This contact does not belong to any groups."
-msgstr ""
+msgstr "Het contact zit niet in een groep."
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Add this contact to one or more groups..."
-msgstr ""
+msgstr "Voeg dit contact aan een of meer groepen toe..."
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Date:"
-msgstr ""
+msgstr "Datum:"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Are you sure you want to delete the Note \"%1\"?"
-msgstr ""
+msgstr "Weet u zeker, dat u notitie \"%1\" wilt verwijderen ?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid ""
 "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen notities opgeslagen voor dit contact. U kunt er een <a href=\"%1\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Current Relationships"
-msgstr ""
+msgstr "Huidige relaties"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "State/Prov"
-msgstr ""
+msgstr "Staat/Provincie"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid ""
