@@ -45,6 +45,7 @@
        <title>Accounting Code</title>
        <type>varchar</type>
        <length>64</length>
+       <export>true</export>
        <comment>Optional value for mapping contributions to accounting system codes for each type/category of contribution.</comment>
        <add>1.3</add>
   </field>

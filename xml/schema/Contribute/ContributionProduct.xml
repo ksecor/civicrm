@@ -17,13 +17,15 @@
   </primaryKey> 
   <field> 
       <name>product_id</name> 
-      <type>int unsigned</type> 
+      <type>int unsigned</type>
+      <export>true</export>
       <required>true</required> 
       <add>1.4</add> 
   </field> 
   <field> 
       <name>contribution_id</name> 
       <type>int unsigned</type> 
+      <export>true</export>
       <required>true</required> 
       <add>1.4</add> 
   </field> 
@@ -38,6 +40,7 @@
       <title>Product Option</title>
       <type>varchar</type> 
       <length>255</length>
+      <export>true</export>
       <comment>Option value selected if applicable - e.g. color, size etc.</comment> 
       <add>1.4</add> 
   </field> 
@@ -46,24 +49,28 @@
       <title>Quantity</title>
       <type>int</type>
       <value>1</value>
+      <export>true</export>
       <comment></comment> 
       <add>1.4</add> 
   </field> 
   <field>  
       <name>fulfilled_date</name>  
-      <type>date</type>  
+      <type>date</type>
+      <export>true</export>
       <comment>Optional. Can be used to record the date this product was fulfilled or shipped.</comment>  
       <add>1.4</add>  
   </field>    
   <field>  
       <name>start_date</name>  
       <type>date</type>  
+      <export>true</export>
       <comment>Actual start date for a time-delimited premium (subscription, service or membership)</comment>  
       <add>1.4</add>  
   </field>
   <field>  
       <name>end_date</name>  
-      <type>date</type>  
+      <type>date</type>
+      <export>true</export>
       <comment>Actual end date for a time-delimited premium (subscription, service or membership)</comment>  
       <add>1.4</add>  
   </field>

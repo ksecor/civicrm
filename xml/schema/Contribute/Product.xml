@@ -22,6 +22,7 @@
        <type>varchar</type>
        <length>255</length>
        <required>true</required>
+       <export>true</export>
        <comment>Required product/premium name</comment>
        <add>1.4</add>
   </field>
@@ -37,6 +38,7 @@
       <title>Sku</title>
       <type>varchar</type>
       <length>50</length>
+      <export>true</export> 
       <comment>Optional product sku or code.</comment>
       <add>1.4</add> 
   </field> 

@@ -1008,6 +1008,15 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_contribution_type':
                 $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
                 continue;
+
+            case 'civicrm_contribution_product':
+                $from .= " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
+                continue;
+                
+            case 'civicrm_product':
+                $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
+                continue;    
+                
             }
 
         }
@@ -1527,6 +1536,25 @@ class CRM_Contact_BAO_Query {
                                     'thankyou_date'          => 1,
                                     'cancel_date'            => 1,
                                     'total_amount'           => 1,
+                                    'accounting_code'        => 1,
+                                    'non_deductible_amount'  => 1,
+                                    'fee_amount'             => 1,
+                                    'net_amount'             => 1,
+                                    'trxn_id'                => 1,
+                                    'invoice_id'             => 1,
+                                    'currency'               => 1,
+                                    'cancel_date'            => 1,
+                                    'cancel_reason'          => 1,
+                                    'receipt_date'           => 1,
+                                    'thankyou_date'          => 1,
+                                    'source'                 => 1,
+                                    'note'                   => 1,
+                                    'name'                   => 1,
+                                    'sku'                    => 1,
+                                    'product_option'         => 1,
+                                    'fulfilled_date'         => 1,
+                                    'start_date'             => 1,
+                                    'end_date'               => 1,
                                     );
 
                 // also get all the custom contribution properties

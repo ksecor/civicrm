@@ -354,7 +354,16 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     }
 
     function &exportableFields( ) {
-        return self::importableFields( );
+        require_once 'CRM/Contribute/DAO/Product.php';
+        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+        $impFields = self::importableFields( );
+        $expFieldProduct = CRM_Contribute_DAO_Product::export( );
+        $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
+        $typeField = CRM_Contribute_DAO_ContributionType::export( );
+        $fields = array_merge($impFields, $typeField);
+        $fields = array_merge($fields, $expFieldProduct );
+        $fields = array_merge($fields, $expFieldsContrib );
+        return $fields;
     }
 
     function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) {
