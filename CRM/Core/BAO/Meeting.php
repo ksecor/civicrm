@@ -57,10 +57,10 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * contact object. the params array could contain additional unused name/value
      * pairs
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params   (reference ) an assoc array of name/value pairs
+     * @param array  $ids      (reference ) the array that holds all the db ids
      *
-     * @return object CRM_Core_BAO_Meeting object
+     * @return object      CRM_Core_DAO_Meeting object
      * @access public
      * @static
      */
@@ -145,7 +145,12 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
     /**
      * delete all records for this contact id
      *
-     * @param int $id
+     * @param int  $id  ID of the contact for which the records needs to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
      */
     public static function deleteContact($id)
     {

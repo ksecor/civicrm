@@ -61,7 +61,7 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $ids            the array that holds all the db ids
      *
-     * @return object CRM_Core_BAO_OtherActivity object
+     * @return object   CRM_Core_DAO_OtherActivity object
      * @access public
      * @static
      */
@@ -109,7 +109,7 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_OtherActivity object
+     * @return object CRM_Core_DAO_OtherActivity object on success, null otherwise.
      * @access public
      * @static
      */
@@ -123,16 +123,16 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
         }
         return null;
     }
-
+    
     /**
      * Function to delete the otherActivity
      *
-     * @param int $id otherActivity id
-     *
-     * @return null
+     * @param int  $id    otherActivity id
+     * 
+     * @return void
+     * 
      * @access public
      * @static
-     *
      */
     static function del ( $id ) 
     {
@@ -141,12 +141,16 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
         $otherActivity->delete();
         CRM_Core_Session::setStatus( ts('Selected OtherActivity has been deleted.') );
     }
-
-
+    
     /**
      * delete all records for this contact id
      *
-     * @param int $id
+     * @param int  $id   ID of the contact for which records needs to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
      */
     public static function deleteContact($id)
     {
@@ -159,8 +163,5 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
         $dao->target_contact_id = $id;        
         $dao->delete();
     }
-
-
 }
-
 ?>

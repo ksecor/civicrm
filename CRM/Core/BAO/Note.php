@@ -46,20 +46,21 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @var int
      */
     const MAX_NOTES = 3;
-
+    
     /**
      * given a note id, retrieve the note text
      * 
-     * @param int $id id of the note to retrieve
-     *
-     * @return string the note text or null if note not found
+     * @param int  $id   id of the note to retrieve
+     * 
+     * @return string   the note text or null if note not found
+     * 
+     * @access public
      * @static
-     *
      */
     static function getNoteText( $id ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $id, 'note' );
     }
-
+    
     /**
      * takes an associative array and creates a note object
      *
@@ -127,7 +128,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @param array $ids           the array that holds all the db ids
      * @param int   $numNotes      the maximum number of notes to return (0 if all)
      *
-     * @return void
+     * @return object   Object of CRM_Core_BAO_Note
      * @access public
      * @static
      */
@@ -187,8 +188,13 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 
     /**
      * delete all records for this contact id
-     *
-     * @param int $id
+     * 
+     * @param int  $id    ID of the contact for which records needs to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
      */
     public static function deleteContact($id)
     {
@@ -204,5 +210,4 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $dao->delete();
     }
 }
-
 ?>

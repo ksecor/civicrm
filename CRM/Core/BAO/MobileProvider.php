@@ -55,7 +55,7 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_MobileProvider object
+     * @return object    CRM_Core_DAO_MobileProvider object on success, null otherwise.
      * @access public
      * @static
      */
@@ -85,7 +85,11 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
      /**
      * Function to delete Mobile Provider  Types 
      * 
-     * @param int $mobileProviderId
+     * @param int   $mobileProviderId  ID of the Mobile Provider Type which is to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
      * @static
      */
     
@@ -100,10 +104,6 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
         $phone = & new CRM_Core_DAO_MobileProvider();
         $phone->id = $mobileProviderId;
         $phone->delete();
-        
-        
     }
-
 }
-
 ?>

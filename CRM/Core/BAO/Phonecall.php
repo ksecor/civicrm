@@ -48,10 +48,10 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
      * contact object. the params array could contain additional unused name/value
      * pairs
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params   (reference ) an assoc array of name/value pairs
+     * @param array  $ids      (reference ) the array that holds all the db ids
      *
-     * @return object CRM_Core_BAO_Call object
+     * @return object   CRM_Core_BAO_Call object
      * @access public
      * @static
      */
@@ -60,7 +60,7 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-
+        
         $call =& new CRM_Core_DAO_Phonecall();
         
         $call->copyValues($params);
@@ -101,7 +101,7 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_Call object
+     * @return object   CRM_Core_DAO_Call object on success, null otherwise
      * @access public
      * @static
      */
@@ -119,12 +119,12 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
     /**
      * Function to delete the Phone call
      *
-     * @param int $id phonecall id
+     * @param int  $id     phonecall id
      *
-     * @return null
+     * @return void
+     * 
      * @access public
      * @static
-     *
      */
     static function del ( $id ) 
     {
@@ -134,12 +134,16 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
         $call->delete();
         CRM_Core_Session::setStatus( ts('Selected Phone Call has been deleted.') );
     }
-
-
+    
     /**
      * delete all records for this contact id
      *
-     * @param int $id
+     * @param int   $id   ID of the contact for which all records are to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
      */
     public static function deleteContact($id)
     {
@@ -153,7 +157,5 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
         $dao->target_entity_id = $id;        
         $dao->delete();
     }
-
 }
-
 ?>
