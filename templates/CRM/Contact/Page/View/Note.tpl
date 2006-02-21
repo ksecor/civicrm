@@ -49,15 +49,13 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-		        <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
+		        <a href="{crmURL p='civicrm/contact/view/note' q="action=view&reset=1&cid=`$contactId`&id=`$note.id`"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
-	    <td>
-	    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$note.contact_id`"}">
-		 {$note.createdBy}
-	     </a>
-	    </td>
+            <td>
+                <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$note.contact_id`"}">{$note.createdBy}</a>
+            </td>
             <td class="nowrap">{$note.action}</td>
         </tr>
         {/foreach}
