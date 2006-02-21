@@ -81,6 +81,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
+        $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
 
         $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
         $location->save( );
@@ -195,7 +196,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                 $locations[$i + 1] = clone($location);
             }
         }
-        return $locations;
+       return $locations;
     }
 
     /**

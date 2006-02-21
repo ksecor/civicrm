@@ -97,6 +97,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
 
+        $this->addElement('text', 'name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
+
         // checkboxes for location type
         $location_type = array();
         $locationType = CRM_Core_PseudoConstant::locationType( );
@@ -227,7 +229,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
 
-        return $defaults;
+       return $defaults;
     }
 
     /**
@@ -269,6 +271,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
+      
 
         $this->postProcessCommon( );
     }

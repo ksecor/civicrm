@@ -67,12 +67,12 @@
         </tr>
 		<tr>
             <td class="label">{$form.location_type.label}</td>
-            <td colspan="3">
-                {$form.location_type.html}
+            <td>{$form.location_type.html} 
                 <div class="description">
                     {ts}Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
-                </div>
+                </div> 
             </td>
+            <td class="label">{$form.name.label}</td><td>{$form.name.html|crmReplace:class:six}</td>
         </tr>
     </table>
     </fieldset>

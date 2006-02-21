@@ -11,7 +11,6 @@
  <div id="location[{$index}][show]" class="data-group label">
     {$form.location.$index.show.html}{if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
  </div>
-
 <div id="location[{$index}]">
 	<fieldset>
     <legend>{$form.location.$index.hide.html}
@@ -20,7 +19,9 @@
     <div class="form-item">
         <!-- Location type drop-down (e.g. Home, Work...) -->
         {$form.location.$index.location_type_id.html}
-        
+        {$form.location.$index.name.label}
+        {$form.location.$index.name.html}
+     
         <!-- Checkbox for "make this the primary location" -->
         {$form.location.$index.is_primary.html}
 

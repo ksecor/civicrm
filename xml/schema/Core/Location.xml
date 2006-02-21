@@ -67,4 +67,14 @@
        <comment>Is this the primary location for the contact. (allow only ONE primary location / contact.)</comment>
        <add>1.1</add>
   </field>
+<field>
+       <name>name</name>
+       <title>Location Name</title>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/^location|(l(ocation\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <add>1.4</add>
+  </field>
 </table>

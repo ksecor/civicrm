@@ -1234,12 +1234,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                                        CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                        CRM_Core_DAO_Gender::import( true ) );                
             }
-            
-            $locationFields = array_merge(  CRM_Core_DAO_Address::import( ),
-                                            CRM_Core_DAO_Phone::import( ),
-                                            CRM_Core_DAO_Email::import( ),
-                                            CRM_Core_DAO_IM::import( true )
-                                            );
+
+            $locationFields = array_merge( CRM_Core_DAO_Location::import( ),  
+                                           CRM_Core_DAO_Address::import( ),
+                                           CRM_Core_DAO_Phone::import( ),
+                                           CRM_Core_DAO_Email::import( ),
+                                           CRM_Core_DAO_IM::import( true )
+                                           );
             foreach ($locationFields as $key => $field) {
                 $locationFields[$key]['hasLocationType'] = true;
             }
@@ -1470,7 +1471,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
 
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
-                $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::export( true ) ,
+                $fields = array_merge( $fields,CRM_Core_DAO_Location::export( true)  , 
+                                       CRM_Core_DAO_IndividualPrefix::export( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::export( true ) ,
                                        CRM_Core_DAO_Gender::export( true ) );                
             }
