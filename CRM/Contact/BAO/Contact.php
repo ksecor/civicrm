@@ -1516,7 +1516,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                                           CRM_Core_BAO_CustomField::getFieldsForImport($type));
                 }
             }
+            
+            // add groups
+            $fields = array_merge($fields, array ('groups' =>  array( 'title' => ts('Group(s)'))));
 
+            // add tags
+            $fields = array_merge($fields, array ('tags' =>  array( 'title' => ts('Tag(s)'))));
+                        
             self::$_exportableFields[$contactType] = $fields;
         }
         return self::$_exportableFields[$contactType];
@@ -1662,6 +1668,34 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
            }
        }
        return array( null, null );
+    }
+
+    /**
+     * function to get all the tags for a contact
+     *
+     * @param  int    $contactId id of the contact
+     *
+     * @return string  returns the comma separated tag names for a contact
+     * @static
+     * @access public
+     */
+    static function getAllContactTags( $contactId ) {
+        $query = "SELECT GROUP_CONCAT(civicrm_tag.name) AS tags
+                  FROM civicrm_contact, civicrm_entity_tag, civicrm_tag
+                  WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($contactId, 'Integer') . "
+                    AND civicrm_contact.id = civicrm_entity_tag.entity_id
+                    AND civicrm_entity_tag.tag_id = civicrm_tag.id
+                  GROUP BY civicrm_contact.id";
+
+
+        echo CRM_Core_DAO::singleValueQuery( $query );
+        echo "============";
+    
+        // $dao =& new CRM_Core_DAO( );
+    //         $dao->query( $sql );
+        
+//         $dao->
+        
     }
     
 }

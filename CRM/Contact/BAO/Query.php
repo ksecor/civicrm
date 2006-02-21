@@ -338,7 +338,7 @@ class CRM_Contact_BAO_Query {
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
-
+   
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
@@ -385,6 +385,14 @@ class CRM_Contact_BAO_Query {
                         $this->_element[$name]             = 1;
 
                     }
+                } elseif ($name === 'tags') {
+                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
+                    $this->_tables['civicrm_tag'       ] = 1;
+                    $this->_tables['civicrm_entity_tag'] = 1;
+                } elseif ($name === 'groups') {
+                    $this->_select[$name                  ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
+                    $this->_tables['civicrm_group'        ] = 1;
+                    $this->_tables['civicrm_group_contact'] = 1;
                 }
             }
         }
@@ -597,7 +605,8 @@ class CRM_Contact_BAO_Query {
 
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
-        static $skipFields = array( 'postal_code', 'group', 'tag' );
+        //static $skipFields = array( 'postal_code', 'group', 'tag' );
+        static $skipFields = array( 'postal_code');
         foreach ( $this->_fields as $name => $field ) { 
             // skip postal code processing for search since we tackle an
             // extended version of this
@@ -1016,8 +1025,25 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_product':
                 $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
                 continue;    
+
+            case 'civicrm_entity_tag':
+                $from .= " $side  JOIN  civicrm_entity_tag  ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' 
+                                                                  AND civicrm_contact.id = civicrm_entity_tag.entity_id )";
+                continue; 
                 
+            case 'civicrm_tag':
+                $from .= " $side  JOIN civicrm_tag ON civicrm_entity_tag.tag_id = civicrm_tag.id ";
+                continue; 
+                
+            case 'civicrm_group_contact':
+                $from .= " $side  JOIN  civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ";
+                continue; 
+                
+            case 'civicrm_group':
+                $from .= " $side  JOIN civicrm_group ON civicrm_group_contact.group_id = civicrm_group.id ";
+                continue; 
             }
+
 
         }
         return $from;

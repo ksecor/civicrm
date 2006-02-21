@@ -52,11 +52,12 @@ class CRM_Contact_BAO_Export {
         $headerRows  = array();
         $returnProperties = array();
         $primary = false;
+ 
         if ($fields) {
             $location = array();
             $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
             $returnFields = $fields;
-           
+
             foreach($returnFields as $key => $field) {
                 $flag = true ;
                 $phone_type = "";
@@ -154,9 +155,16 @@ class CRM_Contact_BAO_Export {
                 $queryString .= " ORDER BY $order";
             }
         }
+        
+        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
+            $queryString .= " GROUP BY civicrm_contact.id";
+        }
+        
         $dao =& CRM_Core_DAO::executeQuery($queryString);
         $header = false;
-        
+
+        $contactDetails = array( );
+
         while ($dao->fetch()) {
             $row = array( );
             $validRow = false;
@@ -210,7 +218,7 @@ class CRM_Contact_BAO_Export {
             }
             $header = true;
         }
-
+        
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $headerRows, $contactDetails );
                 
