@@ -80,7 +80,9 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'source',
                                  'receive_date',
                                  'thankyou_date',
-                                 'cancel_date' );
+                                 'cancel_date',
+                                 'name'
+                                 );
 
     /** 
      * are we restricting ourselves to a single contact 
@@ -281,7 +283,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         $mask = CRM_Core_Action::mask( $permission );
         While ($result->fetch()) {
             $row = array();
-
             // the columns we are interested in
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;
@@ -372,6 +373,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                           array(
                                                 'name'      => ts('Cancelled'),
                                                 'sort'      => 'cancel_date',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Premium'),
+                                                'sort'      => 'name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc' => ts('Actions') ),

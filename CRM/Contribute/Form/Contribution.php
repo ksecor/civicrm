@@ -110,6 +110,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        self::buldPremiumForm();
         
     }
 
@@ -337,6 +338,49 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
+    }
+
+    /** 
+     * Function to build the form for Premium 
+     * 
+     * @access public 
+     * @return None 
+     */ 
+    
+    function buldPremiumForm()
+    {
+        
+        require_once 'CRM/Contribute/DAO/Product.php';
+        $sel1 = $sel2 = array();
+        
+        $dao = & new CRM_Contribute_DAO_Product();
+        $dao->is_active = 1;
+        $dao->find();
+        $min_amount = array();
+        while ( $dao->fetch() ) {
+            
+            $sel1[$dao->id] = $dao->name." ( ".$dao->sku." )";
+            $min_amount[$dao->id] = $dao->min_contribution;
+            $options = explode(',', $dao->options);
+            if( $options [0] != '' ) {
+                $sel2[$dao->id] = $options ;
+            }
+            
+            $this->assign('premiums', true );
+            
+        }
+
+        $this->assign('mincontribution',$min_amount);
+        $sel =& $this->addElement('hierselect', "product_name", ts('Premiums'),'onclick="showMinContrib();"');
+        
+        for ( $k = 1; $k < 3; $k++ ) {
+            if (!$defaults['field_name'][$k]) {
+                $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+            }
+        }
+        $sel->setOptions(array($sel1, $sel2 ));
+        $this->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
+        $this->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
     }
 
 }

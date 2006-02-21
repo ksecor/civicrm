@@ -57,6 +57,18 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
       </table>
+      {if $premiums }
+      <fieldset><legend>{ts}Premiums{/ts}</legend> 
+        <table class="form-layout-compressed">
+           <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
+           <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html}</td></tr>
+           <tr><td class="label">{$form.fulfilled_date.label}</td><td>{$form.fulfilled_date.html}
+           {include file="CRM/common/calendar/desc.tpl" trigger=trigger4}
+           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger4}      
+           </td></tr>
+        </table>            
+      </fieldset>
+      {/if} 
       {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
      {/if} 
     <dl>    
@@ -64,3 +76,24 @@
     </dl> 
 </fieldset> 
 </div> 
+
+
+{literal}
+<script type="text/javascript">
+	function showMinContrib( ) {
+       var product = document.getElementsByName("product_name[0]")[0];
+       var product_id = product.options[product.selectedIndex].value;
+       var min_amount = document.getElementById("min_amount");
+    
+       var amount = new Array();
+      {/literal}
+         var index = 1;
+      {foreach from= $mincontribution item=description key=id}
+        {literal}amount[index]{/literal} = "{$description}"
+        {literal}index = index + 1{/literal}
+      {/foreach}
+      {literal}
+        min_amount.value = amount[product_id];
+     } 
+</script> 
+{/literal}
