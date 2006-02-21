@@ -53,6 +53,14 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
     protected $_single = false;
 
     /**
+     * Are we operating in "single mode", i.e. sending email to one
+     * specific contact?
+     *
+     * @var boolean
+     */
+    protected $_noEmails = false;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @return void
@@ -77,7 +85,15 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $this->_emails = array( );
             $toName = CRM_Contact_BAO_Contact::displayName( $cid );
             foreach ( $emails as $email => $item ) {
-                $this->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
+                if (!$email && ( count($emails) <= 1 ) ) {
+                    $this->_emails[$email] = '"' . $toName . '"';
+                    $this->_noEmails = true;
+                } else {
+                    if ($email) {
+                        $this->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
+                    }
+                }
+
                 if ( $item['is_primary'] ) {
                     $this->_emails[$email] .= ' ' . ts('(preferred)');
                 }
@@ -100,19 +116,33 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
 
         if ( ! $this->_single ) {
             $toArray = array();
+            $validMails = array();
             foreach ( $this->_contactIds as $contactId ) {
                 list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
-                if ( ! trim($toDisplayName) ) {
+
+                if ( ! trim( $toDisplayName ) ) {
                     $toDisplayName = $toEmail;
                 }
-                
                 if ( ! empty( $toEmail ) ) {
-                    $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                    $validMails[] = "\"$toDisplayName\" <$toEmail>";
                 }
+                $toArray[] = "\"$toDisplayName\" <$toEmail>";
+            }
+            if ( empty( $validMails ) ) {
+                CRM_Utils_System::statusBounce( ts('Selected contact(s) does not have a valid email address' ));
             }
             $this->assign('to', implode(', ', $toArray));
         } else {
-            $to =& $this->add( 'select', 'to', ts('To'), $this->_emails, true );
+            
+            if ( $this->_noEmails ) {
+                $to = $this->add( 'select', 'to', ts('To'), $this->_emails );
+                $this->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+                $this->addRule('emailAddress', ts('%1 is a required field.', array(1 => 'To')) , 'required');
+                $this->addRule( "emailAddress", ts('Email is not valid.'), 'email' );
+            } else {
+                $to =& $this->add( 'select', 'to', ts('To'), $this->_emails, true );
+            }
+            
             if ( count( $this->_emails ) <= 1 ) {
                 foreach ( $this->_emails as $email => $dontCare ) {
                     $defaults = array( 'to' => $email );
@@ -121,7 +151,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 $to->freeze( );
             }
         }
-
+        $this->assign('noEmails', $this->_noEmails);
         
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
@@ -162,6 +192,34 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( $this->_single ) {
             $emailAddress = $this->controller->exportValue( 'Email', 'to' );
         }
+        if ( $this->_noEmails ) {
+            $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
+
+            // for adding the email-id to the primary address
+            $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+            if ( $cid ) {
+                $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
+                if ( $location[3] ) {
+                    $locationID = $location[3];
+                    $email =& new CRM_Core_DAO_Email();
+                    $email->location_id = $locationID;
+                    $email->is_primary  = 1;
+                    $email->email       = $emailAddress; 
+                    $email->save( );
+                    
+                } else {
+                    require_once 'CRM/Core/BAO/LocationType.php';
+                    $ids = $params = $locID = array();
+                    $params['contact_id'] = $cid;
+                    $locType = CRM_Core_BAO_LocationType::getDefault();
+                    $params['location'][1]['location_type_id'] = $locType->id;
+                    $params['location'][1]['is_primary'] = 1;
+                    $params['location'][1]['email'][1]['email'] = $emailAddress;
+                    CRM_Core_BAO_Location::add($params, $ids, 1);
+                }
+            }
+        }
+
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
 
@@ -176,7 +234,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $status[] = ts('Email sent to contact(s): %1', array(1 => $sent));
         }
         if ( $notSent ) {
-            $status[] = ts('Email not sent to contact(s): %1', array(1 => $notSent));
+            $status[] = ts('Email not sent to contact(s) (No Email address on file): %1', array(1 => $notSent));
         }
         CRM_Core_Session::setStatus( $status );
         

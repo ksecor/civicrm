@@ -11,7 +11,7 @@
 {if $single eq false}
 <dt>{ts}Recipient(s){/ts}</dt><dd>{$to|escape}</dd>
 {else}
-<dt>{$form.to.label}</dt><dd>{$form.to.html}</dd>
+<dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
 <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
