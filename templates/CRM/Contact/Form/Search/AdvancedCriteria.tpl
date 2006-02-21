@@ -72,7 +72,7 @@
                     {ts}Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
                 </div> 
             </td>
-            <td class="label">{$form.name.label}</td><td>{$form.name.html|crmReplace:class:six}</td>
+            <td class="label">{$form.name.label}</td><td>{$form.name.html|crmReplace:class:medium}</td>
         </tr>
     </table>
     </fieldset>

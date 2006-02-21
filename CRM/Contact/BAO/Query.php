@@ -244,7 +244,7 @@ class CRM_Contact_BAO_Query {
                 $this->_fields = array_merge( $this->_fields, $fields );
             }
         }
- 
+
         // basically do all the work once, and then reuse it
         $this->initialize( );
         //CRM_Core_Error::debug( 'q', $this );
@@ -704,6 +704,9 @@ class CRM_Contact_BAO_Query {
             } else if ( $name === 'contact_id' ) {
                 $this->_where[] = $field['where'] . " = $value";
                 $this->_qill[]  = ts( '%1 is equal to %2', array( 1 => $field['title'], 2 => $value ) );
+            } else if ( $name === 'name' ) {
+                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
+                $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
             } else {
                 // sometime the value is an array, need to investigate and fix
                 if ( is_array( $value ) ) {

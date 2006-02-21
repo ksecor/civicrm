@@ -1471,7 +1471,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
 
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
-                $fields = array_merge( $fields,CRM_Core_DAO_Location::export( true)  , 
+                $fields = array_merge( $fields,
                                        CRM_Core_DAO_IndividualPrefix::export( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::export( true ) ,
                                        CRM_Core_DAO_Gender::export( true ) );                
@@ -1488,6 +1488,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             }
             
             $locationFields = array_merge(  $locationType,
+                                            CRM_Core_DAO_Location::export( ),
                                             CRM_Core_DAO_Address::export( ),
                                             CRM_Core_DAO_Phone::export( ),
                                             CRM_Core_DAO_Email::export( ),
