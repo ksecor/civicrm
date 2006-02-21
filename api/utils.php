@@ -1081,8 +1081,9 @@ function _crm_add_formatted_param(&$values, &$params) {
             $locBlock = 1;
             $params['location'] = array(
                 $locBlock => 
-                    array( 'location_type_id' => $values['location_type_id'],
-                            'is_primary'      => true)
+                    array(  'name'             => $values['name'            ],
+                            'location_type_id' => $values['location_type_id'],
+                            'is_primary'       => true)
             );
         } else {
             /* search through the location array for a matching loc. type */
