@@ -358,6 +358,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
             if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
+                unset( $this->_fields[$name] );
                 continue;
             }
            
@@ -365,6 +366,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             // register mode which occur within the CMS form
             if ( $this->_mode == self::MODE_REGISTER &&
                  substr( $name, 0, 5 ) == 'email' ) {
+                unset( $this->_fields[$name] );
                 continue;
             }
             $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
@@ -451,10 +453,10 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // hack add the email, does not work in registration, we need the real user object
         // hack this will not work in mambo/joomla, not sure why we need it
-        // global $user; 
-        // if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
-        // $fields['email'] = $user->mail; 
-        // }
+        global $user; 
+        if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
+            $fields['email'] = $user->mail; 
+        }
     
         $cid = $register = null; 
 
@@ -739,6 +741,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ($this->_id) {
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
             $ids = array( ); 
+
             foreach ($this->_fields as $name => $field ) {
                 $nameValue = explode( '-' , $name );
                 foreach ($this->_contact as $key => $value) {
@@ -748,16 +751,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             $locations[$value['location_type_id']] = 1;
                             $loc_no = count($locations);
-                            if ($nameValue[0] == 'phone') {
-                                $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
-                            } else if ($nameValue[0] == 'im') {
-                                $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
-                            } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
-                            } else {
-                                $ids['location'][$loc_no]['address'] = $value['address_id'];
-                            } 
-                            $ids['location'][$loc_no]['id'] = $value['location_id'];
+                            foreach ($this->_contact as $key => $value) {
+                                if ($nameValue[0] == 'phone') {
+                                    $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
+                                } else if ($nameValue[0] == 'im') {
+                                    $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
+                                } else if ($nameValue[0] == 'email') {
+                                    $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
+                                } else {
+                                    $ids['location'][$loc_no]['address'] = $value['address_id'];
+                                } 
+                                $ids['location'][$loc_no]['id'] = $value['location_id'];
+                            }
                         }
                     }
                     
