@@ -253,6 +253,96 @@ function &crm_get_contact( $params, $returnProperties = null ) {
         return _crm_error('$params is not an array');
     }
 
+    if ( ! CRM_Utils_Array::value( 'contact_id', $params ) ) {
+        $returnProperties = array( 'display_name' );
+        list( $contacts, $options ) = crm_contact_search( $params, $returnProperties );
+        if ( count( $contacts ) != 1 ) {
+            return _crm_error( count( $contacts ) . " contacts matching input params." );
+        }
+        $contactIds = array_keys( $contacts );
+        $params['contact_id'] = $contactIds[0];
+    }
+
+    $params['id'] = $params['contact_id']; 
+    $ids          = array( ); 
+ 
+    $contact =& CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids ); 
+ 
+    if ( $contact == null || is_a($contact, 'CRM_Core_Error') || ! $contact->id ) { 
+        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] ); 
+    } 
+ 
+    unset($params['id']); 
+     
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php"); 
+    $contact->contact_type_object = 
+        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' ); 
+ 
+    $contact->location =& CRM_Core_BAO_Location::getValues( $params, $defaults, $ids, 2 ); //changed the location no
+ 
+    $contact->custom_values =& CRM_Core_BAO_CustomValue::getContactValues($contact->id); 
+ 
+    return $contact; 
+}
+
+
+/**
+ * Fetch an existing contact.
+ *
+ * Returns a single existing Contact object which matches ALL property
+ * values passed in $params. An error object is returned if there is
+ * no match, or more than one match. This API can be used to retrieve
+ * the CRM internal identifier (contact_id) based on a unique property
+ * (e.g. email address). It can also be used to retrieve any desired
+ * contact properties based on a known contact_id. Available
+ * properties for each type of Contact are listed in the {@link
+ * http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef
+ * CRM Data Model.} Modules may also invoke crm_get_class_properties()
+ * to retrieve all available property names, including extended
+ * (i.e. custom) properties.contact of the specific type that matches
+ * the input params  
+ *
+ * <b>Primary Location and Communication Info</b>
+ *
+ * <ul>
+ * <li>Primary location properties (email address, phone, postal address,
+ * etc.) are available in the Contact data objects. Primary email and
+ * phone number are returned by default. Postal address fields and
+ * primary instant messenger identifier are returned when specified in
+ * $return_properties. For contacts with multiple locations, use
+ * crm_get_locations() to retrieve additional location data.</li> 
+ * </ul>
+ *
+ * @see crm_get_class_properties()
+ * @see crm_get_locations()
+ *
+ * @example api/Contact.php
+ *
+ * @param array $params           Associative array of property name/value
+ *                                pairs to attempt to match on.
+ * @param array $returnProperties Which properties should be included in the
+ *                                returned Contact object. If NULL, the default
+ *                                set of properties will be included.
+ *
+ * @return CRM_Contact|CRM_Core_Error  Return the Contact Object if found, else
+ *                                Error Object
+ *
+ * @access public
+ *
+ */
+function &crm_fetch_contact( $params, $returnProperties = null ) {
+    _crm_initialize( );
+
+    // empty parameters ?
+    if (empty($params)) {
+        return _crm_error('$params is empty');
+    }
+
+    // correct parameter format ?
+    if (!is_array($params)) {
+        return _crm_error('$params is not an array');
+    }
+
     list( $contacts, $options ) = crm_contact_search( $params, $returnProperties );
     if ( count( $contacts ) != 1 ) {
         return _crm_error( count( $contacts ) . " contacts matching input params." );

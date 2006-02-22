@@ -316,7 +316,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
                 eval( '$cType = $contactRelation->contact_type_' . $second . ';');
 
-                if (!$cType) {
+                if ( ! $cType ) {
                     $cType = 'All';
                 }
 

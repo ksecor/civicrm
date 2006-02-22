@@ -113,7 +113,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         foreach ($relations as $key => $var) {
             list( $type ) = explode( '_', $key );
             $relationshipType[$key]['title'] = $var;
-            $relationshipType[$key]['headerPattern'] = '/' . $var . '/';
+            $relationshipType[$key]['headerPattern'] = '/' . preg_quote( $var, '/' ) . '/';
             $relationshipType[$key]['import'] = true;
             $relationshipType[$key]['relationship_type_id'] = $type;
             $relationshipType[$key]['related'] = true;
