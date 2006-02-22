@@ -1083,12 +1083,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         while ($this->fetch()) {
             $rows[] = array(
-                'id'        =>  $this->id,
-                'name'      =>  $this->name, 
-                'status'    => CRM_Mailing_BAO_Job::status($this->status), 
-                'scheduled' => CRM_Utils_Date::customFormat($this->scheduled_date),
-                'start'     => CRM_Utils_Date::customFormat($this->start_date), 
-                'end'       => CRM_Utils_Date::customFormat($this->end_date)
+                'id'            =>  $this->id,
+                'name'          =>  $this->name, 
+                'status'        => CRM_Mailing_BAO_Job::status($this->status), 
+                'scheduled'     => CRM_Utils_Date::customFormat($this->scheduled_date),
+                'scheduled_iso' => $this->scheduled_date,
+                'start'         => CRM_Utils_Date::customFormat($this->start_date), 
+                'end'           => CRM_Utils_Date::customFormat($this->end_date)
             );
         }
         return $rows;

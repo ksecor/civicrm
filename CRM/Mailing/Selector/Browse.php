@@ -202,6 +202,11 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                                                 $actionMask,
                                                 array('mid' => $row['id']));
                 unset($rows[$key]['id']);
+                // if the scheduled date is 0, replace it with an empty string
+                if ($rows[$key]['scheduled_iso'] == '0000-00-00 00:00:00') {
+                    $rows[$key]['scheduled'] = '';
+                }
+                unset($rows[$key]['scheduled_iso']);
             }
         }
 
