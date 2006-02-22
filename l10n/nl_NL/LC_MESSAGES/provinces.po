@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: iso_3166_2 0.45\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-09-08 08:52+0200\n"
-"PO-Revision-Date: 2006-01-30 22:36+0100\n"
-"Last-Translator: Michaël Bauwens <michaelbauwens@mac.com>\n"
+"PO-Revision-Date: 2006-02-21 16:44+0100\n"
+"Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2010,9 +2010,8 @@ msgid "Brèsckaja voblasc'"
 msgstr "Provincie Brest"
 
 #. name for BY-HO
-#, fuzzy
 msgid "Homel'skaja voblasc'"
-msgstr "Provincie Homyel"
+msgstr "Provincie Homel"
 
 #. name for BY-HR
 msgid "Hrodzenskaja voblasc'"
@@ -2044,11 +2043,11 @@ msgstr "Corozal"
 
 #. name for BZ-OW
 msgid "Orange Walk"
-msgstr ""
+msgstr "Orange walk"
 
 #. name for BZ-SC
 msgid "Stann Creek"
-msgstr ""
+msgstr "Stann Creek"
 
 #. name for BZ-TOL
 msgid "Toledo"
@@ -2084,7 +2083,7 @@ msgstr "Ontario"
 
 #. name for CA-PE
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prince Edward Island"
 
 #. name for CA-QC
 msgid "Quebec"
@@ -2256,11 +2255,11 @@ msgstr "Niari"
 
 #. name for CG-14
 msgid "Plateaux"
-msgstr ""
+msgstr "Plateaus"
 
 #. name for CG-12
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 #. name for CG-13
 msgid "Sangha"
@@ -2284,7 +2283,7 @@ msgstr "Bern"
 
 #. name for CH-BL
 msgid "Basel-Landschaft"
-msgstr ""
+msgstr "Basel-Landschaff"
 
 #. name for CH-BS
 msgid "Basel-Stadt"
@@ -2372,11 +2371,11 @@ msgstr "Zürich"
 
 #. name for CI-06
 msgid "18 Montagnes"
-msgstr ""
+msgstr "18 Montagnes"
 
 #. name for CI-16
 msgid "Agnebi"
-msgstr ""
+msgstr "Agnebi"
 
 #. name for CI-09
 msgid "Bas-Sassandra"
@@ -2384,7 +2383,7 @@ msgstr "Neder-Sassandra"
 
 #. name for CI-10
 msgid "Denguele"
-msgstr ""
+msgstr "Denguele"
 
 #. name for CI-02
 msgid "Haut-Sassandra"
@@ -2392,19 +2391,19 @@ msgstr "Opper-Sassandra"
 
 #. name for CI-07
 msgid "Lacs"
-msgstr ""
+msgstr "Meren"
 
 #. name for CI-01
 msgid "Lagunes"
-msgstr ""
+msgstr "Lagunes"
 
 #. name for CI-12
 msgid "Marahoue"
-msgstr ""
+msgstr "Marahoue"
 
 #. name for CI-05
 msgid "Moyen-Comoe"
-msgstr ""
+msgstr "Moyen-Comoe"
 
 #. name for CI-11
 msgid "Nzi-Comoe"

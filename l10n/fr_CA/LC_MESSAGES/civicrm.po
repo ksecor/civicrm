@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2005-12-08 02:33+0100\n"
+"PO-Revision-Date: 2006-02-20 17:47+0100\n"
 "Last-Translator: OB <waysail@yahoo.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -418,7 +418,7 @@ msgstr "Organisation"
 #: CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr ""
+msgstr "ne pas importer"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
@@ -515,12 +515,12 @@ msgstr "Utilisateur et administrateur seulement"
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages"
-msgstr ""
+msgstr "Pages publiques d'utilisateurs"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
-msgstr ""
+msgstr "Pages publiques d'utilisateurs et listes"
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 msgid "Household Name"
@@ -534,7 +534,7 @@ msgstr "Prenom"
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
 msgid "Middle Name"
-msgstr ""
+msgstr "Deuxième nom"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Preview.php
@@ -637,7 +637,7 @@ msgstr "Groupe(s)"
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php
 #: CRM/Profile/Form.php
 msgid "%1 is a required field."
-msgstr ""
+msgstr "%1 est un champs requis."
 
 #: CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Field.php CRM/UF/Page/Field.php
@@ -688,7 +688,7 @@ msgstr "Chercher..."
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Profile/Form/Dojo.php
 msgid "- any state/province -"
-msgstr ""
+msgstr "- n'importe quel état/province"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/BAO/CustomField.php
 #: CRM/Profile/Form/Dojo.php
@@ -713,7 +713,7 @@ msgstr "A"
 
 #: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
 msgid "- more actions -"
-msgstr ""
+msgstr "- plus d'actions -"
 
 #: CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add Members: %1"
@@ -730,7 +730,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search.php CRM/Contribute/Form/Search.php
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #: CRM/Contact/Form/Search.php CRM/Profile/Form/Dojo.php
 msgid "- any group -"
@@ -833,7 +833,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php
 msgid "Search Results"
-msgstr ""
+msgstr "Résultats de recherche"
 
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
@@ -4274,11 +4274,11 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php templates/CRM/Block/Search.tpl
 msgid "- all contacts -"
-msgstr ""
+msgstr "- tout les contats -"
 
 #: CRM/Core/SelectValues.php templates/CRM/Block/Search.tpl
 msgid "Individuals"
-msgstr ""
+msgstr "Individus"
 
 #: CRM/Core/SelectValues.php templates/CRM/Block/Search.tpl
 msgid "Households"
@@ -4286,7 +4286,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php templates/CRM/Block/Search.tpl
 msgid "Organizations"
-msgstr ""
+msgstr "Organisations"
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
@@ -4294,7 +4294,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Yes/No"
-msgstr ""
+msgstr "Oui/Non"
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"
@@ -6486,7 +6486,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
-msgstr ""
+msgstr "Ajouter membres à %1"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Edit Smart Group Search Criteria for %1"
@@ -6503,7 +6503,7 @@ msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
 "print a contact list, assign tags, export contact data to a spreadsheet, etc."
-msgstr ""
+msgstr "Utiliser les 'critères de recherches' pour trouver des contacts pas nom, type de contact, tags, etc.. Vous pourriez ensuite visualisé ou régiger les détails de contact, imprimer une liste de contacts, assigner de tags, exporter des donnés de contacts à une feuille de calculs, etc."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -9393,3 +9393,4 @@ msgstr ""
 #, fuzzy
 #~ msgid "Non Deductible Amount"
 #~ msgstr "defaut?"
+
