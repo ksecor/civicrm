@@ -1662,6 +1662,7 @@ class CRM_Contact_BAO_Query {
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
+        
         return array($values, $options);
     }
 

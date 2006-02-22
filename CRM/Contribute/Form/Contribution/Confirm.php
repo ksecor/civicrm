@@ -207,6 +207,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set( 'contactID', $contactID );
         }
 
+        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+        $contributionType->id = $this->_values['contribution_type_id'];
+        if ( ! $contributionType->find( true ) ) {
+            CRM_Core_Error::fatal( "Could not find a system table" );
+        }
+        
+        // add some contribution type details to the params list
+        // if folks need to use it
+        $this->_params['contributionType_name']            = $contributionType->name;
+        $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
+        $this->_params['contributionForm_id']              = $this->_values['id'];
+
         require_once 'CRM/Contribute/Payment.php';
         $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
 
@@ -242,12 +254,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $this->_action != 1024 ) { // no db transactions during preview
             CRM_Core_DAO::transaction( 'BEGIN' );
 
-            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-            $contributionType->id = $this->_values['contribution_type_id'];
-            if ( ! $contributionType->find( true ) ) {
-                CRM_Core_Error::fatal( "Could not find a system table" );
-            }
-            
             $nonDeductibleAmount = $result['gross_amount'];
             if ( $contributionType->is_deductible ) {
                 if ( $premiumParams['selectProduct'] != 'no_thanks' ) {
