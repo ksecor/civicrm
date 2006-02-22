@@ -741,14 +741,22 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         if ($updateLocation['address']['state_province']) {
             $state_province       = & new CRM_Core_DAO_StateProvince();
             $state_province->name = $updateLocation['address']['state_province'];
-            $state_province->find(true);
+            if ( ! $state_province->find(true) ) {
+                $state_province->name = null;
+                $state_province->abbreviation = $updateLocation['address']['state_province'];
+                $state_province->find(true);
+            }
             $updateLocation['address']['state_province_id'] = $state_province->id;
         }
 
         if ($updateLocation['address']['country']) {
             $country       = & new CRM_Core_DAO_Country();
             $country->name = $updateLocation['address']['country'];
-            $country->find(true);
+            if ( ! $country->find(true) ) {
+                $country->name = null;
+                $country->iso_code = $updateLocation['address']['country'];
+                $country->find(true);
+            }
             $updateLocation['address']['country_id'] = $country->id;
         }
         
