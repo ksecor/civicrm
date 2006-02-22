@@ -269,6 +269,12 @@ class Net_SMTP
             }
         }
 
+        /* 535: Authentication failed */
+        if ($this->_code == 535) {
+            $this->disconnect();
+            return PEAR::raiseError('Authentication failed.');
+        }
+
         return PEAR::raiseError('Invalid response code received from server');
     }
 
@@ -592,12 +598,6 @@ class Net_SMTP
 
         if (PEAR::isError($error = $this->_put(base64_encode($pwd)))) {
             return $error;
-        }
-
-        /* 535: Authentication failed */
-        if ($this->_parseResponse(535)) {
-            $this->disconnect();
-            return PEAR::raiseError('Authentication failed.');
         }
 
         /* 235: Authentication successful */
