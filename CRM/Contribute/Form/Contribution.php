@@ -54,6 +54,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     protected $_id;
 
     /**
+     * the id of the premium that we are proceessing
+     *
+     * @var int
+     * @protected
+     */
+    protected $_premiumId;
+
+
+    /**
      * the id of the contact associated with this contribution
      *
      * @var int
@@ -69,6 +78,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @protected 
      */ 
     protected $_online = false;
+
+
+     /**
+     * Stores all producuct option
+     *
+     * @var boolean
+     * @protected 
+     */ 
+    protected $_options ;
 
     /**
      * Store the tree of custom data and fields
@@ -106,15 +124,26 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
         }
 
+        //to get Premium id 
+        if( $this->_id ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->contribution_id = $this->_id;
+            if ( $dao->find(true) ) {
+                $this->_premiumId = $dao->id;
+            }
+            
+        }
+        
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
 
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        self::buldPremiumForm();
         
     }
 
     function setDefaultValues( ) {
+       
         $defaults = array( );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -134,6 +163,19 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
+        }
+
+        // for Premium section
+        if( $this->_premiumId ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->id = $this->_premiumId;
+            $dao->find(true);
+            
+            $options = $this->_options[$dao->product_id];
+            $options_key = CRM_Utils_Array::key($dao->product_option,$options);
+            $defaults['product_name']   = array ( $dao->product_id , $options_key );
+            $defaults['fulfilled_date'] = $dao->fulfilled_date;
         }
         return $defaults;
     }
@@ -160,7 +202,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               );
             return;
         }
-
+        $this->buldPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
 
         $element =& $this->add('select', 'contribution_type_id', 
@@ -296,6 +338,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
+        //print_r($formValues);
 
         $config =& CRM_Core_Config::singleton( );
 
@@ -337,6 +380,29 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        
+        //process premium
+        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+        $dao = & new CRM_Contribute_DAO_ContributionProduct();
+        $dao->contribution_id = $contribution->id;
+        $dao->product_id  = $formValues['product_name'][0];
+        $dao->fulfilled_date  = CRM_Utils_Date::format($formValues['fulfilled_date']);
+        $dao->product_option = $this->_options[$formValues['product_name'][0]][$formValues['product_name'][1]];
+        if ($this->_premiumId) {
+            $premoumDAO = & new CRM_Contribute_DAO_ContributionProduct();
+            $premoumDAO->id  = $this->_premiumId;
+            $premoumDAO->find(true);
+            if( $premoumDAO->product_id == $formValues['product_name'][0] ) {
+                $dao->id = $this->_premiumId;
+                $premium = $dao->save();
+            } else {
+                $premoumDAO->delete();
+                $premium = $dao->save();
+            }
+            
+        } else {
+            $premium = $dao->save();
+        }
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
     }
 
@@ -347,9 +413,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @return None 
      */ 
     
-    function buldPremiumForm()
+    function buldPremiumForm( $form)
     {
-        
         require_once 'CRM/Contribute/DAO/Product.php';
         $sel1 = $sel2 = array();
         
@@ -357,6 +422,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $dao->is_active = 1;
         $dao->find();
         $min_amount = array();
+        $sel1[0] = '-- select product --';
         while ( $dao->fetch() ) {
             
             $sel1[$dao->id] = $dao->name." ( ".$dao->sku." )";
@@ -366,21 +432,26 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $sel2[$dao->id] = $options ;
             }
             
-            $this->assign('premiums', true );
+            $form->assign('premiums', true );
             
         }
-
-        $this->assign('mincontribution',$min_amount);
+        $form->_options = $sel2;
+        $form->assign('mincontribution',$min_amount);
         $sel =& $this->addElement('hierselect', "product_name", ts('Premiums'),'onclick="showMinContrib();"');
-        
-        for ( $k = 1; $k < 3; $k++ ) {
-            if (!$defaults['field_name'][$k]) {
-                $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+        $js = "<script type='text/javascript'>\n";
+        $formName = 'document.forms.' . $form->_name;
+        for ( $k = 1; $k < 2; $k++ ) {
+            if (!$defaults['product_name'][$k]) {
+                $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
             }
         }
+
         $sel->setOptions(array($sel1, $sel2 ));
-        $this->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
-        $this->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
+        $js .= "</script>\n";
+        $form->assign('initHideBoxes', $js);
+
+        $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
+        $form->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
     }
 
 }

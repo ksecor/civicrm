@@ -1,4 +1,3 @@
-
 {* this template is used for adding/editing/deleting contribution *} 
 <div class="form-item"> 
 <fieldset><legend>{if $action eq 1}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
@@ -61,7 +60,7 @@
       <fieldset><legend>{ts}Premiums{/ts}</legend> 
         <table class="form-layout-compressed">
            <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
-           <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html}</td></tr>
+           <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html|crmReplace:class:texttolabel}</td></tr>
            <tr><td class="label">{$form.fulfilled_date.label}</td><td>{$form.fulfilled_date.html}
            {include file="CRM/common/calendar/desc.tpl" trigger=trigger4}
            {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger4}      
@@ -80,20 +79,37 @@
 
 {literal}
 <script type="text/javascript">
+    var min_amount = document.getElementById("min_amount");
+    min_amount.readOnly = 1;
 	function showMinContrib( ) {
        var product = document.getElementsByName("product_name[0]")[0];
        var product_id = product.options[product.selectedIndex].value;
        var min_amount = document.getElementById("min_amount");
     
        var amount = new Array();
+       amount[0] = '';  
       {/literal}
          var index = 1;
-      {foreach from= $mincontribution item=description key=id}
-        {literal}amount[index]{/literal} = "{$description}"
+      {foreach from= $mincontribution item=amt key=id}
+        {literal}amount[index]{/literal} = "{$amt}"
         {literal}index = index + 1{/literal}
       {/foreach}
       {literal}
-        min_amount.value = amount[product_id];
+       if(amount[product_id]) {  
+        min_amount.value = '$'+amount[product_id];
+       } else {
+        min_amount.value = "";
+       }           
      } 
 </script> 
 {/literal}
+
+
+{if $action eq 1 or $action eq 2 }
+    <script type="text/javascript">
+    showMinContrib( );
+    </script>            
+{/if}
+{if $action ne 2 }
+{$initHideBoxes}
+{/if}

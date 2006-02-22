@@ -62,6 +62,30 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
 
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ) );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        $id = $this->get( 'id' );
+        if( $id ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->contribution_id = $id;
+            if ( $dao->find(true) ) {
+               $premiumId = $dao->id;
+               $productID = $dao->product_id; 
+            }
+            
+        }
+        
+        if( $premiumId ) {
+                       
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO = & new CRM_Contribute_DAO_Product();
+            $productDAO->id  = $productID;
+            $productDAO->find(true);
+           
+            $this->assign('premium' , $productDAO->name );
+            $this->assign('option',$dao->product_option);
+            $this->assign('fulfilled',$dao->fulfilled_date);
+                     
+        }
 
         $this->assign( $values ); 
     }
