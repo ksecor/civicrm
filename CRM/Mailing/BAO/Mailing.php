@@ -573,7 +573,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
 
-        $message->get();
+        $mailMimeParams = array(
+            'text_encoding' => '8bit',
+            'html_encoding' => '8bit',
+            'head_charset'  => 'utf-8',
+            'text_charset'  => 'utf-8',
+            'html_charset'  => 'utf-8',
+            );
+        $message->get($mailMimeParams);
         $message->headers($headers);
         
         return $message;
