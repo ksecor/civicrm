@@ -284,8 +284,6 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
     // make sure the system is initialized
     civicrm_initialize( );
 
-    // CRM_Core_Error::debug( $type, $edit );
-
     switch ( $type ) {
         
     case 'login':
@@ -293,8 +291,12 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     case 'register':
-        return civicrm_register_data($edit, $user, $category, true);
-    
+        $config =& CRM_Core_Config::singleton( );
+        if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
+            return civicrm_register_data($edit, $user, $category, true);
+        }
+        return null;
+
     case 'insert':
         return civicrm_register_data($edit, $user, $category, false);
 
@@ -355,7 +357,14 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
 
     $output = array( );
     if ( $html ) {
-        $output[] = array( 'title' => null, 'data' => $html, 'weight' => 0 );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkVersion >= 4.7 ) {
+            $output[$category] = array( '#title' => $category,
+                                        '#value' => $html,
+                                        '#weight' => 1 );
+        } else {
+            $output[] = array( 'title' => null, 'data' => $html, 'weight' => 0 );
+        }
     }
 
     return $output;
@@ -369,7 +378,7 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
     $output = array( );
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-	if ( ! $userID ) {
+    if ( ! $userID ) {
         CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
         $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     }
@@ -381,7 +390,14 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
     
     if ( $html ) {
-        $output[] = array( 'title' => $category, 'data' => $html, 'weight' => 0 );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkVersion >= 4.7 ) {
+            $output[$category] = array( '#title' => $category,
+                                        '#value' => $html,
+                                        '#weight' => 1 );
+        } else {
+            $output[] = array( 'title' => $category, 'data' => $html, 'weight' => 0 );
+        }
     }
 
     return $output;
@@ -402,8 +418,15 @@ function civicrm_view_data($user ) {
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
             $pageContent = $page->run( );
             
-            if ($pageContent) {
-                $data[$title['title']] = $pageContent;
+            if ( $pageContent ) {
+                $config =& CRM_Core_Config::singleton( ); 
+                if ( $config->userFrameworkVersion >= 4.7 ) {
+                    $item = array( 'title' => $title['title'],
+                                   'value' => $pageContent );
+                    $data[$title['title']][] = $item;
+                } else {
+                    $data[$title['title']] = $pageContent;
+                }
             }
         }
     }

@@ -70,35 +70,59 @@ class CRM_Core_Invoke {
 
         switch ( $args[1] ) {
 
-        case 'contact'  : return self::contact ( $args );
+        case 'contact'  : 
+            self::contact ( $args );
+            break;
 
-        case 'admin'    : return self::admin   ( $args );
+        case 'admin'    : 
+            self::admin   ( $args );
+            break;
 
-        case 'history'  : return self::history ( $args );
+        case 'history'  : 
+            self::history ( $args );
+            break;
 
-        case 'group'    : return self::group   ( $args );
+        case 'group'    : 
+            self::group   ( $args );
+            break;
 
-        case 'import'   : return self::import  ( $args );
+        case 'import'   : 
+            self::import  ( $args );
+            break;
        
-        case 'export'   : return self::export  ( $args );
+        case 'export'   : 
+            self::export  ( $args );
+            break;
 
-        case 'activity' : return self::activity( $args );
+        case 'activity' : 
+            self::activity( $args );
+            break;
 
-        case 'profile'  : return self::profile ( $args );
+        case 'profile'  : 
+            self::profile ( $args );
+            break;
         
-        case 'server'   :  return self::server ( $args );
+        case 'server'   : 
+            self::server ( $args );
+            break;
 
         case 'mailing'  :
             require_once 'CRM/Mailing/Invoke.php';
-            return CRM_Mailing_Invoke::main( $args );
+            CRM_Mailing_Invoke::main( $args );
+            break;
 
         case 'contribute' :
             require_once 'CRM/Contribute/Invoke.php';
-            return CRM_Contribute_Invoke::main( $args );
-            
-        default         : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
+            CRM_Contribute_Invoke::main( $args );
+            break;
+
+        default         :
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
+            break;
 
         }
+
+        return;
     }
 
     /**
@@ -349,6 +373,10 @@ class CRM_Core_Invoke {
 
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
+            
+        case 'access':
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'admin/access' ) );
+            break;
 
         case 'locationType':
             require_once 'CRM/Admin/Page/LocationType.php';

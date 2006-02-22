@@ -135,8 +135,6 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
             $content = $template->fetch( 'CRM/index.tpl' );
         }
         echo CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ) );
-        // echo $content;
-
         return;
     }
 

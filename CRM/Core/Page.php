@@ -159,6 +159,7 @@ class CRM_Core_Page {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
+        return;
     }
 
     /**

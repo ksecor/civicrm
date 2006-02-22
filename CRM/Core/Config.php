@@ -248,6 +248,7 @@ class CRM_Core_Config {
      * Default user framework
      */
     public $userFramework               = 'Drupal';
+    public $userFrameworkVersion        = 4.6;
     public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
     public $userHookClass               = 'CRM_Utils_Hook_Drupal';
     public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
@@ -591,6 +592,10 @@ class CRM_Core_Config {
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
+        }
+
+        if ( defined( 'CIVICRM_UF_VERSION' ) ) {
+            $this->userFrameworkVersion = (float ) CIVICRM_UF_VERSION;
         }
 
         if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
