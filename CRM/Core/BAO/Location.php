@@ -68,7 +68,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-        
+
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {
@@ -126,12 +126,18 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
              ! array_key_exists( $locationId, $params['location'] ) ) {
             return false;
         }
-
+        
+        //if location name exits return true
+        if ( CRM_Utils_Array::value( 'name', $params['location'][$locationId] ) ) {
+            return  true;
+        }
+        
         if ( CRM_Core_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
             return true;
         }
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
+           
             if ( CRM_Core_BAO_Phone::dataExists( $params, $locationId, $i, $ids ) ||
                  CRM_Core_BAO_Email::dataExists( $params, $locationId, $i, $ids ) ||
                  CRM_Core_BAO_IM::dataExists   ( $params, $locationId, $i, $ids ) ) {
