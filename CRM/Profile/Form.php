@@ -751,18 +751,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                         if ($nameValue[1] == $value['location_type_id'] ) {
                             $locations[$value['location_type_id']] = 1;
                             $loc_no = count($locations);
-                            foreach ($this->_contact as $key => $value) {
-                                if ($nameValue[0] == 'phone') {
-                                    $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
-                                } else if ($nameValue[0] == 'im') {
-                                    $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
-                                } else if ($nameValue[0] == 'email') {
-                                    $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
-                                } else {
-                                    $ids['location'][$loc_no]['address'] = $value['address_id'];
-                                } 
-                                $ids['location'][$loc_no]['id'] = $value['location_id'];
-                            }
+                            if ($nameValue[0] == 'phone') {
+                                $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
+                            } else if ($nameValue[0] == 'im') {
+                                $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
+                            } else if ($nameValue[0] == 'email') {
+                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
+                            } else {
+                                $ids['location'][$loc_no]['address'] = $value['address_id'];
+                            } 
+                            $ids['location'][$loc_no]['id'] = $value['location_id'];
                         }
                     }
                     
