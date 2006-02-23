@@ -815,6 +815,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$fld] = $params['location'][1]['address'][$fld];
                 }
             }
+            
+            if (is_array($params['custom'])) {
+                foreach ( $params['custom'] as $key => $value ) {
+                    $params['custom_'. $value['custom_field_id'] ] = $value['value'];
+                }
+            }
         }
         $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
         
@@ -835,7 +841,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         $params['group'] = array( );
         $params['tag']   = array( );
-        
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, true );
     }
     
