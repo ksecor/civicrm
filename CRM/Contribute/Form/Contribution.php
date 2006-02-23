@@ -164,18 +164,25 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-        $this->assign('showOtion',false);
+        $this->assign('showOtion',true);
         // for Premium section
         if( $this->_premiumId ) {
-            $this->assign('showOtion',true);
+            $this->assign('showOtion',false);
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->id = $this->_premiumId;
             $dao->find(true);
-            
+            //if($this->_options[$dao->product_id];)
             $options = $this->_options[$dao->product_id];
+            if ( ! $options ) {
+                $this->assign('showOtion',true);
+            }
             $options_key = CRM_Utils_Array::key($dao->product_option,$options);
-            $defaults['product_name']   = array ( $dao->product_id , $options_key );
+            if( $options_key) {
+                $defaults['product_name']   = array ( $dao->product_id , $options_key );
+            } else {
+                $defaults['product_name']   = array ( $dao->product_id);
+            }
             $defaults['fulfilled_date'] = $dao->fulfilled_date;
         }
         return $defaults;

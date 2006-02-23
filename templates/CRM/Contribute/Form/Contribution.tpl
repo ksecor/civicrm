@@ -111,6 +111,6 @@
     </script>            
 {/if}
 
-{if $action ne 2 or $showOtion ne true}
+{if $action ne 2 or $showOtion eq true}
 {$initHideBoxes}
 {/if}
