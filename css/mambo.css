@@ -33,10 +33,9 @@ th.active img {
 tr.dark, tr.light {
   background-color: #eee;
   border-bottom: 1px solid #ccc;
-}
-tr.dark, tr.light {
   padding: 0.1em 0.6em;
 }
+
 td.active {
   background-color: #ddd;
 }
