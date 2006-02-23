@@ -85,7 +85,7 @@ hide('time-delimited');
 function add_upload_file_block(parms) {
 	if (parms =='thumbnail') {
 	      
-              document.getElementById("imageURL").style.display="block";
+          document.getElementById("imageURL").style.display="block";
 	      document.getElementById("imageURLDef").style.display="block";
 	                    
 	      document.getElementById("thumbnailURL").style.display="block";
@@ -99,6 +99,12 @@ function add_upload_file_block(parms) {
 	      document.getElementById("thumbnailURLDef").style.display="none";
 	   	
 	}	
+}
+
+function select_option() {
+    //   need  to add code 
+    //   alert('anil');
+    //   document.ManagePremiums.imageOption["image"].checked = true;
 }
 
 </script>

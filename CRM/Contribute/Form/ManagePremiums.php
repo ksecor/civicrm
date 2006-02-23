@@ -142,7 +142,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
        
         
 
-        $this->addElement( 'file','uploadFile',ts('Image File Name'), 'size=30 maxlength=60');
+        $this->add( 'file','uploadFile',ts('Image File Name'), 'onChange="select_option();"');
 
                
         $this->add( 'text', 'price',ts('Market Value'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
