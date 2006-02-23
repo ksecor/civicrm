@@ -514,6 +514,39 @@ class CRM_Utils_Date {
                 $params[$dateParam] = "$year$month$day";
             }
         }
+        if ( $dateType == 16 ) {
+            
+            if ($params[$dateParam]) {
+                $value = $params[$dateParam];
+            }
+            $dateArray = explode('-',$value);
+            
+            $monthInt = 0;
+            $fullMonths = self::getFullMonthNames();
+            foreach ($fullMonths as $key => $val) {
+                if ($dateArray[1] == $val) {
+                    $monthInt = $key; 
+                    break;
+                }
+            }
+            if (!$monthInt) {
+                $abbrMonths = self::getAbbrMonthNames();
+                foreach ($abbrMonths as $key => $val) {
+                    if ($dateArray[1] == $val) {
+                        $monthInt = $key; 
+                        break;
+                    }
+                }
+            }
+            $year   =  $dateArray[2];
+            $day    = (int) $dateArray[0];
+            $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
+            $day    = ($day < 10)? "0"."$day" : $day;
+            
+            if ($params[$dateParam]) {
+                $params[$dateParam] = "$year$month$day";
+            }
+        }
     }
 }
 

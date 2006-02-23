@@ -167,6 +167,9 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
 
         $params =& $this->getActiveFieldParams( );
 
+        require_once 'CRM/Import/Parser/Contact.php';
+        $errorMessage = null;
+
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -175,7 +178,8 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
                 if( $val ) {
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     if (! CRM_Utils_Rule::date($params[$key])) {
-                        return _crm_error('Invalid value for field  : Activity Date');
+                        //return _crm_error('Invalid value for field  : Activity Date');
+                        CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
                     }
                 }
             }
@@ -184,11 +188,13 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
 
         //checking error in custom data
         $params['contact_type'] =  $this->_contactType;
-        require_once 'CRM/Import/Parser/Contact.php';
-        $error = CRM_Import_Parser_Contact::isErrorInCustomData($params);
-        if (is_a( $error,CRM_Core_Error )) {
-            array_unshift($values, $error->_errors[0]['message']);
-            return CRM_History_Import_Parser::ERROR;
+        CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
+
+        if ( $errorMessage ) {
+            $tempMsg = "Invalid value for field(s) : $errorMessage";
+            array_unshift($values, $tempMsg);
+            $errorMessage = null;
+            return CRM_Import_Parser::ERROR;
         }
         
         return CRM_History_Import_Parser::VALID;

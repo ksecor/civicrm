@@ -46,7 +46,8 @@ Class CRM_Core_Form_Date
         DATE_yyyy_mm_dd     = 1,
         DATE_mm_dd_yy       = 2,
         DATE_mm_dd_yyyy     = 4,
-        DATE_Month_dd_yyyy  = 8;
+        DATE_Month_dd_yyyy  = 8,
+        DATE_dd_mon_yy      = 16;
 
 
     /**
@@ -60,10 +61,11 @@ Class CRM_Core_Form_Date
     static function buildAllowedDateFormats( &$form ) {
 
         $dateOptions = array();        
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('yyyy-mm-dd'), self::DATE_yyyy_mm_dd);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy'), self::DATE_mm_dd_yy);
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy'), self::DATE_mm_dd_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('yyyy-mm-dd (1999-Feb-03)'), self::DATE_yyyy_mm_dd);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy (13/25/98 OR 13-25-98)'), self::DATE_mm_dd_yy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy (13/25/1998 OR 13-25-1998)'), self::DATE_mm_dd_yyyy);
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('Month dd, yyyy'), self::DATE_Month_dd_yyyy);
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('dd-mon-yy'), self::DATE_dd_mon_yy);
         $form->addGroup($dateOptions, 'dateFormats', ts('Date Format'));
         $form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }
