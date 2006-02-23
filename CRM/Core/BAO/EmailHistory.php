@@ -60,7 +60,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
     static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress ) {
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+        list( $fromDisplayName, $fromEmail, $doNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         if ( ! $fromEmail ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
@@ -105,7 +105,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @static
      */
     static function sendMessage( $from, $toID, &$subject, &$message, $emailAddress, $activityID ) {
-        list( $toDisplayName  , $toEmail   ) = CRM_Contact_BAO_Contact::getContactDetails( $toID   );
+        list( $toDisplayName, $toEmail, $doNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
             $toEmail = trim( $emailAddress );
         }

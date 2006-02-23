@@ -117,21 +117,29 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         if ( ! $this->_single ) {
             $toArray = array();
             $validMails = array();
+            $suppressedEmails = 0;
             foreach ( $this->_contactIds as $contactId ) {
-                list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+                list($toDisplayName, $toEmail, $doNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
 
                 if ( ! trim( $toDisplayName ) ) {
                     $toDisplayName = $toEmail;
                 }
-                if ( ! empty( $toEmail ) ) {
+                // not sure why we have separate $validMails and $toArray and
+                // why we assign $toArray and not $validMails below... [Shot]
+                if ( ! empty( $toEmail ) and ! $doNotEmail ) {
                     $validMails[] = "\"$toDisplayName\" <$toEmail>";
                 }
-                $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                if ($doNotEmail) {
+                    $suppressedEmails++;
+                } else {
+                    $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                }
             }
             if ( empty( $validMails ) ) {
                 CRM_Utils_System::statusBounce( ts('Selected contact(s) does not have a valid email address' ));
             }
             $this->assign('to', implode(', ', $toArray));
+            $this->assign('suppressedEmails', $suppressedEmails);
         } else {
             
             if ( $this->_noEmails ) {
@@ -155,7 +163,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+        list( $fromDisplayName, $fromEmail, $doNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         
         if ( ! $fromEmail ) {
             CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));

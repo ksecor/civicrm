@@ -1624,7 +1624,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      *
      * @param  int    $id id of the contact
      *
-     * @return array  of display_name, email if found, or (null,null)
+     * @return array  of display_name, email if found, do_not_email or (null,null,null)
      * @static
      * @access public
      */
@@ -1634,7 +1634,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
 
         // if individual
        if( $contactType == 'Individual') {
-           $sql = " SELECT  civicrm_individual.first_name, civicrm_individual.last_name,  civicrm_email.email
+           $sql = " SELECT  civicrm_individual.first_name, civicrm_individual.last_name,  civicrm_email.email, civicrm_contact.do_not_email
                     FROM    civicrm_contact
                     LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id)
                     LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
@@ -1643,7 +1643,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
                     WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
        } else { // for household / organization
-           $sql = " SELECT civicrm_contact.display_name, civicrm_email.email
+           $sql = " SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
                     FROM   civicrm_contact
                     LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
                                                 civicrm_contact.id = civicrm_location.entity_id AND
@@ -1659,16 +1659,18 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
            $row  = $result->fetchRow();
            if ( $row ) {
                if ($contactType == 'Individual') {
-                   $name  = $row[0] . ' ' . $row[1];
-                   $email = $row[2];
+                   $name       = $row[0] . ' ' . $row[1];
+                   $email      = $row[2];
+                   $doNotEmail = $row[3] ? true : false;
                } else {
-                   $name  = $row[0];
-                   $email = $row[1];
+                   $name       = $row[0];
+                   $email      = $row[1];
+                   $doNotEmail = $row[2] ? true : false;
                }
-               return array( $name, $email );
+               return array( $name, $email, $doNotEmail );
            }
        }
-       return array( null, null );
+       return array( null, null, null );
     }
 
     /**
