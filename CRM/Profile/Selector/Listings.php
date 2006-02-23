@@ -150,12 +150,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         // CRM_Core_Error::debug( 'f', $this->_fields );
 
         $this->_customFields =& $customFields;
-
+        
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
         $returnProperties['contact_type'] = 1;
+        $returnProperties['sort_name'   ] = 1;
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
-        // CRM_Core_Error::debug( 'q', $this->_query );
+        //CRM_Core_Error::debug( 'q', $this->_query );
     }//end of constructor
 
 
@@ -214,7 +215,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $direction = CRM_Utils_Sort::ASCENDING;
         $empty = true;
         if ( ! isset( self::$_columnHeaders ) ) {
-            self::$_columnHeaders = array( array( 'name' => '' ) );
+            self::$_columnHeaders = array( array( 'name' => '' ),
+                                           array(
+                                                 'name'      => ts('Name'),
+                                                 'sort'      => 'sort_name',
+                                                 'direction' => CRM_Utils_Sort::ASCENDING,
+                                                 )
+                                           );
             foreach ( $this->_fields as $name => $field ) { 
                 if ( $field['in_selector'] &&
                      ! in_array( $name, $skipFields ) ) {
@@ -247,8 +254,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
-        return $this->_query->searchQuery( 0, 0, null, true , null, null, null, null, $addWhereClause);
+        return $this->_query->searchQuery( 0, 0, null, true , null, null, null, null);
     }
 
     /**
@@ -296,8 +302,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         }
        
         $sort->_vars = $varArray;
-        $addWhereClause = "civicrm_contact.contact_type = 'Individual'";
-        $result = $this->_query->searchQuery( $offset, $rowCount, $sort ,null , null, null, null, null, $addWhereClause);
+
+        $result = $this->_query->searchQuery( $offset, $rowCount, $sort ,null , null, null, null, null);
 
         // process the result of the query
         $rows = array( );
@@ -340,6 +346,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $row = array( );
             $empty = true;
             $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
+            $row['sort_name'] = $result->sort_name;
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );

@@ -137,11 +137,18 @@
        <comment>Phone type, if required</comment>
       <add>1.3</add>
   </field>
- <field>
+  <field>
        <name>label</name>
        <type>varchar</type>
        <length>255</length>
        <comment>To save label for fields.</comment>
+      <add>1.4</add>
+  </field>
+  <field>
+       <name>field_type</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>This field saves field type (ie individual,household.. field etc).</comment>
       <add>1.4</add>
   </field>
 </table>

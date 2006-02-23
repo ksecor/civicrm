@@ -151,7 +151,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
-            $defaults[ 'field_name' ] = array ($defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
+            $defaults[ 'field_name' ] = array ('Individual', $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
             $this->_gid = $defaults['uf_group_id'];
         } else {
             $defaults['is_active'] = 1;
@@ -182,67 +182,92 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // field name
         //$this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
 
-        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
+        $fields = array();
+        $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
+        $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
+        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
+        
+        foreach ($fields as $key => $value) {
+            foreach ($value as $key1 => $value1) {
+                $this->_mapperFields[$key][$key1] = $value1['title'];
+                $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+            }
+        }
         
         require_once 'CRM/Core/BAO/LocationType.php';
+        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
+        
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
         
-        /* FIXME: dirty hack to make the default option show up first.  This
-         * avoids a mozilla browser bug with defaults on dynamically constructed
-         * selector widgets. */
+       /* FIXME: dirty hack to make the default option show up first.  This
+        * avoids a mozilla browser bug with defaults on dynamically constructed
+        * selector widgets. */
         
         if ($defaultLocationType) {
             $defaultLocation = $this->_location_types[$defaultLocationType->id];
             unset($this->_location_types[$defaultLocationType->id]);
-            $this->_location_types = 
-                array($defaultLocationType->id => $defaultLocation) + 
-                $this->_location_types;
+            $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
-        $sel1 = $this->_selectFields;
+        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
         
-        $sel2[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
-        foreach ($this->_location_types as $key => $value) {
-            $sel3['phone'][$key] =& $phoneTypes;
-        }
-        
-        foreach ($this->_hasLocationTypes  as $key => $value) {
-            if ($this->_hasLocationTypes[$key]) {
-                $sel2[$key] = $this->_location_types;
-            } else {
-                $sel2[$key] = null;
+        foreach ($sel1 as $key=>$sel ) {
+            if ($key) {
+                $sel2[$key] = $this->_mapperFields[$key];
             }
         }
         
+        $sel3[''] = null;
+        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        
+        foreach ($sel1 as $k=>$sel ) {
+            if ($k) {
+                foreach ($this->_location_types as $key => $value) {                        
+                    $sel4[$k]['phone'][$key] =& $phoneTypes;
+                }
+            }
+        }
+        
+        foreach ($sel1 as $k=>$sel ) {
+            if ($k) {
+                foreach ($this->_mapperFields[$k]  as $key=>$value) {
+                    if ($hasLocationTypes[$k][$key]) {
+                        $sel3[$k][$key] = $this->_location_types;
+                    } else {
+                        $sel3[$key] = null;
+                    }
+                }
+            }
+        }
+        
+        $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
-        $formName = 'document.forms.' . $this->_name;
-                       
-        //$sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="getHelpText(this,event, false);"  onblur="getHelpText(this,event, false);" autocomplete="off"', '&nbsp;&nbsp;'); //this commented to fix javascript error
-        
-        $sel =& $this->addElement('hierselect', "field_name", ts('CiviCRM Field Name'), 'onclick="showLabel();"');
-        
-        for ( $k = 1; $k < 3; $k++ ) {
+        $formName = "document.{$this->_name}";
+      
+        $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
+            
+        for ( $k = 1; $k < 4; $k++ ) {
             if (!$defaults['field_name'][$k]) {
                 $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
             }
         }
-        $sel->setOptions(array($sel1, $sel2, $sel3));
-       
+        
+        $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
+        
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
-
+        
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
-
+        
         // should the field appear in selector?
         $this->add('checkbox', 'in_selector', ts('In Selector?'));
-
+       
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
-
+        
         $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'help_post'));
-
+        
         // listings title
         $this->add('text', 'listings_title', ts('Listings Title'),
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'listings_title') );
