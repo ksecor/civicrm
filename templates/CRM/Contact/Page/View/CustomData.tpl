@@ -61,6 +61,7 @@
                         {/if}
                     {/foreach}
                     </dl>
+                    <div class="spacer"></div>
                 </fieldset>
                 </div>
                 {/foreach}
