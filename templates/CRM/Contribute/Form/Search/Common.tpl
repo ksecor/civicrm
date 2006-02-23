@@ -42,3 +42,9 @@
             <td class="label">{ts}Receipt date not set?{/ts}</td> 
             <td colspan="3">{$form.contribution_receipt_date_isnull.html}</td>
         </tr>
+
+<tr>
+<td colspan="4">
+{include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}
+</td>
+</tr>

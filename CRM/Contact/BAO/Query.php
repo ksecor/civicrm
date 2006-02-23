@@ -215,7 +215,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $mode = 1 ) {
+                          $includeContactIds = false, $strict = false, $mode = 3 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );

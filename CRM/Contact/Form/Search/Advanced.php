@@ -194,7 +194,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contact', 'Individual', 'Household', 'Organization' ) );
         $this->assign('groupTree', $groupDetails);
-        
+
         foreach ($groupDetails as $group) {
             $_groupTitle[]           = $group['title'];
             CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
