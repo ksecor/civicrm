@@ -99,6 +99,29 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
     }
 
     /**
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess()
+    {
+        parent::preProcess();
+
+        // we need to retrieve privacy preferences
+        // to (un)display the 'Send an Email' link
+        $params   = array( );
+        $defaults = array( );
+        $ids      = array( );
+        $params['id'] = $params['contact_id'] = $this->_contactId;
+        CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
+        CRM_Contact_BAO_Contact::resolveDefaults($defaults);
+        $this->assign($defaults);
+    }
+
+    /**
      * perform actions and display for activities.
      *
      * @return none
