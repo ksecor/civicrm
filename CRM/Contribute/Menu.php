@@ -112,7 +112,7 @@ class CRM_Contribute_Menu {
                              'type'    => CRM_Utils_Menu::CALLBACK,
                              'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
-                             'icon'    => 'admin/accepted_creditcards.png',
+                             'icon'    => 'admin/Premiums.png',
                              'weight'  => 395
                              ),
 
