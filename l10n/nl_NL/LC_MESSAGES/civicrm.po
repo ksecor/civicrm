@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-02-22 00:06+0100\n"
+"PO-Revision-Date: 2006-02-22 18:36+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -7220,23 +7220,23 @@ msgid ""
 "specifically for use in Online Contribution pages. Click <a href=\"%1"
 "\">here</a> if you need to review, modify or create profiles (you can come "
 "back at any time to select or update the Profile(s) used for this page)."
-msgstr ""
+msgstr "U kunt bestaande CiciCRM profielen gebruiken op uw pagina, of er een aanmaken, die specifiek op Donateur-paginas te gebruiken is. Klik <a href\"%1\">hier</a>, om Profielen te bekijken, wijzigen of aan te maken. (U kunt altijd het hier gebruikte Profiel aanpassen)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the top of the page (below the "
 "introductory message, and above the billing information fields)."
-msgstr ""
+msgstr "Kies een CiviCRM Profiel dat bovenaan een pagina moet komen te staan (onder de intro-tekst, en boven de rekening-informatie velden)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the bottom of the page (below the "
 "billing information fields)."
-msgstr ""
+msgstr "Kies een CiviCRM Profiel dat onderaan een pagina moet komen te staan (onder de rekening-informatie velden)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid "Are you sure you want to delete the contribution page \"%1\"?"
-msgstr ""
+msgstr "Weet u zeker, dat u de Bijdrage pagina \"%1\" wilt verwijderen ?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7244,7 +7244,7 @@ msgid ""
 "create one or more different Contribution Pages for different purposes, "
 "audiences, campaigns, etc. Each page can have it's own introductory message, "
 "pre-configured contribution amounts, custom data collection fields, etc."
-msgstr ""
+msgstr "Dit is de eerste stap voor het aanmaken van een Bijdrage pagina. Het is mogelijk om meerdere Bijdrage paginas aan te maen vor verschillende doeleinden, zoals publiek, campagnes, etc. Elke pagina kan haar eigen introtekst, lijst van bijdrage hoogten, specifieke informatie velden, etc hebben."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7252,18 +7252,18 @@ msgid ""
 "(donation, campaign contribution, etc.), and introductory message. You will "
 "be able to go back and modify all aspects of this page at any time after "
 "completing the setup wizard."
-msgstr ""
+msgstr "In deze stap stelt u de paginatitel, bijdrage type (gewone donatie, campagne donatie, etc) en introtekst op. In een later stadium is het mogelijk om deze items te wijzigen, nadat u deze Wizard doorlopen heeft."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "Use this form to edit the page title, contribution type (e.g. donation, "
 "campaign contribution, etc.), introduction, and status (active/inactive) for "
 "this online contribution page."
-msgstr ""
+msgstr "Dit formulier gebruikt u om de paginatitel, bijdrage type (gewone donatie, campagne donatie, etc.) introtekst, en status van deze Bijdrage pagina(actief/ nietactief) te wijzigen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
-msgstr ""
+msgstr "Deze titel zal bovenaan de pagina getoond worden."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7271,7 +7271,7 @@ msgid ""
 "page (e.g. donation, membership fee, etc.). You can add or modify available "
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
-msgstr ""
+msgstr "Kies het overeenkomstig Bijdrage type van deze pagina (gewone donatie, campagne donatie, etc.) De types zijn aan maken en te wijzigen via de <strong>Bijdrage type</strong> optie in het CiviCRM Systeembeheerders scherm."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -7279,13 +7279,14 @@ msgid ""
 "page title. You may include HTML formatting tags. You can also include "
 "images, as long as they are already uploaded to a server - reference them "
 "using complete URLs."
-msgstr ""
+msgstr "Voer hier de tekst in voor de introtekst. Deze wordt onder de pagina titel getoond."
+"Er mogen HTML tags aan teogevoegd worden. Eveneens is het mogelijk om afbeeldingen in te voegen (mits deze op de server staan), ze moeten dan via een volledige URL link ingevoegd worden."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
-msgstr ""
+msgstr "Als de pagina actief is, is het mogelijk om met de volgende URL mensen naar deze pagina te verwijzen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7295,11 +7296,13 @@ msgid ""
 "layout of the thank-you section below. You also control whether an "
 "electronic receipt is automatically emailed to each contributor - and can "
 "add a custom message to that receipt."
-msgstr ""
+msgstr "Dit formulier kan gebruikt worden om bedank berichten en kwitantie opties in te stellen. Contributanten krijgen dan een bevestiging en bedankpagina te zien, als een bijdrage succesvol is behandeld."
+"U plaatst hier de inhoud en layout van de bedank sectie hieronder."
+"Hier kan ook worden ingesteld, of er een automatische kwitantie wordt verstuurd naar de contributant, vergezeld van een specifieke tekst."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid "Thank-you Message and Receipting"
-msgstr ""
+msgstr "Bedank bericht en Kwitanties"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
