@@ -1049,8 +1049,7 @@ function _crm_add_formatted_param(&$values, &$params) {
     if ($fields == null) {
         $fields = array();
     }
-    //print_r($values); 
-    //print_r($params);
+ 
     if (isset($values['contact_type'])) {
         /* we're an individual/household/org property */
         if (!isset($fields[$values['contact_type']])) {
@@ -1080,19 +1079,16 @@ function _crm_add_formatted_param(&$values, &$params) {
         $params['gender'] = $values['gender'];
         return true;
     }
-
+    
     if (isset($values['location_type_id'])) {
         /* find and/or initialize the correct location block in $params */
         $locBlock = null;
         if (!isset($params['location'])) {
             /* if we don't have a location field yet, make one */
             $locBlock = 1;
-            $params['location'] = array(
-                $locBlock => 
-                    array(  'name'             => $values['name'            ],
-                            'location_type_id' => $values['location_type_id'],
-                            'is_primary'       => true)
-            );
+            $params['location'][$locBlock] = array( 'location_type_id' => $values['location_type_id'],
+                                                    'is_primary'       => true) ;
+            
         } else {
             /* search through the location array for a matching loc. type */
             foreach ($params['location'] as $key => $loc) {
@@ -1103,11 +1099,14 @@ function _crm_add_formatted_param(&$values, &$params) {
             /* if no locBlock has the correct type, make a new one */
             if ($locBlock == null) {
                 $locBlock = count($params['location']) + 1;
-                $params['location'][$locBlock] = 
-                    array('location_type_id' => $values['location_type_id']);
+                $params['location'][$locBlock] = array('location_type_id' => $values['location_type_id']);
             }
         }
-        
+        //add location name
+        if (isset($values['name'])) { 
+            $params['location'][$locBlock]['name'] = $values['name'];
+        }
+
         /* if this is a phone value, find or create the correct block */
         if (isset($values['phone'])) {
             if (!isset($params['location'][$locBlock]['phone'])) {
