@@ -455,6 +455,7 @@ class CRM_Utils_Date {
                 $value = $params[$dateParam];
             }
             $year   = (int) substr($value,  6, 2);
+            $year  = ($year < 100)? "19"."$year" : $year;
             $month  = (int) substr($value,  0, 2);
             $day    = (int) substr($value,  3, 2);
             
@@ -462,7 +463,7 @@ class CRM_Utils_Date {
             $day   = ($day < 10)? "0"."$day" : $day;
             
             if ($params[$dateParam]) {
-                $params[$dateParam] = "19"."$year$month$day";
+                $params[$dateParam] = "$year$month$day";
             }
         }
         if ( $dateType == 4 ) {
@@ -506,6 +507,7 @@ class CRM_Utils_Date {
                 }
             }
             $year   =  $dateArray[2];
+            $year  = ($year < 100)? "19"."$year" : $year;
             $day    = (int) $dateArray[1];
             $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
             $day    = ($day < 10)? "0"."$day" : $day;
@@ -539,6 +541,7 @@ class CRM_Utils_Date {
                 }
             }
             $year   =  $dateArray[2];
+            $year  = ($year < 100)? "19"."$year" : $year;
             $day    = (int) $dateArray[0];
             $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
             $day    = ($day < 10)? "0"."$day" : $day;
