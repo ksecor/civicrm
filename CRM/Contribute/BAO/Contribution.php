@@ -425,12 +425,21 @@ WHERE  domain_id = $domainID AND $whereCond
     }
 
     static function deleteContribution( $id ) {
+
+        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+        $dao = & new CRM_Contribute_DAO_ContributionProduct();
+        $dao->contribution_id = $id;
+        $dao->delete();;
+
+
         $contribution =& new CRM_Contribute_DAO_Contribution( ); 
         $contribution->id = $id;
         if ( $contribution->find( true ) ) {
             self::deleteContributionSubobjects($id);
             $contribution->delete( ); 
         }
+ 
+        
         return true;
     }
 

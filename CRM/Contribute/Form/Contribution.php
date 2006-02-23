@@ -164,9 +164,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-
+        $this->assign('showOtion',false);
         // for Premium section
         if( $this->_premiumId ) {
+            $this->assign('showOtion',true);
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->id = $this->_premiumId;
@@ -382,26 +383,27 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
         
         //process premium
-        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-        $dao = & new CRM_Contribute_DAO_ContributionProduct();
-        $dao->contribution_id = $contribution->id;
-        $dao->product_id  = $formValues['product_name'][0];
-        $dao->fulfilled_date  = CRM_Utils_Date::format($formValues['fulfilled_date']);
-        $dao->product_option = $this->_options[$formValues['product_name'][0]][$formValues['product_name'][1]];
-        if ($this->_premiumId) {
-            $premoumDAO = & new CRM_Contribute_DAO_ContributionProduct();
-            $premoumDAO->id  = $this->_premiumId;
-            $premoumDAO->find(true);
-            if( $premoumDAO->product_id == $formValues['product_name'][0] ) {
-                $dao->id = $this->_premiumId;
-                $premium = $dao->save();
+        if( $formValues['product_name'][0] ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->contribution_id = $contribution->id;
+            $dao->product_id  = $formValues['product_name'][0];
+            $dao->fulfilled_date  = CRM_Utils_Date::format($formValues['fulfilled_date']);
+            $dao->product_option = $this->_options[$formValues['product_name'][0]][$formValues['product_name'][1]];
+            if ($this->_premiumId) {
+                $premoumDAO = & new CRM_Contribute_DAO_ContributionProduct();
+                $premoumDAO->id  = $this->_premiumId;
+                $premoumDAO->find(true);
+                if( $premoumDAO->product_id == $formValues['product_name'][0] ) {
+                    $dao->id = $this->_premiumId;
+                    $premium = $dao->save();
+                } else {
+                    $premoumDAO->delete();
+                    $premium = $dao->save();
+                }
             } else {
-                $premoumDAO->delete();
                 $premium = $dao->save();
             }
-            
-        } else {
-            $premium = $dao->save();
         }
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
     }

@@ -25,14 +25,16 @@
         <dt>{ts}Cancellation Reason{/ts}</dt><dd>{$cancel_reason}</dd>
 {/if}
     </dl>
+{if $premium}
 <fieldset>
-      <legend>{ts}Premiums{/ts}</legend>
+    <legend>{ts}Premiums{/ts}</legend>
     <dl>
       <dt>{ts}Premiums{/ts}</dt><dd>{$premium}&nbsp;</dd>
       <dt>{ts}Option{/ts}</dt><dd>{$option}&nbsp;</dd>
       <dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled}&nbsp;</dd>  
     </dl>
 </fieldset>    
+{/if}
 {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
     <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>

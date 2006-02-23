@@ -110,6 +110,7 @@
     showMinContrib( );
     </script>            
 {/if}
-{if $action ne 2 }
+
+{if $action ne 2 or $showOtion ne true}
 {$initHideBoxes}
 {/if}
