@@ -125,7 +125,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
         //$this->add('radio', 'image', ts('Get image from my computer'), null ,null);
-        $image['image']     = $this->createElement('radio',null, null,ts('Get image from my computer '),'image','onClick="add_upload_file_block(\'image\');');
+        $image['image']     = $this->createElement('radio',null, null,ts('Upload an image from my computer'),'image','onClick="add_upload_file_block(\'image\');');
         $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
         $image['defalut']   = $this->createElement('radio',null, null,ts('Use default image'),'defalut', 'onClick="add_upload_file_block(\'default\');');
         $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
@@ -133,12 +133,12 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
         
         $this->addGroup($image,'imageOption',ts('Image'));
-        $this->addRule( 'imageOption', ts('Please enter the value for Image'), 'required' );
+        $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );
         
-        $this->addElement( 'text', 'imageUrl',ts('Image URL'), 'size=30 maxlength=60');
-        $this->addRule('imageUrl','Please Eneter the valid Image URL','url');
-        $this->addElement( 'text', 'thumbnailUrl',ts('Thumbnail URL'), 'size=30 maxlength=60');
-        $this->addRule('thumbnailUrl','Please Eneter the valid Thumbnail URL','url');
+        $this->addElement( 'text', 'imageUrl',ts('Image URL'));
+        $this->addRule('imageUrl','Please enter the valid URL to display this image.','url');
+        $this->addElement( 'text', 'thumbnailUrl',ts('Thumbnail URL'));
+        $this->addRule('thumbnailUrl','Please enter the valid URL to display a thumbnail of this image.','url');
        
         
 
@@ -146,13 +146,13 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
                
         $this->add( 'text', 'price',ts('Market Value'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
-        $this->addRule( 'price', ts('Please enter the Market Value for this product'), 'required' );
+        $this->addRule( 'price', ts('Please enter the Market Value for this product.'), 'required' );
         
         $this->add( 'text', 'cost',ts('Actual Cost of Product'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'cost' ), true );
-        $this->addRule( 'price', ts('Please enter the Actual Cost of Product'), 'required' );
+        $this->addRule( 'price', ts('Please enter the Actual Cost of Product.'), 'required' );
 
         $this->add( 'text', 'min_contribution',ts('Minimum Contribution Amount'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'min_contribution' ), true );
-        $this->addRule( 'min_contribution', ts('Please enter the Minimum Contribution Amount'), 'required' );
+        $this->addRule( 'min_contribution', ts('Please enter a monetary value for the Minimum Contribution Amount.'), 'required' );
 
         $this->add('textarea', 'options', ts('Options'), 'rows=3, cols=60' );
 

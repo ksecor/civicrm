@@ -38,12 +38,7 @@
     </div>
     {/if}
     
-    {if $products}
-    <div class="header-dark">
-        {ts}{$premiumBlock.premiums_intro_title}{/ts}
-    </div>
-    {/if}
-    {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
+    {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="confirmContribution"}
     
     <div class="messages status">
         <p>

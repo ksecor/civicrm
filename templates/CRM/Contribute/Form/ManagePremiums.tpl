@@ -1,6 +1,6 @@
 {* this template is used for adding/editing/deleting premium  *}
+<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{elseif $action eq 1024}{ts}Preview a Premium{/ts}{else}{ts}Delete Premium Product{/ts}{/if}</legend>
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{elseif $action eq 1024}{ts}Preview{/ts}{else}{ts}Delete Premium Product {/ts}{/if}</legend>
   
    {if $action eq 8}
       <div class="messages status">
@@ -11,8 +11,8 @@
           </dd>
        </dl>
       </div>
-  {elseif $action eq 1024 }
-     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl"}
+  {elseif $action eq 1024}
+     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="previewPremium"}
   {else}  
       <dl>
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
@@ -70,16 +70,15 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Number of units for delivery frequency of subscription, service, membership (e.g. every 3 Months).{/ts}</dt>
 
 	</div>
-      </dl> 
+    </dl> 
  {/if}
-    <dl>   
-      <dt></dt><dd>{$form.buttons.html}</dd>
-    </dl>
+</div>
 </fieldset>
+<div id="crm-submit-buttons">
+    {$form.buttons.html}
 </div>
 
 {if $action eq 1 or $action eq 2 }		 
-
 {literal}
 <script type="text/javascript">
 hide('time-delimited');
@@ -104,4 +103,4 @@ function add_upload_file_block(parms) {
 
 </script>
 {/literal}
- {/if}
+{/if}

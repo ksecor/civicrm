@@ -44,6 +44,8 @@
     </div>
     {/if}
 
+    {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="thankContribution"}
+
     <div id="thankyou_footer">
         <p>
         {$thankyou_footer}

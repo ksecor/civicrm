@@ -139,7 +139,7 @@ div.spacer {
   text-align: left;
 } 
 
-#crm-container table.form-layout, #crm-container table.control-panel {
+#crm-container table.form-layout, #crm-container table.control-panel, #crm-container table.no-border {
   margin: 0em;
   /* width: auto; */
   width: 98%;	
