@@ -215,7 +215,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
-                          $includeContactIds = false, $strict = false, $mode = 3 ) {
+                          $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
@@ -238,11 +238,9 @@ class CRM_Contact_BAO_Query {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
 
-            if ( $this->_mode & self::MODE_CONTRIBUTE ) {
-                require_once 'CRM/Contribute/BAO/Contribution.php';
-                $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
-                $this->_fields = array_merge( $this->_fields, $fields );
-            }
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+            $this->_fields = array_merge( $this->_fields, $fields );
         }
 
         // basically do all the work once, and then reuse it

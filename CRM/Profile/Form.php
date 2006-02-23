@@ -515,8 +515,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
                         }
                         $data['location'][$loc]['phone'][$loc]['phone'] = $value;
-                        /*} else if ($keyValue[0] == 'email') {
-                        $data['location'][$loc]['email'][$loc]['email'] = $value;*/
+                    } else if ($keyValue[0] == 'email') {
+                        $data['location'][$loc]['email'][$loc]['email'] = $value;
                     } elseif ($keyValue[0] == 'im') {
                         $data['location'][$loc]['im'][$loc]['name'] = $value;
                     } else {

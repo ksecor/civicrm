@@ -448,7 +448,7 @@ function civicrm_validate_data($edit, &$user, $title) {
 
     $register = ( arg(1) == 'register' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
+	$errors = Crm_Core_BAO_UFGroup::isValid( $userID, $title, $register );
     if ( is_array( $errors ) ) {
         if ( $register ) {
             foreach ( $errors as $name => $error ) {

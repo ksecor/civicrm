@@ -1202,10 +1202,10 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @access public
      */
     function &importableFields( $contactType = 'Individual', $status = false, $showAll = false ) {
-        // the line below is commented coz,
-        // if the importableFields are once set then they do not
-        // allow to set with different contactTypes
-
+        if ( empty( $contactType ) ) {
+            $contactType = 'All';
+        }
+        
         if ( ! self::$_importableFields || ! CRM_Utils_Array::value( $contactType, self::$_importableFields ) ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -1441,6 +1441,9 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @access public
      */
     function &exportableFields( $contactType = 'Individual', $status = null ) {
+        if ( empty( $contactType ) ) {
+            $contactType = 'All';
+        }
         
         if ( ! self::$_exportableFields || ! CRM_Utils_Array::value( $contactType, self::$_exportableFields ) ) {
             if ( ! self::$_exportableFields ) {
