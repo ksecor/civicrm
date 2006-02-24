@@ -70,7 +70,7 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
         
         if ( $dao->find(true) ) {
             // get the display name and email for the contact
-            list($toContactName, $toContactEmail, $doNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($cid);
+            list($toContactName, $toContactEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($cid);
             
             if ( ! trim($toContactName) ) {
                 $toContactName = $toContactEmail;
@@ -83,7 +83,7 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page {
             $this->assign('toName', $toContactName);
             
             // get the display name and email for the contact
-            list($fromContactName, $fromContactEmail, $doNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($dao->contact_id);
+            list($fromContactName, $fromContactEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($dao->contact_id);
             
             if ( ! trim($fromContactEmail) ) {
                 CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));

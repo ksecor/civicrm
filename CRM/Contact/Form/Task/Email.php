@@ -119,7 +119,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $validMails = array();
             $suppressedEmails = 0;
             foreach ( $this->_contactIds as $contactId ) {
-                list($toDisplayName, $toEmail, $doNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+                list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
 
                 if ( ! trim( $toDisplayName ) ) {
                     $toDisplayName = $toEmail;
@@ -163,7 +163,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromEmail, $doNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+        list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         
         if ( ! $fromEmail ) {
             CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
@@ -242,7 +242,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $status[] = ts('Email sent to contact(s): %1', array(1 => $sent));
         }
         if ( $notSent ) {
-            $status[] = ts('Email not sent to contact(s) (No Email address on file): %1', array(1 => $notSent));
+            $status[] = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL): %1', array(1 => $notSent));
         }
         CRM_Core_Session::setStatus( $status );
         
