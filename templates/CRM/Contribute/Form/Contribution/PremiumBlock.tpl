@@ -36,7 +36,7 @@
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
-                {if ($premiumBlock.premiums_display_min_contribution or $preview)  AND $row.min_contribution GT 0 }
+                {if ( ($premiumBlock.premiums_display_min_contribution AND $context EQ "makeContribution") OR $preview EQ 1) AND $row.min_contribution GT 0 }
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
                 {/if}
             </td>

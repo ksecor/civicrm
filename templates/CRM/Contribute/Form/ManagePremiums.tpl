@@ -42,7 +42,7 @@
     <tr id="thumbnailURL"{if $action eq 2}class="show-row" {else} class="hide-row" {/if}>
         <td class="label">{$form.thumbnailUrl.label}</td><td>{$form.thumbnailUrl.html|crmReplace:class:huge}</td>
     </tr>
-	<tr><td colspan="2">{$form.imageOption.defalut.html}</td></tr>
+	<tr><td colspan="2">{$form.imageOption.default_image.html}</td></tr>
 	<tr><td colspan="2">{$form.imageOption.noImage.html}</td></tr>
 	</table>
     </fieldset>
