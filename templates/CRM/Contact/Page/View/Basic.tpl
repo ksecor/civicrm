@@ -94,6 +94,9 @@
     {foreach from=$privacy item=privacy_val key=privacy_label}
       {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
     {/foreach}
+    {if $is_opt_out}
+      {ts}DO NOT SEND BULK EMAIL{/ts}
+    {/if}
     </span>
   </div>
   <div class="col2">
