@@ -1076,17 +1076,22 @@ class CRM_Contact_BAO_Query {
         if ( ! CRM_Utils_Array::value( 'contact_type', $this->_params ) ) {
             return;
         }
-
+        
         $clause = array( );
         if ( is_array( $this->_params['contact_type'] ) ) {
             foreach ( $this->_params['contact_type'] as $k => $v) { 
-                $clause[] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                if ($k) { //fix for CRM-771
+                    $clause[] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                }
             }
         } else {
             $clause[] = "'" . CRM_Utils_Type::escape( $this->_params['contact_type'], 'String' ) . "'";
         }
-        $this->_where[] = 'civicrm_contact.contact_type IN (' . implode( ',', $clause ) . ')';
-        $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
+        
+        if ( !empty($clause) ) { //fix for CRM-771
+            $this->_where[] = 'civicrm_contact.contact_type IN (' . implode( ',', $clause ) . ')';
+            $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
+        }
     }
 
     /**
