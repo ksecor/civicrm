@@ -227,7 +227,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->_params['contributionForm_id']              = $this->_values['id'];
 
         require_once 'CRM/Contribute/Payment.php';
-        /* $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+        $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
 
         if ( $this->_contributeMode == 'express' ) {
             $result =& $payment->doExpressCheckout( $this->_params );
@@ -256,7 +256,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $receiptDate = null;
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now;
-        }*/
+        }
         
         if ( $this->_action != 1024 ) { // no db transactions during preview
             CRM_Core_DAO::transaction( 'BEGIN' );
@@ -381,7 +381,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
                             'currency'          => $this->_params['currencyID'],
                             'payment_processor' => $config->paymentProcessor,
-                            //'trxn_id'           => $result['trxn_id'],
+                            'trxn_id'           => $result['trxn_id'],
                             );
             
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
@@ -419,7 +419,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_values['receipt_from_email'] = $config->paymentResponseEmail;
                         
             require_once 'CRM/Utils/Mail.php';
-            /*CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
+            CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
                                   $displayName,
                                   $email,
                                   $subject,
@@ -427,7 +427,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                   $this->_values['cc_receipt'],
                                   $this->_values['bcc_receipt']
                                   );
-            */
+            
         }
     }
 }
