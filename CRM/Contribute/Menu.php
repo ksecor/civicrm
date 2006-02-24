@@ -66,6 +66,19 @@ class CRM_Contribute_Menu {
                              ),
                       
                        array(
+                             'path'    => 'civicrm/admin/contribute/managePremiums',
+                             'title'   => ts('Manage Premiums'),
+                             'qs'     => 'reset=1',
+                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
+                             CRM_Utils_System::checkPermission( 'access CiviContribute' ),
+                             'type'    => CRM_Utils_Menu::CALLBACK,
+                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
+                             'adminGroup' => 'CiviContribute',
+                             'icon'    => 'admin/Premiums.png',
+                             'weight'  => 365
+                             ),
+                       
+                       array(
                              'path'    => 'civicrm/admin/contribute/contributionType',
                              'title'   => ts('Contribution Types'),
                              'qs'     => 'reset=1',
@@ -101,18 +114,6 @@ class CRM_Contribute_Menu {
                              'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/accepted_creditcards.png',
-                             'weight'  => 395
-                             ),
-                        array(
-                             'path'    => 'civicrm/admin/contribute/managePremiums',
-                             'title'   => ts('Manage Premiums'),
-                             'qs'     => 'reset=1',
-                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                             CRM_Utils_System::checkPermission( 'access CiviContribute' ),
-                             'type'    => CRM_Utils_Menu::CALLBACK,
-                             'crmType' => CRM_Utils_Menu::LOCAL_TASK,
-                             'adminGroup' => 'CiviContribute',
-                             'icon'    => 'admin/Premiums.png',
                              'weight'  => 395
                              ),
 

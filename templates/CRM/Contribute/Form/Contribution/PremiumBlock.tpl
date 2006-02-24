@@ -21,6 +21,9 @@
             {/if}
         </div>
     {/if}
+    {if $preview}
+        {assign var="showSelectOptions" value="1"}
+    {/if}
     {strip}
         <table id="premiums-listings" class="no-border">
         {foreach from=$products item=row}
@@ -29,15 +32,11 @@
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            {if $row.thumbnail }
-            <td><a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" ></a></td>
-            {else}
-            <td></td>
-            {/if}
+            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" alt="{$row.name}" border="0"></a>{else}&nbsp;{/if}</td>    	
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
-                {if $premiumBlock.premiums_display_min_contribution or $preview}
+                {if ($premiumBlock.premiums_display_min_contribution or $preview)  AND $row.min_contribution GT 0 }
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
                 {/if}
             </td>

@@ -73,6 +73,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $defaults ['imageUrl']     = $tempDefaults['image'];
                 $defaults ['thumbnailUrl'] = $tempDefaults['thumbnail'];
                 $defaults ['imageOption' ] = 'thumbnail'; 
+                // assign thumbnailUrl to template so we can display current image in update mode
+                $this->assign( 'thumbnailUrl', $defaults['thumbnailUrl'] );
             } else {
                 $defaults ['imageOption' ] = 'noImage';
             }
@@ -81,6 +83,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $this->assign('imageURL',$tempDefaults['image']);
             }
         }
+        
         return $defaults;
     }
 
@@ -129,14 +132,14 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
         //$this->add('radio', 'image', ts('Get image from my computer'), null ,null);
-        $image['image']     = $this->createElement('radio',null, null,ts('Upload an image from my computer'),'image','onClick="add_upload_file_block(\'image\');');
-        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
+        $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onClick="add_upload_file_block(\'image\');');
+        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
         $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onClick="add_upload_file_block(\'default\');');
         $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
 
         //$image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
         
-        $this->addGroup($image,'imageOption',ts('Image'));
+        $this->addGroup($image,'imageOption',ts('Premium Image'));
         $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );
         
         $this->addElement( 'text', 'imageUrl',ts('Image URL'));
@@ -150,28 +153,28 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
                
         $this->add( 'text', 'price',ts('Market Value'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'price' ), true );
-        $this->addRule( 'price', ts('Please enter the Market Value for this product.'), 'required' );
+        $this->addRule( 'price', ts('Please enter the Market Value for this product.'), 'money' );
         
-        $this->add( 'text', 'cost',ts('Actual Cost of Product'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'cost' ), true );
-        $this->addRule( 'price', ts('Please enter the Actual Cost of Product.'), 'required' );
+        $this->add( 'text', 'cost',ts('Actual Cost of Product'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'cost' ) );
+        $this->addRule( 'price', ts('Please enter the Actual Cost of Product.'), 'money' );
 
         $this->add( 'text', 'min_contribution',ts('Minimum Contribution Amount'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'min_contribution' ), true );
-        $this->addRule( 'min_contribution', ts('Please enter a monetary value for the Minimum Contribution Amount.'), 'required' );
+        $this->addRule( 'min_contribution', ts('Please enter a monetary value for the Minimum Contribution Amount.'), 'money' );
 
         $this->add('textarea', 'options', ts('Options'), 'rows=3, cols=60' );
 
-        $this->add('select', 'period_type', ts('Period Type'),array(''=>'--Select--','rolling'=> 'Rolling','fixed'=>'Fixed'));
+        $this->add('select', 'period_type', ts('Period Type'),array(''=>'-select-','rolling'=> 'Rolling','fixed'=>'Fixed'));
                
         $this->add('text', 'fixed_period_start_day', ts('Fixed Period Start Day'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'fixed_period_start_day' ));    
 
         
-        $this->add('Select', 'duration_unit', ts('Duration Unit'),array(''=>'--Select--','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
+        $this->add('Select', 'duration_unit', ts('Duration Unit'),array(''=>'-select period-','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
     
-        $this->add('text', 'duration_interval', ts('Duration Interval'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'duration_interval' ));
+        $this->add('text', 'duration_interval', ts('Duration'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'duration_interval' ));
         
-        $this->add('Select', 'frequency_unit', ts('Frequency Unit'),array(''=>'--Select--','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
+        $this->add('Select', 'frequency_unit', ts('Frequency Unit'),array(''=>'-select period-','day'=> 'Day','week'=>'Week','month'=>'Month','year'=>'Year'));    
 
-        $this->add('text', 'frequency_interval', ts('Frequency Interval'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'frequency_interval' ));
+        $this->add('text', 'frequency_interval', ts('Frequency'),CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'frequency_interval' ));
        
     
         $this->add('checkbox', 'is_active', ts('Enabled?'));

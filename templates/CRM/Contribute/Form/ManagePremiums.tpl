@@ -14,67 +14,77 @@
   {elseif $action eq 1024}
      {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="previewPremium"}
   {else}  
-      <dl>
+    <dl>
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-    	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+	<dt>&nbsp;</dt><dd class="description">{ts}Name of the product as it will be displayed to contributors.{/ts}</dt>
+    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Optional product sku or code.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Optional product SKU or code. If used, this value will be included in contributor receipts.{/ts}</dt>
 	
     <dt>{$form.imageOption.label}</dt>
-    {if $action eq 2}
-     <dd><a href="javascript:popUp('{$imageURL}')"><img src="{$thumbURL}" ></a></dd>
-     <dt></dt><dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
-    {else}
-    <dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
-    {/if}
-	<dt></dt><dd>{$form.imageOption.thumbnail.html}</dd>
-	
-	<dt id="imageURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
-	<dd id="imageURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.imageUrl.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.imageUrl.html|crmReplace:class:large}</dd>
-	
-        <dt id="thumbnailURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
-	<dd id="thumbnailURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.thumbnailUrl.label}&nbsp;&nbsp;{$form.thumbnailUrl.html|crmReplace:class:large}</dd>
-	
-	<dt></dt><dd>{$form.imageOption.default_image.html}</dd>
-	<dt></dt><dd>{$form.imageOption.noImage.html}</dd>
+    <dd>
+    <fieldset>
+    <div class="description">
+        {ts}<p>A thumbnail picture of this premium will be displayed on the contribution page if you provide one. When a contributor clicks on the thumbnail,
+        a full-size image is displayed in a pop-up window. Images must be in GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 pixels wide x 500 pixels high.
+        Thumbnails should be approximately 100 x 100 pixels.</p>
+        <p>You can upload an image from your computer OR enter a URL for an image already on the web. If you chose to upload an image file, a 'thumbnail' version will be
+        automatically created for you. If you don't have an image available at this time, you may also choose to display a "No Image Available" icon - by selecting the "default image".</p>{/ts}
+    </div>
+
+    <table class="form-layout-compressed">
+    {if $thumbnailUrl}<tr class="odd-row"><td class="describe-image" colspan="2"><strong>Current Image Thumbnail</strong><br /><img src="{$thumbnailUrl}"</td></tr>{/if}
+    <tr><td>{$form.imageOption.image.html}</td><td>{$form.uploadFile.html}</td></tr>
+	<tr><td colspan="2">{$form.imageOption.thumbnail.html}</td></tr>
+    <tr id="imageURL"{if $action eq 2}class="show-row" {else} class="hide-row" {/if}>
+        <td class="label">{$form.imageUrl.label}</td><td>{$form.imageUrl.html|crmReplace:class:huge}</td>
+    </tr>
+    <tr id="thumbnailURL"{if $action eq 2}class="show-row" {else} class="hide-row" {/if}>
+        <td class="label">{$form.thumbnailUrl.label}</td><td>{$form.thumbnailUrl.html|crmReplace:class:huge}</td>
+    </tr>
+	<tr><td colspan="2">{$form.imageOption.defalut.html}</td></tr>
+	<tr><td colspan="2">{$form.imageOption.noImage.html}</td></tr>
+	</table>
+    </fieldset>
+    </dd>
+
+	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html}</dd>
+	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium.
+        If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled
+        then this text is displayed: <em>(Contribute at least $NNN.NN to be eligible for this gift.)</em>{/ts}</dt>
 
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Sell price / market value for premiums. For tax-deductible contributions, this will be stored as non_deductible_amount in the contribution record.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dt>
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Actual cost of this product. Useful to determine net return from sale or using this as an incentive.{/ts}</dt>
-	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Minimum contribution required to be eligible to select this premium.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this product to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dt>
 	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Comma-delimited list of color, size, etc. options for the product.{/ts}</dt>
-        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented
+        a drop-down menu of these options when they select this product.{/ts}</dt>
+    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+    </dl>
 
-	<div id="time-delimited[show]" class="data-group">
-		    <a href="#" onclick="hide('time-delimited[show]'); show('time-delimited'); return false;">&raquo; {ts}For Subscriptions, Memberships, Services{/ts}</a>
+	<div id="time-delimited[show]" class="data-group-first">
+        <a href="#" onclick="hide('time-delimited[show]'); show('time-delimited'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Subscription, Membership or Service Settings{/ts}</label><br />
 	</div>	
 
-	<div id="time-delimited" class="data-group">
-
-	 <a href="#" onclick="hide('time-delimited'); show('time-delimited[show]'); return false;">&raquo; {ts}For Subscriptions, Memberships, Services{/ts}</a>
-	
+	<div id="time-delimited">
+    <fieldset><legend><a href="#" onclick="hide('time-delimited'); show('time-delimited[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Subscription, Membership or Service Settings{/ts}</legend>
+    <dl>
 	<dt>{$form.period_type.label}</dt><dd>{$form.period_type.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Rolling means we set start/end based on current day, Fixed means we set start/end for current year or month(e.g. 1 year + fixed -> we would set start/end for 1/1/06 thru 12/31/06 for any premium chosen in 2006) {/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Select "Rolling" if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dt>
  
 	<dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
-        <dt>&nbsp;</dt><dd class="descriptimageion">{ts}Month and day (MMDD) that fixed period type subscription or membership starts.{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start.
+        EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dt>
 
-	<dt>{$form.duration_unit.label}</dt><dd>{$form.duration_unit.html}</dd>
-	
-	<dt>{$form.duration_interval.label}</dt><dd>{$form.duration_interval.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Number of units for total duration of subscription, service, membership (e.g. 12 Months).{/ts}</dt>
+	<dt>{$form.duration_interval.label}</dt><dd>{$form.duration_interval.html} &nbsp; {$form.duration_unit.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Duration of subscription, membership or service (e.g. 12 Month subscription).{/ts}</dt>
 
-	<dt>{$form.frequency_unit.label}</dt><dd>{$form.frequency_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Frequency unit and interval allow option to store actual delivery frequency for a subscription or service.{/ts}</dt>
-
-	<dt>{$form.frequency_interval.label}</dt><dd>{$form.frequency_interval.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Number of units for delivery frequency of subscription, service, membership (e.g. every 3 Months).{/ts}</dt>
-
+	<dt>{$form.frequency_interval.label}</dt><dd>{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Frequency of subscription, membership, or service (e.g. journal delivered every 2 Months).{/ts}</dt>
+    </dl>
+    </fieldset>
 	</div>
-    </dl> 
  {/if}
 </div>
 </fieldset>
@@ -89,18 +99,13 @@ hide('time-delimited');
 function add_upload_file_block(parms) {
 	if (parms =='thumbnail') {
 	      
-          document.getElementById("imageURL").style.display="block";
-	      document.getElementById("imageURLDef").style.display="block";
-	                    
-	      document.getElementById("thumbnailURL").style.display="block";
-	      document.getElementById("thumbnailURLDef").style.display="block";
+          document.getElementById("imageURL").style.display="table-row";                    
+	      document.getElementById("thumbnailURL").style.display="table-row";
 	   
 	} else {
-	      document.getElementById("imageURL").style.display="none";
-	      document.getElementById("imageURLDef").style.display="none";
-	    
+
+	      document.getElementById("imageURL").style.display="none";    
 	      document.getElementById("thumbnailURL").style.display="none";
-	      document.getElementById("thumbnailURLDef").style.display="none";
 	   	
 	}	
 }
