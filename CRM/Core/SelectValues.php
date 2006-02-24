@@ -112,6 +112,23 @@ class CRM_Core_SelectValues {
     }
     
     /**
+     * preferred mail format
+     * @static
+     */
+    static function &pmf()
+    {
+        static $pmf = null;
+        if (!$pmf) {
+            $pmf = array(
+                'Text' => ts('Text'),
+                'HTML' => ts('HTML'), 
+                'Both' => ts('Both')
+            );
+        }
+        return $pmf;
+    }
+    
+    /**
      * privacy options
      * @static
      */

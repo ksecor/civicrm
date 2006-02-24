@@ -347,7 +347,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ($field['name'] === 'preferred_communication_method') {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
-            } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  
+            } else if ($field['name'] === 'preferred_mail_format') {
+                $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
+            } else if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {  
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';

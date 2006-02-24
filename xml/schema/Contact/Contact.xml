@@ -130,6 +130,7 @@
        <type>enum</type>
        <values>Text, HTML, Both</values>
        <default>"Text"</default>
+       <import>true</import>
        <comment>What is the preferred mode of sending an email.</comment>
        <add>1.1</add>
   </field>
@@ -179,7 +180,9 @@
   <field>
     <name>is_opt_out</name>
     <type>boolean</type>
+    <title>Is Opt-out?</title>
     <default>0</default>
+    <import>true</import>
     <required>true</required>
     <comment>Has the contact opted out from the org?</comment>
     <add>1.1</add>
