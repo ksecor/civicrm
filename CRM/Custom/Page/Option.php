@@ -87,7 +87,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Option'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'qs'    => 'reset=1&action=update&id=%%id%%&fid=%%fid%%&gid=%%gid%%',
                                                                           'title' => ts('Edit Multiple Choice Option') 
                                                                           ),
                                         CRM_Core_Action::VIEW    => array(
@@ -178,7 +178,9 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             }
             
             $customOption[$customOptionBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id' => $customOptionBAO->id));
+                                                                                    array('id'  => $customOptionBAO->id,
+                                                                                          'fid' => $this->_fid,
+                                                                                          'gid' => $this->_gid));
         }
         $this->assign('customOption', $customOption);
     }
@@ -226,11 +228,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     {
         require_once 'CRM/Core/BAO/CustomField.php';
         // get the field id
-        $this->_fid = CRM_Utils_Request::retrieve('fid', $this);
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        
+        $this->_fid = CRM_Utils_Request::retrieve('fid', $this, false, 0);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+
         if ($this->_fid) {
-	    $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
+            $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
             $this->assign('fieldTitle', $fieldTitle);
             CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));

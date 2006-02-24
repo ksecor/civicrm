@@ -607,6 +607,100 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return $default;
     }
 
+
+    /**
+     * Function to set default values for custom data used in profile
+     *
+     * @params int $customFieldId custom field id
+     * 
+     * @static
+     * @access public
+     */
+    static function setProfileDefaults( $customFieldId, $elementName, &$defaults, $contactId = null ) 
+    {
+        //get the type of custom field
+        $customField =& new CRM_Core_BAO_CustomField();
+        
+        $customField->id = $customFieldId;
+        
+        $customField->find(true);
+        
+        if (!$contactId) {
+            $value = $customField->default_value;
+        } else {
+            // make sure the custom value exists
+            $cv =& new CRM_Core_BAO_CustomValue();
+            $cv->custom_field_id = $customFieldId;
+            $cv->entity_table    = 'civicrm_contact';
+            $cv->entity_id       = $contactId;
+            if ( $cv->find( true ) ) {
+                switch ($customField->data_type) {
+                case 'String':
+                    $value = $cv->char_data;
+                    break;
+                case 'Int':
+                case 'Boolean':
+                case 'StateProvince':
+                case 'Country':
+                    $value = $cv->int_data;
+                    break;
+                case 'Float':
+                    $value = $cv->int_float;
+                    break;
+                case 'Money':
+                    $value = $cv->decimal_data;
+                    break;
+                case 'Memo':
+                    $value = $cv->memo_data;
+                    break;
+                case 'Date':
+                    $value = $cv->date_data;
+                    break;
+                }
+            }
+        }
+
+        if (!trim($value)) {
+            $value = $customField->default_value;
+        }
+
+        switch ($customField->html_type) {
+            
+        case 'CheckBox':
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, $inactiveNeeded);
+            $defaults[$elementName] = array();
+
+            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            foreach($customOption as $val) {
+                if ( in_array($val['value'], $checkedValue) ) {
+                    $defaults[$elementName][$val['value']] = 1;
+                } else {
+                    $defaults[$elementName][$val['value']] = 0;
+                }
+            }                            
+            break;
+            
+            //added a case for Multi-Select option                    
+        case 'Multi-Select':
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+            $defaults[$elementName] = array();
+            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            foreach($customOption as $val) {
+                if ( in_array($val['value'], $checkedValue) ) {
+                    $defaults[$elementName][$val['value']] = $val['value'];
+                }
+            }                            
+        
+            break;
+            
+        default:
+            $defaults[$elementName] = $value;
+        } 
+        
+    }
+    
+
+
 }
 
 ?>

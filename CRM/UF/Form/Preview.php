@@ -129,6 +129,11 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     {
         $defaults = array();
 
+        foreach ($this->_fields as $name => $field ) {
+            if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
+                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults );
+            }
+        }
         return $defaults;
     }
 
