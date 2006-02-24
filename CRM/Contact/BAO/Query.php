@@ -237,10 +237,12 @@ class CRM_Contact_BAO_Query {
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
-
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
-            $this->_fields = array_merge( $this->_fields, $fields );
+            
+            if ($mode != 1) { //this mode is for exporting contribution
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+                $this->_fields = array_merge( $this->_fields, $fields );
+            }
         }
 
         // basically do all the work once, and then reuse it
