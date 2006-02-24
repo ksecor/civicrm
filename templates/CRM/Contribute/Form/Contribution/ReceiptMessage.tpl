@@ -37,13 +37,14 @@
 ===========================================================
 
 Name          : {$product_name}
-Price         : {$price}
+SKU           : {$sku}   
+Price         : {$price|crmMoney}
 Option        : {$option}
 {if $start_date}
-Start Date    : {$start_date}
+Start Date    : {$start_date|crmDate}
 {/if}
 {if $end_date  }
-End Date      : {$end_date}    
+End Date      : {$end_date|crmDate}    
 {/if}
 {if $contact_email}
 Contact Email : {$contact_email}

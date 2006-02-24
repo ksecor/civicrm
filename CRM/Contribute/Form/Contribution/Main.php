@@ -109,7 +109,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->buildAmount( );
         require_once 'CRM/Contribute/BAO/Premium.php';
-        CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id );
+        CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
@@ -236,7 +236,26 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @static 
      */ 
     static function formRule( &$fields, &$files, &$self ) { 
+       
         $errors = array( ); 
+
+        if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' ) {
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO =& new CRM_Contribute_DAO_Product();
+            $productDAO->id = $fields['selectProduct'];
+            $productDAO->find(true);
+            $min_amount = $productDAO->min_contribution;
+            if ($fields['amount'] == 'amount_other_radio') {
+                if ( $fields['amount_other'] < $min_amount ) {
+                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of $ %1',array ( 1 =>$min_amount));
+                }
+            } else {
+                if($fields['amount'] < $min_amount) {
+                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of $ %1',array ( 1 =>$min_amount   ));
+                }
+            }
+        }
+
 
         $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
         $error   =  $payment->checkConfig( $self->_mode );

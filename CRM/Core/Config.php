@@ -119,7 +119,12 @@ class CRM_Core_Config {
      * The directory to store uploaded files
      */
     public $uploadDir         = './upload/';
-
+    
+    /**
+     * The directory to store uploaded image files
+     */
+    public $imageUploadDir   ='./persist/contribute/';
+    
     /**
      * Are we generating clean url's and using mod_rewrite
      * @var string
@@ -462,6 +467,15 @@ class CRM_Core_Config {
             }
 
             CRM_Utils_File::createDir( $this->uploadDir );
+        }
+
+        if ( defined( 'CIVICRM_IMAGE_UPLOADDIR' ) ) {
+            $this->imageUploadDir = CIVICRM_IMAGE_UPLOADDIR;
+            if ( substr( $this->imageUploadDir, -1, 1 ) != DIRECTORY_SEPARATOR ) { 
+                $this->imageUploadDir .= DIRECTORY_SEPARATOR;
+            }
+
+            CRM_Utils_File::createDir( $this->imageUploadDir );
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {

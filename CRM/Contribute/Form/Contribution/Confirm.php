@@ -127,7 +127,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
-        CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id , true ,$amount );
+        $params = $this->_params;
+        if ( $params['selectProduct'] && $params['selectProduct'] != 'no_thanks') {
+            $option    = $params[$params['selectProduct']];
+            $productID = $params['selectProduct']; 
+            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
+            $this->set('productID',$productID);
+            $this->set('option',$option);
+        }
+        
         
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -167,9 +175,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
-            $params = $this->_params;
-            $premiumParams = $this->exportValues();
-                      
+            $premiumParams = $params = $this->_params;
+         
             // so now we have a confirmed financial transaction
             // lets create or update a contact first
             require_once 'api/crm.php';
@@ -220,7 +227,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->_params['contributionForm_id']              = $this->_values['id'];
 
         require_once 'CRM/Contribute/Payment.php';
-        $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+        /* $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
 
         if ( $this->_contributeMode == 'express' ) {
             $result =& $payment->doExpressCheckout( $this->_params );
@@ -249,7 +256,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $receiptDate = null;
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now;
-        }
+        }*/
         
         if ( $this->_action != 1024 ) { // no db transactions during preview
             CRM_Core_DAO::transaction( 'BEGIN' );
@@ -289,7 +296,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
 
             //create Premium record
-            if ($premiumParams['selectProduct'] != 'no_thanks') {
+            if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
                 $this->assign('selectPremium' , true );
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
@@ -298,6 +305,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 $this->assign('product_name' , $productDAO->name );
                 $this->assign('price', $productDAO->price);
+                $this->assign('sku', $productDAO->sku);
                 $this->assign('option',$premiumParams[$premiumParams['selectProduct']]);
                
                 $periodType = $productDAO->period_type;
@@ -373,7 +381,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
                             'currency'          => $this->_params['currencyID'],
                             'payment_processor' => $config->paymentProcessor,
-                            'trxn_id'           => $result['trxn_id'],
+                            //'trxn_id'           => $result['trxn_id'],
                             );
             
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
@@ -409,9 +417,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             
             $this->_values['receipt_from_email'] = $config->paymentResponseEmail;
-
+                        
             require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
+            /*CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
                                   $displayName,
                                   $email,
                                   $subject,
@@ -419,6 +427,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                   $this->_values['cc_receipt'],
                                   $this->_values['bcc_receipt']
                                   );
+            */
         }
     }
 }

@@ -59,9 +59,7 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
             $dao->entity_id = $this->_id; 
             $dao->find(true);
             CRM_Core_DAO::storeValues( $dao,$defaults );
-        }
-        
-
+        } 
         return $defaults;
     }
     
@@ -74,6 +72,8 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
      */
     public function buildQuickForm()
     {
+        $this->assign('showForm',false);
+        
         $this->addElement('checkbox', 'premiums_active', ts('Premiums Section Enabled?') );
         
         $this->addElement('text', 'premiums_intro_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_intro_title'));
@@ -105,6 +105,7 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
                                     )
                               );
         } else {
+            $this->assign('showForm',true);
             parent::buildQuickForm( );
         }
         //$session->set('single', false );

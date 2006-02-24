@@ -29,17 +29,23 @@
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            <td><a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" ></a></td>    	
+            {if $row.thumbnail }
+            <td><a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" ></a></td>
+            {else}
+            <td></td>
+            {/if}
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
-                {if $premiumBlock.premiums_display_min_contribution}
+                {if $premiumBlock.premiums_display_min_contribution or $preview}
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
                 {/if}
             </td>
             {if $showSelectOptions }
                 {assign var="pid" value=$row.id}
-                <td>{$form.$pid.html}
+                {if $pid}    
+                <td>{$form.$pid.html}   
+                {/if}
             {else}
                 <td>{$row.options}</td>
             {/if}

@@ -278,9 +278,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @param int $id - id of the entity (for update, view operations)
      * @return void
      */
-    function edit( $mode, $id = null ) 
+    function edit( $mode, $id = null , $imageUpload = false ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
+        $controller =& new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode , $imageUpload );
 
        // set the userContext stack
         $session =& CRM_Core_Session::singleton();

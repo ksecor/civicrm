@@ -20,7 +20,13 @@
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Optional product sku or code.{/ts}</dt>
 	
-    	<dt>{$form.imageOption.label}</dt><dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
+    <dt>{$form.imageOption.label}</dt>
+    {if $action eq 2}
+     <dd><a href="javascript:popUp('{$imageURL}')"><img src="{$thumbURL}" ></a></dd>
+     <dt></dt><dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
+    {else}
+    <dd>{$form.imageOption.image.html}&nbsp;&nbsp;{$form.uploadFile.html}</dd>
+    {/if}
 	<dt></dt><dd>{$form.imageOption.thumbnail.html}</dd>
 	
 	<dt id="imageURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
@@ -29,11 +35,9 @@
         <dt id="thumbnailURL"{if $action eq 2}class="show-block" {else} class="hide-block" {/if}></dt>
 	<dd id="thumbnailURLDef" {if $action eq 2}class="show-block" {else} class="hide-block" {/if}>{$form.thumbnailUrl.label}&nbsp;&nbsp;{$form.thumbnailUrl.html|crmReplace:class:large}</dd>
 	
-	<dt></dt><dd>{$form.imageOption.defalut.html}</dd>
+	<dt></dt><dd>{$form.imageOption.default_image.html}</dd>
 	<dt></dt><dd>{$form.imageOption.noImage.html}</dd>
-	{if $action eq 2}
-	<dt></dt><dd>{$form.imageOption.current.html}</dd>
-	{/if}
+
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Sell price / market value for premiums. For tax-deductible contributions, this will be stored as non_deductible_amount in the contribution record.{/ts}</dt>
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html}</dd>
@@ -102,9 +106,13 @@ function add_upload_file_block(parms) {
 }
 
 function select_option() {
-    //   need  to add code 
-    //   alert('anil');
-    //   document.ManagePremiums.imageOption["image"].checked = true;
+    
+}
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
 }
 
 </script>

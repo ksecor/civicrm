@@ -68,6 +68,9 @@ define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
  * and the CIVICRM_UPLOADDIR would be:
  *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
  *
+ * the CIVICRM_IMAGE_UPLOADDIR would be:
+ *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/' );
+ *
  * EXAMPLE - Mambo:
  * If the path to the Mambo home directory is /var/www/htdocs/mambo
  * the $civicrm_root setting would be:
@@ -87,7 +90,7 @@ global $civicrm_root;
 $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
 define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
-
+define( 'CIVICRM_IMAGE_UPLOADDIR'    , '/var/www/htdocs/civicspace/files/civicrm/persist/contribute');
 /**
  * Site URLs:
  *

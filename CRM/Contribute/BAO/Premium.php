@@ -112,7 +112,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
      * @static
      */
 
-    function buildPremiumBlock( $form , $pageID ,$formItems = false ,$contributedAmount = null) {
+    function buildPremiumBlock( $form , $pageID , $formItems = false ,$selctedProductID = null ,$selecteOption = null ) {
         
         require_once 'CRM/Contribute/DAO/Premium.php';
         $dao =& new CRM_Contribute_DAO_Premium();
@@ -139,24 +139,15 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                 $productDAO->id = $dao->product_id;
                 $productDAO->is_active = 1;
                 if ($productDAO->find(true) ) {
-                    $thumbURL = $productDAO->thumbnail;
-                    if( ! CRM_Utils_Rule::url( $thumbURL )) {
-                        require_once 'CRM/Core/Config.php';
-                        $config = & CRM_Core_Config::singleton();
-                        $thumbURL = explode($config->httpBase , $thumbURL );
-                        $productDAO->thumbnail = $config->httpBase.$thumbURL[1];
-                    }
-                    $imageURL = $productDAO->image;
-                    if( ! CRM_Utils_Rule::url( $imageURL )) {
-                        require_once 'CRM/Core/Config.php';
-                        $config = & CRM_Core_Config::singleton();
-                        $imageURL = explode($config->httpBase , $imageURL );
-                        $productDAO->image = $config->httpBase.$imageURL[1];
-                    }
-                    
-                    if( $contributedAmount != null ) {
-                        if( $contributedAmount >= $productDAO->min_contribution ) {
+                    if( $selctedProductID != null ) {
+                        if(  $selctedProductID == $productDAO->id  ) {
+                            if ( $selecteOption ) {
+                                $productDAO->options = 'Selected Option:'.$selecteOption;
+                            } else {
+                                $productDAO->options = null;
+                            }
                             CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
+                            
                         }
                     } else {
                         CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
@@ -168,11 +159,11 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                 foreach ($temp as $value) {
                     $options[$value] = $value;
                 }
-                if ( $temp[0] == '' ) {
-                    $options = array('' => 'No Options' ) ;
+                if ( $temp[0] != '' ) {
+                    $form->add('select', $productDAO->id , null , $options);
                 }
-
-                $form->add('select', $productDAO->id , null , $options);
+                
+                
                     
             }
             if ( count($products) ) {
@@ -209,25 +200,26 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         $productDAO->id = $productID;
         $productDAO->is_active = 1;
         if ($productDAO->find(true) ) {
-            $thumbURL = $productDAO->thumbnail;
-            if( ! CRM_Utils_Rule::url( $thumbURL )) {
-                require_once 'CRM/Core/Config.php';
-                $config = & CRM_Core_Config::singleton();
-                $thumbURL = explode($config->httpBase , $thumbURL );
-                $productDAO->thumbnail = $config->httpBase.$thumbURL[1];
-            }
-            $imageURL = $productDAO->image;
-            if( ! CRM_Utils_Rule::url( $imageURL )) {
-                require_once 'CRM/Core/Config.php';
-                $config = & CRM_Core_Config::singleton();
-                $imageURL = explode($config->httpBase , $imageURL );
-                $productDAO->image = $config->httpBase.$imageURL[1];
-            }
-            
             CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
         }
         
+        $radio[$productDAO->id] = $form->createElement('radio',null, null, null, $productDAO->id , null);
+        $options = $temp = array();
+        $temp = explode(',' , $productDAO->options );
+        foreach ($temp as $value) {
+            $options[$value] = $value;
+        }
+        if ( $temp[0] != '' ) {
+            $form->add('select', $productDAO->id , null , $options);
+        }
+        
+        
+        $form->addGroup($radio,'selectProduct',null);
+        
+        $form->assign( 'showRadio',true );
+        $form->assign( 'showSelectOptions',true );
         $form->assign( 'products' , $products );
+        $form->assign( 'preview' , true);
     }
 }
 ?>

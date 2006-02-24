@@ -129,7 +129,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::PREVIEW )) {
-            $this->edit($action, $id) ;
+            $this->edit($action, $id, true );
         } 
         // finally browse the custom groups
         $this->browse();

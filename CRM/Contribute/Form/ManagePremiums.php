@@ -69,12 +69,16 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             $params = array( 'id' => $this->_id );
             CRM_Contribute_BAO_ManagePremiums::retrieve( $params , $tempDefaults );
             $imageUrl  = $tempDefaults['image'];
-            if ( CRM_Utils_Rule::url($imageUrl) ) {
+            if( $tempDefaults['image'] &&  $tempDefaults['thumbnail']) {
                 $defaults ['imageUrl']     = $tempDefaults['image'];
                 $defaults ['thumbnailUrl'] = $tempDefaults['thumbnail'];
                 $defaults ['imageOption' ] = 'thumbnail'; 
             } else {
-                $defaults ['imageOption' ] = 'current'; 
+                $defaults ['imageOption' ] = 'noImage';
+            }
+            if ($tempDefaults['thumbnail'] && $tempDefaults['image']) {
+                $this->assign('thumbURL',$tempDefaults['thumbnail']);
+                $this->assign('imageURL',$tempDefaults['image']);
             }
         }
         return $defaults;
@@ -93,7 +97,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             require_once 'CRM/Contribute/BAO/Premium.php';
-            CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, $this->_id );
+            CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, $this->_id);
             
             $this->addButtons(array(
                                     array ('type'      => 'next',
@@ -127,10 +131,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         //$this->add('radio', 'image', ts('Get image from my computer'), null ,null);
         $image['image']     = $this->createElement('radio',null, null,ts('Upload an image from my computer'),'image','onClick="add_upload_file_block(\'image\');');
         $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
-        $image['defalut']   = $this->createElement('radio',null, null,ts('Use default image'),'defalut', 'onClick="add_upload_file_block(\'default\');');
+        $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onClick="add_upload_file_block(\'default\');');
         $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
 
-        $image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
+        //$image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
         
         $this->addGroup($image,'imageOption',ts('Image'));
         $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );
@@ -260,7 +264,9 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             CRM_Contribute_BAO_ManagePremiums::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Premium Product type has been deleted.') );
         } else { 
-            $imageFile            = $this->controller->exportValue( $this->_name, 'uploadFile' );
+            $imageFile = $this->controller->exportValue( $this->_name, 'uploadFile' );
+           
+            $config = & CRM_Core_Config::singleton();
            
             $params = $ids = array( );
             // store the submitted values in an array
@@ -272,7 +278,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $value = CRM_Utils_Array::value( 'imageOption',$params, false );
                 if ( $value == 'image' ) {
                     if ( $imageFile ) {
-                        $params['image'] = $imageFile;
+                        $imageUrlArray  = explode($config->httpBase, $imageFile);
+                        $params['image'] = $config->userFrameworkBaseURL.$imageUrlArray[1];
                         // to check wether GD is installed or not
 
                         require_once 'CRM/Utils/System.php';
@@ -285,7 +292,6 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                         if ( $gdSupport == 'enabled' && $jpgSupport == 'enabled' && $gifSupport == 'enabled' && $pngSupport == 'enabled' ){
                             list($width_orig, $height_orig) = getimagesize($imageFile);
                             $imageInfo = getimagesize($imageFile);
-                            echo $mime;
                             $width_orig."<br>";
                             $height_orig."<br>";    
                             $path = explode( '/', $imageFile );
@@ -315,17 +321,23 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             fwrite($fp, $image_buffer); 
                             rewind($fp);
                             fclose($fp);
-                            $params['thumbnail'] = $path;
+                            $pathArray = explode($config->httpBase, $path);
+                            $params['thumbnail'] = $config->userFrameworkBaseURL.$pathArray[1];;
                         } else {
-                            $error = true; 
+                            $error = true;
+                            $params['thumbnail']= $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium_thumb.jpg'; 
                         }
                     }
                 } else if (  $value == 'thumbnail' ) {
-                    $params['image']   = $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
-                    $params['thumbnail'] = $params['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
-                } else if ( $value == 'default' ) {
-                    $params['image'] = 'default_image.gif';
-                } 
+                    $params['image']     =  $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
+                    $params['thumbnail'] =  $params['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
+                } else if ( $value == 'default_image' ) {
+                    $params['image']    = $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium.jpg';
+                    $params['thumbnail']= $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium_thumb.jpg'; 
+                } else {
+                    $params['image']     = "";
+                    $params['thumbnail'] = "";
+                }
             }
 
             if ($this->_action & CRM_Core_Action::UPDATE ) {
@@ -334,7 +346,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             
             $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);
             if ( $error ) {
-                CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation. If you have a local thumbnail image you can upload it separately and enter the image URL by editing this product.'));
+                CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation.Product is currently configured to use default thumbnail image. If you have a local thumbnail image you can upload it separately and enter the image URL by editing this product.'));
             } else {
                 CRM_Core_Session::setStatus( ts('The Premium Product  "%1" has been saved.', array( 1 => $premium->name )) );
             }
