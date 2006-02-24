@@ -143,7 +143,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $defaults[$name] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$name] = $details['individual_suffix_id'];
-                    } else if ( substr($name, 0, 6) == 'custom') {   
+                    } else if ( substr($name, 0, 6) == 'custom') { 
+                        /*
                         $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
                         $cf =& new CRM_Core_BAO_CustomField();
                         $cf->id = $cfID;
@@ -164,7 +165,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                             default:
                                 $defaults[$name] = $details[$name];
                             }
-                        }                 
+                        }                 */
                     } else{
                         $defaults[$name] = $details[$name];
                     }
@@ -275,7 +276,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         if ($this->_mode & self::MODE_EDIT) {
             $group =& new CRM_Core_DAO_UFGroup();
-            $group->id = $this->_id;
+            $group->id = $this->_gid;
             if ($group->find(true)) {
                 $this->assign('help_pre',  $group->help_pre);
                 $this->assign('help_post', $group->help_post);
@@ -363,6 +364,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ($required) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
+                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id );
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
             }
@@ -377,6 +379,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->freeze();
         }
 
+        $this->setDefaults( $defaults );
     }
     
 
