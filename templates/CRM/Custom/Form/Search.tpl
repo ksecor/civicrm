@@ -56,10 +56,9 @@
   	          {if $element.is_search_range}
                      {assign var="element_name_from" value=$element_name|cat:"_from"}
                      {assign var="element_name_to" value=$element_name|cat:"_to"}
-			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label> 
-        	         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 <label>{ts}Range{/ts}-</label>{$form.$element_name_from.label}&nbsp;{$form.$element_name_from.html|crmReplace:class:six}
-                	{$form.$element_name_to.label}{$form.$element_name_to.html|crmReplace:class:six}
+			<dt>{$form.$element_name_from.label}</dt><dd>
+			 {$form.$element_name_from.html|crmReplace:class:six}
+	                 &nbsp;&nbsp;{$form.$element_name_to.label}&nbsp;&nbsp;{$form.$element_name_to.html|crmReplace:class:six}
 	    {else}
 			<dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
 		  {/if}

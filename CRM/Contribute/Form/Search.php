@@ -269,11 +269,11 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      */ 
     static function buildQuickFormCommon( &$form ) {
         // Date selects for date 
-        $form->add('date', 'contribution_from_date', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_from_date', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'contribution_date_from', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_from', ts('Select a valid date.'), 'qfDate'); 
  
-        $form->add('date', 'contribution_to_date', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_to_date', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'contribution_date_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_to', ts('Select a valid date.'), 'qfDate'); 
 
         $form->add('text', 'contribution_min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
@@ -393,11 +393,11 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
 
-        // we fix to_date here if set to be the end of the day, i.e. 23:59:59
-        if ( ! CRM_Utils_System::isNull( $this->_formValues['contribution_to_date'] ) ) {
-            $this->_formValues['contribution_to_date']['H'] = 23;
-            $this->_formValues['contribution_to_date']['i'] = 59;
-            $this->_formValues['contribution_to_date']['s'] = 59;
+        // we fix date_to here if set to be the end of the day, i.e. 23:59:59
+        if ( ! CRM_Utils_System::isNull( $this->_formValues['contribution_date_to'] ) ) {
+            $this->_formValues['contribution_date_to']['H'] = 23;
+            $this->_formValues['contribution_date_to']['i'] = 59;
+            $this->_formValues['contribution_date_to']['s'] = 59;
         }
 
         if ( ! $this->_force ) {
@@ -434,19 +434,19 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         if ( $fromDate ) {
             $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
             $date = CRM_Utils_Date::unformat( $fromDate, '' );
-            $this->_formValues['contribution_from_date'] = $date;
-            $this->_defaults['contribution_from_date'] = $date;
+            $this->_formValues['contribution_date_from'] = $date;
+            $this->_defaults['contribution_date_from'] = $date;
         }
 
         $toDate= CRM_Utils_Request::retrieve( 'end', $nullObject ); 
         if ( $toDate ) { 
             $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
             $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['contribution_to_date'] = $date;
-            $this->_defaults['contribution_to_date'] = $date;
-            $this->_formValues['contribution_to_date']['H'] = 23;
-            $this->_formValues['contribution_to_date']['i'] = 59;
-            $this->_formValues['contribution_to_date']['s'] = 59;
+            $this->_formValues['contribution_date_to'] = $date;
+            $this->_defaults['contribution_date_to'] = $date;
+            $this->_formValues['contribution_date_to']['H'] = 23;
+            $this->_formValues['contribution_date_to']['i'] = 59;
+            $this->_formValues['contribution_date_to']['s'] = 59;
         }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', $this );

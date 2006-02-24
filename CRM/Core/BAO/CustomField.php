@@ -217,7 +217,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
                             $cfTable.options_per_line,
-                            $cgTable.extends
+                            $cgTable.extends, $cfTable.is_search_range
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
@@ -264,7 +264,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) {
-        $fields = self::getFields($contactType, $showAll);
+        $fields =& self::getFields($contactType, $showAll);
         
         $importableFields = array();
         foreach ($fields as $id => $values) {
@@ -280,6 +280,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                                             'options_per_line' => $values[4],
                                             'data_type'        => $values[2],
                                             'html_type'        => $values[3],
+                                            'is_search_range'  => $values[6],
                                             );
         }
          
@@ -295,6 +296,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function getKeyID($key) {
+        $match = array( );
         if (preg_match('/^custom_(\d+)$/', $key, $match)) {
             return $match[1];
         } 
@@ -304,16 +306,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
     /* static wrapper for _addQuickFormElement */
     public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired, $search = false) {
-        $field =& new CRM_Core_BAO_CustomField();
+        $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
             /* FIXME: failure! */
             return null;
         }
-        $dao = new CRM_Core_DAO_CustomField();
-        $dao->id = $fieldId;
-        $dao->find(true);
-
         
         /**
          * This was split into a different function before. however thanx to php4's bug with references,
@@ -321,15 +319,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
          */
         switch($field->html_type) {
         case 'Text':
-            $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
-                                $field->attributes, (($useRequired || $field->is_required) && !$search));
-
-            if ($dao->is_search_range) {
-                $qf->add('text', $elementName.'_from', ts('From'), $field->attributes);
+            if ($field->is_search_range) {
+                $qf->add('text', $elementName.'_from', $field->label . ' ' . ts('From'), $field->attributes);
                 $qf->add('text', $elementName.'_to', ts('To'), $field->attributes);
+            } else {
+                $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+                                    $field->attributes, (($useRequired || $field->is_required) && !$search));
             }
-
             break;
+
         case 'TextArea':
             $attributes = '';
             if( $field->note_rows ) {
@@ -345,21 +343,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
             $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
                                 $attributes, (($useRequired || $field->is_required) && !$search));
-
-            if ($dao->is_search_range) {
-                $qf->add('text', $elementName.'_from', ts('From'), $field->attributes);
-                $qf->add('text', $elementName.'_to', ts('To'), $field->attributes);
-            }
             break;
 
         case 'Select Date':
-            if ( $dao->is_search_range) {
+            CRM_Core_Error::debug( f'
+            if ( $field->is_search_range) {
                 $qf->add('date', $elementName.'_from', $field->label . ' ' . ts('From'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts ), (($useRequired || $field->is_required) && !$search)); 
                 $qf->add('date', $elementName.'_to', $field->label . ' ' . ts('To'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search)); 
-            } 
-            
-            $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search));
-            
+            } else {
+                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search));
+            }
             break;
 
         case 'Radio':
@@ -445,27 +438,30 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         switch ( $field->data_type ) {
         case 'Int':
             // integers will have numeric rule applied to them.
-            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
-            if ( $dao->is_search_range) {
+            if ( $field->is_search_range) {
                 $qf->addRule($elementName.'_from', ts('%1 From must be an integer (whole number).', array(1 => $field->label)),'integer');
                 $qf->addRule($elementName.'_to', ts('%1 To must be an integer (whole number).', array(1 => $field->label)), 'integer');
+            } else {
+                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
             }
             break;
             
         case 'Date':
-            $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
-            if ( $dao->is_search_range) {
+            if ( $field->is_search_range) {
                 $qf->addRule($elementName.'_from', ts('%1 From is not a valid date.', array(1 => $field->label)), 'qfDate');
                 $qf->addRule($elementName.'_to', ts('%1 To is not a valid date.', array(1 => $field->label)), 'qfDate');
+            } else {
+                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
             }
             break;
             
         case 'Float':
         case 'Money':
-            $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
-            if ( $dao->is_search_range) {
+            if ( $field->is_search_range) {
                 $qf->addRule($elementName.'_from', ts('%1 From must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
                 $qf->addRule($elementName.'_to', ts('%1 To must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
+            } else {
+                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
             }
             break;
         }

@@ -111,11 +111,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
 
         // Date selects for activity date
-        $this->add('date', 'activity_from_date', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_from_date', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'activity_date_from', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_date_from', ts('Select a valid date.'), 'qfDate');
 
-        $this->add('date', 'activity_to_date', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_to_date', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'activity_date_to', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_date_to', ts('Select a valid date.'), 'qfDate');
 
         $this->assign( 'validCiviContribute', false );
         if ( CRM_Utils_System::accessCiviContribute( ) ) {

@@ -333,7 +333,7 @@ class CRM_Contact_BAO_Query {
         $this->addSpecialFields( );
 
         $this->addContributeFields( );
-
+        
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
    
@@ -391,6 +391,19 @@ class CRM_Contact_BAO_Query {
                     $this->_select[$name                  ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
                     $this->_tables['civicrm_group'        ] = 1;
                     $this->_tables['civicrm_group_contact'] = 1;
+                }
+            } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
+                // this is a custom field with range search enabled, so we better check for two/from values
+                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+                if ( $cfID ) {
+                    $value = CRM_Utils_Array::value( $name . '_from', $this->_params );
+                    if ( ! CRM_Utils_System::isNull( $value ) ) {
+                        $cfIDs[$cfID]['from'] = $value;
+                    }
+                    $value = CRM_Utils_Array::value( $name . '_to', $this->_params );
+                    if ( ! CRM_Utils_System::isNull( $value ) ) {
+                        $cfIDs[$cfID]['to'] = $value;
+                    }
                 }
             }
         }
@@ -1378,33 +1391,8 @@ class CRM_Contact_BAO_Query {
         }
 
         $qill = array( );
-        //if ( isset( $this->_params['activity_from_date'] ) ) {
-        if ( $this->_params['activity_from_date']['M'] ) {            
-            $revDate = array_reverse( $this->_params['activity_from_date'] );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-            if ( $date ) {
-                $this->_where[] = "civicrm_activity_history.activity_date >= '$date'"; 
-                $this->_tables['civicrm_activity_history'] = 1;
-                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) );
-            }
-        } 
 
-        //if ( isset( $this->_params['activity_to_date']) ) {
-        if ( $this->_params['activity_to_date']['M'] ) {
-            $revDate = array_reverse( $this->_params['activity_to_date'] );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-            if ( $date ) {
-                $this->_where[] = " ( civicrm_activity_history.activity_date <= '$date' ) "; 
-                $this->_tables['civicrm_activity_history'] = 1; 
-                $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
-            }
-        }
-        
-        if ( ! empty( $qill ) ) {
-            $this->_qill[] = ts('Activity Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
-        }
+        $this->dateQueryBuilder( 'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
     }
 
     function contribution( ) {
@@ -1414,9 +1402,10 @@ class CRM_Contact_BAO_Query {
         }
 
         // process to / from date
+        $this->dateQueryBuilder( 'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date' );
         $qill = array( );
-        if ( isset( $this->_params['contribution_from_date'] ) ) { 
-            $revDate = array_reverse( $this->_params['contribution_from_date'] ); 
+        if ( isset( $this->_params['contribution_date_from'] ) ) { 
+            $revDate = array_reverse( $this->_params['contribution_date_from'] ); 
             $date    = CRM_Utils_Date::format( $revDate ); 
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
             if ( $date ) { 
@@ -1426,8 +1415,8 @@ class CRM_Contact_BAO_Query {
             } 
         }  
  
-        if ( isset( $this->_params['contribution_to_date'] ) ) { 
-            $revDate = array_reverse( $this->_params['contribution_to_date'] ); 
+        if ( isset( $this->_params['contribution_date_to'] ) ) { 
+            $revDate = array_reverse( $this->_params['contribution_date_to'] ); 
             $date    = CRM_Utils_Date::format( $revDate ); 
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
             if ( $date ) { 
@@ -1846,4 +1835,35 @@ class CRM_Contact_BAO_Query {
         }
         return self::$_defaultHierReturnProperties;
     }
+
+    function dateQueryBuilder( $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+        $qill = array( );
+
+        if ( $this->_params[ $fieldName . '_from' ]['M'] ) {
+            $revDate = array_reverse( $this->_params[ $fieldName . '_from' ] );
+            $date    = CRM_Utils_Date::format( $revDate ); 
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+            if ( $date ) {
+                $this->_where[] = $tableName . '.' . $dbFieldName . " >= '$date'";
+                $this->_tables[$tableName] = 1;
+                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) );
+            }
+        }
+
+        if ( $this->_params[ $fieldName . '_to' ]['M'] ) {
+            $revDate = array_reverse( $this->_params[ $fieldName . '_to' ] );
+            $date    = CRM_Utils_Date::format( $revDate ); 
+            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+            if ( $date ) {
+                $this->_where[] = $tableName . '.' . $dbFieldName . " <= '$date'";
+                $this->_tables[$tableName] = 1;
+                $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
+            }
+        }
+
+        if ( ! empty( $qill ) ) {
+            $this->_qill[] = ts($fieldTitle . ' - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
+        }
+    }
+
 }

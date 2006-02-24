@@ -141,12 +141,13 @@ class CRM_Core_BAO_CustomQuery {
             // get the group dao to figure which class this custom field extends
             $extends =& CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $dao->custom_group_id, 'extends' );
             $extendsTable = self::$extendsMap[$extends];
-            $this->_fields[$dao->id] = array( 'id'        => $dao->id,
-                                              'label'     => $dao->label,
-                                              'extends'   => $extendsTable,
-                                              'data_type' => $dao->data_type,
-                                              'html_type' => $dao->html_type,
-                                              'db_field'  => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
+            $this->_fields[$dao->id] = array( 'id'              => $dao->id,
+                                              'label'           => $dao->label,
+                                              'extends'         => $extendsTable,
+                                              'data_type'       => $dao->data_type,
+                                              'html_type'       => $dao->html_type,
+                                              'is_search_range' => $dao->is_search_range,
+                                              'db_field'        => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
 
             // store it in the options cache to make things easier
             // during option lookup
@@ -215,16 +216,12 @@ class CRM_Core_BAO_CustomQuery {
      * @access public
      */   
     function where( ) {
-        // CRM_Core_Error::debug( 'fld', $this->_fields );
-        // CRM_Core_Error::debug( 'ids', $this->_ids );
+        //CRM_Core_Error::debug( 'fld', $this->_fields );
+        //CRM_Core_Error::debug( 'ids', $this->_ids );
+
         foreach ( $this->_ids as $id => $value ) {
 
-            /* if ( $value === null ||
-                 CRM_Utils_Array::value( $id, $this->_fields ) === null ) {
-                continue;
-            }*/
-            
-            // Fixed for Isuue CRM 607
+           // Fixed for Isuue CRM 607
             if ( $value == null ||
                  CRM_Utils_Array::value( $id, $this->_fields ) === null ) {
                 continue;
@@ -242,14 +239,22 @@ class CRM_Core_BAO_CustomQuery {
                     $this->_where[] = $sql . "'%" . implode( '%', array_keys( $value ) ) . "%'";
                     $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
                 } else {
-                    $this->_where[] = $sql . "'%" . strtolower( $value ) . "%'";
-                    $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    if ( $field['is_search_range'] ) {
+                        $this->searchRange( $field['id'], $field['label'], 'char_data', $value );
+                    } else {
+                        $this->_where[] = $sql . "'%" . strtolower( $value ) . "%'";
+                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    }
                 } 
                 continue;
                 
             case 'Int':
-                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
-                $this->_qill[]  = $field['label'] . " - $value";
+                if ( $field['is_search_range'] ) {
+                    $this->searchRange( $field['id'], $field['label'], 'int_data', $value );
+                } else {
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_qill[]  = $field['label'] . " - $value";
+                }
                 continue;
                 
             case 'Boolean':
@@ -261,13 +266,21 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
 
             case 'Float':
-                $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . $value;  
-                $this->_qill[]  = $field['label'] . " - $value";
+                if ( $field['is_search_range'] ) {
+                    $this->searchRange( $field['id'], $field['label'], 'float_data', $value );
+                } else {                
+                    $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . $value;  
+                    $this->_qill[]  = $field['label'] . " - $value";
+                }
                 continue;                    
                 
             case 'Money':
-                $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . $value;
-                $this->_qill[]  = $field['label'] . " - $value";
+                if ( $field['is_search_range'] ) {
+                    $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value );
+                } else {                
+                    $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . $value;
+                    $this->_qill[]  = $field['label'] . " - $value";
+                }
                 continue;
                 
             case 'Memo':
@@ -352,6 +365,24 @@ class CRM_Core_BAO_CustomQuery {
         return array( implode( ' , '  , $this->_select ),
                       implode( ' '    , $this->_tables ),
                       implode( ' AND ', $this->_where  ) );
+    }
+
+    function searchRange( &$id, &$label, $type, &$value ) {
+        $qill = array( );
+
+        if ( isset( $value['from'] ) ) {
+            $this->_where[] = self::PREFIX . "$id.$type >= " . $value['from'];
+            $qill[] = ts( 'greater than "%1"', array( 1 => $value['from'] ) );
+        }
+
+        if ( isset( $value['to'] ) ) {
+            $this->_where[] = self::PREFIX . "$id.$type <= " . $value['to'];
+            $qill[] = ts( 'less than "%1"', array( 1 => $value['to'] ) );
+        }
+
+        if ( ! empty( $qill ) ) { 
+            $this->_qill[] = ts( $label . ' - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
+        }
     }
 
 }

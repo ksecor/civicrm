@@ -89,10 +89,10 @@
         </tr>
         <tr>
             <td class="label">
-                {$form.activity_from_date.label}
+                {$form.activity_date_from.label}
             </td>
             <td>
-                 {$form.activity_from_date.html} &nbsp; {$form.activity_to_date.label} {$form.activity_to_date.html}
+                 {$form.activity_date_from.html} &nbsp; {$form.activity_date_to.label} {$form.activity_date_to.html}
             </td>
         </tr>
     </table>
