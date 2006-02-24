@@ -142,7 +142,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                     if( $selctedProductID != null ) {
                         if(  $selctedProductID == $productDAO->id  ) {
                             if ( $selecteOption ) {
-                                $productDAO->options = 'Selected Option:'.$selecteOption;
+                                $productDAO->options = ts('Selected Option') . ': ' . $selecteOption;
                             } else {
                                 $productDAO->options = null;
                             }

@@ -39,19 +39,23 @@
                 {if ( ($premiumBlock.premiums_display_min_contribution AND $context EQ "makeContribution") OR $preview EQ 1) AND $row.min_contribution GT 0 }
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
                 {/if}
-            </td>
             {if $showSelectOptions }
                 {assign var="pid" value=$row.id}
-                {if $pid}    
-                <td>{$form.$pid.html}   
+                {if $pid}
+                    <div id="product-options">
+                      <p>{$form.$pid.html}</p>
+                    </div>
                 {/if}
             {else}
-                <td>{$row.options}</td>
+                <div id="product-options">
+                    <p><strong>{$row.options}</strong></p> 
+                </div>
             {/if}
+            </td>
         </tr>
         {/foreach}
         {if $showRadio }
-            <tr><td colspan="4">{$form.selectProduct.no_thanks.html}</td></tr> 
+            <tr class="odd-row"><td colspan="4">{$form.selectProduct.no_thanks.html}</td></tr> 
         {/if}          
         </table>
     {/strip}
