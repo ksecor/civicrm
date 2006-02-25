@@ -78,7 +78,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
-                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'qs'    => 'reset=1&action=update&id=%%id%%&gid=%%gid%%',
                                                                           'title' => ts('Edit CiviCRM Profile Field') 
                                                                           ),
                                         CRM_Core_Action::PREVIEW    => array(
@@ -133,6 +133,9 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( 'All', false, true );
+        
+        $fields = array_merge(CRM_Contribute_DAO_Contribution::export( ), $fields);
+
         $select = array( );
         foreach ($fields as $name => $field ) {
             if ( $name ) {
@@ -170,7 +173,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             }
             
             $ufField[$ufFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                            array('id' => $ufFieldBAO->id));
+                                                                            array('id'  => $ufFieldBAO->id,
+                                                                                  'gid' => $this->_gid));
         }
         $this->assign('ufField', $ufField);
     }
@@ -214,7 +218,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     function run()
     {
         // get the group id
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
         if ($this->_gid) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             $groupTitle = CRM_Core_BAO_UFGroup::getTitle($this->_gid);

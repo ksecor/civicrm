@@ -102,14 +102,17 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     {
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
-        $this->_field= CRM_Utils_Request::retrieve('field' , $this);
+        //$this->_field= CRM_Utils_Request::retrieve('field' , $this);
 
         if($this->_action & CRM_Core_Action::UPDATE) {
-            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', true, true);
+            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
         } else {
-            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('Individual', true);
+            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
         }
-       
+        
+        $this->_fields = array_merge (CRM_Contribute_DAO_Contribution::export( ), $this->_fields);
+
+
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             // lets skip note for now since we dont support it
@@ -151,7 +154,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
-            $defaults[ 'field_name' ] = array ('Individual', $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
+            $defaults[ 'field_name' ] = array ($defaults['field_type'], $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
             $this->_gid = $defaults['uf_group_id'];
         } else {
             $defaults['is_active'] = 1;
@@ -183,10 +186,18 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         //$this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
 
         $fields = array();
-        $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
-        $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
+        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
+        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
         
+        $contributionField =& CRM_Contribute_DAO_Contribution::export( );
+        foreach ($contributionField as $key => $var) {
+            if ($key == 'contact_id') {
+                continue;
+            }
+            $fields['Contribution' ][$key] = $var;
+        }
+
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
@@ -211,6 +222,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
         
+        $sel1['Contribution'] = 'Contributions';
+
         foreach ($sel1 as $key=>$sel ) {
             if ($key) {
                 $sel2[$key] = $this->_mapperFields[$key];
@@ -245,10 +258,25 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $formName = "document.{$this->_name}";
       
         $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
-            
-        for ( $k = 1; $k < 4; $k++ ) {
-            if (!$defaults['field_name'][$k]) {
-                $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+        $formValues = array();
+       
+        
+        //$formValues = $this->controller->exportValues( $this->_name );
+        $formValues = $_POST; // using $_POST since export values don't give values on first submit
+
+        if ( empty( $formValues ) ) {
+            for ( $k = 1; $k < 4; $k++ ) {
+                if (!$defaults['field_name'][$k]) {
+                    $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+                }
+            }
+        } else {
+            foreach ( $formValues['field_name'] as $value) {
+                for ( $k = 1; $k < 4; $k++ ) {
+                    if (!$formValues['field_name'][$k]) {
+                        $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+                    }
+                }
             }
         }
         
@@ -257,7 +285,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         
-        $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
+        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true );
         
         // should the field appear in selector?
         $this->add('checkbox', 'in_selector', ts('In Selector?'));
@@ -369,6 +397,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
             $errors['field_name'] = 'Please select a field name';
+        }
+        
+        if ( $in_selector && $fieldName == 'Contribution' ) {
+            $errors['in_selector'] = "'In Selector' can NOT be checked for Contribution fields.";
         }
         
         if (! empty($fields['field_id'])) {

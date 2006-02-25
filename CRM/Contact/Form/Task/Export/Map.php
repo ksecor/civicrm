@@ -271,7 +271,9 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 } 
              } 
              
-             $formValues = $this->controller->exportValues( $this->_name );
+             //$formValues = $this->controller->exportValues( $this->_name );
+             $formValues = $_POST; // using $_POST since export values don't give values on first submit
+             
              /*             
               if ( ! $jsSet && empty( $formValues ) ) {
                   for ( $k = 1; $k < 4; $k++ ) {
