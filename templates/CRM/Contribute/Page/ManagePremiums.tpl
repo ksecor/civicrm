@@ -27,7 +27,7 @@
             <th>{ts}SKU{/ts}</th>
             <th>{ts}Market Value{/ts}</th>
             <th>{ts}Min Contribution{/ts}</th>
-            <th>{ts}Is Active{/ts}</th>
+            <th>{ts}Active?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}

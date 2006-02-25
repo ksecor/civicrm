@@ -288,7 +288,7 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_state_province.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
 
-    // write the data file
+    // write the initialize base-data sql script
     $filename = 'civicrm_data';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
@@ -296,6 +296,16 @@ foreach ($locales as $locale) {
     fputs( $fd, $data );
     fclose( $fd );
 
+    $data = '';
+    $data .= $smarty->fetch('civicrm_add_domain.tpl');
+
+    // write the add_domain mysql script
+    $filename = 'civicrm_add_domain';
+    if ($locale != 'en_US') $filename .= ".$locale";
+    $filename .= '.mysql';
+    $fd = fopen( $sqlCodePath . $filename, "w" );
+    fputs( $fd, $data );
+    fclose( $fd );
 }
 
 

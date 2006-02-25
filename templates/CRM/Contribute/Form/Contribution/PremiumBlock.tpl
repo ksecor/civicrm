@@ -54,7 +54,7 @@
             </td>
         </tr>
         {/foreach}
-        {if $showRadio }
+        {if $showRadio AND !$preview }
             <tr class="odd-row"><td colspan="4">{$form.selectProduct.no_thanks.html}</td></tr> 
         {/if}          
         </table>
