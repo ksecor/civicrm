@@ -145,7 +145,7 @@ div.spacer {
 #crm-container div.form-item dd.html-adjust{
   float: left;
   width: 48%;
-  clear: right;
+  /*clear: right;*/
 }
 
 #crm-container div.form-item dd.description {

@@ -7,20 +7,18 @@
     {if $action eq 16 or $action eq 4} {* Browse or View actions *}
         {if $groupTree}
             <div class="form-item">
-            
+                
                 {foreach from=$groupTree item=cd key=group_id}
-
                 <div id="{$cd.title}[show]" class="data-group">
                 <a href="#" onclick="hide('{$cd.title}[show]'); show('{$cd.title}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
                 </div>
-
-
+                
                 <div id="{$cd.title}">
                 <fieldset><legend><a href="#" onclick="hide('{$cd.title}'); show('{$cd.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
         		        {if $cd_value.options_per_line != 0 }
-			               {assign var="element_name" value="custom_"|cat:$field_id}			
+			               {assign var="element_name" value="custom_"|cat:$field_id}
 			               <dt>{$form.$element_name.label} </dt>
 			               <dd class="html-adjust">
                            {if $form.$element_name}

@@ -7,9 +7,7 @@
     {if $action eq 16 or $action eq 4} {* Browse or View actions *}
         {if $groupTree}
             <div class="form-item">
-            
                 {foreach from=$groupTree item=cd key=group_id}
-
                 <div id="{$cd.title}[show]" class="data-group">
                 <a href="#" onclick="hide('{$cd.title}[show]'); show('{$cd.title}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
                 </div>

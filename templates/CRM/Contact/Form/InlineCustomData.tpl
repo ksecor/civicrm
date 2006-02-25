@@ -1,6 +1,5 @@
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
-
     <div id="{$cd_edit.title}[show]" class="data-group">
     <a href="#" onclick="hide('{$cd_edit.title}[show]'); show('{$cd_edit.title}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
