@@ -68,21 +68,21 @@ VALUES
   (%%CIVICRM_DOMAIN_ID%%,'Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,1,'500.00','10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>','OpenNGO Membership Dept.','memberships@openngo.org',1,'receipt@example.com','bcc@example.com','Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345',1);
 
 INSERT INTO civicrm_uf_field
-    (uf_group_id, field_name, weight, is_active, is_view, is_required, visibility, help_post, in_selector, location_type_id,is_searchable)
+    (uf_group_id, field_name, weight, is_active, is_view, is_required, visibility, help_post, in_selector, location_type_id,is_searchable,field_type)
 VALUES
-    (1,'first_name',1,1,0,1,'Public User Pages and Listings','',1,NULL,1),
-    (1,'last_name',2,1,0,1,'Public User Pages and Listings','First and last name will be shared with other visitors to the site.',1,NULL,1),
-    (1,'street_address',3,1,0,0,'User and User Admin Only','',0,1,1),
-    (1,'city',4,1,0,0,'User and User Admin Only','',0,1,1),
-    (1,'postal_code',5,1,0,0,'User and User Admin Only','',0,1,1),
-    (1,'state_province',6,1,0,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,1,1),
-    (1,'country',7,1,0,0,'Public User Pages and Listings','',0,1,1),
-    (1,'email',8,1,0,0,'Public User Pages','',1,1,1),
-    (1,'custom_5',9,1,0,0,'Public User Pages and Listings','',1,NULL,1),
-    (1,'custom_6',10,1,0,0,'Public User Pages and Listings','',1,NULL,1),
-    (1,'custom_7',11,1,0,0,'Public User Pages and Listings','',0,NULL,1),
-    (2,'custom_5',1,1,0,0,'User and User Admin Only','',0,NULL,1),
-    (2,'custom_6',2,1,0,0,'User and User Admin Only','',0,NULL,1);
+    (1,'first_name',1,1,0,1,'Public User Pages and Listings','',1,NULL,1,'Individual'),
+    (1,'last_name',2,1,0,1,'Public User Pages and Listings','First and last name will be shared with other visitors to the site.',1,NULL,1,'Individual'),
+    (1,'street_address',3,1,0,0,'User and User Admin Only','',0,1,1,'Individual'),
+    (1,'city',4,1,0,0,'User and User Admin Only','',0,1,1,'Individual'),
+    (1,'postal_code',5,1,0,0,'User and User Admin Only','',0,1,1,'Individual'),
+    (1,'state_province',6,1,0,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,1,1,'Individual'),
+    (1,'country',7,1,0,0,'Public User Pages and Listings','',0,1,1,'Individual'),
+    (1,'email',8,1,0,0,'Public User Pages','',1,1,1,'Individual'),
+    (1,'custom_5',9,1,0,0,'Public User Pages and Listings','',1,NULL,1,'Individual'),
+    (1,'custom_6',10,1,0,0,'Public User Pages and Listings','',1,NULL,1,'Individual'),
+    (1,'custom_7',11,1,0,0,'Public User Pages and Listings','',0,NULL,1,'Individual'),
+    (2,'custom_5',1,1,0,0,'User and User Admin Only','',0,NULL,1,'Individual'),
+    (2,'custom_6',2,1,0,0,'User and User Admin Only','',0,NULL,1,'Individual');
     
 INSERT INTO civicrm_premiums 
     VALUES (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page', 1, 1, 'Thank-you Gifts', 'We appreciate your suppot and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. ', 'premiums@example.org', NULL, 1);

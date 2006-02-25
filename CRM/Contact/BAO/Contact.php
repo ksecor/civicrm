@@ -1229,7 +1229,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             }
 
             // the fields are only meant for Individual contact type
-            if ( $contactType == 'Individual') {
+            if ( ($contactType == 'Individual') || ($contactType == 'All')) {
                 $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                        CRM_Core_DAO_Gender::import( true ) );                
@@ -1454,7 +1454,6 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             } else {
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
-            //$fields = array();
 
             if ( $contactType != 'All' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");

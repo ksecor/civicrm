@@ -179,7 +179,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         $template->assign( 'tplFile', 'CRM/Profile/Form/Edit.tpl' );
         $profile  =  trim( $template->fetch( 'CRM/form.tpl' ) ); 
         // not sure how to circumvent our own navigation system to generate the right form url
-        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/create&amp;gid='.$gid.'&amp;reset=1', $profile );
+        $profile = str_replace( 'civicrm/admin/uf/group', 'civicrm/profile/edit&amp;gid='.$gid.'&amp;reset=1', $profile );
         $this->assign( 'profile', htmlentities( $profile ) );
         //get the title of uf group
         if ($gid) {

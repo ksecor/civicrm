@@ -268,7 +268,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-       
         $this->assign( 'mode'    , $this->_mode     );
         $this->assign( 'action'  , $this->_action   );
         $this->assign( 'fields'  , $this->_fields   );
@@ -396,12 +395,21 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options = null ) {
+    static function formRule( &$fields, &$files, $options = null ) 
+    {
         $errors = array( );
         // if no values, return
         if ( empty( $fields ) ) {
             return true;
         }
+        
+        //check for mix profile (i.e  individual + other contact type)
+        require_once "CRM/Core/BAO/UFField.php";
+        if ( CRM_Core_BAO_UFField::checkProfileType($fields) ) {
+            $errors['_qf_default'] = ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts." );
+            return $errors;
+        }
+        
 
         // hack add the email, does not work in registration, we need the real user object
         // hack this will not work in mambo/joomla, not sure why we need it
@@ -414,7 +422,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // hack we use a -1 in options to indicate that its registration 
         if ( $options ) { 
-            $options = (int ) $options; 
+            $options = ( int ) $options; 
             if ( $options > 0 ) { 
                 $cid = $options; 
             } else { 
@@ -571,7 +579,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ($this->_id ) {
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($this->_id);
         }
-            
+        
         foreach ($params as $key => $value) {
             $keyValue = explode('-', $key);
             if (is_numeric($keyValue[1])) {
@@ -594,8 +602,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $data['location'][$loc]['is_primary'] = 1;
                     }
                 }
-
-                if ($keyValue[0] == 'phone') {
+                if ($keyValue[0] == 'name') {
+                    $data['location'][$loc]['name'] = $value;
+                } else if ($keyValue[0] == 'phone') {
                     if ( $keyValue[2] ) {
                         $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
                     } else {
@@ -606,7 +615,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 } else if ($keyValue[0] == 'email') {
                     $data['location'][$loc]['email'][$loc]['email'] = $value;
                     $data['location'][$loc]['email'][$loc]['is_primary'] = 1;
-                } elseif ($keyValue[0] == 'im') {
+                } else if ($keyValue[0] == 'im') {
                     $data['location'][$loc]['im'][$loc]['name'] = $value;
                     $data['location'][$loc]['im'][$loc]['is_primary'] = 1;
                 } else {
