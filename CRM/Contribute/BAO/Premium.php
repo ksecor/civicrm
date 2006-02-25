@@ -112,11 +112,12 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
      * @static
      */
 
-    function buildPremiumBlock( $form , $pageID , $formItems = false ,$selctedProductID = null ,$selecteOption = null ) {
+    function buildPremiumBlock( $form , $pageID , $formItems = false ,$selectedProductID = null ,$selectedOption = null ) {
         
         require_once 'CRM/Contribute/DAO/Premium.php';
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->entity_table = 'civicrm_contribution_page';
+        $dao->domain_id  = CRM_Core_Config::domainID( );
         $dao->entity_id = $pageID; 
         $dao->premiums_active = 1;
         
@@ -136,13 +137,14 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             while ($dao->fetch()) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
+                $productDAO->domain_id  = CRM_Core_Config::domainID( );
                 $productDAO->id = $dao->product_id;
                 $productDAO->is_active = 1;
                 if ($productDAO->find(true) ) {
-                    if( $selctedProductID != null ) {
-                        if(  $selctedProductID == $productDAO->id  ) {
-                            if ( $selecteOption ) {
-                                $productDAO->options = ts('Selected Option') . ': ' . $selecteOption;
+                    if( $selectedProductID != null ) {
+                        if(  $selectedProductID == $productDAO->id  ) {
+                            if ( $selectedOption ) {
+                                $productDAO->options = ts('Selected Option') . ': ' . $selectedOption;
                             } else {
                                 $productDAO->options = null;
                             }
@@ -157,14 +159,12 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                 $options = $temp = array();
                 $temp = explode(',' , $productDAO->options );
                 foreach ($temp as $value) {
-                    $options[$value] = $value;
+                    $options[trim($value)] = trim($value);
                 }
                 if ( $temp[0] != '' ) {
-                    $form->add('select', $productDAO->id , null , $options);
+                    $form->add('select', 'options_'.$productDAO->id , null , $options);
                 }
-                
-                
-                    
+                  
             }
             if ( count($products) ) {
                 $form->assign( 'showRadio',$formItems );
@@ -193,11 +193,13 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->id = $premiumProductID;
+            $dao->domain_id  = CRM_Core_Config::domainID( );
             $dao->find(true);
             $productID = $dao->product_id;
         }
         $productDAO =& new CRM_Contribute_DAO_Product();
         $productDAO->id = $productID;
+        $productDAO->domain_id  = CRM_Core_Config::domainID( );
         $productDAO->is_active = 1;
         if ($productDAO->find(true) ) {
             CRM_Core_DAO::storeValues( $productDAO, $products[$productDAO->id]);
@@ -210,7 +212,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             $options[$value] = $value;
         }
         if ( $temp[0] != '' ) {
-            $form->add('select', $productDAO->id , null , $options);
+            $form->add('select', 'options_'.$productDAO->id , null , $options);
         }
         
         

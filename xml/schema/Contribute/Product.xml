@@ -15,7 +15,21 @@
   <primaryKey> 
        <name>id</name> 
        <autoincrement>true</autoincrement> 
-  </primaryKey> 
+  </primaryKey>
+   <field> 
+      <name>domain_id</name> 
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <comment>Which Domain owns this product class.</comment> 
+       <add>1.3</add> 
+  </field> 
+  <foreignKey> 
+       <name>domain_id</name> 
+       <table>civicrm_domain</table> 
+       <key>id</key> 
+       <add>1.3</add> 
+  </foreignKey> 
+ 
   <field>
        <name>name</name>
        <title>Product Name</title>

@@ -214,12 +214,13 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         
         $fileLocation  = $files['uploadFile']['tmp_name'];
-        list($width, $height ) = getimagesize($fileLocation); 
-        
-        if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {
-            //$errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
+        if( $fileLocation ) {
+            list($width, $height ) = getimagesize($fileLocation); 
+            
+            if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {
+                //$errors ['uploadFile'] = "Please Enter files with dimensions between 80 x 80 and 500 x 500," . " Dimensions of this file is ".$width."X".$height;
+            }
         }
-       
        
         if ( ! $params['period_type'] ) {
             if ( $params['fixed_period_start_day'] || $params['duration_unit'] || $parmas['duration_interval'] ||
@@ -274,7 +275,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
-           
+            $params['domain_id'] = CRM_Core_Config::domainID( );
             // FIX ME 
             if(CRM_Utils_Array::value( 'imageOption',$params, false )) {
                 

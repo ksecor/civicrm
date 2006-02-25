@@ -144,6 +144,7 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         $products = array();
         require_once 'CRM/Contribute/DAO/Product.php';
         $dao = & new CRM_Contribute_DAO_Product();
+        $dao->domain_id  = CRM_Core_Config::domainID( );
         $dao->is_active = 1;
         $dao->orderBy( 'id' );
         $dao->find( );

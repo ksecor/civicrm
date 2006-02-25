@@ -65,6 +65,8 @@ civicrm_contribution_page|SELECT civicrm_contribution_page.id FROM civicrm_domai
 civicrm_financial_trxn|SELECT civicrm_financial_trxn.id FROM civicrm_domain,civicrm_financial_trxn WHERE civicrm_financial_trxn.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_payment_instrument|SELECT civicrm_payment_instrument.id FROM civicrm_domain,civicrm_payment_instrument WHERE civicrm_payment_instrument.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_accept_credit_card|SELECT civicrm_accept_credit_card.id FROM civicrm_domain,civicrm_accept_credit_card WHERE civicrm_accept_credit_card.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
+civicrm_product|SELECT civicrm_product.id FROM civicrm_domain,civicrm_product WHERE civicrm_product.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
+civicrm_premiums_product|SELECT civicrm_premiums_product.id FROM civicrm_domain,civicrm_product,civicrm_premiums_product WHERE civicrm_premiums_product.product_id = civicrm_product.id AND civicrm_product.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_activity_type|SELECT civicrm_activity_type.id FROM civicrm_domain,civicrm_activity_type WHERE civicrm_activity_type.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_custom_group|SELECT civicrm_custom_group.id FROM civicrm_domain,civicrm_custom_group WHERE civicrm_custom_group.domain_id = civicrm_domain.id AND civicrm_domain.id = 1
 civicrm_acl|SELECT civicrm_acl.id FROM civicrm_acl
@@ -75,6 +77,4 @@ civicrm_state_province|SELECT civicrm_state_province.id FROM civicrm_state_provi
 civicrm_mailing_bounce_type|SELECT civicrm_mailing_bounce_type.id FROM civicrm_mailing_bounce_type
 civicrm_mailing_bounce_pattern|SELECT civicrm_mailing_bounce_pattern.id FROM civicrm_mailing_bounce_pattern
 civicrm_premiums|SELECT civicrm_premiums.id FROM civicrm_premiums
-civicrm_product|SELECT civicrm_product.id FROM civicrm_product
-civicrm_premiums_product|SELECT civicrm_premiums_product.id FROM civicrm_premiums_product
 civicrm_county|SELECT civicrm_county.id FROM civicrm_county

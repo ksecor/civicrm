@@ -40,7 +40,7 @@
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
                 {/if}
             {if $showSelectOptions }
-                {assign var="pid" value=$row.id}
+                {assign var="pid" value="options_"|cat:$row.id}
                 {if $pid}
                     <div id="product-options">
                       <p>{$form.$pid.html}</p>

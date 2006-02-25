@@ -83,11 +83,12 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=preview&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',
                                                                     'title' => ts('Preview Premium') 
                                                                    ),
-                                  CRM_Core_Action::DISABLE => array(
+                                  CRM_Core_Action::DELETE => array(
                                                                     'name'  => ts('Remove'),
                                                                     'url'   => 'civicrm/admin/contribute',
-                                                                    'qs'    => 'action=delete&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    'qs'    => 'action=delete&id=%%id%%&pid=%%pid%%&subPage=AddProductToPage',                    
+                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                                                                   
                                                                     'title' => ts('Disable Premium') 
                                                                    ),
                                  

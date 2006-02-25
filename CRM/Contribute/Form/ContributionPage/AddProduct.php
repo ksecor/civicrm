@@ -90,6 +90,13 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $defaults['product_id']    = $dao->product_id;
             $defaults['sort_position'] = $dao->sort_position;
         }
+        if( ! $defaults['sort_position']) {
+            $sql = 'SELECT max( `sort_position` ) as max_weight FROM `civicrm_premiums_product` ORDER BY `product_id`';
+            $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->query( $sql );
+            $dao->fetch();
+            $defaults['sort_position'] = $dao->max_weight + 1 ;
+        }
         return $defaults;
     }
 
@@ -104,6 +111,19 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
        
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $session =& CRM_Core_Session::singleton();
+            $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
+            $session->pushUserContext( $url );
+            if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+                require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+                $dao =& new CRM_Contribute_DAO_PremiumsProduct();
+                $dao->id = $this->_pid;
+                $dao->delete();
+                CRM_Core_Session::setStatus( ts('Selected Premium Product has been removed from this Contribution Page.') );
+                CRM_Utils_System::redirect($url);
+            } 
+          
+
             $this->addButtons(array(
                                     array ( 'type'      => 'next',
                                             'name'      => ts('Delete'),
@@ -120,7 +140,6 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             require_once 'CRM/Contribute/BAO/Premium.php';
             CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, null ,$this->_pid );
-            
             $this->addButtons(array(
                                     array ('type'      => 'next',
                                            'name'      => ts('Done With Preview'),
@@ -131,6 +150,10 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             return;
         }
         
+        $session =& CRM_Core_Session::singleton();
+        $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
+        $session->pushUserContext( $url );
+
         $this->addElement('select', 'product_id', ts('Select the Product ') , $this->_products );
         $this->addRule('product_id', ts('Select the Product ') ,'required' );
         $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
@@ -169,19 +192,24 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         
         if($this->_action & CRM_Core_Action::PREVIEW) {
             $session =& CRM_Core_Session::singleton();
+            $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             $single = $session->get('singleForm');
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/contribute', 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );
+            CRM_Utils_System::redirect($url);
             return;
         }
         
         if($this->_action & CRM_Core_Action::DELETE) {
+            $session =& CRM_Core_Session::singleton();
+            $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->id = $this->_pid;
             $dao->delete();
             CRM_Core_Session::setStatus( ts('Selected Premium Product has been removed from this Contribution Page.') );
+            CRM_Utils_System::redirect($url);
         } else { 
-            
+            $session =& CRM_Core_Session::singleton();
+            $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium');
             if ( $this->_pid ) {
                 $params['id'] =  $this->_pid;
             }
@@ -198,6 +226,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->copyValues($params);
             $dao->save();
+            CRM_Utils_System::redirect($url);
         }
         
     }

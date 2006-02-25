@@ -129,7 +129,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $amount = $this->get( 'amount' );
         $params = $this->_params;
         if ( $params['selectProduct'] && $params['selectProduct'] != 'no_thanks') {
-            $option    = $params[$params['selectProduct']];
+            $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
             $this->set('productID',$productID);
@@ -306,7 +306,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->assign('product_name' , $productDAO->name );
                 $this->assign('price', $productDAO->price);
                 $this->assign('sku', $productDAO->sku);
-                $this->assign('option',$premiumParams[$premiumParams['selectProduct']]);
+                $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
                
                 $periodType = $productDAO->period_type;
                 
@@ -363,7 +363,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $params = array(
                                 'product_id'         => $premiumParams['selectProduct'],
                                 'contribution_id'    => $contribution->id,
-                                'product_option'     => $premiumParams[$premiumParams['selectProduct']],
+                                'product_option'     => $premiumParams['options_'.$premiumParams['selectProduct']],
                                 'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
                                 'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
                                 );
