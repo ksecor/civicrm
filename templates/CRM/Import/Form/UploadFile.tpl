@@ -55,10 +55,10 @@
         <dd class="description">
             {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
         </dd>
-        <dt>{$form.dateFormats.label}</dt><dd>{$form.dateFormats.html}</dd>
-        <dt>&nbsp;</dt>
+        <dt class="extra-long-eighty">{$form.dateFormats.label}</dt><dd>{$form.dateFormats.html}</dd>
     </dl>
  </fieldset>
+ <div class="spacer"></div>
  </div>
  <div id="crm-submit-buttons">
     {$form.buttons.html}
