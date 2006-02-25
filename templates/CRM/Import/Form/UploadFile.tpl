@@ -55,7 +55,7 @@
         <dd class="description">
             {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
         </dd>
-        <dt class="extra-long-eighty">{$form.dateFormats.label}</dt><dd>{$form.dateFormats.html}</dd>
+        {include file="CRM/Core/Date.tpl"}
     </dl>
  </fieldset>
  <div class="spacer"></div>

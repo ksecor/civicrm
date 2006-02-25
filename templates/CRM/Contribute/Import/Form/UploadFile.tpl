@@ -25,10 +25,10 @@
         <dt>&nbsp;</dt>
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
-        </dd> 
-        <dt>{$form.dateFormats.label}</dt><dd>{$form.dateFormats.html}</dd>
-        <dt>&nbsp;</dt>
+        </dd>
+        {include file="CRM/Core/Date.tpl"}  
     </dl>
+    <div class="spacer"></div>
  </fieldset>
  </div>
  <div id="crm-submit-buttons">
