@@ -257,6 +257,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+
         return $defaults;
     }
 
@@ -580,6 +581,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($this->_id);
         }
         
+
+        $phoneLoc = 0;
         foreach ($params as $key => $value) {
             $keyValue = explode('-', $key);
             if (is_numeric($keyValue[1])) {
@@ -605,19 +608,20 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ($keyValue[0] == 'name') {
                     $data['location'][$loc]['name'] = $value;
                 } else if ($keyValue[0] == 'phone') {
+                    $phoneLoc++;
                     if ( $keyValue[2] ) {
-                        $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $keyValue[2];
                     } else {
-                        $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = '';
+                        $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
                     }
-                    $data['location'][$loc]['phone'][$loc]['phone'] = $value;
-                    $data['location'][$loc]['phone'][$loc]['is_primary'] = 1;
+                    $data['location'][$loc]['phone'][$phoneLoc]['phone'] = $value;
                 } else if ($keyValue[0] == 'email') {
-                    $data['location'][$loc]['email'][$loc]['email'] = $value;
-                    $data['location'][$loc]['email'][$loc]['is_primary'] = 1;
+                    $data['location'][$loc]['email'][1]['email'] = $value;
+                    $data['location'][$loc]['email'][1]['is_primary'] = 1;
                 } else if ($keyValue[0] == 'im') {
-                    $data['location'][$loc]['im'][$loc]['name'] = $value;
-                    $data['location'][$loc]['im'][$loc]['is_primary'] = 1;
+                    $data['location'][$loc]['im'][1]['name'] = $value;
+                    $data['location'][$loc]['im'][1]['is_primary'] = 1;
                 } else {
                     if ($keyValue[0] === 'state_province') {
                         $data['location'][$loc]['address']['state_province_id'] = $value;
@@ -703,6 +707,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
             $ids = array( ); 
 
+            $phoneLoc = 0;
             foreach ($this->_fields as $name => $field ) {
                 $nameValue = explode( '-' , $name );
                 foreach ($this->_contact as $key => $value) {
@@ -713,7 +718,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $locations[$value['location_type_id']] = 1;
                             $loc_no = count($locations);
                             if ($nameValue[0] == 'phone') {
-                                $ids['location'][$loc_no]['phone'][1] = $value['phone']['1_id'];
+                                $phoneLoc++;
+                                if ( isset( $nameValue[2] ) ) {
+                                    $ids['location'][$loc_no]['phone'][$phoneLoc] = $value['phone'][$nameValue[2] . '_id'];
+                                } else {
+                                    $ids['location'][$loc_no]['phone'][$phoneLoc] = $value['phone']['1_id'];
+                                }
                             } else if ($nameValue[0] == 'im') {
                                 $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
                             } else if ($nameValue[0] == 'email') {

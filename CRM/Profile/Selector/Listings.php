@@ -304,7 +304,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $sort->_vars = $varArray;
 
         $result = $this->_query->searchQuery( $offset, $rowCount, $sort ,null , null, null, null, null);
-
         // process the result of the query
         $rows = array( );
 
@@ -320,14 +319,18 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             if ( $field['in_selector'] && 
                  ! in_array( $key, $skipFields ) ) { 
                 if ( strpos( $key, '-' ) !== false ) {
-                    list( $fieldName, $id ) = explode( '-', $key );
+                    list( $fieldName, $id, $type ) = explode( '-', $key );
                     $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                     if ( ! $locationTypeName ) {
                         continue;
                     }
 
                     if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
-                        $names[] = "{$locationTypeName}-{$fieldName}-1";
+                        if ( $type ) {
+                            $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
+                        } else {
+                            $names[] = "{$locationTypeName}-{$fieldName}-1";
+                        }
                     } else {
                         $names[] = "{$locationTypeName}-{$fieldName}";
                     }

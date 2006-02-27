@@ -15,7 +15,7 @@ class OneTest extends GroupTest {
     function OneTest( ) {
         $this->GroupTest( 'Unit Tests for CRM' );
 
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM764.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php' );
     }
 
 }

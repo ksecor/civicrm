@@ -40,7 +40,7 @@ class TestOfGetContactHierachical extends UnitTestCase
                                   'custom_6'               => 1,
                                   'custom_7'               => 1,
                                   'custom_8'               => 1,                                  
-                                  'location'   => array( '1' => array (
+                                  'location'   => array( 'Home' => array (
                                                                        'location_type'  => 1,
                                                                        'street_address' => 1,
                                                                        'city'           => 1,
@@ -82,9 +82,8 @@ class TestOfGetContactHierachical extends UnitTestCase
                                                          ),
                                   );
         
-        $query = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties );
-        print_r($query);
-        //CRM_Core_Error::debug( 'q', $query );
+        list( $contacts, $options ) = crm_contact_search( $params, $returnProperties );
+        CRM_Core_Error::debug( 'q', $contacts );
     } 
  
 } 

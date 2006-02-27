@@ -596,7 +596,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
-                list( $fieldName, $id ) = explode( '-', $name );
+                list( $fieldName, $id, $type ) = explode( '-', $name );
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                     continue;
@@ -604,7 +604,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
                 $detailName = "{$locationTypeName}-{$fieldName}";
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
-                    $detailName .= '-1';
+                    if ( $type ) {
+                        $detailName .= "-{$type}";
+                    } else {
+                        $detailName .= '-1';
+                    }
                 }
 
                 if ( in_array( $fieldName, array( 'state_province', 'country' ) ) ) {
