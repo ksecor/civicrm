@@ -554,14 +554,15 @@ function _crm_format_contrib_params( &$params, &$values ) {
    
 
 }
-function _crm_update_contact( $contact, $values, $overwrite = true ) {
+
+function _crm_update_contact( $contact, $values, $overwrite = true ) 
+{
     // first check to make sure the location arrays sync up
-   
     $param = array("contact_id" =>$contact->id );
     $contact = crm_get_contact($param);
     
     $locMatch = _crm_location_match($contact, $values);
-
+    
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
     }
@@ -619,10 +620,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             } else {
                 $prefix = "";
             }
-                
-
         }
-         if ($overwrite || ! isset($contact->contact_type_object->suffix_id)) {
+        if ($overwrite || ! isset($contact->contact_type_object->suffix_id)) {
             $suffix = CRM_Utils_Array::value( 'suffix', $values );
         } else {
             $suffix = null;
@@ -637,10 +636,21 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             } else {
                 $suffix = "";
             }
-                
+        }
 
+        if ( $overwrite ) {
+            $gender = CRM_Utils_Array::value( 'gender', $values );
+        } else {
+            $gender = null;
         }
         
+        if ( $gender ) {
+            $genderDao = & new CRM_Core_DAO_Gender();
+            $genderDao->name = $gender; 
+            $genderDao->find(true);
+            $values['gender_id'] = $genderDao->id;
+        } 
+
         if ($lastName != "" && $firstName != "") {
             $values['sort_name'] = "$lastName, $firstName";
         } else if ( $lastName != "" ){
