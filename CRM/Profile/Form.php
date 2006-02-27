@@ -741,16 +741,20 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        // manage is_opt_out and update civicrm_subscription_history
+        // manage is_opt_out
         if (array_key_exists('is_opt_out', $this->_fields)) {
-            $isOptOut = $params['is_opt_out'] ? true : false;
+            $wasOptOut = $this->_contact['is_opt_out'] ? true : false;
+            $isOptOut  = $params['is_opt_out']         ? true : false;
             $data['is_opt_out'] = $isOptOut;
-            $shParams = array(
-                'contact_id' => $this->_contact['contact_id'],
-                'status'     => $isOptOut ? 'Removed' : 'Added',
-                'method'     => 'Web',
-            );
-            CRM_Contact_BAO_SubscriptionHistory::create($shParams);
+            // on change, create new civicrm_subscription_history entry
+            if ($wasOptOut != $isOptOut) {
+                $shParams = array(
+                    'contact_id' => $this->_contact['contact_id'],
+                    'status'     => $isOptOut ? 'Removed' : 'Added',
+                    'method'     => 'Web',
+                );
+                CRM_Contact_BAO_SubscriptionHistory::create($shParams);
+            }
         }
 
         if ( $this->_mode == self::MODE_REGISTER ) {
