@@ -100,7 +100,10 @@
     </span>
   </div>
   <div class="col2">
-    <label>{ts}Prefers:{/ts}</label> {$preferred_communication_method_display}
+    <label>{ts}Communication Preference:{/ts}</label> {$preferred_communication_method_display}
+  </div>
+  <div class="col2">
+    <label>{ts}Mail Format Preference:{/ts}</label> {$preferred_mail_format_display}
   </div>
   <div class="spacer"></div>
  </fieldset>
