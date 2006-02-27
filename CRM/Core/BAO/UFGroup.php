@@ -558,7 +558,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
-                } else if ( substr($name, 0, 7) === 'do_not_' ) {  
+                } else if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                     if ($details->$name) {
                         $values[$index] = '[ x ]';
                     }
