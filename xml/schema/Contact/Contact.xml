@@ -129,7 +129,7 @@
        <name>preferred_mail_format</name>
        <type>enum</type>
        <values>Text, HTML, Both</values>
-       <default>"Text"</default>
+       <default>"Both"</default>
        <import>true</import>
        <comment>What is the preferred mode of sending an email.</comment>
        <add>1.1</add>
