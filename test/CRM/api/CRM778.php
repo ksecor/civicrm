@@ -34,8 +34,9 @@ class TestOfCreateContactAPI extends UnitTestCase
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individual[$contact->id] = $contact;
-        echo('<h3>Contact with One Location</h3>');
-        print_r($contact);
+        //echo('<h3>Contact with One Location</h3>');
+        //print_r($contact);
+        //CRM_Core_Error::debug( 'Contact with One Location', $contact );
 
         // Now add a second location.
         $homePhone  = & new CRM_Core_DAO_Phone();
@@ -54,13 +55,18 @@ class TestOfCreateContactAPI extends UnitTestCase
                      'street_address'=> '330 Upper Terrace',
                      'postal_code'   => '94117',
                      'city'          => 'San Francisco',
-                     'state_province'=> 'CA',
+                     //'state_province'=> 'CA',
+                     'state_province'=> 1004,
+                     //'state_province'=> 'California',
                      'country'       => 'US'
+                     //'country'       => 1228
+                     //'country'       => 'United States'
                      );
         $location =& crm_create_location($contact, $params);
-    
-        echo('<h3>Contact After Adding Second Location</h3>');
-        print_r($contact);
+                
+        //echo('<h3>Contact After Adding Second Location</h3>');
+        //print_r($contact);
+        //CRM_Core_Error::debug( 'Contact After Adding Second Location', $contact );
     }
     
 // ? Alternate method: Can we pass an array of location objects into crm_create_contact ?
