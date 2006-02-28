@@ -269,6 +269,16 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        if ( $this->_mode != self::MODE_REGISTER ) {
+            //check for mix profile (eg:  individual + other contact type)
+            require_once "CRM/Core/BAO/UFField.php";
+            if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
+                CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
+                $config  =& CRM_Core_Config::singleton( );
+                CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
+            }
+        }
+
         $this->assign( 'mode'    , $this->_mode     );
         $this->assign( 'action'  , $this->_action   );
         $this->assign( 'fields'  , $this->_fields   );
@@ -403,14 +413,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( empty( $fields ) ) {
             return true;
         }
-        
-        //check for mix profile (i.e  individual + other contact type)
-        require_once "CRM/Core/BAO/UFField.php";
-        if ( CRM_Core_BAO_UFField::checkProfileType($fields) ) {
-            $errors['_qf_default'] = ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts." );
-            return $errors;
-        }
-        
 
         // hack add the email, does not work in registration, we need the real user object
         // hack this will not work in mambo/joomla, not sure why we need it

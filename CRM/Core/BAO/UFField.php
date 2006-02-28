@@ -351,24 +351,34 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
 
 
     /**
-     * function to check for mix profiles (individual + other contact types)
+     * function to check for mix profiles (eg: individual + other contact types)
      *
-     * @params array $fields  contains the field of profile
+     * @params int $ufGroupId  uf group id 
      *
      * @return  true for mix profile else false
      * @acess public
      * @static
      */
-    static function checkProfileType(&$fields) 
+    static function checkProfileType($ufGroupId) 
     {
-        foreach ($fields as $key => $value) {
-            $ufField =& new CRM_Core_DAO_UFField();
-            $ufField->field_name = $key;
-            if ($ufField->find(true) ) {
-                if ($ufField->field_type != 'Individual') {
-                    return true;
-                }
+        $ufField =& new CRM_Core_DAO_UFField();
+        $ufField->uf_group_id = $ufGroupId;
+        
+        $ufField->find();
+        $fields = array( );
+        
+        while ( $ufField->fetch() ) {
+            if ($ufField->field_type == 'Individual') {
+                $fields['Individual'] += 1;
+            } else if ($ufField->field_type == 'Contribution') {
+                $fields['Contribution'] += 1;
+            } else {
+                $fields['Other'] +=1;
             }
+        }
+        
+        if ( ($fields['Individual'] && $fields['Other']) || $fields['Contribution'] && $fields['Other'] ) {
+            return true;
         }
         return false;
     }

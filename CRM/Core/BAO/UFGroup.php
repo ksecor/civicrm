@@ -126,7 +126,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         $fields = array( );
 
+        require_once "CRM/Core/BAO/UFField.php";
         foreach ( $ufGroups as $id => $title ) {
+            if ( CRM_Core_BAO_UFField::checkProfileType($id) ) { // to skip mix profiles
+                continue;
+            }
+            
             $subset = self::getFields( $id, true, $action );
 
             // we do not allow duplicates. the first field is the winner
