@@ -135,6 +135,10 @@ esac
 
 cd $DM_SOURCEDIR/xml
 $DM_PHP5PATH/php GenCode.php
+
+# also get the svn version and store in version.tpl
+cd $DM_SOURCEDIR
+svnversion . > $DM_SOURCEDIR/templates/CRM/common/version.tpl
 cd $ORIGPWD
 
 # Main flow

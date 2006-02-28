@@ -496,7 +496,9 @@ function crm_get_contacts() {
 }
 
 /**
- * Get all the groups that this contact is a member of with the given status
+ * Get all the groups that this contact is a member of with the given status. This is used by
+ * the Drupal module / organic group integration. Not sure why they needed a differnt twist
+ * on the crm_contact_groups api, so here for backward compatibility
  * 
  * @param int     $contactId       contact id  
  * @param string  $status          state of membership 
@@ -510,7 +512,7 @@ function crm_get_contacts() {
  */ 
 function crm_contact_get_groups( $contactId, $status = null, $numGroupContact = null, $count = false ) {
     require_once 'CRM/Contact/BAO/GroupContact.php';
-    CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, $status, $numGroupContact, $count );
+    return CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, $status, $numGroupContact, $count );
 }
 
 /**

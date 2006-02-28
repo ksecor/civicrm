@@ -135,10 +135,10 @@ class CRM_Utils_Rule {
             return true;
         }
 
-        $day = $mnt = 1;
+        $day = $mon = 1;
         $year = 0;
-        if ($date['d']) $day = $date['d'];
-        if ($date['M']) $mnt = $date['M'];
+        if ($date['d']) $day  = $date['d'];
+        if ($date['M']) $mon  = $date['M'];
         if ($date['Y']) $year = $date['Y'];
 
         // if we have day we need mon, and if we have mon we need year
@@ -148,10 +148,74 @@ class CRM_Utils_Rule {
             return false;
         }
 
-        if ( ! empty( $day ) || ! empty( $mnt ) || ! empty( $year ) ) {
-            return checkdate( $mnt, $day, $year );
+        if ( ! empty( $day ) || ! empty( $mon ) || ! empty( $year ) ) {
+            return checkdate( $mon, $day, $year );
         }
-        return true;
+        return false;
+    }
+
+    /** 
+     * check the validity of the date (in qf format) 
+     * note that only a year is valid, or a mon-year is 
+     * also valid in addition to day-mon-year. The date
+     * specified has to be beyond today. (i.e today or later)
+     * 
+     * @param array $date 
+     * 
+     * @return bool true if valid date 
+     * @static 
+     * @access public 
+     */
+    static function currentDate( $date ) {
+        if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) { 
+            return true; 
+        } 
+ 
+        $day = $mon = 1; 
+        $year = 0; 
+        if ($date['d']) $day  = $date['d']; 
+        if ($date['M']) $mon  = $date['M']; 
+        if ($date['Y']) $year = $date['Y']; 
+ 
+        // if we have day we need mon, and if we have mon we need year 
+        if ( ( $date['d'] && ! $date['M'] ) || 
+             ( $date['d'] && ! $date['Y'] ) || 
+             ( $date['M'] && ! $date['Y'] ) ) { 
+            return false; 
+        } 
+
+        $result = false;
+        if ( ! empty( $day ) || ! empty( $mon ) || ! empty( $year ) ) { 
+            $result = checkdate( $mon, $day, $year ); 
+        }
+
+        if ( ! $result ) {
+            return false;
+        }
+
+        // now make sure this date is greater that today
+        $currentDate = getdate( );
+        if ( $year > $currentDate['year'] ) {
+            return true;
+        } else if ( $year < $currentDate['year'] ) {
+            return false;
+        }
+
+        if ( $date['M'] ) {
+            if ( $mon > $currentDate['mon'] ) {
+                return true;
+            } else if ( $mon < $currentDate['mon'] ) {
+                return false;
+            }
+        }
+
+        if ( $date['d'] ) {
+            if ( $day > $currentDate['mday'] ) {
+                return true;
+            } else if ( $day < $currentDate['mday'] ) {
+                return false;
+            }
+        }
     }
 
     static function integer($value) {

@@ -150,7 +150,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     {
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
-        
+        $config   =& CRM_Core_Config::singleton( );
+
+        if ( $_REQUEST['backtrace'] ||
+             defined( 'CIVICRM_BACKTRACE' ) ) {
+            self::backtrace( );
+        }
+
         // create the error array
         $error = array();
         $error['callback']    = $pearError->getCallback();

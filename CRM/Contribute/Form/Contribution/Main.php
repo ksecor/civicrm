@@ -202,8 +202,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             
             $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
-            
-            $this->addRule( 'credit_card_exp_date', ts('Select a valid date.'), 'qfDate');
+
+            $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
             
         if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
