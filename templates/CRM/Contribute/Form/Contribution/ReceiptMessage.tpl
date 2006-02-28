@@ -35,21 +35,32 @@
 {ts}Premium  Information{/ts}
 
 ===========================================================
-
-Name          : {$product_name}
-SKU           : {$sku}   
-Price         : {$price|crmMoney}
+{$product_name}
+{if $option}
 Option        : {$option}
+{/if}
+{if $sku}
+SKU           : {$sku}
+{/if}
 {if $start_date}
 Start Date    : {$start_date|crmDate}
 {/if}
 {if $end_date  }
-End Date      : {$end_date|crmDate}    
+End Date      : {$end_date|crmDate}
 {/if}
+{if $contact_email OR $contact_phone}
+
+{ts}For information about this premium, contact:{/ts}
+
 {if $contact_email}
-Contact Email : {$contact_email}
+  {$contact_email}
 {/if}
 {if $contact_phone}
-Contact Phone : {$contact_phone}
+  {$contact_phone}
 {/if}
+{/if}
+{if $is_deductible AND $price}
+
+{ts 1=$price|crmMoney}The value of this premium is: %1. This may affect the amount of the
+tax deduction you can claim. Consult your tax advisor for more information.{/ts}{/if}
 {/if}

@@ -5,7 +5,7 @@
     {if $action eq 1024}
         {ts}This is a Preview of this product as it will appear on your Contributions page(s).{/ts}
     {else}
-        {ts}Use this form to select a premium to be included on this Online Contribution Page.{/ts}
+        {ts}Use this form to select a premium to be offered on this Online Contribution Page.{/ts}
     {/if}
 </div>
  

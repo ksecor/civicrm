@@ -55,6 +55,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         parent::preProcess( );
 
         $this->assign( 'intro_text', $this->_values['intro_text'] );
+        $this->assign( 'footer_text', $this->_values['footer_text'] );
     }
 
     function setDefaultValues( ) {
@@ -116,21 +117,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         $config =& CRM_Core_Config::singleton( );
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode == CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
-            $this->addButtons(array(
-                                    array ( 'type'      => 'cancel',  
-                                            'name'      => ts('Cancel'),
-                                            'isDefault' => true   )
-                                    )
-                              );
-        } else {
+        if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel') ), 
                                     ) 
                               );
         }
@@ -218,7 +210,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
                        $this->_expressButtonName,
-                       'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',
+                       $config->paymentExpressButton,
                        array( 'class' => 'form-submit' ) );
         }
         
@@ -369,9 +361,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->set( 'token', $token ); 
 
                 if ( $this->_mode == 'test' ) {
-                    $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 } else {
-                    $paymentURL = "https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                     // hack to allow us to test without donating, need to comment out below line before release
                     // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
                 }

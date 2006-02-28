@@ -1,7 +1,5 @@
 <?php
-
-  // require_once '../../crm_v1.3/civicrm.settings.php';
-require_once '../civicrm.settings.php';
+require_once '../civicrm.config.php';
 
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
@@ -15,7 +13,7 @@ class OneTest extends GroupTest {
     function OneTest( ) {
         $this->GroupTest( 'Unit Tests for CRM' );
 
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactMultiLocs.php' );
     }
 
 }

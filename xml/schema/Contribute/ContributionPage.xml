@@ -167,4 +167,13 @@
        <comment>Is this property active?</comment>
        <add>1.3</add>
   </field>
+  <field>
+       <name>footer_text</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>6</rows>
+       <cols>50</cols>
+       <comment>Text and html allowed. Displayed at the bottom of the first page of the contribution wizard.</comment>
+       <add>1.4</add>
+  </field>
 </table>

@@ -94,6 +94,13 @@ class CRM_Contribute_Config {
      */ 
     public $paymentResponseEmail = null;
 
+    /** 
+        * URL to payment processor submit button for "express" processors / button mode
+        * 
+        * @var string                
+        */ 
+    public $paymentProcessorButton = null;
+    
     /**
      * Function to add additional config paramters to the core Config class
      * if CiviContribute is enabled
@@ -111,13 +118,16 @@ class CRM_Contribute_Config {
      */
     static function add( &$config ) {
 
-        $config->paymentProcessor     = null;
-        $config->paymentClass         = null;
-        $config->paymentBillingMode   = null;
-        $config->paymentResponseEmail = null;
-        $config->paymentCertPath      = null;
-        $config->paymentKey           = null;
-        $config->paymentPassword     = null;
+        $config->paymentProcessor       = null;
+        $config->paymentClass           = null;
+        $config->paymentBillingMode     = null;
+        $config->paymentResponseEmail   = null;
+        $config->paymentCertPath        = null;
+        $config->paymentKey             = null;
+        $config->paymentPassword        = null;
+        $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
+        $config->paymentPayPalExpressUrl = "www.paypal.com";
+        $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
             require_once 'CRM/Contribute/Payment.php';
@@ -125,6 +135,9 @@ class CRM_Contribute_Config {
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
+                $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+                $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 $config->paymentBillingMode =
                     CRM_Contribute_Payment::BILLING_MODE_FORM |
                     CRM_Contribute_Payment::BILLING_MODE_BUTTON;
@@ -133,6 +146,9 @@ class CRM_Contribute_Config {
             case 'PayPal_Express':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_BUTTON;
+                $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
+                $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+                $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 break;
 
             case 'Moneris':

@@ -98,7 +98,14 @@ function clearAmountOther() {
     </fieldset>
 {/if}
 
-    <div id="crm-submit-buttons">
-      {$form.buttons.html}
+<div id="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
+{if $footer_text}
+    <div id="footer_text">
+    <p>
+    {$footer_text}
+    </p>
     </div>
+{/if}
 </div>

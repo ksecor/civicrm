@@ -27,9 +27,9 @@
     </dl>
 {if $premium}
 <fieldset>
-    <legend>{ts}Premiums{/ts}</legend>
+    <legend>{ts}Premium Information{/ts}</legend>
     <dl>
-      <dt>{ts}Premiums{/ts}</dt><dd>{$premium}&nbsp;</dd>
+      <dt>{ts}Premium{/ts}</dt><dd>{$premium}&nbsp;</dd>
       <dt>{ts}Option{/ts}</dt><dd>{$option}&nbsp;</dd>
       <dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled}&nbsp;</dd>  
     </dl>

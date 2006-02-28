@@ -57,7 +57,7 @@
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
       </table>
       {if $premiums }
-      <fieldset><legend>{ts}Premiums{/ts}</legend> 
+      <fieldset><legend>{ts}Premium Information{/ts}</legend> 
         <table class="form-layout-compressed">
            <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
            <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html|crmReplace:class:texttolabel}</td></tr>

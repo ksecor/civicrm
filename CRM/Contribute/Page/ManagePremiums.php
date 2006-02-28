@@ -68,7 +68,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this premium. This action will remove the premium from any contribution pages that currently include it. However it will not delete the premium record - so you can enable it and re-include it in your contribution pages at a later time.?');
+            $disableExtra = ts('Are you sure you want to disable this premium? This action will remove the premium from any contribution pages that currently offer it. However it will not delete the premium record - so you can re-enable it and add it back to your contribution page(s) at a later time.');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(

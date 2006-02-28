@@ -431,7 +431,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $dao->is_active = 1;
         $dao->find();
         $min_amount = array();
-        $sel1[0] = '-- select product --';
+        $sel1[0] = '-select product-';
         while ( $dao->fetch() ) {
             
             $sel1[$dao->id] = $dao->name." ( ".$dao->sku." )";
@@ -446,7 +446,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         $form->_options = $sel2;
         $form->assign('mincontribution',$min_amount);
-        $sel =& $this->addElement('hierselect', "product_name", ts('Premiums'),'onclick="showMinContrib();"');
+        $sel =& $this->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $form->_name;
         for ( $k = 1; $k < 2; $k++ ) {

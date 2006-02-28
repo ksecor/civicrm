@@ -371,6 +371,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , '' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '' );
 // The FROM email address for all automatic payment response (receipt) emails.
 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif');
+// URL to the button image used for "express" option checkout, e.g. PayPal Express. URL to PayPal US button is provided by default.
+// NOTE: If you've enabled SSL for your Contribution page, your button image should be sourced via https as well.
+
 /*
  * TEST Payment Server (Sandbox) Settings
  */
@@ -384,6 +388,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' );
 // For Moneris - storeid.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
+// Hostname for "PayPal Express" button submit in test-drive mode. Value for US is provided by default.
+// Do not change this value unless you are submitting to a non-US PayPal instance.
+
 /*
  * LIVE Payment Server Settings
  */
@@ -396,6 +404,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 // Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
 // For Moneris - storeid.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
+
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
+// Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
+// Do not change this value unless you are submitting to a non-US PayPal instance.
 
 /**
  * Force SSL Redirect for Online Contribution Pages
