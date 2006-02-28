@@ -5,7 +5,7 @@
 <fieldset><legend>{ts}Communication Preferences{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.privacy.label}</td>
+        <td>{$form.privacy.label}</td>
         <td>{$form.privacy.html}</td>
     </tr>
     <tr>
@@ -14,6 +14,15 @@
             {$form.preferred_communication_method.html}
             <div class="description font-italic">
                 {ts}Select the preferred method of communicating with this contact.{/ts}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{$form.preferred_mail_format.label}</td>
+        <td>
+            {$form.preferred_mail_format.html}
+            <div class="description font-italic">
+                {ts}Select the preferred format of emails sent to this contact.{/ts}
             </div>
         </td>
     </tr>

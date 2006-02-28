@@ -463,6 +463,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
+        $form->add('select', 'preferred_mail_format', ts('Mail Format'), CRM_Core_SelectValues::pmf());
     }
 
 
