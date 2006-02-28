@@ -133,9 +133,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
+        $fields = array_merge(CRM_Contribute_BAO_Contribution::getContributionFields(), $fields);
         
-        $fields = array_merge(CRM_Contribute_DAO_Contribution::export( ), $fields);
-        //print_r($fields);
         $select = array( );
         foreach ($fields as $name => $field ) {
             if ( $name ) {

@@ -146,7 +146,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     public function buildQuickForm()
     {
         // add the form elements
-        
+        require_once "CRM/Contribute/PseudoConstant.php";
         foreach ($this->_fields as $name => $field ) {
             $required = $field['is_required'];
 
@@ -175,7 +175,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $this->add('select', $name, $field['title'], 
+                $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
             } else if ($field['name'] === 'preferred_mail_format') {
                 $this->add('select', $name, $field['title'], 
@@ -184,14 +184,20 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::GROUP);
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id, CRM_Contact_Form_GroupTag::GROUP );
             } else if ( $field['name'] === 'tag' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::TAG );
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required);
+            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
+            } else if ($field['name'] == 'payment_instrument' ) {
+                $this->add('select', 'payment_instrument', ts( 'Paid By' ),
+                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+            } else if ($field['name'] == 'contribution_type' ) {
+                $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
+                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }

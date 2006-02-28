@@ -312,6 +312,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
+        require_once "CRM/Contribute/PseudoConstant.php";
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -377,8 +378,21 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id );
+            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
+                $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
+            } else if ($field['name'] == 'payment_instrument' ) {
+                $this->add('select', 'payment_instrument', ts( 'Paid By' ),
+                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+            } else if ($field['name'] == 'contribution_type' ) {
+                $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
+                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
+            }
+            
+            if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
+                $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
             }
             
             if ( $field['rule'] ) {

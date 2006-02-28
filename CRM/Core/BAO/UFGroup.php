@@ -265,9 +265,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $field =& CRM_Core_DAO::executeQuery( $query );
             
             if ( !$showAll ) {
-                $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
+                $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
             } else {
-                $importableFields =& CRM_Contact_BAO_Contact::importableFields("Individual", false, true );
+                $importableFields =& CRM_Contact_BAO_Contact::importableFields("All", false, true );
             }
 
             $importableFields['group']['title'] = ts('Group(s)');

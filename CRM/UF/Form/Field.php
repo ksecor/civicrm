@@ -110,7 +110,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
         }
         
-        $this->_fields = array_merge (CRM_Contribute_DAO_Contribution::export( ), $this->_fields);
+        $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
 
         $this->_selectFields = array( );
@@ -189,14 +189,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
-        
-        $contributionField =& CRM_Contribute_DAO_Contribution::export( );
-        foreach ($contributionField as $key => $var) {
-            if ($key == 'contact_id') {
-                continue;
-            }
-            $fields['Contribution' ][$key] = $var;
-        }
+        $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::getContributionFields();
 
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
