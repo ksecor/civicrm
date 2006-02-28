@@ -368,6 +368,20 @@ function crm_delete_uf_field( $ufField ) {
     
 }
 
-
+/**
+ * check the data validity
+ *
+ * @param int    $userID    the user id 
+ * @param string $title     the title of the group we are interested in
+ * @pram  boolean $register is this the registrtion form
+ * @param int    $action  the action of the form
+ *
+ * @return error   if data not valid
+ * 
+ * @access public
+ */
+function crm_validate_profile_html($userID, $title, $action = null, $register = false) {
+    return Crm_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
+}
 
 ?>
