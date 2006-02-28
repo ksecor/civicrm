@@ -524,10 +524,13 @@ ORDER BY
             }
         }
         
-        $subscriptionParams = array('contact_id' => $contact->id,
-                                    'status' => 'Added',
-                                    'method' => 'Admin');
-        CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
+        // make a civicrm_subscription_history entry only on contact create (CRM-777)
+        if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {
+            $subscriptionParams = array('contact_id' => $contact->id,
+                                        'status' => 'Added',
+                                        'method' => 'Admin');
+            CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
+        }
 
         CRM_Core_DAO::transaction('COMMIT');
         
