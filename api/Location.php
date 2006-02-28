@@ -64,7 +64,7 @@ function crm_create_location(&$contact, $params) {
     _crm_store_values($fields, $params, $loc['address']);
     
     //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
-    $ids = array( 'county', 'country', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
