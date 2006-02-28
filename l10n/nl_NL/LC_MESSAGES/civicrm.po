@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-02-22 18:36+0100\n"
+"PO-Revision-Date: 2006-02-27 17:44+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -7308,42 +7308,44 @@ msgstr "Bedank bericht en Kwitanties"
 msgid ""
 "This title will be displayed at the top of the thank-you / transaction "
 "confirmation page."
-msgstr ""
+msgstr "Deze titel wordt getoond bovenaan de Bedank en Transactie bevestiging pagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter text (and optional HTML layout tags) for the thank-you message that "
 "will appear at the top of the confirmation page."
-msgstr ""
+msgstr "Voer de tekst ( met eventuele HTML opmaak ) in voor het bedankbericht, dat bovenaan de bevestigngspagina zal verschijnen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter link(s) and/or text that you want to appear at the bottom of the thank-"
 "you page. You can use this content area to encourage contributors to visit a "
 "tell-a-friend page or take some other action."
-msgstr ""
+msgstr "Voer de links en/of tekst in, die onderaan de bedank pagina zal verschijnen."
+"U kunt deze bv. gebruiken, om contributanten aan te moedigen hun vrienden te informeren."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Check this box if you want an electronic receipt to be sent automatically."
-msgstr ""
+msgstr "Vink deze box aan, indien u automatisch een electronische kwitantie wilt versturen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM name to be used when receipts are emailed to contributors."
-msgstr ""
+msgstr "Voer de VAN naam in (de verzendnaam), die gebruikt wordt om kwitanties naar donateurs te versturen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM email address to be used when receipts are emailed to "
 "contributors."
-msgstr ""
+msgstr "Voer de VAN naam in (de verzend emailnaam), die gebruikt wordt om kwitanties naar donateurs te versturen"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter a message you want included at the beginning of emailed receipts. "
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
-msgstr ""
+msgstr "Voer een tekst in, die boven de tekst van ge-emailde kwitanties komt te staan."
+"Noot : ge-emailde kwitanties kunnen alleen bestaan uit tekst, geen HTML opmaak."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7351,7 +7353,7 @@ msgid ""
 "emailed receipt, enter one or more email addresses here. Multiple email "
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
-msgstr ""
+msgstr "Als u wenst, dat collegas in uw organisatie een copie krijgen van elke verstuurde kwitantie, kunt u hier hun emailadressen invullen (de adressen worden gescheiden door een komma). "
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -7359,11 +7361,11 @@ msgid ""
 "each emailed receipt, enter one or more email addresses here. Multiple email "
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
-msgstr ""
+msgstr "Als u wenst, dat collegas in uw organisatie een non-publieke copie krijgen van elke verstuurde kwitantie, kunt u hier hun emailadressen invullen (de adressen worden gescheiden door een komma)."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr ""
+msgstr "Beproef uw Bijdrage pagina"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -7373,139 +7375,140 @@ msgid ""
 "contribution records or contact information will be saved to the database</"
 "strong>. Refer to your payment processor's documentation for information on "
 "values to use for test credit card number, security code, postal code, etc."
-msgstr ""
+msgstr "Deze pagina staat nu in <strong> test-mode</strong>. Transacties zullen worden verstuurd naar de testserver van uw betaalmiddelleverancier. <strong> Er worden geen daadwerkelijke financiele transacties gedaan, er vindt er geen opslag van data van contributanten, contactinformatie of transacties plaats.</strong>"
+"Kijk in de documentatie van uw betaalmiddel leverancier voor informatie  omtrent gegevens voor testdata (zoals creditcard nummer, valideringscode, etc)."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "Please print this receipt for your records."
-msgstr ""
+msgstr "Druk deze kwitantie af voor uw administratie"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Contribution Information"
-msgstr ""
+msgstr "Informatie mbt. de bijdrage"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Transaction #"
-msgstr ""
+msgstr "Transactienummer #"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
-msgstr ""
+msgstr "Kwitantie van de proef-transactie"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid ""
 "This is a test-drive transaction receipt. No live financial\n"
 "transaction has occurred."
-msgstr ""
+msgstr "Dit is een kwitantie van een proef-transactie. Er heeft geen echte financiele transactie plaats gevonden."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 msgid "Contribution Receipt"
-msgstr ""
+msgstr "Kwitantie van de bijdrage"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "Your contribution has been processed successfully. Please print this page "
 "for your records."
-msgstr ""
+msgstr "Uw bijdrage is succesvol verwerkt. U kunt deze pagina afdrukken voor uw administratie"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt for this contribution has also been sent to %1"
-msgstr ""
+msgstr "Een email kwitantie van deze bijdrage is eveneens verstuurd naar %1"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "WARNING: Deleting this contribution will result in the loss of the "
 "associated financial transactions (if any)."
-msgstr ""
+msgstr "Waarschuwing : Het verwijderen van deze bijdrage leidt ook tot verwijdering van mogelijke hiermee samenhangende financiele transacties."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
-msgstr ""
+msgstr "Kies het relevante contributie type voor deze tranactie."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
-msgstr ""
+msgstr "Datum van ontvangst van deze bijdrage."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "This field is blank for non-monetary contributions."
-msgstr ""
+msgstr "Dit veld is leeg gelaten voor een niet-financiele bijdrage."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Optional identifier for the contribution source (campaign name, event, "
 "mailer, etc.)."
-msgstr ""
+msgstr "Optioneel kenmerk voor de contributie herkomst ( campagne, evenement, mailing, etc)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
-msgstr ""
+msgstr "Exact bedrag gedoneerd door de contributant."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Non-deductible portion of this contribution."
-msgstr ""
+msgstr "Niet-aftrekbaar deel van deze bijdage"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Processing fee for this transaction (if applicable)."
-msgstr ""
+msgstr "Verwerkingskosten van deze transactie (indien van toepassing)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Net value of the contribution (Total Amount minus Fee)."
-msgstr ""
+msgstr "Netto waarde van de bijdrage ( totaal minus de verwerkingskosten )"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Unique internal reference ID for this contribution."
-msgstr ""
+msgstr "Unieke intern referentie kenmerk voor deze bijdrage"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Unique payment ID for this transaction. The Payment Processor's transaction "
 "ID will be automatically stored here on online contributions."
-msgstr ""
+msgstr "Uniek betalingskenmerk voor deze transactie. Het betaalmiddel transactie kenmerk wordt hier opgeslagen in geval van een online donatie."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "For offline contributions, you can enter an account+check number, bank "
 "transfer identifier, etc."
-msgstr ""
+msgstr "Voor niet-online bijdragen kunt u hier kenmerken opgeven voor een rekeningnummer, cheque, banktransfer, etc."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
-msgstr ""
+msgstr "Datum van versturing kwitantie naar contributant."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a thank-you message was sent to the contributor."
-msgstr ""
+msgstr "Datum van versturing bedankbericht naar contributant. "
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "To mark a contribution as cancelled, enter the cancellation date here."
-msgstr ""
+msgstr "Om de bijdrage te stoppen, voert u hier de stopdatum in."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "New Contribution Type"
-msgstr ""
+msgstr "Nieuw contributie type"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records of this type."
-msgstr ""
+msgstr "Waarschuwing: Het verwijderen van dit type resulteert in verwijderen van alle bijdragebestanden, die van dit type gebruik maken."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
 "Use this field to flag contributions of this type with the corresponding "
 "code used in your accounting system. This code will be included when you "
 "export contribution data to your accounting package."
-msgstr ""
+msgstr "Gebruik dit veld, om bijdragen van dit type te markeren met een code in uw administratie systeem. Deze code zal mee geexporteerd worden bij een export van de bijdragen naar uw administratiesysteem."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
-msgstr ""
+msgstr "Zijn bijdragen van dit type aftrekbaar voor belastingen?"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "pending"
-msgstr ""
+msgstr "in verwerking"
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""

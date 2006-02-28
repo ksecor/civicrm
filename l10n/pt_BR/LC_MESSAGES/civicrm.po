@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-01-06 17:35-0300\n"
-"Last-Translator: Creso Moraes <creso@enfoque.com>\n"
+"PO-Revision-Date: 2006-02-24 19:35+0100\n"
+"Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3198,15 +3198,15 @@ msgstr "Trxn Código de Resultado"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Debit"
-msgstr "Debito"
+msgstr "Débito"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Credit"
-msgstr "Credito"
+msgstr "Crédito"
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "Please enter a valid Credit Card name."
-msgstr "Por favor ente com um nome de Cartao de Credito Valido."
+msgstr "Por favor ente com um nome de Cartão de Crédito Válido."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "That name already exists in Database."
@@ -3214,7 +3214,7 @@ msgstr "Nome já existente na Base de Dados."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "Selected Credit Card has been deleted."
-msgstr "Selecione o Cartao de Credito a ser Excluído."
+msgstr "Selecione o Cartão de Crédito a ser Excluído."
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "The Credit Card \"%1\" has been saved."
@@ -3227,7 +3227,7 @@ msgstr "CIVICRM_PAYMENT_PASSWORD ausente do arquivo config."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
-msgstr "Esta pagina solicitada nao esta mais disponivel."
+msgstr "Esta página solicitada não esta mais disponível."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Card Number"
@@ -3239,15 +3239,15 @@ msgstr "Código de Segurança"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Expiration Date"
-msgstr "Data de Expiracao"
+msgstr "Data de Expiração"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Card Type"
-msgstr "Tipo de Cartao"
+msgstr "Tipo de Cartão"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr "Fazer contribuicao"
+msgstr "Fazer contribuição"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "<< Go Back"
@@ -3264,7 +3264,7 @@ msgstr "Entre com uma quantidade válida (numeros e pontos decimais somente)."
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "Contribution Amount"
-msgstr "Quantidade das Contribuicoes"
+msgstr "Quantidade das Contribuições"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -3276,11 +3276,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
-msgstr "Esta quantidade nao pode ser maior que %1"
+msgstr "Esta quantidade não pode ser maior que %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be less than %1"
-msgstr "Esta quantidade nao pode ser menos que %1"
+msgstr "Esta quantidade não pode ser menor que %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid Credit Card Number"
@@ -3324,7 +3324,7 @@ msgstr "(abaixo da informação de cobrança)"
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Custom Page Elements"
-msgstr "Elementos da Pagina Customizada"
+msgstr "Elementos da Página Customizada"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
@@ -3523,7 +3523,7 @@ msgstr "Todos"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Status"
-msgstr "Situacao das Contribuicoes"
+msgstr "Situação das Contribuições"
 
 #: CRM/Contribute/Form/Task/Delete.php
 msgid "Deleted Contribution(s): %1"
@@ -3535,15 +3535,15 @@ msgstr "Total de Contribuições selecionadas: %1 "
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "Contribution ID"
-msgstr "Contribuicao ID"
+msgstr "Contribuição ID"
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "CiviCRM Contributions"
-msgstr "CiviCRM Contribuicoes"
+msgstr "CiviCRM Contribuições"
 
 #: CRM/Contribute/Form/Task/Print.php
 msgid "Print Contributions"
-msgstr "Imprimir Contribuicoes"
+msgstr "Imprimir Contribuições"
 
 #: CRM/Contribute/Import/Form/MapField.php
 msgid "Missing required field: %1"
@@ -3569,15 +3569,15 @@ msgstr ""
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr "Editar Cartao de Credito"
+msgstr "Editar Cartão de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Disable Credit Card"
-msgstr "Desabilitar Cartao de Credito"
+msgstr "Desabilitar Cartão de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Enable Credit Card"
-msgstr "Habilitar Cartao de Credito"
+msgstr "Habilitar Cartão de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
@@ -3585,15 +3585,15 @@ msgstr "Apagar Cartão de Crédito Aceito"
 
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr "Configurar Pagina de Contribuicoes"
+msgstr "Configurar Página de Contribuições"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Quer mesmo desativar esta Pagina de Contribuicao?"
+msgstr "Quer mesmo desativar esta Pagina de Contribuição?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "Quer mesmo excluir esta pagina de Contribuicao?"
+msgstr "Quer mesmo excluir esta página de Contribuição?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -3603,33 +3603,33 @@ msgstr "Teste-drive"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "New Online Contribution Page"
-msgstr "Nova Página de Contribuicao Online"
+msgstr "Nova Página de Contribuição Online"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Preview Contribute Page"
-msgstr "Visualizar Página de Contribuicao"
+msgstr "Visualizar Página de Contribuição"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Você tem certeza de que deseja desabilitar este tipo de Contribuicao?"
+msgstr "Você tem certeza de que deseja desabilitar este tipo de Contribuição?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Edit Contribution Type"
-msgstr "Editar Tipo de Contribuicao"
+msgstr "Editar Tipo de Contribuição"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Disable Contribution Type"
-msgstr "Desabilitar Tipo de Contribuicao"
+msgstr "Desabilitar Tipo de Contribuição"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Enable Contribution Type"
-msgstr "Habilitar Tipo de Contribuicao"
+msgstr "Habilitar Tipo de Contribuição"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Delete Contribution Type"
-msgstr "Excluir Tipo de Contribuicao"
+msgstr "Excluir Tipo de Contribuição"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Are you sure you want to disable this Payment Instrument?"
@@ -3657,17 +3657,17 @@ msgstr "Excluir Instrumento de Pagamento"
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "View Contribution"
-msgstr "Visualizar Contribuicao"
+msgstr "Visualizar Contribuição"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Edit Contribution"
-msgstr "Editar Contribuicao"
+msgstr "Editar Contribuição"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Delete Contribution"
-msgstr "Excluir Contribuicao"
+msgstr "Excluir Contribuição"
 
 #: CRM/Contribute/Selector/Search.php
 msgid "CiviCRM Contribution Search"
@@ -3713,17 +3713,14 @@ msgstr "%1 parecido - \"%2\""
 msgid ""
 "We could not find the backup sql script. Check %1 in the CiviCRM root "
 "directory."
-msgstr ""
-"Impossível encontrar o script de backup do sql. Verifique sql/civicrm_backup."
-"mysql no diretório raiz do CiviCRM."
+msgstr "Impossível encontrar o script de backup do sql. Verifique %1 no diretorio raiz do CiviCRM."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
-"Não encontrado o programa mysqldump. Verifique a variável de "
-"configuraçãoCIVICRM_MYSQL_PATH no arquivo de configuração do seu CiviCRM."
+msgstr "Não encontrado o programa mysqldump. Verifique a variável de "
+"configuração CIVICRM_MYSQL_PATH no arquivo de configuração do seu CiviCRM."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -4121,7 +4118,7 @@ msgstr "Nome de Campo"
 
 #: CRM/Core/DAO/UFField.php
 msgid "In Selector"
-msgstr "In Selector"
+msgstr "No seletor"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Form Type"
@@ -4785,7 +4782,7 @@ msgstr "Sem verificar duplicados"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Invalid Email address"
-msgstr "Endereco de email inválido"
+msgstr "Endereço de email inválido"
 
 #: CRM/Import/Parser/Contact.php
 msgid "Email address conflicts with record %1"
@@ -5148,7 +5145,7 @@ msgstr "Ver relatório do Mailing"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "CiviMail Mailings"
-msgstr "MAilings CiviMail"
+msgstr "Mailings CiviMail"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
@@ -5403,7 +5400,7 @@ msgstr "Excluir Perfil de Grupo CiviCRM"
 
 #: CRM/UF/Page/Group.php
 msgid "Standalone Form"
-msgstr "Formulario Padrao"
+msgstr "Formulario Padrão"
 
 #: CRM/UF/Page/Group.php
 msgid "Standalone Form for Profile Group"
@@ -5567,7 +5564,7 @@ msgstr "CiviContribuir"
 
 #: CRM/Utils/Menu.php
 msgid "Accepted Credit Cards"
-msgstr "Cartoes de Creditos Aceitos"
+msgstr "Cartoes de Créditos Aceitos"
 
 #: CRM/Utils/Menu.php templates/CRM/Contribute/Form/Search.tpl
 msgid "Find Contributions"
@@ -10765,3 +10762,4 @@ msgstr "Descobrir"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
+
