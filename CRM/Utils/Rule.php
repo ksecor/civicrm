@@ -111,6 +111,13 @@ class CRM_Utils_Rule {
         return Validate::uri( $url, $options );
     }
 
+    static function Domain( $domain ) {
+        if ( ! preg_match('/^[\w\s]+[.][\w\s]+$/', $domain ) ) {
+            return false;
+        }
+        return true;
+    }
+
     static function date($value, $default = null) {
         if (is_string($value) &&
             preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value)) {
