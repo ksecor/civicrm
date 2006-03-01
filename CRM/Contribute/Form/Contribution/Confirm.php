@@ -257,7 +257,79 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $this->_values['is_email_receipt'] ) {
             $receiptDate = $now;
         }
-        
+       
+        if ( $contributionType->is_deductible ) {
+            $this->assign('is_deductible' , true );
+            $this->set('is_deductible' , true);
+        }
+
+        // assigning Premium in formation to receipt tpl
+        if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
+            $startDate = $endDate = "";
+             $this->assign('selectPremium' , true );
+             require_once 'CRM/Contribute/DAO/Product.php';
+             $productDAO =& new CRM_Contribute_DAO_Product();
+             $productDAO->id = $premiumParams['selectProduct'];
+             $productDAO->find(true);
+             $this->assign('product_name' , $productDAO->name );
+             $this->assign('price', $productDAO->price);
+             $this->assign('sku', $productDAO->sku);
+             $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
+
+             $periodType = $productDAO->period_type;
+                
+             if ( $periodType ) {
+                 $fixed_period_start_day = $productDAO->fixed_period_start_day;
+                 $duration_unit          = $productDAO->duration_unit;
+                 $duration_interval      = $productDAO->duration_interval;
+                 
+                 if ( $periodType == 'rolling' ) {
+                     $startDate = date('Y-m-d');
+                 } else if ($periodType == 'fixed') {
+                     if ( $fixed_period_start_day ) {
+                         $date  = explode('-', date('Y-m-d') );
+                         $month     = substr( $fixed_period_start_day, 0, strlen($fixed_period_start_day)-2);
+                         $day       = substr( $fixed_period_start_day,-2)."<br>";
+                         $year      = $date[0];
+                         $startDate = $year.'-'.$month.'-'.$day;
+                     } else {
+                         $startDate = date('Y-m-d');
+                     }
+                 }
+                 
+                 $date  = explode('-', $startDate );
+                 $year  = $date[0];
+                 $month = $date[1];
+                 $day   = $date[2];
+                 
+                 switch ( $duration_unit ) {
+                 case 'year' :
+                     $year  = $year   + $duration_interval;
+                     break;
+                 case 'month':
+                     $month = $month  + $duration_interval;
+                     break;
+                 case 'day':
+                     $day   = $day    + $duration_interval;
+                     break;
+                 case 'week':
+                     $day   = $day    + ($duration_interval * 7);
+                 }
+                 $endDate = date('Y-m-d H:i:s',mktime($hour, $minute, $second, $month, $day, $year));
+                 $this->assign('start_date',$startDate);
+                 $this->assign('end_date',$endDate);
+             }
+             
+             require_once 'CRM/Contribute/DAO/Premium.php';
+             $dao = & new CRM_Contribute_DAO_Premium();
+             $dao->entity_table = 'civicrm_contribution_page';
+             $dao->entity_id    = $this->_id;
+             $dao->find(true);
+             $this->assign('contact_phone',$dao->premiums_contact_phone);
+             $this->assign('contact_email',$dao->premiums_contact_email);
+                          
+        }
+
         if ( $this->_action != 1024 ) { // no db transactions during preview
             CRM_Core_DAO::transaction( 'BEGIN' );
 
@@ -268,7 +340,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $productDAO =& new CRM_Contribute_DAO_Product();
                     $productDAO->id = $premiumParams['selectProduct'];
                     $productDAO->find(true);
-                    $nonDeductibleAmount = $productDAO->price;
+                    if( $result['gross_amount'] < $productDAO->price ){
+                        $nonDeductibleAmount = $result['gross_amount'];
+                    } else {
+                        $nonDeductibleAmount = $productDAO->price;
+                    }
                 } else {
                     $nonDeductibleAmount = '0.00';
                 }
@@ -297,68 +373,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
             //create Premium record
             if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
-                $this->assign('selectPremium' , true );
+               
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
                 $productDAO->id = $premiumParams['selectProduct'];
                 $productDAO->find(true);
-                
-                $this->assign('product_name' , $productDAO->name );
-                $this->assign('price', $productDAO->price);
-                $this->assign('sku', $productDAO->sku);
-                $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
                
                 $periodType = $productDAO->period_type;
-                
-                if ( $periodType ) {
-                    $fixed_period_start_day = $productDAO->fixed_period_start_day;
-                    $duration_unit          = $productDAO->duration_unit;
-                    $duration_interval      = $productDAO->duration_interval;
-                    
-                    if ( $periodType == 'rolling' ) {
-                        $startDate = date('Y-m-d');
-                    } else if ($periodType == 'fixed') {
-                        if ( $fixed_period_start_day ) {
-                            $date  = explode('-', date('Y-m-d') );
-                            $month     = substr( $fixed_period_start_day, 0, strlen($fixed_period_start_day)-2);
-                            $day       = substr( $fixed_period_start_day,-2)."<br>";
-                            $year      = $date[0];
-                            $startDate = $year.'-'.$month.'-'.$day;
-                        } else {
-                            $startDate = date('Y-m-d');
-                        }
-                    }
-                    
-                    $date  = explode('-', $startDate );
-                    $year  = $date[0];
-                    $month = $date[1];
-                    $day   = $date[2];
-                   
-                    switch ( $duration_unit ) {
-                    case 'year' :
-                        $year = $year + $duration_interval;
-                        break;
-                    case 'month':
-                        $month = $month + $duration_interval;
-                        break;
-                    case 'day':
-                        $day   = $day +  $duration_interval;
-                        break;
-                    case 'week':
-                        $day   = $day +  ($duration_interval * 7);
-                    }
-                    $endDate = date('Y-m-d H:i:s',mktime($hour, $minute, $second, $month, $day, $year));
-                    $this->assign('start_date',$startDate);
-                    $this->assign('end_date',$endDate);
-                }
-                require_once 'CRM/Contribute/DAO/Premium.php';
-                $dao = & new CRM_Contribute_DAO_Premium();
-                $dao->entity_table = 'civicrm_contribution_page';
-                $dao->entity_id    = $this->_id;
-                $dao->find(true);
-                $this->assign('contact_phone',$dao->premiums_contact_phone);
-                $this->assign('contact_email',$dao->premiums_contact_email);
-                
+                              
                 require_once 'CRM/Utils/Date.php';
                 $params = array(
                                 'product_id'         => $premiumParams['selectProduct'],

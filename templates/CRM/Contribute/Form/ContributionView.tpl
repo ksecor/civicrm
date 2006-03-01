@@ -31,7 +31,7 @@
     <dl>
       <dt>{ts}Premium{/ts}</dt><dd>{$premium}&nbsp;</dd>
       <dt>{ts}Option{/ts}</dt><dd>{$option}&nbsp;</dd>
-      <dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled}&nbsp;</dd>  
+      <dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled|truncate:10:''|crmDate}&nbsp;</dd>  
     </dl>
 </fieldset>    
 {/if}

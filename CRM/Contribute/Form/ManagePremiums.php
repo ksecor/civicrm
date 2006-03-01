@@ -214,7 +214,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         
         $fileLocation  = $files['uploadFile']['tmp_name'];
-        if( $fileLocation ) {
+        if( $fileLocation != "") {
             list($width, $height ) = getimagesize($fileLocation); 
             
             if ( ($width < 80 || $width > 500) ||  ( $height  < 80 || $height > 500) ) {

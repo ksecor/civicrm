@@ -54,7 +54,7 @@
             {if $context EQ "thankContribution" AND $is_deductible AND $row.price}
                 <div id="premium-tax-disclaimer">
                 <p>
-                {ts 1=$price|crmMoney}The value of this premium is: %1. This may affect the amount of the
+                {ts 1=$row.price|crmMoney}The value of this premium is: %1. This may affect the amount of the  
                 tax deduction you can claim. Consult your tax advisor for more information.{/ts}
                 </p>
                 </div>
