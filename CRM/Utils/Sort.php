@@ -114,15 +114,14 @@ class CRM_Utils_Sort {
 
     /**
      * The constructor takes an assoc array
-     *   key names of variable (which should be the same as the column name)
-     *   value: ascending or descending
+     * key names of variable (which should be the same as the column name)
+     * value: ascending or descending
      *
-     * @param mixed $vars - assoc array as described above
+     * @param mixed  $vars             - assoc array as described above
+     * @param string $defaultSortOrder - order to sort 
      *
      * @return void
-     *
      * @access public
-     *
      */
     function __construct( &$vars, $defaultSortOrder = null ) {
         $this->_vars      = array( );
@@ -145,7 +144,7 @@ class CRM_Utils_Sort {
     }
 
     /**
-     * return the string for the order by clause
+     * Function returns the string for the order by clause
      *
      * @return string the order by clause
      * @access public
@@ -169,7 +168,7 @@ class CRM_Utils_Sort {
      * @param int $index the field index
      * @param int $dir   the direction of the sort
      *
-     * @return string    the string to append to the url
+     * @return string  the string to append to the url
      * @static
      * @access public
      */
@@ -182,7 +181,7 @@ class CRM_Utils_Sort {
      *
      * @param string $defaultSortOrder the sort order to use by default
      *
-     * @return void
+     * @return returns null if $url- (sort url) is not found 
      * @access public
      */
     function initSortID( $defaultSortOrder ) {
@@ -249,7 +248,7 @@ class CRM_Utils_Sort {
     /**
      * getter for currentSortID
      *
-     * @return int
+     * @return int returns of the current sort id
      * @acccess public
      */
     function getCurrentSortID( ) {
@@ -259,7 +258,7 @@ class CRM_Utils_Sort {
     /**
      * getter for currentSortDirection
      *
-     * @return int
+     * @return int returns of the current sort direction
      * @acccess public
      */
     function getCurrentSortDirection( ) {

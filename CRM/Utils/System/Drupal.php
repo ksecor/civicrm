@@ -81,9 +81,11 @@ class CRM_Utils_System_Drupal {
 
     /** 
      * rewrite various system urls to https 
-     * 
+     *  
+     * @param null 
+     *
      * @return void 
-     * access public  
+     * @access public  
      * @static  
      */  
     static function mapConfigToSSL( ) {
@@ -94,7 +96,7 @@ class CRM_Utils_System_Drupal {
     /**
      * figure out the post url for the form
      *
-     * @param the default action if one is pre-specified
+     * @param mix $action the default action if one is pre-specified
      *
      * @return string the url to post the form
      * @access public
@@ -117,6 +119,7 @@ class CRM_Utils_System_Drupal {
      *                           Useful for links that will be displayed outside the site, such as in an
      *                           RSS feed.
      * @param $fragment string   A fragment identifier (named anchor) to append to the link.
+     * @param $htmlize  boolean  whether to convert to html eqivalant
      *
      * @return string            an HTML string containing a link to the given path.
      * @access public
@@ -208,7 +211,7 @@ class CRM_Utils_System_Drupal {
     /**   
      * Set a message in the UF to display to a user 
      *   
-     * @param string $name     the message to set 
+     * @param string $message the message to set 
      *   
      * @access public   
      * @static   

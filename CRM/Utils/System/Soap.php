@@ -48,7 +48,7 @@ class CRM_Utils_System_Soap {
     /**
      * sets the title of the page
      *
-     * @param string $title
+     * @param string $title title  for page
      *
      * @return void
      * @access public
@@ -113,7 +113,6 @@ class CRM_Utils_System_Soap {
      *
      * @return string the url to post the form
      * @access public
-     * @static
      */
     function postURL( $action ) {
         return null;
@@ -150,8 +149,6 @@ class CRM_Utils_System_Soap {
     }
 
     
-    
-
     /**
      * Swap the current UF for soap
      *

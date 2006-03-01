@@ -42,7 +42,7 @@ class CRM_Utils_System_Mambo {
     /**
      * sets the title of the page
      *
-     * @param string $title
+     * @param string $title title to set
      *
      * @return void
      * @access public
@@ -98,6 +98,7 @@ class CRM_Utils_System_Mambo {
      *                           Useful for links that will be displayed outside the site, such as in an
      *                           RSS feed.
      * @param $fragment string   A fragment identifier (named anchor) to append to the link.
+     * @param $htmlize  boolean  whether to convert to html eqivalant
      *
      * @return string            an HTML string containing a link to the given path.
      * @access public
@@ -141,7 +142,7 @@ class CRM_Utils_System_Mambo {
     /**
      * figure out the post url for the form
      *
-     * @param the default action if one is pre-specified
+     * @param $action the default action if one is pre-specified
      *
      * @return string the url to post the form
      * @access public
@@ -173,7 +174,7 @@ class CRM_Utils_System_Mambo {
     /**    
      * Set a message in the UF to display to a user  
      *    
-     * @param string $name     the message to set  
+     * @param string $message  the message to set  
      *    
      * @access public    
      * @static    

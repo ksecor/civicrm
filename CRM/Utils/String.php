@@ -28,6 +28,11 @@
 
 require_once 'HTML/QuickForm/Rule/Email.php';
 
+/**
+ * This class contains string functions
+ *
+ */
+
 class CRM_Utils_String {
   
     const
@@ -69,11 +74,12 @@ class CRM_Utils_String {
      * given a string, replace all non alpha numeric characters and
      * spaces with the replacement character
      *
-     * @param string the name to be worked on
-     * @param string the character to use for non-valid chars
-     * @param int    length of valid variables
+     * @param string $name the name to be worked on
+     * @param string $char the character to use for non-valid chars
+     * @param int    $len  length of valid variables
+     *
      * @access public
-     * @return string
+     * @return string returns the manipulated string
      * @static
      */
     static function munge( $name, $char = '_', $len = 31 ) {
@@ -88,11 +94,11 @@ class CRM_Utils_String {
     /* 
      * Takes a variable name and munges it randomly into another variable name
      *  
-     * @param  name    Initial Variable Name
+     * @param  string $name    Initial Variable Name
+     * @param int     $len  length of valid variables
+     *
      * @return string  Randomized Variable Name
-     * 
      * @access public 
-     * @return string
      * @static
      */
     static function rename( $name, $len = 4 ) {
@@ -104,8 +110,8 @@ class CRM_Utils_String {
      * takes a string and returns the last tuple of the string.
      * useful while converting file names to class names etc
      *
-     * @param string the input string
-     * @param char   the character used to demarcate the componets
+     * @param string $string the input string
+     * @param char   $char   the character used to demarcate the componets
      *
      * @access public
      * @return string the last component
@@ -125,7 +131,8 @@ class CRM_Utils_String {
      * @param mixed  $name  the string (or array of strings) to append 
      *
      * @return void
-     *
+     * @access public
+     * @static
      */
     static function append( &$str, $delim, $name ) {
         if ( empty( $name ) ) {
@@ -155,7 +162,7 @@ class CRM_Utils_String {
     /**
      * determine if the string is composed only of ascii characters
      *
-     * @param string $str input string
+     * @param string  $str input string
      * @param boolean $utf8 attempt utf8 match on failure (default yes)
      *
      * @return boolean    true if string is ascii
@@ -224,6 +231,14 @@ class CRM_Utils_String {
         return false;
     }
 
+    /**
+     * Function to extract variable values
+     *
+     * @param  mix $query this is basically url
+     *
+     * @return mix $v  returns civicrm url (eg: civicrm/contact/search/...)
+     * @access public
+     */
     function extractURLVarValue( $query ) {
         $config =& CRM_Core_Config::singleton( );
         $urlVar =  $config->userFrameworkURLVar;
