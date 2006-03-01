@@ -54,14 +54,12 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * @param int    $phoneId
      * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object CRM_Core_BAO_Phone object
+     * @return object       CRM_Core_BAO_Phone object on success, null otherwise
      * @access public
      * @static
      */
     static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) 
     {
-        // CRM_Core_Error::debug( 'p', $params );
-
         if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
             return null;
         }
@@ -88,10 +86,10 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     /**
      * Check if there is data to create the object
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $params         (reference) an assoc array of name/value pairs
      * @param int    $locationId
      * @param int    $phoneId
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $ids            (reference) the array that holds all the db ids
      *
      * @return boolean
      * @access public
@@ -115,7 +113,7 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
-     * @return void
+     * @return array    array of phone objects
      * @access public
      * @static
      */
@@ -132,11 +130,12 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     /**
      * Function to return the phone numbers of a contact
      * 
-     * @param int $contactId
+     * @param int   $contactId    ID of the contact for which phone no is required
      * 
-     * @return array $contactPhones 
+     * @return array $contactPhones    array of phone no values for the given contact ID
+     * 
      * @access public 
-     *
+     * @static
      */
     static function getphoneNumber ( $contactId ) 
     {
@@ -159,5 +158,4 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         return $contactPhones;
     }
 }
-
 ?>

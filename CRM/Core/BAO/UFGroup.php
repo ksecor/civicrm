@@ -63,10 +63,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * of time. This is the inverse function of create. It also stores all the retrieved
      * values in the default array
      *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     * @param array $params      (reference) an assoc array of name/value pairs
+     * @param array $defaults    (reference) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_UFGroup object
+     * @return object   CRM_Core_DAO_UFGroup object
      * @access public
      * @static
      */
@@ -93,10 +93,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * update the is_active flag in the db
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param int      $id           id of the database record
+     * @param boolean  $is_active    value we want to set the is_active field
      *
-     * @return Object             DAO object on sucess, null otherwise
+     * @return Object             CRM_Core_DAO_UFGroup object on success, null otherwise
+     * @access public
      * @static
      */
     static function setIsActive($id, $is_active) {
@@ -150,8 +151,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @param int  $action            what action are we doing 
      * @param int  $visibility        visibility of fields we are interested in
      * @param bool $considerSelector  whether to consider the in_selector parameter
+     * @param      $ufGroupId
+     * @param      $searchable
      * 
-     * @return array the fields that are listings related
+     * @return array     the fields that are listings related
      * @static 
      * @access public 
      */ 
@@ -189,7 +192,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * get the title of the group which contributes the largest number of fields
      * to the registered entries
      *
-     * @return string title of the registered group
+     * @params null
+     * 
+     * @return string    title of the registered group.
      * @static
      * @access public
      */
@@ -209,15 +214,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     }
 
     /**
-     * get all the fields that belong to the group with the named title
+     * get all the fields that belong to the group with the name title
      *
-     * @param int $id       the id of the UF group
-     * @param int $register are we interested in registration fields
-     * @param int $action   what action are we doing
-     * @param int $match    are we interested in match fields
-     * @param int $visibility visibility of fields we are interested in
+     * @param int      $id           the id of the UF group
+     * @param int      $register     are we interested in registration fields
+     * @param int      $action       what action are we doing
+     * @param int      $match        are we interested in match fields
+     * @param int      $visibility   visibility of fields we are interested in
+     * @param          $searchable
+     * @param boolean  $showall
      *
-     * @return array the fields that belong to this title
+     *
+     * @return array   the fields that belong to this title
      * @static
      * @access public
      */
@@ -374,7 +382,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @param boolean $register is this the registration form
      * @param boolean $reset    should we reset the form?
      *
-     * @return string       the html for the form
+     * @return string       the html for the form on success, otherwise empty string
      * @static
      * @access public
      */
@@ -650,9 +658,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      /**
      * Delete the profile Group.
      *
-     * @param int id profile Id 
+     * @param int  $id    profile Id 
      * 
-     * @return void
+     * @return boolean
      *
      * @access public
      * @static
@@ -856,10 +864,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to make uf join entries for an uf group
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $params       (reference) an assoc array of name/value pairs
      * @param int   $ufGroupId    ufgroup id
      *
-     * @return none
+     * @return void
      * @access public
      * @static
      */
@@ -969,8 +977,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to delete the uf join record for an uf group 
      *
-     * @param array  $params (reference) an assoc array of name/value pairs
+     * @param array  $params    (reference) an assoc array of name/value pairs
      *
+     * @return void
      * @access public
      * @static
      */
@@ -985,9 +994,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to get the weight for ufjoin record
      *
-     * @param int $ufGroupId  if $ufGroupId get update weight or add weight
+     * @param int $ufGroupId     if $ufGroupId get update weight or add weight
      *
-     * @return int $weight
+     * @return int   weight of the UFGroup
+     * @access public
      * @static
      */
     static function getWeight ( $ufGroupId = null ) 
@@ -1058,9 +1068,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to update the weight for a UFGroup
      * 
-     * @param int $weight weight for a UFGroup
-     * @param int $ufGroupId uf Group Id
-     *
+     * @param int $weight      weight for a UFGroup
+     * @param int $ufGroupId   uf Group Id
+     * 
+     * @return void
+     * @access public
      * @static
      */
     static function updateWeight($weight, $ufGroupId) 
@@ -1126,5 +1138,4 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
     }
 }
-
 ?>

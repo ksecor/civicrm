@@ -51,11 +51,11 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
      * contact_id. We'll tweak this function to be more full featured over a period
      * of time. This is the inverse function of create. It also stores all the retrieved
      * values in the default array
-     *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
-     *
-     * @return object CRM_Core_BAO_Tag object
+     * 
+     * @param array $params      (reference ) an assoc array of name/value pairs
+     * @param array $defaults    (reference ) an assoc array to hold the flattened values
+     * 
+     * @return object     CRM_Core_DAO_Tag object on success, otherwise null
      * @access public
      * @static
      */
@@ -72,9 +72,9 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
     /**
      * Function to delete the tag 
      *
-     * @param int $id tag id
+     * @param int $id   tag id
      *
-     * @return null
+     * @return boolean
      * @access public
      * @static
      *
@@ -99,15 +99,15 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
 
     /**
      * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
+     * 
+     * The function extract all the params it needs to initialize the create a
      * contact object. the params array could contain additional unused name/value
      * pairs
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     *
-     * @return object CRM_Core_BAO_Tag object
+     * 
+     * @param array  $params         (reference) an assoc array of name/value pairs
+     * @param array  $ids            (reference) the array that holds all the db ids
+     * 
+     * @return object    CRM_Core_DAO_Tag object on success, otherwise null
      * @access public
      * @static
      */

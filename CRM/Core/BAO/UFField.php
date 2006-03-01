@@ -77,10 +77,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * update the is_active flag in the db
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param int      $id         id of the database record
+     * @param boolean  $is_active  value we want to set the is_active field
      *
-     * @return Object             DAO object on sucess, null otherwise
+     * @return Object              DAO object on sucess, null otherwise
+     * @access public
      * @static
      */
     static function setIsActive($id, $is_active) 
@@ -96,13 +97,13 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
         }
     }
-
-     /**
+    
+    /**
      * Delete the profile Field.
      *
-     * @param int    id  Field Id 
+     * @param int  $id    Field Id 
      * 
-     * @return void
+     * @return boolean
      *
      * @access public
      * @static
@@ -144,12 +145,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * function to add the UF Field
      *
-     * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
+     * @param array $params (reference) array containing the values submitted by the form
+     * @param array $ids    (reference) array containing the id
+     * 
+     * @return object CRM_Core_BAO_UFField object
      * 
      * @access public
      * @static 
-     * @return object
+     * 
      */
     static function add( &$params, &$ids) 
     {
@@ -249,10 +252,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * Function to enable/disable profile field given a custom field id
      *
-     * @param int      $customFieldId custom field id
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param int      $customFieldId     custom field id
+     * @param boolean  $is_active         set the is_active field
      *
-     * @return null
+     * @return void
      * @static
      * @access public
      */
@@ -273,13 +276,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * Function to delete profile field given a custom field
      *
-     * @param int   $customFieldId custom field id
+     * @param int   $customFieldId      ID of the custom field to be deleted
      *
-     * @return null
+     * @return void
+     * 
      * @static
      * @access public
      */
-    function delUFField($customFieldId) 
+    function delUFField($customFieldId)
     {
         //find the profile id given custom field id
         $ufField =& new CRM_Core_DAO_UFField();
@@ -298,7 +302,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @param int      $customGroupId custom group id
      * @param boolean  $is_active value we want to set the is_active field
      *
-     * @return null
+     * @return void
      * @static
      * @access public
      */
@@ -323,9 +327,9 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * Function to check the status of custom field used in uf fields
      *
-     * @params  int $UFFieldId uf field id 
+     * @params  int $UFFieldId     uf field id 
      *
-     * @return returns null if custom field are disabled else true
+     * @return boolean   false if custom field are disabled else true
      * @static
      * @access public
      */

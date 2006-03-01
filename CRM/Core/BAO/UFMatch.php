@@ -47,9 +47,10 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * object for this user. If the user has new values, we need
      * to update the CRM DB with the new values
      *
-     * @param Object  $user   the drupal user object
-     * @param boolean $update has the user object been edited
-     *
+     * @param Object  $user    the drupal user object
+     * @param boolean $update  has the user object been edited
+     * @param         $uf
+     * 
      * @return void
      * @access public
      * @static
@@ -247,6 +248,7 @@ WHERE     civicrm_contact.id = "
      * @param  $email      String  email to be modified for the user
      *
      * @return void
+     * @access public
      * @static
      */
     static function updateContactEmail($contactId, $emailAddress) 
@@ -307,9 +309,9 @@ WHERE     civicrm_contact.id = "
     /**
      * get the contact_id given a uf_id
      *
-     * @param int $ufID
+     * @param int  $ufID  Id of UF for which related contact_id is required
      *
-     * @return int contact_id
+     * @return int    contact_id on success, null otherwise
      * @access public
      * @static
      */
@@ -330,9 +332,9 @@ WHERE     civicrm_contact.id = "
     /** 
      * get the uf_id given a contact_id 
      * 
-     * @param int $contactID
+     * @param int  $contactID   ID of the contact for which related uf_id is required
      * 
-     * @return int ufID 
+     * @return int    uf_id of the given contact_id on success, null otherwise
      * @access public 
      * @static 
      */ 
@@ -340,16 +342,14 @@ WHERE     civicrm_contact.id = "
         if (!isset($contactID)) { 
             return null; 
         } 
- 
+        
         $ufmatch =& new CRM_Core_DAO_UFMatch( ); 
- 
+        
         $ufmatch->contact_id = $contactID;
-        if ( $ufmatch->find( true ) ) { 
-            return $ufmatch->uf_id; 
-        } 
-        return null; 
-    } 
-
+        if ( $ufmatch->find( true ) ) {
+            return $ufmatch->uf_id;
+        }
+        return null;
+    }
 }
-
 ?>
