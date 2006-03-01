@@ -618,11 +618,9 @@ class CRM_Contact_BAO_Query {
 
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
-        //static $skipFields = array( 'postal_code', 'group', 'tag' );
-        static $skipFields = array( 'postal_code');
+
+        static $skipFields = array( 'postal_code', 'location_type');
         foreach ( $this->_fields as $name => $field ) { 
-            // skip postal code processing for search since we tackle an
-            // extended version of this
             if ( empty( $name ) ||
                  in_array( $name, $skipFields ) ) {
                 continue;
@@ -715,8 +713,10 @@ class CRM_Contact_BAO_Query {
                 $date = CRM_Utils_Date::customFormat( $value );
                 $this->_qill[]  = "$field[title] \"$date\"";
             } else if ( $name === 'contact_id' ) {
-                $this->_where[] = $field['where'] . " = $value";
-                $this->_qill[]  = ts( '%1 is equal to %2', array( 1 => $field['title'], 2 => $value ) );
+                if ( is_int( $value ) ) {
+                    $this->_where[] = $field['where'] . " = $value";
+                    $this->_qill[]  = ts( '%1 is equal to %2', array( 1 => $field['title'], 2 => $value ) );
+                }
             } else if ( $name === 'name' ) {
                 $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
                 $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );

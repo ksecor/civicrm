@@ -283,16 +283,16 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 if ( $value == 'image' ) {
                     if ( $imageFile ) {
                         $imageUrlArray  = explode($config->httpBase, $imageFile);
-                        $params['image'] = $config->userFrameworkBaseURL.$imageUrlArray[1];
+                        $params['image'] = $config->userFrameworkBaseURL . $imageUrlArray[1];
+
                         // to check wether GD is installed or not
-
                         require_once 'CRM/Utils/System.php';
-
                         $gdSupport = CRM_Utils_System::getModuleSetting('gd','GD Support');
                         $jpgSupport = CRM_Utils_System::getModuleSetting('gd','JPG Support');
                         $gifSupport = CRM_Utils_System::getModuleSetting('gd','GIF Read Support');
                         $pngSupport = CRM_Utils_System::getModuleSetting('gd','PNG Support');
                         $error = false; 
+
                         if ( $gdSupport == 'enabled' && $jpgSupport == 'enabled' && $gifSupport == 'enabled' && $pngSupport == 'enabled' ){
                             list($width_orig, $height_orig) = getimagesize($imageFile);
                             $imageInfo = getimagesize($imageFile);
