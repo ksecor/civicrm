@@ -422,7 +422,7 @@ function civicrm_view_data($user )
         $config =& CRM_Core_Config::singleton( ); 
         
         $url = CRM_Utils_System::url( 'civicrm/contact/view&reset=1&cid=' .$userID );
-        $contactURL = '<a href="' .$url. '"> ' .ts("View Contact Record") . '</a>';
+        $contactURL = '<a href="' .$url. '">&raquo; ' .ts("View Contact Record") . '</a>';
 
         require_once 'CRM/Profile/Page/Dynamic.php';
         
@@ -433,21 +433,24 @@ function civicrm_view_data($user )
             
             if ( $pageContent ) {
                 if ( $config->userFrameworkVersion >= 4.7 ) {
-                    if ( !$setLink ) {
-                        $item = array( 'title' => '',
-                                       'value' => $contactURL );
-                        $data[''][] = $item;
-                    }
                     $item = array( 'title' => $title['title'],
                                    'value' => $pageContent );
                     $data[$title['title']][] = $item;
                 } else {
-                    if ( !$setLink ) {
-                        $data[''] = $contactURL;
-                    }
                     $data[$title['title']] = $pageContent;
                 }
                 $setLink++;
+            }
+        }
+        
+        if ($setLink  && CRM_Utils_System::checkPermission( 'access CiviCRM' )) {
+            if ( $config->userFrameworkVersion >= 4.7 ) { 
+                $item = array( 'title' => '',
+                               'value' => $contactURL );
+                $data[''][] = $item;
+                
+            } else {
+                $data[''] = $contactURL;
             }
         }
     }
