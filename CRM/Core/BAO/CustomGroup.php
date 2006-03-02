@@ -164,7 +164,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $in = "'$entityType'";
         }
 
-        $strWhere = " WHERE civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
+        $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
+            " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
 
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
@@ -521,6 +522,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO->whereAdd("style = 'Tab'");
         $customGroupDAO->whereAdd("is_active = 1");
 
+        $customGroupDAO->whereAdd("domain_id =" . CRM_Core_Config::domainID() );
+        
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
 
