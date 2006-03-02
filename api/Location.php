@@ -43,7 +43,8 @@ function crm_create_location(&$contact, $params) {
     _crm_initialize( );
     
     $locationTypeDAO = & new CRM_Core_DAO_LocationType();
-    $locationTypeDAO->name = $params['location_type'];
+    $locationTypeDAO->name      = $params['location_type'];
+    $locationTypeDAO->domain_id = CRM_Core_Config::domainID( );
     $locationTypeDAO->find(true);
     $locationTypeId = $locationTypeDAO->id;
     if(! isset($locationTypeId) ) {
@@ -57,10 +58,13 @@ function crm_create_location(&$contact, $params) {
     
     $loc =& $values['location'][1];
     
-    $loc['address'] = array( );
-    
+    $loc['location_type_id'] = $locationTypeId;
+    $loc['is_primary'] = CRM_Utils_Array::value( 'is_primary', $params);
+    $loc['name'] = CRM_Utils_Array::value( 'name', $params);
+
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
+    $loc['address'] = array( );    
     _crm_store_values($fields, $params, $loc['address']);
     
     //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
@@ -91,9 +95,7 @@ function crm_create_location(&$contact, $params) {
             }
         }
     }
-    
-    $loc['location_type_id'] = $locationTypeId;
-    
+        
     $ids = array();
     require_once 'CRM/Core/BAO/Location.php';
     
