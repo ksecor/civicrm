@@ -56,6 +56,7 @@ require_once 'CRM/Mailing/Event/BAO/Queue.php';
 require_once 'CRM/Mailing/Event/BAO/Reply.php';
 require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
+require_once 'CRM/Mailing/Event/BAO/Forward.php';
 
 
 /**
