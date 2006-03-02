@@ -73,9 +73,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
 
     /**
      * Get the action links for this page.
-     *
-     * @return array $_actionLinks
-     *
+     * 
+     * @param null
+     * 
+     * @return array  array of action links that we need to display for the browse screen
+     * @access public
      */
     function &actionLinks()
     {
@@ -123,10 +125,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
 
     /**
      * Browse all custom group fields.
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
-     * @static
      */
     function browse()
     {
@@ -191,8 +194,8 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      *
      * editing would involved modifying existing fields + adding data to new fields.
      *
-     * @param string $action the action to be invoked
-
+     * @param string  $action   the action to be invoked
+     * 
      * @return void
      * @access public
      */
@@ -219,10 +222,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      *
      * This method is called after the page is created. It checks for the  
      * type of action and executes that action. 
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
-     *
      */
     function run()
     {
@@ -261,5 +265,4 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         parent::run();
     }
 }
-
 ?>

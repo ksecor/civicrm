@@ -51,7 +51,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -100,7 +102,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * This function is used to add the rules (mainly global rules) for form.
      * All local rules are added near the element
      *
-     * @return None
+     * @param null
+     * 
+     * @return void
      * @access public
      * @see valid_date
      */
@@ -108,12 +112,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ) );
     }
-
-
-
+    
     /**
      * Function to actually build the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -173,9 +177,11 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
-     *
+     * 
+     * @param null
+     * 
+     * @return array   array of default values
      * @access public
-     * @return void
      */
     function setDefaultValues()
     {
@@ -208,7 +214,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
     /**
      * Process the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */

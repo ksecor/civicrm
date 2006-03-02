@@ -92,7 +92,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -130,8 +132,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
+     * @param null
+     * 
+     * @return array    array of default values
      * @access public
-     * @return void
      */
     function setDefaultValues()
     {
@@ -202,6 +206,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -342,13 +348,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
     }
     
-         
     /**
      * global validation rules for the form
      *
-     * @param array $fields posted values of the form
+     * @param array  $fields   (referance) posted values of the form
      *
-     * @return array list of errors to be posted back to the form
+     * @return array    if errors then list of errors to be posted back to the form,
+     *                  true otherwise
      * @static
      * @access public
      */
@@ -561,7 +567,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
     /**
      * Process the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */

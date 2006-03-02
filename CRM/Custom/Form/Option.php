@@ -59,7 +59,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -73,8 +75,10 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
+     * @param null
+     * 
+     * @return array   array of default values
      * @access public
-     * @return void
      */
     function setDefaultValues()
     {
@@ -126,7 +130,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
     
     /**
      * Function to actually build the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -298,7 +304,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
     /**
      * Process the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */

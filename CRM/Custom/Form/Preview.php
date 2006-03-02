@@ -58,14 +58,13 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
 
     /**
      * pre processing work done here.
-     *
+     * 
      * gets session variables for group or field id
-     *
-     * @param
+     * 
+     * @param null
+     * 
      * @return void
-     *
      * @access public
-     *
      */
     function preProcess()
     {
@@ -95,9 +94,11 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
 
     /**
      * Set the default form values
-     *
+     * 
+     * @param null
+     * 
+     * @return array   the default array reference
      * @access protected
-     * @return array the default array reference
      */
     function &setDefaultValues()
     {
@@ -111,7 +112,9 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
 
     /**
      * Function to actually build the form
-     *
+     * 
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -149,7 +152,5 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                                 )
                           );
     }
-
 }
-
 ?>

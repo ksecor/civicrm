@@ -59,6 +59,7 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
     /**
      * set up variables to build the form
      *
+     * @param null
      * @return void
      * @acess protected
      */
@@ -79,7 +80,9 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
-     * @return None
+     * @param null
+     * 
+     * @return void
      * @access public
      */
     public function buildQuickForm( ) {
@@ -97,6 +100,8 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
     /**
      * Process the form when submitted
      *
+     * @param null
+     * 
      * @return void
      * @access public
      */
@@ -111,8 +116,6 @@ class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
             CRM_Core_BAO_UFField::delUFField($this->_id);
             CRM_Core_Session::setStatus( ts('The custom field "%1" has been deleted.', array(1 => $field->label)) );        
         }
-            
     }
 }
-
 ?>
