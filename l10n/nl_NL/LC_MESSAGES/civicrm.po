@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-02-27 17:44+0100\n"
+"PO-Revision-Date: 2006-03-01 23:47+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -7515,95 +7515,96 @@ msgid ""
 "Select <strong>sandbox</strong> to create test (sandbox) profile files in "
 "your CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH. Select <strong>live</strong> "
 "to create live profile files in your CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
-msgstr ""
+msgstr "Selecteer de <strong>Zandbak</strong> om test profielen aan te maken in uw CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH."
+"Selecteer <strong>Live</strong> om daadwerkelijke profielen aan te maken in uw CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Enter the API Username you used when requesting the digital certificate for "
 "this environment."
-msgstr ""
+msgstr "Voer de API gebruikersnaam in, die gebruikt werd voor de aanvraag van het digitale certifiaat voor deze site."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Browse to the digital certificate that you downloaded from PayPal. Choose "
 "the <strong>sandbox</strong> or <strong>live</strong> certificate based on "
 "the environment you are creating this profile for."
-msgstr ""
+msgstr "Browse naar het digitale certificaat, dat verkregen werd van PayPal. Kies het <strong>Zandbak</strong> of het<strong>Live</strong> certificaat voor dit profiel op deze site."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Subject is left blank unless you are processing on behalf of a third party."
-msgstr ""
+msgstr "Dit onderwerp is leeg, als u geen betalingsdiensten voor een ander aan het uitvoeren bent."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "New Payment Instrument"
-msgstr ""
+msgstr "Nieuwe betaal methode"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
-msgstr ""
+msgstr "Waarschuwing : Het vewijderen van deze optie resulteert in het verlies van alle bijdragen, waar deze optie gebruikt werd."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
-msgstr ""
+msgstr "Geen overeenkomstige bijdragen gevonden"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
-msgstr ""
+msgstr "Als u aan het zoeken bent op contributantennaam, controleer dan de spelling"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid ""
 "if you are searching within a date or amount range, try a wider range of "
 "values"
-msgstr ""
+msgstr "Als u aan het zoeken bent op datum, of donatiebedrag, probeer dan een groter bereik."
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "Found %count contribution."
 msgid_plural "Found %count contributions."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count contributie gevonden."
+msgstr[1] "%count contributies gevonden."
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "Total Amount:"
-msgstr ""
+msgstr "Totaal bedrag:"
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
 msgid "Cancelled Contribution Amount"
-msgstr ""
+msgstr "Gestopte contributies bedrag"
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
 "Use this form to find contributions by contributor name, contribution date "
 "or amount ranges, type of contribution, payment method and / or status."
-msgstr ""
+msgstr "U kunt dit formulier gebruiken om te zoeken naar contributantennamen, donatiebedragen/perioden, type van bijdrage, betaalmethode en status."
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Voer de volledige naam of email in"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "View all contributions from this contact"
-msgstr ""
+msgstr "Toon alle bijdragen van deze contributant"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "List more contributions"
-msgstr ""
+msgstr "Toon meer bijdragen"
 
 #: templates/CRM/Contribute/Form/Task/Delete.tpl
 msgid ""
 "Are you sure you want to delete the selected contributions? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these contributions."
-msgstr ""
+msgstr "Weet u zeker, dat u deze selectie van bijdragen wilt verwijderen? Deze actie kan niet ongedaan maken, en zal alle transacties en de geschiedenis van deze bijdragen verwijderen."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid "One contribution record selected for export."
 msgid_plural "%count contribution records selected for export."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een bijdrage geselecteerd voor export."
+msgstr[1] "Er zijn %count bijdragen geselecteerd voor export."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid ""
@@ -7611,11 +7612,12 @@ msgid ""
 "values (CSV) file of contribution data. Each row will also include "
 "contributor contact information (name, address, email, phone...) as "
 "available."
-msgstr ""
+msgstr "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden bestand van bijdrage data te downloaden."
+"Elke rij in dit bestand bevat tevens informatie over het contributant(naam, adres,telefoon, etc) voorzover beschikbaar."
 
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
-msgstr ""
+msgstr "Aantal geselecteerde bijdragen : %1"
 
 #: templates/CRM/Contribute/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -7624,7 +7626,7 @@ msgid ""
 "select the matching CiviCRM database fields from the drop-down lists in the "
 "right-hand column. Select '- do not import -' for any columns in the import "
 "file that you want ignored."
-msgstr ""
+msgstr "Bekijk de waarden hieronder van de eerste 2 rijden van uw import bestand, en selecteer de betreffende CiviCRM velden uit de uitrol lijsten in de rechterkolom. Kies 'niet importeren- voor elke kolom, dat u niet mee wilt importeren."
 
 #: templates/CRM/Contribute/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -7632,7 +7634,7 @@ msgid ""
 "Click 'Load Saved Field Mapping' if data has been previously imported from "
 "the same source. You can then select the saved import mapping setup and load "
 "it automatically."
-msgstr ""
+msgstr "Klik 'Laad opgeslagen veldoverzicht', als er al eerder een bestand van dezelfde bron is geimporteerd. U kunt dan een opgeslagen veldoverzicht laden."
 
 #: templates/CRM/Contribute/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -7640,32 +7642,32 @@ msgid ""
 "If you think you may be importing additional data from the same data source, "
 "check 'Save this field mapping' at the bottom of the page before continuing. "
 "The saved mapping can then be easily reused the next time data is imported."
-msgstr ""
+msgstr "Indien u aanvullende gegevensvelden denkt te importeren uit het zelfde bestand, vink dan 'Opslaan veldoverzicht' onderaan, vorodat u verder gaat. Dit opgeslagen veldoverzicht kan dan makkelijk weer gebruikt worden bij een volgende importeerslag."
 
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Select a Different Field Mapping"
-msgstr ""
+msgstr "Kies een ander veldoverzicht"
 
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Saved Field Mapping: %1"
-msgstr ""
+msgstr "Opgeslagen veldoverzicht : %1"
 
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Column Headers"
-msgstr ""
+msgstr "Kolom koppen"
 
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
-msgstr ""
+msgstr "Importeer data (rij %1)"
 
 #: templates/CRM/Contribute/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Matching CiviCRM Field"
-msgstr ""
+msgstr "Overeenkomstig CiviCRM gegevensveld"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -7673,7 +7675,7 @@ msgid ""
 "The information below previews the results of importing your data in "
 "CiviCRM. Review the totals to ensure that they represent your expected "
 "results."
-msgstr ""
+msgstr "De informatie hieronder is een vorovertoning van de importslag naar CiviRM. Bekijk de totalen, om er zeker van te zijn, dat ze uw verwachte resultaten voorstellen."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -7683,7 +7685,8 @@ msgid ""
 "just these problem records - <a href=\"%2\">Download Errors</a>. Then "
 "correct them in the original import file, cancel this import and begin again "
 "at step 1."
-msgstr ""
+msgstr "Er is ongeldige data of een formaat fout gedetecteerd in %1 record(s). Als u doorgaat, worden deze records overgeslagen."
+"Alternatief is de file opslaan, die nu via de knop <a href=\"%2\"> Download fouten</a> beschikbaar is. Gebruik deze file om het eerste bestand te corrigeren. Stop dan deze import slag, en begin dan weer bij stap 1."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 msgid ""
@@ -7692,68 +7695,69 @@ msgid ""
 "download a file with just these problem records - <a href=\"%2\">Download "
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
-msgstr ""
+msgstr "Er zijn %1 records met transactie conflicten gevonden. Als u doorgaat, worden deze records overgeslagen."
+"Alternatief is de file opslaan, die nu via de knop <a href=\"%2\"> Download transactie conflicten</a> beschikbaar is. Gebruik deze file om het eerste bestand te corrigeren. Stop dan deze import slag, en begin dan weer bij stap 1."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Click 'Import Now' if you are ready to proceed."
-msgstr ""
+msgstr "Klik op 'Nu importeren' als u wilt importeren. "
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total Rows"
-msgstr ""
+msgstr "Aantal rijen"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Total rows (contribution records) in uploaded file."
-msgstr ""
+msgstr "Aantal rijen (donatie records) in de geimporteerde file."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Rows with Errors"
-msgstr ""
+msgstr "Aantal rijen met fouten"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
-msgstr ""
+msgstr "Rijen met ongeldige data in een of meerdere velden. Deze rijen worden overgeslagen (niet geimporteerd)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Errors"
-msgstr ""
+msgstr "Download fouten"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
-msgstr ""
+msgstr "Rijen met conflicten"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 msgid ""
 "Rows with conflicting transaciton ids within this file. These rows will be "
 "skipped (not imported)."
-msgstr ""
+msgstr "Rijen met conflicten in transactie IDs. Deze rijen worden overgeslagen (niet geimporteerd)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Conflicts"
-msgstr ""
+msgstr "Download conflicten"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Valid Rows"
-msgstr ""
+msgstr "Aantal geldige rijen"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Total rows to be imported."
-msgstr ""
+msgstr "Aantal rijen om te importeren"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
