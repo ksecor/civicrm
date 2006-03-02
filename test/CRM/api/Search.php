@@ -105,21 +105,15 @@ class TestOfSearch extends UnitTestCase
         }
     }
     
-    **/
-    
     function testSearchByState()
     {
-        /**
-        * This example searches for all contacts who have a Home (civicrm_location_type.id = 1) address in
-        * California AND whose email address ends in yahoo.com. Contacts will be returned regardless of 
-        * whether their Home address is their Primary address using this array format for location_type.
-        **/
+        // This example searches for all contacts who have a Home (civicrm_location_type.id = 1) address in
+        // California AND whose email address ends in yahoo.com. Contacts will be returned regardless of 
+        // whether their Home address is their Primary address using this array format for location_type.
         $params = array( 'location_type' => array('1' => 1), 'state_province' => 'California', 'email' => '%yahoo.com' );
  
-        /** 
-        * You can also search only for contacts where Home address is primary and is in California.
-        * Note that you can use the civicrm_state_province.id value instead of state name if desired.
-        **/
+        // You can also search only for contacts where Home address is primary and is in California.
+        // Note that you can use the civicrm_state_province.id value instead of state name if desired.
         // $params = array('location_type' => 'Home','state_province' => 1004 );
         
         $sort   = array( 'civicrm_contact.sort_name' => 'ASC' );
@@ -141,6 +135,15 @@ class TestOfSearch extends UnitTestCase
             }
         }
     }
+
+    **/
+
+    function testSearchByContactID( ) {
+        $params = array( 'contact_id' => 103 );
+        $result = crm_contact_search( $params );
+        CRM_Core_Error::debug( 'r', $result );
+    }
+
 }
 
 ?>

@@ -591,11 +591,15 @@ class CRM_Contact_BAO_Query {
         $config  =& CRM_Core_Config::singleton( ); 
         $this->_where[] = 'civicrm_contact.domain_id = ' . $config->domainID( );
         
+        // check for both id and contact_id
         $id = CRM_Utils_Array::value( 'id', $this->_params );
+        if ( ! $id ) {
+            $id = CRM_Utils_Array::value( 'contact_id', $this->_params );
+        }
         if ( $id ) {
             $this->_where[] = "civicrm_contact.id = $id";
         }
-
+        
         $this->contactType( );
 
         $this->sortName( );

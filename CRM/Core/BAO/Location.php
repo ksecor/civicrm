@@ -79,10 +79,31 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->entity_table = CRM_Contact_BAO_Contact::getTableName();
             $location->entity_id    = $params['contact_id'];
         }
-        $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
         $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
+        $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
 
+        // check if there exists another location has is_primary set, and if so reset that
+        // if no location has is_primary, make this one is_primart
+        if ( $location->is_primary ) {
+            // reset all other locations with the same entity table entity id
+            $sql = "UPDATE " . self::getTableName( ) . "
+ SET is_primary = false WHERE 
+ entity_table = '{$location->entity_table}' AND
+ entity_id    = '{$location->entity_id}' ";
+            CRM_Core_DAO::executeQuery( $sql );
+        } else {
+            // make sure there is at once location with is_primary set
+            $sql = "SELECT count( " . self::getTableName( ) . ".id WHERE
+ entity_table = '{$location->entity_table}' AND
+ entity_id    = '{$location->entity_id}'    AND
+ is_primary   = 1";
+            $count = CRM_Core_DAO::singleValueQuery( $sql );
+            if ( $count == 0 ) {
+                $location->is_primary = true;
+            }
+        }
+        
         $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
         $location->save( );
 
