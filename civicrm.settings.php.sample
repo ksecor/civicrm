@@ -102,10 +102,11 @@ define( 'CIVICRM_IMAGE_UPLOADDIR'    , '/var/www/htdocs/civicspace/files/civicrm
  * have clean url's turned on, make sure CIVICRM_MAINMENU is valid for your install. 
  * e.g. define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) 
  */
-define( 'CIVICRM_UF_BASEURL'  , 'http://www.example.com/civicspace/' );
-define( 'CIVICRM_HTTPBASE'    , '/civicspace/'                     );
-define( 'CIVICRM_RESOURCEBASE', '/civicspace/modules/civicrm/'     );
-define( 'CIVICRM_MAINMENU'    , '/civicspace/civicrm'              );
+define( 'CIVICRM_UF_BASEURL'    , 'http://www.example.com/civicspace/' );
+define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
+define( 'CIVICRM_HTTPBASE'      , '/civicspace/'                     );
+define( 'CIVICRM_RESOURCEBASE'  , '/civicspace/modules/civicrm/'     );
+define( 'CIVICRM_MAINMENU'      , '/civicspace/civicrm'              );
 
 /**
  * CiviCRM Database settings:

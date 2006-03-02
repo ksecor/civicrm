@@ -329,15 +329,15 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             $params['thumbnail'] = $config->userFrameworkBaseURL.$pathArray[1];;
                         } else {
                             $error = true;
-                            $params['thumbnail']= $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium_thumb.jpg'; 
+                            $params['thumbnail']= $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 
                         }
                     }
                 } else if (  $value == 'thumbnail' ) {
                     $params['image']     =  $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
                     $params['thumbnail'] =  $params['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
                 } else if ( $value == 'default_image' ) {
-                    $params['image']    = $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium.jpg';
-                    $params['thumbnail']= $config->userFrameworkBaseURL.'modules/civicrm/i/contribute/default_premium_thumb.jpg'; 
+                    $params['image']    = $config->resourceBase . 'i/contribute/default_premium.jpg';
+                    $params['thumbnail']= $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 
                 } else {
                     $params['image']     = "";
                     $params['thumbnail'] = "";

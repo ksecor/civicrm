@@ -261,6 +261,7 @@ class CRM_Core_Config {
     public $userFrameworkDSN            = null;
     public $userFrameworkUsersTableName = 'users';
     public $userFrameworkBaseURL        = null;
+    public $userFrameworkResourceURL    = null;
     public $userFrameworkFrontend       = false;
 
     /**
@@ -626,6 +627,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = CIVICRM_UF_BASEURL;
+        }
+
+        if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
+            $this->userFrameworkResourceURL = CIVICRM_UF_RESOURCEURL;
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {

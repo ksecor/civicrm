@@ -56,12 +56,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
      * @static
      */
     public static function getTrackerURL($url, $mailing_id, $queue_id) {
-
-        static $base = null;
-        
-        if ($base == null) {
-            $base = CRM_Utils_System::baseURL();
-        }
+        $config =& CRM_Core_Config::singleton( );
         
         $tracker =& new CRM_Mailing_BAO_TrackableURL();
         $tracker->url = $url;
@@ -72,7 +67,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
         }
         $id = $tracker->id;
         
-        $redirect = $base . 'modules/civicrm/extern/url.php?q=' . $queue_id .
+        $redirect = $config->userFrameworkResourceURL . 'url.php?q=' . $queue_id .
                     '&u=' . $id;
         return $redirect;
     }

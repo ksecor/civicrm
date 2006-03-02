@@ -566,8 +566,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
             
             if ($this->open_tracking) {
-                $html .= '<img src="' . CRM_Utils_System::baseURL() .
-                "/modules/civicrm/extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
+                $html .= '<img src="' . $config->userFrameworkResourceURL . 
+                "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
             }
             $message->setHTMLBody($html);
         }
