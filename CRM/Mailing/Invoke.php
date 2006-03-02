@@ -110,7 +110,7 @@ class CRM_Mailing_Invoke {
 
         if ( $args[2] == 'send' ) {
             $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/queue', 'reset=1'));
             require_once 'CRM/Mailing/Controller/Send.php';
             $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
             return $controller->run( );
