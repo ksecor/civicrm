@@ -76,15 +76,6 @@ class CRM_Mailing_Menu {
                              'weight'  => 630, 
                              ),
 
-                       array(
-                             'path'    => 'civicrm/mailing/queue',
-                             'title'   => ts( 'Process Mailing Queue' ),
-                             'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
-                             'type'    => CRM_Utils_Menu::CALLBACK, 
-                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
-                             'weight'  => 630, 
-                             ),
-
                        );
         return $items;
     }

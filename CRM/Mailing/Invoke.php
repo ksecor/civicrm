@@ -121,7 +121,7 @@ class CRM_Mailing_Invoke {
             $session->pushUserContext(CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1'));
             require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
-            return;
+            CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
         }
 
         require_once 'CRM/Mailing/Page/Browse.php';

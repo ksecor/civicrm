@@ -254,9 +254,6 @@ class CRM_Core_Block {
                                  array( 'path'  => 'civicrm/mailing/browse',
                                         'qs'    => 'reset=1',
                                         'title' => ts('Browse Sent Mailings') ),
-                                 array( 'path'  => 'civicrm/mailing/queue',
-                                        'qs'    => 'reset=1',
-                                        'title' => ts('Process Mailing Queue') ),
                                  );
         }
 
