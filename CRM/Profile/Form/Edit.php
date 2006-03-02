@@ -102,8 +102,11 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $ufGroup->id = $this->_gid;
         $ufGroup->find(true);
         
-        $postURL = $ufGroup->post_URL;
-        //$postURL = CRM_Utils_Array::value( 'postURL', $_POST );
+        $postURL = CRM_Utils_Array::value( 'postURL', $_POST );
+
+        if ( ! $postURL ) {
+            $postURL = $ufGroup->post_URL;
+        }
 
         if ( ! $postURL ) {
             $postURL = CRM_Utils_System::url('civicrm/profile/edit', '&amp;gid='.$this->_gid.'&amp;reset=1' );
@@ -112,6 +115,14 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL );
         $this->addElement( 'hidden', 'postURL', $postURL );
+
+        // also retain error URL if set
+        $errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
+        if ( $errorURL ) {
+            // we do this gross hack since qf also does entity replacement 
+            $errorURL = str_replace( '&amp;', '&', $errorURL ); 
+            $this->addElement( 'hidden', 'errorURL', $errorURL ); 
+        }
 
         // replace the sesssion stack in case user cancels (and we dont go into postProcess)
         $session =& CRM_Core_Session::singleton(); 
@@ -134,6 +145,50 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
 
         CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
     }
+
+    /**
+     * Function to intercept QF validation and do our own redirection
+     *
+     * We use this to send control back to the user for a user formatted page
+     * This allows the user to maintain the same state and display the error messages
+     * in their own theme along with any modifications
+     *
+     * This is a first version and will be tweaked over a period of time
+     *
+     * @access    public                                                              
+     * @return    boolean   true if no error found 
+     */
+    function validate( ) {
+        $errors = parent::validate( );
+
+        if ( ! $errors &&
+             CRM_Utils_Array::value( 'errorURL', $_POST ) ) {
+            $message = null;
+            foreach ( $this->_errors as $name => $mess ) {
+                $message .= $mess;
+                $message .= '<p>';
+            }
+            
+            if ( function_exists( 'drupal_set_message' ) ) {
+                drupal_set_message( $message );
+            }
+            
+            $message = urlencode( $message );
+
+            $errorURL = $_POST['errorURL'];
+            if ( strpos( $errorURL, '?' ) !== false ) {
+                $errorURL .= '&';
+            } else {
+                $errorURL .= '?';
+            }
+            $errorURL .= "gid=" . $this->_gid;
+            $errorURL .= "&msg=$message";
+            CRM_Utils_System::redirect( $errorURL );
+        }
+
+        return $errors;
+    }
+
 }
 
 ?>
