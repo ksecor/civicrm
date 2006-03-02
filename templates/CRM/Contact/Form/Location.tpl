@@ -19,12 +19,12 @@
     <div class="form-item">
         <!-- Location type drop-down (e.g. Home, Work...) -->
         {$form.location.$index.location_type_id.html}
-        {$form.location.$index.name.label}
-        {$form.location.$index.name.html}
-     
+
         <!-- Checkbox for "make this the primary location" -->
         {$form.location.$index.is_primary.html}
 
+        &nbsp; &nbsp; {$form.location.$index.name.label}
+        {$form.location.$index.name.html}
     </div>
 
     {* Display the phone block(s) *}
