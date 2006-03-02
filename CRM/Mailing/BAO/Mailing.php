@@ -548,6 +548,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $text, $contact, false);
             $text = CRM_Utils_Token::replaceActionTokens( $text,
                                         $verp, $urls, false);
+            // render the &amp; entities in text mode, so that the links work
+            $text = str_replace('&amp;', '&', $text);
                                         
             $message->setTxtBody($text);
         }
