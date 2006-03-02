@@ -78,9 +78,9 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
         
         $this->addElement('text', 'premiums_intro_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_intro_title'));
         
-        $this->addRule('premiums_intro_title',ts('Plese Eneter the Title'),'required');
+        //$this->addRule('premiums_intro_title',ts('Plese Eneter the Title'),'required');
         // intro_text
-        $this->add('textarea', 'premiums_intro_text', ts('Introductory Message'), 'rows=5, cols=50', true );
+        $this->add('textarea', 'premiums_intro_text', ts('Introductory Message'), 'rows=5, cols=50');
 
         $this->add('text','premiums_contact_email',ts('Contact Email '),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_email')); 
         

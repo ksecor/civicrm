@@ -91,7 +91,15 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $defaults['sort_position'] = $dao->sort_position;
         }
         if( ! $defaults['sort_position']) {
-            $sql = 'SELECT max( `sort_position` ) as max_weight FROM `civicrm_premiums_product` ORDER BY `product_id`';
+            $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            require_once 'CRM/Contribute/DAO/Premium.php';
+            $dao =& new CRM_Contribute_DAO_Premium();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $pageID; 
+            $dao->find(true);
+            $premiumID = $dao->id;
+                        
+            $sql = 'SELECT max( `sort_position` ) as max_weight FROM `civicrm_premiums_product` WHERE `premiums_id` ='.$premiumID;
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->query( $sql );
             $dao->fetch();

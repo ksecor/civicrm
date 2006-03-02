@@ -89,7 +89,14 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
      */
     static function setIsActive( $id, $is_active ) 
     {
+        if( ! $is_active ) {
+            require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+            $dao = & new CRM_Contribute_DAO_PremiumsProduct();
+            $dao->product_id = $id;
+            $dao->delete();
+        }
         return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_Product', $id, 'is_active', $is_active );
+        
     }
 
     /**
