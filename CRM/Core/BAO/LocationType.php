@@ -103,7 +103,7 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      */
     static function &getDefault() {
         if (self::$_defaultLocationType == null) {
-            $params = array('is_default' => 1);
+            $params = array('is_default' => 1, 'domain_id' => CRM_Core_Config::domainID( ));
             $defaults = array();
             self::$_defaultLocationType = self::retrieve($params, $defaults);
         }

@@ -151,6 +151,7 @@ SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " . 
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
+        $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
             
             $query = "
@@ -160,9 +161,8 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_contact.id  = civicrm_location.entity_id AND 
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String') 
-                                    . "'";
-  
+WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String') . "' AND civicrm_contact.domain_id = " . CRM_Core_Config::domainID( );  
+
             $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
             if ( $dao->fetch( ) ) {
