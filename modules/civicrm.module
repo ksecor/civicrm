@@ -193,7 +193,8 @@ function civicrm_menu($may_cache)
  * @param boolean $requireAPI should we also load the civicrm api functions
  *
  */
-function civicrm_initialize( $requireAPI = false ) {
+function civicrm_initialize( $requireAPI = false ) 
+{
     static $initialized = false;
 
     if ( $initialized ) {
@@ -241,7 +242,8 @@ function civicrm_invoke( )
     return $ret;
 }
 
-function civicrm_quickreg( ) {
+function civicrm_quickreg( ) 
+{
     $names  = array( 'first_name', 'last_name', 'email', 'postal_code' ); 
     $params = array( ); 
     foreach ( $names as $name ) { 
@@ -276,7 +278,8 @@ function civicrm_quickreg( ) {
  *
  * @return mixed           depends on the operation being performed
  */
-function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
+function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
+{
 	if ( $type == 'load' ) {
         return;
     }
@@ -318,7 +321,8 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
 
 }
 
-function civicrm_categories( ) {
+function civicrm_categories( ) 
+{
     require_once 'CRM/Core/BAO/UFGroup.php';
     $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
     
@@ -339,7 +343,8 @@ function civicrm_categories( ) {
     return $ufGroups;
 }
 
-function civicrm_register_data($edit, &$user, $category, $reset) {
+function civicrm_register_data($edit, &$user, $category, $reset) 
+{
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
 
@@ -370,8 +375,8 @@ function civicrm_register_data($edit, &$user, $category, $reset) {
     return $output;
 }
 
-function civicrm_form_data($edit, &$user, $category, $reset) {
-
+function civicrm_form_data($edit, &$user, $category, $reset) 
+{
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
 
@@ -403,7 +408,8 @@ function civicrm_form_data($edit, &$user, $category, $reset) {
     return $output;
 }
 
-function civicrm_view_data($user ) {
+function civicrm_view_data($user ) 
+{
     require_once 'CRM/Core/BAO/UFGroup.php';
     $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
 
@@ -413,28 +419,43 @@ function civicrm_view_data($user ) {
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
+        $config =& CRM_Core_Config::singleton( ); 
+        
+        $url = CRM_Utils_System::url( 'civicrm/contact/view&reset=1&cid=' .$userID );
+        $contactURL = '<a href="' .$url. '"> ' .ts("View Contact Record") . '</a>';
+
         require_once 'CRM/Profile/Page/Dynamic.php';
+        
+        $setLink = 0 ;        
         foreach ( $ufGroups as $id => $title ) {
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
             $pageContent = $page->run( );
             
             if ( $pageContent ) {
-                $config =& CRM_Core_Config::singleton( ); 
                 if ( $config->userFrameworkVersion >= 4.7 ) {
+                    if ( !$setLink ) {
+                        $item = array( 'title' => '',
+                                       'value' => $contactURL );
+                        $data[''][] = $item;
+                    }
                     $item = array( 'title' => $title['title'],
                                    'value' => $pageContent );
                     $data[$title['title']][] = $item;
                 } else {
+                    if ( !$setLink ) {
+                        $data[''] = $contactURL;
+                    }
                     $data[$title['title']] = $pageContent;
                 }
+                $setLink++;
             }
         }
     }
-
     return $data;
 }
 
-function civicrm_validate_data($edit, &$user, $title) {
+function civicrm_validate_data($edit, &$user, $title) 
+{
     require_once 'CRM/Utils/Array.php';
 
     // if this is an admin creator, dont validate
