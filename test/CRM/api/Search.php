@@ -12,6 +12,7 @@ class TestOfSearch extends UnitTestCase
     {
     }
     
+    /****
     
     function testSearchCountNull( )
     {
@@ -101,6 +102,43 @@ class TestOfSearch extends UnitTestCase
         foreach ($search[0] as $key => $contactArray) {
             echo "( <i>Contact ID :</i> ". $contactArray['contact_id'] . " ) " . $contactArray['display_name'] . " [ <i>Contact Type :</i> " . $contactArray['contact_type'] . " ] "  . "\n <br />";
             //CRM_Core_Error::debug('CA', $contactArray);
+        }
+    }
+    
+    **/
+    
+    function testSearchByState()
+    {
+        /**
+        * This example searches for all contacts who have a Home (civicrm_location_type.id = 1) address in
+        * California AND whose email address ends in yahoo.com. Contacts will be returned regardless of 
+        * whether their Home address is their Primary address using this array format for location_type.
+        **/
+        $params = array( 'location_type' => array('1' => 1), 'state_province' => 'California', 'email' => '%yahoo.com' );
+ 
+        /** 
+        * You can also search only for contacts where Home address is primary and is in California.
+        * Note that you can use the civicrm_state_province.id value instead of state name if desired.
+        **/
+        // $params = array('location_type' => 'Home','state_province' => 1004 );
+        
+        $sort   = array( 'civicrm_contact.sort_name' => 'ASC' );
+        $return_properties = array( "sort_name"=>1, "email"=>1 );
+        
+        $searchResultCount = crm_contact_search_count($params);
+        echo("<h4>Search by State Test - Total Result Count = " . $searchResultCount . "</h4>");
+        $limit = 50;
+        
+        $page = 0;
+        for ($offset = 0; $offset < $searchResultCount; $offset += $limit ) {
+            $page++;
+            echo("<h4>Search by State Results - Page " . $page . "</h4>");
+            // Iterate over results in pages of $row_count records.
+            $searchResults =& crm_contact_search($params, $return_properties, $sort, $offset, $limit);
+            
+            foreach ($searchResults[0] as $id => $values) {
+                print_r( "Contact ID : " . $values['contact_id'] . "<br/>Sort Name : " . $values['sort_name'] . "<br/>Email : " . $values['email'] . "<br/>");
+            }
         }
     }
 }

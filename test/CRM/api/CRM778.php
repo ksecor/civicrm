@@ -55,11 +55,13 @@ class TestOfCreateContactAPI extends UnitTestCase
                      'street_address'=> '330 Upper Terrace',
                      'postal_code'   => '94117',
                      'city'          => 'San Francisco',
-                     //'state_province'=> 'CA',
-                     'state_province'=> 1004,
+                     'state_province'=> 'CA',
+                     // Can also pass state_province_id name-value pair or use full state-province name.
+                     // 'state_province_id'=> 1004,
                      //'state_province'=> 'California',
                      'country'       => 'US'
-                     //'country'       => 1228
+                     // Can also pass country_id name-value pair or use full country name.
+                     //'country_id'       => 1228
                      //'country'       => 'United States'
                      );
         $location =& crm_create_location($contact, $params);
@@ -69,7 +71,6 @@ class TestOfCreateContactAPI extends UnitTestCase
         //CRM_Core_Error::debug( 'Contact After Adding Second Location', $contact );
     }
     
-// ? Alternate method: Can we pass an array of location objects into crm_create_contact ?
 }
 
 ?>
