@@ -14,6 +14,7 @@
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
+    {if $url } &nbsp; &nbsp; <a href="{$url}">{ts}Go to User Screen{/ts}</a> {/if}
     {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
    </div>
 </div>
