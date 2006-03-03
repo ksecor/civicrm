@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-03-01 23:47+0100\n"
+"PO-Revision-Date: 2006-03-02 17:18+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -7764,7 +7764,7 @@ msgstr "Aantal rijen om te importeren"
 msgid ""
 "<strong>Import has completed successfully.</strong> The information below "
 "summarizes the results."
-msgstr ""
+msgstr "<strong>De import is geslaagd.</strong> Hieronder vindt u een overzicht van het resultaat."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -7773,14 +7773,14 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een niet-overeenkomstig bijdrage ID gedetecteerd. Het betreffende record is niet bijgewerkt."
+msgstr[1] "Er zijn niet-overeenkomstige bijdrage IDs gedetecteerd. De betreffende records zijn niet bijgewerkt."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contributions</a>. You may then "
 "correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "U kunt de <a href=\"%1\">Niet-overeenkomstige bijdragen</a> downloaden. Corrigeer deze, en importeer de file. "
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -7790,15 +7790,15 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een niet-geldige gegeven of een formaatfout gedetecteerd in een record. Het record is niet geimporteerd."
+msgstr[1] "Er zijn niet-geldige gegevens of  formaatfouten gedetecteerd in %count records. De records zijn niet geimporteerd."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
-msgstr ""
+msgstr "U kunt de <a href=\"%1\">Download fouten</a> downloaden. Corrigeer deze, en importeer de file."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
