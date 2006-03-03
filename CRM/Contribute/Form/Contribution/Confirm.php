@@ -263,7 +263,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set('is_deductible' , true);
         }
 
-        // assigning Premium in formation to receipt tpl
+        // assigning Premium information to receipt tpl
         if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
             $startDate = $endDate = "";
              $this->assign('selectPremium' , true );
@@ -392,6 +392,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 
                 CRM_Contribute_BAO_Contribution::addPrmeium($params);
             }
+            // process the custom data
+            $session =& CRM_Core_Session::singleton();
+            $groupTree = $session->get( 'groupTree' );
+            if ( ! empty( $groupTree) ) {
+                require_once 'CRM/Core/BAO/CustomGroup.php';
+                CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
+            }
+            
             // next create the transaction record
             $params = array(
                             'entity_table'      => 'civicrm_contribution',
