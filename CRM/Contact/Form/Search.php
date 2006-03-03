@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.3                                                |
+ | CiviCRM version 1.4                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -267,7 +267,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                        array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
         }
-
+        
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
         $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) );
         $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
@@ -278,7 +278,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) );
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) );
             foreach ($rows as $row) {
                 $this->addElement( 'checkbox', $row['checkbox'],
                                    null, null,

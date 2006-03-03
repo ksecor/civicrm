@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.3                                                |
+ | CiviCRM version 1.4                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -150,11 +150,21 @@ function crm_update_location(&$contact, $location_type, $params) {
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
-    $ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
             $loc['address'][$id] = $params[$id];
         }
+    }
+        
+    if (is_numeric($loc['address']['state_province'])) {
+        $loc['address']['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
+    }
+    
+    if (is_numeric($loc['address']['country'])) {
+        $loc['address']['country']        = CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
     }
     
     $blocks = array( 'Email', 'Phone', 'IM' );
@@ -165,16 +175,18 @@ function crm_update_location(&$contact, $location_type, $params) {
             $count = 1;
             foreach ( $params[$name] as $val) {
                 CRM_Core_DAO::storeValues($val,$loc[$name][$count++]);
-            }   
+            }
         }
     }
     
     $loc['location_type_id'] = $locationTypeId;
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
+    
+    CRM_Contact_BAO_Contact::resolveDefaults($values, true);
+    
     $location = CRM_Core_BAO_Location::add($values, $ids, 1);
     return $location;
-
 }
 
 
