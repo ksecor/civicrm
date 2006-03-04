@@ -242,7 +242,7 @@ function checkSelectedBox (chkName, form)
     var ss = document.forms[form].elements[chkName].name.substring(7,document.forms[form].elements[chkName].name.length);
     
     var row = 'rowid' + ss;
-    
+  
     if (document.forms[form].elements[chkName].checked == true) {
         // change 'all records' radio to 'selected' if any row is checked
         document.forms[form].radio_ts[0].checked = true;
@@ -254,7 +254,6 @@ function checkSelectedBox (chkName, form)
         }
 	
     } else {
-	
         if (document.getElementById(row).className == 'selected even-row') {
             document.getElementById(row).className = 'even-row';
         } else if (document.getElementById(row).className == 'selected odd-row') {
@@ -274,11 +273,17 @@ function checkSelectedBox (chkName, form)
 
 function on_load_init_checkboxes(form) 
 {
+  if (form == 'Search') {
+    var formName = form;
+  } else {
+    var formName = "Advanced";
+  } 
+
     var fldPrefix = 'mark_x';
-    for( i=0; i < document.forms[form].elements.length; i++) {
+    for( i=0; i < document.forms[formName].elements.length; i++) {
 	fpLen = fldPrefix.length;
-	if (document.forms[form].elements[i].type == 'checkbox' && document.forms[form].elements[i].name.slice(0,fpLen) == fldPrefix ) {
-	    checkSelectedBox (document.forms[form].elements[i].name, form); 
+	if (document.forms[formName].elements[i].type == 'checkbox' && document.forms[formName].elements[i].name.slice(0,fpLen) == fldPrefix ) {
+	    checkSelectedBox (document.forms[formName].elements[i].name, formName); 
 	}
     }
     
