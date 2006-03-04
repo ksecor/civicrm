@@ -225,7 +225,12 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
         foreach ($params as $key => $val) {
             if ( $key ==  'activity_date' ) {
                 if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    if( $dateType == 1) { 
+                        $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d');
+                    } else{
+                        CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                    }
+                    
                 }
             }
         }
