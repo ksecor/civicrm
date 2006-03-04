@@ -56,6 +56,10 @@
             {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
         </dd>
         {include file="CRM/Core/Date.tpl"}
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            {ts}Select the format that is used for date fields in your import data.{/ts}
+        </dd>
     </dl>
  </fieldset>
  <div class="spacer"></div>
