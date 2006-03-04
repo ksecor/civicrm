@@ -194,20 +194,47 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         $fieldDAO->id = $custom_field_id;
         $fieldDAO->find();
         $fieldDAO->fetch();
-        
         $customValueDAO = & new CRM_Core_DAO_CustomValue();
         $customValueDeleteDAO = & new CRM_Core_DAO_CustomValue();
         $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
 
         //added multiselect in if-statement below
         if( $fieldDAO->html_type !='CheckBox' && $fieldDAO->html_type !='Multi-Select' ) {
-            
+
             $customValueDAO->custom_field_id = $custom_field_id;
             $customValueDAO->find();
             while($customValueDAO->fetch()) {
-                if( $customValueDAO->char_data == $value ) {
-                    $customValueDeleteDAO->id = $customValueDAO->id;
-                    $customValueDeleteDAO->delete();
+                if ($fieldDAO->data_type == 'Int') {
+                    if( $customValueDAO->int_data == $value ) {
+                        $customValueDeleteDAO->id = $customValueDAO->id;
+                        $customValueDeleteDAO->delete();
+                    }
+                } else { 
+                    if ($fieldDAO->data_type == 'Float') {
+                        if( $customValueDAO->float_data == $value ) {
+                            $customValueDeleteDAO->id = $customValueDAO->id;
+                            $customValueDeleteDAO->delete();
+                        }
+                    } else {
+                        if ($fieldDAO->data_type == 'Money') {
+                            if( $customValueDAO->decimal_data == $value ) {
+                                $customValueDeleteDAO->id = $customValueDAO->id;
+                                $customValueDeleteDAO->delete();
+                            }
+                        } else {
+                            if ($fieldDAO->data_type == 'Memo') {
+                                if( $customValueDAO->memo_data == $value ) {
+                                    $customValueDeleteDAO->id = $customValueDAO->id;
+                                    $customValueDeleteDAO->delete();
+                                }
+                            } else {
+                                if( $customValueDAO->char_data == $value ) {
+                                    $customValueDeleteDAO->id = $customValueDAO->id;
+                                    $customValueDeleteDAO->delete();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         } else {
@@ -231,11 +258,55 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
                     }
                 }
             }
-            
         } 
-        
+
         $optionDAO->delete();
         return null;
+    }
+
+    static function updateCustomValues($params) 
+    {
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        
+        $optionDAO =& new CRM_Core_DAO_CustomOption();
+        $optionDAO->id = $params['optionId'];
+        $optionDAO->entity_table = "civicrm_custom_field";
+        $optionDAO->find();
+        $optionDAO->fetch();
+        $oldValue = $optionDAO->value;
+        $custom_field_id = $optionDAO->entity_id;
+        $customValueDAO = & new CRM_Core_DAO_CustomValue();
+        $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
+        $customValueDAO->custom_field_id = $custom_field_id;
+        $customValueDAO->find();
+
+        while($customValueDAO->fetch()) {
+            if ($customValueDAO->int_data == $oldValue) {
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->int_data = $params['value'];
+                $customValueSaveDAO->save();
+            }
+            if ($customValueDAO->float_data == $oldValue) {
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->float_data = $params['value'];
+                $customValueSaveDAO->save();
+            }
+            if ($customValueDAO->decimal_data == $oldValue) {
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->decimal_data = $params['value'];
+                $customValueSaveDAO->save();
+            }
+            if ($customValueDAO->char_data == $oldValue) {
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->char_data = $params['value'];
+                $customValueSaveDAO->save();
+            }
+            if ($customValueDAO->memo_data == $oldValue) {
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->memo_data = $params['value'];
+                $customValueSaveDAO->save();
+            }
+        }
     }
 
     /**

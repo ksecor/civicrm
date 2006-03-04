@@ -325,13 +325,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
        
         if ($this->_action == CRM_Core_Action::DELETE) {
             CRM_Core_BAO_CustomOption::del($this->_id);
-             CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
+            CRM_Core_Session::setStatus(ts('Your multiple choice option has been deleted', array(1 => $customOption->label)));
             return;
-            
         }
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customOption->id = $this->_id;
+            CRM_Core_BAO_CustomOption::updateCustomValues($params);
         }
 
         // need the FKEY - custom field id
