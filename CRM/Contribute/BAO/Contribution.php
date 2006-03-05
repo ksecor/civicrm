@@ -518,7 +518,7 @@ WHERE  domain_id = $domainID AND $whereCond
      * @access public
      * @static
      */
-    static function addPrmeium ( &$params ) {
+    static function addPremium ( &$params ) {
 
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
         $contributionProduct = new CRM_Contribute_DAO_ContributionProduct();

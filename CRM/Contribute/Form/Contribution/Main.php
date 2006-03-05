@@ -57,15 +57,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
 
-        //to process Custom data that are upeneded to URL
+        //to process Custom data that are appended to URL
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree('Contribution');
         $customFields = CRM_Core_BAO_CustomField::getFields('Contribution');
         $customValue = array();
-        $htmlType = array('CheckBox','Multi-Select','Select','Radio');        
-        foreach($groupTree as $group) {
+        $htmlType = array('CheckBox','Multi-Select','Select','Radio');
+
+        foreach ($groupTree as $group) {
             foreach( $group['fields'] as $key => $field) {
-                $fieldName = 'custom_'.$key;
+                $fieldName = 'custom_' . $key;
                 $value = CRM_Utils_Request::retrieve( $fieldName, $this );
                 if ( $value ) {
                     if ( ! in_array( $customFields[$key][3], $htmlType ) || $customFields[$key][2] =='Boolean' ) {
@@ -114,11 +115,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
             }
         }
-        if ( ! empty( $customValue ) ) {
-            CRM_Core_BAO_CustomGroup::postProcess( $groupTree , $customValue );
-            $session =& CRM_Core_Session::singleton();
-            $session->set( 'groupTree', $groupTree );
-        }
+
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree , $customValue );
+        $session =& CRM_Core_Session::singleton();
+        $session->set( 'groupTree', $groupTree );
     }
 
     function setDefaultValues( ) {
@@ -149,10 +149,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for now
-        // $this->_defaults['credit_card_type']     = 'Visa';
-        // $this->_defaults['credit_card_number']   = '4807731747657838';
-        // $this->_defaults['cvv2']                 = '000';
-        // $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2006', 'M' => '01' );
+        $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -172,6 +172,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCreditCard( );
 
         $this->buildAmount( );
+
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
 

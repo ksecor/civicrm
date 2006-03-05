@@ -390,15 +390,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
                                 );
                                 
-                CRM_Contribute_BAO_Contribution::addPrmeium($params);
+                CRM_Contribute_BAO_Contribution::addPremium($params);
             }
-            // process the custom data
+
+            // process the custom data that is submitted or that came via the url
             $session =& CRM_Core_Session::singleton();
             $groupTree = $session->get( 'groupTree' );
-            if ( ! empty( $groupTree) ) {
-                require_once 'CRM/Core/BAO/CustomGroup.php';
-                CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
-            }
+
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $this->_params );
+            CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
             
             // next create the transaction record
             $params = array(
