@@ -102,7 +102,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     {
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
-        //$this->_field= CRM_Utils_Request::retrieve('field' , $this);
 
         if($this->_action & CRM_Core_Action::UPDATE) {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
@@ -111,7 +110,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         }
         
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
-
 
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
@@ -182,14 +180,15 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         //hidden field to catch the field id in profile
         $this->add('hidden', 'field_id', $this->_id);
 
-        // field name
-        //$this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
-
         $fields = array();
         $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
-        $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::getContributionFields();
+
+        $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
+        if ( ! empty( $contribFields ) ) {
+            $fields['Contribution'] =& $contribFields;
+        }
 
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -215,7 +214,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
         
-        $sel1['Contribution'] = 'Contributions';
+        if ( ! empty( $contribFields ) ) {
+            $sel1['Contribution'] = 'Contributions';
+        }
 
         foreach ($sel1 as $key=>$sel ) {
             if ($key) {

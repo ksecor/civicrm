@@ -528,6 +528,8 @@ WHERE  domain_id = $domainID AND $whereCond
 
     /**
      * Function to get list of contribution fields for profile
+     * For now we only allow custom contribution fields to be in
+     * profile
      *
      * @return return the list of contribution fields
      * @static
@@ -543,8 +545,8 @@ WHERE  domain_id = $domainID AND $whereCond
             $fields[$key] = $var;
         }
 
-        $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
-        
+        // $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
+        $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
         return $fields;
     }
 }
