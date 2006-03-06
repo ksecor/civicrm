@@ -94,7 +94,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             CRM_Core_DAO::executeQuery( $sql );
         } else {
             // make sure there is at once location with is_primary set
-            $sql = "SELECT count( " . self::getTableName( ) . ".id
+            $sql = "SELECT count( " . self::getTableName( ) . ".id )
  FROM " . self::getTableName( ) . " WHERE
  entity_table = '{$location->entity_table}' AND
  entity_id    = '{$location->entity_id}'    AND
