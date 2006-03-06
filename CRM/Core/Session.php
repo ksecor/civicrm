@@ -343,10 +343,11 @@ class CRM_Core_Session {
     function readUserContext( ) {
         $this->createScope( self::USER_CONTEXT );
 
+        $config =& CRM_Core_Config::singleton( );
         $lastElement = count( $this->_session[$this->_key][self::USER_CONTEXT] ) - 1;
         return $lastElement >= 0 ? 
             $this->_session[$this->_key][self::USER_CONTEXT][$lastElement] :
-            null;
+            $config->userFrameworkBaseURL;
     }
 
     /**
