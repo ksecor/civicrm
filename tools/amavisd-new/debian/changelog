@@ -1,3 +1,10 @@
+amavisd-new (20030616p10-5civimail1) unstable; urgency=low
+
+  [ Brian McFee ]
+  * Apply the CiviMail-specific patches.
+
+ -- Piotr Szotkowki <shot@caltha.pl>  Mon,  6 Mar 2006 11:59:22 +0100
+
 amavisd-new (20030616p10-5) unstable; urgency=high
 
   Henrique de Moraes Holschuh <hmh@debian.org>:
