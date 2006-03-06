@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-03-02 17:18+0100\n"
+"PO-Revision-Date: 2006-03-05 23:52+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -7809,15 +7809,15 @@ msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een record met een conflict in het transactie ID gevonden. Dit kan aan de datafile liggen, of aan een reeds bestaand record. Het record is niet geimporteerd."
+msgstr[1] "Er zijn %count records met een conflict in het transactie ID gevonden. Dit kan aan de datafile liggen, of aan een reeds bestaand record. De records zijn niet geimporteerd."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the "
 "transaction IDs for those that are not."
-msgstr ""
+msgstr "U kunt de <a href=\"%1\">Lijst met conflicten</a> downloaden. Loop deze file na, om te zien of het inderdaad conflicten zijn, en corrigeer de transactie IDs zonodig."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -7826,72 +7826,72 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een record gevonden dat identiek is aan een bestaand CiviCRM donatie record."
+msgstr[1] "Er zijn %count records gevonden die identiek zijn aan reeds bestaande CiviCRM donatie records."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the "
 "transaction IDs for those that are not."
-msgstr ""
+msgstr "U kunt de <a href=\"%1\">Download Identieken</a> downloaden. Corrigeer deze, en importeer de file."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Invalid Rows (skipped)"
-msgstr ""
+msgstr "Ongeldige rijen(overgeslagen)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Mismatched Rows (skipped)"
-msgstr ""
+msgstr "Niet-overeenkomstige rijen (overgeslagen)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with mismatched contribution IDs... (NOT updated)."
-msgstr ""
+msgstr "Rijen met nietovereenkomstige bijdrage IDs (niet bijgewerkt)."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Download Mismatched Contributions"
-msgstr ""
+msgstr "Download niet-overeenkomstige bijdragen"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Conflicting Rows (skipped)"
-msgstr ""
+msgstr "Rijen met een conflict(overgeslagen)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows with conflicting transaction IDs (NOT imported)."
-msgstr ""
+msgstr "Rijen met een conflict in transactie IDs ( niet geimporteerd)"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Duplicate Rows"
-msgstr ""
+msgstr "Dubbele rijen"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contribution records."
-msgstr ""
+msgstr "Rijen die identiek zijn aan reeds bestaande CiviCRM bijdrage records"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Download Duplicates"
-msgstr ""
+msgstr "Download Dubbele"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Records Imported"
-msgstr ""
+msgstr "Aantal geimporteerde records"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows imported successfully."
-msgstr ""
+msgstr "Succesvol geimporteerde rijen."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 msgid ""
 "The Contribution Import Wizard allows you to easily upload contributions "
 "from other applications into CiviCRM."
-msgstr ""
+msgstr "De Bijdrage Import Wizard stelt u in staat, om bijdragen die uit een andere applicatie komen, te importeren in CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -7901,28 +7901,29 @@ msgid ""
 "the documentation for your application if you're not sure how to do this. "
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
-msgstr ""
+msgstr "Het bestand moet in het komma-gescheiden formaat (CSV) zijn. De meeste applicatie zijn in staat, om een file op deze manier te exporteren. Zie hiervoor de documentatie voor die applicatie."
+"Sla deze file op op uw hardeschijf ( of netwerkschijf). Daarmee kunt dan vanaf stap 1 beginnen. "
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Upload Data File"
-msgstr ""
+msgstr "Upload bestand"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
-msgstr ""
+msgstr "Het bestands moet een CSV (komma-gescheiden) zijn."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Maximum Upload File Size: %1 MB"
-msgstr ""
+msgstr "Maximale Upload bestandsgrootte : %1 Mb"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"Contact ID\", \"Amount\")."
-msgstr ""
+msgstr "Vink deze box aan, als de eerste rij van het bestand veldnamen bevat (zoals \"Contact ID\", of \"Bedrag\")"
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
@@ -7930,69 +7931,70 @@ msgid ""
 "using your Online Contribution pages. You will need to verify which cards "
 "are accepted by your chosen Payment Processor and update these entries "
 "accordingly."
-msgstr ""
+msgstr "Deze pagina toont de creditcard mogelijkheden, die getoond zullen worden aan decontributanten, die van uw online bijdrage pagina gebruik maken."
+"U dient na te gaan welke kaarten geaccepteerd worden door uw betaalmiddel leverancier, en deze gegevens bij te werken."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "IMPORTANT: This page does NOT control credit card/payment method choices for "
 "sites and/or contributors using the PayPal Express service (e.g. where "
 "billing information is collected on the Payment Processor's website)."
-msgstr ""
+msgstr "Belangrijk : Deze pagina bevat geen keuzes voor creditcard of betaalmiddelmethodes voor de PayPal Express dienst. ( waar bv het factuuradres wordt ingevuld op de site van de betaalmiddel leverancier)"
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
 "can <a href=\"%1\">add one now</a>."
-msgstr ""
+msgstr "Er zijn momenteeel geen creditcard geconfigureerd voor deze site. U kunt er een <a href=\"%1\"> toevoegen</a>"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "This page is <strong>active</strong>."
-msgstr ""
+msgstr "Deze pagina is <strong>actief</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Link visitors to this page using the following URL"
-msgstr ""
+msgstr "Gebruik deze URL-link, om bezoekers naar deze pagina te leiden "
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
-msgstr ""
+msgstr "Deze pagina is momenteel <strong> niet actief</strong> ( niet toegankelijk voor bezoekers)"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "When you are ready to make this page live, click <a href=\"%1\">Title and "
 "Settings</a> and update the <strong>Active?</strong> checkbox."
-msgstr ""
+msgstr "Als u deze pagina live wilt zetten, klik op <a href=\"%1\">Titel en Instellingen</a>, en vink daar de box <strong>Actief?</strong> aan."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Use the options below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
 "<strong>test mode</strong>."
-msgstr ""
+msgstr "Gebruik onderstaande opties, om mogelijkheden en inhoud voor deze online bijdrage pagina bij te werken, en te teten met de <strong>test-mode</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Set page title, contribution type (donation, campaign contribution, etc.), "
 "introduction, allowable payment types, activate the page."
-msgstr ""
+msgstr "Kies de pagina titel, bijdragetype ( campagne, donatie, etc.), introductietekst,toegestane betaalmiddelen, activeren van de pagina."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Configure contribution amount options and labels, minimum and maximum "
 "amounts."
-msgstr ""
+msgstr "Instellingen voor bijdragen, zoals bedragopties en status, minumum en maxiumum bedrag."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Edit thank-you page contents and receipting features."
-msgstr ""
+msgstr "Wijzig bedankpagina en kwitantiemogelijkheden"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Collect additional information from contributors by selecting CiviCRM Profile"
 "(s) to include in this contribution page."
-msgstr ""
+msgstr "Verzamel aanvullende informatie over contributanten, door CiviCRM profielen in deze pagina op te nemen."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -8001,7 +8003,7 @@ msgid ""
 "to your payment processor's test server. <strong>No live charges will occur, "
 "and no contribution records or contact information will be saved to the "
 "database.</strong>"
-msgstr ""
+msgstr "Beproef het hele bijdrage proces, inclusief specifieke velden, bevertgingingen, bedankpagina en kwitanties. Transacties worden naar de test-machine van uw betaalmideel leverancier gestuurd. <strong> Er woden geen echte transacties verricht, en de ingevulde gegevens, over het contact of de bijdrage, worden niet in de database opgenomen.</strong>"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
@@ -8009,62 +8011,62 @@ msgid ""
 "Contribution Pages. You can create different pages for different programs or "
 "campaigns - and customize text, amounts, types of information collected from "
 "contributors, etc."
-msgstr ""
+msgstr "CiciContribute stelt u in staat om een groot aantal online bijdrae paginas te creeeren en bij te houden. Er kunnen verschillende paginas worden aangemaakt voor verschillende programmas, of campagnes. Voor elke pagina zijn de teksten,bijdragen en andere gegevens specifiek in te stellen."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "For existing pages"
-msgstr ""
+msgstr "Voor bestaande paginas"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click the <strong>title</strong> to go to the live page (enabled pages only)."
-msgstr ""
+msgstr "Klik op de <strong>Titel</strong> om naar de live pagina te gaan (geldt alleen voor toegestane paginas)"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
-msgstr ""
+msgstr "Klik op de <strong>Instellingen</strong> om naar de instellingen voor bedragen en tekst etc te bekijken en eventueel te  wijzigen."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click <strong>Test-drive</strong> to try out the page in <strong>test mode</"
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
-msgstr ""
+msgstr "Klik op <strong>Beproef</strong> om de pagina uit te proberen. Hiermee is het mogelijk om het hele bijdrage proces te doorlopen/testen, inclusief het gebruik van een dummy creditcard op een testmachine van uw betaalmiddelleverancier."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "Click <a href=\"%1\">New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
-msgstr ""
+msgstr "Klik op <a href=\"%1'\">Nieuwe bijdrage pagina</a> om een nieuwe bijdrage pagina aan te maken, met behulp van de Wizard, die u stap voor stap begeleidt."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Status?"
-msgstr ""
+msgstr "Status?"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Active"
-msgstr ""
+msgstr "Actief"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "New Contribution Page"
-msgstr ""
+msgstr "Nieuwe Bijdrage Pagina"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "No contribution pages have been created yet. Click <a href=\"%1\">here</a> "
 "to create a new contribution page using the step-by-step wizard."
-msgstr ""
+msgstr "Er zijn nog geen bijdrage paginas aangemaakt. Klik <a href=\"%1\">hier</a> om een bijdrage pagina aan te maken met de Wizard."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "Avg Amount"
-msgstr ""
+msgstr "Gemiddelde bijdrage"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
@@ -8074,28 +8076,28 @@ msgid ""
 "code which can be used to map contributions to codes in your accounting "
 "system. Commonly used contribution types are: Donation, Campaign "
 "Contribution, Membership Dues..."
-msgstr ""
+msgstr "Bijdrage types kunnen gebruikt worden, om bijdragen te splitsen in groepen, zodat dit administratief makkelijker te verwerken is, en er makkelijker rapporten van de fondsen op zijn te maken. U kunt zoveeltypen aanmaken als u wilt. Aan elk type kan een aparte administratieve code gekoppeld worden, die dan gebruikt kan worden, om uw bijdragen in uw administratiesysteem te verwerken. Voorbeelden van bijdragen zijn bv donaties, campagnebijdrage, lidmaatschapsgelden, etc."
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Acctg Code"
-msgstr ""
+msgstr "Administratiecode"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
-msgstr ""
+msgstr "Aftrekbaar voor belastingen ?"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
 "There are no custom contribution types entered. You can <a href=\"%1\">add "
 "one</a>."
-msgstr ""
+msgstr "Er zijn geen specifieke contributietypes aangemaakt. U kunt er <a href=\"%1\"> hier</a> een toevoegen."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
 "contributions. Administrators can create or modify your Online Contribution "
 "Pages from <a href=\"%1\">here</a>."
-msgstr ""
+msgstr "Met Civicontribute is het mogelijk om specifieke bijdrage paginas aan te maken, voor online bijdragen. Beheerders kunnen de zgn. online bijdrage paginas aanmaken en op <a href=\"%1\">deze plek</a> wijzigen."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -8105,11 +8107,12 @@ msgid ""
 "page and click on the </strong>New Contribution</strong> link. You can also "
 "<a href=\"%2\">import batches of offline contributions</a> from other "
 "sources."
-msgstr ""
+msgstr "Het is mogelijk om offline bijdragen te registreren. Om handmatig bijdragen toe te voegen voor individuele contacten, gebruik dan <a href=\"%1\">Vind contact</a> om het betreffende contact er bij te zoeken. Daarna klikt u op <strong>Toon</strong>, om naar het overzicht van dit contact te gaan,en een <strong>Nieuwe Bijdrage</strong> toe te voegen."
+"Eveneens is het mogelijk, een lijst van offline bijdragen te <a href=\"%1\">importeren</a>"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
-msgstr ""
+msgstr "Overzicht van de bijdragen"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
