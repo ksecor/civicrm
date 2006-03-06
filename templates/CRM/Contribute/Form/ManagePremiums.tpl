@@ -93,9 +93,20 @@
 </div>
 
 {if $action eq 1 or $action eq 2 }		 
-{literal}
+
 <script type="text/javascript">
-hide('time-delimited');
+var myElement1 = document.getElementById('time-delimited');
+var myElement2 = document.getElementById('time-delimited[show]');
+
+{if $showSubscriptions }
+  myElement1.style.display = 'block';
+  myElement2.style.display = 'none';    
+{else}
+  myElement1.style.display = 'none';
+  myElement2.style.display = 'block';  
+{/if}
+{literal}
+
 function add_upload_file_block(parms) {
 	if (parms =='thumbnail') {
 	      
@@ -120,6 +131,7 @@ id = day.getTime();
 eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
 }
 
-</script>
 {/literal}
+</script>
+
 {/if}

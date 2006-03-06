@@ -212,7 +212,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         $this->buldPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
-
+               
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
@@ -233,6 +233,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
+            $this->assign("hideCalender" , true );
             $element->freeze( );
         }
 
@@ -294,7 +295,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $this->add('textarea', 'note', ts('Notes'), $attributes['note'] );
+        $this->add('textarea', 'note', ts('Notes'),array("rows"=>4,"cols"=>60) );
 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next', 

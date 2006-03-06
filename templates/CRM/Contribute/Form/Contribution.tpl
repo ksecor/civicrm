@@ -17,8 +17,10 @@
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}</td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
+{if $hideCalender neq true}
 {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
 {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger1}
+{/if}    
 </td>
 </tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>

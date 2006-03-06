@@ -82,6 +82,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $this->assign('thumbURL',$tempDefaults['thumbnail']);
                 $this->assign('imageURL',$tempDefaults['image']);
             }
+            if ( $tempDefaults['period_type'] ) {
+                $this->assign("showSubscriptions" , true );
+            }
+            
         }
         
         return $defaults;
