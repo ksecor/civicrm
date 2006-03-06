@@ -22,7 +22,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings.{/ts} {ts}Do you want to continue?{/ts}
+            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any "stand-alone" Profile forms, you will need to update those forms to remove this field.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>
@@ -30,7 +30,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dl>
         <dt>{$form.field_name.label}</dt><dd>&nbsp;{$form.field_name.html}</dd>
         {if $action neq 4}
-        <dt> </dt><dd class="description">&nbsp;{ts}Select the CiviCRM field you want to include in this Profile.{/ts}</dd>
+        <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
         {/if}
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
@@ -53,12 +53,15 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
+        <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
+        {if $action neq 4}
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form.{/ts}</dd>
+        {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/if}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
-	<dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
 	    </dl>
     </div>
     

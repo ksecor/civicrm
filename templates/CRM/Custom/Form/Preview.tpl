@@ -1,12 +1,12 @@
 {if $preview_type eq 'group'}
-    {capture assign=infoMessage}{ts}Preview of the custom group (fieldset) as it will be displayed when editing a contact.{/ts}{/capture}
+    {capture assign=infoMessage}{ts}Preview of the custom data group (fieldset) as it will be displayed within an edit form.{/ts}{/capture}
     {capture name=legend}
         {foreach from=$groupTree item=name}
         {$name.title}
         {/foreach}
     {/capture}
 {else}
-    {capture assign=infoMessage}{ts}Preview of this field as it will be displayed when editing a contact.{/ts}{/capture}
+    {capture assign=infoMessage}{ts}Preview of this field as it will be displayed in an edit form.{/ts}{/capture}
 {/if}
 {include file="CRM/common/info.tpl"}
 <div class="form-item">
