@@ -138,7 +138,6 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     }
 
     $ids     = array( );
-
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
 
     return $contact;
