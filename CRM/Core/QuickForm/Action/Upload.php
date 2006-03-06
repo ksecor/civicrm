@@ -89,7 +89,10 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 // rename the uploaded file with a unique number at the end
                 $value = $element->getValue();
                 $newName = uniqid( "${value['name']}." );
-                $element->moveUploadedFile( $this->_uploadDir, $newName );
+                $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
+                if ( ! $status ) {
+                    CRM_Utils_System::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please check the relevant settings', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );
+                }
                 if (!empty($data['values'][$pageName][$uploadName])) {
                     @unlink($this->_uploadDir . $data['values'][$pageName][$uploadName]);
                 }

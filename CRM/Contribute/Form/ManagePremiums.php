@@ -135,14 +135,12 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ),true );
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
-        //$this->add('radio', 'image', ts('Get image from my computer'), null ,null);
+
         $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onClick="add_upload_file_block(\'image\');');
         $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
         $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onClick="add_upload_file_block(\'default\');');
         $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
 
-        //$image['current']   = $this->createElement('radio',null, null,ts('Use current image'),'current','onClick="add_upload_file_block(\'current\');');
-        
         $this->addGroup($image,'imageOption',ts('Premium Image'));
         $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );
         
@@ -150,8 +148,6 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->addRule('imageUrl','Please enter the valid URL to display this image.','url');
         $this->addElement( 'text', 'thumbnailUrl',ts('Thumbnail URL'));
         $this->addRule('thumbnailUrl','Please enter the valid URL to display a thumbnail of this image.','url');
-       
-        
 
         $this->add( 'file','uploadFile',ts('Image File Name'), 'onChange="select_option();"');
 
@@ -280,28 +276,31 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             // store the submitted values in an array
             $params = $this->exportValues();
             $params['domain_id'] = CRM_Core_Config::domainID( );
+
             // FIX ME 
             if(CRM_Utils_Array::value( 'imageOption',$params, false )) {
-                
                 $value = CRM_Utils_Array::value( 'imageOption',$params, false );
                 if ( $value == 'image' ) {
                     if ( $imageFile ) {
-                        $imageUrlArray  = explode($config->httpBase, $imageFile);
-                        $params['image'] = $config->userFrameworkBaseURL . $imageUrlArray[1];
+                        $fileName = basename( $imageFile );
+                        $params['image'] = $config->imageUploadURL . $fileName;
 
                         // to check wether GD is installed or not
                         require_once 'CRM/Utils/System.php';
-                        $gdSupport = CRM_Utils_System::getModuleSetting('gd','GD Support');
-                        $jpgSupport = CRM_Utils_System::getModuleSetting('gd','JPG Support');
-                        $gifSupport = CRM_Utils_System::getModuleSetting('gd','GIF Read Support');
-                        $pngSupport = CRM_Utils_System::getModuleSetting('gd','PNG Support');
-                        $error = false; 
+                        $gdSupport  = CRM_Utils_System::getModuleSetting( 'gd', 'GD Support');
+                        $jpgSupport = CRM_Utils_System::getModuleSetting( 'gd', 'JPG Support');
+                        $gifSupport = CRM_Utils_System::getModuleSetting( 'gd', 'GIF Read Support');
+                        $pngSupport = CRM_Utils_System::getModuleSetting( 'gd', 'PNG Support');
+                        $error      = false; 
 
-                        if ( $gdSupport == 'enabled' && $jpgSupport == 'enabled' && $gifSupport == 'enabled' && $pngSupport == 'enabled' ){
+                        if ( $gdSupport  == 'enabled' &&
+                             $jpgSupport == 'enabled' &&
+                             $gifSupport == 'enabled' &&
+                             $pngSupport == 'enabled' ) {
                             list($width_orig, $height_orig) = getimagesize($imageFile);
                             $imageInfo = getimagesize($imageFile);
-                            $width_orig."<br>";
-                            $height_orig."<br>";    
+                            $width_orig . "<br>";
+                            $height_orig . "<br>";    
                             $path = explode( '/', $imageFile );
                             $thumbFileName = $path[count($path) - 1];
                             $thumbFileName = $thumbFileName.".thumb";
@@ -337,8 +336,8 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                         }
                     }
                 } else if (  $value == 'thumbnail' ) {
-                    $params['image']     =  $params['imageUrl'];//empty( $imageFileURL ) ? null : $imageFileURL;
-                    $params['thumbnail'] =  $params['thumbnailUrl']; //empty ( $thumbnailRUL ) ? null : $thumbnailRUL;
+                    $params['image']     =  $params['imageUrl']    ;
+                    $params['thumbnail'] =  $params['thumbnailUrl'];
                 } else if ( $value == 'default_image' ) {
                     $params['image']    = $config->resourceBase . 'i/contribute/default_premium.jpg';
                     $params['thumbnail']= $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 

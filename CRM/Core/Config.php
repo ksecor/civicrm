@@ -126,6 +126,11 @@ class CRM_Core_Config {
     public $imageUploadDir   ='./persist/contribute/';
     
     /**
+     * The url that we can use to display the uploaded images
+     */
+    public $imageUploadURL   = null;
+    
+    /**
      * Are we generating clean url's and using mod_rewrite
      * @var string
      */
@@ -475,8 +480,11 @@ class CRM_Core_Config {
             if ( substr( $this->imageUploadDir, -1, 1 ) != DIRECTORY_SEPARATOR ) { 
                 $this->imageUploadDir .= DIRECTORY_SEPARATOR;
             }
-
             CRM_Utils_File::createDir( $this->imageUploadDir );
+        }
+
+        if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
+            $this->imageUploadURL = CIVICRM_IMAGE_UPLOADURL;
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {

@@ -55,7 +55,8 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
 
         
         $session =& CRM_Core_Session::singleton();
-        $session->set('singleForm',false);
+        $session->set('singleForm', false);
+
         $this->_pages = array(
                               'CRM_Contribute_Form_ContributionPage_Settings',
                               'CRM_Contribute_Form_ContributionPage_Amount',

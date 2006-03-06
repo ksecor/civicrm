@@ -91,6 +91,8 @@ $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
 define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '/var/www/htdocs/civicspace/files/civicrm/persist/contribute');
+define( 'CIVICRM_IMAGE_UPLOADURL'    , '' );
+
 /**
  * Site URLs:
  *
