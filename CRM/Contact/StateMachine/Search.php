@@ -166,6 +166,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
                            'CRM_Contact_Form_Task_Export_Map' );
             break;
 
+        case CRM_Contact_Task::REMOVE_TAGS:
+            $task   = 'CRM_Contact_Form_Task_RemoveFromTag';
+            $result = true;
+            break;
+
         default: // the print task is the default and catch=all task
             $task = 'CRM_Contact_Form_Task_Print';
             break;

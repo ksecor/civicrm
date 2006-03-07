@@ -328,19 +328,20 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                             fwrite($fp, $image_buffer); 
                             rewind($fp);
                             fclose($fp);
-                            $pathArray = explode($config->httpBase, $path);
-                            $params['thumbnail'] = $config->userFrameworkBaseURL.$pathArray[1];;
+                            $params['thumbnail'] = $config->imageUploadURL .$thumbFileName;
                         } else {
                             $error = true;
-                            $params['thumbnail']= $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 
+                            $url = parse_url($config->userFrameworkBaseURL);
+                            $params['thumbnail'] = $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
                         }
                     }
                 } else if (  $value == 'thumbnail' ) {
                     $params['image']     =  $params['imageUrl']    ;
                     $params['thumbnail'] =  $params['thumbnailUrl'];
                 } else if ( $value == 'default_image' ) {
-                    $params['image']    = $config->resourceBase . 'i/contribute/default_premium.jpg';
-                    $params['thumbnail']= $config->resourceBase . 'i/contribute/default_premium_thumb.jpg'; 
+                    $url = parse_url($config->userFrameworkBaseURL);
+                    $params['image']    = $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium.jpg';
+                    $params['thumbnail']= $url['scheme']."://".$url['host'].$config->resourceBase .'i/contribute/default_premium_thumb.jpg'; 
                 } else {
                     $params['image']     = "";
                     $params['thumbnail'] = "";

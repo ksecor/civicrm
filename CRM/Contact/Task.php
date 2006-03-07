@@ -54,7 +54,8 @@ class CRM_Contact_Task {
         MAP_CONTACTS          =  2048,
         EXPORT_CONTACTS       =  4096,
         RECORD_CONTACTS       =  8192,
-        SMS_CONTACTS          = 16384;
+        SMS_CONTACTS          = 16384,
+        REMOVE_TAGS           = 32768;
 
     /**
      * the task array
@@ -96,6 +97,7 @@ class CRM_Contact_Task {
                                   8192  => ts( 'Record Activity for Contacts'  ),
                                   2048  => ts( 'Map Contacts'                  ),
                                   16    => ts( 'New Smart Group'               ),
+                                  32768 => ts( 'Tag Contacts (remove tags)'    ),  
                                   );
             $config =& CRM_Core_Config::singleton( );
 

@@ -486,6 +486,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $locationKeys = array_keys( $fields['location']);
             $isPrimary  = false;
             $dataExists = false;
+            $locTypeId = false;
             foreach ( $locationKeys as $locationId ) {
                 if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
                     if ( $fields['location'][$locationId]['is_primary'] ) {
@@ -512,6 +513,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
                         $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information');
                     }
+                }
+                //  for checking duplicate location type.
+                if (CRM_Core_BAO_Location::dataExists( $fields, $locationId, $ids )) {
+                    if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
+                        $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
+                    }
+                    $locTypeId = $fields['location'][$locationId]['location_type_id'];
                 }
             }
 

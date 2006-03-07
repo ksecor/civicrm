@@ -292,6 +292,9 @@ function _crm_format_params( &$params, &$values ) {
     $values['location'][1]['address'] = array( );
     $fields =& CRM_Core_DAO_Address::fields( );
     
+    // ignore the note field in address for now
+    unset( $fields['note'] );
+
     if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
         $locationTypeNeeded = true;
     }

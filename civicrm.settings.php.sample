@@ -14,7 +14,7 @@
  *      define( 'CIVICRM_UF_URLVAR', 'task'  );
  */
 define( 'CIVICRM_UF'               , 'Drupal' );
-define( 'CIVICRM_UF_VERSION'       , '4.7'    );
+define( 'CIVICRM_UF_VERSION'       , '4.6'    );
 define( 'CIVICRM_UF_URLVAR'        , 'q'      );
 
 /**

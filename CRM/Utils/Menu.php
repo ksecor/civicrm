@@ -217,7 +217,7 @@ class CRM_Utils_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
-                            'icon'    => 'admin/13.png',
+                            'icon'    => 'admin/domain.png',
                             'weight'  => 270
                             ),
 
