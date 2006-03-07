@@ -24,7 +24,7 @@
        <add>1.5</add>
   </field>
   <foreignKey>
-       <name>select_id</name>
+       <name>select_value_id</name>
        <table>civicrm_select_value</table>
        <key>id</key>
        <add>1.5</add>
@@ -47,8 +47,8 @@
        <add>1.5</add>
   </field>
   <field>
-       <name>group</name>
-       <title>Option Group Name</title>
+       <name>grouping</name>
+       <title>Option Grouping Name</title>
        <type>varchar</type>
        <length>64</length>
        <comment>Use to sort and/or set display properties for sub-set(s) of options within a selection set. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.</comment>

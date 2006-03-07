@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Contact</base>
+  <base>CRM/Quest</base>
   <class>Student</class>
   <name>quest_student</name>
   <comment>Quest Student objects are defined by a civicrm_contact, and related civicrm_individual and quest_student records.</comment>
@@ -81,7 +81,7 @@
       <name>nationality_country_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Country of person's nationality.</comment>
+      <comment>Country of persons nationality.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -166,7 +166,7 @@
        <export>true</export>
        <import>true</import>
        <headerPattern>/partner share/i</headerPattern>
-       <comment>OK to share this person's info with partner schools.</comment>
+       <comment>OK to share this persons info with partner schools.</comment>
        <add>1.5</add>
   </field>
   <field>
@@ -362,7 +362,7 @@
       <export>true</export>
       <import>true</import>
       <headerPattern>/number students/i</headerPattern>
-      <comment>Total number of students in this person's class.</comment>
+      <comment>Total number of students in this persons class.</comment>
       <add>1.5</add>
   </field>
   <field>
@@ -374,7 +374,7 @@
        <export>true</export>
        <import>true</import>
        <headerPattern>/gpa explanation/i</headerPattern>
-       <comment>Descriptive comments about student's GPA.</comment>
+       <comment>Descriptive comments about students GPA.</comment>
       <add>1.5</add>
   </field>
   <field>

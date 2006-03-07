@@ -28,6 +28,7 @@ require_once 'PHP/Beautifier.php';
 // for SQL l10n use
 //define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
 require_once '../civicrm.config.php';
+
 // lets use our own include path
 ini_set( 'include_path', ".:../packages:.." );
 
@@ -263,8 +264,6 @@ createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
-
-
 
 // write the civicrm data file fixing the domain
 // id variable and translate the {ts}-tagged strings
