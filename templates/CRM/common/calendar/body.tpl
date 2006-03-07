@@ -9,7 +9,10 @@
 {/literal}
 {if $offset}
     var startYear = currentYear - {$offset};
-    var endYear = currentYear + {$offset};
+    var endYear   = currentYear + {$offset};
+{else}
+    var startYear = {$startDate};
+    var endYear   = {$endDate};
 {/if}
 
 {literal}
@@ -26,7 +29,7 @@
          showsTime   : true,
          timeFormat  : "12",
 {/if}
-         range       : [{$startDate}, {$endDate}],
+         range       : [startYear, endYear],
          button      : "{$trigger}"
 {literal}
       }
