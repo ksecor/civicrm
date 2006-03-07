@@ -87,7 +87,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         if ( ! $dataExists ) {
             return null;
         }
-        
+      
         $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->save( );
@@ -141,7 +141,6 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
     {
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
-        
         foreach ( $contactIds as $contactId ) {
             $tag =& new CRM_Core_DAO_EntityTag( );
             
@@ -157,6 +156,36 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         }
         
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
+    }
+
+    /**
+     * Given an array of contact ids, remove contact(s) tags 
+     *
+     * @param array  $contactIds (reference ) the array of contact ids to be added
+     * @param int    $tagId the id of the tag
+     *
+     * @return array             (total, removed, notRemoved) count of contacts removed from tags
+     * @access public
+     * @static
+     */
+    static function removeContactsFromTag( &$contactIds, $tagId ) 
+    {
+        $numContactsRemoved    = 0;
+        $numContactsNotRemoved = 0;
+        foreach ( $contactIds as $contactId ) {
+            $tag =& new CRM_Core_DAO_EntityTag( );
+            $tag->entity_id    = $contactId;
+            $tag->entity_table = 'civicrm_contact';
+            $tag->tag_id       = $tagId;
+            if (  $tag->find( ) ) {
+                $tag->delete( );
+                $numContactsRemoved++;
+            } else {
+                $numContactsNotRemoved++;
+            }
+        }
+        
+        return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
 
     
