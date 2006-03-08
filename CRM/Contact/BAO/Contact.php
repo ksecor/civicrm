@@ -1437,13 +1437,14 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * 
      * currentlty we are using importable fields as exportable fields
      *
-     * @param int $contactType contact Type
-     * $param int $status  1 while exporting primary contacts
+     * @param int     $contactType contact Type
+     * $param boolean $status true while exporting primary contacts
+     * $param boolean $export true when used during export
      *
      * @return array array of exportable Fields
      * @access public
      */
-    function &exportableFields( $contactType = 'Individual', $status = null ) {
+    function &exportableFields( $contactType = 'Individual', $status = false, $export = false ) {
         if ( empty( $contactType ) ) {
             $contactType = 'All';
         }
@@ -1523,11 +1524,14 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 }
             }
             
-            // add groups
-            $fields = array_merge($fields, array ('groups' =>  array( 'title' => ts('Group(s)'))));
-
-            // add tags
-            $fields = array_merge($fields, array ('tags' =>  array( 'title' => ts('Tag(s)'))));
+            //fix for CRM-791
+            if ( $export ) { 
+                $fields = array_merge($fields, array ('groups' =>  array( 'title' => ts('Group(s)'))));
+                $fields = array_merge($fields, array ('tags'   =>  array( 'title' => ts('Tag(s)'))));
+            } else { 
+                $fields = array_merge($fields, array ('group' =>  array( 'title' => ts('Group(s)'))));
+                $fields = array_merge($fields, array ('tag'   =>  array( 'title' => ts('Tag(s)'))));
+            }
                         
             self::$_exportableFields[$contactType] = $fields;
         }

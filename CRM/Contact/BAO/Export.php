@@ -112,7 +112,7 @@ class CRM_Contact_BAO_Export {
             $returnProperties['location'] = $locationType;
         } else {
             $primary = true;
-            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true );
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
             
             foreach ($fields as $key => $var) { 
                 if ($key) {

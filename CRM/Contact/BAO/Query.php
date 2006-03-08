@@ -236,7 +236,7 @@ class CRM_Contact_BAO_Query {
             $this->_search = false;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
+            $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
             
             if ($mode != 1) { //this mode is for exporting contribution
                 require_once 'CRM/Contribute/BAO/Contribution.php';
