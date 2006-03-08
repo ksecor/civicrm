@@ -196,14 +196,28 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-       <name>internet_access</name>
-       <type>varchar</type>
-       <length>128</length>
-       <required>true</required>
+       <name>internet_access_id</name>
+       <type>int unsigned</type>
+       <comment>How do they access the internet. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>internet_access_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
        <export>true</export>
        <import>true</import>
        <headerPattern>/internet access/i</headerPattern>
-       <comment>How do they access the internet. Input displays option values from civicrm_option_group where name = internet_access. But user may type in other values.</comment>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>internet_access_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/other internet access/i</headerPattern>
+       <comment>Alternate response for how they access the internet.</comment>
       <add>1.5</add>
   </field>
   <field>
@@ -264,7 +278,7 @@
        <export>true</export>
        <import>true</import>
        <headerPattern>/educational interest/i</headerPattern>
-       <comment>Which educational areas are they interested in. Multi-select checkbox array populates a list of titles from civicrm_option_value where civicrm_option_group.name = educational_interest.</comment>
+       <comment>Which educational areas are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = educational_interest.</comment>
       <add>1.5</add>
   </field>
   <field>
@@ -285,18 +299,18 @@
        <export>true</export>
        <import>true</import>
        <headerPattern>/college type/i</headerPattern>
-       <comment>Types of college they are interested in attending. Multi-select checkbox array populates a list of titles from civicrm_option_value where civicrm_option_group.name = college_type.</comment>
+       <comment>Types of college they are interested in attending. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_type.</comment>
       <add>1.5</add>
   </field>
   <field>
        <name>college_interest</name>
        <type>varchar</type>
-       <length>2048</length>
+       <length>255</length>
        <required>true</required>
        <export>true</export>
        <import>true</import>
        <headerPattern>/college interest/i</headerPattern>
-       <comment>Which colleges are they interested in. Multi-select checkbox array populates a list of titles from civicrm_option_value where civicrm_option_group.name = college_interest.</comment>
+       <comment>Which colleges are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_interest.</comment>
       <add>1.5</add>
   </field>
   <field>
@@ -406,7 +420,7 @@
        <export>true</export>
        <import>true</import>
        <headerPattern>/tutoring/i</headerPattern>
-       <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a list of titles from civicrm_option_value where civicrm_option_group.name = test.</comment>
+       <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
       <add>1.5</add>
   </field>
   <field>     
