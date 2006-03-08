@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>SelectValueOption</class>
-  <name>civicrm_select_value_option</name>
+  <class>OptionValue</class>
+  <name>civicrm_option_value</name>
   <add>1.5</add>
   <field>
       <name>id</name>
@@ -17,15 +17,15 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>select_value_id</name>
+      <name>option_group_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Select value set which this option belongs to.</comment>
+      <comment>Group which this option belongs to.</comment>
        <add>1.5</add>
   </field>
   <foreignKey>
-       <name>select_value_id</name>
-       <table>civicrm_select_value</table>
+       <name>option_group_id</name>
+       <table>civicrm_option_group</table>
        <key>id</key>
        <add>1.5</add>
   </foreignKey>
@@ -51,14 +51,14 @@
        <title>Option Grouping Name</title>
        <type>varchar</type>
        <length>64</length>
-       <comment>Use to sort and/or set display properties for sub-set(s) of options within a selection set. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.</comment>
+       <comment>Use to sort and/or set display properties for sub-set(s) of options within an option group. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.</comment>
        <add>1.5</add>
   </field>
   <field>
        <name>is_default</name>
        <type>boolean</type>
        <default>0</default>
-       <comment>Is this the default option for the selection set?</comment>
+       <comment>Is this the default option for the group?</comment>
        <add>1.5</add>
   </field>
   <field>

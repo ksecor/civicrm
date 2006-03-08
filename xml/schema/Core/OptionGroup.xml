@@ -2,14 +2,14 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>SelectValue</class>
-  <name>civicrm_select_value</name>
+  <class>OptionGroup</class>
+  <name>civicrm_option_group</name>
   <add>1.5</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Select value ID</comment>
+      <comment>Option Group ID</comment>
        <add>1.5</add>
   </field>
   <primaryKey>
@@ -20,7 +20,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which domain owns this set of select value options.</comment>
+      <comment>Which domain owns this group of options.</comment>
        <add>1.5</add>
   </field>
   <foreignKey>
@@ -31,34 +31,34 @@
   </foreignKey>
   <field>
        <name>name</name>
-       <title>Selection Set Name</title>
+       <title>Option Group Name</title>
        <type>varchar</type>
        <length>64</length>
        <required>true</required>
-       <comment>Selection set name. Used as selection key by class properties which lookup options in civicrm_select_value_option.</comment>
+       <comment>Option group name. Used as selection key by class properties which lookup options in civicrm_option_value.</comment>
        <add>1.5</add>
   </field>
   <field>
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Section set description.</comment>
+       <comment>Option group description.</comment>
        <add>1.5</add>
   </field>
   <field>
        <name>is_reserved</name>
        <type>boolean</type>
-       <comment>Is this a predefined system selection set (i.e. it can not be deleted)?</comment>
+       <comment>Is this a predefined system option group (i.e. it can not be deleted)?</comment>
        <add>1.5</add>
   </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>
-       <comment>Is this selection set active?</comment>
+       <comment>Is this option group active?</comment>
        <add>1.5</add>
   </field>
   <index>
-    <name>select_value_name_domain_id</name>
+    <name>option_group_name_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
