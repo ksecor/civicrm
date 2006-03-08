@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-03-05 23:52+0100\n"
+"PO-Revision-Date: 2006-03-07 21:35+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -8121,39 +8121,40 @@ msgid ""
 "search periods. To run your own customized searches - click <a href=\"%1"
 "\">Find Contributions</a>. You can search by Contributor Name, Amount Range, "
 "and a variety of other criteria."
-msgstr ""
+msgstr "Deze tabel toont een overzicht van de<strong>Totale Bijdragen</strong>, en bevat shortcuts om bijdrage details over een bepaalde periode te zien."
+"Voor specifieke zoekacties, klikt u op <a href=\"%1\">Vind bijdragen</a>. Daar kan op naam, bedrag en andere criteria gezocht worden."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Period"
-msgstr ""
+msgstr "Periode"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
-msgstr ""
+msgstr "Deze maand, totnutoe"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(n/a)"
-msgstr ""
+msgstr "(n.b.)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "view details"
-msgstr ""
+msgstr "toon details"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
-msgstr ""
+msgstr "Dit jaar, totnutoe"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Cumulative"
-msgstr ""
+msgstr "Cumulatief"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(since inception)"
-msgstr ""
+msgstr "(sinds de start)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
-msgstr ""
+msgstr "Recente bijdragen"
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -8161,64 +8162,64 @@ msgid ""
 "The common payment methods are installed by default and can not be modified "
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
-msgstr ""
+msgstr "U kunt opslaan, hoe elke contributie betaald is. Er zijn standaard betaalwijzen ( cheque, contact, creditcard, etc.) voor-geinstalleerd, deze kunnen niet gewijzigd worden. Er kunnen betaalmethoden worden toegevoegd."
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
 "There are no custom Payment Instruments entered. You can <a href=\"%1\">add "
 "one</a>."
-msgstr ""
+msgstr "Er zijn geen specifieke Betaalmiddelen ingevoerd. U kunt er een <a href=\"%1\">toevoegen</a>."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
 "WARNING: Deleting this custom field will result in the loss of all %1 data."
-msgstr ""
+msgstr "Waarschuwing : Het verwijderen van dit specifieke veld resulteert in het verlies van alle data, die, van alle records, in dit veld is opgeslagen."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 #: templates/CRM/Custom/Form/Option.tpl
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Deze actie kan niet hersteld worden."
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""
 "WARNING: Deleting this custom group will result in the loss of all %1 data."
-msgstr ""
+msgstr "Waarschuwing : Het verwijderen van deze specifieke groep resulteert in het verlies van alle data, die van alle records, in deze groep zijn opgeslagen."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
 "Select the type of data you want to collect and store for this contact. Then "
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
-msgstr ""
+msgstr "Kies het type gegeven dat u wilt verzamelen en opslaan van dit contact. Kies daarna uit de beschikbare HTML velden, welk type hierbij hoort. (De keuzes zijn afhankelijk van het op te slaan gegeven.)"
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
 "Weight controls the order in which fields are displayed in a group. Enter a "
 "positive or negative integer - lower numbers are displayed ahead of higher "
 "numbers."
-msgstr ""
+msgstr "De weegfactor bepaalt in welke volgorde velden getoond worden. Voer een positief of negatief geheel getal in. Lagere nummers worden voor grotere getallen getoond."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
 "If you want to provide a default value for this field, enter it here. For "
 "date fields, format is YYYY-MM-DD."
-msgstr ""
+msgstr "Als u een standaard waarde voor dit veld op wilt geven, kunt u dit hier invoeren. Voro datum velen luidt het formaat YYYY-MM-DD."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Explanatory text displayed to users for this field."
-msgstr ""
+msgstr "Uitgebreide verklarende tekst voor dit veld, die getoond wordt aan gebruikers."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
 "Is this field included in the Advanced Search form? NOTE: This feature is "
 "only available to custom fields used for <strong>Contacts</strong> at this "
 "time."
-msgstr ""
+msgstr "Is dit veld opgenomen in het Uitgebreide Zoekformulier ? Noot : deze optie is momenteel alleen beschikbaar voor specifieke velden bij <strong>Contacten</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
-msgstr ""
+msgstr "Toon/wijzig de meerkeuze opties"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -8227,7 +8228,7 @@ msgid ""
 "select determines whether this group is edited and displayed on the same "
 "screens as the standard contact field ('Inline' style), or has it's own menu "
 "tab ('Tab' style)."
-msgstr ""
+msgstr "Gebruik dit formulier om de titel, hulpniveau, en de te tonen specifieke velden in te stellen. De \"schermstijl\" die u kiest bepaalt of deze groep bewerkt en getoond wordt op dezelfde schermen als een standaard contactveld ('Inline')of dat deze haar eigen menutab heeft\"('Tab')"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
