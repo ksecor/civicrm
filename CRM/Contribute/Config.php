@@ -163,11 +163,11 @@ class CRM_Contribute_Config {
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
-            $config->paymentCertPath['live'] = CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH;
+            $config->paymentCertPath['live'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH );
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
-            $config->paymentCertPath['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH;
+            $config->paymentCertPath['test'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH );
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {

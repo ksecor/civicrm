@@ -63,7 +63,7 @@ class CRM_Core_I18n
         // we use PHP-gettext only if the locale's set and it's not en_US
         $config =& CRM_Core_Config::singleton();
         if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
-            $streamer = new FileReader( $config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo' );
+            $streamer = new FileReader( $config->gettextResourceDir . $config->lcMessages . '/LC_MESSAGES/civicrm.mo' );
             $this->_phpgettext = new gettext_reader($streamer);
         }
     
