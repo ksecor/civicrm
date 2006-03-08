@@ -4059,28 +4059,84 @@ msgstr ""
 msgid "Tigrai"
 msgstr ""
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
+#. name for FI-SK
+msgid "South Karelia"
+msgstr ""
+
+#. name for FI-SO
+msgid "South Ostrobothnia"
 msgstr ""
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+msgid "Kainuu"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CO
+msgid "Central Ostrobothnia"
+msgstr ""
+
+#. name for FI-CF
+msgid "Central Finland"
+msgstr ""
+
+#. name for FI-KY
+msgid "Kymenlaakso"
+msgstr ""
+
+#. name for FI-LA
+msgid "Lapland "
+msgstr ""
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+msgid "North Karelia"
+msgstr ""
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+msgid "Northern Savo"
+msgstr ""
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+msgid "Satakunta"
+msgstr ""
+
+#. name for FI-UM
+msgid "Uusimaa "
+msgstr ""
+
+#. name for FI-SW
+msgid "South-West Finland"
+msgstr ""
+
+#. name for FI-AL
+msgid "Åland"
 msgstr ""
 
 #. name for FJ-E
