@@ -57,68 +57,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
 
-        //to process Custom data that are appended to URL
+        // to process Custom data that are appended to URL
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree('Contribution');
-        $customFields = CRM_Core_BAO_CustomField::getFields('Contribution');
-        $customValue = array();
-        $htmlType = array('CheckBox','Multi-Select','Select','Radio');
-
-        foreach ($groupTree as $group) {
-            foreach( $group['fields'] as $key => $field) {
-                $fieldName = 'custom_' . $key;
-                $value = CRM_Utils_Request::retrieve( $fieldName, $this );
-                if ( $value ) {
-                    if ( ! in_array( $customFields[$key][3], $htmlType ) || $customFields[$key][2] =='Boolean' ) {
-                        $valid = CRM_Core_BAO_CustomValue::typecheck( $customFields[$key][2], $value);
-                    }
-                    if ( $customFields[$key][3] == 'CheckBox' || $customFields[$key][3] =='Multi-Select' ) {
-                        $value = str_replace("|",",",$value);
-                        $mulValues = explode( ',' , $value );
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $key, true );
-                        $val = array (); 
-                        foreach( $mulValues as $v1 ) {
-                            foreach( $customOption as $v2 ) {
-                                if ( strtolower(trim($v2['label'])) == strtolower(trim($v1)) ) {
-                                    $val[$v2['value']] = 1;
-                                }
-                            }
-                        }
-                        if (! empty ($val) ) {
-                            $value = $val;
-                            $valid = true; 
-                        } else {
-                            $value = null;
-                        }
-                    } else if ($customFields[$key][3] == 'Select' || 
-                               ( $customFields[$key][3] =='Radio' && $customFields[$key][2] !='Boolean' ) ) {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($key, true );
-                        foreach( $customOption as $v2 ) {
-                            if ( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) {
-                                $value = $v2['value'];
-                                $valid = true; 
-                            }
-                        }
-                        
-                    } else if ( $customFields[$key][2] == 'Date' ) {
-                        require_once 'CRM/Utils/Date.php';
-                        if( is_numeric( $value ) ){
-                            $value = CRM_Utils_Date::unformat( $value , null );
-                        } else {
-                            $value = CRM_Utils_Date::unformat( $value , $separator = '-' );
-                        }
-                        $valid = true; 
-                    }
-                    if ( $valid ) {
-                        $customValue[$fieldName] = $value;
-                    }
-                }
-            }
-        }
-
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree , $customValue );
-        $session =& CRM_Core_Session::singleton();
-        $session->set( 'groupTree', $groupTree );
+        CRM_Core_BAO_CustomGroup::extractGetParams( $this, 'Contribution' );
     }
 
     function setDefaultValues( ) {
