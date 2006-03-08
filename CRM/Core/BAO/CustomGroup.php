@@ -1060,7 +1060,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * and store it in session
      *
      * @param CRM_Core_Form $form the form object
-     *
+     * @param string        $type the type of custom group we are using
+
      * @return void
      * @access public
      * @static
@@ -1071,8 +1072,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             return;
         }
 
-        $groupTree    =& CRM_Core_BAO_CustomGroup::getTree('Contribution');
-        $customFields =& CRM_Core_BAO_CustomField::getFields('Contribution');
+        $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type );
+        $customFields =& CRM_Core_BAO_CustomField::getFields( $type );
 
         $customValue  = array();
         $htmlType     = array('CheckBox','Multi-Select','Select','Radio');
