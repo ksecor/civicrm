@@ -1873,7 +1873,7 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ! empty( $qill ) ) {
-            $this->_qill[] = ts($fieldTitle . ' - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
+            $this->_qill[] = $fieldTitle . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
     }
 
