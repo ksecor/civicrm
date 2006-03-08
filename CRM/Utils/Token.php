@@ -146,13 +146,14 @@ class CRM_Utils_Token {
      */
     public static function &replaceDomainTokens($str, &$domain, $html = false)
     {
+        require_once 'CRM/Utils/Address.php';
         $loc =& $domain->getLocationValues();
         if (self::token_match('domain', 'address', $str)) {
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( 'address', $loc ) ) {
-                $value = CRM_Core_BAO_Address::format(  $loc['address'], 
-                                                        ($html ? '<br />' : "\n"));
+                $value = CRM_Utils_Address::format($loc['address']);
+                if ($html) $value = str_replace("\n", '<br />', $value);
             }
             self::token_replace('domain', 'address', $value, $str);
         }
