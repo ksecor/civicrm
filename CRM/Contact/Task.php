@@ -88,6 +88,7 @@ class CRM_Contact_Task {
                                   1     => ts( 'Add Contacts to a Group'       ),
                                   2     => ts( 'Remove Contacts from a Group'  ),
                                   4     => ts( 'Tag Contacts (assign tags)'    ),
+                                  32768 => ts( 'Untag Contacts (remove tags)'  ),  
                                   4096  => ts( 'Export Contacts'               ),
                                   128   => ts( 'Send Email to Contacts'        ),
                                   16384 => ts( 'Send SMS to Contacts'          ),
@@ -97,7 +98,6 @@ class CRM_Contact_Task {
                                   8192  => ts( 'Record Activity for Contacts'  ),
                                   2048  => ts( 'Map Contacts'                  ),
                                   16    => ts( 'New Smart Group'               ),
-                                  32768 => ts( 'Tag Contacts (remove tags)'    ),  
                                   );
             $config =& CRM_Core_Config::singleton( );
 
