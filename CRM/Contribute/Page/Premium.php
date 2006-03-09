@@ -68,7 +68,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
     {            
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $deleteExtra = ts('Are you sure you want to remove this product form this page.?');
+            $deleteExtra = ts('Are you sure you want to remove this product form this page?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
