@@ -190,26 +190,22 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
             }
 
-            if ( $this->_action != 1024 ) { // no db transactions during preview
-                $ids = array( );
-                if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                    $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
-                } else {
-                    // need to fix and unify all contact creation
-                    $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-                    $defaults = array( );
-                    CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-                    $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
-                }
-                
-                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                    CRM_Core_Error::fatal( "Failed creating contact for contributor" );
-                }
-
-                $contactID = $contact->id;
+            $ids = array( );
+            if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
             } else {
-                $contactID = 1;
+                // need to fix and unify all contact creation
+                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                $defaults = array( );
+                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
             }
+            
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::fatal( "Failed creating contact for contributor" );
+            }
+
+            $contactID = $contact->id;
 
             $this->set( 'contactID', $contactID );
         }
@@ -330,24 +326,22 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                           
         }
 
-        if ( $this->_action != 1024 ) { // no db transactions during preview
-            CRM_Core_DAO::transaction( 'BEGIN' );
+        CRM_Core_DAO::transaction( 'BEGIN' );
 
-            $nonDeductibleAmount = $result['gross_amount'];
-            if ( $contributionType->is_deductible ) {
-                if ( $premiumParams['selectProduct'] != 'no_thanks' ) {
-                    require_once 'CRM/Contribute/DAO/Product.php';
-                    $productDAO =& new CRM_Contribute_DAO_Product();
-                    $productDAO->id = $premiumParams['selectProduct'];
-                    $productDAO->find(true);
-                    if( $result['gross_amount'] < $productDAO->price ){
-                        $nonDeductibleAmount = $result['gross_amount'];
-                    } else {
-                        $nonDeductibleAmount = $productDAO->price;
-                    }
+        $nonDeductibleAmount = $result['gross_amount'];
+        if ( $contributionType->is_deductible ) {
+            if ( $premiumParams['selectProduct'] != 'no_thanks' ) {
+                require_once 'CRM/Contribute/DAO/Product.php';
+                $productDAO =& new CRM_Contribute_DAO_Product();
+                $productDAO->id = $premiumParams['selectProduct'];
+                $productDAO->find(true);
+                if( $result['gross_amount'] < $productDAO->price ){
+                    $nonDeductibleAmount = $result['gross_amount'];
                 } else {
-                    $nonDeductibleAmount = '0.00';
+                    $nonDeductibleAmount = $productDAO->price;
                 }
+            } else {
+                $nonDeductibleAmount = '0.00';
             }
 
             // check contribution Type
@@ -386,6 +380,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'product_id'         => $premiumParams['selectProduct'],
                                 'contribution_id'    => $contribution->id,
                                 'product_option'     => $premiumParams['options_'.$premiumParams['selectProduct']],
+                                'quantity'           => 1,
                                 'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
                                 'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
                                 );
@@ -419,6 +414,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
 
             // also create an activity history record
+            require_once 'CRM/Utils/Money.php';
             $params = array('entity_table'     => 'civicrm_contact', 
                             'entity_id'        => $contactID, 
                             'activity_type'    => $contributionType->name,
@@ -437,11 +433,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // finally send an email receipt
         if ( $this->_values['is_email_receipt'] ) {
-            if ( $this->_action != 1024 ) {
-                list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            } else {
-                list( $displayName, $email ) = array( $this->get( 'name' ), $this->_params['email'] );
-            }
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
 
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
