@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-08 13:50+0100\n"
+"POT-Creation-Date: 2006-03-09 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -1846,7 +1846,7 @@ msgid "Contribution Amount - %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Contribution Thank you date is null"
+msgid "Contribution Thank-you date is null"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -2614,6 +2614,10 @@ msgid "Tag Contacts (assign tags)"
 msgstr ""
 
 #: CRM/Contact/Task.php
+msgid "Untag Contacts (remove tags)"
+msgstr ""
+
+#: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
 msgstr ""
 
@@ -2635,10 +2639,6 @@ msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
-msgstr ""
-
-#: CRM/Contact/Task.php
-msgid "Tag Contacts (remove tags)"
 msgstr ""
 
 #: CRM/Contact/Task.php
@@ -2978,15 +2978,15 @@ msgid "Selected Premium Product has been removed from this Contribution Page."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-msgid "Select the Product "
+msgid "Select the Product"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-msgid "Please Enter Integer value for Weight"
+msgid "Please enter integer value for weight"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-msgid "Add Premium to Contibtion Page"
+msgid "Add Premium to Contribution Page"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -3038,11 +3038,11 @@ msgid "Premiums Section Enabled?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-msgid "Contact Email "
+msgid "Contact Email"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-msgid "Please Enter valid email address for Contact Email "
+msgid "Please enter valid email address for Contact Email"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
@@ -3050,11 +3050,11 @@ msgid "Contact Phone"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-msgid "Please Enter valid phone"
+msgid "Please enter valid phone"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-msgid "Display Minimum Contribution Amount ?"
+msgid "Display Minimum Contribution Amount?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
@@ -3174,11 +3174,11 @@ msgid "Your %1 value is: \"%2\". This value must be entered in the Payment Proce
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
-msgid "Please enter a Product name."
+msgid "Please enter a product name."
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
-msgid "A Product with this name already exists. Please select another name."
+msgid "A product with this name already exists. Please select another name."
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php templates/CRM/Contribute/Page/ManagePremiums.tpl templates/CRM/Contribute/Page/Premium.tpl
@@ -3446,7 +3446,7 @@ msgid "Delete Payment Instrument"
 msgstr ""
 
 #: CRM/Contribute/Page/Premium.php
-msgid "Are you sure you want to remove this product form this page.?"
+msgid "Are you sure you want to remove this product form this page?"
 msgstr ""
 
 #: CRM/Contribute/Page/Premium.php templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -3972,7 +3972,7 @@ msgid "Form Type"
 msgstr ""
 
 #: CRM/Core/DAO/UFGroup.php
-msgid "Post Url"
+msgid "Post URL"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
@@ -5160,7 +5160,7 @@ msgid "To: %1; Message: %2"
 msgstr ""
 
 #: CRM/SMS/Form/Task/SMS.php
-msgid "Your user record does not have a valid sms number"
+msgid "Your user record does not have a valid SMS number"
 msgstr ""
 
 #: CRM/SMS/Form/Task/SMS.php
