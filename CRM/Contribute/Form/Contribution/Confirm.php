@@ -389,8 +389,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
 
             // process the custom data that is submitted or that came via the url
-            $session =& CRM_Core_Session::singleton();
-            $groupTree = $session->get( 'groupTree' );
+            $groupTree = $this->get( 'groupTree' );
 
             require_once 'CRM/Core/BAO/CustomGroup.php';
             CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $this->_params );

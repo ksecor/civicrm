@@ -10,12 +10,13 @@
  * for Drupal.
  * 
  * Settings for Mambo:
- *      define( 'CIVICRM_UF'       , 'Mambo' );
- *      define( 'CIVICRM_UF_URLVAR', 'task'  );
+ *      define( 'CIVICRM_UF'        , 'Mambo' );
+ *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
+ *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
  */
-define( 'CIVICRM_UF'               , 'Drupal' );
-define( 'CIVICRM_UF_VERSION'       , '4.6'    );
-define( 'CIVICRM_UF_URLVAR'        , 'q'      );
+define( 'CIVICRM_UF'               , '%%cms%%'        );
+define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
+define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 
 /**
  * Enable CiviCRM Components:
@@ -34,9 +35,9 @@ define( 'ENABLE_COMPONENTS', '' );
  *
  * Update the CIVICRM_UF_DSN setting to match your Drupal or Mambo database username, server and DB name.
  * Database URL format:
- *      define( 'CIVICRM_UF_DSN', 'mysql://drupal_db_username:drupal_db_password@db_server/drupal_database?new_link=true');
+ *      define( 'CIVICRM_UF_DSN', 'mysql://%%cms%%_db_username:%%cms%%_db_password@db_server/{$cms}_database?new_link=true');
  */
-define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
+define( 'CIVICRM_UF_DSN'           , 'mysql://%%cms%%:YOUR_PASSWORD@localhost/%%cms%%?new_link=true' );
 
 /** 
  *
@@ -45,7 +46,7 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:YOUR_PASSWORD@localhost/dru
  * If you are using table-prefixing for the users table, you must enter the tablename
  * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
  */ 
-define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
+define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
 
 /**
  * File system paths for this install:
@@ -87,11 +88,11 @@ define( 'CIVICRM_UF_USERSTABLENAME', 'users' );
  *
  */
 global $civicrm_root;
-$civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
-define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
-define( 'CIVICRM_UPLOADDIR'          , '/var/www/htdocs/civicspace/files/civicrm/upload/'  );
-define( 'CIVICRM_IMAGE_UPLOADDIR'    , '/var/www/htdocs/civicspace/files/civicrm/persist/contribute');
-define( 'CIVICRM_IMAGE_UPLOADURL'    , '' );
+$civicrm_root = '%%crmRoot%%';
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
+define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
+define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
+define( 'CIVICRM_IMAGE_UPLOADURL'    , '%%imageUploadURL%%' );
 
 /**
  * Site URLs:
@@ -104,11 +105,11 @@ define( 'CIVICRM_IMAGE_UPLOADURL'    , '' );
  * have clean url's turned on, make sure CIVICRM_MAINMENU is valid for your install. 
  * e.g. define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) 
  */
-define( 'CIVICRM_UF_BASEURL'    , 'http://www.example.com/civicspace/' );
-define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
-define( 'CIVICRM_HTTPBASE'      , '/civicspace/'                     );
-define( 'CIVICRM_RESOURCEBASE'  , '/civicspace/modules/civicrm/'     );
-define( 'CIVICRM_MAINMENU'      , '/civicspace/civicrm'              );
+define( 'CIVICRM_UF_BASEURL'    , '%%baseURL%%' );
+define( 'CIVICRM_UF_RESOURCEURL', '%%resourceURL%%' );
+define( 'CIVICRM_HTTPBASE'      , '%%httpBase%%' );
+define( 'CIVICRM_RESOURCEBASE'  , '%%resourceBase%%' );
+define( 'CIVICRM_MAINMENU'      , '%%mainMenu%%' );
 
 /**
  * CiviCRM Database settings:
@@ -172,7 +173,7 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
  * file. The empty default does not limit the country list.
  */
-define( 'CIVICRM_COUNTRY_LIMIT' , '' );
+define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
 
 /**
  * Province Availability:
@@ -313,8 +314,8 @@ define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
  * automatic Geocode lookup methods described in the next section.
  *
  */
-define('CIVICRM_MAP_PROVIDER','');
-define('CIVICRM_MAP_API_KEY', '');
+define('CIVICRM_MAP_PROVIDER' , '' );
+define('CIVICRM_MAP_API_KEY'  , '' );
 
 /**
  * Geocode (latitude and longitude) Lookup:
@@ -473,6 +474,11 @@ define( 'CIVICRM_VERP_SEPARATOR', '.' );
  */
 define( 'CIVICRM_SMS_USERNAME'  , 'USERNAME' );
 define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
+
+/**
+ * Used in Joomla! to distinguish when operating from front end
+ */
+define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
 /**
  * 

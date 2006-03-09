@@ -308,12 +308,37 @@ foreach ($locales as $locale) {
     fclose( $fd );
 }
 
-
-
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
 $sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
+fclose( $fd );
+
+$params = array(
+                'cms' => 'Drupal',
+                'cmsVersion' => '4.6',
+                'cmsURLVar'  => 'q',
+                'usersTable' => 'users',
+                'crmRoot' => '',
+                'templateCompileDir' => '',
+                'uploadDir' => '',
+                'imageUploadDir' => '',
+                'imageUploadURL' => '',
+                'baseURL' => '',
+                'resourceURL' => '',
+                'httpBase' => '',
+                'resourceBase' => '',
+                'mainMenu' => '',
+                'frontEnd' => 0,
+                );
+
+$data = file_get_contents( $smarty->template_dir . '/civicrm.settings.php.sample.tpl' );
+foreach ( $params as $key => $value ) {
+    $data = str_replace( '%%' . $key . '%%', $value, $data );
+}
+$filename = 'civicrm.settings.php.sample';
+$fd = fopen( '../' . $filename, "w" ); 
+fputs( $fd, $data ); 
 fclose( $fd );
 
 $beautifier =& new PHP_Beautifier(); // create a instance
