@@ -162,7 +162,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
                     $options[trim($value)] = trim($value);
                 }
                 if ( $temp[0] != '' ) {
-                    $form->add('select', 'options_'.$productDAO->id , null , $options);
+                    $form->addElement('select', 'options_'.$productDAO->id , null, $options, array( 'onchange' => "return selectPremium(this);" ));
                 }
                   
             }
