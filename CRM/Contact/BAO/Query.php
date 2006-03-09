@@ -1468,7 +1468,7 @@ class CRM_Contact_BAO_Query {
         if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $this->_params ) ) {
             $this->_where[] = "civicrm_contribution.thankyou_date is null";
             $this->_tables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Contribution Thank you date is null' );
+            $this->_qill[] = ts( 'Contribution Thank-you date is null' );
         }
 
         if ( CRM_Utils_Array::value( 'contribution_receipt_date_isnull', $this->_params ) ) {
