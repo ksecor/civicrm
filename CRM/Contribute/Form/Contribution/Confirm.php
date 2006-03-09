@@ -389,10 +389,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
 
             // process the custom data that is submitted or that came via the url
-            $groupTree = $this->get( 'groupTree' );
+            $groupTree    = $this->get( 'groupTree' );
+            $customValues = $this->get( 'customGetValues' );
+            $customValues = array_merge( $this->_params, $customValues );
 
             require_once 'CRM/Core/BAO/CustomGroup.php';
-            CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $this->_params );
+            CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
             CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
             
             // next create the transaction record

@@ -223,6 +223,8 @@ class CRM_Utils_Rule {
                 return false;
             }
         }
+
+        return true;
     }
 
     static function integer($value) {
