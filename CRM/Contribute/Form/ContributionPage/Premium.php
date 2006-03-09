@@ -82,15 +82,15 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
         // intro_text
         $this->add('textarea', 'premiums_intro_text', ts('Introductory Message'), 'rows=5, cols=50');
 
-        $this->add('text','premiums_contact_email',ts('Contact Email '),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_email')); 
+        $this->add('text','premiums_contact_email',ts('Contact Email') . ' ',CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_email')); 
         
-        $this->addRule('premiums_contact_email',ts('Please Enter valid email address for Contact Email '),'email');
+        $this->addRule('premiums_contact_email',ts('Please enter valid email address for Contact Email') . ' ','email');
         
         $this->add('text','premiums_contact_phone',ts('Contact Phone'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_phone'));
         
-        $this->addRule('premiums_contact_phone',ts('Please Enter valid phone'),'phone');
+        $this->addRule('premiums_contact_phone',ts('Please enter valid phone'),'phone');
 
-        $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount ?') );
+        $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount?') );
        
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');

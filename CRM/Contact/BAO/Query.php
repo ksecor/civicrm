@@ -236,7 +236,7 @@ class CRM_Contact_BAO_Query {
             $this->_search = false;
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All' );
+            $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
             
             if ($mode != 1) { //this mode is for exporting contribution
                 require_once 'CRM/Contribute/BAO/Contribution.php';
@@ -1468,7 +1468,7 @@ class CRM_Contact_BAO_Query {
         if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $this->_params ) ) {
             $this->_where[] = "civicrm_contribution.thankyou_date is null";
             $this->_tables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Contribution Thank you date is null' );
+            $this->_qill[] = ts( 'Contribution Thank-you date is null' );
         }
 
         if ( CRM_Utils_Array::value( 'contribution_receipt_date_isnull', $this->_params ) ) {
@@ -1873,7 +1873,7 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ! empty( $qill ) ) {
-            $this->_qill[] = ts($fieldTitle . ' - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
+            $this->_qill[] = $fieldTitle . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
     }
 

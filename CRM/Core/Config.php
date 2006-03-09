@@ -243,7 +243,7 @@ class CRM_Core_Config {
     /**
      * Default location of gettext resource files.
      */
-    public $gettextResourceDir = './l10n';
+    public $gettextResourceDir = './l10n/';
 
     /**
      * Default smtp server and port
@@ -459,32 +459,27 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_HTTPBASE' ) ) {
-            $this->httpBase = CIVICRM_HTTPBASE;
+            $this->httpBase = self::addTrailingSlash( CIVICRM_HTTPBASE );
         }
 
         if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = CIVICRM_RESOURCEBASE;
+            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE );
         }
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
-            $this->uploadDir = CIVICRM_UPLOADDIR;
-            if ( substr( $this->uploadDir, -1, 1 ) != DIRECTORY_SEPARATOR ) { 
-                $this->uploadDir .= DIRECTORY_SEPARATOR;
-            }
+            $this->uploadDir = self::addTrailingSlash( CIVICRM_UPLOADDIR );
 
             CRM_Utils_File::createDir( $this->uploadDir );
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADDIR' ) ) {
-            $this->imageUploadDir = CIVICRM_IMAGE_UPLOADDIR;
-            if ( substr( $this->imageUploadDir, -1, 1 ) != DIRECTORY_SEPARATOR ) { 
-                $this->imageUploadDir .= DIRECTORY_SEPARATOR;
-            }
+            $this->imageUploadDir = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADDIR );
+
             CRM_Utils_File::createDir( $this->imageUploadDir );
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
-            $this->imageUploadURL = CIVICRM_IMAGE_UPLOADURL;
+            $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL );
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
@@ -585,7 +580,7 @@ class CRM_Core_Config {
         }
         
         if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
-            $this->gettextResourceDir = CIVICRM_GETTEXT_RESOURCEDIR;
+            $this->gettextResourceDir = self::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
         }
 
         if ( defined( 'CIVICRM_SMTP_SERVER' ) ) {
@@ -634,11 +629,11 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = CIVICRM_UF_BASEURL;
+            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL );
         }
 
         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-            $this->userFrameworkResourceURL = CIVICRM_UF_RESOURCEURL;
+            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL );
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
@@ -838,6 +833,13 @@ class CRM_Core_Config {
             }
         }
         return true;
+    }
+
+    static function addTrailingSlash( $name ) {
+        if ( substr( $name, -1, 1 ) != DIRECTORY_SEPARATOR ) {
+            $name .= DIRECTORY_SEPARATOR;
+        }
+        return $name;
     }
 
 } // end CRM_Core_Config

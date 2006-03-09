@@ -173,9 +173,9 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         $contactId = array();
         $fields    = array();
 
-        $fields['Individual']   =& CRM_Contact_BAO_Contact::exportableFields('Individual');
-        $fields['Household']    =& CRM_Contact_BAO_Contact::exportableFields('Household');
-        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
+        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual', false, true);
+        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, true);
+        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, true);
 
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -476,7 +476,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 }
             }
         }
-     
+
         //get the csv file
         require_once 'CRM/Contact/BAO/Export.php';
         CRM_Contact_BAO_Export::exportContacts( $this->get( 'selectAll' ),

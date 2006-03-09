@@ -381,7 +381,7 @@ class CRM_Core_BAO_CustomQuery {
         }
 
         if ( ! empty( $qill ) ) { 
-            $this->_qill[] = ts( $label . ' - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );
+            $this->_qill[] = $label . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
     }
 

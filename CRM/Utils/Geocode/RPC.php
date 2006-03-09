@@ -67,6 +67,7 @@ class CRM_Utils_Geocode_RPC {
      * @static
      */
     static function format( &$values ) {
+        require_once 'CRM/Utils/Address.php';
         // we need a valid zipcode, state and country, else we ignore
         if ( ! CRM_Utils_Array::value( 'postal_code'    , $values  ) &&
              ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
@@ -78,7 +79,8 @@ class CRM_Utils_Geocode_RPC {
             return false;
         }
 
-        $string = CRM_Core_BAO_Address::format( $values, ', ' );
+        $string = CRM_Utils_Address::format($values);
+        $string = str_replace("\n", ', ', $string);
         if ( ! $string ) {
             return false;
         }
