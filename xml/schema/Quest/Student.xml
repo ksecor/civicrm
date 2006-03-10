@@ -94,13 +94,13 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>ethnicity_id_1</name>
+      <name>ethnicity_1_id</name>
       <type>int unsigned</type>
       <comment>FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>ethnicity_id_1</name>
+       <name>ethnicity_2_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
        <export>true</export>
@@ -139,7 +139,7 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>years_live_us</name>
+      <name>years_in_us</name>
       <type>int unsigned</type>
       <required>true</required>
       <export>true</export>
@@ -156,6 +156,16 @@
        <import>true</import>
        <headerPattern>/first language/i</headerPattern>
        <comment>First language spoken by this person.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>primary_language</name>
+       <type>varchar</type>
+       <length>128</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/primary language/i</headerPattern>
+       <comment>Primary language spoken at home.</comment>
       <add>1.5</add>
   </field>
   <field>
