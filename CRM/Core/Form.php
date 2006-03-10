@@ -530,6 +530,14 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         self::$_template->assign_by_ref($var, $value);
     }
 
+    function addRadio( $name, $title, $values ) {
+        $options = array( );
+        foreach ( $values as $key => $var ) {
+            $options[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+        }
+        $this->addGroup($options, $name, $title );
+    }
+
 }
 
 ?>
