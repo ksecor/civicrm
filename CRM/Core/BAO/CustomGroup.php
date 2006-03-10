@@ -1133,10 +1133,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             }
         }
 
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree , $customValue );
-
-        $session =& CRM_Core_Session::singleton();
-        $session->set( 'groupTree', $groupTree );
+        $form->set( 'customGetValues', $customValue );
+        $form->set( 'groupTree', $groupTree );
     }
 
 }

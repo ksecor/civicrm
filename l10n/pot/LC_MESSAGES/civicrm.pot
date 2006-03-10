@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-09 10:53+0100\n"
+"POT-Creation-Date: 2006-03-10 15:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -3289,11 +3289,11 @@ msgstr ""
 msgid "Contribution Status"
 msgstr ""
 
-#: CRM/Contribute/Form/Search.php templates/CRM/Contribute/Form/Search/Common.tpl
+#: CRM/Contribute/Form/Search.php
 msgid "Thank-you date not set?"
 msgstr ""
 
-#: CRM/Contribute/Form/Search.php templates/CRM/Contribute/Form/Search/Common.tpl
+#: CRM/Contribute/Form/Search.php
 msgid "Receipt date not set?"
 msgstr ""
 
@@ -4108,7 +4108,7 @@ msgid "Create Profile"
 msgstr ""
 
 #: CRM/Core/QuickForm/Action/Upload.php
-msgid "We could not move the uploaded file %1 to the upload directory %2. Please check the relevant settings"
+msgid "We could not move the uploaded file %1 to the upload directory %2. Please verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which is writable by your web server."
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -4961,6 +4961,10 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Opt-out Message"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+msgid "Please provide at least the text message."
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -5872,7 +5876,7 @@ msgid "Relationship B to A"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/RelationshipType.tpl
-msgid " All Contacts "
+msgid "All Contacts"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/Tag.tpl
@@ -5912,7 +5916,7 @@ msgid "Click to select date/time from calendar."
 msgstr ""
 
 #: templates/CRM/common/feedback.tpl
-msgid "\nPowered by CiviCRM %1 Rev %2.\nCiviCRM is openly available under the <a href=\"%3\">Affero General Public License (AGPL)</a>.\nDownload source <a href=\"%4\">here</a>.\nView issues and report bugs <a href=\"%5\">here</a>.\n"
+msgid "Powered by CiviCRM %1 Rev %2. CiviCRM is openly available under the <a href=\"%3\">Affero General Public License (AGPL)</a>. Download source <a href=\"%4\">here</a>. View issues and report bugs <a href=\"%5\">here</a>."
 msgstr ""
 
 #: templates/CRM/common/form_body.tpl
@@ -6214,8 +6218,10 @@ msgid "Send an Email"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
-msgid "Email will NOT be sent to %1 contact(s) - communication preferences specify DO NOT EMAIL."
-msgstr ""
+msgid "Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL."
+msgid_plural "Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL."
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "Recipient(s)"
@@ -6284,7 +6290,7 @@ msgid "Remove Members"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/RemoveFromTag.tpl
-msgid "Tag Contact(s)(Remove)"
+msgid "Tag Contact(s) (Remove)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task.tpl
@@ -6932,7 +6938,7 @@ msgid "Test-drive Your Contribution Page"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
-msgid "This page is currently running in <strong>test-drive mode</strong>. Transactions will be sent to your payment processor's test server. <strong>No live financial transactions will be submitted, and no contribution records or contact information will be saved to the database</strong>. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc."
+msgid "This page is currently running in <strong>test-drive mode</strong>. Transactions will be sent to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed</strong>. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -7153,6 +7159,14 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "WARNING: Deleting this option will result in the loss of all contribution records which use this option."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+msgid "Receipt not sent?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+msgid "Thank-you not sent?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
@@ -7403,7 +7417,7 @@ msgstr ""
 msgid "Upload Data File"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/History/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl templates/CRM/History/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
 msgstr ""
 
@@ -8028,6 +8042,10 @@ msgid "The Import Wizard allows you to easily upload contact records from other 
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
+msgid "File format must be comma-separated-values (CSV). File must be UTF8 encoded if it contains special characters (e.g. accented letters, etc.)."
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Check this box if the first row of your file consists of field names (Example: \"First Name\",\"Last Name\",\"Email\")"
 msgstr ""
 
@@ -8173,6 +8191,14 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Text Body"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "HTML Body"
 msgstr ""
 
 #: templates/CRM/pager.tpl

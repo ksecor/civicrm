@@ -4,10 +4,12 @@ global $mosConfig_absolute_path;
 require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
 
 function civicrm_setup( ) {
-    global $comPath, $frontPath, $crmPath, $sqlPath, $dsn;
+    global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn;
     global $httpBase, $resourceBase, $mainMenu;
     global $httpBaseFE, $mainMenuFE;
     global $compileDir, $uploadDir;
+    global $resourceBaseURL;
+    global $imageUploadDir, $imageUploadURL;
 
     global $mosConfig_live_site, $mosConfig_absolute_path;
     global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
@@ -24,6 +26,7 @@ function civicrm_setup( ) {
                       get_include_path( ) );
 
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
+    $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
 
     $pieces = parse_url( $mosConfig_live_site );
     $httpBase     = $pieces['path'] . '/administrator/';
@@ -129,8 +132,10 @@ function civicrm_source( $fileName ) {
 }
 
 function civicrm_config( $frontend = false ) {
-    global $crmPath, $comPath, $httpBase, $resourceBase, $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
+    global $crmPath, $comPath, $httpBase, $resourceBase;
+    global $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
+    global $tplPath;
 
     /**
      * make sure we escape the back slashes in the dir names to prevent any
@@ -139,127 +144,38 @@ function civicrm_config( $frontend = false ) {
     $compileDir = addslashes( $compileDir );
     $uploadDir  = addslashes( $uploadDir  );
 
+
+    $params = array(
+                'cms' => 'Mambo',
+                'cmsVersion' => '1.0.8',
+                'cmsURLVar'  => 'task',
+                'usersTable' => 'jos_users',
+                'crmRoot' => $crmPath,
+                'templateCompileDir' => $compileDir,
+                'uploadDir' => $uploadDir,
+                'imageUploadDir' => $imageUploadDir,
+                'imageUploadURL' => $imageUploadURL,
+                'baseURL' => $mosConfig_live_site . '/administrator/',
+                'resourceURL' => $resourceURL,
+                'httpBase' => $httpBase,
+                'resourceBase' => $resourceBase,
+                'mainMenu' => $mainMenu,
+                'frontEnd' => 0,
+                );
+
     if ( $frontend ) {
-        $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
-        $str = "
-<?php 
-/** 
- * CiviCRM frontend configuration file. 
- */
-
-define( 'CIVICRM_UF_FRONTEND', 1 );
-
-include_once '$configFile';
-                       
-?>
-";
-    } else {
-        
-        
-        $str = "
-<?php
-/**
- * CiviCRM configuration file.
- */
-
-global \$civicrm_root;
-
-if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
-  define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/' );
-  define( 'CIVICRM_HTTPBASE'  , '$httpBaseFE'     );
-  define( 'CIVICRM_MAINMENU'  , '$mainMenuFE'     );
- } else {
-  define( 'CIVICRM_UF_BASEURL', '$mosConfig_live_site/administrator/' );
-  define( 'CIVICRM_HTTPBASE'  , '$httpBase'     );
-  define( 'CIVICRM_MAINMENU'  , '$mainMenu'     );
-}
-
-define( 'CIVICRM_UF'               , 'Mambo' ); 
-define( 'CIVICRM_UF_URLVAR'        , 'task'  ); 
-define( 'CIVICRM_UF_DSN'           , '$dsn' );
-define( 'CIVICRM_UF_USERSTABLENAME', 'jos_users' ); 
-
-\$civicrm_root = '$crmPath';
-define( 'CIVICRM_TEMPLATE_COMPILEDIR', '$compileDir' );
-define( 'CIVICRM_UPLOADDIR'          , '$uploadDir'  );
-
-define( 'CIVICRM_RESOURCEBASE', '$resourceBase' );
-
-define( 'CIVICRM_MYSQL_VERSION', 4.0 );
-define( 'CIVICRM_DSN'         , '$dsn' );
-define( 'CIVICRM_MYSQL_PATH', '$mysqlPath' );
-
-define( 'CIVICRM_SMTP_SERVER' , '$mosConfig_smtphost' );
-
-define( 'CIVICRM_PROVINCE_LIMIT' , 'US' ); 
-define( 'CIVICRM_COUNTRY_LIMIT'  , 'US' );
-
-define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
-
-define( 'CIVICRM_DATEFORMAT_DATETIME', '%B %E%f, %Y %l:%M %P' ); 
-define( 'CIVICRM_DATEFORMAT_FULL', '%B %E%f, %Y' ); 
-define( 'CIVICRM_DATEFORMAT_PARTIAL', '%B %Y' ); 
-define( 'CIVICRM_DATEFORMAT_YEAR', '%Y' ); 
-define( 'CIVICRM_DATEFORMAT_QF_DATE', '%b %d %Y' ); 
-define( 'CIVICRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' ); 
-
-define('CIVICRM_MAP_PROVIDER','Yahoo');
-define('CIVICRM_MAP_API_KEY', '');
-
-// define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_RPC' ); 
-
-define( 'CIVICRM_DOMAIN_ID' , 1 ); 
-
-define( 'CIVICRM_ENABLE_SSL', 0 );
-define('CIVICRM_VERSION_CHECK', true);
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR', 'PayPal' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH', '' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'      , '' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD' , '' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '\"Please Fix Me\" <fixme@example.com>' );
-
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH', '' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'      , '' );
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' , '' );
-
-define( 'CIVICRM_MONEYFORMAT', '%c %a' );
-define( 'CIVICRM_LC_MONETARY', 'en_US' );
-
-define( 'ENABLE_COMPONENTS', 'CiviContribute' );
-
-define( 'CIVICRM_ADDRESS_FORMAT' , ' 
-{street_address} 
-{supplemental_address_1} 
-{supplemental_address_2} 
-{city}{, }{state_province}{ }{postal_code} 
-{country} 
-' );
-
-\$include_path = '.'        . PATH_SEPARATOR .
-                \$civicrm_root . PATH_SEPARATOR . 
-                \$civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
-                get_include_path( );
-set_include_path( \$include_path );
-
-define( 'CIVICRM_SMARTYDIR'  , \$civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
-define( 'CIVICRM_TEST_DIR'   , \$civicrm_root . DIRECTORY_SEPARATOR . 'test'   . DIRECTORY_SEPARATOR );
-define( 'CIVICRM_DAO_DEBUG'  , 0 );
-define( 'CIVICRM_TEMPLATEDIR', \$civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
-define( 'CIVICRM_PLUGINSDIR' , \$civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
-
-define( 'CIVICRM_GETTEXT_CODESET'    , 'utf-8'   );
-define( 'CIVICRM_GETTEXT_DOMAIN'     , 'civicrm' );
-define( 'CIVICRM_GETTEXT_RESOURCEDIR', \$civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
-
-define( 'CIVICRM_CLEANURL', 0 );
-
-?>
-";
+        $params['baseURL']  = $mosConfig_live_site . '/';
+        $params['httpBase'] = $httpBaseFE;
+        $params['mainMenu'] = $mainMenuFE;
+        $params['frontEnd'] = 1;
     }
 
-    $str = trim( $str );
-    return $str;
+    
+    $str = file_get_contents( $tplPath . 'civicrm.settings.php.sample.tpl' );
+    foreach ( $params as $key => $value ) { 
+        $str = str_replace( '%%' . $key . '%%', $value, $str ); 
+    } 
+    return trim( $str );
 }
 
 civicrm_main( );

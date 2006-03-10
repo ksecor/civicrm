@@ -85,10 +85,9 @@ Class CRM_Contact_Form_GroupTag
             }
             if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, 'group', ts( 'Group(s)' ), '<br />' );
-            }
-            
-            if ( $isRequired ) {
-                $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts('Group(s)'))) , 'required');   
+                if ( $isRequired ) {
+                    $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts('Group(s)'))) , 'required');   
+                }
             }
         }
         

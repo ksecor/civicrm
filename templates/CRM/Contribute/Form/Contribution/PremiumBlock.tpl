@@ -1,6 +1,25 @@
 {if $products}
 <div id="premiums">
     {if $context EQ "makeContribution"}
+
+{literal}
+<script language="javascript">
+<!--
+// Selects the product (radio button) if user selects an option for that product.
+// Putting this function directly in template so they are available for standalone forms.
+function selectPremium(optionField) {
+    premiumId = optionField.name.slice(8);
+    for( i=0; i < document.Main.elements.length; i++) {
+        if (document.Main.elements[i].type == 'radio' && document.Main.elements[i].name == 'selectProduct' && document.Main.elements[i].value == premiumId ) {
+            element = document.Main.elements[i];
+            element.checked = true;
+        }
+    }
+}
+//-->
+</script>
+{/literal}
+
         <fieldset>
         <div class="form-item">
         {if $premiumBlock.premiums_intro_title}

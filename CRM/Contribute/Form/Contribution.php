@@ -158,7 +158,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
-            $defaults['receipt_date'] = $now;
         }
         
         if( isset($this->_groupTree) ) {
@@ -377,8 +376,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                         'receipt_date',
                         'thankyou_date',
                         'cancel_date' );
+        $currentTime = getDate();        
         foreach ( $dates as $d ) {
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
+                $formValues[$d]['H'] = $currentTime['hours'];
+                $formValues[$d]['i'] = $currentTime['minutes'];
+                $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             }
         }

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-09 10:53+0100\n"
-"PO-Revision-Date: 2006-03-09 10:54+0100\n"
+"POT-Creation-Date: 2006-03-10 15:26+0100\n"
+"PO-Revision-Date: 2006-03-10 15:27+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -3922,7 +3922,6 @@ msgstr ""
 "CiviCRM w części dotyczącej procesora płatności."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please enter a product name."
 msgstr "Wprowadź nazwę produktu."
 
@@ -3949,9 +3948,8 @@ msgid "Use default image"
 msgstr "Użyj domyślnego obrazka"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Do not display an image"
-msgstr "Nazwa wyświetlana"
+msgstr "Nie wyświetlaj obrazka"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Premium Image"
@@ -4052,12 +4050,10 @@ msgid "Contribution Status"
 msgstr "Stan dotacji"
 
 #: CRM/Contribute/Form/Search.php
-#: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Thank-you date not set?"
 msgstr "Nie ustawiono daty podziękowania?"
 
 #: CRM/Contribute/Form/Search.php
-#: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Receipt date not set?"
 msgstr "Nie ustawiono daty pokwitowania?"
 
@@ -4287,42 +4283,36 @@ msgid "From"
 msgstr "Od"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be an integer (whole number)."
-msgstr "%1 musi być liczbą całkowitą."
+msgstr "Wartość „od” pola „%1” musi być liczbą całkowitą."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be an integer (whole number)."
-msgstr "%1 musi być liczbą całkowitą."
+msgstr "Wartość „do” pola „%1” musi być liczbą całkowitą."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be an integer (whole number)."
 msgstr "%1 musi być liczbą całkowitą."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From is not a valid date."
-msgstr "%1 nie jest poprawną datą."
+msgstr "Wartość „od” pola „%1” nie jest poprawną datą."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To is not a valid date."
-msgstr "%1 nie jest poprawną datą."
+msgstr "Wartość „do” pola „%1” nie jest poprawną datą."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 is not a valid date."
 msgstr "%1 nie jest poprawną datą."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be a number (with or without decimal point)."
-msgstr "%1 musi być liczbą (całkowitą lub nie)."
+msgstr "Wartość „od” pola „%1” musi być liczbą (całkowitą lub nie)."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be a number (with or without decimal point)."
-msgstr "%1 musi być liczbą (całkowitą lub nie)."
+msgstr "Wartość „do” pola „%1” musi być liczbą (całkowitą lub nie)."
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be a number (with or without decimal point)."
@@ -4470,9 +4460,8 @@ msgid " Contact ID (match to contact)"
 msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Callback Method"
-msgstr "Oddzwonienie"
+msgstr "Wywoływana funkcja"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity ID"
@@ -4783,9 +4772,8 @@ msgid "Form Type"
 msgstr "Rodzaj formularza"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post URL"
-msgstr "Kod"
+msgstr "URL strony docelowej"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Parameters"
@@ -4922,7 +4910,8 @@ msgstr "Stwórz profil"
 #: CRM/Core/QuickForm/Action/Upload.php
 msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
-"check the relevant settings"
+"verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
+"is writable by your web server."
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -5331,11 +5320,12 @@ msgid "%1 - Custom Fields"
 msgstr "%1 – pola dodatkowe"
 
 #: CRM/Custom/Page/Group.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this custom data group? Any profile fields "
 "that are linked to custom fields of this group will be disabled."
-msgstr "Na pewno wyłączyć tę opcję wielokrotnego wyboru danych dodatkowych?"
+msgstr ""
+"Na pewno wyłączyć tę grupę danych dodatkowych? Wszystkie pola profilów, "
+"które są połączone do pól danych dodatkowych tej grupy zostaną wyłączone."
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
@@ -5798,6 +5788,10 @@ msgstr "Wiadomość wypisująca"
 #: CRM/Mailing/Form/Upload.php
 msgid "Opt-out Message"
 msgstr "Wiadomość o rezygnacji"
+
+#: CRM/Mailing/Form/Upload.php
+msgid "Please provide at least the text message."
+msgstr "Wybierz przynajmniej wersję tekstową wiadomości."
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Missing required token"
@@ -7002,9 +6996,8 @@ msgid "Relationship B to A"
 msgstr "Powiązanie B z A"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
-msgid " All Contacts "
-msgstr "- wszystkie -"
+msgid "All Contacts"
+msgstr "Wszystkie kontakty"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -7054,12 +7047,9 @@ msgstr "Kliknij, by wybrać datę/czas z kalendarza."
 #: templates/CRM/common/feedback.tpl
 #, fuzzy
 msgid ""
-"\n"
-"Powered by CiviCRM %1 Rev %2.\n"
-"CiviCRM is openly available under the <a href=\"%3\">Affero General Public "
-"License (AGPL)</a>.\n"
-"Download source <a href=\"%4\">here</a>.\n"
-"View issues and report bugs <a href=\"%5\">here</a>.\n"
+"Powered by CiviCRM %1 Rev %2. CiviCRM is openly available under the <a href="
+"\"%3\">Affero General Public License (AGPL)</a>. Download source <a href=\"%4"
+"\">here</a>. View issues and report bugs <a href=\"%5\">here</a>."
 msgstr ""
 "CiviCRM jest dostępny dla każdej osoby lub organizacji zgodnie z zasadami <a "
 "href=\"%1\">Affero General Public License (AGPL)</a>. Kod źródłowy można "
@@ -7100,9 +7090,8 @@ msgid "Select the preferred method of communicating with this contact."
 msgstr "Wybierz preferowany sposób komunikacji z tym kontaktem."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
-#, fuzzy
 msgid "Select the preferred format of emails sent to this contact."
-msgstr "Wybierz preferowany sposób komunikacji z tym kontaktem."
+msgstr "Wybierz preferowany format emaili wysyłanych do tego kontaktu."
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -7136,9 +7125,8 @@ msgid "close section"
 msgstr "zamknij sekcję"
 
 #: templates/CRM/Contact/Form/Domain.tpl
-#, fuzzy
 msgid "Domain Information"
-msgstr "Informacje o dotacji"
+msgstr "Informacje o domenie"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -7506,9 +7494,14 @@ msgstr "Wyślij emaila"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %1 contact(s) - communication preferences specify "
+"Email will NOT be sent to %count contact - communication preferences specify "
 "DO NOT EMAIL."
-msgstr ""
+msgid_plural ""
+"Email will NOT be sent to %count contacts - communication preferences "
+"specify DO NOT EMAIL."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -7628,7 +7621,7 @@ msgstr "Usuń członków"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromTag.tpl
 #, fuzzy
-msgid "Tag Contact(s)(Remove)"
+msgid "Tag Contact(s) (Remove)"
 msgstr "Skategoryzuj kontakt(y)"
 
 #: templates/CRM/Contact/Form/Task.tpl
@@ -7693,9 +7686,8 @@ msgid "Other Activities"
 msgstr "Inne zdarzenia"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "View User Record"
-msgstr "Zobacz/edytuj konto użytkownika"
+msgstr "Zobacz konto użytkownika"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -7734,14 +7726,12 @@ msgid "DO NOT SEND BULK EMAIL"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Communication Preference:"
-msgstr "Preferencje komunikacyjne"
+msgstr "Preferencje komunikacyjne:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Mail Format Preference:"
-msgstr "Preferencje komunikacyjne"
+msgstr "Preferencje formatu emaili:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Gender:"
@@ -8059,9 +8049,8 @@ msgid "These relationships have been marked as disabled (no longer active)."
 msgstr "Poniższe powiązania zostały oznaczone jako wyłączone (nieaktywne)."
 
 #: templates/CRM/Contact/Page/View/SMS.tpl
-#, fuzzy
 msgid "Sent SMS Message"
-msgstr "Wysłany email"
+msgstr "Wysłany SMS"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -8194,9 +8183,8 @@ msgid "Add Products to this Page"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid "Remove Products from this Page"
-msgstr "Usuń kontakty z grupy"
+msgstr "Usuń produkty z tej strony"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 #, fuzzy
@@ -8435,17 +8423,16 @@ msgstr ""
 "za pomocą pełnych adresów URL."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
-#, fuzzy
 msgid ""
 "If you want content displayed at the bottom of the contribution page, enter "
 "it here. You may include HTML formatting tags. You can also include images, "
 "as long as they are already uploaded to a server - reference them using "
 "complete URLs."
 msgstr ""
-"Wpisz treść wiadomości wprowadzającej. Ta wiadomość będzie wyświetlana pod "
-"tytułem strony. W tekście można używać znaczników HTML. Można też umieszczać "
-"w nim obrazki, o ile wcześniej zostaną wgrane na serwer – należy je podawać "
-"za pomocą pełnych adresów URL."
+"Wpisz treść wiadomości pojawiającej się na dole strony dotacji. W tekście "
+"można używać znaczników HTML. Można też umieszczać w nim obrazki, o ile "
+"wcześniej zostaną wgrane na serwer – należy je podawać za pomocą pełnych "
+"adresów URL."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -8572,13 +8559,16 @@ msgid "Test-drive Your Contribution Page"
 msgstr "Przetestuj stronę dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
+#, fuzzy
 msgid ""
 "This page is currently running in <strong>test-drive mode</strong>. "
 "Transactions will be sent to your payment processor's test server. "
-"<strong>No live financial transactions will be submitted, and no "
-"contribution records or contact information will be saved to the database</"
-"strong>. Refer to your payment processor's documentation for information on "
-"values to use for test credit card number, security code, postal code, etc."
+"<strong>No live financial transactions will be submitted. However, a contact "
+"record will be created or updated and a contribution record will be saved to "
+"the database. Use obvious test contact names so you can review and delete "
+"these records as needed</strong>. Refer to your payment processor's "
+"documentation for information on values to use for test credit card number, "
+"security code, postal code, etc."
 msgstr ""
 "Ta strona w tej chwili działa w <strong>trybie testowym</strong>. Transakcje "
 "będą wysyłane do serwera testowego Twojego procesora płatności. <strong>Nie "
@@ -8923,6 +8913,16 @@ msgid ""
 msgstr ""
 "UWAGA: Usunięcie tej opcji spowoduje skasowanie wszystkich dotacji "
 "używających tej opcji."
+
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+#, fuzzy
+msgid "Receipt not sent?"
+msgstr "Nie ustawiono daty pokwitowania?"
+
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+#, fuzzy
+msgid "Thank-you not sent?"
+msgstr "Nie ustawiono daty podziękowania?"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
@@ -9410,7 +9410,6 @@ msgstr "Wgraj plik z danymi"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
-#: templates/CRM/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
 msgstr "Plik musi być w formacie CSV (dane oddzielone przecinkami)."
 
@@ -10534,6 +10533,12 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
+"File format must be comma-separated-values (CSV). File must be UTF8 encoded "
+"if it contains special characters (e.g. accented letters, etc.)."
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
 msgstr ""
@@ -10718,6 +10723,16 @@ msgstr "Część zakończona z powodzeniem"
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
 msgstr "Treść / Składniki"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "Text Body"
+msgstr "Tekst"
+
+#: templates/CRM/Mailing/Page/Report.tpl
+#, fuzzy
+msgid "HTML Body"
+msgstr "HTML"
 
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
