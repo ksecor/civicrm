@@ -1044,7 +1044,11 @@ class CRM_Contact_BAO_Query {
                 
             case 'civicrm_product':
                 $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
-                continue;    
+                continue;
+             
+            case 'civicrm_payment_instrument':
+                $from .= " $side  JOIN civicrm_payment_instrument ON civicrm_contribution.payment_instrument_id =civicrm_payment_instrument.id ";
+                continue;
 
             case 'civicrm_entity_tag':
                 $from .= " $side  JOIN  civicrm_entity_tag  ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' 
@@ -1566,6 +1570,7 @@ class CRM_Contact_BAO_Query {
                                     'accounting_code'        => 1,
                                     'non_deductible_amount'  => 1,
                                     'fee_amount'             => 1,
+                                    'payment_instrument'     => 1,   
                                     'net_amount'             => 1,
                                     'trxn_id'                => 1,
                                     'invoice_id'             => 1,

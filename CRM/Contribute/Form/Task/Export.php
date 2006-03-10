@@ -88,7 +88,18 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
                 $header[] = $name;
             }
         }
-
+        // header fixed for colomns are not expotable
+        $headerArray = array('image_URL'     => 'Image URL',
+                             'contact_type'  => 'Contact Type',
+                             'sort_name'     => 'Sort Name',
+                             'display_name'  => 'Display Name',
+                             );
+        
+        foreach( $header as $key => $value) {
+            if( array_key_exists( $value, $headerArray )) {
+                $header[$key] = $headerArray[$value]; 
+            }
+        }
         $result = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
