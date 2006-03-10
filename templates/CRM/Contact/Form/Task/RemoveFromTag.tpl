@@ -2,7 +2,7 @@
 <div class="form-item">
 <fieldset>
 <legend>
-{ts}Tag Contact(s)(Remove){/ts}
+{ts}Tag Contact(s) (Remove){/ts}
 </legend>
 <dl>
 <dt>{$form.tag_id.label}</dt><dd>{$form.tag_id.html}</dd>
