@@ -543,7 +543,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Do contact-specific token replacement in text mode, and add to the
          * message if necessary */
-        if ($test || $contact['preferred_mail_format'] == 'Text' ||
+        if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both') 
         {
             $text = CRM_Utils_Token::replaceContactTokens(

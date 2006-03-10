@@ -270,7 +270,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                 CRM_Utils_Token::replaceUnsubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
             $message->setHTMLBody($html);
         }
-        if ($eq->format == 'Text' || $eq->format == 'Both') {
+        if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
             $text = 
                 CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $text = 
