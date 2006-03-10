@@ -55,7 +55,7 @@
 </tr>
 <tr>
     <td class="grouplabel" rowspan="6">
-        {ts}Permanent Address <span class="marker">*</span></td>
+        {ts}Permanent Address{/ts} <span class="marker">*</span></td>
     <td>
         {$form.location.1.address.street_address.html}<br />
         {ts}Number and Street (including apartment number){/ts}
@@ -76,13 +76,13 @@
 <tr>
     <td>
         {$form.location.1.address.state.html}<br />
-        {ts}State (required only for USA, Canada, and Mexico) <span class="marker">*</span>{/ts}
+        {ts}State (required only for USA, Canada, and Mexico) {/ts}<span class="marker">*</span>
         </td>
 </tr>
 <tr>
     <td>
         {$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
-        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code <span class="marker">*</span>{/ts}
+        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/ts} <span class="marker">*</span>
         </td>
 </tr>
 <tr>
@@ -93,7 +93,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {ts}Permanent Telephone <span class="marker">*</span></td>
+        {ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td>
         {$form.location.1.phone.1.phone_type.html}{$form.location.1.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
@@ -101,7 +101,7 @@
 </tr>
 <tr>
     <td class="grouplabel" rowspan="7">
-        {ts}Mailing Address <span class="marker">*</span></td>
+        {ts}Mailing Address{/ts} <span class="marker">*</span></td>
     <td>
         <input type="checkbox" name="copy_address" value="1" /> {ts}Check if same as Permanent Address{/ts}
     </td>
@@ -144,7 +144,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {ts}Mailing Telephone <span class="marker">*</span></td>
+        {ts}Mailing Telephone{/ts}<span class="marker">*</span></td>
     <td>
         {$form.location.2.phone.1.phone_type.html}{$form.location.2.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}

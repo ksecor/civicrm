@@ -34,35 +34,15 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
-
 /**
- * State machine for managing different states of the Import process.
+ * State machine for managing different states of the Quest process.
  *
  */
-class CRM_Import_StateMachine extends CRM_Core_StateMachine {
-
-    /**
-     * class constructor
-     *
-     * @param object  CRM_Import_Controller
-     * @param int     $action
-     *
-     * @return object CRM_Import_StateMachine
-     */
-    function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
-        parent::__construct( $controller, $action );
-        
-        $this->_pages = array(
-                              'CRM_Import_Form_UploadFile',
-                              'CRM_Import_Form_MapField',
-                              'CRM_Import_Form_Preview',
-                              'CRM_Import_Form_Summary'
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $action );
+class CRM_Core_OptionGroup {
+    static function values( ) {
+        return array( '1' => 'foo',
+                      '2' => 'bar' );
     }
-
 }
 
 ?>

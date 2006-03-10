@@ -116,6 +116,11 @@ class CRM_Core_Invoke {
             CRM_Contribute_Invoke::main( $args );
             break;
 
+        case 'quest':
+            require_once 'CRM/Quest/Invoke.php';
+            CRM_Quest_Invoke::main( $args );
+            break;
+
         default         :
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
             break;

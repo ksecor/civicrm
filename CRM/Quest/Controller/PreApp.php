@@ -34,33 +34,25 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+require_once 'CRM/Core/Controller.php';
 
-/**
- * State machine for managing different states of the Import process.
- *
- */
-class CRM_Import_StateMachine extends CRM_Core_StateMachine {
+class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
     /**
      * class constructor
-     *
-     * @param object  CRM_Import_Controller
-     * @param int     $action
-     *
-     * @return object CRM_Import_StateMachine
      */
-    function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
-        parent::__construct( $controller, $action );
-        
-        $this->_pages = array(
-                              'CRM_Import_Form_UploadFile',
-                              'CRM_Import_Form_MapField',
-                              'CRM_Import_Form_Preview',
-                              'CRM_Import_Form_Summary'
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $action );
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        parent::__construct( $title, $modal );
+
+        require_once 'CRM/Quest/StateMachine/PreApp.php';
+        $this->_stateMachine =& new CRM_Quest_StateMachine_PreApp( $this, $action );
+
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $action );
+
+        // add all the actions
+        $config =& CRM_Core_Config::singleton( );
+        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
     }
 
 }

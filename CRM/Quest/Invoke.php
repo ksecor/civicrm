@@ -27,6 +27,9 @@
 
 /**
  *
+ * Given an argument list, invoke the appropriate CRM function
+ * Serves as a wrapper between the UserFrameWork and Core CRM
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo (c) 2005
@@ -34,33 +37,27 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+class CRM_Quest_Invoke {
 
-/**
- * State machine for managing different states of the Import process.
- *
- */
-class CRM_Import_StateMachine extends CRM_Core_StateMachine {
+    /*
+     * This function contains the actions for mailing arguments  
+     *  
+     * @param $args array this array contains the arguments of the url  
+     *  
+     * @static  
+     * @access public  
+     */  
+    static function main( &$args ) {  
+        if ( $args[1] !== 'quest' ) {
+            return;
+        }
+        
+        if ( $args[2] == 'preapp' ) {
+            require_once 'CRM/Quest/Controller/PreApp.php';
+            $controller =& new CRM_Quest_Controller_PreApp( );
+            return $controller->run( );
+        }
 
-    /**
-     * class constructor
-     *
-     * @param object  CRM_Import_Controller
-     * @param int     $action
-     *
-     * @return object CRM_Import_StateMachine
-     */
-    function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
-        parent::__construct( $controller, $action );
-        
-        $this->_pages = array(
-                              'CRM_Import_Form_UploadFile',
-                              'CRM_Import_Form_MapField',
-                              'CRM_Import_Form_Preview',
-                              'CRM_Import_Form_Summary'
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $action );
     }
 
 }
