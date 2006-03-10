@@ -468,8 +468,19 @@ class CRM_Core_Invoke {
         case 'dupematch':
             require_once 'CRM/Admin/Page/DupeMatch.php';
             $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));
-            break;   
+            break;
+            
+        case 'optionGroup':
+            require_once 'CRM/Admin/Page/OptionGroup.php';
+            $view =& new CRM_Admin_Page_OptionGroup(ts('View Option Groups'));
+            break;
 
+        case 'optionValue':
+            require_once 'CRM/Admin/Page/OptionValue.php';
+            $view =& new CRM_Admin_Page_OptionValue(ts('View Option Values'));
+            break;
+            
+            
         case 'contribute':
             require_once 'CRM/Contribute/Invoke.php';
             return CRM_Contribute_Invoke::admin( $args );

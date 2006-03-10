@@ -232,6 +232,16 @@ class CRM_Utils_Menu {
                             'weight'  => 250
                             ),
                       array(
+                            'path'    => 'civicrm/admin/optionGroup',
+                            'title'   => ts('Options'),
+                            'qs'     => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Configure'),
+                            'icon'    => 'admin/duplicate_matching.png',
+                            'weight'  => 280
+                            ),
+                      array(
                             'path'    => 'civicrm/admin/dupematch',
                             'title'   => ts('Duplicate Matching'),
                             'qs'     => 'reset=1',
