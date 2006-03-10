@@ -3,7 +3,12 @@
 {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
 
-		    	
+{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
+ {include file="CRM/WizardHeader.tpl}
+
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>	    	
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.title}</td>
@@ -49,7 +54,7 @@
         {$form.location.1.email.1.email.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel" rowspan="7">
+    <td class="grouplabel" rowspan="6">
         {ts}Permanent Address <span class="marker">*</span></td>
     <td>
         {$form.location.1.address.street_address.html}<br />
@@ -77,13 +82,7 @@
 <tr>
     <td>
         {$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
-        {ts}USA Zip Code <span class="marker">*</span>{/ts}
-        </td>
-</tr>
-<tr>
-    <td>
-        {$form.fixme.html}<br />
-        {ts}International Postal Code{/ts}
+        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code <span class="marker">*</span>{/ts}
         </td>
 </tr>
 <tr>
@@ -101,7 +100,7 @@
     </td>
 </tr>
 <tr>
-    <td class="grouplabel" rowspan="8">
+    <td class="grouplabel" rowspan="7">
         {ts}Mailing Address <span class="marker">*</span></td>
     <td>
         <input type="checkbox" name="copy_address" value="1" /> {ts}Check if same as Permanent Address{/ts}
@@ -134,13 +133,7 @@
 <tr>
     <td>
         {$form.location.2.address.postal_code.html} - {$form.location.2.address.postal_code_suffix.html}<br />
-        {ts}USA Zip Code <span class="marker">*</span>{/ts}
-        </td>
-</tr>
-<tr>
-    <td>
-        {$form.fixme2.html}<br />
-        {ts}International Postal Code{/ts}
+        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code <span class="marker">*</span>{/ts}
         </td>
 </tr>
 <tr>
@@ -227,10 +220,46 @@
     <td>
         {$form.years_live_us.html}</td>
 </tr>
+<tr>
+    <td class="grouplabel">
+        {$form.number_siblings.label}</td>
+    <td>
+        {$form.number_siblings.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.nationality_country_id.label}</td>
+    <td>
+        {$form.nationality_country_id.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.first_language.label}</td>
+    <td>
+        {$form.first_language.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.primary_language.label}</td>
+    <td>
+        {$form.primary_language.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.high_school_grad_year.label}</td>
+    <td>
+        {$form.high_school_grad_year.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.parent_grad_college_id.label}</td>
+    <td>
+        {$form.parent_grad_college_id.html}</td>
+</tr>
 </table>
- <div class="crm-submit-buttons">
+<div class="crm-submit-buttons">
     {$form.buttons.html}
- </div>
+</div>
 
  <script type="text/javascript">
     var showBlocks = new Array({$showBlocks});

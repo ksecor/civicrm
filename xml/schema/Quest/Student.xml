@@ -190,10 +190,10 @@
        <add>1.5</add>
   </field>
   <field>
-      <name>first_college_grad_id</name>
+      <name>parent_grad_college_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Will be first to graduate college in family. FK to civicrm_option_value.</comment>
+      <comment>Has any parent or guardian graduated from a 4-year college? FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -440,6 +440,15 @@
        <import>true</import>
        <headerPattern>/household income/i</headerPattern>
        <comment>Calculated annual income total from all reported sources.</comment>
+      <add>1.5</add>
+  </field>
+  <field>     
+       <name>number_siblings</name>  
+       <type>int</type>  
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/number siblings/i</headerPattern>
+       <comment>Number of siblings this student has.</comment>
       <add>1.5</add>
   </field>
 </table>
