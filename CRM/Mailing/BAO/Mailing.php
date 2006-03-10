@@ -503,15 +503,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Utils/Token.php';
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
-        
-            $this->html = $this->header->body_html . '<br />'
-                        . $this->body_html . '<br />'
-                        . $this->footer->body_html;
-            
-            $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
-                            $this->_domain, true);
-            $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
-                            $this, true);
+
+            if ($this->body_html) {
+                $this->html = $this->header->body_html . '<br />'
+                            . $this->body_html . '<br />'
+                            . $this->footer->body_html;
+                
+                $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
+                                $this->_domain, true);
+                $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
+                                $this, true);
+            }
             
             $this->text = $this->header->body_text . "\n"
                         . $this->body_text . "\n"
@@ -526,7 +528,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $html = $this->html;
         $text = $this->text;
         
-        if (!$test && $this->url_tracking) {
+        if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
                                 $this->id, $event_queue_id);
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
@@ -558,8 +560,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Do contact-specific token replacement in html mode, and add to the
          * message if necessary */
-        if ($test || $contact['preferred_mail_format'] == 'HTML' ||
-            $contact['preferred_mail_format'] == 'Both')
+        if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both'))
         {
             $html = CRM_Utils_Token::replaceContactTokens(
                                         $html, $contact, true);
@@ -659,7 +661,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         $mailing->subject       = $params['subject'];
         $mailing->body_text     = file_get_contents($params['textFile']);
-        $mailing->body_html     = file_get_contents($params['htmlFile']);
+        if (file_exists($params['htmlFile'])) {
+            $mailing->body_html     = file_get_contents($params['htmlFile']);
+        }
         $mailing->is_template   = $params['template'] ? true : false;
         $mailing->auto_responder= $params['auto_responder'] ? true : false;
         $mailing->url_tracking  = $params['track_urls'] ? true : false;

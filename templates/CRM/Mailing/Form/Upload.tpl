@@ -16,8 +16,8 @@
     <dt class="label">{$form.reply_id.label}</dt><dd>{$form.reply_id.html}</dd>
     <dt class="label">{$form.unsubscribe_id.label}</dt><dd>{$form.unsubscribe_id.html}</dd>
     <dt class="label">{$form.optout_id.label}</dt><dd>{$form.optout_id.html}</dd>
-    <dt class="label">{$form.htmlFile.label}</dt><dd>{$form.htmlFile.html}</dd>
     <dt class="label">{$form.textFile.label}</dt><dd>{$form.textFile.html}</dd>
+    <dt class="label">{$form.htmlFile.label}</dt><dd>{$form.htmlFile.html}</dd>
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>

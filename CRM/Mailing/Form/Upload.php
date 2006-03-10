@@ -168,7 +168,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
 
         require_once 'CRM/Utils/Token.php';
 
+        if (!file_exists($files['textFile']['tmp_name'])) {
+            $errors['textFile'] = ts('Please provide at least the text message.');
+        }
         foreach (array('textFile', 'htmlFile') as $file) {
+            if (!file_exists($files[$file]['tmp_name'])) {
+                continue;
+            }
             $str = file_get_contents($files[$file]['tmp_name']);
             $name = $files[$file]['name'];
             
