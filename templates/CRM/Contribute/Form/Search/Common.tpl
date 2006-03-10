@@ -27,24 +27,19 @@
         <tr>
             <td class="label">{ts}Contribution Type{/ts}</td> 
             <td>{$form.contribution_type_id.html}</td> 
-            <td class="label">{ts}Paid By{/ts}</td> 
-            <td>{$form.payment_instrument_id.html}</td> 
+            <td colspan="2"><label>{ts}Paid By{/ts}</label> {$form.payment_instrument_id.html}</td> 
         </tr>
         <tr>
             <td class="label">{ts}Status{/ts}</td> 
-            <td colspan="3">{$form.contribution_status.html}</td>
+            <td>{$form.contribution_status.html}</td>
+            <td colspan="2">{$form.contribution_receipt_date_isnull.html}&nbsp;<label>{ts}Receipt not sent?{/ts}</label></td>
         </tr>
         <tr>
-            <td class="label">{ts}Thank-you date not set?{/ts}</td> 
-            <td colspan="3">{$form.contribution_thankyou_date_isnull.html}</td>
+            <td colspan="2">&nbsp;</td>
+            <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;<label>{ts}Thank-you not sent?{/ts}</label></td>
         </tr>
         <tr>
-            <td class="label">{ts}Receipt date not set?{/ts}</td> 
-            <td colspan="3">{$form.contribution_receipt_date_isnull.html}</td>
+            <td colspan="4">
+            {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}
+            </td>
         </tr>
-
-<tr>
-<td colspan="4">
-{include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}
-</td>
-</tr>
