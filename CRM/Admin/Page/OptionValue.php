@@ -129,9 +129,6 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $session =& CRM_Core_Session::singleton();
-            $url = CRM_Utils_System::url('/civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
-            $session->pushUserContext( $url );
             $this->edit($action, $id) ;
         } 
         // finally browse the  groups value
