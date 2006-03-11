@@ -100,7 +100,7 @@
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>ethnicity_2_id</name>
+       <name>ethnicity_1_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
        <export>true</export>
@@ -170,7 +170,6 @@
   </field>
   <field>
        <name>is_partner_share</name>
-       <export>true</export>
        <type>boolean</type>
        <default>0</default>
        <export>true</export>
@@ -197,12 +196,12 @@
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>first_college_grad_id</name>
+       <name>parent_grad_college_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
        <export>true</export>
        <import>true</import>
-       <headerPattern>/first graduate/i</headerPattern>
+       <headerPattern>/parent college graduate/i</headerPattern>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -232,7 +231,6 @@
   </field>
   <field>
        <name>is_home_computer</name>
-       <export>true</export>
        <type>boolean</type>
        <required>true</required>
        <default>0</default>
@@ -244,7 +242,6 @@
   </field>
   <field>
        <name>is_home_internet</name>
-       <export>true</export>
        <type>boolean</type>
        <default>0</default>
        <export>true</export>
@@ -255,7 +252,6 @@
   </field>
   <field>
        <name>is_take_SAT_ACT</name>
-       <export>true</export>
        <type>boolean</type>
        <required>true</required>
        <default>0</default>
@@ -433,7 +429,7 @@
        <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
       <add>1.5</add>
   </field>
-  <field>     
+  <field>
        <name>household_income_total</name>  
        <type>decimal</type>  
        <export>true</export>
@@ -451,4 +447,19 @@
        <comment>Number of siblings this student has.</comment>
       <add>1.5</add>
   </field>
+  <field>
+      <name>fed_lunch_id</name>
+      <type>int unsigned</type>
+      <comment>Federal lunch program eligibility. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>fed_lunch_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/federal lunch/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
 </table>
