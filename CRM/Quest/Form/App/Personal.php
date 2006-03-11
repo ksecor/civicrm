@@ -1,4 +1,4 @@
-<?php
+o<?php
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.4                                                |
@@ -157,60 +157,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         parent::buildQuickForm( );
     }
 
-    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null ) {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-
-        $location[$locationId]['address']['street_address']         =
-            $this->addElement('text', "location[$locationId][address][street_address]", $title,
-                              $attributes['street_address']);
-        $location[$locationId]['address']['supplemental_address_1'] =
-            $this->addElement('text', "location[$locationId][address][supplemental_address_1]", ts('Addt\'l Address 1'),
-                              $attributes['supplemental_address_1']);
-        $location[$locationId]['address']['supplemental_address_2'] =
-            $this->addElement('text', "location[$locationId][address][supplemental_address_2]", ts('Addt\'l Address 2'),
-                              $attributes['supplemental_address_2']);
-
-        $location[$locationId]['address']['city']                   =
-            $this->addElement('text', "location[$locationId][address][city]", ts('City'),
-                              $attributes['city']);
-        $location[$locationId]['address']['postal_code']            =
-            $this->addElement('text', "location[$locationId][address][postal_code]", ts('Zip / Postal Code'),
-                              $attributes['postal_code']);
-        $location[$locationId]['address']['postal_code_suffix']            =
-            $this->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
-                              array( 'size' => 4, 'maxlength' => 12 ));
-         $location[$locationId]['address']['state_province_id']      =
-             $this->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
-                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-         $location[$locationId]['address']['country_id']             =
-             $this->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
-                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
-
-         $location[$locationId]['phone'][1]['phone_type'] = $this->addElement('select',
-                                                                              "location[$locationId][phone][1][phone_type]",
-                                                                              null,
-                                                                              CRM_Core_SelectValues::phoneType());
-         
-         $location[$locationId]['phone'][1]['phone']      = $this->addElement('text',
-                                                                              "location[$locationId][phone][1][phone]", 
-                                                                              $phone,
-                                                                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                                                                         'phone'));
-
-         if ( $alternatePhone ) {
-             $location[$locationId]['phone'][2]['phone_type'] = $this->addElement('select',
-                                                                                  "location[$locationId][phone][2][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
-             
-             $location[$locationId]['phone'][2]['phone']      = $this->addElement('text',
-                                                                                  "location[$locationId][phone][2][phone]", 
-                                                                                  $phoneTitle,
-                                                                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                                                                             'phone'));
-         }
-    }
-       
     /**
      * process the form after the input has been submitted and validated
      *

@@ -533,10 +533,31 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     function addRadio( $name, $title, $values ) {
         $options = array( );
         foreach ( $values as $key => $var ) {
-            $options[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+            $options[] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
         }
         $this->addGroup($options, $name, $title );
     }
+
+    function addYesNo( $id, $title ) {
+        $choice = array( );
+        $choice[] = $qf->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
+        $choice[] = $qf->createElement( 'radio', null, '', ts( 'No' ) , '0' );
+        $this->addGroup( $choice, $id, $title );
+    }
+
+    function addCheckBox( $id, $title, $values, $other, &$attributes ) {
+        $options = array( );
+        foreach ( $values as $key => $var ) {
+            $options[] = HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+        }
+        $this->addGroup($options, $name, $title );
+
+        if ( $other ) {
+            $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
+        }
+    }
+
+                          
 
 }
 
