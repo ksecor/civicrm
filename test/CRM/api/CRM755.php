@@ -14,7 +14,7 @@ class TestOfCRM755 extends UnitTestCase
     
     function testCRM755() 
     {
-        $params = array( 'email' => 'lobo_foo@yahoo.com' );
+        $params = array( 'id' => 102 );
         $returnProperties = array( 'first_name' => 1,
                                    'last_name'  => 1,
                                    'street_address' => 1,
@@ -22,7 +22,8 @@ class TestOfCRM755 extends UnitTestCase
                                    'state' => 1,
                                    'postal_code' => 1,
                                    'geo_code_1' => 1,
-                                   'geo_code_2' => 1 );
+                                   'geo_code_2' => 1,
+                                   'note' => 1 );
 
         $contacts = crm_contact_search( $params, $returnProperties );
         CRM_Core_Error::debug( 'c', $contacts );

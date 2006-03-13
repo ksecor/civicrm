@@ -279,15 +279,6 @@ define( 'CIVICRM_MONEYFORMAT', '%c %a' );
 define( 'CIVICRM_LC_MONETARY', 'en_US' );
 
 /**
- * Import - Maximum File Size:
- *
- * Default maximum Contact Import filesize is 1MB. You may increase this up to a hard-limit of 8MB.
- * However, imports above 1MB will take a 'long time' and are server resource intensive.
- * File size is expressed in bytes (1MB is entered as 1048576).
- */
-define( 'CIVICRM_MAX_IMPORT_FILESIZE' , 1048576);
-
-/**
  * Mapping:
  *
  * Plug-ins are included for both Google and Yahoo mapping service providers. Choose the
