@@ -256,7 +256,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $select = $from = $where = '';
         
-        $select = 'SELECT civicrm_group.id, civicrm_group.title ';
+        $select = 'SELECT DISTINCT civicrm_group.id, civicrm_group.title ';
         $from   = ' FROM civicrm_group, civicrm_group_contact ';
         $where  = " WHERE civicrm_group.is_active = 1 ";
         if ( $contactId ) {
