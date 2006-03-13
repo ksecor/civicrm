@@ -44,6 +44,11 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Quest_Form_App extends CRM_Core_Form
 {
+    const
+        TEST_ACT  = 1,
+        TEST_PSAT = 2,
+        TEST_SAT  = 4;
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
