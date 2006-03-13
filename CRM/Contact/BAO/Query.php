@@ -238,16 +238,14 @@ class CRM_Contact_BAO_Query {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
             
-            if ($mode != 1) { //this mode is for exporting contribution
-                require_once 'CRM/Contribute/BAO/Contribution.php';
-                $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
-                $this->_fields = array_merge( $this->_fields, $fields );
-            }
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+            $this->_fields = array_merge( $this->_fields, $fields );
         }
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -278,7 +276,7 @@ class CRM_Contact_BAO_Query {
 
         $this->selectClause( ); 
         $this->_whereClause = $this->whereClause( ); 
-        $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
+        $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
     }
 
     /**
@@ -826,7 +824,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true ) {
+    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
        
         $from = ' FROM civicrm_contact ';
         if ( empty( $tables ) ) {
@@ -1031,11 +1029,19 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_contribution':
-                $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                if ( $mode & self::MODE_CONTRIBUTE ) {
+                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                } else {
+                    $from .= " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                }
                 continue;
 
             case 'civicrm_contribution_type':
-                $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
+                if ( $mode & self::MODE_CONTRIBUTE ) {
+                    $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
+                } else {
+                    $from .= " $side JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
+                }
                 continue;
 
             case 'civicrm_contribution_product':
@@ -1706,7 +1712,7 @@ class CRM_Contact_BAO_Query {
             
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
-                $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation ); 
+                $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
             }
         }
 
