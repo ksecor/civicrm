@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-03-07 21:35+0100\n"
+"PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -8235,7 +8235,8 @@ msgid ""
 "For 'inline' display custom groups, this name will appear as the fieldset "
 "legend. If this group uses the 'tab' display style, this name will be used "
 "for the navigation tab."
-msgstr ""
+msgstr "Om 'Inline' specifieke groepen te tonen, zal deze naam als legenda gebruikt worden."
+"Als de groep een 'Tab\" stijl gebruikt, zal deze naam voor de navigatie-tab gebruikt worden."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -8243,14 +8244,14 @@ msgid ""
 "for. You can configure custom data for a specific type of contact (e.g. "
 "Individuals but NOT Organizations), ANY type of contact, or other record "
 "types such as activities and contributions."
-msgstr ""
+msgstr "Selecteer het type van deze groep specifieke velden. Het is mogelijk specifieke velden voor een bepaald type of contact te maken (dus niet voor oorganisaties), of voor elk type contact, of recordtypes zoals activiteiten of bijdragen."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
 "Weight controls the order in which custom data groups are presented when "
 "there are more than one. Enter a positive or negative integer - lower "
 "numbers are displayed ahead of higher numbers."
-msgstr ""
+msgstr "De weegfactor bepaat in welke volgorde de specifieke gegevensvelden getoond worden, als er meer dan een gedefinieerd is. Voer een positief of negatief geheel getal in. Lagere nummers worden boven hogere nummers getoond."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -8258,29 +8259,29 @@ msgid ""
 "form and Contact Summary screens. Select 'Tab' to create a separate "
 "navigation tab for display and editing these values (generally for less "
 "frequently accessed and/or larger sets of fields)."
-msgstr ""
+msgstr "Kies 'Inline' om deze groep van velden toe te voegen aan het contact toevoegen/wijzig formulier, en het contact overzicht scherm. Selecteer 'Tab' om een separate tab aan te maken om te tonen en eventueel te wijzigen. ( normaliter de keuze om minder frequente, of juist uitgebreide gegevens te tonen/wijzigen)"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
 "Check this box if you want only the title for this fieldset to be displayed "
 "when the page is initially loaded (fields are hidden)."
-msgstr ""
+msgstr "Vink deze box aan als alleen de titel van deze verzameling velden getoond moet worden, als de pagina geladen wordt. De velden zelf worden dan niet getoond."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of this group of fields."
-msgstr ""
+msgstr "Verklarende tekst die verschijnt boven deze verzameling velden."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed below this group of fields."
-msgstr ""
+msgstr "Verklarende tekst die verschijnt onder deze verzameling velden."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Fields for this Group"
-msgstr ""
+msgstr "Specifieke velden voor deze groep"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
-msgstr ""
+msgstr "Meerkeuze opties"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
@@ -8290,150 +8291,155 @@ msgid ""
 "while the option 'value' is stored in the contact record. The label and "
 "value may be the same or different. Inactive options are hidden when the "
 "field is presented."
-msgstr ""
+msgstr "U kunt in deze tabel tot 10 meerkeuzeopties invoeren. Toets 'nog een keuze' voor elke aanvullende optie."
+"Indien gewenst, kan er van de opties als standaard worden aangemerkt."
+"De tekst van 'label' wordt getoond op het formulier, en de inhoud van  'waarde' wordt opgeslagen in het contact record."
+"Niet actieve opties worden niet getoond op het formulier."
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Defaults"
-msgstr ""
+msgstr "Standaard waarden"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "another choice"
-msgstr ""
+msgstr "nog een keuze"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid ""
 "If you need additional options - you can add them after you Save your "
 "current entries."
-msgstr ""
+msgstr "Als u meer opties toe wilt voegen, kan dit nadat deze instellingen zijn opgeslagen."
 
 #: templates/CRM/Custom/Form/Option.tpl
 msgid "Selection Options"
-msgstr ""
+msgstr "Kies opties"
 
 #: templates/CRM/Custom/Form/Option.tpl
 msgid ""
 "WARNING: Deleting this custom option will result in the loss of all data."
-msgstr ""
+msgstr "Waarschuwing : Het verwijderen van deze specifieke optie resulteert in verlies van gegevens."
 
 #: templates/CRM/Custom/Form/Option.tpl
 msgid "Make this option value 'selected' by default?"
-msgstr ""
+msgstr "Deze optie waarde als standaard gebruiken ?"
 
 #: templates/CRM/Custom/Form/Preview.tpl
 msgid ""
 "Preview of the custom group (fieldset) as it will be displayed when editing "
 "a contact."
-msgstr ""
+msgstr "Voorvertoning van de specifieke groep, zoals deze getoond wordt als een contact bewerkt wordt"
 
 #: templates/CRM/Custom/Form/Preview.tpl
 msgid "Preview of this field as it will be displayed when editing a contact."
-msgstr ""
+msgstr "Voorvertoning van dit veld, zoals het getoond zal worden, als een contact bewerkt wordt."
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Field Type"
-msgstr ""
+msgstr "Veld type"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Req?"
-msgstr ""
+msgstr "Nodig?"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "New Custom Field"
-msgstr ""
+msgstr "Nieuw specifiek veld"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid ""
 "There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
 "a>."
-msgstr ""
+msgstr "Er zijn geen specifieke velden voor groep \"%1\" aangemaakt. U kunt deze <a href=\"%2\">aanmaken</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
 "Custom Data Groups are used to collect and store additional data not "
 "included in the standard CiviCRM forms. You can create one or many groups - "
 "each one containing a related set of custom data fields."
-msgstr ""
+msgstr "Specifieke Datavelden worden gebruikt om 'extra' data te verzamelen, meer dan in de standaard CiviCRM formulieren."
+"U kunt een of meerdere groepen aanmaken, die elk een specifieke collectie datavelden bevatten."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
-msgstr ""
+msgstr "Groepstitel"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "All Contact Types"
-msgstr ""
+msgstr "Alle typen contact"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
 "No custom data groups have been created yet. You can <a href=\"%1\">add one</"
 "a>."
-msgstr ""
+msgstr "Er zijn geen specifieke gegevensgroepen aangemaakt. U kunt er een <a href=\"%1\">aanmaken</a>."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "New Option for \"%1\""
-msgstr ""
+msgstr "Nieuwe optie voor \"%1\""
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid ""
 "There are no multiple choice options for the custom field \"%1\", <a href=\"%"
 "2\">add one</a>."
-msgstr ""
+msgstr "Er zijn geen meerkeuze opties opgegeven voor het specifieke dataveld \"%1\". U kunt er een <a href=\"%2\">aanmaken</a>."
 
 #: templates/CRM/error.tpl
 msgid "unrecoverable error"
-msgstr ""
+msgstr "onherstelbare fout"
 
 #: templates/CRM/error.tpl
 msgid "Sorry. A non-recoverable error has occurred."
-msgstr ""
+msgstr "Sorry, er is een onherstelbare fout opgetreden."
 
 #: templates/CRM/error.tpl
 msgid "Error Code:"
-msgstr ""
+msgstr "Foutcode :"
 
 #: templates/CRM/error.tpl
 msgid "Database Error Code:"
-msgstr ""
+msgstr "Database foutcode :"
 
 #: templates/CRM/error.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "Hoofdmenu"
 
 #: templates/CRM/error.tpl
 msgid "Return to CiviCRM menu."
-msgstr ""
+msgstr "Terug naar CiviCRM menu."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
-msgstr ""
+msgstr "Wilt u de groep %1 verwijderen ?"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This group currently has one member in it."
 msgid_plural "This group currently has %count members in it."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deze groep bevat momenteel een lid."
+msgstr[1] "Deze groep bevat momenteel %count leden."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid ""
 "Deleting this group will NOT delete the member contact records. However, all "
 "contact subscription information and history for this group will be deleted."
-msgstr ""
+msgstr "Alle abonnements gegevens en de geschiedeniss van deze groep wordt verwijderd."
+"Het verwijderen van deze groep resulteert NIET in het verwijderen van gegevens van leden. "
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
 "You can edit the Name and Description for this group here. Click <a href=\"%1"
 "\">Show Group Members</a> from Manage Groups to view, add or remove contacts "
 "in this group."
-msgstr ""
+msgstr "U kunt naam en beschrijving van deze groep hier wijzigen. Klik <a href=\"%1\">Toon groepsleden</a> in Beheer groepen, om contacten in deze groep te tonen/wijzigen of te verwijderen."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
 "Enter a unique name and a description for your new group here. Then click "
 "'Continue' to find contacts to add to your new group."
-msgstr ""
+msgstr "Voer een unieke naam en beschrijving in voro uw nieuwe groep. Klik daarna op 'Doorgaan' om contacten te vinden, die aan deze groep toegevoegd kunnen worden."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Group Settings"
-msgstr ""
+msgstr "Instellingen voor groepen"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -8443,7 +8449,8 @@ msgid ""
 "forms, select 'Public User Pages'. If you also want to include group "
 "membership search and sharing in the Profile screens, select 'Public User "
 "Pages and Listings'."
-msgstr ""
+msgstr "Kies 'Alleen gebruiker en gebruikers-beheerder' als het lidmaatschap van deze groep door deze gebruikers beheerd dient te worden. Als u toestaat, dat contacten zichzelf aanmelden en uitschrijven (middels de registratie en verander profiel formulieren) kies dan voor 'publieke paginas'."
+"Als u ook toestaat, dat er gezocht kan worden op groepslidmaatschap, en er profielschermen gedeeld kunnen worden, kies dan voor 'publieke paginas en lijsten'."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
@@ -8451,7 +8458,7 @@ msgid ""
 "'Steering Committee'). You can also create 'smart' groups whose membership "
 "is based on contact characteristics (e.g. this group consists of all people "
 "in our database who live in a specific locality)."
-msgstr ""
+msgstr "U kunt groepen gebruiken, om contacten te 'organiseren' bv een groep contacten, die een comite vormen. Ook is het mogelijk zogenaamde smart-groepen aan te maken, waarbij het lidmaatschap gebaseerd is op karakteristieken van contacten ( bv alle mensen uit een gemeente)."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
@@ -8460,31 +8467,32 @@ msgid ""
 "themselves up for certain groups by setting the group visibility to 'Public "
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
-msgstr ""
+msgstr "Contacten kunnen aan een groep worden toegevoegd vanuit zoekresultaten, of doordat een contact getoond wordt. Contacten kunnen zichzelf ook toevoegen aan een groep, als deze groep op 'publieke gebruikers paginas' staat ingesteld. "
+"Gebruik hiervoor de <strong> Instellingen</strong> link, en door de goepen te tonen in het CiviCRM profiel."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
 "No Groups have been created for this site. You can <a href=\"%1\">add one</"
 "a> now."
-msgstr ""
+msgstr "Er zijn geen groepen gecreeerd voor deze website. U kunt er een <a href\"%1\">toevoegen</a>."
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "New Activity History"
-msgstr ""
+msgstr "Nieuwe activiteiten geschiedenis"
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Edit Activity History"
-msgstr ""
+msgstr "Wijzig activiteiten geschiedenis"
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid ""
 "Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
 "1\" with description \"%3\" ?"
-msgstr ""
+msgstr "Wilt u de geschiedenis van \"%2\" van het type \"%1\" met omschrijving \"%3\" verwijderen ?"
 
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "No activity history for this contact."
-msgstr ""
+msgstr "Er bestaat geen activiteiten geschiedenis voor dit contact"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
@@ -8493,23 +8501,25 @@ msgid ""
 "download a file with just these problem records - <a href=\"%2\">Download "
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
-msgstr ""
+msgstr "Er is/zijn %1 conflict(en) opgetreden met de emailadressen in deze datafile."
+"Als u kiest om door te gaan, worden de records overgeslagen."
+"Als alternatief kunt u hier een lijst met <a href\"%2\">Conflicten</a> ophalen. Corrigeer hiermee de originele file, stop deze importsessie, en begin dan weer bij stap 1."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total rows (contact records) in uploaded file."
-msgstr ""
+msgstr "Aantal rijen (contact records) in het ge-uploaded bestand"
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "Rows with invalid data in one or more fields (for example, invalid email "
 "address formatting). These rows will be skipped (not imported)."
-msgstr ""
+msgstr "Rijen met ongeldige gegevens in een of meer velden ( bv een niet correcte opmaak van het emailadres).Deze rijen worden overgeslagen ( niet geimporteerd)."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "Rows with conflicting email addresses within this file. These rows will be "
 "skipped (not imported)."
-msgstr ""
+msgstr "Rijen met een conflict in de emailadressen die in de file voor komen. Deze rijen worden niet opgeslagen (niet geimporteerd)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -8518,14 +8528,14 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected mismatched contact IDs. These records have not been "
 "updated."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een niet-overeenkomstig contact-ID gesignaleerd door CiviCRM. Het record is niet bijgewerkt."
+msgstr[1] "Er zijn niet-overeenkomstig contact-IDs gesignaleerd door CiviCRM. De records zijn niet bijgewerkt."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contacts</a>. You may then "
 "correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "U kunt een lijst van niet-overeenkomstige contacten <a hfre=\"%1\">downloaden</a>. Corrigeer deze, en importeer opnieuw."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -8536,21 +8546,21 @@ msgid_plural ""
 "CiviCRM has detected %count records with conflicting email addresses within "
 "this data file or relative to existing contact records. These records have "
 "not been imported."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een record gesignaleerd, dat een emailadres-conflict heeft met een andere emailadres in deze file, OF met een reeds bestaand emailadres. Het record is niet bijgewerkt."
+msgstr[1] "Er zijn records gesignaleerd, die eenemailadres-conflict hebben met andere emailadressen in deze file, OF met reeds bestaande emailadressen. De records zijn niet bijgewerkt."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "CiviCRM does not allow multiple contact records to have the same primary "
 "email address."
-msgstr ""
+msgstr "CiviCRM laat niet toe, dat een emailadres gedeeld wordt door verschillende contact records."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the email "
 "addresses for those that are not."
-msgstr ""
+msgstr "U kunt een lijst <a href=\"%1\">downloaden</a> met download fouten. Bekijk deze lijst,om te kijken waar de eventuele fouten zitten, en corrigeer de emailadressen zonodig."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -8559,53 +8569,53 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een record gesignaleerd, dat overeen komt met een reeds bestaand CiviCRM contact record."
+msgstr[1] "Er zijn %count records gesignaleerd, dat overeen komen met reeds bestaande CiviCRM contact records."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
-msgstr ""
+msgstr "U kunt een lijst met dubbele <a href=\"%1\">downloaden</a>. Bekijk deze lijst,om te kijken waar de eventuele dubbele records voorkomen, en corrigeer de emailadressen zonodig."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with mismatched contact IDs... (NOT updated)."
-msgstr ""
+msgstr "Aantal rijen met nietovereenkomstig contact IDs (niet bijgewerkt)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Download Mismatched Contacts"
-msgstr ""
+msgstr "Download Nietovereenkomstige Contacten"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with conflicting email addresses (NOT imported)."
-msgstr ""
+msgstr "Aantal rjen met een conflict in emailadressen (niet geimporteerd)"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contact records."
-msgstr ""
+msgstr "Aantal rijen met duplicaten van bestaande CiviCRM contactrecords."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Import to Groups"
-msgstr ""
+msgstr "Importeer naar groepen"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact added to this new group."
 msgid_plural "%count contacts added to this new group."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een contact aan deze groep toegevoegd."
+msgstr[1] "Er zijn %count contacten aan deze groep toegevoegd."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact added to this existing group."
 msgid_plural "%count contacts added to this existing group."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een contact toegevoegd aan deze bestaande groep"
+msgstr[1] "Er zijn %count contacten toegevoegd aan deze bestaande groep"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact NOT added (already in this group)."
 msgid_plural "%count contacts NOT added (already in this group)."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is een contact niet toegevoegd aan deze groep, omdat deze al bestond."
+msgstr[1] "Er zijn %count contacten niet toegevoegd aan deze groep, omdat deze al bestonden."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -8613,268 +8623,270 @@ msgid ""
 "applications into CiviCRM. For example, if your organization has contacts in "
 "MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store "
 "these contacts, you can 'import' them here."
-msgstr ""
+msgstr "De ImportWizard stelt u in staat om gemakkelijk contact records van andere applicaties naar CiviCRM te importeren."
+"Bv. een lijst van MS Access, of MS Excel."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"First Name\",\"Last Name\",\"Email\")"
-msgstr ""
+msgstr "Vink deze box aan, als de eerste rij in de file bestaat uit veldnamen, bv \"voornaam\",\"achternaam\",\"emailadres\", etc)"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Individual' if each record in your file represents and individual "
 "person - even if the file also contains related Organization data (e.g. "
 "Employer Name, Employer Address, etc.)."
-msgstr ""
+msgstr "Kies individueel,als elk record in de file  een individueel persoon voorstelt, ook als de file gerelateerde gegevens bevat omtrent zijn/haar organisatie"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Organization' or 'Household' if each record in your file represents "
 "a contact of that type."
-msgstr ""
+msgstr "Kies Huishouding, of Organisatie, als elk record in de file gegevens bevat over die typen contact"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
-msgstr ""
+msgstr "Als een contact in de te importeren file een duplicaat van een bestaand CiviCRM contact lijkt te zijn..."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "<label>Skip:</label> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
-msgstr ""
+msgstr "<label>Overslaan:<label>Melding van dubbelen, sla deze rijen over. Het bestaande record wordt niet bijgewerkt.(standaard instelling)"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "<label>Update:</label> Updates database fields with available import data. "
 "Fields in the database which are NOT included in the import row are left as-"
 "is."
-msgstr ""
+msgstr "<label>Update:</label>Werk bestaande gegevens bij, met gegevens uit de file. Velden, die niet voorkomen in de importfile, worden niet gewijzigd."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "<label>Fill:</label> Fills in additional contact data only. Database fields "
 "which currently have values are left as-is."
-msgstr ""
+msgstr "<label>Vullen:<label>Alleen de aanvullende datavelden uit de file vullen. Velden waar reeds gegevens in staan worden niet bijgewerkt"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "<label>No Duplicate Checking:</label> Insert all valid records without "
 "comparing them to existing contact records for possible duplicates."
-msgstr ""
+msgstr "<label>Niet checken op Dubbelen:</label> Alle geldige records in de file worden, zonder verificatie op dubbelen, in de database geplaatst."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "New Mailing Component"
-msgstr ""
+msgstr "Nieuw Mailing Onderdeel"
 
 #: templates/CRM/Mailing/Form/Retry.tpl
 msgid "Retry Mailing: %1"
-msgstr ""
+msgstr "Nieuwe poging voor mailing : %1"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "The test mailing will be sent to"
-msgstr ""
+msgstr "De testmailing al verstuurd worden naar"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Settings and Content"
-msgstr ""
+msgstr "Instellingen en inhoud"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
-msgstr ""
+msgstr "Er zijn geen verzonden berichten gevonden. U kunt er een laten <a href=\"%1\">versturen</a>."
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
-msgstr ""
+msgstr "Body HTML"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
-msgstr ""
+msgstr "Instellingen voor Mailings"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Reply-to email"
-msgstr ""
+msgstr "Beantwoord email"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Forward replies"
-msgstr ""
+msgstr "Doorsturen van email-antwoorden"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "On"
-msgstr ""
+msgstr "Aan"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Off"
-msgstr ""
+msgstr "Uit"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Auto-respond to replies"
-msgstr ""
+msgstr "Automatisch reageren op email-antwoorden"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Open tracking"
-msgstr ""
+msgstr "Open tracking"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "URL Click-through tracking"
-msgstr ""
+msgstr "Doorklik URL tracking"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Recipients"
-msgstr ""
+msgstr "Ontvangers"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Included"
-msgstr ""
+msgstr "Inclusief"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Excluded"
-msgstr ""
+msgstr "Exlusief"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
-msgstr ""
+msgstr "Overzicht van verzendingen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Queued"
-msgstr ""
+msgstr "In een wachtrij"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivered"
-msgstr ""
+msgstr "Afgeleverd"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Opens"
-msgstr ""
+msgstr "Open"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Totals"
-msgstr ""
+msgstr "Totalen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Percentages"
-msgstr ""
+msgstr "Percentages"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Click-through Summary"
-msgstr ""
+msgstr "Doorklik overzicht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Clicks"
-msgstr ""
+msgstr "Klikken"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Unique Clicks"
-msgstr ""
+msgstr "Unieke klikken"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Success Rate"
-msgstr ""
+msgstr "Succes ratio"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
-msgstr ""
+msgstr "Inhoud / Onderdelen"
 
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
-msgstr ""
+msgstr "Aantal rijen per pagina :"
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid ""
 "name goes back to the server and gets the next 5 items which match the "
 "prefix."
-msgstr ""
+msgstr "naam gaat terug naar de server, en levert de volgende 5 items op, die overeenkomen met de prefix."
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid ""
 "state is a dynamic combo box which also affects the below country box. The "
 "values of the combo box are fetched from the server based on the user's "
 "locale etc"
-msgstr ""
+msgstr "status is een dynamische combobox, die ook ook van invloed is op de landen-box hieronder. De lijst van waarden in deze combobox is afhankelijk van de lokale instelling van de gebruiker."
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid "country is either dependent on the above or can be independely filled."
-msgstr ""
+msgstr "land is afhankelijk van bovenstaand, of kan apart ingevuld worden."
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid "birth day is a simple date field"
-msgstr ""
+msgstr "geboortedag is een datumveld"
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid "scheduled date and time is a more complex datetime field"
-msgstr ""
+msgstr "plan-datum en plan-tijd is een complex datum-tijd veld"
 
 #: templates/CRM/Profile/Form/Dojo.tpl
 msgid ""
 "we'd like to place this element somewhere in the below list (before/after). "
 "So a clean widget to do it would be awesome."
-msgstr ""
+msgstr "ons voorstel is, om dit element meer naar onderen te verplaatsen. Het zou handig zijn, om hier een betere tool voor te hebben."
 
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Please enter up to 5 email addresses to receive the mailing."
-msgstr ""
+msgstr "Voer maximaal 5 emailadressen in, die de mailing zullen ontvangen."
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
-msgstr ""
+msgstr "Toon contacten die :"
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
 "listings (selector) table. Ask the site administrator to check the Profile "
 "setup."
-msgstr ""
+msgstr "Er zijn geen velden in dit profiel ingesteld, die als kolommen kunnen worden getoond in de keuzetabel."
+"Vraag de sitebeheerder,om de instellingen van het profiel na te kijken."
 
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "Return to Find People"
-msgstr ""
+msgstr "Terug naar Vind personen"
 
 #: templates/CRM/Profile/Page/View.tpl
 msgid "Back to Listings"
-msgstr ""
+msgstr "Terug naar Overzichten"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid ""
 "Current tags for <strong>%1</strong> are highlighted. You can add or remove "
 "tags from <a href=\"%2\">Edit Tags</a>."
-msgstr ""
+msgstr "De huidige merkeringen voor <strong>%1</strong> zijn versterkt weergegeven. U kunt <a href=\"%2\">hier </a> markeringen aanmaken en wijzigen."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Current tags are highlighted."
-msgstr ""
+msgstr "De huidige markeringen zijn versterkt weergegeven."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
-msgstr ""
+msgstr "Vink markering aan of uit in de boxen, of klik op \"Bijwerken markeringen\" om markeringen te wijzigen."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
-msgstr ""
+msgstr "Wijzig markeringen"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Delete CiviCRM Profile Field"
-msgstr ""
+msgstr "Verwijder CiviCRM Profielveld"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "WARNING: Deleting this profile field will remove it from Profile forms and "
 "listings."
-msgstr ""
+msgstr "Waarschuwing : Hiermee wordt het profiel verwijderd uit de profielformulieren en profiellijsten"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Select the CiviCRM field you want to include in this Profile."
-msgstr ""
+msgstr "Kies het CiviCRM veld, dat u in dit profiel op wilt nemen."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
-msgstr ""
+msgstr "Is het invullen van dit veld verplicht voor gebruikers?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "If checked, users can view but not edit this field."
-msgstr ""
+msgstr "Als deze aangevinkt is, kunnen gebruikers dit veld wel zien, maar niet wijzigen."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -8884,107 +8896,110 @@ msgid ""
 "visibility is 'Public User Pages and Listings', users can also click the "
 "field value when viewing a contact in order to locate other contacts with "
 "the same value(s) (i.e. other contacts who live in Poland)."
-msgstr ""
+msgstr "Moet dit veld verborgen worden voor andere gebruikers dan deze huidige gebruiker (en de gebruikersbeheerder), of is dit eld ook zichtbaar voor andere gebruikers (Publieke Gebruikerspaginas). Kies 'Publieke gebruikerspaginas en overzichten' om het veld te laten gebruiken door zoekacties."
+"Als deze laatste instelling acief is, kunnen gebruikers ook op de waarde in het veld klikken, om hiermee andere contacten te zoeken met dezelfde waarde."
+"( Bv. klikken op Amsterdam levert dan andere contacten in Amsterdam op.)"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Is this field visible in the selector table displayed in profile searches? "
 "This setting applies only to fields with 'Public User Pages and Listings' "
 "visibility."
-msgstr ""
+msgstr "Is dit veld zichtbaar in de tabel voor profiel zoekacties ?"
+"Deze instelling geldt alleen voor velden, die als 'Publieke Gebruikerspagina en Overzichten' gepubliceeerd zijn."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Weight controls the order in which fields are displayed within a profile. "
 "Enter a positive or negative integer - lower numbers are displayed ahead of "
 "higher numbers."
-msgstr ""
+msgstr "Weegfactoren bepalen de volgorde waarin velden binnen een profielscherm worden getoond. Voer een positief of negatef geheel getal in. Lagere nummers verschijnen boven hogere nummers."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete CiviCRM Profile"
-msgstr ""
+msgstr "Verwijder CiviCRM profiel"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete %1 Profile?"
-msgstr ""
+msgstr "Verwijder %1 profiel ?"
 
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "site root"
-msgstr ""
+msgstr "site root"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
 "included in the New Account registration form."
-msgstr ""
+msgstr "Vink <strong>Gebruikersregistratie</strong> aan, als dit profiel opgenomen moet worden bij een Nieuw Account registratie formulier."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>View/Edit User Account</strong> to include it in the view and "
 "edit screens for existing user accounts."
-msgstr ""
+msgstr "Vink <strong>Toon/Wijzig Gebruiker</strong> aan, om het op te nemen in de Toon/Wijzig schermen van de bestaande gebruikeraccounts."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>Profile</strong> if you want it included in the default "
 "contact listing and view screens for the civicrm/profile path."
-msgstr ""
+msgstr "Vink <strong>Profiel</strong> aan, als dit opgenomen moet worden in de standaard contactoverzichten en schermen voor het CiviCRM profiel pad."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Weight controls the order in which profiles are presented when there are "
 "more than one. Enter a positive or negative integer - lower numbers are "
 "displayed ahead of higher numbers."
-msgstr ""
+msgstr "Weegfactoren bepalen de volgorde waarin profielen getoond worden. Voer een positief of negatef geheel getal in. Lagere nummers verschijnen boven hogere nummers."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the fieldset."
-msgstr ""
+msgstr "Verklarende tekst, getoond boven het veldoverzicht."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the end of the fieldset."
-msgstr ""
+msgstr "Verklarende tekst, getoond onder het veldoverzicht."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
-msgstr ""
+msgstr "Toon of Wijzig velden van dit profiel"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Field Preview"
-msgstr ""
+msgstr "Voorvertoning van de profielvelden"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Preview"
-msgstr ""
+msgstr "Voorvertoning profiel"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "This CiviCRM profile field is view only."
-msgstr ""
+msgstr "Dit CiviCRM profielveld kan alleen bekeken worden."
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr ""
+msgstr "Verplicht"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
+msgstr "Alleen bekijken"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
-msgstr ""
+msgstr "Nieuw CiviCRM profielveld"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid ""
 "There are no CiviCRM Profile Fields for \"%1\", you can <a href=\"%2\">add "
 "one now</a>."
-msgstr ""
+msgstr "Er zijn nog geen CiviCRM profielvelden voor %1, u kunt er een <a href=\"%2\">toevoegen</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "The HTML code below will display a form consisting of the active CiviCRM "
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
-msgstr ""
+msgstr "De HTML code hieronder maakt een formulier met de actieve CiviCRM profielvelden. Knip en plak deze code op een plek waar u de contact informatie wilt gaan verzamelen."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -8992,15 +9007,15 @@ msgid ""
 "the form by modifying the contents of the hidden <strong>postURL</strong> "
 "input field. Replace the default value with any valid complete URL prior to "
 "saving the form code to the desired page(s)."
-msgstr ""
+msgstr "U kunt instellen, dat er na het invullen van het formulier naar en andere pagina gesprongen wordt. Wijzig hiervoor, voordat u de code opslaat in de pagina, de waarde van <strong>postURL</strong> in het adres, waar u naartoe gesprongen wilt hebben."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "VOORBEELD :"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
-msgstr ""
+msgstr "Terug naar Profieloverzichten"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9008,20 +9023,21 @@ msgid ""
 "in your site as input forms, contact display pages, and search and listings "
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
-msgstr ""
+msgstr "MEt CiviCRM is het mogelijk, om velden te groeperen, en in de website te tonen als invoerformulieren, overzichtspaginas, en zoekopties. Op deze manier is het een sterk stuk gereedschap, om informatie in te winnen, en deze op een selectieve manier te delen."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
-msgstr ""
+msgstr "Profielen kunnen gekoppeld worden aan specifie modules, die of toegankelijk zijn via ingebouwde CiviCRM URLs, of via zelfstandige forulieren op webpaginas."
+"Voorbeelden hiervan :"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>User Screens</strong> - One or several profiles can be linked to "
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
-msgstr ""
+msgstr "<strong>Gebruikersschermen</strong> Een of meerdere profielen kunnen gekoppeld worden aan <strong>gebruikersregistratie</strong>, of wijzigschermen van <strong>bestaande gebruikers</strong>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9029,7 +9045,7 @@ msgid ""
 "Contributors via online contribution pages, you can create a profile and "
 "link it to to your contribution page as a \"custom page element\" (<a href="
 "\"%1\">Configure Online Contribution Pages</a>)."
-msgstr ""
+msgstr "<strong>CiviContribute</strong>.Als u online informatie over contributanten wilt verzamelen, kunt u een profiel aanmaken en koppelen aan de bijdrage pagina, als ware het een 'specifiek element'(<a href=\"%1\">Instellingen Online Bijdrage</a>) op de pagina."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9039,14 +9055,14 @@ msgid ""
 "different search and listings purposes, simply add the profile ID to the end "
 "of your query string using the 'gid' parameter. For example, the link to "
 "display a search and listings page for a Profile with ID = 3 would be:"
-msgstr ""
+msgstr "<strong>Contacten zoeken en overzichten tonen</strong>. Een standaard profiel zoekformulier wordt getoond als u gebruikers koppelt aan het <em>%1/%2</em> linkpad. Als er meerder profielen gebruikt mogen worden voor het zoeken, voeg dan het profile-ID toe aan het eind van de query-string, met de gid-parameter. Als voorbeeld, een link om een zoekpagina te tonen, die gebruikt maakt van het profiel met ID=3 ziet er als volgt uit :"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "
 "\"new contact\" input form(s) for your Profiles using the following path: "
 "<em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
-msgstr ""
+msgstr "<strong>Contact Inteken formulieren(ingebouwde paginas)</strong> Creeeren van een koppeling naar een 'nieuw contact' formulier met ebruik van het volgende pad <em>%1/%2</em>. Het voorbeeld linkt naar een invoerformulier voor profiel (met id=3)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9054,7 +9070,9 @@ msgid ""
 "layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/"
 "or sites...click the *Standalone Form* action link for a Profile below - and "
 "copy and paste the HTML form code into any web page."
-msgstr ""
+msgstr "<strong>Zelfstandige formulieren</strong>"
+"Als uzelf bijvoorbeeld de standaard layout wilt veranderen, of juist de profiel formulieren wilt gebruiken voor niet-CiviCRM paginas. kiest u voor Zelfstandige formulieren."
+"Klik op de \"Zelfstandig formulier\" link hierodner, en kopieer dan de HTML code naar de gewenste webpagina."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -9062,249 +9080,250 @@ msgid ""
 "to add a profile form to any block or page on any website (e.g. for a signup "
 "form). You can also get the <a href=\"%1\">HTML for ALL Active Profiles</a> "
 "as a single form."
-msgstr ""
+msgstr "Gebruik de <strong>Zelfstandig formulier</strong> link, om de HTML code te zien, die een profielformulier genereert op een gewenste webpagina. (bijvoorbeeld een intekenlijst)."
+"Het is ook mogelijk, om met <a href\"%1\">HTML voor alle actieve profielen</a> als een enkel formulier te krijgen."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "Profieltitel"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "New CiviCRM Profile"
-msgstr ""
+msgstr "Nieuw CiviCRM profiel"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Maak de HTML code aan voor alle active profielen"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
 "now</a>."
-msgstr ""
+msgstr "Er zijn (nog) geen CiviCRM profielen aangemaakt. U kunt er een <a href=\"%1\">aanmaken</a>"
 
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
-msgstr ""
+msgstr "(stap %1 van %2)"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Home"
-msgstr ""
+msgstr "Thuisadres"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Woonplaats"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Work"
-msgstr ""
+msgstr "Werkadres"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Work location"
-msgstr ""
+msgstr "Werkadres"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Main"
-msgstr ""
+msgstr "Hoofdkantoor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Plaats hoofdkantoor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Another location"
-msgstr ""
+msgstr "andere lokatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Kind van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Ouder van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Parent/child relationship."
-msgstr ""
+msgstr "Ouder /kind relatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Echtgeno(o)t(e) van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Spousal relationship."
-msgstr ""
+msgstr "Echtelijke relatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Kind van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sibling relationship."
-msgstr ""
+msgstr "Kind relatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Werknemer van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Werkgever van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employment relationship."
-msgstr ""
+msgstr "Werk relatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Vrijwilliger voor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Vrijwilliger is"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer relationship."
-msgstr ""
+msgstr "Vrijwilligers relatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Head of Household for"
-msgstr ""
+msgstr "Hoofd van de huishouding van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Head of Household is"
-msgstr ""
+msgstr "Het hoofd van de huishouding is"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Head of household."
-msgstr ""
+msgstr "Hoofd van de huishouding"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Household Member of"
-msgstr ""
+msgstr "Huisgenoot van"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Household Member is"
-msgstr ""
+msgstr "Huisgenoot is"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Household membership."
-msgstr ""
+msgstr "Deel van de huishouding"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Non-profit"
-msgstr ""
+msgstr "non-profit"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Any not-for-profit organization."
-msgstr ""
+msgstr "elke non-profit organisatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Company"
-msgstr ""
+msgstr "Bedrijf"
 
 #: xml/templates/civicrm_data.tpl
 msgid "For-profit organization."
-msgstr ""
+msgstr "commerciele organisatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "overheids instelling"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Any governmental entity."
-msgstr ""
+msgstr "elke overheids instelling"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Major Donor"
-msgstr ""
+msgstr "Hoofd sponsor"
 
 #: xml/templates/civicrm_data.tpl
 msgid "High-value supporter of our organization."
-msgstr ""
+msgstr "Hoog gewaardeerd supporter van onze organisatie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer"
-msgstr ""
+msgstr "Vrijwilliger"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "Actieve vrijwilligers"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
-msgstr ""
+msgstr "AOL Terms of Service klacht"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "De ontvanger is op vakantie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Niet in staat om het internet domain van de gebruiker te bepalen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Niet in staat om het bericht bij de mailserver van bestemming af te leveren."
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Het gebruikersaccount is niet langer actief."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Het emailadres is niet geldig"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
-msgstr ""
+msgstr "Fout in internet-routering van het emailbericht"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "De inbox van de gebruiker is vol."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Niet in staat om de mailserver van bestemming te bereiken."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Bericht is onderschept door een contentfilter."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
-msgstr ""
+msgstr "Fout in SMTP transactie"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Event"
-msgstr ""
+msgstr "Evenement"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Ms"
-msgstr ""
+msgstr "Mej."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mr"
-msgstr ""
+msgstr "Dhr."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Jr"
-msgstr ""
+msgstr "jr"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sr"
-msgstr ""
+msgstr "sr"
 
 #: xml/templates/civicrm_data.tpl
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Female"
@@ -9320,11 +9339,11 @@ msgstr "Transseksueel"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Donation"
-msgstr ""
+msgstr "Bijdrage"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Member Dues"
-msgstr ""
+msgstr "Inkomsten van leden"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Campaign Contribution"
@@ -9336,7 +9355,7 @@ msgstr "Creditcard"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Debit Card"
-msgstr ""
+msgstr "Debitcard"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Cash"

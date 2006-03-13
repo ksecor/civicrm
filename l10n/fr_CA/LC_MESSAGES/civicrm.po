@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-08 10:23+0100\n"
-"PO-Revision-Date: 2006-03-07 19:53+0100\n"
+"PO-Revision-Date: 2006-03-11 02:09+0100\n"
 "Last-Translator: Guillaume Grenier <moi@berlue.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -980,12 +980,12 @@ msgstr "Montant net"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Transaction ID"
-msgstr "Matricule de la transaction"
+msgstr "No de la transaction"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr "Matricule de la facture"
+msgstr "No de la facture"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Currency"
@@ -3447,30 +3447,28 @@ msgid "Contribute via PayPal"
 msgstr ""
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor"
-msgstr "Configurer"
+msgstr "Contributeur"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Dates - From"
-msgstr ""
+msgstr "Dates de contribution <br />de"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Valid"
-msgstr ""
+msgstr "Valide"
 
 #: CRM/Contribute/Form/Search.php
 msgid "All"
-msgstr ""
+msgstr "Toutes"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Status"
-msgstr ""
+msgstr "Statut de la contribution"
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Contribution(s): %1"
-msgstr "Total contacts selectionnes: %1"
+msgstr "Contribution(s) supprimée(s): %1"
 
 #: CRM/Contribute/Form/Task/Delete.php
 #, fuzzy
