@@ -43,7 +43,7 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
 {
     /**
      * The action links that we need to display for the browse screen
-     *
+.     *
      * @var array
      * @static
      */
@@ -126,10 +126,16 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
         $this->assign('gid' , $this->_gid );
+
+        if ($this->_gid) {
+            require_once 'CRM/Core/BAO/OptionGroup.php';
+            $groupTitle = CRM_Core_BAO_OptionGroup::getTitle($this->_gid);
+            CRM_Utils_System::setTitle(ts('%1 - Option Values', array(1 => $groupTitle)));
+        }
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
+            $this->edit($action, $id , null , false) ;
         } 
         // finally browse the  groups value
         $this->browse();

@@ -123,7 +123,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     }
     
     /**
-     * Function to delete Option Group 
+     * Function to delete Option Value 
      * 
      * @param  int  $optionGroupId     Id of the Option Group to be deleted.
      * 
@@ -134,7 +134,9 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
      */
     static function del($optionValueId) 
     {
-        
+        $optionValue =& new CRM_Core_DAO_OptionValue( );
+        $optionValue->id = $optionValueId;
+        $optionValue->delete();
     }
 }
 

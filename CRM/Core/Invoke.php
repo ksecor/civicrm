@@ -483,6 +483,15 @@ class CRM_Core_Invoke {
         case 'optionValue':
             require_once 'CRM/Admin/Page/OptionValue.php';
             $view =& new CRM_Admin_Page_OptionValue(ts('View Option Values'));
+            
+            $url  = CRM_Utils_System::url( 'civicrm/admin' );
+            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Administer CiviCRM') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            
+            $url  = CRM_Utils_System::url( 'civicrm/admin/optionGroup' );
+            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Options') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            
             break;
             
             

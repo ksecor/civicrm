@@ -133,8 +133,37 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      */
     static function del($optionGroupId) 
     {
+        // need to delete all option value field before deleting group 
+        require_once 'CRM/Core/DAO/OptionValue.php';
+        $optionValue =& new CRM_Core_DAO_OptionValue( );
+        $optionValue->option_group_id = $optionGroupId;
+        $optionValue->delete();
+
+        $optionGroup =& new CRM_Core_DAO_OptionGroup( );
+        $optionGroup->id = $optionGroupId;
+        $optionGroup->delete();
+    }
+
+    /**
+     * Function to get title of the option group 
+     * 
+     * @param  int  $optionGroupId     Id of the Option Group to be deleted.
+     * 
+     * @return String title
+     * 
+     * @access public
+     * @static
+     */
+
+    static function getTitle( $optionGroupId ) {
+        $optionGroup               =& new CRM_Core_DAO_OptionGroup( );
+        $optionGroup->id = $optionGroupId;
+        $optionGroup->find(true);
+        return $optionGroup->name;
         
     }
+  
+    
 }
 
 ?>

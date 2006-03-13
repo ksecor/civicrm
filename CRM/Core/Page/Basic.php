@@ -278,13 +278,15 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @param int $id - id of the entity (for update, view operations)
      * @return void
      */
-    function edit( $mode, $id = null , $imageUpload = false ) 
+    function edit( $mode, $id = null , $imageUpload = false , $pushUserContext = true) 
     {
         $controller =& new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode , $imageUpload );
 
        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
+        if( $pushUserContext ) {
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
+        }
         if ($id) {
             $controller->set( 'id'   , $id );
         }
