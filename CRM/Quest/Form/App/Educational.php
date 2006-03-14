@@ -72,22 +72,24 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
         $this->addCheckBox( 'educational_interest',
                             ts( 'Please select all of your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest' ),
-                            true );
+                            true, null );
 
         $this->addCheckBox( 'college_type',
                             ts( 'Please select the type(s) of college you are interested in attending' ),
                             CRM_Core_OptionGroup::values( 'college_type' ),
-                            false );
+                            false, null );
 
         $this->addCheckBox( 'college_interest',
                             ts( 'Please do some research on the following colleges. Select the ones that you are interested in attending. Schools in green are our current partner colleges. In parentheses, we indicate the state where college is located.' ),
                             CRM_Core_OptionGroup::values( 'college_interest' ),
-                            false );
+                            false, null );
         
         $this->addElement( 'textarea',
                            'college_interest_other',
                            ts( 'List any other colleges that you could see yourself attending. (List one per line)' ),
                            $attributes['college_interest_other'] );
+
+        parent::buildQuickForm( );
 
     }//end of function
     /**

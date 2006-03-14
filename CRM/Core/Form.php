@@ -548,12 +548,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addGroup( $choice, $id, $title );
     }
 
-    function addCheckBox( $id, $title, $values, $other, &$attributes ) {
+    function addCheckBox( $id, $title, $values, $other, $attributes ) {
         $options = array( );
         foreach ( $values as $key => $var ) {
             $options[] = HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
         }
-        $this->addGroup($options, $name, $title );
+        $this->addGroup($options, $id, $title );
 
         if ( $other ) {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
