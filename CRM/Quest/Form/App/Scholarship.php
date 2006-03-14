@@ -104,4 +104,3 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 }
 
 ?>
-

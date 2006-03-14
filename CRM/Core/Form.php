@@ -540,8 +540,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
     function addYesNo( $id, $title, $dontKnow = null ) {
         $choice = array( );
-        $choice[] = $qf->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
-        $choice[] = $qf->createElement( 'radio', null, '', ts( 'No' ) , '0' );
+        $choice[] = $this->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
+        $choice[] = $this->createElement( 'radio', null, '', ts( 'No' ) , '0' );
         if ( $dontKnow ) {
             $choice[] = $qf->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
         }

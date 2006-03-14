@@ -189,12 +189,6 @@
     <td class="grouplabel">
         {$form.birth_date.label}</td>
     <td>
-        {$form.birth_date.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.birth_date.label}</td>
-    <td>
         {$form.birth_date.html}
         <div class="description"> 
             {include file="CRM/common/calendar/desc.tpl"}
