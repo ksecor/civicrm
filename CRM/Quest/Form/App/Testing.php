@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
+class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 {
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -149,6 +149,16 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
     {
     }//end of function
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Testing Information');
+    }
 }
 
 ?>

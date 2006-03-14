@@ -90,6 +90,17 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
     }//end of function
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Household Income');
+    }
+
 }
 
 ?>

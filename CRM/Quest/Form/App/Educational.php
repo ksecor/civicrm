@@ -90,6 +90,16 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                            $attributes['college_interest_other'] );
 
     }//end of function
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Educational Interests');
+    }
 
 }
 

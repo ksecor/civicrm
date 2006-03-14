@@ -71,7 +71,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->addDefaultButtons(ts('Confirm Action'));        
+        $this->addDefaultButtons(ts('Save & Continue'));        
     }
 
        

@@ -92,7 +92,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
                           $attributes['gpa_explanation'] );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Honor');
-        for ( $int i = 1; $i <= 5; $i++ ) {
+        for ( $i = 1; $i <= 5; $i++ ) {
             $this->addElement('text', 'description_' . $i,
                               ts( 'Honors' ),
                               $attributes['description'] );
@@ -115,6 +115,17 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
     {
     }//end of function
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Academic Information');
+    }
+    
 }
 
 ?>
