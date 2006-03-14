@@ -70,7 +70,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
 
         // primary method to access internet
-        $this->addSelectOther('internet_access_',
+        $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
                               $attributes );
@@ -89,6 +89,8 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         $this->addSelect( 'study_method',
                           ts( 'If yes, how do you plan to study?' ) );
+
+        parent::buildQuickForm();
     }//end of function
 
     /**

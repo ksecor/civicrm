@@ -83,7 +83,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                           CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
         
         $this->buildAddressBlock( 1,
-                                  ts( 'Location' ) );
+                                  ts( 'Location' ),null );
 
         $this->addElement('textarea',
                           'note',
