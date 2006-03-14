@@ -75,6 +75,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
                           ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
                           $attributes['essay'] );
 
+
     }//end of function
 
 }

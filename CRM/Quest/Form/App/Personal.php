@@ -105,20 +105,15 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
 
         // citizenship status
-        $this->addElement('select', 'citizenship_status_id', ts( 'Your U.S. citizenship status' ),
-                          array('' => ts('- Select -')) + CRM_Core_OptionGroup::values('citizenship_status') );
+        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ) );
         
         // citizenship country
-        $this->addElement('select', 'citizenship_country_id', ts( 'Country of citizenship' ),
-                         array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country());
+        $this->addCountry('citizenship_country_id', ts( 'Country of citizenship' ) );
 
-        // ethnicity
-        $this->addElement('select', 'ethnicity_1_id', ts( 'Race/Ethnicity' ),
-                         array('' => ts('- Select -')) + CRM_Core_OptionGroup::values('ethnicity'));
-        // ethnicity
-        $this->addElement('select', 'ethnicity_2_id', ts( 'Race/Ethnicity' ),
-                          array('' => ts('- Select -')) + CRM_Core_OptionGroup::values('ethnicity'));
-        
+        // ethnicity 
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
+       
         $this->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $this->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
 
@@ -127,8 +122,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         // grow up area
-        $this->addElement('select', 'growup_country_id', ts( 'Where did you grow up' ),
-                         array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country());
+        $this->addCountry('growup_country_id', ts( 'Where did you grow up' ));
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 
@@ -136,8 +130,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $this->addElement('text', 'years_in_us', ts( 'Number of years in U.S.' ), $attributes['years_in_us'] );
 
         //Country of Heritage/Nationality
-        $this->addElement('select', 'nationality_country_id', ts( 'Country of Heritage/Nationality' ),
-                         array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country());
+        $this->addCountry( 'nationality_country_id', ts( 'Country of Heritage/Nationality' ));
 
         // first language
         $this->addElement('text', 'first_language', ts( 'First language(s)' ), $attributes['first_language'] );

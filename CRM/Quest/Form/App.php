@@ -105,6 +105,16 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                            );
     }
 
+    function addSelect( $id, $label, $prefix = null ) {
+        $this->addElement('select', $id . '_id' . $prefix, $label,
+                          array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+    }
+
+    function addCountry( $id, $title ) {
+        $this->addElement('select', $id, $title,
+                          array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country( ) );
+    }
+
     function addSelectOther( $id, $label, $options, &$attributes ) {
         $this->addElement('select', $id . 'id', $label, $options );
 

@@ -85,9 +85,9 @@
        <add>1.5</add>
   </field>
   <field>
-      <name>deceased_id</name>
-      <type>int unsigned</type>
-      <comment>Is this person deceased? FK to civicrm_option_value.</comment>
+      <name>is_deceased</name>
+      <type>boolean</type>
+      <comment>True / False / Dont Know</comment>
       <add>1.5</add>
   </field>
   <foreignKey>

@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
+class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 {
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -67,28 +67,39 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
 
-        // primary method to access internet
-        $this->addSelectOther('internet_access_',
-                              ts('What is your primary method of accessing the Internet?'),
-                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes );
+        $this->addElement( 'text', "first_name",
+                           ts('First Name'),
+                           $attributes['first_name'] );
+        $this->addElement( 'text', "last_name",
+                           ts('Last Name'),
+                           $attributes['last_name'] );
+        
+        $this->addSelect('relationship', ts( 'Relationship to you' ) );
 
-        // computer at home
-        $this->addYesNo( 'is_home_computer',
-                         ts( 'Do you have a computer at home?' ) );
+        $this->addElement( 'text', "age",
+                           ts('Age'),
+                           $attributes['age'] );
+        
+        $this->addRadio( 'lived_with_period_id',
+                         ts( 'How long have you lived with this person?' ),
+                         CRM_Core_OptionGroup::values( 'lived_with_period' ) );
+        $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
+                           $attributed['lived_with_from_age'] );
+        $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
+                           $attributed['lived_with_to_age'] );
 
-        // internat access at home
-        $this->addYesNo( 'is_home_internet',
-                         ts( 'If yes, do you have internet access at home?' ) );
-
-        // plan on taking SAT or ACT
-        $this->addYesNo( 'is_take_SAT_ACT',
-                         ts( 'Do you plan on taking the SAT or ACT?' ) );
-
-        $this->addSelect( 'study_method',
-                          ts( 'If yes, how do you plan to study?' ) );
+        $this->addSelect('current_school_level', ts('Year in school'));
+        $this->addElement( 'text', 'college_name', ts('College attending or attended (if any)'),
+                           $attributes['college_name'] );
+        $this->addElement( 'text', 'job_occupation',
+                           ts('Occupation/Job Title'),
+                           $attributes['job_occupation'] );
+        $this->addElement( 'textarea',
+                           'description',
+                           ts('Comments'),
+                           $attributes['description'] );
     }//end of function
 
 }

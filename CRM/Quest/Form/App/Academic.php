@@ -85,9 +85,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
                           null,
                           $attributes['class_num_students']  );
 
-        $this->addElement('select', 'class_rank_percent_id',
-                          ts( 'Percent class rank' ),
-                          array('' => ts('- Select -')) + CRM_Core_OptionGroup::values('class_rank_percent') );
+        $this->addSelect( 'class_rank_percent', ts( 'Percent class rank' ) );
 
         $this->addElement('textarea', 'gpa_explanation',
                           ts( 'Explain your GPA' ),

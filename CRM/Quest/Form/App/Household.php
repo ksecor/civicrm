@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
+class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 {
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -67,28 +67,40 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
 
-        // primary method to access internet
-        $this->addSelectOther('internet_access_',
-                              ts('What is your primary method of accessing the Internet?'),
-                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes );
+        for ( $i = 1; $i <= 2; $i++ ) {
+            $this->addElement( 'text',
+                               'member_count_' . $i,
+                               ts( 'How many people live with you in your current household?' ),
+                               $attributes['member_count'] );
 
-        // computer at home
-        $this->addYesNo( 'is_home_computer',
-                         ts( 'Do you have a computer at home?' ) );
+            for ( $j = 1; $j <= 2; $j++ ) {
+                $this->addSelect( 'select', "relationship",
+                                   ts( 'Relationship' ),
+                                  "_$i_$j" );
+                $this->addElement( 'text', "first_name_$i_$j",
+                                   ts('First Name'),
+                                   $attributes['first_name'] );
+                $this->addElement( 'text', "last_name_$i_$j",
+                                   ts('Last Name'),
+                                   $attributes['last_name'] );
 
-        // internat access at home
-        $this->addYesNo( 'is_home_internet',
-                         ts( 'If yes, do you have internet access at home?' ) );
+                if ( $i == 2 ) {
+                    $this->addElement( 'checkbox', "same_$i_$j", null, null );
+                }
+            }
 
-        // plan on taking SAT or ACT
-        $this->addYesNo( 'is_take_SAT_ACT',
-                         ts( 'Do you plan on taking the SAT or ACT?' ) );
+            $this->addSelect( "years_lived",
+                               ts( 'How long have you lived in this household?' ),
+                              "_$i" );
+        }
 
-        $this->addSelect( 'study_method',
-                          ts( 'If yes, how do you plan to study?' ) );
+        $this->addElement('textarea',
+                          'household_note',
+                          ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
+                          CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'household_note' ) );
+
     }//end of function
 
 }
