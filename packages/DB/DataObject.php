@@ -381,11 +381,13 @@ class DB_DataObject extends DB_DataObject_Overload
      * will set $object->N to number of rows, and expects next command to fetch rows
      * will return $object->N
      *
-     * @param   boolean $n Fetch first result
+     * @param   boolean $n       Fetch first result
+     * @param   string  $collate attach collation to find if any
+     *
      * @access  public
      * @return  mixed (number of rows returned, or true if numRows fetching is not supported)
      */
-    function find($n = false)
+    function find($n = false, $collate = null)
     {
         global $_DB_DATAOBJECT;
         if (!isset($this->_query)) {
@@ -423,7 +425,11 @@ class DB_DataObject extends DB_DataObject_Overload
             $this->_query['group_by']  . ' '.
             $this->_query['having']    . ' '.
             $this->_query['order_by']  . ' ';
-        
+
+        if ( $collate ) {
+            $sql .= " COLLATE $collate ";
+        }
+
         if ((!isset($_DB_DATAOBJECT['CONFIG']['db_driver'])) || 
             ($_DB_DATAOBJECT['CONFIG']['db_driver'] == 'DB')) {
             /* PEAR DB specific */

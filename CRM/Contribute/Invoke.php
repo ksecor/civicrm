@@ -101,10 +101,12 @@ class CRM_Contribute_Invoke {
             return;  
         }  
 
-        $session =& CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton( );
+        $config  =& CRM_Core_Config::singleton ( );
+
         if ( $args[2] == 'transact' ) { 
             if ( $config->enableSSL     &&
-                 self::onlySSL( $args ) ) {
+                 CRM_Core_Invoke::onlySSL( $args ) ) {
                 if ( !isset($_SERVER['HTTPS'] ) ) {
                     CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
                 } else {

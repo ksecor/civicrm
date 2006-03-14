@@ -412,7 +412,11 @@ class CRM_Core_DAO extends DB_DataObject {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->$fieldName = $value;
-        if ( $object->find( true ) ) {
+
+        $config  =& CRM_Core_Config::singleton( );
+        $collate =  ( $config->mysqlVersion >= 4.1 ) ? 'utf8_bin' : null;
+
+        if ( $object->find( true, $collate ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;
         } else {
             return true;
