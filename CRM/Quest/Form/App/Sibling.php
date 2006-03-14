@@ -100,6 +100,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            'description',
                            ts('Comments'),
                            $attributes['description'] );
+        parent::buildQuickForm();
     }//end of function
 
     /**

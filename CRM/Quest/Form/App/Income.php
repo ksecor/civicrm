@@ -87,6 +87,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                ts( 'Total 2005 income from this source' ),
                                $attributes['amount_1'] );
         }
+        parent::buildQuickForm();
             
     }//end of function
 

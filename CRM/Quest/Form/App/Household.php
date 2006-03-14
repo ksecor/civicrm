@@ -67,8 +67,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
-
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Household');
+        
         for ( $i = 1; $i <= 2; $i++ ) {
             $this->addElement( 'text',
                                'member_count_' . $i,
@@ -76,30 +76,32 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                $attributes['member_count'] );
 
             for ( $j = 1; $j <= 2; $j++ ) {
-                $this->addSelect( 'select', "relationship",
+                $this->addSelect( "relationship",
                                    ts( 'Relationship' ),
-                                  "_$i_$j" );
-                $this->addElement( 'text', "first_name_$i_$j",
+                                  "_".$i."_".$j );
+                $this->addElement( 'text', "first_name_".$i."_".$j,
                                    ts('First Name'),
                                    $attributes['first_name'] );
-                $this->addElement( 'text', "last_name_$i_$j",
+                $this->addElement( 'text', "last_name_".$i."_".$j,
                                    ts('Last Name'),
                                    $attributes['last_name'] );
 
                 if ( $i == 2 ) {
-                    $this->addElement( 'checkbox', "same_$i_$j", null, null );
+                    $this->addElement( 'checkbox', "same_".$i."_".$j, null, null );
                 }
             }
 
             $this->addSelect( "years_lived",
                                ts( 'How long have you lived in this household?' ),
-                              "_$i" );
+                              "_".$i );
         }
 
         $this->addElement('textarea',
                           'household_note',
                           ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
                           CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'household_note' ) );
+        
+        parent::buildQuickForm( );
 
     }//end of function
 

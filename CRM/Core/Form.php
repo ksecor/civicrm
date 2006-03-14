@@ -543,7 +543,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $choice[] = $this->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
         $choice[] = $this->createElement( 'radio', null, '', ts( 'No' ) , '0' );
         if ( $dontKnow ) {
-            $choice[] = $qf->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
+            $choice[] = $this->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
         }
         $this->addGroup( $choice, $id, $title );
     }

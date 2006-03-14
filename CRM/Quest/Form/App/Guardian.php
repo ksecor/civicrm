@@ -84,7 +84,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         
         $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), true );
 
-        $this->addElement( 'date', 'deceased_year date', 
+        $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
                            CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
         
@@ -134,6 +134,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            'description',
                            ts('If there are any extenuating circumstances, or details regarding your parent(s), guardian(s), or household situation that you would like to add or clarify, please do so here'),
                            $attributes['description'] );
+        parent::buildQuickForm();
     }//end of function
 
     /**

@@ -71,7 +71,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 
         $params = array( 'English'          => 1,
                          'Reading'          => 1,
-                         'Critical Reading' => 6,
+                         'CriticalReading'  => 6,
                          'Writing'          => 7,
                          'Math'             => 7,
                          'Science'          => 1,
@@ -134,8 +134,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->addCheckBox( 'test_tutoring',
                             ts( 'If yes, for which tests?' ),
                             CRM_Core_OptionGroup::values( 'test_tutoring' ),
-                            false );
-
+                            false ,null);
+     
         parent::buildQuickForm( );
     }
 
