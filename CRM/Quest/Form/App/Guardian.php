@@ -145,7 +145,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Parent/Guardian Detail');
+        return $this->_title ? $this->_title : ts('Parent/Guardian Detail');
     }
 
 }

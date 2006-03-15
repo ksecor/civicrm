@@ -54,18 +54,21 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_Quest_Form_App_Personal',
-                              'CRM_Quest_Form_App_Scholarship',
-                              'CRM_Quest_Form_App_Educational',
-                              'CRM_Quest_Form_App_Household',
-                              'CRM_Quest_Form_App_Guardian',
-                              'CRM_Quest_Form_App_Sibling',
-                              'CRM_Quest_Form_App_Income',
-                              'CRM_Quest_Form_App_HighSchool',
-                              'CRM_Quest_Form_App_SchoolOther',
-                              'CRM_Quest_Form_App_Academic',
-                              'CRM_Quest_Form_App_Testing',
-                              'CRM_Quest_Form_App_Essay',
+                              'CRM_Quest_Form_App_Personal'     => null,
+                              'CRM_Quest_Form_App_Scholarship'  => null,
+                              'CRM_Quest_Form_App_Educational'  => null,
+                              'CRM_Quest_Form_App_Household'    => null,
+                              'Mother' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                 'title'     => 'Mother Details' ),
+                              'Father' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                 'title'     => 'Father Details' ),
+                              'CRM_Quest_Form_App_Sibling'      => null,
+                              'CRM_Quest_Form_App_Income'       => null,
+                              'CRM_Quest_Form_App_HighSchool'   => null,
+                              'CRM_Quest_Form_App_SchoolOther'  => null,
+                              'CRM_Quest_Form_App_Academic'     => null,
+                              'CRM_Quest_Form_App_Testing'      => null,
+                              'CRM_Quest_Form_App_Essay'        => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );

@@ -60,6 +60,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     protected $_name;
 
     /**
+     * The title of this form
+     * @var string
+     */
+    protected $_title = null;
+
+
+    /**
      * The mode of operation for this form
      * @var int
      */
@@ -110,14 +117,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * of default convenient functions, rules and buttons
      *
      * @param object    $state     State associated with this form
-     * @param enum      $action      The mode the form is operating in (None/Create/View/Update/Delete)
+     * @param enum      $action    The mode the form is operating in (None/Create/View/Update/Delete)
+     * @param string    $method    The type of http method used (GET/POST)
+     * @param string    $name      The name of the form if different from class name
      * 
      * @return object
      * @access public
      */
 
-    function __construct($state = null, $action = CRM_Core_Action::NONE, $method = 'post' ) {
-        $this->_name  = CRM_Utils_String::getClassName(CRM_Utils_System::getClassName($this));
+    function __construct($state = null, $action = CRM_Core_Action::NONE, $method = 'post', $name = null ) {
+        if ( $name ) {
+            $this->_name  = $name;
+        } else {
+            $this->_name  = CRM_Utils_String::getClassName(CRM_Utils_System::getClassName($this));
+        }
         $this->HTML_QuickForm_Page( $this->_name, $method );
     
         $this->_state   = $state;
@@ -354,7 +367,19 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */     
     function getTitle( ) {
-        return 'ERROR: Title is not Set';
+        return $this->_title ? $this->_title : ts( 'ERROR: Title is not Set' );
+    }
+	
+    /**
+     * setter function for title.
+     *
+     * @param string $title the title of the form
+     *
+     * @return string
+     * @access public
+     */     
+    function setTitle( $title ) {
+        $this->_title = $title;
     }
 	
     /**

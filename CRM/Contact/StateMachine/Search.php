@@ -56,23 +56,23 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
 
         $this->_pages = array( );
         if ( $action == CRM_Core_Action::ADVANCED ) {
-            $this->_pages[] = 'CRM_Contact_Form_Search_Advanced';
+            $this->_pages['CRM_Contact_Form_Search_Advanced'] = null;
             list( $task, $result ) = $this->taskName( $controller, 'Advanced' );
         } else {
-            $this->_pages[] = 'CRM_Contact_Form_Search';
+            $this->_pages['CRM_Contact_Form_Search'] = null;
             list( $task, $result ) = $this->taskName( $controller, 'Search' );
         }
         $this->_task    = $task;
         if ( is_array( $task ) ) {
             foreach ( $task as $t ) {
-                $this->_pages[] = $t;
+                $this->_pages[$t] = null;
             }
         } else {
-            $this->_pages[] = $task;
+            $this->_pages[$task] = null;
         }
 
         if ( $result ) {
-            $this->_pages[] = 'CRM_Contact_Form_Task_Result';
+            $this->_pages['CRM_Contact_Form_Task_Result'] = null;
         }
 
         $this->addSequentialPages( $this->_pages, $action );
