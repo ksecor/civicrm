@@ -39,9 +39,33 @@
  *
  */
 class CRM_Core_OptionGroup {
-    static function values( ) {
-        return array( '1' => 'foo',
-                      '2' => 'bar' );
+    static $_values = array( );
+
+    static function &values( $name ) {
+
+        if ( ! CRM_Utils_Array::value( $name, self::$_values ) ) {
+            self::$_values[$name] = array( );
+
+            $domainID = CRM_Core_Config::domainID( );
+            $query = "
+SELECT v.name as name, v.title as title
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+  AND  g.domain_id       = $domainID
+  AND  g.name            = '$name'
+  AND  v.is_active       = 1 
+  AND  g.is_active       = 1 
+ORDER BY v.grouping, v.weight;
+";
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                self::$_values[$name][$dao->name] = $dao->title;
+            }
+        }
+
+        return self::$_values[$name];
     }
 }
 
