@@ -105,18 +105,39 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                            );
     }
 
-    function addSelect( $id, $label, $prefix = null ) {
-        $this->addElement('select', $id . '_id' . $prefix , $label,
-                          array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+    function addSelect( $id, $label, $prefix = null, $required = null ) {
+        if ($prefix) {
+            $this->addElement('select', $id . '_id' . $prefix , $label,
+                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+            if ( $required) {
+                $this->addRule($id . '_id' . $prefix, ts("Please select $label"),'required');
+            }
+        } else {
+            $this->addElement('select', $id , $label,
+                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+            if ( $required) {
+                $this->addRule($id , ts("Please select $label"),'required');
+            }
+
+        }
+        
     }
 
-    function addCountry( $id, $title ) {
+    function addCountry( $id, $title ,$required = null ) {
         $this->addElement('select', $id, $title,
                           array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country( ) );
+        if( $required ) {
+            $this->addRule($id , ts("Please select $title"),'required');
+        }
+
     }
 
-    function addSelectOther( $id, $label, $options, &$attributes ) {
+    function addSelectOther( $id, $label, $options, &$attributes ,$required = null) {
+        
         $this->addElement('select', $id , $label, $options );
+        if( $required ) {
+            $this->addRule($id,ts("Please select $label "),'required');
+        }
 
         $this->addElement( 'text', $id . 'other', $label, $attributes[$id . 'other'] );
     }
@@ -161,6 +182,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                                                                                   $phone,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              'phone'));
+             $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter value for $phone"),'required');
          }
 
          if ( $alternatePhone ) {
@@ -169,11 +191,14 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                                                                                   null,
                                                                                   CRM_Core_SelectValues::phoneType());
              
+             
              $location[$locationId]['phone'][2]['phone']      = $this->addElement('text',
                                                                                   "location[$locationId][phone][2][phone]", 
                                                                                   $phoneTitle,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                                                                             'phone'));
+          
+                                                                                                   'phone'));
+             $this->addRule("location[$locationId][phone][2][phone]",ts("Please Enter value for $alternatePhone"),'required');
          }
     }
 

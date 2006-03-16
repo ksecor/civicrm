@@ -75,7 +75,7 @@
 </tr>
 <tr>
     <td>
-        {$form.location.1.address.state.html}<br />
+        {$form.location.1.address.state_province_id.html}<br />
         {ts}State (required only for USA, Canada, and Mexico) {/ts}<span class="marker">*</span>
         </td>
 </tr>
@@ -87,8 +87,8 @@
 </tr>
 <tr>
     <td>
-        {$form.location.1.address.country.html}<br />
-        {$form.location.1.address.country.label}
+        {$form.location.1.address.country_id.html}<br />
+        {$form.location.1.address.country_id.label}
         </td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
 </tr>
 <tr>
     <td>
-        {$form.location.2.address.state.html}<br />
+        {$form.location.2.address.state_province_id.html}<br />
         {ts}State (required only for USA, Canada, and Mexico) <span class="marker">*</span>{/ts}
         </td>
 </tr>
@@ -138,8 +138,8 @@
 </tr>
 <tr>
     <td>
-        {$form.location.2.address.country.html}<br />
-        {$form.location.2.address.country.label}
+        {$form.location.2.address.country_id.html}<br />
+        {$form.location.2.address.country_id.label}
         </td>
 </tr>
 <tr>
@@ -210,9 +210,9 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.years_live_us.label}</td>
+        {$form.years_in_us.label}</td>
     <td>
-        {$form.years_live_us.html}</td>
+        {$form.years_in_us.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">

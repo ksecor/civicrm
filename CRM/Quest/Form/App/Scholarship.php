@@ -73,25 +73,39 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes );
+                              $attributes ,true);
 
         // computer at home
         $this->addYesNo( 'is_home_computer',
-                         ts( 'Do you have a computer at home?' ) );
+                         ts( 'Do you have a computer at home?' ),null,true );
 
         // internat access at home
         $this->addYesNo( 'is_home_internet',
-                         ts( 'If yes, do you have internet access at home?' ) );
+                         ts( 'If yes, do you have internet access at home?' ));
 
         // plan on taking SAT or ACT
         $this->addYesNo( 'is_take_SAT_ACT',
-                         ts( 'Do you plan on taking the SAT or ACT?' ) );
+                         ts( 'Do you plan on taking the SAT or ACT?' ) ,null,true);
 
         $this->addSelect( 'study_method',
-                          ts( 'If yes, how do you plan to study?' ) );
+                          ts( 'If yes, how do you plan to study?' ));
 
         parent::buildQuickForm();
     }//end of function
+
+     /**
+      * process the form after the input has been submitted and validated
+      *
+      * @access public
+      * @return void
+      */
+    public function postProcess() 
+    {
+        $params = $this->controller->exportValues( $this->_name );
+        $values = $this->controller->exportValues( 'Personal' );
+        
+    }//end of function
+
 
     /**
      * Return a descriptive name for the page, used in wizard header

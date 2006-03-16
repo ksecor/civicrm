@@ -71,13 +71,15 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         // first_name
         $this->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
-        
+        $this->addRule('first_name',ts('Please Eneter First Name'),'required');
+
         //middle_name
-        $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name'] );
+        $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name']);
         
         // last_name
-        $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
-        
+        $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name']);
+        $this->addRule('last_name',ts('Please Eneter  Last Name'),'required');
+
         // suffix
         $this->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
 
@@ -88,10 +90,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         // radio button for gender
         $this->addRadio( 'gender_id', ts('Gender'),
                          CRM_Core_PseudoConstant::gender() );
-
+        $this->addRule('gender_id',ts('Please Select Gender'),'required');
+        
         // email
         $this->addElement('text',
-                          "location[1][email][1][email]",
+                          "location[1][email][1][email]",ts('Email'),
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                      'email' ) );
         $this->addRule( "location[1][email][1][email]", ts('Email is not valid.'), 'email' );
@@ -105,17 +108,19 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
 
         // citizenship status
-        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ) );
+        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ));
         
         // citizenship country
-        $this->addCountry('citizenship_country_id', ts( 'Country of citizenship' ) );
-
+        $this->addCountry('citizenship_country_id', ts( 'Country of citizenship' ),true );
+       
         // ethnicity 
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
        
         $this->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
+        
         $this->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
+        $this->addRule('birth_date', ts("Please enter your Date of birth"),'required');
 
         $this->addRadio( 'home_area_id',
                          ts('Would you describe your home area as'),
@@ -128,9 +133,13 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         // years in US
         $this->addElement('text', 'years_in_us', ts( 'Number of years in U.S.' ), $attributes['years_in_us'] );
+        $this->addRule('years_in_us', ts("Please enter value for Number of years in U.S."),'required');
+        
+        $this->addElement('text', 'number_siblings', ts( 'Number of siblings ' ), $attributes['number_siblings'] );
+        $this->addRule('number_siblings', ts("Please enter Number of siblings "),'required');
 
         //Country of Heritage/Nationality
-        $this->addCountry( 'nationality_country_id', ts( 'Country of Heritage/Nationality' ));
+        $this->addCountry( 'nationality_country_id', ts( 'Country of Heritage/Nationality' ),true);
 
         // first language
         $this->addElement('text', 'first_language', ts( 'First language(s)' ), $attributes['first_language'] );
@@ -158,6 +167,9 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+      $params = $this->controller->exportValues( $this->_name );
+      
+        
     }//end of function
 
     /**

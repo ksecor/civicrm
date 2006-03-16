@@ -563,7 +563,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addGroup($options, $name, $title );
     }
 
-    function addYesNo( $id, $title, $dontKnow = null ) {
+    function addYesNo( $id, $title, $dontKnow = null ,$required = null) {
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
         $choice[] = $this->createElement( 'radio', null, '', ts( 'No' ) , '0' );
@@ -573,7 +573,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addGroup( $choice, $id, $title );
     }
 
-    function addCheckBox( $id, $title, $values, $other, $attributes ) {
+    function addCheckBox( $id, $title, $values, $other, $attributes ,$required = null) {
         $options = array( );
         foreach ( $values as $key => $var ) {
             $options[] = HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
@@ -583,8 +583,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if ( $other ) {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
         }
+        if ( $required ) {
+            $this->addRule($id,ts("$title"),'required');
+        }
     }
-
                           
 
 }
