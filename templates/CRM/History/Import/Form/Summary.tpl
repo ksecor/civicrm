@@ -14,7 +14,7 @@
         {ts count=$unMatchCount plural='CiviCRM has detected mismatched activity history IDs. These records have not been Updated.'}CiviCRM has detected mismatched activity history ID. This record have not been updated.{/ts}
         </p>
         <p class="error">
-        {ts 1=$downloadMismatchRecordsUrl}You can <a href="%1">Download Mismatched Activity Historys</a>. You may then correct them, and import the new file with the corrected data.{/ts}
+        {ts 1=$downloadMismatchRecordsUrl}You can <a href="%1">Download Mismatched Activity History records</a>. You may then correct them, and import the new file with the corrected data.{/ts}
         </p>
     {/if} 
    
@@ -67,9 +67,9 @@
     {if $unMatchCount }
     <tr class="error"><td class="label">{ts}Mismatched Rows (skipped){/ts}</td>
         <td class="data">{$unMatchCount}</td>
-        <td class="explanation">{ts}Rows with mismatched activity history IDs... (NOT updated).{/ts}
+        <td class="explanation">{ts}Rows with mismatched activity history IDs (NOT updated).{/ts}
             {if $unMatchCount}
-                <p><a href="{$downloadMismatchRecordsUrl}">{ts}Download Mismatched Activity Historys{/ts}</a></p>
+                <p><a href="{$downloadMismatchRecordsUrl}">{ts}Download Mismatched Activity History records{/ts}</a></p>
             {/if}
         </td>
     </tr>

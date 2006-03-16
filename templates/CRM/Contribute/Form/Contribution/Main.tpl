@@ -90,7 +90,7 @@ function clearAmountOther() {
 
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $config->paymentProcessor EQ 'PayPal_Express'}
-    <fieldset><legend>{ts}Checkout With PayPal{/ts}</legend>
+    <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}Click the PayPal button to continue.{/ts}</td></tr>
     <tr><td>{$form._qf_Main_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information.</span></td></tr>

@@ -32,7 +32,7 @@
 
 {if $selectPremium }
 ===========================================================
-{ts}Premium  Information{/ts}
+{ts}Premium Information{/ts}
 
 ===========================================================
 {$product_name}
