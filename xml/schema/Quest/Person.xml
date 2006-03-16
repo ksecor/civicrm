@@ -90,7 +90,6 @@
       <comment>True / False / Dont Know</comment>
       <add>1.5</add>
   </field>
-  </foreignKey>
   <field>
        <name>deceased_year</name>
        <type>date</type>
