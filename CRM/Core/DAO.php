@@ -414,9 +414,8 @@ class CRM_Core_DAO extends DB_DataObject {
         $object->$fieldName = $value;
 
         $config  =& CRM_Core_Config::singleton( );
-        $collate =  ( $config->mysqlVersion >= 4.1 ) ? 'utf8_bin' : null;
 
-        if ( $object->find( true, $collate ) ) {
+        if ( $object->find( true ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;
         } else {
             return true;
