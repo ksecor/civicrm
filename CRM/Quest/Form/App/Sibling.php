@@ -111,7 +111,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Sibling Information');
+        return $this->_title ? $this->_title : ts('Sibling Information');
     }
 }
 

@@ -16,6 +16,10 @@ In this section, our goal is to better understand your living situation over the
     <td colspan=2 id="category">{$wizard.title}</td>
 </tr>
 <tr>
+    <td class="grouplabel">{$form.sibling_count.label}</td>
+    <td>{$form.sibling_count.html}</td>
+</tr>
+<tr>
     <td class="grouplabel">{$form.member_count_1.label}</td>
     <td>{$form.member_count_1.html}</td>
 </tr>
@@ -28,12 +32,12 @@ Please list the primary caregiver(s) (parents, legal guardians, etc.) in this ho
 <td>Family Member</td><td>First Name</td><td>Last Name</td>
 </tr>
 <tr>
-    <td>{$form.relationship_1_1.html}</td>
+    <td>{$form.relationship_id_1_1.html}</td>
     <td class="grouplabel">{$form.first_name_1_1.html}</td>
     <td>{$form.last_name_1_1.html}</td>
 </tr>
 <tr>
-    <td>{$form.relationship_1_2.html}</td>
+    <td>{$form.relationship_id_1_2.html}</td>
     <td class="grouplabel">{$form.first_name_1_2.html}</td>
     <td>{$form.last_name_1_2.html}</td>
 </tr>
@@ -59,13 +63,13 @@ Please list the primary caregiver(s) (parents, legal guardians, etc.) in this ho
 </tr>
 <td>Family Member</td><td>First Name</td><td>Last Name</td><td>Same person as in current household above<tr>
 <tr>
-    <td>{$form.relationship_2_1.html}</td>
+    <td>{$form.relationship_id_2_1.html}</td>
     <td class="grouplabel">{$form.first_name_2_1.html}</td>
     <td>{$form.last_name_2_1.html}</td>
     <td>{$form.same_2_1.html}</td>
 </tr>
 <tr>
-    <td>{$form.relationship_2_2.html}</td>
+    <td>{$form.relationship_id_2_2.html}</td>
     <td class="grouplabel">{$form.first_name_2_2.html}</td>
     <td>{$form.last_name_2_2.html}</td>
     <td>{$form.same_2_2.html}</td>

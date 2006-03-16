@@ -68,11 +68,21 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Household');
-        
+
+        $this->addElement( 'text',
+                           'sibling_count',
+                           ts( 'How many total siblings do you have?' ),
+                           $attributes['sibling_count'] );
+
         for ( $i = 1; $i <= 2; $i++ ) {
+            if ( $i == 1 ) {
+                $title = ts( 'How many people live with you in your current household?' );
+            } else {
+                $title = ts( 'How many people lived with you in your previous household?' );
+            }
             $this->addElement( 'text',
                                'member_count_' . $i,
-                               ts( 'How many people live with you in your current household?' ),
+                               $title,
                                $attributes['member_count'] );
 
             for ( $j = 1; $j <= 2; $j++ ) {
@@ -116,6 +126,60 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         return ts('Household Information');
     }
 
+    /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess()  
+    { 
+        // get all the relevant details so we can decide the detailed information we need
+        $params  = $this->controller->exportValues( 'Household' );
+        $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+
+        $details = array( );
+        for ( $i = 1; $i <= 2; $i++ ) {
+            for ( $j = 1; $j <= 2; $j++ ) {
+                $this->getRelationshipDetail( $details, $relationship, $params, $i, $j );
+            }
+        }
+
+        // make sure we have a mother and father in there
+        if ( ! CRM_Utils_Array::value( 'Mother', $details ) ) {
+            $details['Mother'] = 'Mother Details';
+        }
+
+        if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
+            $details['Father'] = 'Father Details';
+        }
+
+        $this->set( 'householdDetails', $details );
+
+    }//end of function 
+
+    public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
+        $name = trim( 
+                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
+                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
+                     );
+        if ( ! $name ) {
+            return;
+        }
+
+        $relationshipName = CRM_Utils_Array::value( CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params ),
+                                                    $relationship );
+
+        if ( ! $relationshipName ) {
+            return;
+        }
+
+        if ( CRM_Utils_Array::value( "same_{$i}_{$j}", $params ) ) {
+            return;
+        }
+
+        $details[ $relationshipName ] = "$name Details";
+    }
 }
 
 ?>

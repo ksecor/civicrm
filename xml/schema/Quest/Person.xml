@@ -90,11 +90,6 @@
       <comment>True / False / Dont Know</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>deceased_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>1.5</add>
   </foreignKey>
   <field>
        <name>deceased_year</name>
