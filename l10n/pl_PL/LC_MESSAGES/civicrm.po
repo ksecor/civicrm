@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-10 15:26+0100\n"
-"PO-Revision-Date: 2006-03-10 15:27+0100\n"
+"POT-Creation-Date: 2006-03-16 13:32+0100\n"
+"PO-Revision-Date: 2006-03-16 13:34+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -319,7 +319,7 @@ msgid " is a numeric field"
 msgstr " jest polem numerycznym"
 
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/MobileProvider.php
-#: CRM/Admin/Form/Tag.php CRM/UF/Form/Group.php
+#: CRM/Admin/Form/Tag.php
 msgid "Please enter a valid name."
 msgstr "Wprowadź poprawną nazwę."
 
@@ -3605,7 +3605,8 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
-msgid "CIVICRM_PAYMENT_PROCESSOR is not set in the config file."
+#, fuzzy
+msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
 msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_PROCESSOR."
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -4772,7 +4773,8 @@ msgid "Form Type"
 msgstr "Rodzaj formularza"
 
 #: CRM/Core/DAO/UFGroup.php
-msgid "Post URL"
+#, fuzzy
+msgid "Post Url"
 msgstr "URL strony docelowej"
 
 #: CRM/Core/DAO/Validation.php
@@ -5237,6 +5239,11 @@ msgstr "Etykieta opcji"
 #: CRM/Custom/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
 msgstr "Wartość opcji"
+
+#: CRM/Custom/Form/Option.php
+#, fuzzy
+msgid "Please enter a valid value for this field."
+msgstr "Wprowadź poprawną kwotę (np. 99.99)."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
@@ -6034,7 +6041,7 @@ msgstr ""
 "Wprowadź poprawny tytuł tego pola, gdy będzie wyświetlane w spisach "
 "użytkowników."
 
-#: CRM/UF/Form/Field.php
+#: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "Searchable?"
 msgstr "Przeszukiwalne?"
 
@@ -7045,15 +7052,16 @@ msgid "Click to select date/time from calendar."
 msgstr "Kliknij, by wybrać datę/czas z kalendarza."
 
 #: templates/CRM/common/feedback.tpl
-#, fuzzy
 msgid ""
-"Powered by CiviCRM %1 Rev %2. CiviCRM is openly available under the <a href="
+"Powered by CiviCRM %1 rev%2. CiviCRM is openly available under the <a href="
 "\"%3\">Affero General Public License (AGPL)</a>. Download source <a href=\"%4"
 "\">here</a>. View issues and report bugs <a href=\"%5\">here</a>."
 msgstr ""
-"CiviCRM jest dostępny dla każdej osoby lub organizacji zgodnie z zasadami <a "
-"href=\"%1\">Affero General Public License (AGPL)</a>. Kod źródłowy można "
-"pobrać z naszej <a href=\"%2\">strony WWW</a>."
+"Zasilanie: CiviCRM %1 rev%2. CiviCRM jest ogólnie dostępny zgodnie z "
+"zasadami <a href=\"%3\">Affero General Public License (AGPL)</a>. Kod "
+"źródłowy można pobrać z naszej <a href=\"%4\">strony WWW</a>. Prosimy o "
+"zgłaszanie uwag i problemów w naszym <a href=\"%5\">systemie śledzenia "
+"błędów</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -7510,8 +7518,11 @@ msgstr "Odbiorcy"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #, fuzzy
-msgid "Email will NOT be sent to %1 contacts."
-msgstr "Liczba emaili wysłanych do kontaktów: %1"
+msgid "Email will NOT be sent to %count contact."
+msgid_plural "Email will NOT be sent to %count contacts."
+msgstr[0] "Liczba emaili wysłanych do kontaktów: %1"
+msgstr[1] "Liczba emaili wysłanych do kontaktów: %1"
+msgstr[2] "Liczba emaili wysłanych do kontaktów: %1"
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -7620,9 +7631,8 @@ msgid "Remove Members"
 msgstr "Usuń członków"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromTag.tpl
-#, fuzzy
 msgid "Tag Contact(s) (Remove)"
-msgstr "Skategoryzuj kontakt(y)"
+msgstr "Skategoryzuj kontakt(y) (Usuń)"
 
 #: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
@@ -8155,9 +8165,8 @@ msgstr ""
 "rachunkowe tej karty."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#, fuzzy
-msgid "Checkout With PayPal"
-msgstr "Dotacje przez PayPal"
+msgid "Checkout with PayPal"
+msgstr "Checkout z PayPalem"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Click the PayPal button to continue."
@@ -8592,8 +8601,10 @@ msgid "Transaction #"
 msgstr "Nr transakcji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution.tpl
+#: templates/CRM/Contribute/Form/ContributionView.tpl
 #, fuzzy
-msgid "Premium  Information"
+msgid "Premium Information"
 msgstr "Informacje o dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -8708,12 +8719,6 @@ msgstr "Data wysłania ofiarodawcy podziękowania."
 msgid "To mark a contribution as cancelled, enter the cancellation date here."
 msgstr "Podaj datę anulowania by zaznaczyć dotację jako anulowaną."
 
-#: templates/CRM/Contribute/Form/Contribution.tpl
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
-msgid "Premium Information"
-msgstr "Informacje o dotacji"
-
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "New Contribution Type"
@@ -8745,9 +8750,8 @@ msgid "pending"
 msgstr "oczekuje"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Option"
-msgstr "Operacja"
+msgstr "Opcja"
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
@@ -8801,19 +8805,17 @@ msgstr "Usuń grupę profilu"
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #, fuzzy
 msgid ""
-"Are you sure you want to delete this premium. This action cannot be undone. "
+"Are you sure you want to delete this premium? This action cannot be undone. "
 "This will also remove the premium from any contribution pages that currently "
-"include it.?"
+"include it."
 msgstr ""
 "Na pewno usunąć wybrane dotacje? Tej operacji nie można cofnąć, a spowoduje "
 "ona usunięcie wszystkich transakcji i historii zdarzeń powiązanych z tą "
 "dotacją."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Name of the product as it will be displayed to contributors."
-msgstr ""
-"Podgląd pola w wersji, która będzie wyświetlana podczas edycji kontaktu."
+msgstr "Nazwa produktu w postaci, w której będzie wyświetlana ofiarodawcom."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8870,9 +8872,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Subscription, Membership or Service Settings"
-msgstr "Wiadomość zapisująca do organizacji"
+msgstr "Subskrypcja, Przynależność lub Ustawienia usługi"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8915,14 +8916,12 @@ msgstr ""
 "używających tej opcji."
 
 #: templates/CRM/Contribute/Form/Search/Common.tpl
-#, fuzzy
 msgid "Receipt not sent?"
-msgstr "Nie ustawiono daty pokwitowania?"
+msgstr "Nie wysłano pokwitowania?"
 
 #: templates/CRM/Contribute/Form/Search/Common.tpl
-#, fuzzy
 msgid "Thank-you not sent?"
-msgstr "Nie ustawiono daty podziękowania?"
+msgstr "Nie wysłano podziękowania?"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
@@ -9745,9 +9744,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Min Contribution"
-msgstr "Szukanie dotacji"
+msgstr "Dotacja minimalna"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #, fuzzy
@@ -9950,7 +9948,7 @@ msgid ""
 "when the page is initially loaded (fields are hidden)."
 msgstr ""
 "Zaznacz tę opcję, jeśli po załadowaniu formularza ma być wyświetlany tylko "
-"tytuł grupy pól, (same pola zostaną ukryte)."
+"tytuł grupy pól (same pola zostaną ukryte)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of this group of fields."
@@ -10016,19 +10014,17 @@ msgid "Make this option value 'selected' by default?"
 msgstr "Czy ta opcja ma być domyślnie wybrana?"
 
 #: templates/CRM/Custom/Form/Preview.tpl
-#, fuzzy
 msgid ""
 "Preview of the custom data group (fieldset) as it will be displayed within "
 "an edit form."
 msgstr ""
-"Podgląd pól danych dodatkowych w wersji, która będzie wyświetlana podczas "
-"edycji kontaktu."
+"Podgląd pól danych dodatkowych (grupy pól) w postaci, która będzie "
+"wyświetlana podczas edycji kontaktu."
 
 #: templates/CRM/Custom/Form/Preview.tpl
-#, fuzzy
 msgid "Preview of this field as it will be displayed in an edit form."
 msgstr ""
-"Podgląd pola w wersji, która będzie wyświetlana podczas edycji kontaktu."
+"Podgląd pola w postaci, która będzie wyświetlana podczas edycji kontaktu."
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Req?"
@@ -10169,9 +10165,8 @@ msgstr ""
 "wybierz „Publiczne strony użytkowników i spisy”."
 
 #: templates/CRM/Group/Form/Edit.tpl
-#, fuzzy
 msgid "Edit Smart Group Criteria"
-msgstr "Edytuj kryteria sprytnej grupy %1"
+msgstr "Edytuj kryteria sprytnej grupy"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
@@ -10200,15 +10195,12 @@ msgstr ""
 "strong>) i dodanie elementu <strong>Grupy</strong> do profilu CiviCRM."
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "No Groups have been created for this site."
-msgstr ""
-"Nie utworzono jeszcze żadnych grup. <a href=\"%1\">Można to zrobić tu</a>."
+msgstr "Nie utworzono jeszcze żadnych grup dla tej strony."
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "You can <a href=\"%1\">add one</a> now."
-msgstr "Nie wprowadzono żadnych płci. <a href=\"%1\">Możesz je dodać</a>."
+msgstr "<a href=\"%1\">Możesz je dodać</a>."
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "New Activity History"
@@ -10226,12 +10218,10 @@ msgstr "Na pewno usunąć historię zdarzenia z %2 rodzaju „%1” z opisem „
 
 #: templates/CRM/History/Import/Form/Preview.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total rows (activity history records) in uploaded file."
-msgstr "Suma wierszy (wpisów z dotacjami) w pliku."
+msgstr "Suma wierszy (wpisów historii zdarzeń) w pliku."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched activity history ID. This record have not "
 "been updated."
@@ -10240,26 +10230,25 @@ msgid_plural ""
 "been Updated."
 msgstr[0] ""
 "CiviCRM wykrył błędny identyfikator dotacji. Ten wpis nie został "
-"zaimportowany."
+"zaktualizowany."
 msgstr[1] ""
 "CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
-"zaimportowane."
+"zaktualizowane."
 msgstr[2] ""
 "CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
-"zaimportowane."
+"zaktualizowane."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Activity Historys</a>. You may "
-"then correct them, and import the new file with the corrected data."
+"You can <a href=\"%1\">Download Mismatched Activity History records</a>. You "
+"may then correct them, and import the new file with the corrected data."
 msgstr ""
 "Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij błędy</"
 "a>. Możesz je następnie poprawić i zaimportować nowy plik z poprawionymi "
 "danymi."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing activity history records. This record have "
@@ -10270,61 +10259,60 @@ msgid_plural ""
 "records have not been imported."
 msgstr[0] ""
 "CiviCRM wykrył jeden wpis z identyfikatorem transakcji kolidującym w obrębie "
-"tego pliku lub w stosunku do istniejących dotacji. Ten wpis nie został "
-"zaimportowany."
+"tego pliku lub w stosunku do istniejących wpisów historii zdarzeń. Ten wpis "
+"nie został zaimportowany."
 msgstr[1] ""
 "CiviCRM wykrył %1 wpisy z identyfikatorami transakcji kolidującymi w obrębie "
-"tego pliku lub w stosunku do istniejących dotacji. Te wpisy nie zostały "
-"zaimportowane."
+"tego pliku lub w stosunku do istniejących wpisów historii zdarzeń. Te wpisy "
+"nie zostały zaimportowane."
 msgstr[2] ""
 "CiviCRM wykrył %1 wpisów z identyfikatorami transakcji kolidującymi w "
-"obrębie tego pliku lub w stosunku do istniejących dotacji. Te wpisy nie "
-"zostały zaimportowane."
+"obrębie tego pliku lub w stosunku do istniejących wpisów historii zdarzeń. "
+"Te wpisy nie zostały zaimportowane."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "activity history record."
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "activity history records."
-msgstr[0] "CiviCRM wykrył jeden wpis, który jest kopią istniejącej dotacji."
-msgstr[1] "CiviCRM wykrył %count wpisy, które są kopią istniejących dotacji."
-msgstr[2] "CiviCRM wykrył %count wpisów, które są kopią istniejących dotacji."
+msgstr[0] ""
+"CiviCRM wykrył jeden wpis, który jest kopią istniejącej historii zdarzeń."
+msgstr[1] ""
+"CiviCRM wykrył %count wpisy, które są kopią istniejących historii zdarzeń."
+msgstr[2] ""
+"CiviCRM wykrył %count wpisów, które są kopią istniejących historii zdarzeń."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid "Rows with mismatched activity history IDs (NOT updated)."
+msgstr ""
+"Wiersze z błędnymi identyfikatorami historii zdarzeń (NIE uaktualnione)."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 #, fuzzy
-msgid "Rows with mismatched activity history IDs... (NOT updated)."
-msgstr "Wiersze z błędnymi identyfikatorami dotacji (NIE uaktualnione)."
-
-#: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
-msgid "Download Mismatched Activity Historys"
+msgid "Download Mismatched Activity History records"
 msgstr "Ściągnij błędne dotacje"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM activity history records."
-msgstr "Wiersze z dotacjami istniejącymi już w CiviCRM."
+msgstr "Wiersze z wpisami historii zdarzeń istniejącymi już w CiviCRM."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "The Activity History Import Wizard allows you to easily upload activity "
 "history from other applications into CiviCRM."
 msgstr ""
-"Kreator importu dotacji pozwala na łatwe wgranie do CiviCRM-a dotacji z "
-"innego programu."
+"Kreator importu historii zdarzeń pozwala na łatwe wgranie do CiviCRM-a "
+"historii zdarzeń z innego programu."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
-"(Example: \"Contact ID\", \"Activity Type\" ,\"Activity Date \")."
+"(Example: \"Contact ID\", \"Activity Type\", \"Activity Date\")."
 msgstr ""
 "Zaznacz to pole, jeśli pierwszy wiersz pliku składa się z nazw pól "
-"(przykład: „Id kontaktu”, „Kwota”)."
+"(przykład: „Id kontaktu”, „Rodzaj zdarzenia”, „Data zdarzenia”)."
 
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "No activity history for this contact."
@@ -10366,9 +10354,8 @@ msgstr ""
 "pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Import/Form/Preview.tpl
-#, fuzzy
 msgid "Tag imported contact(s)"
-msgstr "Skategoryzuj kontakt(y)"
+msgstr "Skategoryzuj zaimportowane kontakt(y)"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -10499,17 +10486,15 @@ msgstr[1] "%count kontakty NIE dodane (już należą do tej grupy)."
 msgstr[2] "%count kontaktów NIE dodanych (już należą do tej grupy)."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Tagged imported contacts"
-msgstr "Import kontaktów"
+msgstr "Skategoryzowane zaimportowane konakty"
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
-msgid "One contact is tagged with this tag.."
+msgid "One contact is tagged with this tag."
 msgid_plural "%count contacts are tagged with this tag."
-msgstr[0] "Jeden kontakt dodany do nowej grupy."
-msgstr[1] "%count kontakty dodane do nowej grupy."
-msgstr[2] "%count kontaktów dodanych do nowej grupy."
+msgstr[0] "W tej kategorii jest jeden kontakt."
+msgstr[1] "W tej kategorii są %count kontakty."
+msgstr[2] "W tej kategorii jest %count kontaktów."
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
@@ -10946,12 +10931,27 @@ msgstr ""
 "liczby będą wyświetlane przed wyższymi."
 
 #: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"Select a Group if are using the profile for search and listings, AND you "
+"want to limit the listings to members of a specific group."
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the fieldset."
 msgstr "Pomocniczy tekst wyświetlany na początku zestawu pól."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the end of the fieldset."
 msgstr "Pomocniczy tekst wyświetlany na końcu zestawu pól."
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"If you are using this profile as a contact signup or edit form, and want to "
+"redirect the user to a static\n"
+"        URL after they've submitted the form - enter the complete URL here. "
+"If this field is left blank, the profile form will be redisplayed with a\n"
+"        generic status message - \"Your contact information has been saved.\""
+msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
@@ -11426,6 +11426,10 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
+
+#, fuzzy
+#~ msgid "Premium  Information"
+#~ msgstr "Informacje o dotacji"
 
 #~ msgid "Process Mailing Queue"
 #~ msgstr "Przetwarzaj kolejkę wysyłki"
