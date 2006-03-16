@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-16 13:32+0100\n"
-"PO-Revision-Date: 2006-03-16 13:34+0100\n"
+"PO-Revision-Date: 2006-03-16 16:23+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -1279,9 +1279,8 @@ msgstr "Notatki"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Premium"
-msgstr "Poprzedni"
+msgstr "Dodatek"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
@@ -1451,9 +1450,8 @@ msgid "Payment Instruments"
 msgstr "Rodzaje płatności"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Manage Premiums"
-msgstr "Zarządzanie grupami"
+msgstr "Zarządzanie dodatkami"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php CRM/Core/DAO/Mapping.php
 msgid "Import Contributions"
@@ -1470,19 +1468,16 @@ msgstr "Usuń pole dodatkowe"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Edit Premium"
-msgstr "Edytuj grupę"
+msgstr "Edytuj dodatek"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Preview Premium"
-msgstr "Podejrzyj pole formularza"
+msgstr "Podejrzyj dodatek"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Disable Premium"
-msgstr "Wyłącz grupę"
+msgstr "Wyłącz dodatek"
 
 #: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
 msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
@@ -3520,24 +3515,20 @@ msgid "Title for Premiums section"
 msgstr ""
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Intro Text"
-msgstr "Tekst wprowadzający"
+msgstr "Tekst wprowadzający dodatków"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "Wydrukuj listę kontaktów"
+msgstr "Dodatki – email kontaktowy"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "Wydrukuj listę kontaktów"
+msgstr "Dodatki – telefon kontaktowy"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "Dotacja w ramach kampanii"
+msgstr "Dodatki – wyświetlanie min. dotacji"
 
 #: CRM/Contribute/DAO/PremiumsProduct.php
 msgid "Sort Position"
@@ -3605,9 +3596,8 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_PROCESSOR."
+msgstr "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -3713,9 +3703,8 @@ msgid "Please enter integer value for weight"
 msgstr "Wprowadź liczbę całkowitą dla wagi"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#, fuzzy
 msgid "Add Premium to Contribution Page"
-msgstr "Nowa strona dotacji"
+msgstr "Dodaj dodatek do strony dotacji"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow Other Amounts?"
@@ -3790,9 +3779,8 @@ msgid "Display Minimum Contribution Amount?"
 msgstr "Wyświetlać minimalną kwotę dotacji?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Configure Premiums"
-msgstr "Konfiguracja %1"
+msgstr "Konfiguruj dodatki"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Footer Message"
@@ -3957,9 +3945,8 @@ msgid "Premium Image"
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please select an option for the premium image."
-msgstr "Wybierz grupę, do wysyłki."
+msgstr "Wybierz opcję obrazka dodatku."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Image URL"
@@ -4000,9 +3987,8 @@ msgid "Frequency"
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Selected Premium Product type has been deleted."
-msgstr "Wybrany rodzaj lokalizacji został usunięty."
+msgstr "Wybrany rodzaj produktu dodatkowego został usunięty."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid ""
@@ -4014,9 +4000,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "The Premium Product  \"%1\" has been saved."
-msgstr "Karta kredytowa „%1” została zapisana."
+msgstr "Produkt dodatkowy „%1” został zapisany."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 msgid "Please enter a valid Payment Instrument name."
@@ -4192,14 +4177,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Page/ManagePremiums.php
-#, fuzzy
 msgid "Enable Premium"
-msgstr "Włącz grupę"
+msgstr "Włącz dodatek"
 
 #: CRM/Contribute/Page/ManagePremiums.php
-#, fuzzy
 msgid "Delete Premium"
-msgstr "Usuń grupę"
+msgstr "Usuń dodatek"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Are you sure you want to disable this Payment Instrument?"
@@ -5241,9 +5224,8 @@ msgid "Option Value"
 msgstr "Wartość opcji"
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid value for this field."
-msgstr "Wprowadź poprawną kwotę (np. 99.99)."
+msgstr "Wprowadź poprawną kwotę dla tego pola."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
@@ -7517,12 +7499,11 @@ msgid "Recipient(s)"
 msgstr "Odbiorcy"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
-#, fuzzy
 msgid "Email will NOT be sent to %count contact."
 msgid_plural "Email will NOT be sent to %count contacts."
-msgstr[0] "Liczba emaili wysłanych do kontaktów: %1"
-msgstr[1] "Liczba emaili wysłanych do kontaktów: %1"
-msgstr[2] "Liczba emaili wysłanych do kontaktów: %1"
+msgstr[0] "Email nie zostanie wysłany do %count kontaktu."
+msgstr[1] "Email nie zostanie wysłany do %count kontaktów."
+msgstr[2] "Email nie zostanie wysłany do %count kontaktów."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -8179,13 +8160,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Use this form to select a premium to be offered on this Online Contribution "
 "Page."
 msgstr ""
-"Użyj tego formularza do ustawienia nazwy, opisu i innych rzeczy dotyczących "
-"własnej strony dotacji."
+"Użyj tego formularza do wybrania dodatku, który ma być oferowany na tej stronie dodatcji on-line."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to this Page"
@@ -8196,11 +8175,10 @@ msgid "Remove Products from this Page"
 msgstr "Usuń produkty z tej strony"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to remove this premium product from this Contribution "
-"page ?"
-msgstr "Na pewno usunąć tę stronę dotacji?"
+"page?"
+msgstr "Na pewno usunąć ten produkt dodatkowy z tej strony dotacji?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
