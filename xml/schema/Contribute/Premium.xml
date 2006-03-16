@@ -49,7 +49,7 @@
   <field>   
       <name>premiums_intro_text</name>   
       <type>text</type>   
-      <comment>Displayed in &lt;div &gt; at top of Premiums section of page. Text and html allowed.</comment>   
+      <comment>Displayed in &lt;div&gt; at top of Premiums section of page. Text and HTML allowed.</comment>   
       <add>1.4</add>   
   </field>     
    <field> 
