@@ -86,6 +86,5 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
         $customField = & crm_update_custom_field($paramsF, $this->customField);
         $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
-    
 }
 ?>

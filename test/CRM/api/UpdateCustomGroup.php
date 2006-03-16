@@ -19,11 +19,11 @@ class TestOfUpdateCustomGroupAPI extends UnitTestCase
                         'name'  => 'test_group_1',
                         'weight' => 4,
                         'collapse_display' => 1,
-                        'style' => 'Tab',
+                        'style' => 'Inline',
                         'help_pre' => 'This is Pre Help For Test Group 1',
                         'help_post' => 'This is Post Help For Test Group 1'
                         );
-        $class_name = 'Individual';
+        $class_name = 'Activity';
         $this->customGroup =& crm_create_custom_group($class_name, $params);
         $this->assertIsA($this->customGroup, 'CRM_Core_BAO_CustomGroup');
     }
@@ -68,11 +68,11 @@ class TestOfUpdateCustomGroupAPI extends UnitTestCase
     function testUpdateCustomGroupWithDomainID()
     {
         $params = array(
-                        'domain_id' => 2,
+                        'domain_id' => 1,
                         'weight' => 4,
                         'collapse_display' => 0,
-                        'help_pre' => 'This is Pre Help For Test Group 1..Edit',
-                        'help_post' => 'This is Post Help For Test Group 1..Edit'
+                        'help_pre' => 'This is Pre Help For Test Group 2..Edit',
+                        'help_post' => 'This is Post Help For Test Group 2..Edit'
                         );
         $updatedCustomGroup =& crm_update_custom_group($params, $this->customGroup);
         $this->assertIsA($updatedCustomGroup, 'CRM_Core_BAO_CustomGroup');
