@@ -54,9 +54,9 @@ class CRM_Contribute_StateMachine_Contribution extends CRM_Core_StateMachine {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_Contribute_Form_Contribution_Main',
-                              'CRM_Contribute_Form_Contribution_Confirm',
-                              'CRM_Contribute_Form_Contribution_ThankYou',
+                              'CRM_Contribute_Form_Contribution_Main' => null,
+                              'CRM_Contribute_Form_Contribution_Confirm' => null,
+                              'CRM_Contribute_Form_Contribution_ThankYou' => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );
