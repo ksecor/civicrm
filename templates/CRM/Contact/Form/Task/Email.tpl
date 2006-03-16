@@ -24,7 +24,7 @@
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
 {/if}
 {if $suppressedEmails > 0}
-    <dt></dt><dd>{ts 1=$suppressedEmails}Email will NOT be sent to %1 contacts.{/ts}</dd>
+    <dt></dt><dd>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts.'}Email will NOT be sent to %count contact.{/ts}</dd>
 {/if}
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>

@@ -242,7 +242,7 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
 function crm_create_custom_group($class_name, $params)
 {
     _crm_initialize( );
-    if(! isset ($class_name) ) {
+    if(! trim($class_name) ) {
         return _crm_error( "class_name is not set" );
     }
     

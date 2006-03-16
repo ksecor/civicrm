@@ -24,7 +24,7 @@
         <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Activity Type" ,"Activity Date ").{/ts}
+            {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Activity Type", "Activity Date").{/ts}
         </dd>
         {include file="CRM/Core/Date.tpl"}
     </dl>

@@ -33,8 +33,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'is_active' => 1
                          );
         $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
-        
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldI()
@@ -63,8 +62,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_post'=> 'Post Help For Tes Field 1 for Group 2'
                          );
         $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
-        
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldH()
@@ -93,7 +91,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 3',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 3'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
         $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
     
@@ -120,7 +118,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Tes Field 1 for Group 4',
                          'help_post'=> 'Post Help For Tes Field 1 for Group 4'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
         $this->assertIsA($customField, 'CRM_Core_Error');
     }
     
@@ -139,7 +137,7 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
         $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
         
         $paramsF = array();
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
         $this->assertIsA($customField, 'CRM_Core_Error');
     }
     
@@ -169,8 +167,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 6',
                          'help_post'=> 'Post Help For Test Field 1 for Group 6'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldPC()
@@ -199,8 +197,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 7',
                          'help_post'=> 'Post Help For Test Field 1 for Group 7'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
     
     function testCreateCustomFieldM()
@@ -229,8 +227,8 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
                          'help_pre' => 'Pre Help For Test Field 1 for Group 8',
                          'help_post'=> 'Post Help For Test Field 1 for Group 8'
                          );
-        $customField = & crm_create_custom_field($customGroup, $paramsF);
-        $this->assertIsA($customGroup, 'CRM_Core_BAO_CustomGroup');
+        $customField =& crm_create_custom_field($customGroup, $paramsF);
+        $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
     }
 }
 ?>

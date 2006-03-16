@@ -43,8 +43,8 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
                           'help_post'=> 'Post Help For Test Field 1 for Group 2',
                           'weight' => 3
                           );
-        $customField1 = & crm_create_custom_field($customGroup, $paramsF1);
-        $this->assertIsA($customField1, 'CRM_Core_BAO_CustomField');
+        $this->customField1 = & crm_create_custom_field($customGroup, $paramsF1);
+        $this->assertIsA($this->customField1, 'CRM_Core_BAO_CustomField');
         
         $paramsF2 = array('label' => 'Test Field 2 for Group 1',
                           'name'  => 'test_field_2_group_1',
@@ -57,60 +57,60 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
                           'weight' => 4,
                           'options_per_line' => 2
                           );
-        $customField2 = & crm_create_custom_field($customGroup, $paramsF2);
-        $this->assertIsA($customField2, 'CRM_Core_BAO_CustomField');
+        $this->customField2 = & crm_create_custom_field($customGroup, $paramsF2);
+        $this->assertIsA($this->customField2, 'CRM_Core_BAO_CustomField');
         
         $paramsOption1 = array('value' => 'hello 1',
                                'label' => 'Option 1 Field 2 Group 1',
                                'is_active' => 1,
                                'weight' => 1
                                );
-        $option1 =& crm_create_option_value($paramsOption1, $customField2); 
+        $option1 =& crm_create_option_value($paramsOption1, $this->customField2); 
         $this->assertIsA($option1, 'CRM_Core_BAO_CustomOption');
         $this->option1Group1 = $option1;
         
         $paramsOption2 = array('value' => 'hello 2',
                                'label' => 'Option 2 Field 2 Group 1',
                                'is_active' => 1,
-                               'weight' => 3
+                               'weight' => 2
                                );
-        $option2 =& crm_create_option_value($paramsOption2, $customField2); 
+        $option2 =& crm_create_option_value($paramsOption2, $this->customField2); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
         $this->option2Group1 = $option2;
         
         $paramsOption3 = array('value' => 'hello 3',
                                'label' => 'Option 3 Field 2 Group 1',
                                'is_active' => 1,
-                               'weight' => 6
+                               'weight' => 3
                                );
-        $option3 =& crm_create_option_value($paramsOption3, $customField2); 
+        $option3 =& crm_create_option_value($paramsOption3, $this->customField2); 
         $this->assertIsA($option3, 'CRM_Core_BAO_CustomOption');
         $this->option3Group1 = $option3;
         
         $paramsOption4 = array('value' => 'hello 4',
                                'label' => 'Option 4 Field 2 Group 1',
                                'is_active' => 1,
-                               'weight' => 2
+                               'weight' => 4
                                );
-        $option4 =& crm_create_option_value($paramsOption4, $customField2); 
+        $option4 =& crm_create_option_value($paramsOption4, $this->customField2); 
         $this->assertIsA($option4, 'CRM_Core_BAO_CustomOption');
         $this->option4Group1 = $option4;
         
         $paramsOption5 = array('value' => 'hello 5',
                                'label' => 'Option 5 Field 2 Group 1',
                                'is_active' => 1,
-                               'weight' => 4
+                               'weight' => 5
                                );
-        $option5 =& crm_create_option_value($paramsOption5, $customField2); 
+        $option5 =& crm_create_option_value($paramsOption5, $this->customField2); 
         $this->assertIsA($option5, 'CRM_Core_BAO_CustomOption');
         $this->option5Group1 = $option5;
         
         $paramsOption6 = array('value' => 'hello 6',
                                'label' => 'Option 6 Field 2 Group 1',
                                'is_active' => 1,
-                               'weight' => 1
+                               'weight' => 6
                                );
-        $option6 =& crm_create_option_value($paramsOption6, $customField2); 
+        $option6 =& crm_create_option_value($paramsOption6, $this->customField2); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
         $this->option6Group1 = $option6;
     }
@@ -141,8 +141,8 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
                           'help_post'=> 'Post Help For Test Field 1 for Group 2',
                           'weight' => 3
                           );
-        $customField1 = & crm_create_custom_field($customGroup, $paramsF1);
-        $this->assertIsA($customField1, 'CRM_Core_BAO_CustomField');
+        $this->customField3 = & crm_create_custom_field($customGroup, $paramsF1);
+        $this->assertIsA($this->customField3, 'CRM_Core_BAO_CustomField');
         
         $paramsF2 = array('label' => 'Test Field 2 for Group 2',
                           'name'  => 'test_field_2_group_2',
@@ -155,60 +155,60 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
                           'weight' => 4,
                           'options_per_line' => 4
                           );
-        $customField2 = & crm_create_custom_field($customGroup, $paramsF2);
-        $this->assertIsA($customField2, 'CRM_Core_BAO_CustomField');
+        $this->customField4 = & crm_create_custom_field($customGroup, $paramsF2);
+        $this->assertIsA($this->customField4, 'CRM_Core_BAO_CustomField');
         
         $paramsOption1 = array('value' => 'hello 1',
                                'label' => 'Option 1 Field 2 Group 2',
                                'is_active' => 1,
                                'weight' => 1
                                );
-        $option1 =& crm_create_option_value($paramsOption1, $customField2); 
+        $option1 =& crm_create_option_value($paramsOption1, $this->customField4); 
         $this->assertIsA($option1, 'CRM_Core_BAO_CustomOption');
         $this->option1Group2 = $option1;
         
         $paramsOption2 = array('value' => 'hello 2',
                                'label' => 'Option 2 Field 2 Group 2',
                                'is_active' => 1,
-                               'weight' => 3
+                               'weight' => 2
                                );
-        $option2 =& crm_create_option_value($paramsOption2, $customField2); 
+        $option2 =& crm_create_option_value($paramsOption2, $this->customField4); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
         $this->option2Group2 = $option2;
         
         $paramsOption3 = array('value' => 'hello 3',
                                'label' => 'Option 3 Field 2 Group 2',
                                'is_active' => 1,
-                               'weight' => 6
+                               'weight' => 3
                                );
-        $option3 =& crm_create_option_value($paramsOption3, $customField2); 
+        $option3 =& crm_create_option_value($paramsOption3, $this->customField4); 
         $this->assertIsA($option3, 'CRM_Core_BAO_CustomOption');
         $this->option3Group2 = $option3;
         
         $paramsOption4 = array('value' => 'hello 4',
                                'label' => 'Option 4 Field 2 Group 2',
                                'is_active' => 1,
-                               'weight' => 2
+                               'weight' => 4
                                );
-        $option4 =& crm_create_option_value($paramsOption4, $customField2); 
+        $option4 =& crm_create_option_value($paramsOption4, $this->customField4); 
         $this->assertIsA($option4, 'CRM_Core_BAO_CustomOption');
         $this->option4Group2 = $option4;
         
         $paramsOption5 = array('value' => 'hello 5',
                                'label' => 'Option 5 Field 2 Group 2',
                                'is_active' => 1,
-                               'weight' => 4
+                               'weight' => 5
                                );
-        $option5 =& crm_create_option_value($paramsOption5, $customField2); 
+        $option5 =& crm_create_option_value($paramsOption5, $this->customField4); 
         $this->assertIsA($option5, 'CRM_Core_BAO_CustomOption');
         $this->option5Group2 = $option5;
         
         $paramsOption6 = array('value' => 'hello 6',
                                'label' => 'Option 6 Field 2 Group 2',
                                'is_active' => 1,
-                               'weight' => 1
+                               'weight' => 6
                                );
-        $option6 =& crm_create_option_value($paramsOption6, $customField2); 
+        $option6 =& crm_create_option_value($paramsOption6, $this->customField4); 
         $this->assertIsA($option6, 'CRM_Core_BAO_CustomOption');
         $this->option6Group2 = $option6;
     }
@@ -247,17 +247,22 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
     
     function testDeleteOptionValueI()
     {
-        $option = $this->option4Group1;
-        $option   =& crm_delete_option_value($option);
+        $option =& crm_delete_option_value($this->option4Group1);
         $this->assertNull($option);
+        
+        // Get the options for the Custom Field and confirm if the option is deleted.
+        $options =& crm_get_option_values($this->customField2);
+        $this->assertNull($options[$this->option4Group1->id]);
     }
     
     function testDeleteOptionValuePC()
     {
-        $option = $this->option6Group2;
-        $option   =& crm_delete_option_value($option);
+        $option =& crm_delete_option_value($this->option6Group2);
         $this->assertNull($option);
+        
+        // Get the options for the Custom Field and confirm if the option is deleted.
+        $options =& crm_get_option_values($this->customField4);
+        $this->assertNull($options[$this->option6Group2->id]);
     }
 }
-
 ?>

@@ -257,12 +257,14 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $select = $from = $where = '';
         
         $select = 'SELECT DISTINCT civicrm_group.id, civicrm_group.title ';
-        $from   = ' FROM civicrm_group, civicrm_group_contact ';
+        $from   = ' FROM civicrm_group ';
         $where  = " WHERE civicrm_group.is_active = 1 ";
         if ( $contactId ) {
+            $from  .= ' , civicrm_group_contact ';
             $where .= " AND civicrm_group.id = civicrm_group_contact.group_id 
                         AND civicrm_group_contact.contact_id = " 
                     . CRM_Utils_Type::escape($contactId, 'Integer');
+        } else {
         }
 
         $orderby = " ORDER BY civicrm_group.name";

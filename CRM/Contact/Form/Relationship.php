@@ -304,10 +304,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }  else if ( $type == 'Organization' ) {
                     $searchValues['contact_type'] = array( $type => 3 );
                 }
-                $searchValues['contact_type'] = array( $type => 2 );
                 $relationship->find( );
                 while ( $relationship->fetch( ) ) {
-                    $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
+                    // fix for crm-814, delete in some time 03/16/2006 - lobo
+                    // $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
                 }
 
                 // also do the reverse if a_b == b_a
@@ -317,7 +317,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $relationship->contact_id_b = $this->_contactId;
                     $relationship->find( );
                     while ( $relationship->fetch( ) ) {
-                        $excludedContactIds[] = $relationship->contact_id_a;
+                        // fix for crm-814, delete in some time 03/16/2006 - lobo
+                        // $excludedContactIds[] = $relationship->contact_id_a;
                     }
                 }
             }

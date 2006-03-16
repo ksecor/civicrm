@@ -207,6 +207,7 @@ class TestOfGetCustomField extends UnitTestCase
     {
         $params = array('name' => 'test_field_1_group_1');
         $customField =& crm_get_custom_field($params);
+        $this->assertIsA($customField, 'CRM_Core_DAO_CustomField');
         $this->assertEqual('Test Field 1 for Group 1', $customField->label);
     }
     
@@ -214,6 +215,7 @@ class TestOfGetCustomField extends UnitTestCase
     {
         $params = array('label' => 'Test Field 2 for Group 2');
         $customField =& crm_get_custom_field($params);
+        $this->assertIsA($customField, 'CRM_Core_DAO_CustomField');
         $this->assertEqual('test_field_2_group_2', $customField->name);
     }
 }

@@ -7,7 +7,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-          {ts}Are you sure you want to delete this premium. This action cannot be undone. This will also remove the premium from any contribution pages that currently include it.?{/ts}
+          {ts}Are you sure you want to delete this premium? This action cannot be undone. This will also remove the premium from any contribution pages that currently include it.{/ts}
           </dd>
        </dl>
       </div>

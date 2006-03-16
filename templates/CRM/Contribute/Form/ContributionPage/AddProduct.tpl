@@ -16,7 +16,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-          {ts}Are you sure you want to remove this premium product from this Contribution page ?{/ts}
+          {ts}Are you sure you want to remove this premium product from this Contribution page?{/ts}
           </dd>
        </dl>
       </div>
