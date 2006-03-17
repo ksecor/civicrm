@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-16 15:38+0100\n"
+"POT-Creation-Date: 2006-03-17 10:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -173,11 +173,11 @@ msgstr ""
 msgid "- do not import -"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Group(s)"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/GroupTag.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Tag(s)"
 msgstr ""
 
@@ -5460,6 +5460,10 @@ msgid "Sent Email Message"
 msgstr ""
 
 #: CRM/Utils/Menu.php
+msgid "Contact Information"
+msgstr ""
+
+#: CRM/Utils/Menu.php
 msgid "Add Contact Information"
 msgstr ""
 
@@ -6764,7 +6768,7 @@ msgid "Remove Products from this Page"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-msgid "Are you sure you want to remove this premium product from this Contribution page ?"
+msgid "Are you sure you want to remove this premium product from this Contribution page?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-16 13:32+0100\n"
-"PO-Revision-Date: 2006-03-16 16:23+0100\n"
+"POT-Creation-Date: 2006-03-17 10:02+0100\n"
+"PO-Revision-Date: 2006-03-17 12:49+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -445,16 +445,14 @@ msgstr "Organizacja"
 msgid "- do not import -"
 msgstr "- nie importuj -"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/GroupTag.php
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
+#: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Group(s)"
 msgstr "Grupy"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/GroupTag.php
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
+#: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Tag(s)"
 msgstr "Kategorie"
@@ -3474,9 +3472,8 @@ msgid "Failure Count"
 msgstr "Liczba błędów"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Retry Date"
-msgstr "Data ponownej próby"
+msgstr "Data powtórki po błędzie"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
@@ -3571,13 +3568,12 @@ msgid "Duration Interval"
 msgstr "Czas trwania"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "rolling"
-msgstr "Tekst"
+msgstr "ciągły"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "fixed"
-msgstr ""
+msgstr "stały"
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
 msgid "Please enter a valid Credit Card name."
@@ -3597,7 +3593,8 @@ msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR."
+msgstr ""
+"W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -4756,7 +4753,6 @@ msgid "Form Type"
 msgstr "Rodzaj formularza"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
 msgstr "URL strony docelowej"
 
@@ -6307,6 +6303,10 @@ msgstr "Szczegóły zdarzenia"
 #: CRM/Utils/Menu.php templates/CRM/Contact/Page/View/Email.tpl
 msgid "Sent Email Message"
 msgstr "Wysłany email"
+
+#: CRM/Utils/Menu.php
+msgid "Contact Information"
+msgstr "Informacja o kontakcie"
 
 #: CRM/Utils/Menu.php
 msgid "Add Contact Information"
@@ -8164,7 +8164,8 @@ msgid ""
 "Use this form to select a premium to be offered on this Online Contribution "
 "Page."
 msgstr ""
-"Użyj tego formularza do wybrania dodatku, który ma być oferowany na tej stronie dodatcji on-line."
+"Użyj tego formularza do wybrania dodatku, który ma być oferowany na tej "
+"stronie dodatcji on-line."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to this Page"
@@ -8302,9 +8303,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid "Configure Premiums Section"
-msgstr "Potwierdź akcję"
+msgstr "Konfiguracja działu z dodatkami"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8316,7 +8316,6 @@ msgid "Title to appear at the top of the Premiums section."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid ""
 "Enter content for the introductory message. This will be displayed below the "
 "Premiums section title. You may include HTML formatting tags. You can also "
@@ -8324,7 +8323,7 @@ msgid ""
 "them using complete URLs."
 msgstr ""
 "Wpisz treść wiadomości wprowadzającej. Ta wiadomość będzie wyświetlana pod "
-"tytułem strony. W tekście można używać znaczników HTML. Można też umieszczać "
+"tytułem części z dodatkami. W tekście można używać znaczników HTML. Można też umieszczać "
 "w nim obrazki, o ile wcześniej zostaną wgrane na serwer – należy je podawać "
 "za pomocą pełnych adresów URL."
 
@@ -8546,21 +8545,19 @@ msgid "Test-drive Your Contribution Page"
 msgstr "Przetestuj stronę dotacji"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
-#, fuzzy
 msgid ""
 "This page is currently running in <strong>test-drive mode</strong>. "
 "Transactions will be sent to your payment processor's test server. "
 "<strong>No live financial transactions will be submitted. However, a contact "
 "record will be created or updated and a contribution record will be saved to "
 "the database. Use obvious test contact names so you can review and delete "
-"these records as needed</strong>. Refer to your payment processor's "
+"these records as needed.</strong> Refer to your payment processor's "
 "documentation for information on values to use for test credit card number, "
 "security code, postal code, etc."
 msgstr ""
 "Ta strona w tej chwili działa w <strong>trybie testowym</strong>. Transakcje "
 "będą wysyłane do serwera testowego Twojego procesora płatności. <strong>Nie "
-"zostaną wykonane żadne transakcje finansowe, żadne dane kontaktowe ani "
-"dotacje nie zostaną też wprowadzone do bazy danych.</strong> Informacje "
+"zostaną wykonane żadne transakcje finansowe, zostanie jednak utworzony (lub uaktualniony) wpis kontaktu oraz zostanie utworzony wpis dotacji. Użyj oczywistych nazw kontaktów testowych, żeby potem łatwo znaleźć i skasować te kontakty.</strong> Informacje "
 "dotyczące danych testowych kart kredytowych, kodów bezpieczeństwa itp. można "
 "znaleźć w dokumentacji procesora płatności."
 
@@ -8581,9 +8578,8 @@ msgstr "Nr transakcji"
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Premium Information"
-msgstr "Informacje o dotacji"
+msgstr "Informacje o dodatku"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "For information about this premium, contact:"
@@ -8771,25 +8767,21 @@ msgid "New Premium "
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Preview a Premium"
-msgstr "Podejrzyj pole formularza"
+msgstr "Podejrzyj dodatek"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Delete Premium Product"
-msgstr "Usuń grupę profilu"
+msgstr "Usuń produkt dodatkowy"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete this premium? This action cannot be undone. "
 "This will also remove the premium from any contribution pages that currently "
 "include it."
 msgstr ""
-"Na pewno usunąć wybrane dotacje? Tej operacji nie można cofnąć, a spowoduje "
-"ona usunięcie wszystkich transakcji i historii zdarzeń powiązanych z tą "
-"dotacją."
+"Na pewno usunąć ten dodatek? Tej operacji nie można cofnąć, a spowoduje "
+"ona usunięcie tego dodatku ze wszystkich stron dotacji, które go zawierają."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Name of the product as it will be displayed to contributors."
@@ -9496,9 +9488,8 @@ msgstr ""
 "które mają zostać dołączone do tej strony."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Premiums"
-msgstr "Poprzedni"
+msgstr "Dodatki"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9726,17 +9717,15 @@ msgid "Min Contribution"
 msgstr "Dotacja minimalna"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#, fuzzy
 msgid "New Premium"
-msgstr "Nowa grupa"
+msgstr "Nowy dodatek"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#, fuzzy
 msgid ""
-"No premium products have been created for your site. You can<a href=\"%1\"> "
-"add one </a>."
+"No premium products have been created for your site. You can <a href=\"%1\">"
+"add one</a>."
 msgstr ""
-"Nie utworzono jeszcze żadnych grup. <a href=\"%1\">Można to zrobić tu</a>."
+"Nie utworzono jeszcze żadnych produktów dodatkowych. <a href=\"%1\">Można to zrobić tu</a>."
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -9769,25 +9758,22 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Offer Another Premium on this Contribution Page"
-msgstr "Nowa strona dotacji on-line"
+msgstr "Zaproponuj inny dodatek na tej stronie dotacji"
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid ""
 "There are no premiums offered on this contribution page yet. You can <a href="
-"\"%1\"> add one </a>."
+"\"%1\">add one</a>."
 msgstr ""
-"Nie zostały wprowadzone żadne dodatkowe rodzaje dotacji. <a href=\"%1"
+"Na tej stronie dotacji nie zaproponowano jeszcze żadnych dodatków. <a href=\"%1"
 "\">Możesz je dodać</a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid ""
 "There are no active premiums for your site. You can <a href=\"%1\">create "
-"and/or enable premiums here"
-msgstr "Ten kontakt nie ma dotacji. <a href=\"%1\">Możesz je dodać</a>."
+"and/or enable premiums here</a>."
+msgstr "Twoje strony nie mają aktywnych dodatków. <a href=\"%1\">Możesz je stworzyć i/lub włączyć</a>."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
@@ -10217,12 +10203,11 @@ msgstr[2] ""
 "zaktualizowane."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Activity History records</a>. You "
 "may then correct them, and import the new file with the corrected data."
 msgstr ""
-"Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij błędy</"
+"Możesz <a href=\"%1\">ściągnąć plik zawierający błędnie dopasowane wpisy historii zdarzeń</"
 "a>. Możesz je następnie poprawić i zaimportować nowy plik z poprawionymi "
 "danymi."
 
@@ -10268,9 +10253,8 @@ msgstr ""
 "Wiersze z błędnymi identyfikatorami historii zdarzeń (NIE uaktualnione)."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Activity History records"
-msgstr "Ściągnij błędne dotacje"
+msgstr "Ściągnij błędnie dopasowane wpisy historii zdarzeń"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM activity history records."
@@ -10475,12 +10459,11 @@ msgstr[1] "W tej kategorii są %count kontakty."
 msgstr[2] "W tej kategorii jest %count kontaktów."
 
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "One contact NOT tagged (already tagged to this tag)."
 msgid_plural "%count contacts NOT tagged (already tagged to this tag)."
-msgstr[0] "Jeden kontakt NIE dodany (już należy do tej grupy)."
-msgstr[1] "%count kontakty NIE dodane (już należą do tej grupy)."
-msgstr[2] "%count kontaktów NIE dodanych (już należą do tej grupy)."
+msgstr[0] "Jeden kontakt NIE skategoryzowany (już należy do tej kategorii)."
+msgstr[1] "%count kontakty NIE skategoryzowane (już należą do tej kategorii)."
+msgstr[2] "%count kontaktów NIE skategoryzowanych (już należą do tej kategorii)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -10688,14 +10671,12 @@ msgid "Content / Components"
 msgstr "Treść / Składniki"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Text Body"
-msgstr "Tekst"
+msgstr "Treść w wersji tekstowej"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "HTML Body"
-msgstr "HTML"
+msgstr "Treść w wersji HTML"
 
 #: templates/CRM/pager.tpl
 msgid "Rows per page:"
@@ -10765,9 +10746,8 @@ msgid "Back to Listings"
 msgstr "Wróć do spisu"
 
 #: templates/CRM/SMS/Form/Task/SMS.tpl
-#, fuzzy
-msgid "Send a SMS"
-msgstr "Wyślij emaila"
+msgid "Send an SMS"
+msgstr "Wyślij SMS"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid ""
@@ -10803,11 +10783,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Select the type of CiviCRM record and the field you want to include in this "
 "Profile."
-msgstr "Wybierz pole CiviCRM-a, które chcesz dołączyć do tego profilu."
+msgstr "Wybierz rodzaj kontaktu i pole, które chcesz dołączyć do tego profilu."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
@@ -10856,11 +10835,9 @@ msgstr ""
 "większymi."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
-msgid "Do you want to include this field in the profile's search form."
+msgid "Do you want to include this field in the profile's search form?"
 msgstr ""
-"Jeśli chesz oznaczyć to pole jako pole przeszukiwalne w wyszukiwaniu "
-"zaawansowanym."
+"Czy chcesz dodać to pole do formularza wyszukiwania profilu?"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete CiviCRM Profile"
@@ -11149,7 +11126,6 @@ msgid "Main office location"
 msgstr "Lokalizacja głównego biura"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Other location"
 msgstr "Inna lokalizacja"
 
