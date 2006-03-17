@@ -90,9 +90,9 @@ Class CRM_Contact_Form_GroupTag
                 $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
             if ( ! empty( $elements ) ) {
-                $form->addGroup( $elements, 'group', ts( $groupName ), '<br />' );
+                $form->addGroup( $elements, 'group', $groupName, '<br />' );
                 if ( $isRequired ) {
-                    $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts($groupName))) , 'required');   
+                    $form->addRule( 'group' , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
                 }
             }
         }
@@ -104,11 +104,11 @@ Class CRM_Contact_Form_GroupTag
                 $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
             if ( ! empty( $elements ) ) { 
-                $form->addGroup( $elements, 'tag', ts( $tagName ), '<br />' );
+                $form->addGroup( $elements, 'tag', $tagName, '<br />' );
             }
             
             if ( $isRequired ) {
-                $form->addRule( 'tag' , ts('%1 is a required field.', array(1 => ts($tagName))) , 'required');   
+                $form->addRule( 'tag' , ts('%1 is a required field.', array(1 => $tagName)) , 'required');   
             }
         }
         
