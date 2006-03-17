@@ -1,16 +1,19 @@
--- MySQL dump 10.8
+-- MySQL dump 10.10
 --
--- Host: localhost    Database: civicrm_trunk
+-- Host: localhost    Database: civicrm
 -- ------------------------------------------------------
--- Server version	4.1.7-log
+-- Server version	5.0.18-standard-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE="NO_AUTO_VALUE_ON_ZERO" */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Dumping data for table `civicrm_accept_credit_card`
@@ -647,6 +650,28 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_note` ENABLE KEYS */;
 
 --
+-- Dumping data for table `civicrm_option_group`
+--
+
+
+/*!40000 ALTER TABLE `civicrm_option_group` DISABLE KEYS */;
+LOCK TABLES `civicrm_option_group` WRITE;
+INSERT INTO `civicrm_option_group` VALUES (23,1,'ethnicity','Race/Ethnicity. Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated',0,1),(24,1,'internet_access','What is your primary method of accessing the Internet?',0,1),(25,1,'study_method','If yes',0,1),(26,1,'family_member','Family Member',0,1),(27,1,'lived_with_household','How long have you lived in this household?',0,1),(28,1,'marital_status','Marital status',0,1),(29,1,'occupation_industry','Industry',0,1),(30,1,'level_of_schooling','Highest level of schooling',0,1),(31,1,'degree_received','Degree received in professional or graduate school',0,1),(32,1,'sibling_relationship','Relationship to you',0,1),(33,1,'school_year','Year in School',0,1),(34,1,'reduced_price_lunch','Are you eligible for Federal Free or Reduced Price Lunches?',0,1),(35,1,'type_of_income','Type of income',0,1),(36,1,'gpa','What is your GPA?',0,1),(37,1,'class_rank_percent','Percent class rank',0,1),(38,1,'sat_II_test_subject','Subject',0,1),(39,1,'ap_test_subject','Subject',0,1),(40,1,'citizenship_status','Your U.S. citizenship status',0,1),(41,1,'educational_interest','Please select all of your educational interests',0,1),(42,1,'college_type','Please select the type(s) of college you are interested in attending',0,1),(43,1,'college_interest','Please do some research on the following colleges. Select the ones that you are interested in attending. Schools in green are our current partner colleges. In parentheses',0,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `civicrm_option_group` ENABLE KEYS */;
+
+--
+-- Dumping data for table `civicrm_option_value`
+--
+
+
+/*!40000 ALTER TABLE `civicrm_option_value` DISABLE KEYS */;
+LOCK TABLES `civicrm_option_value` WRITE;
+INSERT INTO `civicrm_option_value` VALUES (609,23,' American Indian/Alaska Native\n','1',NULL,0,1,NULL,0,0,1),(610,23,' Arabic/Middle Eastern\n','2',NULL,0,2,NULL,0,0,1),(611,23,' Black/African American\n','3',NULL,0,3,NULL,0,0,1),(612,23,' Chinese American\n','4',NULL,0,4,NULL,0,0,1),(613,23,' Ethnic Hawaiian\n','5',NULL,0,5,NULL,0,0,1),(614,23,' Filipino American\n','6',NULL,0,6,NULL,0,0,1),(615,23,' Japanese American\n','7',NULL,0,7,NULL,0,0,1),(616,23,' Korean American\n','8',NULL,0,8,NULL,0,0,1),(617,23,' Latin American/Latino\n','9',NULL,0,9,NULL,0,0,1),(618,23,' Mexican American/Chicano\n','10',NULL,0,10,NULL,0,0,1),(619,23,' Other Asian American\n','11',NULL,0,11,NULL,0,0,1),(620,23,' Other Hispanic American\n','12',NULL,0,12,NULL,0,0,1),(621,23,' Puerto Rican American\n','13',NULL,0,13,NULL,0,0,1),(622,23,' South Asian American\n','14',NULL,0,14,NULL,0,0,1),(623,23,' South Asian/Indian\n','15',NULL,0,15,NULL,0,0,1),(624,23,' Vietnamese American\n','16',NULL,0,16,NULL,0,0,1),(625,23,' White/Non-minority American\n','17',NULL,0,17,NULL,0,0,1),(626,23,' Other\n','18',NULL,0,18,NULL,0,0,1),(627,23,' Decline to State\n','19',NULL,0,19,NULL,0,0,1),(628,24,' School\n','1',NULL,0,1,NULL,0,0,1),(629,24,' Home\n','2',NULL,0,2,NULL,0,0,1),(630,24,' Public Library\n','3',NULL,0,3,NULL,0,0,1),(631,24,' Other\n','4',NULL,0,4,NULL,0,0,1),(632,25,' Asking other who have taken it before\n','1',NULL,0,1,NULL,0,0,1),(633,25,' Test preperation book\n','2',NULL,0,2,NULL,0,0,1),(634,25,' Online test preperation course\n','3',NULL,0,3,NULL,0,0,1),(635,25,' Test preperation class\n','4',NULL,0,4,NULL,0,0,1),(636,26,' Father\n','1',NULL,0,1,NULL,0,0,1),(637,26,' Mother\n','2',NULL,0,2,NULL,0,0,1),(638,26,' Step-Father\n','3',NULL,0,3,NULL,0,0,1),(639,26,' Step-Mother\n','4',NULL,0,4,NULL,0,0,1),(640,26,' Grandmother\n','5',NULL,0,5,NULL,0,0,1),(641,26,' Grandfather\n','6',NULL,0,6,NULL,0,0,1),(642,26,' Guardian\n','7',NULL,0,7,NULL,0,0,1),(643,27,' 5 years or more\n','1',NULL,0,1,NULL,0,0,1),(644,27,' 4 years\n','2',NULL,0,2,NULL,0,0,1),(645,27,' 3 years\n','3',NULL,0,3,NULL,0,0,1),(646,27,' 2 years\n','4',NULL,0,4,NULL,0,0,1),(647,27,' 1 year\n','5',NULL,0,5,NULL,0,0,1),(648,27,' Less than 1 year\n','6',NULL,0,6,NULL,0,0,1),(649,28,' Married\n','1',NULL,0,1,NULL,0,0,1),(650,28,' Divorced\n','2',NULL,0,2,NULL,0,0,1),(651,28,' Divorced - one parent re-married\n','3',NULL,0,3,NULL,0,0,1),(652,28,' Divorced - both parents re-married\n','4',NULL,0,4,NULL,0,0,1),(653,28,' Widow(er)\n','5',NULL,0,5,NULL,0,0,1),(654,28,' Unable to answer\n','6',NULL,0,6,NULL,0,0,1),(655,29,' Unemployed\n','1',NULL,0,1,NULL,0,0,1),(656,29,' Accounting/Auditing\n','2',NULL,0,2,NULL,0,0,1),(657,29,' Administrative and Support Services\n','3',NULL,0,3,NULL,0,0,1),(658,29,' Advertising/Marketing/Public Relations\n','4',NULL,0,4,NULL,0,0,1),(659,29,' Aerospace/Aviation/Defense\n','5',NULL,0,5,NULL,0,0,1),(660,29,' Agriculture','6',NULL,0,6,NULL,0,0,1),(661,29,' Architectural Services\n','7',NULL,0,7,NULL,0,0,1),(662,29,' Arts','8',NULL,0,8,NULL,0,0,1),(663,29,' Automotive/Motor Vehicle/Parts\n','9',NULL,0,9,NULL,0,0,1),(664,29,' Banking\n','10',NULL,0,10,NULL,0,0,1),(665,29,' Biotechnology and Pharmaceutical\n','11',NULL,0,11,NULL,0,0,1),(666,29,' Building and Grounds Maintenance\n','12',NULL,0,12,NULL,0,0,1),(667,29,' Business Opportunity/Investment Required\n','13',NULL,0,13,NULL,0,0,1),(668,29,' Career Fairs\n','14',NULL,0,14,NULL,0,0,1),(669,29,' Computers','15',NULL,0,15,NULL,0,0,1),(670,29,' Computers','16',NULL,0,16,NULL,0,0,1),(671,29,' Construction','17',NULL,0,17,NULL,0,0,1),(672,29,' Consulting Services\n','18',NULL,0,18,NULL,0,0,1),(673,29,' Consumer Products\n','19',NULL,0,19,NULL,0,0,1),(674,29,' Customer Service and Call Center\n','20',NULL,0,20,NULL,0,0,1),(675,29,' Education','21',NULL,0,21,NULL,0,0,1),(676,29,' Electronics\n','22',NULL,0,22,NULL,0,0,1),(677,29,' Employment Placement Agencies\n','23',NULL,0,23,NULL,0,0,1),(678,29,' Engineering\n','24',NULL,0,24,NULL,0,0,1),(679,29,' Executive Management\n','25',NULL,0,25,NULL,0,0,1),(680,29,' Finance/Economics\n','26',NULL,0,26,NULL,0,0,1),(681,29,' Financial Services\n','27',NULL,0,27,NULL,0,0,1),(682,29,' Government and Policy\n','28',NULL,0,28,NULL,0,0,1),(683,29,' Healthcare - Business Office & Finance\n','29',NULL,0,29,NULL,0,0,1),(684,29,' Healthcare - CNAs/Aides/MAs/Home Health\n','30',NULL,0,30,NULL,0,0,1),(685,29,' Healthcare - Laboratory/Pathology Services\n','31',NULL,0,31,NULL,0,0,1),(686,29,' Healthcare - LPNs & LVNs\n','32',NULL,0,32,NULL,0,0,1),(687,29,' Healthcare - Medical & Dental Practitioners\n','33',NULL,0,33,NULL,0,0,1),(688,29,' Healthcare - Medical Records','34',NULL,0,34,NULL,0,0,1),(689,29,' Healthcare - Other\n','35',NULL,0,35,NULL,0,0,1),(690,29,' Healthcare - Pharmacy\n','36',NULL,0,36,NULL,0,0,1),(691,29,' Healthcare - Radiology/Imaging\n','37',NULL,0,37,NULL,0,0,1),(692,29,' Healthcare - RNs & Nurse Management\n','38',NULL,0,38,NULL,0,0,1),(693,29,' Healthcare - Social Services/Mental Health\n','39',NULL,0,39,NULL,0,0,1),(694,29,' Healthcare - Support Services\n','40',NULL,0,40,NULL,0,0,1),(695,29,' Healthcare - Therapy/Rehab Services\n','41',NULL,0,41,NULL,0,0,1),(696,29,' Hospitality/Tourism\n','42',NULL,0,42,NULL,0,0,1),(697,29,' Human Resources/Recruiting\n','43',NULL,0,43,NULL,0,0,1),(698,29,' Information Technology\n','44',NULL,0,44,NULL,0,0,1),(699,29,' Installation','45',NULL,0,45,NULL,0,0,1),(700,29,' Insurance\n','46',NULL,0,46,NULL,0,0,1),(701,29,' Internet/E-Commerce\n','47',NULL,0,47,NULL,0,0,1),(702,29,' Law Enforcement','48',NULL,0,48,NULL,0,0,1),(703,29,' Legal\n','49',NULL,0,49,NULL,0,0,1),(704,29,' Manufacturing and Production\n','50',NULL,0,50,NULL,0,0,1),(705,29,' Military\n','51',NULL,0,51,NULL,0,0,1),(706,29,' Nonprofit\n','52',NULL,0,52,NULL,0,0,1),(707,29,' Oil/Gas/Utilities\n','53',NULL,0,53,NULL,0,0,1),(708,29,' Other\n','54',NULL,0,54,NULL,0,0,1),(709,29,' Personal Care and Service\n','55',NULL,0,55,NULL,0,0,1),(710,29,' Publishing/Printing\n','56',NULL,0,56,NULL,0,0,1),(711,29,' Purchasing\n','57',NULL,0,57,NULL,0,0,1),(712,29,' Real Estate/Mortgage\n','58',NULL,0,58,NULL,0,0,1),(713,29,' Restaurant and Food Service\n','59',NULL,0,59,NULL,0,0,1),(714,29,' Retail/Wholesale\n','60',NULL,0,60,NULL,0,0,1),(715,29,' Sales\n','61',NULL,0,61,NULL,0,0,1),(716,29,' Sales - Work at Home/Commission Only\n','62',NULL,0,62,NULL,0,0,1),(717,29,' Science\n','63',NULL,0,63,NULL,0,0,1),(718,29,' Sports and Recreation\n','64',NULL,0,64,NULL,0,0,1),(719,29,' Supply Chain/Logistics\n','65',NULL,0,65,NULL,0,0,1),(720,29,' Telecommunications\n','66',NULL,0,66,NULL,0,0,1),(721,29,' Transportation and Warehousing\n','67',NULL,0,67,NULL,0,0,1),(722,30,' Elementary School\n','1',NULL,0,1,NULL,0,0,1),(723,30,' Some High School\n','2',NULL,0,2,NULL,0,0,1),(724,30,' High School Graduate/GED\n','3',NULL,0,3,NULL,0,0,1),(725,30,' Vocational School Graduate\n','4',NULL,0,4,NULL,0,0,1),(726,30,' Attended 2 Year College\n','5',NULL,0,5,NULL,0,0,1),(727,30,' 2 year College Graduate\n','6',NULL,0,6,NULL,0,0,1),(728,30,' Attended 4 Year College\n','7',NULL,0,7,NULL,0,0,1),(729,30,' 4 Year College Graduate\n','8',NULL,0,8,NULL,0,0,1),(730,30,' Graduate School Degree (Masters','9',NULL,0,9,NULL,0,0,1),(731,31,' MBA\n','1',NULL,0,1,NULL,0,0,1),(732,31,' J.D.\n','2',NULL,0,2,NULL,0,0,1),(733,31,' Masters Degree\n','3',NULL,0,3,NULL,0,0,1),(734,31,' M.D.\n','4',NULL,0,4,NULL,0,0,1),(735,31,' PhD in religious or theological field\n','5',NULL,0,5,NULL,0,0,1),(736,31,' PhD\n','6',NULL,0,6,NULL,0,0,1),(737,31,' Other\n','7',NULL,0,7,NULL,0,0,1),(738,32,' Sister\n','1',NULL,0,1,NULL,0,0,1),(739,32,' Brother\n','2',NULL,0,2,NULL,0,0,1),(740,32,' Step-Sister\n','3',NULL,0,3,NULL,0,0,1),(741,32,' Step-Brother\n','4',NULL,0,4,NULL,0,0,1),(742,33,' Elementary School\n','1',NULL,0,1,NULL,0,0,1),(743,33,' Junior High School\n','2',NULL,0,2,NULL,0,0,1),(744,33,' High School\n','3',NULL,0,3,NULL,0,0,1),(745,33,' Community College\n','4',NULL,0,4,NULL,0,0,1),(746,33,' Vocational School\n','5',NULL,0,5,NULL,0,0,1),(747,33,' 4 Year College\n','6',NULL,0,6,NULL,0,0,1),(748,33,' Graduate School\n','7',NULL,0,7,NULL,0,0,1),(749,33,' Not In School\n','8',NULL,0,8,NULL,0,0,1),(750,34,' Yes Free Lunches\n','1',NULL,0,1,NULL,0,0,1),(751,34,' Yes Reduced Price Lunches\n','2',NULL,0,2,NULL,0,0,1),(752,34,' No\n','3',NULL,0,3,NULL,0,0,1),(753,35,' Wages & Salaries \n','1',NULL,0,1,NULL,0,0,1),(754,35,' Interests and Dividends\n','2',NULL,0,2,NULL,0,0,1),(755,35,' Unemployment Benefits\n','3',NULL,0,3,NULL,0,0,1),(756,35,' Rental Income\n','4',NULL,0,4,NULL,0,0,1),(757,35,' Disability Payments\n','5',NULL,0,5,NULL,0,0,1),(758,35,' Workers Compensation\n','6',NULL,0,6,NULL,0,0,1),(759,35,' Social Security\n','7',NULL,0,7,NULL,0,0,1),(760,35,' Pensions\n','8',NULL,0,8,NULL,0,0,1),(761,35,' Insurance Settlements\n','9',NULL,0,9,NULL,0,0,1),(762,35,' Legal Settlements\n','10',NULL,0,10,NULL,0,0,1),(763,35,' Child Support\n','11',NULL,0,11,NULL,0,0,1),(764,35,' TANF (AFDC)\n','12',NULL,0,12,NULL,0,0,1),(765,35,' Spousal Support\n','13',NULL,0,13,NULL,0,0,1),(766,35,' Scholarships Grants\n','14',NULL,0,14,NULL,0,0,1),(767,35,' Self Employment/Cash Income\n','15',NULL,0,15,NULL,0,0,1),(768,35,' Other\n','16',NULL,0,16,NULL,0,0,1),(769,36,' 4.0\n','1',NULL,0,1,NULL,0,0,1),(770,36,' 3.9\n','2',NULL,0,2,NULL,0,0,1),(771,36,' 3.8\n','3',NULL,0,3,NULL,0,0,1),(772,36,' 3.7\n','4',NULL,0,4,NULL,0,0,1),(773,36,' 3.6\n','5',NULL,0,5,NULL,0,0,1),(774,36,' 3.5\n','6',NULL,0,6,NULL,0,0,1),(775,36,' 3.4\n','7',NULL,0,7,NULL,0,0,1),(776,36,' 3.3\n','8',NULL,0,8,NULL,0,0,1),(777,36,' 3.2\n','9',NULL,0,9,NULL,0,0,1),(778,36,' 3.1\n','10',NULL,0,10,NULL,0,0,1),(779,36,' 3.0\n','11',NULL,0,11,NULL,0,0,1),(780,36,' 2.9\n','12',NULL,0,12,NULL,0,0,1),(781,36,' 2.8\n','13',NULL,0,13,NULL,0,0,1),(782,36,' 2.7\n','14',NULL,0,14,NULL,0,0,1),(783,36,' 2.6\n','15',NULL,0,15,NULL,0,0,1),(784,36,' 2.5\n','16',NULL,0,16,NULL,0,0,1),(785,36,' 2.4\n','17',NULL,0,17,NULL,0,0,1),(786,36,' 2.3\n','18',NULL,0,18,NULL,0,0,1),(787,36,' 2.2\n','19',NULL,0,19,NULL,0,0,1),(788,36,' 2.1\n','20',NULL,0,20,NULL,0,0,1),(789,36,' 2.0\n','21',NULL,0,21,NULL,0,0,1),(790,36,' 1.9\n','22',NULL,0,22,NULL,0,0,1),(791,36,' 1.8\n','23',NULL,0,23,NULL,0,0,1),(792,36,' 1.7\n','24',NULL,0,24,NULL,0,0,1),(793,36,' 1.6\n','25',NULL,0,25,NULL,0,0,1),(794,36,' 1.5\n','26',NULL,0,26,NULL,0,0,1),(795,36,' 1.4\n','27',NULL,0,27,NULL,0,0,1),(796,36,' 1.3\n','28',NULL,0,28,NULL,0,0,1),(797,36,' 1.2\n','29',NULL,0,29,NULL,0,0,1),(798,36,' 1.1\n','30',NULL,0,30,NULL,0,0,1),(799,36,' 1.0\n','31',NULL,0,31,NULL,0,0,1),(800,36,' 0.9\n','32',NULL,0,32,NULL,0,0,1),(801,36,' 0.8\n','33',NULL,0,33,NULL,0,0,1),(802,36,' 0.7\n','34',NULL,0,34,NULL,0,0,1),(803,36,' 0.6\n','35',NULL,0,35,NULL,0,0,1),(804,36,' 0.5\n','36',NULL,0,36,NULL,0,0,1),(805,36,' 0.4\n','37',NULL,0,37,NULL,0,0,1),(806,36,' 0.3\n','38',NULL,0,38,NULL,0,0,1),(807,36,' 0.2\n','39',NULL,0,39,NULL,0,0,1),(808,36,' 0.1\n','40',NULL,0,40,NULL,0,0,1),(809,36,' 0.0\n','41',NULL,0,41,NULL,0,0,1),(810,37,' top 5%\n','1',NULL,0,1,NULL,0,0,1),(811,37,' top 10%\n','2',NULL,0,2,NULL,0,0,1),(812,37,' top 20%\n','3',NULL,0,3,NULL,0,0,1),(813,37,' top 30% top 40%\n','4',NULL,0,4,NULL,0,0,1),(814,37,' lower than 40%\n','5',NULL,0,5,NULL,0,0,1),(815,38,' Literature\n','1',NULL,0,1,NULL,0,0,1),(816,38,' U.S. History \n','2',NULL,0,2,NULL,0,0,1),(817,38,' World History\n','3',NULL,0,3,NULL,0,0,1),(818,38,' Mathematics Level I\n','4',NULL,0,4,NULL,0,0,1),(819,38,' Mathematics level II\n','5',NULL,0,5,NULL,0,0,1),(820,38,' Biology\n','6',NULL,0,6,NULL,0,0,1),(821,38,' Chemistry\n','7',NULL,0,7,NULL,0,0,1),(822,38,' Physics\n','8',NULL,0,8,NULL,0,0,1),(823,38,' Chinese with Listening\n','9',NULL,0,9,NULL,0,0,1),(824,38,' French\n','10',NULL,0,10,NULL,0,0,1),(825,38,' French with Listening\n','11',NULL,0,11,NULL,0,0,1),(826,38,' German\n','12',NULL,0,12,NULL,0,0,1),(827,38,' German with Listening\n','13',NULL,0,13,NULL,0,0,1),(828,38,' Spanish\n','14',NULL,0,14,NULL,0,0,1),(829,38,' Spanish with Listening\n','15',NULL,0,15,NULL,0,0,1),(830,38,' Modern Hebrew\n','16',NULL,0,16,NULL,0,0,1),(831,38,' Italian\n','17',NULL,0,17,NULL,0,0,1),(832,38,' Latin\n','18',NULL,0,18,NULL,0,0,1),(833,38,' Japanese with Listening\n','19',NULL,0,19,NULL,0,0,1),(834,38,' Korean with Listening\n','20',NULL,0,20,NULL,0,0,1),(835,39,' Art History\n','1',NULL,0,1,NULL,0,0,1),(836,39,' Biology\n','2',NULL,0,2,NULL,0,0,1),(837,39,' Calculus AB\n','3',NULL,0,3,NULL,0,0,1),(838,39,' Calculus BC\n','4',NULL,0,4,NULL,0,0,1),(839,39,' Chemistry\n','5',NULL,0,5,NULL,0,0,1),(840,39,' Computer Science A\n','6',NULL,0,6,NULL,0,0,1),(841,39,' Computer Science AB\n','7',NULL,0,7,NULL,0,0,1),(842,39,' Macroeconomics\n','8',NULL,0,8,NULL,0,0,1),(843,39,' Microeconomics\n','9',NULL,0,9,NULL,0,0,1),(844,39,' English Language\n','10',NULL,0,10,NULL,0,0,1),(845,39,' English Literature\n','11',NULL,0,11,NULL,0,0,1),(846,39,' Enviornmental Science\n','12',NULL,0,12,NULL,0,0,1),(847,39,' European History\n','13',NULL,0,13,NULL,0,0,1),(848,39,' French Language\n','14',NULL,0,14,NULL,0,0,1),(849,39,' French Literature\n','15',NULL,0,15,NULL,0,0,1),(850,39,' German Language\n','16',NULL,0,16,NULL,0,0,1),(851,39,' Comp Government & Politics\n','17',NULL,0,17,NULL,0,0,1),(852,39,' U.S. Government & Politics	\n','18',NULL,0,18,NULL,0,0,1),(853,39,' Human Geography\n','19',NULL,0,19,NULL,0,0,1),(854,39,' Itialian Language & Culture\n','20',NULL,0,20,NULL,0,0,1),(855,39,' Latin Literature\n','21',NULL,0,21,NULL,0,0,1),(856,39,' Latin: Vergin\n','22',NULL,0,22,NULL,0,0,1),(857,39,' Music Theory\n','23',NULL,0,23,NULL,0,0,1),(858,39,' Physics A\n','24',NULL,0,24,NULL,0,0,1),(859,39,' Physics B\n','25',NULL,0,25,NULL,0,0,1),(860,39,' Psychology\n','26',NULL,0,26,NULL,0,0,1),(861,39,' Spanish Language\n','27',NULL,0,27,NULL,0,0,1),(862,39,' Spanish Literature\n','28',NULL,0,28,NULL,0,0,1),(863,39,' Statistics\n','29',NULL,0,29,NULL,0,0,1),(864,39,' Studio Art\n','30',NULL,0,30,NULL,0,0,1),(865,39,' U. S. History\n','31',NULL,0,31,NULL,0,0,1),(866,39,' World History\n','32',NULL,0,32,NULL,0,0,1),(867,40,'U.S/Dual Citizen\n','1',NULL,0,1,NULL,0,0,1),(868,40,'Permanent Resident\n','2',NULL,0,2,NULL,0,0,1),(869,40,'Non-Citizen\n','3',NULL,0,3,NULL,0,0,1),(870,41,'Business\n','1',NULL,0,1,NULL,0,0,1),(871,41,'Education\n','2',NULL,0,2,NULL,0,0,1),(872,41,'Engineering/Technology\n','3',NULL,0,3,NULL,0,0,1),(873,41,'Fine Arts\n','4',NULL,0,4,NULL,0,0,1),(874,41,'Liberal Arts\n','5',NULL,0,5,NULL,0,0,1),(875,41,'Pre-Law\n','6',NULL,0,6,NULL,0,0,1),(876,41,'Pre-Med\n','7',NULL,0,7,NULL,0,0,1),(877,41,'Sciences\n','8',NULL,0,8,NULL,0,0,1),(878,41,'Other\n','9',NULL,0,9,NULL,0,0,1),(879,42,'Liberal arts college\n','1',NULL,0,1,NULL,0,0,1),(880,42,'Engineering/Technology focused school\n','2',NULL,0,2,NULL,0,0,1),(881,42,'Public or private university\n','3',NULL,0,3,NULL,0,0,1),(882,42,'Single gender school\n','4',NULL,0,4,NULL,0,0,1),(883,42,'Religiously affiliated school\n','5',NULL,0,5,NULL,0,0,1),(884,42,'None of the above\n','6',NULL,0,6,NULL,0,0,1),(885,43,'Amherst College (MA)\n','1',NULL,0,1,NULL,0,0,1),(886,43,'Bowdoin College (ME)\n','2',NULL,0,2,NULL,0,0,1),(887,43,'Brown University (RI)\n','3',NULL,0,3,NULL,0,0,1),(888,43,'Claremont McKenna College (CA)\n','4',NULL,0,4,NULL,0,0,1),(889,43,'Columbia University (NY)\n','5',NULL,0,5,NULL,0,0,1),(890,43,'Dartmouth College (NH)\n','6',NULL,0,6,NULL,0,0,1),(891,43,'Duke University (NC)\n','7',NULL,0,7,NULL,0,0,1),(892,43,'Emory University (GA)\n','8',NULL,0,8,NULL,0,0,1),(893,43,'Georgetown University (DC)\n','9',NULL,0,9,NULL,0,0,1),(894,43,'Grinnell College (IA)\n','10',NULL,0,10,NULL,0,0,1),(895,43,'Harvard University (MA)\n','11',NULL,0,11,NULL,0,0,1),(896,43,'Harvey Mudd College (CA)\n','12',NULL,0,12,NULL,0,0,1),(897,43,'Howard University (DC)\n','13',NULL,0,13,NULL,0,0,1),(898,43,'Northwestern University (IL)\n','14',NULL,0,14,NULL,0,0,1),(899,43,'Oberlin College (OH)\n','15',NULL,0,15,NULL,0,0,1),(900,43,'Pomona College (CA)\n','16',NULL,0,16,NULL,0,0,1),(901,43,'Princeton University (NJ)\n','17',NULL,0,17,NULL,0,0,1),(902,43,'Rice College (TX)\n','18',NULL,0,18,NULL,0,0,1),(903,43,'Scripps University (CA)\n','19',NULL,0,19,NULL,0,0,1),(904,43,'Smith College (MA)\n','20',NULL,0,20,NULL,0,0,1),(905,43,'Stanford University (CA)\n','21',NULL,0,21,NULL,0,0,1),(906,43,'Trinity College (CT)\n','22',NULL,0,22,NULL,0,0,1),(907,43,'Swarthmore College (PA)\n','23',NULL,0,23,NULL,0,0,1),(908,43,'University of Notre Dame (IN)\n','24',NULL,0,24,NULL,0,0,1),(909,43,'Wellesley College (MA)\n','25',NULL,0,25,NULL,0,0,1),(910,43,'Wheaton College (IL)\n','26',NULL,0,26,NULL,0,0,1),(911,43,'Williams College (MA)\n','27',NULL,0,27,NULL,0,0,1),(912,43,'None of the above\n','28',NULL,0,28,NULL,0,0,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `civicrm_option_value` ENABLE KEYS */;
+
+--
 -- Dumping data for table `civicrm_organization`
 --
 
@@ -850,10 +875,82 @@ LOCK TABLES `civicrm_validation` WRITE;
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_validation` ENABLE KEYS */;
 
+--
+-- Dumping data for table `quest_essay`
+--
+
+
+/*!40000 ALTER TABLE `quest_essay` DISABLE KEYS */;
+LOCK TABLES `quest_essay` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_essay` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_honor`
+--
+
+
+/*!40000 ALTER TABLE `quest_honor` DISABLE KEYS */;
+LOCK TABLES `quest_honor` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_honor` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_household`
+--
+
+
+/*!40000 ALTER TABLE `quest_household` DISABLE KEYS */;
+LOCK TABLES `quest_household` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_household` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_income`
+--
+
+
+/*!40000 ALTER TABLE `quest_income` DISABLE KEYS */;
+LOCK TABLES `quest_income` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_income` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_person`
+--
+
+
+/*!40000 ALTER TABLE `quest_person` DISABLE KEYS */;
+LOCK TABLES `quest_person` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_person` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_student`
+--
+
+
+/*!40000 ALTER TABLE `quest_student` DISABLE KEYS */;
+LOCK TABLES `quest_student` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_student` ENABLE KEYS */;
+
+--
+-- Dumping data for table `quest_test`
+--
+
+
+/*!40000 ALTER TABLE `quest_test` DISABLE KEYS */;
+LOCK TABLES `quest_test` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `quest_test` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
