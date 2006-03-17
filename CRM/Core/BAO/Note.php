@@ -225,8 +225,13 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     public static function getNote($id)
     {
         $viewNote = array();
+        $relationshipID = $id;
+        $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
+        $dao = new CRM_Core_DAO();
+        $dao->query($query);
+        $dao->fetch();
         $note =& new CRM_Core_DAO_Note( );
-        $note->entity_id = $id;
+        $note->id = $dao->id;
         $note->find(true);
         foreach($note as $key => $val) {
             $viewNote[$note->id][$key] = $val;

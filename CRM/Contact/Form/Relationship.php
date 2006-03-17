@@ -107,7 +107,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $this->assign('sort_name', $contact->sort_name);                
                 }
 
-                $note =& new CRM_Core_DAO_Note( );
                 $relationshipID = $relationship->id;
                 $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
                 $dao = new CRM_Core_DAO();
