@@ -203,15 +203,17 @@ function crm_create_uf_group( $params ) {
  *
  * @param $params  array   Associative array of property name/value pairs to insert in group.
  *  
- * @param $groupId int     A valid Group id that to be updated.   
+ * @param $ufGroup Object  A valid UF Group object that to be updated.   
  *  
  * @return  updated  uf_group object
  *
  * @access public 
  */
-function crm_update_uf_group( $params ,$groupId) {
+function crm_update_uf_group( $params ,$ufGroup) {
     
     _crm_initialize( );
+    
+    $groupId = $ufGroup->id;
     
     if(! is_array( $params ) ) {
         return _crm_error("params is not an array ");
@@ -247,14 +249,15 @@ function crm_create_uf_field( $UFGroup , $params ) {
     if(! isset($UFGroup->id) ) {
         return _crm_error("id is not set in uf_group object");
     }
-   
+    
+    $field_type       = $params['field_type'];
     $field_name       = $params['field_name'];
     $location_type_id = $params['location_type_id'];
     $phone_type       = $params['phone_type'];
     
-    $params['field_name'] =  array( $field_name, $location_type_id, $phone_type);
+    $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
    
-    if(! is_array( $params ) || $params['field_name'][0] == null || $params['weight'] == null) {
+    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null) {
         return _crm_error("missing required fields ");
     }   
     
@@ -275,15 +278,17 @@ function crm_create_uf_field( $UFGroup , $params ) {
  *
  * @param $params  array   Associative array of property name/value pairs to update in field.
  *  
- * @param $fieldId int     A valid uf field id that to be updated.   
+ * @param $ufField Object  A valid uf field object that to be updated.
  *  
  * @return  updated  uf_field object
  *
  * @access public 
  */
-function crm_update_uf_field( $params , $fieldId) {
+function crm_update_uf_field( $params , $ufField) {
     
     _crm_initialize( );
+    
+    $fieldId = $ufField->id;
     
     if(! isset( $fieldId ) ) {
         return _crm_error("parameter fieldId is not set");
@@ -293,11 +298,12 @@ function crm_update_uf_field( $params , $fieldId) {
         return _crm_error("params is not an array ");
     }   
     
+    $field_type       = $params['field_type'];
     $field_name       = $params['field_name'];
     $location_type_id = $params['location_type_id'];
     $phone_type       = $params['phone_type'];
     
-    $params['field_name'] =  array( $field_name, $location_type_id, $phone_type);
+    $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
     
     require_once 'CRM/Core/BAO/UFField.php';
     $UFField = &new CRM_core_BAO_UFField();
@@ -381,7 +387,7 @@ function crm_delete_uf_field( $ufField ) {
  * @access public
  */
 function crm_validate_profile_html($userID, $title, $action = null, $register = false) {
-    return Crm_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
+    return CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
 }
 
 ?>
