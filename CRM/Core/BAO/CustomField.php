@@ -629,6 +629,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         
         $customField->find(true);
         
+        require_once "CRM/Profile/Form.php";
+
         if (!$contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
                 $value = $customField->default_value;

@@ -128,10 +128,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-
+        require_once "CRM/Profile/Form.php";
         foreach ($this->_fields as $name => $field ) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
-                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults );
+                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, null, CRM_Profile_Form::MODE_REGISTER );
             }
         }
         return $defaults;
@@ -184,11 +184,12 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id, CRM_Contact_Form_GroupTag::GROUP );
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id, CRM_Contact_Form_GroupTag::GROUP, false, $required, $field['title'], null );
             } else if ( $field['name'] === 'tag' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG );
+                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG, false, $required, null, $field['title'] );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
+                echo $name;
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required);
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
