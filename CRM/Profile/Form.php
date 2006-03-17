@@ -399,7 +399,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             if ( $field['rule'] ) {
-                $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
+                if ($field['rule'] == 'email'  &&  $this->_mode == self::MODE_SEARCH) {
+                    continue;
+                } else {
+                    $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
+                }
             }
         }
 
