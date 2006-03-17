@@ -585,6 +585,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Activity':  
             $tableName = 'civicrm_activity';
             break;
+        case 'Relationship':  
+            $tableName = 'civicrm_relationship';
+            break;
         case 'PhoneCall':
             $tableName = 'civicrm_phonecall';
             break;
