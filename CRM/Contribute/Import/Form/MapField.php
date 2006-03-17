@@ -436,7 +436,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                         if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email).') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
                         }
                         
                     } else if ( $field == 'contact_id' &&  ! $defaultFlag ) {
