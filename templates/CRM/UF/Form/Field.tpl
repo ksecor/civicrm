@@ -55,7 +55,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {/if}
         <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form?{/ts}</dd>
         {/if}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {if $action neq 4}
