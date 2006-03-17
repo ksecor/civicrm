@@ -142,12 +142,14 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $this->addElement( 'text', $id . 'other', $label, $attributes[$id . 'other'] );
     }
 
-    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null ) {
+    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null,$required = null ) {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $location[$locationId]['address']['street_address']         =
             $this->addElement('text', "location[$locationId][address][street_address]", $title,
                               $attributes['street_address']);
+        //  $this->addRule('location[1][address][street_address]' , ts("Please enter the street address"),'required');
+
         $location[$locationId]['address']['supplemental_address_1'] =
             $this->addElement('text', "location[$locationId][address][supplemental_address_1]", ts('Addt\'l Address 1'),
                               $attributes['supplemental_address_1']);
@@ -158,18 +160,26 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $location[$locationId]['address']['city']                   =
             $this->addElement('text', "location[$locationId][address][city]", ts('City'),
                               $attributes['city']);
+        $this->addRule('location[1][address][city]' , ts("Please enter the city"),'required');
+
         $location[$locationId]['address']['postal_code']            =
             $this->addElement('text', "location[$locationId][address][postal_code]", ts('Zip / Postal Code'),
                               $attributes['postal_code']);
+        //   $this->addRule('location[1][address][postal_code]' , ts("Please enter the Zip/Postal"),'required');
+
         $location[$locationId]['address']['postal_code_suffix']            =
             $this->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
          $location[$locationId]['address']['state_province_id']      =
              $this->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
+         $this->addRule('location[1][address][state_province_id]' , ts("Please select the state"),'required');
+
          $location[$locationId]['address']['country_id']             =
              $this->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+           $this->addRule('location[1][address][country_id]' , ts("Please select the country"),'required');
+
 
          if ( $phone ) {
              $location[$locationId]['phone'][1]['phone_type'] = $this->addElement('select',
@@ -182,7 +192,9 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                                                                                   $phone,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              'phone'));
-             $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter value for $phone"),'required');
+             if($required) {
+                 $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter value for $phone"),'required');
+             }
          }
 
          if ( $alternatePhone ) {
@@ -196,9 +208,11 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                                                                                   "location[$locationId][phone][2][phone]", 
                                                                                   $phoneTitle,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-          
+                                                                                                             
                                                                                                    'phone'));
-             $this->addRule("location[$locationId][phone][2][phone]",ts("Please Enter value for $alternatePhone"),'required');
+             if ($required) {
+                 $this->addRule("location[$locationId][phone][2][phone]",ts("Please Enter value for $alternatePhone"),'required');
+             }
          }
     }
 

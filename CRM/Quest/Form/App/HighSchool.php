@@ -73,6 +73,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->addElement('text', 'organization_name',
                           ts( 'School you are now attending' ),
                           $attributes['organization_name'] );
+        $this->addRule('organization_name',ts('Please Enter  School Name'),'required');
 
         $this->addElement('text', 'custom_1',
                           ts( 'School Search Code' ),
@@ -81,6 +82,9 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->addElement('date', 'date_of_entry',
                           ts( 'Date of entry (month/year)' ),
                           CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
+        $this->addRule('date_of_entry', ts('Select a valid date.'), 'qfDate');
+        $this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
+        
         
         $this->addRadio( 'custom_2',
                          ts( 'Your School Is' ),
@@ -89,6 +93,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->addElement('text', 'custom_3',
                           ts( 'Number of students in your school' ),
                           $attributes['organization_name'] );
+        $this->addRule('custom_3',ts('Please Enter number of students'),'required');
 
         $this->buildAddressBlock( 1,
                                   ts( 'School Address' ),

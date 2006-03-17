@@ -17,7 +17,7 @@
 <td>We realize our applicants come from a diverse group of secondary schools. Please tell us about your particular school by answering the following questions.</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.organization_name.label}<span class="marker">*</span></td>
+    <td class="grouplabel">{$form.organization_name.label}</td>
     <td>                   {$form.organization_name.html}</td>
 </tr>
 <tr>
@@ -25,11 +25,11 @@
     <td>                   {$form.custom_1.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.date_of_entry.label}<span class="marker">*</span></td>
+    <td class="grouplabel">{$form.date_of_entry.label}</td>
     <td>                   {$form.date_of_entry.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel" rowspan="4">{ts}School Address{/ts} <span class="marker">*</span></td>
+    <td class="grouplabel" rowspan="5">{ts}School Address{/ts}</td>
     <td> {$form.location.1.address.street_address.html}<br />
          {ts}Number and Street (including apartment number){/ts}</td>
 </tr>
@@ -37,8 +37,11 @@
     <td>{$form.location.1.address.city.html}<br/></td>
 </tr>
 <tr>
+    <td>{$form.location.1.address.state_province_id.html}<br/></td>
+</tr>
+<tr>
     <td>{$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
-        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/ts} <span class="marker">*</span></td>
+        {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/ts}</td>
 </tr>
 <tr>
     <td>{$form.location.1.address.country_id.html}</td>
@@ -48,11 +51,11 @@
     <td>{$form.location.1.phone.1.phone.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.custom_2.label}<span class="marker">*</span></td>
+    <td class="grouplabel">{$form.custom_2.label}</td>
     <td>{$form.custom_2.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.custom_3.label}<span class="marker">*</span></td>
+    <td class="grouplabel">{$form.custom_3.label}</td>
     <td> {$form.custom_3.html}</td>
 </tr>
 <tr>

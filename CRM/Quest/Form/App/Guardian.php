@@ -72,9 +72,13 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
                            $attributes['first_name'] );
+        $this->addRule('first_name',ts('Please Enter First Name'),'required');
+
         $this->addElement( 'text', "last_name",
                            ts('Last Name'),
                            $attributes['last_name'] );
+        $this->addRule('last_name',ts('Please Enter  Last Name'),'required');
+
         
         $this->addSelect('marital_status', ts( 'Marital Status?' ) );
 
@@ -82,7 +86,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
         
-        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), true );
+        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ),null,true );
 
         $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
@@ -91,6 +95,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', "age",
                            ts('Age'),
                            $attributes['age'] );
+        $this->addRule('age',ts('Please Enter Age'),'required');
         
         $this->addRadio( 'lived_with_period_id',
                          ts( 'How long have you lived with this person?' ),
@@ -99,7 +104,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributed['lived_with_from_age'] );
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributed['lived_with_to_age'] );
-        $this->addSelect('industry', ts( 'Industry' ) );
+        $this->addSelect('industry', ts( 'Industry' ),null );
         $this->addElement( 'text', "job_organization",
                            ts( 'Name of business or organization' ),
                            $attributes['job_organization'] );
@@ -109,7 +114,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', 'job_current_years',
                            ts('Number of years in current occupation'),
                            $attributes['job_current_years']);
-        $this->addSelect('highest_school_level', ts('Highest level of schooling'));
+        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
         $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));

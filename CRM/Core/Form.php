@@ -571,6 +571,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $choice[] = $this->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
         }
         $this->addGroup( $choice, $id, $title );
+        if ( $required ) {
+            $this->addRule($id,ts("$title"),'required');
+        }
     }
 
     function addCheckBox( $id, $title, $values, $other, $attributes ,$required = null) {

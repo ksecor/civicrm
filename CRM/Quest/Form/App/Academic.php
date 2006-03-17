@@ -73,9 +73,10 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $this->addElement('text', 'gpa',
                           ts( 'What is your GPA?' ),
                           $attributes['gpa'] );
+        $this->addRule('gpa' , ts("Please enter GPA"),'required');
 
         $this->addYesNo( 'is_class_ranking',
-                         ts( 'Does your school give class rankings?' ) );
+                         ts( 'Does your school give class rankings?' ),null,true );
 
         $this->addElement('text', 'class_rank',
                           ts( 'If yes, what is your class rank?' ),

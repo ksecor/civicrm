@@ -14,11 +14,11 @@
     <td colspan=2 id="category">{$wizard.title}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.gpa.label}<span class="marker">*</span></td>
+    <td class="fieldlabel">{$form.gpa.label}</td>
     <td>{$form.gpa.html} <br/> Please give your GPA on an unweighted, 4.0 scale</td>
 </tr> 
 <tr>
-    <td class="fieldlabel">{$form.is_class_ranking.label}<span class="marker">*</span></td>
+    <td class="fieldlabel">{$form.is_class_ranking.label}</td>
     <td>{$form.is_class_ranking.html}</td>
 </tr> 
 <tr>

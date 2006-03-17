@@ -79,6 +79,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                'member_count_' . $i,
                                $title,
                                $attributes['member_count'] );
+            $this->addRule('member_count_'.$i,ts('Please Enter the number of people live with u'),'required');
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addSelect( "relationship",
@@ -87,17 +88,21 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 $this->addElement( 'text', "first_name_".$i."_".$j,
                                    ts('First Name'),
                                    $attributes['first_name'] );
+                
                 $this->addElement( 'text', "last_name_".$i."_".$j,
                                    ts('Last Name'),
                                    $attributes['last_name'] );
-
+                
                 if ( $i == 2 ) {
                     $this->addElement( 'checkbox', "same_".$i."_".$j, null, null );
                 }
             }
 
-            $this->addSelect( "years_lived",
+            /*  $this->addSelect( "years_lived",
                                ts( 'How long have you lived in this household?' ),
+                              "_".$i,true );*/
+            $this->addSelect( "years_lived",
+                              ts( 'How long have you lived in this household?' ),
                               "_".$i );
         }
 

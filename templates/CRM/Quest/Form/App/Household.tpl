@@ -38,8 +38,8 @@ Please list the primary caregiver(s) (parents, legal guardians, etc.) in this ho
     <td>{$form.last_name_1_2.html}</td>
 </tr>
 <tr>
-    <td>{$form.years_lived_1.label}</td>
-    <td>{$form.years_lived_1.html}</td>
+    <td>{$form.years_lived_id_1.label}</td>
+    <td>{$form.years_lived_id_1.html}</td>
 </tr>
 </table>
 
@@ -71,8 +71,8 @@ Please list the primary caregiver(s) (parents, legal guardians, etc.) in this ho
     <td>{$form.same_2_2.html}</td>
 </tr>
 <tr>
-    <td>{$form.years_lived_2.label}</td>
-    <td>{$form.years_lived_2.html}</td>
+    <td>{$form.years_lived_id_2.label}</td>
+    <td>{$form.years_lived_id_2.html}</td>
 </tr>
 
 </table>

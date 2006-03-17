@@ -14,11 +14,11 @@
     <td colspan=2 id="category">{$wizard.title}</td>
 </tr>
 <tr>
-     <td class="fieldlabel"> {$form.internet_access.label} <span class="marker">*</span> </td>
+     <td class="fieldlabel"> {$form.internet_access.label} </td>
      <td>{$form.internet_access.html}</td>
 </tr> 
 <tr>
-    <td class="fieldlabel"> {$form.is_home_computer.label}<span class="marker">*</span> </td>
+    <td class="fieldlabel"> {$form.is_home_computer.label}</td>
     <td> {$form.is_home_computer.html} </td>
 </tr> 
 <tr>
@@ -26,7 +26,7 @@
     <td> {$form.is_home_internet.html} </td>
 </tr> 
 <tr>
-    <td class="fieldlabel"> {$form.is_take_SAT_ACT.label}<span class="marker">*</span> </td>
+    <td class="fieldlabel"> {$form.is_take_SAT_ACT.label}</td>
     <td> {$form.is_take_SAT_ACT.html} </td>
 </tr>
 <tr>
