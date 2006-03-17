@@ -59,7 +59,13 @@ Class CRM_Contact_Form_GroupTag
      * @static
      * @access public
      */
-    static function buildGroupTagBlock(&$form, $contactId = 0, $type = CRM_Contact_Form_GroupTag::ALL, $visibility = false, $isRequired = null) {
+    static function buildGroupTagBlock(&$form,
+                                       $contactId = 0,
+                                       $type = CRM_Contact_Form_GroupTag::ALL,
+                                       $visibility = false,
+                                       $isRequired = null,
+                                       $groupName = 'Groups(s)',
+                                       $tagName   = 'Tag(s)' ) {
         $type = (int ) $type;
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) {
             $elements = array( );
@@ -84,9 +90,9 @@ Class CRM_Contact_Form_GroupTag
                 $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
             if ( ! empty( $elements ) ) {
-                $form->addGroup( $elements, 'group', ts( 'Group(s)' ), '<br />' );
+                $form->addGroup( $elements, 'group', ts( $groupName ), '<br />' );
                 if ( $isRequired ) {
-                    $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts('Group(s)'))) , 'required');   
+                    $form->addRule( 'group' , ts('%1 is a required field.', array(1 => ts($groupName))) , 'required');   
                 }
             }
         }
@@ -98,11 +104,11 @@ Class CRM_Contact_Form_GroupTag
                 $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
             }
             if ( ! empty( $elements ) ) { 
-                $form->addGroup( $elements, 'tag', ts( 'Tag(s)' ), '<br />' );
+                $form->addGroup( $elements, 'tag', ts( $tagName ), '<br />' );
             }
             
             if ( $isRequired ) {
-                $form->addRule( 'tag' , ts('%1 is a required field.', array(1 => ts('Tag(s)'))) , 'required');   
+                $form->addRule( 'tag' , ts('%1 is a required field.', array(1 => ts($tagName))) , 'required');   
             }
         }
         
