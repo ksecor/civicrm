@@ -16,10 +16,6 @@ In this section, our goal is to better understand your living situation over the
     <td colspan=2 id="category">{$wizard.title}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.sibling_count.label}</td>
-    <td>{$form.sibling_count.html}</td>
-</tr>
-<tr>
     <td class="grouplabel">{$form.member_count_1.label}</td>
     <td>{$form.member_count_1.html}</td>
 </tr>

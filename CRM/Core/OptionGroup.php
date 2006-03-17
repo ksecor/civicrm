@@ -41,7 +41,7 @@
 class CRM_Core_OptionGroup {
     static $_values = array( );
 
-    static function &values( $name ) {
+    static function &values( $name, $flip = false ) {
 
         if ( ! CRM_Utils_Array::value( $name, self::$_values ) ) {
             self::$_values[$name] = array( );
@@ -61,7 +61,11 @@ ORDER BY v.grouping, v.weight;
             
             $dao =& CRM_Core_DAO::executeQuery( $query );
             while ( $dao->fetch( ) ) {
-                self::$_values[$name][$dao->name] = $dao->title;
+                if ( $flip ) {
+                    self::$_values[$name][$dao->title] = $dao->name;
+                } else {
+                    self::$_values[$name][$dao->name] = $dao->title;
+                }
             }
         }
 

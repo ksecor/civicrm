@@ -69,11 +69,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Household');
 
-        $this->addElement( 'text',
-                           'sibling_count',
-                           ts( 'How many total siblings do you have?' ),
-                           $attributes['sibling_count'] );
-
         for ( $i = 1; $i <= 2; $i++ ) {
             if ( $i == 1 ) {
                 $title = ts( 'How many people live with you in your current household?' );

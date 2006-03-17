@@ -46,13 +46,6 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>sibling_count</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>How many siblings do u have, only valid in Current household.</comment>
-      <add>1.5</add>
-  </field>
-  <field>
       <name>person_1_id</name>
       <type>int unsigned</type>
       <required>true</required>
