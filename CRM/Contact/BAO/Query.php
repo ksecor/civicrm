@@ -245,7 +245,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -1759,7 +1759,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query );
         }
 
-        //CRM_Core_Error::debug( 'q', $query );
+        // CRM_Core_Error::debug( 'q', $query );
         $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
             $ids = array( );
