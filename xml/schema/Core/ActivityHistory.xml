@@ -26,7 +26,7 @@
   </field>
   <field>
       <name>entity_id</name>
-      <title> Contact ID (match to contact)</title>
+      <title>Contact ID (match to contact)</title>
       <import>true</import>
       <type>int unsigned</type>
       <headerPattern>/contact(.?id)?/i</headerPattern>

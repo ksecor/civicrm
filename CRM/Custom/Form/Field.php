@@ -272,8 +272,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('text', 'start_date_years', ts('Dates may be up to'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'start_date_years'), false);
         $this->add('text', 'end_date_years', ts('Dates may be up to'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'end_date_years'),false);
         
-        $this->addRule('start_date_years', ts('value should be Positive number') , 'integer');
-        $this->addRule('end_date_years', ts('value should be Positive number') , 'integer');
+        $this->addRule('start_date_years', ts('Value should be positive number') , 'integer');
+        $this->addRule('end_date_years', ts('Value should be positive number') , 'integer');
 
         
         $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
@@ -284,8 +284,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // for Note field
         
-        $this->add('text', 'note_columns', ts('Width (columns) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
-        $this->add('text', 'note_rows', ts('Height (rows) '), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
+        $this->add('text', 'note_columns', ts('Width (columns)') . ' ', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'), false);
+        $this->add('text', 'note_rows', ts('Height (rows)') . ' ', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),false);
         
         $this->addRule('note_columns', ts('value should be Positive number') , 'positiveInteger');
         $this->addRule('note_rows', ts('value should be Positive number') , 'positiveInteger');
