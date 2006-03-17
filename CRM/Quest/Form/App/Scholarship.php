@@ -103,6 +103,23 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     {
         $params = $this->controller->exportValues( $this->_name );
         $values = $this->controller->exportValues( 'Personal' );
+        $params = array_merge( $params,$values );
+        $params['location'][1]['location_type_id'] = 1;
+        $params['location'][2]['location_type_id'] = 1;
+      
+
+        $id = $this->get('id');
+        $contact_id = $this->get('contact_id');
+        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
+        $ids = array();
+        $ids['id'] = $id;
+        $ids['contact_id'] = $contact_id;
+
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $params, $ids);
+        $this->set('id', $student->id );
+        $this->set('contact_id',$student->contact_id );
         
     }//end of function
 

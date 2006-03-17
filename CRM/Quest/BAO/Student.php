@@ -34,43 +34,58 @@
  *
  */
 
-/**
- * State machine for managing different states of the Quest process.
- *
+/** 
+ *  this file contains functions for Student
  */
-class CRM_Core_OptionGroup {
-    static $_values = array( );
 
-    static function &values( $name, $flip = false ) {
 
-        if ( ! CRM_Utils_Array::value( $name, self::$_values ) ) {
-            self::$_values[$name] = array( );
+require_once 'CRM/Quest/DAO/Student.php';
 
-            $domainID = CRM_Core_Config::domainID( );
-            $query = "
-SELECT v.name as name, v.title as title ,v.id as id
-FROM   civicrm_option_value v,
-       civicrm_option_group g
-WHERE  v.option_group_id = g.id
-  AND  g.domain_id       = $domainID
-  AND  g.name            = '$name'
-  AND  v.is_active       = 1 
-  AND  g.is_active       = 1 
-ORDER BY v.grouping, v.weight;
-";
-            
-            $dao =& CRM_Core_DAO::executeQuery( $query );
-           
-            while ( $dao->fetch( ) ) {
-                if ( $flip ) {
-                    self::$_values[$name][$dao->title] = $dao->id;
-                } else {
-                    self::$_values[$name][$dao->id] = $dao->title;
-                }
-            }
+class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
+
+    
+    /**
+     * class constructor
+     */
+    function __construct( ) {
+        parent::__construct( );
+    }
+
+    
+
+    /**
+     * function to add/update student Information
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id
+     * 
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function create(&$params, &$ids) {
+        $params['contact_type'] = 'Individual';
+       
+        if ( ! $ids['id']) { 
+             $params['location'][1]['location_type_id'] = 1;
+             $params['location'][2]['location_type_id'] = 1;
+             $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
         }
-        return self::$_values[$name];
+        if ($contact->id ) {
+            $params['contact_id'] = $contact->id;
+        } else {
+            $params['contact_id'] = $ids['contact_id'];
+        }
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->copyValues($params);
+        if( $ids['id'] ) {
+            $dao->id = $ids['id'];
+        }
+        $student = $dao->save();
+        return $student;
+       
+                
     }
 }
-
+    
 ?>

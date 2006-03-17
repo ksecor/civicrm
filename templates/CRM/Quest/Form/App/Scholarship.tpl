@@ -30,8 +30,8 @@
     <td> {$form.is_take_SAT_ACT.html} </td>
 </tr>
 <tr>
-    <td class="fieldlabel"> {$form.study_method.label}</td>
-    <td>{$form.study_method.html}</td>
+    <td class="fieldlabel"> {$form.study_method_id.label}</td>
+    <td>{$form.study_method_id.html}</td>
 </tr>
 </table>
 <div class="crm-submit-buttons">

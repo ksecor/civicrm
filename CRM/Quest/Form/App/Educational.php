@@ -93,6 +93,43 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
 
     }//end of function
     /**
+      * process the form after the input has been submitted and validated
+      *
+      * @access public
+      * @return void
+      */
+    public function postProcess() 
+    {
+        $params = $this->controller->exportValues( $this->_name );
+        $values = $this->controller->exportValues( 'Personal' );
+        $params = array_merge( $params,$values );
+        
+        if ( $params['educational_interest'] ) {
+            $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
+        }
+        if ( $params['college_interest'] ) {
+            $params['college_interest']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_interest']));
+        }
+
+        if ( $params['college_type'] ) {
+            $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
+        }
+        
+        $id = $this->get('id');
+        $contact_id = $this->get('contact_id');
+        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
+        $ids = array();
+        $ids['id'] = $id;
+        $ids['contact_id'] = $contact_id;
+
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $params, $ids);
+        $this->set('id', $student->id );
+        $this->set('contact_id',$student->contact_id );
+       
+    }
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string

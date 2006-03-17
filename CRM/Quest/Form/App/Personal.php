@@ -169,7 +169,32 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     {
       $params = $this->controller->exportValues( $this->_name );
       
-        
+      require_once 'CRM/Quest/BAO/Student.php';
+      $id = array();
+      $id = $this->get('id');
+      $contact_id = $this->get('contact_id');
+      
+      $ids['id'] = $id;
+      $ids['contact_id'] = $contact_id;
+
+      //$fieldArray = array('contact_id','citizenship_status_id','citizenship_country_id','growup_country_id','nationality_country_id',
+      //                'ethnicity_id_1','ethnicity_id_2','ethnicity_id_2','home_area_id','parent_grad_college_id','internet_access_id',
+      //                'study_method_id','gpa_id','class_rank_percent_id','fed_lunch_id');
+      
+     //  $fieldArray = array("high_school_grad_year","parent_grad_college_id","is_home_computer","is_take_SAT_ACT","educational_interest",
+//                           "college_type","college_interest","gpa_id");
+
+//       foreach( $fieldArray as $value ) {
+//           if ( ! $params[$value] ) {
+//               $params[$value] = 1;
+//           }
+         
+//       }
+    
+      $student = CRM_Quest_BAO_Student::create( $params,$id);
+      $this->set('id', $student->id );
+      $this->set('contact_id',$student->contact_id );
+      
     }//end of function
 
     /**

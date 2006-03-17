@@ -155,7 +155,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         }
 
         $this->set( 'householdDetails', $details );
-
+       
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {

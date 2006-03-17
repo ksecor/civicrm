@@ -113,10 +113,10 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                 $this->addRule($id . '_id' . $prefix, ts("Please select $label"),'required');
             }
         } else {
-            $this->addElement('select', $id , $label,
+            $this->addElement('select', $id. '_id' , $label,
                               array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
             if ( $required) {
-                $this->addRule($id , ts("Please select $label"),'required');
+                $this->addRule($id. '_id' , ts("Please select $label"),'required');
             }
 
         }
