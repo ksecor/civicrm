@@ -611,12 +611,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     /**
      * Function to set default values for custom data used in profile
      *
-     * @params int $customFieldId custom field id
+     * @params int    $customFieldId custom field id
+     * @params string $elementName   custom field name
+     * @params array  $defaults      associated array of fields
+     * @params int    $contactId     contact id
+     * @param  int    $mode          profile mode
      * 
      * @static
      * @access public
      */
-    static function setProfileDefaults( $customFieldId, $elementName, &$defaults, $contactId = null ) 
+    static function setProfileDefaults( $customFieldId, $elementName, &$defaults, $contactId = null, $mode = null ) 
     {
         //get the type of custom field
         $customField =& new CRM_Core_BAO_CustomField();
@@ -625,8 +629,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         
         $customField->find(true);
         
-        if (!$contactId) {
-            $value = $customField->default_value;
+        if (!$contactId ) {
+            if ($mode == CRM_Profile_Form::MODE_CREATE ) {
+                $value = $customField->default_value;
+            }
         } else {
             // make sure the custom value exists
             $cv =& new CRM_Core_BAO_CustomValue();
@@ -660,14 +666,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
         }
 
-        if (!trim($value)) {
+        //set defaults if mode is registration 
+        if (!trim($value) && $mode == CRM_Profile_Form::MODE_REGISTER ) {
             $value = $customField->default_value;
         }
-
+        
         switch ($customField->html_type) {
             
         case 'CheckBox':
+            
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, $inactiveNeeded);
+
             $defaults[$elementName] = array();
 
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);

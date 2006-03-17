@@ -251,7 +251,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                             $defaults,
                                                             CRM_Contact_Form_GroupTag::TAG ); 
                 } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($objName)) {
-                    CRM_Core_BAO_CustomField::setProfileDefaults( $cfID, $name, $defaults, $this->_id );
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $cfID, $name, $defaults, $this->_id, $this->_mode );
                 } else {
                     $defaults[$name] = $this->_contact->$objName;
                 }
@@ -380,7 +380,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 if ($required) {
                     $this->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
                 }
-                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id );
+                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
                 $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
