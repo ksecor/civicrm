@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-17 10:02+0100\n"
+"POT-Creation-Date: 2006-03-17 14:48+0100\n"
 "PO-Revision-Date: 2006-03-17 12:49+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1038,6 +1038,10 @@ msgstr "Nazwa nadawcy pokwitowania"
 msgid "Receipt From Email"
 msgstr "Email nadawcy pokwitowania"
 
+#: CRM/Contribute/DAO/Contribution.php CRM/Core/DAO/ActivityHistory.php
+msgid "Contact ID (match to contact)"
+msgstr "Identyfikator kontaktu (dopasowanie do kontaktu)"
+
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
@@ -1109,7 +1113,7 @@ msgstr "Jednostka częstotliwości"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "Odstęp częstości"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
@@ -1121,7 +1125,7 @@ msgstr "dzień"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "week"
-msgstr ""
+msgstr "tydzień"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "month"
@@ -1160,6 +1164,12 @@ msgid "Payment Instrument"
 msgstr "Rodzaj płatności"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
+msgstr "stan"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Options"
 msgstr "Opcje"
 
@@ -1169,7 +1179,7 @@ msgstr "Rodzaj okresu"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Fixed Period Start Day"
-msgstr ""
+msgstr "Dzień rozpoczęcia stałego okresu"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Duration Unit"
@@ -1316,14 +1326,15 @@ msgstr ""
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
 msgid ""
-"Missing required contact matching fields .( Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email )<br />"
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.)"
 msgstr ""
+"Brak wymaganych pól dopasowywania kontaktu (imienia i nazwiska, adresu email lub imienia, nazwiska i adresu email)."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
-msgid "Missing required contact matching field: Contact ID <br />"
-msgstr ""
+msgid "Missing required contact matching field: Contact ID."
+msgstr "Brak wymaganych pola dopasowywania: identyfikatora kontaktu."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -2695,7 +2706,7 @@ msgstr "Domena emailowa:"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Send Emails RETURN-PATH:"
-msgstr ""
+msgstr "Return-Path: wysyłanych emaili"
 
 #: CRM/Contact/Form/Domain.php
 msgid "The Domain \"%1\" has been saved."
@@ -2752,7 +2763,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr ""
+msgstr "Dwie lokalizacje nie mogą mieć tego samego rodzaju lokalizacji"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -3083,6 +3094,8 @@ msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1"
 msgstr ""
+"Emaile nie wysłane do kontaktów (brak adresu lub preferencje komunikacyjne "
+"ustawione na NIE WYSYŁAĆ EMAILI): %1"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select more fields"
@@ -3357,7 +3370,7 @@ msgstr "Wybrana opcja"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "No thank you"
-msgstr ""
+msgstr "Nie, dziękuję"
 
 #: CRM/Contribute/DAO/AcceptCreditCard.php
 msgid "Accept Credit Card"
@@ -3408,12 +3421,8 @@ msgid "Footer Text"
 msgstr "Tekst stopki"
 
 #: CRM/Contribute/DAO/Contribution.php
-msgid "Contact ID (match to contact)"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "Identyfikator doradcy"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receive Date"
@@ -3441,7 +3450,7 @@ msgstr "Opcja produktu"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Ilość"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Fulfilled Date"
@@ -3453,7 +3462,7 @@ msgstr "Komentarz"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Installments"
-msgstr ""
+msgstr "Zaliczki"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Create Date"
@@ -3505,11 +3514,11 @@ msgstr "Uznanie"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Active"
-msgstr ""
+msgstr "Aktywne dodatki"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "Tytuł części z dodatkami"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
@@ -3536,16 +3545,12 @@ msgid "Product Name"
 msgstr "Nazwa produktu"
 
 #: CRM/Contribute/DAO/Product.php
-msgid "Sku"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php
 msgid "Image"
 msgstr "Obrazek"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniaturka"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Price"
@@ -3601,6 +3606,8 @@ msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
 msgstr ""
+"Nie udało się znaleźć szczegółów dotacji dla tego żądania. Proszę spróbować "
+"ponownie."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -3668,8 +3675,8 @@ msgid "Select a valid date greater than today."
 msgstr "Wybierz poprawną datę, późniejszą niż dzień dzisiejszy."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-msgid "The premium you have selected requires a minimum contribution of $ %1"
-msgstr ""
+msgid "The premium you have selected requires a minimum contribution of %1"
+msgstr "Wybrany dodatek wymaga minimalnej dotacji w wysokości %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
@@ -3689,7 +3696,7 @@ msgstr "Wprowadź poprawny numer weryfikacji karty kredytowej."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr ""
+msgstr "Wybrany produkt dodatkowy został usunięty ze tej strony dotacji."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
@@ -3753,7 +3760,7 @@ msgstr "Konfiguracja %1"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr ""
+msgstr "Włączyć dział dodatków?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Email"
@@ -3916,18 +3923,12 @@ msgid "A product with this name already exists. Please select another name."
 msgstr "Rodzaj dotacji o tej nazwie już istnieje. Wybierz inną nazwę."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
-msgstr ""
-
-#: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
-msgstr ""
+msgstr "Wgraj z mojego komputera"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Display image and thumbnail from these locations on the web:"
-msgstr ""
+msgstr "Wyświetl obrazek i miniaturkę z tego adresu:"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Use default image"
@@ -3939,7 +3940,7 @@ msgstr "Nie wyświetlaj obrazka"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Premium Image"
-msgstr ""
+msgstr "Obrazek dodatku"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please select an option for the premium image."
@@ -3951,7 +3952,7 @@ msgstr "URL obrazka"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Thumbnail URL"
-msgstr ""
+msgstr "Adres URL miniaturki"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Image File Name"
@@ -3969,7 +3970,7 @@ msgstr "Wprowadź wartość rynkową dla tego produktu."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Actual Cost of Product"
-msgstr ""
+msgstr "Faktyczny koszt produktu"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter the Actual Cost of Product."
@@ -3981,7 +3982,7 @@ msgstr "Wprowadź wartość pieniężną do pola Minimalna kwota dotacji."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
-msgstr ""
+msgstr "Częstość"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Selected Premium Product type has been deleted."
@@ -3995,6 +3996,10 @@ msgid ""
 "image you can upload it separately and input the thumbnail URL by editing "
 "this premium."
 msgstr ""
+"UWAGA: Instalacja PHP nie ma wkompilowanej biblioteki GD, przez co nie "
+"wygenerowano miniaturki obrazka. W tej chwili produkt będzie wyświetlany z "
+"domyślną miniaturką. Jeśli istnieje osobna miniaturka, można ją wgrać i "
+"podać jej adres URL podczas edycji tego produktu."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "The Premium Product  \"%1\" has been saved."
@@ -4172,6 +4177,10 @@ msgid ""
 "not delete the premium record - so you can re-enable it and add it back to "
 "your contribution page(s) at a later time."
 msgstr ""
+"Na pewno chcesz wyłączyć ten dodatek? Spowoduje to usunięcie tego dodatku z "
+"każdej oferującej go strony dotacji. Nie spowoduje to jednak skasowania "
+"wpisu dodatki – będzie go można później ponownie włączyć i dodać do stron "
+"dotacji."
 
 #: CRM/Contribute/Page/ManagePremiums.php
 msgid "Enable Premium"
@@ -4377,8 +4386,10 @@ msgid "The tag \"%1\" has been saved."
 msgstr "Kategoria „%1” została usunięta."
 
 #: CRM/Core/BAO/UFField.php
-msgid "Cannot enable this uf field since the used custom field is disabled."
+msgid "Cannot enable this UF field since the used custom field is disabled."
 msgstr ""
+"Nie można włączyć tego pola UF, ponieważ użyte pole danych dodatkowych jest "
+"wyłącznone."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
@@ -4435,10 +4446,6 @@ msgstr "Udziel"
 #: CRM/Core/DAO/ACL.php
 msgid "Revoke"
 msgstr "Cofnij"
-
-#: CRM/Core/DAO/ActivityHistory.php
-msgid " Contact ID (match to contact)"
-msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Callback Method"
@@ -4562,7 +4569,7 @@ msgstr "Części daty"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Kolumny notatki"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Rows"
@@ -4785,24 +4792,24 @@ msgid "Regular Expression No Match"
 msgstr "Brak dopasowania po wyrażeniu regularnym"
 
 #: CRM/Core/Form/Date.php
-msgid "yyyy-mm-dd OR yyyymmdd (1999-02-03 OR 19990203)"
-msgstr ""
+msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
+msgstr "RRRR-MM-DD lub RRRRMMDD (1998-12-25 lub 19981225)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)"
-msgstr ""
+msgstr "MM/DD/RR lub MM-DD-RR (12/25/98 lub 12-25-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)"
-msgstr ""
+msgstr "MM/DD/RRRR lub MM-DD-RRRR (12/25/1998 lub 12-25-1998))"
 
 #: CRM/Core/Form/Date.php
-msgid "Month dd, yyyy (April 11, 2003)"
-msgstr ""
+msgid "Month dd, yyyy (December 12, 1998)"
+msgstr "miesiąc DD, RRRR (grudzień 12, 1998)"
 
 #: CRM/Core/Form/Date.php
-msgid "dd-mon-yy (11-Jan-84)"
-msgstr ""
+msgid "dd-mon-yy (25-Dec-98)"
+msgstr "DD-mies-RR (25-gru-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
@@ -4894,6 +4901,9 @@ msgid ""
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
 msgstr ""
+"Nie udało się przenieść pliku %1 do katalogu %2. Sprawdź, czy "
+"CIVICRM_IMAGE_UPLOADDIR jest ustawione na poprawną ścieżkę, zapisywalną "
+"przez serwer WWW."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -5081,11 +5091,11 @@ msgstr "Rodzaj danych i pola"
 
 #: CRM/Custom/Form/Field.php
 msgid "Dates may be up to"
-msgstr ""
+msgstr "Daty mogą być nie większe niż"
 
 #: CRM/Custom/Form/Field.php
-msgid "value should be Positive number"
-msgstr ""
+msgid "Value should be a positive number"
+msgstr "Wartość powinna być dodatną liczbą całkowitą"
 
 #: CRM/Custom/Form/Field.php
 msgid "Month"
@@ -5101,15 +5111,15 @@ msgstr "Rok"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
-msgstr ""
+msgstr "Dołączone części daty"
 
 #: CRM/Custom/Form/Field.php
-msgid "Width (columns) "
-msgstr ""
+msgid "Width (columns)"
+msgstr "Szerokość (kolumny)"
 
 #: CRM/Custom/Form/Field.php
-msgid "Height (rows) "
-msgstr ""
+msgid "Height (rows)"
+msgstr "Wysokość (wiersze)"
 
 #: CRM/Custom/Form/Field.php
 msgid " must be a numeric value"
@@ -5947,6 +5957,8 @@ msgid ""
 "This Profile includes fields for contact types other than 'Individuals' and "
 "can not be used to create/update contacts."
 msgstr ""
+"Ten profil zawiera pola innych rodzajów kontaktów niż „Osoby” i nie może być "
+"użyty do tworzenia/uaktualniania kontaktów."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
@@ -5970,7 +5982,7 @@ msgstr "Spisy profili CiviCRM"
 
 #: CRM/SMS/BAO/History.php
 msgid "SMS Sent"
-msgstr ""
+msgstr "Wysłano SMS"
 
 #: CRM/SMS/BAO/History.php
 msgid "To: %1; Message: %2"
@@ -6061,7 +6073,7 @@ msgstr "Czy ten profil CiviCRM jest aktywny?"
 
 #: CRM/UF/Form/Group.php
 msgid "Redirect URL"
-msgstr ""
+msgstr "Adres przekierowania"
 
 #: CRM/UF/Form/Group.php
 msgid "Enter a valid URL."
@@ -7476,6 +7488,8 @@ msgid ""
 "Your setup enforces SMTP authentication, but does not provide SMTP username "
 "and/or password. Please fix your civicrm.settings.php file."
 msgstr ""
+"Serwer wymaga uwierzytelniania SMTP, ale nie podano nazwy użytkownika i/lub "
+"hasła SMTP. Podaj te dane w pliku civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -8323,9 +8337,9 @@ msgid ""
 "them using complete URLs."
 msgstr ""
 "Wpisz treść wiadomości wprowadzającej. Ta wiadomość będzie wyświetlana pod "
-"tytułem części z dodatkami. W tekście można używać znaczników HTML. Można też umieszczać "
-"w nim obrazki, o ile wcześniej zostaną wgrane na serwer – należy je podawać "
-"za pomocą pełnych adresów URL."
+"tytułem części z dodatkami. W tekście można używać znaczników HTML. Można "
+"też umieszczać w nim obrazki, o ile wcześniej zostaną wgrane na serwer – "
+"należy je podawać za pomocą pełnych adresów URL."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8557,9 +8571,11 @@ msgid ""
 msgstr ""
 "Ta strona w tej chwili działa w <strong>trybie testowym</strong>. Transakcje "
 "będą wysyłane do serwera testowego Twojego procesora płatności. <strong>Nie "
-"zostaną wykonane żadne transakcje finansowe, zostanie jednak utworzony (lub uaktualniony) wpis kontaktu oraz zostanie utworzony wpis dotacji. Użyj oczywistych nazw kontaktów testowych, żeby potem łatwo znaleźć i skasować te kontakty.</strong> Informacje "
-"dotyczące danych testowych kart kredytowych, kodów bezpieczeństwa itp. można "
-"znaleźć w dokumentacji procesora płatności."
+"zostaną wykonane żadne transakcje finansowe, zostanie jednak utworzony (lub "
+"uaktualniony) wpis kontaktu oraz zostanie utworzony wpis dotacji. Użyj "
+"oczywistych nazw kontaktów testowych, żeby potem łatwo znaleźć i skasować te "
+"kontakty.</strong> Informacje dotyczące danych testowych kart kredytowych, "
+"kodów bezpieczeństwa itp. można znaleźć w dokumentacji procesora płatności."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "Please print this receipt for your records."
@@ -8780,8 +8796,8 @@ msgid ""
 "This will also remove the premium from any contribution pages that currently "
 "include it."
 msgstr ""
-"Na pewno usunąć ten dodatek? Tej operacji nie można cofnąć, a spowoduje "
-"ona usunięcie tego dodatku ze wszystkich stron dotacji, które go zawierają."
+"Na pewno usunąć ten dodatek? Tej operacji nie można cofnąć, a spowoduje ona "
+"usunięcie tego dodatku ze wszystkich stron dotacji, które go zawierają."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Name of the product as it will be displayed to contributors."
@@ -9722,10 +9738,11 @@ msgstr "Nowy dodatek"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
-"No premium products have been created for your site. You can <a href=\"%1\">"
-"add one</a>."
+"No premium products have been created for your site. You can <a href=\"%1"
+"\">add one</a>."
 msgstr ""
-"Nie utworzono jeszcze żadnych produktów dodatkowych. <a href=\"%1\">Można to zrobić tu</a>."
+"Nie utworzono jeszcze żadnych produktów dodatkowych. <a href=\"%1\">Można to "
+"zrobić tu</a>."
 
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid ""
@@ -9766,14 +9783,16 @@ msgid ""
 "There are no premiums offered on this contribution page yet. You can <a href="
 "\"%1\">add one</a>."
 msgstr ""
-"Na tej stronie dotacji nie zaproponowano jeszcze żadnych dodatków. <a href=\"%1"
-"\">Możesz je dodać</a>."
+"Na tej stronie dotacji nie zaproponowano jeszcze żadnych dodatków. <a href="
+"\"%1\">Możesz je dodać</a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
 "There are no active premiums for your site. You can <a href=\"%1\">create "
 "and/or enable premiums here</a>."
-msgstr "Twoje strony nie mają aktywnych dodatków. <a href=\"%1\">Możesz je stworzyć i/lub włączyć</a>."
+msgstr ""
+"Twoje strony nie mają aktywnych dodatków. <a href=\"%1\">Możesz je stworzyć "
+"i/lub włączyć</a>."
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
@@ -10207,9 +10226,9 @@ msgid ""
 "You can <a href=\"%1\">Download Mismatched Activity History records</a>. You "
 "may then correct them, and import the new file with the corrected data."
 msgstr ""
-"Możesz <a href=\"%1\">ściągnąć plik zawierający błędnie dopasowane wpisy historii zdarzeń</"
-"a>. Możesz je następnie poprawić i zaimportować nowy plik z poprawionymi "
-"danymi."
+"Możesz <a href=\"%1\">ściągnąć plik zawierający błędnie dopasowane wpisy "
+"historii zdarzeń</a>. Możesz je następnie poprawić i zaimportować nowy plik "
+"z poprawionymi danymi."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -10463,7 +10482,8 @@ msgid "One contact NOT tagged (already tagged to this tag)."
 msgid_plural "%count contacts NOT tagged (already tagged to this tag)."
 msgstr[0] "Jeden kontakt NIE skategoryzowany (już należy do tej kategorii)."
 msgstr[1] "%count kontakty NIE skategoryzowane (już należą do tej kategorii)."
-msgstr[2] "%count kontaktów NIE skategoryzowanych (już należą do tej kategorii)."
+msgstr[2] ""
+"%count kontaktów NIE skategoryzowanych (już należą do tej kategorii)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -10836,8 +10856,7 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to include this field in the profile's search form?"
-msgstr ""
-"Czy chcesz dodać to pole do formularza wyszukiwania profilu?"
+msgstr "Czy chcesz dodać to pole do formularza wyszukiwania profilu?"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete CiviCRM Profile"
@@ -11380,6 +11399,16 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
+
+#, fuzzy
+#~ msgid "value should be a positive number"
+#~ msgstr "Wartość powinna być dodatną liczbą całkowitą"
+
+#~ msgid "value should be Positive number"
+#~ msgstr "Wartość powinna być dodatną liczbą całkowitą"
+
+#~ msgid "Sku"
+#~ msgstr "stan"
 
 #, fuzzy
 #~ msgid "Premium  Information"
