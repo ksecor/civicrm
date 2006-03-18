@@ -98,9 +98,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 }
             }
 
-            /*  $this->addSelect( "years_lived",
-                               ts( 'How long have you lived in this household?' ),
-                              "_".$i,true );*/
             $this->addSelect( "years_lived",
                               ts( 'How long have you lived in this household?' ),
                               "_".$i );
@@ -167,8 +164,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             return;
         }
 
-        $relationshipName = CRM_Utils_Array::value( CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params ),
-                                                    $relationship );
+        $relationshipName = trim( CRM_Utils_Array::value( CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params ),
+                                                          $relationship ) );
 
         if ( ! $relationshipName ) {
             return;
@@ -178,7 +175,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             return;
         }
 
-        $details[ $relationshipName ] = "$name Details";
+        $details[$relationshipName] = "$name Details";
     }
 }
 
