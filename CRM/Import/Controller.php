@@ -54,12 +54,6 @@ class CRM_Import_Controller extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
-        $wizardStyle = array('barClass' => '',
-                             'stepPrefixCurrent' => '&raquo;',
-                             'stepPrefixPast' => '&radic;',
-                             'stepPrefixFuture' => ' ',
-                             'showTitle' => 1 );
-        $this->assign( 'wizardStyle', $wizardStyle );
     }
 
 }

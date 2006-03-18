@@ -54,18 +54,13 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
-        $wizardStyle = array('barClass' => 'preApp',
-                             'stepPrefixCurrent' => ' ',
-                             'stepPrefixPast' => ' ',
-                             'stepPrefixFuture' => ' ');
-        $this->assign( 'wizardStyle', $wizardStyle );
-//  Idea: add $style param to Controller.php constructor and if not null pass to wizardHeader() function
-//        $this->wizard[] = array('style' => 'quest');
-
     }
 
     function addWizardStyle( &$wizard ) {
-        $wizard['style'] = array( 'style' => 'quest' );
+        $wizard['style'] = array('barClass' => 'preApp',
+                                 'stepPrefixCurrent' => ' ',
+                                 'stepPrefixPast' => ' ',
+                                 'stepPrefixFuture' => ' ');
     }
 
     

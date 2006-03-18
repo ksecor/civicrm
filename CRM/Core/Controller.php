@@ -388,7 +388,11 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     }
 
     function addWizardStyle( &$wizard ) {
-        $wizard['style'] = array( 'style' => 'normal' );
+        $wizard['style'] = array( 'barClass' => '',
+                                  'stepPrefixCurrent' => '&raquo;',
+                                  'stepPrefixPast' => '&radic;',
+                                  'stepPrefixFuture' => ' ',
+                                  'showTitle' => 1 );
     }
 
     /**
