@@ -303,9 +303,22 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return null;
     }
     
-
-    /* static wrapper for _addQuickFormElement */
-    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired, $search = false) {
+    
+    /**
+     * This function for building custom fields
+     * 
+     * @param object  $qf             form object (reference)
+     * @param string  $elementName    name of the custom field
+     * @param boolean $inactiveNeeded 
+     * @param boolean $userRequired   true if required else false
+     * @param boolean $search         true if used for search else false
+     * @param string  $label          label for custom field        
+     *
+     * @access public
+     * @static
+     */
+    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired, $search = false, $label = null) 
+    {
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
@@ -313,6 +326,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             return null;
         }
         
+        if (!$label) {
+            $label = $field->label;
+        }
+
         /**
          * This was split into a different function before. however thanx to php4's bug with references,
          * it was not working, so i munged it back into one big function - lobo
@@ -320,10 +337,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         switch($field->html_type) {
         case 'Text':
             if ($field->is_search_range && $search) {
-                $qf->add('text', $elementName.'_from', $field->label . ' ' . ts('From'), $field->attributes);
+                $qf->add('text', $elementName.'_from', $label . ' ' . ts('From'), $field->attributes);
                 $qf->add('text', $elementName.'_to', ts('To'), $field->attributes);
             } else {
-                $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+                $element = $qf->add(strtolower($field->html_type), $elementName, $label,
                                     $field->attributes, (($useRequired || $field->is_required) && !$search));
             }
             break;
@@ -341,16 +358,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             } else {
                 $attributes .=' cols=60';
             }
-            $element = $qf->add(strtolower($field->html_type), $elementName, $field->label,
+            $element = $qf->add(strtolower($field->html_type), $elementName, $label,
                                 $attributes, (($useRequired || $field->is_required) && !$search));
             break;
 
         case 'Select Date':
             if ( $field->is_search_range && $search) {
-                $qf->add('date', $elementName.'_from', $field->label . ' ' . ts('From'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts ), (($useRequired || $field->is_required) && !$search)); 
-                $qf->add('date', $elementName.'_to', $field->label . ' ' . ts('To'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search)); 
+                $qf->add('date', $elementName.'_from', $label . ' ' . ts('From'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts ), (($useRequired || $field->is_required) && !$search)); 
+                $qf->add('date', $elementName.'_to', $label . ' ' . ts('To'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search)); 
             } else {
-                $qf->add('date', $elementName, $field->label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search));
+                $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired || $field->is_required) && !$search));
             }
             break;
 
@@ -362,14 +379,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 foreach ($customOption as $v) {
                     $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
                 }
-                $qf->addGroup($choice, $elementName, $field->label);
+                $qf->addGroup($choice, $elementName, $label);
             } else {
                 $choice[] = $qf->createElement('radio', null, '', ts('Yes'), '1', $field->attributes);
                 $choice[] = $qf->createElement('radio', null, '', ts('No') , '0' , $field->attributes);
-                $qf->addGroup($choice, $elementName, $field->label);
+                $qf->addGroup($choice, $elementName, $label);
             }
             if (($useRequired || $field->is_required) && !$search) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             
@@ -379,7 +396,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             foreach ($customOption as $v) {
                 $selectOption[$v['value']] = $v['label'];
             }
-            $qf->add('select', $elementName, $field->label,
+            $qf->add('select', $elementName, $label,
                      array( '' => ts('- select -')) + $selectOption,
                      (($useRequired || $field->is_required) && !$search));
             break;
@@ -392,10 +409,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 $selectOption[$v['value']] = $v['label'];
             }
 
-            $qf->addElement('select', $elementName, $field->label, $selectOption,  array("size"=>"5","multiple"));
+            $qf->addElement('select', $elementName, $label, $selectOption,  array("size"=>"5","multiple"));
             
             if (($useRequired || $field->is_required) && !$search) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
  
             break;
@@ -407,9 +424,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             foreach ($customOption as $v) {
                 $check[] =& $qf->createElement('checkbox', $v['value'], null, $v['label']); 
             }
-            $qf->addGroup($check, $elementName, $field->label);
+            $qf->addGroup($check, $elementName, $label);
             if (($useRequired || $field->is_required) && !$search) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $field->label)) , 'required');
+                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             
@@ -420,7 +437,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             } else { 
                 $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             }
-            $qf->add('select', $elementName, $field->label, $stateOption, (($useRequired || $field->is_required) && !$search));
+            $qf->add('select', $elementName, $label, $stateOption, (($useRequired || $field->is_required) && !$search));
             break;
             
         case 'Select Country':
@@ -430,7 +447,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             } else {
                 $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             }
-            $qf->add('select', $elementName, $field->label, $countryOption, (($useRequired || $field->is_required) && !$search));
+            $qf->add('select', $elementName, $label, $countryOption, (($useRequired || $field->is_required) && !$search));
             break;
         }
         
@@ -438,29 +455,29 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Int':
             // integers will have numeric rule applied to them.
             if ( $field->is_search_range && $search) {
-                $qf->addRule($elementName.'_from', ts('%1 From must be an integer (whole number).', array(1 => $field->label)),'integer');
-                $qf->addRule($elementName.'_to', ts('%1 To must be an integer (whole number).', array(1 => $field->label)), 'integer');
+                $qf->addRule($elementName.'_from', ts('%1 From must be an integer (whole number).', array(1 => $label)),'integer');
+                $qf->addRule($elementName.'_to', ts('%1 To must be an integer (whole number).', array(1 => $label)), 'integer');
             } else {
-                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field->label)), 'integer');
+                $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'integer');
             }
             break;
             
         case 'Date':
             if ( $field->is_search_range && $search) {
-                $qf->addRule($elementName.'_from', ts('%1 From is not a valid date.', array(1 => $field->label)), 'qfDate');
-                $qf->addRule($elementName.'_to', ts('%1 To is not a valid date.', array(1 => $field->label)), 'qfDate');
+                $qf->addRule($elementName.'_from', ts('%1 From is not a valid date.', array(1 => $label)), 'qfDate');
+                $qf->addRule($elementName.'_to', ts('%1 To is not a valid date.', array(1 => $label)), 'qfDate');
             } else {
-                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field->label)), 'qfDate');
+                $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $label)), 'qfDate');
             }
             break;
             
         case 'Float':
         case 'Money':
             if ( $field->is_search_range && $search) {
-                $qf->addRule($elementName.'_from', ts('%1 From must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
-                $qf->addRule($elementName.'_to', ts('%1 To must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
+                $qf->addRule($elementName.'_from', ts('%1 From must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
+                $qf->addRule($elementName.'_to', ts('%1 To must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
             } else {
-                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field->label)), 'numeric');
+                $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
             }
             break;
         }
