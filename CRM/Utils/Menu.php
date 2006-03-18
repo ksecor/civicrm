@@ -549,7 +549,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/profile',
-                            'title'   => ts( 'Find Contacts' ),
+                            'title'   => ts( 'Contact Information' ),
                             'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 

@@ -91,7 +91,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             if (CRM_Core_BAO_UFField::checkUFStatus($id)) {
                 CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
             } else {
-                CRM_Core_Session::setStatus(ts('Cannot enable this uf field since the used custom field is disabled.'));
+                CRM_Core_Session::setStatus(ts('Cannot enable this UF field since the used custom field is disabled.'));
             }
         } else {
             return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );

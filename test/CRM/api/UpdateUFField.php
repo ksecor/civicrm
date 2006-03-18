@@ -22,40 +22,53 @@ class TestOfUpdateUFFieldAPI extends UnitTestCase
                         'help_pre'  => 'Help For Profile Group F02',
                         'is_active' => 1
                         );
-        $UFGroup = crm_create_uf_group($params);
-        $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
-        $this->_UFGroup = $UFGroup;
+        $this->_UFGroup = crm_create_uf_group($params);
+        $this->assertIsA($this->_UFGroup, 'CRM_Core_DAO_UFGroup');
     }
     
     function testCreateUFField()
     {
         $params = array(
-                        'field_name' => 'street_address',
+                        'field_name' => 'phone',
                         'location_type_id' => 2,
+                        'phone_type' => 'Mobile',
                         'visibility' => 'Public User Pages and Listings',
-                        'help_post' => 'This is Street Address.',
+                        'help_post' => 'This is Phone of Mobile type.',
+                        'is_active' => 0,
                         'in_selector' => 1,
                         'weight' => 4
                         );
-        $UFField = crm_create_uf_field($this->_UFGroup, $params);
-        $this->_UFField =  $UFField;
-        $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');    
+        $this->_UFField = crm_create_uf_field($this->_UFGroup, $params);
+        $this->assertIsA($this->_UFField, 'CRM_Core_DAO_UFField');    
     }
     
     function testUpdateUFFieldError()
     {
         $params = array();
-        $UFField = crm_update_uf_field($params, $this->UFField->id);
+        $UFField = crm_update_uf_field($params, $this->UFField);
         $this->assertIsA($UFField, 'CRM_Core_Error');
     }
     
     function testUpdateUFFieldAddHelp()
     {
         $params = array(
-                        'help_post' => 'This is Street Address of Group \'New Profile Group F02\'',
+                        'field_type' => 'Individual',
+                        'help_post' => 'This is Phone of UF Group \'New Profile Group F02\'',
+                        'is_active' => 1,
                         );
        
-        $UFField = crm_update_uf_field($params, $this->_UFField->id);
+        $UFField = crm_update_uf_field($params, $this->_UFField);
+        $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
+    }
+    
+    function testUpdateUFField()
+    {
+        $params = array(
+                        'field_name' => 'street_address',
+                        'help_post' => 'This is street address',
+                        'is_active' => 1,
+                        );
+        $UFField = crm_update_uf_field($params, $this->_UFField);
         $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
     }
     
@@ -65,7 +78,7 @@ class TestOfUpdateUFFieldAPI extends UnitTestCase
                         'weight' => 6
                         );
         
-        $UFField = crm_update_uf_field($params, $this->_UFField->id);
+        $UFField = crm_update_uf_field($params, $this->_UFField);
         $this->assertIsA($UFField, 'CRM_Core_DAO_UFField');
     }
     

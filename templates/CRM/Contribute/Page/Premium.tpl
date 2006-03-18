@@ -42,10 +42,10 @@
 	{if $products ne null }
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
           {capture assign=crmURL}{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=$id&subPage=AddProductToPage"}{/capture}
-          <dd>{ts 1=$crmURL}There are no premiums offered on this contribution page yet. You can <a href="%1"> add one </a>.{/ts}</dd>
+          <dd>{ts 1=$crmURL}There are no premiums offered on this contribution page yet. You can <a href="%1">add one</a>.{/ts}</dd>
 	{else}
 	   <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-           <dd>{ts 1=$managePremiumsURL}There are no active premiums for your site. You can <a href="%1">create and/or enable premiums here{/ts}</dd>
+           <dd>{ts 1=$managePremiumsURL}There are no active premiums for your site. You can <a href="%1">create and/or enable premiums here</a>.{/ts}</dd>
 	
 	{/if}
         </dl>

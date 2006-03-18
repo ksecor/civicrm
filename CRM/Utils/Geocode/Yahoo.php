@@ -107,12 +107,14 @@ class CRM_Utils_Geocode_Yahoo {
 
         $ret = array( );
         $ret['precision'] = (string)$xml->Result['precision'];
-        foreach($xml->Result->children() as $key=>$val) {
-            if(strlen($val)) $ret[(string)$key] =  (string)$val;
-        } 
-
-        $values['geo_code_1'] = $ret['Latitude' ];
-        $values['geo_code_2'] = $ret['Longitude'];
+        if ( $xml->Result ) {
+            foreach($xml->Result->children() as $key=>$val) {
+                if(strlen($val)) $ret[(string)$key] =  (string)$val;
+            } 
+            
+            $values['geo_code_1'] = $ret['Latitude' ];
+            $values['geo_code_2'] = $ret['Longitude'];
+        }
 
         return true;
     }

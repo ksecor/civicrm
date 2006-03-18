@@ -22,9 +22,8 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
                         'help_pre'  => 'Help For Profile Group F01',
                         'is_active' => 1
                         );
-        $UFGroup = crm_create_uf_group($params);
-        $this->assertIsA($UFGroup, 'CRM_Core_DAO_UFGroup');
-        $this->_UFGroup = $UFGroup;
+        $this->_UFGroup = crm_create_uf_group($params);
+        $this->assertIsA($this->_UFGroup, 'CRM_Core_DAO_UFGroup');
     }
     
     function testCreateUFFieldError()
@@ -54,6 +53,7 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
                         'visibility' => 'Public User Pages and Listings',
                         'help_post' => 'This is Street Address.',
                         'in_selector' => 1,
+                        'is_active' => 1,
                         'weight' => 4
                         );
         $UFField = crm_create_uf_field($this->_UFGroup, $params);
@@ -67,8 +67,9 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
                         'field_name' => 'phone',
                         'location_type_id' => 3,
                         'phone_type' => 'Mobile',
-                        'visibility' => 'Public User Pages and Listings',
+                        'visibility' => 'User and User Admin Only',
                         'help_post' => 'This is Phone of Mobile Type.',
+                        'is_active' => 1,
                         'in_selector' => 1,
                         'weight' => 5
                         );

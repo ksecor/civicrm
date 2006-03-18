@@ -49,7 +49,7 @@
   </field>
   <field> 
       <name>sku</name> 
-      <title>Sku</title>
+      <title>SKU</title>
       <type>varchar</type>
       <length>50</length>
       <export>true</export> 

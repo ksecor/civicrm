@@ -246,11 +246,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $min_amount = $productDAO->min_contribution;
             if ($fields['amount'] == 'amount_other_radio') {
                 if ( $fields['amount_other'] < $min_amount ) {
-                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of $ %1',array ( 1 =>$min_amount));
+                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($min_amount)));
                 }
             } else {
                 if($fields['amount'] < $min_amount) {
-                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of $ %1',array ( 1 =>$min_amount   ));
+                    $errors['selectProduct'] = ts('The premium you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($min_amount)));
                 }
             }
         }
