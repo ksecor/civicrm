@@ -68,6 +68,7 @@ class CRM_Core_BAO_CustomQuery {
      * @var array 
      */ 
     public $_tables;
+    public $_whereTables;
 
     /** 
      * the where clause 
@@ -121,6 +122,7 @@ class CRM_Core_BAO_CustomQuery {
         $this->_select  = array( ); 
         $this->_element = array( ); 
         $this->_tables  = array( ); 
+        $this->_whereTables  = array( ); 
         $this->_where   = array( );
         $this->_qill    = array( );
         $this->_options = array( );
@@ -200,7 +202,9 @@ class CRM_Core_BAO_CustomQuery {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
                 $this->_tables['civicrm_contribution'] = 1;
+                $this->_whereTables['civicrm_contribution'] = 1;
             }
+            $this->_whereTables[$name] = $this->_tables[$name];
         }
 
     }
