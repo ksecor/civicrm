@@ -1,18 +1,10 @@
 {* Quest Pre-application: Educational Interests  section *}
 
-{* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
-
-{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
-
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>	    	
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.title}</td>
-</tr>
+    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
+</td>
 <tr>
     <td class="grouplabel">
         {$form.educational_interest.label}</td>
@@ -39,6 +31,4 @@
         {$form.college_interest_other.html}</td>
 </tr>
 </table>
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

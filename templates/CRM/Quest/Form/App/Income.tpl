@@ -1,24 +1,16 @@
 {* Quest Pre-application:  section *}
-{* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
-
-{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
-
 <div id="help">     
-The 'Household Information' and 'Parent/Guardian Information' sections need to be complete in order to use this section properly. (20)
+{ts}The 'Household Information' and 'Parent/Guardian Information' sections need to be complete in order to use this section properly. (20)
 
 Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household. All individuals you listed in the Parent/Guardian Section are displayed. If any individual has more than one job or source of income, please list him or her multiple times for each source.
 
-Also, please be sure to include any individuals not living with you who contribute to the household financially. For these individuals, please only enter the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.
+Also, please be sure to include any individuals not living with you who contribute to the household financially. For these individuals, please only enter the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}
 </div> 
 
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>	    	
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.title}</td>
+    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
@@ -50,7 +42,5 @@ Also, please be sure to include any individuals not living with you who contribu
 {/section}
 
 </table>
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

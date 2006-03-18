@@ -49,8 +49,9 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         TEST_PSAT = 2,
         TEST_SAT  = 4;
 
+
     /**
-     * This function sets the default values for the form. Relationship that in edit/view action
+     * This function sets the default values for the form. For edit/view action
      * the default values are retrieved from the database
      * 
      * @access public

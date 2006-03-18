@@ -1,18 +1,11 @@
 {* Quest Pre-application: Parent/Guardian Detail  section *}
 
-{* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
-{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
-
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>	    	
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.title}</td>
-</tr>
+    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
+</td>
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         {ts}Name{/ts} <span class="marker">*</span></td>
@@ -106,9 +99,6 @@
     <td class="grouplabel">{$form.description.label}</td>
     <td>{$form.description.html}</td>
 </tr>
-
-
 </table>
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
+
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

@@ -1,17 +1,10 @@
 {* Quest Pre-application: Testing Information section *}
 
-{* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
-{* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
-
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>	    	
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.title}</td>
+    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr><td>ACT Test</td>
 </tr>
@@ -70,7 +63,7 @@
 </tr>
 
 </tr>
-<tr><td>SAT Test</td>
+<tr><td>{ts}SAT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_criticalreading.label}</td>
@@ -116,7 +109,7 @@
 </tr>
 {/section}
 
-<tr><td>AP Tests</td>
+<tr><td>{ts}AP Tests{/ts}</td>
 </tr>
 {*{section name=rowLoop start=1 loop=33}*}
 {section name=rowLoop start=1 loop=2}
@@ -145,10 +138,6 @@
     <td class="grouplabel">{$form.test_tutoring.label}</td>
     <td>{$form.test_tutoring.html}</td>
 </tr>
-
 </table>
-<div class="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
 
-
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
