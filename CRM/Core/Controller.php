@@ -381,8 +381,14 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         $wizard['stepCount']         = $count;
 
+        $this->addWizardStyle( $wizard ); 
+
         $this->assign( 'wizard', $wizard );
         return $wizard;
+    }
+
+    function addWizardStyle( &$wizard ) {
+        $wizard['style'] = array( 'style' => 'normal' );
     }
 
     /**

@@ -64,6 +64,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
     }
 
+    function addWizardStyle( &$wizard ) {
+        $wizard['style'] = array( 'style' => 'quest' );
+    }
+
+    
 }
 
 ?>
