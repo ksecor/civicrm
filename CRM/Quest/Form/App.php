@@ -167,14 +167,17 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             $this->addElement('text', "location[$locationId][address][postal_code]", ts('Zip / Postal Code'),
                               $attributes['postal_code']);
         //   $this->addRule('location[1][address][postal_code]' , ts("Please enter the Zip/Postal"),'required');
+        $this->addRule( "location[$locationId][address][postal_code]", ts('Zip/Postal not valid.'), 'integer' );
 
         $location[$locationId]['address']['postal_code_suffix']            =
             $this->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
+        $this->addRule( "location[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'integer' );
+
          $location[$locationId]['address']['state_province_id']      =
              $this->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-         $this->addRule('location[1][address][state_province_id]' , ts("Please select the state"),'required');
+         //$this->addRule('location[1][address][state_province_id]' , ts("Please select the state"),'required');
 
          $location[$locationId]['address']['country_id']             =
              $this->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
@@ -196,6 +199,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
              if($required) {
                  $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter value for $phone"),'required');
              }
+             $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter a valid number"),'phone');
          }
 
          if ( $alternatePhone ) {
