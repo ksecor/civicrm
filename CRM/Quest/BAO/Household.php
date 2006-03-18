@@ -64,7 +64,7 @@ class CRM_Quest_BAO_Household extends CRM_Quest_DAO_Household {
      * @return object
      */
     static function create(&$params, &$ids) {
-                        
+        
     }
 }
     

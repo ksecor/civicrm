@@ -141,6 +141,22 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['description'] );
         parent::buildQuickForm();
     }//end of function
+    
+    /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess()  
+    {
+        $params  = $this->controller->exportValues( $this->_name );
+        $values = $this->controller->exportValues( 'Household' );
+        $ids = array();
+        require_once 'CRM/Quest/BAO/Person.php';
+        //$person=  CRM_Quest_BAO_Person::create( $params , $ids );
+        
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header

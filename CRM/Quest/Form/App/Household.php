@@ -150,7 +150,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
             $details['Father'] = 'Father Details';
         }
-
         $this->set( 'householdDetails', $details );
        
     }//end of function 

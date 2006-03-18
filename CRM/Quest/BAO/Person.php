@@ -35,13 +35,13 @@
  */
 
 /** 
- *  this file contains functions for Student
+ *  this file contains functions for Household
  */
 
 
-require_once 'CRM/Quest/DAO/Student.php';
+require_once 'CRM/Quest/DAO/Person.php';
 
-class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
+class CRM_Quest_BAO_Person extends CRM_Quest_DAO_Person {
 
     
     /**
@@ -54,7 +54,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     
 
     /**
-     * function to add/update student Information
+     * function to add/update Person Information
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id
@@ -64,7 +64,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @return object
      */
     static function create(&$params, &$ids) {
-        
         $dao = & new CRM_Quest_DAO_Person();
         $dao->copyValues($params);
         if( $ids['id'] ) {
@@ -72,8 +71,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
         $student = $dao->save();
         return $student;
-       
-                
+        
     }
 }
     

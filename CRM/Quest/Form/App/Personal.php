@@ -45,6 +45,23 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 {
+
+    static $_contactId;
+    static $_studentId;
+
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $session =& CRM_Core_Session::singleton( );
+        $this->_contactId = $session->get( 'userID' );
+    }
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -55,6 +72,23 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        
+        if ( $this->_contactId ) {
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $this->_contactId ;
+            if ($dao->find(true)) {
+                $this->_studentId = $dao->id;
+                CRM_Core_DAO::storeValues( $dao , $defaults);
+            }
+        }
+        if ( $this->_contactId ) {
+            $options = array( );
+            $contact =& CRM_Contact_BAO_Contact::contactDetails( $this->_contactId , $option );
+            $fields = array('first_name'=>'first_name','last_name'=>'last_name','email'=>'location[1][email][1][email]') ;
+            foreach( $fields as $key=>$value ) {
+                $defaults[ $value] = $contact->$key;
+            }
+        }
         return $defaults;
     }
     
@@ -170,28 +204,26 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
       $params = $this->controller->exportValues( $this->_name );
       
       require_once 'CRM/Quest/BAO/Student.php';
-      $id = array();
-      $id = $this->get('id');
-      $contact_id = $this->get('contact_id');
-      
-      $ids['id'] = $id;
-      $ids['contact_id'] = $contact_id;
-
-      //$fieldArray = array('contact_id','citizenship_status_id','citizenship_country_id','growup_country_id','nationality_country_id',
-      //                'ethnicity_id_1','ethnicity_id_2','ethnicity_id_2','home_area_id','parent_grad_college_id','internet_access_id',
-      //                'study_method_id','gpa_id','class_rank_percent_id','fed_lunch_id');
-      
-     //  $fieldArray = array("high_school_grad_year","parent_grad_college_id","is_home_computer","is_take_SAT_ACT","educational_interest",
-//                           "college_type","college_interest","gpa_id");
-
-//       foreach( $fieldArray as $value ) {
-//           if ( ! $params[$value] ) {
-//               $params[$value] = 1;
-//           }
-         
-//       }
+               
+      $params['contact_type'] = 'Individual';
+       
     
-      $student = CRM_Quest_BAO_Student::create( $params,$id);
+      $params['location'][1]['location_type_id'] = 1;
+      $params['location'][2]['location_type_id'] = 2;
+      
+      
+      $idParams = array( 'id' => $this->_contactId, 'contact_id' => $this->_contactId );
+          
+      CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+      $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
+     
+      $ids = array();
+      if ( $this->_studentId ) {
+          $ids['id']  = $this->_studentId;
+      }
+      $params['contact_id'] = $contact->id;
+      $student = CRM_Quest_BAO_Student::create( $params , $ids);
+      
       $this->set('id', $student->id );
       $this->set('contact_id',$student->contact_id );
       
