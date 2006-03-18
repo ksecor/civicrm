@@ -234,8 +234,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                
       $params['contact_type'] = 'Individual';
        
+    
       $params['location'][1]['location_type_id'] = 1;
       $params['location'][2]['location_type_id'] = 2;
+      
+      
       $idParams = array( 'id' => $this->_contactId, 'contact_id' => $this->_contactId );
           
       CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
