@@ -73,8 +73,10 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
     function &setDefaultValues() {
         $defaults = array(); 
 
+        // note we intentionally overwrite value since we use it as defaults
+        // and its all pass by value
         foreach ( $_GET as $key => $value ) {
-            if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+            if ( substr( $key, 0, 7 ) == 'custom_' ) {
                 $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
                 $value = array( );
                 foreach ( $v as $item ) {
