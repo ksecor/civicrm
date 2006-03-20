@@ -302,14 +302,22 @@ function crm_update_custom_group($params, $customGroup)
         $params['weight']    = $customGroup->weight;
     }
     
-    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
+    $checkFields = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
-    if (is_a($error, 'CRM_Core_Error')) {
-        return $error;
+    if (is_a($checkFields, 'CRM_Core_Error')) {
+        return $checkFields;
     }
     
-    require_once 'CRM/Core/BAO/CustomGroup.php';
-    return CRM_Core_BAO_CustomGroup::create($params);
+    $updateObject = _crm_update_object($customGroup, $params);
+    
+    if( is_a( $updateObject, 'CRM_Core_Error' ) ) {
+        return $updateObject;
+    }
+    
+    return $customGroup;
+    
+    //require_once 'CRM/Core/BAO/CustomGroup.php';
+    //return CRM_Core_BAO_CustomGroup::create($params);
 }
 
 /**
@@ -389,14 +397,22 @@ function crm_update_custom_field($params, $customField)
         $params['weight'] = $customField->weight;
     }
     
-    $error = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
+    $checkFields = _crm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
     
-    if (is_a($error, 'CRM_Core_Error')) {
-        return $error;
+    if (is_a($checkFields, 'CRM_Core_Error')) {
+        return $checkFields;
     }
     
-    require_once 'CRM/Core/BAO/CustomField.php';
-    return CRM_Core_BAO_CustomField::create($params);
+    $updateObject = _crm_update_object($customField, $params);
+    
+    if( is_a( $updateObject, 'CRM_Core_Error' ) ) {
+        return $updateObject;
+    }
+    
+    return $customField;
+    
+    //require_once 'CRM/Core/BAO/CustomField.php';
+    //return CRM_Core_BAO_CustomField::create($params);
 }
 
 /**

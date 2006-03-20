@@ -86,7 +86,7 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
         $option3 =& crm_create_option_value($paramsOption3, $this->customField2); 
         $this->assertIsA($option3, 'CRM_Core_BAO_CustomOption');
         $this->option3Group1 = $option3;
-        
+                
         $paramsOption4 = array('value' => 'hello 4',
                                'label' => 'Option 4 Field 2 Group 1',
                                'is_active' => 1,
@@ -218,25 +218,22 @@ class TestOfUpdateDeleteCustomOption extends UnitTestCase
      ****************************************************/
     function testUpdateOptionValueError()
     {
-        $option = $this->optionError;
         $params   = array('value' => 'Hello6..Edit'); 
-        $option   =& crm_update_option_value($params, $option);
+        $option   =& crm_update_option_value($params, $this->optionError);
         $this->assertIsA($option, 'CRM_Core_Error');
     }
     function testUpdateOptionValueI()
     {
-        $option = $this->option3Group1;
         $params   = array('value' => 'Hello3..Edit'); 
-        $option   =& crm_update_option_value($params, $option);
+        $option   =& crm_update_option_value($params, $this->option3Group1);
         $this->assertIsA($option, 'CRM_Core_BAO_CustomOption');
         $this->assertEqual('Hello3..Edit', $option->value);
     }
     
     function testUpdateOptionValuePC()
     {
-        $option = $this->option5Group2;
         $params   = array('value' => 'Hello5..Edit'); 
-        $option   =& crm_update_option_value($params, $option);
+        $option   =& crm_update_option_value($params, $this->option5Group2);
         $this->assertIsA($option, 'CRM_Core_BAO_CustomOption');
         $this->assertEqual('Hello5..Edit', $option->value);
     }

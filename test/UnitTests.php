@@ -47,7 +47,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM703.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM785.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM787.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM764.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM764.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM652.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -74,10 +75,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateCustomGroup.php');
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomField.php');
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateCustomField.php');
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateCustomField.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateCustomValue.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomField.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateDeleteCustomOption.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateDeleteCustomOption.php');
                 
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');

@@ -63,6 +63,7 @@ class TestOfUpdateCustomGroupAPI extends UnitTestCase
                         );
         $updatedCustomGroup =& crm_update_custom_group($params, $this->customGroup);
         $this->assertIsA($updatedCustomGroup, 'CRM_Core_BAO_CustomGroup');
+        $this->assertEqual($updatedCustomGroup->title, 'Test Group 1 For Creating Custom Group');
     }
     
     function testUpdateCustomGroupWithDomainID()

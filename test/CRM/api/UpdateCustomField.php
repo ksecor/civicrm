@@ -43,8 +43,8 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
     function testUpdateCustomFieldIErrorForCustomField()
     {
         $paramsF = array(
-                         'help_pre' => 'Pre Help For Tes Field 1 for Group 2..Edit',
-                         'help_post'=> 'Post Help For Tes Field 1 for Group 2..Edit'
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 2..Edit',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 2..Edit'
                          );
         $customField = & crm_update_custom_field($paramsF, $otherCustomField);
         $this->assertIsA($customField, 'CRM_Core_Error');
@@ -66,8 +66,8 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
                          'data_type' => 'string',
                          'html_type' => 'text',
                          'is_searchable' => '1',
-                         'help_pre' => 'Pre Help For Tes Field 1 for Group 2..Edit',
-                         'help_post'=> 'Post Help For Tes Field 1 for Group 2..Edit'
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 2..Edit',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 2..Edit'
                          );
         $customField = & crm_update_custom_field($paramsF, $this->customField);
         $this->assertIsA($customField, 'CRM_Core_Error');
@@ -76,15 +76,14 @@ class TestOfUpdateCustomFieldAPI extends UnitTestCase
     function testUpdateCustomFieldI()
     {
         $paramsF = array(
-                         'label' => 'Test Field 1 for Group 2',
-                         'name'  => 'test_field_1',
                          'weight' => 4,
                          'is_searchable' => 0,
-                         'help_pre' => 'Pre Help For Tes Field 1 for Group 2..Edit',
-                         'help_post'=> 'Post Help For Tes Field 1 for Group 2..Edit'
+                         'help_pre' => 'Pre Help For Test Field 1 for Group 2..Edit',
+                         'help_post'=> 'Post Help For Test Field 1 for Group 2..Edit'
                          );
         $customField = & crm_update_custom_field($paramsF, $this->customField);
         $this->assertIsA($customField, 'CRM_Core_BAO_CustomField');
+        $this->assertEqual($customField->label, 'Test Field 1 for Group 2');
     }
 }
 ?>
