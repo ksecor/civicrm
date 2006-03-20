@@ -106,17 +106,47 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
 
         switch($params['type']) {
             case 'StateProvince':
-                $states =& CRM_Core_PseudoConstant::stateProvince();
-                $customValue->int_data = 
-                    CRM_Utils_Array::key($params['value'], $states);
-                $customValue->char_data = $params['value'];
+                //$states =& CRM_Core_PseudoConstant::stateProvince();
+                //$customValue->int_data = CRM_Utils_Array::key($params['value'], $states);
+                //$customValue->char_data = $params['value'];
+                
+                if ( !is_numeric($params['value'])) {
+                    $states = array( );
+                    $states['state_province'] = $params['value'];
+                    
+                    CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province', 
+                                                          CRM_Core_PseudoConstant::stateProvince(), true );
+                    if ( !$states['state_province_id'] ) {
+                        CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province',
+                                                              CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
+                    }
+                    $customValue->int_data = $states['state_province_id'];
+                } else {                
+                    $customValue->int_data = $params['value'];
+                }
+
                 break;
 
             case 'Country':
-                $countries =& CRM_Core_PseudoConstant::country();
-                $customValue->int_data = 
-                    CRM_Utils_Array::key($params['value'], $countries);
-                $customValue->char_data = $params['value'];
+                //$countries =& CRM_Core_PseudoConstant::country();
+                //$customValue->int_data = CRM_Utils_Array::key($params['value'], $countries);
+                //$customValue->char_data = $params['value'];
+                
+                if ( !is_numeric($params['value'])) {
+                    $countries = array( );
+                    $countries['country'] = $params['value'];
+                    
+                    CRM_Contact_BAO_Contact::lookupValue( $countries, 'country', 
+                                                          CRM_Core_PseudoConstant::country(), true );
+                    if ( !$countries['country_id'] ) {
+                        CRM_Contact_BAO_Contact::lookupValue( $countries, 'country',
+                                                              CRM_Core_PseudoConstant::countryIsoCode(), true );
+                    }
+                    $customValue->int_data = $countries['country_id'];
+                } else {                
+                    $customValue->int_data = $params['value'];
+                }
+
                 break;
 
             case 'String':
