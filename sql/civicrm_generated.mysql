@@ -125,7 +125,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_contribution_page` DISABLE KEYS */;
 LOCK TABLES `civicrm_contribution_page` WRITE;
-INSERT INTO `civicrm_contribution_page` VALUES (1,1,'Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,0,1,'500.00','10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>',1,'OpenNGO Membership Dept.','memberships@openngo.org','receipt@example.com','bcc@example.com','Your donation is tax deductibe under IRS 501(c)(3) regulation. Our tax is number is: 123345',1,NULL);
+INSERT INTO `civicrm_contribution_page` VALUES (1,1,'Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,0,1,'500.00','10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>',1,'OpenNGO Membership Dept.','memberships@openngo.org','receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1,NULL);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_contribution_page` ENABLE KEYS */;
 
