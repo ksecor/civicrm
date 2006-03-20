@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-17 14:48+0100\n"
+"POT-Creation-Date: 2006-03-20 13:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -814,7 +814,7 @@ msgid "The data columns in this import file appear to be different from the save
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/History/Import/Form/MapField.php
-msgid "Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email)."
+msgid "Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)"
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php CRM/History/Import/Form/MapField.php

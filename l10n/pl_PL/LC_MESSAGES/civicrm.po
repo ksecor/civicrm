@@ -7503,9 +7503,9 @@ msgid ""
 msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Email nie zostanie wysłany do %count kontaktu – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
+msgstr[1] "Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
+msgstr[2] "Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -7728,7 +7728,7 @@ msgstr "Prywatność:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "DO NOT SEND BULK EMAIL"
-msgstr ""
+msgstr "NIE WYSYŁAĆ HURTOWEJ POCZTY"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Communication Preference:"
@@ -8165,13 +8165,14 @@ msgstr "Checkout z PayPalem"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Click the PayPal button to continue."
-msgstr ""
+msgstr "By kontynuować, kliknij w przycik PayPala."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
-"This is a Preview of this product as it will appear on your Contributions "
+"This is a preview of this product as it will appear on your Contributions "
 "page(s)."
 msgstr ""
+"Oto podgląd tego produktu w postaci, w jakiej pojawi się na stronie/stronach dotacji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -8182,8 +8183,8 @@ msgstr ""
 "stronie dodatcji on-line."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-msgid "Add Products to this Page"
-msgstr ""
+msgid "Add Products to This Page"
+msgstr "Dodaj produkty do tej strony"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Remove Products from this Page"
@@ -8201,12 +8202,14 @@ msgid ""
 "\">Manage Premiums</a> to create or enable additional premium choices for "
 "your site."
 msgstr ""
+"Wybierz dodatek, który ma się pojawić na tej stronie dotacji. Przejdź do <a href=\"%1\">Zarządzania dodatkami</a> by stworzyć lub włączyć więcej dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
 msgstr ""
+"Waga decyduje o kolejności, w jakiej dodatki są wyświetlane na stronie dotacji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -8324,10 +8327,11 @@ msgstr "Konfiguracja działu z dodatkami"
 msgid ""
 "Is the Premiums section enabled for this Online Contributions page? (%1)"
 msgstr ""
+"Czy dział z dodatkami powinien być włączony na tej stronie dotacji on-line? (%1)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
-msgstr ""
+msgstr "Tytuł, który pojawi się na górze działu z dodatkami."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8347,6 +8351,7 @@ msgid ""
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
 msgstr ""
+"Ten adres email będzie występował w automatycznych pokwitowaniach dotacji w sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być adres osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8354,12 +8359,14 @@ msgid ""
 "contributor has selected a premium. It should be an appropriate phone number "
 "for inquiries about premium fulfillment/shipping."
 msgstr ""
+"Ten numer telefonu będzie występował w automatycznych pokwitowaniach dotacji w sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być numer telefonu osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
 "Should the minimum contribution amount be automatically displayed after each "
-"premium description."
+"premium description?"
 msgstr ""
+"Czy po każdym opisie dodatku powinna być wyświetlana kwota minimalnej dotacji?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -8542,17 +8549,18 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid "Your Premium Selection"
-msgstr ""
+msgstr "Wybór dodatków"
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid "(Contribute at least %1 to be eligible for this gift.)"
-msgstr ""
+msgstr "(Ofiaruj przynajmniej %1 by móc wybrać ten dodatek.)"
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid ""
-"The value of this premium is: %1. This may affect the amount of the tax "
+"The value of this premium is %1. This may affect the amount of the tax "
 "deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
+"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu podatkowego. W celu uzyskania dalszych informacji skonsultuj się ze swoim doradcą podatkowym."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
@@ -8599,13 +8607,15 @@ msgstr "Informacje o dodatku"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "For information about this premium, contact:"
-msgstr ""
+msgstr "W celu uzyskania informacji o tym dodatku, skontaktuj się z:"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
 "The value of this premium is: %1. This may affect the amount of the\n"
 "tax deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
+"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu podatkowego.\n"
+"W celu uzyskania dalszych informacji skonsultuj się ze swoim doradcą podatkowym."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -8779,8 +8789,8 @@ msgstr ""
 "pozostanie puste."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "New Premium "
-msgstr ""
+msgid "New Premium"
+msgstr "Nowy dodatek"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Preview a Premium"
@@ -8808,6 +8818,7 @@ msgid ""
 "Optional product SKU or code. If used, this value will be included in "
 "contributor receipts."
 msgstr ""
+"Opcjonalny kod produktu. Jeśli zostanie wprowadzony, będzie występował na pokwitowaniach dla ofiarodawców."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8842,6 +8853,7 @@ msgid ""
 "contributions, this amount will be used to set the non-deductible amount in "
 "the contribution record and receipt."
 msgstr ""
+"Wartość rynkowa produktu (np. cena detaliczna). W przypadku dotacji odliczalnych od podatku, będzie to wymieniona we wpisie dotacji i na pokwitowaniu kwota nieodliczalna od podatku."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8849,6 +8861,7 @@ msgid ""
 "organization. This may be useful when evaluating net return for this "
 "incentive."
 msgstr ""
+"Można zanotować faktyczny koszt tego produktu dla Twojej organizacji. Może być to użyteczne do szacowania stopy zwrotu netto tej zachęty."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8863,10 +8876,11 @@ msgstr "Subskrypcja, Przynależność lub Ustawienia usługi"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
-"Select \"Rolling\" if the subscription or membership starts on the current "
+"Select 'Rolling' if the subscription or membership starts on the current "
 "day. Select 'Fixed' if the start date is a fixed month and day within the "
 "current year (set this value in the next field)."
 msgstr ""
+"Wybierz „ciągły” jeśli ta dotacja lub przynależność zaczyna się bieżącego dnia. Wybierz „stały” jeśli data początkowa to konkretny dzień konkretnego miesiąca bieżącego roku (wybierz tę datę w nastepnym polu)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8879,14 +8893,16 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
-"Duration of subscription, membership or service (e.g. 12 Month subscription)."
+"Duration of subscription, membership or service (e.g. 12-month subscription)."
 msgstr ""
+"Czas trwania zapisania, przynależności lub usługi (np. zapisanie 12-miesięczne)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Frequency of subscription, membership, or service (e.g. journal delivered "
-"every 2 Months)."
+"every two months)."
 msgstr ""
+"Częstość zapisania, przynależności lub usługi (np. magazyn dostarczany co dwa miesiące)."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl

@@ -1,5 +1,5 @@
 {* this template is used for adding/editing/deleting premium  *}
-<fieldset><legend>{if $action eq 1}{ts}New Premium {/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{elseif $action eq 1024}{ts}Preview a Premium{/ts}{else}{ts}Delete Premium Product{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Premium{/ts}{elseif $action eq 2}{ts}Edit Premium{/ts}{elseif $action eq 1024}{ts}Preview a Premium{/ts}{else}{ts}Delete Premium Product{/ts}{/if}</legend>
 <div class="form-item">
   
    {if $action eq 8}
@@ -25,11 +25,8 @@
     <dd>
     <fieldset>
     <div class="description">
-        {ts}<p>A thumbnail picture of this premium will be displayed on the contribution page if you provide one. When a contributor clicks on the thumbnail,
-        a full-size image is displayed in a pop-up window. Images must be in GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 pixels wide x 500 pixels high.
-        Thumbnails should be approximately 100 x 100 pixels.</p>
-        <p>You can upload an image from your computer OR enter a URL for an image already on the web. If you chose to upload an image file, a 'thumbnail' version will be
-        automatically created for you. If you don't have an image available at this time, you may also choose to display a "No Image Available" icon - by selecting the "default image".</p>{/ts}
+        <p>{ts}A thumbnail picture of this premium will be displayed on the contribution page if you provide one. When a contributor clicks on the thumbnail, a full-size image is displayed in a pop-up window. Images must be in GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 pixels wide x 500 pixels high. Thumbnails should be approximately 100 x 100 pixels.{/ts}</p>
+        <p>{ts}You can upload an image from your computer OR enter a URL for an image already on the web. If you chose to upload an image file, a 'thumbnail' version will be automatically created for you. If you don't have an image available at this time, you may also choose to display a "No Image Available" icon - by selecting the "default image".{/ts}</p>
     </div>
 
     <table class="form-layout-compressed">
@@ -49,9 +46,7 @@
     </dd>
 
 	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium.
-        If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled
-        then this text is displayed: <em>(Contribute at least $NNN.NN to be eligible for this gift.)</em>{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium. If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled then this text is displayed:{/ts} <em>{ts}(Contribute at least X to be eligible for this gift.){/ts}</em></dt>
 
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dt>
@@ -71,17 +66,16 @@
     <fieldset><legend><a href="#" onclick="hide('time-delimited'); show('time-delimited[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Subscription, Membership or Service Settings{/ts}</legend>
     <dl>
 	<dt>{$form.period_type.label}</dt><dd>{$form.period_type.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Select "Rolling" if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Select 'Rolling' if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dt>
  
 	<dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start.
-        EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dt>
 
 	<dt>{$form.duration_interval.label}</dt><dd>{$form.duration_interval.html} &nbsp; {$form.duration_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Duration of subscription, membership or service (e.g. 12 Month subscription).{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Duration of subscription, membership or service (e.g. 12-month subscription).{/ts}</dt>
 
 	<dt>{$form.frequency_interval.label}</dt><dd>{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Frequency of subscription, membership, or service (e.g. journal delivered every 2 Months).{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Frequency of subscription, membership, or service (e.g. journal delivered every two months).{/ts}</dt>
     </dl>
     </fieldset>
 	</div>
