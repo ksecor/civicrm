@@ -90,6 +90,22 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
         return ts('Essay');
     }
 
+  public function postProcess() 
+    {
+        $params = $this->controller->exportValues( $this->_name );
+      
+        require_once 'CRM/Quest/BAO/Essay.php';
+     
+        $contact_id = $this->get('contact_id');
+        $params['contact_id'] =  $contact_id;
+        //$essay = CRM_Quest_BAO_Essay::create( $params,$id);
+        $this->set('id', $essay->id );
+        $this->set('contact_id',$essay->contact_id );
+      
+    }//end of function
+
+
+
 }
 
 ?>
