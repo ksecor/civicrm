@@ -416,9 +416,6 @@ define('CIVICRM_VERSION_CHECK', true);
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , '' );
 // Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', and 'Moneris'.
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '' );
-// The FROM email address for all automatic payment response (receipt) emails.
-
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif');
 // URL to the button image used for "express" option checkout, e.g. PayPal Express. URL to PayPal US button is provided by default.
 // NOTE: If you've enabled SSL for your Contribution page, your button image should be sourced via https as well.
@@ -426,7 +423,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 /*
  * TEST Payment Server (Sandbox) Settings:
  */
-// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+// PayPal ONLY - File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 
 // API Password (PayPal) or API Token (Moneris)
@@ -443,7 +440,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypa
 /*
  * LIVE Payment Server Settings:
  */
-// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+// PayPal ONLY - File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
 // API Password (PayPal) or API Token (Moneris)
@@ -515,7 +512,8 @@ define( 'CIVICRM_BACKTRACE', 0 );
  * CIVICRM_MAILER_SPOOL_PERIOD - Number of seconds between delivery attempts
  * for new outgoing mailings.
  *
- * CIVICRM_VERP_SEPARATOR - 
+ * CIVICRM_VERP_SEPARATOR - Separator character used when CiviMail generates
+ * VERP (variable envelope return path) Mail-From addresses. 
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 define( 'CIVICRM_VERP_SEPARATOR', '.' );
