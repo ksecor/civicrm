@@ -22,7 +22,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
           <dd>    
-            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any "stand-alone" Profile forms, you will need to update those forms to remove this field.{/ts} {ts}Do you want to continue?{/ts}
+            {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any 'stand-alone' Profile forms, you will need to update those forms to remove this field.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>
