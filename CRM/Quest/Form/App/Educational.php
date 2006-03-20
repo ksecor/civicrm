@@ -127,7 +127,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
         $this->set('id', $student->id );
         $this->set('contact_id',$student->contact_id );
-       
+
     }
     /**
      * Return a descriptive name for the page, used in wizard header

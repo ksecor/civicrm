@@ -32,3 +32,7 @@
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+    <script type="text/javascript">
+	hide('educational_interest_other');
+    </script>  

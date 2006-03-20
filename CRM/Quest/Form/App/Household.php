@@ -107,7 +107,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                           'household_note',
                           ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
                           CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'household_note' ) );
-        
+
+        $this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
+
         parent::buildQuickForm( );
 
     }//end of function
@@ -121,6 +123,30 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function getTitle()
     {
         return ts('Household Information');
+    }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+        
+        for ( $i = 1; $i <= 2; $i++ ) {
+            for ( $j = 1; $j <= 2; $j++ ) {
+                if ($params["relationship_id_".$i."_".$j]) {
+                    $errors["first_name_".$i."_".$j] = "Please enter first name";
+                    $errors["last_name_".$i."_".$j] = "Please enter last name";
+                }
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
     }
 
     /** 
@@ -151,7 +177,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             $details['Father'] = 'Father Details';
         }
         $this->set( 'householdDetails', $details );
-       
+
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {

@@ -96,14 +96,19 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            ts('Age'),
                            $attributes['age'] );
         $this->addRule('age',ts('Please Enter Age'),'required');
+        $this->addRule('age',ts('age not valid'),'integer');
         
         $this->addRadio( 'lived_with_period_id',
                          ts( 'How long have you lived with this person?' ),
                          CRM_Core_OptionGroup::values( 'lived_with_period' ) );
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
+        $this->addRule('lived_with_from_age',ts('age not valid'),'integer');
+
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributed['lived_with_to_age'] );
+        $this->addRule('lived_with_to_age',ts('age not valid'),'integer');
+
         $this->addSelect('industry', ts( 'Industry' ),null );
         $this->addElement( 'text', "job_organization",
                            ts( 'Name of business or organization' ),
@@ -114,6 +119,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', 'job_current_years',
                            ts('Number of years in current occupation'),
                            $attributes['job_current_years']);
+        $this->addRule('job_current_years',ts('not a valid number'),'integer');
+
         $this->addSelect('highest_school_level', ts('Highest level of schooling'),null);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
@@ -122,6 +129,9 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            'college_grad_year',
                            ts('Year of college completion'),
                            $attributes['college_grad_year'] );
+        //$this->addRule('college_grad_year',ts('not a valid year'),'numberOfDigit');
+
+
         $this->addElement( 'text',
                            'college_major',
                            ts('Area of concentration'),
@@ -139,9 +149,39 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            'description',
                            ts('If there are any extenuating circumstances, or details regarding your parent(s), guardian(s), or household situation that you would like to add or clarify, please do so here'),
                            $attributes['description'] );
+
+        $this->addFormRule(array('CRM_Quest_Form_App_Guardian', 'formRule'));
+
         parent::buildQuickForm();
     }//end of function
     
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        //print_r($params);
+        $errors = array( );
+        if ($params['college_grad_year']) {
+            if (! CRM_Utils_Rule::numberOfDigit($params['college_grad_year'], 4)) {
+                $errors["college_grad_year"] = "year not valid";
+            }
+        }
+
+        if ($params['prof_grad_year']) {
+            if (! CRM_Utils_Rule::numberOfDigit($params['prof_grad_year'], 4)) {
+                $errors["prof_grad_year"] = "year not valid";
+            }
+        }
+
+        return empty($errors) ? true : $errors;
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 
@@ -155,7 +195,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $ids = array();
         require_once 'CRM/Quest/BAO/Person.php';
         //$person=  CRM_Quest_BAO_Person::create( $params , $ids );
-        
     }
 
     /**

@@ -94,6 +94,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                           ts( 'Number of students in your school' ),
                           $attributes['organization_name'] );
         $this->addRule('custom_3',ts('Please Enter number of students'),'required');
+        $this->addRule('custom_3',ts('number of students not valid'),'integer');
 
         $this->buildAddressBlock( 1,
                                   ts( 'School Address' ),

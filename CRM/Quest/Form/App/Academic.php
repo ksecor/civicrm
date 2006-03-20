@@ -81,10 +81,12 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $this->addElement('text', 'class_rank',
                           ts( 'If yes, what is your class rank?' ),
                           $attributes['class_rank']  );
+        $this->addRule( "class_rank", ts('Number not valid.'), 'integer' );
         
         $this->addElement('text', 'class_num_students',
                           null,
                           $attributes['class_num_students']  );
+        $this->addRule( "class_num_students", ts('Number not valid.'), 'integer' );
 
         $this->addSelect( 'class_rank_percent', ts( 'Percent class rank' ) );
 
