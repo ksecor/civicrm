@@ -630,7 +630,7 @@ class CRM_Contact_BAO_Query {
 
         $this->sortByCharacter( );
 
-        $this->locationType( );
+        $this->locationTypeAndName( );
 
         $this->group( );
 
@@ -671,7 +671,7 @@ class CRM_Contact_BAO_Query {
             
             if (is_numeric($locType[1])) {
                 $this->_params['location_type'] = array($locType[1] => 1);
-                $lType = $this->locationType( true );
+                $lType = $this->locationTypeAndName( true );
             }
             
             //add phone type if exists
@@ -837,11 +837,13 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    static function getWhereClause( $params, $fields, &$tables, $strict = false ) {
+    static function getWhereClause( $params, $fields, &$tables, &$whereTables, $strict = false ) {
         $query = new CRM_Contact_BAO_Query( $params, null, $fields,
                                             false, $strict );
 
-        $tables = array_merge( $query->tables( ), $tables );
+        $tables      = array_merge( $query->tables( ), $tables );
+        $whereTables = array_merge( $query->whereTables( ), $whereTables );
+
         return $query->_whereClause;
     }
 
@@ -1392,12 +1394,12 @@ class CRM_Contact_BAO_Query {
     }
 
     /**
-     * where / qill clause for location type
+     * where / qill clause for location type and location Name
      *
      * @return void
      * @access public
      */
-    function locationType( $status = null ) {
+    function locationTypeAndName( $status = null ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
             if (is_array($this->_params['location_type'])) {
                 $this->_where[] = 'civicrm_location.location_type_id IN (' .
@@ -1420,6 +1422,15 @@ class CRM_Contact_BAO_Query {
                     return implode( ' ' . ts('or') . ' ', $names );
                 }
             }
+        }
+
+        // do the same for location name
+        if ( CRM_Utils_Array::value( 'location_name', $this->_params ) ) {
+            $this->_where[] = "civicrm_location.name LIKE '%" .
+                strtolower(addslashes(trim($this->_params['location_name']))) . "%'";
+            $this->_tables['civicrm_location'] = 1;
+            $this->_whereTables['civicrm_location'] = 1;
+            $this->_qill[] = ts( 'Location name like "%1"', array( 1 => $this->_params['location_name'] ) );
         }
     }
 

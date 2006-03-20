@@ -505,7 +505,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         require_once 'CRM/Contact/BAO/Query.php';
-        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, true );
+        $whereTables = array( );
+        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, $whereTables, true );
     }
 
     /**
@@ -858,7 +859,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         $params['group'] = array( );
         $params['tag']   = array( );
-        return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, true );
+        $whereTables = array( );
+        return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
     }
     
     /**

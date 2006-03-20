@@ -75,11 +75,12 @@ class CRM_Core_Permission {
      *
      * @param int $type the type of permission needed
      * @param  array $tables (reference ) add the tables that are needed for the select clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
      *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type, &$tables ) {
+    public static function whereClause( $type, &$tables, &$whereTables ) {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables );' );
     }

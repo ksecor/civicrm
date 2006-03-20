@@ -165,13 +165,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND             $mg.group_type = 'Exclude'
                     AND             $mg.mailing_id = {$this->id}
                     AND             $group.saved_search_id IS NOT null");
-        
+
+        $whereTables = array( );
         while ($ss->fetch()) {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact => 1);
-            $where = CRM_Contact_BAO_SavedSearch::whereClause(
-                $ss->saved_search_id, $tables);
+            $where =
+                CRM_Contact_BAO_SavedSearch::whereClause( $ss->saved_search_id,
+                                                          $tables,
+                                                          $whereTables );
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact_id)
