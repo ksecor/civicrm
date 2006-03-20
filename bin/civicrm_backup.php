@@ -54,7 +54,7 @@ $backupPath = $argv[1] . '/';
 
 $config =& new CRM_Core_Config();
 chdir($config->uploadDir);
-$fileName = $backupPath . 'domainDump.sql';
+$fileName = $backupPath . 'backupData.sql';
 
 //get the username and password from dsn
 $values = DB::parseDSN($config->dsn);
