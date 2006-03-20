@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-17 14:48+0100\n"
-"PO-Revision-Date: 2006-03-17 12:49+0100\n"
+"POT-Creation-Date: 2006-03-20 16:29+0100\n"
+"PO-Revision-Date: 2006-03-20 16:33+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -1329,7 +1329,8 @@ msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
 msgstr ""
-"Brak wymaganych pól dopasowywania kontaktu (imienia i nazwiska, adresu email lub imienia, nazwiska i adresu email)."
+"Brak wymaganych pól dopasowywania kontaktu (imienia i nazwiska, adresu email "
+"lub imienia, nazwiska i adresu email)."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -6193,6 +6194,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
+#: templates/CRM/Custom/Form/DeleteField.tpl
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 #: templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
@@ -7503,9 +7505,15 @@ msgid ""
 msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
-msgstr[0] "Email nie zostanie wysłany do %count kontaktu – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
-msgstr[1] "Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
-msgstr[2] "Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji ustawione na NIE WYSYŁAĆ EMAILI."
+msgstr[0] ""
+"Email nie zostanie wysłany do %count kontaktu – preferencje komunikacji "
+"ustawione na NIE WYSYŁAĆ EMAILI."
+msgstr[1] ""
+"Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji "
+"ustawione na NIE WYSYŁAĆ EMAILI."
+msgstr[2] ""
+"Email nie zostanie wysłany do %count kontaktów – preferencje komunikacji "
+"ustawione na NIE WYSYŁAĆ EMAILI."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -8172,7 +8180,8 @@ msgid ""
 "This is a preview of this product as it will appear on your Contributions "
 "page(s)."
 msgstr ""
-"Oto podgląd tego produktu w postaci, w jakiej pojawi się na stronie/stronach dotacji."
+"Oto podgląd tego produktu w postaci, w jakiej pojawi się na stronie/stronach "
+"dotacji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -8202,14 +8211,17 @@ msgid ""
 "\">Manage Premiums</a> to create or enable additional premium choices for "
 "your site."
 msgstr ""
-"Wybierz dodatek, który ma się pojawić na tej stronie dotacji. Przejdź do <a href=\"%1\">Zarządzania dodatkami</a> by stworzyć lub włączyć więcej dodatków."
+"Wybierz dodatek, który ma się pojawić na tej stronie dotacji. Przejdź do <a "
+"href=\"%1\">Zarządzania dodatkami</a> by stworzyć lub włączyć więcej "
+"dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
 msgstr ""
-"Waga decyduje o kolejności, w jakiej dodatki są wyświetlane na stronie dotacji."
+"Waga decyduje o kolejności, w jakiej dodatki są wyświetlane na stronie "
+"dotacji."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -8311,13 +8323,18 @@ msgstr "Na pewno usunąć stronę dotacji „%1”?"
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
 "Use this form to configure the Premiums section for this Online Contribution "
-"Page. You can hide the section completely by un-checking the Enabled field.\n"
-"    You can set a section title and a message about the premiums here (e."
-"g ...In appreciation of your support, you will be able to select from a "
-"number of \n"
-"    exciting thank-you gifts...). You can optionally provide a contact email "
-"address and/or phone number for inquiries"
+"Page. You can hide the section completely by un-checking the Enabled field. "
+"You can set a section title and a message about the premiums here (e.g ...in "
+"appreciation of your support, you will be able to select from a number of "
+"exciting thank-you gifts...). You can optionally provide a contact email "
+"address and/or phone number for inquiries."
 msgstr ""
+"Użyj tego formularza by skonfigurować dział z dodatkami na tej stronie "
+"dotacji on-line. Odznaczając pole „Włączony” możesz całkowicie ukryć ten "
+"dział. Można też ustawić tu tytuł tego działu i informację o dodatkach (np. …"
+"w ramach podziękowania za wsparcie, oferujemy kilka atrakcyjnych dodatków…). "
+"Można tu też podać email i/lub telefon kontaktowy w sprawie oferowanych "
+"dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Configure Premiums Section"
@@ -8327,7 +8344,8 @@ msgstr "Konfiguracja działu z dodatkami"
 msgid ""
 "Is the Premiums section enabled for this Online Contributions page? (%1)"
 msgstr ""
-"Czy dział z dodatkami powinien być włączony na tej stronie dotacji on-line? (%1)"
+"Czy dział z dodatkami powinien być włączony na tej stronie dotacji on-line? "
+"(%1)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -8351,7 +8369,9 @@ msgid ""
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
 msgstr ""
-"Ten adres email będzie występował w automatycznych pokwitowaniach dotacji w sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być adres osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
+"Ten adres email będzie występował w automatycznych pokwitowaniach dotacji w "
+"sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być adres "
+"osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8359,14 +8379,17 @@ msgid ""
 "contributor has selected a premium. It should be an appropriate phone number "
 "for inquiries about premium fulfillment/shipping."
 msgstr ""
-"Ten numer telefonu będzie występował w automatycznych pokwitowaniach dotacji w sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być numer telefonu osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
+"Ten numer telefonu będzie występował w automatycznych pokwitowaniach dotacji "
+"w sytuacjach, gdy ofiarodawca wybrał jakiś dodatek. Powinien to być numer "
+"telefonu osoby odpowiedzialnej za pytania dotyczące dostarczania dodatków."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
 "Should the minimum contribution amount be automatically displayed after each "
 "premium description?"
 msgstr ""
-"Czy po każdym opisie dodatku powinna być wyświetlana kwota minimalnej dotacji?"
+"Czy po każdym opisie dodatku powinna być wyświetlana kwota minimalnej "
+"dotacji?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -8560,7 +8583,9 @@ msgid ""
 "The value of this premium is %1. This may affect the amount of the tax "
 "deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
-"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu podatkowego. W celu uzyskania dalszych informacji skonsultuj się ze swoim doradcą podatkowym."
+"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu "
+"podatkowego. W celu uzyskania dalszych informacji skonsultuj się ze swoim "
+"doradcą podatkowym."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
@@ -8611,11 +8636,12 @@ msgstr "W celu uzyskania informacji o tym dodatku, skontaktuj się z:"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
-"The value of this premium is: %1. This may affect the amount of the\n"
+"The value of this premium is %1. This may affect the amount of the\n"
 "tax deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
-"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu podatkowego.\n"
-"W celu uzyskania dalszych informacji skonsultuj się ze swoim doradcą podatkowym."
+"Wartość tego dodatku to %1. Może to zmienić wartość Twojego odpisu\n"
+"podatkowego. W celu uzyskania dalszych informacji skonsultuj się ze\n"
+"swoim doradcą podatkowym."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -8789,6 +8815,7 @@ msgstr ""
 "pozostanie puste."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid "New Premium"
 msgstr "Nowy dodatek"
 
@@ -8818,34 +8845,52 @@ msgid ""
 "Optional product SKU or code. If used, this value will be included in "
 "contributor receipts."
 msgstr ""
-"Opcjonalny kod produktu. Jeśli zostanie wprowadzony, będzie występował na pokwitowaniach dla ofiarodawców."
+"Opcjonalny kod produktu. Jeśli zostanie wprowadzony, będzie występował na "
+"pokwitowaniach dla ofiarodawców."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
-"<p>A thumbnail picture of this premium will be displayed on the contribution "
-"page if you provide one. When a contributor clicks on the thumbnail,\n"
-"        a full-size image is displayed in a pop-up window. Images must be in "
-"GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 "
-"pixels wide x 500 pixels high.\n"
-"        Thumbnails should be approximately 100 x 100 pixels.</p>\n"
-"        <p>You can upload an image from your computer OR enter a URL for an "
-"image already on the web. If you chose to upload an image file, a "
-"'thumbnail' version will be\n"
-"        automatically created for you. If you don't have an image available "
-"at this time, you may also choose to display a \"No Image Available\" icon - "
-"by selecting the \"default image\".</p>"
+"A thumbnail picture of this premium will be displayed on the contribution "
+"page if you provide one. When a contributor clicks on the thumbnail, a full-"
+"size image is displayed in a pop-up window. Images must be in GIF, JPEG, or "
+"PNG format, and the full-size image may be no larger than 500 pixels wide x "
+"500 pixels high. Thumbnails should be approximately 100 x 100 pixels."
 msgstr ""
+"Jeśli ją dostarczysz, na stronie dotacji będzie wyświetlana miniaturka "
+"obrazka tego dodatku. Gdy ofiarodawca kliknie w miniaturkę, w nowym oknie "
+"otworzy się pełnowymiarowy obrazek. Obrazki muszą być w formacie GIF, JPEG "
+"lub PNG; pełnowymiarowe nie mogą być większe niż 500×500 pikseli; miniaturki "
+"powinny mieć wielkość mniej-więcej 100×100 pikseli."
+
+#: templates/CRM/Contribute/Form/ManagePremiums.tpl
+msgid ""
+"You can upload an image from your computer OR enter a URL for an image "
+"already on the Web. If you chose to upload an image file, a 'thumbnail' "
+"version will be automatically created for you. If you don't have an image "
+"available at this time, you may also choose to display a 'No Image "
+"Available' icon - by selecting the 'default image'."
+msgstr ""
+"Możesz wgrać obrazek ze swojego komputera lub podać adres URL obrazka, który "
+"jest już gdzieś w Sieci. Jeśli wybierzesz wgranie pliku, automatycznie "
+"zostanie utworzona jego minaturka. Jeśli w tej chwili nie jest dostępny "
+"obrazek dodatku, jeśli wybierzesz opcję użycia domyślnego obrazka, "
+"wyświetlana będzie ikonka „brak obrazka”."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "The minimum contribution amount required to be eligible to select this "
-"premium.\n"
-"        If you want to offer it to all contributors regardless of "
+"premium. If you want to offer it to all contributors regardless of "
 "contribution amount, enter '0'. If display of minimum contribution amounts "
-"is enabled\n"
-"        then this text is displayed: <em>(Contribute at least $NNN.NN to be "
-"eligible for this gift.)</em>"
+"is enabled then this text is displayed:"
 msgstr ""
+"Minimalna kwota dotacji wymagana, by móc wybrać ten dodatek. Jeśli chcesz go "
+"zaoferować wszystkim ofiarodawcom bez względu na kwotę dotacji, wpisz „0”. "
+"Jeśli włączone jest wyświetlanie minimalnych kwot dotacji, zostanie "
+"wyświetlony następujący tekst:"
+
+#: templates/CRM/Contribute/Form/ManagePremiums.tpl
+msgid "(Contribute at least X to be eligible for this gift.)"
+msgstr "(Ofiaruj przynajmniej X by móc wybrać ten dodatek.)"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8853,7 +8898,9 @@ msgid ""
 "contributions, this amount will be used to set the non-deductible amount in "
 "the contribution record and receipt."
 msgstr ""
-"Wartość rynkowa produktu (np. cena detaliczna). W przypadku dotacji odliczalnych od podatku, będzie to wymieniona we wpisie dotacji i na pokwitowaniu kwota nieodliczalna od podatku."
+"Wartość rynkowa produktu (np. cena detaliczna). W przypadku dotacji "
+"odliczalnych od podatku, będzie to wymieniona we wpisie dotacji i na "
+"pokwitowaniu kwota nieodliczalna od podatku."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8861,14 +8908,18 @@ msgid ""
 "organization. This may be useful when evaluating net return for this "
 "incentive."
 msgstr ""
-"Można zanotować faktyczny koszt tego produktu dla Twojej organizacji. Może być to użyteczne do szacowania stopy zwrotu netto tej zachęty."
+"Można zanotować faktyczny koszt tego produktu dla Twojej organizacji. Może "
+"być to użyteczne do szacowania stopy zwrotu netto tej zachęty."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Enter a comma-delimited list of color, size, etc. options for the product if "
-"applicable. Contributors will be presented\n"
-"        a drop-down menu of these options when they select this product."
+"applicable. Contributors will be presented a drop-down menu of these options "
+"when they select this product."
 msgstr ""
+"Podaj, jeśli to możliwe, kolor, wielkość itp. cechy produktu (w postaci "
+"listy oddzielonej przecinkami). Ofiarodawcy podczas zamawiania produktu będą "
+"mogli wybrać te opcje z listy rozwijalnej."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Subscription, Membership or Service Settings"
@@ -8880,29 +8931,36 @@ msgid ""
 "day. Select 'Fixed' if the start date is a fixed month and day within the "
 "current year (set this value in the next field)."
 msgstr ""
-"Wybierz „ciągły” jeśli ta dotacja lub przynależność zaczyna się bieżącego dnia. Wybierz „stały” jeśli data początkowa to konkretny dzień konkretnego miesiąca bieżącego roku (wybierz tę datę w nastepnym polu)."
+"Wybierz „ciągły” jeśli ta dotacja lub przynależność zaczyna się bieżącego "
+"dnia. Wybierz „stały” jeśli data początkowa to konkretny dzień konkretnego "
+"miesiąca bieżącego roku (wybierz tę datę w nastepnym polu)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Month and day (MMDD) on which a fixed period subscription or membership will "
-"start.\n"
-"        EXAMPLE: A fixed period membership with Start Day set to 0101 means "
+"start. EXAMPLE: A fixed period membership with Start Day set to 0101 means "
 "that the membership period would be 1/1/06 - 12/31/06 for anyone signing up "
 "during 2006."
 msgstr ""
+"Miesiąc i dzień (MMDD) od którego zacznie się stały okres zapisania lub "
+"przynależności. PRZYKŁAD: Stały okres przynależności z datą rozpoczęcia "
+"ustawioną na 0101 oznacza, że prznaleźność będzie trwała od 1 stycznia 2006 "
+"do 31 grudnia 2006 dla każdego zapisującego się w ciągu 2006 roku."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Duration of subscription, membership or service (e.g. 12-month subscription)."
 msgstr ""
-"Czas trwania zapisania, przynależności lub usługi (np. zapisanie 12-miesięczne)."
+"Czas trwania zapisania, przynależności lub usługi (np. zapisanie 12-"
+"miesięczne)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Frequency of subscription, membership, or service (e.g. journal delivered "
 "every two months)."
 msgstr ""
-"Częstość zapisania, przynależności lub usługi (np. magazyn dostarczany co dwa miesiące)."
+"Częstość zapisania, przynależności lub usługi (np. magazyn dostarczany co "
+"dwa miesiące)."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
@@ -9528,6 +9586,8 @@ msgid ""
 "Enable a Premiums section (incentives / thank-you gifts) for this page, and "
 "configure premiums offered to contributors."
 msgstr ""
+"Włącz dział z dodatkami (zachętami / podarkami) dla tej strony i skonfiguruj "
+"dodatki oferowane ofiarodawcom."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9729,28 +9789,34 @@ msgstr "Ostatnie dotacje"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
-"\n"
-"<p>CiviContribute allows you to configure any number of <strong>Premiums</"
+"CiviContribute allows you to configure any number of <strong>Premiums</"
 "strong> which can be offered to contributors as incentives / thank-you "
-"gifts.\n"
-"    Premiums may be tangible items (i.e. a coffee mug or t-shirt), or they "
-"may be a membership or subscription with a pre-determined duration.</p>\n"
-"<p>Use this section to enter and update all premiums that you want to offer "
-"on any of your Online Contribution pages. Then you can assign one or more "
-"premiums\n"
-"    to a specific Contribution page from <a href=\"%1\">Configure Online "
-"Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>.</"
-"p>\n"
+"gifts. Premiums may be tangible items (i.e. a coffee mug or t-shirt), or "
+"they may be a membership or subscription with a pre-determined duration."
 msgstr ""
+"CiviContribute pozwala na skonfigurowanie dowolnej ilości <strong>dodatków</"
+"strong>, które mogą być oferowane ofiarodawcom jako zachęty / podziękowania. "
+"Dodatki mogą być przedmiotami namacalnymi (np. kubkiem lub koszulką) lub "
+"przynależnością albo zapisem o zadanym czasie trwania."
+
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+msgid ""
+"Use this section to enter and update all premiums that you want to offer on "
+"any of your Online Contribution pages. Then you can assign one or more "
+"premiums to a specific Contribution page from <a href=\"%1\">Configure "
+"Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</"
+"strong>."
+msgstr ""
+"Użyj tego działu by wprowdzić i uaktualnić wszystkie dodatki które chcesz "
+"oferować na swoich stronach dotacji on-line. Możesz następnie przypisać "
+"jeden lub więcej dodatków do danej strony dotacji za pomocą <a href=\"%1"
+"\">Konfiguracja stron dotacji on-line</a> <strong>&raquo; Konfiguracja "
+"&raquo; Dodatki</strong>."
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "Min Contribution"
 msgstr "Dotacja minimalna"
-
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-msgid "New Premium"
-msgstr "Nowy dodatek"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -9784,11 +9850,11 @@ msgstr ""
 msgid ""
 "The premiums listed below are currently offered on this Contribution Page. "
 "If you have other premiums which are not already being offered on this page, "
-"you will see\n"
-"        a link below to offer another premium. Use <a href=\"%1\">Administer "
-"CiviCRM &raquo; Manage Premiums</a> to create or enable additional premium "
-"choices which can be used on any Contribution page."
+"you will see a link below to offer another premium. Use <a href=\"%1"
+"\">Administer CiviCRM &raquo; Manage Premiums</a> to create or enable "
+"additional premium choices which can be used on any Contribution page."
 msgstr ""
+"Na tej stronie dotacji są w tej chwili oferowane podane poniżej dodatki. Jeśli istnieją inne dodatki, które nie są jeszcze oferowane na tej stronie, pod spodem znajduje się odnośnik pozwalający zaoferować kolejny dodatek. Wybierz <a href=\"%1\">Zarządzanie CiviCRM-em &raquo; Zarządzanie dodatkami</a> by stworzyć lub włączyć inne dodatki, które będzie można dodać do dowolnych stron dotacji."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "Offer Another Premium on this Contribution Page"
@@ -9813,9 +9879,16 @@ msgstr ""
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
 "WARNING: Deleting this custom field will result in the loss of all \"%1\" "
-"data. All the uf field(s) linked with \"%1\" will be deleted. This action "
-"cannot be undone. Do you want to continue?"
+"data. All the uf field(s) linked with \"%1\" will be deleted."
 msgstr ""
+"UWAGA: Usunięcie tego pola danych dodatkowych spowoduje utratę wszystkich "
+"danych „%1”. Wszystkie pola UF połączone z „%1” zostaną skasowane."
+
+#: templates/CRM/Custom/Form/DeleteField.tpl
+#: templates/CRM/Custom/Form/DeleteGroup.tpl
+#: templates/CRM/Custom/Form/Option.tpl
+msgid "This action cannot be undone."
+msgstr "Tej akcji nie można cofnąć."
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""
@@ -9823,11 +9896,6 @@ msgid ""
 msgstr ""
 "UWAGA: Usunięcie tej grupy danych dodatkowych spowoduje skasowanie "
 "wszystkich danych %1."
-
-#: templates/CRM/Custom/Form/DeleteGroup.tpl
-#: templates/CRM/Custom/Form/Option.tpl
-msgid "This action cannot be undone."
-msgstr "Tej akcji nie można cofnąć."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -9840,12 +9908,12 @@ msgstr ""
 "tworzone na podstawie rodzaju zbieranych danych)."
 
 #: templates/CRM/Custom/Form/Field.tpl
-msgid " years prior to current date."
-msgstr ""
+msgid "years prior to current date."
+msgstr "lat przed bieżącą datą."
 
 #: templates/CRM/Custom/Form/Field.tpl
-msgid " years after the current date."
-msgstr ""
+msgid "years after the current date."
+msgstr "lat po bieżącej dacie."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -10517,7 +10585,7 @@ msgstr ""
 msgid ""
 "File format must be comma-separated-values (CSV). File must be UTF8 encoded "
 "if it contains special characters (e.g. accented letters, etc.)."
-msgstr ""
+msgstr "Plik musi być w formacie CSV i kodowaniu UTF-8."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -10591,7 +10659,7 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select the format that is used for date fields in your import data."
-msgstr ""
+msgstr "Wybierz format używany w plach dat importowanych danych."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -10814,9 +10882,12 @@ msgstr "Usuń pole profilu CiviCRM"
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "WARNING: Deleting this profile field will remove it from Profile forms and "
-"listings. If this field is used in any \"stand-alone\" Profile forms, you "
-"will need to update those forms to remove this field."
+"listings. If this field is used in any 'stand-alone' Profile forms, you will "
+"need to update those forms to remove this field."
 msgstr ""
+"UWAGA: Usunięcie tego pola profilu usunie je z formularzy i spisów profili. "
+"Jeśli jest ono użyte w formularzach samodzielnych, będzie trzeba uaktualnić "
+"te formularze przez usunięcie tego pola."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -10922,9 +10993,11 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"Select a Group if are using the profile for search and listings, AND you "
+"Select a group if are using the profile for search and listings, AND you "
 "want to limit the listings to members of a specific group."
 msgstr ""
+"Wybierz grupę jeśli używasz tego profilu do wyszukiwania i spisów i chcesz "
+"ograniczyć ten spis do członków danej grupy."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the fieldset."
@@ -10937,11 +11010,15 @@ msgstr "Pomocniczy tekst wyświetlany na końcu zestawu pól."
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "If you are using this profile as a contact signup or edit form, and want to "
-"redirect the user to a static\n"
-"        URL after they've submitted the form - enter the complete URL here. "
-"If this field is left blank, the profile form will be redisplayed with a\n"
-"        generic status message - \"Your contact information has been saved.\""
+"redirect the user to a static URL after they've submitted the form - enter "
+"the complete URL here. If this field is left blank, the profile form will be "
+"redisplayed with a generic status message - 'Your contact information has "
+"been saved.'"
 msgstr ""
+"Jeśli używasz tego profilu jako formularza zapisywania się lub edycji, i "
+"chcesz przekierować użytkownika po wysłaniu formularza, wprowadź tu pełen "
+"docelowy URL. Jeśli to pole pozostanie puste, formularz zostanie wyświetlony "
+"ponownie z informacją „Informacje o kontakcie zostały zapisane”."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
@@ -11282,7 +11359,7 @@ msgstr "Aktywni wolontariusze."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event"

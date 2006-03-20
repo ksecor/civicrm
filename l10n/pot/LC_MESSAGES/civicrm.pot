@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-20 13:07+0100\n"
+"POT-Creation-Date: 2006-03-20 16:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -5339,7 +5339,7 @@ msgstr ""
 msgid "CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist."
 msgstr ""
 
-#: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Contribute/Form/AcceptCreditCard.tpl templates/CRM/Contribute/Form/Contribution.tpl templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
+#: CRM/Utils/Menu.php templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/DrupalUser.tpl templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Form/IMProvider.tpl templates/CRM/Admin/Form/IndividualPrefix.tpl templates/CRM/Admin/Form/IndividualSuffix.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/MobileProvider.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Contribute/Form/AcceptCreditCard.tpl templates/CRM/Contribute/Form/Contribution.tpl templates/CRM/Contribute/Form/ContributionType.tpl templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
 msgstr ""
 
@@ -6744,7 +6744,7 @@ msgid "Click the PayPal button to continue."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-msgid "This is a Preview of this product as it will appear on your Contributions page(s)."
+msgid "This is a preview of this product as it will appear on your Contributions page(s)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
@@ -6752,7 +6752,7 @@ msgid "Use this form to select a premium to be offered on this Online Contributi
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-msgid "Add Products to this Page"
+msgid "Add Products to This Page"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
@@ -6816,7 +6816,7 @@ msgid "Are you sure you want to delete the contribution page \"%1\"?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid "Use this form to configure the Premiums section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field.\n    You can set a section title and a message about the premiums here (e.g ...In appreciation of your support, you will be able to select from a number of \n    exciting thank-you gifts...). You can optionally provide a contact email address and/or phone number for inquiries"
+msgid "Use this form to configure the Premiums section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set a section title and a message about the premiums here (e.g ...in appreciation of your support, you will be able to select from a number of exciting thank-you gifts...). You can optionally provide a contact email address and/or phone number for inquiries."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -6844,7 +6844,7 @@ msgid "This phone number is included in automated contribution receipts if the c
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid "Should the minimum contribution amount be automatically displayed after each premium description."
+msgid "Should the minimum contribution amount be automatically displayed after each premium description?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -6932,7 +6932,7 @@ msgid "(Contribute at least %1 to be eligible for this gift.)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
-msgid "The value of this premium is: %1. This may affect the amount of the tax deduction you can claim. Consult your tax advisor for more information."
+msgid "The value of this premium is %1. This may affect the amount of the tax deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -6964,7 +6964,7 @@ msgid "For information about this premium, contact:"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-msgid "The value of this premium is: %1. This may affect the amount of the\ntax deduction you can claim. Consult your tax advisor for more information."
+msgid "The value of this premium is %1. This may affect the amount of the\ntax deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
@@ -7087,8 +7087,8 @@ msgstr ""
 msgid "Subject is left blank unless you are processing on behalf of a third party."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "New Premium "
+#: templates/CRM/Contribute/Form/ManagePremiums.tpl templates/CRM/Contribute/Page/ManagePremiums.tpl
+msgid "New Premium"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -7112,11 +7112,19 @@ msgid "Optional product SKU or code. If used, this value will be included in con
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "<p>A thumbnail picture of this premium will be displayed on the contribution page if you provide one. When a contributor clicks on the thumbnail,\n        a full-size image is displayed in a pop-up window. Images must be in GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 pixels wide x 500 pixels high.\n        Thumbnails should be approximately 100 x 100 pixels.</p>\n        <p>You can upload an image from your computer OR enter a URL for an image already on the web. If you chose to upload an image file, a 'thumbnail' version will be\n        automatically created for you. If you don't have an image available at this time, you may also choose to display a \"No Image Available\" icon - by selecting the \"default image\".</p>"
+msgid "A thumbnail picture of this premium will be displayed on the contribution page if you provide one. When a contributor clicks on the thumbnail, a full-size image is displayed in a pop-up window. Images must be in GIF, JPEG, or PNG format, and the full-size image may be no larger than 500 pixels wide x 500 pixels high. Thumbnails should be approximately 100 x 100 pixels."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "The minimum contribution amount required to be eligible to select this premium.\n        If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled\n        then this text is displayed: <em>(Contribute at least $NNN.NN to be eligible for this gift.)</em>"
+msgid "You can upload an image from your computer OR enter a URL for an image already on the Web. If you chose to upload an image file, a 'thumbnail' version will be automatically created for you. If you don't have an image available at this time, you may also choose to display a 'No Image Available' icon - by selecting the 'default image'."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ManagePremiums.tpl
+msgid "The minimum contribution amount required to be eligible to select this premium. If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled then this text is displayed:"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ManagePremiums.tpl
+msgid "(Contribute at least X to be eligible for this gift.)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -7128,7 +7136,7 @@ msgid "You may optionally record the actual cost of this product to your organiz
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented\n        a drop-down menu of these options when they select this product."
+msgid "Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -7136,19 +7144,19 @@ msgid "Subscription, Membership or Service Settings"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "Select \"Rolling\" if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field)."
+msgid "Select 'Rolling' if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "Month and day (MMDD) on which a fixed period subscription or membership will start.\n        EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006."
+msgid "Month and day (MMDD) on which a fixed period subscription or membership will start. EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "Duration of subscription, membership or service (e.g. 12 Month subscription)."
+msgid "Duration of subscription, membership or service (e.g. 12-month subscription)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-msgid "Frequency of subscription, membership, or service (e.g. journal delivered every 2 Months)."
+msgid "Frequency of subscription, membership, or service (e.g. journal delivered every two months)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl templates/CRM/Contribute/Page/PaymentInstrument.tpl
@@ -7596,15 +7604,15 @@ msgid "Recent Contributions"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
-msgid "\n<p>CiviContribute allows you to configure any number of <strong>Premiums</strong> which can be offered to contributors as incentives / thank-you gifts.\n    Premiums may be tangible items (i.e. a coffee mug or t-shirt), or they may be a membership or subscription with a pre-determined duration.</p>\n<p>Use this section to enter and update all premiums that you want to offer on any of your Online Contribution pages. Then you can assign one or more premiums\n    to a specific Contribution page from <a href=\"%1\">Configure Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>.</p>\n"
+msgid "CiviContribute allows you to configure any number of <strong>Premiums</strong> which can be offered to contributors as incentives / thank-you gifts. Premiums may be tangible items (i.e. a coffee mug or t-shirt), or they may be a membership or subscription with a pre-determined duration."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+msgid "Use this section to enter and update all premiums that you want to offer on any of your Online Contribution pages. Then you can assign one or more premiums to a specific Contribution page from <a href=\"%1\">Configure Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl templates/CRM/Contribute/Page/Premium.tpl
 msgid "Min Contribution"
-msgstr ""
-
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-msgid "New Premium"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -7620,7 +7628,7 @@ msgid "There are no custom Payment Instruments entered. You can <a href=\"%1\">a
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-msgid "The premiums listed below are currently offered on this Contribution Page. If you have other premiums which are not already being offered on this page, you will see\n        a link below to offer another premium. Use <a href=\"%1\">Administer CiviCRM &raquo; Manage Premiums</a> to create or enable additional premium choices which can be used on any Contribution page."
+msgid "The premiums listed below are currently offered on this Contribution Page. If you have other premiums which are not already being offered on this page, you will see a link below to offer another premium. Use <a href=\"%1\">Administer CiviCRM &raquo; Manage Premiums</a> to create or enable additional premium choices which can be used on any Contribution page."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/Premium.tpl
@@ -7636,15 +7644,15 @@ msgid "There are no active premiums for your site. You can <a href=\"%1\">create
 msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
-msgid "WARNING: Deleting this custom field will result in the loss of all \"%1\" data. All the uf field(s) linked with \"%1\" will be deleted. This action cannot be undone. Do you want to continue?"
+msgid "WARNING: Deleting this custom field will result in the loss of all \"%1\" data. All the uf field(s) linked with \"%1\" will be deleted."
+msgstr ""
+
+#: templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl
+msgid "This action cannot be undone."
 msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid "WARNING: Deleting this custom group will result in the loss of all %1 data."
-msgstr ""
-
-#: templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl
-msgid "This action cannot be undone."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -7652,11 +7660,11 @@ msgid "Select the type of data you want to collect and store for this contact. T
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
-msgid " years prior to current date."
+msgid "years prior to current date."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
-msgid " years after the current date."
+msgid "years after the current date."
 msgstr ""
 
 #: templates/CRM/Custom/Form/Field.tpl
@@ -8272,7 +8280,7 @@ msgid "Delete CiviCRM Profile Field"
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
-msgid "WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any \"stand-alone\" Profile forms, you will need to update those forms to remove this field."
+msgid "WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any 'stand-alone' Profile forms, you will need to update those forms to remove this field."
 msgstr ""
 
 #: templates/CRM/UF/Form/Field.tpl
@@ -8332,7 +8340,7 @@ msgid "Weight controls the order in which profiles are presented when there are 
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "Select a Group if are using the profile for search and listings, AND you want to limit the listings to members of a specific group."
+msgid "Select a group if are using the profile for search and listings, AND you want to limit the listings to members of a specific group."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -8344,7 +8352,7 @@ msgid "Explanatory text displayed at the end of the fieldset."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "If you are using this profile as a contact signup or edit form, and want to redirect the user to a static\n        URL after they've submitted the form - enter the complete URL here. If this field is left blank, the profile form will be redisplayed with a\n        generic status message - \"Your contact information has been saved.\""
+msgid "If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'"
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
