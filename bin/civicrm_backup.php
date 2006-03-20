@@ -39,21 +39,22 @@
  */
 
 require_once '../civicrm.config.php';
-require_once '../packages/DB.php';
-require_once '../CRM/Core/Config.php';
+require_once 'DB.php';
+require_once 'CRM/Core/Config.php';
 
 global $civicrm_root;
 $file = $civicrm_root . '/sql/civicrm_backup.mysql';
 
 //path of backup directory
 
-$backupPath = '/home/kurund/backup/';
+global $argv;
+$backupPath = $argv[1] . '/';
 
 //we get the upload folder for storing the huge backup data
 
 $config =& new CRM_Core_Config();
 chdir($config->uploadDir);
-$fileName = 'domainDump.sql';
+$fileName = $backupPath . 'domainDump.sql';
 
 //get the username and password from dsn
 $values = DB::parseDSN($config->dsn);
@@ -70,12 +71,14 @@ if ( is_file($fileName) ) {
 $sql = file($file);
 
 if ( empty( $sql ) ) {
-    echo 'We could not find the backup sql script. Check sql/civicrm_backup.mysql in the CiviCRM root directory.';
+    echo "We could not find the backup sql script. Check sql/civicrm_backup.mysql in the CiviCRM root directory.\n";
+    exit( );
 }
 
 // make sure mysqldump exists
-if ( ! file_exists( $config->mysqlPath . 'mysqldump' ) ) {
-    echo 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.';
+if ( ! file_exists( $config->mysqlPath . "mysqldump" ) ) {
+    echo "We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.\n";
+    exit( );
 }
 
 foreach($sql as $value) {
@@ -88,8 +91,12 @@ foreach($sql as $value) {
     while ( $domainDAO->fetch( ) ) {
         $ids[] = $domainDAO->id; 
     }
-    
-    $dumpCommand = $config->mysqlPath."mysqldump  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $val[0] ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
+
+    $clause = null;
+    if ( ! empty( $ids ) ) {
+        $clause = " -w 'id IN ( " . implode(",", $ids) . " ) '";
+    }
+    $dumpCommand = "{$config->mysqlPath}mysqldump  -u$username -p$password --opt --single-transaction $database {$val[0]} $clause >> $fileName";
     exec($dumpCommand); 
 }
 
