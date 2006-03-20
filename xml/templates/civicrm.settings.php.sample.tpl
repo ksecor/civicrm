@@ -1,7 +1,20 @@
 <?php
 /**
- * CiviCRM configuration file.
+ * CiviCRM Configuration File - v1.4
  */
+
+/**
+ * Enable CiviCRM Components:
+ *
+ * You can choose to enable or hide add-on components which provide additional functionality
+ * for your CiviCRM site by listing the component names (separated by commas) below.
+ *
+ * EXAMPLE: enable the CiviContribute component for collecting and managing online and offline
+ * contributions, as well as the CiviMail high capacity broadcast mail component:
+ *      define( 'ENABLE_COMPONENTS', 'CiviContribute, CiviMail' );
+ *
+ */
+define( 'ENABLE_COMPONENTS', '' );
 
 /**
  * Content Management System (CMS) Host:
@@ -19,72 +32,70 @@ define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
 define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 
 /**
- * Enable CiviCRM Components:
+ * Content Management System (CMS) Datasource:
  *
- * You can choose to enable or hide add-on components which provide additional functionality
- * for your CiviCRM site by listing the component names (separated by commas) below.
- *
- * EXAMPLE: enable the CiviContribute component for collecting and managing online and offline
- * contributions, as well as the CiviMail high capacity broadcast mail component:
- *      define( 'ENABLE_COMPONENTS', 'CiviContribute, CiviMail' );
- *
- */
-define( 'ENABLE_COMPONENTS', '' );
-
-/**
- *
- * Update the CIVICRM_UF_DSN setting to match your Drupal or Mambo database username, server and DB name.
- * Database URL format:
- *      define( 'CIVICRM_UF_DSN', 'mysql://%%cms%%_db_username:%%cms%%_db_password@db_server/{$cms}_database?new_link=true');
+ * Update this setting with your CMS (Drupal or Mambo) database username, server and DB name.
+ * Datasource (DSN) format:
+ *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
 define( 'CIVICRM_UF_DSN'           , 'mysql://%%cms%%:YOUR_PASSWORD@localhost/%%cms%%?new_link=true' );
 
 /** 
+ * Content Management System (CMS) User Table-name:
  *
  * Update the CIVICRM_UF_USERSTABLENAME if needed to match the name of the table
- * where the CMS user data is stored. For default Drupal installs, this is 'users'.
+ * where the CMS user data is stored. Default for Drupal installs is 'users'.
  * If you are using table-prefixing for the users table, you must enter the tablename
  * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
  */ 
 define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
 
 /**
- * File system paths for this install:
+ * File System Paths:
  *
  * $civicrm_root is the file system path on your server where the civicrm
  * code is installed.
  *
  * CIVICRM_TEMPLATE_COMPILEDIR is the file system path where compiled templates are stored.
+ * These sub-directories and files are temporary caches and will be recreated automatically
+ * if deleted.
  *
- * CIVICRM_UPLOADDIR is the file system path to which CiviCRM files are uploaded.
+ * CIVICRM_UPLOADDIR is the file system path where temporary CiviCRM files - such as
+ * import data files - are uploaded.
+ *
+ * CIVICRM_IMAGE_UPLOADDIR is the file system path where image files are uploaded
+ * (e.g. premium product images).
+ *
+ * IMPORTANT: The COMPILEDIR, UPLOADDIR and IMAGE_UPLOADDIR directories must exist,
+ * and your web server must have write access to these directories.
  *
  * EXAMPLE - CivicSpace / Drupal:
  * If the path to the CivicSpace or Drupal home directory is /var/www/htdocs/civicspace
  * the $civicrm_root setting would be:
- *      $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm';
+ *      $civicrm_root = '/var/www/htdocs/civicspace/modules/civicrm/';
  *
  * the CIVICRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c' );
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicspace/files/civicrm/templates_c/' );
  *
  * and the CIVICRM_UPLOADDIR would be:
- *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload' );
+ *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/upload/' );
  *
  * the CIVICRM_IMAGE_UPLOADDIR would be:
- *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/' );
+ *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/persist/' );
  *
  * EXAMPLE - Mambo:
  * If the path to the Mambo home directory is /var/www/htdocs/mambo
  * the $civicrm_root setting would be:
- *      $civicrm_root = '/var/www/htdocs/mambo/administrator/components/com_civicrm/civicrm';
+ *      $civicrm_root = '/var/www/htdocs/mambo/administrator/components/com_civicrm/civicrm/';
  *
  * the CIVICRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c' );
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c/' );
  *
  * and the CIVICRM_UPLOADDIR would be:
- *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload' );
+ *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload/' );
  *	
- * Please make sure that the COMPILERDIR and UPLOADDIR are created and the
- * web server user has write access to that directory
+ * the CIVICRM_IMAGE_UPLOADDIR would be:
+ *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/persist/' );
  *
  */
 global $civicrm_root;
@@ -92,27 +103,77 @@ $civicrm_root = '%%crmRoot%%';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
-define( 'CIVICRM_IMAGE_UPLOADURL'    , '%%imageUploadURL%%' );
 
 /**
  * Site URLs:
  *
  * This section defines absolute URLs to access the host CMS (Drupal or Mambo) and CiviCRM.
- * IMPORTANT: Trailing slashes are required for CIVICRM_HTTPBASE and CIVICRM_RESOURCEBASE. 
+ * IMPORTANT: Trailing slashes should be used on all URL settings.
  *
- * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/
- * these variables would be set as below. Modify as needed for your install. If you do not
- * have clean url's turned on, make sure CIVICRM_MAINMENU is valid for your install. 
- * e.g. define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) 
+ * EXAMPLES - Drupal/CivicSpace Installations:
+ * If your site's home url is http://www.example.com/civicspace/
+ * these variables would be set as below. Modify as needed for your install. 
+ *
+ * CIVICRM_UF_BASEURL - home URL for your site:
+ *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicspace/' );
+ *
+ * CIVICRM_UF_RESOURCEURL - URL to directory where civicrm.module is located:
+ *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
+ *
+ * CIVICRM_HTTPBASE - ??:
+ *      define( 'CIVICRM_HTTPBASE' , '/civicspace/' );
+ *
+ * CIVICRM_RESOURCEBASE - ??:
+ *      define( 'CIVICRM_RESOURCEBASE' , '/civicspace/modules/civicrm/' );
+ *
+ * CIVICRM_MAINMENU - relative URL for CiviCRM menu:
+ * With Clean URLs enabled - 
+ *      define( 'CIVICRM_MAINMENU' ,'/civicspace/civicrm' );
+ * 
+ * Without Clean URLs - 
+ *      define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) *
+ *
+ * EXAMPLES - Joomla/Mambo Installations:
+ * If your site's home url is http://www.example.com/joomla/
+ *
+ * CIVICRM_UF_BASEURL - home URL for your site:
+ * Administration site:
+ *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/administrator/' );
+ * Front-end site:
+ *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
+ *
+ * CIVICRM_UF_RESOURCEURL - URL to directory where civicrm.module is located:
+ * Administration site:
+ *      define( 'CIVICRM_UF_RESOURCEURL', '' );
+ * Front-end site:
+ *      define( 'CIVICRM_UF_RESOURCEURL', '' );
+ *
+ * CIVICRM_HTTPBASE - ??:
+ * Administration site:
+ *      define( 'CIVICRM_HTTPBASE' , '/joomla/administrator/' );
+ * Front-end site:
+ *      define( 'CIVICRM_HTTPBASE' , '' );
+ *
+ * CIVICRM_RESOURCEBASE - ??:
+ * Administration and front-end sites:
+ *      define( 'CIVICRM_RESOURCEBASE' , '/joomla/administrator/components/com_civicrm/civicrm/' );
+ *
+ * CIVICRM_MAINMENU - relative URL for CiviCRM menu:
+ * Administration site:
+ *      define( 'CIVICRM_MAINMENU' ,'/joomla/administrator/index.php?option=com_civicrm' );
+ * Front-end site:
+ *      define( 'CIVICRM_MAINMENU' ,'' );
+ * 
  */
-define( 'CIVICRM_UF_BASEURL'    , '%%baseURL%%' );
-define( 'CIVICRM_UF_RESOURCEURL', '%%resourceURL%%' );
-define( 'CIVICRM_HTTPBASE'      , '%%httpBase%%' );
-define( 'CIVICRM_RESOURCEBASE'  , '%%resourceBase%%' );
-define( 'CIVICRM_MAINMENU'      , '%%mainMenu%%' );
+define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
+define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
+define( 'CIVICRM_HTTPBASE'        , '%%httpBase%%' );
+define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
+define( 'CIVICRM_MAINMENU'        , '%%mainMenu%%' );
+define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
 
 /**
- * CiviCRM Database settings:
+ * CiviCRM Database Settings:
  *
  * Define the version of MySQL you are running. 
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
@@ -149,9 +210,11 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
  * SMTP Server:
  *
  * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality,
- * uncomment the two lines below and enter your smtp server address here (e.g.'smtp.example.com').
+ * uncomment the four lines below and enter your smtp server address here (e.g.'smtp.example.com').
  * The standard STMP Port is 25, so you should only need to change that value if you find
  * that your SMTP server is running on a non-standard port.
+ *
+ * NOTE: These settings are NOT used for the CiviMail component.
  *
  * If your server requires authentication, set CIVICRM_SMTP_AUTH to true
  * and provide the username and password in CIVICRM_SMTP_USERNAME and
@@ -339,7 +402,7 @@ define('CIVICRM_GEOCODE_METHOD', '' );
 
 
 /**
- * Automatically Check for New CiviCRM Versions
+ * Automatically Check for New CiviCRM Versions:
  *
  * CiviCRM can be configured to connect periodically to the OpenNGO website and
  * check for the availability of new versions. Set this value to true if you
@@ -349,7 +412,7 @@ define('CIVICRM_GEOCODE_METHOD', '' );
 define('CIVICRM_VERSION_CHECK', true);
 
 /**
- * Payment Processor Settings
+ * Payment Processor Settings:
  *
  * If you are using CiviContribute for Online Contributions, you must obtain a Payment Processor
  * (merchant) account and configure your site and the settings below with that account information.
@@ -371,7 +434,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 // NOTE: If you've enabled SSL for your Contribution page, your button image should be sourced via https as well.
 
 /*
- * TEST Payment Server (Sandbox) Settings
+ * TEST Payment Server (Sandbox) Settings:
  */
 // PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
@@ -388,7 +451,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypa
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 
 /*
- * LIVE Payment Server Settings
+ * LIVE Payment Server Settings:
  */
 // PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
@@ -405,7 +468,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 
 /**
- * Force SSL Redirect for Online Contribution Pages
+ * Force SSL Redirect for Online Contribution Pages:
  *
  * If your site includes CiviContribute Online Contribution pages, AND you use a payment
  * processor plugin which collects credit card and billing information ON YOUR SITE (any plugin
@@ -428,7 +491,7 @@ define('CIVICRM_ENABLE_SSL', 0 );
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 /**
- * Debugging
+ * Debugging:
  *
  * Enable CIVICRM_DEBUG (value = 1) when you need to use one of the debug-related tools. These are 
  * triggered via URL parameters - IF CIVICRM_DEBUG is turned on.
@@ -451,23 +514,29 @@ define( 'CIVICRM_DEBUG', 0 );
  
 
 /**
- * Mailer settings
+ * CiviMail Settings:
  *
- * CIVICRM_MAILER_SPOOL_PERIOD -  Number of seconds between delivery attempts
- * for new outgoing mailings. (Used for CiviMail only.)
+ * CIVICRM_MAILER_SPOOL_PERIOD - Number of seconds between delivery attempts
+ * for new outgoing mailings.
+ *
+ * CIVICRM_VERP_SEPARATOR - 
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 
 define( 'CIVICRM_VERP_SEPARATOR', '.' );
 
 /**
- * CiviSMS related config options
+ * CiviSMS Settings:
  */
 define( 'CIVICRM_SMS_USERNAME'  , 'USERNAME' );
 define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 
 /**
- * Used in Joomla! to distinguish when operating from front end
+ * Joomla! Front-end Component Flag
+ * If this configuration file is being used by a Joomla! front-end CiviCRM component
+ * instance, set this flag to 1:
+ *
+ * define( 'CIVICRM_UF_FRONTEND', 1 );
  */
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
