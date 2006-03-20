@@ -231,8 +231,13 @@ class CRM_Core_BAO_CustomQuery {
                 continue;
             }
 
+            // fix $value here to escape sql injection attacks
             $field = $this->_fields[$id];
             $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
+
+            if ( ! is_array( $value ) ) {
+                $value = addslashes(trim($value));
+            }
 
             switch ( $field['data_type'] ) {
 
@@ -246,7 +251,8 @@ class CRM_Core_BAO_CustomQuery {
                     if ( $field['is_search_range'] ) {
                         $this->searchRange( $field['id'], $field['label'], 'char_data', $value );
                     } else {
-                        $this->_where[] = $sql . "'%" . strtolower( $value ) . "%'";
+                        $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                        $this->_where[] = "$sql '%{$val}%'";
                         $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
                     }
                 } 
@@ -256,7 +262,7 @@ class CRM_Core_BAO_CustomQuery {
                 if ( $field['is_search_range'] ) {
                     $this->searchRange( $field['id'], $field['label'], 'int_data', $value );
                 } else {
-                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
                     $this->_qill[]  = $field['label'] . " - $value";
                 }
                 continue;
@@ -264,7 +270,7 @@ class CRM_Core_BAO_CustomQuery {
             case 'Boolean':
                 $value = (int ) $value;
                 $value = ( $value == 1 ) ? 1 : 0;
-                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
                 $value = $value ? ts('Yes') : ts('No');
                 $this->_qill[]  = $field['label'] . " - $value";
                 continue;
@@ -273,7 +279,7 @@ class CRM_Core_BAO_CustomQuery {
                 if ( $field['is_search_range'] ) {
                     $this->searchRange( $field['id'], $field['label'], 'float_data', $value );
                 } else {                
-                    $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . $value;  
+                    $this->_where[] = self::PREFIX . $field['id'] . '.float_data = ' . CRM_Utils_Type::escape( $value, 'Float' );
                     $this->_qill[]  = $field['label'] . " - $value";
                 }
                 continue;                    
@@ -282,13 +288,14 @@ class CRM_Core_BAO_CustomQuery {
                 if ( $field['is_search_range'] ) {
                     $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value );
                 } else {                
-                    $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . $value;
+                    $this->_where[] = self::PREFIX . $field['id'] . '.decimal_data = ' . CRM_Utils_Type::escape( $value, 'Float' );
                     $this->_qill[]  = $field['label'] . " - $value";
                 }
                 continue;
                 
             case 'Memo':
-                $this->_where[] = self::PREFIX . $field['id'] . '.memo_data LIKE ' . "'%" . $value . "%'";
+                $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                $this->_where[] = self::PREFIX . $field['id'] . ".memo_data LIKE '%{$val}%'";
                 $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $value));
                 continue;
                 
@@ -332,7 +339,7 @@ class CRM_Core_BAO_CustomQuery {
                     $value  = array_search( $value, $states );
                 }
                 if ( $value ) {
-                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
                     $this->_qill[]  = $field['label'] . " - {$states[$value]}";
                 }
                 continue;
@@ -343,7 +350,7 @@ class CRM_Core_BAO_CustomQuery {
                     $value  = array_search( $value, $countries );
                 }
                 if ( $value ) {
-                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . $value;
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
                     $this->_qill[]  = $field['label'] . " - {$countries[$value]}";
                 }
                 continue;
@@ -374,13 +381,25 @@ class CRM_Core_BAO_CustomQuery {
     function searchRange( &$id, &$label, $type, &$value ) {
         $qill = array( );
 
+        $crmType = CRM_Core_BAO_CustomValue::fieldToType( $type );
+
         if ( isset( $value['from'] ) ) {
-            $this->_where[] = self::PREFIX . "$id.$type >= " . $value['from'];
+            $val = CRM_Utils_Type::escape( $value['from'], $crmType );
+            if ( $type == 'char_data' ) {
+                $this->_where[] = self::PREFIX . "$id.$type >= '$val'";
+            } else {
+                $this->_where[] = self::PREFIX . "$id.$type >= $val";
+            }
             $qill[] = ts( 'greater than "%1"', array( 1 => $value['from'] ) );
         }
 
         if ( isset( $value['to'] ) ) {
-            $this->_where[] = self::PREFIX . "$id.$type <= " . $value['to'];
+            $val = CRM_Utils_Type::escape( $value['to'], $crmType );
+            if ( $type == 'char_data' ) {
+                $this->_where[] = self::PREFIX . "$id.$type <= '$val'";
+            } else {
+                $this->_where[] = self::PREFIX . "$id.$type <= $val";
+            }
             $qill[] = ts( 'less than "%1"', array( 1 => $value['to'] ) );
         }
 

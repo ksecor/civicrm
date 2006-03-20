@@ -1553,11 +1553,13 @@ class CRM_Contact_BAO_Query {
             switch( $this->_params['contribution_status'] ) {
             case 'Valid':
                 $this->_where[] = "civicrm_contribution.cancel_date is null";
+                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
                 $this->_qill[]  = ts( 'Contribution Status - Valid' );
                 break;
 
             case 'Cancelled':
                 $this->_where[] = "civicrm_contribution.cancel_date is not null";
+                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
                 $this->_qill[]  = ts( 'Contribution Status - Cancelled' );
                 break;
             }

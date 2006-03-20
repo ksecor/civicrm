@@ -104,33 +104,34 @@ class CRM_Utils_Type {
     public static function escape($data, $type) {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
-            case 'Integer':
-                if (CRM_Utils_Rule::integer($data)) {
-                    return $data;
-                }
-                break;
-                
-            case 'Float':
-                if (CRM_Utils_Rule::numeric($data)) {
-                    return $data;
-                }
-                break;
-                
-            case 'String':
-                return addslashes($data);
-                break;
-
-            case 'Date':
-                if (preg_match('/^\d{8}$/', $data)) {
-                    return $data;
-                }
-                break;
-
-            case 'Timestamp':
-                if (preg_match('/^\d{14}$/', $data)) {
-                    return $data;
-                }
-                break;
+        case 'Integer':
+            if (CRM_Utils_Rule::integer($data)) {
+                return $data;
+            }
+            break;
+            
+        case 'Float':
+        case 'Money':
+            if (CRM_Utils_Rule::numeric($data)) {
+                return $data;
+            }
+            break;
+            
+        case 'String':
+            return addslashes($data);
+            break;
+            
+        case 'Date':
+            if (preg_match('/^\d{8}$/', $data)) {
+                return $data;
+            }
+            break;
+            
+        case 'Timestamp':
+            if (preg_match('/^\d{14}$/', $data)) {
+                return $data;
+            }
+            break;
         }
 
     }
