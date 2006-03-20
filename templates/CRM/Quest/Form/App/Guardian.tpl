@@ -19,8 +19,8 @@
         {$form.last_name.label}</td>
 </tr> 
 <tr>
-    <td class="grouplabel">{$form.marital_status.label}</td>
-    <td>{$form.marital_status.html}</td>
+    <td class="grouplabel">{$form.marital_status_id.label}</td>
+    <td>{$form.marital_status_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.separated_year.label}</td>
@@ -47,8 +47,8 @@
     {$form.lived_with_to_age.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.industry.label}</td>
-    <td>{$form.industry.html}</td>
+    <td class="grouplabel">{$form.industry_id.label}</td>
+    <td>{$form.industry_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.job_organization.label}</td>
@@ -63,8 +63,8 @@
     <td>{$form.job_current_years.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.highest_school_level.label}</td>
-    <td>{$form.highest_school_level.html}</td>
+    <td class="grouplabel">{$form.highest_school_level_id.label}</td>
+    <td>{$form.highest_school_level_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.college_name.label}</td>
@@ -87,8 +87,8 @@
     <td>{$form.prof_school_name.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.prof_school_degree.label}</td>
-    <td>{$form.prof_school_degree.html}</td>
+    <td class="grouplabel">{$form.prof_school_degree_id.label}</td>
+    <td>{$form.prof_school_degree_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.prof_grad_year.label}</td>

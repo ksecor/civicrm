@@ -45,6 +45,35 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
+    static $_personID;
+    static $_personCount = 0 ;
+    
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        require_once 'CRM/Core/OptionGroup.php';
+        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
+        foreach ( $relationships as $key=> $value ) {
+            if ( trim($value) == trim($this->_name) ) {
+                $relationshipID = $key;
+            }
+        }
+
+        require_once 'CRM/Quest/DAO/Person.php';
+        $dao = new CRM_Quest_DAO_Person();
+        $dao->contact_id      = $this->get('contact_id');
+        $dao->relationship_id = $relationshipID;
+        if ( $dao->find(true) ) {
+            $this->_personID = $dao->id;
+        }
+    }
+   
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -191,10 +220,76 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function postProcess()  
     {
         $params  = $this->controller->exportValues( $this->_name );
-        $values = $this->controller->exportValues( 'Household' );
+        $householdInfo  = $this->controller->exportValues( 'Household' );
         $ids = array();
+        
+        //code to get relationship id
+        require_once 'CRM/Core/OptionGroup.php';
+        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
+        foreach ( $relationships as $key=> $value ) {
+            if ( trim($value) == trim($this->_name) ) {
+                $relationshipID = $key;
+            }
+        }
+        
+        $params['relationship_id'] = $relationshipID;
+        $params['contact_id']      = $this->get('contact_id'); 
+        
+        //code to find lived_with_period_id
+        foreach ( $householdInfo as $key => $value ) {
+            if (substr($key, 0, 15) == 'relationship_id' && $value == $relationshipID) {
+                $idArray = explode( '_' , $key );
+                $params['lived_with_period_id'] = $householdInfo['years_lived_id_'.$idArray[2]];
+            }
+            
+        }
+        
+        if( $this->_personID ) {
+            $ids['id'] = $this->_personID;
+        }
+
         require_once 'CRM/Quest/BAO/Person.php';
-        //$person=  CRM_Quest_BAO_Person::create( $params , $ids );
+        $person = CRM_Quest_BAO_Person::create( $params , $ids );
+              
+        //need to update household record
+        $householdParams                    = array();
+        $householdType                      = $this->get( 'householdType');
+
+        require_once 'CRM/Quest/DAO/Household.php';
+        $dao = & new CRM_Quest_DAO_Household();
+        $dao->contact_id = $this->get('contact_id');
+        $dao->household_type = $householdType[$relationshipID];
+        if ( $dao->find(true) ) {
+            $householdID = $dao->id;
+        }
+        if ( $householdID ) {
+            $householdParams['person_2_id']     = $person->id;
+        } else {
+            $householdParams['person_1_id']     = $person->id;
+        }
+        $householdParams['contact_id']      = $this->get('contact_id'); 
+        if ($householdType[$relationshipID] == 'Current' ) {
+            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_1'];
+        } else {
+            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_2'];
+        }
+        $householdParams['description']     = $householdInfo['household_note'];
+        $householdParams['household_type']  = $householdType[$relationshipID];
+        if ($householdType[$relationshipID] == 'Current' ) {
+            $householdParams['member_count']    = $householdInfo['member_count_1'];
+        } else {
+            $householdParams['member_count']    = $householdInfo['member_count_2'];
+        }
+        $ids = array();
+        if ( $householdID ) {
+            $ids['id'] = $householdID;
+        }
+        
+        require_once 'CRM/Quest/BAO/Household.php';
+        $household = CRM_Quest_BAO_Household::create( $householdParams , $ids );
+        //$this->_personID[$person->id] = $person ;
+        
+        
     }
 
     /**

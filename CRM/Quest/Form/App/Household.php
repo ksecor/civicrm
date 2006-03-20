@@ -137,14 +137,14 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function formRule(&$params) {
         $errors = array( );
         
-        for ( $i = 1; $i <= 2; $i++ ) {
+        /*for ( $i = 1; $i <= 2; $i++ ) {
             for ( $j = 1; $j <= 2; $j++ ) {
                 if ($params["relationship_id_".$i."_".$j]) {
                     $errors["first_name_".$i."_".$j] = "Please enter first name";
                     $errors["last_name_".$i."_".$j] = "Please enter last name";
                 }
             }
-        }
+        }*/
         
         return empty($errors) ? true : $errors;
     }
@@ -176,6 +176,36 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
             $details['Father'] = 'Father Details';
         }
+
+        $householdType = array();
+        for ( $i = 1; $i <= 2; $i++ ) {
+            for ( $j = 1; $j <= 2; $j++ ) {
+                if ( $i == 1 ) {
+                    $name = trim( 
+                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
+                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
+                     );
+
+                    if ( $name ) {
+                        $rid = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
+                        $householdType[$rid] = 'current';
+                    }
+                  
+                } else {
+                    $name = trim( 
+                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
+                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
+                     );
+                    
+                    if ( $name ) {
+                        $rid = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params);
+                        $householdType[$rid] = 'previous';
+                    }
+                }
+            }
+        }
+       
+        $this->set( 'householdType', $householdType );
         $this->set( 'householdDetails', $details );
 
     }//end of function 

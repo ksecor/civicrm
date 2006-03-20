@@ -125,8 +125,6 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Student.php';
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
-        $this->set('id', $student->id );
-        $this->set('contact_id',$student->contact_id );
 
     }
     /**

@@ -39,7 +39,7 @@
  */
 
 
-require_once 'CRM/Quest/DAO/Student.php';
+require_once 'CRM/Quest/DAO/Household.php';
 
 class CRM_Quest_BAO_Household extends CRM_Quest_DAO_Household {
 
@@ -64,6 +64,14 @@ class CRM_Quest_BAO_Household extends CRM_Quest_DAO_Household {
      * @return object
      */
     static function create(&$params, &$ids) {
+        
+        $dao = & new CRM_Quest_DAO_Household();
+        $dao->copyValues($params);
+        if( $ids['id'] ) {
+            $dao->id = $ids['id'];
+        }
+        $student = $dao->save();
+        return $student;
         
     }
 }

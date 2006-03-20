@@ -141,7 +141,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                                   ts( 'Alternate Telephone' ) );
         
         // citizenship status
-        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ));
+        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ), null , true);
         
         // citizenship country
         $this->addCountry('citizenship_country_id', ts( 'Country of citizenship' ),true );
@@ -250,7 +250,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
       }
       $params['contact_id'] = $contact->id;
       $student = CRM_Quest_BAO_Student::create( $params , $ids);
-      
       $this->set('id', $student->id );
       $this->set('contact_id',$student->contact_id );
 
