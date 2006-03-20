@@ -3,14 +3,14 @@
 {include file="CRM/WizardHeader.tpl}
 <div id="help">
     {if $action eq 1024}
-        {ts}This is a Preview of this product as it will appear on your Contributions page(s).{/ts}
+        {ts}This is a preview of this product as it will appear on your Contributions page(s).{/ts}
     {else}
         {ts}Use this form to select a premium to be offered on this Online Contribution Page.{/ts}
     {/if}
 </div>
  
 <div class="form-item">
-    <fieldset><legend>{if $action eq 2 }{ts}Add Products to this Page{/ts} {elseif $action eq 1024}{ts}Preview{/ts}{else} {ts}Remove Products from this Page{/ts}{/if}</legend>
+    <fieldset><legend>{if $action eq 2 }{ts}Add Products to This Page{/ts} {elseif $action eq 1024}{ts}Preview{/ts}{else} {ts}Remove Products from this Page{/ts}{/if}</legend>
    {if $action eq 8}
       <div class="messages status">
         <dl>

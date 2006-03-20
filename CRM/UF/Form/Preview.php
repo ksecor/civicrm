@@ -189,8 +189,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,  CRM_Contact_Form_GroupTag::TAG, false, $required, null, $field['title'] );
             } else if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name'])) {
-                echo $name;
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required);
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, false, $field['title']);
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             } else if ($field['name'] == 'payment_instrument' ) {
