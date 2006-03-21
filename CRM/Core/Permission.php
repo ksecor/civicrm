@@ -82,7 +82,7 @@ class CRM_Core_Permission {
      */
     public static function whereClause( $type, &$tables, &$whereTables ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables );' );
+        return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables, $whereTables );' );
     }
 
     /**
