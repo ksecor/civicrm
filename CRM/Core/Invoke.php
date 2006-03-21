@@ -106,22 +106,11 @@ class CRM_Core_Invoke {
             self::server ( $args );
             break;
 
-        case 'mailing'  :
-            require_once 'CRM/Mailing/Invoke.php';
-            CRM_Mailing_Invoke::main( $args );
-            break;
-
-        case 'contribute' :
-            require_once 'CRM/Contribute/Invoke.php';
-            CRM_Contribute_Invoke::main( $args );
-            break;
-
-        case 'quest':
-            require_once 'CRM/Quest/Invoke.php';
-            CRM_Quest_Invoke::main( $args );
-            break;
-
         default         :
+            require_once 'CRM/Core/Component.php';
+            if ( ! CRM_Core_Component::invoke( $args ) ) {
+                break;
+            }
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
             break;
 

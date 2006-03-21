@@ -27,8 +27,7 @@
 
 /**
  *
- * Given an argument list, invoke the appropriate CRM function
- * Serves as a wrapper between the UserFrameWork and Core CRM
+ * Menu for the contribute module
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -37,29 +36,23 @@
  *
  */
 
-class CRM_Quest_Invoke {
+require_once 'CRM/Utils/Menu.php';
 
-    /*
-     * This function contains the actions for mailing arguments  
-     *  
-     * @param $args array this array contains the arguments of the url  
-     *  
-     * @static  
-     * @access public  
-     */  
-    static function main( &$args ) {  
+class CRM_Quest_Menu {
 
-        if ( $args[1] !== 'quest' ) {
-            return;
-        }
-
-        
-        if ( $args[2] == 'preapp' ) {
-            require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( );
-            return $controller->run( );
-        }
-
+    static function &main( ) {
+        $items = array(
+                       array( 
+                             'path'    => 'civicrm/quest/preapp', 
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'Quest PreApplication Form' ), 
+                             'access'  => true,
+                             'type'    => CRM_Utils_Menu::CALLBACK,  
+                             'crmType' => CRM_Utils_Menu::CALLBACK,
+                             'weight'  => 0, 
+                             ),
+                       );
+        return $items;
     }
 
 }
