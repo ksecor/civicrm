@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: iso-codes 0.1.1\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
-"POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2002-01-05 17:04+0000\n"
-"Last-Translator: Lisiane Sztoltz <lisiane@conectiva.com.br>\n"
+"POT-Creation-Date: 2005-09-08 08:52+0200\n"
+"PO-Revision-Date: 2006-01-06 19:03-0300\n"
+"Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese Brazilian <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 #. name for AE-AZ
 msgid "Abu Zaby"
@@ -97,11 +98,11 @@ msgstr "Coreano"
 
 #. name for AF-KAB
 msgid "Kabul"
-msgstr ""
+msgstr "Kabul"
 
 #. name for AF-KAN
 msgid "Kandahar"
-msgstr ""
+msgstr "Kandahar"
 
 #. name for AF-KAP
 msgid "Kapisa"
@@ -469,7 +470,7 @@ msgstr ""
 
 #. name for AR-C
 msgid "Capital federal"
-msgstr ""
+msgstr "Distrito da Capital"
 
 #. name for AR-B
 msgid "Buenos Aires"
@@ -1813,7 +1814,7 @@ msgstr "Bulgária"
 
 #. name for BR-CE
 msgid "Ceara"
-msgstr ""
+msgstr "Ceará"
 
 #. name for BR-DF
 msgid "Distrito Federal"
@@ -1821,7 +1822,7 @@ msgstr ""
 
 #. name for BR-ES
 msgid "Espirito Santo"
-msgstr ""
+msgstr "Espírito Santo"
 
 #. name for BR-FN
 msgid "Fernando de Noronha"
@@ -1829,11 +1830,11 @@ msgstr ""
 
 #. name for BR-GO
 msgid "Goias"
-msgstr ""
+msgstr "Goiás"
 
 #. name for BR-MA
 msgid "Maranhao"
-msgstr ""
+msgstr "Maranhão"
 
 #. name for BR-MG
 msgid "Minas Gerais"
@@ -1863,7 +1864,7 @@ msgstr ""
 
 #. name for BR-PI
 msgid "Piaui"
-msgstr ""
+msgstr "Piauí"
 
 #. name for BR-PR
 #, fuzzy
@@ -1903,11 +1904,11 @@ msgstr "Sérvia"
 
 #. name for BR-SP
 msgid "Sao Paulo"
-msgstr ""
+msgstr "São Paulo"
 
 #. name for BR-TO
 msgid "Tocatins"
-msgstr ""
+msgstr "Tocantins"
 
 #. name for BS-AC
 msgid "Acklins and Crooked Islands"
@@ -3057,7 +3058,7 @@ msgstr ""
 
 #. name for CV-CS
 msgid "Calheta de Sao Miguel"
-msgstr ""
+msgstr "Calheta de São Miguel"
 
 #. name for CV-FO
 msgid "Fogo"
@@ -3095,19 +3096,19 @@ msgstr ""
 
 #. name for CV-SD
 msgid "Sao Domingos"
-msgstr ""
+msgstr "São Domingos"
 
 #. name for CV-SF
 msgid "Sao Filipe"
-msgstr ""
+msgstr "São Filipe"
 
 #. name for CV-SN
 msgid "Sao Nicolau"
-msgstr ""
+msgstr "São Nicolau"
 
 #. name for CV-SV
 msgid "Sao Vicente"
-msgstr ""
+msgstr "São Vicente"
 
 #. name for CV-TA
 msgid "Tarrafal"
@@ -4297,29 +4298,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Taiwan"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "África do Sul"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "Austrália"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Espanha"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Europa, Central"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Japão"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "Coréia do Norte"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Europa, setentrional"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Som"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Granada"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "Coréia do Sul"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Irlanda"
 
 #. name for FJ-E
 #, fuzzy
@@ -16289,10 +16357,6 @@ msgstr "Finlândia"
 #~ msgstr "Som"
 
 #, fuzzy
-#~ msgid "Central "
-#~ msgstr "Europa, Central"
-
-#, fuzzy
 #~ msgid "Chobe"
 #~ msgstr "Chile"
 
@@ -16327,3 +16391,4 @@ msgstr "Finlândia"
 #, fuzzy
 #~ msgid "Casablanca "
 #~ msgstr "Caribenho"
+

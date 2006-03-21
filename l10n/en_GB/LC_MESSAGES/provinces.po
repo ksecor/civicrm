@@ -4059,29 +4059,98 @@ msgstr "Southern Nations, Nationalities and Peoples"
 msgid "Tigrai"
 msgstr "Tigrai"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr "Ahvenanmasn laani"
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "South Carolina"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "South Australia"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
-msgstr "Etela-Suomen laani"
+#, fuzzy
+msgid "Etelä-Savo"
+msgstr "Haute-Savoie"
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
-msgstr "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
+msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
-msgstr "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
+msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
-msgstr "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "Kanungu"
 
-#. name for FI-OL
-msgid "Oulun Lasni"
-msgstr "Oulun Lasni"
+#. name for FI-CO
+msgid "Central Ostrobothnia"
+msgstr ""
+
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "Central"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
+msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "Luapula"
+
+#. name for FI-TR
+#, fuzzy
+msgid "Tampere Region"
+msgstr "Maritime (Region)"
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "North Carolina"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "Northern Samar"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "Santaun"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "Fukusima"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "South-West"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "Helmand"
 
 #. name for FJ-E
 msgid "Eastern"
@@ -15433,3 +15502,21 @@ msgstr "Matabeleland South"
 #. name for ZW-MI
 msgid "Midlands"
 msgstr "Midlands"
+
+#~ msgid "Ahvenanmasn laani"
+#~ msgstr "Ahvenanmasn laani"
+
+#~ msgid "Etela-Suomen laani"
+#~ msgstr "Etela-Suomen laani"
+
+#~ msgid "Ita-Suomen lasni"
+#~ msgstr "Ita-Suomen lasni"
+
+#~ msgid "Lapin Laani"
+#~ msgstr "Lapin Laani"
+
+#~ msgid "Lansi-Suomen Laani"
+#~ msgstr "Lansi-Suomen Laani"
+
+#~ msgid "Oulun Lasni"
+#~ msgstr "Oulun Lasni"

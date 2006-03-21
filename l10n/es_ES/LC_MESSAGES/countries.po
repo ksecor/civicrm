@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.18\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2001-12-02 20:54+0100\n"
-"Last-Translator: Juan Manuel García Molina <juanmagm@mail.com>\n"
+"PO-Revision-Date: 2005-12-14 00:04+0100\n"
+"Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: Spanish <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: Pootle 0.6.3.20050808\n"
 
 # AF
 #. name for AFG
@@ -65,7 +65,7 @@ msgstr "Andorra"
 
 #. official_name for AND
 msgid "Principality of Andorra"
-msgstr ""
+msgstr "Principado de Andorra"
 
 # AO
 #. name for AGO
@@ -74,9 +74,8 @@ msgstr "Angola"
 
 # KR
 #. official_name for AGO
-#, fuzzy
 msgid "Republic of Angola"
-msgstr "Korea, República de"
+msgstr "Angola, República de"
 
 # AI
 #. name for AIA
@@ -100,9 +99,8 @@ msgstr "Argentina"
 
 # DO
 #. official_name for ARG
-#, fuzzy
 msgid "Argentine Republic"
-msgstr "República Dominicana"
+msgstr "República Argentina"
 
 # AM
 #. name for ARM
@@ -111,7 +109,7 @@ msgstr "Armenia"
 
 #. official_name for ARM
 msgid "Republic of Armenia"
-msgstr ""
+msgstr "República de Armenia"
 
 # AW
 #. name for ABW
@@ -130,7 +128,7 @@ msgstr "Austria"
 
 #. official_name for AUT
 msgid "Republic of Austria"
-msgstr ""
+msgstr "República de Austria"
 
 # AZ
 #. name for AZE
@@ -139,9 +137,8 @@ msgstr "Azerbayán"
 
 # AZ
 #. official_name for AZE
-#, fuzzy
 msgid "Republic of Azerbaijan"
-msgstr "Azerbayán"
+msgstr "República de Azerbayán"
 
 # BS
 #. name for BHS
@@ -159,9 +156,8 @@ msgstr "Bahrein"
 
 # BH
 #. official_name for BHR
-#, fuzzy
 msgid "State of Bahrain"
-msgstr "Bahrein"
+msgstr "Estado de Bahrein"
 
 # BD
 #. name for BGD
@@ -1736,7 +1732,7 @@ msgstr "España"
 
 #. official_name for ESP
 msgid "Kingdom of Spain"
-msgstr ""
+msgstr "Reino de España"
 
 # LK
 #. name for LKA
@@ -2127,3 +2123,4 @@ msgstr ""
 # YU
 #~ msgid "Yugoslavia"
 #~ msgstr "Yugoslavia"
+
