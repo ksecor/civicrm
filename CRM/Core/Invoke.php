@@ -108,7 +108,7 @@ class CRM_Core_Invoke {
 
         default         :
             require_once 'CRM/Core/Component.php';
-            if ( ! CRM_Core_Component::invoke( $args ) ) {
+            if ( CRM_Core_Component::invoke( $args ) ) {
                 break;
             }
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
