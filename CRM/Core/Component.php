@@ -55,8 +55,8 @@ class CRM_Core_Component {
                                  'Quest'          => array( 'title' => 'Quest Application Process',
                                                             'path'  => 'CRM_Quest_',
                                                             'url'   => 'quest',
-                                                            'perm'  => array( 'access Quest Student Records' ),
-                                                            'css'   => $config->resourceBase . 'css/quest.css' ) );
+                                                            'perm'  => array( 'access Quest Student Records' ) ),
+                                 );
         }
         return self::$_info;
     }
@@ -103,15 +103,14 @@ class CRM_Core_Component {
         return $items;
     }
 
-    static function &addConfig( &$config ) {
+    static function addConfig( &$config ) {
         $info =& self::info( );
 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) ) {
                 $className = $info[$name]['path'] . 'Config';
-                if ( include_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php') ) {
-                    eval( "$className::add( $args );" );
-                }
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::add( $config );' );
             }
         }
         return;
