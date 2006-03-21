@@ -116,6 +116,45 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+
+        $honorParams = $params = $this->controller->exportValues( $this->_name );
+        $values = $this->controller->exportValues( 'Personal' );
+        $params = array_merge( $params,$values );
+       
+        $id = $this->get('id');
+        $contact_id = $this->get('contact_id');
+        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
+        $ids = array();
+        $ids['id'] = $id;
+        $ids['contact_id'] = $contact_id;
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $params, $ids);
+
+        // to add honour records 
+        $honors = array();
+        foreach ( $honorParams as $key => $value ){
+            $field = explode('_' , $key ) ;
+            if ($field[0] == 'description') {
+                $honors[$field[1]]['description'] = $value;
+            } else if ( $field[0] == 'award' && $field[1] == 'date' ) {
+                $honors[$field[2]]['award_date'] = $value;
+            }
+        }
+        
+        require_once 'CRM/Quest/BAO/Honor.php';
+        $honorIds = $this->get( 'honorIds', $honorIds );
+        foreach ( $honors as $key => $honor ) {
+            $ids = array();
+            if ( $honorIds[$key] ) {
+                $ids['id'] = $honorIds[$key];
+            }
+            $honor['contact_id']     = $contact_id;
+            $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );
+            $honorIds[$key]          = $newHonor->id;
+        }
+        $this->set( 'honorIds', $honorIds);
+        
     }//end of function
 
     /**

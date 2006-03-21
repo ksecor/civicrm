@@ -254,7 +254,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         //need to update household record
         $householdParams                    = array();
         $householdType                      = $this->get( 'householdType');
-
+              
         require_once 'CRM/Quest/DAO/Household.php';
         $dao = & new CRM_Quest_DAO_Household();
         $dao->contact_id = $this->get('contact_id');
@@ -268,14 +268,14 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $householdParams['person_1_id']     = $person->id;
         }
         $householdParams['contact_id']      = $this->get('contact_id'); 
-        if ($householdType[$relationshipID] == 'Current' ) {
+        if ($householdType[$relationshipID] == 'current' ) {
             $householdParams['years_lived_id']  = $householdInfo['years_lived_id_1'];
         } else {
             $householdParams['years_lived_id']  = $householdInfo['years_lived_id_2'];
         }
         $householdParams['description']     = $householdInfo['household_note'];
         $householdParams['household_type']  = $householdType[$relationshipID];
-        if ($householdType[$relationshipID] == 'Current' ) {
+        if ($householdType[$relationshipID] == 'current' ) {
             $householdParams['member_count']    = $householdInfo['member_count_1'];
         } else {
             $householdParams['member_count']    = $householdInfo['member_count_2'];

@@ -112,6 +112,49 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+        $params = $this->controller->exportValues( $this->_name );
+        $params['location'][1]['location_type_id'] = 1;
+        $contactID = $this->get('contact_id');
+        $params['contact_type'] = 'Organization';
+        
+        $ids = array();
+        $org_1_id = $this->get('org_1_id');
+        
+        if ( $org_1_id ) {
+            $idParams = array( 'id' => $org_1_id, 'contact_id' => $org_1_id );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+        }
+        
+        $org = CRM_Contact_BAO_Contact::create($params, $ids, 2);
+        $this->set('org_1_id' , $org->id );
+
+        // add data for custom fields 
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$this->_relationshipId,0);
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+        
+        //create a realtionship
+        $relationshipParams = array();
+        
+        $relationshipParams['relationship_type_id'] = '1_a_b';
+        $relationshipParams['start_date']           = $params['date_of_entry'];
+        $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
+        
+        $rel_1_id = $this->get('rel_1_id');
+        
+        if ( $rel_1_id ) {
+            $ids = array('contact' =>$contactID,'relationship' => $rel_1_id ,'contactTarget' =>$organizationID);
+        } else {
+            $ids = array('contact' =>$contactID);
+        }
+        
+        $organizationID = $org->id;
+        
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
+        $this->set('rel_1_id' , $relationship->id );
+
     }//end of function
 
     /**
