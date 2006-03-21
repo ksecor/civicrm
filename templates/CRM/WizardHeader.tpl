@@ -13,7 +13,8 @@
             {assign var="stepClass" value="future-step"}
             {assign var="stepPrefix" value=$wizard.style.stepPrefixFuture}
         {/if} 
-        <li class="{$stepClass}">{$stepPrefix} {$smarty.section.step.iteration}. {$wizard.steps[step].title}</li>
+        {* wizard.steps[step].link value is passed for wizards/steps which allow clickable navigation *} 
+        <li class="{$stepClass}">{if $wizard.steps[step].link}<a href="$wizard.steps[step].link}">{/if}{$stepPrefix} {$smarty.section.step.iteration}. {$wizard.steps[step].title}{if $wizard.steps[step].link}</a>{/if}</li>
     {/section}
    </ul>
 </div>

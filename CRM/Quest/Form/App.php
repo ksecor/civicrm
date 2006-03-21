@@ -72,6 +72,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        $this->assign       ( 'displayRecent' , false );
         $this->addDefaultButtons(ts('Save & Continue'));        
     }
 
