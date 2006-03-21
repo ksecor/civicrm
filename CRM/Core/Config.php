@@ -681,15 +681,8 @@ class CRM_Core_Config {
             $this->enableSSL = CIVICRM_ENABLE_SSL;
         }
 
-        if ( in_array( 'CiviContribute', $this->enableComponents ) ) {
-            require_once 'CRM/Contribute/Config.php';
-            CRM_Contribute_Config::add( $this );
-        }
-
-        if ( in_array( 'CiviSMS', $this->enableComponents ) ) {
-            require_once 'CRM/SMS/Config.php';
-            CRM_SMS_Config::add( $this );
-        }
+        require_once 'CRM/Core/Component.php';
+        CRM_Core_Component::addConfig( $this );
 
         // initialize the framework
         $this->initialize();

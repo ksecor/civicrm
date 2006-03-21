@@ -53,6 +53,7 @@ class CRM_Import_Controller extends CRM_Core_Controller {
         // add all the actions
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+
     }
 
 }

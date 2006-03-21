@@ -42,4 +42,6 @@
 <xi:include href="UFJoin.xml"           parse="xml" />
 <xi:include href="Validation.xml"       parse="xml" />
 <xi:include href="DupeMatch.xml"        parse="xml" />
+<xi:include href="OptionGroup.xml"      parse="xml" />
+<xi:include href="OptionValue.xml"      parse="xml" />
 </tables>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>OptionValue</class>
+  <name>civicrm_option_value</name>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Option ID</comment>
+       <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>option_group_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Group which this option belongs to.</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>option_group_id</name>
+       <table>civicrm_option_group</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>title</name>
+       <title>Option Label</title>
+       <type>varchar</type>
+       <required>true</required>
+       <length>64</length>
+       <comment>Option string as displayed to users - e.g. the label in an HTML OPTION tag.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>name</name>
+       <title>Option Value</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>May be used to store an option value that is different from the title. One use case is when a non-translated value needs to be set / sent to another application.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>grouping</name>
+       <title>Option Grouping Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Use to sort and/or set display properties for sub-set(s) of options within an option group. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_default</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the default option for the group?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Controls display sort order.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Optional description.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_optgroup</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this row simply a display header? Expected usage is to render these as OPTGROUP tags within a SELECT field list of options?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_reserved</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this a predefined system object?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <default>1</default>
+       <comment>Is this option active?</comment>
+       <add>1.5</add>
+  </field>
+</table>

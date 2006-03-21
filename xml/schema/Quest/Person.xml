@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Person</class>
+  <name>quest_person</name>
+  <comment>Stores people related to Quest Students (parents, guardians, siblings).</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Person ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>relationship_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Relationship to Student (e.g. Mother, Father, Sister...). FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>relationship_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>is_parent_guardian</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this person a parent or guardian (primary caregiver)?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>first_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>First Name.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>last_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Last Name.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>marital_status_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>marital_status_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>separated_year</name>
+       <type>date</type>
+       <comment>Year parents separated or divorced (only YYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>is_deceased</name>
+      <type>boolean</type>
+      <comment>True / False / Dont Know</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>deceased_year</name>
+       <type>date</type>
+       <comment>Year deceased (only YYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>age</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Persons age (years).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>lived_with_period_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Period student lived with this person.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>lived_with_period_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>lived_with_from_age</name>
+      <type>int unsigned</type>
+      <comment>Age of student when they began living with this person.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>lived_with_to_age</name>
+      <type>int unsigned</type>
+      <comment>Age of student when they stopped living with this person.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>industry_id</name>
+      <type>int unsigned</type>
+      <comment>Industry person works in (or unemployed).</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>industry_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>job_organization</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Name of business or organization where person works.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>job_occupation</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Occupation or job title.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>job_current_years</name>
+      <type>int unsigned</type>
+      <comment>Number of years working in current job.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>highest_school_level_id</name>
+      <type>int unsigned</type>
+      <comment>Highest level of schooling completed by this person (used for Parents/Guardians).</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>highest_school_level_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>current_school_level_id</name>
+      <type>int unsigned</type>
+      <comment>Current school level of this person (used for Siblings).</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>current_school_level_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>college_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Name of college attended.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>college_country_id</name>
+      <type>int unsigned</type>
+      <comment>Country of where person attended college.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>college_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>college_grad_year</name>
+       <type>date</type>
+       <comment>Year completed college (only YYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>college_major</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Area of concentration or major in college.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>prof_school_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Name of professional or graduate school attended.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>prof_school_degree_id</name>
+      <type>int unsigned</type>
+      <comment>Professional or graduate school degree type.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>prof_school_degree_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>prof_grad_year</name>
+       <type>date</type>
+       <comment>Year completed professional or graduate school (only YYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>7</rows>
+       <cols>40</cols>
+       <comment>Additional information about this person (comments for Siblings).</comment>
+      <add>1.5</add>
+  </field>
+</table>

@@ -1,0 +1,32 @@
+/* $Id: quest.css,v 1.0 2006/03/18 dgg */
+
+/* Styles for Wizard Progress Bars */
+#crm-container ul.wizard-bar-preApp {
+  border-collapse: collapse;
+  padding: 0em 0em 0em 1em;
+  white-space: nowrap;
+  list-style: normal;
+  margin: 10px 0px 20px;
+  height: auto;
+  width: auto;
+  line-height: normal;
+}
+
+#crm-container ul.wizard-bar-preApp li {
+  display: block;
+  background-color: #fff;
+  border: 1px solid #bbb;
+  height: auto;
+  margin-right: 2em;
+  padding: .5em 1em .5em;
+  text-decoration: none;
+}
+#crm-container ul.wizard-bar-preApp li.current-step {
+  background-color: #fff;
+  border-color: #000;
+  font-weight: bold;
+}
+#crm-container ul.wizard-bar-preApp li.past-step {
+  background-color: #eee;
+  color: #666;
+}

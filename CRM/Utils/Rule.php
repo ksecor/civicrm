@@ -265,6 +265,10 @@ class CRM_Utils_Rule {
         return preg_match( '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/', $value ) ? true : false;
     }
 
+    static function numberOfDigit($value, $noOfDigit) {
+        return preg_match( '/^\d{'.$noOfDigit.'}$/', $value ) ? true : false;
+    }
+
     static function money($value) {
         if ( self::integer( $value ) ) {
             return true;

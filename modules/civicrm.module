@@ -41,7 +41,12 @@ function civicrm_html_head()
 {
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
-    return '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
+    $styleSheets = '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
+    if ( in_array( 'Quest', $config->enableComponents) ) {
+        $styleSheets .= '<style type="text/css">@import url(' . $config->resourceBase . 'css/quest.css);</style>';
+    }
+    return $styleSheets;
+    
 }
 
 /**
@@ -110,12 +115,12 @@ function civicrm_perm()
                    'access CiviCRM' );
                    
     // permissions for components which are conditionally enabled via config file setting
-    if ( in_array( 'CiviContribute', $config->enableComponents) ) {
-        $cPerm = array_merge($cPerm,array('access CiviContribute','edit contributions','make online contributions'));
-    }
-
-    if ( in_array( 'CiviMail', $config->enableComponents) ) {
-        $cPerm[] = 'access CiviMail';
+    require_once 'CRM/Core/Component.php';
+    foreach ( $config->enableComponents as $comp ) {
+        $perm = CRM_Core_Component::get( $comp, 'perm' );
+        if ( $perm ) {
+            $cPerm = array_merge( $cPerm, $perm );
+        }
     }
 
     // dynamic permissions - access by group (title)
@@ -210,12 +215,7 @@ function civicrm_initialize( $requireAPI = false )
     // Add module-specific stylesheet to page header
     drupal_set_html_head(civicrm_html_head());
 
-    if(arg(0) == 'civicrm') {
-        // this is just for ease of use. once the code is solid, we no longer need this
-        // menu_rebuild();
-    }
-
-	if ( $requireAPI ) {
+    if ( $requireAPI ) {
         require_once 'api/crm.php';
     }
 }

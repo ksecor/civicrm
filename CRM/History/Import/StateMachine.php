@@ -54,10 +54,10 @@ class CRM_History_Import_StateMachine extends CRM_Core_StateMachine {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_History_Import_Form_UploadFile',
-                              'CRM_History_Import_Form_MapField',
-                              'CRM_History_Import_Form_Preview',
-                              'CRM_History_Import_Form_Summary'
+                              'CRM_History_Import_Form_UploadFile' => null,
+                              'CRM_History_Import_Form_MapField' => null,
+                              'CRM_History_Import_Form_Preview' => null,
+                              'CRM_History_Import_Form_Summary' => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );

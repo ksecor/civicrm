@@ -224,6 +224,7 @@ class CRM_Core_SelectValues {
                 'Household'    => ts('Households'),
                 'Organization' => ts('Organizations'),
                 'Activity'     => ts('Activities'),
+                'Relationship' => ts('Relationships'),
                 'Phonecall'    => ts('Phonecalls'),
                 'Meeting'      => ts('Meetings'),
                 'Group'        => ts('Groups'),

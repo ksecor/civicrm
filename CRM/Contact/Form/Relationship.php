@@ -37,7 +37,7 @@
 
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Contact/Form/Note.php';
 /**
  * This class generates form components for relationship
  * 
@@ -103,12 +103,26 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 } else {
                     $contact->id = $relationship->contact_id_a;
                 }
-
                 if ($contact->find(true)) {
                     $this->assign('sort_name', $contact->sort_name);                
                 }
+
+                $relationshipID = $relationship->id;
+                $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
+                $dao = new CRM_Core_DAO();
+                $dao->query($query);
+                $dao->fetch();
+                $note =& new CRM_Core_DAO_Note( );
+                $note->id = $dao->id;
+                if ($note->find(true)) {
+                    $defaults['note'] = $note->note;
+                }
             }
-         }
+        }
+
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
+        }
         return $defaults;
     }
     
@@ -170,6 +184,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
+
+        CRM_Contact_Form_Note::buildNoteBlock($this);
+
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_relationshipId,0);
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
@@ -242,7 +261,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
 
-        list( $valid, $invalid, $duplicate, $saved ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
+        list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
             $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
@@ -256,6 +275,39 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if ( $saved ) {
             $status .= ts('Relationship record has been updated.');
         }
+        
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+        foreach($relationshipIds as $index => $id) {
+            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Relationship',$id); 
+        }
+
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $note =& new CRM_Core_DAO_Note( );
+            $note->entity_id = $relationshipIds[0];
+            $note->entity_table = 'civicrm_relationship';
+            if ($note->find(true)) {
+                $id = $note->id;
+                $noteParams = array(
+                                    'entity_id'     => $relationshipIds[0],
+                                    'entity_table'  => 'civicrm_relationship',
+                                    'note'          => $params['note'],
+                                    'id'            => $id
+                                    );
+                CRM_Core_BAO_Note::add($noteParams);
+            }
+        } else {
+            if ( CRM_Utils_Array::value( 'note', $params ) ) {
+                foreach($relationshipIds as $index => $id) {
+                    $noteParams = array(
+                                        'entity_id'     => $id,
+                                        'entity_table'  => 'civicrm_relationship',
+                                        'note'          => $params['note']
+                                        );
+                    CRM_Core_BAO_Note::add($noteParams);
+                }
+            }
+        }
+        
         CRM_Core_Session::setStatus( $status );
     }//end of function
 

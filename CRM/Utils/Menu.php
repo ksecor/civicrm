@@ -232,6 +232,16 @@ class CRM_Utils_Menu {
                             'weight'  => 250
                             ),
                       array(
+                            'path'    => 'civicrm/admin/optionGroup',
+                            'title'   => ts('Options'),
+                            'qs'     => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Configure'),
+                            'icon'    => 'admin/duplicate_matching.png',
+                            'weight'  => 280
+                            ),
+                      array(
                             'path'    => 'civicrm/admin/dupematch',
                             'title'   => ts('Duplicate Matching'),
                             'qs'     => 'reset=1',
@@ -566,18 +576,9 @@ class CRM_Utils_Menu {
 
                       );
 
-            $config =& CRM_Core_Config::singleton( );
-            if (  in_array( 'CiviContribute', $config->enableComponents) ) {
-                require_once 'CRM/Contribute/Menu.php';
-                $items =& CRM_Contribute_Menu::main( );
-                self::$_items = array_merge( self::$_items, $items );
-            }
-
-            if ( in_array( 'CiviMail', $config->enableComponents) ) { 
-                require_once 'CRM/Mailing/Menu.php';
-                $items =& CRM_Mailing_Menu::main( );
-                self::$_items = array_merge( self::$_items, $items );
-            }
+            require_once 'CRM/Core/Component.php';
+            $items =& CRM_Core_Component::menu( );
+            self::$_items = array_merge( self::$_items, $items );
             
             self::initialize( );
         }

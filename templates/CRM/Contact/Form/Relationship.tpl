@@ -15,11 +15,18 @@
             {if $row.end_date}
                 <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|crmDate}</dd>
             {/if}
+	    {foreach from=$viewNote item="rec"}
+		    {if $rec.note}
+			<dt>{ts}Note:{/ts}</dt><dd>{$rec.note}</dd>	
+	   	    {/if}
+            {/foreach}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
+		{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"/></dd>
             </dl>
             {/foreach}
+		
         </div>
         </fieldset>
      </div>    
@@ -112,6 +119,8 @@
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
                     </dd>
+		<dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+		{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
                 <dt></dt><dd>{$form.buttons.html}</dd>
                 </dl>
             </div>

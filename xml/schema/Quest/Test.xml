@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Test</class>
+  <name>quest_test</name>
+  <comment>Test results linked to a civicrm_contact record (expected usage is for student applicants).</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Test Result ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>test_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Test being reported (e.g. SAT, PSAT, etc). FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>test_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>score_composite</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Composite or total score for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_english</name>
+      <type>int unsigned</type>
+      <comment>English score if applicable for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_reading</name>
+      <type>int unsigned</type>
+      <comment>Reading score if applicable for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_writing</name>
+      <type>int unsigned</type>
+      <comment>Writing score if applicable for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_math</name>
+      <type>int unsigned</type>
+      <comment>Math score if applicable for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_science</name>
+      <type>int unsigned</type>
+      <comment>Science score if applicable for this test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>subject</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Test subject (for subject-specific tests e.g. AP and SAT II).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>test_date</name>
+       <type>date</type>
+       <comment>Date that the test was taken (month and year are significant).</comment>
+       <add>1.5</add>
+  </field>
+</table>

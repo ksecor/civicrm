@@ -268,10 +268,20 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     function addPages( $stateMachine, $action = CRM_Core_Action::NONE ) {
         $pages = $stateMachine->getPages( );
 
-        foreach ( $pages as $classPath ) {
-            $stateName   = CRM_Utils_String::getClassName($classPath);
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
-            $$stateName =& new $classPath($stateMachine->find($classPath), $action);
+        foreach ( $pages as $name => $value ) {
+            $className   = CRM_Utils_Array::value( 'className', $value, $name );
+            $title       = CRM_Utils_Array::value( 'title'    , $value );
+            $stateName   = CRM_Utils_String::getClassName($className);
+            if ( CRM_Utils_Array::value( 'className', $value ) ) {
+                $formName = $name;
+            } else {
+                $formName = CRM_Utils_String::getClassName( $name );
+            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+            $$stateName =& new $className( $stateMachine->find( $className ), $action, 'post', $formName );
+            if ( $title ) {
+                $$stateName->setTitle( $title );
+            }
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
         }
@@ -371,8 +381,18 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         $wizard['stepCount']         = $count;
 
+        $this->addWizardStyle( $wizard ); 
+
         $this->assign( 'wizard', $wizard );
         return $wizard;
+    }
+
+    function addWizardStyle( &$wizard ) {
+        $wizard['style'] = array( 'barClass' => '',
+                                  'stepPrefixCurrent' => '&raquo;',
+                                  'stepPrefixPast' => '&radic;',
+                                  'stepPrefixFuture' => ' ',
+                                  'showTitle' => 1 );
     }
 
     /**

@@ -263,8 +263,6 @@ $fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
-
-
 // write the civicrm data file fixing the domain
 // id variable and translate the {ts}-tagged strings
 $smarty->clear_all_assign();

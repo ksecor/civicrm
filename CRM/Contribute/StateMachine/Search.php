@@ -56,16 +56,16 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
 
         $this->_pages = array( );
 
-        $this->_pages[] = 'CRM_Contribute_Form_Search';
+        $this->_pages['CRM_Contribute_Form_Search'] = null;
         list( $task, $result ) = $this->taskName( $controller, 'Search' );
         $this->_task    = $task;
 
         if ( is_array( $task ) ) {
             foreach ( $task as $t ) {
-                $this->_pages[] = $t;
+                $this->_pages[$t] = null;
             }
         } else {
-            $this->_pages[] = $task;
+            $this->_pages[$task] = null;
         }
 
         $this->addSequentialPages( $this->_pages, $action );

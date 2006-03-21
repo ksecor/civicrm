@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Essay</class>
+  <name>quest_essay</name>
+  <comment>Essay question responses linked to a civicrm_contact record (expected usage is for student applicants).</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Essay ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>essay</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>20</rows>
+       <cols>75</cols>
+       <required>true</required>
+       <comment>Essay question response.</comment>
+      <add>1.5</add>
+  </field>
+</table>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Household</class>
+  <name>quest_household</name>
+  <comment>Quest Student Households.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Household ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>household_type</name>
+       <type>enum</type>
+       <values>Current, Previous</values>
+       <required>true</required>
+       <comment>Quest collects current and (optionally) previous household info.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>member_count</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Number of people living in household (excluding student).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>person_1_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>First primary caregiver in household. FK to quest_person.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>person_1_id</name>
+       <table>quest_person</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>person_2_id</name>
+      <type>int unsigned</type>
+      <comment>Second primary caregiver in household. FK to quest_person.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>person_2_id</name>
+       <table>quest_person</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>years_lived_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Years student has lived in this household (descriptive range).</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>years_lived_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>description</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>7</rows>
+       <cols>40</cols>
+       <comment>Description of additional household circumstances.</comment>
+      <add>1.5</add>
+  </field>
+</table>

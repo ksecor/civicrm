@@ -47,12 +47,6 @@ class CRM_Core_State {
     protected $_name;
 
     /**
-     * title for state
-     * @var string
-     */
-    protected $_title;
-
-    /**
      * this is a combination "OR" of the STATE_* constants defined below
      * @var int
      */
@@ -91,7 +85,6 @@ class CRM_Core_State {
      * constructor
      *
      * @param string the internal name of the state
-     * @param string the display name for this state
      * @param int    the state type
      * @param object the state that precedes this state
      * @param object the state that follows  this state
@@ -100,9 +93,8 @@ class CRM_Core_State {
      * @return object
      * @access public
      */
-    function __construct( $name, $title, $type, $back, $next, $stateMachine ) {
+    function __construct( $name, $type, $back, $next, $stateMachine ) {
         $this->_name  = $name;
-        $this->_title = $title;
         $this->_type  = $type;
         $this->_back  = $back;
         $this->_next  = $next;
@@ -184,27 +176,6 @@ class CRM_Core_State {
      */
     function invalidate( &$data ) {
         $data['valid'][$this->_name] = null;
-    }
-
-    /**
-     * getter for title
-     *
-     * @return string
-     * @access public
-     */
-    function getTitle( ) {
-        return $this->_title;
-    }
-
-    /**
-     * setter for title
-     *
-     * @param string
-     * @return void
-     * @access public
-     */
-    function setTitle( $title ) {
-        $this->_title = $title;
     }
 
     /**

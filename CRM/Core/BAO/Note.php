@@ -211,5 +211,32 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $dao->contact_id = $id;        
         $dao->delete();
     }
+
+    /**
+     * retrieve all records for this entity-id
+     * 
+     * @param int  $id ID of the relationship for which records needs to be retrieved.
+     * 
+     * @return array    Array of note properties
+     * 
+     * @access public
+     * @static
+     */
+    public static function getNote($id)
+    {
+        $viewNote = array();
+        $relationshipID = $id;
+        $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
+        $dao = new CRM_Core_DAO();
+        $dao->query($query);
+        $dao->fetch();
+        $note =& new CRM_Core_DAO_Note( );
+        $note->id = $dao->id;
+        $note->find(true);
+        foreach($note as $key => $val) {
+            $viewNote[$note->id][$key] = $val;
+        }
+        return $viewNote;
+    }
 }
 ?>

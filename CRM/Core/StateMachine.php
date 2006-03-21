@@ -168,7 +168,6 @@ class CRM_Core_StateMachine {
      * helper function to add a State to the state machine
      *
      * @param string $name  the internal name
-     * @param string $title the display name
      * @param int    $type  the type of state (START|FINISH|SIMPLE)
      * @param object $prev  the previous page if any
      * @param object $next  the next page if any
@@ -176,8 +175,8 @@ class CRM_Core_StateMachine {
      * @return void
      * @access public
      */
-    function addState( $name, $title, $type, $prev, $next ) {
-        $this->_states[$name] =& new CRM_Core_State( $name, $title, $type, $prev, $next, $this );
+    function addState( $name, $type, $prev, $next ) {
+        $this->_states[$name] =& new CRM_Core_State( $name, $type, $prev, $next, $this );
     }
 
     /**
@@ -238,41 +237,54 @@ class CRM_Core_StateMachine {
      * of the top level array describes a state. Each state description
      * includes the name, the display name and the class name
      *
-     * @param int $action mode of form operation.
+     * @param array $pages (reference ) the array of page objects
      *
      * @return void
      */
-    function addSequentialPages(&$pages, $action) {
+    function addSequentialPages(&$pages) {
         $this->_pages =& $pages;
         $numPages = count( $pages );
-        
-        for ( $i = 0; $i < $numPages ; $i++ ) {
-            $name = CRM_Utils_String::getClassName($pages[$i]);
 
-            $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
-            require_once($classPath);
-            $title = eval( sprintf( "return %s::getTitle( );", $pages[$i] ) );
+        $names = array( );
+        foreach ( $pages as $tempName => $value ) {
+            if ( CRM_Utils_Array::value( 'className', $value ) ) {
+                $names[] = $tempName;
+            } else {
+                $names[] = CRM_Utils_String::getClassName( $tempName );
+            }
+        }
+
+        $i = 0;
+        foreach ( $pages as $tempName => $value ) {
+            $name = $names[$i];
+
+            $className = CRM_Utils_Array::value( 'className',
+                                                 $value,
+                                                 $tempName );
+            $classPath = str_replace( '_', '/', $className ) . '.php';
             if ( $numPages == 1 ) {
                 $prev = $next = null;
                 $type = CRM_Core_State::START | CRM_Core_State::FINISH;
             } else if ( $i == 0 ) {
                 // start state
                 $prev = null;
-                $next = CRM_Utils_String::getClassName( $pages[$i + 1] );
+                $next = $names[$i + 1];
                 $type = CRM_Core_State::START;
             } else if ( $i == $numPages - 1 ) {
                 // finish state
-                $prev = CRM_Utils_String::getClassName( $pages[$i - 1] );
+                $prev = $names[$i - 1];
                 $next = null;
                 $type = CRM_Core_State::FINISH;
             } else {
                 // in between simple state
-                $prev = CRM_Utils_String::getClassName( $pages[$i - 1] );
-                $next = CRM_Utils_String::getClassName( $pages[$i + 1] ); 
+                $prev = $names[$i - 1];
+                $next = $names[$i + 1];
                 $type = CRM_Core_State::SIMPLE;
             }
       
-            $this->addState( $name, $title, $type, $prev, $next );
+            $this->addState( $name, $type, $prev, $next );
+
+            $i++;
         }
     }
 

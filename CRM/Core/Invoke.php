@@ -106,17 +106,11 @@ class CRM_Core_Invoke {
             self::server ( $args );
             break;
 
-        case 'mailing'  :
-            require_once 'CRM/Mailing/Invoke.php';
-            CRM_Mailing_Invoke::main( $args );
-            break;
-
-        case 'contribute' :
-            require_once 'CRM/Contribute/Invoke.php';
-            CRM_Contribute_Invoke::main( $args );
-            break;
-
         default         :
+            require_once 'CRM/Core/Component.php';
+            if ( CRM_Core_Component::invoke( $args ) ) {
+                break;
+            }
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
             break;
 
@@ -468,8 +462,28 @@ class CRM_Core_Invoke {
         case 'dupematch':
             require_once 'CRM/Admin/Page/DupeMatch.php';
             $view =& new CRM_Admin_Page_DupeMatch(ts('Duplicate Matching'));
-            break;   
+            break;
+            
+        case 'optionGroup':
+            require_once 'CRM/Admin/Page/OptionGroup.php';
+            $view =& new CRM_Admin_Page_OptionGroup(ts('View Option Groups'));
+            break;
 
+        case 'optionValue':
+            require_once 'CRM/Admin/Page/OptionValue.php';
+            $view =& new CRM_Admin_Page_OptionValue(ts('View Option Values'));
+            
+            $url  = CRM_Utils_System::url( 'civicrm/admin' );
+            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Administer CiviCRM') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            
+            $url  = CRM_Utils_System::url( 'civicrm/admin/optionGroup' );
+            $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Options') . '</a>';
+            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+            
+            break;
+            
+            
         case 'contribute':
             require_once 'CRM/Contribute/Invoke.php';
             return CRM_Contribute_Invoke::admin( $args );

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Student</class>
+  <name>quest_student</name>
+  <comment>Quest Student objects are defined by a civicrm_contact, and related civicrm_individual and quest_student records.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Student ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>citizenship_status_id</name>
+      <type>int unsigned</type>
+       <required>true</required>
+      <comment>FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>citizenship_status_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/citizenship status/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>citizenship_country_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Country of citizenship.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>citizenship_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/citizenship country/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>growup_country_id</name>
+      <type>int unsigned</type>
+      <comment>Country where person grew up.</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>growup_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/growup country/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>nationality_country_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Country of persons nationality.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>nationality_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/nationality/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>ethnicity_id_1</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>ethnicity_id_1</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/ethnicity/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>ethnicity_id_2</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>ethnicity_id_2</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/ethnicity/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>home_area_id</name>
+      <type>int unsigned</type>
+      <comment>Type of area primary home is in (e.g. Rural, Suburban). FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>home_area_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/home area/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>years_in_us</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/years us/i</headerPattern>
+      <comment>Number of years person has lived in the United States.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>first_language</name>
+       <type>varchar</type>
+       <length>128</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/first language/i</headerPattern>
+       <comment>First language spoken by this person.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>primary_language</name>
+       <type>varchar</type>
+       <length>128</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/primary language/i</headerPattern>
+       <comment>Primary language spoken at home.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_partner_share</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/partner share/i</headerPattern>
+       <comment>OK to share this persons info with partner schools.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>high_school_grad_year</name>
+       <type>date</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/graduate/i</headerPattern>
+       <comment>Year of high school graduation (only YYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>parent_grad_college_id</name>
+      <type>int unsigned</type>
+      <default>NULL</default>
+      <comment>Has any parent or guardian graduated from a 4-year college? FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>parent_grad_college_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/parent college graduate/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>internet_access_id</name>
+       <type>int unsigned</type>
+       <comment>How do they access the internet. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>internet_access_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/internet access/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>internet_access_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/other internet access/i</headerPattern>
+       <comment>Alternate response for how they access the internet.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_home_computer</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <default>0</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/home computer/i</headerPattern>
+       <comment>Has a computer at home.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_home_internet</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/home internet/i</headerPattern>
+       <comment>Has internet access at home.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_take_SAT_ACT</name>
+       <type>boolean</type>
+        <default>0</default>
+        <export>true</export>
+       <import>true</import>
+       <headerPattern>/take SAT/i</headerPattern>
+       <comment>Plans on taking SAT or ACT test.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>study_method_id</name>
+      <type>int unsigned</type>
+      <comment>How they plan on studying for SAT or ACT test. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>study_method_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/study method/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>educational_interest</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/educational interest/i</headerPattern>
+       <comment>Which educational areas are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = educational_interest.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>educational_interest_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/other educational interest/i</headerPattern>
+       <comment>Which other educational area are they interested in.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>college_type</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/college type/i</headerPattern>
+       <comment>Types of college they are interested in attending. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_type.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>college_interest</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/college interest/i</headerPattern>
+       <comment>Which colleges are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_interest.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>college_interest_other</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>4</rows>
+       <cols>60</cols>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/other college/i</headerPattern>
+       <comment>Which other colleges are they interested in.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>gpa_id</name>
+      <type>int unsigned</type>
+      <default>NULL</default>
+      <comment>Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>gpa_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/gpa/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>class_rank</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/class rank/i</headerPattern>
+      <comment>Class rank (numeric value).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>class_rank_percent_id</name>
+      <type>int unsigned</type>
+      <comment>Class rank percent range. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>class_rank_percent_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/class rank percent/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>class_num_students</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/number students/i</headerPattern>
+      <comment>Total number of students in this persons class.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>gpa_explanation</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>4</rows>
+       <cols>60</cols>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/gpa explanation/i</headerPattern>
+       <comment>Descriptive comments about students GPA.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_SAT</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/SAT score/i</headerPattern>
+      <comment>Combined highest reported scores (SAT).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_PSAT</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/PSAT score/i</headerPattern>
+      <comment>Combined highest reported scores (PSAT).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>score_ACT</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/ACT score/i</headerPattern>
+      <comment>Combined highest reported scores (ACT).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>test_tutoring</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/tutoring/i</headerPattern>
+       <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>household_income_total</name>  
+       <type>decimal</type>  
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/household income/i</headerPattern>
+       <comment>Calculated annual income total from all reported sources.</comment>
+      <add>1.5</add>
+  </field>
+  <field>     
+       <name>number_siblings</name>  
+       <type>int</type>  
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/number siblings/i</headerPattern>
+       <comment>Number of siblings this student has.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>fed_lunch_id</name>
+      <type>int unsigned</type>
+      <comment>Federal lunch program eligibility. FK to civicrm_option_value.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>fed_lunch_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/federal lunch/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+</table>

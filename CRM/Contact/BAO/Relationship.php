@@ -70,7 +70,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             if ( ! $dataExists ) {
                 return null;
             }
-            
+            $relationshipIds = array();
             foreach ( $params['contact_check'] as $key => $value) {
                 $errors = '';
                 // check if the realtionship is valid between contacts.
@@ -92,10 +92,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
                 
                 $relationship = self::add( $params, $ids, $key );
+                $relationshipIds[] = $relationship->id;
                 $valid++;
             }
         
-            return array( $valid, $invalid, $duplicate, $saved );
+            return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         } else { //editing the relationship
             
             // check for duplicate relationship
@@ -109,9 +110,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
 
             // editing an existing relationship
-            self::add( $params, $ids, $ids['contactTarget'] );
+            $relationship = self::add( $params, $ids, $ids['contactTarget'] );
+            $relationshipIds[] = $relationship->id;
             $saved++;
-            return array( $valid, $invalid, $duplicate, $saved );
+            return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
     }
 

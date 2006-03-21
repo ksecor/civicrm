@@ -49,7 +49,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 
         $groups     = array( ts('Manage'), ts('Configure'), ts('Setup') );       
         if ( in_array("CiviContribute", $config->enableComponents) ) {
-        $groups[] = 'CiviContribute';
+            $groups[] = 'CiviContribute';
         }
         
         $adminPanel = array( );

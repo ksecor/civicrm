@@ -13,5 +13,6 @@
 <xi:include href="Mailing/Event/files.xml" parse="xml" />  
 <xi:include href="Contribute/files.xml"    parse="xml" />  
 <xi:include href="SMS/files.xml"           parse="xml" />  
+<xi:include href="Quest/files.xml"         parse="xml" />  
 
 </database>
