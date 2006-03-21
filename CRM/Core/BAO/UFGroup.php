@@ -287,7 +287,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';
                     $name  = $field->field_name;
-                    $title = $importableFields[$field->field_name]['title']; 
+                    $title = $field->label;
+
                     if ($field->location_type_id) {
                         $name    .= '-'.$field->location_type_id;
                         $locType  = ' (' . $locationType[$field->location_type_id] . ') ';
@@ -298,12 +299,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             $phoneType  = '-' . $field->phone_type;
                         }
                     }
-                    if (!$field->label) {                    
-                        $title .= $phoneType . $locType;
-                    } else {
-                        $title = $field->label;
-                    }
-
+                    
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
