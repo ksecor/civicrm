@@ -58,12 +58,12 @@ cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "trunk.$REV Drupal PHP5" > $TRG/civicrm-version.txt
+echo "1.4.$REV Drupal PHP5" > $TRG/civicrm-version.txt
 
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-drupal-php5-SNAPSHOT-rev$REV.tgz civicrm
+tar czf $DM_TARGETDIR/civicrm-drupal-php5-v1.4-rev$REV.tgz civicrm
 
 # clean up
 rm -rf $TRG
