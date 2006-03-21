@@ -38,7 +38,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
-define( 'CIVICRM_UF_DSN'           , 'mysql://%%cms%%:YOUR_PASSWORD@localhost/%%cms%%?new_link=true' );
+define( 'CIVICRM_UF_DSN'           , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 
 /** 
  * Content Management System (CMS) User Table-name:
@@ -83,19 +83,19 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/persist/' );
  *
- * EXAMPLE - Mambo:
- * If the path to the Mambo home directory is /var/www/htdocs/mambo
+ * EXAMPLE - Joomla/Mambo Installations:
+ * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
- *      $civicrm_root = '/var/www/htdocs/mambo/administrator/components/com_civicrm/civicrm/';
+ *      $civicrm_root = '/var/www/htdocs/joomla/administrator/components/com_civicrm/civicrm/';
  *
  * the CIVICRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/mambo/media/civicrm/templates_c/' );
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/joomla/media/civicrm/templates_c/' );
  *
  * and the CIVICRM_UPLOADDIR would be:
- *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/upload/' );
+ *      define( 'CIVICRM_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/upload/' );
  *	
  * the CIVICRM_IMAGE_UPLOADDIR would be:
- *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/mambo/media/civicrm/persist/' );
+ *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/persist/' );
  *
  */
 global $civicrm_root;
@@ -107,7 +107,9 @@ define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
 /**
  * Site URLs:
  *
- * This section defines absolute URLs to access the host CMS (Drupal or Mambo) and CiviCRM.
+ * This section defines absolute and relative URLs to access the host CMS (Drupal or Joomla)
+ * and CiviCRM resources.
+ *
  * IMPORTANT: Trailing slashes should be used on all URL settings.
  *
  * EXAMPLES - Drupal/CivicSpace Installations:
@@ -117,21 +119,15 @@ define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
  * CIVICRM_UF_BASEURL - home URL for your site:
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicspace/' );
  *
- * CIVICRM_UF_RESOURCEURL - URL to directory where civicrm.module is located:
+ * CIVICRM_UF_RESOURCEURL - Absolute URL to directory where civicrm.module is located:
  *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
  *
- * CIVICRM_HTTPBASE - ??:
- *      define( 'CIVICRM_HTTPBASE' , '/civicspace/' );
- *
- * CIVICRM_RESOURCEBASE - ??:
+ * CIVICRM_RESOURCEBASE - Relative URL to directory where civicrm.module is located:
  *      define( 'CIVICRM_RESOURCEBASE' , '/civicspace/modules/civicrm/' );
  *
- * CIVICRM_MAINMENU - relative URL for CiviCRM menu:
- * With Clean URLs enabled - 
- *      define( 'CIVICRM_MAINMENU' ,'/civicspace/civicrm' );
- * 
- * Without Clean URLs - 
- *      define( 'CIVICRM_MAINMENU'    , '/civicspace?q=civicrm' ) *
+ * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
+ *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
+ *
  *
  * EXAMPLES - Joomla/Mambo Installations:
  * If your site's home url is http://www.example.com/joomla/
@@ -142,34 +138,21 @@ define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
  * Front-end site:
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
  *
- * CIVICRM_UF_RESOURCEURL - URL to directory where civicrm.module is located:
- * Administration site:
- *      define( 'CIVICRM_UF_RESOURCEURL', '' );
- * Front-end site:
- *      define( 'CIVICRM_UF_RESOURCEURL', '' );
+ * CIVICRM_UF_RESOURCEURL - Absolute URL to directory where CiviCRM componenet is installed:
+ * Administration and front-end sites:
+ *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/joomla/administrator/components/com_civicrm/civicrm/' );
  *
- * CIVICRM_HTTPBASE - ??:
- * Administration site:
- *      define( 'CIVICRM_HTTPBASE' , '/joomla/administrator/' );
- * Front-end site:
- *      define( 'CIVICRM_HTTPBASE' , '' );
- *
- * CIVICRM_RESOURCEBASE - ??:
+ * CIVICRM_RESOURCEBASE - Relative URL to directory where CiviCRM componenet is installed:
  * Administration and front-end sites:
  *      define( 'CIVICRM_RESOURCEBASE' , '/joomla/administrator/components/com_civicrm/civicrm/' );
  *
- * CIVICRM_MAINMENU - relative URL for CiviCRM menu:
- * Administration site:
- *      define( 'CIVICRM_MAINMENU' ,'/joomla/administrator/index.php?option=com_civicrm' );
- * Front-end site:
- *      define( 'CIVICRM_MAINMENU' ,'' );
- * 
+ * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
+ *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/joomla/media/civicrm/persist/' );
+ *
  */
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
-define( 'CIVICRM_HTTPBASE'        , '%%httpBase%%' );
 define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
-define( 'CIVICRM_MAINMENU'        , '%%mainMenu%%' );
 define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
 
 /**
@@ -202,29 +185,36 @@ define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
  * $ whereis mysql
  * $ type mysql
  */
-define( 'CIVICRM_MYSQL_VERSION', 4.1 );
-define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+define( 'CIVICRM_MYSQL_VERSION', 4.0 );
+define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 /**
  * SMTP Server:
  *
- * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality,
- * uncomment the four lines below and enter your smtp server address here (e.g.'smtp.example.com').
+ * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality
+ * AND / OR using the CiviMail component, you need to enter the (machine) name for your
+ * SMTP Server.
+ *
  * The standard STMP Port is 25, so you should only need to change that value if you find
  * that your SMTP server is running on a non-standard port.
- *
- * NOTE: These settings are NOT used for the CiviMail component.
  *
  * If your server requires authentication, set CIVICRM_SMTP_AUTH to true
  * and provide the username and password in CIVICRM_SMTP_USERNAME and
  * CIVICRM_SMTP_PASSWORD.
+ *
+ * Examples:
+ *      define( 'CIVICRM_SMTP_SERVER'  , 'smtp.example.com');
+ *      define( 'CIVICRM_SMTP_PORT'    , 25                );
+ *      define( 'CIVICRM_SMTP_AUTH'    , true              );
+ *      define( 'CIVICRM_SMTP_USERNAME', 'smtp_username'   );
+ *      define( 'CIVICRM_SMTP_PASSWORD', 'smtp_password'   );
  */
-// define( 'CIVICRM_SMTP_SERVER'  , 'YOUR SMTP SERVER' );
-// define( 'CIVICRM_SMTP_PORT'    , 25                 );
-// define( 'CIVICRM_SMTP_AUTH'    , false              );
-// define( 'CIVICRM_SMTP_USERNAME', 'SMTP AUTH USER'   );
-// define( 'CIVICRM_SMTP_PASSWORD', 'SMTP AUTH PASS'   );
+define( 'CIVICRM_SMTP_SERVER'  , ''    );
+define( 'CIVICRM_SMTP_PORT'    , 25    );
+define( 'CIVICRM_SMTP_AUTH'    , false );
+define( 'CIVICRM_SMTP_USERNAME', ''    );
+define( 'CIVICRM_SMTP_PASSWORD', ''    );
 
 /**
  * Country Availability:
@@ -426,9 +416,6 @@ define('CIVICRM_VERSION_CHECK', true);
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , '' );
 // Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', and 'Moneris'.
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL', '' );
-// The FROM email address for all automatic payment response (receipt) emails.
-
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif');
 // URL to the button image used for "express" option checkout, e.g. PayPal Express. URL to PayPal US button is provided by default.
 // NOTE: If you've enabled SSL for your Contribution page, your button image should be sourced via https as well.
@@ -436,7 +423,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 /*
  * TEST Payment Server (Sandbox) Settings:
  */
-// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+// PayPal ONLY - File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 
 // API Password (PayPal) or API Token (Moneris)
@@ -453,7 +440,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypa
 /*
  * LIVE Payment Server Settings:
  */
-// PayPal ONLY - path to the .cert AND .ppd files (SDK API Profile files)
+// PayPal ONLY - File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
 // API Password (PayPal) or API Token (Moneris)
@@ -507,26 +494,35 @@ define('CIVICRM_DOMAIN_ID' , 1 );
  *  To remove temporary upload files (civicrm/upload folder), add '&directoryCleanup=2'
  *  To cleanup both, add '&directoryCleanup=3'
  *
+ * Stack Trace -
+ *  To display stack trace at top of page, add '&backtrace=1'
+ *  If you need a stack trace for a POST result, you can set CIVICRM_BACKTRACE to 1 below
+ * (CIVICRM_DEBUG must also be set to 1 for this to work).
+ *  
  * WARNING: Do not leave debugging enabled by default as it can be used to expose configuration
  * information to unauthorized browsers.
  */
-define( 'CIVICRM_DEBUG', 0 );
+define( 'CIVICRM_DEBUG',     0 );
+define( 'CIVICRM_BACKTRACE', 0 );
  
 
 /**
- * CiviMail Settings:
+ * Additional CiviMail Settings:
  *
  * CIVICRM_MAILER_SPOOL_PERIOD - Number of seconds between delivery attempts
  * for new outgoing mailings.
  *
- * CIVICRM_VERP_SEPARATOR - 
+ * CIVICRM_VERP_SEPARATOR - Separator character used when CiviMail generates
+ * VERP (variable envelope return path) Mail-From addresses. 
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
-
 define( 'CIVICRM_VERP_SEPARATOR', '.' );
 
 /**
  * CiviSMS Settings:
+ *
+ * CiviSMS component is in pre-alpha. Contact the development team if you want to work
+ * with this component.
  */
 define( 'CIVICRM_SMS_USERNAME'  , 'USERNAME' );
 define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
@@ -534,9 +530,7 @@ define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 /**
  * Joomla! Front-end Component Flag
  * If this configuration file is being used by a Joomla! front-end CiviCRM component
- * instance, set this flag to 1:
- *
- * define( 'CIVICRM_UF_FRONTEND', 1 );
+ * instance, this flag is set to 1.
  */
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 

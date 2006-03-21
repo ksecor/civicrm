@@ -96,13 +96,6 @@ class CRM_Core_Config {
     public $mainMenu            = 'http://localhost/drupal/';
 
     /**
-     * The httpBase of our application. Used when we want to compose
-     * absolute url's
-     * @var string
-     */
-    public $httpBase            = "http://localhost/drupal/";
-
-    /**
      * The resourceBase of our application. Used when we want to compose
      * url's for things like js/images/css
      * @var string
@@ -452,14 +445,6 @@ class CRM_Core_Config {
 
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        if ( defined( 'CIVICRM_MAINMENU' ) ) {
-            $this->mainMenu = CIVICRM_MAINMENU;
-        }
-
-        if ( defined( 'CIVICRM_HTTPBASE' ) ) {
-            $this->httpBase = self::addTrailingSlash( CIVICRM_HTTPBASE );
         }
 
         if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {

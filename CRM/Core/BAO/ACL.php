@@ -267,13 +267,14 @@ class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
     public static function getClause($table, $id, &$tables) {
         $table = CRM_Utils_Type::escape($table, 'String');
         $id = CRM_Utils_Type::escape($id, 'Integer');
+        $whereTables = array( );
 
         $ssTable = CRM_Contact_BAO_SavedSearch::getTableName();
 
         if (empty($table)) {
             return null;
         } elseif ($table == $ssTable) {
-            return CRM_Contact_BAO_SavedSearch::whereClause($id, $tables);
+            return CRM_Contact_BAO_SavedSearch::whereClause($id, $tables, $whereTables);
         } elseif (!empty($id)) {
             $tables[$table] = true;
             return "$table.id = $id";

@@ -1,18 +1,27 @@
 <?php
 
 global $mosConfig_absolute_path;
+
+// $mosConfig_absolute_path = "/tmp/mos";
+
 require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
 
 function civicrm_setup( ) {
     global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn;
-    global $httpBase, $resourceBase, $mainMenu;
-    global $httpBaseFE, $mainMenuFE;
-    global $compileDir, $uploadDir;
+    global $resourceBase;
+    global $compileDir, $uploadDir, $imageUploadDir;
     global $resourceBaseURL;
     global $imageUploadDir, $imageUploadURL;
 
     global $mosConfig_live_site, $mosConfig_absolute_path;
     global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
+
+    /**
+     $mosConfig_live_site = "MOS_LIVE_SITE";
+     $mosConfig_host = "HOST";
+     $mosConfig_password = "PASS";
+     $mosConfig_db = "DB";
+    */
 
     $comPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
         'administrator'          . DIRECTORY_SEPARATOR .
@@ -26,39 +35,44 @@ function civicrm_setup( ) {
                       get_include_path( ) );
 
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
-    $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'xml' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+    $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR;
 
     $pieces = parse_url( $mosConfig_live_site );
     $httpBase     = $pieces['path'] . '/administrator/';
     $resourceBase = $httpBase . 'components/com_civicrm/civicrm/';
-    $mainMenu     = $httpBase . 'index.php?option=com_civicrm';
 
     $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
         'components'             . DIRECTORY_SEPARATOR . 
         'com_civicrm'            ;
-    $httpBaseFE = $pieces['path'];
-    $mainMenuFE = $httpBaseFE . 'index.php?option=com_civicrm';
 
     $scratchDir   = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
     if ( ! is_dir( $scratchDir ) ) {
         mkdir( $scratchDir, 0777 );
     }
     
-    $compileDir        = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c';
+    $compileDir        = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c' . DIRECTORY_SEPARATOR;
     if ( ! is_dir( $compileDir ) ) {
         mkdir( $compileDir, 0777 );
     }
-    
+    $compileDir = addslashes( $compileDir );
+
     $uploadDir         = $scratchDir . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
     if ( ! is_dir( $uploadDir ) ) {
         mkdir( $uploadDir, 0777 );
     }
+    $uploadDir = addslashes( $uploadDir );
 
-    $dsn =  'mysql://' . 
-        $mosConfig_user     . ':' . 
-        $mosConfig_password . '@' .
-        $mosConfig_host     . '/' .
-        $mosConfig_db       .
+    $imageUploadDir = $scratchDir . DIRECTORY_SEPARATOR . 'persist' . DIRECTORY_SEPARATOR;
+    if ( ! is_dir( $imageUploadDir ) ) {
+        mkdir( $imageUploadDir, 0777 );
+    }
+    $imageUploadDir = addslashes( $imageUploadDir );
+
+    $dsn =  'mysql://' .  
+        $mosConfig_user     . ':' .  
+        $mosConfig_password . '@' . 
+        $mosConfig_host     . '/' .              
+        $mosConfig_db       .   
         '?new_link=true';
 
 }
@@ -104,7 +118,7 @@ include_once '$configFile';
 }
 
 function civicrm_source( $fileName ) {
-    global $dsn, $crmPath;
+    global $crmPath, $dsn;
 
     require_once 'DB.php';
 
@@ -133,17 +147,11 @@ function civicrm_source( $fileName ) {
 
 function civicrm_config( $frontend = false ) {
     global $crmPath, $comPath, $httpBase, $resourceBase;
-    global $mainMenu, $dsn, $compileDir, $uploadDir, $mysqlPath;
+    global $dsn, $compileDir, $uploadDir, $imageUploadDir;
+    global $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
+    global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
     global $tplPath;
-
-    /**
-     * make sure we escape the back slashes in the dir names to prevent any
-     * issues with windows wehre the dir seperator is a backslash
-     */
-    $compileDir = addslashes( $compileDir );
-    $uploadDir  = addslashes( $uploadDir  );
-
 
     $params = array(
                 'cms' => 'Mambo',
@@ -154,19 +162,19 @@ function civicrm_config( $frontend = false ) {
                 'templateCompileDir' => $compileDir,
                 'uploadDir' => $uploadDir,
                 'imageUploadDir' => $imageUploadDir,
-                'imageUploadURL' => $imageUploadURL,
+                'imageUploadURL' => $mosConfig_live_site . '/media/civicrm/',
                 'baseURL' => $mosConfig_live_site . '/administrator/',
-                'resourceURL' => $resourceURL,
-                'httpBase' => $httpBase,
+                'resourceURL' => $mosConfig_live_site . '/administrator/components/com_civicrm/civicrm/',
                 'resourceBase' => $resourceBase,
-                'mainMenu' => $mainMenu,
                 'frontEnd' => 0,
+                'dbUser' => $mosConfig_user,
+                'dbPass' => $mosConfig_password,
+                'dbHost' => $mosConfig_host,
+                'dbName' => $mosConfig_db,
                 );
 
     if ( $frontend ) {
         $params['baseURL']  = $mosConfig_live_site . '/';
-        $params['httpBase'] = $httpBaseFE;
-        $params['mainMenu'] = $mainMenuFE;
         $params['frontEnd'] = 1;
     }
 

@@ -111,11 +111,12 @@ class CRM_Core_Permission_Drupal {
      *
      * @param int $type the type of permission needed
      * @param  array $tables (reference ) add the tables that are needed for the select clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
      *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function groupClause( $type, &$tables ) {
+    public static function groupClause( $type, &$tables, &$whereTables ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }
@@ -138,7 +139,7 @@ class CRM_Core_Permission_Drupal {
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
-                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
+                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables, $whereTables );
                     }
                 }
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
@@ -192,14 +193,15 @@ class CRM_Core_Permission_Drupal {
      *
      * @param int $type the type of permission needed
      * @param  array $tables (reference ) add the tables that are needed for the select clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
      *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type, &$tables ) {
+    public static function whereClause( $type, &$tables, &$whereTables ) {
         self::group( );
 
-        return self::groupClause( $type, $tables );
+        return self::groupClause( $type, $tables, $whereTables );
     }
 
 

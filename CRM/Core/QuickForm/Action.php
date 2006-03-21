@@ -69,7 +69,7 @@ class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
         $userContext = $session->popUserContext( );
 
         if ( empty( $userContext ) ) {
-            $userContext = $config->mainMenu;
+            $userContext = $config->userFrameworkBaseURL;
         }
 
         CRM_Utils_System::redirect( $userContext );

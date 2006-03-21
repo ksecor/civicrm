@@ -440,10 +440,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             
-            $this->_values['receipt_from_email'] = $config->paymentResponseEmail;
-                        
+            $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $this->_values['receipt_from_email'],
+            CRM_Utils_Mail::send( $receiptFrom,
                                   $displayName,
                                   $email,
                                   $subject,

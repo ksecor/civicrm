@@ -326,7 +326,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             return null;
         }
         
-        if (!$label) {
+        if (!isset($label)) {
             $label = $field->label;
         }
 

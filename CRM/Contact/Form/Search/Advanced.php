@@ -97,7 +97,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
 
-        $this->addElement('text', 'name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
+        $this->addElement('text', 'location_name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
 
         // checkboxes for location type
         $location_type = array();

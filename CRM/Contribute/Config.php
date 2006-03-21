@@ -121,7 +121,6 @@ class CRM_Contribute_Config {
         $config->paymentProcessor       = null;
         $config->paymentClass           = null;
         $config->paymentBillingMode     = null;
-        $config->paymentResponseEmail   = null;
         $config->paymentCertPath        = null;
         $config->paymentKey             = null;
         $config->paymentPassword        = null;
@@ -156,10 +155,6 @@ class CRM_Contribute_Config {
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_FORM;
                 break;
             }
-        }
-
-        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL' ) ) {
-            $config->paymentResponseEmail = CIVICRM_CONTRIBUTE_PAYMENT_RESPONSE_EMAIL;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {

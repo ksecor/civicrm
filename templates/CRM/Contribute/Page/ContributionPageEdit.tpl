@@ -44,6 +44,6 @@
 
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}">&raquo; {ts}Test-drive{/ts}</a></td>
-    <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live charges will occur, and no contribution records or contact information will be saved to the database.</strong>{/ts}</td>
+    <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>{/ts}</td>
 </tr>
 </table>

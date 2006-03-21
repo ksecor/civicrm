@@ -222,6 +222,33 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
     }
     
     /**
+     * given a field return the type associated with it
+     *
+     * @param string $type the civicrm type string
+     *
+     * @return the mysql data store placeholder
+     * @access public
+     * @static
+     */
+    public static function fieldToType($type) 
+    {
+        switch ($type) {
+        case 'char_data':
+        case 'memo_data':
+            return 'String';
+        case 'int_data':
+            return 'Int';
+        case 'float_data':
+        case 'decimal_data':
+            return 'Float';
+        case 'date_data':
+            return 'Date';
+        default:
+            return null;
+        }
+    }
+    
+    /**
      * return the mysql type of the current value.
      * If boolean type, set the isBool flag too (since int and bool share
      * the same mysql type, we need another differentiator
