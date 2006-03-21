@@ -210,7 +210,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $errors = array( );
         $locNo = 1;
         foreach ($params['location'] as $location) {
-            if ($location['address']['country_id'] == 1228 || $location['address']['country_id'] == 1039 || $location['address']['country_id'] == 1140) {
+            if ( ( $location['address']['country_id'] == 1228 ||
+                   $location['address']['country_id'] == 1039 ||
+                   $location['address']['country_id'] == 1140 ) &&
+                 ! $location['address']['state_province_id'] ) {
                 $errors["location[$locNo][address][state_province_id]"]= "Please select the state";
             }
             $locNo++;
