@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-20 16:33+0100\n"
+"POT-Creation-Date: 2006-03-21 07:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -1839,6 +1839,10 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location type -"
+msgstr ""
+
+#: CRM/Contact/BAO/Query.php
+msgid "Location name like \"%1\""
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -7492,7 +7496,7 @@ msgid "Enable a Premiums section (incentives / thank-you gifts) for this page, a
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live charges will occur, and no contribution records or contact information will be saved to the database.</strong>"
+msgid "Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
