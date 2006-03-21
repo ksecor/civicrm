@@ -25,9 +25,8 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
-// for SQL l10n use
-//define('CIVICRM_GETTEXT_RESOURCEDIR', '../l10n');
 require_once '../civicrm.config.php';
+
 // lets use our own include path
 ini_set( 'include_path', ".:../packages:.." );
 
@@ -326,13 +325,15 @@ $params = array(
                 'imageUploadURL' => '',
                 'baseURL' => '',
                 'resourceURL' => '',
-                'httpBase' => '',
                 'resourceBase' => '',
-                'mainMenu' => '',
                 'frontEnd' => 0,
+                'dbUser' => 'DBUSER',
+                'dbPass' => 'PASSWORD',
+                'dbHost' => 'HOSTNAME',
+                'dbName' => 'DATABASE',
                 );
 
-$data = file_get_contents( $smarty->template_dir . '/civicrm.settings.php.sample.tpl' );
+$data = file_get_contents( '../templates/CRM/common/civicrm.settings.php.sample.tpl' );
 foreach ( $params as $key => $value ) {
     $data = str_replace( '%%' . $key . '%%', $value, $data );
 }

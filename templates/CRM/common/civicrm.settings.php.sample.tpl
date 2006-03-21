@@ -38,7 +38,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
-define( 'CIVICRM_UF_DSN'           , 'mysql://%%cms%%:YOUR_PASSWORD@localhost/%%cms%%?new_link=true' );
+define( 'CIVICRM_UF_DSN'           , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 
 /** 
  * Content Management System (CMS) User Table-name:
@@ -185,8 +185,8 @@ define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
  * $ whereis mysql
  * $ type mysql
  */
-define( 'CIVICRM_MYSQL_VERSION', 4.1 );
-define( 'CIVICRM_DSN'          , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+define( 'CIVICRM_MYSQL_VERSION', 4.0 );
+define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 /**
