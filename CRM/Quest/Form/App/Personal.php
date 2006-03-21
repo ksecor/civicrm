@@ -118,7 +118,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $this->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
 
         // nick_name
-        $this->addElement('text', 'nick_name', ts('Nick Name'),
+        $this->addElement('text', 'nick_name', ts('Preferred/Nickname'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
         
         // radio button for gender
@@ -133,8 +133,8 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                                                      'email' ) );
         $this->addRule( "location[1][email][1][email]", ts('Email is not valid.'), 'email' );
 
-        $this->buildAddressBlock( 1, ts( 'Permanent Address' ),
-                                  ts( 'Permanent Telephone' ) );
+        $this->buildAddressBlock( 1, ts( 'Current Address' ),
+                                  ts( 'Current Telephone' ) );
         
         $this->buildAddressBlock( 2, ts( 'Mailing Adddress' ),
                                   ts( 'Mailing Telephone' ),
@@ -160,7 +160,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         // grow up area
-        $this->addCountry('growup_country_id', ts( 'Where did you grow up' ));
+        $this->addCountry('growup_country_id', ts( 'Where did you grow up (if different from address)' ));
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 

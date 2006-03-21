@@ -4,11 +4,11 @@
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
 
 {if $context EQ 'begin'}
-    <table cellpadding=0 cellspacing=0 border=0>
+    <div id="content">
+    <table cellpadding=0 cellspacing=0 border=0 id="content">
         <tr>
             <td class="greeting">
             	Welcome,&nbsp;Michael</td>
-
             <td class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
@@ -47,7 +47,7 @@
         </td>
       </tr>
     </table>
-
+    </div>
  <script type="text/javascript">
     var showBlocks = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
