@@ -104,7 +104,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) {
         $tables     = array( );
-        $permission = CRM_Core_Permission::whereClause( $type, $tables );
+        $temp       = array();
+        $permission = CRM_Core_Permission::whereClause( $type, $tables, $temp );
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
         $query = "
 SELECT count(DISTINCT civicrm_contact.id) 
