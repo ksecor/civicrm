@@ -6,7 +6,7 @@
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr>
-    <td>If you've attended any special programs at other secondary schools, colleges where you took courses for credit, etc., please list them here.</td>
+    <td colspan=2>{ts}If you've attended any special programs at other secondary schools, colleges where you took courses for credit, etc., please list them here.{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.organization_name.label} </td>
@@ -17,7 +17,7 @@
     <td> {$form.date_of_entry.html}  {$form.date_of_exit.html} </td>
 </tr>
 <tr>
-    <td class="grouplabel" rowspan="4">{ts}Location{/ts}</td>
+    <td class="grouplabel" rowspan="4"><label>{ts}Location{/ts}</label></td>
 </tr>
 <tr>
     <td> {$form.location.1.address.city.html} </td>

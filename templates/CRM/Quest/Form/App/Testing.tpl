@@ -6,7 +6,7 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
-<tr><td>ACT Test</td>
+<tr><td colspan=2 id="sub-category">{ts}ACT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.act_english.label}</td>
@@ -38,7 +38,7 @@
 </tr>
 
 </tr>
-<tr><td>PSAT Test</td>
+<tr><td colspan=2 class="sub-category">{ts}PSAT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_criticalreading.label}</td>
@@ -63,7 +63,7 @@
 </tr>
 
 </tr>
-<tr><td>{ts}SAT Test{/ts}</td>
+<tr><td colspan=2 class="sub-category">{ts}SAT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_criticalreading.label}</td>
@@ -86,7 +86,7 @@
     <td>{$form.sat_date.html}</td>
 </tr>
 </tr>
-<tr><td>SAT II Subject Test</td>
+<tr><td colspan=2 class="sub-category">{ts}SAT II Subject Test{/ts}</td>
 </tr>
 
 {*{section name=rowLoop start=1 loop=6}*}
@@ -109,7 +109,7 @@
 </tr>
 {/section}
 
-<tr><td>{ts}AP Tests{/ts}</td>
+<tr><td colspan=2 class="sub-category">{ts}AP Tests{/ts}</td>
 </tr>
 {*{section name=rowLoop start=1 loop=33}*}
 {section name=rowLoop start=1 loop=2}

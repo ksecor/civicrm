@@ -7,7 +7,7 @@
 </tr>
 
 <tr>
-    <td rowspan=3 valign=top class="grouplabel" width="30%">{ts}Name{/ts}</td>
+    <td rowspan=3 valign=top class="grouplabel" width="30%"><label>{ts}Name{/ts}</label></td>
 </tr>    
 <tr>
      <td class="fieldlabel">{$form.first_name.html}<br/>

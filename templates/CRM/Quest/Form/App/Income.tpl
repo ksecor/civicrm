@@ -1,4 +1,12 @@
 {* Quest Pre-application:  section *}
+
+{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
+<tr>
+    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
+</tr>
+<tr>
+    <td colspan=2>
 <div id="help">     
 {ts}The 'Household Information' and 'Parent/Guardian Information' sections need to be complete in order to use this section properly. (20)
 
@@ -7,14 +15,11 @@ Household Income is the total income coming into your current, primary household
 Also, please be sure to include any individuals not living with you who contribute to the household financially. For these individuals, please only enter the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}
 </div> 
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
-<tr>
-    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
+    </td>
 </tr>
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
-        {ts}Name{/ts} <span class="marker">*</span></td>
+        <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
         {$form.first_name.label}</td>

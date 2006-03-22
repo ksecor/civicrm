@@ -26,10 +26,10 @@
     <td>{$form.gpa_explanation.html}<br/> If there were any extenuating circumstances that affected your GPA, please describe them here.</td>
 </tr>
 <tr>
-    <td>Academic Honors</td>
+    <td colspan=2 id="category">{ts}Academic Honors{/ts}</td>
 <tr>
 <tr>
-    <td>Describe any honors you have been awarded since you entered high school.</td>
+    <td colspan=2>{ts}Describe any honors you have been awarded since you entered high school.{/ts}</td>
 </tr>
 <tr>
     <td class="fieldlabel">{$form.description_1.label}</td>
