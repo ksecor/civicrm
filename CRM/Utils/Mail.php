@@ -123,6 +123,8 @@ class CRM_Utils_Mail {
         $headers = array( );  
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
+        $headers['Cc']                        = $cc;
+        $headers['Bcc']                       = $bcc;
         $headers['Subject']                   = self::encodeSubjectHeader($subject);  
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
@@ -130,12 +132,12 @@ class CRM_Utils_Mail {
         $headers['Return-Path']               = $returnPath;
         $headers['Reply-To']                  = $from;
 
-        $to = array( 'To' => $toEmail );
+        $to = array( $toEmail );
         if ( $cc ) {
-            $to['cc'] = $cc;
+            $to[] = $cc;
         }
         if ( $bcc ) {
-            $to['Bcc'] = $bcc;
+            $to[] = $bcc;
         }
 
         $mailer =& CRM_Core_Config::getMailer( );  
