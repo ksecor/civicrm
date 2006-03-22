@@ -98,10 +98,14 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
      
         $contact_id = $this->get('contact_id');
         $params['contact_id'] =  $contact_id;
-        //$essay = CRM_Quest_BAO_Essay::create( $params,$id);
-        $this->set('id', $essay->id );
-        $this->set('contact_id',$essay->contact_id );
-      
+        $ids = array();
+        $essayId = $this->get('essayId');
+        if ( $essayId ) {
+            $ids['id'] = $essayId;
+        }
+        $essay = CRM_Quest_BAO_Essay::create( $params,$id);
+        $this->set('essayId', $essay->id );
+        
     }//end of function
 
 

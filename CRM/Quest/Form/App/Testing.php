@@ -133,7 +133,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         
         $this->addCheckBox( 'test_tutoring',
                             ts( 'If yes, for which tests?' ),
-                            CRM_Core_OptionGroup::values( 'test_tutoring' ),
+                            CRM_Core_OptionGroup::values( 'test',true ),
                             false ,null);
      
         parent::buildQuickForm( );
@@ -147,6 +147,106 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+        $params = $this->controller->exportValues( $this->_name );
+        $testSet1 = array('act','psat','sat');
+        $testSet2 = array('satII','ap');
+
+        $contactId = $this->get('contact_id');
+        $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
+        
+        $testParams1 = array();
+        $totalScore = array();
+
+        foreach ( $testSet1 as  $sub ) {
+            foreach ( $params as $key => $value  ) {
+                $keyArray = explode( '_' ,$key );
+                if ( $keyArray[0] == $sub ) {
+                    if ( $keyArray[1] == 'date' ) {
+                        $testParams1[$sub]["test_".$keyArray[1]]  = $value;
+                    } if ( $keyArray[1] == 'total' ) {
+                        $testParams1[$sub]["score_composite"]     = $value;
+                        $totalScore[strtoupper($sub)] = $value;
+                    } else {
+                        $testParams1[$sub]["score_".$keyArray[1]] = $value;
+                    }
+                }
+            }
+            $testParams1[$sub]['contact_id'] = $contactId;
+            $testParams1[$sub]['test_id']    = $testTypes[strtoupper($sub)];
+        }
+       
+        $testParams2 = array();
+        foreach ( $testSet2 as $sub ){
+            foreach ( $params as $key => $value  ) {
+                $keyArray = explode('_' , $key ) ;
+                if ( $keyArray[0] == $sub ) {
+                    if ( $keyArray[2] == 'date' ) {
+                        $testParams2[$sub][$keyArray[1]]["test_".$keyArray[2]] = $value;
+                    } else if ($keyArray[2] == 'score') { 
+                        $testParams2[$sub][$keyArray[1]]["score_composite"] = $value;
+                    } else {
+                        $testParams2[$sub][$keyArray[1]][$keyArray[2]] = $value;
+                    }
+                    $testParams2[$sub][$keyArray[1]]['contact_id'] = $contactId;
+                    if ( $sub == "satII" ) {
+                        $testParams2[$sub][$keyArray[1]]['test_id']    = $testTypes[strtoupper('sat II')];
+                    } else {
+                        $testParams2[$sub][$keyArray[1]]['test_id']    = $testTypes[strtoupper($sub)];
+                    }
+                }
+                
+            }
+        }
+        require_once 'CRM/Quest/BAO/Test.php';
+        
+        $this->testIDs = $this->get( 'testIDs' );
+        // add data to database
+        // for 'act','psat','sat'
+        foreach ( $testParams1 as $key => $value ) {
+            $testParam = $value;
+            $ids  = array();
+            if ( $this->testIDs[$key] ) {
+                $ids['id'] = $this->testIDs[$key];
+            }
+            $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
+            $this->testIDs[$key] = $test->id;
+        }
+        
+
+        //for 'satII','ap'
+
+        foreach ( $testParams2 as $key => $value ) {
+            foreach ( $value as $k => $v ) {
+                $testParam = $v;
+                 $ids  = array();
+                 if ( $this->testIDs[$key][$k] ) {
+                     $ids['id'] = $this->testIDs[$key][$k];
+                 }
+                 $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
+                 $this->testIDs[$key][$k] = $test->id;
+            }
+        }
+        
+        $this->set( 'testIDs' ,$this->testIDs );
+        
+        // Insert  Student recornd  
+        
+        $values = $this->controller->exportValues( 'Personal' );
+        $values['score_SAT']     =  $totalScore['SAT'];
+        $values['score_PSAT']    =  $totalScore['PSAT'];
+        $values['score_ACT']     =  $totalScore['ACT'];
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
+        $id = $this->get('id');
+        $contact_id = $this->get('contact_id');
+        $ids = array();
+        $ids['id'] = $id;
+        $ids['contact_id'] = $contact_id;
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $values, $ids);
+              
+        
     }//end of function
 
     /**
