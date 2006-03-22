@@ -1,26 +1,31 @@
 {* Quest Pre-application: Household Information section *}
 
-<div id="help">     
-    {ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}
-</div>
-
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
+    <td colspan=3 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr>
-    <td class="grouplabel">{$form.member_count_1.label}</td>
+  <td colspan=3>
+<div id="help">     
+    {ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}
+</div>
+  </td>
+</tr>
+<tr>
+    <td colspan=2 class="grouplabel">{$form.member_count_1.label}</td>
     <td>{$form.member_count_1.html}</td>
 </tr>
 <tr>
-    <td>
+    <td colspan=3>
     {ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}: *
 </td>
 </tr>
 <tr>
-    <td>{ts}Family Member{/ts}</td><td>{ts}First Name{/ts}</td><td>{ts}Last Name{/ts}</td>
+    <td class="grouplabel"><label>{ts}Family Member{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
 </tr>
 <tr>
     <td>{$form.relationship_id_1_1.html}</td>
@@ -33,7 +38,7 @@
     <td>{$form.last_name_1_2.html}</td>
 </tr>
 <tr>
-    <td>{$form.years_lived_id_1.label}</td>
+    <td colspan=2 class="grouplabel">{$form.years_lived_id_1.label}</td>
     <td>{$form.years_lived_id_1.html}</td>
 </tr>
 </table>
@@ -44,19 +49,22 @@
 
 <table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
 <tr>
-    <td class="grouplabel">{$form.member_count_2.label}</td>
+    <td colspan=3 class="grouplabel">{$form.member_count_2.label}</td>
     <td>{$form.member_count_2.html}</td>
 </tr>
 <tr>
-    <td>
+    <td colspan=4>
     {ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}: *
     </td>
 </tr>
-    <td>{ts}Family Member{/ts}</td><td>{ts}First Name{/ts}</td><td>{ts}Last Name{/ts}</td><td>{ts}Same person as in current household above{/ts}</td>
+    <td class="grouplabel"><label>{ts}Family Member{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}Same person as in current household above{/ts}</label></td>
 </tr>
 <tr>
     <td>{$form.relationship_id_2_1.html}</td>
-    <td class="grouplabel">{$form.first_name_2_1.html}</td>
+    <td>{$form.first_name_2_1.html}</td>
     <td>{$form.last_name_2_1.html}</td>
     <td>{$form.same_2_1.html}</td>
 </tr>
@@ -67,7 +75,7 @@
     <td>{$form.same_2_2.html}</td>
 </tr>
 <tr>
-    <td>{$form.years_lived_id_2.label}</td>
+    <td colspan=3>{$form.years_lived_id_2.label}</td>
     <td>{$form.years_lived_id_2.html}</td>
 </tr>
 

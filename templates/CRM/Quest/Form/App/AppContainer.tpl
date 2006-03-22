@@ -35,17 +35,6 @@
     </div>
     </td>
     </tr>
-    <tr>
-	  	<td colspan=2>
-           <div id="footer">
-             <ul>
-               <li><a href="../students/faqs.html">Help</a>                
-               <li><a href="../about/privacy_policy.html">Privacy Policy</a>
-               <li><a href="../about/terms_of_use.htm">Terms of Use</a>                 
-             </ul>
-           </div>
-        </td>
-      </tr>
     </table>
     </div>
  <script type="text/javascript">

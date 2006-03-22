@@ -8,7 +8,7 @@
 </td>
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
-        {ts}Name{/ts} <span class="marker">*</span></td>
+        <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
         {$form.first_name.label}</td>

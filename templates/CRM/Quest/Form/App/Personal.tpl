@@ -47,7 +47,7 @@
 </tr>
 <tr>
     <td class="grouplabel" rowspan="6">
-        {ts}Permanent Address{/ts} <span class="marker">*</span></td>
+        <label>{ts}Permanent Address{/ts} <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.location.1.address.street_address.html}<br />
         {ts}Number and Street (including apartment number){/ts}
@@ -85,7 +85,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
+        <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.location.1.phone.1.phone_type.html}{$form.location.1.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
@@ -93,7 +93,7 @@
 </tr>
 <tr>
     <td class="grouplabel" rowspan="7">
-        {ts}Mailing Address{/ts} <span class="marker">*</span></td>
+        <label>{ts}Mailing Address{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">
         <input type="checkbox" name="copy_address" value="1" /> {ts}Check if same as Permanent Address{/ts}
     </td>
@@ -136,7 +136,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {ts}Mailing Telephone{/ts}<span class="marker">*</span></td>
+        <label>{ts}Mailing Telephone{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.location.2.phone.1.phone_type.html}{$form.location.2.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
@@ -144,7 +144,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {ts}Alternate Telephone <span class="marker">*</span></td>
+        <label>{ts}Alternate Telephone <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.location.2.phone.2.phone_type.html}{$form.location.2.phone.2.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
