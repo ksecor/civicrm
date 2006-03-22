@@ -18,8 +18,8 @@
                             {$form.last_name.label}</td>
 </tr> 
 <tr>
-    <td>{$form.relationship.label}</td>
-    <td>{$form.relationship.html}</td>
+    <td>{$form.sibling_relationship_id.label}</td>
+    <td>{$form.sibling_relationship_id.html}</td>
 </tr> 
 <tr>
     <td>{$form.age.label}</td>
@@ -38,8 +38,8 @@
     <td>{$form.lived_with_to_age.html}</td>
 </tr>
 <tr>
-    <td>{$form.current_school_level.label}</td>
-    <td>{$form.current_school_level.html}</td>
+    <td>{$form.current_school_level_id.label}</td>
+    <td>{$form.current_school_level_id.html}</td>
 </tr>
 <tr>
     <td>{$form.college_name.label}</td>

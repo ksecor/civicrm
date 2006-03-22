@@ -72,25 +72,31 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
                            $attributes['first_name'] );
+        $this->addRule("first_name",ts('Please Enter First Name'),'required');
+
         $this->addElement( 'text', "last_name",
                            ts('Last Name'),
-                           $attributes['last_name'] );
+                           $attributes['last_name'],'required' );
+        $this->addRule("last_name",ts('Please Enter Last Name'),'required');
         
-        $this->addSelect('relationship', ts( 'Relationship to you' ) );
-
+        $this->addSelect('sibling_relationship', ts( 'Relationship to you' ));
+       
         $this->addElement( 'text', "age",
                            ts('Age'),
                            $attributes['age'] );
+        $this->addRule('age',ts('Please Enter Age'),'required');
         
         $this->addRadio( 'lived_with_period_id',
                          ts( 'How long have you lived with this person?' ),
-                         CRM_Core_OptionGroup::values( 'lived_with_period' ) );
+                         CRM_Core_OptionGroup::values( 'years_lived' ));
+       
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributed['lived_with_to_age'] );
 
         $this->addSelect('current_school_level', ts('Year in school'));
+     
         $this->addElement( 'text', 'college_name', ts('College attending or attended (if any)'),
                            $attributes['college_name'] );
         $this->addElement( 'text', 'job_occupation',
@@ -103,6 +109,26 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         parent::buildQuickForm();
     }//end of function
 
+
+    public function postProcess()  
+    {
+        $params  = $this->controller->exportValues( $this->_name );
+       
+        $params['relationship_id'] = $params['sibling_relationship_id'];
+        $params['contact_id']      = $this->get('contact_id'); 
+
+      
+        require_once 'CRM/Quest/BAO/Person.php';
+        $ids = array();
+        $siblingId = $this->get('siblingId');
+        if ( $siblingId ) {
+            $ids['id'] = $siblingId; 
+        }
+        $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
+        $this->set('siblingId',$sibling->id);
+
+
+    }
     /**
      * Return a descriptive name for the page, used in wizard header
      *
