@@ -47,7 +47,9 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
     static $_personID;
     static $_personCount = 0 ;
-    
+
+    const INDUSTRY_UNEMPLOYED = 47;
+
     /**
      * Function to set variables up before form is built
      *
@@ -154,12 +156,10 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
         $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));
-        $this->addElement( 'text',
+        $this->addElement( 'date',
                            'college_grad_year',
                            ts('Year of college completion'),
-                           $attributes['college_grad_year'] );
-        //$this->addRule('college_grad_year',ts('not a valid year'),'numberOfDigit');
-
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) ); 
 
         $this->addElement( 'text',
                            'college_major',
@@ -169,10 +169,10 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            'prof_school_name',
                            ts('Name of professional or graduate school'),
                            $attributes['prof_school_name'] );
-        $this->addElement( 'text',
+        $this->addElement( 'date',
                            'prof_grad_year',
                            ts('Year in which graduate degree was received'),
-                           $attributes['prof_grad_year'] );
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
         $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );
         $this->addElement( 'textarea',
                            'description',
@@ -194,19 +194,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-        //print_r($params);
         $errors = array( );
-        if ($params['college_grad_year']) {
-            if (! CRM_Utils_Rule::numberOfDigit($params['college_grad_year'], 4)) {
-                $errors["college_grad_year"] = "year not valid";
-            }
-        }
-
-        if ($params['prof_grad_year']) {
-            if (! CRM_Utils_Rule::numberOfDigit($params['prof_grad_year'], 4)) {
-                $errors["prof_grad_year"] = "year not valid";
-            }
-        }
 
         return empty($errors) ? true : $errors;
     }
@@ -220,6 +208,16 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function postProcess()  
     {
         $params  = $this->controller->exportValues( $this->_name );
+
+        // check if this person has a job, if so add to incomeArray
+        if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
+            // add an income form for this person
+            $incomeDetails = $this->controller->get( 'incomeDetails' );
+            $count = count( $incomeDetails ) + 1;
+            $incomeDetails[ "Income-{$count}" ] = "{$params['first_name']} {$params['last_name']} Income Details";
+            $this->controller->set( 'incomeDetails', $incomeDetails );
+        }
+
         $householdInfo  = $this->controller->exportValues( 'Household' );
         $ids = array();
         
@@ -288,8 +286,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/Household.php';
         $household = CRM_Quest_BAO_Household::create( $householdParams , $ids );
         //$this->_personID[$person->id] = $person ;
-        
-        
     }
 
     /**

@@ -77,13 +77,21 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
         $siblingPages = array( );
         if ( is_numeric( $totalSiblings ) && $totalSiblings > 0 ) {
             for ( $i = 1; $i <= $totalSiblings; $i++ ) {
-                $siblingPages["Sibling $i"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
-                                                     'title'     => "Sibling $i" );
+                $siblingPages["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
+                                                       'title'     => "Sibling $i" );
             }
         }
 
+        $incomeDetails = $controller->get( 'incomeDetails' );
+        if ( ! $incomeDetails ) {
+            $incomeDetails = array( 'NewSource' => 'Add an Income Source' );
+        }
         $incomePages  = array( );
-
+        foreach ( $incomeDetails as $name => $title ) {
+            $incomePages[$name] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                                         'title'     => $title );
+        }
+        
         $lastPages = array(
                            'CRM_Quest_Form_App_HighSchool'   => null,
                            'CRM_Quest_Form_App_SchoolOther'  => null,

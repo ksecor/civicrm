@@ -99,7 +99,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Household Income');
+        return $this->_title ? $this->_title : ts('Household Income');
     }
 
 }

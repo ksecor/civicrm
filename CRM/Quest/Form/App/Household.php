@@ -79,7 +79,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                'member_count_' . $i,
                                $title,
                                $attributes['member_count'] );
-            $this->addRule('member_count_'.$i,ts('Please Enter the number of people live with u'),'required');
+            if ( $i == 1 ) {
+                $this->addRule('member_count_'.$i,ts('Please Enter the number of people live with u'),'required');
+            }
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addSelect( "relationship",
@@ -207,7 +209,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
        
         $this->set( 'householdType', $householdType );
         $this->set( 'householdDetails', $details );
-
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
